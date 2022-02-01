@@ -1,2 +1,4 @@
 /static/*
   Access-Control-Allow-Origin: *
+/asset-manifest.json
+  Access-Control-Allow-Origin: *

@@ -2,3 +2,5 @@
   Access-Control-Allow-Origin: *
 /asset-manifest.json
   Access-Control-Allow-Origin: *
+/manifest.json
+  Access-Control-Allow-Origin: *

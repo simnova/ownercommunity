@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import './styles/tailwind.css';
-//import './styles/ant.css';
 import './index.less';
+import './styles/ant.less';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';

@@ -51,7 +51,18 @@ module.exports = {
           { loader: 'css-loader' },
           {
             loader: 'less-loader',
-            options: { lessOptions: { javascriptEnabled: true } },
+            options: { 
+              
+              lessOptions: { 
+                modifyVars: {
+                  hack: `true; @import "${path.resolve(
+                    __dirname,
+                    "../src/styles",
+                    "theme.less"
+                  )}";`
+                },
+                javascriptEnabled: true } 
+              },
           }
         ],
         include: path.resolve(__dirname, '../src/'),

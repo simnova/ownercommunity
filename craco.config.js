@@ -1,23 +1,8 @@
 const CracoLessPlugin = require('craco-less');
 const webpack = require('webpack');
+const path = require('path');
 module.exports = {
-  babel: {
-    presets: ["@babel/preset-env", "@babel/preset-react"],
-    plugins: [
-      [
-        // babel-plugin-import for antd components
-        // This plugin modifies the imports done in this way
-        // import { Select } from 'antd'
-        // To only import the relevant component and styles, not the whole library
-        "import",
-        {
-          "libraryName": "antd",
-          "libraryDirectory": "es",
-          "style": "css"
-        }
-      ]
-    ]
-  },
+  
   webpack: {
     configure: {
       resolve: {
@@ -45,18 +30,41 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
-              'border-radius-base': '2px',
+              hack: `true; @import "${path.resolve(
+                __dirname,
+                "./src/styles",
+                "theme.less"
+              )}";`
             },
             javascriptEnabled: true,
           },
         },
         postcssLoaderOptions:
         {
-          plugins: [
-            require('tailwindcss')('./tailwind.config.js'),
-            require('autoprefixer')
-          ]
+            plugins: [
+                require('tailwindcss')('./tailwind.config.js'),
+                require('autoprefixer')
+            ]
         },
+        /*
+        overrideWebpackConfig: ({ webpackConfig, cracoConfig, pluginOptions, context: { env, paths } }) => { 
+          webpackConfig.resolve.fallback = { ...webpackConfig.resolve.fallback, 
+            process: require.resolve("process/browser"),
+            zlib: require.resolve("browserify-zlib"),
+            stream: require.resolve("stream-browserify"),
+            util: require.resolve("util"),
+            buffer: require.resolve("buffer"),
+            asset: require.resolve("assert"),
+          };
+          webpackConfig.plugins.push(
+            new webpack.ProvidePlugin({
+              Buffer: ["buffer", "Buffer"],
+              process: "process/browser",
+            }),
+          );
+          return webpackConfig; 
+        },
+        */
       },
     },
   ],

@@ -29,7 +29,7 @@ module.exports = {
       options: {
         lessLoaderOptions: {
           lessOptions: {
-            modifyVars: {
+            modifyVars: {             
               hack: `true; @import "${path.resolve(
                 __dirname,
                 "./src/styles",

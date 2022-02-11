@@ -28,11 +28,11 @@ MenuComponent = ({ theme, ...props } : TextProp) => {
 
 
   const buildMenu = (parentId:string) => {
-    const children = pageLayouts.filter(x => x.parent === parentId);
+    const children = pageLayouts.filter((x:any) => x.parent === parentId);
     if(!children) { return; }
     return children.map((x:any) => {
-      let child = pageLayouts.find(y => y.id === x.id) as any
-      let grandChildren = pageLayouts.filter(x => x.parent === child.id)
+      let child = pageLayouts.find((y:any) => y.id === x.id) as any
+      let grandChildren = pageLayouts.filter((x:any) => x.parent === child.id)
       return (
         (grandChildren && grandChildren.length > 0 )? 
           <SubMenu key={child.id} title={child.title}>
@@ -50,12 +50,12 @@ MenuComponent = ({ theme, ...props } : TextProp) => {
   }
    
   const topMenu = () => {
-    const root = pageLayouts.find(x => x.parent === "ROOT") as any;
+    const root = pageLayouts.find((x:any) => x.parent === "ROOT") as any;
     
     return (
       <Menu mode="horizontal">
         <Menu.Item key="home">
-          <Link to="/">{pageLayouts.find(x => x.parent === "ROOT")?.title}</Link>
+          <Link to="/">{pageLayouts.find((x:any) => x.parent === "ROOT")?.title}</Link>
         </Menu.Item>
         {buildMenu(root.id)}
 

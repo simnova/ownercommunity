@@ -48,10 +48,10 @@ const PageEditor: React.FC = (props) => {
     
     <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2,Container,Breadcrumbs,MenuComponent}} onRender={ComponentWrapper}>
       <Row>
-        <Col span={6}>
+        <Col span={2}>
           <Toolbox />
         </Col>
-        <Col span={12}>
+        <Col span={16}>
             <EditorDetail />
             <Download/>
         </Col>
@@ -61,17 +61,6 @@ const PageEditor: React.FC = (props) => {
       </Row>
     </Editor>
 
-
-    Reconstituted from JSON Below:
-    <TextArea rows={4} value={text} onChange={(el) => setText(el.target.value)} />
-    <Button onClick={() => setJson(JSON.parse(text))}>Load Json</Button>
-    {json.length > 0 ? 
-    <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2,Container}} >
-      <Frame data={json}>
-        
-      </Frame>
-    </Editor>
-    : <div>no Json</div>}
 
   </>
 }

@@ -52,9 +52,15 @@ export const EditorDetail = () => {
         treeData={formatAntTreeData(pageLayouts)}
         treeDataSimpleMode={true}
         onChange={(value: any) => {
-          let pageLayout =  JSON.parse(JSON.stringify(pageLayouts.find((item: any) => item.id === value)?.layout)) ?? undefined;
-          // console.log(pageLayout);
-          let parsedJson = JSON.stringify(pageLayout);
+          var node = pageLayouts.find((item: any) => item.id === value);
+          let pageLayout = undefined;
+          let parsedJson = "";
+
+          if(node && node.layout) {
+            pageLayout =  JSON.parse(JSON.stringify(pageLayouts.find((item: any) => item.id === value)?.layout)) ?? undefined;
+            // console.log(pageLayout);
+            parsedJson = JSON.stringify(pageLayout);
+          }
           // console.log(pageLayout);
           console.log(parsedJson);
           setSelectedPage(value);

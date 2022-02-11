@@ -1,41 +1,35 @@
-import React, {useState} from "react";
-import SortableTree, {getFlatDataFromTree, getTreeFromFlatData} from '@nosferatu500/react-sortable-tree';
+import React, {useState,useEffect} from "react";
+import SortableTree, {getFlatDataFromTree, getTreeFromFlatData, getNodeAtPath, changeNodeAtPath, removeNodeAtPath,addNodeUnderParent} from '@nosferatu500/react-sortable-tree';
 import '@nosferatu500/react-sortable-tree/style.css'; // This only needs to be imported once in your app
 import {usePageLayouts} from "./editor/local-data";
-import { Button } from "antd";
-import {Form, Input, FormInstance} from "antd";
+import { Modal, Button ,Row, Col, Collapse } from 'antd';
+
+import { PageDetails, PageDetailsPropTypes } from "./editor/tree/page-details";
+import uniqid from 'uniqid';
+
+const { Panel } = Collapse;
 
 const PageTree: React.FC = (props) => {
-  const formRef = React.createRef<FormInstance>();
   const [pageLayouts, setPageLayouts] = usePageLayouts();
+  const keyFromTreeIndex = ({ treeIndex }:any) => treeIndex;
+  const keyFromTreeId = ({ node }:any) => node.id;
 
-  var buildTree = (flatPageLayouts:any)  => {
+  const buildTree = (flatPageLayouts:any)  => {
     return getTreeFromFlatData({
-          flatData: flatPageLayouts.map((pageLayout:any) => ({...pageLayout, title: pageLayout.title})),
-          getKey: (node) => node.id,
-          getParentKey: (node) => node.parent,
-          rootKey: 'ROOT',
-        
+      flatData: flatPageLayouts.map((pageLayout:any) => ({...pageLayout, title: pageLayout.title})),
+      getKey: (node) => node.id,
+      getParentKey: (node) => node.parent,
+      rootKey: 'ROOT',
     });
   }
-  const [flatData, setFlatData] = useState<any>(pageLayouts);
-  const [treeData, setTreeData] = useState<any>(buildTree(pageLayouts));
-  const [selectedPage,setSelectedPage] = useState<any>(null);
 
-  const onClickPage = (page:any) => {
-    setSelectedPage(page.id);
-    formRef.current!.setFieldsValue({
-      title: page.title,
-    });
-  }
- 
-  var flattenTree = (treePageLayouts:any) => {
+  const flattenTree = (treePageLayouts:any) => {
     return getFlatDataFromTree({
       treeData: treePageLayouts,
       getNodeKey: ({node}) => node.id,
       ignoreCollapsed: false,
     }).map(({node, path}) => {
-      var nodeWithoutChildren =  JSON.parse(JSON.stringify(node));
+      let nodeWithoutChildren =  JSON.parse(JSON.stringify(node)); //deep copy
       nodeWithoutChildren.children = undefined;
       return {
         ...nodeWithoutChildren,
@@ -44,66 +38,187 @@ const PageTree: React.FC = (props) => {
     });
   }
 
-    return <>
-      <div style={{ height: 400 }}>
-        <SortableTree
-          treeData={treeData}
-          onChange={(updateTree) => setTreeData(updateTree  as any)}
-          generateNodeProps={({node, path}) => {
-            return {
-              onClick: () => {
-                console.log(node);
-                console.log(path);
-                onClickPage(node)
-               // setSelectedPage(node.id);
-               // formRef.current!.resetFields();
-              },
-              style: {
-                borderColor: node.id === selectedPage ? 'blue' : '#fff',
-                borderWidth: node.id === selectedPage ? '2px' : '1px',
-                borderStyle: 'solid',
-              },
-            }
-          }}  
-        />
-      </div>
-      <div>
-        {selectedPage ?
+  const [treeData, setTreeData] = useState<Array<any>>(buildTree(pageLayouts));
+  const [selectedNodePath,setSelectedNodePath] = useState<any>(null);
+  const [selectedNode,setSelectedNode] = useState<any>(null);
+  const [newNode,setNewNode] = useState<any>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = (parentNode:any) => {
+    console.log('showModal',parentNode);
+    var invalidPageNames: string[] = [];
+    if(parentNode.children){
+      invalidPageNames = parentNode.children.map((child:any) => child.pageName as string);
+    }
+    setNewNode({
+      parent: parentNode.id,
+      title: 'New Page',
+      id: uniqid.time(),
+      invalidPageNames : invalidPageNames
+    });
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const getSiblingPageNames = (node:any, path:number[]) : Array<string> => {
+    const isRoot = path.length === 1;
+    if(isRoot) {
+      return treeData.map((sibling:any) => sibling.pageName as string).filter((pageName:any) => pageName !== node.pageName);
+    } else {
+      const parentPath =  path.slice(0,path.length-1);
+      const parentNode = getNodeAtPath({treeData: treeData, path: parentPath, getNodeKey: keyFromTreeIndex})?.node as any;
+      const siblings = parentNode.children;
+      return siblings.map((sibling:any) => sibling.pageName as string).filter((pageName:any) => pageName !== node.pageName);
+    }
+  }
+
+  const updatePathOnChildren = (node:any, currentPath:string) => {
+    if(node.children) {
+      node.children.forEach((child:any) => {
+        var childPath = currentPath + "/" + child.pageName;
+        child.path = childPath;
+        updatePathOnChildren(child,childPath);
+      });
+    }
+  }
+
+  const onClickPage = (page2:any,path:any) => {
+    const page = getNodeAtPath({treeData: treeData, path: path, getNodeKey: keyFromTreeIndex})?.node
+    if(page) {
+      page.invalidPageNames = getSiblingPageNames(page,path);
+      console.log("page is not null")
+    }else {
+      console.log("page is null");
+    }
+    setSelectedNode(page);
+    setSelectedNodePath(path);
+  }
+
+  const canDrop = ({ node, nextParent, prevPath, nextPath }:any) => {
+    // ensure only one root node
+    if (nextPath.length === 1) { 
+      return false;
+    }
+
+    return true;
+  }
+ 
+  return <>
+    <Modal title="Add Page" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+      <PageDetails
+        data={newNode}
+        saveData={function (data: { id: string; title: string; pageName: string; }): void {
+          newNode.title = data.title;
+          newNode.pageName = data.pageName;
+          console.log('saveData',data,newNode);
+          var updatedTree = addNodeUnderParent({
+            treeData: treeData,
+            newNode:newNode, 
+            parentKey: newNode.parent,
+            ignoreCollapsed:true,
+            expandParent:true,
+            getNodeKey: keyFromTreeId,
+            addAsFirstChild:true}).treeData;
+          //console.log('updatedTree',updatedTree);
+          setTreeData(updatedTree as any);
+          setIsModalVisible(false);
+
+        }}
+      />
+    </Modal>
+    <Row>
+      <Col span={18}>
         
-        <Form
-          ref={formRef}
-          initialValues={{
-            title: flatData.find((x:any) => x.id == selectedPage).title,
-          }}
-          onFinish={(values) => {
-            console.log(values);
-            let flatTemp = flattenTree(treeData);
-            let pageLayout = flatTemp.find((x:any) => x.id == selectedPage);
-            pageLayout.title = values.title;
-            setTreeData(buildTree(flatTemp));
-          }}
-        >
-          <Form.Item name="title" label="Title">
-            <Input />
-          </Form.Item>  
-          <Button type="primary" htmlType="submit">
-            Save Page Changes
-          </Button>
-        </Form> 
-        : <div>Select a page to edit</div>}
-      </div>
-      <Button type="primary" onClick={() => setPageLayouts(flattenTree(treeData) as any)}>Save</Button>
-      <h1>Initial Tree Data</h1>
-      <hr   />
-      {pageLayouts ? JSON.stringify(buildTree(pageLayouts)) : 'none'}
-      <hr   />
-      <h1>Updated Tree Data</h1>
-      <hr   />
-      {flatData ? JSON.stringify(treeData) : 'none'}
-      <h1>Updated Flat Data</h1>
-      <hr   />
-      {flatData ? JSON.stringify(flattenTree(treeData)) : 'none'}
-      <hr   />
-    </>
+
+    <div style={{ height: 400, overflow:'scroll', border:'1px solid darkGray' }}>
+      <SortableTree
+        treeData={treeData}
+        onChange={setTreeData}
+        canDrop={canDrop}
+        generateNodeProps={({node, path}) => {
+          return {
+            onClick: () => {
+              onClickPage(node,path);
+            },
+            style: {
+              borderColor: node.id === selectedNode?.id ? 'blue' : '#fff',
+              borderWidth: node.id === selectedNode?.id ? '2px' : '1px',
+              borderStyle: 'solid',
+            },
+            buttons: [
+              <Button onClick={() => {
+                setNewNode({parent: node.id, pageName: "New Page"});
+                showModal(node);
+              }}>
+                Add Child
+              </Button>,
+              <Button onClick={() =>{
+                var newTreeData = removeNodeAtPath({
+                  treeData: treeData,
+                  path: path,
+                  getNodeKey: keyFromTreeIndex,
+                });
+               // onClickPage(null,null);
+                setTreeData(newTreeData);
+                
+              }}>
+                Remove
+              </Button>
+            ]
+          }
+        }}  
+      />
+    </div>
+
+    </Col>
+      <Col span={6}>
+      <div style={{backgroundColor:'gray', height:'100%'}}>
+
+      <Collapse defaultActiveKey={['1']} >
+
+    <Panel header="Page Settings" key="1">
+
+
+
+
+      {selectedNode ?
+        <>
+          <hr/>
+          <PageDetails
+            data={selectedNode}
+            saveData={function (data: { id: string; title: string; pageName: string; }): void {
+              var node = getNodeAtPath({treeData: treeData, path: selectedNodePath, getNodeKey: keyFromTreeIndex})?.node as any;
+              node.title = data.title;
+              node.pageName = data.pageName;
+              var updatedTree = changeNodeAtPath({treeData: treeData, path: selectedNodePath, newNode: node, getNodeKey: keyFromTreeIndex});
+              setTreeData(updatedTree);
+            }}
+          />
+        </>
+      : 
+        <div>Select a page to edit</div>
+      }
+
+    </Panel>
+  </Collapse>
+  </div>
+
+    </Col>
+    </Row>
+    <Button 
+      type="primary" 
+      onClick={() => {
+        treeData.forEach((node:any) => { updatePathOnChildren(node,''); });
+        setPageLayouts(flattenTree(treeData) as any)
+      }}>Save</Button>
+
+  </>
 }
 export { PageTree };

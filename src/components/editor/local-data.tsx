@@ -5,9 +5,9 @@ export const usePages = createLocalStorageStateHook('pages',
   [
     {
       id: 0, title: 'Home', path: '/', expanded: true, children: [
-        { id: 1, title: 'About', path: '/about' },
-        { id: 2, title: 'Contact', path: '/contact' },
-        { id: 3, title: 'Blog', path: '/blog' }
+        { id: 11, title: 'About', path: '/about' },
+        { id: 22, title: 'Contact', path: '/contact' },
+        { id: 33, title: 'Blog', path: '/blog' }
       ]
     }
   ]
@@ -17,9 +17,9 @@ const aboutLayout = "{\"ROOT\":{\"type\":{\"resolvedName\":\"Container\"},\"isCa
 
 export const usePageLayouts = createLocalStorageStateHook('pageLayouts',
   [
-    {id: '0', title:'Home', path:'/', layout: null, parent: 'ROOT'},
-    {id: '1', title:'About', path:'about', layout: aboutLayout, parent: '0'},
-    {id: '2', title:'Contact', path: 'contact', layout: null, parent: '0'},
-    {id: '3', title:'Blog', path: 'blog', layout: null, parent: '0'}
+    { id: '10', title:'Home', pageName:'home', path:'/', layout: null, parent: 'ROOT' },
+    { id: '11', title:'About', pageName:'about', path:'about', layout: aboutLayout, parent: '10' },
+    { id: '12', title:'Contact',  pageName:'contact', path: 'contact', layout: null, parent: '10' },
+    { id: '13', title:'Blog', pageName:'blog', path: 'blog', layout: null, parent: '10' }
   ]
 )

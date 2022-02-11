@@ -9,10 +9,6 @@ import { PageTree } from './components/page-tree';
 function App() {
   return (
     <>
-      <div className='greeny'>Hi there</div>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
       <Routes>
         <Route path="/" element={<Home />}>
           <Route path="pageEditor" element={<PageEditor />} />
@@ -20,9 +16,6 @@ function App() {
         <Route path="pageTree" element={<PageTree />} />
         <Route path="*" element={<CmsPage />} /> 
       </Routes>
-      <div>
-        <Button type="primary" >Button</Button>
-      </div>
     </>
   );
 }

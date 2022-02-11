@@ -7,6 +7,8 @@ import { TextComponent } from "./text-component";
 import { CountryInfo } from "./country-info";
 import { CountryInfo2 } from "./country-info2";
 import { Container } from "./editor/container";
+import { Breadcrumbs } from "./editor/components/breadcrumbs";
+import {MenuComponent} from "./editor/components/menu-component";
 
 // ui elements
 import { ComponentWrapper } from "./editor/component-wrapper";
@@ -44,7 +46,7 @@ const PageEditor: React.FC = (props) => {
   return <>
     
     
-    <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2,Container}} onRender={ComponentWrapper}>
+    <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2,Container,Breadcrumbs,MenuComponent}} onRender={ComponentWrapper}>
       <Row>
         <Col span={6}>
           <Toolbox />

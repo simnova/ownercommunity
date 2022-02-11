@@ -9,6 +9,8 @@ import { TextComponent } from "./text-component";
 import { CountryInfo } from "./country-info";
 import { CountryInfo2 } from "./country-info2";
 import { Container } from "./editor/container";
+import { Breadcrumbs } from "./editor/components/breadcrumbs";
+import {MenuComponent} from "./editor/components/menu-component";
 
 import { CmsPageFrame } from "./editor/cms-page-frame";
 
@@ -21,10 +23,8 @@ const CmsPage: React.FC = (props) => {
 
   var pageLayout
     return <>
-    CMS PAGE 
-    <Link to="/pageEditor">Editor</Link>
     {(matchedLayout && matchedLayout.length > 0) ? 
-      <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2, Container}} >
+      <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2, Container,Breadcrumbs,MenuComponent}} >
         <CmsPageFrame layout={matchedLayout[0].route.layout} />
       </Editor>
     : 'none'}:

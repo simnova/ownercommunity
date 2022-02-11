@@ -1,12 +1,10 @@
 import React from "react";
 import {Link, Outlet} from "react-router-dom"
+import CmsPage from "./cms-page";
 
 const Home: React.FC = (props) => {
     return <>
-    Before Outlet<br/>
-    <Outlet/><br/>
-    After Outlet<br/>
-    <Link to="/pageEditor">Editor</Link>
+    <CmsPage/>
     </>
 }
 export default Home;

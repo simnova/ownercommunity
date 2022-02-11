@@ -9,6 +9,8 @@ import { TextComponent } from "./text-component";
 import { CountryInfo } from "./country-info";
 import { CountryInfo2 } from "./country-info2";
 import { Container } from "./editor/container";
+import { Breadcrumbs } from "./editor/components/breadcrumbs";
+import {MenuComponent} from "./editor/components/menu-component";
 
 import { CmsPageFrame } from "./editor/cms-page-frame";
 
@@ -16,17 +18,18 @@ import { CmsPageFrame } from "./editor/cms-page-frame";
 const CmsPage: React.FC = (props) => {
   const [pageLayouts, setPageLayouts] = usePageLayouts();
   const location = useLocation();
-  console.log(pageLayouts);
   const matchedLayout:any = matchRoutes(pageLayouts,location);
+  console.log(matchedLayout);
 
   var pageLayout
     return <>
-    CMS PAGE 
-    <Link to="/pageEditor">Editor</Link>
     {(matchedLayout && matchedLayout.length > 0) ? 
-      <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2, Container}} >
+    <div key={matchedLayout[0].route.id} style={{margin:0, padding:0, backgroundColor:'#E8E8E8', minHeight:'100vh'}}>
+      <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2, Container,Breadcrumbs,MenuComponent}} >
         <CmsPageFrame layout={matchedLayout[0].route.layout} />
       </Editor>
+    </div>
+
     : 'none'}:
 
     </>

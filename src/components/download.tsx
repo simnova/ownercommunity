@@ -1,9 +1,10 @@
 import { useEditor } from "@craftjs/core";
 import copy from "copy-to-clipboard";
-import { notification } from "antd";
-
+import { notification, Button } from "antd";
+import {usePageLayouts} from "./editor/local-data";
 
 export const Download = () => {
+  const [pageLayouts, setPageLayouts] = usePageLayouts();
   const { query } = useEditor();
 
   const download = () => {
@@ -15,9 +16,18 @@ export const Download = () => {
     });
   }
 
+  const downloadAll = () => {
+    copy(JSON.stringify(pageLayouts));
+    notification.success({
+      message: "Copied to Clipboard",
+      description: "The JSON has been copied to your clipboard"
+    });
+  }
+
   return (
     <div>
-      <a onClick={() => download()}>Get JSON</a>
+      <Button onClick={() => download()}>Get JSON</Button>
+      <Button onClick={() => downloadAll()}>Get Site JSON</Button>
     </div>
   )
 }

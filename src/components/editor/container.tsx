@@ -13,7 +13,7 @@ export type ContainerPropTypes = PropTypes.InferProps<typeof ContainerProps> & C
 
 export const Container: React.FC = (props) => {
     return (
-      <div style={{margin: "5px 0", minHeight:'500px', minWidth:'500px', backgroundColor:'gray'}}>
+      <div style={{ minHeight:'500px', minWidth:'500px'}}>
         {props.children}
       </div>
     )

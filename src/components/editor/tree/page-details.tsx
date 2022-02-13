@@ -53,40 +53,40 @@ export const PageDetails: React.FC<PageDetailsPropTypes> = (props) => {
   }
 
   return <>
-       <Form
-          form={form}
-          initialValues={{
-            title: props.data.title,
-            pageName: props.data.pageName,
-          }}
-          onFinish={(values) => {
-            props.saveData(values);
-          }}
+      <Form
+        form={form}
+        initialValues={{
+          title: props.data.title,
+          pageName: props.data.pageName,
+        }}
+        onFinish={(values) => {
+          props.saveData(values);
+        }}
+      >
+      <Form.Item 
+        name="title" 
+        label="Title"
+        rules={[
+          { required: true, message: 'Please input the title of the page' },
+        ]}  
         >
-          <Form.Item 
-            name="title" 
-            label="Title"
-            rules={[
-              { required: true, message: 'Please input the title of the page' },
-            ]}  
-            >
-            <Input />
-          </Form.Item>  
-          <Form.Item 
-            name="pageName" 
-            label="Page Name"
-            rules={[
-              { validator: pageNameIsNotDuplicate },
-              { required: true, message: 'Please input your page name!' },
-              { pattern: /^[a-zA-Z0-9-]+$/, message: 'Page name can only contain letters, numbers and dashes' },
-            ]}
-            >
-            <Input />
-          </Form.Item>  
-          <Button type="primary" htmlType="submit">
-            Save Page Changes
-          </Button>
-        </Form> 
+        <Input />
+      </Form.Item>  
+      <Form.Item 
+        name="pageName" 
+        label="Page Name"
+        rules={[
+          { validator: pageNameIsNotDuplicate },
+          { required: true, message: 'Please input your page name!' },
+          { pattern: /^[a-zA-Z0-9-]+$/, message: 'Page name can only contain letters, numbers and dashes' },
+        ]}
+        >
+        <Input />
+      </Form.Item>  
+      <Button type="primary" htmlType="submit">
+        Save Page Changes
+      </Button>
+    </Form> 
   </>
 }
 

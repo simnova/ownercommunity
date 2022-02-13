@@ -38,7 +38,7 @@ export const ComponentWrapper = ({render}:any) => {
     }
   }, [dom,id, isActive, isHover]);
   return (
-    <div className="bg-slate-50">
+    <div className="bg-slate-50" style={{display:'flex', flex:'1', alignItems:'stretch', flexDirection:'column'}}>
       {render}
     </div>
   )

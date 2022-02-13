@@ -133,93 +133,84 @@ const PageTree: React.FC = (props) => {
         }}
       />
     </Modal>
+    <div style={{ display: 'flex', flexDirection: 'column', flexGrow:1 }}>
     
-    <Row>
-      <Col span={18}>
-        
-
-    <div style={{ height: 400, overflow:'scroll', border:'1px solid darkGray' }}>
-      <SortableTree
-        treeData={treeData}
-        onChange={setTreeData}
-        canDrop={canDrop}
-        generateNodeProps={({node, path}) => {
-          return {
-            onClick: () => {
-              onClickPage(node,path);
-            },
-            style: {
-              borderColor: node.id === selectedNode?.id ? 'blue' : '#fff',
-              borderWidth: node.id === selectedNode?.id ? '2px' : '1px',
-              borderStyle: 'solid',
-            },
-            buttons: [
-              <Button onClick={() => {
-                setNewNode({parent: node.id, pageName: "New Page"});
-                showModal(node);
-              }}>
-                Add Child
-              </Button>,
-              <Button onClick={() =>{
-                var newTreeData = removeNodeAtPath({
-                  treeData: treeData,
-                  path: path,
-                  getNodeKey: keyFromTreeIndex,
-                });
-               // onClickPage(null,null);
-                setTreeData(newTreeData);
-                
-              }}>
-                Remove
-              </Button>
-            ]
-          }
-        }}  
-      />
-    </div>
-
-    </Col>
-      <Col span={6}>
-      <div style={{backgroundColor:'gray', height:'100%'}}>
-
-      <Collapse defaultActiveKey={['1']} >
-
-    <Panel header="Page Settings" key="1">
-
-
-
-
-      {selectedNode ?
-        <>
-          <hr/>
-          <PageDetails
-            data={selectedNode}
-            saveData={function (data: { id: string; title: string; pageName: string; }): void {
-              var node = getNodeAtPath({treeData: treeData, path: selectedNodePath, getNodeKey: keyFromTreeIndex})?.node as any;
-              node.title = data.title;
-              node.pageName = data.pageName;
-              var updatedTree = changeNodeAtPath({treeData: treeData, path: selectedNodePath, newNode: node, getNodeKey: keyFromTreeIndex});
-              setTreeData(updatedTree);
-            }}
+      <Row style={{ display:'flex', flexGrow:1,  }}>
+        <Col span={18} style={{border:'1px solid lightgrey'}}>
+          <SortableTree
+            treeData={treeData}
+            onChange={setTreeData}
+            canDrop={canDrop}
+            generateNodeProps={({node, path}) => {
+              return {
+                onClick: () => {
+                  onClickPage(node,path);
+                },
+                style: {
+                  borderColor: node.id === selectedNode?.id ? 'blue' : '#fff',
+                  borderWidth: node.id === selectedNode?.id ? '2px' : '1px',
+                  borderStyle: 'solid',
+                },
+                buttons: [
+                  <Button onClick={() => {
+                    setNewNode({parent: node.id, pageName: "New Page"});
+                    showModal(node);
+                  }}>
+                    Add Child
+                  </Button>,
+                  <Button onClick={() =>{
+                    var newTreeData = removeNodeAtPath({
+                      treeData: treeData,
+                      path: path,
+                      getNodeKey: keyFromTreeIndex,
+                    });
+                  // onClickPage(null,null);
+                    setTreeData(newTreeData);
+                    
+                  }}>
+                    Remove
+                  </Button>
+                ]
+              }
+            }}  
           />
-        </>
-      : 
-        <div>Select a page to edit</div>
-      }
+        </Col>
+        <Col span={6} style={{backgroundColor:'gray', minHeight:'100%'}}>
+          <Collapse defaultActiveKey={['1']}  expandIconPosition="right">
+            <Panel header="Page Settings" key="1">
+            {selectedNode ?
+              <>
+                <hr/>
+                <PageDetails
+                  data={selectedNode}
+                  saveData={function (data: { id: string; title: string; pageName: string; }): void {
+                    var node = getNodeAtPath({treeData: treeData, path: selectedNodePath, getNodeKey: keyFromTreeIndex})?.node as any;
+                    node.title = data.title;
+                    node.pageName = data.pageName;
+                    var updatedTree = changeNodeAtPath({treeData: treeData, path: selectedNodePath, newNode: node, getNodeKey: keyFromTreeIndex});
+                    setTreeData(updatedTree);
+                  }}
+                />
+              </>
+            : 
+              <div>Select a page to edit</div>
+            }
 
-    </Panel>
-  </Collapse>
-  </div>
-
-    </Col>
-    </Row>
-    <Button 
-      type="primary" 
-      onClick={() => {
-        treeData.forEach((node:any) => { updatePathOnChildren(node,''); });
-        setPageLayouts(flattenTree(treeData) as any)
-      }}>Save</Button>
-
+            </Panel>
+          </Collapse>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+        <Button 
+          type="primary" 
+          onClick={() => {
+            treeData.forEach((node:any) => { updatePathOnChildren(node,''); });
+            setPageLayouts(flattenTree(treeData) as any)
+          }}>Save</Button>
+        </Col>
+      </Row>
+    </div>
   </>
 }
 export { PageTree };

@@ -25,7 +25,7 @@ export const Download = () => {
   }
 
   return (
-    <div>
+    <div style={{display:'flex'}}>
       <Button onClick={() => download()}>Get JSON</Button>
       <Button onClick={() => downloadAll()}>Get Site JSON</Button>
     </div>

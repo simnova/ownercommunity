@@ -47,16 +47,21 @@ const PageEditor: React.FC = (props) => {
     
     
     <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2,Container,Breadcrumbs,MenuComponent}} onRender={ComponentWrapper}>
-      <Row>
-        <Col span={2}>
+      <Row style={{display:'flex', flex:'1', alignItems:'stretch'}}>
+        <Col span={3} style={{display:'flex', alignItems:'start', textAlign:'left', border:'1px solid lightgrey'}}>
           <Toolbox />
         </Col>
-        <Col span={16}>
-            <EditorDetail />
-            <Download/>
+        <Col span={15} style={{display:'flex', flexDirection:'column', padding:'10px',border:'1px solid lightgrey'}}>
+            <EditorDetail/>
+           
         </Col>
-        <Col span={6}>
+        <Col span={6} style={{backgroundColor:'gray', minHeight:'100%'}}>
           <SettingsPanel/>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+        <Download/>
         </Col>
       </Row>
     </Editor>

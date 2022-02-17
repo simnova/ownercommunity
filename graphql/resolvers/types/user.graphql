@@ -1,0 +1,30 @@
+type User implements MongoBase {
+  firstName: String
+  lastName: String
+  email: EmailAddress
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+extend type Mutation {
+  createUser: User
+  """
+  Allows the user to update their profile
+  """
+  updateUser(input: UserUpdateInput!): User
+}
+
+extend type Query {
+  user(id: ID!): User
+  users: [User] @cacheControl(maxAge: 90)
+}
+
+input UserUpdateInput {
+  id: ObjectID!
+  firstName: String
+  lastName: String
+  email: String
+}

@@ -4,7 +4,7 @@ import { Context } from '../../context';
 import { Resolvers } from '../../generated';
 
 const defaultPermissions = shield<Resolvers,Context>({
-  Location: {
+  User: {
     "*": allow,
   },
   Query: {

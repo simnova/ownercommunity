@@ -1,28 +1,22 @@
-import { WebResource } from '@azure/storage-blob';
-import { URLBuilder } from "@azure/core-http";
 import { HeaderConstants } from './constants';
-import { createHmac } from "crypto";
+import { WebResource } from '@azure/storage-blob';
+import { URLBuilder } from '@azure/core-http';
+import { createHmac } from 'crypto';
 
 export class AuthHeader {
 
-
-  public generateFromRequest(request: WebResource, storageAccount: string, accountKey: string): string {
-    const signableString = this.convertToSignableString(request, storageAccount);
-    console.log(signableString);
-    return this.createAuthHeader(storageAccount, signableString, accountKey);
-  }
   public generateFromRequestLite(request: WebResource, storageAccount: string, accountKey: string): string {
     const signableString = this.convertToSignableStringLite(request, storageAccount);
+    return this.createAuthHeaderLite(storageAccount, signableString, accountKey);
+  }
 
+  public createAuthHeaderLite(storageAccount: string, signableString: string, accountKey:string): string {
     console.log(signableString);
-    return this.createAuthHeader(storageAccount, signableString, accountKey);
+    return `SharedKeyLite ${storageAccount}:${this.computeHMACSHA256(signableString, accountKey)}`;
   }
 
   public convertToSignableStringLite(request: WebResource, accountName: string): string {
-
-
-    
-    //request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
+    request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
     const stringToSign: string =
       [
         request.method.toUpperCase(),
@@ -34,7 +28,15 @@ export class AuthHeader {
       this.getCanonicalizedHeadersString(request) +
       this.getCanonicalizedResourceString(request, accountName);
     return stringToSign;
-    
+  }
+
+  public generateFromRequest(request: WebResource, storageAccount: string, accountKey: string): string {
+    const signableString = this.convertToSignableString(request, storageAccount);
+    return this.createAuthHeader(storageAccount, signableString, accountKey);
+  }
+
+  public createAuthHeader(storageAccount: string, signableString: string, accountKey:string): string {
+    return `SharedKey ${storageAccount}:${this.computeHMACSHA256(signableString, accountKey)}`;
   }
 
   public convertToSignableString(request: WebResource, accountName: string): string {
@@ -59,15 +61,6 @@ export class AuthHeader {
       this.getCanonicalizedResourceString(request, accountName);
     return stringToSign;
   }
-
-  public createAuthHeader(storageAccount: string, signableString: string, accountKey:string): string {
-    return `SharedKey ${storageAccount}:${this.computeHMACSHA256(signableString, accountKey)}`;
-  }
-  public createAuthHeaderLite(storageAccount: string, signableString: string, accountKey:string): string {
-    console.log(signableString);
-    return `SharedKeyLite ${storageAccount}:${this.computeHMACSHA256(signableString, accountKey)}`;
-  }
-
 
   /**
    * Get URL path from an URL string.
@@ -187,7 +180,6 @@ export class AuthHeader {
   public computeHMACSHA256(stringToSign: string, accountKey: string): string {
     const utf8encoded = Buffer.from(accountKey, 'base64');
     return createHmac('sha256', utf8encoded).update(stringToSign).digest("base64");
-    //return createHmac("sha256", keyBuffer).update(stringToSign).digest("base64");
   }
 
   /**

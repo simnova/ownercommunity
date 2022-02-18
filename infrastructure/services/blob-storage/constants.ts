@@ -1,4 +1,3 @@
-
 export const HeaderConstants = {
   AUTHORIZATION: "Authorization",
   AUTHORIZATION_SCHEME: "Bearer",
@@ -25,4 +24,3 @@ export const HeaderConstants = {
   X_MS_VERSION: "x-ms-version",
   X_MS_BLOB_TYPE: "x-ms-blob-type"
 };
-

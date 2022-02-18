@@ -1,19 +1,40 @@
-const tryGetEnvVar = (envVar:string):string =>{
-  const value = process.env[envVar];
-  if(value === undefined){
-    throw new Error(`Environment variable: ${envVar} is not set`);
-  }
-  return value;
-}
+export class AccountInfo {
+  private static instance: AccountInfo;
+  private readonly blobContainerNameEnvKey = 'BLOB_CONTAINER_NAME';
+  private readonly blobAccountNameEnvKey = 'BLOB_ACCOUNT_NAME';
+  private readonly blobAccountKeyEnvKey = 'BLOB_ACCOUNT_KEY';
 
-export const AccountInfo = () => {
-  const blobContainerNameEnvKey = 'BLOB_CONTAINER_NAME';
-  const blobAccountNameEnvKey = 'BLOB_ACCOUNT_NAME';
-  const blobAccountKeyEnvKey = 'BLOB_ACCOUNT_KEY';
+  private readonly containerName: string;
+  private readonly accountName: string;
+  private readonly accountKey: string;
 
-  return {
-    containerName : tryGetEnvVar(blobContainerNameEnvKey),
-    accountName : tryGetEnvVar(blobAccountNameEnvKey),
-    accountKey : tryGetEnvVar(blobAccountKeyEnvKey),
+  private constructor() {
+    this.containerName = this.tryGetEnvVar(this.blobContainerNameEnvKey);
+    this.accountName = this.tryGetEnvVar(this.blobAccountNameEnvKey);
+    this.accountKey = this.tryGetEnvVar(this.blobAccountKeyEnvKey);
   }
+
+  public getSettings()  {
+    return {
+      containerName: this.containerName,
+      accountName: this.accountName,
+      accountKey: this.accountKey
+    }
+  }
+
+  static getInstance(): AccountInfo {
+    if (!AccountInfo.instance) {
+      AccountInfo.instance = new AccountInfo();
+    }
+    return AccountInfo.instance;
+  }
+  
+  private tryGetEnvVar = (envVar:string):string =>{
+    const value = process.env[envVar];
+    if(value === undefined){
+      throw new Error(`Environment variable: ${envVar} is not set`);
+    }
+    return value;
+  }
+
 }

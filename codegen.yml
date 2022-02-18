@@ -68,7 +68,15 @@ generates:
   ./graphql.schema.json:
     plugins:
       - "introspection"
-
+  ../ui/src/generated.tsx:
+    config:
+      withHooks: true
+      withHOC: false
+      withComponent: false
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typed-document-node"
 
 hooks:
   afterAllFileWrite:

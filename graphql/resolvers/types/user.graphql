@@ -9,12 +9,35 @@ type User implements MongoBase {
   updatedAt: DateTime
 }
 
+type Account implements MongoBase {
+  name: String
+  owner: User
+  ownerId: ObjectID!
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+type Contact implements MongoBase {
+  name: String
+  owner: User
+  ownerId: ObjectID!
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
 extend type Mutation {
   createUser: User
   """
   Allows the user to update their profile
   """
   updateUser(input: UserUpdateInput!): User
+
+  createAuthHeaderForProfilePhoto(input: ProfilePhotoImageInput!): CreateAuthHeaderForProfilePhotoOutput!
 }
 
 extend type Query {
@@ -27,4 +50,16 @@ input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
+}
+
+input ProfilePhotoImageInput {
+  contentType: String
+  contentLength: Int
+}
+type CreateAuthHeaderForProfilePhotoOutput {
+  authHeader: String
+  blobName: String
+  requestDate: String
+  success: Boolean
+  errorMessage: String
 }

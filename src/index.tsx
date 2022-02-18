@@ -10,19 +10,28 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 
 import {
+  ApolloLink, HttpLink,
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql
+  ApolloProvider
 } from "@apollo/client";
 
+
+const countryLink = new HttpLink({
+  uri: "https://countries.trevorblades.com/",
+})
+const serviceLink = new HttpLink({
+  uri: "http://localhost:7071/api/graphql",
+})
+
 const client = new ApolloClient({
-  uri: 'https://countries.trevorblades.com/graphql',
+  link: ApolloLink.split(
+    (operation) => operation.getContext().clientName === 'country',
+    countryLink,
+    serviceLink
+  ),
   cache: new InMemoryCache()
 });
-
-
 
 ReactDOM.render(
   <React.StrictMode>

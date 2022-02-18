@@ -27,7 +27,7 @@ export const CountryInfo = () => {
   
   const [loadCountry, { called, loading, data, error }] = useLazyQuery(
     GET_COUNTRY_DETAILS,
-    { variables: { country: country} }
+    { variables: { country: country},context: { clientName: 'country' } },    
   );
 
   if (called && loading) return <>Loading...</>;

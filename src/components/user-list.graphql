@@ -1,0 +1,10 @@
+query UserListGetUsers {
+  users {
+    ...UserListItemFields
+    ...UserListGetUsersFields
+  }
+}
+
+fragment UserListGetUsersFields on User {
+  id
+}

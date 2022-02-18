@@ -1,54 +1,32 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { Upload, Button, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useMutation } from "@apollo/client";
 import {PhotoUploadCreateAuthHeaderForProfilePhotoDocument} from '../../generated';
 import axios from 'axios';
-import { fileURLToPath } from "url";
-
-//var {RcFile} = UploadProps.RcFile;
 
 export const PhotoUpload:React.FC<any> = (props) => {
-  //const { onChange } = props;
-  const [createAuthHeaderForProfilePhoto, { data, loading, error }] = useMutation(PhotoUploadCreateAuthHeaderForProfilePhotoDocument);
-  /*
-  const [blobName,setBlobName] = useState('');
-  const [contentType,setContentType] = useState('');
-  const [contentLength,setContentLength] = useState(0);
-  const [authHeader,setAuthHeader] = useState('');
-  const [requestDate,setRequstDate] = useState('');
 
-  useEffect(() => {
-    if (data && data.createAuthHeaderForProfilePhoto) {
-      setBlobName(data.createAuthHeaderForProfilePhoto.blobName??'');
-      setAuthHeader(data.createAuthHeaderForProfilePhoto.authHeader??'');
-      setRequstDate(data.createAuthHeaderForProfilePhoto.requestDate??'');
-    }
-  }, [data]);
-
-  */
-
+  const [createAuthHeaderForProfilePhoto] = useMutation(PhotoUploadCreateAuthHeaderForProfilePhotoDocument);
 
   const beforeUpload = async (file:File) => {
-//    setContentType(file.type);
-//    setContentLength(file.size);
     const permittedContentTypes = ["image/jpeg", "image/png", "image/gif"];
-    if (permittedContentTypes.includes(file.type) && file.size < 10 * 1024 * 1024) {
-
-      message.success(`${file.name} is valid.`);
-      return true;
-    } else {
-      alert("File must be an image, less than 10MB in size, and of a permitted type.");
-      return false;
+    const isValidContentType = permittedContentTypes.includes(file.type);
+    const isValidContentLenth = file.size < (1 *  1024 * 1024); // 10MB
+    if (!isValidContentType) {
+      message.error("You can only upload images");
     }
+    if (!isValidContentLenth) {
+      message.error("Image must be less than 10MB");
+    }
+    return  isValidContentType && isValidContentLenth ? true : Upload.LIST_IGNORE;    
   }
+
   const customizeUpload =  async (option:any) => {
 
     //https://github.com/react-component/upload/blob/master/src/interface.tsx
+    //https://github.com/react-component/upload/issues/95
     
-    //debugger;
-  
-
     const result = await createAuthHeaderForProfilePhoto({
       variables: {
         input: {
@@ -57,8 +35,8 @@ export const PhotoUpload:React.FC<any> = (props) => {
         }
       }
     });
-    if(result.data && result.data.createAuthHeaderForProfilePhoto && result.data.createAuthHeaderForProfilePhoto.success === true) {
 
+    if(result.data && result.data.createAuthHeaderForProfilePhoto && result.data.createAuthHeaderForProfilePhoto.success === true) {
       const {authHeader,blobName,requestDate} = result.data.createAuthHeaderForProfilePhoto;
       try {
         var response = await axios.request({
@@ -74,10 +52,7 @@ export const PhotoUpload:React.FC<any> = (props) => {
             "Content-Type": option.file.type, 
           },
           onUploadProgress: (progressEvent) => {
-
             const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            console.log(percentCompleted);
-            //option.onProgress((event:any)=> event.percent = percentCompleted);
             option.onProgress({percent:percentCompleted},option.file);
           }
         });
@@ -85,9 +60,8 @@ export const PhotoUpload:React.FC<any> = (props) => {
         message.success(`${option.file.name} uploaded successfully.`);
       } catch (uploadError) {
         message.error(`${option.file.name} upload failed. details: ${JSON.stringify(uploadError)}`);
+        option.onError(uploadError,option.file);
       }
-
-        //option.onSuccess((body:Object) => "success");
     } else {
     // option.onError((error:Object) =>  "error");
     }
@@ -97,10 +71,10 @@ export const PhotoUpload:React.FC<any> = (props) => {
 
   return (
     <Upload
-      name="avatar"
+      accept='.png, .jpg, .jpeg, .gif'
       customRequest = {customizeUpload}
       beforeUpload={beforeUpload}
-      
+    
       progress={{
         strokeColor: {
           '0%': '#108ee9',

@@ -6,7 +6,6 @@ export interface User extends Base {
   firstName: string;
   lastName: string;
   email: string;
-
 }
 
 export const UserModel = model<User>('User', new Schema<User, Model<User>, User>(
@@ -23,6 +22,7 @@ export const UserModel = model<User>('User', new Schema<User, Model<User>, User>
       maxlength: [36, 'External ID must be 36 characters long'],
       required: true,
       index: true,
+      unique: true,
     },
     firstName: {
       type: String,

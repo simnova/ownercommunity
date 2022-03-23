@@ -1,0 +1,55 @@
+type Community implements MongoBase {
+  name: String
+  domain: String
+  whiteLabelDomain: String
+  handle: String
+  publicContentBlobUrl: String
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+extend type Query {
+  communityById(id: ObjectID!): Community
+  communityByHandle(handle: String!): Community
+  communityByDomain(domain: String!): Community
+}
+
+extend type Mutation {
+  communityCreate(input: CommunityCreateInput!): CommunityMutationResult!
+  communityUpdate(input: CommunityUpdateInput!): CommunityMutationResult!
+  communityPublicContentCreateAuthHeader(input: CommunityPublicContentInput!): CommunityPublicContentAuthHeaderResult!
+}
+
+type CommunityMutationResult {
+  status: MutationStatus!
+  community: Community
+}
+
+input CommunityCreateInput {
+  name: String!
+  domain: String
+  whiteLabelDomain: String
+  handle: String
+}
+
+input CommunityUpdateInput {
+  id: ID!
+  name: String
+  domain: String
+  whiteLabelDomain: String
+  handle: String
+}
+
+input CommunityPublicContentInput {
+  communityId: ObjectID!
+  contentType: String
+  contentLength: Int
+}
+type CommunityPublicContentAuthHeaderResult {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  community: Community
+}

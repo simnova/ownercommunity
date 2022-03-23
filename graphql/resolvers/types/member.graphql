@@ -1,0 +1,113 @@
+type Member implements MongoBase  {
+  memberName: String
+  community: Community
+  role: Role
+  accounts: [MemberAccount]
+  profile: MemberProfile
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MemberAccount implements MongoEmbeddedBase {
+  firstName: String!
+  lastName: String
+  user: User
+  statusCode: String
+  createdBy: User
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MemberProfile {
+  name: String
+  email: String
+  bio: String
+  avatarDocumentId: String
+  interests: [String]
+  showInterests: Boolean
+  showEmail: Boolean
+  showLocation: Boolean
+  showProfile: Boolean
+  showProperties: Boolean
+}
+
+extend type Query {
+  membersByCommunityId(communityId: ObjectID!): [Member]
+  memberForCurrentUser(communityId: ObjectID!): Member
+}
+
+extend type Mutation {
+  memberCreate(input: MemberCreateInput!): MemberMutationResult!
+  memberRoleReassign(input: MemberRoleReassignInput!): MemberMutationResult!
+  memberAccountAdd(input: MemberAccountAddInput!): MemberMutationResult!
+  memberAccountRemove(input: MemberAccountRemoveInput!): MemberMutationResult!
+  memberProfileUpdate(input: MemberProfileUpdateInput!): MemberMutationResult!
+  memberProfileAvatarCreateAuthHeader(input: MemberAvatarImageInput!): MemberAvatarImageAuthHeaderResult!
+  memberProfileAvatarRemove(memberId: ObjectID!): MemberMutationResult!
+}
+
+type MemberMutationResult implements MutationResult {
+  status: MutationStatus!
+  member: Member
+}
+
+input MemberCreateInput {
+  community: ObjectID!
+  role: ObjectID!
+  accounts: [MemberAccountCreateInput]!
+  profile: MemberProfileInput
+}
+
+input MemberRoleReassignInput {
+  member: ObjectID!
+  newRole: ObjectID!
+}
+
+input MemberAccountAddInput {
+  memberId: ObjectID!
+  account: MemberAccountCreateInput!
+}
+
+input MemberAccountCreateInput {
+  user: ObjectID!
+  firstName: String!
+  lastName: String
+}
+
+input MemberAccountRemoveInput {
+  memberId: ObjectID!
+  accountId: ObjectID!
+}
+
+input MemberProfileUpdateInput {
+  memberId: ObjectID!
+  profile: MemberProfileInput
+}
+
+input MemberProfileInput {
+  name: String
+  email: String
+  bio: String
+  interests: [String]
+  showInterests: Boolean
+  showEmail: Boolean
+  showLocation: Boolean
+  showProfile: Boolean
+  showProperties: Boolean
+}
+
+input MemberAvatarImageInput {
+  memberId: ObjectID!
+  contentType: String
+  contentLength: Int
+}
+type MemberAvatarImageAuthHeaderResult {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  member: Member
+}

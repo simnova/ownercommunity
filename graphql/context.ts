@@ -1,9 +1,10 @@
 import { DataSourcesType } from './data-sources';
 
 export type Context = {
-  VerifiedUser: {
-    VerifiedJWT: any;
-    OpenIdConfigKey: string;
+  verifiedUser: {
+    verifiedJWT: any;
+    openIdConfigKey: string;
   };
   dataSources: DataSourcesType;
+  executionContext: any;
 }

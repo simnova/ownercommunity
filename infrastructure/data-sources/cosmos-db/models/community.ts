@@ -1,63 +1,34 @@
-import mongoose, { Schema, model, Model, ObjectId, Document,PopulatedDoc } from 'mongoose';
-import { Base, BaseOptions, EmbeddedBase } from './interfaces/base';
-import * as User from './user';
-
-export interface ListingPermissions {
-  id: ObjectId;
-  canManageListings: boolean;
-}
-export interface AccountPermissions {
-  id: ObjectId;
-  canManageRolesAndPermissions: boolean;
-}
-export interface Permissions {
-  id: ObjectId;
-  listingPermissions: ListingPermissions;
-  accountPermissions: AccountPermissions;
-}
-
-export interface Role extends EmbeddedBase {
-  roleName: string;
-  isDefault: boolean;
-  permissions: Permissions;
-}
-
-export interface Contact extends EmbeddedBase {
-  firstName:string;
-  lastName?:string;
-  role?:ObjectId;
-  user:PopulatedDoc<User.User> | ObjectId;
-}
+import { Schema, model, Model } from 'mongoose';
+import { Base, BaseOptions } from './interfaces/base';
 
 export interface Community extends Base {
   name: string;
+  domain: string;
+  whiteLabelDomain: string;
   handle: string;
-  contacts: mongoose.Types.DocumentArray<Contact>
-  roles: mongoose.Types.DocumentArray<Role>;
 }
 
 export const CommunityModel = model<Community>('Community',new Schema<Community, Model<Community>, Community>(
   {
     schemaVersion: { type: String, default: '1.0.0' },
-    name: { type: String, required: true },
-    handle: { type: String, required: false, unique: true },
-    
-    roles: [{
-      roleName: { type: String, required: true },
-      isDefault: { type: Boolean, required: true },
-      permissions: {
-        listingPermissions: {
-          canManageListings: { type: Boolean, required: true }
-        },
-        accountPermissions: {
-          canManageRolesAndPermissions: { type: Boolean, required: true }
-        }
-      },
-      createdAt: { type: Date, default: Date.now },
-      updatedAt: { type: Date, default: Date.now }
-    }]
+    name: { 
+      type: String, 
+      required: true,
+      maxlength: 200,
+    },
+    domain: { type: String, required: false, unique: true, maxlength: 500 },
+    whiteLabelDomain: { type: String, required: false, unique: true, maxlength: 500 },
+    handle: { 
+      type: String, 
+      required: false, 
+      unique: true,
+      maxlength: 50,
+    },
   },
   {
     ...BaseOptions,
   }
-));
+  ).index(
+    { domain:1, whiteLabelDomain:1, handle:1 }
+  )
+);

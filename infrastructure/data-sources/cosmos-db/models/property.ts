@@ -5,7 +5,7 @@ import * as Member from './member';
 import * as Location from './location';
 
 export interface Property extends Base {
-  community: ObjectId;
+  community: PopulatedDoc<Community.Community>;
   location?: PopulatedDoc<Location.Location>;
   owner?: PopulatedDoc<Member.Member>;
   propertyName: string;
@@ -17,6 +17,7 @@ export interface Property extends Base {
   listedInDirectory: boolean;
 
   listingDetails : {
+    id: ObjectId;
     price: number;
     rentHigh: number;
     rentLow: number;
@@ -24,6 +25,7 @@ export interface Property extends Base {
     maxGuests: number;
     bedrooms: number;
     bedroomDetails: {
+      id: ObjectId;
       roomName: string;
       bedDescriptions: string[];
     }
@@ -34,6 +36,7 @@ export interface Property extends Base {
     description: string;
     amenities: string[];
     addionalAmenities: [{
+      id: ObjectId;
       category: string;
       amenities: string[];
     }]
@@ -114,4 +117,6 @@ export const PropertyModel = model<Property>('Property', new Schema<Property, Mo
   {
     ...BaseOptions 
   }
-));
+  ).index(
+    { community: 1, propertyName: 1 },  { unique: true }
+  ));

@@ -41,14 +41,14 @@ import { OpenIdConfig, VerifiedTokenService } from './verified-token-service';
     this.tokenVerifier.Start();
   }
 
-  public async GetVerifiedUser (bearerToken:string): Promise<{VerifiedJWT:any,OpenIdConfigKey:string}|null>{ 
+  public async GetVerifiedUser (bearerToken:string): Promise<{verifiedJWT:any,openIdConfigKey:string}|null>{ 
     for await(let [openIdConfigKey] of this.tokenSettings){
       let verifedJWT = await this.tokenVerifier.GetVerifiedJwt(bearerToken,openIdConfigKey);
       console.log(`for ${openIdConfigKey} with bearerToken: ${bearerToken} verifiedJWT: ${JSON.stringify(verifedJWT)}`)
       if(verifedJWT){
         return {
-          VerifiedJWT:verifedJWT.payload,
-          OpenIdConfigKey:openIdConfigKey
+          verifiedJWT:verifedJWT.payload,
+          openIdConfigKey:openIdConfigKey
         }
       }
     }

@@ -2,19 +2,21 @@ import { Schema, model, Model,ObjectId, PopulatedDoc, Types } from 'mongoose';
 import { Base, BaseOptions, EmbeddedBase, Patterns } from './interfaces/base';
 import * as User from './user';
 import * as Community from './community';
+import * as Role from './role';
 
 export interface Account extends EmbeddedBase {
   firstName:string;
   lastName?:string;
-  role?:ObjectId;
   user:PopulatedDoc<User.User> | ObjectId;
+  statusCode:string;
+  createdBy:PopulatedDoc<User.User> | ObjectId;
 }
 
 export interface Profile extends EmbeddedBase {
   name:string;
   email:string;
   bio:string;
-  avatar:string;
+  avatarDocumentId:string;
   interests: string[];
   showInterests: boolean;
   showEmail: boolean;
@@ -25,35 +27,43 @@ export interface Profile extends EmbeddedBase {
 }
 
 export interface Member extends Base {
-  community: ObjectId;
-  accounts: Types.DocumentArray<Account>
   memberName: string;
+  community: PopulatedDoc<Community.Community> | ObjectId;
+  accounts: Types.DocumentArray<Account>
+  role?:PopulatedDoc<Role.Role> | ObjectId;
   profile: Profile;
 }
 
-export const MemberModel = model<Member>('Member', new Schema<Member, Model<Member>, Member>(
+const schema = new Schema<Member, Model<Member>, Member>(
   {
     schemaVersion: {
       type: String,
       default: '1.0.0',
       required: false,
     },
-    community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: false, index: true, unique: true },    
-    memberName: { type: String, required: true },
+    memberName: { type: String, required: true, maxlength: 200 },
+    community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: false, index: true },    
+    role: { type: Schema.Types.ObjectId, ref:Role.RoleModel.modelName, required: false, index: true },
     accounts: [{
-      firstName: { type: String, required: true },
-      lastName: { type: String, required: false },
-      user: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true, unique: true },
-      role: { type: Schema.Types.ObjectId, required: false, index: true, unique: true },
+      firstName: { type: String, required: true, maxlength: 500 },
+      lastName: { type: String, required: false, maxlength: 500 },
+      user: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true},
+      statusCode: { 
+        type: String, 
+        enum: ['CREATED', 'ACCEPTED', 'REJECTED'],
+        required: false,
+        default: 'CREATED'
+      },
+      createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true},
       createdAt: { type: Date, default: Date.now },
       updatedAt: { type: Date, default: Date.now }    
     }],
     profile: {
-      name: { type: String, required: false },
+      name: { type: String, required: false, maxlength: 500 },
       email: { type: String, required: false, match: Patterns.EMAIL_PATTERN, maxlength: 254},
-      bio: { type: String, required: false },
-      avatar: { type: String, required: false },
-      interests: { type: [String], required: false},
+      bio: { type: String, required: false, maxlength: 2000 },
+      avatarDocumentId: { type: String, required: false },
+      interests: { type: [{type: String, maxlength:40}], required: false, default: [] },
       showInterests: { type: Boolean, required: false , default: false},
       showEmail: { type: Boolean, required: false , default: false},
       showPhone: { type: Boolean, required: false , default: false},
@@ -62,6 +72,19 @@ export const MemberModel = model<Member>('Member', new Schema<Member, Model<Memb
     },
   },
   {
-    ...BaseOptions 
+    ...BaseOptions
   }
-));
+  ).index(
+    {community: 1, memberName: 1}, {unique: true}
+  ).index(
+    {community: 1, memberName: 1, 'accounts.user': 1}, {unique: true}
+  );
+
+schema.path('accounts').validate(function(accounts) {
+  return accounts.length > 5;
+}, 'At most 5 accounts can exist per member');
+schema.path('accounts').validate(function(accounts) {
+  return accounts.length < 1;
+}, 'At least 1 must be assigned to a member');
+
+export const MemberModel = model<Member>('Member',schema);

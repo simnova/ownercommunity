@@ -13,7 +13,7 @@ export class Users extends MongoDataSource<User, Context> {
   }
 
   async getUsers(): Promise<User[]> {
-    console.log(`getUsers:context${JSON.stringify(this.context.VerifiedUser)}`);
+    console.log(`getUsers:context${JSON.stringify(this.context.verifiedUser)}`);
     return this.model
       .find({})
       .exec();

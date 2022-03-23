@@ -1,0 +1,89 @@
+
+type Role implements MongoBase {
+  roleName: String!
+  community: Community
+  isDefault: Boolean!
+  permissions: RolePermissions!
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type RolePermissions {
+#  serviceTicketPermissions: ServiceTicketPermissions!
+  communityPermissions: CommunityPermissions!
+}
+
+type ServiceTicketPermissions {
+  canCreateTickets: Boolean!
+  canManageTickets: Boolean!
+  canWorkOnTickets: Boolean!
+}
+input ServiceTicketPermissionsInput {
+  canCreateTickets: Boolean!
+  canManageTickets: Boolean!
+  canWorkOnTickets: Boolean!
+}
+
+type CommunityPermissions {
+  canManageRolesAndPermissions: Boolean!
+  canManageCommunitySettings: Boolean!
+  canManageSiteContent: Boolean!
+}
+input CommunityPermissionsInput {
+  canManageRolesAndPermissions: Boolean!
+  canManageCommunitySettings: Boolean!
+  canManageSiteContent: Boolean!
+}
+
+extend type Query {
+  rolesByCommunityId(communityId: ObjectID!): [Role]
+}
+
+extend type Mutation {
+  roleAdd(input: RoleAddInput!): RoleMutationResult!
+  roleUpdate(input: RoleUpdateInput!): RoleMutationResult!
+  roleDeleteAndReassign(input: RoleDeleteAndReassignInput!): RoleMutationResult!
+}
+
+type RoleMutationResult {
+  status: MutationStatus!
+  role: Role
+}
+
+input RoleAddInput {
+  communityId: ObjectID!
+  roleName: String!
+  isDefault: Boolean!
+  permissions: PermissionsInput!
+}
+
+input RoleUpdateInput {
+  id: ObjectID!
+  roleName: String!
+  isDefault: Boolean!
+  permissions: PermissionsInput!
+}
+
+input RoleDeleteAndReassignInput {
+  roleToDelete: ObjectID!
+  roleToReassignTo: ObjectID!
+}
+
+input PermissionsInput {
+  serviceTicketPermissions: ServiceTicketPermissionsInput!
+  communityPermissions: CommunityPermissionsInput!
+}
+input ServiceTicketPermissionsInput {
+  canCreateTickets: Boolean!
+  canManageTickets: Boolean!
+  canWorkOnTickets: Boolean!
+}
+
+input CommunityPermissionsInput {
+  canManageRolesAndPermissions: Boolean!
+  canManageCommunitySettings: Boolean!
+  canManageSiteContent: Boolean!
+}

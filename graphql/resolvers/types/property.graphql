@@ -1,0 +1,91 @@
+type Property implements MongoBase {
+  community: Community
+  location: Location
+  owner: Member
+  propertyName: String!
+  propertyType: String
+
+  listedForSale: Boolean!
+  listedForRent: Boolean!
+  listedForLease: Boolean!
+  listedInDirectory: Boolean!
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+type ListingDetails {
+  price: Float
+  rentHigh: Float
+  rentLow: Float
+  lease: Float
+  maxGuests: Int
+  bedrooms: Int
+  bedroomDetails: BedroomDetails
+  bathrooms: Float
+  squareFeet: Int
+  description: String
+  amenities: [String]
+  additionalAmmenities: AdditionalAmmenities
+  images: [String]
+  video: String
+  floorPlan: String
+  floorPlanImages: [String]
+  listingAgent: String
+  listingAgentPhone: String
+  listingAgentEmail: String
+  listingAgentWebsite: String
+  listingAgentCompany: String
+  listingAgentCompanyPhone: String
+  listingAgentCompanyEmail: String
+  listingAgentCompanyWebsite: String
+  listingAgentCompanyAddress: String
+}
+type BedroomDetails {
+  roomName: String
+  bedDescriptions: [String]
+}
+type AdditionalAmmenities{
+  category: String
+  amenities: [String]
+}
+type Location implements MongoBase {
+  position: Point
+  address: Address
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Point implements MongoBase {
+  type: String
+  coordinates: [Float]
+  
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Address {
+  streetNumber: String
+  streetName: String
+  municipality: String
+  municipalitySubdivision: String
+  countrySecondarySubdivision: String
+  countryTertiarySubdivision: String
+  countrySubdivision: String
+  countrySubdivisionName: String
+  postalCode: String
+  extendedPostalCode: String
+  countryCode: String
+  country: String
+  countryCodeISO3: String
+  freeformAddress: String
+}
+
+extend type Query {
+  propertiesByCommunityId(communityId: ObjectID!): [Property]
+}

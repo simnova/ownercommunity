@@ -1,0 +1,14 @@
+import { MongoDataSource } from 'apollo-datasource-mongodb';
+import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
+import { Context } from '../../context';
+
+export class Members extends MongoDataSource<Member, Context> {
+  
+  async getMemberByCommunityIdUserId(communityId : string, userId: string): Promise<Member> {
+    return this.findByFields({community: communityId, 'accounts.user': userId})?.[0];
+  }
+  async getMembersByCommunityId(communityId : string): Promise<Member[]> {
+    return this.findByFields({community: communityId});
+  }
+  
+}

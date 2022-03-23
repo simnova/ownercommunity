@@ -5,14 +5,14 @@ import * as Property from './property';
 import * as Member from './member';
 
 export interface ActivityDetail extends EmbeddedBase {
+  id: ObjectId;
   activityType: string;
-  activityDate: Date;
   activityDescription: string;
   activityBy: PopulatedDoc<Member.Member>;
 }
 
 export interface ServiceTicket extends Base {
-  community: ObjectId;
+  community: PopulatedDoc<Community.Community>;
   property?: PopulatedDoc<Property.Property>;
   requestor: PopulatedDoc<Property.Property>;
   assignedTo?: PopulatedDoc<Member.Member>;
@@ -23,7 +23,7 @@ export interface ServiceTicket extends Base {
   activityLog: [ActivityDetail];
   photos:[{
     description: string;
-    photo: string;
+    documentId: string;
   }]
 }
 
@@ -34,25 +34,54 @@ export const ServiceTicketModel = model<ServiceTicket>('ServiceTicket', new Sche
       default: '1.0.0',
       required: false,
     },
-    community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true, unique: true },    
-    property: { type: Schema.Types.ObjectId, ref:Property.PropertyModel.modelName, required: false, index: true, unique: true },
-    requestor: { type: Schema.Types.ObjectId, ref:Property.PropertyModel.modelName, required: true, index: true, unique: true },
-    assignedTo: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: false, index: true, unique: true },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    status: { type: String, required: true },
-    priority: { type: Number, required: true },
+    community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true },    
+    property: { type: Schema.Types.ObjectId, ref:Property.PropertyModel.modelName, required: false, index: true },
+    requestor: { type: Schema.Types.ObjectId, ref:Property.PropertyModel.modelName, required: true, index: true },
+    assignedTo: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: false, index: true },
+    title: { 
+      type: String, 
+      required: true,
+      maxlength: 200,
+    },
+    description: { 
+      type: String, 
+      required: true,
+      maxlength: 2000,
+    },
+    status: { 
+      type: String, 
+      enum: ['DRAFT','SUBMITTED','ASSIGNED','INPROGRESS','COMPLETED','CLOSED'],
+      default: 'DRAFT',
+      required: true 
+    },
+    priority: { 
+      type: Number, 
+      required: true,
+      default: 5,
+      min: 1,
+      max: 5
+     },
     activityLog: [{
-      activityType: { type: String, required: true },
-      activityDate: { type: Date, default: Date.now },
-      activityDescription: { type: String, required: true },
-      activityBy: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true, unique: true }
+      activityType: { 
+        type: String, 
+        required: true,
+        enum: ['CREATED','ASSIGNED','UPDATED','COMPLETED','CLOSED'],
+      },
+      activityDescription: { 
+        type: String,
+        maxlength: 2000, 
+        required: true 
+      },
+      activityBy: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true }
     }],
     photos: [{
-      description: { type: String, required: false },
-      photo: { type: String, required: false },
+      description: { 
+        type: String, 
+        required: false,
+        maxlength: 300,
+      },
+      documentId: { type: String, required: true },
     }]
-
   },
   {
     ...BaseOptions 

@@ -1,0 +1,114 @@
+type ServiceTicket implements MongoBase {
+  community: Community!
+  property: Property
+  requestor: Property!
+  assignedTo: Member
+  title: String!
+  description: String!
+  status: String!
+  priority: Int!
+  activityLog: [ServiceTicketActivityDetail]
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ServiceTicketActivityDetail implements MongoEmbeddedBase {
+  activityType: String!
+  activityDescription: String!
+  activityBy: Member!
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ServiceTicketPhoto implements MongoEmbeddedBase {
+  documentId: String!
+  description: String!
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+
+extend type Query {
+  serviceTicketsOpenByCommunity(communityId: ObjectID!): [ServiceTicket]
+  serviceTicketsOpenByRequestor(propertyId: ObjectID!): [ServiceTicket]
+  serviceTicketsClosedByRequestor(propertyId: ObjectID!): [ServiceTicket]
+  serviceTicketsAssignedCurrentUser(communityId: ObjectID!): [ServiceTicket]
+}
+
+extend type Mutation {
+  serviceTicketCreate(input: ServiceTicketCreateInput!): ServiceTicketMutationResult!
+  serviceTicketUpdate(input: ServiceTicketUpdateInput!): ServiceTicketMutationResult!
+  serviceTicketAddPhoto(input: ServiceTicketAddPhotoInput!): ServiceTicketPhotoAuthHeaderResult!
+  serviceTicketRemovePhoto(input: ServiceTicketRemovePhotoInput!): ServiceTicketMutationResult!
+  serviceTicketSubmit(input: ServiceTicketSubmitInput!): ServiceTicketMutationResult!
+  serviceTicketAssign(input: ServiceTicketAssignInput!): ServiceTicketMutationResult!
+  serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput!): ServiceTicketMutationResult!
+  serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput!): ServiceTicketMutationResult!
+}
+
+type ServiceTicketMutationResult implements MutationResult {
+  status: MutationStatus!
+  serviceTicket: ServiceTicket
+}
+
+input ServiceTicketCreateInput {
+  communityId: ObjectID!
+  propertyId: ObjectID
+  requestorId: ObjectID!
+  title: String!
+  description: String!
+  priority: Int!
+}
+
+input ServiceTicketUpdateInput {
+  serviceTicketId: ObjectID!
+  propertyId: ObjectID
+  title: String!
+  description: String!
+  priority: Int!
+}
+
+input ServiceTicketAddPhotoInput {
+  serviceTicketId: ObjectID!
+  contentType: String!
+  contentLength: String!
+  description: String
+}
+
+input ServiceTicketRemovePhotoInput {
+  serviceTicketId: ObjectID!
+  photoId: ObjectID!
+}
+
+type ServiceTicketPhotoAuthHeaderResult implements MutationResult  {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  serviceTicket: ServiceTicket
+}
+
+input ServiceTicketSubmitInput {
+  serviceTicketId: ObjectID!
+}
+
+input ServiceTicketAssignInput {
+  serviceTicketId: ObjectID!
+  assignedToId: ObjectID!
+}
+
+input ServiceTicketAddUpdateActivityInput {
+  serviceTicketId: ObjectID!
+  activityType: String!
+  activityDescription: String!
+}
+
+input ServiceTicketChangeStatusInput {
+  serviceTicketId: ObjectID!
+  status: String!
+}

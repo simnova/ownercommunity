@@ -34,7 +34,7 @@ export class ApolloServerRequestHandler {
           let verifiedUser = await portalTokenExtractor.GetVerifiedUser(bearerToken);
           console.log('Decorating context with verifed user:',JSON.stringify(verifiedUser));
           if(verifiedUser){
-            context.VerifiedUser = verifiedUser
+            context.verifiedUser = verifiedUser
             console.log('context value is now:', JSON.stringify(context));
           }
         }

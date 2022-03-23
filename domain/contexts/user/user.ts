@@ -1,6 +1,7 @@
 import { UserCreatedEvent } from '../../events/user-created';
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { EntityProps } from '../../shared/entity';
+import { DomainExecutionContext } from '../context';
 import * as ValueObjects from './user-value-objects';
 
 export interface UserProps extends EntityProps {
@@ -16,7 +17,7 @@ export interface UserProps extends EntityProps {
 export interface UserEntityReference extends Readonly<UserProps> {}
 
 export class User<props extends UserProps> extends AggregateRoot<props> implements UserEntityReference  {
-  constructor(props: props) { super(props); }
+  constructor(props: props, context?:DomainExecutionContext) { super(props); }
 
   get id(): string {return this.props.id;}
   get externalId(): string {return this.props.externalId;}
@@ -26,6 +27,10 @@ export class User<props extends UserProps> extends AggregateRoot<props> implemen
   get updatedAt(): Date {return this.props.updatedAt;}
   get createdAt(): Date {return this.props.createdAt;}
   get schemaVersion(): string {return this.props.schemaVersion;}
+
+  public static getReadOnlyUser<readonlyProps extends UserProps> (props:readonlyProps): UserEntityReference{
+    return new User(props);
+  }
 
   public static getNewUser<props extends UserProps> (newprops:props,externalId:string,firstName:string,lastName:string): User<props> {
     newprops.externalId = externalId;
@@ -58,3 +63,7 @@ export class User<props extends UserProps> extends AggregateRoot<props> implemen
   }
 
 }
+
+export interface UserPermissions {
+  canManageUser: boolean;
+} 

@@ -1,4 +1,5 @@
 type User implements MongoBase {
+  externalId: String
   firstName: String
   lastName: String
   email: EmailAddress
@@ -9,40 +10,25 @@ type User implements MongoBase {
   updatedAt: DateTime
 }
 
-type Account implements MongoBase {
-  name: String
-  owner: User
-  ownerId: ObjectID!
 
-  id: ObjectID!
-  schemaVersion: String
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-type Contact implements MongoBase {
-  name: String
-  owner: User
-  ownerId: ObjectID!
-
-  id: ObjectID!
-  schemaVersion: String
-  createdAt: DateTime
-  updatedAt: DateTime
+extend type Query {
+  user(id: ObjectID!): User
+  users: [User]
+  currentUser: User
 }
 
 extend type Mutation {
-  createUser: User
+  userCreate: UserMutationResult!
   """
   Allows the user to update their profile
   """
-  updateUser(input: UserUpdateInput!): User
-
-  createAuthHeaderForProfilePhoto(input: ProfilePhotoImageInput!): CreateAuthHeaderForProfilePhotoOutput!
+  userUpdate(input: UserUpdateInput!): UserMutationResult!
 }
 
-extend type Query {
-  user(id: ID!): User
-  users: [User] @cacheControl(maxAge: 90)
+
+type UserMutationResult implements MutationResult {
+  status: MutationStatus!
+  user: User
 }
 
 input UserUpdateInput {
@@ -50,16 +36,4 @@ input UserUpdateInput {
   firstName: String
   lastName: String
   email: String
-}
-
-input ProfilePhotoImageInput {
-  contentType: String
-  contentLength: Int
-}
-type CreateAuthHeaderForProfilePhotoOutput {
-  authHeader: String
-  blobName: String
-  requestDate: String
-  success: Boolean
-  errorMessage: String
 }

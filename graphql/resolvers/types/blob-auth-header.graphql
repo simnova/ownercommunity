@@ -1,0 +1,6 @@
+type BlobAuthHeader {
+  authHeader: String
+  blobName: String
+  blobContainer: String
+  requestDate: String
+}

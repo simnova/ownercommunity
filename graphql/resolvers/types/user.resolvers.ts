@@ -1,4 +1,4 @@
-import { Resolvers, User, CreateAuthHeaderForProfilePhotoOutput } from '../../generated';
+import { Resolvers, User } from '../../generated';
 import { CacheScope } from 'apollo-server-types';
 import { BlobStorage } from '../../../infrastructure/services/blob-storage';
 import { nanoid } from 'nanoid';
@@ -6,29 +6,30 @@ import { nanoid } from 'nanoid';
 const user : Resolvers = {
   Query: {      
     user : async (parent, args, context, info)  => {
-      if(context.VerifiedUser){
-        console.log(`user found in context with JWT: ${JSON.stringify(context.VerifiedUser.VerifiedJWT)}`)
+      if(context.verifiedUser){
+        console.log(`user found in context with JWT: ${JSON.stringify(context.verifiedUser.verifiedJWT)}`)
       }
     //  info.cacheControl.setCacheHint({ maxAge: 60,scope: CacheScope.Public });
       console.log(`Resolver>Query>user ${args.id}`)
-      return (await context.dataSources.userAPI.getUser(args.id)) as User;
+      return (await context.dataSources.userApi.getUser(args.id)) as User;
     },
     users : async (parent, args, context, info) => {
       info.cacheControl.setCacheHint({ maxAge: 60,scope: CacheScope.Public }); //this works, but doesn't work when setting it with a directive 
       console.log(`Resolver>Query>users`)
-      console.log(`Context VerifiedUser value: ${JSON.stringify(context.VerifiedUser)}`)
-      return (await context.dataSources.userAPI.getUsers()) as User[];
+      console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`)
+      return (await context.dataSources.userApi.getUsers()) as User[];
     }
   },
   Mutation: {
-    createUser: async (parent, args, context, info) => {
+    userCreate: async (parent, args, context, info) => {
       return null;
       //return (await context.dataSources.userDomainAPI.addUser()) as User;
     },
-    updateUser: async (parent, args, context, info) => {
+    userUpdate: async (parent, args, context, info) => {
       return null;
      // return (await context.dataSources.userDomainAPI.updateUser(args.input)) as User;
     },
+    /*
     createAuthHeaderForProfilePhoto: async (parent, args, context, info) => {
       const maxSizeMb = 10;
       const maxSizeBytes = maxSizeMb * 1024 * 1024;
@@ -48,6 +49,7 @@ const user : Resolvers = {
       var authHeader = new BlobStorage().generateSharedKey(blobName, args.input.contentLength, requestDate ,args.input.contentType);
       return {success:true, authHeader:authHeader, requestDate:requestDate, blobName:blobName} as CreateAuthHeaderForProfilePhotoOutput;
     }
+    */
   }
 }
 

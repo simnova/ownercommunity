@@ -2,12 +2,12 @@ import React from "react";
 import { Upload, Button, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useMutation } from "@apollo/client";
-import {PhotoUploadCreateAuthHeaderForProfilePhotoDocument} from '../../generated';
+//import {PhotoUploadCreateAuthHeaderForProfilePhotoDocument} from '../../generated';
 import axios from 'axios';
 
 export const PhotoUpload:React.FC<any> = (props) => {
 
-  const [createAuthHeaderForProfilePhoto] = useMutation(PhotoUploadCreateAuthHeaderForProfilePhotoDocument);
+ // const [createAuthHeaderForProfilePhoto] = useMutation(PhotoUploadCreateAuthHeaderForProfilePhotoDocument);
 
   const beforeUpload = async (file:File) => {
     const permittedContentTypes = ["image/jpeg", "image/png", "image/gif"];
@@ -21,12 +21,12 @@ export const PhotoUpload:React.FC<any> = (props) => {
     }
     return  isValidContentType && isValidContentLenth ? true : Upload.LIST_IGNORE;    
   }
-
+/*
   const customizeUpload =  async (option:any) => {
 
     //https://github.com/react-component/upload/blob/master/src/interface.tsx
     //https://github.com/react-component/upload/issues/95
-    
+  
     const result = await createAuthHeaderForProfilePhoto({
       variables: {
         input: {
@@ -35,6 +35,7 @@ export const PhotoUpload:React.FC<any> = (props) => {
         }
       }
     });
+
 
     if(result.data && result.data.createAuthHeaderForProfilePhoto && result.data.createAuthHeaderForProfilePhoto.success === true) {
       const {authHeader,blobName,requestDate} = result.data.createAuthHeaderForProfilePhoto;
@@ -67,12 +68,12 @@ export const PhotoUpload:React.FC<any> = (props) => {
     }
     return option;
   }
-
+*/
 
   return (
     <Upload
       accept='.png, .jpg, .jpeg, .gif'
-      customRequest = {customizeUpload}
+      customRequest = /*{customizeUpload}*/ {() => {}}
       beforeUpload={beforeUpload}
     
       progress={{

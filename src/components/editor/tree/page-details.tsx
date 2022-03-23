@@ -83,7 +83,7 @@ export const PageDetails: React.FC<PageDetailsPropTypes> = (props) => {
         >
         <Input />
       </Form.Item>  
-      <Button type="primary" htmlType="submit">
+      <Button type="primary" htmlType="submit" value={'save'}>
         Save Page Changes
       </Button>
     </Form> 

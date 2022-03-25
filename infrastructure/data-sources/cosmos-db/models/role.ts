@@ -6,7 +6,11 @@ export interface ServiceTicketPermissions {
   id: ObjectId;
   canCreateTickets: boolean;
   canManageTickets: boolean;
+  canAssignTickets: boolean;
   canWorkOnTickets: boolean;
+  isEditingOwnTicket: false;
+  isEditingAssignedTicket: false;
+  isSystemAccount: false;
 }
 
 export interface PropertyPermissions {
@@ -31,7 +35,7 @@ export interface CommunityPermissions {
 
 export interface Permissions {
   id: ObjectId;
-//  serviceTicketPermissions: ServiceTicketPermissions;
+  serviceTicketPermissions: ServiceTicketPermissions;
   communityPermissions: CommunityPermissions;
   propertyPermissions: PropertyPermissions;
 }
@@ -54,6 +58,7 @@ export const RoleModel = model<Role>('Role',new Schema<Role, Model<Role>, Role>(
       serviceTicketPermissions: {
         canCreateTickets: { type: Boolean, required: true, default: false },
         canManageTickets: { type: Boolean, required: true, default: false },
+        canAssignTickets: { type: Boolean, required: true, default: false },
         canWorkOnTickets: { type: Boolean, required: true, default: false },
       },
       communityPermissions: {

@@ -1,4 +1,4 @@
-import { Role, Permissions,CommunityPermissions, PropertyPermissions } from '../../../../infrastructure/data-sources/cosmos-db/models/role';
+import { Role, Permissions,CommunityPermissions, PropertyPermissions, ServiceTicketPermissions } from '../../../../infrastructure/data-sources/cosmos-db/models/role';
 import { Role as RoleDO, RoleProps } from '../../../contexts/community/role';
 import { MongooseDomainAdapter } from '../mongo-domain-adapter';
 import { MongoTypeConverter } from '../mongo-type-converter';
@@ -9,6 +9,7 @@ import { PermissionsProps } from '../../../contexts/community/permissions';
 import { CommunityDomainAdapter } from './community-domain-adapter';
 import { DomainExecutionContext } from '../../../contexts/context';
 import { PropertyPermissionsProps } from '../../../contexts/community/property-permissions';
+import { ServiceTicketPermissionsProps } from '../../../contexts/community/service-ticket-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext,Role,RoleDomainAdapter,RoleDO<RoleDomainAdapter>> {
   constructor() {
@@ -48,6 +49,10 @@ class PermissionsAdapter implements PermissionsProps{
 
   public get propertyPermissions() {
     return new PropertyPermissionsAdapter(this.props.propertyPermissions);
+  }
+
+  public get serviceTicketPermissions() {
+    return new ServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions);
   }
 }
 
@@ -89,5 +94,26 @@ class PropertyPermissionsAdapter implements PropertyPermissionsProps {
   public set canEditOwnProperty(value) { this.props.canEditOwnProperty = value; }
 
   public get isEditingOwnProperty() { return false; }
+  public get isSystemAccount() { return false; }
+}
+
+class ServiceTicketPermissionsAdapter implements ServiceTicketPermissionsProps {
+  constructor(public readonly props: ServiceTicketPermissions) { }
+  public get id() { return this.props.id.valueOf().toString(); }
+
+  public get canCreateTickets() { return this.props.canCreateTickets; }
+  public set canCreateTickets(value) { this.props.canCreateTickets = value; }
+
+  public get canManageTickets() { return this.props.canManageTickets; }
+  public set canManageTickets(value) { this.props.canManageTickets = value; }
+
+  public get canAssignTickets() { return this.props.canAssignTickets; }
+  public set canAssignTickets(value) { this.props.canAssignTickets = value; }
+
+  public get canWorkOnTickets() { return this.props.canWorkOnTickets;}
+  public set canWorkOnTickets(value) { this.props.canWorkOnTickets = value; }
+
+  public get isEditingOwnTicket() { return false; }
+  public get isEditingAssignedTicket() { return false; }
   public get isSystemAccount() { return false; }
 }

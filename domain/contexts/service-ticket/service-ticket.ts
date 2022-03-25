@@ -9,6 +9,7 @@ import { MemberProps } from '../community/member';
 import * as ValueObjects from './service-ticket-value-objects';
 import { PropArray } from '../../shared/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
+import { ServiceTicketVisa } from '../iam/service-ticket-visa';
 
 export interface ServiceTicketProps extends EntityProps {
   readonly community: CommunityProps;
@@ -44,8 +45,23 @@ export interface ServiceTicketEntityReference extends Readonly<Omit<ServiceTicke
 }
 
 export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRoot<props> implements ServiceTicketEntityReference{
+  private visa: ServiceTicketVisa;
   constructor(props: props, private context:DomainExecutionContext) { 
     super(props); 
+    this.visa = context.passport.forServiceTicket(this);
+  }
+
+  public static async getNew<props extends ServiceTicketProps> (
+      newProps:props,
+      community:CommunityEntityReference, 
+      property:PropertyEntityReference,
+      requestor:MemberEntityReference,
+      context:DomainExecutionContext): Promise<ServiceTicket<props>> {
+    let serviceTicket = new ServiceTicket(newProps,context);
+    serviceTicket.requestSetCommunity(community);
+    serviceTicket.requestSetProperty(property);
+    serviceTicket.requestSetRequestor(requestor);
+    return serviceTicket;
   }
 
   get community() { return new Community(this.props.community, this.context); }
@@ -56,35 +72,66 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   get description() { return this.props.description; }
   get status() { return this.props.status; }
   get priority() { return this.props.priority; }
-  get activityLog(): ReadonlyArray<ActivityDetailEntityReference> { return this.props.activityLog.items.map(a => new ActivityDetail(a, this.context)); }
+  get activityLog(): ReadonlyArray<ActivityDetailEntityReference> { return this.props.activityLog.items.map(a => new ActivityDetail(a,this.context, this.visa)); }
 
   get createdAt(): Date { return this.props.createdAt; }
   get updatedAt(): Date { return this.props.updatedAt; }  
   get schemaVersion(): string {return this.props.schemaVersion; }  
 
-  public requestSetCommunity(community:CommunityEntityReference):void{
+  private requestSetCommunity(community:CommunityEntityReference):void{
     this.props.setCommunityRef(community);
   }
-  public requestSetProperty(property:PropertyEntityReference):void{
+  private requestSetProperty(property:PropertyEntityReference):void{
     this.props.setPropertyRef(property);
   }
-  public requestSetRequestor(requestor:MemberEntityReference):void{
+  private requestSetRequestor(requestor:MemberEntityReference):void{
     this.props.setRequestorRef(requestor);
   }
   public requestSetAssignedTo(assignedTo:MemberEntityReference):void{
+    if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canAssignTickets)) { throw new Error('Unauthorized'); }
     this.props.setAssignedToRef(assignedTo);
   }
   public requestSetTitle(title:ValueObjects.Title):void{
+    if(!this.visa.determineIf(permissions => permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized'); }
     this.props.title = title.valueOf();
   }
   public requestSetDescription(description:ValueObjects.Description):void{
+    if(!this.visa.determineIf(permissions => permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized'); }
     this.props.description = description.valueOf();
   }
   public requestSetStatus(statusCode:ValueObjects.StatusCode):void{
+    if(!this.visa.determineIf(permissions => permissions.isSystemAccount)) { throw new Error('Unauthorized'); }
     this.props.status = statusCode.valueOf();
   }
   public requestSetPriority(priority:ValueObjects.Priority):void{
+    if(!this.visa.determineIf(permissions => 
+      permissions.isSystemAccount || 
+      (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
+      permissions.canManageTickets
+      )) { throw new Error('Unauthorized'); }
     this.props.priority = priority.valueOf();
   }
 
+  public requestNewActivityDetail():ActivityDetail{
+    if(!this.visa.determineIf(permissions => 
+      permissions.isSystemAccount || 
+      (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
+      (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||
+      permissions.canManageTickets ||
+      permissions.canAssignTickets
+    )) { throw new Error('Unauthorized'); }
+    let activityDetail = this.props.activityLog.getNewItem();
+    return(new ActivityDetail(activityDetail,this.context, this.visa));
+  }
+
 }
+
+export interface ServiceTicketPermissions {
+  canCreateTickets: boolean;
+  canManageTickets: boolean;
+  canAssignTickets: boolean;
+  canWorkOnTickets: boolean;
+  isEditingOwnTicket: boolean;
+  isEditingAssignedTicket: boolean;
+  isSystemAccount: boolean;
+} 

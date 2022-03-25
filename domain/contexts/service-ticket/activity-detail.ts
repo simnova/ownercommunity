@@ -1,5 +1,6 @@
 import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
+import { ServiceTicketVisa } from '../iam/service-ticket-visa';
 import { User, UserEntityReference, UserProps } from '../user/user';
 import * as ValueObjects from './activity-detail-value-objects';
 
@@ -18,7 +19,10 @@ export interface ActivityDetailEntityReference extends Readonly<Omit<ActivityDet
 }
 
 export class ActivityDetail extends Entity<ActivityDetailProps> implements ActivityDetailEntityReference {
-  constructor(props: ActivityDetailProps, private readonly context: DomainExecutionContext) { super(props); }
+  constructor(
+    props: ActivityDetailProps, 
+    private context: DomainExecutionContext,
+    private readonly visa: ServiceTicketVisa) { super(props); }
 
   get activityType(){return this.props.activityType;}
   get activityDescription(){return this.props.activityDescription;}
@@ -30,7 +34,7 @@ export class ActivityDetail extends Entity<ActivityDetailProps> implements Activ
   requestSetActivityDescription(activityDescription: ValueObjects.Description) {
     this.props.activityDescription = activityDescription.valueOf();
   }
-  requestSetActivityBy(activityBy: UserProps) {
+  requestSetActivityBy(activityBy: UserEntityReference) {
     this.props.setActivityByRef(activityBy);
   }
 

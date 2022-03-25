@@ -2,11 +2,13 @@ import { CommunityEntityReference, CommunityPermissions } from '../community/com
 import { MemberEntityReference } from '../community/member';
 import { RoleEntityReference } from '../community/role';
 import { PropertyEntityReference, PropertyPermissions } from '../property/property';
+import { ServiceTicketEntityReference, ServiceTicketPermissions } from '../service-ticket/service-ticket';
 import { UserEntityReference } from '../user/user';
 import { CommunityVisa, CommunityVisaImpl } from './community-visa';
 import { MemberVisaImpl } from './member-visa';
 import { PropertyVisa, PropertyVisaImpl } from './property-visa';
 import { RoleVisaImpl } from './role-visa';
+import { ServiceTicketVisa, ServiceTicketVisaImpl } from './service-ticket-visa';
 import { UserVisa, UserVisaImpl } from './user-visa';
 
 export const SystemUserId = 'system';
@@ -21,6 +23,7 @@ export interface Passport {
   forRole(root: RoleEntityReference): CommunityVisa;
   forUser(root: UserEntityReference):  UserVisa;
   forProperty(root: PropertyEntityReference):  PropertyVisa;
+  forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa;
 }
 
 export class PassportImpl implements Passport {
@@ -47,6 +50,9 @@ export class PassportImpl implements Passport {
   forProperty(root: PropertyEntityReference):  PropertyVisa {
     return new PropertyVisaImpl(root,this.member);
   }
+  forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa {
+    return new ServiceTicketVisaImpl(root,this.member);
+  }
 }
 
 export class ReadOnlyPassport implements Passport {
@@ -71,6 +77,10 @@ export class ReadOnlyPassport implements Passport {
   forProperty(root: PropertyEntityReference): PropertyVisa {
     return {determineIf:  () => false }; 
   }
+  forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa {
+    return {determineIf:  () => false }; 
+  }
+
 }
 
 export class SystemPassport implements Passport {
@@ -96,7 +106,15 @@ export class SystemPassport implements Passport {
     isEditingOwnProperty: false,
     isSystemAccount: true,
   }
-
+  private serviceTicketVisa: ServiceTicketPermissions = {
+    canCreateTickets: false,
+    canManageTickets: false,
+    canAssignTickets: false,
+    canWorkOnTickets: false,
+    isEditingOwnTicket: false,
+    isEditingAssignedTicket: false,
+    isSystemAccount: true,
+  }
   forMember (root: MemberEntityReference): CommunityVisa {
     return {determineIf: (func) => func(this.communityVisa) };
   }
@@ -111,5 +129,8 @@ export class SystemPassport implements Passport {
   }
   forProperty(root: PropertyEntityReference): PropertyVisa {
     return {determineIf:  (func) => func(this.propertyVisa) };
+  }
+  forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa {
+    return {determineIf:  (func) => func(this.serviceTicketVisa) };
   }
 }

@@ -1,4 +1,4 @@
-import { Role, Permissions,CommunityPermissions } from '../../../../infrastructure/data-sources/cosmos-db/models/role';
+import { Role, Permissions,CommunityPermissions, PropertyPermissions } from '../../../../infrastructure/data-sources/cosmos-db/models/role';
 import { Role as RoleDO, RoleProps } from '../../../contexts/community/role';
 import { MongooseDomainAdapter } from '../mongo-domain-adapter';
 import { MongoTypeConverter } from '../mongo-type-converter';
@@ -8,6 +8,7 @@ import { CommunityPermissionsProps } from '../../../contexts/community/community
 import { PermissionsProps } from '../../../contexts/community/permissions';
 import { CommunityDomainAdapter } from './community-domain-adapter';
 import { DomainExecutionContext } from '../../../contexts/context';
+import { PropertyPermissionsProps } from '../../../contexts/community/property-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext,Role,RoleDomainAdapter,RoleDO<RoleDomainAdapter>> {
   constructor() {
@@ -44,6 +45,10 @@ class PermissionsAdapter implements PermissionsProps{
   public get communityPermissions() { 
     return new CommunityPermissionsAdapter(this.props.communityPermissions); 
   }
+
+  public get propertyPermissions() {
+    return new PropertyPermissionsAdapter(this.props.propertyPermissions);
+  }
 }
 
 class CommunityPermissionsAdapter implements CommunityPermissionsProps  {
@@ -71,4 +76,18 @@ class CommunityPermissionsAdapter implements CommunityPermissionsProps  {
   public get isSystemAccount() { return false; }
   public get isEditingOwnMemberAccount() { return false; }
 
+}
+
+class PropertyPermissionsAdapter implements PropertyPermissionsProps {
+  constructor(public readonly props: PropertyPermissions) { }
+  public get id() { return this.props.id.valueOf().toString(); }
+
+  public get canManageProperties() { return this.props.canManageProperties; }
+  public set canManageProperties(value) { this.props.canManageProperties = value; }
+
+  public get canEditOwnProperty() { return this.props.canEditOwnProperty; }
+  public set canEditOwnProperty(value) { this.props.canEditOwnProperty = value; }
+
+  public get isEditingOwnProperty() { return false; }
+  public get isSystemAccount() { return false; }
 }

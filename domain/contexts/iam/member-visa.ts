@@ -18,8 +18,7 @@ export class MemberVisaImpl<root extends MemberEntityReference> implements Commu
 
     var updatedPermissions = { 
         ...communityPermissions, 
-        ...{isEditingOwnMemberAccount : (this.member.id === this.root.id)},
-        ...{isSystemAccount : (this.member.id === SystemUserId)}
+        ...{isEditingOwnMemberAccount : (this.member.id === this.root.id)}
       } as CommunityPermissions;
     return func(updatedPermissions);
   }

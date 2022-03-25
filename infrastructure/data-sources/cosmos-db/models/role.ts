@@ -9,6 +9,14 @@ export interface ServiceTicketPermissions {
   canWorkOnTickets: boolean;
 }
 
+export interface PropertyPermissions {
+  id: ObjectId;
+  canManageProperties: boolean;
+  canEditOwnProperty: boolean;
+  isEditingOwnProperty: false;
+  isSystemAccount: false;
+}
+
 export interface CommunityPermissions {
   id: ObjectId;
   canManageRolesAndPermissions: boolean;  
@@ -25,6 +33,7 @@ export interface Permissions {
   id: ObjectId;
 //  serviceTicketPermissions: ServiceTicketPermissions;
   communityPermissions: CommunityPermissions;
+  propertyPermissions: PropertyPermissions;
 }
 
 export interface Role extends Base {
@@ -54,6 +63,10 @@ export const RoleModel = model<Role>('Role',new Schema<Role, Model<Role>, Role>(
         canManageMembers: { type: Boolean, required: true, default: false },
         canEditOwnMemberProfile: { type: Boolean, required: true, default: false },
         canEditOwnMemberAccounts: { type: Boolean, required: true, default: false },
+      },
+      propertyPermissions: {
+        canManageProperties: { type: Boolean, required: true, default: false },
+        canEditOwnProperty: { type: Boolean, required: true, default: false },
       }
     },
     createdAt: { type: Date, default: Date.now },

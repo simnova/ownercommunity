@@ -1,9 +1,11 @@
 import { CommunityEntityReference, CommunityPermissions } from '../community/community';
 import { MemberEntityReference } from '../community/member';
 import { RoleEntityReference } from '../community/role';
+import { PropertyEntityReference, PropertyPermissions } from '../property/property';
 import { UserEntityReference } from '../user/user';
 import { CommunityVisa, CommunityVisaImpl } from './community-visa';
 import { MemberVisaImpl } from './member-visa';
+import { PropertyVisa, PropertyVisaImpl } from './property-visa';
 import { RoleVisaImpl } from './role-visa';
 import { UserVisa, UserVisaImpl } from './user-visa';
 
@@ -18,6 +20,7 @@ export interface Passport {
   forCommunity(root: CommunityEntityReference):  CommunityVisa;
   forRole(root: RoleEntityReference): CommunityVisa;
   forUser(root: UserEntityReference):  UserVisa;
+  forProperty(root: PropertyEntityReference):  PropertyVisa;
 }
 
 export class PassportImpl implements Passport {
@@ -41,6 +44,9 @@ export class PassportImpl implements Passport {
   forUser(root: UserEntityReference):  UserVisa {
     return new UserVisaImpl(root,this.user);
   }   
+  forProperty(root: PropertyEntityReference):  PropertyVisa {
+    return new PropertyVisaImpl(root,this.member);
+  }
 }
 
 export class ReadOnlyPassport implements Passport {
@@ -62,6 +68,9 @@ export class ReadOnlyPassport implements Passport {
   forUser(root: UserEntityReference): UserVisa {
     return {determineIf:  () => false }; 
   }
+  forProperty(root: PropertyEntityReference): PropertyVisa {
+    return {determineIf:  () => false }; 
+  }
 }
 
 export class SystemPassport implements Passport {
@@ -81,7 +90,12 @@ export class SystemPassport implements Passport {
     isEditingOwnMemberAccount: false,
     isSystemAccount: true,
   }
-
+  private propertyVisa: PropertyPermissions = {
+    canManageProperties: false,
+    canEditOwnProperty: false,
+    isEditingOwnProperty: false,
+    isSystemAccount: true,
+  }
 
   forMember (root: MemberEntityReference): CommunityVisa {
     return {determineIf: (func) => func(this.communityVisa) };
@@ -94,5 +108,8 @@ export class SystemPassport implements Passport {
   }
   forUser(root: UserEntityReference): UserVisa {
     return {determineIf:  () => false }; 
+  }
+  forProperty(root: PropertyEntityReference): PropertyVisa {
+    return {determineIf:  (func) => func(this.propertyVisa) };
   }
 }

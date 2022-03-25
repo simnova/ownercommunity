@@ -1,9 +1,9 @@
 import { Base } from '../../../infrastructure/data-sources/cosmos-db/models/interfaces/base';
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { TypeConverter } from '../../shared/type-converter';
-import { MongooseDomainAdapaterType } from './mongo-domain-adapter';
+import { MongooseDomainAdapterType } from './mongo-domain-adapter';
 
-export abstract class MongoTypeConverter<ContextType, MongooseModelType extends Base,DomainPropInterface extends MongooseDomainAdapaterType<MongooseModelType>, DomainType extends AggregateRoot<DomainPropInterface>> implements TypeConverter<MongooseModelType, DomainType,DomainPropInterface,ContextType> {
+export abstract class MongoTypeConverter<ContextType, MongooseModelType extends Base,DomainPropInterface extends MongooseDomainAdapterType<MongooseModelType>, DomainType extends AggregateRoot<DomainPropInterface>> implements TypeConverter<MongooseModelType, DomainType,DomainPropInterface,ContextType> {
   constructor(
     private adapter: new(args:MongooseModelType) => DomainPropInterface,
     private domainObject: new(args:DomainPropInterface, context:ContextType) => DomainType

@@ -1,8 +1,51 @@
 import { Schema, model, Model,ObjectId, PopulatedDoc, Types } from 'mongoose';
-import { Base, BaseOptions, EmbeddedBase } from './interfaces/base';
+import { Base, BaseOptions, EmbeddedBase, Patterns } from './interfaces/base';
 import * as Community from './community';
 import * as Member from './member';
 import * as Location from './location';
+
+export interface ListingDetail extends EmbeddedBase {
+  id: ObjectId;
+  price: number;
+  rentHigh: number;
+  rentLow: number;
+  lease: number;
+  maxGuests: number;
+  bedrooms: number;
+  bedroomDetails: Types.DocumentArray<BedroomDetail>;
+  bathrooms: number;
+  squareFeet: number;
+  yearBuilt: number;
+  lotSize: number;
+  description: string;
+  amenities: string[];
+  additionalAmenities: Types.DocumentArray<AdditionalAmenity>;
+  images: string[];
+  video: string;
+  floorPlan: string;
+  floorPlanImages: string[];
+  listingAgent: string,
+  listingAgentPhone: string,
+  listingAgentEmail: string,
+  listingAgentWebsite: string,
+  listingAgentCompany: string,
+  listingAgentCompanyPhone: string,
+  listingAgentCompanyEmail: string,
+  listingAgentCompanyWebsite: string,
+  listingAgentCompanyAddress: string
+  
+}
+export interface BedroomDetail extends EmbeddedBase {
+  id: ObjectId;
+  roomName: string;
+  bedDescriptions: string[];
+}
+export interface AdditionalAmenity extends EmbeddedBase {
+  id: ObjectId;
+  category: string;      
+  amenities: string[];
+}
+
 
 export interface Property extends Base {
   community: PopulatedDoc<Community.Community>;
@@ -16,47 +59,9 @@ export interface Property extends Base {
   listedForLease: boolean;
   listedInDirectory: boolean;
 
-  listingDetails : {
-    id: ObjectId;
-    price: number;
-    rentHigh: number;
-    rentLow: number;
-    lease: number;
-    maxGuests: number;
-    bedrooms: number;
-    bedroomDetails: {
-      id: ObjectId;
-      roomName: string;
-      bedDescriptions: string[];
-    }
-    bathrooms: number;
-    squareFeet: number;
-    yearBuilt: number;
-    lotSize: number;
-    description: string;
-    amenities: string[];
-    addionalAmenities: [{
-      id: ObjectId;
-      category: string;
-      amenities: string[];
-    }]
-    images: string[];
-    video: string;
-    floorPlan: string;
-    floorPlanImages: string[];
-    listingAgent: string,
-    listingAgentPhone: string,
-    listingAgentEmail: string,
-    listingAgentWebsite: string,
-    listingAgentCompany: string,
-    listingAgentCompanyPhone: string,
-    listingAgentCompanyEmail: string,
-    listingAgentCompanyWebsite: string,
-    listingAgentCompanyAddress: string
-  },
+  listingDetail : ListingDetail;
 }
-
-export const PropertyModel = model<Property>('Property', new Schema<Property, Model<Property>, Property>(
+const schema = new Schema<Property, Model<Property>, Property>(
   {
     schemaVersion: {
       type: String,
@@ -66,15 +71,15 @@ export const PropertyModel = model<Property>('Property', new Schema<Property, Mo
     community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true, unique: false },    
     location: Location.LocationModel.schema,
     owner: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true, unique: false },
-    propertyName: { type: String, required: true },
-    propertyType: { type: String, required: false },
+    propertyName: { type: String, required: true, maxlength: 100 },
+    propertyType: { type: String, required: false, maxlength: 100 },
 
     listedForSale: { type: Boolean, required: false, default: false },
     listedForRent: { type: Boolean, required: false, default: false },
     listedForLease: { type: Boolean, required: false, default: false },
     listedInDirectory: { type: Boolean, required: false, default: false },
 
-    listingDetails : {
+    listingDetail : {
       price: { type: Number, required: false },
       rentHigh: { type: Number, required: false },
       rentLow: { type: Number, required: false },
@@ -82,34 +87,34 @@ export const PropertyModel = model<Property>('Property', new Schema<Property, Mo
       maxGuests : { type: Number, required: false },
       bedrooms: { type: Number, required: false },
       bedroomDetails: [{
-        roomName: { type: String, required: false },
-        bedDescriptions: { type: [String], required: false },
+        roomName: { type: String, required: false, maxlength: 100 },
+        bedDescriptions: { type: [{type: String, maxlength:40}], required: false },
       }],
       bathrooms: { type: Number, required: false },
       squareFeet: { type: Number, required: false },
       yearBuilt: { type: Number, required: false },
       lotSize: { type: Number, required: false },
-      description: { type: String, required: false },
-      amenities: { type: [String], required: false },
-      additionalAmmenities: [
+      description: { type: String, required: false, maxlength: 5000 },
+      amenities: { type: [{type: String, maxlength:100}], required: false },
+      additionalAmenities: [
         {
-          category: { type: String, required: false },
-          ammenities: { type: [String], required: false },
+          category: { type: String, required: false, maxlength: 100  },
+          amenities: { type: [{type: String, maxlength: 100 }], required: false },
         }
       ],
       images: { type: [String], required: false },
       video: { type: String, required: false },
-      floorPlan: { type: String, required: false },
-      floorplanImages: { type: [String], required: false },
-      listingAgent: { type: String, required: false },
-      listingAgentPhone: { type: String, required: false },
-      listingAgentEmail: { type: String, required: false },
-      listingAgentWebsite: { type: String, required: false },
-      listingAgentCompany: { type: String, required: false },
-      listingAgentCompanyPhone: { type: String, required: false },
-      listingAgentCompanyEmail: { type: String, required: false },
-      listingAgentCompanyWebsite: { type: String, required: false },
-      listingAgentCompanyAddress: { type: String, required: false },
+      floorPlan: { type: String, required: false, maxlength: 2000 },
+      floorPlanImages: { type: [String], required: false },
+      listingAgent: { type: String, required: false, maxlength: 500 },
+      listingAgentPhone: { type: String, required: false, maxlength: 100 },
+      listingAgentEmail: { type: String, match: Patterns.EMAIL_PATTERN, required: false, maxlength: 254 },
+      listingAgentWebsite: { type: String, required: false, maxlength: 1000 },
+      listingAgentCompany: { type: String, required: false, maxlength: 500  },
+      listingAgentCompanyPhone: { type: String, required: false, maxlength: 100 },
+      listingAgentCompanyEmail: { type: String, match: Patterns.EMAIL_PATTERN, required: false, maxlength: 254  },
+      listingAgentCompanyWebsite: { type: String, required: false, maxlength: 1000 },
+      listingAgentCompanyAddress: { type: String, required: false, maxlength: 1000 },
     }
 
       
@@ -119,4 +124,16 @@ export const PropertyModel = model<Property>('Property', new Schema<Property, Mo
   }
   ).index(
     { community: 1, propertyName: 1 },  { unique: true }
-  ));
+  );
+schema.path('listingDetails.additionalAmenities').validate(function(additionalAmenities) {
+  return additionalAmenities.length > 20;
+}, 'Additional Amenities cannot be more than 20');
+schema.path('listingDetails.additionalAmenities.amenities').validate(function(amenities) {
+  return amenities.length > 20;
+}, 'Additional Amenities - Amenities cannot be more than 20');
+schema.path('listingDetails.bedroomDetails').validate(function(bedroomDetails) {
+  return bedroomDetails.length > 20;
+}, 'Bedroom Details cannot be more than 20');
+
+
+export const PropertyModel = model<Property>('Property', schema);

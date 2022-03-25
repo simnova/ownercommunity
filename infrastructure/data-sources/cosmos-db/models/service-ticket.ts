@@ -1,4 +1,4 @@
-import { Schema, model, Model, PopulatedDoc, ObjectId } from 'mongoose';
+import { Schema, model, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
 import { Base, BaseOptions, EmbeddedBase } from './interfaces/base';
 import * as Community from './community';
 import * as Property from './property';
@@ -14,13 +14,13 @@ export interface ActivityDetail extends EmbeddedBase {
 export interface ServiceTicket extends Base {
   community: PopulatedDoc<Community.Community>;
   property?: PopulatedDoc<Property.Property>;
-  requestor: PopulatedDoc<Property.Property>;
+  requestor: PopulatedDoc<Member.Member>;
   assignedTo?: PopulatedDoc<Member.Member>;
   title: string;
   description: string;
   status: string;
   priority: number;
-  activityLog: [ActivityDetail];
+  activityLog: Types.DocumentArray<ActivityDetail>;
   photos:[{
     description: string;
     documentId: string;
@@ -36,7 +36,7 @@ export const ServiceTicketModel = model<ServiceTicket>('ServiceTicket', new Sche
     },
     community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true },    
     property: { type: Schema.Types.ObjectId, ref:Property.PropertyModel.modelName, required: false, index: true },
-    requestor: { type: Schema.Types.ObjectId, ref:Property.PropertyModel.modelName, required: true, index: true },
+    requestor: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true },
     assignedTo: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: false, index: true },
     title: { 
       type: String, 

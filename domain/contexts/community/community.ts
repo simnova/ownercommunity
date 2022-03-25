@@ -16,7 +16,9 @@ export interface CommunityProps extends EntityProps {
 export interface CommunityEntityReference extends Readonly<CommunityProps> {}
 
 export class Community<props extends CommunityProps> extends AggregateRoot<props> implements CommunityEntityReference  {
-  constructor(props: props,private readonly context: DomainExecutionContext) { super(props); }
+  constructor(props: props,private readonly context: DomainExecutionContext) { 
+    super(props); 
+  }
 
   get id(): string {return this.props.id;}
   get name(): string {return this.props.name;}
@@ -27,27 +29,24 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
   get createdAt(): Date {return this.props.createdAt;}
   get schemaVersion(): string {return this.props.schemaVersion;}
 
-  public static async getNewCommunity<props extends CommunityProps> (newprops:props,name:string,domain:string,whiteLabelDomain:string, handle:string, context: DomainExecutionContext): Promise<Community<props>> {
-    let community = new Community(newprops, context);
-    await community.requestSetName(name);
-    await community.requestSetDomain(domain);
-    await community.requestSetWhiteLabelDomain(whiteLabelDomain);
+  public static getNewCommunity<props extends CommunityProps> (newProps:props,name:string,domain:string,whiteLabelDomain:string, handle:string, context: DomainExecutionContext): Community<props> {
+    let community = new Community(newProps, context);
+    community.requestSetName(name);
+    community.requestSetDomain(domain);
+    community.requestSetWhiteLabelDomain(whiteLabelDomain);
     return community;
   }
 
-  public async requestSetName(name:ValueObjects.Name): Promise<void> {
+  public requestSetName(name:ValueObjects.Name): void {
     this.props.name = name.valueOf();
   }
-
-  public async requestSetDomain(domain:ValueObjects.Domain): Promise<void> {
+  public requestSetDomain(domain:ValueObjects.Domain): void {
     this.props.domain = domain.valueOf();
   }
-
-  public async requestSetWhiteLabelDomain(whiteLabelDomain:ValueObjects.WhiteLabelDomain): Promise<void> {
+  public requestSetWhiteLabelDomain(whiteLabelDomain:ValueObjects.WhiteLabelDomain): void {
     this.props.whiteLabelDomain = whiteLabelDomain.valueOf();
   }
-
-  public async reuestSetHandle(handle:ValueObjects.Handle): Promise<void> {
+  public requestSetHandle(handle:ValueObjects.Handle): void {
     this.props.handle = handle.valueOf();
   }
 

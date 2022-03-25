@@ -3,7 +3,7 @@ import { EntityProps } from '../../shared/entity';
 import { PropArray } from '../../shared/prop-array';
 import mongoose from 'mongoose';
 
-export abstract class MongooseDomainAdapater<T extends Base> implements MongooseDomainAdapaterType<T>{
+export abstract class MongooseDomainAdapter<T extends Base> implements MongooseDomainAdapterType<T>{
   constructor(public readonly props: T) { }
   get id() {return this.props.id;}
   get createdAt() {return this.props.createdAt;}
@@ -11,7 +11,7 @@ export abstract class MongooseDomainAdapater<T extends Base> implements Mongoose
   get schemaVersion() {return this.props.schemaVersion;}
 }
 
-export interface MongooseDomainAdapaterType<T extends Base> extends EntityProps {
+export interface MongooseDomainAdapterType<T extends Base> extends EntityProps {
   readonly props: T;
 }
 

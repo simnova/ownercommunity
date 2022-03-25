@@ -8,8 +8,8 @@ export class CommunityVisaImpl<root extends CommunityEntityReference> implements
   }  
   
   
-  async determineIf(func:((permissions:CommunityPermissions) => boolean)) :  Promise<boolean> {
-    //ensure that the member is a member of the community
+  determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean {
+    //ensure that the member is a member of this community
     if(!this.member || this.member.community.id !== this.root.id) {
       return false;
     }
@@ -21,5 +21,5 @@ export class CommunityVisaImpl<root extends CommunityEntityReference> implements
 }
 
 export interface CommunityVisa extends Visa {
-  determineIf(func:((permissions:CommunityPermissions) => boolean)) :  Promise<boolean> ;
+  determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean ;
 }

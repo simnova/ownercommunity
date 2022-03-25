@@ -8,7 +8,7 @@ export class RoleVisaImpl<root extends RoleEntityReference> implements Community
   constructor(private root: root, private member: MemberEntityReference) {
   }  
   
-  async determineIf(func:((permissions:CommunityPermissions) => boolean)) :  Promise<boolean> {
+  determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean {
     //ensure that the member is a member of the community
     if(!this.member || this.member.community.id !== this.root.community.id) {
       return false;

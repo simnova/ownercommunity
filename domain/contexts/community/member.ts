@@ -10,18 +10,25 @@ import { Profile, ProfileEntityReference, ProfileProps } from './profile';
 
 export interface MemberProps extends EntityProps {
   memberName:string;
-  community: CommunityProps;
-  accounts: PropArray<AccountProps>;
-  role: RoleProps;
-  profile: ProfileProps;
+  readonly community: CommunityProps;
+  setCommunityRef:(community: CommunityEntityReference) => void;
+  readonly accounts: PropArray<AccountProps>;
+  readonly role: RoleProps;
+  setRoleRef: (role: RoleEntityReference) => void;
+  readonly profile: ProfileProps;
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
 }
 
-export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'setCommunity' | 'accounts' | 'role' | 'profile'>> {
+export interface MemberEntityReference extends Readonly<Omit<MemberProps, 
+  'community' | 'setCommunityRef' |
+  'accounts' |
+  'role' | 'setRoleRef' |
+  'profile'
+  >> {
   readonly community: CommunityEntityReference;
-  readonly accounts: AccountEntityReference[];
+  readonly accounts: ReadonlyArray<AccountEntityReference>;
   readonly role: RoleEntityReference;
   readonly profile: ProfileEntityReference;
 }
@@ -29,25 +36,31 @@ export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'setCo
 export class Member<props extends MemberProps> extends AggregateRoot<props> implements MemberEntityReference  {
   constructor(props: props,private readonly context:DomainExecutionContext) {super(props);}
   
-  get id(): string {return this.props.id;}
-  get memberName(): string {return this.props.memberName;}
+  get id() {return this.props.id;}
+  get memberName() {return this.props.memberName;}
   get community(): CommunityEntityReference {return new Community(this.props.community,this.context);}
-  get accounts(): AccountEntityReference[] { return this.props.accounts.items.map(account => new Account(account,this.context)); }
+  get accounts(): ReadonlyArray<Account> { return this.props.accounts.items.map(account => new Account(account,this.context)); } // return account as it's an embedded document not a reference (allows editing)
   get role(): RoleEntityReference { return new Role(this.props.role,this.context); }
-  get profile(): ProfileEntityReference { return new Profile(this.props.profile,this.context); }
-  get createdAt(): Date {return this.props.createdAt;}
-  get updatedAt(): Date {return this.props.updatedAt;}
-  get schemaVersion(): string {return this.props.schemaVersion;}
+  get profile() { return new Profile(this.props.profile,this.context); } // return profile as it's an embedded document not a reference (allows editing)
+  get createdAt() {return this.props.createdAt;}
+  get updatedAt() {return this.props.updatedAt;}
+  get schemaVersion() {return this.props.schemaVersion;}
 
 
-  public static async getNewMember<props extends MemberProps> (newprops:props,name:string,context:DomainExecutionContext): Promise<Member<props>> {
-    let member = new Member(newprops,context);
-    await member.requestSetMemberName(name);
+  public static async getNewMember<props extends MemberProps> (newProps:props,name:string,context:DomainExecutionContext): Promise<Member<props>> {
+    let member = new Member(newProps,context);
+    member.requestSetMemberName(name);
     return member;
   }
 
-  public async requestSetMemberName(memberName:ValueObjects.MemberName): Promise<void> {
+  public requestSetMemberName(memberName:ValueObjects.MemberName): void {
     this.props.memberName = memberName.valueOf();
+  }
+  public requestSetCommunity(community:CommunityEntityReference): void {
+    this.props.setCommunityRef(community);
+  }
+  public requestSetRole(role:RoleEntityReference): void {
+    this.props.setRoleRef(role);
   }
 
 }

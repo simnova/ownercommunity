@@ -5,7 +5,7 @@ export class UserVisaImpl<root extends UserEntityReference> implements UserVisa{
   constructor(private root: root, private user: UserEntityReference) {
   }
 
-  async determineIf (func:((permissions:UserPermissions) => boolean)) :  Promise<boolean> {
+  determineIf (func:((permissions:UserPermissions) => boolean)) :  boolean {
     const userIsEditingTheirAccount = this.user.id === this.root.id;
     const result:Partial<UserPermissions> ={
       canManageUser: userIsEditingTheirAccount
@@ -15,5 +15,5 @@ export class UserVisaImpl<root extends UserEntityReference> implements UserVisa{
 }
 
 export interface UserVisa extends Visa{
-  determineIf(func:((permissions:UserPermissions) => boolean)) :  Promise<boolean> ;
+  determineIf(func:((permissions:UserPermissions) => boolean)) :  boolean ;
 }

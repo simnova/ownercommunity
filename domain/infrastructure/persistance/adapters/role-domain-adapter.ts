@@ -1,6 +1,6 @@
 import { Role, Permissions,CommunityPermissions } from '../../../../infrastructure/data-sources/cosmos-db/models/role';
 import { Role as RoleDO, RoleProps } from '../../../contexts/community/role';
-import { MongooseDomainAdapater } from '../mongo-domain-adapter';
+import { MongooseDomainAdapter } from '../mongo-domain-adapter';
 import { MongoTypeConverter } from '../mongo-type-converter';
 
 import { CommunityProps } from '../../../contexts/community/community';
@@ -15,14 +15,16 @@ export class RoleConverter extends MongoTypeConverter<DomainExecutionContext,Rol
   }
 }
 
-export class RoleDomainAdapter extends MongooseDomainAdapater<Role> implements RoleProps {
+export class RoleDomainAdapter extends MongooseDomainAdapter<Role> implements RoleProps {
   constructor(props: Role) { super(props); }
 
   get roleName() {return this.props.roleName;}
   set roleName(roleName) {this.props.roleName = roleName;}
 
-  get community() {return new CommunityDomainAdapter(this.props.community);}
-  setCommunity(community: CommunityProps) {
+  get community() {
+    if(this.props.community){return new CommunityDomainAdapter(this.props.community);}
+  }
+  setCommunityRef(community: CommunityProps) {
     this.props.set('community',community.id);
   }
 
@@ -39,7 +41,9 @@ class PermissionsAdapter implements PermissionsProps{
   constructor(public readonly props: Permissions) { }
   public get id() { return this.props.id.valueOf().toString(); }
 
-  public get communityPermissions() { return new CommunityPermissionsAdapter(this.props.communityPermissions); }
+  public get communityPermissions() { 
+    return new CommunityPermissionsAdapter(this.props.communityPermissions); 
+  }
 }
 
 class CommunityPermissionsAdapter implements CommunityPermissionsProps  {

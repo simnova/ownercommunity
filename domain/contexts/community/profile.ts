@@ -1,5 +1,6 @@
-import { Entity, EntityProps } from "../../shared/entity";
-import { DomainExecutionContext } from "../context";
+import { Entity, EntityProps } from '../../shared/entity';
+import { DomainExecutionContext } from '../context';
+import * as ValueObjects from './profile-value-objects';
 
 export interface ProfileProps extends EntityProps {
   name: string;
@@ -32,4 +33,38 @@ export class Profile extends Entity<ProfileProps> implements ProfileEntityRefere
   get showProfile() {return this.props.showProfile;}
   get showProperties() {return this.props.showProperties;}
 
+  requestSetName(name: ValueObjects.Name) {
+    this.props.name = name.valueOf();
+  }
+  requestSetEmail(email: ValueObjects.Email) {
+    this.props.email = email.valueOf();
+  }
+  requestSetBio(bio: ValueObjects.Bio) {
+    this.props.bio = bio.valueOf();
+  }
+  requestSetAvatarDocumentId(avatarDocumentId: string) {
+    this.props.avatarDocumentId = avatarDocumentId;
+  }
+  requestSetInterests(interests: ValueObjects.Interests) {
+    this.props.interests = interests.valueOf();
+  }
+  requestSetShowInterests(showInterests: boolean) {
+    this.props.showInterests = showInterests;
+  }
+  requestSetShowEmail(showEmail: boolean) {
+    this.props.showEmail = showEmail;
+  }
+  requestSetShowPhone(showPhone: boolean) {
+    this.props.showPhone = showPhone;
+  }
+  requestSetShowLocation(showLocation: boolean) {
+    this.props.showLocation = showLocation;
+  }
+  requestSetShowProfile(showProfile: boolean) {
+    this.props.showProfile = showProfile;
+  }
+  requestSetShowProperties(showProperties: boolean) {
+    this.props.showProperties = showProperties;
+  }
+  
 }

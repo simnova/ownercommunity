@@ -80,8 +80,8 @@ export type Scalars = {
   Void: any;
 };
 
-export type AdditionalAmmenities = {
-  __typename?: "AdditionalAmmenities";
+export type AdditionalAmenities = {
+  __typename?: "AdditionalAmenities";
   amenities?: Maybe<Array<Maybe<Scalars["String"]>>>;
   category?: Maybe<Scalars["String"]>;
 };
@@ -186,7 +186,7 @@ export type CommunityUpdateInput = {
 
 export type ListingDetails = {
   __typename?: "ListingDetails";
-  additionalAmmenities?: Maybe<AdditionalAmmenities>;
+  additionalAmenities?: Maybe<AdditionalAmenities>;
   amenities?: Maybe<Array<Maybe<Scalars["String"]>>>;
   bathrooms?: Maybe<Scalars["Float"]>;
   bedroomDetails?: Maybe<BedroomDetails>;
@@ -897,7 +897,7 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  AdditionalAmmenities: ResolverTypeWrapper<AdditionalAmmenities>;
+  AdditionalAmenities: ResolverTypeWrapper<AdditionalAmenities>;
   Address: ResolverTypeWrapper<Address>;
   BedroomDetails: ResolverTypeWrapper<BedroomDetails>;
   BigInt: ResolverTypeWrapper<Scalars["BigInt"]>;
@@ -1035,7 +1035,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  AdditionalAmmenities: AdditionalAmmenities;
+  AdditionalAmenities: AdditionalAmenities;
   Address: Address;
   BedroomDetails: BedroomDetails;
   BigInt: Scalars["BigInt"];
@@ -1183,9 +1183,9 @@ export type CacheControl22DirectiveResolver<
   Args = CacheControl22DirectiveArgs
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type AdditionalAmmenitiesResolvers<
+export type AdditionalAmenitiesResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["AdditionalAmmenities"] = ResolversParentTypes["AdditionalAmmenities"]
+  ParentType extends ResolversParentTypes["AdditionalAmenities"] = ResolversParentTypes["AdditionalAmenities"]
 > = ResolversObject<{
   amenities?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["String"]>>>,
@@ -1508,8 +1508,8 @@ export type ListingDetailsResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes["ListingDetails"] = ResolversParentTypes["ListingDetails"]
 > = ResolversObject<{
-  additionalAmmenities?: Resolver<
-    Maybe<ResolversTypes["AdditionalAmmenities"]>,
+  additionalAmenities?: Resolver<
+    Maybe<ResolversTypes["AdditionalAmenities"]>,
     ParentType,
     ContextType
   >;
@@ -2560,7 +2560,7 @@ export interface VoidScalarConfig
 }
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
-  AdditionalAmmenities?: AdditionalAmmenitiesResolvers<ContextType>;
+  AdditionalAmenities?: AdditionalAmenitiesResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
   BedroomDetails?: BedroomDetailsResolvers<ContextType>;
   BigInt?: GraphQLScalarType;

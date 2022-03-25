@@ -10,7 +10,7 @@
     "types": [
       {
         "kind": "OBJECT",
-        "name": "AdditionalAmmenities",
+        "name": "AdditionalAmenities",
         "description": null,
         "fields": [
           {
@@ -1139,12 +1139,12 @@
         "description": null,
         "fields": [
           {
-            "name": "additionalAmmenities",
+            "name": "additionalAmenities",
             "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "AdditionalAmmenities",
+              "name": "AdditionalAmenities",
               "ofType": null
             },
             "isDeprecated": false,

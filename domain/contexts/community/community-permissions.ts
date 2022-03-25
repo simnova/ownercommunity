@@ -1,6 +1,6 @@
-import { Entity, EntityProps } from "../../shared/entity";
-import { CommunityVisa } from "../iam/community-visa";
-import { CommunityPermissions as CommunityPermissionsSpec } from "./community";
+import { Entity, EntityProps } from '../../shared/entity';
+import { CommunityVisa } from '../iam/community-visa';
+import { CommunityPermissions as CommunityPermissionsSpec } from './community';
 
 export interface CommunityPermissionsProps extends CommunityPermissionsSpec, EntityProps {}
 
@@ -12,21 +12,21 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
   get canManageSiteContent(): boolean {return this.props.canManageSiteContent;}
 
   public async setCanManageRolesAndPermissions(value:boolean): Promise<void> {
-    if(! await this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageRolesAndPermissions = value;
   }
 
   public async setCanManageCommunitySettings(value:boolean): Promise<void> {
-    if(! await this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageCommunitySettings = value;
   }
 
   public async setCanManageSiteContent(value:boolean): Promise<void> {
-    if(! await this.visa.determineIf((permissions) => permissions.canManageSiteContent)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageSiteContent)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageCommunitySettings = value;

@@ -32,9 +32,9 @@ export class User<props extends UserProps> extends AggregateRoot<props> implemen
     return new User(props);
   }
 
-  public static getNewUser<props extends UserProps> (newprops:props,externalId:string,firstName:string,lastName:string): User<props> {
-    newprops.externalId = externalId;
-    let user = new User(newprops);
+  public static getNewUser<props extends UserProps> (newProps:props,externalId:string,firstName:string,lastName:string): User<props> {
+    newProps.externalId = externalId;
+    let user = new User(newProps);
     user.setExternalId(externalId);
     user.setFirstName(firstName);
     user.setLastName(lastName);

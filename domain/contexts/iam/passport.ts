@@ -7,7 +7,7 @@ import { RoleVisaImpl } from './role-visa';
 import { UserVisa, UserVisaImpl } from './user-visa';
 
 export interface Visa{
-  determineIf(func:((permissions) => boolean)) :  Promise<boolean> ;
+  determineIf(func:((permissions) => boolean)) :  boolean ;
 }
 
 export interface Passport {
@@ -46,12 +46,12 @@ export class ReadOnlyPassport implements Passport {
   }
 
   forCommunity(root: CommunityEntityReference): CommunityVisa {
-    return {determineIf: async () => false }; 
+    return {determineIf:  () => false }; 
   }
   forRole(root: RoleEntityReference): CommunityVisa {
-    return {determineIf: async () => false }; 
+    return {determineIf:  () => false }; 
   }
   forUser(root: UserEntityReference): UserVisa {
-    return {determineIf: async () => false }; 
+    return {determineIf:  () => false }; 
   }
 }

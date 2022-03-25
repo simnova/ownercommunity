@@ -27,7 +27,7 @@ type ListingDetails {
   squareFeet: Int
   description: String
   amenities: [String]
-  additionalAmmenities: AdditionalAmmenities
+  additionalAmenities: AdditionalAmenities
   images: [String]
   video: String
   floorPlan: String
@@ -46,7 +46,7 @@ type BedroomDetails {
   roomName: String
   bedDescriptions: [String]
 }
-type AdditionalAmmenities{
+type AdditionalAmenities{
   category: String
   amenities: [String]
 }

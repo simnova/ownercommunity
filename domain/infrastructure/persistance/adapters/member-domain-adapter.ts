@@ -1,16 +1,17 @@
 import { Member, Account, Profile } from '../../../../infrastructure/data-sources/cosmos-db/models/member';
 
 import { Member as MemberDO, MemberProps } from '../../../../domain/contexts/community/member';
-import { MongooseDomainAdapater, MongoosePropArray } from '../mongo-domain-adapter';
+import { MongooseDomainAdapter, MongoosePropArray } from '../mongo-domain-adapter';
 import { MongoTypeConverter } from '../mongo-type-converter';
 import { AccountProps } from '../../../contexts/community/account';
 import { UserDomainAdapter } from './user-domain-adapter';
-import { CommunityProps } from '../../../contexts/community/community';
+import { CommunityEntityReference, CommunityProps } from '../../../contexts/community/community';
 import { CommunityDomainAdapter } from './community-domain-adapter';
 import { RoleDomainAdapter } from './role-domain-adapter';
 import { DomainExecutionContext } from '../../../contexts/context';
-import { RoleProps } from '../../../contexts/community/role';
+import { RoleEntityReference, RoleProps } from '../../../contexts/community/role';
 import { ProfileProps } from '../../../contexts/community/profile';
+import { UserEntityReference } from '../../../contexts/user/user';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext,Member,MemberDomainAdapter,MemberDO<MemberDomainAdapter>> {
   constructor() {
@@ -18,27 +19,33 @@ export class MemberConverter extends MongoTypeConverter<DomainExecutionContext,M
   }
 }
 
-export class MemberDomainAdapter extends MongooseDomainAdapater<Member> implements MemberProps {
+export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implements MemberProps {
   constructor(props: Member) { super(props); }
 
   get memberName() {return this.props.memberName;}
-  set memberName(memberName: string) {this.props.memberName = memberName;}
+  set memberName(memberName) {this.props.memberName = memberName;}
 
-  get community() {return new CommunityDomainAdapter(this.props.community);}
-  set Community(community: CommunityProps) {
+  get community() {
+    if(this.props.community) {return new CommunityDomainAdapter(this.props.community);}
+  }
+  setCommunityRef(community: CommunityEntityReference) {
     this.props.set('community',community.id);
   }
 
-  public accounts = new MongoosePropArray(this.props.accounts, AccountDomainAdapter);
+  get accounts() {
+    return new MongoosePropArray(this.props.accounts, AccountDomainAdapter);
+  } 
 
-  get role() {return new RoleDomainAdapter(this.props.role);}
-  set role(role: RoleProps) {
+  get role() {
+    if(this.props.role) {return new RoleDomainAdapter(this.props.role);}
+  }
+  setRoleRef(role: RoleEntityReference) {
     this.props.set('role',role.id);
   }
 
-  get profile() { return new ProfileDomainAdapter(this.props.profile); }
-  set profile(profile: ProfileProps) {
-    this.props.set('profile',profile.id);
+  get profile() { 
+    if(!this.props.profile){this.props.set('profile',{});} //embedded - ensure it exists
+    return new ProfileDomainAdapter(this.props.profile);
   }
 }
 
@@ -47,26 +54,26 @@ export class AccountDomainAdapter implements AccountProps {
   public get id(): string { return this.props.id.valueOf() as string; }
 
   get firstName() {return this.props.firstName;}
-  set firstName(firstName: string) {this.props.firstName = firstName;}
+  set firstName(firstName) {this.props.firstName = firstName;}
 
   get lastName() {return this.props.lastName;}
-  set lastName(lastName: string) {this.props.lastName = lastName;}
+  set lastName(lastName) {this.props.lastName = lastName;}
 
   get user(){
     if(this.props.user) { return new UserDomainAdapter(this.props.user);}
   }
-  set user(user) {
-    this.props.set('user', user.props.id);
+  setUserRef(user: UserEntityReference) {
+    this.props.set('user', user.id);
   }
 
   get statusCode() {return this.props.statusCode;}
-  set statusCode(statusCode: string) {this.props.statusCode = statusCode;}
+  set statusCode(statusCode) {this.props.statusCode = statusCode;}
 
   get createdBy(){
     if(this.props.createdBy) { return new UserDomainAdapter(this.props.createdBy);}
   }
-  set createdBy(createdBy) {
-    this.props.set('createdBy', createdBy.props.id);
+  setCreatedByRef(createdBy: UserEntityReference) {
+    this.props.set('createdBy', createdBy.id);
   }
 }
 

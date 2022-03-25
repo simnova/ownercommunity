@@ -1,5 +1,6 @@
 import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
+import { CommunityVisa } from '../iam/community-visa';
 import { User, UserEntityReference, UserProps } from '../user/user';
 import * as ValueObjects from './account-value-objects';
 
@@ -23,7 +24,7 @@ export interface AccountEntityReference extends Readonly<Omit<AccountPropValues,
 }
 
 export class Account extends Entity<AccountProps> implements AccountEntityReference {
-  constructor(props: AccountProps, private readonly context: DomainExecutionContext) { super(props); }
+  constructor(props: AccountProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) { super(props); }
 
   get firstName(): string {return this.props.firstName;}
   get lastName(): string {return this.props.lastName;}
@@ -31,19 +32,33 @@ export class Account extends Entity<AccountProps> implements AccountEntityRefere
   get statusCode(): string {return this.props.statusCode;}
   get createdBy(): UserEntityReference {return new User(this.props.createdBy, this.context);}
 
+
+  private validateVisa(){
+    if(!this.visa.determineIf((permissions) => 
+      permissions.canManageMembers ||
+      (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount))) {
+      throw new Error('You do not have permission to update this account');
+    }
+  }
+
   requestSetFirstName(firstName: ValueObjects.FirstName) {
+    this.validateVisa();
     this.props.firstName = firstName.valueOf();
   }
   requestSetLastName(lastName: ValueObjects.LastName) {
+    this.validateVisa();
     this.props.lastName = lastName.valueOf();
   }
   requestSetUser(user: UserProps) {
+    this.validateVisa();
     this.props.setUserRef(user);
   }
-  requestSetStatusCode(statusCode: ValueObjects.AccountStatusCode) {
+  requestSetStatusCode(statusCode: ValueObjects.AccountStatusCode) { 
+    if(!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageMembers)) { throw new Error('You do not have permission to update this account'); }
     this.props.statusCode = statusCode.valueOf();
   }
   requestSetCreatedBy(createdBy: UserProps) {
+    this.validateVisa();
     this.props.setCreatedByRef(createdBy);
   }
 

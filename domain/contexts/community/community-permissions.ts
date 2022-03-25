@@ -10,26 +10,52 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
   get canManageRolesAndPermissions(): boolean {return this.props.canManageRolesAndPermissions;}
   get canManageCommunitySettings(): boolean {return this.props.canManageCommunitySettings;}
   get canManageSiteContent(): boolean {return this.props.canManageSiteContent;}
+  get canManageMembers(): boolean {return this.props.canManageMembers;}
+  get canEditOwnMemberProfile(): boolean {return this.props.canEditOwnMemberProfile;}
+  get canEditOwnMemberAccounts(): boolean {return this.props.canEditOwnMemberAccounts;}
+  get isEditingOwnMemberAccount(): boolean { return false;}
+  get isSystemAccount(): boolean {return false;}
 
-  public async setCanManageRolesAndPermissions(value:boolean): Promise<void> {
+  public setCanManageRolesAndPermissions(value:boolean): void {
     if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageRolesAndPermissions = value;
   }
 
-  public async setCanManageCommunitySettings(value:boolean): Promise<void> {
+  public setCanManageCommunitySettings(value:boolean): void {
     if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageCommunitySettings = value;
   }
 
-  public async setCanManageSiteContent(value:boolean): Promise<void> {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageSiteContent)) {
+  public setCanManageSiteContent(value:boolean): void {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageCommunitySettings = value;
+  }
+
+  public setCanManageMembers(value:boolean): void {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+      throw new Error('Cannot set permission');
+    }
+    this.props.canManageMembers = value;
+  }
+
+  public setCanEditOwnMemberProfile(value:boolean): void {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+      throw new Error('Cannot set permission');
+    }
+    this.props.canEditOwnMemberProfile = value;
+  }
+
+  public setCanEditOwnMemberAccounts(value:boolean): void {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+      throw new Error('Cannot set permission');
+    }
+    this.props.canEditOwnMemberAccounts = value;
   }
 }
 

@@ -38,21 +38,26 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
   get updatedAt() { return this.props.updatedAt; }  
   get schemaVersion() {return this.props.schemaVersion;}
 
-  public static create(props: RoleProps, roleName:string,isDefault:boolean, context:DomainExecutionContext): Role<RoleProps> {
+  public static create(props: RoleProps, roleName:string,isDefault:boolean,community:CommunityEntityReference, context:DomainExecutionContext): Role<RoleProps> {
     var role = new Role(props,context);
-    role.props.roleName = roleName;
-    role.props.isDefault = isDefault;
+    role.requestSetRoleName(roleName);
+    role.requestSetCommunity(community);
+    role.requestSetIsDefault(isDefault);
     return role
   }
 
-  public requestSetCommunity(community:CommunityEntityReference): void {
+  private requestSetCommunity(community:CommunityEntityReference): void {
+    if(!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) { throw new Error('You do not have permission to update this account'); }
     this.props.setCommunityRef(community);
   }
+  
+  private requestSetIsDefault(isDefault:boolean): void {
+    if(!this.visa.determineIf((permissions) => permissions.isSystemAccount)) { throw new Error('You do not have permission to update this account'); }
+    this.props.isDefault = isDefault;
+  }
 
-  public setRoleName(roleName:string): void {
-    if(!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
-      throw new Error('Cannot set role name');
-    }
+  public requestSetRoleName(roleName:string): void {
+    if(!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {throw new Error('Cannot set role name');}
     this.props.roleName = roleName;
   }
 

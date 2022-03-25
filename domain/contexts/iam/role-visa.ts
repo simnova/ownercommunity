@@ -3,6 +3,7 @@ import { CommunityPermissions } from '../community/community';
 import { MemberEntityReference } from '../community/member';
 import { RoleEntityReference } from '../community/role';
 import { CommunityVisa } from './community-visa';
+import { SystemUserId } from './passport';
 
 export class RoleVisaImpl<root extends RoleEntityReference> implements CommunityVisa {
   constructor(private root: root, private member: MemberEntityReference) {
@@ -16,7 +17,11 @@ export class RoleVisaImpl<root extends RoleEntityReference> implements Community
     const communityPermissions = this.member.role.permissions.communityPermissions;
     if(! communityPermissions) {return false;}
 
-    return func(communityPermissions);
+    var updatedPermissions = { 
+      ...communityPermissions, 
+      ...{isSystemAccount : (this.member.id === SystemUserId)}
+    } as CommunityPermissions;
+    return func(updatedPermissions);
   }
 }
 

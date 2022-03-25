@@ -14,6 +14,11 @@ export interface CommunityPermissions {
   canManageRolesAndPermissions: boolean;  
   canManageCommunitySettings: boolean;
   canManageSiteContent: boolean;
+  canManageMembers: boolean;
+  canEditOwnMemberProfile: boolean;
+  canEditOwnMemberAccounts: boolean;
+  isEditingOwnMemberAccount: false;
+  isSystemAccount: false;
 }
 
 export interface Permissions {
@@ -46,6 +51,9 @@ export const RoleModel = model<Role>('Role',new Schema<Role, Model<Role>, Role>(
         canManageRolesAndPermissions: { type: Boolean, required: true, default: false },
         canManageCommunitySettings: { type: Boolean, required: true, default: false },
         canManageSiteContent: { type: Boolean, required: true, default: false },
+        canManageMembers: { type: Boolean, required: true, default: false },
+        canEditOwnMemberProfile: { type: Boolean, required: true, default: false },
+        canEditOwnMemberAccounts: { type: Boolean, required: true, default: false },
       }
     },
     createdAt: { type: Date, default: Date.now },

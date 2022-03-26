@@ -51,7 +51,7 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   get updatedAt() {return this.props.updatedAt;}
   get schemaVersion() {return this.props.schemaVersion;}
 
-  public static async getNewMember<props extends MemberProps> (newProps:props,name:string,community:CommunityEntityReference, context:DomainExecutionContext): Promise<Member<props>> {
+  public static async getNewInstance<props extends MemberProps> (newProps:props,name:string,community:CommunityEntityReference, context:DomainExecutionContext): Promise<Member<props>> {
     let member = new Member(newProps,context);
     member.requestSetMemberName(name);
     member.requestSetCommunity(community);
@@ -69,6 +69,12 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   public requestSetRole(role:RoleEntityReference): void {
     if(!this.visa.determineIf((permissions) => permissions.canManageMembers)) { throw new Error('Cannot set role'); }
     this.props.setRoleRef(role);
+  }
+  public requestAddAccount(): Account {
+    return new Account(this.props.accounts.getNewItem(),this.context,this.visa);
+  }
+  public requestRemoveAccount(accountRef: AccountProps): void {
+    this.props.accounts.removeItem(accountRef);
   }
 
 }

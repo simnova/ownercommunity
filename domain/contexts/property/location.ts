@@ -1,8 +1,61 @@
-import { Entity } from '../../shared/entity';
+import { AggregateRoot } from '../../shared/aggregate-root';
+import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
 
-export class Location extends Entity<LocationProps> implements LocationEntityReference {
-  constructor(props: LocationProps, context:DomainExecutionContext) { super(props); }
+export interface LocationProps extends EntityProps {
+  id: string;
+  position:  {
+    type: string;
+    coordinates: number[];
+  } 
+  address: {
+    streetNumber: string;
+    streetName: string;
+    municipality: string;
+    municipalitySubdivision: string;
+    countrySecondarySubdivision: string;
+    countryTertiarySubdivision: string;
+    countrySubdivision: string;
+    countrySubdivisionName: string;
+    postalCode: string;
+    extendedPostalCode: string;
+    countryCode: string;
+    country: string;
+    countryCodeISO3: string;
+    freeformAddress: string;
+  }
+  createdAt: Date;
+  updatedAt: Date;
+  schemaVersion: string;
+}
+
+export interface LocationEntityReference {
+  readonly id: string;
+  readonly position?:  {
+    readonly type: string;
+    readonly coordinates: number[];
+  } 
+  readonly address?: {
+    readonly streetNumber: string;
+    readonly streetName: string;
+    readonly municipality: string;
+    readonly municipalitySubdivision: string;
+    readonly countrySecondarySubdivision: string;
+    readonly countryTertiarySubdivision: string;
+    readonly countrySubdivision: string;
+    readonly countrySubdivisionName: string;
+    readonly postalCode: string;
+    readonly extendedPostalCode: string;
+    readonly countryCode: string;
+    readonly country: string;
+    readonly countryCodeISO3: string;
+    readonly freeformAddress: string;
+  };
+}
+
+
+export class Location<props extends LocationProps> extends AggregateRoot<props> implements LocationEntityReference {
+  constructor(props: props, context:DomainExecutionContext) { super(props); }
   get id(): string {return this.props.id;}
   get position() { 
     if(! this.props.position) {
@@ -37,50 +90,4 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
   }
 }
 
-export interface LocationEntityReference {
-  readonly id: string;
-  readonly position?:  {
-    readonly type: string;
-    readonly coordinates: number[];
-  } 
-  readonly address?: {
-    readonly streetNumber: string;
-    readonly streetName: string;
-    readonly municipality: string;
-    readonly municipalitySubdivision: string;
-    readonly countrySecondarySubdivision: string;
-    readonly countryTertiarySubdivision: string;
-    readonly countrySubdivision: string;
-    readonly countrySubdivisionName: string;
-    readonly postalCode: string;
-    readonly extendedPostalCode: string;
-    readonly countryCode: string;
-    readonly country: string;
-    readonly countryCodeISO3: string;
-    readonly freeformAddress: string;
-  };
-}
 
-export interface LocationProps {
-  id: string;
-  position:  {
-    type: string;
-    coordinates: number[];
-  } 
-  address: {
-    streetNumber: string;
-    streetName: string;
-    municipality: string;
-    municipalitySubdivision: string;
-    countrySecondarySubdivision: string;
-    countryTertiarySubdivision: string;
-    countrySubdivision: string;
-    countrySubdivisionName: string;
-    postalCode: string;
-    extendedPostalCode: string;
-    countryCode: string;
-    country: string;
-    countryCodeISO3: string;
-    freeformAddress: string;
-  }
-}

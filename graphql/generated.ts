@@ -280,8 +280,9 @@ export type MemberAvatarImageInput = {
 export type MemberCreateInput = {
   accounts: Array<InputMaybe<MemberAccountCreateInput>>;
   community: Scalars["ObjectID"];
+  name: Scalars["String"];
   profile?: InputMaybe<MemberProfileInput>;
-  role: Scalars["ObjectID"];
+  role?: InputMaybe<Scalars["ObjectID"]>;
 };
 
 export type MemberMutationResult = MutationResult & {
@@ -322,7 +323,7 @@ export type MemberProfileUpdateInput = {
 };
 
 export type MemberRoleReassignInput = {
-  member: Scalars["ObjectID"];
+  memberId: Scalars["ObjectID"];
   newRole: Scalars["ObjectID"];
 };
 

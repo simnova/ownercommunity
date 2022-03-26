@@ -1,6 +1,14 @@
 import { Location } from '../../../../infrastructure/data-sources/cosmos-db/models/location';
-import { LocationProps } from '../../../contexts/property/location';
 import { MongooseDomainAdapter } from '../mongo-domain-adapter';
+import { Location as LocationDO, LocationProps } from '../../../../domain/contexts/property/location';
+import { DomainExecutionContext } from '../../../contexts/context';
+import { MongoTypeConverter } from '../mongo-type-converter';
+
+export class LocationConverter extends MongoTypeConverter<DomainExecutionContext,Location,LocationDomainAdapter,LocationDO<LocationDomainAdapter>> {
+  constructor() {
+    super(LocationDomainAdapter, LocationDO);
+  }
+}
 
 export class LocationDomainAdapter extends MongooseDomainAdapter<Location> implements LocationProps {
   constructor(props: Location) {super(props);}

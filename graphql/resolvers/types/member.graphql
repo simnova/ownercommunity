@@ -58,13 +58,14 @@ type MemberMutationResult implements MutationResult {
 
 input MemberCreateInput {
   community: ObjectID!
-  role: ObjectID!
+  name:String!
+  role: ObjectID
   accounts: [MemberAccountCreateInput]!
   profile: MemberProfileInput
 }
 
 input MemberRoleReassignInput {
-  member: ObjectID!
+  memberId: ObjectID!
   newRole: ObjectID!
 }
 

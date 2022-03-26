@@ -29,7 +29,7 @@ export class ApolloServerRequestHandler {
       context: async (req:any) => {
         let bearerToken = util.ExtractBearerToken(req.request);
         let context:Partial<ApolloContext> ={};
-        
+        context.community = req.request.headers['community'];
         if(bearerToken){
           let verifiedUser = await portalTokenExtractor.GetVerifiedUser(bearerToken);
           console.log('Decorating context with verifed user:',JSON.stringify(verifiedUser));

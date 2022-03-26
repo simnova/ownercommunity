@@ -23,16 +23,16 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     this.visa =  context.passport.forCommunity(this);
   }
 
-  get id(): string {return this.props.id;}
-  get name(): string {return this.props.name;}
-  get domain(): string {return this.props.domain;}
-  get whiteLabelDomain(): string {return this.props.whiteLabelDomain;}
-  get handle(): string {return this.props.handle;}
-  get updatedAt(): Date {return this.props.updatedAt;}
-  get createdAt(): Date {return this.props.createdAt;}
-  get schemaVersion(): string {return this.props.schemaVersion;}
+  get id() {return this.props.id;}
+  get name() {return this.props.name;}
+  get domain() {return this.props.domain;}
+  get whiteLabelDomain() {return this.props.whiteLabelDomain;}
+  get handle() {return this.props.handle;}
+  get updatedAt() {return this.props.updatedAt;}
+  get createdAt() {return this.props.createdAt;}
+  get schemaVersion() {return this.props.schemaVersion;}
 
-  public static getNewCommunity<props extends CommunityProps> (newProps:props,name:string,domain:string,whiteLabelDomain:string, handle:string, context: DomainExecutionContext): Community<props> {
+  public static getNewInstance<props extends CommunityProps> (newProps:props,name:string,domain:string,whiteLabelDomain:string, handle:string, context: DomainExecutionContext): Community<props> {
     let community = new Community(newProps, context);
     community.requestSetName(name);
     community.requestSetDomain(domain);

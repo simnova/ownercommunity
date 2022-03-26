@@ -13,5 +13,15 @@ export class Communities extends MongoDataSource<Community, Context> {
   async getCommunityByDomain(domain: string): Promise<Community> {
     return this.findByFields({domain: domain})?.[0];
   }
+  async getCommunityByHeader(header: string): Promise<Community> {
+    return this.collection.find({
+      $or: [
+        {_id: header},
+        {handle: header},
+        {domain: header},
+        {whileLabelDomain: header}
+      ]
+      })?.[0];
+  }
 
 }

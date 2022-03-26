@@ -2149,6 +2149,22 @@
             "deprecationReason": null
           },
           {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "profile",
             "description": null,
             "type": {
@@ -2164,13 +2180,9 @@
             "name": "role",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ObjectID",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "ObjectID",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2530,7 +2542,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "member",
+            "name": "memberId",
             "description": null,
             "type": {
               "kind": "NON_NULL",

@@ -42,7 +42,7 @@ const schema = new Schema<Member, Model<Member>, Member>(
       required: false,
     },
     memberName: { type: String, required: true, maxlength: 200 },
-    community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: false, index: true },    
+    community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true },    
     role: { type: Schema.Types.ObjectId, ref:Role.RoleModel.modelName, required: false, index: true },
     accounts: [{
       firstName: { type: String, required: true, maxlength: 500 },
@@ -83,8 +83,6 @@ const schema = new Schema<Member, Model<Member>, Member>(
 schema.path('accounts').validate(function(accounts) {
   return accounts.length > 5;
 }, 'At most 5 accounts can exist per member');
-schema.path('accounts').validate(function(accounts) {
-  return accounts.length < 1;
-}, 'At least 1 must be assigned to a member');
+
 
 export const MemberModel = model<Member>('Member',schema);

@@ -24,6 +24,7 @@ export interface RoleEntityReference extends Readonly<Omit<RoleProps,
 }
 
 export class Role<props extends RoleProps> extends AggregateRoot<props> implements RoleEntityReference{
+  private isNew: boolean = false;
   private visa : CommunityVisa;
   constructor(props: props, private context:DomainExecutionContext) { 
     super(props); 
@@ -40,24 +41,32 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
 
   public static getNewInstance<props extends RoleProps>(newProps: props, roleName:string,isDefault:boolean,community:CommunityEntityReference, context:DomainExecutionContext): Role<props> {
     var role = new Role(newProps,context);
+    role.isNew = true;
     role.requestSetRoleName(roleName);
     role.requestSetCommunity(community);
     role.requestSetIsDefault(isDefault);
+    role.isNew = false;
     return role
   }
 
   private requestSetCommunity(community:CommunityEntityReference): void {
-    if(!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) { throw new Error('You do not have permission to update this account'); }
+    if(
+      !this.isNew &&
+      !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) { throw new Error('You do not have permission to update this account'); }
     this.props.setCommunityRef(community);
   }
   
   private requestSetIsDefault(isDefault:boolean): void {
-    if(!this.visa.determineIf((permissions) => permissions.isSystemAccount)) { throw new Error('You do not have permission to update this account'); }
+    if(
+      !this.isNew &&
+      !this.visa.determineIf((permissions) => permissions.isSystemAccount)) { throw new Error('You do not have permission to update this account'); }
     this.props.isDefault = isDefault;
   }
 
   public requestSetRoleName(roleName:string): void {
-    if(!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {throw new Error('Cannot set role name');}
+    if(
+      !this.isNew &&
+      !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {throw new Error('Cannot set role name');}
     this.props.roleName = roleName;
   }
 

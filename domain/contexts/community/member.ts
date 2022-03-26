@@ -35,6 +35,7 @@ export interface MemberEntityReference extends Readonly<Omit<MemberProps,
 }
 
 export class Member<props extends MemberProps> extends AggregateRoot<props> implements MemberEntityReference  {
+  private isNew:boolean = false;
   readonly visa: CommunityVisa;
   constructor(props: props,private readonly context:DomainExecutionContext) {
     super(props);
@@ -53,21 +54,27 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
 
   public static async getNewInstance<props extends MemberProps> (newProps:props,name:string,community:CommunityEntityReference, context:DomainExecutionContext): Promise<Member<props>> {
     let member = new Member(newProps,context);
+    member.isNew = true;
     member.requestSetMemberName(name);
     member.requestSetCommunity(community);
+    member.isNew = false;
     return member;
   }
 
 
   public requestSetMemberName(memberName:ValueObjects.MemberName): void {
-    if(!this.visa.determineIf((permissions) => permissions.canManageMembers)) { throw new Error('Cannot set member name'); }
+    if(
+      !this.isNew &&
+      !this.visa.determineIf((permissions) => permissions.canManageMembers)) { throw new Error('Cannot set member name'); }
     this.props.memberName = memberName.valueOf();
   }
   private requestSetCommunity(community:CommunityEntityReference): void {
     this.props.setCommunityRef(community);
   }
   public requestSetRole(role:RoleEntityReference): void {
-    if(!this.visa.determineIf((permissions) => permissions.canManageMembers)) { throw new Error('Cannot set role'); }
+    if(
+      !this.isNew &&
+      !this.visa.determineIf((permissions) => permissions.canManageMembers)) { throw new Error('Cannot set role'); }
     this.props.setRoleRef(role);
   }
   public requestAddAccount(): Account {

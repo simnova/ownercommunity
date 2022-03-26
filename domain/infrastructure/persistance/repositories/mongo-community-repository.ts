@@ -23,5 +23,4 @@ export class MongoCommunityRepository<PropType extends CommunityProps> extends M
     return CommunityDO.getNewInstance(adapter, name, domain, whiteLabelDomain, handle, this.context);
   }
 
-
 }

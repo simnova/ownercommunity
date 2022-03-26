@@ -40,9 +40,19 @@ export interface PropertyEntityReference extends Readonly<Omit<PropertyProps,
 
 export class Property<props extends PropertyProps> extends AggregateRoot<props> implements PropertyEntityReference {
   private readonly visa: PropertyVisa;
+  private isNew: boolean = false;
   constructor(props: props, private readonly context: DomainExecutionContext) { 
     super(props); 
     this.visa = context.passport.forProperty(this);
+  }
+
+  public static getNewInstance<props extends PropertyProps>(newProps: props, propertyName:string,community:CommunityEntityReference, context:DomainExecutionContext): Property<props> {
+    var property = new Property(newProps,context);
+    property.isNew = true;
+    property.requestSetPropertyName(propertyName);
+    property.requestSetCommunity(community);
+    property.isNew = false;
+    return property
   }
 
   get community():CommunityEntityReference { return new Community(this.props.community, this.context); }
@@ -59,9 +69,10 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   get updatedAt() { return this.props.updatedAt; }
   get schemaVersion() { return this.props.schemaVersion; }
 
-
   public requestSetCommunity(community: CommunityEntityReference): void {
-    if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
     this.props.setCommunityRef(community);
   }
   public requestSetLocation(location: LocationEntityReference): void {
@@ -73,7 +84,9 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     this.props.setOwnerRef(owner);
   }
   public requestSetPropertyName(propertyName: ValueObjects.PropertyName): void {
-    if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
     this.props.propertyName = propertyName.valueOf();
   }
   public requestSetPropertyType(propertyType: ValueObjects.PropertyType): void {

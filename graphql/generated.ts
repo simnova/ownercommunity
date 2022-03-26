@@ -367,6 +367,10 @@ export type Mutation = {
   memberProfileAvatarRemove: MemberMutationResult;
   memberProfileUpdate: MemberMutationResult;
   memberRoleReassign: MemberMutationResult;
+  propertyAdd: PropertyMutationResult;
+  propertyAssignOwner: PropertyMutationResult;
+  propertyRemoveOwner: PropertyMutationResult;
+  propertyUpdate: PropertyMutationResult;
   roleAdd: RoleMutationResult;
   roleDeleteAndReassign: RoleMutationResult;
   roleUpdate: RoleMutationResult;
@@ -431,6 +435,26 @@ export type MutationMemberProfileUpdateArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberRoleReassignArgs = {
   input: MemberRoleReassignInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyAddArgs = {
+  input: PropertyAddInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyAssignOwnerArgs = {
+  input: PropertyAssignOwnerInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyRemoveOwnerArgs = {
+  input: PropertyRemoveOwnerInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyUpdateArgs = {
+  input: PropertyUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -536,6 +560,22 @@ export type Property = MongoBase & {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
+export type PropertyAddInput = {
+  communityId: Scalars["ObjectID"];
+  propertyName: Scalars["String"];
+};
+
+export type PropertyAssignOwnerInput = {
+  id: Scalars["ObjectID"];
+  ownerId: Scalars["ObjectID"];
+};
+
+export type PropertyMutationResult = {
+  __typename?: "PropertyMutationResult";
+  property?: Maybe<Property>;
+  status: MutationStatus;
+};
+
 export type PropertyPermissions = {
   __typename?: "PropertyPermissions";
   canEditOwnProperty: Scalars["Boolean"];
@@ -545,6 +585,20 @@ export type PropertyPermissions = {
 export type PropertyPermissionsInput = {
   canEditOwnProperty: Scalars["Boolean"];
   canManageProperties: Scalars["Boolean"];
+};
+
+export type PropertyRemoveOwnerInput = {
+  id: Scalars["ObjectID"];
+};
+
+export type PropertyUpdateInput = {
+  id: Scalars["ObjectID"];
+  listedForLease?: InputMaybe<Scalars["Boolean"]>;
+  listedForRent?: InputMaybe<Scalars["Boolean"]>;
+  listedForSale?: InputMaybe<Scalars["Boolean"]>;
+  listedInDirectory?: InputMaybe<Scalars["Boolean"]>;
+  propertyName?: InputMaybe<Scalars["String"]>;
+  propertyType?: InputMaybe<Scalars["String"]>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1015,8 +1069,13 @@ export type ResolversTypes = ResolversObject<{
   PositiveInt: ResolverTypeWrapper<Scalars["PositiveInt"]>;
   PostalCode: ResolverTypeWrapper<Scalars["PostalCode"]>;
   Property: ResolverTypeWrapper<Property>;
+  PropertyAddInput: PropertyAddInput;
+  PropertyAssignOwnerInput: PropertyAssignOwnerInput;
+  PropertyMutationResult: ResolverTypeWrapper<PropertyMutationResult>;
   PropertyPermissions: ResolverTypeWrapper<PropertyPermissions>;
   PropertyPermissionsInput: PropertyPermissionsInput;
+  PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
+  PropertyUpdateInput: PropertyUpdateInput;
   Query: ResolverTypeWrapper<{}>;
   RGB: ResolverTypeWrapper<Scalars["RGB"]>;
   RGBA: ResolverTypeWrapper<Scalars["RGBA"]>;
@@ -1154,8 +1213,13 @@ export type ResolversParentTypes = ResolversObject<{
   PositiveInt: Scalars["PositiveInt"];
   PostalCode: Scalars["PostalCode"];
   Property: Property;
+  PropertyAddInput: PropertyAddInput;
+  PropertyAssignOwnerInput: PropertyAssignOwnerInput;
+  PropertyMutationResult: PropertyMutationResult;
   PropertyPermissions: PropertyPermissions;
   PropertyPermissionsInput: PropertyPermissionsInput;
+  PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
+  PropertyUpdateInput: PropertyUpdateInput;
   Query: {};
   RGB: Scalars["RGB"];
   RGBA: Scalars["RGBA"];
@@ -1956,6 +2020,30 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationMemberRoleReassignArgs, "input">
   >;
+  propertyAdd?: Resolver<
+    ResolversTypes["PropertyMutationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPropertyAddArgs, "input">
+  >;
+  propertyAssignOwner?: Resolver<
+    ResolversTypes["PropertyMutationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPropertyAssignOwnerArgs, "input">
+  >;
+  propertyRemoveOwner?: Resolver<
+    ResolversTypes["PropertyMutationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPropertyRemoveOwnerArgs, "input">
+  >;
+  propertyUpdate?: Resolver<
+    ResolversTypes["PropertyMutationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPropertyUpdateArgs, "input">
+  >;
   roleAdd?: Resolver<
     ResolversTypes["RoleMutationResult"],
     ParentType,
@@ -2202,6 +2290,19 @@ export type PropertyResolvers<
     ParentType,
     ContextType
   >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PropertyMutationResultResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes["PropertyMutationResult"] = ResolversParentTypes["PropertyMutationResult"]
+> = ResolversObject<{
+  property?: Resolver<
+    Maybe<ResolversTypes["Property"]>,
+    ParentType,
+    ContextType
+  >;
+  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2696,6 +2797,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   PositiveInt?: GraphQLScalarType;
   PostalCode?: GraphQLScalarType;
   Property?: PropertyResolvers<ContextType>;
+  PropertyMutationResult?: PropertyMutationResultResolvers<ContextType>;
   PropertyPermissions?: PropertyPermissionsResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RGB?: GraphQLScalarType;

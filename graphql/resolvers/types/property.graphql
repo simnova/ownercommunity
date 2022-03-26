@@ -89,3 +89,35 @@ type Address {
 extend type Query {
   propertiesByCommunityId(communityId: ObjectID!): [Property]
 }
+extend type Mutation {
+  propertyAdd(input: PropertyAddInput!): PropertyMutationResult!
+  propertyUpdate(input: PropertyUpdateInput!): PropertyMutationResult!
+  propertyAssignOwner(input: PropertyAssignOwnerInput!): PropertyMutationResult!
+  propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!
+}
+
+type PropertyMutationResult  {
+  status: MutationStatus!
+  property: Property
+}
+
+input PropertyAddInput {
+  communityId: ObjectID!
+  propertyName: String!
+}
+input PropertyUpdateInput {
+  id: ObjectID!
+  propertyName: String
+  propertyType: String
+  listedForSale: Boolean
+  listedForRent: Boolean
+  listedForLease: Boolean
+  listedInDirectory: Boolean
+}
+input PropertyAssignOwnerInput {
+  id: ObjectID!
+  ownerId: ObjectID!
+}
+input PropertyRemoveOwnerInput {
+  id: ObjectID!
+}

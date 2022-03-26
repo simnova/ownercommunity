@@ -6,6 +6,7 @@ import { TypeConverter } from '../../../shared/type-converter';
 import { ClientSession } from 'mongoose';
 import { EventBus } from '../../../shared/event-bus';
 import { DomainExecutionContext } from '../../../contexts/context';
+import { CommunityEntityReference } from '../../../contexts/community/community';
 
 export class MongoPropertyRepository<PropType extends PropertyProps> extends MongoRepositoryBase<DomainExecutionContext, Property,PropType,PropertyDO<PropType>> implements PropertyRepository<PropType> {
   constructor(
@@ -16,6 +17,11 @@ export class MongoPropertyRepository<PropType extends PropertyProps> extends Mon
     context: DomainExecutionContext
   ) {
     super(eventBus,modelType,typeConverter,session,context);
+  }
+
+  async getNewInstance(propertyName:string, community:CommunityEntityReference): Promise<PropertyDO<PropType>> {
+    let adapter = this.typeConverter.toAdapter(new this.model());
+    return PropertyDO.getNewInstance(adapter,propertyName, community, this.context);
   }
   
 }

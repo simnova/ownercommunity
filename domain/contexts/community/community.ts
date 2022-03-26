@@ -18,6 +18,7 @@ export interface CommunityEntityReference extends Readonly<CommunityProps> {}
 
 export class Community<props extends CommunityProps> extends AggregateRoot<props> implements CommunityEntityReference  {
   readonly visa : CommunityVisa;
+  private isNew:boolean = false;
   constructor(props: props,private readonly context: DomainExecutionContext) { 
     super(props); 
     this.visa =  context.passport.forCommunity(this);
@@ -34,26 +35,37 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
 
   public static getNewInstance<props extends CommunityProps> (newProps:props,name:string,domain:string,whiteLabelDomain:string, handle:string, context: DomainExecutionContext): Community<props> {
     let community = new Community(newProps, context);
+    community.isNew = true;
     community.requestSetName(name);
     community.requestSetDomain(domain);
     community.requestSetWhiteLabelDomain(whiteLabelDomain);
+    community.requestSetHandle(handle);
+    community.isNew = false
     return community;
   }
 
   public requestSetName(name:ValueObjects.Name): void {
-    if(!this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the name of this community');}
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the name of this community');}
     this.props.name = name.valueOf();
   }
   public requestSetDomain(domain:ValueObjects.Domain): void {
-    if(!this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the domain of this community');}
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the domain of this community');}
     this.props.domain = domain.valueOf();
   }
   public requestSetWhiteLabelDomain(whiteLabelDomain:ValueObjects.WhiteLabelDomain): void {
-    if(!this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the white label domain of this community');}
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the white label domain of this community');}
     this.props.whiteLabelDomain = whiteLabelDomain.valueOf();
   }
   public requestSetHandle(handle:ValueObjects.Handle): void {
-    if(!this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the handle of this community');}
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the handle of this community');}
     this.props.handle = handle.valueOf();
   }
 

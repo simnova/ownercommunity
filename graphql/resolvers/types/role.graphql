@@ -16,6 +16,11 @@ type RolePermissions {
   communityPermissions: CommunityPermissions!
   propertyPermissions: PropertyPermissions!
 }
+input PermissionsInput {
+  serviceTicketPermissions: ServiceTicketPermissionsInput!
+  communityPermissions: CommunityPermissionsInput!
+  propertyPermissions: PropertyPermissionsInput!
+}
 
 
 type ServiceTicketPermissions {
@@ -24,13 +29,13 @@ type ServiceTicketPermissions {
   canAssignTickets: Boolean!
   canWorkOnTickets: Boolean!  
 }
-
 input ServiceTicketPermissionsInput {
   canCreateTickets: Boolean!
   canManageTickets: Boolean!
   canAssignTickets: Boolean!
   canWorkOnTickets: Boolean!  
 }
+
 type PropertyPermissions {
   canManageProperties: Boolean!
   canEditOwnProperty: Boolean!
@@ -88,10 +93,4 @@ input RoleUpdateInput {
 input RoleDeleteAndReassignInput {
   roleToDelete: ObjectID!
   roleToReassignTo: ObjectID!
-}
-
-input PermissionsInput {
-  serviceTicketPermissions: ServiceTicketPermissionsInput!
-  communityPermissions: CommunityPermissionsInput!
-  propertyPermissions: PropertyPermissionsInput!
 }

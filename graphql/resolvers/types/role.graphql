@@ -12,30 +12,49 @@ type Role implements MongoBase {
 }
 
 type RolePermissions {
-#  serviceTicketPermissions: ServiceTicketPermissions!
+  serviceTicketPermissions: ServiceTicketPermissions!
   communityPermissions: CommunityPermissions!
+  propertyPermissions: PropertyPermissions!
 }
+
 
 type ServiceTicketPermissions {
   canCreateTickets: Boolean!
   canManageTickets: Boolean!
-  canWorkOnTickets: Boolean!
+  canAssignTickets: Boolean!
+  canWorkOnTickets: Boolean!  
 }
+
 input ServiceTicketPermissionsInput {
   canCreateTickets: Boolean!
   canManageTickets: Boolean!
-  canWorkOnTickets: Boolean!
+  canAssignTickets: Boolean!
+  canWorkOnTickets: Boolean!  
+}
+type PropertyPermissions {
+  canManageProperties: Boolean!
+  canEditOwnProperty: Boolean!
+}
+input PropertyPermissionsInput {
+  canManageProperties: Boolean!
+  canEditOwnProperty: Boolean!
 }
 
 type CommunityPermissions {
   canManageRolesAndPermissions: Boolean!
   canManageCommunitySettings: Boolean!
   canManageSiteContent: Boolean!
+  canManageMembers: Boolean!
+  canEditOwnMemberProfile: Boolean!
+  canEditOwnMemberAccounts: Boolean!
 }
 input CommunityPermissionsInput {
   canManageRolesAndPermissions: Boolean!
   canManageCommunitySettings: Boolean!
   canManageSiteContent: Boolean!
+  canManageMembers: Boolean!
+  canEditOwnMemberProfile: Boolean!
+  canEditOwnMemberAccounts: Boolean!
 }
 
 extend type Query {
@@ -56,7 +75,6 @@ type RoleMutationResult {
 input RoleAddInput {
   communityId: ObjectID!
   roleName: String!
-  isDefault: Boolean!
   permissions: PermissionsInput!
 }
 
@@ -75,15 +93,5 @@ input RoleDeleteAndReassignInput {
 input PermissionsInput {
   serviceTicketPermissions: ServiceTicketPermissionsInput!
   communityPermissions: CommunityPermissionsInput!
-}
-input ServiceTicketPermissionsInput {
-  canCreateTickets: Boolean!
-  canManageTickets: Boolean!
-  canWorkOnTickets: Boolean!
-}
-
-input CommunityPermissionsInput {
-  canManageRolesAndPermissions: Boolean!
-  canManageCommunitySettings: Boolean!
-  canManageSiteContent: Boolean!
+  propertyPermissions: PropertyPermissionsInput!
 }

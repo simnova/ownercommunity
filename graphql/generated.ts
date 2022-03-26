@@ -152,13 +152,19 @@ export type CommunityMutationResult = {
 
 export type CommunityPermissions = {
   __typename?: "CommunityPermissions";
+  canEditOwnMemberAccounts: Scalars["Boolean"];
+  canEditOwnMemberProfile: Scalars["Boolean"];
   canManageCommunitySettings: Scalars["Boolean"];
+  canManageMembers: Scalars["Boolean"];
   canManageRolesAndPermissions: Scalars["Boolean"];
   canManageSiteContent: Scalars["Boolean"];
 };
 
 export type CommunityPermissionsInput = {
+  canEditOwnMemberAccounts: Scalars["Boolean"];
+  canEditOwnMemberProfile: Scalars["Boolean"];
   canManageCommunitySettings: Scalars["Boolean"];
+  canManageMembers: Scalars["Boolean"];
   canManageRolesAndPermissions: Scalars["Boolean"];
   canManageSiteContent: Scalars["Boolean"];
 };
@@ -499,6 +505,7 @@ export type MutationStatus = {
 
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
+  propertyPermissions: PropertyPermissionsInput;
   serviceTicketPermissions: ServiceTicketPermissionsInput;
 };
 
@@ -527,6 +534,17 @@ export type Property = MongoBase & {
   propertyType?: Maybe<Scalars["String"]>;
   schemaVersion?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type PropertyPermissions = {
+  __typename?: "PropertyPermissions";
+  canEditOwnProperty: Scalars["Boolean"];
+  canManageProperties: Scalars["Boolean"];
+};
+
+export type PropertyPermissionsInput = {
+  canEditOwnProperty: Scalars["Boolean"];
+  canManageProperties: Scalars["Boolean"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -624,7 +642,6 @@ export type Role = MongoBase & {
 
 export type RoleAddInput = {
   communityId: Scalars["ObjectID"];
-  isDefault: Scalars["Boolean"];
   permissions: PermissionsInput;
   roleName: Scalars["String"];
 };
@@ -643,6 +660,8 @@ export type RoleMutationResult = {
 export type RolePermissions = {
   __typename?: "RolePermissions";
   communityPermissions: CommunityPermissions;
+  propertyPermissions: PropertyPermissions;
+  serviceTicketPermissions: ServiceTicketPermissions;
 };
 
 export type RoleUpdateInput = {
@@ -719,12 +738,14 @@ export type ServiceTicketMutationResult = MutationResult & {
 
 export type ServiceTicketPermissions = {
   __typename?: "ServiceTicketPermissions";
+  canAssignTickets: Scalars["Boolean"];
   canCreateTickets: Scalars["Boolean"];
   canManageTickets: Scalars["Boolean"];
   canWorkOnTickets: Scalars["Boolean"];
 };
 
 export type ServiceTicketPermissionsInput = {
+  canAssignTickets: Scalars["Boolean"];
   canCreateTickets: Scalars["Boolean"];
   canManageTickets: Scalars["Boolean"];
   canWorkOnTickets: Scalars["Boolean"];
@@ -994,6 +1015,8 @@ export type ResolversTypes = ResolversObject<{
   PositiveInt: ResolverTypeWrapper<Scalars["PositiveInt"]>;
   PostalCode: ResolverTypeWrapper<Scalars["PostalCode"]>;
   Property: ResolverTypeWrapper<Property>;
+  PropertyPermissions: ResolverTypeWrapper<PropertyPermissions>;
+  PropertyPermissionsInput: PropertyPermissionsInput;
   Query: ResolverTypeWrapper<{}>;
   RGB: ResolverTypeWrapper<Scalars["RGB"]>;
   RGBA: ResolverTypeWrapper<Scalars["RGBA"]>;
@@ -1131,6 +1154,8 @@ export type ResolversParentTypes = ResolversObject<{
   PositiveInt: Scalars["PositiveInt"];
   PostalCode: Scalars["PostalCode"];
   Property: Property;
+  PropertyPermissions: PropertyPermissions;
+  PropertyPermissionsInput: PropertyPermissionsInput;
   Query: {};
   RGB: Scalars["RGB"];
   RGBA: Scalars["RGBA"];
@@ -1369,7 +1394,22 @@ export type CommunityPermissionsResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes["CommunityPermissions"] = ResolversParentTypes["CommunityPermissions"]
 > = ResolversObject<{
+  canEditOwnMemberAccounts?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  canEditOwnMemberProfile?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
   canManageCommunitySettings?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  canManageMembers?: Resolver<
     ResolversTypes["Boolean"],
     ParentType,
     ContextType
@@ -2165,6 +2205,23 @@ export type PropertyResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type PropertyPermissionsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes["PropertyPermissions"] = ResolversParentTypes["PropertyPermissions"]
+> = ResolversObject<{
+  canEditOwnProperty?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  canManageProperties?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type QueryResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
@@ -2317,6 +2374,16 @@ export type RolePermissionsResolvers<
     ParentType,
     ContextType
   >;
+  propertyPermissions?: Resolver<
+    ResolversTypes["PropertyPermissions"],
+    ParentType,
+    ContextType
+  >;
+  serviceTicketPermissions?: Resolver<
+    ResolversTypes["ServiceTicketPermissions"],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2411,6 +2478,11 @@ export type ServiceTicketPermissionsResolvers<
   ContextType = Context,
   ParentType extends ResolversParentTypes["ServiceTicketPermissions"] = ResolversParentTypes["ServiceTicketPermissions"]
 > = ResolversObject<{
+  canAssignTickets?: Resolver<
+    ResolversTypes["Boolean"],
+    ParentType,
+    ContextType
+  >;
   canCreateTickets?: Resolver<
     ResolversTypes["Boolean"],
     ParentType,
@@ -2624,6 +2696,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   PositiveInt?: GraphQLScalarType;
   PostalCode?: GraphQLScalarType;
   Property?: PropertyResolvers<ContextType>;
+  PropertyPermissions?: PropertyPermissionsResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RGB?: GraphQLScalarType;
   RGBA?: GraphQLScalarType;

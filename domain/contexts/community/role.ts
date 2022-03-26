@@ -38,8 +38,8 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
   get updatedAt() { return this.props.updatedAt; }  
   get schemaVersion() {return this.props.schemaVersion;}
 
-  public static create(props: RoleProps, roleName:string,isDefault:boolean,community:CommunityEntityReference, context:DomainExecutionContext): Role<RoleProps> {
-    var role = new Role(props,context);
+  public static getNewInstance<props extends RoleProps>(newProps: props, roleName:string,isDefault:boolean,community:CommunityEntityReference, context:DomainExecutionContext): Role<props> {
+    var role = new Role(newProps,context);
     role.requestSetRoleName(roleName);
     role.requestSetCommunity(community);
     role.requestSetIsDefault(isDefault);

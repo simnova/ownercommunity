@@ -6,6 +6,7 @@ import { TypeConverter } from '../../../shared/type-converter';
 import { ClientSession } from 'mongoose';
 import { EventBus } from '../../../shared/event-bus';
 import { DomainExecutionContext } from '../../../contexts/context';
+import { CommunityEntityReference } from '../../../contexts/community/community';
 
 export class MongoRoleRepository<PropType extends RoleProps> extends MongoRepositoryBase<DomainExecutionContext, Role,PropType,RoleDO<PropType>> implements RoleRepository<PropType> {
   constructor(
@@ -18,4 +19,8 @@ export class MongoRoleRepository<PropType extends RoleProps> extends MongoReposi
     super(eventBus,modelType,typeConverter,session,context);
   }
   
+  async getNewInstance(name:string, community:CommunityEntityReference): Promise<RoleDO<PropType>> {
+    let adapter = this.typeConverter.toAdapter(new this.model());
+    return RoleDO.getNewInstance(adapter, name, false, community, this.context);
+  }
 }

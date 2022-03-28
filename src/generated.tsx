@@ -72,8 +72,8 @@ export type Scalars = {
   Void: any;
 };
 
-export type AdditionalAmmenities = {
-  __typename?: "AdditionalAmmenities";
+export type AdditionalAmenities = {
+  __typename?: "AdditionalAmenities";
   amenities?: Maybe<Array<Maybe<Scalars["String"]>>>;
   category?: Maybe<Scalars["String"]>;
 };
@@ -130,10 +130,7 @@ export type Community = MongoBase & {
 };
 
 export type CommunityCreateInput = {
-  domain?: InputMaybe<Scalars["String"]>;
-  handle?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
-  whiteLabelDomain?: InputMaybe<Scalars["String"]>;
 };
 
 export type CommunityMutationResult = {
@@ -144,13 +141,19 @@ export type CommunityMutationResult = {
 
 export type CommunityPermissions = {
   __typename?: "CommunityPermissions";
+  canEditOwnMemberAccounts: Scalars["Boolean"];
+  canEditOwnMemberProfile: Scalars["Boolean"];
   canManageCommunitySettings: Scalars["Boolean"];
+  canManageMembers: Scalars["Boolean"];
   canManageRolesAndPermissions: Scalars["Boolean"];
   canManageSiteContent: Scalars["Boolean"];
 };
 
 export type CommunityPermissionsInput = {
+  canEditOwnMemberAccounts: Scalars["Boolean"];
+  canEditOwnMemberProfile: Scalars["Boolean"];
   canManageCommunitySettings: Scalars["Boolean"];
+  canManageMembers: Scalars["Boolean"];
   canManageRolesAndPermissions: Scalars["Boolean"];
   canManageSiteContent: Scalars["Boolean"];
 };
@@ -178,7 +181,7 @@ export type CommunityUpdateInput = {
 
 export type ListingDetails = {
   __typename?: "ListingDetails";
-  additionalAmmenities?: Maybe<AdditionalAmmenities>;
+  additionalAmenities?: Maybe<AdditionalAmenities>;
   amenities?: Maybe<Array<Maybe<Scalars["String"]>>>;
   bathrooms?: Maybe<Scalars["Float"]>;
   bedroomDetails?: Maybe<BedroomDetails>;
@@ -272,8 +275,9 @@ export type MemberAvatarImageInput = {
 export type MemberCreateInput = {
   accounts: Array<InputMaybe<MemberAccountCreateInput>>;
   community: Scalars["ObjectID"];
+  name: Scalars["String"];
   profile?: InputMaybe<MemberProfileInput>;
-  role: Scalars["ObjectID"];
+  role?: InputMaybe<Scalars["ObjectID"]>;
 };
 
 export type MemberMutationResult = MutationResult & {
@@ -314,7 +318,7 @@ export type MemberProfileUpdateInput = {
 };
 
 export type MemberRoleReassignInput = {
-  member: Scalars["ObjectID"];
+  memberId: Scalars["ObjectID"];
   newRole: Scalars["ObjectID"];
 };
 
@@ -342,7 +346,7 @@ export type Mutation = {
   __typename?: "Mutation";
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars["String"]>;
-  communityCreate: CommunityMutationResult;
+  communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityPublicContentAuthHeaderResult;
   communityUpdate: CommunityMutationResult;
   memberAccountAdd: MemberMutationResult;
@@ -352,6 +356,10 @@ export type Mutation = {
   memberProfileAvatarRemove: MemberMutationResult;
   memberProfileUpdate: MemberMutationResult;
   memberRoleReassign: MemberMutationResult;
+  propertyAdd: PropertyMutationResult;
+  propertyAssignOwner: PropertyMutationResult;
+  propertyRemoveOwner: PropertyMutationResult;
+  propertyUpdate: PropertyMutationResult;
   roleAdd: RoleMutationResult;
   roleDeleteAndReassign: RoleMutationResult;
   roleUpdate: RoleMutationResult;
@@ -416,6 +424,26 @@ export type MutationMemberProfileUpdateArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberRoleReassignArgs = {
   input: MemberRoleReassignInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyAddArgs = {
+  input: PropertyAddInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyAssignOwnerArgs = {
+  input: PropertyAssignOwnerInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyRemoveOwnerArgs = {
+  input: PropertyRemoveOwnerInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyUpdateArgs = {
+  input: PropertyUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -490,6 +518,7 @@ export type MutationStatus = {
 
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
+  propertyPermissions: PropertyPermissionsInput;
   serviceTicketPermissions: ServiceTicketPermissionsInput;
 };
 
@@ -520,11 +549,53 @@ export type Property = MongoBase & {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
+export type PropertyAddInput = {
+  communityId: Scalars["ObjectID"];
+  propertyName: Scalars["String"];
+};
+
+export type PropertyAssignOwnerInput = {
+  id: Scalars["ObjectID"];
+  ownerId: Scalars["ObjectID"];
+};
+
+export type PropertyMutationResult = {
+  __typename?: "PropertyMutationResult";
+  property?: Maybe<Property>;
+  status: MutationStatus;
+};
+
+export type PropertyPermissions = {
+  __typename?: "PropertyPermissions";
+  canEditOwnProperty: Scalars["Boolean"];
+  canManageProperties: Scalars["Boolean"];
+};
+
+export type PropertyPermissionsInput = {
+  canEditOwnProperty: Scalars["Boolean"];
+  canManageProperties: Scalars["Boolean"];
+};
+
+export type PropertyRemoveOwnerInput = {
+  id: Scalars["ObjectID"];
+};
+
+export type PropertyUpdateInput = {
+  id: Scalars["ObjectID"];
+  listedForLease?: InputMaybe<Scalars["Boolean"]>;
+  listedForRent?: InputMaybe<Scalars["Boolean"]>;
+  listedForSale?: InputMaybe<Scalars["Boolean"]>;
+  listedInDirectory?: InputMaybe<Scalars["Boolean"]>;
+  propertyName?: InputMaybe<Scalars["String"]>;
+  propertyType?: InputMaybe<Scalars["String"]>;
+};
+
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type Query = {
   __typename?: "Query";
   /** IGNORE: Dummy field necessary for the Query type to be valid */
   _empty?: Maybe<Scalars["String"]>;
+  communities?: Maybe<Array<Maybe<Community>>>;
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
@@ -615,7 +686,6 @@ export type Role = MongoBase & {
 
 export type RoleAddInput = {
   communityId: Scalars["ObjectID"];
-  isDefault: Scalars["Boolean"];
   permissions: PermissionsInput;
   roleName: Scalars["String"];
 };
@@ -634,6 +704,8 @@ export type RoleMutationResult = {
 export type RolePermissions = {
   __typename?: "RolePermissions";
   communityPermissions: CommunityPermissions;
+  propertyPermissions: PropertyPermissions;
+  serviceTicketPermissions: ServiceTicketPermissions;
 };
 
 export type RoleUpdateInput = {
@@ -695,8 +767,6 @@ export type ServiceTicketChangeStatusInput = {
 
 export type ServiceTicketCreateInput = {
   communityId: Scalars["ObjectID"];
-  description: Scalars["String"];
-  priority: Scalars["Int"];
   propertyId?: InputMaybe<Scalars["ObjectID"]>;
   requestorId: Scalars["ObjectID"];
   title: Scalars["String"];
@@ -710,12 +780,14 @@ export type ServiceTicketMutationResult = MutationResult & {
 
 export type ServiceTicketPermissions = {
   __typename?: "ServiceTicketPermissions";
+  canAssignTickets: Scalars["Boolean"];
   canCreateTickets: Scalars["Boolean"];
   canManageTickets: Scalars["Boolean"];
   canWorkOnTickets: Scalars["Boolean"];
 };
 
 export type ServiceTicketPermissionsInput = {
+  canAssignTickets: Scalars["Boolean"];
   canCreateTickets: Scalars["Boolean"];
   canManageTickets: Scalars["Boolean"];
   canWorkOnTickets: Scalars["Boolean"];
@@ -779,6 +851,112 @@ export type UserUpdateInput = {
   lastName?: InputMaybe<Scalars["String"]>;
 };
 
+export type CommunityCreateContainerMutationCommunityCreateMutationVariables =
+  Exact<{
+    input: CommunityCreateInput;
+  }>;
+
+export type CommunityCreateContainerMutationCommunityCreateMutation = {
+  __typename?: "Mutation";
+  communityCreate?: {
+    __typename?: "CommunityMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    community?: {
+      __typename?: "Community";
+      name?: string | null;
+      domain?: string | null;
+      whiteLabelDomain?: string | null;
+      handle?: string | null;
+      publicContentBlobUrl?: string | null;
+      id: any;
+      schemaVersion?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  } | null;
+};
+
+export type CommunityCreateContainerMutationCommunityCreateFieldsFragment = {
+  __typename?: "CommunityMutationResult";
+  status: {
+    __typename?: "MutationStatus";
+    success: boolean;
+    errorMessage?: string | null;
+  };
+  community?: {
+    __typename?: "Community";
+    name?: string | null;
+    domain?: string | null;
+    whiteLabelDomain?: string | null;
+    handle?: string | null;
+    publicContentBlobUrl?: string | null;
+    id: any;
+    schemaVersion?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type CommunityListContainerCommunitiesQueryQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type CommunityListContainerCommunitiesQueryQuery = {
+  __typename?: "Query";
+  communities?: Array<{
+    __typename?: "Community";
+    name?: string | null;
+    domain?: string | null;
+    whiteLabelDomain?: string | null;
+    handle?: string | null;
+    publicContentBlobUrl?: string | null;
+    id: any;
+    schemaVersion?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
+};
+
+export type CommunityListContainerCommunitiesFieldsFragment = {
+  __typename?: "Community";
+  name?: string | null;
+  domain?: string | null;
+  whiteLabelDomain?: string | null;
+  handle?: string | null;
+  publicContentBlobUrl?: string | null;
+  id: any;
+  schemaVersion?: string | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
+export type LoggedInUserContainerCurrentUserQueryQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type LoggedInUserContainerCurrentUserQueryQuery = {
+  __typename?: "Query";
+  currentUser?: {
+    __typename?: "User";
+    id: any;
+    externalId?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+  } | null;
+};
+
+export type LoggedInUserContainerCurrentUserFieldsFragment = {
+  __typename?: "User";
+  id: any;
+  externalId?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+};
+
 export type UserListItemFieldsFragment = {
   __typename?: "User";
   id: any;
@@ -800,6 +978,130 @@ export type UserListGetUsersQuery = {
 
 export type UserListGetUsersFieldsFragment = { __typename?: "User"; id: any };
 
+export const CommunityCreateContainerMutationCommunityCreateFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value: "CommunityCreateContainerMutationCommunityCreateFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "CommunityMutationResult" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "status" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "success" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "errorMessage" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "community" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "name" } },
+                  { kind: "Field", name: { kind: "Name", value: "domain" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "whiteLabelDomain" },
+                  },
+                  { kind: "Field", name: { kind: "Name", value: "handle" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "publicContentBlobUrl" },
+                  },
+                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "schemaVersion" },
+                  },
+                  { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+                  { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    ],
+  } as unknown as DocumentNode<
+    CommunityCreateContainerMutationCommunityCreateFieldsFragment,
+    unknown
+  >;
+export const CommunityListContainerCommunitiesFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CommunityListContainerCommunitiesFields" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Community" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "domain" } },
+          { kind: "Field", name: { kind: "Name", value: "whiteLabelDomain" } },
+          { kind: "Field", name: { kind: "Name", value: "handle" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "publicContentBlobUrl" },
+          },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "schemaVersion" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CommunityListContainerCommunitiesFieldsFragment,
+  unknown
+>;
+export const LoggedInUserContainerCurrentUserFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "LoggedInUserContainerCurrentUserFields" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "User" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "externalId" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  LoggedInUserContainerCurrentUserFieldsFragment,
+  unknown
+>;
 export const UserListItemFieldsFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -838,6 +1140,141 @@ export const UserListGetUsersFieldsFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<UserListGetUsersFieldsFragment, unknown>;
+export const CommunityCreateContainerMutationCommunityCreateDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: {
+        kind: "Name",
+        value: "CommunityCreateContainerMutationCommunityCreate",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "CommunityCreateInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "communityCreate" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "CommunityCreateContainerMutationCommunityCreateFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...CommunityCreateContainerMutationCommunityCreateFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  CommunityCreateContainerMutationCommunityCreateMutation,
+  CommunityCreateContainerMutationCommunityCreateMutationVariables
+>;
+export const CommunityListContainerCommunitiesQueryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "CommunityListContainerCommunitiesQuery" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "communities" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "CommunityListContainerCommunitiesFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...CommunityListContainerCommunitiesFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  CommunityListContainerCommunitiesQueryQuery,
+  CommunityListContainerCommunitiesQueryQueryVariables
+>;
+export const LoggedInUserContainerCurrentUserQueryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "LoggedInUserContainerCurrentUserQuery" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "currentUser" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "LoggedInUserContainerCurrentUserFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...LoggedInUserContainerCurrentUserFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  LoggedInUserContainerCurrentUserQueryQuery,
+  LoggedInUserContainerCurrentUserQueryQueryVariables
+>;
 export const UserListGetUsersDocument = {
   kind: "Document",
   definitions: [

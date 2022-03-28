@@ -1,0 +1,24 @@
+mutation CommunityCreateContainerMutationCommunityCreate ( $input: CommunityCreateInput!) {
+  communityCreate(input: $input) {
+    ...CommunityCreateContainerMutationCommunityCreateFields
+  }
+}
+
+fragment CommunityCreateContainerMutationCommunityCreateFields on CommunityMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  community {
+    name
+    domain
+    whiteLabelDomain
+    handle
+    publicContentBlobUrl
+
+    id
+    schemaVersion
+    createdAt
+    updatedAt
+  }
+}

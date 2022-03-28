@@ -15,6 +15,8 @@ import {
   InMemoryCache,
   ApolloProvider
 } from "@apollo/client";
+import MsalProvider from './components/shared/msal-react-lite';
+import msalProviderConfig from './config/msal-config';
 
 
 const countryLink = new HttpLink({
@@ -35,11 +37,13 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-    </BrowserRouter>
+    <MsalProvider config={msalProviderConfig}>
+      <BrowserRouter>
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      </BrowserRouter>
+    </MsalProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

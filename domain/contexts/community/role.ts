@@ -56,7 +56,7 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
     this.props.setCommunityRef(community);
   }
   
-  private requestSetIsDefault(isDefault:boolean): void {
+  public requestSetIsDefault(isDefault:boolean): void {
     if(
       !this.isNew &&
       !this.visa.determineIf((permissions) => permissions.isSystemAccount)) { throw new Error('You do not have permission to update this account'); }

@@ -54,10 +54,12 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
     let userDo = new UserConverter().toDomain(mongoUser,{passport:ReadOnlyPassport.GetInstance()});
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
-      let account = member.requestAddAccount();
+      let account = member.requestNewAccount();
       account.requestSetUser(userDo);
       account.requestSetFirstName(input.account.firstName);
       account.requestSetLastName(input.account.lastName);
+      account.requestSetCreatedBy(userDo);
+    //  member.requestAddAccount(account.props); // don't like this
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });
     return memberToReturn;
@@ -65,7 +67,6 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
   
   async memberAccountRemove(input: MemberAccountRemoveInput) : Promise<Member> {
     let memberToReturn : Member;
-    let accountToRemove = 
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let accountRef = member.accounts.find(a => a.id === input.accountId);

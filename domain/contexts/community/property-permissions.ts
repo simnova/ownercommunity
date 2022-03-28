@@ -13,14 +13,14 @@ export class PropertyPermissions extends Entity<PropertyPermissionsProps> implem
   get isSystemAccount(): boolean {return false;}
 
   public setCanManageProperties(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageProperties = value;
   }
 
   public setCanEditOwnProperty(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canEditOwnProperty = value;

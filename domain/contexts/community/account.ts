@@ -35,6 +35,7 @@ export class Account extends Entity<AccountProps> implements AccountEntityRefere
 
   private validateVisa(){
     if(!this.visa.determineIf((permissions) => 
+      permissions.isSystemAccount || 
       permissions.canManageMembers ||
       (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount))) {
       throw new Error('You do not have permission to update this account');

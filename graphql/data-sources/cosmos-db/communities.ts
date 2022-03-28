@@ -1,4 +1,6 @@
+import { msRestAzureVersion } from '@azure/ms-rest-azure-js';
 import { MongoDataSource } from 'apollo-datasource-mongodb';
+import { resourceLimits } from 'worker_threads';
 import { Community } from '../../../infrastructure/data-sources/cosmos-db/models/community';
 import { Context } from '../../context';
 
@@ -23,5 +25,58 @@ export class Communities extends MongoDataSource<Community, Context> {
       ]
       })?.[0];
   }
+  async getCommunitiesForCurrentUser(): Promise<Community[]> {
+    var externalId = this.context.verifiedUser.verifiedJWT.sid
+    var result = await this.collection.aggregate(
+      [
+        { 
+          "$project" : { 
+              "_id" : 0, 
+              "community" : "$$ROOT"
+          }
+      }, 
+        { 
+            "$lookup" : { 
+                "localField" : "community.id", 
+                "from" : "members", 
+                "foreignField" : "id", 
+                "as" : "member"
+            }
+        }, 
+        { 
+            "$unwind" : { 
+                "path" : "$member", 
+                "preserveNullAndEmptyArrays" : false
+            }
+        }, 
+        { 
+            "$lookup" : { 
+                "localField" : "member.accounts.user", 
+                "from" : "users", 
+                "foreignField" : "id", 
+                "as" : "user"
+            }
+        }, 
+        { 
+            "$unwind" : { 
+                "path" : "$user", 
+                "preserveNullAndEmptyArrays" : false
+            }
+        }, 
+        { 
+            "$match" : { 
+                "user.externalId" : externalId
+            }
+        }, 
+
+    ],
+    { 
+        "allowDiskUse" : true
+    }
+    ).toArray();
+    
+    return result as Community[];
+  }
+  
 
 }

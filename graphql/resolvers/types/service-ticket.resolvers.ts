@@ -1,6 +1,24 @@
-import { Community, Member, Property, Resolvers, ServiceTicket } from '../../generated';
+import { Community, Member, Property, Resolvers, ServiceTicket, ServiceTicketMutationResult } from '../../generated';
 import { getMemberForCurrentUser } from './helpers';
 import { isValidObjectId } from 'mongoose';
+import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
+
+
+const ServiceTicketMutationResolver = async (getServiceTicket:Promise<ServiceTicketDo>): Promise<ServiceTicketMutationResult> => {
+  try {
+    return {
+      status : { success: true },
+      community: (await getServiceTicket) 
+    } as ServiceTicketMutationResult;
+  }
+  catch(error){
+    console.error("ServiceTicket > Mutation  : ",error);
+    return  {
+      status : { success: false, error: JSON.stringify(error) },
+      community: null
+    } as ServiceTicketMutationResult;
+  }
+}
 
 const serviceTicket : Resolvers = {
   ServiceTicket: {
@@ -50,6 +68,26 @@ const serviceTicket : Resolvers = {
     serviceTicketsAssignedCurrentUser: async (_, { communityId }, context) => {
       const member = await getMemberForCurrentUser(context, communityId);
       return (await context.dataSources.serviceTicketApi.getServiceTicketsByAssignedTo(communityId, member.id)) as ServiceTicket[];
+    }
+  },
+  Mutation: {
+    serviceTicketCreate: async (_, { input }, {dataSources}) => {
+      return ServiceTicketMutationResolver( dataSources.serviceTicketDomainAPI.serviceTicketCreate(input));
+    },
+    serviceTicketUpdate: async (_, { input }, {dataSources}) => {
+      return ServiceTicketMutationResolver( dataSources.serviceTicketDomainAPI.serviceTicketUpdate(input));
+    },
+    serviceTicketSubmit: async (_, { input }, {dataSources}) => {
+      return ServiceTicketMutationResolver( dataSources.serviceTicketDomainAPI.serviceTicketSubmit(input));
+    },
+    serviceTicketAssign: async (_, { input }, {dataSources}) => {
+      return ServiceTicketMutationResolver( dataSources.serviceTicketDomainAPI.serviceTicketAssign(input));
+    },
+    serviceTicketAddUpdateActivity: async (_, { input }, {dataSources}) => {
+      return ServiceTicketMutationResolver( dataSources.serviceTicketDomainAPI.serviceTicketAddUpdateActivity(input));
+    },
+    serviceTicketChangeStatus: async (_, { input }, {dataSources}) => {
+      return ServiceTicketMutationResolver( dataSources.serviceTicketDomainAPI.serviceTicketChangeStatus(input));
     }
   }
 }

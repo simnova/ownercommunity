@@ -18,7 +18,11 @@ const user : Resolvers = {
       console.log(`Resolver>Query>users`)
       console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`)
       return (await context.dataSources.userApi.getUsers()) as User[];
+    },
+    currentUser: async (parent, args, context, info) => {
+      return await context.dataSources.userDomainAPI.addUser() as User;
     }
+
   },
   Mutation: {
     userCreate: async (parent, args, context, info) => {

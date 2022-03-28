@@ -125,6 +125,7 @@ const schema = new Schema<Property, Model<Property>, Property>(
   ).index(
     { community: 1, propertyName: 1 },  { unique: true }
   );
+/*
 schema.path('listingDetails.additionalAmenities').validate(function(additionalAmenities) {
   return additionalAmenities.length > 20;
 }, 'Additional Amenities cannot be more than 20');
@@ -134,6 +135,6 @@ schema.path('listingDetails.additionalAmenities.amenities').validate(function(am
 schema.path('listingDetails.bedroomDetails').validate(function(bedroomDetails) {
   return bedroomDetails.length > 20;
 }, 'Bedroom Details cannot be more than 20');
-
+*/
 
 export const PropertyModel = model<Property>('Property', schema);

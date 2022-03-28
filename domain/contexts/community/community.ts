@@ -1,7 +1,9 @@
+import { CommunityCreatedEvent } from '../../events/community-created';
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
 import { CommunityVisa } from '../iam/community-visa';
+import { User, UserEntityReference, UserProps } from '../user/user';
 import * as ValueObjects from './community-value-objects';
 
 export interface CommunityProps extends EntityProps {
@@ -12,9 +14,14 @@ export interface CommunityProps extends EntityProps {
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
+  readonly createdBy: UserProps;
+  setCreatedByRef(user: UserEntityReference): void;
 }
 
-export interface CommunityEntityReference extends Readonly<CommunityProps> {}
+export interface CommunityEntityReference extends Readonly<Omit<CommunityProps,
+  'createdBy' | 'setCreatedByRef'>> {
+  readonly createdBy: UserEntityReference;
+}
 
 export class Community<props extends CommunityProps> extends AggregateRoot<props> implements CommunityEntityReference  {
   readonly visa : CommunityVisa;
@@ -29,19 +36,24 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
   get domain() {return this.props.domain;}
   get whiteLabelDomain() {return this.props.whiteLabelDomain;}
   get handle() {return this.props.handle;}
+  get createdBy():UserEntityReference {return new User(this.props.createdBy,this.context);};
   get updatedAt() {return this.props.updatedAt;}
   get createdAt() {return this.props.createdAt;}
   get schemaVersion() {return this.props.schemaVersion;}
 
-  public static getNewInstance<props extends CommunityProps> (newProps:props,name:string,domain:string,whiteLabelDomain:string, handle:string, context: DomainExecutionContext): Community<props> {
+  public static getNewInstance<props extends CommunityProps> (
+    newProps:props, name:string, createdBy:UserEntityReference, context: DomainExecutionContext): Community<props> {
     let community = new Community(newProps, context);
-    community.isNew = true;
+    community.MarkAsNew();
     community.requestSetName(name);
-    community.requestSetDomain(domain);
-    community.requestSetWhiteLabelDomain(whiteLabelDomain);
-    community.requestSetHandle(handle);
+    community.requestSetCreatedBy(createdBy);
     community.isNew = false
     return community;
+  }
+
+  private MarkAsNew(): void {
+    this.isNew = true;
+    this.addIntegrationEvent(CommunityCreatedEvent,{communityId: this.props.id});
   }
 
   public requestSetName(name:ValueObjects.Name): void {
@@ -67,6 +79,12 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
       !this.isNew &&
       !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the handle of this community');}
     this.props.handle = handle.valueOf();
+  }
+  public requestSetCreatedBy(createdBy:UserEntityReference): void {
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the created by of this community');}
+    this.props.setCreatedByRef(createdBy);
   }
 
 }

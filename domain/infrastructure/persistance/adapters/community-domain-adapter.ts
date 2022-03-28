@@ -3,6 +3,8 @@ import { Community as CommunityDO, CommunityProps } from '../../../../domain/con
 import { MongooseDomainAdapter } from '../mongo-domain-adapter';
 import { MongoTypeConverter } from '../mongo-type-converter';
 import { DomainExecutionContext } from '../../../contexts/context';
+import { UserEntityReference, UserProps } from '../../../contexts/user/user';
+import { UserDomainAdapter } from './user-domain-adapter';
 
 export class CommunityConverter extends MongoTypeConverter<DomainExecutionContext,Community,CommunityDomainAdapter,CommunityDO<CommunityDomainAdapter>> {
   constructor() {
@@ -24,4 +26,12 @@ export class CommunityDomainAdapter extends MongooseDomainAdapter<Community> imp
 
   get handle() {return this.props.handle;}
   set handle(handle) {this.props.handle = handle;}
+
+  get createdBy(): UserProps {
+    if(this.props.createdBy) {return new UserDomainAdapter(this.props.createdBy);}
+  }
+  setCreatedByRef(user: UserEntityReference) {
+    this.props.set('createdBy',user.id);
+  }
+
 }

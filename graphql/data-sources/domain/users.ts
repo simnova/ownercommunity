@@ -12,6 +12,8 @@ type RepoType = MongoUserRepository<PropType>;
 
 export class Users extends DomainDataSource<Context,User,PropType,DomainType,RepoType> {
 
+  
+
   async updateUser(user: UserUpdateInput) : Promise<User> {
     if(this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized');

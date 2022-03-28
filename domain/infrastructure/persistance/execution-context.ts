@@ -6,10 +6,9 @@ import { MemberModel } from "../../../infrastructure/data-sources/cosmos-db/mode
 import { MemberDomainAdapter } from "./adapters/member-domain-adapter";
 import { Member as MemberDO } from "../../contexts/community/member";
 
-import { PassportImpl, ReadOnlyPassport } from "../../contexts/iam/passport";
+import { PassportImpl, ReadOnlyPassport, SystemPassport } from "../../contexts/iam/passport";
 import { DomainExecutionContext } from "../../contexts/context";
 
-//export const SystemExecutionContext = async ():Promise<DomainExecutionContext> => {return { passport: await PassportImpl.forSystem()} };
 
 export const ExecutionContext = async (userId:string, communityId:string): Promise<DomainExecutionContext> => { 
   const mongoUser = await UserModel.findById(userId).exec();
@@ -23,6 +22,20 @@ export const ExecutionContext = async (userId:string, communityId:string): Promi
   const passport = new PassportImpl(domainUser,domainMember);
   const context:DomainExecutionContext = {
     passport: passport,
+  }
+  return context;
+}
+
+export const SystemExecutionContext = ():DomainExecutionContext => {
+  const context:DomainExecutionContext = {
+    passport: SystemPassport.GetInstance(),
+  }
+  return context;
+}
+
+export const ReadOnlyContext = ():DomainExecutionContext => {
+  const context:DomainExecutionContext = {
+    passport: ReadOnlyPassport.GetInstance(),
   }
   return context;
 }

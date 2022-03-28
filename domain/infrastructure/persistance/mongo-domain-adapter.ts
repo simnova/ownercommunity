@@ -1,7 +1,7 @@
 import { Base } from '../../../infrastructure/data-sources/cosmos-db/models/interfaces/base';
 import { Entity, EntityProps } from '../../shared/entity';
 import { PropArray } from '../../shared/prop-array';
-import mongoose from 'mongoose';
+import mongoose, {ObjectId} from 'mongoose';
 import { PropertyType } from '../../contexts/property/property-value-objects';
 
 export abstract class MongooseDomainAdapter<T extends Base> implements MongooseDomainAdapterType<T>{
@@ -34,7 +34,9 @@ export class MongoosePropArray<propType extends EntityProps, docType extends mon
     if(!this.docArray) {
       this.docArray = new mongoose.Types.DocumentArray<docType>([]);
     }
-    return new this.adapter(this.docArray.create({_id: new mongoose.Types.ObjectId()}));
+    var item = this.docArray.create({_id: new mongoose.Types.ObjectId()});
+    this.docArray.push(item);
+    return new this.adapter(item);
   }
   get items(): ReadonlyArray<propType> {
     return this.docArray.map((doc) => new this.adapter(doc));

@@ -34,7 +34,6 @@ type ServiceTicketPhoto implements MongoEmbeddedBase {
   updatedAt: DateTime
 }
 
-
 extend type Query {
   serviceTicketsOpenByCommunity(communityId: ObjectID!): [ServiceTicket]
   serviceTicketsOpenByRequestor(propertyId: ObjectID!): [ServiceTicket]
@@ -63,8 +62,6 @@ input ServiceTicketCreateInput {
   propertyId: ObjectID
   requestorId: ObjectID!
   title: String!
-  description: String!
-  priority: Int!
 }
 
 input ServiceTicketUpdateInput {

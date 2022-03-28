@@ -5,6 +5,8 @@ import { Context } from '../../context';
 import { CommunityCreateInput, CommunityUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Community } from '../../../infrastructure/data-sources/cosmos-db/models/community';
+import { UserConverter } from '../../../domain/infrastructure/persistance/adapters/user-domain-adapter';
+import { ReadOnlyContext } from '../../../domain/infrastructure/persistance/execution-context';
 
 type PropType = CommunityDomainAdapter;
 type DomainType = CommunityDO<PropType>;
@@ -17,14 +19,14 @@ export class Communities extends DomainDataSource<Context,Community,PropType,Dom
     if(this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized:communityCreate');
     }
-    
+    let mongoUser = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let userDo = new UserConverter().toDomain(mongoUser,ReadOnlyContext());
+
     let communityToReturn : Community;
     await this.withTransaction(async (repo) => {
       let newCommunity = await repo.getNewInstance(
         input.name,
-        input.domain,
-        input.whiteLabelDomain,
-        input.handle);
+        userDo);
       communityToReturn = new CommunityConverter().toMongo(await repo.save(newCommunity));
     });
     return communityToReturn;

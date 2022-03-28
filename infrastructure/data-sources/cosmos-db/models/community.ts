@@ -1,11 +1,13 @@
-import { Schema, model, Model } from 'mongoose';
+import { Schema, model, Model, ObjectId, PopulatedDoc } from 'mongoose';
 import { Base, BaseOptions } from './interfaces/base';
+import * as User from './user';
 
 export interface Community extends Base {
   name: string;
   domain: string;
   whiteLabelDomain: string;
   handle: string;
+  createdBy:PopulatedDoc<User.User> | ObjectId;
 }
 
 export const CommunityModel = model<Community>('Community',new Schema<Community, Model<Community>, Community>(
@@ -24,11 +26,19 @@ export const CommunityModel = model<Community>('Community',new Schema<Community,
       unique: true,
       maxlength: 50,
     },
+    createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true},
   },
   {
     ...BaseOptions,
   }
   ).index(
-    { domain:1, whiteLabelDomain:1, handle:1 }
+    { domain:1, whiteLabelDomain:1, handle:1 },
+    { partialFilterExpression: 
+      { 
+        domain: { $exists: true }, 
+        whiteLabelDomain: { $exists: true }, 
+        handle: { $exists: true } 
+      }
+    }
   )
 );

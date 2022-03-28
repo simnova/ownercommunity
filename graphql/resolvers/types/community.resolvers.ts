@@ -2,30 +2,26 @@ import { Resolvers, Community, CommunityMutationResult } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { Community as CommunityDo } from '../../../infrastructure/data-sources/cosmos-db/models/community';
 
+
 const CommunityMutationResolver = async (getCommunity:Promise<CommunityDo>): Promise<CommunityMutationResult> => {
   try {
     return {
       status : { success: true },
-      community: (await getCommunity) 
+      community: (await getCommunity) as Community
     } as CommunityMutationResult;
   }
   catch(error){
     console.error("Community > Mutation  : ",error);
     return  {
-      status : { success: false, error: JSON.stringify(error) },
-      community: null
+      status : { success: false, error: JSON.stringify(error) },      
     } as CommunityMutationResult;
   }
 }
 
+
 const community : Resolvers = {
-  Role: {
-    community: async (parent, args, context, info) => {
-      if(parent.community && isValidObjectId(parent.community.toString())){
-        return (await context.dataSources.communityApi.findOneById(parent.community.toString())) as Community;
-      }
-      return parent.community;
-    },
+  Community: {
+    
   },
   Query: {
     communityById: async (_, { id }, { dataSources }) => {
@@ -36,7 +32,11 @@ const community : Resolvers = {
     },
     communityByDomain: async (_, { domain }, { dataSources }) => {
       return (await dataSources.communityApi.getCommunityByDomain(domain)) as Community;
-    }
+    },
+    communities: async (_, _args, { dataSources }) => {
+      return (await dataSources.communityApi.getCommunitiesForCurrentUser()) as Community[];
+    },
+
   },
   Mutation: {
     communityCreate: async (_, { input }, { dataSources }) => {
@@ -50,3 +50,5 @@ const community : Resolvers = {
     }
   }
 }
+
+export default community;

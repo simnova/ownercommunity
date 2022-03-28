@@ -45,22 +45,27 @@ export interface ServiceTicketEntityReference extends Readonly<Omit<ServiceTicke
 }
 
 export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRoot<props> implements ServiceTicketEntityReference{
+  private isNew: boolean = false;
   private visa: ServiceTicketVisa;
   constructor(props: props, private context:DomainExecutionContext) { 
     super(props); 
     this.visa = context.passport.forServiceTicket(this);
   }
 
-  public static async getNew<props extends ServiceTicketProps> (
+  public static async getNewInstance<props extends ServiceTicketProps> (
       newProps:props,
+      title:string,
       community:CommunityEntityReference, 
       property:PropertyEntityReference,
       requestor:MemberEntityReference,
       context:DomainExecutionContext): Promise<ServiceTicket<props>> {
     let serviceTicket = new ServiceTicket(newProps,context);
+    serviceTicket.isNew = true;
+    serviceTicket.requestSetTitle(new ValueObjects.Title(title));
     serviceTicket.requestSetCommunity(community);
     serviceTicket.requestSetProperty(property);
     serviceTicket.requestSetRequestor(requestor);
+    serviceTicket.isNew = false;
     return serviceTicket;
   }
 
@@ -79,12 +84,17 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   get schemaVersion(): string {return this.props.schemaVersion; }  
 
   private requestSetCommunity(community:CommunityEntityReference):void{
+    if(!this.isNew) { throw new Error('Unauthorized'); }
     this.props.setCommunityRef(community);
   }
-  private requestSetProperty(property:PropertyEntityReference):void{
+  public requestSetProperty(property:PropertyEntityReference):void{
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized'); }
     this.props.setPropertyRef(property);
   }
   private requestSetRequestor(requestor:MemberEntityReference):void{
+    if(!this.isNew) { throw new Error('Unauthorized'); }
     this.props.setRequestorRef(requestor);
   }
   public requestSetAssignedTo(assignedTo:MemberEntityReference):void{

@@ -138,10 +138,7 @@ export type Community = MongoBase & {
 };
 
 export type CommunityCreateInput = {
-  domain?: InputMaybe<Scalars["String"]>;
-  handle?: InputMaybe<Scalars["String"]>;
   name: Scalars["String"];
-  whiteLabelDomain?: InputMaybe<Scalars["String"]>;
 };
 
 export type CommunityMutationResult = {
@@ -357,7 +354,7 @@ export type Mutation = {
   __typename?: "Mutation";
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars["String"]>;
-  communityCreate: CommunityMutationResult;
+  communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityPublicContentAuthHeaderResult;
   communityUpdate: CommunityMutationResult;
   memberAccountAdd: MemberMutationResult;
@@ -606,6 +603,7 @@ export type Query = {
   __typename?: "Query";
   /** IGNORE: Dummy field necessary for the Query type to be valid */
   _empty?: Maybe<Scalars["String"]>;
+  communities?: Maybe<Array<Maybe<Community>>>;
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
@@ -777,8 +775,6 @@ export type ServiceTicketChangeStatusInput = {
 
 export type ServiceTicketCreateInput = {
   communityId: Scalars["ObjectID"];
-  description: Scalars["String"];
-  priority: Scalars["Int"];
   propertyId?: InputMaybe<Scalars["ObjectID"]>;
   requestorId: Scalars["ObjectID"];
   title: Scalars["String"];
@@ -1961,7 +1957,7 @@ export type MutationResolvers<
 > = ResolversObject<{
   _empty?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   communityCreate?: Resolver<
-    ResolversTypes["CommunityMutationResult"],
+    Maybe<ResolversTypes["CommunityMutationResult"]>,
     ParentType,
     ContextType,
     RequireFields<MutationCommunityCreateArgs, "input">
@@ -2328,6 +2324,11 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = ResolversObject<{
   _empty?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  communities?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Community"]>>>,
+    ParentType,
+    ContextType
+  >;
   communityByDomain?: Resolver<
     Maybe<ResolversTypes["Community"]>,
     ParentType,

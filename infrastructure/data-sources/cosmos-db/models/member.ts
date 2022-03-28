@@ -1,4 +1,4 @@
-import { Schema, model, Model,ObjectId, PopulatedDoc, Types } from 'mongoose';
+import { Schema, model, Model, ObjectId, PopulatedDoc, Types } from 'mongoose';
 import { Base, BaseOptions, EmbeddedBase, Patterns } from './interfaces/base';
 import * as User from './user';
 import * as Community from './community';
@@ -81,7 +81,7 @@ const schema = new Schema<Member, Model<Member>, Member>(
   );
 
 schema.path('accounts').validate(function(accounts) {
-  return accounts.length > 5;
+  return accounts.length <= 5;
 }, 'At most 5 accounts can exist per member');
 
 

@@ -17,28 +17,28 @@ export class ServiceTicketPermissions extends Entity<ServiceTicketPermissionsPro
   get isSystemAccount(): boolean {return false;}
 
   public setCanCreateTickets(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canCreateTickets = value;
   }
 
   public setCanManageTickets(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageTickets = value;
   }
 
   public setCanAssignTickets(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canAssignTickets = value;
   }
 
   public setCanWorkOnTickets(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canWorkOnTickets = value;

@@ -6,6 +6,7 @@ import { TypeConverter } from '../../../shared/type-converter';
 import { ClientSession } from 'mongoose';
 import { EventBus } from '../../../shared/event-bus';
 import { DomainExecutionContext } from '../../../contexts/context';
+import { UserEntityReference } from '../../../contexts/user/user';
 
 export class MongoCommunityRepository<PropType extends CommunityProps> extends MongoRepositoryBase<DomainExecutionContext, Community,PropType,CommunityDO<PropType>> implements CommunityRepository<PropType> {
   constructor(
@@ -18,9 +19,9 @@ export class MongoCommunityRepository<PropType extends CommunityProps> extends M
     super(eventBus,modelType,typeConverter,session,context);
   }
   
-  async getNewInstance(name:string, domain:string, whiteLabelDomain:string, handle:string): Promise<CommunityDO<PropType>> {
+  async getNewInstance(name:string, user: UserEntityReference): Promise<CommunityDO<PropType>> {
     let adapter = this.typeConverter.toAdapter(new this.model());
-    return CommunityDO.getNewInstance(adapter, name, domain, whiteLabelDomain, handle, this.context);
+    return CommunityDO.getNewInstance(adapter, name, user, this.context);
   }
 
 }

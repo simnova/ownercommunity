@@ -17,42 +17,42 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
   get isSystemAccount(): boolean {return false;}
 
   public setCanManageRolesAndPermissions(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageRolesAndPermissions = value;
   }
 
   public setCanManageCommunitySettings(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageCommunitySettings = value;
   }
 
   public setCanManageSiteContent(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
-    this.props.canManageCommunitySettings = value;
+    this.props.canManageSiteContent = value;
   }
 
   public setCanManageMembers(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageMembers = value;
   }
 
   public setCanEditOwnMemberProfile(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canEditOwnMemberProfile = value;
   }
 
   public setCanEditOwnMemberAccounts(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
+    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canEditOwnMemberAccounts = value;

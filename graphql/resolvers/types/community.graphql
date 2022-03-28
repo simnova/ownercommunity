@@ -15,10 +15,11 @@ extend type Query {
   communityById(id: ObjectID!): Community
   communityByHandle(handle: String!): Community
   communityByDomain(domain: String!): Community
+  communities: [Community]
 }
 
 extend type Mutation {
-  communityCreate(input: CommunityCreateInput!): CommunityMutationResult!
+  communityCreate(input: CommunityCreateInput!): CommunityMutationResult
   communityUpdate(input: CommunityUpdateInput!): CommunityMutationResult!
   communityPublicContentCreateAuthHeader(input: CommunityPublicContentInput!): CommunityPublicContentAuthHeaderResult!
 }
@@ -30,9 +31,6 @@ type CommunityMutationResult {
 
 input CommunityCreateInput {
   name: String!
-  domain: String
-  whiteLabelDomain: String
-  handle: String
 }
 
 input CommunityUpdateInput {

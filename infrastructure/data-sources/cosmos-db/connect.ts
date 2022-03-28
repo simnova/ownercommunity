@@ -73,7 +73,10 @@ export const connect = async () => {
       tlsInsecure: (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"), //only true for local developent - required for Azure Cosmos DB emulator
       dbName: process.env.COSMOSDB_DBNAME,
       keepAlive: true, 
-      keepAliveInitialDelay: 300000
+      keepAliveInitialDelay: 300000,
+      autoIndex: true, //Enables automatic index creation for all schemas.
+      autoCreate: true, //Enables automatic collection creation for all models.
+    
       //   poolSize: Number(process.env.COSMOSDB_POOL_SIZE)
     } as mongoose.ConnectOptions).then(() => console.log(`🗄️ Successfully connected Mongoose to ${mongoose.connection.name} 🗄️`));
 

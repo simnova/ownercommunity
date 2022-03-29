@@ -8,7 +8,10 @@ export const Home: React.FC<any> = (props) => {
     <div>
       <h1>Home</h1>
       <CommunityListContainer />
-      <Button onClick={() => navigate('create-community')}>Create a Community</Button>
+
+
+      <br/>
+      <Button type='primary' onClick={() => navigate('create-community')}>Create a Community</Button>
     </div>
   )
 }

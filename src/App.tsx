@@ -52,8 +52,8 @@ function App() {
       <Routes>
         <Route path="/" element={homeSection}>
         </Route>
-        <Route path='admin/*' element={adminSection} />
-        <Route path='members/*' element={memberSection} />
+        <Route path='/community/:communityId/admin/*' element={adminSection} />
+        <Route path='/community/:communityId/members/*' element={memberSection} />
         <Route path='accounts/*' element={accountsSection} />
 
 

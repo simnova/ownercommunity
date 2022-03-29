@@ -41,8 +41,10 @@ const role : Resolvers = {
     roleUpdate(parent, { input }, { dataSources }) {
       return RoleMutationResolver( dataSources.roleDomainAPI.roleUpdate(input));
     },
-    roleDelete(parent, { input }, { dataSources }) {
-      return RoleMutationResolver( dataSources.roleDomainAPI.roleDelete(input));
+    roleDeleteAndReassign(parent, { input }, { dataSources }) {
+      return RoleMutationResolver( dataSources.roleDomainAPI.roleDeleteAndReassign(input));
     }
   }
 }
+
+export default role;

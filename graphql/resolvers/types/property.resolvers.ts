@@ -55,3 +55,5 @@ const property : Resolvers = {
     }
   }  
 }
+
+export default property;

@@ -91,3 +91,5 @@ const serviceTicket : Resolvers = {
     }
   }
 }
+
+export default serviceTicket;

@@ -34,12 +34,6 @@ const member : Resolvers = {
       }
       return parent.role;
     },
-    createdBy: async (parent, args, context, info) => {
-      if(parent.createdBy && isValidObjectId(parent.createdBy.toString())){
-        return (await context.dataSources.userApi.findOneById(parent.createdBy.toString())) as User;
-      }
-      return parent.createdBy;
-    }
   },
   MemberAccount: {
     user: async (parent, args, context, info) => {
@@ -47,9 +41,21 @@ const member : Resolvers = {
         return (await context.dataSources.userApi.findOneById(parent.user.toString())) as User;
       }
       return parent.user; 
+    },
+    createdBy: async (parent, args, context, info) => {
+      if(parent.createdBy && isValidObjectId(parent.createdBy.toString())){
+        return (await context.dataSources.userApi.findOneById(parent.createdBy.toString())) as User;
+      }
+      return parent.createdBy;
     }
   },
   Query: {
+    member: async (parent, args, context, info) => {
+      if(args.id && isValidObjectId(args.id)){
+        return (await context.dataSources.memberApi.findOneById(args.id)) as Member;
+      }
+      return null;
+    },
     membersByCommunityId: async (_, { communityId }, { dataSources }) => {
       return (await dataSources.memberApi.getMembersByCommunityId(communityId)) as Member[];
     },
@@ -76,3 +82,4 @@ const member : Resolvers = {
   }
 }
 
+export default member;

@@ -330,6 +330,11 @@ export type MemberRoleReassignInput = {
   newRole: Scalars["ObjectID"];
 };
 
+export type MemberUpdateInput = {
+  id: Scalars["ObjectID"];
+  name?: InputMaybe<Scalars["String"]>;
+};
+
 /** Base type for all models in mongo. */
 export type MongoBase = {
   createdAt?: Maybe<Scalars["DateTime"]>;
@@ -364,6 +369,7 @@ export type Mutation = {
   memberProfileAvatarRemove: MemberMutationResult;
   memberProfileUpdate: MemberMutationResult;
   memberRoleReassign: MemberMutationResult;
+  memberUpdate: MemberMutationResult;
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
   propertyRemoveOwner: PropertyMutationResult;
@@ -432,6 +438,11 @@ export type MutationMemberProfileUpdateArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberRoleReassignArgs = {
   input: MemberRoleReassignInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationMemberUpdateArgs = {
+  input: MemberUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -608,6 +619,7 @@ export type Query = {
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
   currentUser?: Maybe<User>;
+  member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
@@ -633,6 +645,11 @@ export type QueryCommunityByHandleArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryCommunityByIdArgs = {
   id: Scalars["ObjectID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryMemberArgs = {
+  id: Scalars["ID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1029,6 +1046,7 @@ export type ResolversTypes = ResolversObject<{
   MemberProfileInput: MemberProfileInput;
   MemberProfileUpdateInput: MemberProfileUpdateInput;
   MemberRoleReassignInput: MemberRoleReassignInput;
+  MemberUpdateInput: MemberUpdateInput;
   MongoBase:
     | ResolversTypes["Community"]
     | ResolversTypes["Location"]
@@ -1173,6 +1191,7 @@ export type ResolversParentTypes = ResolversObject<{
   MemberProfileInput: MemberProfileInput;
   MemberProfileUpdateInput: MemberProfileUpdateInput;
   MemberRoleReassignInput: MemberRoleReassignInput;
+  MemberUpdateInput: MemberUpdateInput;
   MongoBase:
     | ResolversParentTypes["Community"]
     | ResolversParentTypes["Location"]
@@ -2016,6 +2035,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationMemberRoleReassignArgs, "input">
   >;
+  memberUpdate?: Resolver<
+    ResolversTypes["MemberMutationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationMemberUpdateArgs, "input">
+  >;
   propertyAdd?: Resolver<
     ResolversTypes["PropertyMutationResult"],
     ParentType,
@@ -2351,6 +2376,12 @@ export type QueryResolvers<
     Maybe<ResolversTypes["User"]>,
     ParentType,
     ContextType
+  >;
+  member?: Resolver<
+    Maybe<ResolversTypes["Member"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMemberArgs, "id">
   >;
   memberForCurrentUser?: Resolver<
     Maybe<ResolversTypes["Member"]>,

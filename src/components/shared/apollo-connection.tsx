@@ -29,6 +29,7 @@ const ApolloConnection: FC<any> = (props) => {
         headers: {
           ...headers,
           Authorization: token ? `Bearer ${token.accessToken}` : null,
+          community: localStorage.getItem('community')?.replaceAll('"','') || null
         },
       };
     }else {

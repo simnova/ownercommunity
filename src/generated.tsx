@@ -742,7 +742,7 @@ export type ServiceTicket = MongoBase & {
   id: Scalars["ObjectID"];
   priority: Scalars["Int"];
   property?: Maybe<Property>;
-  requestor: Property;
+  requestor: Member;
   schemaVersion?: Maybe<Scalars["String"]>;
   status: Scalars["String"];
   title: Scalars["String"];
@@ -1076,6 +1076,122 @@ export type AdminMembersListContainerMembersByCommunityIdFieldsFragment = {
   role?: { __typename?: "Role"; roleName: string } | null;
 };
 
+export type AdminPropertiesListContainerPropertiesByCommunityQueryVariables =
+  Exact<{
+    communityId: Scalars["ObjectID"];
+  }>;
+
+export type AdminPropertiesListContainerPropertiesByCommunityQuery = {
+  __typename?: "Query";
+  propertiesByCommunityId?: Array<{
+    __typename?: "Property";
+    propertyName: string;
+    propertyType?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    owner?: { __typename?: "Member"; memberName?: string | null } | null;
+  } | null> | null;
+};
+
+export type AdminPropertiesListContainerPropertiesByCommunityFieldsFragment = {
+  __typename?: "Property";
+  propertyName: string;
+  propertyType?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  owner?: { __typename?: "Member"; memberName?: string | null } | null;
+};
+
+export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVariables =
+  Exact<{
+    communityId: Scalars["ObjectID"];
+  }>;
+
+export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery =
+  {
+    __typename?: "Query";
+    serviceTicketsOpenByCommunity?: Array<{
+      __typename?: "ServiceTicket";
+      title: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      requestor: { __typename?: "Member"; memberName?: string | null };
+      assignedTo?: { __typename?: "Member"; memberName?: string | null } | null;
+    } | null> | null;
+  };
+
+export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragment =
+  {
+    __typename?: "ServiceTicket";
+    title: string;
+    priority: number;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    requestor: { __typename?: "Member"; memberName?: string | null };
+    assignedTo?: { __typename?: "Member"; memberName?: string | null } | null;
+  };
+
+export type AdminSettingsGeneralContainerCommunityByIdQueryVariables = Exact<{
+  Id: Scalars["ObjectID"];
+}>;
+
+export type AdminSettingsGeneralContainerCommunityByIdQuery = {
+  __typename?: "Query";
+  communityById?: {
+    __typename?: "Community";
+    name?: string | null;
+    domain?: string | null;
+    whiteLabelDomain?: string | null;
+    handle?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type AdminSettingsGeneralContainerCommunityUpdateMutationVariables =
+  Exact<{
+    input: CommunityUpdateInput;
+  }>;
+
+export type AdminSettingsGeneralContainerCommunityUpdateMutation = {
+  __typename?: "Mutation";
+  communityUpdate: {
+    __typename?: "CommunityMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    community?: {
+      __typename?: "Community";
+      name?: string | null;
+      domain?: string | null;
+      whiteLabelDomain?: string | null;
+      handle?: string | null;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  };
+};
+
+export type AdminSettingsGeneralContainerCommunityFieldsFragment = {
+  __typename?: "Community";
+  name?: string | null;
+  domain?: string | null;
+  whiteLabelDomain?: string | null;
+  handle?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
 export type LoggedInUserContainerCurrentUserQueryQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -1382,6 +1498,137 @@ export const AdminMembersListContainerMembersByCommunityIdFieldsFragmentDoc = {
   ],
 } as unknown as DocumentNode<
   AdminMembersListContainerMembersByCommunityIdFieldsFragment,
+  unknown
+>;
+export const AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value: "AdminPropertiesListContainerPropertiesByCommunityFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "Property" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            { kind: "Field", name: { kind: "Name", value: "propertyName" } },
+            { kind: "Field", name: { kind: "Name", value: "propertyType" } },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "owner" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "memberName" },
+                  },
+                ],
+              },
+            },
+            { kind: "Field", name: { kind: "Name", value: "id" } },
+            { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+            { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+          ],
+        },
+      },
+    ],
+  } as unknown as DocumentNode<
+    AdminPropertiesListContainerPropertiesByCommunityFieldsFragment,
+    unknown
+  >;
+export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value:
+            "AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "ServiceTicket" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            { kind: "Field", name: { kind: "Name", value: "title" } },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "requestor" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "memberName" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "assignedTo" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "memberName" },
+                  },
+                ],
+              },
+            },
+            { kind: "Field", name: { kind: "Name", value: "priority" } },
+            { kind: "Field", name: { kind: "Name", value: "id" } },
+            { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+            { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+          ],
+        },
+      },
+    ],
+  } as unknown as DocumentNode<
+    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragment,
+    unknown
+  >;
+export const AdminSettingsGeneralContainerCommunityFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminSettingsGeneralContainerCommunityFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Community" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "domain" } },
+          { kind: "Field", name: { kind: "Name", value: "whiteLabelDomain" } },
+          { kind: "Field", name: { kind: "Name", value: "handle" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminSettingsGeneralContainerCommunityFieldsFragment,
   unknown
 >;
 export const LoggedInUserContainerCurrentUserFieldsFragmentDoc = {
@@ -1765,6 +2012,289 @@ export const AdminMembersListContainerMembersByCommunityIdDocument = {
 } as unknown as DocumentNode<
   AdminMembersListContainerMembersByCommunityIdQuery,
   AdminMembersListContainerMembersByCommunityIdQueryVariables
+>;
+export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: {
+        kind: "Name",
+        value: "AdminPropertiesListContainerPropertiesByCommunity",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "communityId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ObjectID" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "propertiesByCommunityId" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "communityId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "communityId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "AdminPropertiesListContainerPropertiesByCommunityFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesListContainerPropertiesByCommunityQuery,
+  AdminPropertiesListContainerPropertiesByCommunityQueryVariables
+>;
+export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "OperationDefinition",
+        operation: "query",
+        name: {
+          kind: "Name",
+          value:
+            "AdminServiceTicketsListContainerServiceTicketsOpenByCommunity",
+        },
+        variableDefinitions: [
+          {
+            kind: "VariableDefinition",
+            variable: {
+              kind: "Variable",
+              name: { kind: "Name", value: "communityId" },
+            },
+            type: {
+              kind: "NonNullType",
+              type: {
+                kind: "NamedType",
+                name: { kind: "Name", value: "ObjectID" },
+              },
+            },
+          },
+        ],
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "serviceTicketsOpenByCommunity" },
+              arguments: [
+                {
+                  kind: "Argument",
+                  name: { kind: "Name", value: "communityId" },
+                  value: {
+                    kind: "Variable",
+                    name: { kind: "Name", value: "communityId" },
+                  },
+                },
+              ],
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "FragmentSpread",
+                    name: {
+                      kind: "Name",
+                      value:
+                        "AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields",
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      ...AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragmentDoc.definitions,
+    ],
+  } as unknown as DocumentNode<
+    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery,
+    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVariables
+  >;
+export const AdminSettingsGeneralContainerCommunityByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: {
+        kind: "Name",
+        value: "AdminSettingsGeneralContainerCommunityById",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "Id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ObjectID" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "communityById" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "Id" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminSettingsGeneralContainerCommunityFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminSettingsGeneralContainerCommunityFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminSettingsGeneralContainerCommunityByIdQuery,
+  AdminSettingsGeneralContainerCommunityByIdQueryVariables
+>;
+export const AdminSettingsGeneralContainerCommunityUpdateDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: {
+        kind: "Name",
+        value: "AdminSettingsGeneralContainerCommunityUpdate",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "CommunityUpdateInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "communityUpdate" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "status" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "success" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "errorMessage" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "community" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: {
+                          kind: "Name",
+                          value: "AdminSettingsGeneralContainerCommunityFields",
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminSettingsGeneralContainerCommunityFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminSettingsGeneralContainerCommunityUpdateMutation,
+  AdminSettingsGeneralContainerCommunityUpdateMutationVariables
 >;
 export const LoggedInUserContainerCurrentUserQueryDocument = {
   kind: "Document",

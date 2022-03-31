@@ -31,7 +31,7 @@ export const SubPageLayout: React.FC<SubPageLayoutPropTypes> = (props) => {
           {props.children}
         </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Open Source</Footer>
+      <Footer style={{ textAlign: 'center' }}>Owner Community</Footer>
       </div>
 
     </>

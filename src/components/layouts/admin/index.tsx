@@ -1,14 +1,18 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { SectionLayout } from './section-layout';
 import { Home } from './pages/home';
 import { Settings } from './pages/settings';
 import { SiteEditor } from './pages/site-editor';
 import { Members } from './pages/members';
 import { Properties } from './pages/properties';
-import { WorkItems } from './pages/work-items';
+import { ServiceTickets } from './pages/service-tickets';
 import { HomeOutlined, ContactsOutlined, LayoutOutlined, SettingOutlined , BarsOutlined, ScheduleOutlined} from '@ant-design/icons';
+import useLocalStorageState from 'use-local-storage-state';
 
 export const Admin: React.FC<any> = (props) => {
+  const params = useParams();
+
+  const [commmunity, setCommunity] = useLocalStorageState('community', params.communityId)
 
   const pageLayouts = [
     {path : '/community/:communityId/admin', title : 'Home', icon : <HomeOutlined />, id:'ROOT'},
@@ -16,8 +20,10 @@ export const Admin: React.FC<any> = (props) => {
     {path : '/community/:communityId/admin/site-editor/*', title : 'Site Editor', icon : <LayoutOutlined /> , id:3, parent: 'ROOT'},
     {path : '/community/:communityId/admin/members/*', title : 'Members', icon : <ContactsOutlined /> , id:4, parent: 'ROOT'},
     {path : '/community/:communityId/admin/properties/*', title : 'Properties', icon : <BarsOutlined /> , id:5, parent: 'ROOT'},
-    {path : '/community/:communityId/admin/work-items/*', title : 'Work Items', icon : <ScheduleOutlined /> , id:6, parent: 'ROOT'},
+    {path : '/community/:communityId/admin/service-tickets/*', title : 'Service Tickets', icon : <ScheduleOutlined /> , id:6, parent: 'ROOT'},
   ]
+
+
 
   return(
     <Routes>
@@ -28,7 +34,7 @@ export const Admin: React.FC<any> = (props) => {
 
         <Route path="/members/*" element={<Members />} />
         <Route path="/properties/*" element={<Properties />} />
-        <Route path="/work-items/*" element={<WorkItems />} />
+        <Route path="/service-tickets/*" element={<ServiceTickets />} />
       </Route>
     </Routes>
   )

@@ -1,0 +1,20 @@
+query AdminServiceTicketsListContainerServiceTicketsOpenByCommunity($communityId: ObjectID!) {
+  serviceTicketsOpenByCommunity(communityId: $communityId) {
+    ...AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields
+  }
+}
+
+fragment AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields on ServiceTicket {
+  title
+  requestor {
+    memberName
+  }
+  assignedTo {
+    memberName
+  }
+  priority
+
+  id
+  createdAt
+  updatedAt
+}

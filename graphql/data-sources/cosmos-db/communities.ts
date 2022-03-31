@@ -1,5 +1,6 @@
 import { msRestAzureVersion } from '@azure/ms-rest-azure-js';
 import { MongoDataSource } from 'apollo-datasource-mongodb';
+import { isValidObjectId } from 'mongoose';
 import { resourceLimits } from 'worker_threads';
 import { Community, CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/models/community';
 import { UserModel } from '../../../infrastructure/data-sources/cosmos-db/models/user';
@@ -7,6 +8,10 @@ import { Context } from '../../context';
 
 export class Communities extends MongoDataSource<Community, Context> {
   
+  async getCurrentCommunity(): Promise<Community> {    
+    return this.findOneById(this.context.community);
+  }
+
   async getCommunityById(id: string): Promise<Community> {
     return this.findOneById(id);
   }
@@ -17,9 +22,16 @@ export class Communities extends MongoDataSource<Community, Context> {
     return this.findByFields({domain: domain})?.[0];
   }
   async getCommunityByHeader(header: string): Promise<Community> {
+    console.log(`getCommunityByHeader`,header);
+    if(isValidObjectId(header)) {
+      console.log('valid header!objectId');
+      return this.findOneById(header);
+      
+      
+    }
+
     return this.collection.find({
       $or: [
-        {_id: header},
         {handle: header},
         {domain: header},
         {whileLabelDomain: header}

@@ -10,11 +10,12 @@ export class CommunityVisaImpl<root extends CommunityEntityReference> implements
   
   determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean {
     //ensure that the member is a member of this community
-    if(!this.member || this.member.community.id !== this.root.id) {
+    if(!this.member || this.member.community.id !== this.root.id){ 
+      console.log("member is not a member of this community");
       return false;
     }
     const communityPermissions = this.member.role.permissions.communityPermissions;
-    if(! communityPermissions) {return false;}
+    if(!communityPermissions) { return false;}
 
     return func(communityPermissions);
   }

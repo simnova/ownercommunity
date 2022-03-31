@@ -1,3 +1,4 @@
+import { Passport } from '../domain/contexts/iam/passport';
 import { DataSourcesType } from './data-sources';
 
 export type Context = {
@@ -7,6 +8,7 @@ export type Context = {
  
   };
   community:string;
+  passport: Passport;
   dataSources: DataSourcesType;
   executionContext: any;
 }

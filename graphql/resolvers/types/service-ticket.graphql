@@ -1,7 +1,7 @@
 type ServiceTicket implements MongoBase {
   community: Community!
   property: Property
-  requestor: Property!
+  requestor: Member!
   assignedTo: Member
   title: String!
   description: String!

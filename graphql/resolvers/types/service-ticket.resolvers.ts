@@ -36,7 +36,7 @@ const serviceTicket : Resolvers = {
     },
     requestor: async (parent, args, context, info) => {
       if(parent.property && isValidObjectId(parent.requestor.toString())){
-        return (await context.dataSources.propertyApi.findOneById(parent.requestor.toString())) as Property;
+        return (await context.dataSources.propertyApi.findOneById(parent.requestor.toString())) as Member;
       }
       return parent.requestor;
     },

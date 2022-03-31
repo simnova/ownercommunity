@@ -25,7 +25,7 @@ const community : Resolvers = {
   },
   Query: {
     communityById: async (_, { id }, { dataSources }) => {
-      return (await dataSources.communityApi.getCommunityById(id)) as Community;
+      return (await dataSources.communityApi.getCurrentCommunity()) as Community;
     },
     communityByHandle: async (_, { handle }, { dataSources }) => {
       return (await dataSources.communityApi.getCommunityByHandle(handle)) as Community;

@@ -17,34 +17,41 @@ import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/t
 import {
   GraphQLRequestContext,
 } from 'apollo-server-plugin-base'
+import { decorateContext } from './extensions/passport-context';
 
 export class ApolloServerRequestHandler {
+
+
     
   private readonly serverConfig = (portalTokenExtractor:PortalTokenValidation,securedSchema:GraphQLSchemaWithFragmentReplacements) => {
     return {
       schema:securedSchema,
-      dataSources: () => ({
-        ...DataSources
-      }),
-      context: async (req:any) => {
+
+      context: async (req:any) => { //context loads before data sources
         let bearerToken = util.ExtractBearerToken(req.request);
         let context:Partial<ApolloContext> ={};
-        context.community = req.request.headers['community'];
+        
         if(bearerToken){
           let verifiedUser = await portalTokenExtractor.GetVerifiedUser(bearerToken);
-          console.log('Decorating context with verifed user:',JSON.stringify(verifiedUser));
+          console.log('Decorating context with verified user:',JSON.stringify(verifiedUser));
           if(verifiedUser){
             context.verifiedUser = verifiedUser
             console.log('context value is now:', JSON.stringify(context));
           }
         }
+        await decorateContext(context,req.request); 
         return context;
+      },
+      dataSources: () => {
+        return {
+        ...DataSources
+        }
       },
     //  playground: { endpoint: '/api/graphql/playground' },
       plugins:[
         {
           async didEncounterErrors (requestContext: GraphQLRequestContext) {
-            console.error('Apollo Server encounterd error:', requestContext.errors);
+            console.error('Apollo Server encountered error:', requestContext.errors);
           },
           async serverWillStart(service: GraphQLServiceContext) {
             console.log('Apollo Server Starting');
@@ -68,7 +75,7 @@ export class ApolloServerRequestHandler {
   private readonly graphqlHandlerObj:any;
 
   constructor(portals:Map<string,string>){
-    console.log(' -=-=-=-=-=-=-=-=-= INITALIZING APOLLO -=-=-=-=-=-=-=-=-=')
+    console.log(' -=-=-=-=-=-=-=-=-= INITIALIZING APOLLO -=-=-=-=-=-=-=-=-=')
     const scuredSchema:GraphQLSchemaWithFragmentReplacements = applyMiddleware(combinedSchema,permissions);
     const portalTokenExtractor:PortalTokenValidation = new PortalTokenValidation(portals);
 
@@ -82,7 +89,7 @@ export class ApolloServerRequestHandler {
         credentials: true,
       },
 
-      // health check enpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health
+      // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health
       onHealthCheck: async (): Promise<any> => {
         // doesn't work yet 
         // https://github.com/apollographql/apollo-server/pull/5270

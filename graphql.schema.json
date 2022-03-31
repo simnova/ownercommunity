@@ -5717,7 +5717,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Property",
+                "name": "Member",
                 "ofType": null
               }
             },

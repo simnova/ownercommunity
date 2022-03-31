@@ -750,7 +750,7 @@ export type ServiceTicket = MongoBase & {
   id: Scalars["ObjectID"];
   priority: Scalars["Int"];
   property?: Maybe<Property>;
-  requestor: Property;
+  requestor: Member;
   schemaVersion?: Maybe<Scalars["String"]>;
   status: Scalars["String"];
   title: Scalars["String"];
@@ -2553,7 +2553,7 @@ export type ServiceTicketResolvers<
     ParentType,
     ContextType
   >;
-  requestor?: Resolver<ResolversTypes["Property"], ParentType, ContextType>;
+  requestor?: Resolver<ResolversTypes["Member"], ParentType, ContextType>;
   schemaVersion?: Resolver<
     Maybe<ResolversTypes["String"]>,
     ParentType,

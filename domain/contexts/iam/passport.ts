@@ -20,6 +20,7 @@ export interface Visa{
 export interface Passport {
   forMember(root:MemberEntityReference): CommunityVisa;
   forCommunity(root: CommunityEntityReference):  CommunityVisa;
+  forCurrentCommunity(): CommunityVisa;
   forRole(root: RoleEntityReference): CommunityVisa;
   forUser(root: UserEntityReference):  UserVisa;
   forProperty(root: PropertyEntityReference):  PropertyVisa;
@@ -29,7 +30,8 @@ export interface Passport {
 export class PassportImpl implements Passport {
   constructor(
     private readonly user: UserEntityReference, 
-    private readonly member: MemberEntityReference
+    private readonly member: MemberEntityReference,
+    private readonly community: CommunityEntityReference = null
   ){
     if(!member.accounts.find(account => account.user.id === user.id)){
       throw new Error(`User ${user.id} is not a member of the community ${member.community.id}`);
@@ -40,6 +42,9 @@ export class PassportImpl implements Passport {
   }
   forCommunity(root: CommunityEntityReference): CommunityVisa {
     return new CommunityVisaImpl(root,this.member);
+  }
+  forCurrentCommunity(): CommunityVisa {
+    return this.forCommunity(this.community);
   }
   forRole(root: RoleEntityReference): CommunityVisa {
     return new RoleVisaImpl(root,this.member);
@@ -66,6 +71,9 @@ export class ReadOnlyPassport implements Passport {
     return {determineIf:  () => false };
   }
   forCommunity(root: CommunityEntityReference): CommunityVisa {
+    return {determineIf:  () => false }; 
+  }
+  forCurrentCommunity(): CommunityVisa {
     return {determineIf:  () => false }; 
   }
   forRole(root: RoleEntityReference): CommunityVisa {
@@ -120,6 +128,9 @@ export class SystemPassport implements Passport {
   }
   forCommunity(root: CommunityEntityReference): CommunityVisa {
     return {determineIf: (func) => func(this.communityVisa) };
+  }
+  forCurrentCommunity(): CommunityVisa {
+    return {determineIf:  (func) => func(this.communityVisa) };
   }
   forRole(root: RoleEntityReference): CommunityVisa {
     return {determineIf: (func) => func(this.communityVisa) };

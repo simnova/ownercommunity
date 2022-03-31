@@ -12,7 +12,7 @@ type Community implements MongoBase {
 }
 
 extend type Query {
-  communityById(id: ObjectID!): Community
+  community(): Community
   communityByHandle(handle: String!): Community
   communityByDomain(domain: String!): Community
   communities: [Community]

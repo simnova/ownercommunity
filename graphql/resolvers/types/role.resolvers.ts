@@ -7,14 +7,14 @@ const RoleMutationResolver = async (getRole:Promise<RoleDo>): Promise<RoleMutati
   try {
     return {
       status : { success: true },
-      community: (await getRole) 
+      role: (await getRole) 
     } as RoleMutationResult;
   }
   catch(error){
     console.error("Role > Mutation  : ",error);
     return  {
       status : { success: false, error: JSON.stringify(error) },
-      community: null
+      role: null
     } as RoleMutationResult;
   }
 }

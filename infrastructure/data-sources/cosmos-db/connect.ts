@@ -76,7 +76,8 @@ export const connect = async () => {
       keepAliveInitialDelay: 300000,
       autoIndex: true, //Enables automatic index creation for all schemas.
       autoCreate: true, //Enables automatic collection creation for all models.
-    
+      minPoolSize:10, //believe the default is 0 - having something higher than 0 helps with performance
+      maxPoolSize:100, // default is 100
       //   poolSize: Number(process.env.COSMOSDB_POOL_SIZE)
     } as mongoose.ConnectOptions).then(() => console.log(`🗄️ Successfully connected Mongoose to ${mongoose.connection.name} 🗄️`));
 

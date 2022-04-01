@@ -23,14 +23,7 @@ export const RolesDetailContainer: React.FC<any> = (props) => {
         variables: {
           input: values
         },
-        refetchQueries: [
-          {
-            query: AdminRolesDetailContainerRoleDocument,
-            variables: {
-              Id: props.data.id
-            }
-          }
-        ]
+       
       });
       message.success("Role Updated");
     } catch (error) {
@@ -40,7 +33,7 @@ export const RolesDetailContainer: React.FC<any> = (props) => {
 
   if(roleLoading ) {
     return <Skeleton active />
-  }else if(roleError  ) {
+  }else if(roleError) {
     return <div>{JSON.stringify(roleError || updateError )}</div>
   }else if(roleData && roleData.role) {
   return <RolesDetail onAdd={{}} onUpdate={handleUpdate} data={roleData?.role} />

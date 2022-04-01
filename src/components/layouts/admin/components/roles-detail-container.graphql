@@ -4,7 +4,7 @@ query AdminRolesDetailContainerRole($Id: ObjectID!) {
   }
 }
 
-mutation AdminRolesDetailContainerRoleAdd($input: RoleAddInput!) {
+mutation AdminRolesDetailContainerRoleAdd($input: RoleUpdateInput!) {
   roleAdd(input: $input) {
     ...AdminRolesDetailContainerRoleMutationResultFields
   }

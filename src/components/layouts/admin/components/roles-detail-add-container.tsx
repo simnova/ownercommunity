@@ -1,11 +1,26 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { AdminRolesDetailContainerRoleUpdateDocument ,AdminRolesDetailContainerRoleAddDocument, AdminRolesDetailContainerRoleDocument, RoleUpdateInput, RoleAddInput } from "../../../../generated";
+import { AdminRolesDetailContainerRoleUpdateDocument ,AdminRolesDetailContainerRoleAddDocument, AdminRolesDetailContainerRoleDocument, RoleUpdateInput, RoleAddInput, AdminRolesListContainerRolesDocument } from "../../../../generated";
 import { message, Skeleton } from "antd";
 import { RolesDetail } from "./roles-detail";
 
 
 export const RolesDetailAddContainer: React.FC<any> = (props) => {
-  const [roleAdd, { loading:addLoading, error:addError }] = useMutation(AdminRolesDetailContainerRoleAddDocument);  
+  const [roleAdd, {data:addData, loading:addLoading, error:addError }] = useMutation(AdminRolesDetailContainerRoleAddDocument,{
+
+    update(cache, { data }) { // update the list with the new item
+      const newRole = data?.roleAdd.role;
+      const roles = cache.readQuery({ query: AdminRolesListContainerRolesDocument })?.roles;
+      if(newRole && roles) {
+        cache.writeQuery({
+          query: AdminRolesListContainerRolesDocument,
+          data: {
+            roles: [...roles, newRole]
+          }
+        })
+      }
+    }
+    
+  });  
 
   const defaultValues: RoleAddInput = {
     roleName: '',

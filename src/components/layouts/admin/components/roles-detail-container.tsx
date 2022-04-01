@@ -26,6 +26,7 @@ export const RolesDetailContainer: React.FC<any> = (props) => {
        
       });
       message.success("Role Updated");
+
     } catch (error) {
       message.error(`Error updating role: ${JSON.stringify(error)}`);
     }

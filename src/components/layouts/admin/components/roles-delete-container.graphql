@@ -1,0 +1,12 @@
+query AdminRolesDeleteContainerRoles {
+  roles {
+    ...AdminRolesDeleteContainerRolesFields
+  }
+}
+
+fragment AdminRolesDeleteContainerRolesFields on Role {
+  roleName
+  isDefault
+
+  id
+}

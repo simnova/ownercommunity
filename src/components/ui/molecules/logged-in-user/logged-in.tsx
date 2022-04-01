@@ -34,7 +34,7 @@ export const LoggedIn: FC<any> = (props) => {
    
     <Button onClick={props.onLogoutClicked}>Log Out</Button>
     <span className='mx-3'>
-    <Link to="/account">My Account(s)</Link>
+    <Link to="/accounts">My Community(s)</Link>
     </span>
     
     </div>

@@ -124,6 +124,7 @@ export type Community = MongoBase & {
   id: Scalars["ObjectID"];
   name?: Maybe<Scalars["String"]>;
   publicContentBlobUrl?: Maybe<Scalars["String"]>;
+  roles?: Maybe<Array<Maybe<Role>>>;
   schemaVersion?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   whiteLabelDomain?: Maybe<Scalars["String"]>;
@@ -607,15 +608,16 @@ export type Query = {
   /** IGNORE: Dummy field necessary for the Query type to be valid */
   _empty?: Maybe<Scalars["String"]>;
   communities?: Maybe<Array<Maybe<Community>>>;
+  community?: Maybe<Community>;
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
-  communityById?: Maybe<Community>;
   currentUser?: Maybe<User>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
-  rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
+  role?: Maybe<Role>;
+  roles?: Maybe<Array<Maybe<Role>>>;
   serviceTicketsAssignedCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -632,11 +634,6 @@ export type QueryCommunityByDomainArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryCommunityByHandleArgs = {
   handle: Scalars["String"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryCommunityByIdArgs = {
-  id: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -660,8 +657,8 @@ export type QueryPropertiesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryRolesByCommunityIdArgs = {
-  communityId: Scalars["ObjectID"];
+export type QueryRoleArgs = {
+  id: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -702,7 +699,6 @@ export type Role = MongoBase & {
 };
 
 export type RoleAddInput = {
-  communityId: Scalars["ObjectID"];
   permissions: PermissionsInput;
   roleName: Scalars["String"];
 };
@@ -727,7 +723,6 @@ export type RolePermissions = {
 
 export type RoleUpdateInput = {
   id: Scalars["ObjectID"];
-  isDefault: Scalars["Boolean"];
   permissions: PermissionsInput;
   roleName: Scalars["String"];
 };
@@ -1104,6 +1099,241 @@ export type AdminPropertiesListContainerPropertiesByCommunityFieldsFragment = {
   owner?: { __typename?: "Member"; memberName?: string | null } | null;
 };
 
+export type AdminRolesDetailContainerRoleQueryVariables = Exact<{
+  Id: Scalars["ObjectID"];
+}>;
+
+export type AdminRolesDetailContainerRoleQuery = {
+  __typename?: "Query";
+  role?: {
+    __typename?: "Role";
+    roleName: string;
+    isDefault: boolean;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    permissions: {
+      __typename?: "RolePermissions";
+      serviceTicketPermissions: {
+        __typename?: "ServiceTicketPermissions";
+        canCreateTickets: boolean;
+        canManageTickets: boolean;
+        canAssignTickets: boolean;
+        canWorkOnTickets: boolean;
+      };
+      communityPermissions: {
+        __typename?: "CommunityPermissions";
+        canManageRolesAndPermissions: boolean;
+        canManageCommunitySettings: boolean;
+        canManageSiteContent: boolean;
+        canManageMembers: boolean;
+        canEditOwnMemberProfile: boolean;
+        canEditOwnMemberAccounts: boolean;
+      };
+      propertyPermissions: {
+        __typename?: "PropertyPermissions";
+        canManageProperties: boolean;
+        canEditOwnProperty: boolean;
+      };
+    };
+  } | null;
+};
+
+export type AdminRolesDetailContainerRoleAddMutationVariables = Exact<{
+  input: RoleAddInput;
+}>;
+
+export type AdminRolesDetailContainerRoleAddMutation = {
+  __typename?: "Mutation";
+  roleAdd: {
+    __typename?: "RoleMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    role?: {
+      __typename?: "Role";
+      roleName: string;
+      isDefault: boolean;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      permissions: {
+        __typename?: "RolePermissions";
+        serviceTicketPermissions: {
+          __typename?: "ServiceTicketPermissions";
+          canCreateTickets: boolean;
+          canManageTickets: boolean;
+          canAssignTickets: boolean;
+          canWorkOnTickets: boolean;
+        };
+        communityPermissions: {
+          __typename?: "CommunityPermissions";
+          canManageRolesAndPermissions: boolean;
+          canManageCommunitySettings: boolean;
+          canManageSiteContent: boolean;
+          canManageMembers: boolean;
+          canEditOwnMemberProfile: boolean;
+          canEditOwnMemberAccounts: boolean;
+        };
+        propertyPermissions: {
+          __typename?: "PropertyPermissions";
+          canManageProperties: boolean;
+          canEditOwnProperty: boolean;
+        };
+      };
+    } | null;
+  };
+};
+
+export type AdminRolesDetailContainerRoleUpdateMutationVariables = Exact<{
+  input: RoleUpdateInput;
+}>;
+
+export type AdminRolesDetailContainerRoleUpdateMutation = {
+  __typename?: "Mutation";
+  roleUpdate: {
+    __typename?: "RoleMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    role?: {
+      __typename?: "Role";
+      roleName: string;
+      isDefault: boolean;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      permissions: {
+        __typename?: "RolePermissions";
+        serviceTicketPermissions: {
+          __typename?: "ServiceTicketPermissions";
+          canCreateTickets: boolean;
+          canManageTickets: boolean;
+          canAssignTickets: boolean;
+          canWorkOnTickets: boolean;
+        };
+        communityPermissions: {
+          __typename?: "CommunityPermissions";
+          canManageRolesAndPermissions: boolean;
+          canManageCommunitySettings: boolean;
+          canManageSiteContent: boolean;
+          canManageMembers: boolean;
+          canEditOwnMemberProfile: boolean;
+          canEditOwnMemberAccounts: boolean;
+        };
+        propertyPermissions: {
+          __typename?: "PropertyPermissions";
+          canManageProperties: boolean;
+          canEditOwnProperty: boolean;
+        };
+      };
+    } | null;
+  };
+};
+
+export type AdminRolesDetailContainerRoleMutationResultFieldsFragment = {
+  __typename?: "RoleMutationResult";
+  status: {
+    __typename?: "MutationStatus";
+    success: boolean;
+    errorMessage?: string | null;
+  };
+  role?: {
+    __typename?: "Role";
+    roleName: string;
+    isDefault: boolean;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    permissions: {
+      __typename?: "RolePermissions";
+      serviceTicketPermissions: {
+        __typename?: "ServiceTicketPermissions";
+        canCreateTickets: boolean;
+        canManageTickets: boolean;
+        canAssignTickets: boolean;
+        canWorkOnTickets: boolean;
+      };
+      communityPermissions: {
+        __typename?: "CommunityPermissions";
+        canManageRolesAndPermissions: boolean;
+        canManageCommunitySettings: boolean;
+        canManageSiteContent: boolean;
+        canManageMembers: boolean;
+        canEditOwnMemberProfile: boolean;
+        canEditOwnMemberAccounts: boolean;
+      };
+      propertyPermissions: {
+        __typename?: "PropertyPermissions";
+        canManageProperties: boolean;
+        canEditOwnProperty: boolean;
+      };
+    };
+  } | null;
+};
+
+export type AdminRolesDetailContainerRoleFieldsFragment = {
+  __typename?: "Role";
+  roleName: string;
+  isDefault: boolean;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  permissions: {
+    __typename?: "RolePermissions";
+    serviceTicketPermissions: {
+      __typename?: "ServiceTicketPermissions";
+      canCreateTickets: boolean;
+      canManageTickets: boolean;
+      canAssignTickets: boolean;
+      canWorkOnTickets: boolean;
+    };
+    communityPermissions: {
+      __typename?: "CommunityPermissions";
+      canManageRolesAndPermissions: boolean;
+      canManageCommunitySettings: boolean;
+      canManageSiteContent: boolean;
+      canManageMembers: boolean;
+      canEditOwnMemberProfile: boolean;
+      canEditOwnMemberAccounts: boolean;
+    };
+    propertyPermissions: {
+      __typename?: "PropertyPermissions";
+      canManageProperties: boolean;
+      canEditOwnProperty: boolean;
+    };
+  };
+};
+
+export type AdminRolesListContainerRolesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminRolesListContainerRolesQuery = {
+  __typename?: "Query";
+  roles?: Array<{
+    __typename?: "Role";
+    roleName: string;
+    isDefault: boolean;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
+};
+
+export type AdminRolesListContainerRolesFieldsFragment = {
+  __typename?: "Role";
+  roleName: string;
+  isDefault: boolean;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
 export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVariables =
   Exact<{
     communityId: Scalars["ObjectID"];
@@ -1136,13 +1366,13 @@ export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsF
     assignedTo?: { __typename?: "Member"; memberName?: string | null } | null;
   };
 
-export type AdminSettingsGeneralContainerCommunityByIdQueryVariables = Exact<{
-  Id: Scalars["ObjectID"];
+export type AdminSettingsGeneralContainerCommunityQueryVariables = Exact<{
+  [key: string]: never;
 }>;
 
-export type AdminSettingsGeneralContainerCommunityByIdQuery = {
+export type AdminSettingsGeneralContainerCommunityQuery = {
   __typename?: "Query";
-  communityById?: {
+  community?: {
     __typename?: "Community";
     name?: string | null;
     domain?: string | null;
@@ -1543,6 +1773,209 @@ export const AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc 
     AdminPropertiesListContainerPropertiesByCommunityFieldsFragment,
     unknown
   >;
+export const AdminRolesDetailContainerRoleFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "AdminRolesDetailContainerRoleFields" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Role" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "roleName" } },
+          { kind: "Field", name: { kind: "Name", value: "isDefault" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "permissions" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "serviceTicketPermissions" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "canCreateTickets" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "canManageTickets" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "canAssignTickets" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "canWorkOnTickets" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "communityPermissions" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: {
+                          kind: "Name",
+                          value: "canManageRolesAndPermissions",
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: {
+                          kind: "Name",
+                          value: "canManageCommunitySettings",
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "canManageSiteContent" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "canManageMembers" },
+                      },
+                      {
+                        kind: "Field",
+                        name: {
+                          kind: "Name",
+                          value: "canEditOwnMemberProfile",
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: {
+                          kind: "Name",
+                          value: "canEditOwnMemberAccounts",
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "propertyPermissions" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "canManageProperties" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "canEditOwnProperty" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDetailContainerRoleFieldsFragment,
+  unknown
+>;
+export const AdminRolesDetailContainerRoleMutationResultFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminRolesDetailContainerRoleMutationResultFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "RoleMutationResult" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "status" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "errorMessage" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "role" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminRolesDetailContainerRoleFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminRolesDetailContainerRoleFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDetailContainerRoleMutationResultFieldsFragment,
+  unknown
+>;
+export const AdminRolesListContainerRolesFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "AdminRolesListContainerRolesFields" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Role" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "roleName" } },
+          { kind: "Field", name: { kind: "Name", value: "isDefault" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminRolesListContainerRolesFieldsFragment,
+  unknown
+>;
 export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragmentDoc =
   {
     kind: "Document",
@@ -2078,6 +2511,221 @@ export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
   AdminPropertiesListContainerPropertiesByCommunityQuery,
   AdminPropertiesListContainerPropertiesByCommunityQueryVariables
 >;
+export const AdminRolesDetailContainerRoleDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "AdminRolesDetailContainerRole" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "Id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ObjectID" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "role" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "Id" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminRolesDetailContainerRoleFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminRolesDetailContainerRoleFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDetailContainerRoleQuery,
+  AdminRolesDetailContainerRoleQueryVariables
+>;
+export const AdminRolesDetailContainerRoleAddDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "AdminRolesDetailContainerRoleAdd" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "RoleAddInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "roleAdd" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminRolesDetailContainerRoleMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminRolesDetailContainerRoleMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDetailContainerRoleAddMutation,
+  AdminRolesDetailContainerRoleAddMutationVariables
+>;
+export const AdminRolesDetailContainerRoleUpdateDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "AdminRolesDetailContainerRoleUpdate" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "RoleUpdateInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "roleUpdate" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminRolesDetailContainerRoleMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminRolesDetailContainerRoleMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDetailContainerRoleUpdateMutation,
+  AdminRolesDetailContainerRoleUpdateMutationVariables
+>;
+export const AdminRolesListContainerRolesDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "AdminRolesListContainerRoles" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "roles" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminRolesListContainerRolesFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminRolesListContainerRolesFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminRolesListContainerRolesQuery,
+  AdminRolesListContainerRolesQueryVariables
+>;
 export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument =
   {
     kind: "Document",
@@ -2145,45 +2793,19 @@ export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocume
     AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery,
     AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVariables
   >;
-export const AdminSettingsGeneralContainerCommunityByIdDocument = {
+export const AdminSettingsGeneralContainerCommunityDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: {
-        kind: "Name",
-        value: "AdminSettingsGeneralContainerCommunityById",
-      },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "Id" } },
-          type: {
-            kind: "NonNullType",
-            type: {
-              kind: "NamedType",
-              name: { kind: "Name", value: "ObjectID" },
-            },
-          },
-        },
-      ],
+      name: { kind: "Name", value: "AdminSettingsGeneralContainerCommunity" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "communityById" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "id" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "Id" },
-                },
-              },
-            ],
+            name: { kind: "Name", value: "community" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -2203,8 +2825,8 @@ export const AdminSettingsGeneralContainerCommunityByIdDocument = {
     ...AdminSettingsGeneralContainerCommunityFieldsFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<
-  AdminSettingsGeneralContainerCommunityByIdQuery,
-  AdminSettingsGeneralContainerCommunityByIdQueryVariables
+  AdminSettingsGeneralContainerCommunityQuery,
+  AdminSettingsGeneralContainerCommunityQueryVariables
 >;
 export const AdminSettingsGeneralContainerCommunityUpdateDocument = {
   kind: "Document",

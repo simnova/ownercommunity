@@ -1,26 +1,31 @@
 import { Table , Button, TableColumnsType} from "antd"
 import dayjs from "dayjs"
-import { useNavigate } from "react-router-dom"
-import { Member } from "../../../../generated";
+import { useNavigate } from "react-router-dom";
+import { Role } from "../../../../generated"
 
+export interface RolesListProps {
+  data: Role[];
+}
 
-export const MembersList: React.FC<any> = (props) => {
+export const RolesList: React.FC<RolesListProps> = (props) => {
   const navigate = useNavigate();
-  const columns:TableColumnsType<Member> = [
+  
+  const columns:TableColumnsType<Role> = [
     {
       title: "Action",
       dataIndex: "id",
       render: (text: any) => <Button type="primary" size="small" onClick={() => navigate(text)}>Edit</Button>
     },
     {
-      title: "Member",
-      dataIndex: "memberName",
-      key: "memberName",
+      title: "Role",
+      dataIndex: "roleName",
+      key: "roleName",
     },
     {
-      title: "Role",
-      dataIndex: ["role", "roleName"],  
-      key: "role",
+      title: "Is Default",
+      dataIndex: "isDefault",
+      key: "isDefault",
+      render: (value: Role['isDefault']) => <span>{value?"true":"false"}</span>
     },
     {
       title: "Updated",
@@ -41,8 +46,9 @@ export const MembersList: React.FC<any> = (props) => {
       <Table 
         columns={columns} 
         dataSource={props.data}
-        rowKey={(record: any) => record.id}
+        rowKey={(record: Role) => record.id}
       />
     </div>
   </>)
+
 }

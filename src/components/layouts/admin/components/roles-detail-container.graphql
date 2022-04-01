@@ -1,0 +1,57 @@
+query AdminRolesDetailContainerRole($Id: ObjectID!) {
+  role(id: $Id) {
+    ...AdminRolesDetailContainerRoleFields
+  }
+}
+
+mutation AdminRolesDetailContainerRoleAdd($input: RoleAddInput!) {
+  roleAdd(input: $input) {
+    ...AdminRolesDetailContainerRoleMutationResultFields
+  }
+}
+
+mutation AdminRolesDetailContainerRoleUpdate($input: RoleUpdateInput!) {
+  roleUpdate(input: $input) {
+    ...AdminRolesDetailContainerRoleMutationResultFields
+  }
+}
+
+fragment AdminRolesDetailContainerRoleMutationResultFields on RoleMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  role {
+    ...AdminRolesDetailContainerRoleFields
+  }
+}
+
+fragment AdminRolesDetailContainerRoleFields on Role {
+  roleName
+  isDefault
+
+  permissions {
+    serviceTicketPermissions {
+      canCreateTickets
+      canManageTickets
+      canAssignTickets
+      canWorkOnTickets
+    }
+    communityPermissions {
+      canManageRolesAndPermissions
+      canManageCommunitySettings
+      canManageSiteContent
+      canManageMembers
+      canEditOwnMemberProfile
+      canEditOwnMemberAccounts
+    }
+    propertyPermissions {
+      canManageProperties
+      canEditOwnProperty
+    }
+  }
+
+  id
+  createdAt
+  updatedAt
+}

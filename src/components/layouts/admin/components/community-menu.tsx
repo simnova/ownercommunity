@@ -42,8 +42,9 @@ export const CommunityMenu: FC<any> = ({itemSelected}) => {
       <div>No Data...</div>
     </>
   }
-
+  
   var menuPages = data.communities.map((community) => {
+   
     return {
       key: community?.id,
       name: community?.name,
@@ -63,7 +64,7 @@ export const CommunityMenu: FC<any> = ({itemSelected}) => {
         if (community !== null) {
           return <>
           <Menu.Item key={community.id}>
-            <Link to={`/community/${community?.id}/`}>{community.name}</Link>
+            <Link to={`/community/${community.id}/`}>{community.name}</Link>
           </Menu.Item>
         </>
         }

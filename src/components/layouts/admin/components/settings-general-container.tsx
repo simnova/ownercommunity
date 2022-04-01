@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { AdminSettingsGeneralContainerCommunityByIdDocument, AdminSettingsGeneralContainerCommunityUpdateDocument,CommunityUpdateInput } from "../../../../generated";
+import { AdminSettingsGeneralContainerCommunityDocument, AdminSettingsGeneralContainerCommunityUpdateDocument,CommunityUpdateInput } from "../../../../generated";
 import { SettingsGeneral} from "./settings-general";
 import PropTypes  from "prop-types";
 import { message,Skeleton } from "antd";
@@ -20,14 +20,12 @@ export type SettingsGeneralContainerPropTypes = PropTypes.InferProps<typeof Comp
 
 export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropTypes> = (props) => {
   const [communityUpdate, { error }] = useMutation(AdminSettingsGeneralContainerCommunityUpdateDocument);  
-  const { data: communityData, loading: accountLoading, error: accountError } = useQuery(AdminSettingsGeneralContainerCommunityByIdDocument,{
-      variables: {
-        Id: props.data.id
-      }
+  const { data: communityData, loading: accountLoading, error: accountError } = useQuery(AdminSettingsGeneralContainerCommunityDocument,{
+
     });
 
   const handleSave = async (values: CommunityUpdateInput) => {
-    values.id = communityData!.communityById!.id;
+    values.id = communityData!.community!.id;
     try {
       await communityUpdate({
         variables: {
@@ -46,8 +44,8 @@ export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropType
       return <div><Skeleton active /></div>
     } else if(error || accountError) {
       return <div>{error}{accountError}</div>
-    } else if(communityData && communityData.communityById) {
-      return <SettingsGeneral onSave={handleSave} data={communityData?.communityById } />
+    } else if(communityData && communityData.community) {
+      return <SettingsGeneral onSave={handleSave} data={communityData?.community } />
     } else {
       return <div>No Data...</div>
     }

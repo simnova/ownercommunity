@@ -1,0 +1,14 @@
+query AdminRolesListContainerRoles {
+  roles {
+    ...AdminRolesListContainerRolesFields
+  }
+}
+
+fragment AdminRolesListContainerRolesFields on Role {
+  roleName
+  isDefault
+
+  id
+  createdAt
+  updatedAt
+}

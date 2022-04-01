@@ -31,7 +31,7 @@ export class CommunityDomainAdapter extends MongooseDomainAdapter<Community> imp
     if(this.props.createdBy) {return new UserDomainAdapter(this.props.createdBy);}
   }
   setCreatedByRef(user: UserEntityReference) {
-    this.props.set('createdBy',user.id);
+    this.props.set('createdBy',user['props']['props']);
   }
 
 }

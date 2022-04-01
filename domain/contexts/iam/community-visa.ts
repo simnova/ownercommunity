@@ -15,8 +15,11 @@ export class CommunityVisaImpl<root extends CommunityEntityReference> implements
       return false;
     }
     const communityPermissions = this.member.role.permissions.communityPermissions;
-    if(!communityPermissions) { return false;}
-
+    if(!communityPermissions) { 
+      console.log("no community permissions");
+      return false;
+    }
+    console.log("communityPermissions",communityPermissions);
     return func(communityPermissions);
   }
 }

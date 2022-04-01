@@ -1,6 +1,6 @@
-import { Resolvers, Community, CommunityMutationResult } from '../../generated';
-import { isValidObjectId } from 'mongoose';
+import { Resolvers, Community, CommunityMutationResult, Role } from '../../generated';
 import { Community as CommunityDo } from '../../../infrastructure/data-sources/cosmos-db/models/community';
+import { DataSources } from '../../data-sources';
 
 
 const CommunityMutationResolver = async (getCommunity:Promise<CommunityDo>): Promise<CommunityMutationResult> => {
@@ -21,10 +21,12 @@ const CommunityMutationResolver = async (getCommunity:Promise<CommunityDo>): Pro
 
 const community : Resolvers = {
   Community: {
-    
+    roles: async (community: Community) => {
+      return (await DataSources.roleApi.getRoles()) as Role[];
+    }
   },
   Query: {
-    communityById: async (_, { id }, { dataSources }) => {
+    community: async (_, {  }, { dataSources }) => {
       return (await dataSources.communityApi.getCurrentCommunity()) as Community;
     },
     communityByHandle: async (_, { handle }, { dataSources }) => {

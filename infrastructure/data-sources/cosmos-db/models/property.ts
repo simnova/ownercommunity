@@ -71,7 +71,7 @@ const schema = new Schema<Property, Model<Property>, Property>(
     community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true, unique: false },    
     location: Location.LocationModel.schema,
     owner: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true, unique: false },
-    propertyName: { type: String, required: true, maxlength: 100 },
+    propertyName: { type: String, required: true, maxlength: 100, index: true },
     propertyType: { type: String, required: false, maxlength: 100 },
 
     listedForSale: { type: Boolean, required: false, default: false },
@@ -122,8 +122,6 @@ const schema = new Schema<Property, Model<Property>, Property>(
   {
     ...BaseOptions 
   }
-  ).index(
-    { community: 1, propertyName: 1 },  { unique: true }
   );
 /*
 schema.path('listingDetails.additionalAmenities').validate(function(additionalAmenities) {

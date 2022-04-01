@@ -6,7 +6,7 @@ import { MongoTypeConverter } from '../mongo-type-converter';
 import { CommunityProps } from '../../../contexts/community/community';
 import { CommunityPermissionsProps } from '../../../contexts/community/community-permissions';
 import { PermissionsProps } from '../../../contexts/community/permissions';
-import { CommunityDomainAdapter } from './community-domain-adapter';
+import { CommunityConverter, CommunityDomainAdapter } from './community-domain-adapter';
 import { DomainExecutionContext } from '../../../contexts/context';
 import { PropertyPermissionsProps } from '../../../contexts/community/property-permissions';
 import { ServiceTicketPermissionsProps } from '../../../contexts/community/service-ticket-permissions';
@@ -24,10 +24,13 @@ export class RoleDomainAdapter extends MongooseDomainAdapter<Role> implements Ro
   set roleName(roleName) {this.props.roleName = roleName;}
 
   get community() {
+    if(this.props.community && !this.props.populated('community')) {
+      console.warn('Community not populated - may want to look at repository populate',this.props.community);
+    }
     if(this.props.community){return new CommunityDomainAdapter(this.props.community);}
   }
   setCommunityRef(community: CommunityProps) {
-    this.props.set('community',community.id);
+    this.props.set('community', community['props']['props']);
   }
 
   get isDefault() {return this.props.isDefault;}

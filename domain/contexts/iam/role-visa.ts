@@ -12,16 +12,16 @@ export class RoleVisaImpl<root extends RoleEntityReference> implements Community
   determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean {
     //ensure that the member is a member of the community
     if(!this.member || this.member.community.id !== this.root.community.id) {
+      console.log("member is not a member of this community", this.member, this.root);
       return false;
     }
     const communityPermissions = this.member.role.permissions.communityPermissions;
-    if(! communityPermissions) {return false;}
-
-    var updatedPermissions = { 
-      ...communityPermissions, 
-      ...{isSystemAccount : (this.member.id === SystemUserId)}
-    } as CommunityPermissions;
-    return func(updatedPermissions);
+    if(! communityPermissions) {
+      console.log("no community permissions");
+      return false;
+    }
+    
+    return func(communityPermissions as CommunityPermissions);
   }
 }
 

@@ -11,7 +11,6 @@ export class Communities extends MongoDataSource<Community, Context> {
   async getCurrentCommunity(): Promise<Community> {    
     return this.findOneById(this.context.community);
   }
-
   async getCommunityById(id: string): Promise<Community> {
     return this.findOneById(id);
   }

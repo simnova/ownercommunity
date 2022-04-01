@@ -4,7 +4,7 @@ type Community implements MongoBase {
   whiteLabelDomain: String
   handle: String
   publicContentBlobUrl: String
-
+  roles: [Role]
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -12,7 +12,7 @@ type Community implements MongoBase {
 }
 
 extend type Query {
-  community(): Community
+  community: Community
   communityByHandle(handle: String!): Community
   communityByDomain(domain: String!): Community
   communities: [Community]

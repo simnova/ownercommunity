@@ -17,22 +17,36 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
   get isSystemAccount(): boolean {return false;}
 
   public setCanManageRolesAndPermissions(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
-      throw new Error('Cannot set permission');
+    if(!this.visa.determineIf((permissions) => {
+      
+      
+      console.log("permissions",permissions);
+      console.log("permissions.isSystemAccount",permissions.isSystemAccount);
+      console.log("permissions.canManageRolesAndPermissions",permissions.canManageRolesAndPermissions);
+      var value = permissions.canManageRolesAndPermissions || permissions.isSystemAccount;
+      console.log("canManageRolesAndPermissions",value);
+      return value;
+    }
+    
+    
+    )
+    
+    ) {
+      throw new Error('Cannot set permission1');
     }
     this.props.canManageRolesAndPermissions = value;
   }
 
   public setCanManageCommunitySettings(value:boolean): void {
-    if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
-      throw new Error('Cannot set permission');
+    if(!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
+      throw new Error('Cannot set permission2');
     }
     this.props.canManageCommunitySettings = value;
   }
 
   public setCanManageSiteContent(value:boolean): void {
     if(!  this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
-      throw new Error('Cannot set permission');
+      throw new Error('Cannot set permission3');
     }
     this.props.canManageSiteContent = value;
   }

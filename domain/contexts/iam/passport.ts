@@ -71,6 +71,7 @@ export class ReadOnlyPassport implements Passport {
     return {determineIf:  () => false };
   }
   forCommunity(root: CommunityEntityReference): CommunityVisa {
+    console.log('readonly', root);
     return {determineIf:  () => false }; 
   }
   forCurrentCommunity(): CommunityVisa {

@@ -16,10 +16,13 @@ export class DomainDataSource<Context extends GraphQLContext,MongoType extends D
   public get context(): Context { return this._context;}
 
   public async withTransaction(func:(repo:RepoType) => Promise<void>): Promise<void> {
+
     const executionContext:DomainExecutionContext = {
+      
+      
       passport: this._context.passport// await getPassport(this.context),
     }
-    
+    console.log('withTransaction',this.context.passport);
     return this.unitOfWork.withTransaction(executionContext,(repo:RepoType) => func(repo));
   }
 

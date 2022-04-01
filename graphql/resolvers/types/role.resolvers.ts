@@ -30,8 +30,11 @@ const role : Resolvers = {
     },
   },
   Query: {
-    rolesByCommunityId: async (_, { communityId }, { dataSources }) => {
-      return (await dataSources.roleApi.getRolesByCommunityId(communityId)) as Role[];
+    role: async (_, { id }, { dataSources }) => {
+      return (await dataSources.roleApi.getRoleById(id)) as Role;
+    },
+    roles: async (_, {}, { dataSources }) => {
+      return (await dataSources.roleApi.getRoles()) as Role[];
     }
   },
   Mutation: {

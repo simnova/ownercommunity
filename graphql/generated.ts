@@ -132,6 +132,7 @@ export type Community = MongoBase & {
   id: Scalars["ObjectID"];
   name?: Maybe<Scalars["String"]>;
   publicContentBlobUrl?: Maybe<Scalars["String"]>;
+  roles?: Maybe<Array<Maybe<Role>>>;
   schemaVersion?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
   whiteLabelDomain?: Maybe<Scalars["String"]>;
@@ -615,15 +616,16 @@ export type Query = {
   /** IGNORE: Dummy field necessary for the Query type to be valid */
   _empty?: Maybe<Scalars["String"]>;
   communities?: Maybe<Array<Maybe<Community>>>;
+  community?: Maybe<Community>;
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
-  communityById?: Maybe<Community>;
   currentUser?: Maybe<User>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
-  rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
+  role?: Maybe<Role>;
+  roles?: Maybe<Array<Maybe<Role>>>;
   serviceTicketsAssignedCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -640,11 +642,6 @@ export type QueryCommunityByDomainArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryCommunityByHandleArgs = {
   handle: Scalars["String"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryCommunityByIdArgs = {
-  id: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -668,8 +665,8 @@ export type QueryPropertiesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryRolesByCommunityIdArgs = {
-  communityId: Scalars["ObjectID"];
+export type QueryRoleArgs = {
+  id: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -710,7 +707,6 @@ export type Role = MongoBase & {
 };
 
 export type RoleAddInput = {
-  communityId: Scalars["ObjectID"];
   permissions: PermissionsInput;
   roleName: Scalars["String"];
 };
@@ -735,7 +731,6 @@ export type RolePermissions = {
 
 export type RoleUpdateInput = {
   id: Scalars["ObjectID"];
-  isDefault: Scalars["Boolean"];
   permissions: PermissionsInput;
   roleName: Scalars["String"];
 };
@@ -1435,6 +1430,11 @@ export type CommunityResolvers<
   name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   publicContentBlobUrl?: Resolver<
     Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  roles?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Role"]>>>,
     ParentType,
     ContextType
   >;
@@ -2354,6 +2354,11 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+  community?: Resolver<
+    Maybe<ResolversTypes["Community"]>,
+    ParentType,
+    ContextType
+  >;
   communityByDomain?: Resolver<
     Maybe<ResolversTypes["Community"]>,
     ParentType,
@@ -2365,12 +2370,6 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryCommunityByHandleArgs, "handle">
-  >;
-  communityById?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryCommunityByIdArgs, "id">
   >;
   currentUser?: Resolver<
     Maybe<ResolversTypes["User"]>,
@@ -2401,11 +2400,16 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryPropertiesByCommunityIdArgs, "communityId">
   >;
-  rolesByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Role"]>>>,
+  role?: Resolver<
+    Maybe<ResolversTypes["Role"]>,
     ParentType,
     ContextType,
-    RequireFields<QueryRolesByCommunityIdArgs, "communityId">
+    RequireFields<QueryRoleArgs, "id">
+  >;
+  roles?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Role"]>>>,
+    ParentType,
+    ContextType
   >;
   serviceTicketsAssignedCurrentUser?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,

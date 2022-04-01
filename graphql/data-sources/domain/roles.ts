@@ -21,7 +21,7 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
     }
     
     let roleToReturn : Role;
-    let community = await this.context.dataSources.communityApi.getCommunityById(input.communityId);
+    let community = await this.context.dataSources.communityApi.getCommunityById(this.context.community);
     let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
 
     await this.withTransaction(async (repo) => {
@@ -57,7 +57,9 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
     
     let roleToReturn : Role;
     await this.withTransaction(async (repo) => {
-      let roleDo = await repo.get(input.id);
+      let roleDo = await repo.getById(input.id);
+
+      roleDo.requestSetRoleName(input.roleName);
 
       roleDo.permissions.communityPermissions.setCanManageRolesAndPermissions(input.permissions.communityPermissions.canManageRolesAndPermissions);
       roleDo.permissions.communityPermissions.setCanManageCommunitySettings(input.permissions.communityPermissions.canManageCommunitySettings);

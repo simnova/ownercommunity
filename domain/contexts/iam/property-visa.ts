@@ -10,15 +10,20 @@ export class PropertyVisaImpl<root extends PropertyEntityReference> implements P
   determineIf(func:((permissions:PropertyPermissions) => boolean)) :  boolean {
     //ensure that the member is a member of this community
     if(!this.member || this.member.community.id !== this.root.community.id) {
+      console.log('member not part of community',this.member,this.root.community);
       return false;
     }
     const propertyPermissions = this.member.role.permissions.propertyPermissions;
-    if(! propertyPermissions) {return false;}
+    if(! propertyPermissions) {
+      console.log('no property permissions',this.member.role.permissions);
+      return false;
+    }
 
     var updatedPermissions = { 
       ...propertyPermissions, 
       ...{isEditingOwnProperty : (this.member.id === this.root.owner.id)} //overwrite isEditingOwnProperty based on user ownership
     } as PropertyPermissions;
+    console.log('updatedPermissions',updatedPermissions);
     return func(updatedPermissions);
     
   }

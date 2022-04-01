@@ -15,7 +15,7 @@ export class Users extends DomainDataSource<Context,User,PropType,DomainType,Rep
   
 
   async updateUser(user: UserUpdateInput) : Promise<User> {
-    if(this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
+    if(!this.context.verifiedUser || this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized');
     }
 

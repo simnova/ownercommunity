@@ -27,6 +27,7 @@ export const decorateContext = async (context: Partial<Context>, req:HttpRequest
     context.community = mongoCommunity.id;   
     console.log(' == CONTEXT DECORATED SUCCESSFULLY == ');
   } catch (error) {
+    console.log(' == ERROR 2== ', error);
     context.passport = ReadOnlyPassport.GetInstance();
     context.community = null;
   }
@@ -37,15 +38,16 @@ const getPassport = async (context: Partial<Context>, mongoCommunity: Community)
   let userExternalId = context.verifiedUser.verifiedJWT.sub;
   let mongoUser = await UserModel.findOne({externalId:userExternalId}).exec();
   let mongoMember = (
-      await MemberModel
+      await (MemberModel
         .findOne({community: mongoCommunity.id, 'accounts.user': mongoUser.id})
         .populate('community')
         .populate('accounts.user')
         .populate('role')
-        .exec()
+        .exec())
       )
 
   if(mongoCommunity && mongoMember && mongoUser) {
+    console.log('here')
     let userDo = new UserConverter().toDomain(mongoUser, {passport: readOnlyPassport});
     let memberDo = new MemberConverter().toDomain(mongoMember,{passport: readOnlyPassport});
     let communityDo = new CommunityConverter().toDomain(mongoCommunity, {passport: readOnlyPassport});

@@ -73,7 +73,9 @@ const schema = new Schema<Member, Model<Member>, Member>(
   },
   {
     ...BaseOptions
-  });
+  }).index(
+    {community: 1, memberName: 1, 'accounts.user': 1}, {unique: true}
+  );
 
 schema.path('accounts').validate(function(accounts) {
   return accounts.length <= 5;

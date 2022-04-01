@@ -122,7 +122,9 @@ const schema = new Schema<Property, Model<Property>, Property>(
   {
     ...BaseOptions 
   }
-  );
+  ).index(
+    { community: 1, propertyName: 1 },  { unique: true }
+  );  
 /*
 schema.path('listingDetails.additionalAmenities').validate(function(additionalAmenities) {
   return additionalAmenities.length > 20;

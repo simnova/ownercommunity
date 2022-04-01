@@ -80,5 +80,7 @@ export const RoleModel = model<Role>('Role',new Schema<Role, Model<Role>, Role>(
   {
     ...BaseOptions,
   }
+  ).index(
+    { roleName: 1, community: 1 }, { unique: true }
   )
 );

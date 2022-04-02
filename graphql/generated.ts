@@ -282,11 +282,7 @@ export type MemberAvatarImageInput = {
 };
 
 export type MemberCreateInput = {
-  accounts: Array<InputMaybe<MemberAccountCreateInput>>;
-  community: Scalars["ObjectID"];
-  name: Scalars["String"];
-  profile?: InputMaybe<MemberProfileInput>;
-  role?: InputMaybe<Scalars["ObjectID"]>;
+  memberName: Scalars["String"];
 };
 
 export type MemberMutationResult = MutationResult & {
@@ -326,14 +322,10 @@ export type MemberProfileUpdateInput = {
   profile?: InputMaybe<MemberProfileInput>;
 };
 
-export type MemberRoleReassignInput = {
-  memberId: Scalars["ObjectID"];
-  newRole: Scalars["ObjectID"];
-};
-
 export type MemberUpdateInput = {
   id: Scalars["ObjectID"];
-  name?: InputMaybe<Scalars["String"]>;
+  memberName: Scalars["String"];
+  role: Scalars["ObjectID"];
 };
 
 /** Base type for all models in mongo. */
@@ -369,7 +361,6 @@ export type Mutation = {
   memberProfileAvatarCreateAuthHeader: MemberAvatarImageAuthHeaderResult;
   memberProfileAvatarRemove: MemberMutationResult;
   memberProfileUpdate: MemberMutationResult;
-  memberRoleReassign: MemberMutationResult;
   memberUpdate: MemberMutationResult;
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
@@ -434,11 +425,6 @@ export type MutationMemberProfileAvatarRemoveArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberProfileUpdateArgs = {
   input: MemberProfileUpdateInput;
-};
-
-/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
-export type MutationMemberRoleReassignArgs = {
-  input: MemberRoleReassignInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -622,7 +608,7 @@ export type Query = {
   currentUser?: Maybe<User>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
-  membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
+  members?: Maybe<Array<Maybe<Member>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -651,11 +637,6 @@ export type QueryMemberArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberForCurrentUserArgs = {
-  communityId: Scalars["ObjectID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryMembersByCommunityIdArgs = {
   communityId: Scalars["ObjectID"];
 };
 
@@ -1040,7 +1021,6 @@ export type ResolversTypes = ResolversObject<{
   MemberProfile: ResolverTypeWrapper<MemberProfile>;
   MemberProfileInput: MemberProfileInput;
   MemberProfileUpdateInput: MemberProfileUpdateInput;
-  MemberRoleReassignInput: MemberRoleReassignInput;
   MemberUpdateInput: MemberUpdateInput;
   MongoBase:
     | ResolversTypes["Community"]
@@ -1185,7 +1165,6 @@ export type ResolversParentTypes = ResolversObject<{
   MemberProfile: MemberProfile;
   MemberProfileInput: MemberProfileInput;
   MemberProfileUpdateInput: MemberProfileUpdateInput;
-  MemberRoleReassignInput: MemberRoleReassignInput;
   MemberUpdateInput: MemberUpdateInput;
   MongoBase:
     | ResolversParentTypes["Community"]
@@ -2029,12 +2008,6 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationMemberProfileUpdateArgs, "input">
   >;
-  memberRoleReassign?: Resolver<
-    ResolversTypes["MemberMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberRoleReassignArgs, "input">
-  >;
   memberUpdate?: Resolver<
     ResolversTypes["MemberMutationResult"],
     ParentType,
@@ -2388,11 +2361,10 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryMemberForCurrentUserArgs, "communityId">
   >;
-  membersByCommunityId?: Resolver<
+  members?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
     ParentType,
-    ContextType,
-    RequireFields<QueryMembersByCommunityIdArgs, "communityId">
+    ContextType
   >;
   propertiesByCommunityId?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Property"]>>>,

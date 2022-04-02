@@ -2,7 +2,7 @@ import { Member as MemberDO } from '../../../domain/contexts/community/member';
 import { MemberConverter, MemberDomainAdapter }from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
 import { MongoMemberRepository } from '../../../domain/infrastructure/persistance/repositories/mongo-member-repository';
 import { Context } from '../../context';
-import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberRoleReassignInput } from '../../generated';
+import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
@@ -24,24 +24,25 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
     }
     
     let memberToReturn : Member;
-    let community = await this.context.dataSources.communityApi.getCommunityById(input.community);
+    let community = await this.context.dataSources.communityApi.getCommunityById(this.context.community);
     let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
 
     await this.withTransaction(async (repo) => {
       let newMember = await repo.getNewInstance(
-        input.name,
+        input.memberName,
         communityDo);
       memberToReturn = new MemberConverter().toMongo(await repo.save(newMember));
     });
     return memberToReturn;
   }
 
-  async memberRoleReassign(input: MemberRoleReassignInput) : Promise<Member> {
+  async memberUpdate(input: MemberUpdateInput) : Promise<Member> {
     let memberToReturn : Member;
-    let mongoRole = await this.context.dataSources.roleApi.findOneById(input.newRole);
+    let mongoRole = await this.context.dataSources.roleApi.findOneById(input.role);
     let roleDo = new RoleConverter().toDomain(mongoRole,{passport:ReadOnlyPassport.GetInstance()});
     await this.withTransaction(async (repo) => {
-      let member = await repo.getById(input.memberId);
+      let member = await repo.getById(input.id);
+      member.requestSetMemberName(input.memberName);
       member.requestSetRole(roleDo);
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });

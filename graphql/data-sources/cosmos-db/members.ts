@@ -7,8 +7,8 @@ export class Members extends MongoDataSource<Member, Context> {
   async getMemberByCommunityIdUserId(communityId : string, userId: string): Promise<Member> {
     return (await this.findByFields({community: communityId, 'accounts.user': userId}))?.[0];
   }
-  async getMembersByCommunityId(communityId : string): Promise<Member[]> {
-    return this.findByFields({community: communityId});
+  async getMembers(): Promise<Member[]> {
+    return this.findByFields({community: this.context.community});
   }
   
 }

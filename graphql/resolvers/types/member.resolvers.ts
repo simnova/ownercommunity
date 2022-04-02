@@ -8,14 +8,14 @@ const MemberMutationResolver = async (getMember:Promise<MemberDo>): Promise<Memb
   try {
     return {
       status : { success: true },
-      community: (await getMember) 
+      member: (await getMember) 
     } as MemberMutationResult;
   }
   catch(error){
     console.error("Community > Mutation  : ",error);
     return  {
       status : { success: false, error: JSON.stringify(error) },
-      community: null
+      member: null
     } as MemberMutationResult;
   }
 }
@@ -56,8 +56,8 @@ const member : Resolvers = {
       }
       return null;
     },
-    membersByCommunityId: async (_, { communityId }, { dataSources }) => {
-      return (await dataSources.memberApi.getMembersByCommunityId(communityId)) as Member[];
+    members: async (_, {  }, { dataSources }) => {
+      return (await dataSources.memberApi.getMembers()) as Member[];
     },
     memberForCurrentUser: async (_, { communityId }, context) => {
       return getMemberForCurrentUser(context, communityId);
@@ -67,8 +67,8 @@ const member : Resolvers = {
     memberCreate: async (_, { input }, { dataSources }) => {
       return MemberMutationResolver(dataSources.memberDomainAPI.memberCreate(input));
     },
-    memberRoleReassign: async (_, { input }, { dataSources }) => {
-      return MemberMutationResolver(dataSources.memberDomainAPI.memberRoleReassign(input));
+    memberUpdate: async (_, { input }, { dataSources }) => {
+      return MemberMutationResolver(dataSources.memberDomainAPI.memberUpdate(input));
     },
     memberAccountAdd: async (_, { input }, { dataSources }) => {
       return MemberMutationResolver(dataSources.memberDomainAPI.memberAccountAdd(input));

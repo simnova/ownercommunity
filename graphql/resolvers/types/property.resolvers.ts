@@ -7,14 +7,14 @@ const PropertyMutationResolver = async (getProperty:Promise<PropertyDo>): Promis
   try {
     return {
       status : { success: true },
-      community: (await getProperty) 
+      property: (await getProperty) 
     } as PropertyMutationResult;
   }
   catch(error){
     console.error("Property > Mutation  : ",error);
     return  {
       status : { success: false, error: JSON.stringify(error) },
-      community: null
+      property: null
     } as PropertyMutationResult;
   }
 }

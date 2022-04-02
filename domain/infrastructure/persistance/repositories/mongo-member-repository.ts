@@ -25,7 +25,7 @@ export class MongoMemberRepository<PropType extends MemberProps> extends MongoRe
   }
 
   async getById(id: string): Promise<MemberDO<PropType>> {
-    let member = await this.model.findOne({ _id: id }).exec();
+    let member = await this.model.findById(id).populate('community').exec();
     return this.typeConverter.toDomain(member, this.context);
   }
   async getAssignedToRole(roleId: string): Promise<MemberDO<PropType>[]> {

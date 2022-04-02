@@ -8,14 +8,14 @@ const ServiceTicketMutationResolver = async (getServiceTicket:Promise<ServiceTic
   try {
     return {
       status : { success: true },
-      community: (await getServiceTicket) 
+      serviceTicket: (await getServiceTicket) 
     } as ServiceTicketMutationResult;
   }
   catch(error){
     console.error("ServiceTicket > Mutation  : ",error);
     return  {
       status : { success: false, error: JSON.stringify(error) },
-      community: null
+      serviceTicket: null
     } as ServiceTicketMutationResult;
   }
 }

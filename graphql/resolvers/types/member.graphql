@@ -38,14 +38,13 @@ type MemberProfile {
 
 extend type Query {
   member(id: ID!): Member 
-  membersByCommunityId(communityId: ObjectID!): [Member]
+  members: [Member]
   memberForCurrentUser(communityId: ObjectID!): Member
 }
 
 extend type Mutation {
   memberCreate(input: MemberCreateInput!): MemberMutationResult!
   memberUpdate(input: MemberUpdateInput!): MemberMutationResult!
-  memberRoleReassign(input: MemberRoleReassignInput!): MemberMutationResult!
   memberAccountAdd(input: MemberAccountAddInput!): MemberMutationResult!
   memberAccountRemove(input: MemberAccountRemoveInput!): MemberMutationResult!
   memberProfileUpdate(input: MemberProfileUpdateInput!): MemberMutationResult!
@@ -59,21 +58,13 @@ type MemberMutationResult implements MutationResult {
 }
 
 input MemberCreateInput {
-  community: ObjectID!
-  name:String!
-  role: ObjectID
-  accounts: [MemberAccountCreateInput]!
-  profile: MemberProfileInput
+  memberName:String!
 }
 input MemberUpdateInput {
   id: ObjectID!
-  name:String
+  memberName:String!
+  role: ObjectID!
 } 
-
-input MemberRoleReassignInput {
-  memberId: ObjectID!
-  newRole: ObjectID!
-}
 
 input MemberAccountAddInput {
   memberId: ObjectID!

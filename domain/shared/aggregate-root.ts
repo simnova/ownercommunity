@@ -7,7 +7,13 @@ export interface RootEventRegistry {
 }
 
 export abstract class AggregateRoot<PropType extends EntityProps> extends Entity<PropType> implements RootEventRegistry {
-  
+  private _isDeleted:boolean = false;
+  public get isDeleted():boolean {
+    return this._isDeleted;
+  }
+  protected set isDeleted(value:boolean) {
+    this._isDeleted = value;
+  }
   private domainEvents: DomainEvent[] = [];
   public addDomainEvent<EventProps,T extends CustomDomainEvent<EventProps>>(event:new (aggregateId: string) => T,props:T['payload'] ) {
     let eventToAdd = new event(this.props.id);

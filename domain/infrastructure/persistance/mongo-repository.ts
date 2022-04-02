@@ -33,7 +33,13 @@ export abstract class MongoRepositoryBase<ContextType extends ExecutionContext, 
     item.clearDomainEvents();
     this.itemsInTransaction.push(item);
     try {
-      return this.typeConverter.toDomain(await this.typeConverter.toMongo(item).save({session:this.session}),this.context);
+      if(item.isDeleted === true){
+        await this.model.deleteOne({_id:item.id},{session:this.session}).exec();
+        return item;
+      }else {
+        return this.typeConverter.toDomain(await this.typeConverter.toMongo(item).save({session:this.session}),this.context);
+      }
+      
     } catch (error) {
       console.log(`Error saving item : ${error}`);
       throw error;

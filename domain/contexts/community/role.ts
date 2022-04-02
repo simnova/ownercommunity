@@ -4,6 +4,7 @@ import { Community, CommunityProps, CommunityEntityReference } from "./community
 import { CommunityVisa } from "../iam/community-visa";
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { DomainExecutionContext } from "../context";
+import { RoleDeletedReassignEvent } from "../../events/role-deleted-reassign";
 
 export interface RoleProps extends EntityProps {
   roleName: string;
@@ -52,14 +53,24 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
   private requestSetCommunity(community:CommunityEntityReference): void {
     if(
       !this.isNew &&
-      !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) { throw new Error('You do not have permission to update this account'); }
+      !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) { throw new Error('You do not have permission to update this role'); }
     this.props.setCommunityRef(community);
+  }
+
+  public requestDeleteAndReassignTo(roleRef:RoleEntityReference): void {
+    
+    if(
+      !this.isDeleted &&
+      !this.isDefault &&
+      !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) { throw new Error('You do not have permission to delete this role'); }
+    super.isDeleted = true;
+    this.addIntegrationEvent(RoleDeletedReassignEvent,{deletedRoleId: this.props.id, newRoleId: roleRef.id});
   }
   
   public requestSetIsDefault(isDefault:boolean): void {
     if(
       !this.isNew &&
-      !this.visa.determineIf((permissions) => permissions.isSystemAccount)) { throw new Error('You do not have permission to update this account'); }
+      !this.visa.determineIf((permissions) => permissions.isSystemAccount)) { throw new Error('You do not have permission to update this role'); }
     this.props.isDefault = isDefault;
   }
 

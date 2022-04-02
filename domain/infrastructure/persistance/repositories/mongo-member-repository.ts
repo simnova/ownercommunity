@@ -28,5 +28,9 @@ export class MongoMemberRepository<PropType extends MemberProps> extends MongoRe
     let member = await this.model.findOne({ _id: id }).exec();
     return this.typeConverter.toDomain(member, this.context);
   }
+  async getAssignedToRole(roleId: string): Promise<MemberDO<PropType>[]> {
+    let members = await this.model.find({ role: roleId }).exec();
+    return members.map(member => this.typeConverter.toDomain(member, this.context));
+  }
   
 }

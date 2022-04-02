@@ -82,8 +82,19 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
   }
 
   async roleDeleteAndReassign(input: RoleDeleteAndReassignInput) : Promise<Role> {
-    throw new Error('Not implemented');
-    // need to find all members with this role and reassign them to the new role, then delete the role
+    console.log(`roleDeleteAndReassign`,this.context.verifiedUser);
+    if(this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
+      throw new Error('Unauthorized:roleDeleteAndReassign');
+    }
+
+    let mongoNewRole = await this.context.dataSources.roleApi.getRoleById(input.roleToReassignTo);
+    let newROleDo = new RoleConverter().toDomain(mongoNewRole,{passport:ReadOnlyPassport.GetInstance()});
+    let roleToReturn : Role;
+    await this.withTransaction(async (repo) => {
+      let roleDo = await repo.getById(input.roleToDelete);
+      roleDo.requestDeleteAndReassignTo(newROleDo);
+      roleToReturn = new RoleConverter().toMongo(await repo.save(roleDo))
+    });
+    return roleToReturn;
   }
-  
 }

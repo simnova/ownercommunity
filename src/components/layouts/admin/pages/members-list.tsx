@@ -14,8 +14,7 @@ export const MembersList: React.FC<any> = (props) => {
         <PageHeader 
           title="Members" 
           extra={[
-            <Button type="primary" onClick={() => navigate('new')}>Add New</Button>
-
+            <Button type="primary" onClick={() => navigate('create')}>Create Member</Button>
           ]}
         />}
       >

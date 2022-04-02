@@ -35,6 +35,7 @@ export const LoggedInUserContainer: React.FC<any> = (props) => {
     setIsLoggedIn(getIsLoggedIn('account'));
   }, [getIsLoggedIn]);
   */
+  
   const handleLogin = async() => {
     await login('account');
   }
@@ -86,7 +87,7 @@ export const LoggedInUserContainer: React.FC<any> = (props) => {
          />
     </>
   } else {
-    setIsLoggedIn(getIsLoggedIn('account'));
+   // setIsLoggedIn(getIsLoggedIn('account'));
    
     return <div>Don't Know...</div>
   }

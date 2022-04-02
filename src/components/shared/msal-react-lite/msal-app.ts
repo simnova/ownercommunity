@@ -16,14 +16,20 @@ export class MsalApp {
   
   public registerCallback = (callback:(isLoggedIn: boolean)=>void) => {
     this.setLoginState = callback;
+    (async() => await this.getSilentAuthResult())()
   }
 
 
 
 
   get IsLoggedIn() : boolean{
-    this.isLoggedIn = this.msalInstance.getAllAccounts().length > 0 ;
-    console.log("getting logged in value:",this.isLoggedIn);
+    try {
+      (async() => await this.getSilentAuthResult())()
+      this.isLoggedIn = this.msalInstance.getAllAccounts().length > 0 ;
+      console.log("getting logged in value:",this.isLoggedIn);
+    } catch (err) {
+      this.isLoggedIn = false;
+    }
     return this.isLoggedIn;
   }
   get MsalInstance() : msal.PublicClientApplication{
@@ -179,6 +185,7 @@ export class MsalApp {
   ): Promise<msal.AuthenticationResult | undefined>  {
     var authResult: msal.AuthenticationResult;
     try {
+      console.log('try1')
       authResult = await this.msalInstance.acquireTokenSilent(silentRequest);
       console.log('logged in1');
       this.isLoggedIn = true;
@@ -192,6 +199,7 @@ export class MsalApp {
         this.setLoginState(true)
         return authResult;
       }
+      console.error("auth token popup error",err);
       return undefined;
     }
   }
@@ -202,6 +210,7 @@ export class MsalApp {
     isSilent:boolean=false
   ): Promise<msal.AuthenticationResult | undefined>  {
     try {
+      console.log('try1a')
       var authResult = await this.msalInstance.acquireTokenSilent(silentRequest);
       console.log('logged in1a');
       this.homeAccountId = authResult.account?.homeAccountId;
@@ -209,12 +218,15 @@ export class MsalApp {
       this.setLoginState(true);
       return authResult;
     } catch (err) {
-      if (err instanceof msal.InteractionRequiredAuthError && !isSilent) {
+      //if (err instanceof msal.InteractionRequiredAuthError && !isSilent) {
         console.log('logged in2a');
-        this.isLoggedIn = false;
-        this.setLoginState(false);
+
         await this.msalInstance.acquireTokenRedirect(silentRequest);
-      }
+      //}
+      this.isLoggedIn = false;
+      this.setLoginState(false);
+      console.log('error in2b');
+      console.error("auth token redirect error",err);
       return undefined;
     }
   }

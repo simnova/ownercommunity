@@ -3,6 +3,11 @@ query AdminMembersDetailContainerMember($id: ID!) {
     ...AdminMembersDetailContainerMemberFields
   }
 }
+query AdminMembersDetailContainerRoles {
+  roles {
+    ...AdminMembersDetailContainerRolesFields
+  }
+}
 
 mutation AdminMembersDetailContainerMemberUpdate($input: MemberUpdateInput!) {
   memberUpdate(input: $input) {
@@ -26,6 +31,15 @@ fragment AdminMembersDetailContainerMemberFields on Member {
     id
     roleName
   }
+
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminMembersDetailContainerRolesFields on Role {
+  roleName
+  isDefault
 
   id
   createdAt

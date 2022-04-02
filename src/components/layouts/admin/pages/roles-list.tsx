@@ -15,7 +15,6 @@ export const RolesList: React.FC<any> = (props) => {
           title="Roles"
           extra={[
             <Button type="primary" onClick={() => navigate('new')}>Add New</Button>
-
           ]}
         />}
       >

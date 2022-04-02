@@ -28,8 +28,7 @@ export const RolesDeleteContainer: React.FC<any> = (props) => {
     }
 
   });  
-  const { data: roleData, loading: roleLoading, error: roleError } = useQuery(AdminRolesDeleteContainerRolesDocument,{
-  });
+  const { data: roleData, loading: roleLoading, error: roleError } = useQuery(AdminRolesDeleteContainerRolesDocument,);
 
   const handleReassignment = async (values: RoleDeleteAndReassignInput) => {
     try {

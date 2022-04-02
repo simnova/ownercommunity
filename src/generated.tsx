@@ -274,11 +274,7 @@ export type MemberAvatarImageInput = {
 };
 
 export type MemberCreateInput = {
-  accounts: Array<InputMaybe<MemberAccountCreateInput>>;
-  community: Scalars["ObjectID"];
-  name: Scalars["String"];
-  profile?: InputMaybe<MemberProfileInput>;
-  role?: InputMaybe<Scalars["ObjectID"]>;
+  memberName: Scalars["String"];
 };
 
 export type MemberMutationResult = MutationResult & {
@@ -318,14 +314,10 @@ export type MemberProfileUpdateInput = {
   profile?: InputMaybe<MemberProfileInput>;
 };
 
-export type MemberRoleReassignInput = {
-  memberId: Scalars["ObjectID"];
-  newRole: Scalars["ObjectID"];
-};
-
 export type MemberUpdateInput = {
   id: Scalars["ObjectID"];
-  name?: InputMaybe<Scalars["String"]>;
+  memberName: Scalars["String"];
+  role: Scalars["ObjectID"];
 };
 
 /** Base type for all models in mongo. */
@@ -361,7 +353,6 @@ export type Mutation = {
   memberProfileAvatarCreateAuthHeader: MemberAvatarImageAuthHeaderResult;
   memberProfileAvatarRemove: MemberMutationResult;
   memberProfileUpdate: MemberMutationResult;
-  memberRoleReassign: MemberMutationResult;
   memberUpdate: MemberMutationResult;
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
@@ -426,11 +417,6 @@ export type MutationMemberProfileAvatarRemoveArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberProfileUpdateArgs = {
   input: MemberProfileUpdateInput;
-};
-
-/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
-export type MutationMemberRoleReassignArgs = {
-  input: MemberRoleReassignInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -614,7 +600,7 @@ export type Query = {
   currentUser?: Maybe<User>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
-  membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
+  members?: Maybe<Array<Maybe<Member>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -643,11 +629,6 @@ export type QueryMemberArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberForCurrentUserArgs = {
-  communityId: Scalars["ObjectID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryMembersByCommunityIdArgs = {
   communityId: Scalars["ObjectID"];
 };
 
@@ -979,6 +960,53 @@ export type AdminCommunityMenuContainerCommunitiesFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type AdminMembersCreateContainerMemberCreateMutationVariables = Exact<{
+  input: MemberCreateInput;
+}>;
+
+export type AdminMembersCreateContainerMemberCreateMutation = {
+  __typename?: "Mutation";
+  memberCreate: {
+    __typename?: "MemberMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    member?: {
+      __typename?: "Member";
+      memberName?: string | null;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  };
+};
+
+export type AdminMembersCreateContainerMemberMutationResultFieldsFragment = {
+  __typename?: "MemberMutationResult";
+  status: {
+    __typename?: "MutationStatus";
+    success: boolean;
+    errorMessage?: string | null;
+  };
+  member?: {
+    __typename?: "Member";
+    memberName?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type AdminMembersCreateContainerMemberFragment = {
+  __typename?: "Member";
+  memberName?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
 export type AdminMembersDetailContainerMemberQueryVariables = Exact<{
   id: Scalars["ID"];
 }>;
@@ -993,6 +1021,22 @@ export type AdminMembersDetailContainerMemberQuery = {
     updatedAt?: any | null;
     role?: { __typename?: "Role"; id: any; roleName: string } | null;
   } | null;
+};
+
+export type AdminMembersDetailContainerRolesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminMembersDetailContainerRolesQuery = {
+  __typename?: "Query";
+  roles?: Array<{
+    __typename?: "Role";
+    roleName: string;
+    isDefault: boolean;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
 };
 
 export type AdminMembersDetailContainerMemberUpdateMutationVariables = Exact<{
@@ -1045,14 +1089,22 @@ export type AdminMembersDetailContainerMemberFieldsFragment = {
   role?: { __typename?: "Role"; id: any; roleName: string } | null;
 };
 
-export type AdminMembersListContainerMembersByCommunityIdQueryVariables =
-  Exact<{
-    communityId: Scalars["ObjectID"];
-  }>;
+export type AdminMembersDetailContainerRolesFieldsFragment = {
+  __typename?: "Role";
+  roleName: string;
+  isDefault: boolean;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
 
-export type AdminMembersListContainerMembersByCommunityIdQuery = {
+export type AdminMembersListContainerMembersQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminMembersListContainerMembersQuery = {
   __typename?: "Query";
-  membersByCommunityId?: Array<{
+  members?: Array<{
     __typename?: "Member";
     id: any;
     memberName?: string | null;
@@ -1062,7 +1114,7 @@ export type AdminMembersListContainerMembersByCommunityIdQuery = {
   } | null> | null;
 };
 
-export type AdminMembersListContainerMembersByCommunityIdFieldsFragment = {
+export type AdminMembersListContainerMembersFieldsFragment = {
   __typename?: "Member";
   id: any;
   memberName?: string | null;
@@ -1110,6 +1162,8 @@ export type AdminRolesDeleteContainerRolesQuery = {
     roleName: string;
     isDefault: boolean;
     id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
   } | null> | null;
 };
 
@@ -1132,6 +1186,8 @@ export type AdminRolesDeleteContainerRoleDeleteAndReassignMutation = {
       roleName: string;
       isDefault: boolean;
       id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
     } | null;
   };
 };
@@ -1148,6 +1204,8 @@ export type AdminRolesDeleteContainerRoleMutationResultFieldsFragment = {
     roleName: string;
     isDefault: boolean;
     id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
   } | null;
 };
 
@@ -1156,6 +1214,8 @@ export type AdminRolesDeleteContainerRolesFieldsFragment = {
   roleName: string;
   isDefault: boolean;
   id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
 };
 
 export type AdminRolesDetailContainerRoleQueryVariables = Exact<{
@@ -1660,6 +1720,87 @@ export const AdminCommunityMenuContainerCommunitiesFieldsFragmentDoc = {
   AdminCommunityMenuContainerCommunitiesFieldsFragment,
   unknown
 >;
+export const AdminMembersCreateContainerMemberFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "AdminMembersCreateContainerMember" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Member" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "memberName" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminMembersCreateContainerMemberFragment,
+  unknown
+>;
+export const AdminMembersCreateContainerMemberMutationResultFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value: "AdminMembersCreateContainerMemberMutationResultFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "MemberMutationResult" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "status" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "success" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "errorMessage" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "member" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "FragmentSpread",
+                    name: {
+                      kind: "Name",
+                      value: "AdminMembersCreateContainerMember",
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      ...AdminMembersCreateContainerMemberFragmentDoc.definitions,
+    ],
+  } as unknown as DocumentNode<
+    AdminMembersCreateContainerMemberMutationResultFieldsFragment,
+    unknown
+  >;
 export const AdminMembersDetailContainerMemberFieldsFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -1751,15 +1892,38 @@ export const AdminMembersDetailContainerMutationFieldsFragmentDoc = {
   AdminMembersDetailContainerMutationFieldsFragment,
   unknown
 >;
-export const AdminMembersListContainerMembersByCommunityIdFieldsFragmentDoc = {
+export const AdminMembersDetailContainerRolesFieldsFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: {
-        kind: "Name",
-        value: "AdminMembersListContainerMembersByCommunityIdFields",
+      name: { kind: "Name", value: "AdminMembersDetailContainerRolesFields" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Role" },
       },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "roleName" } },
+          { kind: "Field", name: { kind: "Name", value: "isDefault" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminMembersDetailContainerRolesFieldsFragment,
+  unknown
+>;
+export const AdminMembersListContainerMembersFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "AdminMembersListContainerMembersFields" },
       typeCondition: {
         kind: "NamedType",
         name: { kind: "Name", value: "Member" },
@@ -1786,7 +1950,7 @@ export const AdminMembersListContainerMembersByCommunityIdFieldsFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<
-  AdminMembersListContainerMembersByCommunityIdFieldsFragment,
+  AdminMembersListContainerMembersFieldsFragment,
   unknown
 >;
 export const AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc =
@@ -1848,6 +2012,8 @@ export const AdminRolesDeleteContainerRolesFieldsFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "roleName" } },
           { kind: "Field", name: { kind: "Name", value: "isDefault" } },
           { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
         ],
       },
     },
@@ -2403,6 +2569,68 @@ export const AdminCommunityMenuContainerCommunitiesQueryDocument = {
   AdminCommunityMenuContainerCommunitiesQueryQuery,
   AdminCommunityMenuContainerCommunitiesQueryQueryVariables
 >;
+export const AdminMembersCreateContainerMemberCreateDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "AdminMembersCreateContainerMemberCreate" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "MemberCreateInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "memberCreate" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "AdminMembersCreateContainerMemberMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminMembersCreateContainerMemberMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminMembersCreateContainerMemberCreateMutation,
+  AdminMembersCreateContainerMemberCreateMutationVariables
+>;
 export const AdminMembersDetailContainerMemberDocument = {
   kind: "Document",
   definitions: [
@@ -2457,6 +2685,41 @@ export const AdminMembersDetailContainerMemberDocument = {
 } as unknown as DocumentNode<
   AdminMembersDetailContainerMemberQuery,
   AdminMembersDetailContainerMemberQueryVariables
+>;
+export const AdminMembersDetailContainerRolesDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "AdminMembersDetailContainerRoles" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "roles" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminMembersDetailContainerRolesFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminMembersDetailContainerRolesFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminMembersDetailContainerRolesQuery,
+  AdminMembersDetailContainerRolesQueryVariables
 >;
 export const AdminMembersDetailContainerMemberUpdateDocument = {
   kind: "Document",
@@ -2519,48 +2782,19 @@ export const AdminMembersDetailContainerMemberUpdateDocument = {
   AdminMembersDetailContainerMemberUpdateMutation,
   AdminMembersDetailContainerMemberUpdateMutationVariables
 >;
-export const AdminMembersListContainerMembersByCommunityIdDocument = {
+export const AdminMembersListContainerMembersDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: {
-        kind: "Name",
-        value: "AdminMembersListContainerMembersByCommunityId",
-      },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "communityId" },
-          },
-          type: {
-            kind: "NonNullType",
-            type: {
-              kind: "NamedType",
-              name: { kind: "Name", value: "ObjectID" },
-            },
-          },
-        },
-      ],
+      name: { kind: "Name", value: "AdminMembersListContainerMembers" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "membersByCommunityId" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "communityId" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "communityId" },
-                },
-              },
-            ],
+            name: { kind: "Name", value: "members" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -2568,8 +2802,7 @@ export const AdminMembersListContainerMembersByCommunityIdDocument = {
                   kind: "FragmentSpread",
                   name: {
                     kind: "Name",
-                    value:
-                      "AdminMembersListContainerMembersByCommunityIdFields",
+                    value: "AdminMembersListContainerMembersFields",
                   },
                 },
               ],
@@ -2578,11 +2811,11 @@ export const AdminMembersListContainerMembersByCommunityIdDocument = {
         ],
       },
     },
-    ...AdminMembersListContainerMembersByCommunityIdFieldsFragmentDoc.definitions,
+    ...AdminMembersListContainerMembersFieldsFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<
-  AdminMembersListContainerMembersByCommunityIdQuery,
-  AdminMembersListContainerMembersByCommunityIdQueryVariables
+  AdminMembersListContainerMembersQuery,
+  AdminMembersListContainerMembersQueryVariables
 >;
 export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
   kind: "Document",

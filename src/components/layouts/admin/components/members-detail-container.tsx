@@ -1,9 +1,8 @@
-import { useMutation, useQuery } from "@apollo/client";
-import {  AdminMembersDetailContainerMemberDocument } from "../../../../generated";
-import { MembersDetail} from "./members-detail";
-import PropTypes  from "prop-types";
-import { message,Skeleton } from "antd";
-import { SubPageLayout } from "../sub-page-layout";
+import { useMutation, useQuery } from '@apollo/client';
+import { AdminMembersDetailContainerMemberDocument, AdminMembersDetailContainerRolesDocument, AdminMembersDetailContainerMemberUpdateDocument, MemberUpdateInput } from '../../../../generated';
+import { MembersDetail} from './members-detail';
+import PropTypes  from 'prop-types';
+import { message,Skeleton } from 'antd';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -20,45 +19,42 @@ interface ComponentPropInterface {
 export type MembersDetailContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
 
 export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> = (props) => {
-  //const [updateAccout, { data, loading, error }] = useMutation(MemberSettingsGeneralContainerUpdateMemberDocument);  
+  const { data: roleData, loading: roleLoading, error: roleError } = useQuery(AdminMembersDetailContainerRolesDocument);
+  const [updateMember] = useMutation(AdminMembersDetailContainerMemberUpdateDocument);  
   const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminMembersDetailContainerMemberDocument,{
       variables: {
         id: props.data.id
       }
     });
-/*
+
   const handleSave = async (values: MemberUpdateInput) => {
-    values.id = memberData!.memberGetByHandle!.id;
     try {
-      await updateAccout({
+      await updateMember({
         variables: {
           input:values
         },
-        refetchQueries: [
-          {
-            query: MemberSettingsGeneralContainerMemberGetByHandleDocument,
-            variables: {
-              handle: props.data.handle
-            }
-          }
-        ]
+        
       });
       message.success("Saved");
     } catch (error) {
-      message.error(`Error updating user: ${JSON.stringify(error)}`);
+      message.error(`Error updating Member: ${JSON.stringify(error)}`);
     }
 
   }
-*/
+
   const content = () => {
-    if(memberLoading) {
+    if(memberLoading || roleLoading) {
       return <div><Skeleton active /></div>
-    } else if( memberError) {
-      return <div>{}{memberError}</div>
-    } else if(memberData && memberData.member) {
-      return <MembersDetail data={memberData.member} />
+    } else if( memberError || roleError) {
+      return <div>{JSON.stringify(memberError || roleError )}</div>
+    } else if(memberData && memberData.member && roleData && roleData.roles) {
+      var detailData = {
+        member: memberData.member,
+        roles: roleData.roles
+      }
+      return <MembersDetail data={detailData} onSave={handleSave} />
     } else {
-      return <div>No Data...</div>
+      return <div>No data</div>
     }
   }
 

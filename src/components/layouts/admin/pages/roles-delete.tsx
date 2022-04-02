@@ -1,6 +1,7 @@
 import { SubPageLayout } from '../sub-page-layout';
 import { PageHeader, Button } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
+import { RolesDeleteContainer } from '../components/roles-delete-container';
 
 export const RolesDelete: React.FC<any> = (props) => {
   const params = useParams();
@@ -10,12 +11,10 @@ export const RolesDelete: React.FC<any> = (props) => {
     header={
       <PageHeader 
         title="Role Delete"  
-        
         onBack={() => navigate(-1)}
-       
         />
     }>
-    Something here
+    <RolesDeleteContainer key={params.id ?? ''} data={{id:params.id ?? ''}} />
   </SubPageLayout>
   )
 }

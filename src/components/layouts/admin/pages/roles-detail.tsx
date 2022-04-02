@@ -18,10 +18,6 @@ export const RolesDetail: React.FC<any> = (props) => {
           <PageHeader 
             title="Create Role" 
             onBack={() => navigate(-1)} 
-            extra={[
-              <Button type="primary" >Delete</Button>
-  
-            ]}
           />
 
         }
@@ -37,7 +33,7 @@ export const RolesDetail: React.FC<any> = (props) => {
           title="Role Detail"  
           onBack={() => navigate(-1)}
           extra={[
-            <Button type="primary" onClick={() => {navigate('./delete')}}>Delete</Button>
+            <Button type="primary" onClick={() => {navigate('./delete')}}>Delete...</Button>
 
           ]}
           />

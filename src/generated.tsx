@@ -1099,6 +1099,65 @@ export type AdminPropertiesListContainerPropertiesByCommunityFieldsFragment = {
   owner?: { __typename?: "Member"; memberName?: string | null } | null;
 };
 
+export type AdminRolesDeleteContainerRolesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminRolesDeleteContainerRolesQuery = {
+  __typename?: "Query";
+  roles?: Array<{
+    __typename?: "Role";
+    roleName: string;
+    isDefault: boolean;
+    id: any;
+  } | null> | null;
+};
+
+export type AdminRolesDeleteContainerRoleDeleteAndReassignMutationVariables =
+  Exact<{
+    input: RoleDeleteAndReassignInput;
+  }>;
+
+export type AdminRolesDeleteContainerRoleDeleteAndReassignMutation = {
+  __typename?: "Mutation";
+  roleDeleteAndReassign: {
+    __typename?: "RoleMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    role?: {
+      __typename?: "Role";
+      roleName: string;
+      isDefault: boolean;
+      id: any;
+    } | null;
+  };
+};
+
+export type AdminRolesDeleteContainerRoleMutationResultFieldsFragment = {
+  __typename?: "RoleMutationResult";
+  status: {
+    __typename?: "MutationStatus";
+    success: boolean;
+    errorMessage?: string | null;
+  };
+  role?: {
+    __typename?: "Role";
+    roleName: string;
+    isDefault: boolean;
+    id: any;
+  } | null;
+};
+
+export type AdminRolesDeleteContainerRolesFieldsFragment = {
+  __typename?: "Role";
+  roleName: string;
+  isDefault: boolean;
+  id: any;
+};
+
 export type AdminRolesDetailContainerRoleQueryVariables = Exact<{
   Id: Scalars["ObjectID"];
 }>;
@@ -1773,6 +1832,85 @@ export const AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc 
     AdminPropertiesListContainerPropertiesByCommunityFieldsFragment,
     unknown
   >;
+export const AdminRolesDeleteContainerRolesFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "AdminRolesDeleteContainerRolesFields" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Role" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "roleName" } },
+          { kind: "Field", name: { kind: "Name", value: "isDefault" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDeleteContainerRolesFieldsFragment,
+  unknown
+>;
+export const AdminRolesDeleteContainerRoleMutationResultFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminRolesDeleteContainerRoleMutationResultFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "RoleMutationResult" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "status" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "errorMessage" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "role" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminRolesDeleteContainerRolesFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminRolesDeleteContainerRolesFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDeleteContainerRoleMutationResultFieldsFragment,
+  unknown
+>;
 export const AdminRolesDetailContainerRoleFieldsFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -2510,6 +2648,105 @@ export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
 } as unknown as DocumentNode<
   AdminPropertiesListContainerPropertiesByCommunityQuery,
   AdminPropertiesListContainerPropertiesByCommunityQueryVariables
+>;
+export const AdminRolesDeleteContainerRolesDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "AdminRolesDeleteContainerRoles" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "roles" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminRolesDeleteContainerRolesFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminRolesDeleteContainerRolesFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDeleteContainerRolesQuery,
+  AdminRolesDeleteContainerRolesQueryVariables
+>;
+export const AdminRolesDeleteContainerRoleDeleteAndReassignDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: {
+        kind: "Name",
+        value: "AdminRolesDeleteContainerRoleDeleteAndReassign",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "RoleDeleteAndReassignInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "roleDeleteAndReassign" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminRolesDeleteContainerRoleMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminRolesDeleteContainerRoleMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminRolesDeleteContainerRoleDeleteAndReassignMutation,
+  AdminRolesDeleteContainerRoleDeleteAndReassignMutationVariables
 >;
 export const AdminRolesDetailContainerRoleDocument = {
   kind: "Document",

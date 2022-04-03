@@ -552,6 +552,7 @@ export type Property = MongoBase & {
   listedForRent: Scalars["Boolean"];
   listedForSale: Scalars["Boolean"];
   listedInDirectory: Scalars["Boolean"];
+  listingDetail?: Maybe<ListingDetails>;
   location?: Maybe<Location>;
   owner?: Maybe<Member>;
   propertyName: Scalars["String"];
@@ -561,7 +562,6 @@ export type Property = MongoBase & {
 };
 
 export type PropertyAddInput = {
-  communityId: Scalars["ObjectID"];
   propertyName: Scalars["String"];
 };
 
@@ -616,6 +616,7 @@ export type Query = {
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
   serviceTicketsAssignedCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -654,6 +655,11 @@ export type QueryMemberForUserArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertiesByCommunityIdArgs = {
   communityId: Scalars["ObjectID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertyArgs = {
+  id: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1575,6 +1581,137 @@ export type AdminPhotoUploadContainerMemberFieldsFragment = {
     __typename?: "MemberProfile";
     avatarDocumentId?: string | null;
   } | null;
+};
+
+export type AdminPropertiesAddContainerPropertyAddMutationVariables = Exact<{
+  input: PropertyAddInput;
+}>;
+
+export type AdminPropertiesAddContainerPropertyAddMutation = {
+  __typename?: "Mutation";
+  propertyAdd: {
+    __typename?: "PropertyMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    property?: {
+      __typename?: "Property";
+      propertyName: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  };
+};
+
+export type AdminPropertiesAddContainerPropertyMutationResultFieldsFragment = {
+  __typename?: "PropertyMutationResult";
+  status: {
+    __typename?: "MutationStatus";
+    success: boolean;
+    errorMessage?: string | null;
+  };
+  property?: {
+    __typename?: "Property";
+    propertyName: string;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type AdminPropertiesAddContainerPropertyFieldsFragment = {
+  __typename?: "Property";
+  propertyName: string;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
+export type AdminPropertiesDetailContainerPropertyQueryVariables = Exact<{
+  id: Scalars["ObjectID"];
+}>;
+
+export type AdminPropertiesDetailContainerPropertyQuery = {
+  __typename?: "Query";
+  property?: {
+    __typename?: "Property";
+    propertyName: string;
+    propertyType?: string | null;
+    listedForSale: boolean;
+    listedForRent: boolean;
+    listedForLease: boolean;
+    listedInDirectory: boolean;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type AdminPropertiesDetailContainerPropertyUpdateMutationVariables =
+  Exact<{
+    input: PropertyUpdateInput;
+  }>;
+
+export type AdminPropertiesDetailContainerPropertyUpdateMutation = {
+  __typename?: "Mutation";
+  propertyUpdate: {
+    __typename?: "PropertyMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    property?: {
+      __typename?: "Property";
+      propertyName: string;
+      propertyType?: string | null;
+      listedForSale: boolean;
+      listedForRent: boolean;
+      listedForLease: boolean;
+      listedInDirectory: boolean;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  };
+};
+
+export type AdminPropertiesDetailContainerPropertyMutationResultFieldsFragment =
+  {
+    __typename?: "PropertyMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    property?: {
+      __typename?: "Property";
+      propertyName: string;
+      propertyType?: string | null;
+      listedForSale: boolean;
+      listedForRent: boolean;
+      listedForLease: boolean;
+      listedInDirectory: boolean;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  };
+
+export type AdminPropertiesDetailContainerPropertyFieldsFragment = {
+  __typename?: "Property";
+  propertyName: string;
+  propertyType?: string | null;
+  listedForSale: boolean;
+  listedForRent: boolean;
+  listedForLease: boolean;
+  listedInDirectory: boolean;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
 };
 
 export type AdminPropertiesListContainerPropertiesByCommunityQueryVariables =
@@ -2846,6 +2983,179 @@ export const AdminPhotoUploadContainerMemberMutationResultFieldsFragmentDoc = {
   AdminPhotoUploadContainerMemberMutationResultFieldsFragment,
   unknown
 >;
+export const AdminPropertiesAddContainerPropertyFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminPropertiesAddContainerPropertyFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Property" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "propertyName" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesAddContainerPropertyFieldsFragment,
+  unknown
+>;
+export const AdminPropertiesAddContainerPropertyMutationResultFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value: "AdminPropertiesAddContainerPropertyMutationResultFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "PropertyMutationResult" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "status" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "success" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "errorMessage" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "property" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "FragmentSpread",
+                    name: {
+                      kind: "Name",
+                      value: "AdminPropertiesAddContainerPropertyFields",
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      ...AdminPropertiesAddContainerPropertyFieldsFragmentDoc.definitions,
+    ],
+  } as unknown as DocumentNode<
+    AdminPropertiesAddContainerPropertyMutationResultFieldsFragment,
+    unknown
+  >;
+export const AdminPropertiesDetailContainerPropertyFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminPropertiesDetailContainerPropertyFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Property" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "propertyName" } },
+          { kind: "Field", name: { kind: "Name", value: "propertyType" } },
+          { kind: "Field", name: { kind: "Name", value: "listedForSale" } },
+          { kind: "Field", name: { kind: "Name", value: "listedForRent" } },
+          { kind: "Field", name: { kind: "Name", value: "listedForLease" } },
+          { kind: "Field", name: { kind: "Name", value: "listedInDirectory" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesDetailContainerPropertyFieldsFragment,
+  unknown
+>;
+export const AdminPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value: "AdminPropertiesDetailContainerPropertyMutationResultFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "PropertyMutationResult" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "status" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "success" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "errorMessage" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "property" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "FragmentSpread",
+                    name: {
+                      kind: "Name",
+                      value: "AdminPropertiesDetailContainerPropertyFields",
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      ...AdminPropertiesDetailContainerPropertyFieldsFragmentDoc.definitions,
+    ],
+  } as unknown as DocumentNode<
+    AdminPropertiesDetailContainerPropertyMutationResultFieldsFragment,
+    unknown
+  >;
 export const AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc =
   {
     kind: "Document",
@@ -4433,6 +4743,191 @@ export const AdminPhotoUploadContainerMemberProfileAvatarRemoveDocument = {
 } as unknown as DocumentNode<
   AdminPhotoUploadContainerMemberProfileAvatarRemoveMutation,
   AdminPhotoUploadContainerMemberProfileAvatarRemoveMutationVariables
+>;
+export const AdminPropertiesAddContainerPropertyAddDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "AdminPropertiesAddContainerPropertyAdd" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "PropertyAddInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "propertyAdd" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "AdminPropertiesAddContainerPropertyMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminPropertiesAddContainerPropertyMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesAddContainerPropertyAddMutation,
+  AdminPropertiesAddContainerPropertyAddMutationVariables
+>;
+export const AdminPropertiesDetailContainerPropertyDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "AdminPropertiesDetailContainerProperty" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ObjectID" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "property" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminPropertiesDetailContainerPropertyFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminPropertiesDetailContainerPropertyFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesDetailContainerPropertyQuery,
+  AdminPropertiesDetailContainerPropertyQueryVariables
+>;
+export const AdminPropertiesDetailContainerPropertyUpdateDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: {
+        kind: "Name",
+        value: "AdminPropertiesDetailContainerPropertyUpdate",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "PropertyUpdateInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "propertyUpdate" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "AdminPropertiesDetailContainerPropertyMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesDetailContainerPropertyUpdateMutation,
+  AdminPropertiesDetailContainerPropertyUpdateMutationVariables
 >;
 export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
   kind: "Document",

@@ -6,9 +6,6 @@ export const MembersGeneral: React.FC<any> = (props) => {
   const params = useParams();
 
   return (
-    <div style={{display:'block',maxWidth:'fit-content' }}>
-      <MembersDetailContainer data={{id:params.id ?? ''}} />
-    </div>
-      
+    <MembersDetailContainer data={{id:params.id ?? ''}} />
   )
 }

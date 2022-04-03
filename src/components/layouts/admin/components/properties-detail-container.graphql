@@ -1,0 +1,35 @@
+query AdminPropertiesDetailContainerProperty($id: ObjectID!) {
+  property(id: $id) {
+    ...AdminPropertiesDetailContainerPropertyFields
+  }
+}
+
+mutation AdminPropertiesDetailContainerPropertyUpdate($input: PropertyUpdateInput!) {
+  propertyUpdate(input: $input) {
+    ...AdminPropertiesDetailContainerPropertyMutationResultFields
+  }
+}
+
+fragment AdminPropertiesDetailContainerPropertyMutationResultFields on PropertyMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  property {
+    ...AdminPropertiesDetailContainerPropertyFields
+  }
+}
+
+fragment AdminPropertiesDetailContainerPropertyFields on Property {
+  propertyName
+  propertyType
+
+  listedForSale
+  listedForRent
+  listedForLease
+  listedInDirectory
+  
+  id
+  createdAt
+  updatedAt
+}

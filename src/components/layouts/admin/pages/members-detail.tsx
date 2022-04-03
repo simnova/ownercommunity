@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link, useLocation, matchRoutes, useNavigate } from 'react-router-dom';
 import { Col, Menu, Row,  Layout, PageHeader } from 'antd';
-import { BookOutlined, TeamOutlined, SafetyOutlined, ProfileOutlined, IdcardOutlined } from '@ant-design/icons';
+import { TeamOutlined, ProfileOutlined, IdcardOutlined } from '@ant-design/icons';
 
 import { MembersGeneral } from './members-general';
 import { MembersProfile } from './members-profile';

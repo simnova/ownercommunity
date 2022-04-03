@@ -2,7 +2,7 @@ import { Member as MemberDO } from '../../../domain/contexts/community/member';
 import { MemberConverter, MemberDomainAdapter }from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
 import { MongoMemberRepository } from '../../../domain/infrastructure/persistance/repositories/mongo-member-repository';
 import { Context } from '../../context';
-import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput } from '../../generated';
+import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
@@ -51,16 +51,32 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
 
   async memberAccountAdd(input: MemberAccountAddInput) : Promise<Member> {
     let memberToReturn : Member;
+
     let mongoUser = await this.context.dataSources.userApi.findOneById(input.account.user);
     let userDo = new UserConverter().toDomain(mongoUser,{passport:ReadOnlyPassport.GetInstance()});
+
+    let currentMongoUser = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let currentUserDo = new UserConverter().toDomain(currentMongoUser,{passport:ReadOnlyPassport.GetInstance()});
+    
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let account = member.requestNewAccount();
       account.requestSetUser(userDo);
       account.requestSetFirstName(input.account.firstName);
       account.requestSetLastName(input.account.lastName);
-      account.requestSetCreatedBy(userDo);
-    //  member.requestAddAccount(account.props); // don't like this
+      account.requestSetCreatedBy(currentUserDo);
+      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+    });
+    return memberToReturn;
+  }
+
+  async memberAccountEdit(input: MemberAccountEditInput) : Promise<Member> {
+    let memberToReturn : Member;
+    await this.withTransaction(async (repo) => {
+      let member = await repo.getById(input.memberId);
+      let account = member.accounts.find(a => a.id === input.accountId);
+      account.requestSetFirstName(input.firstName);
+      account.requestSetLastName(input.lastName);
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });
     return memberToReturn;

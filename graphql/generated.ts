@@ -263,6 +263,13 @@ export type MemberAccountCreateInput = {
   user: Scalars["ObjectID"];
 };
 
+export type MemberAccountEditInput = {
+  accountId: Scalars["ObjectID"];
+  firstName: Scalars["String"];
+  lastName?: InputMaybe<Scalars["String"]>;
+  memberId: Scalars["ObjectID"];
+};
+
 export type MemberAccountRemoveInput = {
   accountId: Scalars["ObjectID"];
   memberId: Scalars["ObjectID"];
@@ -356,6 +363,7 @@ export type Mutation = {
   communityPublicContentCreateAuthHeader: CommunityPublicContentAuthHeaderResult;
   communityUpdate: CommunityMutationResult;
   memberAccountAdd: MemberMutationResult;
+  memberAccountEdit: MemberMutationResult;
   memberAccountRemove: MemberMutationResult;
   memberCreate: MemberMutationResult;
   memberProfileAvatarCreateAuthHeader: MemberAvatarImageAuthHeaderResult;
@@ -400,6 +408,11 @@ export type MutationCommunityUpdateArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberAccountAddArgs = {
   input: MemberAccountAddInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationMemberAccountEditArgs = {
+  input: MemberAccountEditInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -608,6 +621,7 @@ export type Query = {
   currentUser?: Maybe<User>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
+  memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   role?: Maybe<Role>;
@@ -638,6 +652,11 @@ export type QueryMemberArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberForCurrentUserArgs = {
   communityId: Scalars["ObjectID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryMemberForUserArgs = {
+  userId: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1013,6 +1032,7 @@ export type ResolversTypes = ResolversObject<{
   MemberAccount: ResolverTypeWrapper<MemberAccount>;
   MemberAccountAddInput: MemberAccountAddInput;
   MemberAccountCreateInput: MemberAccountCreateInput;
+  MemberAccountEditInput: MemberAccountEditInput;
   MemberAccountRemoveInput: MemberAccountRemoveInput;
   MemberAvatarImageAuthHeaderResult: ResolverTypeWrapper<MemberAvatarImageAuthHeaderResult>;
   MemberAvatarImageInput: MemberAvatarImageInput;
@@ -1157,6 +1177,7 @@ export type ResolversParentTypes = ResolversObject<{
   MemberAccount: MemberAccount;
   MemberAccountAddInput: MemberAccountAddInput;
   MemberAccountCreateInput: MemberAccountCreateInput;
+  MemberAccountEditInput: MemberAccountEditInput;
   MemberAccountRemoveInput: MemberAccountRemoveInput;
   MemberAvatarImageAuthHeaderResult: MemberAvatarImageAuthHeaderResult;
   MemberAvatarImageInput: MemberAvatarImageInput;
@@ -1978,6 +1999,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationMemberAccountAddArgs, "input">
   >;
+  memberAccountEdit?: Resolver<
+    ResolversTypes["MemberMutationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationMemberAccountEditArgs, "input">
+  >;
   memberAccountRemove?: Resolver<
     ResolversTypes["MemberMutationResult"],
     ParentType,
@@ -2360,6 +2387,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryMemberForCurrentUserArgs, "communityId">
+  >;
+  memberForUser?: Resolver<
+    Maybe<ResolversTypes["Member"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMemberForUserArgs, "userId">
   >;
   members?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Member"]>>>,

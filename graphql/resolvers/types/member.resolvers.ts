@@ -2,7 +2,6 @@ import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from './helpers';
 import { Member as MemberDo } from '../../../infrastructure/data-sources/cosmos-db/models/member';
-import { resourceLimits } from 'worker_threads';
 
 
 const MemberMutationResolver = async (getMember:Promise<MemberDo>): Promise<MemberMutationResult> => {
@@ -51,14 +50,17 @@ const member : Resolvers = {
     }
   },
   Query: {
-    member: async (parent, args, context, info) => {
+    member: async (_parent, args, context, info) => {
       if(args.id && isValidObjectId(args.id)){
         return (await context.dataSources.memberApi.findOneById(args.id)) as Member;
       }
       return null;
     },
-    members: async (_, {  }, { dataSources }) => {
+    members: async (_, _input, { dataSources }) => {
       return (await dataSources.memberApi.getMembers()) as Member[];
+    },
+    memberForUser: async (_parent, input, context, info) => {
+      return (await context.dataSources.memberApi.getMemberByCommunityIdUserId(context.community, input.userId)) as Member;
     },
     memberForCurrentUser: async (_, { communityId }, context) => {
       return getMemberForCurrentUser(context, communityId);
@@ -73,6 +75,9 @@ const member : Resolvers = {
     },
     memberAccountAdd: async (_, { input }, { dataSources }) => {
       return MemberMutationResolver(dataSources.memberDomainAPI.memberAccountAdd(input));
+    },
+    memberAccountEdit: async (_, { input }, { dataSources }) => {
+      return MemberMutationResolver(dataSources.memberDomainAPI.memberAccountEdit(input));
     },
     memberAccountRemove: async (_, { input }, { dataSources }) => {
       return MemberMutationResolver(dataSources.memberDomainAPI.memberAccountRemove(input));

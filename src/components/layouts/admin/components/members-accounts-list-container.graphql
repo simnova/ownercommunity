@@ -1,0 +1,23 @@
+query AdminMembersAccountsListContainerMember($id: ID!) {
+  member(id: $id) {
+    ...AdminMembersAccountsListContainerMembersFields
+  }
+}
+
+fragment AdminMembersAccountsListContainerMembersFields on Member {
+  accounts {
+    firstName
+    lastName
+    user {
+      id
+      email
+    }
+    statusCode
+
+    id
+    createdAt
+    updatedAt
+  }
+
+  id
+}

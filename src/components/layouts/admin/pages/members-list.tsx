@@ -2,7 +2,8 @@ import React from 'react';
 import { PageHeader, Button } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MembersListContainer } from '../components/members-list-container'
+import { MembersListContainer } from '../components/members-list-container';
+import { UsergroupAddOutlined } from '@ant-design/icons';
 
 export const MembersList: React.FC<any> = (props) => {
   const params = useParams();
@@ -14,7 +15,8 @@ export const MembersList: React.FC<any> = (props) => {
         <PageHeader 
           title="Members" 
           extra={[
-            <Button type="primary" onClick={() => navigate('create')}>Create Member</Button>
+            
+            <Button type="primary" onClick={() => navigate('create')} icon={<UsergroupAddOutlined />}>Create Member</Button>
           ]}
         />}
       >

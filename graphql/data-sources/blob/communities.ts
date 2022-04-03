@@ -39,7 +39,7 @@ export class Communities extends BlobDataSource<Context> {
 				}
 				var blobName = community.id;
 				var requestDate = new Date().toUTCString();
-				var authHeader =  blobStorage.generateSharedKey(blobName,contentLength, requestDate ,contentType);
+				var authHeader =  blobStorage.generateSharedKey(blobName,contentLength, requestDate ,contentType, communityId);
 				headerResult = {status:{success:true}, authHeader:authHeader, requestDate:requestDate, blobName:blobName,blobContainer:process.env['BLOB_CONTAINER_NAME']} as CommunityPublicContentAuthHeaderResult;
 
 		});

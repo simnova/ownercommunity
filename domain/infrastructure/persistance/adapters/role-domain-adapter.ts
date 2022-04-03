@@ -75,10 +75,10 @@ class CommunityPermissionsAdapter implements CommunityPermissionsProps  {
   public get canManageMembers() { return this.props.canManageMembers; }
   public set canManageMembers(value) { this.props.canManageMembers = value; }
 
-  public get canEditOwnMemberProfile() { return this.canEditOwnMemberProfile; } 
+  public get canEditOwnMemberProfile() { return this.props.canEditOwnMemberProfile; } 
   public set canEditOwnMemberProfile(value) { this.props.canEditOwnMemberProfile = value; }
 
-  public get canEditOwnMemberAccounts() { return this.canEditOwnMemberAccounts; }
+  public get canEditOwnMemberAccounts() { return this.props.canEditOwnMemberAccounts; }
   public set canEditOwnMemberAccounts(value) { this.props.canEditOwnMemberAccounts = value; }
 
   public get isSystemAccount() { return false; }

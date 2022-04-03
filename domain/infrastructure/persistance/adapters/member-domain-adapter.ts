@@ -102,14 +102,11 @@ export class ProfileDomainAdapter implements ProfileProps {
   get showEmail() {return this.props.showEmail;}
   set showEmail(showEmail) {this.props.showEmail = showEmail;}
 
-  get showPhone() {return this.props.showPhone;}
-  set showPhone(showPhone) {this.props.showPhone = showPhone;}
+  get showProfile() {return this.props.showProfile;}
+  set showProfile(showProfile) {this.props.showProfile = showProfile;}
 
   get showLocation() {return this.props.showLocation;}
   set showLocation(showLocation) {this.props.showLocation = showLocation;}
-
-  get showProfile() {return this.props.showProfile;}
-  set showProfile(showProfile) {this.props.showProfile = showProfile;}
 
   get showProperties() {return this.props.showProperties;}
   set showProperties(showProperties) {this.props.showProperties = showProperties;}

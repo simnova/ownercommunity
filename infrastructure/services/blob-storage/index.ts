@@ -5,25 +5,28 @@ import { BlobActions } from './blob-actions';
 
 export class BlobStorage {
 
-  private readonly containerName:string;
+  //private readonly containerName:string;
   private readonly accountName:string;
   private readonly accountKey:string;
 
   constructor(){
-    const {containerName,accountName,accountKey} = AccountInfo.getInstance().getSettings();
-    this.containerName = containerName;
+    const {accountName,accountKey} = AccountInfo.getInstance().getSettings();
+   // this.containerName = containerName;
     this.accountName = accountName;
     this.accountKey = accountKey;
   }
 
-  public deleteBlob(blobName:string):Promise<void>{
-    return (new BlobActions(this.accountName,this.accountKey)).deleteBlob(blobName,this.containerName);
+  public deleteBlob(blobName:string, containerName:string):Promise<void>{
+    return (new BlobActions(this.accountName,this.accountKey)).deleteBlob(blobName,containerName);
+  }
+  public createContainer(containerName:string):Promise<void>{
+    return (new BlobActions(this.accountName,this.accountKey)).createContainer(containerName);
   }
 
-  public generateSharedKey(blobName:string,fileSizeBytes:number,requestDate:string,mimeType:string):string{
+  public generateSharedKey(blobName:string,fileSizeBytes:number,requestDate:string,mimeType:string, containerName:string):string{
     var blobRequest = (new BlobRequest()).createRequest(
       this.accountName,
-      this.containerName,
+      containerName,
       blobName,
       fileSizeBytes,
       requestDate,
@@ -32,10 +35,10 @@ export class BlobStorage {
     return new AuthHeader().generateFromRequest(blobRequest,this.accountName, this.accountKey);
   }
 
-  public generateSharedKeyLite(blobName:string,mimeType:string):string{
+  public generateSharedKeyLite(blobName:string,mimeType:string,containerName:string):string{
     var blobRequest = (new BlobRequest()).createRequestLite(
       this.accountName,
-      this.containerName,
+      containerName,
       blobName,
       mimeType
     );

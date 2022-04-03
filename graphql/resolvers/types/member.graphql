@@ -31,8 +31,8 @@ type MemberProfile {
   interests: [String]
   showInterests: Boolean
   showEmail: Boolean
-  showLocation: Boolean
   showProfile: Boolean
+  showLocation: Boolean
   showProperties: Boolean
 }
 
@@ -94,8 +94,8 @@ input MemberProfileInput {
   interests: [String]
   showInterests: Boolean
   showEmail: Boolean
-  showLocation: Boolean
   showProfile: Boolean
+  showLocation: Boolean
   showProperties: Boolean
 }
 

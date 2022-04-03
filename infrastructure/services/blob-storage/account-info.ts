@@ -1,22 +1,22 @@
 export class AccountInfo {
   private static instance: AccountInfo;
-  private readonly blobContainerNameEnvKey = 'BLOB_CONTAINER_NAME';
+//  private readonly blobContainerNameEnvKey = 'BLOB_CONTAINER_NAME';
   private readonly blobAccountNameEnvKey = 'BLOB_ACCOUNT_NAME';
   private readonly blobAccountKeyEnvKey = 'BLOB_ACCOUNT_KEY';
 
-  private readonly containerName: string;
+//  private readonly containerName: string;
   private readonly accountName: string;
   private readonly accountKey: string;
 
   private constructor() {
-    this.containerName = this.tryGetEnvVar(this.blobContainerNameEnvKey);
+  //  this.containerName = this.tryGetEnvVar(this.blobContainerNameEnvKey);
     this.accountName = this.tryGetEnvVar(this.blobAccountNameEnvKey);
     this.accountKey = this.tryGetEnvVar(this.blobAccountKeyEnvKey);
   }
 
   public getSettings()  {
     return {
-      containerName: this.containerName,
+  //    containerName: this.containerName,
       accountName: this.accountName,
       accountKey: this.accountKey
     }

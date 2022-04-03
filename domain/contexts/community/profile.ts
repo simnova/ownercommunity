@@ -11,9 +11,8 @@ export interface ProfileProps extends EntityProps {
   interests: string[];
   showInterests: boolean;
   showEmail: boolean;
-  showPhone: boolean;
-  showLocation: boolean;
   showProfile: boolean;
+  showLocation: boolean;
   showProperties: boolean;
 }
 
@@ -29,9 +28,8 @@ export class Profile extends Entity<ProfileProps> implements ProfileEntityRefere
   get interests() {return this.props.interests;}
   get showInterests() {return this.props.showInterests;}
   get showEmail() {return this.props.showEmail;}
-  get showPhone() {return this.props.showPhone;}
-  get showLocation() {return this.props.showLocation;}
   get showProfile() {return this.props.showProfile;}
+  get showLocation() {return this.props.showLocation;}
   get showProperties() {return this.props.showProperties;}
 
   private validateVisa(){
@@ -70,17 +68,13 @@ export class Profile extends Entity<ProfileProps> implements ProfileEntityRefere
     this.validateVisa();
     this.props.showEmail = showEmail;
   }
-  requestSetShowPhone(showPhone: boolean) {
+  requestSetShowProfile(showProfile: boolean) {
     this.validateVisa();
-    this.props.showPhone = showPhone;
+    this.props.showProfile = showProfile;
   }
   requestSetShowLocation(showLocation: boolean) {
     this.validateVisa();
     this.props.showLocation = showLocation;
-  }
-  requestSetShowProfile(showProfile: boolean) {
-    this.validateVisa();
-    this.props.showProfile = showProfile;
   }
   requestSetShowProperties(showProperties: boolean) {
     this.validateVisa();

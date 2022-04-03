@@ -76,6 +76,16 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
     });
     return memberToReturn;
   }
+  async memberProfileUpdateAvatar(memberId:string, avatarDocumentId:string ) : Promise<Member> {
+    let memberToReturn : Member;
+    await this.withTransaction(async (repo) => {
+      let member = await repo.getById(memberId);
+      let profile = member.profile;
+      profile.requestSetAvatarDocumentId(avatarDocumentId);
+      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+    });
+    return memberToReturn;
+  }
 
   async memberProfileUpdate(input: MemberProfileUpdateInput) : Promise<Member> {
     let memberToReturn : Member;
@@ -96,7 +106,4 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
     return memberToReturn;
   }
 
-  
-
-  
 }

@@ -10,7 +10,7 @@ test('blob-storage: create auth header for zip file', () => {
   const requestDate = new Date().toUTCString();
   
   // act
-  var sharedKey = blobStorage.generateSharedKey(blobName, fileSizeBytes,requestDate, 'application/zip');
+  var sharedKey = blobStorage.generateSharedKey(blobName, fileSizeBytes,requestDate, 'application/zip', 'test-container');
   // assert
   expect(sharedKey).toBe('SharedKey test:Zm9vYmFy'); // expect test to fail - but helpul to see actual ouput
   
@@ -25,7 +25,7 @@ test.skip('blob-storage: create auth header for text file', () => {
   const requestDate = new Date().toUTCString();
   
   // act
-  var sharedKey = blobStorage.generateSharedKey(blobName, fileSizeBytes,requestDate, 'text/plain');
+  var sharedKey = blobStorage.generateSharedKey(blobName, fileSizeBytes,requestDate, 'text/plain', 'test-container');
   // assert
   expect(sharedKey).toBe('SharedKey test:Zm9vYmFy');
   
@@ -37,7 +37,7 @@ test.skip('blob-storage: create auth header lite for zip file', () => {
   const blobStorage = new BlobStorage();
   const blobName = 'test.txt';
   // act
-  var sharedKeyLite = blobStorage.generateSharedKeyLite(blobName, 'text/plain');
+  var sharedKeyLite = blobStorage.generateSharedKeyLite(blobName, 'text/plain', 'test-container');
   // assert
   expect(sharedKeyLite).toBe('SharedKeyLite test:Zm9vYmFy');
   

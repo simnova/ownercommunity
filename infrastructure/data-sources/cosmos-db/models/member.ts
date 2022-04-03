@@ -21,8 +21,8 @@ export interface Profile extends EmbeddedBase {
   showInterests: boolean;
   showEmail: boolean;
   showPhone: boolean;
-  showLocation: boolean;
   showProfile: boolean;
+  showLocation: boolean;
   showProperties: boolean;
 }
 
@@ -66,7 +66,7 @@ const schema = new Schema<Member, Model<Member>, Member>(
       interests: { type: [{type: String, maxlength:40}], required: false, default: [] },
       showInterests: { type: Boolean, required: false , default: false},
       showEmail: { type: Boolean, required: false , default: false},
-      showPhone: { type: Boolean, required: false , default: false},
+      showProfile: { type: Boolean, required: false , default: false},
       showLocation: { type: Boolean, required: false, default: false },
       showProperties: { type: Boolean, required: false, default: false },
     },

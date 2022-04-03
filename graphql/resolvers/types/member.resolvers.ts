@@ -2,6 +2,7 @@ import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from './helpers';
 import { Member as MemberDo } from '../../../infrastructure/data-sources/cosmos-db/models/member';
+import { resourceLimits } from 'worker_threads';
 
 
 const MemberMutationResolver = async (getMember:Promise<MemberDo>): Promise<MemberMutationResult> => {
@@ -78,6 +79,24 @@ const member : Resolvers = {
     },
     memberProfileUpdate: async (_, { input }, { dataSources }) => {
       return MemberMutationResolver(dataSources.memberDomainAPI.memberProfileUpdate(input));
+    },
+    memberProfileAvatarCreateAuthHeader: async (_, { input }, { dataSources }) => {
+      var result = (await dataSources.memberBlobAPI.memberProfileAvatarCreateAuthHeader(input.memberId, input.contentType, input.contentLength));
+      if(result.status.success){
+        result.member = await dataSources.memberDomainAPI.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName) as any;
+      }
+      return result;
+    },
+    memberProfileAvatarRemove: async (_, { memberId }, { dataSources }) => {
+      let result = { 
+        status: (await dataSources.memberBlobAPI.memberProfileAvatarRemove(memberId))
+      } as MemberMutationResult
+  
+      if(!result.status.success){
+        return result;
+      } else {
+        return  MemberMutationResolver(dataSources.memberDomainAPI.memberProfileUpdateAvatar(memberId, null));
+      }
     }
   }
 }

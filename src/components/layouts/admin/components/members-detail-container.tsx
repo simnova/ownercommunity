@@ -33,13 +33,11 @@ export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> =
         variables: {
           input:values
         },
-        
       });
       message.success("Saved");
     } catch (error) {
       message.error(`Error updating Member: ${JSON.stringify(error)}`);
     }
-
   }
 
   const content = () => {

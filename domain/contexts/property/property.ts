@@ -13,7 +13,7 @@ export interface PropertyProps extends EntityProps {
   setCommunityRef(community: CommunityEntityReference): void;
   readonly location: LocationProps;
   setLocationRef(location: LocationEntityReference): void;
-  readonly owner: MemberProps;
+  readonly owner: MemberProps | undefined;
   setOwnerRef(owner: MemberEntityReference): void;
   propertyName: string;
   propertyType: string;
@@ -57,7 +57,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
 
   get community():CommunityEntityReference { return new Community(this.props.community, this.context); }
   get location():LocationEntityReference { return new Location(this.props.location, this.context); }
-  get owner():MemberEntityReference { return new Member(this.props.owner, this.context); }
+  get owner():MemberEntityReference|undefined { return this.props.owner?new Member(this.props.owner, this.context): undefined; }
   get propertyName() { return this.props.propertyName; }
   get propertyType() { return this.props.propertyType; }
   get listedForSale() { return this.props.listedForSale; }

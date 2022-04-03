@@ -24,4 +24,9 @@ export class MongoPropertyRepository<PropType extends PropertyProps> extends Mon
     return PropertyDO.getNewInstance(adapter,propertyName, community, this.context);
   }
   
+  async getById(id: string): Promise<PropertyDO<PropType>> {
+    let member = await this.model.findById(id).populate('community').exec();
+    return this.typeConverter.toDomain(member, this.context);
+  }
+
 }

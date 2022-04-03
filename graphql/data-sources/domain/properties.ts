@@ -22,7 +22,7 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
     }
     
     let propertyToReturn : Property;
-    let community = await this.context.dataSources.communityApi.getCommunityById(input.communityId);
+    let community = await this.context.dataSources.communityApi.getCommunityById(this.context.community);
     let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
 
     await this.withTransaction(async (repo) => {
@@ -37,7 +37,7 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
   async propertyUpdate(input: PropertyUpdateInput) : Promise<Property> {
     let propertyToReturn : Property;
     await this.withTransaction(async (repo) => {
-      let property = await repo.get(input.id);
+      let property = await repo.getById(input.id);
       property.requestSetPropertyName(input.propertyName);
       property.requestSetPropertyType(input.propertyType);
       property.requestSetListedForSale(input.listedForSale);
@@ -54,7 +54,7 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
     let mongoMember = await this.context.dataSources.memberApi.findOneById(input.ownerId);
     let memberDo = new MemberConverter().toDomain(mongoMember,{passport:ReadOnlyPassport.GetInstance()});
     await this.withTransaction(async (repo) => {
-      let property = await repo.get(input.id);
+      let property = await repo.getById(input.id);
       property.requestSetOwner(memberDo);
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
@@ -64,7 +64,7 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
   async propertyRemoveOwner(input:PropertyRemoveOwnerInput): Promise<Property> {
     let propertyToReturn : Property;
     await this.withTransaction(async (repo) => {
-      let property = await repo.get(input.id);
+      let property = await repo.getById(input.id);
       property.requestSetOwner(undefined);
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });

@@ -10,6 +10,9 @@ type Property implements MongoBase {
   listedForLease: Boolean!
   listedInDirectory: Boolean!
 
+  listingDetail: ListingDetails
+  location: Location
+
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -88,6 +91,7 @@ type Address {
 
 extend type Query {
   propertiesByCommunityId(communityId: ObjectID!): [Property]
+  property(id: ObjectID!): Property
 }
 extend type Mutation {
   propertyAdd(input: PropertyAddInput!): PropertyMutationResult!
@@ -102,7 +106,6 @@ type PropertyMutationResult  {
 }
 
 input PropertyAddInput {
-  communityId: ObjectID!
   propertyName: String!
 }
 input PropertyUpdateInput {

@@ -560,6 +560,7 @@ export type Property = MongoBase & {
   listedForRent: Scalars["Boolean"];
   listedForSale: Scalars["Boolean"];
   listedInDirectory: Scalars["Boolean"];
+  listingDetail?: Maybe<ListingDetails>;
   location?: Maybe<Location>;
   owner?: Maybe<Member>;
   propertyName: Scalars["String"];
@@ -569,7 +570,6 @@ export type Property = MongoBase & {
 };
 
 export type PropertyAddInput = {
-  communityId: Scalars["ObjectID"];
   propertyName: Scalars["String"];
 };
 
@@ -624,6 +624,7 @@ export type Query = {
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
   serviceTicketsAssignedCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -662,6 +663,11 @@ export type QueryMemberForUserArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertiesByCommunityIdArgs = {
   communityId: Scalars["ObjectID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertyArgs = {
+  id: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -2289,6 +2295,11 @@ export type PropertyResolvers<
     ParentType,
     ContextType
   >;
+  listingDetail?: Resolver<
+    Maybe<ResolversTypes["ListingDetails"]>,
+    ParentType,
+    ContextType
+  >;
   location?: Resolver<
     Maybe<ResolversTypes["Location"]>,
     ParentType,
@@ -2404,6 +2415,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryPropertiesByCommunityIdArgs, "communityId">
+  >;
+  property?: Resolver<
+    Maybe<ResolversTypes["Property"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPropertyArgs, "id">
   >;
   role?: Resolver<
     Maybe<ResolversTypes["Role"]>,

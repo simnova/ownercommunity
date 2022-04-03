@@ -35,6 +35,12 @@ const property : Resolvers = {
     }
   },
   Query: {
+    property: async (_parent, args, context, info) => {
+      if(args.id && isValidObjectId(args.id)){
+        return (await context.dataSources.propertyApi.findOneById(args.id)) as Property;
+      }
+      return null;
+    },
     propertiesByCommunityId: async (_, { communityId }, context) => {
       const user = await context.dataSources.userApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
       return (await context.dataSources.propertyApi.getPropertiesByCommunityId(communityId, user.id)) as Property[];

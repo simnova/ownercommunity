@@ -2,7 +2,7 @@ import { Property as PropertyDO } from '../../../domain/contexts/property/proper
 import { PropertyConverter, PropertyDomainAdapter }from '../../../domain/infrastructure/persistance/adapters/property-domain-adapter';
 import { MongoPropertyRepository } from '../../../domain/infrastructure/persistance/repositories/mongo-property-repository';
 import { Context } from '../../context';
-import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput } from '../../generated';
+import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Property } from '../../../infrastructure/data-sources/cosmos-db/models/property';
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
@@ -36,6 +36,11 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
 
   async propertyUpdate(input: PropertyUpdateInput) : Promise<Property> {
     let propertyToReturn : Property;
+
+    
+    let mongoMember = await this.context.dataSources.memberApi.findOneById(input.owner?.id);
+    let memberDo = new MemberConverter().toDomain(mongoMember,{passport:ReadOnlyPassport.GetInstance()});
+
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
       property.requestSetPropertyName(input.propertyName);
@@ -44,6 +49,17 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
       property.requestSetListedForRent(input.listedForRent);
       property.requestSetListedForLease(input.listedForLease);
       property.requestSetListedInDirectory(input.listedInDirectory);
+      property.requestSetOwner(input.owner?memberDo:undefined);
+      propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
+    });
+    return propertyToReturn;
+  }
+
+  async propertyDelete(input: PropertyDeleteInput) : Promise<Property> {
+    let propertyToReturn : Property;
+    await this.withTransaction(async (repo) => {
+      let property = await repo.getById(input.id);
+      property.requestDelete();
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
     return propertyToReturn;

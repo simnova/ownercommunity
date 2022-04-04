@@ -96,6 +96,7 @@ extend type Query {
 extend type Mutation {
   propertyAdd(input: PropertyAddInput!): PropertyMutationResult!
   propertyUpdate(input: PropertyUpdateInput!): PropertyMutationResult!
+  propertyDelete(input: PropertyDeleteInput!): PropertyMutationResult!
   propertyAssignOwner(input: PropertyAssignOwnerInput!): PropertyMutationResult!
   propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!
 }
@@ -103,6 +104,9 @@ extend type Mutation {
 type PropertyMutationResult  {
   status: MutationStatus!
   property: Property
+}
+input PropertyDeleteInput {
+  id: ObjectID!
 }
 
 input PropertyAddInput {
@@ -116,6 +120,10 @@ input PropertyUpdateInput {
   listedForRent: Boolean
   listedForLease: Boolean
   listedInDirectory: Boolean
+  owner: PropertyOwnerInput 
+}
+input PropertyOwnerInput {
+  id: ObjectID
 }
 input PropertyAssignOwnerInput {
   id: ObjectID!

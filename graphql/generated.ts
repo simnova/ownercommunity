@@ -372,6 +372,7 @@ export type Mutation = {
   memberUpdate: MemberMutationResult;
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
+  propertyDelete: PropertyMutationResult;
   propertyRemoveOwner: PropertyMutationResult;
   propertyUpdate: PropertyMutationResult;
   roleAdd: RoleMutationResult;
@@ -453,6 +454,11 @@ export type MutationPropertyAddArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationPropertyAssignOwnerArgs = {
   input: PropertyAssignOwnerInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyDeleteArgs = {
+  input: PropertyDeleteInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -578,10 +584,18 @@ export type PropertyAssignOwnerInput = {
   ownerId: Scalars["ObjectID"];
 };
 
+export type PropertyDeleteInput = {
+  id: Scalars["ObjectID"];
+};
+
 export type PropertyMutationResult = {
   __typename?: "PropertyMutationResult";
   property?: Maybe<Property>;
   status: MutationStatus;
+};
+
+export type PropertyOwnerInput = {
+  id?: InputMaybe<Scalars["ObjectID"]>;
 };
 
 export type PropertyPermissions = {
@@ -605,6 +619,7 @@ export type PropertyUpdateInput = {
   listedForRent?: InputMaybe<Scalars["Boolean"]>;
   listedForSale?: InputMaybe<Scalars["Boolean"]>;
   listedInDirectory?: InputMaybe<Scalars["Boolean"]>;
+  owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars["String"]>;
   propertyType?: InputMaybe<Scalars["String"]>;
 };
@@ -1086,7 +1101,9 @@ export type ResolversTypes = ResolversObject<{
   Property: ResolverTypeWrapper<Property>;
   PropertyAddInput: PropertyAddInput;
   PropertyAssignOwnerInput: PropertyAssignOwnerInput;
+  PropertyDeleteInput: PropertyDeleteInput;
   PropertyMutationResult: ResolverTypeWrapper<PropertyMutationResult>;
+  PropertyOwnerInput: PropertyOwnerInput;
   PropertyPermissions: ResolverTypeWrapper<PropertyPermissions>;
   PropertyPermissionsInput: PropertyPermissionsInput;
   PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
@@ -1231,7 +1248,9 @@ export type ResolversParentTypes = ResolversObject<{
   Property: Property;
   PropertyAddInput: PropertyAddInput;
   PropertyAssignOwnerInput: PropertyAssignOwnerInput;
+  PropertyDeleteInput: PropertyDeleteInput;
   PropertyMutationResult: PropertyMutationResult;
+  PropertyOwnerInput: PropertyOwnerInput;
   PropertyPermissions: PropertyPermissions;
   PropertyPermissionsInput: PropertyPermissionsInput;
   PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
@@ -2058,6 +2077,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationPropertyAssignOwnerArgs, "input">
+  >;
+  propertyDelete?: Resolver<
+    ResolversTypes["PropertyMutationResult"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPropertyDeleteArgs, "input">
   >;
   propertyRemoveOwner?: Resolver<
     ResolversTypes["PropertyMutationResult"],

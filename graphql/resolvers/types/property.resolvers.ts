@@ -53,6 +53,9 @@ const property : Resolvers = {
     propertyUpdate: async (_, {input}, {dataSources}) => {
       return PropertyMutationResolver( dataSources.propertyDomainAPI.propertyUpdate(input));
     },
+    propertyDelete: async (_, {input}, {dataSources}) => {
+      return PropertyMutationResolver( dataSources.propertyDomainAPI.propertyDelete(input));
+    },
     propertyAssignOwner: async (_, {input}, {dataSources}) => {
       return PropertyMutationResolver( dataSources.propertyDomainAPI.propertyAssignOwner(input));
     },

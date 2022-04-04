@@ -39,8 +39,8 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   get owner() {
     if(this.props.owner) {return new MemberDomainAdapter(this.props.owner);}
   }
-  public setOwnerRef(owner:MemberEntityReference) {
-    this.props.set('owner',owner.id);
+  public setOwnerRef(owner:MemberEntityReference | undefined) {
+    this.props.set('owner',owner?owner.id:undefined);
   }
 
   get propertyName() {return this.props.propertyName;}

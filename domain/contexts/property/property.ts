@@ -83,6 +83,12 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
     this.props.setOwnerRef(owner);
   }
+  public requestDelete(): void {
+    if(
+      !this.isDeleted &&
+      !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('You do not have permission to delete this property'); }
+    super.isDeleted = true;
+  }
   public requestSetPropertyName(propertyName: ValueObjects.PropertyName): void {
     if(
       !this.isNew &&

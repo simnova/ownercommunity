@@ -1,16 +1,19 @@
 import React from 'react';
-import { Form,Input,Button,Descriptions,  Checkbox } from 'antd';
+import { Form,Input,Button,Descriptions, Select, Checkbox } from 'antd';
 import dayjs from 'dayjs';
 import { PropertyUpdateInput } from '../../../../generated';
+import { UserDeleteOutlined } from '@ant-design/icons';
 
 export interface PropertiesDetailProps {
   data: {
     property: any
+    members: any[]
   };
   onSave: (property: PropertyUpdateInput) => void;
+  onDelete: () => void;
 }
 
-export const PropertiesDetail: React.FC<any> = (props) => {
+export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
   const [form] = Form.useForm();
   return(
     <div>
@@ -47,6 +50,13 @@ export const PropertiesDetail: React.FC<any> = (props) => {
           <Input placeholder='Name' maxLength={200} />
         </Form.Item>
 
+        <Form.Item
+          name={['owner','id']}
+          label="Owner"
+        >
+          <Select allowClear={true}  placeholder="Select am Owner" options={props.data.members} fieldNames={{label:'memberName', value:'id'}} />
+        </Form.Item>
+
         <Form.Item 
           name={["listedForSale"]}
           valuePropName="checked"        
@@ -74,6 +84,9 @@ export const PropertiesDetail: React.FC<any> = (props) => {
 
         <Button type="primary" htmlType="submit" value={'save'} >
           Save
+        </Button>
+        <Button type="primary" danger icon={<UserDeleteOutlined />} onClick={props.onDelete} className={'float-right'}>
+          Delete Property
         </Button>
       </Form>
     </div>

@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { AdminPropertiesDetailContainerPropertyDocument, AdminPropertiesDetailContainerPropertyUpdateDocument, PropertyUpdateInput } from '../../../../generated';
+import { AdminPropertiesListContainerPropertiesByCommunityDocument,AdminPropertiesDetailContainerPropertyDeleteDocument, AdminPropertiesDetailContainerMembersDocument, AdminPropertiesDetailContainerPropertyDocument, AdminPropertiesDetailContainerPropertyUpdateDocument, PropertyUpdateInput } from '../../../../generated';
 import { PropertiesDetail} from './properties-detail';
 import PropTypes  from 'prop-types';
 import { message,Skeleton } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -19,7 +20,25 @@ interface ComponentPropInterface {
 export type PropertiesDetailContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
 
 export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTypes> = (props) => {
+  const navigate = useNavigate();
   const [updateProperty] = useMutation(AdminPropertiesDetailContainerPropertyUpdateDocument);  
+  const [deleteProperty] = useMutation(AdminPropertiesDetailContainerPropertyDeleteDocument,{
+    update(cache, { data }) { // update the list by removing the deleted item
+      const deletedProperty = data?.propertyDelete.property;
+      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesByCommunityDocument })?.propertiesByCommunityId;
+      if(deletedProperty && properties) {
+        cache.writeQuery({
+          query: AdminPropertiesListContainerPropertiesByCommunityDocument,
+          data: {
+            propertiesByCommunityId: properties?.filter(property =>  property?.id !== deletedProperty.id)
+          }
+        })
+      }
+    }
+  });
+
+  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminPropertiesDetailContainerMembersDocument);
+
   const { data: propertyData, loading: propertyLoading, error: propertyError } = useQuery(AdminPropertiesDetailContainerPropertyDocument,{
       variables: {
         id: props.data.id
@@ -38,17 +57,33 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
       message.error(`Error updating Property: ${JSON.stringify(error)}`);
     }
   }
-
+  const handleDelete = async () => {
+    try {
+      await deleteProperty({
+        variables: {
+          input:{
+            id: props.data.id
+          }
+        },
+      });
+      message.success("Deleted");
+      navigate('../../');
+    } catch (error) {
+      message.error(`Error deleting Property: ${JSON.stringify(error)}`);
+    }
+  }
+    
   const content = () => {
-    if(propertyLoading ) {
+    if(propertyLoading || memberLoading) { 
       return <div><Skeleton active /></div>
-    } else if( propertyError ) {
-      return <div>{JSON.stringify(propertyError  )}</div>
-    } else if(propertyData && propertyData.property ) {
+    } else if( propertyError || memberError ) {
+      return <div>{JSON.stringify(propertyError  || memberError )}</div>
+    } else if(propertyData && propertyData.property && memberData?.members ) {
       var detailData = {
-        property: propertyData.property
+        property: propertyData.property,
+        members: memberData.members
       }
-      return <PropertiesDetail data={detailData} onSave={handleSave} />
+      return <PropertiesDetail data={detailData} onSave={handleSave} onDelete={handleDelete} />
     } else {
       return <div>No data</div>
     }

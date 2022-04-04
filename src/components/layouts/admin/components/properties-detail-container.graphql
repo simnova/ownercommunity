@@ -4,8 +4,20 @@ query AdminPropertiesDetailContainerProperty($id: ObjectID!) {
   }
 }
 
+query AdminPropertiesDetailContainerMembers {
+  members {
+    ...AdminPropertiesDetailContainerMembersFields
+  }
+}
+
 mutation AdminPropertiesDetailContainerPropertyUpdate($input: PropertyUpdateInput!) {
   propertyUpdate(input: $input) {
+    ...AdminPropertiesDetailContainerPropertyMutationResultFields
+  }
+}
+
+mutation AdminPropertiesDetailContainerPropertyDelete($input: PropertyDeleteInput!) {
+  propertyDelete(input: $input) {
     ...AdminPropertiesDetailContainerPropertyMutationResultFields
   }
 }
@@ -28,8 +40,22 @@ fragment AdminPropertiesDetailContainerPropertyFields on Property {
   listedForRent
   listedForLease
   listedInDirectory
+
+  owner {
+    id
+    memberName
+  }
   
   id
+  createdAt
+  updatedAt
+}
+
+
+
+fragment AdminPropertiesDetailContainerMembersFields on Member {
+  id
+  memberName
   createdAt
   updatedAt
 }

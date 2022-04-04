@@ -364,6 +364,7 @@ export type Mutation = {
   memberUpdate: MemberMutationResult;
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
+  propertyDelete: PropertyMutationResult;
   propertyRemoveOwner: PropertyMutationResult;
   propertyUpdate: PropertyMutationResult;
   roleAdd: RoleMutationResult;
@@ -445,6 +446,11 @@ export type MutationPropertyAddArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationPropertyAssignOwnerArgs = {
   input: PropertyAssignOwnerInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyDeleteArgs = {
+  input: PropertyDeleteInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -570,10 +576,18 @@ export type PropertyAssignOwnerInput = {
   ownerId: Scalars["ObjectID"];
 };
 
+export type PropertyDeleteInput = {
+  id: Scalars["ObjectID"];
+};
+
 export type PropertyMutationResult = {
   __typename?: "PropertyMutationResult";
   property?: Maybe<Property>;
   status: MutationStatus;
+};
+
+export type PropertyOwnerInput = {
+  id?: InputMaybe<Scalars["ObjectID"]>;
 };
 
 export type PropertyPermissions = {
@@ -597,6 +611,7 @@ export type PropertyUpdateInput = {
   listedForRent?: InputMaybe<Scalars["Boolean"]>;
   listedForSale?: InputMaybe<Scalars["Boolean"]>;
   listedInDirectory?: InputMaybe<Scalars["Boolean"]>;
+  owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars["String"]>;
   propertyType?: InputMaybe<Scalars["String"]>;
 };
@@ -1647,7 +1662,27 @@ export type AdminPropertiesDetailContainerPropertyQuery = {
     id: any;
     createdAt?: any | null;
     updatedAt?: any | null;
+    owner?: {
+      __typename?: "Member";
+      id: any;
+      memberName?: string | null;
+    } | null;
   } | null;
+};
+
+export type AdminPropertiesDetailContainerMembersQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminPropertiesDetailContainerMembersQuery = {
+  __typename?: "Query";
+  members?: Array<{
+    __typename?: "Member";
+    id: any;
+    memberName?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
 };
 
 export type AdminPropertiesDetailContainerPropertyUpdateMutationVariables =
@@ -1675,6 +1710,45 @@ export type AdminPropertiesDetailContainerPropertyUpdateMutation = {
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
+      owner?: {
+        __typename?: "Member";
+        id: any;
+        memberName?: string | null;
+      } | null;
+    } | null;
+  };
+};
+
+export type AdminPropertiesDetailContainerPropertyDeleteMutationVariables =
+  Exact<{
+    input: PropertyDeleteInput;
+  }>;
+
+export type AdminPropertiesDetailContainerPropertyDeleteMutation = {
+  __typename?: "Mutation";
+  propertyDelete: {
+    __typename?: "PropertyMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    property?: {
+      __typename?: "Property";
+      propertyName: string;
+      propertyType?: string | null;
+      listedForSale: boolean;
+      listedForRent: boolean;
+      listedForLease: boolean;
+      listedInDirectory: boolean;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      owner?: {
+        __typename?: "Member";
+        id: any;
+        memberName?: string | null;
+      } | null;
     } | null;
   };
 };
@@ -1698,6 +1772,11 @@ export type AdminPropertiesDetailContainerPropertyMutationResultFieldsFragment =
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
+      owner?: {
+        __typename?: "Member";
+        id: any;
+        memberName?: string | null;
+      } | null;
     } | null;
   };
 
@@ -1710,6 +1789,15 @@ export type AdminPropertiesDetailContainerPropertyFieldsFragment = {
   listedForLease: boolean;
   listedInDirectory: boolean;
   id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  owner?: { __typename?: "Member"; id: any; memberName?: string | null } | null;
+};
+
+export type AdminPropertiesDetailContainerMembersFieldsFragment = {
+  __typename?: "Member";
+  id: any;
+  memberName?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
 };
@@ -3089,6 +3177,17 @@ export const AdminPropertiesDetailContainerPropertyFieldsFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "listedForRent" } },
           { kind: "Field", name: { kind: "Name", value: "listedForLease" } },
           { kind: "Field", name: { kind: "Name", value: "listedInDirectory" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "owner" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "memberName" } },
+              ],
+            },
+          },
           { kind: "Field", name: { kind: "Name", value: "id" } },
           { kind: "Field", name: { kind: "Name", value: "createdAt" } },
           { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
@@ -3156,6 +3255,34 @@ export const AdminPropertiesDetailContainerPropertyMutationResultFieldsFragmentD
     AdminPropertiesDetailContainerPropertyMutationResultFieldsFragment,
     unknown
   >;
+export const AdminPropertiesDetailContainerMembersFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminPropertiesDetailContainerMembersFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Member" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "memberName" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesDetailContainerMembersFieldsFragment,
+  unknown
+>;
 export const AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc =
   {
     kind: "Document",
@@ -4864,6 +4991,41 @@ export const AdminPropertiesDetailContainerPropertyDocument = {
   AdminPropertiesDetailContainerPropertyQuery,
   AdminPropertiesDetailContainerPropertyQueryVariables
 >;
+export const AdminPropertiesDetailContainerMembersDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "AdminPropertiesDetailContainerMembers" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "members" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminPropertiesDetailContainerMembersFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminPropertiesDetailContainerMembersFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesDetailContainerMembersQuery,
+  AdminPropertiesDetailContainerMembersQueryVariables
+>;
 export const AdminPropertiesDetailContainerPropertyUpdateDocument = {
   kind: "Document",
   definitions: [
@@ -4928,6 +5090,71 @@ export const AdminPropertiesDetailContainerPropertyUpdateDocument = {
 } as unknown as DocumentNode<
   AdminPropertiesDetailContainerPropertyUpdateMutation,
   AdminPropertiesDetailContainerPropertyUpdateMutationVariables
+>;
+export const AdminPropertiesDetailContainerPropertyDeleteDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: {
+        kind: "Name",
+        value: "AdminPropertiesDetailContainerPropertyDelete",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "PropertyDeleteInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "propertyDelete" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "AdminPropertiesDetailContainerPropertyMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesDetailContainerPropertyDeleteMutation,
+  AdminPropertiesDetailContainerPropertyDeleteMutationVariables
 >;
 export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
   kind: "Document",

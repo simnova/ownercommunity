@@ -21,6 +21,11 @@ mutation AdminServiceTicketsDetailContainerServiceTicketUpdate($input: ServiceTi
     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
   }
 }
+mutation AdminServiceTicketsDetailContainerServiceTicketChangeStatus($input: ServiceTicketChangeStatusInput!) {
+  serviceTicketChangeStatus(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
 
 fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
   status {

@@ -1,7 +1,14 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { AdminServiceTicketsDetailContainerMembersDocument,AdminServiceTicketsDetailContainerPropertiesDocument, AdminServiceTicketsDetailContainerServiceTicketUpdateDocument, AdminServiceTicketsDetailContainerServiceTicketDocument, ServiceTicketUpdateInput } from "../../../../generated";
 import { message, Skeleton } from "antd";
 import { ServiceTicketsDetail } from "./service-tickets-detail";
+import { 
+  AdminServiceTicketsDetailContainerMembersDocument,
+  AdminServiceTicketsDetailContainerPropertiesDocument, 
+  AdminServiceTicketsDetailContainerServiceTicketUpdateDocument, 
+  AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument, 
+  AdminServiceTicketsDetailContainerServiceTicketDocument, 
+  ServiceTicketUpdateInput, 
+  ServiceTicketChangeStatusInput} from "../../../../generated";
 
 export interface ServiceTicketsDetailContainerProps {
   data: {
@@ -11,6 +18,7 @@ export interface ServiceTicketsDetailContainerProps {
 
 export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContainerProps> = (props) => {
   const [serviceTicketUpdate] = useMutation(AdminServiceTicketsDetailContainerServiceTicketUpdateDocument); 
+  const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument); 
   const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminServiceTicketsDetailContainerMembersDocument);
   const { data: propertyData, loading: propertyLoading, error: propertyError } = useQuery(AdminServiceTicketsDetailContainerPropertiesDocument);
  
@@ -19,6 +27,19 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
       id: props.data.id
     }
   });
+
+  const handleChangeStatus = async (values: ServiceTicketChangeStatusInput) => {
+    try {
+      await serviceTicketChangeStatus({
+        variables: {
+          input: values
+        }
+      });
+      message.success("Status changed successfully");
+    } catch (error) {
+      message.error(`Error changing Service Ticket status : ${JSON.stringify(error)}`);
+    }
+  }
 
   const handleUpdate = async (values: ServiceTicketUpdateInput) => {
     try {
@@ -46,7 +67,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
       members: memberData.members,
       properties: propertyData.properties,
     }
-  return <ServiceTicketsDetail onAdd={{}} onUpdate={handleUpdate} data={data} />
+  return <ServiceTicketsDetail onAdd={{}} onUpdate={handleUpdate} onChangeStatus={handleChangeStatus} data={data} />
   } else {
     return <div>No Data...</div>
   }

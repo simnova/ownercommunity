@@ -1,9 +1,10 @@
 import React from 'react';
-import { Form,Input,Button,Descriptions, Select } from 'antd';
+import { Form,Input,Button,Descriptions, Select, Steps, Table } from 'antd';
 import dayjs from 'dayjs';
 import { ServiceTicket, ServiceTicketUpdateInput } from '../../../../generated';
 
 const { TextArea } = Input;
+const { Step } = Steps;
 
 export interface ServiceTicketsDetailProps {
   data: {
@@ -16,8 +17,52 @@ export interface ServiceTicketsDetailProps {
 
 export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
+  const stepArray = ['DRAFT','SUBMITTED','ASSIGNED','INPROGRESS','COMPLETED','CLOSED'];
+  const currentStep = stepArray.findIndex((value) => value === props.data.serviceTicket.status) ;
+  
+
+  const columns = [
+
+    {
+      title: "Activity",
+      dataIndex: "activityType",
+      key: "activityType",
+    },
+    {
+      title: "Activity By",
+      dataIndex: ["activityBy", "memberName"],  
+      key: "activityBy",
+    },
+    {
+      title: "Description",
+      dataIndex: ["activityDescription"],  
+      key: "activityDescription",
+    },
+    {
+      title: "Updated",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      render: (text: any) => <span>{dayjs(text).format('DD/MM/YYYY')}</span>
+    },
+    {
+      title: "Created",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text: any) => <span>{dayjs(text).format('DD/MM/YYYY')}</span>
+    },
+  ]
+
   return (
     <div>
+      <Steps current={currentStep} size="small">
+      <Step title="Created" description="Created" />
+        <Step title="Draft" description="Editing Details" />
+        <Step title="Submitted" description="Awaiting Triage and Assignment" />
+        <Step title="Assigned" description="Work will be scheduled" />
+        <Step title="In Progress" description="Work is happening" />
+        <Step title="Completed" description="Work is complete verification may be required" />
+        <Step title="Closed" description="Work has been completed" />
+      </Steps>
       <Descriptions title="ServiceTicket Info" size={'small'} layout={'vertical'}>
         <Descriptions.Item label="Id">{props.data.serviceTicket.id}</Descriptions.Item>
         <Descriptions.Item label="Status">{props.data.serviceTicket.status}</Descriptions.Item>
@@ -88,6 +133,12 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           Save
         </Button>
       </Form>
+
+      <Table 
+        columns={columns} 
+        dataSource={props.data.serviceTicket.activityLog}
+        rowKey={(record: any) => record.id}
+      />
     </div>
   )
 }

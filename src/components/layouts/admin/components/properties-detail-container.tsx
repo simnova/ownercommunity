@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { AdminPropertiesListContainerPropertiesByCommunityDocument,AdminPropertiesDetailContainerPropertyDeleteDocument, AdminPropertiesDetailContainerMembersDocument, AdminPropertiesDetailContainerPropertyDocument, AdminPropertiesDetailContainerPropertyUpdateDocument, PropertyUpdateInput } from '../../../../generated';
+import { AdminPropertiesListContainerPropertiesDocument,AdminPropertiesDetailContainerPropertyDeleteDocument, AdminPropertiesDetailContainerMembersDocument, AdminPropertiesDetailContainerPropertyDocument, AdminPropertiesDetailContainerPropertyUpdateDocument, PropertyUpdateInput } from '../../../../generated';
 import { PropertiesDetail} from './properties-detail';
 import PropTypes  from 'prop-types';
 import { message,Skeleton } from 'antd';
@@ -25,12 +25,12 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
   const [deleteProperty] = useMutation(AdminPropertiesDetailContainerPropertyDeleteDocument,{
     update(cache, { data }) { // update the list by removing the deleted item
       const deletedProperty = data?.propertyDelete.property;
-      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesByCommunityDocument })?.propertiesByCommunityId;
+      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument })?.properties;
       if(deletedProperty && properties) {
         cache.writeQuery({
-          query: AdminPropertiesListContainerPropertiesByCommunityDocument,
+          query: AdminPropertiesListContainerPropertiesDocument,
           data: {
-            propertiesByCommunityId: properties?.filter(property =>  property?.id !== deletedProperty.id)
+            properties: properties?.filter(property =>  property?.id !== deletedProperty.id)
           }
         })
       }

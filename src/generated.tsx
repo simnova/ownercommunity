@@ -630,11 +630,12 @@ export type Query = {
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
-  propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  properties?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
-  serviceTicketsAssignedCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicket?: Maybe<ServiceTicket>;
+  serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -668,11 +669,6 @@ export type QueryMemberForUserArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryPropertiesByCommunityIdArgs = {
-  communityId: Scalars["ObjectID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertyArgs = {
   id: Scalars["ObjectID"];
 };
@@ -683,18 +679,13 @@ export type QueryRoleArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsAssignedCurrentUserArgs = {
-  communityId: Scalars["ObjectID"];
+export type QueryServiceTicketArgs = {
+  id: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsClosedByRequestorArgs = {
   propertyId: Scalars["ObjectID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsOpenByCommunityArgs = {
-  communityId: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -756,6 +747,7 @@ export type ServiceTicket = MongoBase & {
   createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
   id: Scalars["ObjectID"];
+  photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars["Int"];
   property?: Maybe<Property>;
   requestor: Member;
@@ -799,7 +791,7 @@ export type ServiceTicketChangeStatusInput = {
 };
 
 export type ServiceTicketCreateInput = {
-  communityId: Scalars["ObjectID"];
+  description: Scalars["String"];
   propertyId?: InputMaybe<Scalars["ObjectID"]>;
   requestorId: Scalars["ObjectID"];
   title: Scalars["String"];
@@ -1802,14 +1794,13 @@ export type AdminPropertiesDetailContainerMembersFieldsFragment = {
   updatedAt?: any | null;
 };
 
-export type AdminPropertiesListContainerPropertiesByCommunityQueryVariables =
-  Exact<{
-    communityId: Scalars["ObjectID"];
-  }>;
+export type AdminPropertiesListContainerPropertiesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type AdminPropertiesListContainerPropertiesByCommunityQuery = {
+export type AdminPropertiesListContainerPropertiesQuery = {
   __typename?: "Query";
-  propertiesByCommunityId?: Array<{
+  properties?: Array<{
     __typename?: "Property";
     propertyName: string;
     propertyType?: string | null;
@@ -1820,7 +1811,7 @@ export type AdminPropertiesListContainerPropertiesByCommunityQuery = {
   } | null> | null;
 };
 
-export type AdminPropertiesListContainerPropertiesByCommunityFieldsFragment = {
+export type AdminPropertiesListContainerPropertyFieldsFragment = {
   __typename?: "Property";
   propertyName: string;
   propertyType?: string | null;
@@ -2132,10 +2123,350 @@ export type AdminRolesListContainerRolesFieldsFragment = {
   updatedAt?: any | null;
 };
 
-export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVariables =
+export type AdminServiceTicketsCreateContainerMembersQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminServiceTicketsCreateContainerMembersQuery = {
+  __typename?: "Query";
+  members?: Array<{
+    __typename?: "Member";
+    id: any;
+    memberName?: string | null;
+  } | null> | null;
+};
+
+export type AdminServiceTicketsCreateContainerPropertiesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminServiceTicketsCreateContainerPropertiesQuery = {
+  __typename?: "Query";
+  properties?: Array<{
+    __typename?: "Property";
+    id: any;
+    propertyName: string;
+  } | null> | null;
+};
+
+export type AdminServiceTicketsCreateContainerServiceTicketCreateMutationVariables =
   Exact<{
-    communityId: Scalars["ObjectID"];
+    input: ServiceTicketCreateInput;
   }>;
+
+export type AdminServiceTicketsCreateContainerServiceTicketCreateMutation = {
+  __typename?: "Mutation";
+  serviceTicketCreate: {
+    __typename?: "ServiceTicketMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    serviceTicket?: {
+      __typename?: "ServiceTicket";
+      title: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: {
+        __typename?: "Property";
+        id: any;
+        propertyName: string;
+      } | null;
+      requestor: { __typename?: "Member"; id: any; memberName?: string | null };
+    } | null;
+  };
+};
+
+export type AdminServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragment =
+  {
+    __typename?: "ServiceTicketMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    serviceTicket?: {
+      __typename?: "ServiceTicket";
+      title: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: {
+        __typename?: "Property";
+        id: any;
+        propertyName: string;
+      } | null;
+      requestor: { __typename?: "Member"; id: any; memberName?: string | null };
+    } | null;
+  };
+
+export type AdminServiceTicketsCreateContainerServiceTicketFieldsFragment = {
+  __typename?: "ServiceTicket";
+  title: string;
+  status: string;
+  priority: number;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  property?: { __typename?: "Property"; id: any; propertyName: string } | null;
+  requestor: { __typename?: "Member"; id: any; memberName?: string | null };
+};
+
+export type AdminServiceTicketsCreateContainerMemberFieldsFragment = {
+  __typename?: "Member";
+  id: any;
+  memberName?: string | null;
+};
+
+export type AdminServiceTicketsCreateContainerPropertyFieldsFragment = {
+  __typename?: "Property";
+  id: any;
+  propertyName: string;
+};
+
+export type AdminServiceTicketsDetailContainerMembersQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminServiceTicketsDetailContainerMembersQuery = {
+  __typename?: "Query";
+  members?: Array<{
+    __typename?: "Member";
+    id: any;
+    memberName?: string | null;
+  } | null> | null;
+};
+
+export type AdminServiceTicketsDetailContainerPropertiesQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type AdminServiceTicketsDetailContainerPropertiesQuery = {
+  __typename?: "Query";
+  properties?: Array<{
+    __typename?: "Property";
+    id: any;
+    propertyName: string;
+  } | null> | null;
+};
+
+export type AdminServiceTicketsDetailContainerServiceTicketQueryVariables =
+  Exact<{
+    id: Scalars["ObjectID"];
+  }>;
+
+export type AdminServiceTicketsDetailContainerServiceTicketQuery = {
+  __typename?: "Query";
+  serviceTicket?: {
+    __typename?: "ServiceTicket";
+    title: string;
+    description: string;
+    status: string;
+    priority: number;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    property?: {
+      __typename?: "Property";
+      id: any;
+      propertyName: string;
+    } | null;
+    requestor: { __typename?: "Member"; id: any; memberName?: string | null };
+    assignedTo?: {
+      __typename?: "Member";
+      id: any;
+      memberName?: string | null;
+    } | null;
+    photos?: Array<{
+      __typename?: "ServiceTicketPhoto";
+      documentId: string;
+      description: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null> | null;
+    activityLog?: Array<{
+      __typename?: "ServiceTicketActivityDetail";
+      activityType: string;
+      activityDescription: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      activityBy: {
+        __typename?: "Member";
+        id: any;
+        memberName?: string | null;
+      };
+    } | null> | null;
+  } | null;
+};
+
+export type AdminServiceTicketsDetailContainerServiceTicketUpdateMutationVariables =
+  Exact<{
+    input: ServiceTicketUpdateInput;
+  }>;
+
+export type AdminServiceTicketsDetailContainerServiceTicketUpdateMutation = {
+  __typename?: "Mutation";
+  serviceTicketUpdate: {
+    __typename?: "ServiceTicketMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    serviceTicket?: {
+      __typename?: "ServiceTicket";
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: {
+        __typename?: "Property";
+        id: any;
+        propertyName: string;
+      } | null;
+      requestor: { __typename?: "Member"; id: any; memberName?: string | null };
+      assignedTo?: {
+        __typename?: "Member";
+        id: any;
+        memberName?: string | null;
+      } | null;
+      photos?: Array<{
+        __typename?: "ServiceTicketPhoto";
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: "ServiceTicketActivityDetail";
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: {
+          __typename?: "Member";
+          id: any;
+          memberName?: string | null;
+        };
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragment =
+  {
+    __typename?: "ServiceTicketMutationResult";
+    status: {
+      __typename?: "MutationStatus";
+      success: boolean;
+      errorMessage?: string | null;
+    };
+    serviceTicket?: {
+      __typename?: "ServiceTicket";
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: {
+        __typename?: "Property";
+        id: any;
+        propertyName: string;
+      } | null;
+      requestor: { __typename?: "Member"; id: any; memberName?: string | null };
+      assignedTo?: {
+        __typename?: "Member";
+        id: any;
+        memberName?: string | null;
+      } | null;
+      photos?: Array<{
+        __typename?: "ServiceTicketPhoto";
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: "ServiceTicketActivityDetail";
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: {
+          __typename?: "Member";
+          id: any;
+          memberName?: string | null;
+        };
+      } | null> | null;
+    } | null;
+  };
+
+export type AdminServiceTicketsDetailContainerServiceTicketFieldsFragment = {
+  __typename?: "ServiceTicket";
+  title: string;
+  description: string;
+  status: string;
+  priority: number;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  property?: { __typename?: "Property"; id: any; propertyName: string } | null;
+  requestor: { __typename?: "Member"; id: any; memberName?: string | null };
+  assignedTo?: {
+    __typename?: "Member";
+    id: any;
+    memberName?: string | null;
+  } | null;
+  photos?: Array<{
+    __typename?: "ServiceTicketPhoto";
+    documentId: string;
+    description: string;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
+  activityLog?: Array<{
+    __typename?: "ServiceTicketActivityDetail";
+    activityType: string;
+    activityDescription: string;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    activityBy: { __typename?: "Member"; id: any; memberName?: string | null };
+  } | null> | null;
+};
+
+export type AdminServiceTicketsDetailContainerMemberFieldsFragment = {
+  __typename?: "Member";
+  id: any;
+  memberName?: string | null;
+};
+
+export type AdminServiceTicketsDetailContainerPropertyFieldsFragment = {
+  __typename?: "Property";
+  id: any;
+  propertyName: string;
+};
+
+export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVariables =
+  Exact<{ [key: string]: never }>;
 
 export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery =
   {
@@ -3283,49 +3614,45 @@ export const AdminPropertiesDetailContainerMembersFieldsFragmentDoc = {
   AdminPropertiesDetailContainerMembersFieldsFragment,
   unknown
 >;
-export const AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc =
-  {
-    kind: "Document",
-    definitions: [
-      {
-        kind: "FragmentDefinition",
-        name: {
-          kind: "Name",
-          value: "AdminPropertiesListContainerPropertiesByCommunityFields",
-        },
-        typeCondition: {
-          kind: "NamedType",
-          name: { kind: "Name", value: "Property" },
-        },
-        selectionSet: {
-          kind: "SelectionSet",
-          selections: [
-            { kind: "Field", name: { kind: "Name", value: "propertyName" } },
-            { kind: "Field", name: { kind: "Name", value: "propertyType" } },
-            {
-              kind: "Field",
-              name: { kind: "Name", value: "owner" },
-              selectionSet: {
-                kind: "SelectionSet",
-                selections: [
-                  {
-                    kind: "Field",
-                    name: { kind: "Name", value: "memberName" },
-                  },
-                ],
-              },
-            },
-            { kind: "Field", name: { kind: "Name", value: "id" } },
-            { kind: "Field", name: { kind: "Name", value: "createdAt" } },
-            { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
-          ],
-        },
+export const AdminPropertiesListContainerPropertyFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminPropertiesListContainerPropertyFields",
       },
-    ],
-  } as unknown as DocumentNode<
-    AdminPropertiesListContainerPropertiesByCommunityFieldsFragment,
-    unknown
-  >;
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Property" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "propertyName" } },
+          { kind: "Field", name: { kind: "Name", value: "propertyType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "owner" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "memberName" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminPropertiesListContainerPropertyFieldsFragment,
+  unknown
+>;
 export const AdminRolesDeleteContainerRolesFieldsFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -3608,6 +3935,414 @@ export const AdminRolesListContainerRolesFieldsFragmentDoc = {
   ],
 } as unknown as DocumentNode<
   AdminRolesListContainerRolesFieldsFragment,
+  unknown
+>;
+export const AdminServiceTicketsCreateContainerServiceTicketFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value: "AdminServiceTicketsCreateContainerServiceTicketFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "ServiceTicket" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "property" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "propertyName" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "requestor" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "memberName" },
+                  },
+                ],
+              },
+            },
+            { kind: "Field", name: { kind: "Name", value: "title" } },
+            { kind: "Field", name: { kind: "Name", value: "status" } },
+            { kind: "Field", name: { kind: "Name", value: "priority" } },
+            { kind: "Field", name: { kind: "Name", value: "id" } },
+            { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+            { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+          ],
+        },
+      },
+    ],
+  } as unknown as DocumentNode<
+    AdminServiceTicketsCreateContainerServiceTicketFieldsFragment,
+    unknown
+  >;
+export const AdminServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value:
+            "AdminServiceTicketsCreateContainerServiceTicketMutationResultFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "ServiceTicketMutationResult" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "status" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "success" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "errorMessage" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "serviceTicket" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "FragmentSpread",
+                    name: {
+                      kind: "Name",
+                      value:
+                        "AdminServiceTicketsCreateContainerServiceTicketFields",
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      ...AdminServiceTicketsCreateContainerServiceTicketFieldsFragmentDoc.definitions,
+    ],
+  } as unknown as DocumentNode<
+    AdminServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragment,
+    unknown
+  >;
+export const AdminServiceTicketsCreateContainerMemberFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsCreateContainerMemberFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Member" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "memberName" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsCreateContainerMemberFieldsFragment,
+  unknown
+>;
+export const AdminServiceTicketsCreateContainerPropertyFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsCreateContainerPropertyFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Property" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "propertyName" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsCreateContainerPropertyFieldsFragment,
+  unknown
+>;
+export const AdminServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value: "AdminServiceTicketsDetailContainerServiceTicketFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "ServiceTicket" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            { kind: "Field", name: { kind: "Name", value: "title" } },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "property" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "propertyName" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "requestor" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "memberName" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "assignedTo" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "memberName" },
+                  },
+                ],
+              },
+            },
+            { kind: "Field", name: { kind: "Name", value: "title" } },
+            { kind: "Field", name: { kind: "Name", value: "description" } },
+            { kind: "Field", name: { kind: "Name", value: "status" } },
+            { kind: "Field", name: { kind: "Name", value: "priority" } },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "photos" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "documentId" },
+                  },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "description" },
+                  },
+                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                  { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+                  { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "activityLog" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "activityType" },
+                  },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "activityDescription" },
+                  },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "activityBy" },
+                    selectionSet: {
+                      kind: "SelectionSet",
+                      selections: [
+                        { kind: "Field", name: { kind: "Name", value: "id" } },
+                        {
+                          kind: "Field",
+                          name: { kind: "Name", value: "memberName" },
+                        },
+                      ],
+                    },
+                  },
+                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                  { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+                  { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+                ],
+              },
+            },
+            { kind: "Field", name: { kind: "Name", value: "id" } },
+            { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+            { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+          ],
+        },
+      },
+    ],
+  } as unknown as DocumentNode<
+    AdminServiceTicketsDetailContainerServiceTicketFieldsFragment,
+    unknown
+  >;
+export const AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "FragmentDefinition",
+        name: {
+          kind: "Name",
+          value:
+            "AdminServiceTicketsDetailContainerServiceTicketMutationResultFields",
+        },
+        typeCondition: {
+          kind: "NamedType",
+          name: { kind: "Name", value: "ServiceTicketMutationResult" },
+        },
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "status" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  { kind: "Field", name: { kind: "Name", value: "success" } },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "errorMessage" },
+                  },
+                ],
+              },
+            },
+            {
+              kind: "Field",
+              name: { kind: "Name", value: "serviceTicket" },
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "FragmentSpread",
+                    name: {
+                      kind: "Name",
+                      value:
+                        "AdminServiceTicketsDetailContainerServiceTicketFields",
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      ...AdminServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc.definitions,
+    ],
+  } as unknown as DocumentNode<
+    AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragment,
+    unknown
+  >;
+export const AdminServiceTicketsDetailContainerMemberFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsDetailContainerMemberFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Member" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "memberName" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsDetailContainerMemberFieldsFragment,
+  unknown
+>;
+export const AdminServiceTicketsDetailContainerPropertyFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsDetailContainerPropertyFields",
+      },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Property" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "propertyName" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsDetailContainerPropertyFieldsFragment,
   unknown
 >;
 export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragmentDoc =
@@ -5156,48 +5891,19 @@ export const AdminPropertiesDetailContainerPropertyDeleteDocument = {
   AdminPropertiesDetailContainerPropertyDeleteMutation,
   AdminPropertiesDetailContainerPropertyDeleteMutationVariables
 >;
-export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
+export const AdminPropertiesListContainerPropertiesDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: {
-        kind: "Name",
-        value: "AdminPropertiesListContainerPropertiesByCommunity",
-      },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "communityId" },
-          },
-          type: {
-            kind: "NonNullType",
-            type: {
-              kind: "NamedType",
-              name: { kind: "Name", value: "ObjectID" },
-            },
-          },
-        },
-      ],
+      name: { kind: "Name", value: "AdminPropertiesListContainerProperties" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "propertiesByCommunityId" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "communityId" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "communityId" },
-                },
-              },
-            ],
+            name: { kind: "Name", value: "properties" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -5205,8 +5911,7 @@ export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
                   kind: "FragmentSpread",
                   name: {
                     kind: "Name",
-                    value:
-                      "AdminPropertiesListContainerPropertiesByCommunityFields",
+                    value: "AdminPropertiesListContainerPropertyFields",
                   },
                 },
               ],
@@ -5215,11 +5920,11 @@ export const AdminPropertiesListContainerPropertiesByCommunityDocument = {
         ],
       },
     },
-    ...AdminPropertiesListContainerPropertiesByCommunityFieldsFragmentDoc.definitions,
+    ...AdminPropertiesListContainerPropertyFieldsFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<
-  AdminPropertiesListContainerPropertiesByCommunityQuery,
-  AdminPropertiesListContainerPropertiesByCommunityQueryVariables
+  AdminPropertiesListContainerPropertiesQuery,
+  AdminPropertiesListContainerPropertiesQueryVariables
 >;
 export const AdminRolesDeleteContainerRolesDocument = {
   kind: "Document",
@@ -5535,6 +6240,350 @@ export const AdminRolesListContainerRolesDocument = {
   AdminRolesListContainerRolesQuery,
   AdminRolesListContainerRolesQueryVariables
 >;
+export const AdminServiceTicketsCreateContainerMembersDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsCreateContainerMembers",
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "members" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminServiceTicketsCreateContainerMemberFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminServiceTicketsCreateContainerMemberFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsCreateContainerMembersQuery,
+  AdminServiceTicketsCreateContainerMembersQueryVariables
+>;
+export const AdminServiceTicketsCreateContainerPropertiesDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsCreateContainerProperties",
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "properties" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminServiceTicketsCreateContainerPropertyFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminServiceTicketsCreateContainerPropertyFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsCreateContainerPropertiesQuery,
+  AdminServiceTicketsCreateContainerPropertiesQueryVariables
+>;
+export const AdminServiceTicketsCreateContainerServiceTicketCreateDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsCreateContainerServiceTicketCreate",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ServiceTicketCreateInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "serviceTicketCreate" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "AdminServiceTicketsCreateContainerServiceTicketMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsCreateContainerServiceTicketCreateMutation,
+  AdminServiceTicketsCreateContainerServiceTicketCreateMutationVariables
+>;
+export const AdminServiceTicketsDetailContainerMembersDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsDetailContainerMembers",
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "members" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminServiceTicketsDetailContainerMemberFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminServiceTicketsDetailContainerMemberFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsDetailContainerMembersQuery,
+  AdminServiceTicketsDetailContainerMembersQueryVariables
+>;
+export const AdminServiceTicketsDetailContainerPropertiesDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsDetailContainerProperties",
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "properties" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value: "AdminServiceTicketsDetailContainerPropertyFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminServiceTicketsDetailContainerPropertyFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsDetailContainerPropertiesQuery,
+  AdminServiceTicketsDetailContainerPropertiesQueryVariables
+>;
+export const AdminServiceTicketsDetailContainerServiceTicketDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsDetailContainerServiceTicket",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ObjectID" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "serviceTicket" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "AdminServiceTicketsDetailContainerServiceTicketFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsDetailContainerServiceTicketQuery,
+  AdminServiceTicketsDetailContainerServiceTicketQueryVariables
+>;
+export const AdminServiceTicketsDetailContainerServiceTicketUpdateDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: {
+        kind: "Name",
+        value: "AdminServiceTicketsDetailContainerServiceTicketUpdate",
+      },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ServiceTicketUpdateInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "serviceTicketUpdate" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: {
+                    kind: "Name",
+                    value:
+                      "AdminServiceTicketsDetailContainerServiceTicketMutationResultFields",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions,
+  ],
+} as unknown as DocumentNode<
+  AdminServiceTicketsDetailContainerServiceTicketUpdateMutation,
+  AdminServiceTicketsDetailContainerServiceTicketUpdateMutationVariables
+>;
 export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument =
   {
     kind: "Document",
@@ -5547,38 +6596,12 @@ export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocume
           value:
             "AdminServiceTicketsListContainerServiceTicketsOpenByCommunity",
         },
-        variableDefinitions: [
-          {
-            kind: "VariableDefinition",
-            variable: {
-              kind: "Variable",
-              name: { kind: "Name", value: "communityId" },
-            },
-            type: {
-              kind: "NonNullType",
-              type: {
-                kind: "NamedType",
-                name: { kind: "Name", value: "ObjectID" },
-              },
-            },
-          },
-        ],
         selectionSet: {
           kind: "SelectionSet",
           selections: [
             {
               kind: "Field",
               name: { kind: "Name", value: "serviceTicketsOpenByCommunity" },
-              arguments: [
-                {
-                  kind: "Argument",
-                  name: { kind: "Name", value: "communityId" },
-                  value: {
-                    kind: "Variable",
-                    name: { kind: "Name", value: "communityId" },
-                  },
-                },
-              ],
               selectionSet: {
                 kind: "SelectionSet",
                 selections: [

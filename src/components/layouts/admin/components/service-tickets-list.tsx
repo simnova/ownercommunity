@@ -27,7 +27,7 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     },
     {
       title: "Priority",
-      dataIndex: ["priority", "priority"],  
+      dataIndex: ["priority"],  
       key: "priority",
     },
     {

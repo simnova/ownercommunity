@@ -1,0 +1,54 @@
+query AdminServiceTicketsCreateContainerMembers {
+  members {
+    ...AdminServiceTicketsCreateContainerMemberFields
+  }
+}
+
+query AdminServiceTicketsCreateContainerProperties {
+  properties {
+    ...AdminServiceTicketsCreateContainerPropertyFields
+  }
+}
+
+mutation AdminServiceTicketsCreateContainerServiceTicketCreate($input: ServiceTicketCreateInput!) {
+  serviceTicketCreate(input: $input) {
+    ...AdminServiceTicketsCreateContainerServiceTicketMutationResultFields
+  }
+}
+
+fragment AdminServiceTicketsCreateContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  serviceTicket {
+    ...AdminServiceTicketsCreateContainerServiceTicketFields
+  }
+}
+
+fragment AdminServiceTicketsCreateContainerServiceTicketFields on ServiceTicket {
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  title
+  status
+  priority
+  
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminServiceTicketsCreateContainerMemberFields on Member {
+  id
+  memberName
+}
+fragment AdminServiceTicketsCreateContainerPropertyFields on Property {
+  id
+  propertyName
+}

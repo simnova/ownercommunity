@@ -4,11 +4,7 @@ import { ServiceTicketsList} from "./service-tickets-list";
 import { Skeleton } from "antd";
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
-  const { data: serviceTicketData, loading: serviceTicketLoading, error: serviceTicketError } = useQuery(AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,{
-    variables: {
-      communityId: props.data.communityId
-    }
-  });
+  const { data: serviceTicketData, loading: serviceTicketLoading, error: serviceTicketError } = useQuery(AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument);
 
   if(serviceTicketLoading) {
     return <div><Skeleton active /></div>

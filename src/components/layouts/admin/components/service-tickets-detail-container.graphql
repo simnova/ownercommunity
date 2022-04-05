@@ -1,0 +1,84 @@
+query AdminServiceTicketsDetailContainerMembers {
+  members {
+    ...AdminServiceTicketsDetailContainerMemberFields
+  }
+}
+
+query AdminServiceTicketsDetailContainerProperties {
+  properties {
+    ...AdminServiceTicketsDetailContainerPropertyFields
+  }
+}
+
+query AdminServiceTicketsDetailContainerServiceTicket($id: ObjectID!) {
+  serviceTicket(id: $id) {
+    ...AdminServiceTicketsDetailContainerServiceTicketFields
+  }
+}
+
+mutation AdminServiceTicketsDetailContainerServiceTicketUpdate($input: ServiceTicketUpdateInput!) {
+  serviceTicketUpdate(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  serviceTicket {
+    ...AdminServiceTicketsDetailContainerServiceTicketFields
+  }
+}
+
+fragment AdminServiceTicketsDetailContainerServiceTicketFields on ServiceTicket {
+  title
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  assignedTo {
+    id
+    memberName
+  }
+  title
+  description
+  status
+  priority
+  photos {
+    documentId
+    description
+
+    id
+    createdAt
+    updatedAt
+  }
+  activityLog {
+    activityType
+    activityDescription
+    activityBy {
+      id
+      memberName
+    }
+    id
+    createdAt
+    updatedAt
+  }
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminServiceTicketsDetailContainerMemberFields on Member {
+  id
+  memberName
+}
+fragment AdminServiceTicketsDetailContainerPropertyFields on Property {
+  id
+  propertyName
+}

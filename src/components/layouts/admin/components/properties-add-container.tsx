@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { AdminPropertiesAddContainerPropertyAddDocument, AdminPropertiesListContainerPropertiesByCommunityDocument, PropertyAddInput } from "../../../../generated";
+import { AdminPropertiesAddContainerPropertyAddDocument, AdminPropertiesListContainerPropertiesDocument,  PropertyAddInput } from "../../../../generated";
 import { message } from "antd";
 import { PropertiesAdd } from "./properties-add";
 import { useNavigate } from "react-router-dom";
@@ -10,12 +10,12 @@ export const PropertiesAddContainer: React.FC<any> = (props) => {
 
     update(cache, { data }) { // update the list with the new item
       const newProperty = data?.propertyAdd.property;
-      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesByCommunityDocument })?.propertiesByCommunityId;
+      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument })?.properties;
       if(newProperty && properties) {
         cache.writeQuery({
-          query: AdminPropertiesListContainerPropertiesByCommunityDocument,
+          query: AdminPropertiesListContainerPropertiesDocument,
           data: {
-            propertiesByCommunityId: [...properties, newProperty]
+            properties: [...properties, newProperty]
           }
         })
       }

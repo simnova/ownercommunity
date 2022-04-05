@@ -1,10 +1,10 @@
-query AdminPropertiesListContainerPropertiesByCommunity($communityId: ObjectID!) {
-  propertiesByCommunityId(communityId: $communityId) {
-    ...AdminPropertiesListContainerPropertiesByCommunityFields
+query AdminPropertiesListContainerProperties {
+  properties {
+    ...AdminPropertiesListContainerPropertyFields
   }
 }
 
-fragment AdminPropertiesListContainerPropertiesByCommunityFields on Property {
+fragment AdminPropertiesListContainerPropertyFields on Property {
   propertyName
   propertyType
   owner {

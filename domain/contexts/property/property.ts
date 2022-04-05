@@ -22,6 +22,7 @@ export interface PropertyProps extends EntityProps {
   listedForLease: boolean;
   listedInDirectory: boolean;
   readonly listingDetail: ListingDetailProps;
+  
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
@@ -56,7 +57,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   }
 
   get community():CommunityEntityReference { return new Community(this.props.community, this.context); }
-  get location():LocationEntityReference { return new Location(this.props.location, this.context); }
+  get location():LocationEntityReference|undefined { return this.props.location? new Location(this.props.location, this.context):undefined; }
   get owner():MemberEntityReference|undefined { return this.props.owner?new Member(this.props.owner, this.context): undefined; }
   get propertyName() { return this.props.propertyName; }
   get propertyType() { return this.props.propertyType; }

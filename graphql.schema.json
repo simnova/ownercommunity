@@ -4995,26 +4995,9 @@
             "deprecationReason": null
           },
           {
-            "name": "propertiesByCommunityId",
+            "name": "properties",
             "description": null,
-            "args": [
-              {
-                "name": "communityId",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ObjectID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
+            "args": [],
             "type": {
               "kind": "LIST",
               "name": null,
@@ -5102,11 +5085,11 @@
             "deprecationReason": null
           },
           {
-            "name": "serviceTicketsAssignedCurrentUser",
+            "name": "serviceTicket",
             "description": null,
             "args": [
               {
-                "name": "communityId",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -5122,6 +5105,18 @@
                 "deprecationReason": null
               }
             ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ServiceTicket",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "serviceTicketsAssignedToCurrentUser",
+            "description": null,
+            "args": [],
             "type": {
               "kind": "LIST",
               "name": null,
@@ -5170,24 +5165,7 @@
           {
             "name": "serviceTicketsOpenByCommunity",
             "description": null,
-            "args": [
-              {
-                "name": "communityId",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ObjectID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
+            "args": [],
             "type": {
               "kind": "LIST",
               "name": null,
@@ -5780,6 +5758,22 @@
             "deprecationReason": null
           },
           {
+            "name": "photos",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ServiceTicketPhoto",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "priority",
             "description": null,
             "args": [],
@@ -6219,14 +6213,14 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "communityId",
+            "name": "description",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "ObjectID",
+                "name": "String",
                 "ofType": null
               }
             },

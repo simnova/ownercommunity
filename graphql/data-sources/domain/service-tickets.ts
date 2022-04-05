@@ -23,19 +23,20 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
     }
     
     let serviceTicketToReturn : ServiceTicket;
-    let community = await this.context.dataSources.communityApi.getCommunityById(input.communityId);
+    let community = await this.context.dataSources.communityApi.getCommunityById(this.context.community);
     let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
 
     let property = await this.context.dataSources.propertyApi.findOneById(input.propertyId);
     let propertyDo = new PropertyConverter().toDomain(property,{passport:ReadOnlyPassport.GetInstance()});
 
     let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(input.communityId,user.id);
+    let member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
     let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
 
     await this.withTransaction(async (repo) => {
       let newServiceTicket = await repo.getNewInstance(
         input.title,
+        input.description,
         communityDo,
         propertyDo,
         memberDo);
@@ -47,7 +48,7 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
   async serviceTicketUpdate(input: ServiceTicketUpdateInput) : Promise<ServiceTicket> {
     let serviceTicketToReturn : ServiceTicket;
     await this.withTransaction(async (repo) => {
-      let serviceTicket = await repo.get(input.serviceTicketId);
+      let serviceTicket = await repo.getById(input.serviceTicketId);
       if(serviceTicket.property.id !== input.propertyId) {
         let property = await this.context.dataSources.propertyApi.findOneById(input.propertyId);
         let propertyDo = new PropertyConverter().toDomain(property,{passport:ReadOnlyPassport.GetInstance()});

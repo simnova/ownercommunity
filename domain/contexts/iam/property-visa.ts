@@ -23,7 +23,7 @@ export class PropertyVisaImpl<root extends PropertyEntityReference> implements P
       isEditingOwnProperty : {value: (
         this.root.owner && this.root.owner.id &&
         this.member.id === this.root.owner.id)} //overwrite isEditingOwnProperty based on user ownership
-   }) as PropertyPermissions;
+    }) as PropertyPermissions;
 
     console.log('updatedPermissions',updatedPermissions);
     return func(updatedPermissions);

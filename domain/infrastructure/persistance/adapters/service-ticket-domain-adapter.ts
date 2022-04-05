@@ -1,4 +1,4 @@
-import { ActivityDetail, ServiceTicket } from '../../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
+import { ActivityDetail, ServiceTicket, Photo } from '../../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../../../domain/contexts/service-ticket/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../mongo-domain-adapter';
 import { MongoTypeConverter } from '../mongo-type-converter';
@@ -10,8 +10,11 @@ import { PropertyEntityReference, PropertyProps } from '../../../contexts/proper
 import { MemberEntityReference, MemberProps } from '../../../contexts/community/member';
 import { MemberDomainAdapter } from './member-domain-adapter';
 import { ActivityDetailProps } from '../../../contexts/service-ticket/activity-detail';
+import { PhotoProps } from '../../../contexts/service-ticket/photo';
 import { UserDomainAdapter } from './user-domain-adapter';
 import { UserProps } from '../../../contexts/user/user';
+import { nanoid } from 'nanoid';
+
 
 export class ServiceTicketConverter extends MongoTypeConverter<DomainExecutionContext,ServiceTicket,ServiceTicketDomainAdapter,ServiceTicketDO<ServiceTicketDomainAdapter>> {
   constructor() {
@@ -40,7 +43,7 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
     if(this.props.requestor) {return new MemberDomainAdapter(this.props.requestor);}
   }
   public setRequestorRef(requestor:MemberEntityReference) {
-    this.props.set('requestor',requestor.id);
+    this.props.set('requestor',requestor['props']['props']);
   }
 
   get assignedTo() {
@@ -63,6 +66,8 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
   set priority(priority) {this.props.priority = priority;}
 
   get activityLog() {return new MongoosePropArray(this.props.activityLog, ActivityDetailDomainAdapter) }
+
+  get photos() {return new MongoosePropArray(this.props.photos, PhotoDomainAdapter) }
 }
 
 
@@ -81,5 +86,20 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
   }
   public setActivityByRef (activityBy: UserProps) {
     this.props.set('activityBy', activityBy.id);
+  }
+}
+
+export class PhotoDomainAdapter implements PhotoProps {
+  constructor(public readonly props: Photo) {}
+  public get id(): string { return this.props.id.valueOf() as string; }
+
+  get documentId() {return this.props.documentId;}
+  set documentId(documentId) {this.props.documentId = documentId;}
+
+  get description() {return this.props.description;}
+  set description(description) {this.props.description = description;}
+
+  getNewDocumentId(): string {
+    return nanoid();
   }
 }

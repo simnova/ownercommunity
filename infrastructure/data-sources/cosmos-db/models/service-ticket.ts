@@ -11,6 +11,12 @@ export interface ActivityDetail extends EmbeddedBase {
   activityBy: PopulatedDoc<Member.Member>;
 }
 
+export interface Photo extends EmbeddedBase {
+  id: ObjectId;
+  documentId: string;
+  description: string;
+}
+
 export interface ServiceTicket extends Base {
   community: PopulatedDoc<Community.Community>;
   property?: PopulatedDoc<Property.Property>;
@@ -21,10 +27,7 @@ export interface ServiceTicket extends Base {
   status: string;
   priority: number;
   activityLog: Types.DocumentArray<ActivityDetail>;
-  photos:[{
-    description: string;
-    documentId: string;
-  }]
+  photos:Types.DocumentArray<Photo>
 }
 
 export const ServiceTicketModel = model<ServiceTicket>('ServiceTicket', new Schema<ServiceTicket, Model<ServiceTicket>, ServiceTicket>(

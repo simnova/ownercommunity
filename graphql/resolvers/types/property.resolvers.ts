@@ -41,9 +41,9 @@ const property : Resolvers = {
       }
       return null;
     },
-    propertiesByCommunityId: async (_, { communityId }, context) => {
+    properties: async (_, _args, context) => {
       const user = await context.dataSources.userApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
-      return (await context.dataSources.propertyApi.getPropertiesByCommunityId(communityId, user.id)) as Property[];
+      return (await context.dataSources.propertyApi.getPropertiesByCommunityId(context.community, user.id)) as Property[];
     }
   },
   Mutation: {

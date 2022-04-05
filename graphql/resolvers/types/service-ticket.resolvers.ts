@@ -35,8 +35,8 @@ const serviceTicket : Resolvers = {
       return parent.property;
     },
     requestor: async (parent, args, context, info) => {
-      if(parent.property && isValidObjectId(parent.requestor.toString())){
-        return (await context.dataSources.propertyApi.findOneById(parent.requestor.toString())) as Member;
+      if(parent.requestor && isValidObjectId(parent.requestor.toString())){
+        return (await context.dataSources.memberApi.findOneById(parent.requestor.toString())) as Member;
       }
       return parent.requestor;
     },
@@ -56,8 +56,11 @@ const serviceTicket : Resolvers = {
     }
   },
   Query: {
-    serviceTicketsOpenByCommunity: async (parent, args, context, info) => {
-      return (await context.dataSources.serviceTicketApi.getServiceTicketsByCommunityId(args.communityId)) as ServiceTicket[];
+    serviceTicket: async (_parent, args, context, _info) => {
+      return (await context.dataSources.serviceTicketApi.findOneById(args.id)) as ServiceTicket;
+    },
+    serviceTicketsOpenByCommunity: async (_parent, _args, context, _info) => {
+      return (await context.dataSources.serviceTicketApi.getServiceTicketsByCommunityId(context.community)) as ServiceTicket[];
     },
     serviceTicketsOpenByRequestor: async (_, { propertyId }, { dataSources }) => {
       return (await dataSources.serviceTicketApi.getServiceTicketsOpenByRequestor(propertyId)) as ServiceTicket[];
@@ -65,9 +68,9 @@ const serviceTicket : Resolvers = {
     serviceTicketsClosedByRequestor: async (_, { propertyId }, { dataSources }) => {
       return (await dataSources.serviceTicketApi.getServiceTicketsClosedByRequestor(propertyId)) as ServiceTicket[];
     },
-    serviceTicketsAssignedCurrentUser: async (_, { communityId }, context) => {
-      const member = await getMemberForCurrentUser(context, communityId);
-      return (await context.dataSources.serviceTicketApi.getServiceTicketsByAssignedTo(communityId, member.id)) as ServiceTicket[];
+    serviceTicketsAssignedToCurrentUser: async (_, _args, context) => {
+      const member = await getMemberForCurrentUser(context, context.community);
+      return (await context.dataSources.serviceTicketApi.getServiceTicketsByAssignedTo(context.community, member.id)) as ServiceTicket[];
     }
   },
   Mutation: {

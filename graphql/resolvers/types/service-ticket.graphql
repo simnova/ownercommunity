@@ -7,6 +7,7 @@ type ServiceTicket implements MongoBase {
   description: String!
   status: String!
   priority: Int!
+  photos: [ServiceTicketPhoto]
   activityLog: [ServiceTicketActivityDetail]
 
   id: ObjectID!
@@ -35,10 +36,11 @@ type ServiceTicketPhoto implements MongoEmbeddedBase {
 }
 
 extend type Query {
-  serviceTicketsOpenByCommunity(communityId: ObjectID!): [ServiceTicket]
+  serviceTicket(id: ObjectID!): ServiceTicket
+  serviceTicketsOpenByCommunity: [ServiceTicket]
   serviceTicketsOpenByRequestor(propertyId: ObjectID!): [ServiceTicket]
   serviceTicketsClosedByRequestor(propertyId: ObjectID!): [ServiceTicket]
-  serviceTicketsAssignedCurrentUser(communityId: ObjectID!): [ServiceTicket]
+  serviceTicketsAssignedToCurrentUser: [ServiceTicket]
 }
 
 extend type Mutation {
@@ -52,16 +54,16 @@ extend type Mutation {
   serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput!): ServiceTicketMutationResult!
 }
 
-type ServiceTicketMutationResult implements MutationResult {
+type ServiceTicketMutationResult {
   status: MutationStatus!
   serviceTicket: ServiceTicket
 }
 
 input ServiceTicketCreateInput {
-  communityId: ObjectID!
   propertyId: ObjectID
   requestorId: ObjectID!
   title: String!
+  description: String!
 }
 
 input ServiceTicketUpdateInput {

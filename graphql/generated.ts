@@ -638,11 +638,12 @@ export type Query = {
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
-  propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  properties?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
-  serviceTicketsAssignedCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicket?: Maybe<ServiceTicket>;
+  serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -676,11 +677,6 @@ export type QueryMemberForUserArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryPropertiesByCommunityIdArgs = {
-  communityId: Scalars["ObjectID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertyArgs = {
   id: Scalars["ObjectID"];
 };
@@ -691,18 +687,13 @@ export type QueryRoleArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsAssignedCurrentUserArgs = {
-  communityId: Scalars["ObjectID"];
+export type QueryServiceTicketArgs = {
+  id: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsClosedByRequestorArgs = {
   propertyId: Scalars["ObjectID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsOpenByCommunityArgs = {
-  communityId: Scalars["ObjectID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -764,6 +755,7 @@ export type ServiceTicket = MongoBase & {
   createdAt?: Maybe<Scalars["DateTime"]>;
   description: Scalars["String"];
   id: Scalars["ObjectID"];
+  photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars["Int"];
   property?: Maybe<Property>;
   requestor: Member;
@@ -807,7 +799,7 @@ export type ServiceTicketChangeStatusInput = {
 };
 
 export type ServiceTicketCreateInput = {
-  communityId: Scalars["ObjectID"];
+  description: Scalars["String"];
   propertyId?: InputMaybe<Scalars["ObjectID"]>;
   requestorId: Scalars["ObjectID"];
   title: Scalars["String"];
@@ -2435,11 +2427,10 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
-  propertiesByCommunityId?: Resolver<
+  properties?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Property"]>>>,
     ParentType,
-    ContextType,
-    RequireFields<QueryPropertiesByCommunityIdArgs, "communityId">
+    ContextType
   >;
   property?: Resolver<
     Maybe<ResolversTypes["Property"]>,
@@ -2458,11 +2449,16 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
-  serviceTicketsAssignedCurrentUser?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
+  serviceTicket?: Resolver<
+    Maybe<ResolversTypes["ServiceTicket"]>,
     ParentType,
     ContextType,
-    RequireFields<QueryServiceTicketsAssignedCurrentUserArgs, "communityId">
+    RequireFields<QueryServiceTicketArgs, "id">
+  >;
+  serviceTicketsAssignedToCurrentUser?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
+    ParentType,
+    ContextType
   >;
   serviceTicketsClosedByRequestor?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
@@ -2473,8 +2469,7 @@ export type QueryResolvers<
   serviceTicketsOpenByCommunity?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
     ParentType,
-    ContextType,
-    RequireFields<QueryServiceTicketsOpenByCommunityArgs, "communityId">
+    ContextType
   >;
   serviceTicketsOpenByRequestor?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
@@ -2598,6 +2593,11 @@ export type ServiceTicketResolvers<
   >;
   description?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
+  photos?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["ServiceTicketPhoto"]>>>,
+    ParentType,
+    ContextType
+  >;
   priority?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   property?: Resolver<
     Maybe<ResolversTypes["Property"]>,

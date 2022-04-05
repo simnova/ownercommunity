@@ -90,9 +90,10 @@ type Address {
 }
 
 extend type Query {
-  propertiesByCommunityId(communityId: ObjectID!): [Property]
+  properties: [Property]
   property(id: ObjectID!): Property
 }
+
 extend type Mutation {
   propertyAdd(input: PropertyAddInput!): PropertyMutationResult!
   propertyUpdate(input: PropertyUpdateInput!): PropertyMutationResult!

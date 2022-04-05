@@ -82,10 +82,10 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
   set activityDescription(description) {this.props.activityDescription = description;}
 
   get activityBy(){
-    if(this.props.activityBy) { return new UserDomainAdapter(this.props.activityBy);}
+    if(this.props.activityBy) { return new MemberDomainAdapter(this.props.activityBy);}
   }
-  public setActivityByRef (activityBy: UserProps) {
-    this.props.set('activityBy', activityBy.id);
+  public setActivityByRef (activityBy: MemberEntityReference) {
+    this.props.set('activityBy', activityBy['props']['props']);
   }
 }
 

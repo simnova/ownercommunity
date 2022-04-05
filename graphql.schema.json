@@ -3844,11 +3844,6 @@
           },
           {
             "kind": "OBJECT",
-            "name": "ServiceTicketMutationResult",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
             "name": "ServiceTicketPhotoAuthHeaderResult",
             "ofType": null
           },
@@ -6312,13 +6307,7 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "MutationResult",
-            "ofType": null
-          }
-        ],
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },

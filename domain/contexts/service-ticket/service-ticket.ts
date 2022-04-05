@@ -4,6 +4,7 @@ import { Property, PropertyEntityReference,PropertyProps } from '../property/pro
 import { MemberEntityReference, Member, MemberProps } from '../community/member';
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { DomainExecutionContext } from '../context';
+import * as ActivityDetailValueObjects from './activity-detail-value-objects';
 import * as ValueObjects from './service-ticket-value-objects';
 import { PropArray } from '../../shared/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
@@ -71,6 +72,10 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     serviceTicket.requestSetRequestor(requestor);
     serviceTicket.requestSetStatus(ValueObjects.StatusCodes.Draft);
     serviceTicket.requestSetPriority(5);
+    let newActivity = serviceTicket.requestNewActivityDetail();
+    newActivity.requestSetActivityType(ActivityDetailValueObjects.ActivityTypeCodes.Created);
+    newActivity.requestSetActivityDescription('Created');
+    newActivity.requestSetActivityBy(requestor);
     serviceTicket.isNew = false;
     return serviceTicket;
   }
@@ -143,7 +148,9 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   }
 
   public requestNewActivityDetail():ActivityDetail{
-    if(!this.visa.determineIf(permissions => 
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => 
       permissions.isSystemAccount || 
       (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
       (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||

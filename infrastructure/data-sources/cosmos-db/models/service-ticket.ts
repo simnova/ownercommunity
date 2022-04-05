@@ -68,20 +68,24 @@ export const ServiceTicketModel = model<ServiceTicket>('ServiceTicket', new Sche
       activityType: { 
         type: String, 
         required: true,
-        enum: ['CREATED','ASSIGNED','UPDATED','COMPLETED','CLOSED'],
+        enum: ['CREATED','SUBMITTED','ASSIGNED','INPROGRESS','UPDATED','COMPLETED','CLOSED'],
       },
       activityDescription: { 
         type: String,
         maxlength: 2000, 
         required: true 
       },
-      activityBy: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true }
+      activityBy: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true },
+      createdAt: { type: Date, default: Date.now },
+      updatedAt: { type: Date, default: Date.now }  
     }],
     photos: [{
       description: { 
         type: String, 
         required: false,
         maxlength: 300,
+        createdAt: { type: Date, default: Date.now },
+        updatedAt: { type: Date, default: Date.now }  
       },
       documentId: { type: String, required: true },
     }]

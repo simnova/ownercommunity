@@ -805,7 +805,7 @@ export type ServiceTicketCreateInput = {
   title: Scalars["String"];
 };
 
-export type ServiceTicketMutationResult = MutationResult & {
+export type ServiceTicketMutationResult = {
   __typename?: "ServiceTicketMutationResult";
   serviceTicket?: Maybe<ServiceTicket>;
   status: MutationStatus;
@@ -1071,7 +1071,6 @@ export type ResolversTypes = ResolversObject<{
   Mutation: ResolverTypeWrapper<{}>;
   MutationResult:
     | ResolversTypes["MemberMutationResult"]
-    | ResolversTypes["ServiceTicketMutationResult"]
     | ResolversTypes["ServiceTicketPhotoAuthHeaderResult"]
     | ResolversTypes["UserMutationResult"];
   MutationStatus: ResolverTypeWrapper<MutationStatus>;
@@ -1218,7 +1217,6 @@ export type ResolversParentTypes = ResolversObject<{
   Mutation: {};
   MutationResult:
     | ResolversParentTypes["MemberMutationResult"]
-    | ResolversParentTypes["ServiceTicketMutationResult"]
     | ResolversParentTypes["ServiceTicketPhotoAuthHeaderResult"]
     | ResolversParentTypes["UserMutationResult"];
   MutationStatus: MutationStatus;
@@ -2173,7 +2171,6 @@ export type MutationResultResolvers<
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
     | "MemberMutationResult"
-    | "ServiceTicketMutationResult"
     | "ServiceTicketPhotoAuthHeaderResult"
     | "UserMutationResult",
     ParentType,

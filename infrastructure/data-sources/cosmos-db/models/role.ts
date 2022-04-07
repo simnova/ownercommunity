@@ -59,7 +59,7 @@ export const RoleModel = model<Role>('Role',new Schema<Role, Model<Role>, Role>(
         canCreateTickets: { type: Boolean, required: true, default: false },
         canManageTickets: { type: Boolean, required: true, default: false },
         canAssignTickets: { type: Boolean, required: true, default: false },
-        canWorkOnTickets: { type: Boolean, required: true, default: false },
+        canWorkOnTickets: { type: Boolean, required: true, default: false, index: true },
       },
       communityPermissions: {
         canManageRolesAndPermissions: { type: Boolean, required: true, default: false },

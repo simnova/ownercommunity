@@ -59,6 +59,9 @@ const member : Resolvers = {
     members: async (_, _input, { dataSources }) => {
       return (await dataSources.memberApi.getMembers()) as Member[];
     },
+    membersAssignableToTickets: async (_, _input, { dataSources }) => {
+      return (await dataSources.memberApi.getMembersAssignableToTickets()) as Member[];
+    },
     memberForUser: async (_parent, input, context, info) => {
       return (await context.dataSources.memberApi.getMemberByCommunityIdUserId(context.community, input.userId)) as Member;
     },

@@ -47,10 +47,10 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
   }
 
   get assignedTo() {
-    if(this.props.assignedTo) {return new MemberDomainAdapter(this.props.assignedTo);}
+    if(this.props.assignedTo) {return this.props.assignedTo?new MemberDomainAdapter(this.props.assignedTo):undefined;}
   }
   public setAssignedToRef(assignedTo:MemberEntityReference) {
-    this.props.set('assignedTo',assignedTo.id);
+    this.props.set('assignedTo',assignedTo?assignedTo['props']['props']:null);
   }
 
   get title() {return this.props.title;}

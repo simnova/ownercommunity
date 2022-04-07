@@ -98,16 +98,16 @@ input ServiceTicketSubmitInput {
 
 input ServiceTicketAssignInput {
   serviceTicketId: ObjectID!
-  assignedToId: ObjectID!
+  assignedToId: ObjectID
 }
 
 input ServiceTicketAddUpdateActivityInput {
   serviceTicketId: ObjectID!
-  activityType: String!
   activityDescription: String!
 }
 
 input ServiceTicketChangeStatusInput {
   serviceTicketId: ObjectID!
   status: String!
+  activityDescription: String
 }

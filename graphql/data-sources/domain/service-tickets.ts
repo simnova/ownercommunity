@@ -1,4 +1,5 @@
 import { ServiceTicket as ServiceTicketDO } from '../../../domain/contexts/service-ticket/service-ticket';
+import { Member as MemberDO } from '../../../domain/contexts/community/member';
 import { ServiceTicketConverter, ServiceTicketDomainAdapter }from '../../../domain/infrastructure/persistance/adapters/service-ticket-domain-adapter';
 import { MongoServiceTicketRepository } from '../../../domain/infrastructure/persistance/repositories/mongo-service-ticket-repository';
 import { Context } from '../../context';
@@ -65,14 +66,47 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
   async serviceTicketSubmit(input: ServiceTicketSubmitInput) : Promise<ServiceTicket> {
     throw new Error('Method not implemented.');
   }
+  
   async serviceTicketAssign(input: ServiceTicketAssignInput) : Promise<ServiceTicket> {
-    throw new Error('Method not implemented.');
+    let serviceTicketToReturn : ServiceTicket;
+    let memberDo:MemberDO<any>|undefined = undefined;
+    if(input.assignedToId) {
+      let member = await this.context.dataSources.memberApi.findOneById(input.assignedToId);
+      memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
+    }
+    await this.withTransaction(async (repo) => {
+      let serviceTicket = await repo.getById(input.serviceTicketId);
+      serviceTicket.requestSetAssignedTo(memberDo);
+      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+    });
+    return serviceTicketToReturn;
+    
   }  
+
   async serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput) : Promise<ServiceTicket> {
-    throw new Error('Method not implemented.');
+    let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
+    let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
+    let serviceTicketToReturn : ServiceTicket;
+    await this.withTransaction(async (repo) => {
+      let serviceTicket = await repo.getById(input.serviceTicketId);
+      serviceTicket.requestAddStatusUpdate(input.activityDescription,memberDo);
+      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+    });
+    return serviceTicketToReturn;
   }
+
   async serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput) : Promise<ServiceTicket> {
-    throw new Error('Method not implemented.');
+    let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
+    let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
+    let serviceTicketToReturn : ServiceTicket;
+    await this.withTransaction(async (repo) => {
+      let serviceTicket = await repo.getById(input.serviceTicketId);
+      serviceTicket.requestAddStatusTransition(input.status,input.activityDescription,memberDo);
+      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+    });
+    return serviceTicketToReturn;
   }
 
 }

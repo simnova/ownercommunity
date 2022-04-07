@@ -94,6 +94,24 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   get updatedAt(): Date { return this.props.updatedAt; }  
   get schemaVersion(): string {return this.props.schemaVersion; }  
 
+  private readonly validStatusTransitions = new Map<string,string[]>([ 
+    [ValueObjects.StatusCodes.Draft,[ValueObjects.StatusCodes.Submitted]],
+    [ValueObjects.StatusCodes.Submitted,[ValueObjects.StatusCodes.Draft, ValueObjects.StatusCodes.Assigned]],
+    [ValueObjects.StatusCodes.Assigned,[ValueObjects.StatusCodes.Submitted, ValueObjects.StatusCodes.InProgress]],
+    [ValueObjects.StatusCodes.InProgress, [ValueObjects.StatusCodes.Assigned, ValueObjects.StatusCodes.Completed]],
+    [ValueObjects.StatusCodes.Completed, [ValueObjects.StatusCodes.InProgress, ValueObjects.StatusCodes.Closed]],
+    [ValueObjects.StatusCodes.Closed, [ValueObjects.StatusCodes.InProgress]],
+  ]);
+  private readonly statusMappings = new Map<string,string>([
+    [ValueObjects.StatusCodes.Draft, ActivityDetailValueObjects.ActivityTypeCodes.Created],
+    [ValueObjects.StatusCodes.Submitted, ActivityDetailValueObjects.ActivityTypeCodes.Created],
+    [ValueObjects.StatusCodes.Assigned, ActivityDetailValueObjects.ActivityTypeCodes.Assigned],
+    [ValueObjects.StatusCodes.InProgress, ActivityDetailValueObjects.ActivityTypeCodes.Updated],
+    [ValueObjects.StatusCodes.Completed, ActivityDetailValueObjects.ActivityTypeCodes.Completed],
+    [ValueObjects.StatusCodes.Closed, ActivityDetailValueObjects.ActivityTypeCodes.Closed],
+  ]);
+
+  
   private requestSetCommunity(community:CommunityEntityReference):void{
     if(!this.isNew) { throw new Error('Unauthorized'); }
     this.props.setCommunityRef(community);
@@ -147,7 +165,12 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     this.props.priority = priority.valueOf();
   }
 
-  public requestNewActivityDetail():ActivityDetail{
+  private requestNewActivityDetail():ActivityDetail{
+    let activityDetail = this.props.activityLog.getNewItem();
+    return(new ActivityDetail(activityDetail,this.context, this.visa));
+  }
+
+  public requestAddStatusUpdate(description:string, by:MemberEntityReference):void{
     if(
       !this.isNew &&
       !this.visa.determineIf(permissions => 
@@ -157,8 +180,28 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
       permissions.canManageTickets ||
       permissions.canAssignTickets
     )) { throw new Error('Unauthorized7'); }
-    let activityDetail = this.props.activityLog.getNewItem();
-    return(new ActivityDetail(activityDetail,this.context, this.visa));
+    var activityDetail = this.requestNewActivityDetail();
+    activityDetail.requestSetActivityType(ActivityDetailValueObjects.ActivityTypeCodes.Updated);
+    activityDetail.requestSetActivityDescription(description);
+    activityDetail.requestSetActivityBy(by);
+  }
+  public requestAddStatusTransition(newStatus:ValueObjects.StatusCode,description:string, by:MemberEntityReference):void{
+    if(
+      !this.visa.determineIf(permissions => 
+      permissions.isSystemAccount || permissions.canManageTickets ||
+      (
+        this.validStatusTransitions.get(this.status.valueOf())?.includes(newStatus.valueOf()) &&
+        (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
+        (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||
+        permissions.canAssignTickets
+      )
+    )) { throw new Error('Unauthorized or Invalid Status Transition'); }
+    
+    this.props.status = newStatus.valueOf();
+    var activityDetail = this.requestNewActivityDetail();
+    activityDetail.requestSetActivityDescription(description);
+    activityDetail.requestSetActivityType(this.statusMappings.get(newStatus.valueOf()));
+    activityDetail.requestSetActivityBy(by);
   }
 
 }

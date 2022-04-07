@@ -638,6 +638,7 @@ export type Query = {
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
+  membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
@@ -784,16 +785,16 @@ export type ServiceTicketAddPhotoInput = {
 
 export type ServiceTicketAddUpdateActivityInput = {
   activityDescription: Scalars["String"];
-  activityType: Scalars["String"];
   serviceTicketId: Scalars["ObjectID"];
 };
 
 export type ServiceTicketAssignInput = {
-  assignedToId: Scalars["ObjectID"];
+  assignedToId?: InputMaybe<Scalars["ObjectID"]>;
   serviceTicketId: Scalars["ObjectID"];
 };
 
 export type ServiceTicketChangeStatusInput = {
+  activityDescription?: InputMaybe<Scalars["String"]>;
   serviceTicketId: Scalars["ObjectID"];
   status: Scalars["String"];
 };
@@ -2420,6 +2421,11 @@ export type QueryResolvers<
     RequireFields<QueryMemberForUserArgs, "userId">
   >;
   members?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
+    ParentType,
+    ContextType
+  >;
+  membersAssignableToTickets?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
     ParentType,
     ContextType

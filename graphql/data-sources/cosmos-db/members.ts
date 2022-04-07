@@ -1,6 +1,8 @@
 import { MongoDataSource } from 'apollo-datasource-mongodb';
-import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
+import { Member, MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
+import { RoleModel } from '../../../infrastructure/data-sources/cosmos-db/models/role';
 import { Context } from '../../context';
+import { ObjectId, Types } from 'mongoose';
 
 export class Members extends MongoDataSource<Member, Context> {
   
@@ -9,6 +11,37 @@ export class Members extends MongoDataSource<Member, Context> {
   }
   async getMembers(): Promise<Member[]> {
     return this.findByFields({community: this.context.community});
+  }
+  async getMembersAssignableToTickets(): Promise<Member[]> {
+    const communityId = this.context.community;
+    var result = await RoleModel.aggregate<Member>(
+      [   
+        { 
+            "$match" : { 
+                "community" : new Types.ObjectId(communityId), 
+                "permissions.serviceTicketPermissions.canWorkOnTickets" : true
+            }
+        }, 
+        { 
+            "$lookup" : { 
+                "from" : "members", 
+                "localField" : "_id", 
+                "foreignField" : "role", 
+                "as" : "m"
+            }
+        }, 
+        { 
+            "$unwind" : { 
+                "path" : "$m"
+            }
+        }, 
+        { 
+            "$replaceWith" : "$m"
+        }
+      ]
+    ).exec();
+    console.log(`getMembersAssignableToTickets`,result);
+    return result.map(r =>  MemberModel.hydrate(r));
   }
   
 }

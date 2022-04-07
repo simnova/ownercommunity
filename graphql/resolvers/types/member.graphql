@@ -39,6 +39,7 @@ type MemberProfile {
 extend type Query {
   member(id: ID!): Member 
   members: [Member]
+  membersAssignableToTickets: [Member]
   memberForUser(userId: ObjectID!): Member
   memberForCurrentUser(communityId: ObjectID!): Member
 }

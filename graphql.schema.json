@@ -4990,6 +4990,22 @@
             "deprecationReason": null
           },
           {
+            "name": "membersAssignableToTickets",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Member",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "properties",
             "description": null,
             "args": [],
@@ -6079,22 +6095,6 @@
             "deprecationReason": null
           },
           {
-            "name": "activityType",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "serviceTicketId",
             "description": null,
             "type": {
@@ -6125,13 +6125,9 @@
             "name": "assignedToId",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ObjectID",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "ObjectID",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -6164,6 +6160,18 @@
         "description": null,
         "fields": null,
         "inputFields": [
+          {
+            "name": "activityDescription",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "serviceTicketId",
             "description": null,

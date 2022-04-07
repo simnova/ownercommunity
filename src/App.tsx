@@ -1,22 +1,19 @@
-import {Button} from 'antd'
 import './App.css';
-import { Routes, Route, Link } from "react-router-dom";
-import PageEditor from './components/page-editor';
-import Home from './components/home';
-import CmsPage from './components/cms-page';
-import { PageTree } from './components/page-tree';
-import AdminLayout from './components/admin-layout';
+import { Routes, Route } from "react-router-dom";
 import RequireMsal from './components/shared/require-msal';
+import RequireAuth from './components/shared/require-auth';
 import ApolloConnection from './components/shared/apollo-connection';
+
+import { Root } from './components/layouts/root';
 import { Admin } from './components/layouts/admin';
 import { Members } from './components/layouts/members';
-import RequireAuth from './components/shared/require-auth';
 import { Accounts } from './components/layouts/accounts';
 
 function App() {
-  const homeSection = (
+
+  const rootSection = (
     <ApolloConnection AuthenticationIdentifier="account">
-      <Home />
+      <Root />
     </ApolloConnection>
   )
 
@@ -46,24 +43,13 @@ function App() {
     </RequireMsal>
   )
 
-
   return (
     <>
       <Routes>
-        <Route path="/" element={homeSection}>
-        </Route>
+        <Route path="*" element={rootSection}></Route>
         <Route path='/community/:communityId/admin/*' element={adminSection} />
         <Route path='/community/:communityId/members/*' element={memberSection} />
         <Route path='accounts/*' element={accountsSection} />
-
-
-        <Route path="/admin2" element={<AdminLayout />}> 
-          <Route path="pageEditor" element={<PageEditor />} />
-          <Route path="pageTree" element={<PageTree />} />
-        </Route>
-
-       
-        <Route path="*" element={<CmsPage />} /> 
       </Routes>
     </>
   );

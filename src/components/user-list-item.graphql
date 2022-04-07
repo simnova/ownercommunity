@@ -1,5 +1,0 @@
-fragment UserListItemFields on User {
-  id
-  firstName
-  lastName
-}

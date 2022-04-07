@@ -14,9 +14,9 @@ interface ComponentPropInterface {
   fixedHeader?: boolean
 }
 
-export type SubPageLayoutPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
+export type SubPageEmptyLayoutPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
 
-export const SubPageLayout: React.FC<SubPageLayoutPropTypes> = (props) => {
+export const SubPageEmptyLayout: React.FC<SubPageEmptyLayoutPropTypes> = (props) => {
   const overFlow =  props.fixedHeader ? 'scroll' : 'unset';
   return (
     
@@ -27,9 +27,8 @@ export const SubPageLayout: React.FC<SubPageLayoutPropTypes> = (props) => {
       </Header>
       <div style={{ display:'flex', flexDirection:'column', flex:'1 auto', overflowY:overFlow}}>
       <Content style={{ margin: '24px 16px 0', minHeight:'inherit' }}>
-        <div className="site-layout-background" style={{ padding: 24, minHeight:'100%' }}>
-          {props.children}
-        </div>
+        {props.children}
+
       </Content>
       <Footer style={{ textAlign: 'center' }}>Owner Community</Footer>
       </div>

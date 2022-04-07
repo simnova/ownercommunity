@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Element, Frame,useEditor, SerializedNodes } from '@craftjs/core';
-import { usePageLayouts } from '../editor/local-data';
+import { usePageLayouts } from '../local-data';
 import { Container } from './container';
 
 import { Button, Input, TreeSelect,notification, Empty } from 'antd';
@@ -11,7 +11,7 @@ import {
   MobileOutlined,
   DesktopOutlined
 } from '@ant-design/icons';
-import { TextThing } from './text-thing';
+import { TextThing } from '../components/text-thing';
 
 const { TextArea } = Input;
 const { TreeNode } = TreeSelect;

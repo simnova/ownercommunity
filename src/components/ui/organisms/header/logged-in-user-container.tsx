@@ -30,11 +30,11 @@ export const LoggedInUserContainer: React.FC<any> = (props) => {
     registerCallback('account',setIsLoggedIn);
   }, [registerCallback]);
 
-  /*
+  
   useEffect(() => {
     setIsLoggedIn(getIsLoggedIn('account'));
   }, [getIsLoggedIn]);
-  */
+  
   
   const handleLogin = async() => {
     await login('account');

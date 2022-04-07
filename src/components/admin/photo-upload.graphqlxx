@@ -1,9 +1,0 @@
-mutation PhotoUploadCreateAuthHeaderForProfilePhoto($input: ProfilePhotoImageInput!) {
-  createAuthHeaderForProfilePhoto(input: $input) {
-    authHeader
-    blobName
-    requestDate
-    success
-    errorMessage
-  }
-}

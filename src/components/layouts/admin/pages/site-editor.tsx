@@ -1,6 +1,6 @@
 import { Route, Routes, useNavigate } from "react-router-dom"
-import PageEditor from "../../../page-editor"
-import { PageTree } from "../../../page-tree"
+import SiteEditorPageEditor from "./site-editor-page-editor"
+import { PageTree } from "./site-editor-page-tree"
 import { PageHeader, Tabs, Button, Statistic, Descriptions, Layout } from 'antd';
 import { SubPageLayout } from "../sub-page-layout";
 
@@ -19,48 +19,29 @@ export const SiteEditor: React.FC<any> = (props) => {
 
   return (
 
-<SubPageLayout
-        fixedHeader={true}
-        header={
+  <SubPageLayout
+    fixedHeader={true}
+    header={    
+      <PageHeader
+          className="site-page-header-responsive"
+          title="Site Editor"
+          subTitle="Edit your site"          
+          footer={
+            <Tabs defaultActiveKey="page-tree" onChange={handleTabChange}>
+              <TabPane tab="Pages" key="page-tree" />
+              <TabPane tab="Editor" key="page-editor" />
+            </Tabs>
+          }
+        >
+      </PageHeader>
+    }
+  >
         
-          <PageHeader
-              className="site-page-header-responsive"
-              title="Site Editor"
-              subTitle="Edit your site"
-              extra={[
-                <Button key="3">Operation</Button>,
-                <Button key="2">Operation</Button>,
-                <Button key="1" type="primary">
-                  Primary
-                </Button>,
-              ]}
-              footer={
-                <Tabs defaultActiveKey="pageTree" onChange={handleTabChange}>
-                  <TabPane tab="Pages" key="pageTree" />
-                  <TabPane tab="Editor" key="pageEditor" />
-                </Tabs>
-              }
-            >
-            
+    <Routes>
+      <Route path="*" element={<PageTree />} />
+      <Route path="page-editor" element={<SiteEditorPageEditor />} />
+    </Routes>
 
-        </PageHeader>
-        
-        }
-      >
-        
-        <Routes>
-          <Route path="pageEditor" element={<PageEditor />} />
-          <Route path="*" element={<PageTree />} />
-        </Routes>
-
-
-      </SubPageLayout>
-
-
-
-
-      
-
-
+  </SubPageLayout>
   )
 }

@@ -1,11 +1,11 @@
 import React from "react";
 import {Button} from "antd";
 import { Element, useEditor } from "@craftjs/core";
-import { TextThing } from "../editor/text-thing";
-import { CountryInfo2 } from "../country-info2";
-import { CountryInfo } from "../country-info";
-import { Breadcrumbs } from "./components/breadcrumbs";
-import { MenuComponent } from "./components/menu-component";
+import { TextThing } from "../components/text-thing";
+import { CountryInfo2 } from "../components/country-info2";
+import { CountryInfo } from "../components/country-info";
+import { Breadcrumbs } from "../components/breadcrumbs";
+import { MenuComponent } from "../components/menu-component";
 
 export const Toolbox: React.FC<any> = (props) => {
   const { connectors, query } = useEditor();

@@ -2,13 +2,17 @@ import { useMutation, useQuery } from "@apollo/client";
 import { message, Skeleton } from "antd";
 import { ServiceTicketsDetail } from "./service-tickets-detail";
 import { 
-  AdminServiceTicketsDetailContainerMembersDocument,
+  AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
   AdminServiceTicketsDetailContainerPropertiesDocument, 
   AdminServiceTicketsDetailContainerServiceTicketUpdateDocument, 
   AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument, 
   AdminServiceTicketsDetailContainerServiceTicketDocument, 
   ServiceTicketUpdateInput, 
-  ServiceTicketChangeStatusInput} from "../../../../generated";
+  ServiceTicketChangeStatusInput,
+  AdminServiceTicketsDetailContainerServiceAssignDocument,
+  AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
+  ServiceTicketAssignInput,
+  ServiceTicketAddUpdateActivityInput} from "../../../../generated";
 
 export interface ServiceTicketsDetailContainerProps {
   data: {
@@ -18,8 +22,11 @@ export interface ServiceTicketsDetailContainerProps {
 
 export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContainerProps> = (props) => {
   const [serviceTicketUpdate] = useMutation(AdminServiceTicketsDetailContainerServiceTicketUpdateDocument); 
-  const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument); 
-  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminServiceTicketsDetailContainerMembersDocument);
+  const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument);  
+  const [serviceTicketAssign] = useMutation(AdminServiceTicketsDetailContainerServiceAssignDocument);
+  const [serviceTicketAddUpdateActivity] = useMutation(AdminServiceTicketsDetailContainerAddUpdateActivityDocument);
+  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument);
+
   const { data: propertyData, loading: propertyLoading, error: propertyError } = useQuery(AdminServiceTicketsDetailContainerPropertiesDocument);
  
   const { data: serviceTicketData, loading: serviceTicketLoading, error: serviceTicketError } = useQuery(AdminServiceTicketsDetailContainerServiceTicketDocument,{
@@ -27,6 +34,33 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
       id: props.data.id
     }
   });
+
+  const handleAssign = async (values: ServiceTicketAssignInput) => {
+    try {
+      await serviceTicketAssign({
+        variables: {
+          input: values
+        }
+      });
+      message.success("Assignment changed successfully");
+    } catch (error) {
+      message.error(`Error changing assignment on Service Ticket : ${JSON.stringify(error)}`);
+    }
+  }
+
+  const handleAddUpdateActivity = async (values: ServiceTicketAddUpdateActivityInput) => {
+    try {
+      await serviceTicketAddUpdateActivity({
+        variables: {
+          input: values
+        }
+      });
+      message.success("Activity added successfully");
+    } catch (error) {
+      message.error(`Error adding activity on Service Ticket : ${JSON.stringify(error)}`);
+    }
+  }
+
 
   const handleChangeStatus = async (values: ServiceTicketChangeStatusInput) => {
     try {
@@ -61,13 +95,20 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
     return <Skeleton active />
   }else if(serviceTicketError || memberError || propertyError){
     return <div>{JSON.stringify(serviceTicketError || memberError || propertyError)}</div>
-  }else if(serviceTicketData && serviceTicketData.serviceTicket && memberData && memberData.members && propertyData && propertyData.properties){
+  }else if(serviceTicketData && serviceTicketData.serviceTicket && memberData && memberData.membersAssignableToTickets && propertyData && propertyData.properties){
     const data = {
       serviceTicket: serviceTicketData.serviceTicket,
-      members: memberData.members,
+      members: memberData.membersAssignableToTickets,
       properties: propertyData.properties,
     }
-  return <ServiceTicketsDetail onAdd={{}} onUpdate={handleUpdate} onChangeStatus={handleChangeStatus} data={data} />
+  return <ServiceTicketsDetail 
+            onAdd={{}} 
+            onUpdate={handleUpdate} 
+            onChangeStatus={handleChangeStatus} 
+            data={data} 
+            onAssign={handleAssign}
+            onAddUpdateActivity={handleAddUpdateActivity}
+            />
   } else {
     return <div>No Data...</div>
   }

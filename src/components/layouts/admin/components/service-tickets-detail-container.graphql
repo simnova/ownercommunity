@@ -1,5 +1,5 @@
-query AdminServiceTicketsDetailContainerMembers {
-  members {
+query AdminServiceTicketsDetailContainerMembersAssignableToTickets {
+  membersAssignableToTickets {
     ...AdminServiceTicketsDetailContainerMemberFields
   }
 }
@@ -26,6 +26,20 @@ mutation AdminServiceTicketsDetailContainerServiceTicketChangeStatus($input: Ser
     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
   }
 }
+mutation AdminServiceTicketsDetailContainerServiceAssign($input: ServiceTicketAssignInput!) {
+  serviceTicketAssign(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+mutation AdminServiceTicketsDetailContainerAddUpdateActivity($input: ServiceTicketAddUpdateActivityInput!) {
+  serviceTicketAddUpdateActivity(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+
+
 
 fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
   status {

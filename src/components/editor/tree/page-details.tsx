@@ -13,7 +13,7 @@ const ComponentPropTypes = {
   saveData: PropTypes.func.isRequired,
 }
 
-interface ComponentPropInterace {
+interface ComponentPropInterface {
   data: {  
     id: string;
     title: string;
@@ -28,7 +28,7 @@ interface ComponentPropInterace {
   }) => void;
 }
 
-export type PageDetailsPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterace;
+export type PageDetailsPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
 
 export const PageDetails: React.FC<PageDetailsPropTypes> = (props) => {
 

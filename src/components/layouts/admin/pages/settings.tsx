@@ -14,7 +14,7 @@ export const Settings: React.FC<any> = (props) => {
 
   const pages = [
     {id:1, path:'community/:communityId/admin/settings/', title:'General', icon:<BookOutlined />},
-    {id:2, path:'community/:communityId/admin/settings/roles', title:'Roles', icon:<SettingOutlined />},
+    {id:2, path:'community/:communityId/admin/settings/saml', title:'Saml', icon:<SettingOutlined />},
   ]
 
   var matchedPages = matchRoutes(pages,location)
@@ -35,14 +35,14 @@ export const Settings: React.FC<any> = (props) => {
               <Link to="">General</Link>
             </Menu.Item>
             <Menu.Item key="2" icon={<SafetyOutlined />}>
-              <Link to="roles">Roles</Link>
+              <Link to="saml">SAML</Link>
             </Menu.Item>
           </Menu>
           </Col>
           <Col span={18} style={{paddingLeft:'24px'}}>
             <Routes>
               <Route path="" element={<SettingsGeneral />} />
-              <Route path="/roles" element={<SettingsRoles />} />
+              <Route path="/Saml" element={<SettingsRoles />} />
             </Routes>
           </Col>
         </Row>

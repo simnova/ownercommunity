@@ -25,8 +25,6 @@ export const Admin: React.FC<any> = (props) => {
     {path : '/community/:communityId/admin/service-tickets/*', title : 'Service Tickets', icon : <ScheduleOutlined /> , id:7, parent: 'ROOT'},
   ]
 
-
-
   return(
     <Routes>
       <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>

@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 import RequireMsal from './components/shared/require-msal';
 import RequireAuth from './components/shared/require-auth';
 import ApolloConnection from './components/shared/apollo-connection';

@@ -13,6 +13,7 @@ export interface MembersDetailProps {
 
 export const MembersDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return(
     <div>
       <Descriptions title="Member Info" size={'small'} layout={'vertical'}>
@@ -25,12 +26,14 @@ export const MembersDetail: React.FC<any> = (props) => {
         form={form}
         initialValues={props.data.member}
         onFinish={(values) => {
+          setFormLoading(true);
           var member: MemberUpdateInput = {
             id: props.data.member.id,
             memberName: values.memberName,
             role: values.role.id,
           }
           props.onSave(member);
+          setFormLoading(false);
         }}
         >
         <Form.Item
@@ -48,7 +51,7 @@ export const MembersDetail: React.FC<any> = (props) => {
         >
           <Select allowClear={true}  placeholder="Select a role" options={props.data.roles} fieldNames={{label:'roleName', value:'id'}} />
         </Form.Item>
-        <Button type="primary" htmlType="submit" value={'save'} >
+        <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Save
         </Button>
       </Form>

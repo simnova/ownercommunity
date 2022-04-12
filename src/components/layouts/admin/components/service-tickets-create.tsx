@@ -14,6 +14,7 @@ export interface ServiceTicketsCreateProps {
 
 export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return (
     <div>
 
@@ -21,7 +22,9 @@ export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props)
         layout="vertical"
         form={form}
         onFinish={(values) => {
+            setFormLoading(true);
             props.onSave(values);
+            setFormLoading(false);
         }}
         >
         <Form.Item
@@ -63,7 +66,7 @@ export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props)
 
 
 
-        <Button type="primary" htmlType="submit" value={'save'} >
+        <Button type="primary" htmlType="submit" value={'save'} loading={formLoading} >
           Create Service Ticket
         </Button>
       </Form>

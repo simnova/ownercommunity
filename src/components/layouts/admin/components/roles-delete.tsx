@@ -1,6 +1,6 @@
-import { Form,Input,Button,Descriptions, Checkbox ,Select} from 'antd';
+import React from 'react';
+import { Form, Button, Descriptions, Select} from 'antd';
 import dayjs from 'dayjs';
-
 
 export interface RolesDeleteProps {
   data: {
@@ -12,6 +12,7 @@ export interface RolesDeleteProps {
 
 export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return (
     <div>
       <Descriptions title="Role Info" size={'small'} layout={'vertical'}>
@@ -26,8 +27,9 @@ export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {
         form={form}
         initialValues={props.data}
         onFinish={(values) => {
+          setFormLoading(true);
           props.onSelectReassignment(values.id);
-          
+          setFormLoading(false);
         }}
         >
         <Form.Item
@@ -39,7 +41,7 @@ export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {
         >
           <Select options={props.data.roles} fieldNames={{label:'roleName', value:'id'}} disabled={props.data.roleToDelete.isDefault} />
         </Form.Item>
-        <Button type="primary" htmlType="submit" value={'save'} disabled={props.data.roleToDelete.isDefault}>
+        <Button type="primary" htmlType="submit" value={'save'} disabled={props.data.roleToDelete.isDefault} loading={formLoading}>
           Delete Role
         </Button>
       </Form>

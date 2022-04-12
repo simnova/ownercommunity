@@ -64,12 +64,16 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
 
   const handleChangeStatus = async (values: ServiceTicketChangeStatusInput) => {
     try {
-      await serviceTicketChangeStatus({
+      var result = await serviceTicketChangeStatus({
         variables: {
           input: values
         }
       });
-      message.success("Status changed successfully");
+      if(!result.data?.serviceTicketChangeStatus.status.success){
+        message.error(`Error changing Service Ticket status : ${result.data?.serviceTicketChangeStatus.status.errorMessage}`);
+      }else{
+        message.success("Status changed successfully");
+      }
     } catch (error) {
       message.error(`Error changing Service Ticket status : ${JSON.stringify(error)}`);
     }

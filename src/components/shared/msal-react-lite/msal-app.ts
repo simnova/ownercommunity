@@ -220,8 +220,9 @@ export class MsalApp {
     } catch (err) {
       //if (err instanceof msal.InteractionRequiredAuthError && !isSilent) {
         console.log('logged in2a');
-
+        if(!isSilent) {
         await this.msalInstance.acquireTokenRedirect(silentRequest);
+        }
       //}
       this.isLoggedIn = false;
       this.setLoginState(false);

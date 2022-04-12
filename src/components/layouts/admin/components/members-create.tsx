@@ -8,6 +8,7 @@ export interface MembersCreateProps {
 
 export const MembersCreate: React.FC<any> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return (
     <div>
 
@@ -16,7 +17,9 @@ export const MembersCreate: React.FC<any> = (props) => {
         form={form}
         initialValues={props.data}
         onFinish={(values) => {
-            props.onSave(values);
+          setFormLoading(true);
+          props.onSave(values);
+          setFormLoading(false);
         }}
         >
         <Form.Item
@@ -30,7 +33,7 @@ export const MembersCreate: React.FC<any> = (props) => {
         </Form.Item>
 
 
-        <Button type="primary" htmlType="submit" value={'save'} disabled={props.data.isDefault}>
+        <Button type="primary" htmlType="submit" value={'save'} disabled={props.data.isDefault} loading={formLoading}>
           Create Member
         </Button>
       </Form>

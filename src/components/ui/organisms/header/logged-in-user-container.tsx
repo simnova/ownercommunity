@@ -6,18 +6,18 @@ import { LoggedInUserContainerCurrentUserQueryDocument } from '../../../../gener
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useMsal } from '../../../shared/msal-react-lite';
 
-/*
-const ComponentProps = {
 
+const ComponentProps = {
+  autoLogin: PropTypes.bool,
 }
 
 interface ComponentPropInterface {
-
+  autoLogin: boolean;
 }
 
 export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & ComponentPropInterface;
-*/
-export const LoggedInUserContainer: React.FC<any> = (props) => {
+
+export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   const { getIsLoggedIn, login, logout, registerCallback } = useMsal();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean|undefined>(undefined);
 
@@ -27,14 +27,29 @@ export const LoggedInUserContainer: React.FC<any> = (props) => {
   })
 
   useEffect(() => {
-    registerCallback('account',setIsLoggedIn);
-  }, [registerCallback]);
+    registerCallback('account',(result) => {
+      setIsLoggedIn(result);
+      if(!called){
+        loadUser()
+       }
+    });
 
-  
+  }, [registerCallback,loadUser,called]);
+
   useEffect(() => {
     setIsLoggedIn(getIsLoggedIn('account'));
-  }, [getIsLoggedIn]);
-  
+    /*
+    if(!called){
+      loadUser()
+     }
+     */
+  }, [getIsLoggedIn,loadUser,called]);
+
+  /*
+  if(props.autoLogin && !isLoggedIn){
+    
+  }
+  */
   
   const handleLogin = async() => {
     await login('account');
@@ -50,7 +65,7 @@ export const LoggedInUserContainer: React.FC<any> = (props) => {
 
   if(isLoggedIn === true) {
     if(!called){
-      loadUser()
+     // loadUser()
     }
     if(called && loading){
       return <div>Loading...</div>

@@ -9,8 +9,6 @@ export interface ProfilePhotoUploadContainerProps {
     id: string;
     communityId: string;
   }
-  
-
 }
 
 export const ProfilePhotoUploadContainer: React.FC<any> = (props) => {

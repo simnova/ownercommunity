@@ -29,7 +29,7 @@ export const MembersProfileContainer: React.FC<MembersProfileContainerPropTypes>
   const handleSave = async (values: MemberProfileInput) => {
     try {
       
-      await updateMember({
+      var result = await updateMember({
         variables: {
           input: {
             memberId: props.data.id,
@@ -37,7 +37,11 @@ export const MembersProfileContainer: React.FC<MembersProfileContainerPropTypes>
           } 
         },
       });
-      message.success("Saved");
+      if(result.data?.memberProfileUpdate.status.success){
+        message.success("Saved");
+      }else {
+        message.error(`Error updating Member: ${result.data?.memberProfileUpdate.status.errorMessage}`);
+      }
     } catch (error) {
       message.error(`Error updating Member: ${JSON.stringify(error)}`);
     }

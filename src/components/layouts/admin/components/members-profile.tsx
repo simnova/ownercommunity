@@ -1,12 +1,12 @@
 import React from 'react';
-import { Form,Input,Button,Descriptions, Checkbox } from 'antd';
-import dayjs from 'dayjs';
+import { Form, Input, Button, Checkbox } from 'antd';
 import { FormTags } from '../../../ui/organisms/form-tags';
 
 const { TextArea } = Input;
 
 export const MembersProfile: React.FC<any> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return (
     <>
 
@@ -15,7 +15,9 @@ export const MembersProfile: React.FC<any> = (props) => {
         form={form}
         initialValues={props.data}
         onFinish={(values) => {
+          setFormLoading(true);
           props.onSave(values);
+          setFormLoading(false);
         }}
         >
 
@@ -74,7 +76,7 @@ export const MembersProfile: React.FC<any> = (props) => {
           <Checkbox style={{ lineHeight: '32px' }}>Show Properties</Checkbox>
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" value={'save'}>
+        <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Save
         </Button>
 

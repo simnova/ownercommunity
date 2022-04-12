@@ -15,6 +15,7 @@ export interface PropertiesDetailProps {
 
 export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return(
     <div>
       <Descriptions title="Property Info" size={'small'} layout={'vertical'}>
@@ -27,11 +28,13 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
         form={form}
         initialValues={props.data.property}
         onFinish={(values) => {
+          setFormLoading(true);
           var property: PropertyUpdateInput = {
             id: props.data.property.id,
             ...values
           }
           props.onSave(property);
+          setFormLoading(false);
         }}
         >
         <Form.Item
@@ -85,7 +88,7 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
         <Button type="primary" htmlType="submit" value={'save'} >
           Save
         </Button>
-        <Button type="primary" danger icon={<UserDeleteOutlined />} onClick={props.onDelete} className={'float-right'}>
+        <Button type="primary" danger icon={<UserDeleteOutlined />} onClick={props.onDelete} className={'float-right'} loading={formLoading}>
           Delete Property
         </Button>
       </Form>

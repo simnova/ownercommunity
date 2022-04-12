@@ -19,7 +19,7 @@ export const Header: React.FC<any> = (props) => {
   
   return <>
     <div className={styles['top-bar']}>
-      <LoggedInUserContainer />
+      <LoggedInUserContainer autoLogin={false} />
     </div>
   </>
 

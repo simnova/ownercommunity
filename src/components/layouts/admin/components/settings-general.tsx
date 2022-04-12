@@ -1,9 +1,10 @@
 import React from 'react';
-import { Form,Input,Button,Descriptions } from 'antd';
+import { Form, Input, Button, Descriptions } from 'antd';
 import dayjs from 'dayjs';
 
 export const SettingsGeneral: React.FC<any> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return (
     <>
       <Descriptions title="Community Info" size={'small'} layout={'vertical'}>
@@ -16,7 +17,9 @@ export const SettingsGeneral: React.FC<any> = (props) => {
         form={form}
         initialValues={props.data}
         onFinish={(values) => {
+          setFormLoading(true);
           props.onSave(values);
+          setFormLoading(false);  
         }}
         >
         <Form.Item
@@ -55,7 +58,7 @@ export const SettingsGeneral: React.FC<any> = (props) => {
         >
           <Input placeholder='Handle' maxLength={50} />
         </Form.Item>
-        <Button type="primary" htmlType="submit" value={'save'}>
+        <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Save
         </Button>
       </Form>

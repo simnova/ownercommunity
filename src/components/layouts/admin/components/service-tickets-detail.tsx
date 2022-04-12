@@ -23,9 +23,17 @@ export interface ServiceTicketsDetailProps {
 
 export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const [changeStatusForm] = Form.useForm();
+  const [changeStatusFormLoading, setChangeStatusFormLoading] = useState(false);
+
   const [assignForm] = Form.useForm();
+  const [assignFormLoading, setAssignFormLoading] = useState(false);
+
   const [editDraftForm] = Form.useForm();
+  const [editDraftFormLoading, setEditDraftFormLoading] = useState(false);
+
   const [addUpdateActivityForm] = Form.useForm();
+  const [addUpdateActivityFormLoading, setAddUpdateActivityFormLoading] = useState(false);
+
   const stepArray = ['CREATED','DRAFT','SUBMITTED','ASSIGNED','INPROGRESS','COMPLETED','CLOSED'];
   const currentStep = stepArray.findIndex((value) => value === props.data.serviceTicket.status) ;
   const [modalVisible,setModalVisible] = useState(false);
@@ -128,6 +136,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           form={changeStatusForm}
           layout='vertical'
           onFinish={async (values) => {
+            setChangeStatusFormLoading(true);
             console.log('values', values);
             await props.onChangeStatus({
               serviceTicketId: props.data.serviceTicket.id,
@@ -136,6 +145,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
             });
             setModalVisible(false);
             changeStatusForm.resetFields();
+            setChangeStatusFormLoading(false);
           }}
           >
             Current State: <b>{stateMap.get(props.data.serviceTicket.status)?.state}</b><br/><br/>
@@ -151,7 +161,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
                 Cancel
               </Button>
               &nbsp;&nbsp;&nbsp;
-              <Button type="primary" htmlType="submit" value={'save'}>
+              <Button type="primary" htmlType="submit" value={'save'} loading={changeStatusFormLoading}>
                 Change Status
               </Button>
             </div>
@@ -193,11 +203,13 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           form={assignForm}
           initialValues={props.data.serviceTicket}
           onFinish={(values) => {
+            setAssignFormLoading(true);
             console.log('values', values);
             props.onAssign({
               serviceTicketId: props.data.serviceTicket.id,
               assignedToId: values.assignedTo.id,
             });
+            setAssignFormLoading(false);
           }}
           >
           <Form.Item
@@ -206,7 +218,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           >
             <Select allowClear={true}  placeholder="Select a Member" options={props.data.members} fieldNames={{label:'memberName', value:'id'}} />
           </Form.Item>
-          <Button type="primary" htmlType="submit" value={'save'}>
+          <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
             Save Assignment
           </Button>
         </Form>
@@ -224,6 +236,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           form={editDraftForm}
           initialValues={props.data.serviceTicket}
           onFinish={(values) => {
+            setEditDraftFormLoading(true);
             console.log('values', values);
             props.onUpdate({
               serviceTicketId: props.data.serviceTicket.id,
@@ -232,6 +245,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
               description: values.description,
               priority: values.priority,
             });
+            setEditDraftFormLoading(false);
           }}
           >
 
@@ -278,7 +292,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
             </Select>
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" value={'save'}>
+          <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
             Save Draft
           </Button>
         </Form>
@@ -299,12 +313,14 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           layout='vertical'
           form={addUpdateActivityForm}
           onFinish={async (values) => {
+            setAddUpdateActivityFormLoading(true);
             console.log('values', values);
             await props.onAddUpdateActivity({
               serviceTicketId: props.data.serviceTicket.id,
               activityDescription: values.activityDescription,
             });
             addUpdateActivityForm.resetFields();
+            setAddUpdateActivityFormLoading(false);
           }}
           >
           <Form.Item
@@ -313,7 +329,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           >
             <TextArea rows={4} placeholder='Add an update to the ticket.' maxLength={2000}  />
           </Form.Item>
-          <Button type="primary" htmlType="submit" value={'save'}>
+          <Button type="primary" htmlType="submit" value={'save'} loading={addUpdateActivityFormLoading}>
             Add Activity Update
           </Button>
         </Form>

@@ -11,6 +11,7 @@ export interface MembersAccountsEditProps {
 
 export const MembersAccountsEdit: React.FC<MembersAccountsEditProps> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return (
     <div>
 
@@ -19,7 +20,9 @@ export const MembersAccountsEdit: React.FC<MembersAccountsEditProps> = (props) =
         form={form}
         initialValues={props.data}
         onFinish={(values) => {
-            props.onSave(values);
+          setFormLoading(true);
+          props.onSave(values);
+          setFormLoading(false);
         }}
         >
         <Form.Item
@@ -43,7 +46,7 @@ export const MembersAccountsEdit: React.FC<MembersAccountsEditProps> = (props) =
           Save Member Account
         </Button>
 
-        <Button type="primary" danger icon={<UserDeleteOutlined />} onClick={props.onRemove} className={'float-right'}>
+        <Button type="primary" danger icon={<UserDeleteOutlined />} onClick={props.onRemove} className={'float-right'} loading={formLoading}>
           Remove Member Account
         </Button>
       </Form>

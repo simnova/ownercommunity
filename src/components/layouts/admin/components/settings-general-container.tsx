@@ -20,9 +20,7 @@ export type SettingsGeneralContainerPropTypes = PropTypes.InferProps<typeof Comp
 
 export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropTypes> = (props) => {
   const [communityUpdate, { error }] = useMutation(AdminSettingsGeneralContainerCommunityUpdateDocument);  
-  const { data: communityData, loading: accountLoading, error: accountError } = useQuery(AdminSettingsGeneralContainerCommunityDocument,{
-
-    });
+  const { data: communityData, loading: accountLoading, error: accountError } = useQuery(AdminSettingsGeneralContainerCommunityDocument);
 
   const handleSave = async (values: CommunityUpdateInput) => {
     values.id = communityData!.community!.id;
@@ -36,7 +34,6 @@ export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropType
     } catch (saveError) {
       message.error(`Error updating user: ${JSON.stringify(saveError)}`);
     }
-
   }
 
   const content = () => {

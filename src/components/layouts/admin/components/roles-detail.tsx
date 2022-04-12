@@ -11,6 +11,7 @@ export interface RolesDetailProps {
 
 export const RolesDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return (
     <div>
       <Descriptions title="Role Info" size={'small'} layout={'vertical'}>
@@ -24,12 +25,14 @@ export const RolesDetail: React.FC<any> = (props) => {
         form={form}
         initialValues={props.data}
         onFinish={(values) => {
+          setFormLoading(true);
           if(props.data?.id){
             values.id = props.data!.id
             props.onUpdate(values)
           }else{
             props.onAdd(values);
           }
+          setFormLoading(false);
         }}
         >
         <Form.Item
@@ -122,7 +125,7 @@ export const RolesDetail: React.FC<any> = (props) => {
           <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Manage Properties</Checkbox>
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" value={'save'} disabled={props.data.isDefault}>
+        <Button type="primary" htmlType="submit" value={'save'} disabled={props.data.isDefault} loading={formLoading}>
           Save
         </Button>
       </Form>

@@ -13,6 +13,7 @@ export interface MembersAccountsAddProps {
 
 export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
 
   const userIdNotAlreadyAssigned = async  (rule:RuleObject,value:any) : Promise<void> => {
     var result = await props.onCheckUserId(value);
@@ -31,7 +32,9 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
         form={form}
         initialValues={props.data}
         onFinish={(values) => {
-            props.onSave(values);
+          setFormLoading(true);
+          props.onSave(values);
+          setFormLoading(false);
         }}
         >
         <Form.Item
@@ -62,8 +65,7 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
           <Input placeholder='User ID Name' maxLength={200}  />
         </Form.Item>
 
-
-        <Button type="primary" htmlType="submit" value={'save'} >
+        <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Add Member Account
         </Button>
       </Form>

@@ -8,6 +8,7 @@ export interface PropertiesAddProps {
 
 export const PropertiesAdd: React.FC<PropertiesAddProps> = (props) => {
   const [form] = Form.useForm();
+  const [formLoading,setFormLoading] = React.useState(false);
   return (
     <div>
 
@@ -15,7 +16,9 @@ export const PropertiesAdd: React.FC<PropertiesAddProps> = (props) => {
         layout="vertical"
         form={form}
         onFinish={(values) => {
-            props.onSave(values);
+          setFormLoading(true);
+          props.onSave(values);
+          setFormLoading(false);
         }}
         >
         <Form.Item
@@ -28,8 +31,7 @@ export const PropertiesAdd: React.FC<PropertiesAddProps> = (props) => {
           <Input placeholder='Property Name' maxLength={200}  />
         </Form.Item>
 
-
-        <Button type="primary" htmlType="submit" value={'save'} >
+        <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Add Property
         </Button>
       </Form>

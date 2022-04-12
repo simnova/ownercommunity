@@ -60,7 +60,7 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
       let roleDo = await repo.getById(input.id);
 
       roleDo.requestSetRoleName(input.roleName);
-
+      
       roleDo.permissions.communityPermissions.setCanManageRolesAndPermissions(input.permissions.communityPermissions.canManageRolesAndPermissions);
       roleDo.permissions.communityPermissions.setCanManageCommunitySettings(input.permissions.communityPermissions.canManageCommunitySettings);
       roleDo.permissions.communityPermissions.setCanManageSiteContent(input.permissions.communityPermissions.canManageSiteContent);

@@ -12,9 +12,9 @@ const MemberMutationResolver = async (getMember:Promise<MemberDo>): Promise<Memb
     } as MemberMutationResult;
   }
   catch(error){
-    console.error("Community > Mutation  : ",error);
+    console.error("Community > Mutation  : ",error,error.stack);
     return  {
-      status : { success: false, error: JSON.stringify(error) },
+      status : { success: false, errorMessage: error.message },
       member: null
     } as MemberMutationResult;
   }

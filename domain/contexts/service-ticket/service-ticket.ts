@@ -188,12 +188,15 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   public requestAddStatusTransition(newStatus:ValueObjects.StatusCode,description:string, by:MemberEntityReference):void{
     if(
       !this.visa.determineIf(permissions => 
-      permissions.isSystemAccount || permissions.canManageTickets ||
+      permissions.isSystemAccount || 
       (
         this.validStatusTransitions.get(this.status.valueOf())?.includes(newStatus.valueOf()) &&
-        (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
-        (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||
-        permissions.canAssignTickets
+        (
+          permissions.canManageTickets ||
+          permissions.canAssignTickets ||
+          (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
+          (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) 
+        )
       )
     )) { throw new Error('Unauthorized or Invalid Status Transition'); }
     

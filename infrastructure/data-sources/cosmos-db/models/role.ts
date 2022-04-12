@@ -79,6 +79,7 @@ export const RoleModel = model<Role>('Role',new Schema<Role, Model<Role>, Role>(
   },
   {
     ...BaseOptions,
+    optimisticConcurrency: true
   }
   ).index(
     { roleName: 1, community: 1 }, { unique: true }

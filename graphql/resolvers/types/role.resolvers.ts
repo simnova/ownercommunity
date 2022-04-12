@@ -13,7 +13,7 @@ const RoleMutationResolver = async (getRole:Promise<RoleDo>): Promise<RoleMutati
   catch(error){
     console.error("Role > Mutation  : ",error);
     return  {
-      status : { success: false, error: JSON.stringify(error) },
+      status : { success: false, error: error.message },
       role: null
     } as RoleMutationResult;
   }
@@ -22,7 +22,7 @@ const RoleMutationResolver = async (getRole:Promise<RoleDo>): Promise<RoleMutati
 
 const role : Resolvers = {
   Role: {
-    community: async (parent, args, context, info) => {
+    community: async (parent, _args, context, _info) => {
       if(parent.community && isValidObjectId(parent.community.toString())){
         return (await context.dataSources.communityApi.findOneById(parent.community.toString())) as Community;
       }
@@ -33,18 +33,18 @@ const role : Resolvers = {
     role: async (_, { id }, { dataSources }) => {
       return (await dataSources.roleApi.getRoleById(id)) as Role;
     },
-    roles: async (_, {}, { dataSources }) => {
+    roles: async (_, _args, { dataSources }) => {
       return (await dataSources.roleApi.getRoles()) as Role[];
     }
   },
   Mutation: {
-    roleAdd(parent, { input }, { dataSources }) {
+    roleAdd(_parent, { input }, { dataSources }) {
       return RoleMutationResolver( dataSources.roleDomainAPI.roleAdd(input));
     },
-    roleUpdate(parent, { input }, { dataSources }) {
+    roleUpdate(_parent, { input }, { dataSources }) {
       return RoleMutationResolver( dataSources.roleDomainAPI.roleUpdate(input));
     },
-    roleDeleteAndReassign(parent, { input }, { dataSources }) {
+    roleDeleteAndReassign(_parent, { input }, { dataSources }) {
       return RoleMutationResolver( dataSources.roleDomainAPI.roleDeleteAndReassign(input));
     }
   }

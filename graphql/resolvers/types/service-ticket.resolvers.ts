@@ -14,7 +14,7 @@ const ServiceTicketMutationResolver = async (getServiceTicket:Promise<ServiceTic
   catch(error){
     console.error("ServiceTicket > Mutation  : ",error);
     return  {
-      status : { success: false, error: JSON.stringify(error) },
+      status : { success: false, errorMessage: error.message },
       serviceTicket: null
     } as ServiceTicketMutationResult;
   }

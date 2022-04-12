@@ -13,7 +13,7 @@ const CommunityMutationResolver = async (getCommunity:Promise<CommunityDo>): Pro
   catch(error){
     console.error("Community > Mutation  : ",error);
     return  {
-      status : { success: false, error: JSON.stringify(error) },      
+      status : { success: false, error: error.message },      
     } as CommunityMutationResult;
   }
 }

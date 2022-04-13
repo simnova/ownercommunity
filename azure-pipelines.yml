@@ -93,7 +93,7 @@ stages:
          configMode: 'manual'
          cliProjectKey: 'simnova_ownercommuntiy-data-access'
          cliProjectName: 'simnova_ownercommuntiy-data-access'
-         cliSources: './data-access'
+         cliSources: './'
          extraProperties: |
            sonar.javascript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/coverage/lcov.info
  

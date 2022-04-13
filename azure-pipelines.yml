@@ -70,6 +70,7 @@ stages:
          targetType: 'inline'
          script: |
            export NODE_OPTIONS=--max_old_space_size=16384
+           npm i azure-functions-core-tools
            npm ci
            npm run test:ci
            npm run build:production
@@ -145,8 +146,8 @@ stages:
                appType: functionAppLinux
                appName: $(functionApp1Name)
                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-               deploymentMethod: 'zipDeploy'
-               startUpCommand: 'npm start'
+               deploymentMethod: 'runFromPackage'
+               startUpCommand: 'npm i && npm run start'
                runtimeStack: 'NODE|16'
            - task: AzureFunctionApp@1
              displayName: 'Azure Functions App Deploy: $(functionApp2Name)'
@@ -155,6 +156,6 @@ stages:
                appType: 'functionAppLinux'
                appName: $(functionApp2Name)
                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-               deploymentMethod: 'zipDeploy'
-               startUpCommand: 'npm start'
+               deploymentMethod: 'runFromPackage'
+               startUpCommand: 'npm i && npm run start'
                runtimeStack: 'NODE|16'

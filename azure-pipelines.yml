@@ -145,7 +145,8 @@ stages:
                appType: functionAppLinux
                appName: $(functionApp1Name)
                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-               deploymentMethod: 'runFromPackage'
+               deploymentMethod: 'zipDeploy'
+               startUpCommand: 'npm start'
                runtimeStack: 'NODE|16'
            - task: AzureFunctionApp@1
              displayName: 'Azure Functions App Deploy: $(functionApp2Name)'
@@ -154,5 +155,6 @@ stages:
                appType: 'functionAppLinux'
                appName: $(functionApp2Name)
                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-               deploymentMethod: 'runFromPackage'
+               deploymentMethod: 'zipDeploy'
+               startUpCommand: 'npm start'
                runtimeStack: 'NODE|16'

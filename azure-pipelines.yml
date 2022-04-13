@@ -141,7 +141,7 @@ stages:
            - task: AzureFunctionApp@1
              displayName: 'Azure Functions App Deploy: $(functionApp1Name)'
              inputs:
-               azureSubscription: 'OwnerCommuntiy'
+               azureSubscription: 'OwnerCommunity'
                appType: functionAppLinux
                appName: $(functionApp1Name)
                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'

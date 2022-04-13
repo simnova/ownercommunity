@@ -67,26 +67,25 @@ export class ReadOnlyPassport implements Passport {
   public static GetInstance(): Passport {
     return new ReadOnlyPassport();
   }
-  forMember (root: MemberEntityReference): CommunityVisa {
+  forMember (_root: MemberEntityReference): CommunityVisa {
     return {determineIf:  () => false };
   }
-  forCommunity(root: CommunityEntityReference): CommunityVisa {
-    console.log('readonly', root);
+  forCommunity(_root: CommunityEntityReference): CommunityVisa {
     return {determineIf:  () => false }; 
   }
   forCurrentCommunity(): CommunityVisa {
     return {determineIf:  () => false }; 
   }
-  forRole(root: RoleEntityReference): CommunityVisa {
+  forRole(_root: RoleEntityReference): CommunityVisa {
     return {determineIf:  () => false }; 
   }
-  forUser(root: UserEntityReference): UserVisa {
+  forUser(_root: UserEntityReference): UserVisa {
     return {determineIf:  () => false }; 
   }
-  forProperty(root: PropertyEntityReference): PropertyVisa {
+  forProperty(_root: PropertyEntityReference): PropertyVisa {
     return {determineIf:  () => false }; 
   }
-  forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa {
+  forServiceTicket(_root: ServiceTicketEntityReference): ServiceTicketVisa {
     return {determineIf:  () => false }; 
   }
 

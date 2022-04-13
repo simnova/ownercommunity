@@ -91,6 +91,7 @@ export const ServiceTicketModel = model<ServiceTicket>('ServiceTicket', new Sche
     }]
   },
   {
-    ...BaseOptions 
+    ...BaseOptions,
+    shardKey: {community:1} 
   }
 ));

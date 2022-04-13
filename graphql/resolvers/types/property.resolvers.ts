@@ -13,7 +13,7 @@ const PropertyMutationResolver = async (getProperty:Promise<PropertyDo>): Promis
   catch(error){
     console.error("Property > Mutation  : ",error);
     return  {
-      status : { success: false, error: error.message },
+      status : { success: false, errorMessage: error.message },
       property: null
     } as PropertyMutationResult;
   }

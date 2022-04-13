@@ -72,7 +72,8 @@ const schema = new Schema<Member, Model<Member>, Member>(
     },
   },
   {
-    ...BaseOptions
+    ...BaseOptions,
+    shardKey: {community:1} 
   }).index(
     {community: 1, memberName: 1, 'accounts.user': 1}, {unique: true}
   );

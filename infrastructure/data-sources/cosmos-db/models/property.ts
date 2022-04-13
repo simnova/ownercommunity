@@ -120,7 +120,8 @@ const schema = new Schema<Property, Model<Property>, Property>(
       
   },
   {
-    ...BaseOptions 
+    ...BaseOptions,
+    shardKey: {community:1} 
   }
   ).index(
     { community: 1, propertyName: 1 },  { unique: true }

@@ -13,7 +13,7 @@ const RoleMutationResolver = async (getRole:Promise<RoleDo>): Promise<RoleMutati
   catch(error){
     console.error("Role > Mutation  : ",error);
     return  {
-      status : { success: false, error: error.message },
+      status : { success: false, errorMessage: error.message },
       role: null
     } as RoleMutationResult;
   }

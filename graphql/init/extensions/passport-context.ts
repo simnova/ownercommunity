@@ -10,8 +10,13 @@ import { isValidObjectId } from "mongoose";
 import { UserModel } from "../../../infrastructure/data-sources/cosmos-db/models/user";
 import { MemberModel } from "../../../infrastructure/data-sources/cosmos-db/models/member";
 
-export const decorateContext = async (context: Partial<Context>, req:HttpRequest): Promise<Passport> => {
+export const decorateContext = async (context: Partial<Context>, req:HttpRequest): Promise<void> => {
   let communityHeader = req.headers['community'];
+  if(!communityHeader || communityHeader === '') {
+    console.log(' == ERROR 0== ', context);
+    context.passport = ReadOnlyPassport.GetInstance();
+    context.community = null;
+  }
   let mongoCommunity = await getCommunityByHeader(communityHeader);
   if(
     !context.verifiedUser || 
@@ -20,7 +25,8 @@ export const decorateContext = async (context: Partial<Context>, req:HttpRequest
     !mongoCommunity
     ) {
       console.log(' == ERROR 1== ', mongoCommunity, context);
-    return ReadOnlyPassport.GetInstance();
+      context.passport = ReadOnlyPassport.GetInstance();
+      context.community = null;
   }
   try {
     context.passport = await getPassport(context, mongoCommunity);

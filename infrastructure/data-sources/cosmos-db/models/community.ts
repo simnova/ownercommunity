@@ -18,27 +18,17 @@ export const CommunityModel = model<Community>('Community',new Schema<Community,
       required: true,
       maxlength: 200,
     },
-    domain: { type: String, required: false, unique: true, maxlength: 500 },
-    whiteLabelDomain: { type: String, required: false, unique: true, maxlength: 500 },
+    domain: { type: String, required: false, maxlength: 500 },
+    whiteLabelDomain: { type: String, required: false, maxlength: 500 },
     handle: { 
       type: String, 
       required: false, 
-      unique: true,
       maxlength: 50,
     },
-    createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true},
+    createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: true},
   },
   {
     ...BaseOptions,
   }
-  ).index(
-    { domain:1, whiteLabelDomain:1, handle:1 },
-    { partialFilterExpression: 
-      { 
-        domain: { $exists: true }, 
-        whiteLabelDomain: { $exists: true }, 
-        handle: { $exists: true } 
-      }
-    }
   )
 );

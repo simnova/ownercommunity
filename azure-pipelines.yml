@@ -29,9 +29,9 @@ variables:
   npm_config_cache: $(Pipeline.Workspace)/.npm
   SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
  
- pool:
-   # Ensure OS we build on is same as what we run the function on.
-   vmImage: 'ubuntu-latest'
+pool:
+  # Ensure OS we build on is same as what we run the function on.
+  vmImage: 'ubuntu-latest'
  
  
 stages:

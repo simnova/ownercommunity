@@ -16,8 +16,8 @@ pr:
 variables:
  
   # Function app name
-  functionApp1Name: 'owner-community-data-access-east2'
-  functionApp2Name: 'owner-community-data-access-west2'
+  functionApp1Name: 'owner-community-data-access-west2'
+  functionApp2Name: 'owner-community-data-access-east2'
 
   # Environment name
   environmentName: 'data-access'
@@ -70,7 +70,6 @@ stages:
          targetType: 'inline'
          script: |
            export NODE_OPTIONS=--max_old_space_size=16384
-           npm i azure-functions-core-tools
            npm ci
            npm run test:ci
            npm run build:production
@@ -142,13 +141,11 @@ stages:
            - task: AzureFunctionApp@1
              displayName: 'Azure Functions App Deploy: $(functionApp1Name)'
              inputs:
-               azureSubscription: 'OwnerCommunity'
-               appType: functionAppLinux
-               appName: $(functionApp1Name)
-               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-               deploymentMethod: 'runFromPackage'
-               startUpCommand: 'npm i && npm run start'
-               runtimeStack: 'NODE|16'
+              azureSubscription: 'OwnerCommunity'
+              appType: 'functionAppLinux'
+              appName: $(functionApp1Name)
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              runtimeStack: 'NODE|14'
            - task: AzureFunctionApp@1
              displayName: 'Azure Functions App Deploy: $(functionApp2Name)'
              inputs:
@@ -157,5 +154,4 @@ stages:
                appName: $(functionApp2Name)
                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
                deploymentMethod: 'runFromPackage'
-               startUpCommand: 'npm i && npm run start'
                runtimeStack: 'NODE|16'

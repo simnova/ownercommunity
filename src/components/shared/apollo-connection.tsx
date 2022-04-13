@@ -25,13 +25,21 @@ const ApolloConnection: FC<any> = (props) => {
     if(hasAuth){
       const token = await getSilentAuthResult(props.AuthenticationIdentifier);
       console.log('auth-token',token);
+      var returnHeaders = {...headers};
+      if(token && token.accessToken){ returnHeaders['Authorization'] = `Bearer ${token.accessToken}`; }
+      if(localStorage.getItem('community') !== null){ returnHeaders['community'] = localStorage.getItem('community')?.replaceAll('"',''); }
+      console.log('returnHeaders',returnHeaders);
+      return {headers: returnHeaders};
+      /*
       return {
+        
         headers: {
           ...headers,
           Authorization: token ? `Bearer ${token.accessToken}` : null,
           community: localStorage.getItem('community')?.replaceAll('"','') || null
         },
       };
+      */
     }else {
       return {
         headers: {

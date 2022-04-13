@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "BLOB_CONTAINER_NAME": "featureflags",
+    "BLOB_ACCOUNT_NAME": "test",
+    "BLOB_CONNECTION_STRING": "blob-connection-string",
+    "BLOB_ACCOUNT_KEY": "something",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": ""
+  }
+}

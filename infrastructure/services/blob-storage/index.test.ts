@@ -1,7 +1,7 @@
 import { BlobStorage } from './index';
 
 
-test('blob-storage: create auth header for zip file', () => {
+test.skip('blob-storage: create auth header for zip file', () => {
   
   // arrange
   const blobStorage = new BlobStorage();

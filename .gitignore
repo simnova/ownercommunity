@@ -41,4 +41,4 @@ venv.bak/
 __pycache__/
 *.py[cod]
 *$py.class
-test.settings.json
+

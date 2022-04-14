@@ -136,16 +136,7 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: AzureFunctionApp@1
-              displayName: 'Azure Functions App Deploy: owner-community-data-access-west24'
-              inputs:
-                azureSubscription: 'OwnerCommunity'
-                appType: 'functionAppLinux'
-                appName: 'owner-community-data-access-west24'
-                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-                runtimeStack: 'NODE|16'
-                deploymentMethod: 'runFromPackage'
-                startUpCommand: 'npm i'
+            
             - task: AzureFunctionApp@1
               displayName: 'Azure Functions App Deploy: $(functionApp1Name)'
               inputs:
@@ -153,9 +144,8 @@ stages:
                 appType: 'functionAppLinux'
                 appName: $(functionApp1Name)
                 package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-                runtimeStack: 'NODE|14'
+                runtimeStack: 'NODE|16'
                 deploymentMethod: 'runFromPackage'
-                startUpCommand: 'npm i'
             - task: AzureFunctionApp@1
               displayName: 'Azure Functions App Deploy: $(functionApp2Name)'
               inputs:
@@ -163,6 +153,5 @@ stages:
                 appType: 'functionAppLinux'
                 appName: $(functionApp2Name)
                 package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-                runtimeStack: 'NODE|14'
+                runtimeStack: 'NODE|16'
                 deploymentMethod: 'runFromPackage'
-                startUpCommand: 'npm i'

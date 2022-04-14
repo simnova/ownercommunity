@@ -137,6 +137,16 @@ stages:
           deploy:
             steps:
             - task: AzureFunctionApp@1
+              displayName: 'Azure Functions App Deploy: owner-community-data-access-west22'
+              inputs:
+                azureSubscription: 'OwnerCommunity'
+                appType: 'functionAppLinux'
+                appName: 'owner-community-data-access-west22'
+                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+                runtimeStack: 'NODE|14'
+                deploymentMethod: 'runFromPackage'
+
+            - task: AzureFunctionApp@1
               displayName: 'Azure Functions App Deploy: $(functionApp1Name)'
               inputs:
                 azureSubscription: 'OwnerCommunity'

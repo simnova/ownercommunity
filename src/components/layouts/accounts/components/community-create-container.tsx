@@ -1,43 +1,46 @@
-import { CommunityCreate } from './community-create';
-import { CommunityCreateContainerMutationCommunityCreateDocument,CommunityCreateInput} from '../../../../generated';
-import { useMutation } from '@apollo/client';
-import { message } from 'antd';
+import { CommunityCreate } from "./community-create";
+import {
+  CommunityCreateContainerMutationCommunityCreateDocument,
+  CommunityCreateInput,
+} from "../../../../generated";
+import { useMutation } from "@apollo/client";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export const CommunityCreateContainer: React.FC<any> = (props) => {
-
-  const [createCommunity, { data, loading, error }] = useMutation(CommunityCreateContainerMutationCommunityCreateDocument);  
+  const [createCommunity, { data, loading, error }] = useMutation(
+    CommunityCreateContainerMutationCommunityCreateDocument
+  );
+  const navigate = useNavigate();
 
   const handleSave = async (values: any) => {
     var newCommunity: CommunityCreateInput = {
-      ...values
-    }
+      ...values,
+    };
     try {
       await createCommunity({
         variables: {
-          input:newCommunity
-        }
+          input: newCommunity,
+        },
       });
-      message.success('Community Created');      
+      message.success("Community Created");
+      navigate("../");
     } catch (saveError) {
       message.error(`Error creating listing: ${JSON.stringify(saveError)}`);
     }
-  }
+  };
 
   const content = () => {
-    if(loading) {
-      return <div>Loading...</div>
-    } else if(error) {  
-      return <div>Error {JSON.stringify(error)}</div>
-    } else if(data){
-      return <div>Data {JSON.stringify(data)}</div>
+    if (loading) {
+      return <div>Loading...</div>;
+    } else if (error) {
+      return <div>Error {JSON.stringify(error)}</div>;
+    } else if (data) {
+      return <div>Data {JSON.stringify(data)}</div>;
     } else {
-      return <CommunityCreate onSave={handleSave} />
+      return <CommunityCreate onSave={handleSave} />;
     }
-  }
+  };
 
-  return (
-    <>
-      {content()}
-    </>
-  )
-}
+  return <>{content()}</>;
+};

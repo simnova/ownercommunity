@@ -46,9 +46,17 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
           let redirectedUrl = authResult.state;
           console.log('redirected-community-url:',authResult.state)
           
-          let currentUrl = `${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`;
-          if(redirectedUrl !== currentUrl){
-            redirectToCommunity(redirectedUrl);
+         // let currentUrl = `${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`;
+          if(
+            redirectedUrl !== process.env.REACT_APP_AAD_REDIRECT_URI ||
+            !(
+              window.location.pathname.startsWith('/accounts') ||
+              window.location.pathname.startsWith('/community') 
+            )
+          ){
+            
+            window.location.replace(`${process.env.REACT_APP_AAD_REDIRECT_URI}/accounts`);
+            //redirectToCommunity(redirectedUrl);
           }
         }
         console.log('user-container-callback2',result,authResult);

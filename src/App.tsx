@@ -49,13 +49,18 @@ function App() {
     const trySetCommunityId = async() => {
       console.log('app-mounted');
       //attempt to lookup community id from url
-      const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/community-domains/${ window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '') }`);
-      const data = await api_call.json();
-      if(data && data.communityId ){
-        console.log('community-id:',data.communityId);
-        localStorage.setItem('communityId',data.communityId);
-        localStorage.setItem('communityUrl',`${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`);
+      try {
+        const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/community-domains/${ window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '') }`);
+        const data = await api_call.json();
+        if(data && data.communityId ){
+          console.log('community-id:',data.communityId);
+          localStorage.setItem('communityId',data.communityId);
+          localStorage.setItem('communityUrl',`${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`);
+        }
+      } catch (error) {
+        console.log('app: cannot find community from URL:',error);
       }
+
     }
     trySetCommunityId();
   }, []);

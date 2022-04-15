@@ -108,6 +108,15 @@ export class MsalApp {
       this.setLoginState(true,authResult);
      // console.log('here-baby',authResult);
     }
+    else {
+      authResult = (await this.getAuthResult()) ?? null;
+      if(authResult){
+        this.isLoggedIn = true;
+        this.setLoginState(true,authResult);
+      }
+    }
+    this.isLoggedIn = false;
+    this.setLoginState(false,undefined);
     /*
 
     if (!authResult && authResult !== null) {

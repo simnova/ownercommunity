@@ -11,16 +11,15 @@ export class MsalApp {
   private usePopup : boolean;
   private homeAccountId : string |undefined;
   private isLoggedIn : boolean = false;
-  private setLoginState: (isLoggedIn: boolean) => void = () => {};
+  private setLoginState: (isLoggedIn: boolean, authResult: msal.AuthenticationResult | undefined) => void = () => {
+    //do nothing
+  };
 
   
-  public registerCallback = (callback:(isLoggedIn: boolean)=>void) => {
+  public registerCallback = (callback:(isLoggedIn: boolean, authResult:msal.AuthenticationResult | undefined)=>void) => {
     this.setLoginState = callback;
     (async() => await this.getSilentAuthResult())()
   }
-
-
-
 
   get IsLoggedIn() : boolean{
     try {
@@ -42,22 +41,34 @@ export class MsalApp {
     this.usePopup = config.type === ConfigType.Popup;
   }
   
-  public async login(params?:Map<string,string>) {
+  /**
+   *  Logs in the user interactively, call when you know the user is not already logged in.
+   *  @param options object containing the following fields:
+   * - `state`: optional - string to be passed back to the redirect uri after successful login.
+   * - `params`: optional - additional parameters to be passed to the authorize endpoint - readable by AAD custom user journeys.
+   */
+  public async login(options?:{state?:string, params?:Map<string,string>}) : Promise<msal.AuthenticationResult | undefined> {
+    
     var queryParams:StringDict = {};
+    var state = options?.state ?? "";
    
-    if(params){
-      params.forEach((value,key)=>{
+    if(options && options.params){
+      options.params.forEach((value,key)=>{
         queryParams[key] = value;
       });
     }
 
+    console.log('adding state to query params',state);
+
     if (this.usePopup) {
       var popupConfig = this.config as MsalProviderPopupConfig;
       popupConfig.loginRequestConfig!.extraQueryParameters = queryParams;
+      popupConfig.loginRequestConfig!.state = state;
       return this.loginPopup(popupConfig.loginRequestConfig);
     } else {
       var redirectConfig = this.config as MsalProviderRedirectConfig;
       redirectConfig.redirectRequestConfig!.extraQueryParameters = queryParams;
+      redirectConfig.redirectRequestConfig!.state = state;
       await this.loginRedirect(redirectConfig?.redirectRequestConfig);
       return undefined;
     }
@@ -73,7 +84,7 @@ export class MsalApp {
     } catch (err) {
       console.error("Login error", err);
       this.isLoggedIn = false;
-      this.setLoginState(false);
+      this.setLoginState(false,undefined);
       return undefined;
     }
   }
@@ -92,6 +103,13 @@ export class MsalApp {
   public async handleRedirectResult (
     authResult: msal.AuthenticationResult | null
   )  {
+    if(authResult){
+      this.isLoggedIn = true;
+      this.setLoginState(true,authResult);
+     // console.log('here-baby',authResult);
+    }
+    /*
+
     if (!authResult && authResult !== null) {
       //may be called from loginTokenPopup or on a page load
       authResult = (await this.getAuthResult()) ?? null;
@@ -103,9 +121,10 @@ export class MsalApp {
           authResult.account?.homeAccountId !== this.homeAccountId
         )
       ){
-      this.homeAccountId = authResult.account?.homeAccountId;
-      this.getAuthResult(authResult.account?.homeAccountId);
-    } 
+    */
+     // this.homeAccountId = authResult.account?.homeAccountId;
+     // this.getAuthResult(authResult.account?.homeAccountId);
+    //} 
   }
 
   private getAccount (
@@ -189,14 +208,14 @@ export class MsalApp {
       authResult = await this.msalInstance.acquireTokenSilent(silentRequest);
       console.log('logged in1');
       this.isLoggedIn = true;
-      this.setLoginState(true);
+      this.setLoginState(true,authResult);
       return authResult;
     } catch (err) {
-      if (err instanceof msal.InteractionRequiredAuthError && !isSilent) {
+      if (err instanceof msal.InteractionRequiredAuthError && !isSilent && loginRequestConfig) {
         console.log('logged in2');
-        authResult = await this.msalInstance.acquireTokenPopup(silentRequest);
+        authResult = await this.msalInstance.acquireTokenPopup(loginRequestConfig);
         this.isLoggedIn = true;
-        this.setLoginState(true)
+        this.setLoginState(true,authResult);
         return authResult;
       }
       console.error("auth token popup error",err);
@@ -212,22 +231,23 @@ export class MsalApp {
     try {
       console.log('try1a')
       var authResult = await this.msalInstance.acquireTokenSilent(silentRequest);
-      console.log('logged in1a');
+      console.log('logged in1a',authResult);
       this.homeAccountId = authResult.account?.homeAccountId;
       this.isLoggedIn = true;
-      this.setLoginState(true);
+      this.setLoginState(true,authResult);
       return authResult;
     } catch (err) {
-      //if (err instanceof msal.InteractionRequiredAuthError && !isSilent) {
+      if (err instanceof msal.InteractionRequiredAuthError && !isSilent) {
         console.log('logged in2a');
-        if(!isSilent) {
-        await this.msalInstance.acquireTokenRedirect(silentRequest);
+        if(redirectRequestConfig) {
+          await this.msalInstance.acquireTokenRedirect(redirectRequestConfig);
         }
-      //}
+      }
+      
       this.isLoggedIn = false;
-      this.setLoginState(false);
+      this.setLoginState(false,undefined);
       console.log('error in2b');
-      console.error("auth token redirect error",err);
+      console.log("auth token redirect error",err);
       return undefined;
     }
   }
@@ -242,8 +262,8 @@ export class MsalApp {
     }else{
       await this.msalInstance.logoutRedirect(this.config.endSessionRequestConfig)
     }
-    this.setLoginState(false);
     this.isLoggedIn = false;
+    this.setLoginState(false,undefined);
   }
 
 }

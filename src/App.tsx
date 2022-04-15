@@ -8,6 +8,8 @@ import { Root } from './components/layouts/root';
 import { Admin } from './components/layouts/admin';
 import { Members } from './components/layouts/members';
 import { Accounts } from './components/layouts/accounts';
+import { AuthLanding } from './components/shared/auth-landing';
+import { useEffect } from 'react';
 
 function App() {
 
@@ -42,6 +44,21 @@ function App() {
       </RequireAuth>
     </RequireMsal>
   )
+
+  useEffect(() => {
+    const trySetCommunityId = async() => {
+      console.log('app-mounted');
+      //attempt to lookup community id from url
+      const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/community-domains/${ window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '') }`);
+      const data = await api_call.json();
+      if(data && data.communityId ){
+        console.log('community-id:',data.communityId);
+        localStorage.setItem('communityId',data.communityId);
+        localStorage.setItem('communityUrl',`${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`);
+      }
+    }
+    trySetCommunityId();
+  }, []);
 
   return (
     <>

@@ -81,13 +81,36 @@ const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
 
   const msalInstances : Map<string,MsalApp>  = getMsalInstances();
 
+
+
   useEffect(() => {
+    const registerRedirectCallbacks = async (instances:Map<string,MsalApp>) => {
+      instances.forEach(async (instance,_identifier) => {
+        var authResult = await instance.MsalInstance.handleRedirectPromise();
+        if(authResult) {
+          console.log('handle-redirect',authResult);
+          await instance.handleRedirectResult(authResult);
+          console.log('after-handle-redirect');
+        }
+      });
+    }
+
+    registerRedirectCallbacks(msalInstances).catch(console.error);
+  /*
     msalInstances.forEach((msalApp,key) => {
+      msalApp.MsalInstance.handleRedirectPromise().then((authResult) => {
+        console.log('handle-redirect',authResult);
+        msalApp.handleRedirectResult(authResult);
+        console.log('done handle-redirect');
+       // msalApp.MsalInstance.handleRedirectPromise.handleRedirectResult(authResult);
+      })
+    
       msalApp.MsalInstance.handleRedirectPromise().then(async (authResult) => {
-        console.log('handle-redirect');
+        console.log('handle-redirect',authResult);
         await msalApp.handleRedirectResult(authResult);
       });
-    })
+      */
+   // })
   }, [msalInstances]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let findInstance =  (identifier:string | undefined) => {
@@ -108,8 +131,8 @@ const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
         getSilentAuthResult: (identifier:string|undefined) => findInstance(identifier)?.getSilentAuthResult() ?? new Promise<undefined>(() => {return undefined}),
         getIsLoggedIn: (identifier:string|undefined) => findInstance(identifier)?.IsLoggedIn ?? false,
         logout: (identifier:string|undefined) => findInstance(identifier)?.logout() ?? new Promise<void>(() => {return}),
-        login:  (identifier:string|undefined,params?:Map<string,string>) => findInstance(identifier)?.login(params) ?? new Promise<undefined>(() => {return undefined}),
-        registerCallback: (identifier:string|undefined,callback:(isLoggedIn:boolean) => void) => findInstance(identifier)?.registerCallback(callback) ?? new Promise<void>(() => {return}),
+        login:  (identifier:string|undefined,options:{state?:string, params?:Map<string,string>}|undefined) => findInstance(identifier)?.login(options) ?? new Promise<undefined>(() => {return undefined}),
+        registerCallback: (identifier:string|undefined,callback:(isLoggedIn:boolean, authResult:msal.AuthenticationResult | undefined) => void) => findInstance(identifier)?.registerCallback(callback) ?? new Promise<void>(() => {return}),
       }}
     >
       {props.children}

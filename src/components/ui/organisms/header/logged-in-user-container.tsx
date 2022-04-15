@@ -27,9 +27,31 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   })
 
   useEffect(() => {
-    registerCallback('account',(result) => {
+    registerCallback('account',(result,authResult) => {
+      const redirectToCommunity = async (redirectedUrl:string) => {
+        try {
+          const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/community-domains/${redirectedUrl}`);
+          const jsonResponse = await api_call.json();
+          if(jsonResponse && jsonResponse.communityId ){
+            console.log('found community-id:',jsonResponse.communityId);
+            window.location.replace(`${redirectToCommunity}${window.location.pathname}`);
+          }
+        } catch (fetchError) {
+          console.log('redirect-to-community-error:',fetchError);
+        }
+      }
       setIsLoggedIn(result);
-      if(!called){
+       if(!called && result) {
+        if(authResult && authResult.state){
+          let redirectedUrl = authResult.state;
+          console.log('redirected-community-url:',authResult.state)
+          
+          let currentUrl = `${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`;
+          if(redirectedUrl !== currentUrl){
+            redirectToCommunity(redirectedUrl);
+          }
+        }
+        console.log('user-container-callback2',result,authResult);
         loadUser()
        }
     });
@@ -52,10 +74,15 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   */
   
   const handleLogin = async() => {
-    await login('account');
+    const communityUrl = localStorage.getItem('communityUrl')
+    if(communityUrl){
+      await login('account',{state:communityUrl})
+    }else{
+      await login('account');
+    }
   }
   const handleSignUp = async() => {
-    await login('account',new Map<string,string>([['option','signup']]));
+    await login('account',{params:new Map<string,string>([['option','signup']])});
   }
   const handleLogout = async() => {
     await logout('account');

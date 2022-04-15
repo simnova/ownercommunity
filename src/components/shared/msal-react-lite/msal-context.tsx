@@ -7,8 +7,15 @@ export interface MsalContextInterface {
   getSilentAuthResult: (identifier:string|undefined) => Promise<msal.AuthenticationResult|undefined>,
   getIsLoggedIn: (identifier:string|undefined) => boolean,
   logout:        (identifier:string|undefined) => Promise<void>;
-  login:         (identifier:string|undefined,params?:Map<string,string>) => Promise<msal.AuthenticationResult|undefined>;
-  registerCallback: (identifier:string|undefined,callback:(isLoggedIn:boolean) => void) => void;
+
+  /**
+   *  Logs in the user interactively, call when you know the user is not already logged in.
+   *  @param options optional - object containing the following fields:
+   * - `state`: optional - string to be passed back to the redirect uri after successful login.
+   * - `params`: optional - additional parameters to be passed to the authorize endpoint - readable by AAD custom user journeys.
+   */
+  login:         (identifier:string|undefined,options?:{state?:string, params?:Map<string,string>}|undefined) => Promise<msal.AuthenticationResult|undefined>;
+  registerCallback: (identifier:string|undefined,callback:(isLoggedIn:boolean, authResult:msal.AuthenticationResult | undefined) => void) => void;
 } 
 
 const stub = (): never => {

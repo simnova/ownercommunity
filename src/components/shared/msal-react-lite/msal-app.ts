@@ -113,10 +113,12 @@ export class MsalApp {
       if(authResult){
         this.isLoggedIn = true;
         this.setLoginState(true,authResult);
+      }else {
+        this.isLoggedIn = false;
+        this.setLoginState(false,undefined);
       }
     }
-    this.isLoggedIn = false;
-    this.setLoginState(false,undefined);
+   
     /*
 
     if (!authResult && authResult !== null) {

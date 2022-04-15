@@ -2,6 +2,7 @@ import { CommunityCreate } from "./community-create";
 import {
   CommunityCreateContainerMutationCommunityCreateDocument,
   CommunityCreateInput,
+  CommunityListContainerCommunitiesQueryDocument,
 } from "../../../../generated";
 import { useMutation } from "@apollo/client";
 import { message } from "antd";
@@ -9,7 +10,24 @@ import { useNavigate } from "react-router-dom";
 
 export const CommunityCreateContainer: React.FC<any> = (props) => {
   const [createCommunity, { data, loading, error }] = useMutation(
-    CommunityCreateContainerMutationCommunityCreateDocument
+    CommunityCreateContainerMutationCommunityCreateDocument,
+    {
+      update(cache, { data }) {
+        // update the list with the new item
+        const newCommunity = data?.communityCreate?.community;
+        const communities = cache.readQuery({
+          query: CommunityListContainerCommunitiesQueryDocument,
+        })?.communities;
+        if (newCommunity && communities) {
+          cache.writeQuery({
+            query: CommunityListContainerCommunitiesQueryDocument,
+            data: {
+              communities: [...communities, newCommunity],
+            },
+          });
+        }
+      },
+    }
   );
   const navigate = useNavigate();
 

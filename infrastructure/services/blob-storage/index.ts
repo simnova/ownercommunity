@@ -19,6 +19,9 @@ export class BlobStorage {
   public deleteBlob(blobName:string, containerName:string):Promise<void>{
     return (new BlobActions(this.accountName,this.accountKey)).deleteBlob(blobName,containerName);
   }
+  public createTextBlob(blobName:string,containerName:string,text:string):Promise<void>{
+    return (new BlobActions(this.accountName,this.accountKey)).createTextBlob(blobName,containerName,text);
+  }
   public createContainer(containerName:string):Promise<void>{
     return (new BlobActions(this.accountName,this.accountKey)).createContainer(containerName);
   }

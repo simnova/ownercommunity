@@ -11,6 +11,11 @@ export class BlobActions {
     const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
     await blobClient.delete();
   }
+  public createTextBlob = async (blobName:string, container:string, text:string) =>{
+    var blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
+    const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
+    await blobClient.upload(text, text.length);
+  }
 
   public createContainer = async (container:string) =>{
     const blobServiceClient = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net/`, this.sharedKeyCredential);

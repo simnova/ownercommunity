@@ -54,7 +54,7 @@ function App() {
         const data = await api_call.json();
         if(data && data.communityId ){
           console.log('community-id:',data.communityId);
-          localStorage.setItem('communityId',data.communityId);
+          localStorage.setItem('community',data.communityId);
           localStorage.setItem('communityUrl',`${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`);
         }
       } catch (error) {

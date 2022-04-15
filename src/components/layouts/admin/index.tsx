@@ -8,12 +8,12 @@ import { Members } from './pages/members';
 import { Properties } from './pages/properties';
 import { ServiceTickets } from './pages/service-tickets';
 import { HomeOutlined, ContactsOutlined, SettingOutlined, LayoutOutlined, SafetyOutlined , BarsOutlined, ScheduleOutlined} from '@ant-design/icons';
-import useLocalStorageState from 'use-local-storage-state';
+//import useLocalStorageState from 'use-local-storage-state';
 
 export const Admin: React.FC<any> = (props) => {
   const params = useParams();
-
-  const [commmunity, setCommunity] = useLocalStorageState('community', params.communityId)
+  localStorage.setItem('community',params.communityId??'');
+  //const [commmunity, setCommunity] = useLocalStorageState('community', params.communityId)
 
   const pageLayouts = [
     {path : '/community/:communityId/admin', title : 'Home', icon : <HomeOutlined />, id:'ROOT'},

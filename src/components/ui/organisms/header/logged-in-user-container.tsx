@@ -42,13 +42,13 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
       }
       setIsLoggedIn(result);
        if(!called && result) {
-        if(authResult && authResult.state){
-          let redirectedUrl = authResult.state;
-          console.log('redirected-community-url:',authResult.state)
+        let currentUrl = `${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`;
+        if(authResult ){
+          //let redirectedUrl = authResult.state;
+          //console.log('redirected-community-url:',authResult.state)
           
-         // let currentUrl = `${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`;
           if(
-            redirectedUrl !== process.env.REACT_APP_AAD_REDIRECT_URI ||
+            currentUrl !== process.env.REACT_APP_AAD_REDIRECT_URI ||
             !(
               window.location.pathname.startsWith('/accounts') ||
               window.location.pathname.startsWith('/community') 

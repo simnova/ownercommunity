@@ -33,7 +33,7 @@ export const EditorDetail = (props:any) => {
     setPageLayouts(pageLayouts);
     notification.success({
       message: "Saved",
-      description: "Saaved Successfully"
+      description: "Saved Successfully"
     });
   }
 

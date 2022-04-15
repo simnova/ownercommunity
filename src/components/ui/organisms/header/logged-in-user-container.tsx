@@ -100,7 +100,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
 
   if(isLoggedIn === true) {
     if(!called){
-     // loadUser()
+     loadUser()
     }
     if(called && loading){
       return <div>Loading...</div>

@@ -28,59 +28,38 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
 
   useEffect(() => {
     registerCallback('account',(result,authResult) => {
-      const redirectToCommunity = async (redirectedUrl:string) => {
-        try {
-          const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/community-domains/${redirectedUrl}`);
-          const jsonResponse = await api_call.json();
-          if(jsonResponse && jsonResponse.communityId ){
-            console.log('found community-id:',jsonResponse.communityId);
-            window.location.replace(`${redirectToCommunity}${window.location.pathname}`);
-          }
-        } catch (fetchError) {
-          console.log('redirect-to-community-error:',fetchError);
+      setIsLoggedIn(result);
+      if(!called && result) {
+        let currentUrl = `${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`;
+        
+        if( //if on an unauthenticated page redirect to community selection page
+          (currentUrl !== process.env.REACT_APP_AAD_REDIRECT_URI) ||
+          !(
+            window.location.pathname.startsWith('/accounts') ||
+            window.location.pathname.startsWith('/community') 
+          )
+        ){
+          window.location.href = (`${process.env.REACT_APP_AAD_REDIRECT_URI}/accounts`);
+        }else{
+          console.log('user-container-callback2',result,authResult);
+          loadUser().catch(e => console.error(e));
         }
       }
-      setIsLoggedIn(result);
-       if(!called && result) {
-        let currentUrl = `${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`;
-        if(authResult ){
-          //let redirectedUrl = authResult.state;
-          //console.log('redirected-community-url:',authResult.state)
-          
-          if(
-            currentUrl !== process.env.REACT_APP_AAD_REDIRECT_URI ||
-            !(
-              window.location.pathname.startsWith('/accounts') ||
-              window.location.pathname.startsWith('/community') 
-            )
-          ){
-            
-            window.location.replace(`${process.env.REACT_APP_AAD_REDIRECT_URI}/accounts`);
-            //redirectToCommunity(redirectedUrl);
-          }
-        }
-        console.log('user-container-callback2',result,authResult);
-        loadUser()
-       }
     });
-
   }, [registerCallback,loadUser,called]);
 
   useEffect(() => {
-    setIsLoggedIn(getIsLoggedIn('account'));
-    /*
-    if(!called){
-      loadUser()
-     }
-     */
-  }, [getIsLoggedIn,loadUser,called]);
+    if(!isLoggedIn){
+      //check to see if user is logged in - only initiated if not logged in
+      let logInResult = getIsLoggedIn('account');
+      if(logInResult){
+        setIsLoggedIn(logInResult);
+        loadUser().catch(e => console.error(e));
+      }
+    }
+  }, [isLoggedIn,setIsLoggedIn,loadUser]);
 
-  /*
-  if(props.autoLogin && !isLoggedIn){
-    
-  }
-  */
-  
+
   const handleLogin = async() => {
     const communityUrl = localStorage.getItem('communityUrl')
     if(communityUrl){
@@ -96,21 +75,15 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
     await logout('account');
   }
 
-  
-
-  if(isLoggedIn === true) {
-    if(!called){
-     // loadUser()
-    }
-    if(called && loading){
+  if(called && isLoggedIn === true) {
+    if(loading){
       return <div>Loading...</div>
     }
-    if(called && error){
+    if(error){
       return <div>Error :( {JSON.stringify(error)}
       </div>
     }
-    if(called && data){
-
+    if(data){
       const userData:LoggedInUserPropTypes = {data:{
         isLoggedIn:true,
         firstName:data.currentUser!.firstName??'',
@@ -118,34 +91,16 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
         notificationCount:0,  
         profileImage:data.currentUser!?`https://sharethrift.blob.core.windows.net/public/${data.currentUser!.id}`:'',      
       }}
-
-      return <LoggedInUser data={userData.data}
-      onLogoutClicked={handleLogout}  />
+      return <LoggedInUser data={userData.data} onLogoutClicked={handleLogout}  />
     }
-    return <>
-      <div>
-        <h1>HELLO THERE</h1>
-      </div>
-    </>
-
-  }else if(isLoggedIn === false){
-    return <>
-      <LoggedInUser 
-        data={{isLoggedIn:false}} 
-        onLoginClicked={handleLogin}
-        onSignupClicked={handleSignUp}  
-         />
-    </>
-  } else {
-   // setIsLoggedIn(getIsLoggedIn('account'));
-   
-    return <div>Don't Know...</div>
   }
-
-    
-
-
-
+  //catch-all return
+  return <>
+    <LoggedInUser 
+      data={{isLoggedIn:false}} 
+      onLoginClicked={handleLogin}
+      onSignupClicked={handleSignUp}  
+      />
+  </>
   
-
 }

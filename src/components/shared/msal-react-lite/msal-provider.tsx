@@ -83,11 +83,11 @@ const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
 
   useEffect(() => {
     const registerRedirectCallbacks = async (instances:Map<string,MsalApp>) => {
-      instances.forEach(async (instance,_identifier) => {
+      instances.forEach(async (instance,identifier) => {
         try{
-          var authResult = await instance.MsalInstance.handleRedirectPromise(window.location.hash);
-          if(!authResult){
-            authResult = await instance.MsalInstance.handleRedirectPromise();
+          var authResult = await instance.MsalInstance.handleRedirectPromise();
+          if(!authResult && window.location.hash){ // don't know why this is needed, but it is.
+            authResult = await instance.getAuthResult(identifier) || null;
           }
           console.log('before-handle-redirect-result',authResult);
           await instance.handleRedirectResult(authResult);

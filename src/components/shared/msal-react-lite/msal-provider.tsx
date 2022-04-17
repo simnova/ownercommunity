@@ -86,7 +86,8 @@ const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
       instances.forEach(async (instance,identifier) => {
         try{
           var authResult = await instance.MsalInstance.handleRedirectPromise();
-          if(!authResult && window.location.hash){ // don't know why this is needed, but it is.
+          if(!authResult && window.location.hash && window.location.hash.startsWith("#state")){ // don't know why this is needed, but it is.
+            console.log("handleRedirectPromise failed, trying again...");
             authResult = await instance.getAuthResult(identifier) || null;
           }
           console.log('before-handle-redirect-result',authResult);

@@ -84,13 +84,17 @@ const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
   useEffect(() => {
     const registerRedirectCallbacks = async (instances:Map<string,MsalApp>) => {
       instances.forEach(async (instance,_identifier) => {
-        var authResult = await instance.MsalInstance.handleRedirectPromise();
-        console.log('before-handle-redirect-result',authResult);
-        await instance.handleRedirectResult(authResult);
-        console.log('after-handle-redirect-result');
+        try{
+          var authResult = await instance.MsalInstance.handleRedirectPromise();
+          console.log('before-handle-redirect-result',authResult);
+          await instance.handleRedirectResult(authResult);
+          console.log('after-handle-redirect-result');
+        } catch(error){
+          console.error('error-handle-redirect-result:',error);
+        }
       });
     }
-    registerRedirectCallbacks(msalInstances).catch(console.error);
+    registerRedirectCallbacks(msalInstances).catch((error) => console.error(error));
   }, [msalInstances]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let findInstance =  (identifier:string | undefined) => {

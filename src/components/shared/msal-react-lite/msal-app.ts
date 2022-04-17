@@ -112,7 +112,7 @@ export class MsalApp {
       //adapted from https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/samples/msal-browser-samples/VanillaJSTestApp2.0/app/default/auth.js#L23
       let currentAccounts = this.MsalInstance.getAllAccounts();
       if (!currentAccounts || currentAccounts.length < 1) {
-        console.error('No accounts detected.');
+        console.error('handleRedirectResult: No accounts detected.');
         //this.loginRedirect();
         //return;
       } else if (currentAccounts.length >= 1) {

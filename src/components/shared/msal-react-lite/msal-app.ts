@@ -23,10 +23,8 @@ export class MsalApp {
   get IsLoggedIn() : boolean{
     try {
       this.isLoggedIn = this.msalInstance.getAllAccounts().length > 0 ;
-
-      
     } catch (err) {
-      //this.isLoggedIn = false;
+      this.isLoggedIn = false;
       console.error("error getting logged in value",err);
     }
     console.log("Is user definitely logged out? :",!this.isLoggedIn);
@@ -204,14 +202,14 @@ export class MsalApp {
       return this.authTokenPopup(
         fullSilentRequestConfig,
         popupConfig.loginRequestConfig,
-        true
+        isSilent
       );
     } else {
       var redirectConfig = this.config as MsalProviderRedirectConfig;
       return this.authTokenRedirect(
         fullSilentRequestConfig,
         redirectConfig?.redirectRequestConfig,
-        true
+        isSilent
       );
     }
   }
@@ -219,7 +217,7 @@ export class MsalApp {
   public async getAuthResult  (
     providedHomeAccountId?: string
   ): Promise<msal.AuthenticationResult | undefined>  {
-    return this.getAuthResults(providedHomeAccountId);
+    return this.getAuthResults(providedHomeAccountId, false);
   }
 
   public async getSilentAuthResult  (

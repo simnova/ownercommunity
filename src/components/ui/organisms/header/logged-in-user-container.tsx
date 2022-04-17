@@ -18,7 +18,7 @@ interface ComponentPropInterface {
 export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & ComponentPropInterface;
 
 export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
-  const { getIsLoggedIn, login, logout, registerCallback } = useMsal();
+  const { getIsLoggedIn, login, logout, registerCallback, getSilentAuthResult } = useMsal();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean|undefined>(undefined);
 
   const [loadUser,{called,loading, data, error}] = useLazyQuery(LoggedInUserContainerCurrentUserQueryDocument,{
@@ -49,12 +49,19 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   }, [registerCallback,loadUser,called]);
 
   useEffect(() => {
+    const determineIfUserHasActiveSession = async () => {
+      var authResult =  await getSilentAuthResult('account');
+      if(authResult) {
+        setIsLoggedIn(true);
+        loadUser().catch(e => console.error(e));
+      }
+    }
+
     if(!isLoggedIn){
       //check to see if user is logged in - only initiated if not logged in
       let logInResult = getIsLoggedIn('account');
       if(logInResult){
-        setIsLoggedIn(logInResult);
-        loadUser().catch(e => console.error(e));
+        determineIfUserHasActiveSession();
       }
     }
   }, [isLoggedIn,setIsLoggedIn,loadUser]);

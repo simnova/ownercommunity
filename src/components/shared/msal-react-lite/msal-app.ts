@@ -23,11 +23,13 @@ export class MsalApp {
   get IsLoggedIn() : boolean{
     try {
       this.isLoggedIn = this.msalInstance.getAllAccounts().length > 0 ;
+
+      
     } catch (err) {
-      this.isLoggedIn = false;
+      //this.isLoggedIn = false;
       console.error("error getting logged in value",err);
     }
-    console.log("getting logged in value:",this.isLoggedIn);
+    console.log("Is user definitely logged out? :",!this.isLoggedIn);
     return this.isLoggedIn;
   }
 
@@ -107,7 +109,26 @@ export class MsalApp {
       this.setLoginState(true,authResult);
     }
     else {
-      authResult = (await this.getAuthResult()) ?? null;
+      //adapted from https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/samples/msal-browser-samples/VanillaJSTestApp2.0/app/default/auth.js#L23
+      let currentAccounts = this.MsalInstance.getAllAccounts();
+      if (!currentAccounts || currentAccounts.length < 1) {
+        console.error('No accounts detected.');
+        //this.loginRedirect();
+        //return;
+      } else if (currentAccounts.length >= 1) {
+          // Add choose account code here
+     //     console.error('Multiple accounts detected. Please select an account.');
+    ///  } else if (currentAccounts.length === 1) {
+          const activeAccount = currentAccounts[0];
+          this.MsalInstance.setActiveAccount(activeAccount);
+
+          let accountId = activeAccount.homeAccountId;
+          authResult = await this.getSilentAuthResult(accountId) ?? null
+      }
+
+
+
+      //authResult = (await this.getAuthResult()) ?? null;
       console.log("handleRedirectResult, no auth so tried again and got: ",authResult);
       if(authResult){
         this.isLoggedIn = true;
@@ -163,7 +184,7 @@ export class MsalApp {
     return (await this.getAuthResult(providedHomeAccountId))?.accessToken;
   }
 
-  private getAuthResults(
+  public getAuthResults(
     providedHomeAccountId?: string,
     isSilent:boolean=false
   ): Promise<msal.AuthenticationResult | undefined>  {
@@ -221,14 +242,21 @@ export class MsalApp {
       this.setLoginState(true,authResult);
       return authResult;
     } catch (err) {
-      if (err instanceof msal.InteractionRequiredAuthError && !isSilent && loginRequestConfig) {
-        console.log('authTokenPopup -> getting-silent-token:requiresInteraction',err);
-        authResult = await this.msalInstance.acquireTokenPopup(loginRequestConfig);
-        this.isLoggedIn = true;
-        this.setLoginState(true,authResult);
-        return authResult;
+      if(err instanceof msal.InteractionRequiredAuthError ){
+        if(isSilent){
+          console.log("authTokenPopup -> getting-silent-token: no active token");
+        }else if(loginRequestConfig){
+          console.log('authTokenPopup -> attemptingInteraction');
+          authResult = await this.msalInstance.acquireTokenPopup(loginRequestConfig);
+          this.isLoggedIn = true;
+          this.setLoginState(true,authResult);
+          return authResult; 
+        }else{
+          console.log('authTokenPopup -> can not attempt Interaction, missing config');
+        }
+        return undefined;
       }
-      console.error("authTokenPopup -> getting-silent-token:failure",err);
+      console.error("authTokenPopup -> getting-silent-token:failure:",err);
       return undefined;
     }
   }
@@ -249,13 +277,18 @@ export class MsalApp {
     } catch (err) {
       this.isLoggedIn = false;
       this.setLoginState(false,undefined);
-      console.log("authTokenRedirect -> getting-silent-token:error" ,err);
-      if (err instanceof msal.InteractionRequiredAuthError && !isSilent) {
-        if(redirectRequestConfig) {
+      if(err instanceof msal.InteractionRequiredAuthError ){
+        if(isSilent){
+          console.log("authTokenRedirect -> getting-silent-token: no active token");
+        }else if(redirectRequestConfig){
           console.log('authTokenRedirect -> attemptingInteraction');
           await this.msalInstance.acquireTokenRedirect(redirectRequestConfig);
+        }else{
+          console.error('authTokenRedirect -> can not attempt Interaction, missing config');
         }
+        return undefined;
       }
+      console.log("authTokenRedirect -> getting-silent-token:failure:",err);
       return undefined;
     }
   }

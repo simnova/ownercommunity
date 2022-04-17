@@ -1,8 +1,10 @@
 {
     "rewrites": [
         {
-            "source": "/(.*)",
-            "destination": "/"
+            "source": "/:path*/embed-react-build.js", "destination": "/embed-react-build.js"
+        },
+        {
+            "source": "/(.*)", "destination": "/"
         }
     ]
 }

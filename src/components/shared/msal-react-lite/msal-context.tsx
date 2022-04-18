@@ -5,6 +5,13 @@ export interface MsalContextInterface {
   getAuthToken:  (identifier:string|undefined) => Promise<string|undefined>, 
   getAuthResult: (identifier:string|undefined) => Promise<msal.AuthenticationResult|undefined>,
   getSilentAuthResult: (identifier:string|undefined) => Promise<msal.AuthenticationResult|undefined>,
+
+  /**
+   * Determines if the user has been authenticated, they however may not have an access token.
+   * To determine if the user has an access token use this in combination with one of the following
+   *  -getAuthResult() -which will prompt for login
+   *  -getSilentAuthResult() -which will not prompt for login
+  **/
   getIsLoggedIn: (identifier:string|undefined) => boolean,
   logout:        (identifier:string|undefined) => Promise<void>;
 

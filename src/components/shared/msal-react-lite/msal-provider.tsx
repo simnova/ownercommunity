@@ -81,36 +81,24 @@ const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
 
   const msalInstances : Map<string,MsalApp>  = getMsalInstances();
 
-
-
   useEffect(() => {
     const registerRedirectCallbacks = async (instances:Map<string,MsalApp>) => {
-      instances.forEach(async (instance,_identifier) => {
-        var authResult = await instance.MsalInstance.handleRedirectPromise();
-        if(authResult) {
-          console.log('handle-redirect',authResult);
+      instances.forEach(async (instance,identifier) => {
+        try{
+          var authResult = await instance.MsalInstance.handleRedirectPromise();
+          if(!authResult && window.location.hash && window.location.hash.startsWith("#state")){ // don't know why this is needed, but it is.
+            console.log("handleRedirectPromise failed, trying again...");
+            authResult = await instance.getAuthResult(identifier) || null;
+          }
+          console.log('before-handle-redirect-result',authResult);
           await instance.handleRedirectResult(authResult);
-          console.log('after-handle-redirect');
+          console.log('after-handle-redirect-result');
+        } catch(error){
+          console.error('error-handle-redirect-result:',error);
         }
       });
     }
-
-    registerRedirectCallbacks(msalInstances).catch(console.error);
-  /*
-    msalInstances.forEach((msalApp,key) => {
-      msalApp.MsalInstance.handleRedirectPromise().then((authResult) => {
-        console.log('handle-redirect',authResult);
-        msalApp.handleRedirectResult(authResult);
-        console.log('done handle-redirect');
-       // msalApp.MsalInstance.handleRedirectPromise.handleRedirectResult(authResult);
-      })
-    
-      msalApp.MsalInstance.handleRedirectPromise().then(async (authResult) => {
-        console.log('handle-redirect',authResult);
-        await msalApp.handleRedirectResult(authResult);
-      });
-      */
-   // })
+    registerRedirectCallbacks(msalInstances).catch((error) => console.error(error));
   }, [msalInstances]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let findInstance =  (identifier:string | undefined) => {
@@ -119,7 +107,7 @@ const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
     }else if(typeof identifier !== "undefined" && msalInstances.has(identifier)){
       return msalInstances.get(identifier);
     }else {
-      throw new Error("need to supply identifier")
+      throw new Error("MSAL-REACT-LITE : Configuration error: need to supply identifier")
     }
   }
   

@@ -75,6 +75,7 @@ var accountConfig: MsalProviderRedirectConfig = {
       authority: account_authority,
       knownAuthorities: [knownAuthorities],
       redirectUri: redirectUri,      
+      navigateToLoginRequestUrl: false, 
     },
     system: {
       loggerOptions: loggerOptions
@@ -138,7 +139,7 @@ var msalProviderConfig: MsalProviderConfigMap = {
   config: new Map<string, MsalProviderPopupConfig | MsalProviderRedirectConfig>(
     [
       ['account', accountConfig],
-      ['admin', adminConfig],
+     // ['admin', adminConfig],
     ]
   ),
 }; //when using Facebook Login - cannot use pop-up, login UI doesn't render correctly.

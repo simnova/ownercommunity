@@ -3,7 +3,7 @@ import { Element, Frame,useEditor, SerializedNodes } from '@craftjs/core';
 import { usePageLayouts } from '../local-data';
 import { Container } from './container';
 
-import { Button, Input, TreeSelect,notification, Empty } from 'antd';
+import { Button, Input, TreeSelect,notification, Empty, Space } from 'antd';
 
 
 // icons
@@ -48,7 +48,7 @@ export const EditorDetail = (props:any) => {
 
   return (
     <div style={{display:"flex",flex:'1', flexDirection:'column', alignItems:'stretch'}}>
-      <div style={{display:'flex', justifyContent:'center'}}>
+      <Space size={"middle"} align="center">
         <TreeSelect 
           style={{ width: '200px' }}
           treeData={formatAntTreeData(pageLayouts)}
@@ -73,7 +73,7 @@ export const EditorDetail = (props:any) => {
         <a onClick={() => save()}>Save</a>
         <MobileOutlined onClick={() => setMobileView(true)} style={{fontSize: '20px', border: mobileView?'black solid 3px':'none', padding:'5px'}} /><DesktopOutlined onClick={() => setMobileView(false)} style={{fontSize: '20px', border: !mobileView?'black solid 3px':'none', padding:'5px'}} />
         <Button onClick={() => setMobileView(!mobileView)}>Toggle Mobile View</Button>
-      </div>
+      </Space>
       <div style={{display:'flex',flexGrow:1, height:0}}>
                    
         {

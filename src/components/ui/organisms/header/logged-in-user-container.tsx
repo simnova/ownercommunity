@@ -64,7 +64,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
         determineIfUserHasActiveSession();
       }
     }
-  }, [isLoggedIn,setIsLoggedIn,loadUser]);
+  }, [isLoggedIn,getSilentAuthResult,getIsLoggedIn,setIsLoggedIn,loadUser]);
 
 
   const handleLogin = async() => {

@@ -70,7 +70,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   const handleLogin = async() => {
     const communityUrl = localStorage.getItem('communityUrl')
     if(communityUrl){
-      await login('account',{state:communityUrl})
+      await login('account',{state:communityUrl});
     }else{
       await login('account');
     }

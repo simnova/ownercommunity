@@ -1,9 +1,7 @@
+import { Navigate } from "react-router-dom";
+
 export const AuthLanding: React.FC<any> = (_props) => {
-  console.log('AuthLanding');
   return (
-    <div>
-      <h1>AuthLanding</h1>
-      hello world
-    </div>
+    <Navigate to='/accounts' />
   );
 }

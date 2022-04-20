@@ -13,6 +13,12 @@ import { useEffect } from 'react';
 
 function App() {
 
+  const authSection = (
+    <RequireMsal identifier='account' forceLogin={true}>
+      <AuthLanding />
+    </RequireMsal>
+  )
+
   const rootSection = (
     <ApolloConnection AuthenticationIdentifier="account">
       <Root />
@@ -72,6 +78,7 @@ function App() {
         <Route path='/community/:communityId/admin/*' element={adminSection} />
         <Route path='/community/:communityId/members/*' element={memberSection} />
         <Route path='accounts/*' element={accountsSection} />
+        <Route path='/login' element={authSection} />
       </Routes>
     </>
   );

@@ -2757,27 +2757,6 @@ export type LoggedInUserContainerCurrentUserFieldsFragment = {
   lastName?: string | null;
 };
 
-export type UserListItemFieldsFragment = {
-  __typename?: "User";
-  id: any;
-  firstName?: string | null;
-  lastName?: string | null;
-};
-
-export type UserListGetUsersQueryVariables = Exact<{ [key: string]: never }>;
-
-export type UserListGetUsersQuery = {
-  __typename?: "Query";
-  users?: Array<{
-    __typename?: "User";
-    id: any;
-    firstName?: string | null;
-    lastName?: string | null;
-  } | null> | null;
-};
-
-export type UserListGetUsersFieldsFragment = { __typename?: "User"; id: any };
-
 export const CommunityCreateContainerMutationCommunityCreateFieldsFragmentDoc =
   {
     kind: "Document",
@@ -4641,44 +4620,6 @@ export const LoggedInUserContainerCurrentUserFieldsFragmentDoc = {
   LoggedInUserContainerCurrentUserFieldsFragment,
   unknown
 >;
-export const UserListItemFieldsFragmentDoc = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "UserListItemFields" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "User" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "firstName" } },
-          { kind: "Field", name: { kind: "Name", value: "lastName" } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<UserListItemFieldsFragment, unknown>;
-export const UserListGetUsersFieldsFragmentDoc = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "UserListGetUsersFields" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "User" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [{ kind: "Field", name: { kind: "Name", value: "id" } }],
-      },
-    },
-  ],
-} as unknown as DocumentNode<UserListGetUsersFieldsFragment, unknown>;
 export const CommunityCreateContainerMutationCommunityCreateDocument = {
   kind: "Document",
   definitions: [
@@ -7167,41 +7108,4 @@ export const LoggedInUserContainerCurrentUserQueryDocument = {
 } as unknown as DocumentNode<
   LoggedInUserContainerCurrentUserQueryQuery,
   LoggedInUserContainerCurrentUserQueryQueryVariables
->;
-export const UserListGetUsersDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "UserListGetUsers" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "users" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "FragmentSpread",
-                  name: { kind: "Name", value: "UserListItemFields" },
-                },
-                {
-                  kind: "FragmentSpread",
-                  name: { kind: "Name", value: "UserListGetUsersFields" },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    ...UserListItemFieldsFragmentDoc.definitions,
-    ...UserListGetUsersFieldsFragmentDoc.definitions,
-  ],
-} as unknown as DocumentNode<
-  UserListGetUsersQuery,
-  UserListGetUsersQueryVariables
 >;

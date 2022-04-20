@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import PropTypes from 'prop-types';
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { LoggedInUserContainerCurrentUserQueryDocument } from '../../../../generated';
 
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
@@ -19,8 +19,10 @@ export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & Comp
 
 export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   const { getIsLoggedIn, login, logout, registerCallback, getSilentAuthResult } = useMsal();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean|undefined>(undefined);
+ // const [isLoggedIn, setIsLoggedIn] = useState<boolean|undefined>(undefined);
 
+  const {loading, error, data} = useQuery(LoggedInUserContainerCurrentUserQueryDocument);
+  /*
   const [loadUser,{called,loading, data, error}] = useLazyQuery(LoggedInUserContainerCurrentUserQueryDocument,{
     variables: {
     }
@@ -66,7 +68,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
     }
   }, [isLoggedIn,getSilentAuthResult,getIsLoggedIn,setIsLoggedIn,loadUser]);
 
-
+  */
   const handleLogin = async() => {
     const communityUrl = localStorage.getItem('communityUrl')
     if(communityUrl){
@@ -75,6 +77,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
       await login('account');
     }
   }
+
   const handleSignUp = async() => {
     await login('account',{params:new Map<string,string>([['option','signup']])});
   }
@@ -82,7 +85,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
     await logout('account');
   }
 
-  if(called && isLoggedIn === true) {
+  //if(called && isLoggedIn === true) {
     if(loading){
       return <div>Loading...</div>
     }
@@ -90,24 +93,30 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
       return <div>Error :( {JSON.stringify(error)}
       </div>
     }
-    if(data){
+    if(data  && data.currentUser){
       const userData:LoggedInUserPropTypes = {data:{
         isLoggedIn:true,
-        firstName:data.currentUser!.firstName??'',
-        lastName:data.currentUser!.lastName??'',
+        firstName:data.currentUser.firstName??'',
+        lastName:data.currentUser.lastName??'',
         notificationCount:0,  
-        profileImage:data.currentUser!?`https://sharethrift.blob.core.windows.net/public/${data.currentUser!.id}`:'',      
+        profileImage:`https://sharethrift.blob.core.windows.net/public/${data.currentUser.id}`,      
       }}
-      return <LoggedInUser data={userData.data} onLogoutClicked={handleLogout}  />
+      return <LoggedInUser key={data.currentUser.id} data={userData.data} onLogoutClicked={handleLogout}  />
     }
-  }
+  //}
   //catch-all return
   return <>
-    <LoggedInUser 
+
+  <div>Nothing</div>
+   
+  </>
+
+  /*
+   <LoggedInUser 
       data={{isLoggedIn:false}} 
       onLoginClicked={handleLogin}
       onSignupClicked={handleSignUp}  
       />
-  </>
+      */
   
 }

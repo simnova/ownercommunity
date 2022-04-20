@@ -59,11 +59,12 @@ const ApolloConnection: FC<any> = (props) => {
   const client = new ApolloClient({
     link: from([withToken, httpLink]),
     cache: cache,
+    connectToDevTools: process.env.NODE_ENV !== 'production',
   });
 
   useEffect(() => {
-    if (hasAuth && !getIsLoggedIn(props.AuthenticationIdentifier) && client) {
-      (async () => {
+    const updateCache = async():Promise<void> => {
+      if(hasAuth && client && !getIsLoggedIn(props.AuthenticationIdentifier)){ 
         try{  // will throw exception if not connected
           await client.resetStore(); //clear Apollo cache when user logs off
         } catch(err){
@@ -71,9 +72,10 @@ const ApolloConnection: FC<any> = (props) => {
             console.error("Apollo Reset error",err);
           }
         }
-      })();
+      }
     }
-  }, [getIsLoggedIn,hasAuth, props.AuthenticationIdentifier]); // eslint-disable-line react-hooks/exhaustive-deps
+    updateCache().catch(e => console.error(e));
+  }, [getIsLoggedIn,hasAuth, props.AuthenticationIdentifier,client]); // eslint-disable-line react-hooks/exhaustive-deps
   
   return <ApolloProvider client={client}>{props.children}</ApolloProvider>;
 };

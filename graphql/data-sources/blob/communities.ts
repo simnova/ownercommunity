@@ -37,10 +37,12 @@ export class Communities extends BlobDataSource<Context> {
 					headerResult = {status:{success:false, errorMessage:'Content length exceeds permitted limit.'}} as CommunityPublicContentAuthHeaderResult;
 					return;
 				}
-				var blobName = community.id;
-				var requestDate = new Date().toUTCString();
-				var authHeader =  blobStorage.generateSharedKey(blobName,contentLength, requestDate ,contentType, communityId);
-				headerResult = {status:{success:true}, authHeader:authHeader, requestDate:requestDate, blobName:blobName,blobContainer:process.env['BLOB_CONTAINER_NAME']} as CommunityPublicContentAuthHeaderResult;
+				const blobContainerName = community.id;
+				const blobName = 'website-root'
+				const requestDate = new Date().toUTCString();
+				const authHeader =  blobStorage.generateSharedKey(blobName, contentLength, requestDate, contentType, blobContainerName);
+				console.log(`authHeader: ${authHeader}`);
+				headerResult = {status:{success:true}, authHeader:{authHeader:authHeader, requestDate:requestDate, blobName:blobName,blobContainer:blobContainerName}} as CommunityPublicContentAuthHeaderResult;
 
 		});
 		return headerResult;

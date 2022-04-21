@@ -48,7 +48,11 @@ const community : Resolvers = {
       return CommunityMutationResolver( dataSources.communityDomainAPI.communityUpdate(input));
     },
     communityPublicContentCreateAuthHeader: async (_, { input }, { dataSources }) => {
-      return dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
+      var result = await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
+      console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
+      result.community = (await dataSources.communityApi.getCommunityById(input.communityId)) as Community;
+      return result;
+
     }
   }
 }

@@ -44,11 +44,10 @@ export const CommunityMenu: FC<any> = ({itemSelected}) => {
   }
   
   var menuPages = data.communities.map((community) => {
-   
     return {
       key: community?.id,
       name: community?.name,
-      path: `/community/${community?.handle}/admin`,
+      path: `/community/${community?.id}/admin`,
     }
   });
   const matchedPages =  matchRoutes(menuPages,location);

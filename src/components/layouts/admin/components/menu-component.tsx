@@ -42,11 +42,11 @@ export const MenuComponent = ({ pageLayouts , ...props } : TextProp) => {
    
   const topMenu = () => {
     const root = pageLayouts.find((x:any) => x.id === "ROOT") as any;
-    const matchedPages = matchRoutes(pageLayouts,location)
+    const matchedPages = matchRoutes(pageLayouts,location);
     const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : [];
     return (
       <Menu theme={props.theme} mode={props.mode} defaultSelectedKeys={matchedIds}>
-        <Menu.Item key="home" icon={root.icon}>
+        <Menu.Item key="ROOT" icon={root.icon}>
           <Link to={createPath(root.path)}>{root.title}</Link>
         </Menu.Item>
         {buildMenu(root.id)}

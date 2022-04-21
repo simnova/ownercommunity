@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Editor, Frame, Element } from '@craftjs/core';
+import { Editor, Frame } from '@craftjs/core';
 
 // CMS components
 import { TextThing } from "../../../editor/components/text-thing";
@@ -10,6 +10,7 @@ import { Container } from "../../../editor/page/container";
 import { Breadcrumbs } from "../../../editor/components/breadcrumbs";
 import { MenuComponent} from "../../../editor/components/menu-component";
 import { Grid } from "../../../editor/components/grid";
+import { Card, CardTop } from "../../../editor/components/card";
 
 // ui elements
 import { ComponentWrapper } from "../../../editor/page/component-wrapper";
@@ -27,7 +28,7 @@ const SiteEditorPageEditor: React.FC = (props) => {
   const [json, setJson] = useState("");
   
   return <>
-    <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2,Container,Breadcrumbs,MenuComponent, Grid}} onRender={ComponentWrapper}>
+    <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2,Container,Breadcrumbs,MenuComponent, Grid, Card, CardTop }} onRender={ComponentWrapper}>
       <Row>
         <Col span={24} style={{marginBottom:'24px'}}>
           <div className='inline-block'>

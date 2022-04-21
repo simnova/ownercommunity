@@ -82,14 +82,14 @@ export const EditorDetail = (props:any) => {
             <div key={selectedPage.toString()} style={{display:'flex', flexDirection:'column'}} className={"grow overflow-y-auto transition-[max-width] transition-[min-width] ease-in-out duration-150 " + (mobileView ? " max-w-[375px] max-h-[667px] min-w-[375px] " : "max-w-[100%] max-h-[100%] min-w-[100%]")}>
               {editorJson !== undefined  ? 
                 <Frame data={editorJson} >
-                  <Element is={Container} canvas={true}>
+                  <Element is={Container} canvas>
                   </Element>
                 </Frame>
                 : 
                 <div>
                   <div>No JSON</div>
                   <Frame data={editorJson} >
-                    <Element is={Container} canvas={true}>
+                    <Element is={Container} canvas>
                       <TextThing title="Add Components" body="to this page" />
                     </Element>
                   </Frame>

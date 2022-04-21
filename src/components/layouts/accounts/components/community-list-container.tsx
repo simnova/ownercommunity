@@ -5,10 +5,7 @@ import { CommunityListContainerCommunitiesQueryDocument, CommunityListContainerC
 
 export const CommunityListContainer: React.FC<any> = (props) => {
 
-  const { loading, error, data} = useQuery(CommunityListContainerCommunitiesQueryDocument,{
-    variables: {
-    }
-  })
+  const { loading, error, data} = useQuery(CommunityListContainerCommunitiesQueryDocument);
   
   if(error){
     return <>

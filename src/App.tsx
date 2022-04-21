@@ -9,12 +9,25 @@ import { Admin } from './components/layouts/admin';
 import { Members } from './components/layouts/members';
 import { Accounts } from './components/layouts/accounts';
 import { AuthLanding } from './components/shared/auth-landing';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [loading, setLoading] = useState(true);
 
+  const authSection = (
+    <RequireMsal identifier='account' forceLogin={true}>
+      <AuthLanding />
+    </RequireMsal>
+  )
+  const pageLayouts = localStorage.getItem('pageLayouts');
+  const hasPageLayouts = pageLayouts && pageLayouts.length > 0;
   const rootSection = (
     <ApolloConnection AuthenticationIdentifier="account">
+      {hasPageLayouts === true ? 
+        <Root />
+        :
+        <div>Site not found</div>
+      }
       <Root />
     </ApolloConnection>
   )
@@ -45,7 +58,23 @@ function App() {
     </RequireMsal>
   )
 
+
+
   useEffect(() => {
+    const trySetPageLayouts = async (communityId:string) => {
+     // https://ownercommunity.blob.core.windows.net/625641815f0e5d472135046c/website-root
+        try {
+        const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/${ communityId }/website-root`); 
+        const data = await api_call.json();
+        if(data){
+          localStorage.setItem('pageLayouts',JSON.stringify(data));
+        }
+        console.log('data...',data);
+      } catch (error) {
+        console.log('app: cannot find pageLayouts from URL:',error);
+      }
+    }
+
     const trySetCommunityId = async() => {
       console.log('app-mounted');
       //attempt to lookup community id from url
@@ -56,6 +85,7 @@ function App() {
           console.log('community-id:',data.communityId);
           localStorage.setItem('community',data.communityId);
           localStorage.setItem('communityUrl',`${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`);
+          await trySetPageLayouts(data.communityId);
         }
       } catch (error) {
         console.log('app: cannot find community from URL:',error);
@@ -63,15 +93,17 @@ function App() {
 
     }
     trySetCommunityId();
-  }, []);
+    setLoading(false);
+  }, [setLoading]);
 
-  return (
+  return loading ? <></>:(
     <>
       <Routes>
         <Route path="*" element={rootSection}></Route>
         <Route path='/community/:communityId/admin/*' element={adminSection} />
         <Route path='/community/:communityId/members/*' element={memberSection} />
         <Route path='accounts/*' element={accountsSection} />
+        <Route path='/login' element={authSection} />
       </Routes>
     </>
   );

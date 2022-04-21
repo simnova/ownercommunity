@@ -1,6 +1,6 @@
 import React from "react";
 import CmsPage from "./cms-page";
-import { Header } from "../../ui/organisms/header";
+import { Header } from "./components/header";
 
 export const Root: React.FC<any> = (_props) => {
   return (

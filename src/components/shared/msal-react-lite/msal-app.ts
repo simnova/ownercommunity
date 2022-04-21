@@ -5,7 +5,7 @@ import { StringDict } from '@azure/msal-common';
 
 
 export class MsalApp {
-
+  private readonly identifier: string
   private msalInstance : msal.PublicClientApplication;
   private config : MsalProviderPopupConfig | MsalProviderRedirectConfig;
   private usePopup : boolean;
@@ -19,15 +19,18 @@ export class MsalApp {
   public registerCallback = (callback:(isLoggedIn: boolean, authResult:msal.AuthenticationResult | undefined)=>void) => {
     this.setLoginState = callback;
   }
+  get Identifier() : string{
+    return this.identifier;
+  }
 
   get IsLoggedIn() : boolean{
     try {
       this.isLoggedIn = this.msalInstance.getAllAccounts().length > 0 ;
     } catch (err) {
       this.isLoggedIn = false;
-      console.error("error getting logged in value",err);
+      console.error("MSAL-REACT-LITE - IsLoggedIn: error getting logged in value",err);
     }
-    console.log("Is user definitely logged out? :",!this.isLoggedIn);
+    console.log("MSAL-REACT-LITE - IsLoggedIn: Is user definitely logged out? :",!this.isLoggedIn);
     return this.isLoggedIn;
   }
 
@@ -35,10 +38,11 @@ export class MsalApp {
     return this.msalInstance;
   }
   
-  constructor(msalInstance : msal.PublicClientApplication, config : MsalProviderPopupConfig | MsalProviderRedirectConfig){
+  constructor(msalInstance : msal.PublicClientApplication, config : MsalProviderPopupConfig | MsalProviderRedirectConfig, identifier: string){
     this.msalInstance = msalInstance;
     this.config = config;
     this.usePopup = config.type === ConfigType.Popup;
+    this.identifier = identifier;
   }
   
   /**
@@ -66,7 +70,7 @@ export class MsalApp {
     } else {
       var redirectConfig = this.config as MsalProviderRedirectConfig;
       redirectConfig.redirectRequestConfig!.extraQueryParameters = queryParams;
-      redirectConfig.redirectRequestConfig!.state = state;
+      redirectConfig.redirectRequestConfig!.state = this.Identifier + '|' + state;
       await this.loginRedirect(redirectConfig?.redirectRequestConfig);
       return undefined;
     }

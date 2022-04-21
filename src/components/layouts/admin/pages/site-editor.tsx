@@ -1,14 +1,16 @@
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes, useNavigate, useParams } from "react-router-dom"
 import SiteEditorPageEditor from "./site-editor-page-editor"
 import { PageTree } from "./site-editor-page-tree"
 import { PageHeader, Tabs, Button, Statistic, Descriptions, Layout } from 'antd';
 import { SubPageLayout } from "../sub-page-layout";
+import { SiteEditorContainer } from "../components/site-editor-container";
 
 const { TabPane } = Tabs;
 const { Header, Content,Footer } = Layout;
 
 
 export const SiteEditor: React.FC<any> = (props) => {
+  const params = useParams();
   const overFlow =  props.fixedHeader ? 'scroll' : 'unset';
   const navigate = useNavigate();
 
@@ -32,6 +34,9 @@ export const SiteEditor: React.FC<any> = (props) => {
               <TabPane tab="Editor" key="page-editor" />
             </Tabs>
           }
+          extra={[
+            <SiteEditorContainer data={{communityId:params.communityId ?? ''}} />
+          ]}
         >
       </PageHeader>
     }

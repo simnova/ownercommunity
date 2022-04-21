@@ -2734,6 +2734,50 @@ export type AdminSettingsGeneralContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables =
+  Exact<{
+    input: CommunityPublicContentInput;
+  }>;
+
+export type AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation =
+  {
+    __typename?: "Mutation";
+    communityPublicContentCreateAuthHeader: {
+      __typename?: "CommunityPublicContentAuthHeaderResult";
+      authHeader?: {
+        __typename?: "BlobAuthHeader";
+        authHeader?: string | null;
+        blobName?: string | null;
+        blobContainer?: string | null;
+        requestDate?: string | null;
+      } | null;
+      status: {
+        __typename?: "MutationStatus";
+        success: boolean;
+        errorMessage?: string | null;
+      };
+      community?: {
+        __typename?: "Community";
+        name?: string | null;
+        publicContentBlobUrl?: string | null;
+        id: any;
+        schemaVersion?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null;
+    };
+  };
+
+export type AdminSiteEditorContainerCommunityFieldsFragment = {
+  __typename?: "Community";
+  name?: string | null;
+  publicContentBlobUrl?: string | null;
+  id: any;
+  schemaVersion?: string | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
 export type LoggedInUserContainerCurrentUserQueryQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2741,7 +2785,7 @@ export type LoggedInUserContainerCurrentUserQueryQueryVariables = Exact<{
 export type LoggedInUserContainerCurrentUserQueryQuery = {
   __typename?: "Query";
   currentUser?: {
-    __typename?: "User";
+    __typename: "User";
     id: any;
     externalId?: string | null;
     firstName?: string | null;
@@ -2750,7 +2794,7 @@ export type LoggedInUserContainerCurrentUserQueryQuery = {
 };
 
 export type LoggedInUserContainerCurrentUserFieldsFragment = {
-  __typename?: "User";
+  __typename: "User";
   id: any;
   externalId?: string | null;
   firstName?: string | null;
@@ -4595,6 +4639,36 @@ export const AdminSettingsGeneralContainerCommunityFieldsFragmentDoc = {
   AdminSettingsGeneralContainerCommunityFieldsFragment,
   unknown
 >;
+export const AdminSiteEditorContainerCommunityFieldsFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "AdminSiteEditorContainerCommunityFields" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Community" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "publicContentBlobUrl" },
+          },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "schemaVersion" } },
+          { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+          { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AdminSiteEditorContainerCommunityFieldsFragment,
+  unknown
+>;
 export const LoggedInUserContainerCurrentUserFieldsFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -4612,6 +4686,7 @@ export const LoggedInUserContainerCurrentUserFieldsFragmentDoc = {
           { kind: "Field", name: { kind: "Name", value: "externalId" } },
           { kind: "Field", name: { kind: "Name", value: "firstName" } },
           { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "__typename" } },
         ],
       },
     },
@@ -7074,6 +7149,126 @@ export const AdminSettingsGeneralContainerCommunityUpdateDocument = {
   AdminSettingsGeneralContainerCommunityUpdateMutation,
   AdminSettingsGeneralContainerCommunityUpdateMutationVariables
 >;
+export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocument =
+  {
+    kind: "Document",
+    definitions: [
+      {
+        kind: "OperationDefinition",
+        operation: "mutation",
+        name: {
+          kind: "Name",
+          value:
+            "AdminSiteEditorContainerCommunityPublicContentCreateAuthHeader",
+        },
+        variableDefinitions: [
+          {
+            kind: "VariableDefinition",
+            variable: {
+              kind: "Variable",
+              name: { kind: "Name", value: "input" },
+            },
+            type: {
+              kind: "NonNullType",
+              type: {
+                kind: "NamedType",
+                name: { kind: "Name", value: "CommunityPublicContentInput" },
+              },
+            },
+          },
+        ],
+        selectionSet: {
+          kind: "SelectionSet",
+          selections: [
+            {
+              kind: "Field",
+              name: {
+                kind: "Name",
+                value: "communityPublicContentCreateAuthHeader",
+              },
+              arguments: [
+                {
+                  kind: "Argument",
+                  name: { kind: "Name", value: "input" },
+                  value: {
+                    kind: "Variable",
+                    name: { kind: "Name", value: "input" },
+                  },
+                },
+              ],
+              selectionSet: {
+                kind: "SelectionSet",
+                selections: [
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "authHeader" },
+                    selectionSet: {
+                      kind: "SelectionSet",
+                      selections: [
+                        {
+                          kind: "Field",
+                          name: { kind: "Name", value: "authHeader" },
+                        },
+                        {
+                          kind: "Field",
+                          name: { kind: "Name", value: "blobName" },
+                        },
+                        {
+                          kind: "Field",
+                          name: { kind: "Name", value: "blobContainer" },
+                        },
+                        {
+                          kind: "Field",
+                          name: { kind: "Name", value: "requestDate" },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "status" },
+                    selectionSet: {
+                      kind: "SelectionSet",
+                      selections: [
+                        {
+                          kind: "Field",
+                          name: { kind: "Name", value: "success" },
+                        },
+                        {
+                          kind: "Field",
+                          name: { kind: "Name", value: "errorMessage" },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    kind: "Field",
+                    name: { kind: "Name", value: "community" },
+                    selectionSet: {
+                      kind: "SelectionSet",
+                      selections: [
+                        {
+                          kind: "FragmentSpread",
+                          name: {
+                            kind: "Name",
+                            value: "AdminSiteEditorContainerCommunityFields",
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      ...AdminSiteEditorContainerCommunityFieldsFragmentDoc.definitions,
+    ],
+  } as unknown as DocumentNode<
+    AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
+    AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
+  >;
 export const LoggedInUserContainerCurrentUserQueryDocument = {
   kind: "Document",
   definitions: [

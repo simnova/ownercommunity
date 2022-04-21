@@ -54,8 +54,21 @@ const ApolloConnection: FC<any> = (props) => {
     batchMax: 15, // No more than 15 operations per batch
     batchInterval: 50 // Wait no more than 50ms after first batched operation
   });
-  const cache = new InMemoryCache();
-  
+
+  const cache = new InMemoryCache(
+    {
+      typePolicies: {
+        Query: {
+          fields: {
+            currentUser: {
+              keyArgs: false,
+            }
+          }
+        }
+      }
+    }
+  );
+ 
   const client = new ApolloClient({
     link: from([withToken, httpLink]),
     cache: cache,

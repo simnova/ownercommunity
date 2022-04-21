@@ -1,5 +1,5 @@
 query LoggedInUserContainerCurrentUserQuery {
-  currentUser {
+  currentUser { 
     ...LoggedInUserContainerCurrentUserFields
   }
 }
@@ -9,4 +9,5 @@ fragment LoggedInUserContainerCurrentUserFields on User {
   externalId
   firstName
   lastName
+  __typename
 }

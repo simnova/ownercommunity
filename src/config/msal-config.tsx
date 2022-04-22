@@ -75,7 +75,7 @@ var accountConfig: MsalProviderRedirectConfig = {
       authority: account_authority,
       knownAuthorities: [knownAuthorities],
       redirectUri: redirectUri,      
-      navigateToLoginRequestUrl: false, 
+      navigateToLoginRequestUrl: true, 
     },
     system: {
       loggerOptions: loggerOptions

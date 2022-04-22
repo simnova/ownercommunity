@@ -2,6 +2,7 @@ import React, { FC, ReactNode, useEffect } from 'react';
 import MsalContext from './msal-context';
 import * as msal from '@azure/msal-browser';
 import { MsalApp } from './msal-app';
+import { useRef } from '@storybook/addons';
 
 export enum ConfigType {
   Popup = "popup",
@@ -44,43 +45,73 @@ export type MsalProps = {
 };
 
 const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
-
-  let createApp = (identifier:string,config:MsalProviderPopupConfig | MsalProviderRedirectConfig): [string, MsalApp] => {
-    return [
-      identifier,
-      new MsalApp(
-        new msal.PublicClientApplication(
-          config.msalConfig
-        ), 
-        config)
-      ];
-  }
+  const [loading, setLoading] = React.useState(true);
+  const msalInstances = React.useRef<Map<string,MsalApp>>();
   
-  let getMsalInstances = () => {
-    if(props.config.type !== ConfigType.Map)
-    {
-      return new Map([ createApp("default",props.config) ])
-    } else {
-      var values: Array<[string,MsalApp]> = [] ;
-      (props.config).config.forEach(
-        (config,identifier) => {
-          values.push([
-            identifier,
-            new MsalApp(
+  console.log('here');
+  
+
+  //let msalInstances : Map<string,MsalApp> // = getMsalInstances();
+  useEffect(() => {
+
+    let createApp = (identifier:string,config:MsalProviderPopupConfig | MsalProviderRedirectConfig): [string, MsalApp] => {
+      return [
+        identifier,
+        new MsalApp(
+          new msal.PublicClientApplication(
+            config.msalConfig
+          ), 
+          config,
+          identifier)
+        ];
+    }
+    const registerRedirectCallback = async(msalApp: MsalApp):Promise<void> => {
+      try{
+        var authResult = await msalApp.MsalInstance.handleRedirectPromise();
+        console.log('handleRedirectPromise - result:',authResult);
+        if(authResult?.state && authResult?.state.startsWith(msalApp.Identifier + "|")){ // ensure only the correct app is handling the redirect
+          msalApp.handleRedirectResult(authResult);
+        }
+      } catch(error){
+        console.error('handleRedirectPromise - error:',error);
+      }
+    }
+    
+    let getMsalInstances = () => {
+      if(props.config.type !== ConfigType.Map)
+      {
+        return new Map([ createApp("default",props.config) ])
+      } else {
+        var values: Array<[string,MsalApp]> = [] ;
+        (props.config).config.forEach(
+          (config,identifier) => {
+            let msalApp = new MsalApp(
               new msal.PublicClientApplication(
                 config.msalConfig
               ), 
-              config
-            )
-          ])
-        }
-      );
-      return new Map<string,MsalApp>(values);
+              config,
+              identifier
+            );
+            if(config.type === ConfigType.Redirect){
+              console.log('registering-redirect-callback');
+              registerRedirectCallback(msalApp);
+            }
+            
+            values.push([
+              identifier,
+              msalApp
+            ])
+          }
+        );
+        return new Map<string,MsalApp>(values);
+      }
     }
-  }
 
-  const msalInstances : Map<string,MsalApp>  = getMsalInstances();
-
+    msalInstances.current  = getMsalInstances();
+    console.log("msalInstances loaded",  msalInstances.current.entries.length)
+    setLoading(false);
+  },[props.config, setLoading,msalInstances]);
+/*
   useEffect(() => {
     const registerRedirectCallbacks = async (instances:Map<string,MsalApp>) => {
       instances.forEach(async (instance,identifier) => {
@@ -100,18 +131,22 @@ const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
     }
     registerRedirectCallbacks(msalInstances).catch((error) => console.error(error));
   }, [msalInstances]); // eslint-disable-line react-hooks/exhaustive-deps
-
+*/
   let findInstance =  (identifier:string | undefined) => {
-    if(props.config.type !== ConfigType.Map && msalInstances.has("default")){
-      return msalInstances.get("default")
-    }else if(typeof identifier !== "undefined" && msalInstances.has(identifier)){
-      return msalInstances.get(identifier);
+    if(!msalInstances || !msalInstances.current){
+      throw new Error("MSAL-REACT-LITE : Configuration error: need to supply identifier")
+    }
+    if(props.config.type !== ConfigType.Map && msalInstances.current.has("default")){
+      return msalInstances.current.get("default")
+    }else if(typeof identifier !== "undefined" && msalInstances.current.has(identifier)){
+      return msalInstances.current.get(identifier);
     }else {
       throw new Error("MSAL-REACT-LITE : Configuration error: need to supply identifier")
     }
   }
   
-  return  (
+  return  (loading === true)?<></> :(
+
     <MsalContext.Provider
       value={{
         getAuthToken:  (identifier:string|undefined) =>  findInstance(identifier)?.getAuthToken() ?? new Promise<undefined>(() => {return undefined}),

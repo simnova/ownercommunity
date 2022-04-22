@@ -21,12 +21,13 @@ import { Card, CardTop } from "../../editor/components/card";
 const CmsPage: React.FC = (props) => {
   const [pageLayouts, setPageLayouts] = usePageLayouts();
   const location = useLocation();
+  
   const matchedLayout:any = matchRoutes(pageLayouts,location);
   console.log(matchedLayout);
 
   var pageLayout
     return <>
-    {(matchedLayout && matchedLayout.length > 0) ? 
+    {(pageLayouts && matchedLayout && matchedLayout.length > 0) ? 
     <div key={matchedLayout[0].route.id} style={{margin:0, padding:0, backgroundColor:'#E8E8E8', minHeight:'calc(100vh - 50px)'}}>
       <Editor resolver={{TextComponent, TextThing, CountryInfo, CountryInfo2, Container,Breadcrumbs,MenuComponent, Grid, Card, CardTop }} >
         <CmsPageFrame layout={matchedLayout[0].route.layout} />

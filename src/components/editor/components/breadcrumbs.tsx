@@ -24,8 +24,9 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
   const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled
   }));
-
+  console.log('xxx',pageLayouts);
   const location = useLocation();
+  if(!pageLayouts || typeof pageLayouts === 'undefined') return <div>Loading...</div>
   const pathSnippets = location.pathname.split('/').filter(i => i);
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;

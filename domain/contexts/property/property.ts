@@ -98,7 +98,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   }
   public requestSetPropertyType(propertyType: ValueObjects.PropertyType): void {
     if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
-    this.props.propertyType = propertyType.valueOf();
+    this.props.propertyType = propertyType?.valueOf();
   }
   public requestSetListedForSale(listedForSale: boolean): void {
     if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) { throw new Error('Unauthorized'); }

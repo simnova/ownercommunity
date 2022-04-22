@@ -27,8 +27,35 @@ export const CommunityModel = model<Community>('Community',new Schema<Community,
     },
     createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: true},
   },
+
   {
     ...BaseOptions,
   }
+  ).index(
+    { domain:1},
+    { unique: true, 
+      partialFilterExpression: 
+      { 
+        domain: { $exists: true }
+      }
+    }
+  )
+  .index(
+    { whiteLabelDomain:1 },
+    { unique: true, 
+      partialFilterExpression: 
+      { 
+        whiteLabelDomain: { $exists: true }
+      }
+    }
+  )
+  .index(
+    { handle:1 },
+    { unique: true, 
+      partialFilterExpression: 
+      { 
+        handle: { $exists: true } 
+      }
+    }
   )
 );

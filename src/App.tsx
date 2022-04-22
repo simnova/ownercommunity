@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import RequireMsal from './components/shared/require-msal';
 import RequireAuth from './components/shared/require-auth';
 import ApolloConnection from './components/shared/apollo-connection';
+import {usePageLayouts} from "./components/editor/local-data";
 
 import { Root } from './components/layouts/root';
 import { Admin } from './components/layouts/admin';
@@ -13,22 +14,27 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [pageLayouts, setPageLayouts] = usePageLayouts();
 
   const authSection = (
     <RequireMsal identifier='account' forceLogin={true}>
       <AuthLanding />
     </RequireMsal>
   )
-  const pageLayouts = localStorage.getItem('pageLayouts');
-  const hasPageLayouts = pageLayouts && pageLayouts.length > 0;
+  const hasPageLayouts =  (typeof pageLayouts !== 'undefined');
+
   const rootSection = (
     <ApolloConnection AuthenticationIdentifier="account">
-      {hasPageLayouts === true ? 
-        <Root />
+      {pageLayouts[0]['loaded'] !== false? 
+        <div>
+          <Root />
+        </div>
+        
+      
         :
+        
         <div>Site not found</div>
       }
-      <Root />
     </ApolloConnection>
   )
 
@@ -50,11 +56,9 @@ function App() {
   
   const memberSection = (
     <RequireMsal identifier="account">
-      <RequireAuth>
-        <ApolloConnection AuthenticationIdentifier="account">
-          <Members />
-        </ApolloConnection>
-      </RequireAuth>
+      <ApolloConnection AuthenticationIdentifier="account">
+        <Members />
+      </ApolloConnection>
     </RequireMsal>
   )
 
@@ -67,7 +71,7 @@ function App() {
         const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/${ communityId }/website-root`); 
         const data = await api_call.json();
         if(data){
-          localStorage.setItem('pageLayouts',JSON.stringify(data));
+          setPageLayouts(data);
         }
         console.log('data...',data);
       } catch (error) {
@@ -92,10 +96,10 @@ function App() {
       }
 
     }
-    trySetCommunityId();
+    trySetCommunityId().catch(error => console.log('app: cannot set community id:',error));
     setLoading(false);
   }, [setLoading]);
-
+  console.log('pageLayouts:',pageLayouts);
   return loading ? <></>:(
     <>
       <Routes>

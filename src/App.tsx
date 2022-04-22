@@ -21,37 +21,31 @@ function App() {
 
   const rootSection = (
     <ApolloConnection AuthenticationIdentifier="account">
-      <BlobToLocalStorage >
-        <Root />
-      </BlobToLocalStorage>
+      <Root />
     </ApolloConnection>
   )
 
   const adminSection = (
     <RequireMsal identifier="account">
-      <BlobToLocalStorage communityId={params.communityId}>
-        <ApolloConnection AuthenticationIdentifier="account">
-          <Admin />
-        </ApolloConnection>
-      </BlobToLocalStorage>
+      <ApolloConnection AuthenticationIdentifier="account">
+        <Admin />
+      </ApolloConnection>
     </RequireMsal>
   )
 
   const accountsSection = (
     <RequireMsal identifier="account">
-        <ApolloConnection AuthenticationIdentifier="account">
-          <Accounts />
-        </ApolloConnection>
+      <ApolloConnection AuthenticationIdentifier="account">
+        <Accounts />
+      </ApolloConnection>
     </RequireMsal>
   )
   
   const memberSection = (
     <RequireMsal identifier="account">
-      <BlobToLocalStorage communityId={params.communityId}>
-        <ApolloConnection AuthenticationIdentifier="account">
-          <Members />
-        </ApolloConnection>
-      </BlobToLocalStorage>
+      <ApolloConnection AuthenticationIdentifier="account">
+        <Members />
+      </ApolloConnection>
     </RequireMsal>
   )
 

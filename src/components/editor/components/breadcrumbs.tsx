@@ -32,7 +32,7 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
     return (
       <Breadcrumb.Item key={url}>
-        <Link to={url}>{pageLayouts.find((x:any) => x.path === url).title}</Link>
+        <Link to={url}>{pageLayouts.find((x:any) => x.path === url)?.title}</Link>
       </Breadcrumb.Item>
     );
   });

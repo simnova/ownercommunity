@@ -12,7 +12,7 @@ interface CardGrop {
 export const CardTop = (props: any) => {
     const { connectors: {connect} } = useNode();
     return (
-      <div ref={ref => connect(ref as HTMLDivElement)} className="text-only">
+      <div ref={ref => connect(ref as HTMLDivElement)}>
         {props.children}
       </div>
     )
@@ -36,7 +36,7 @@ Card = ({ bgColor, padding, ...props }: CardGrop) => {
       ));
     return (
         <Container background={bgColor} >
-            <div role="listitem" className=" cursor-pointer shadow rounded-lg p-8 relative z-30">
+            <div role="listitem" className="bg-white cursor-pointer shadow rounded-lg p-8 relative z-30">
                 <Element is={CardTop} id="drop" canvas>
                     <TextComponent text="Card Title" fontSize={24} fontWeight={800} />
                     <TextComponent text="Card body goes here" />

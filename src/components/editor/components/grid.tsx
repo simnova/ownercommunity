@@ -1,4 +1,4 @@
-import {useEditor, useNode, Element } from "@craftjs/core";
+import {useNode, Element } from "@craftjs/core";
 import { Row, Col, Input, Form, Select } from 'antd';
 import { Container } from "../page/container";
 import { TextThing } from './text-thing';
@@ -23,7 +23,12 @@ Grid = ({ numOfCols, bgColor, ...props }: GridProp) => {
         for(let i = 0; i < numOfCols; i++) {
             grid.push(
               <Col span={24 / numOfCols} key={`col-${i}`} >
-                <Element id={`col-${i+1}`} is={Container} canvas ></Element>
+                <Element 
+                  id={`col-${i+1}`} 
+                  is={Container}
+                  canvas 
+                >
+                </Element>
               </Col>
             );
         }
@@ -70,7 +75,7 @@ var GridSettings = () => {
       <div>
         <Form layout="vertical">
           <Form.Item label="Number of Columns">
-            <Select placeholder={1} onChange={(value) => setProp((props:any) => props.numOfCols = value)} >
+            <Select placeholder={numOfCols} onChange={(value) => setProp((props:any) => props.numOfCols = value)} >
               <Option key={1}>1</Option>
               <Option key={2}>2</Option>
               <Option key={3}>3</Option>
@@ -82,7 +87,7 @@ var GridSettings = () => {
             {/* <Input placeholder="1" value={numOfCols} onChange={(inputElement) => setProp((props:any) => props.numOfCols = parseInt(inputElement.target.value))}  /> */}
           </Form.Item>  
           <Form.Item label="Background Color">
-            <Input placeholder="#fff" value={bgColor} onChange={(inputElement) => setProp((props:any) => props.bgColor = inputElement.target.value)}  />
+            <Input placeholder="#ffffff" value={bgColor} onChange={(inputElement) => setProp((props:any) => props.bgColor = inputElement.target.value)}  />
           </Form.Item>  
         </Form>
       </div>
@@ -92,7 +97,7 @@ var GridSettings = () => {
   Grid.craft = {
     props: {
       numOfCols: 1,
-      bgColor: '#fff',
+      bgColor: '#ffffff',
     },
     related: {
       settings: GridSettings

@@ -27,9 +27,10 @@ TextComponent = ({text, fontSize, fontWeight, ...props }:TextComponentProp) => {
 }
 
 var TextComponentSettings = () => {
-  const { actions: { setProp}, text, fontSize } = useNode((node) => ({
+  const { actions: { setProp}, text, fontSize, fontWeight } = useNode((node) => ({
     text: node.data.props.text,
     fontSize: node.data.props.fontSize,
+    fontWeight: node.data.props.fontWeight,
   }));
 
   return (
@@ -49,6 +50,13 @@ var TextComponentSettings = () => {
             onChange={(inputElement) => setProp((props: any) => props.fontSize = parseInt(inputElement.target.value))}
           />
         </Form.Item>
+        <Form.Item label="Font Weight">
+          <Input
+            placeholder="400"
+            value={fontWeight}
+            onChange={(inputElement) => setProp((props: any) => props.fontWeight = parseInt(inputElement.target.value))}
+          />
+        </Form.Item>
       </Form>
     </div>
   )
@@ -58,6 +66,7 @@ TextComponent.craft = {
   props: {
     text: 'Text goes here',
     fontSize: 14,
+    fontWeight: 400,
   },
   related: {
     settings: TextComponentSettings

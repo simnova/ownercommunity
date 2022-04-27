@@ -4,7 +4,7 @@ import { LoggedInUserContainer } from "../../ui/organisms/header/logged-in-user-
 import { MenuComponent } from "../admin/components/menu-component";
 import { DownOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { CommunityMenu } from "../admin/components/community-menu";
+import { CommunityMenu } from "../members/components/community-menu";
 
 const { Footer, Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {

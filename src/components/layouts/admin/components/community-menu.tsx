@@ -65,7 +65,7 @@ export const CommunityMenu: FC<any> = ({itemSelected}) => {
         if (community !== null) {
           return <>
           <Menu.Item key={community.id}>
-            <Link to={`/community/${community.id}/admin`} onClick={ () => window.location.href = `/community/${community.id}/admin`}>{community.name}</Link>
+            <div onClick={ () => window.location.href = `/community/${community.id}/admin`}>{community.name}</div>
           </Menu.Item>
         </>
         }

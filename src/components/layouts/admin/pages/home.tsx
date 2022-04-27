@@ -8,12 +8,7 @@ const { Text } = Typography
 
 export const Home: React.FC<any> = (props) => {
   const params = useParams();
-  console.log(params);
   return (
-    // <div>
-    //   <h1>Home</h1>
-    // </div>
-
     <SubPageLayout
     fixedHeader={false}
     header={

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import { useNode, Element } from "@craftjs/core";
+import { useNode } from "@craftjs/core";
 import { Form, Input } from "antd";
 
 const ContainerProps = {
@@ -44,7 +44,7 @@ var ContainerSettings = () => {
       <Form>
         <Form.Item label="Background Color">
           <Input
-            placeholder="#ffffff"
+            placeholder={bgColor}
             value={bgColor}
             onChange={(inputElement) => setProp((props: any) => props.bgColor = inputElement.target.value)}
           />

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState} from 'react';
 import { useQuery } from "@apollo/client";
 import { AdminCommunityMenuContainerCommunitiesQueryDocument } from '../../../../generated';
 import PropTypes, { InferProps } from 'prop-types';
@@ -6,6 +6,7 @@ import PropTypes, { InferProps } from 'prop-types';
 
 import {  Menu } from 'antd';
 import { Link , useLocation, matchRoutes} from 'react-router-dom';
+import path from 'path';
 
 const ComponentPropTypes = {
   itemSelected: PropTypes.func
@@ -44,15 +45,15 @@ export const CommunityMenu: FC<any> = ({itemSelected}) => {
   }
   
   var menuPages = data.communities.map((community) => {
-   
     return {
       key: community?.id,
       name: community?.name,
-      path: `/community/${community?.handle}/admin`,
+      path: `/community/${community?.id}/admin`,
     }
   });
   const matchedPages =  matchRoutes(menuPages,location);
   const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.key.toString()) : [];
+
 
   return <>
     <Menu
@@ -64,7 +65,7 @@ export const CommunityMenu: FC<any> = ({itemSelected}) => {
         if (community !== null) {
           return <>
           <Menu.Item key={community.id}>
-            <Link to={`/community/${community.id}/`}>{community.name}</Link>
+            <div onClick={ () => window.location.href = `/community/${community.id}/admin`}>{community.name}</div>
           </Menu.Item>
         </>
         }

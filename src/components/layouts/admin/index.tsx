@@ -8,12 +8,10 @@ import { Members } from './pages/members';
 import { Properties } from './pages/properties';
 import { ServiceTickets } from './pages/service-tickets';
 import { HomeOutlined, ContactsOutlined, SettingOutlined, LayoutOutlined, SafetyOutlined , BarsOutlined, ScheduleOutlined} from '@ant-design/icons';
-//import useLocalStorageState from 'use-local-storage-state';
+import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
 
-export const Admin: React.FC<any> = (props) => {
+export const Admin: React.FC<any> = (_props) => {
   const params = useParams();
-  localStorage.setItem('community',params.communityId??'');
-  //const [commmunity, setCommunity] = useLocalStorageState('community', params.communityId)
 
   const pageLayouts = [
     {path : '/community/:communityId/admin', title : 'Home', icon : <HomeOutlined />, id:'ROOT'},
@@ -26,16 +24,18 @@ export const Admin: React.FC<any> = (props) => {
   ]
 
   return(
-    <Routes>
-      <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/settings/*" element={<Settings />} />
-        <Route path="/site-editor/*" element={<SiteEditor />} />
-        <Route path="/roles/*" element={<Roles />} />
-        <Route path="/members/*" element={<Members />} />
-        <Route path="/properties/*" element={<Properties />} />
-        <Route path="/service-tickets/*" element={<ServiceTickets />} />
-      </Route>
-    </Routes>
+    <BlobToLocalStorage communityId={params.communityId}>
+      <Routes>
+        <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/settings/*" element={<Settings />} />
+          <Route path="/site-editor/*" element={<SiteEditor />} />
+          <Route path="/roles/*" element={<Roles />} />
+          <Route path="/members/*" element={<Members />} />
+          <Route path="/properties/*" element={<Properties />} />
+          <Route path="/service-tickets/*" element={<ServiceTickets />} />
+        </Route>
+      </Routes>
+    </BlobToLocalStorage>
   )
 }

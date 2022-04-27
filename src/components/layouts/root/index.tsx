@@ -1,12 +1,11 @@
 import React from "react";
-import CmsPage from "./cms-page";
-import { Header } from "./components/header";
+import { BlobToLocalStorage } from "../../shared/blob-to-local-storage";
+import { SectionLayout } from "./section-layout";
 
 export const Root: React.FC<any> = (_props) => {
-  return (
-    <div>
-      <Header />
-      <CmsPage/>
-    </div>
-  )
+  return (<>
+    <BlobToLocalStorage >
+      <SectionLayout />
+    </BlobToLocalStorage>
+  </>)
 }

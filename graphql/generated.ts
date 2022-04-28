@@ -188,6 +188,18 @@ export type CommunityUpdateInput = {
   whiteLabelDomain?: InputMaybe<Scalars["String"]>;
 };
 
+export type CurrentUser = MongoBase & {
+  __typename?: "CurrentUser";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  email?: Maybe<Scalars["EmailAddress"]>;
+  externalId?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  id: Scalars["ObjectID"];
+  lastName?: Maybe<Scalars["String"]>;
+  schemaVersion?: Maybe<Scalars["String"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
 export type ListingDetails = {
   __typename?: "ListingDetails";
   additionalAmenities?: Maybe<AdditionalAmenities>;
@@ -633,7 +645,6 @@ export type Query = {
   community?: Maybe<Community>;
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
-  currentUser?: Maybe<User>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
@@ -649,6 +660,7 @@ export type Query = {
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   user?: Maybe<User>;
+  userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -1012,6 +1024,7 @@ export type ResolversTypes = ResolversObject<{
   CommunityPublicContentInput: CommunityPublicContentInput;
   CommunityUpdateInput: CommunityUpdateInput;
   Currency: ResolverTypeWrapper<Scalars["Currency"]>;
+  CurrentUser: ResolverTypeWrapper<CurrentUser>;
   DID: ResolverTypeWrapper<Scalars["DID"]>;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
@@ -1058,6 +1071,7 @@ export type ResolversTypes = ResolversObject<{
   MemberUpdateInput: MemberUpdateInput;
   MongoBase:
     | ResolversTypes["Community"]
+    | ResolversTypes["CurrentUser"]
     | ResolversTypes["Location"]
     | ResolversTypes["Member"]
     | ResolversTypes["Point"]
@@ -1158,6 +1172,7 @@ export type ResolversParentTypes = ResolversObject<{
   CommunityPublicContentInput: CommunityPublicContentInput;
   CommunityUpdateInput: CommunityUpdateInput;
   Currency: Scalars["Currency"];
+  CurrentUser: CurrentUser;
   DID: Scalars["DID"];
   Date: Scalars["Date"];
   DateTime: Scalars["DateTime"];
@@ -1204,6 +1219,7 @@ export type ResolversParentTypes = ResolversObject<{
   MemberUpdateInput: MemberUpdateInput;
   MongoBase:
     | ResolversParentTypes["Community"]
+    | ResolversParentTypes["CurrentUser"]
     | ResolversParentTypes["Location"]
     | ResolversParentTypes["Member"]
     | ResolversParentTypes["Point"]
@@ -1544,6 +1560,45 @@ export interface CurrencyScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["Currency"], any> {
   name: "Currency";
 }
+
+export type CurrentUserResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes["CurrentUser"] = ResolversParentTypes["CurrentUser"]
+> = ResolversObject<{
+  createdAt?: Resolver<
+    Maybe<ResolversTypes["DateTime"]>,
+    ParentType,
+    ContextType
+  >;
+  email?: Resolver<
+    Maybe<ResolversTypes["EmailAddress"]>,
+    ParentType,
+    ContextType
+  >;
+  externalId?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  firstName?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  schemaVersion?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  updatedAt?: Resolver<
+    Maybe<ResolversTypes["DateTime"]>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export interface DidScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["DID"], any> {
@@ -1936,6 +1991,7 @@ export type MongoBaseResolvers<
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
     | "Community"
+    | "CurrentUser"
     | "Location"
     | "Member"
     | "Point"
@@ -2397,11 +2453,6 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryCommunityByHandleArgs, "handle">
   >;
-  currentUser?: Resolver<
-    Maybe<ResolversTypes["User"]>,
-    ParentType,
-    ContextType
-  >;
   member?: Resolver<
     Maybe<ResolversTypes["Member"]>,
     ParentType,
@@ -2485,6 +2536,11 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryUserArgs, "id">
+  >;
+  userCurrent?: Resolver<
+    Maybe<ResolversTypes["CurrentUser"]>,
+    ParentType,
+    ContextType
   >;
   users?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["User"]>>>,
@@ -2831,6 +2887,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   CommunityPermissions?: CommunityPermissionsResolvers<ContextType>;
   CommunityPublicContentAuthHeaderResult?: CommunityPublicContentAuthHeaderResultResolvers<ContextType>;
   Currency?: GraphQLScalarType;
+  CurrentUser?: CurrentUserResolvers<ContextType>;
   DID?: GraphQLScalarType;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;

@@ -1,4 +1,4 @@
-import { Resolvers, User } from '../../generated';
+import { Resolvers, User, CurrentUser } from '../../generated';
 import { CacheScope } from 'apollo-server-types';
 import { BlobStorage } from '../../../infrastructure/services/blob-storage';
 import { nanoid } from 'nanoid';
@@ -19,8 +19,8 @@ const user : Resolvers = {
       console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`)
       return (await context.dataSources.userApi.getUsers()) as User[];
     },
-    currentUser: async (parent, args, context, info) => {
-      return await context.dataSources.userDomainAPI.addUser() as User;
+    userCurrent: async (parent, args, context, info) => {
+      return await context.dataSources.userDomainAPI.addUser()   as CurrentUser;
     }
 
   },

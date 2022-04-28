@@ -10,11 +10,23 @@ type User implements MongoBase {
   updatedAt: DateTime
 }
 
+type CurrentUser implements MongoBase  {
+  externalId: String
+  firstName: String
+  lastName: String
+  email: EmailAddress
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
 
 extend type Query {
   user(id: ObjectID!): User
   users: [User]
-  currentUser: User
+  userCurrent: CurrentUser
 }
 
 extend type Mutation {

@@ -4,7 +4,7 @@ import { AdminCommunityMenuContainerCommunitiesQueryDocument } from '../../../..
 import PropTypes, { InferProps } from 'prop-types';
 
 
-import {  Menu } from 'antd';
+import { Menu, Spin } from 'antd';
 import { useLocation, matchRoutes} from 'react-router-dom';
 
 const ComponentPropTypes = {
@@ -33,7 +33,7 @@ export const CommunityMenu: FC<any> = ({itemSelected}) => {
 
   if(loading){
     return <>
-      <div>Loading...</div>
+      <div style={{backgroundColor: "white"}}><Spin /> Loading... </div>
     </>
   } 
 

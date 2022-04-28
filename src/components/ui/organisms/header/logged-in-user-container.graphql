@@ -1,10 +1,12 @@
-query LoggedInUserContainerCurrentUserQuery {
-  currentUser { 
-    ...LoggedInUserContainerCurrentUserFields
+query LoggedInUserContainerUserCurrentQuery {
+  userCurrent { 
+
+      ...LoggedInUserContainerUserCurrentFields
+    
   }
 }
 
-fragment LoggedInUserContainerCurrentUserFields on User {
+fragment LoggedInUserContainerUserCurrentFields on CurrentUser {
   id
   externalId
   firstName

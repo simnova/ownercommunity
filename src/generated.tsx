@@ -180,6 +180,18 @@ export type CommunityUpdateInput = {
   whiteLabelDomain?: InputMaybe<Scalars["String"]>;
 };
 
+export type CurrentUser = MongoBase & {
+  __typename?: "CurrentUser";
+  createdAt?: Maybe<Scalars["DateTime"]>;
+  email?: Maybe<Scalars["EmailAddress"]>;
+  externalId?: Maybe<Scalars["String"]>;
+  firstName?: Maybe<Scalars["String"]>;
+  id: Scalars["ObjectID"];
+  lastName?: Maybe<Scalars["String"]>;
+  schemaVersion?: Maybe<Scalars["String"]>;
+  updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
 export type ListingDetails = {
   __typename?: "ListingDetails";
   additionalAmenities?: Maybe<AdditionalAmenities>;
@@ -625,7 +637,6 @@ export type Query = {
   community?: Maybe<Community>;
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
-  currentUser?: Maybe<User>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
@@ -641,6 +652,7 @@ export type Query = {
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   user?: Maybe<User>;
+  userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -2778,14 +2790,14 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
-export type LoggedInUserContainerCurrentUserQueryQueryVariables = Exact<{
+export type LoggedInUserContainerUserCurrentQueryQueryVariables = Exact<{
   [key: string]: never;
 }>;
 
-export type LoggedInUserContainerCurrentUserQueryQuery = {
+export type LoggedInUserContainerUserCurrentQueryQuery = {
   __typename?: "Query";
-  currentUser?: {
-    __typename: "User";
+  userCurrent?: {
+    __typename: "CurrentUser";
     id: any;
     externalId?: string | null;
     firstName?: string | null;
@@ -2793,8 +2805,8 @@ export type LoggedInUserContainerCurrentUserQueryQuery = {
   } | null;
 };
 
-export type LoggedInUserContainerCurrentUserFieldsFragment = {
-  __typename: "User";
+export type LoggedInUserContainerUserCurrentFieldsFragment = {
+  __typename: "CurrentUser";
   id: any;
   externalId?: string | null;
   firstName?: string | null;
@@ -4669,15 +4681,15 @@ export const AdminSiteEditorContainerCommunityFieldsFragmentDoc = {
   AdminSiteEditorContainerCommunityFieldsFragment,
   unknown
 >;
-export const LoggedInUserContainerCurrentUserFieldsFragmentDoc = {
+export const LoggedInUserContainerUserCurrentFieldsFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "LoggedInUserContainerCurrentUserFields" },
+      name: { kind: "Name", value: "LoggedInUserContainerUserCurrentFields" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "User" },
+        name: { kind: "Name", value: "CurrentUser" },
       },
       selectionSet: {
         kind: "SelectionSet",
@@ -4692,7 +4704,7 @@ export const LoggedInUserContainerCurrentUserFieldsFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<
-  LoggedInUserContainerCurrentUserFieldsFragment,
+  LoggedInUserContainerUserCurrentFieldsFragment,
   unknown
 >;
 export const CommunityCreateContainerMutationCommunityCreateDocument = {
@@ -7269,19 +7281,19 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
     AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
     AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
   >;
-export const LoggedInUserContainerCurrentUserQueryDocument = {
+export const LoggedInUserContainerUserCurrentQueryDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "LoggedInUserContainerCurrentUserQuery" },
+      name: { kind: "Name", value: "LoggedInUserContainerUserCurrentQuery" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "currentUser" },
+            name: { kind: "Name", value: "userCurrent" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -7289,7 +7301,7 @@ export const LoggedInUserContainerCurrentUserQueryDocument = {
                   kind: "FragmentSpread",
                   name: {
                     kind: "Name",
-                    value: "LoggedInUserContainerCurrentUserFields",
+                    value: "LoggedInUserContainerUserCurrentFields",
                   },
                 },
               ],
@@ -7298,9 +7310,9 @@ export const LoggedInUserContainerCurrentUserQueryDocument = {
         ],
       },
     },
-    ...LoggedInUserContainerCurrentUserFieldsFragmentDoc.definitions,
+    ...LoggedInUserContainerUserCurrentFieldsFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<
-  LoggedInUserContainerCurrentUserQueryQuery,
-  LoggedInUserContainerCurrentUserQueryQueryVariables
+  LoggedInUserContainerUserCurrentQueryQuery,
+  LoggedInUserContainerUserCurrentQueryQueryVariables
 >;

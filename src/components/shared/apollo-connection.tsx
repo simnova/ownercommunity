@@ -10,6 +10,7 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { useMsal } from './msal-react-lite';
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
+import { mergeDeep } from '@apollo/client/utilities';
 
 export interface AuthProps {
   AuthenticationIdentifier?: string
@@ -55,23 +56,10 @@ const ApolloConnection: FC<any> = (props) => {
     batchInterval: 50 // Wait no more than 50ms after first batched operation
   });
 
-  const cache = new InMemoryCache(
-    {
-      typePolicies: {
-        Query: {
-          fields: {
-            currentUser: {
-              keyArgs: false,
-            }
-          }
-        }
-      }
-    }
-  );
  
   const client = new ApolloClient({
     link: from([withToken, httpLink]),
-    cache: cache,
+    cache: new InMemoryCache(),
     connectToDevTools: process.env.NODE_ENV !== 'production',
   });
 

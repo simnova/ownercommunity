@@ -25,38 +25,23 @@ function App() {
     </ApolloConnection>
   )
 
-  const adminSection = (
+  const communitySection = (    
     <RequireMsal identifier="account">
       <ApolloConnection AuthenticationIdentifier="account">
-        <Admin />
+        <Routes>
+          <Route path='/accounts/*' element={ <Accounts />} />
+          <Route path='/:communityId/admin/*' element={ <Admin />} />
+          <Route path='/:communityId/members/*' element={<Members />} />
+        </Routes>
       </ApolloConnection>
     </RequireMsal>
   )
-
-  const accountsSection = (
-    <RequireMsal identifier="account">
-      <ApolloConnection AuthenticationIdentifier="account">
-        <Accounts />
-      </ApolloConnection>
-    </RequireMsal>
-  )
-  
-  const memberSection = (
-    <RequireMsal identifier="account">
-      <ApolloConnection AuthenticationIdentifier="account">
-        <Members />
-      </ApolloConnection>
-    </RequireMsal>
-  )
-
 
   return (
     <>
       <Routes>
         <Route path="*" element={rootSection}></Route>
-        <Route path='/community/:communityId/admin/*' element={adminSection} />
-        <Route path='/community/:communityId/members/*' element={memberSection} />
-        <Route path='accounts/*' element={accountsSection} />
+        <Route path='/community/*' element={communitySection} />
         <Route path='/login' element={authSection} />
       </Routes>
     </>

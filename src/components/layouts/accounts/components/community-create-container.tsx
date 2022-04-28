@@ -1,12 +1,12 @@
-import { CommunityCreate } from "./community-create";
+import { CommunityCreate } from './community-create';
 import {
   CommunityCreateContainerMutationCommunityCreateDocument,
   CommunityCreateInput,
   CommunityListContainerCommunitiesQueryDocument,
-} from "../../../../generated";
-import { useMutation } from "@apollo/client";
-import { message } from "antd";
-import { useNavigate } from "react-router-dom";
+} from '../../../../generated';
+import { useMutation } from '@apollo/client';
+import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 export const CommunityCreateContainer: React.FC<any> = (props) => {
   const [createCommunity, { data, loading, error }] = useMutation(
@@ -41,8 +41,8 @@ export const CommunityCreateContainer: React.FC<any> = (props) => {
           input: newCommunity,
         },
       });
-      message.success("Community Created");
-      navigate("../");
+      message.success('Community Created');
+      navigate('../');
     } catch (saveError) {
       message.error(`Error creating listing: ${JSON.stringify(saveError)}`);
     }

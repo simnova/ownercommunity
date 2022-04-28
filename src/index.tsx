@@ -9,14 +9,18 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter } from "react-router-dom";
 
+import MsalProvider from './components/shared/msal-react-lite';
+import msalProviderConfig from './config/msal-config';
+import ApolloConnection from './components/shared/apollo-connection';
+
+/*
 import {
   ApolloLink, HttpLink,
   ApolloClient,
   InMemoryCache,
   ApolloProvider
 } from "@apollo/client";
-import MsalProvider from './components/shared/msal-react-lite';
-import msalProviderConfig from './config/msal-config';
+
 
 
 const countryLink = new HttpLink({
@@ -34,14 +38,13 @@ const client = new ApolloClient({
   ),
   cache: new InMemoryCache()
 });
+*/
 
 ReactDOM.render(
   <React.StrictMode>
     <MsalProvider config={msalProviderConfig}>
       <BrowserRouter>
-        <ApolloProvider client={client}>
-          <App />
-        </ApolloProvider>
+        <App />
       </BrowserRouter>
     </MsalProvider>
   </React.StrictMode>,

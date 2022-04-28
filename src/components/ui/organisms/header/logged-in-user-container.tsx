@@ -1,7 +1,7 @@
 import React, {useEffect,useState} from 'react';
 import PropTypes from 'prop-types';
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { LoggedInUserContainerCurrentUserQueryDocument } from '../../../../generated';
+import { LoggedInUserContainerUserCurrentQueryDocument } from '../../../../generated';
 
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useMsal } from '../../../shared/msal-react-lite';
@@ -19,73 +19,14 @@ export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & Comp
 
 export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   const { getIsLoggedIn, login, logout, registerCallback, getSilentAuthResult } = useMsal();
- // const [isLoggedIn, setIsLoggedIn] = useState<boolean|undefined>(undefined);
 
-  const {loading, error, data} = useQuery(LoggedInUserContainerCurrentUserQueryDocument);
-  /*
-  const [loadUser,{called,loading, data, error}] = useLazyQuery(LoggedInUserContainerCurrentUserQueryDocument,{
-    variables: {
-    }
-  })
+  const {loading, error, data} = useQuery(LoggedInUserContainerUserCurrentQueryDocument);
 
-  useEffect(() => {
-    registerCallback('account',(result,authResult) => {
-      setIsLoggedIn(result);
-      if(!called && result) {
-        let currentUrl = `${window.location.protocol}//${window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '')}`;
-        
-        if( //if on an unauthenticated page redirect to community selection page
-          (currentUrl !== process.env.REACT_APP_AAD_REDIRECT_URI) ||
-          !(
-            window.location.pathname.startsWith('/accounts') ||
-            window.location.pathname.startsWith('/community') 
-          )
-        ){
-          window.location.href = (`${process.env.REACT_APP_AAD_REDIRECT_URI}/accounts`);
-        }else{
-          console.log('user-container-callback2',result,authResult);
-          loadUser().catch(e => console.error(e));
-        }
-      }
-    });
-  }, [registerCallback,loadUser,called]);
-
-  useEffect(() => {
-    const determineIfUserHasActiveSession = async () => {
-      var authResult =  await getSilentAuthResult('account');
-      if(authResult) {
-        setIsLoggedIn(true);
-        loadUser().catch(e => console.error(e));
-      }
-    }
-
-    if(!isLoggedIn){
-      //check to see if user is logged in - only initiated if not logged in
-      let logInResult = getIsLoggedIn('account');
-      if(logInResult){
-        determineIfUserHasActiveSession();
-      }
-    }
-  }, [isLoggedIn,getSilentAuthResult,getIsLoggedIn,setIsLoggedIn,loadUser]);
-
-  */
-  const handleLogin = async() => {
-    const communityUrl = localStorage.getItem('communityUrl')
-    if(communityUrl){
-      await login('account',{state:communityUrl});
-    }else{
-      await login('account');
-    }
-  }
-
-  const handleSignUp = async() => {
-    await login('account',{params:new Map<string,string>([['option','signup']])});
-  }
+  
   const handleLogout = async() => {
     await logout('account');
   }
 
-  //if(called && isLoggedIn === true) {
     if(loading){
       return <div>Loading...</div>
     }
@@ -93,30 +34,18 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
       return <div>Error :( {JSON.stringify(error)}
       </div>
     }
-    if(data  && data.currentUser){
+    if(data  && data.userCurrent  ){
       const userData:LoggedInUserPropTypes = {data:{
         isLoggedIn:true,
-        firstName:data.currentUser.firstName??'',
-        lastName:data.currentUser.lastName??'',
+        firstName:data.userCurrent.firstName??'',
+        lastName:data.userCurrent.lastName??'',
         notificationCount:0,  
-        profileImage:`https://sharethrift.blob.core.windows.net/public/${data.currentUser.id}`,      
+        profileImage:`https://sharethrift.blob.core.windows.net/public/${data.userCurrent.id}`,      
       }}
-      return <LoggedInUser key={data.currentUser.id} data={userData.data} onLogoutClicked={handleLogout}  />
+      return <LoggedInUser key={data.userCurrent.id} data={userData.data} onLogoutClicked={handleLogout}  />
     }
-  //}
   //catch-all return
   return <>
-
-  <div>Nothing</div>
-   
+   <div>Nothing</div>
   </>
-
-  /*
-   <LoggedInUser 
-      data={{isLoggedIn:false}} 
-      onLoginClicked={handleLogin}
-      onSignupClicked={handleSignUp}  
-      />
-      */
-  
 }

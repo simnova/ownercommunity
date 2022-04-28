@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import { Dropdown, Layout } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './section-layout.css';
@@ -13,6 +13,7 @@ const { Footer, Sider } = Layout;
 
 export const SectionLayout: React.FC<any> = (props) => {
   const [collapsed, setCollapsed] = useState(false);
+  const params = useParams();
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
       <Header>
@@ -26,6 +27,8 @@ export const SectionLayout: React.FC<any> = (props) => {
               </a>
             </Dropdown>
           </div>
+
+          <a className='allowBoxShadow' onClick={() => window.location.href = `/community/${params.communityId}/members`}>View Member Site</a>
        
           <div className='text-right bg-black text-sky-400' style={{flexGrow:'1'}}>
             <LoggedInUserContainer autoLogin={true} />

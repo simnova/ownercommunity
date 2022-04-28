@@ -1,7 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import { SectionLayout } from "./section-layout";
 import { Home } from "./pages/home";
-import { HomeOutlined, DribbbleOutlined,BarsOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  DribbbleOutlined,
+  ReadOutlined,
+} from "@ant-design/icons";
+import { Vocabulary } from "./pages/vocabulary";
 
 const pageLayouts = [
   {
@@ -9,21 +14,21 @@ const pageLayouts = [
     title: "Home",
     icon: <HomeOutlined />,
     id: "ROOT",
-  }, 
+  },
   {
     path: "/community/:communityId/members/test1/*",
     title: "Basketball",
     icon: <DribbbleOutlined />,
     id: 2,
     parent: "ROOT",
-  }
-  // {
-  //   path: "/community/:communityId/members/properties/*",
-  //   title: "Properties",
-  //   icon: <BarsOutlined />,
-  //   id: 6,
-  //   parent: "ROOT",
-  // },
+  },
+  {
+    path: "/community/:communityId/members/vocabulary/*",
+    title: "Vocabulary",
+    icon: <ReadOutlined />,
+    id: 3,
+    parent: "ROOT",
+  },
 ];
 
 export const Members: React.FC<any> = (props) => {
@@ -31,8 +36,8 @@ export const Members: React.FC<any> = (props) => {
     <Routes>
       <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
         <Route path="/" element={<Home />} />
-        <Route path="/test1" element={<Home />} /> 
-        {/* <Route path="/properties/*" element={<Properties />} /> */}
+        <Route path="/test1" element={<Home />} />
+        <Route path="/vocabulary/*" element={<Vocabulary />} />
       </Route>
     </Routes>
   );

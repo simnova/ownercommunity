@@ -1,12 +1,12 @@
 overwrite: true
-schema: 
-  - "./graphql/resolvers/core/graphql-tools-scalars.ts"
-  - "./graphql/resolvers/**/**.graphql"
-documents: "../ui/src/components/**/**.graphql"
+schema:
+  - './graphql/resolvers/core/graphql-tools-scalars.ts'
+  - './graphql/resolvers/**/**.graphql'
+documents: '../ownercommunity-ui/src/components/**/**.graphql'
 generates:
   graphql/generated.ts:
     config:
-      contextType: "./context#Context"
+      contextType: './context#Context'
       useIndexSignature: true
 
       scalars:
@@ -63,20 +63,20 @@ generates:
         UtcOffset: any
         Void: any
     plugins:
-      - "typescript"
-      - "typescript-resolvers"
+      - 'typescript'
+      - 'typescript-resolvers'
   ./graphql.schema.json:
     plugins:
-      - "introspection"
+      - 'introspection'
   ../ui/src/generated.tsx:
     config:
       withHooks: true
       withHOC: false
       withComponent: false
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typed-document-node"
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typed-document-node'
 
 hooks:
   afterAllFileWrite:

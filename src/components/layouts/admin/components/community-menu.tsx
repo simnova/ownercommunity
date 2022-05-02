@@ -1,6 +1,9 @@
 import React, { FC, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { AdminCommunityMenuContainerCommunitiesQueryDocument } from '../../../../generated';
+import {
+  AdminCommunityMenuContainerCommunitiesQueryDocument,
+  CommunityListContainerCommunitiesQueryDocument
+} from '../../../../generated';
 import PropTypes, { InferProps } from 'prop-types';
 
 import { Menu, Spin } from 'antd';
@@ -21,7 +24,7 @@ export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { loading, error, data } = useQuery(AdminCommunityMenuContainerCommunitiesQueryDocument, {
+  const { loading, error, data } = useQuery(CommunityListContainerCommunitiesQueryDocument, {
     variables: {}
   });
 
@@ -76,6 +79,7 @@ export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
                 <Menu.Item
                   key={community.id}
                   onClick={() => {
+                    localStorage.setItem('community', community.id);
                     navigate(`/community/${community.id}/admin`);
                   }}
                 >

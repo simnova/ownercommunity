@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import { Dropdown, Layout } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
@@ -12,8 +12,22 @@ import { CommunityMenu } from './components/community-menu';
 const { Footer, Sider } = Layout;
 
 export const SectionLayout: React.FC<any> = (props) => {
-  const [collapsed, setCollapsed] = useState(false);
+
   const params = useParams();
+
+  const sidebarCollapsed = localStorage.getItem('sidebar-collapsed');
+  const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+
+  const handleToggler = () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+      localStorage.setItem('sidebar-collapsed', 'true');
+      return;
+    }
+    setIsExpanded(true);
+    localStorage.removeItem('sidebar-collapsed');
+  };
+
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
       <Header>
@@ -41,8 +55,8 @@ export const SectionLayout: React.FC<any> = (props) => {
           theme='light'
           className='site-layout-background'
           collapsible
-          collapsed={collapsed}
-          onCollapse={() => setCollapsed(!collapsed)}
+          collapsed={!isExpanded}
+          onCollapse={handleToggler}
           style={{
             overflow: 'auto',
             height: 'calc(100vh - 64px)',

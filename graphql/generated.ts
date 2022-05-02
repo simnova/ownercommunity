@@ -645,11 +645,13 @@ export type Query = {
   community?: Maybe<Community>;
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
+  communityById?: Maybe<Community>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
+  membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
@@ -675,6 +677,11 @@ export type QueryCommunityByHandleArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryCommunityByIdArgs = {
+  id: Scalars["ID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberArgs = {
   id: Scalars["ID"];
 };
@@ -687,6 +694,11 @@ export type QueryMemberForCurrentUserArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberForUserArgs = {
   userId: Scalars["ObjectID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryMembersByCommunityIdArgs = {
+  communityId: Scalars["ID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -2453,6 +2465,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryCommunityByHandleArgs, "handle">
   >;
+  communityById?: Resolver<
+    Maybe<ResolversTypes["Community"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCommunityByIdArgs, "id">
+  >;
   member?: Resolver<
     Maybe<ResolversTypes["Member"]>,
     ParentType,
@@ -2480,6 +2498,12 @@ export type QueryResolvers<
     Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
     ParentType,
     ContextType
+  >;
+  membersByCommunityId?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMembersByCommunityIdArgs, "communityId">
   >;
   properties?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Property"]>>>,

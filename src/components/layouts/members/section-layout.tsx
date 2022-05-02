@@ -5,22 +5,23 @@ import { MenuComponent } from "../admin/components/menu-component";
 import { DownOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { CommunityMenu } from "../members/components/community-menu";
+import { LocalSettingsKeys, handleToggler } from "../../../constants";
 
 const { Footer, Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {
 
-  const sidebarCollapsed = localStorage.getItem('sidebar-collapsed');
+  const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
 
-  const handleToggler = () => {
-    if (isExpanded) {
-      setIsExpanded(false);
-      localStorage.setItem('sidebar-collapsed', 'true');
-      return;
-    }
-    setIsExpanded(true);
-    localStorage.removeItem('sidebar-collapsed');
-  };
+  // const handleToggler = () => {
+  //   if (isExpanded) {
+  //     setIsExpanded(false);
+  //     localStorage.setItem(LocalSettingsKeys.SidebarCollapsed, 'true');
+  //     return;
+  //   }
+  //   setIsExpanded(true);
+  //   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
+  // };
 
   return (
     <Layout
@@ -63,7 +64,7 @@ export const SectionLayout: React.FC<any> = (props) => {
           className="site-layout-background"
           collapsible
           collapsed={!isExpanded}
-          onCollapse={handleToggler}
+          onCollapse={() => handleToggler(isExpanded, setIsExpanded)}
           style={{
             overflow: "auto",
             height: "calc(100vh - 64px)",

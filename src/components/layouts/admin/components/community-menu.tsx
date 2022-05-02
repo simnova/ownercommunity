@@ -8,26 +8,22 @@ import { Link, useLocation, matchRoutes, useNavigate } from 'react-router-dom';
 import path from 'path';
 
 const ComponentPropTypes = {
-  onItemSelected: PropTypes.func,
+  onItemSelected: PropTypes.func
 };
 
 export interface ComponentProp {
   onItemSelected: (communityName: string) => void;
 }
 
-export type ComponentProps = InferProps<typeof ComponentPropTypes> &
-  ComponentProp;
+export type ComponentProps = InferProps<typeof ComponentPropTypes> & ComponentProp;
 
 export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { loading, error, data } = useQuery(
-    AdminCommunityMenuContainerCommunitiesQueryDocument,
-    {
-      variables: {},
-    }
-  );
+  const { loading, error, data } = useQuery(AdminCommunityMenuContainerCommunitiesQueryDocument, {
+    variables: {}
+  });
 
   if (error) {
     return (
@@ -64,13 +60,11 @@ export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
     return {
       key: community?.id,
       name: community?.name,
-      path: `/community/${community?.id}/admin`,
+      path: `/community/${community?.id}/admin`
     };
   });
   const matchedPages = matchRoutes(menuPages, location);
-  const matchedIds = matchedPages
-    ? matchedPages.map((x: any) => x.route.key.toString())
-    : [];
+  const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.key.toString()) : [];
 
   return (
     <>
@@ -82,7 +76,6 @@ export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
                 <Menu.Item
                   key={community.id}
                   onClick={() => {
-                    onItemSelected(community.name);
                     navigate(`/community/${community.id}/admin`);
                   }}
                 >

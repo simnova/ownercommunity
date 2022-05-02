@@ -8,7 +8,19 @@ import { CommunityMenu } from "../members/components/community-menu";
 
 const { Footer, Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {
-  const [collapsed, setCollapsed] = useState(false);
+
+  const sidebarCollapsed = localStorage.getItem('sidebar-collapsed');
+  const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+
+  const handleToggler = () => {
+    if (isExpanded) {
+      setIsExpanded(false);
+      localStorage.setItem('sidebar-collapsed', 'true');
+      return;
+    }
+    setIsExpanded(true);
+    localStorage.removeItem('sidebar-collapsed');
+  };
 
   return (
     <Layout
@@ -50,8 +62,8 @@ export const SectionLayout: React.FC<any> = (props) => {
           theme="light"
           className="site-layout-background"
           collapsible
-          collapsed={collapsed}
-          onCollapse={() => setCollapsed(!collapsed)}
+          collapsed={!isExpanded}
+          onCollapse={handleToggler}
           style={{
             overflow: "auto",
             height: "calc(100vh - 64px)",

@@ -700,6 +700,10 @@ export type QueryMemberForUserArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMembersByCommunityIdArgs = {
+  communityId: Scalars["ID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertiesByCommunityIdArgs = {
   communityId: Scalars["ID"];
 };

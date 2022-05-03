@@ -8,6 +8,7 @@ import { MenuComponent } from './components/menu-component';
 import { Header } from 'antd/lib/layout/layout';
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-container';
 import { CommunityMenu } from './components/community-menu';
+import { CommunitiesDropdownContainer } from './components/communities-dropdown-container';
 
 const { Footer, Sider } = Layout;
 
@@ -27,7 +28,7 @@ export const SectionLayout: React.FC<any> = (props) => {
           }}
         >
           <div style={{ display: 'flex' }} className="allowBoxShadow">
-            <Dropdown
+            {/* <Dropdown
               overlay={<CommunityMenu onItemSelectedCallback={() => setDropdownVisible(false)} />}
               visible={dropdownVisible}
               onVisibleChange={(visible) => setDropdownVisible(visible)}
@@ -39,7 +40,8 @@ export const SectionLayout: React.FC<any> = (props) => {
               >
                 Communities <DownOutlined />
               </a>
-            </Dropdown>
+            </Dropdown> */}
+            <CommunitiesDropdownContainer data={{ id: params.communityId }} />
           </div>
 
           <a

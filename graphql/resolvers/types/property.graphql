@@ -92,6 +92,7 @@ type Address {
 extend type Query {
   properties: [Property]
   property(id: ObjectID!): Property
+  propertiesByCommunityId(communityId: ID!): [Property] 
 }
 
 extend type Mutation {

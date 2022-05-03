@@ -1,0 +1,39 @@
+<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="ownercommunityb2c.onmicrosoft.com" PolicyId="B2C_1A_TrustFrameworkExtensions" PublicPolicyUri="http://ownercommunityb2c.onmicrosoft.com/B2C_1A_TrustFrameworkExtensions" TenantObjectId="9227e22b-4754-46be-98c1-2a1a1e40457e">
+  <BasePolicy>
+    <TenantId>ownercommunityb2c.onmicrosoft.com</TenantId>
+    <PolicyId>B2C_1A_TrustFrameworkLocalization</PolicyId>
+  </BasePolicy>
+  <BuildingBlocks></BuildingBlocks>
+  <ClaimsProviders>
+    <ClaimsProvider>
+      <DisplayName>Facebook</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="Facebook-OAUTH">
+          <Metadata>
+            <Item Key="client_id">5555150484514127</Item>
+            <Item Key="scope">email public_profile</Item>
+            <Item Key="ClaimsEndpoint">https://graph.facebook.com/me?fields=id,first_name,last_name,name,email</Item>
+          </Metadata>
+        </TechnicalProfile>
+      </TechnicalProfiles>
+    </ClaimsProvider>
+    <ClaimsProvider>
+      <DisplayName>Local Account SignIn</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="login-NonInteractive">
+          <Metadata>
+            <Item Key="client_id">972bb3fe-d399-4199-88da-e7d02f64ad3a</Item>
+            <Item Key="IdTokenAudience">ad970e80-3284-4edc-b680-12c6ce3ec9d5</Item>
+          </Metadata>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="client_id" DefaultValue="972bb3fe-d399-4199-88da-e7d02f64ad3a" />
+            <InputClaim ClaimTypeReferenceId="resource_id" PartnerClaimType="resource" DefaultValue="ad970e80-3284-4edc-b680-12c6ce3ec9d5" />
+          </InputClaims>
+        </TechnicalProfile>
+      </TechnicalProfiles>
+    </ClaimsProvider>
+  </ClaimsProviders>
+  <!--UserJourneys>
+	
+	</UserJourneys-->
+</TrustFrameworkPolicy>

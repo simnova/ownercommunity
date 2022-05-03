@@ -639,9 +639,11 @@ export type Query = {
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
+  propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
+  rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
   serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -688,6 +690,11 @@ export type QueryMembersByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesByCommunityIdArgs = {
+  communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertyArgs = {
   id: Scalars['ObjectID'];
 };
@@ -695,6 +702,11 @@ export type QueryPropertyArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryRoleArgs = {
   id: Scalars['ObjectID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryRolesByCommunityIdArgs = {
+  communityId: Scalars['ID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -2016,11 +2028,13 @@ export type AdminRolesDetailContainerRoleFieldsFragment = {
   };
 };
 
-export type AdminRolesListContainerRolesQueryVariables = Exact<{ [key: string]: never }>;
+export type AdminRolesListContainerRolesQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
 
 export type AdminRolesListContainerRolesQuery = {
   __typename?: 'Query';
-  roles?: Array<{
+  rolesByCommunityId?: Array<{
     __typename?: 'Role';
     roleName: string;
     isDefault: boolean;
@@ -5552,12 +5566,29 @@ export const AdminRolesListContainerRolesDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'AdminRolesListContainerRoles' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
+            name: { kind: 'Name', value: 'rolesByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [

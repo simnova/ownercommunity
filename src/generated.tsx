@@ -643,6 +643,7 @@ export type Query = {
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
+  propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -679,6 +680,11 @@ export type QueryMemberForCurrentUserArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberForUserArgs = {
   userId: Scalars["ObjectID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesByCommunityIdArgs = {
+  communityId: Scalars["ID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1808,12 +1814,12 @@ export type AdminPropertiesDetailContainerMembersFieldsFragment = {
 };
 
 export type AdminPropertiesListContainerPropertiesQueryVariables = Exact<{
-  [key: string]: never;
+  communityId: Scalars["ID"];
 }>;
 
 export type AdminPropertiesListContainerPropertiesQuery = {
   __typename?: "Query";
-  properties?: Array<{
+  propertiesByCommunityId?: Array<{
     __typename?: "Property";
     propertyName: string;
     propertyType?: string | null;
@@ -6109,12 +6115,35 @@ export const AdminPropertiesListContainerPropertiesDocument = {
       kind: "OperationDefinition",
       operation: "query",
       name: { kind: "Name", value: "AdminPropertiesListContainerProperties" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "communityId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          },
+        },
+      ],
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "properties" },
+            name: { kind: "Name", value: "propertiesByCommunityId" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "communityId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "communityId" },
+                },
+              },
+            ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [

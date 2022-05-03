@@ -9,12 +9,12 @@ export const PropertiesAddContainer: React.FC<any> = (props) => {
   const [propertyAdd] = useMutation(AdminPropertiesAddContainerPropertyAddDocument,{
     update(cache, { data }) { // update the list with the new item - necessary for root objects
       const newProperty = data?.propertyAdd.property;
-      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument })?.properties;
+      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument })?.propertiesByCommunityId;
       if(newProperty && properties) {
         cache.writeQuery({
           query: AdminPropertiesListContainerPropertiesDocument,
           data: {
-            properties: [...properties, newProperty]
+            propertiesByCommunityId: [...properties, newProperty]
           }
         })
       }

@@ -6,13 +6,15 @@ import { useNavigate } from 'react-router-dom';
 
 export const PropertiesAddContainer: React.FC<any> = (props) => {
   const navigate = useNavigate();
-  const [propertyAdd] = useMutation(AdminPropertiesAddContainerPropertyAddDocument,{
+  const [propertyAdd] = useMutation(AdminPropertiesAddContainerPropertyAddDocument,
+    {
     update(cache, { data }) { // update the list with the new item - necessary for root objects
       const newProperty = data?.propertyAdd.property;
-      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument })?.propertiesByCommunityId;
+      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument,  variables: {communityId: props.data.communityId} })?.propertiesByCommunityId;
       if(newProperty && properties) {
         cache.writeQuery({
           query: AdminPropertiesListContainerPropertiesDocument,
+          variables: {communityId: props.data.communityId},
           data: {
             propertiesByCommunityId: [...properties, newProperty]
           }

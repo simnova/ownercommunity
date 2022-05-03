@@ -2,10 +2,11 @@ import React from 'react';
 import { PageHeader } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { PropertiesAddContainer } from '../components/properties-add-container';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const PropertiesAdd: React.FC<any> = (props) => {
   const navigate = useNavigate();
+  const params = useParams();
   return (
     <SubPageLayout
         fixedHeader={false}
@@ -16,7 +17,7 @@ export const PropertiesAdd: React.FC<any> = (props) => {
           />
         }
         >
-        <PropertiesAddContainer />
+        <PropertiesAddContainer data={{communityId: params.communityId}}/>
       </SubPageLayout>
   )  
 }

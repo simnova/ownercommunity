@@ -7,13 +7,15 @@ import { useNavigate } from 'react-router-dom';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    communityId: PropTypes.string.isRequired
   }),
 }
 
 interface ComponentPropInterface {
   data: {
     id: string;
+    communityId: string;
   }
 }
 
@@ -25,10 +27,11 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
   const [deleteProperty] = useMutation(AdminPropertiesDetailContainerPropertyDeleteDocument,{
     update(cache, { data }) { // update the list by removing the deleted item - necessary for root objects
       const deletedProperty = data?.propertyDelete.property;
-      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument })?.propertiesByCommunityId;
+      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument,  variables: {communityId: props.data.communityId} })?.propertiesByCommunityId;
       if(deletedProperty && properties) {
         cache.writeQuery({
           query: AdminPropertiesListContainerPropertiesDocument,
+          variables: {communityId: props.data.communityId},
           data: {
             propertiesByCommunityId: properties?.filter(property =>  property?.id !== deletedProperty.id)
           }

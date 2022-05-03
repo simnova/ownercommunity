@@ -967,6 +967,35 @@ export type CommunityListContainerCommunitiesFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type AdminCommunityDetailContainerCommunityQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type AdminCommunityDetailContainerCommunityQuery = {
+  __typename?: 'Query';
+  communityById?: {
+    __typename?: 'Community';
+    name?: string | null;
+    domain?: string | null;
+    whiteLabelDomain?: string | null;
+    handle?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type AdminCommunityDetailContainerCommunityFieldsFragment = {
+  __typename?: 'Community';
+  name?: string | null;
+  domain?: string | null;
+  whiteLabelDomain?: string | null;
+  handle?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
 export type AdminCommunityMenuContainerCommunitiesQueryQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2582,6 +2611,28 @@ export const CommunityListContainerCommunitiesFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<CommunityListContainerCommunitiesFieldsFragment, unknown>;
+export const AdminCommunityDetailContainerCommunityFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminCommunityDetailContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminCommunityDetailContainerCommunityFieldsFragment, unknown>;
 export const AdminCommunityMenuContainerCommunitiesFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -4000,6 +4051,55 @@ export const CommunityListContainerCommunitiesQueryDocument = {
 } as unknown as DocumentNode<
   CommunityListContainerCommunitiesQueryQuery,
   CommunityListContainerCommunitiesQueryQueryVariables
+>;
+export const AdminCommunityDetailContainerCommunityDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AdminCommunityDetailContainerCommunity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'communityById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminCommunityDetailContainerCommunityFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...AdminCommunityDetailContainerCommunityFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  AdminCommunityDetailContainerCommunityQuery,
+  AdminCommunityDetailContainerCommunityQueryVariables
 >;
 export const AdminCommunityMenuContainerCommunitiesQueryDocument = {
   kind: 'Document',

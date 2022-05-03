@@ -7,7 +7,7 @@ import {
 } from "../../../infrastructure/data-sources/cosmos-db/models/member";
 import { RoleModel } from "../../../infrastructure/data-sources/cosmos-db/models/role";
 import { Context } from "../../context";
-import { ObjectId, Types } from "mongoose";
+import { Types } from "mongoose";
 
 export class Members extends MongoDataSource<Member, Context> {
   async getMemberByCommunityIdUserId(

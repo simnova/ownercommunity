@@ -63,10 +63,11 @@ export const CommunityMenu: FC<any> = ({ onItemSelectedCallback }) => {
     return {
       key: community?.id,
       name: community?.name,
-      path: `/community/${community?.id}/admin`
+      path: `/community/${community?.id}/admin/*`
     };
   });
   const matchedPages = matchRoutes(menuPages, location);
+
   const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.key.toString()) : [];
   const onMenuItemClicked = (e: any) => {
     onItemSelectedCallback();

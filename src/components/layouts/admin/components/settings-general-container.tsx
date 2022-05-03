@@ -29,13 +29,12 @@ export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropType
   const [communityUpdate, { error }] = useMutation(
     AdminSettingsGeneralContainerCommunityUpdateDocument
   );
-  const params = useParams();
   const {
     data: communityData,
     loading: accountLoading,
     error: accountError
   } = useQuery(AdminSettingsGeneralContainerCommunityDocument, {
-    variables: { id: params.communityId ?? '' }
+    variables: { id: props.data.id ?? '' }
   });
 
   // const [

@@ -4,14 +4,19 @@ import { MembersList } from './members-list';
 import { Skeleton } from 'antd';
 import { useParams } from 'react-router-dom';
 
+interface MembersListContainerProps {
+  data: {
+    communityId: string;
+  };
+}
+
 export const MembersListContainer: React.FC<any> = (props) => {
-  const params = useParams();
   const {
     data: memberData,
     loading: memberLoading,
     error: memberError
   } = useQuery(AdminMembersListContainerMembersDocument, {
-    variables: { communityId: params.communityId ?? '' }
+    variables: { communityId: props.data.communityId ?? '' }
   });
 
   if (memberLoading) {

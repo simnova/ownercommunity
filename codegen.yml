@@ -68,7 +68,7 @@ generates:
   ./graphql.schema.json:
     plugins:
       - 'introspection'
-  ../ui/src/generated.tsx:
+  ../ownercommunity-ui/src/generated.tsx:
     config:
       withHooks: true
       withHOC: false

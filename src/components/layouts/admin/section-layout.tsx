@@ -8,7 +8,7 @@ import { MenuComponent } from './components/menu-component';
 import { Header } from 'antd/lib/layout/layout';
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-container';
 import { CommunityMenu } from './components/community-menu';
-import { LocalSettingsKeys, handleToggler } from '../../../constants';
+import { handleToggler, LocalSettingsKeys } from '../../../constants';
 
 const { Footer, Sider } = Layout;
 
@@ -18,17 +18,7 @@ export const SectionLayout: React.FC<any> = (props) => {
 
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
-
-  // const handleToggler = () => {
-  //   if (isExpanded) {
-  //     setIsExpanded(false);
-  //     localStorage.setItem(LocalSettingsKeys.SidebarCollapsed, 'true');
-  //     return;
-  //   }
-  //   setIsExpanded(true);
-  //   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
-  // };
-
+  
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
       <Header>

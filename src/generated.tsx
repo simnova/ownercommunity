@@ -695,11 +695,6 @@ export type QueryPropertiesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryPropertiesByCommunityIdArgs = {
-  communityId: Scalars["ID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertyArgs = {
   id: Scalars['ObjectID'];
 };
@@ -1754,20 +1749,14 @@ export type AdminPropertiesDetailContainerMembersFieldsFragment = {
   updatedAt?: any | null;
 };
 
-export type AdminPropertiesListContainerPropertiesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type AdminPropertiesListContainerPropertiesQuery = {
-  __typename?: 'Query';
-  properties?: Array<{
-    __typename?: 'Property';
 export type AdminPropertiesListContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars["ID"];
+  communityId: Scalars['ID'];
 }>;
 
 export type AdminPropertiesListContainerPropertiesQuery = {
-  __typename?: "Query";
+  __typename?: 'Query';
   propertiesByCommunityId?: Array<{
-    __typename?: "Property";
+    __typename?: 'Property';
     propertyName: string;
     propertyType?: string | null;
     id: any;
@@ -5319,39 +5308,28 @@ export const AdminPropertiesListContainerPropertiesDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'AdminPropertiesListContainerProperties' },
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "AdminPropertiesListContainerProperties" },
       variableDefinitions: [
         {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "communityId" },
-          },
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
           type: {
-            kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
-          },
-        },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
       ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'properties' },
-            kind: "Field",
-            name: { kind: "Name", value: "propertiesByCommunityId" },
+            name: { kind: 'Name', value: 'propertiesByCommunityId' },
             arguments: [
               {
-                kind: "Argument",
-                name: { kind: "Name", value: "communityId" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "communityId" },
-                },
-              },
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
             ],
             selectionSet: {
               kind: 'SelectionSet',

@@ -1,3 +1,4 @@
+# @format
 
 type Role implements MongoBase {
   roleName: String!
@@ -22,18 +23,17 @@ input PermissionsInput {
   propertyPermissions: PropertyPermissionsInput!
 }
 
-
 type ServiceTicketPermissions {
   canCreateTickets: Boolean!
   canManageTickets: Boolean!
   canAssignTickets: Boolean!
-  canWorkOnTickets: Boolean!  
+  canWorkOnTickets: Boolean!
 }
 input ServiceTicketPermissionsInput {
   canCreateTickets: Boolean!
   canManageTickets: Boolean!
   canAssignTickets: Boolean!
-  canWorkOnTickets: Boolean!  
+  canWorkOnTickets: Boolean!
 }
 
 type PropertyPermissions {
@@ -64,6 +64,7 @@ input CommunityPermissionsInput {
 
 extend type Query {
   roles: [Role]
+  rolesByCommunityId(communityId: ID!): [Role]
   role(id: ObjectID!): Role
 }
 

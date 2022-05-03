@@ -11,16 +11,16 @@ import { Link, useLocation, matchRoutes, useNavigate } from 'react-router-dom';
 import path from 'path';
 
 const ComponentPropTypes = {
-  onItemSelected: PropTypes.func
+  onItemSelectedCallback: PropTypes.func
 };
 
 export interface ComponentProp {
-  onItemSelected: (communityName: string) => void;
+  onItemSelectedCallback: () => void;
 }
 
 export type ComponentProps = InferProps<typeof ComponentPropTypes> & ComponentProp;
 
-export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
+export const CommunityMenu: FC<any> = ({ onItemSelectedCallback }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -68,28 +68,18 @@ export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
   });
   const matchedPages = matchRoutes(menuPages, location);
   const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.key.toString()) : [];
+  const onMenuItemClicked = (e: any) => {
+    onItemSelectedCallback();
+    navigate(`/community/${e.key}/admin`);
+  };
 
   return (
-    <>
-      <Menu defaultSelectedKeys={matchedIds} theme="light" selectable>
-        {data.communities.map((community) => {
-          if (community !== null) {
-            return (
-              <>
-                <Menu.Item
-                  key={community.id}
-                  onClick={() => {
-                    localStorage.setItem('community', community.id);
-                    navigate(`/community/${community.id}/admin`);
-                  }}
-                >
-                  {community.name}
-                </Menu.Item>
-              </>
-            );
-          }
-        })}
-      </Menu>
-    </>
+    <Menu defaultSelectedKeys={matchedIds} theme="light" onClick={onMenuItemClicked}>
+      {data.communities.map((community) => {
+        if (community !== null) {
+          return <Menu.Item key={community.id}>{community.name}</Menu.Item>;
+        }
+      })}
+    </Menu>
   );
 };

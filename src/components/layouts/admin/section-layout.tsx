@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { Dropdown, Layout } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
 import './section-layout.css';
 
 import { MenuComponent } from './components/menu-component';
 import { Header } from 'antd/lib/layout/layout';
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-container';
-import { CommunityMenu } from './components/community-menu';
 import { CommunitiesDropdownContainer } from './components/communities-dropdown-container';
+import { handleToggler, LocalSettingsKeys } from '../../../constants';
 
-const { Footer, Sider } = Layout;
+const { Sider } = Layout;
 
 export const SectionLayout: React.FC<any> = (props) => {
-  const [collapsed, setCollapsed] = useState(false);
   const params = useParams();
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
+  const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
       <Header>
@@ -61,8 +61,8 @@ export const SectionLayout: React.FC<any> = (props) => {
           theme="light"
           className="site-layout-background"
           collapsible
-          collapsed={collapsed}
-          onCollapse={() => setCollapsed(!collapsed)}
+          collapsed={!isExpanded}
+          onCollapse={() => handleToggler(isExpanded, setIsExpanded)}
           style={{
             overflow: 'auto',
             height: 'calc(100vh - 64px)',

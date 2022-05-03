@@ -25,12 +25,12 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
   const [deleteProperty] = useMutation(AdminPropertiesDetailContainerPropertyDeleteDocument,{
     update(cache, { data }) { // update the list by removing the deleted item - necessary for root objects
       const deletedProperty = data?.propertyDelete.property;
-      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument })?.properties;
+      const properties = cache.readQuery({ query: AdminPropertiesListContainerPropertiesDocument })?.propertiesByCommunityId;
       if(deletedProperty && properties) {
         cache.writeQuery({
           query: AdminPropertiesListContainerPropertiesDocument,
           data: {
-            properties: properties?.filter(property =>  property?.id !== deletedProperty.id)
+            propertiesByCommunityId: properties?.filter(property =>  property?.id !== deletedProperty.id)
           }
         })
       }

@@ -2449,12 +2449,12 @@ export type AdminServiceTicketsDetailContainerPropertyFieldsFragment = {
 };
 
 export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVariables = Exact<{
-  [key: string]: never;
+  communityId: Scalars['ID'];
 }>;
 
 export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery = {
   __typename?: 'Query';
-  serviceTicketsOpenByCommunity?: Array<{
+  serviceTicketsByCommunityId?: Array<{
     __typename?: 'ServiceTicket';
     title: string;
     priority: number;
@@ -6089,12 +6089,29 @@ export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocume
         kind: 'Name',
         value: 'AdminServiceTicketsListContainerServiceTicketsOpenByCommunity'
       },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'serviceTicketsOpenByCommunity' },
+            name: { kind: 'Name', value: 'serviceTicketsByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [

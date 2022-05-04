@@ -4,7 +4,13 @@ import { message,Skeleton } from "antd";
 import { ServiceTicketsCreate } from "./service-tickets-create";
 import { useNavigate } from "react-router-dom";
 
-export const ServiceTicketsCreateContainer: React.FC<any> = (props) => {
+interface ServiceTicketsCreateContainerProps {
+  data: {
+    communityId: string
+  }
+}
+
+export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (props) => {
   const navigate = useNavigate();
   const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminServiceTicketsCreateContainerMembersDocument);
   const { data: propertyData, loading: propertyLoading, error: propertyError } = useQuery(AdminServiceTicketsCreateContainerPropertiesDocument);
@@ -12,12 +18,15 @@ export const ServiceTicketsCreateContainer: React.FC<any> = (props) => {
 
     update(cache, { data }) { // update the list with the new item
       const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
-      const serviceTickets = cache.readQuery({ query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument })?.serviceTicketsOpenByCommunity;
+      const serviceTickets = cache.readQuery({ 
+        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument, 
+        variables: {communityId: props.data.communityId} })?.serviceTicketsByCommunityId;
       if(newServiceTicket && serviceTickets) {
         cache.writeQuery({
           query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+          variables: {communityId: props.data.communityId},
           data: {
-            serviceTicketsOpenByCommunity: [...serviceTickets, newServiceTicket]
+            serviceTicketsByCommunityId: [...serviceTickets, newServiceTicket]
           }
         })
       }

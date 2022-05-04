@@ -14,13 +14,12 @@ interface ComponentPropInterface {
 
 export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & ComponentPropInterface;
 */
-export const Header: React.FC<any> = (props) => {
- 
-  
-  return <>
-    <div className={styles['top-bar']}>
-      <LoggedInUserContainer autoLogin={false} />
-    </div>
-  </>
-
-}
+export const OwnerCommunityHeader: React.FC<any> = (props) => {
+  return (
+    <>
+      <div className={styles['top-bar']}>
+        <LoggedInUserContainer autoLogin={false} />
+      </div>
+    </>
+  );
+};

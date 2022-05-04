@@ -3,7 +3,13 @@ import { AdminRolesListContainerRolesDocument, Role } from '../../../../generate
 import { RolesList } from './roles-list';
 import { Skeleton } from 'antd';
 
-export const RolesListContainer: React.FC<any> = (props) => {
+interface RolesListContainerProps {
+  data: {
+    communityId: string;
+  };
+}
+
+export const RolesListContainer: React.FC<RolesListContainerProps> = (props) => {
   const {
     data: rolesData,
     loading: rolesLoading,

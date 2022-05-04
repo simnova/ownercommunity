@@ -1330,11 +1330,13 @@ export type AdminMembersDetailContainerMemberQuery = {
   } | null;
 };
 
-export type AdminMembersDetailContainerRolesQueryVariables = Exact<{ [key: string]: never }>;
+export type AdminMembersDetailContainerRolesQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
 
 export type AdminMembersDetailContainerRolesQuery = {
   __typename?: 'Query';
-  roles?: Array<{
+  rolesByCommunityId?: Array<{
     __typename?: 'Role';
     roleName: string;
     isDefault: boolean;
@@ -1652,11 +1654,13 @@ export type AdminPropertiesDetailContainerPropertyQuery = {
   } | null;
 };
 
-export type AdminPropertiesDetailContainerMembersQueryVariables = Exact<{ [key: string]: never }>;
+export type AdminPropertiesDetailContainerMembersQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
 
 export type AdminPropertiesDetailContainerMembersQuery = {
   __typename?: 'Query';
-  members?: Array<{
+  membersByCommunityId?: Array<{
     __typename?: 'Member';
     id: any;
     memberName?: string | null;
@@ -2062,21 +2066,29 @@ export type AdminRolesListContainerRolesFieldsFragment = {
 };
 
 export type AdminServiceTicketsCreateContainerMembersQueryVariables = Exact<{
-  [key: string]: never;
+  communityId: Scalars['ID'];
 }>;
 
 export type AdminServiceTicketsCreateContainerMembersQuery = {
   __typename?: 'Query';
-  members?: Array<{ __typename?: 'Member'; id: any; memberName?: string | null } | null> | null;
+  membersByCommunityId?: Array<{
+    __typename?: 'Member';
+    id: any;
+    memberName?: string | null;
+  } | null> | null;
 };
 
 export type AdminServiceTicketsCreateContainerPropertiesQueryVariables = Exact<{
-  [key: string]: never;
+  communityId: Scalars['ID'];
 }>;
 
 export type AdminServiceTicketsCreateContainerPropertiesQuery = {
   __typename?: 'Query';
-  properties?: Array<{ __typename?: 'Property'; id: any; propertyName: string } | null> | null;
+  propertiesByCommunityId?: Array<{
+    __typename?: 'Property';
+    id: any;
+    propertyName: string;
+  } | null> | null;
 };
 
 export type AdminServiceTicketsCreateContainerServiceTicketCreateMutationVariables = Exact<{
@@ -4666,12 +4678,29 @@ export const AdminMembersDetailContainerRolesDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'AdminMembersDetailContainerRoles' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'roles' },
+            name: { kind: 'Name', value: 'rolesByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -5178,12 +5207,29 @@ export const AdminPropertiesDetailContainerMembersDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'AdminPropertiesDetailContainerMembers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'members' },
+            name: { kind: 'Name', value: 'membersByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -5640,12 +5686,29 @@ export const AdminServiceTicketsCreateContainerMembersDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'AdminServiceTicketsCreateContainerMembers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'members' },
+            name: { kind: 'Name', value: 'membersByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -5672,12 +5735,29 @@ export const AdminServiceTicketsCreateContainerPropertiesDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'AdminServiceTicketsCreateContainerProperties' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'properties' },
+            name: { kind: 'Name', value: 'propertiesByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [

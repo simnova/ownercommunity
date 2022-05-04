@@ -1,11 +1,11 @@
-query AdminServiceTicketsCreateContainerMembers {
-  members {
+query AdminServiceTicketsCreateContainerMembers($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsCreateContainerMemberFields
   }
 }
 
-query AdminServiceTicketsCreateContainerProperties {
-  properties {
+query AdminServiceTicketsCreateContainerProperties($communityId: ID!) {
+  propertiesByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsCreateContainerPropertyFields
   }
 }
@@ -38,7 +38,7 @@ fragment AdminServiceTicketsCreateContainerServiceTicketFields on ServiceTicket 
   title
   status
   priority
-  
+
   id
   createdAt
   updatedAt

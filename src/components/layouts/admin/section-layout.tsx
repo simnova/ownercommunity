@@ -18,7 +18,7 @@ export const SectionLayout: React.FC<any> = (props) => {
 
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
-      <Header>
+      <Header style={{ backgroundColor: 'black' }}>
         <div
           style={{
             display: 'flex',
@@ -28,19 +28,6 @@ export const SectionLayout: React.FC<any> = (props) => {
           }}
         >
           <div style={{ display: 'flex' }} className="allowBoxShadow">
-            {/* <Dropdown
-              overlay={<CommunityMenu onItemSelectedCallback={() => setDropdownVisible(false)} />}
-              visible={dropdownVisible}
-              onVisibleChange={(visible) => setDropdownVisible(visible)}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                className="ant-dropdown-link"
-                style={{ minHeight: '50px' }}
-              >
-                Communities <DownOutlined />
-              </a>
-            </Dropdown> */}
             <CommunitiesDropdownContainer data={{ id: params.communityId }} />
           </div>
 
@@ -51,7 +38,7 @@ export const SectionLayout: React.FC<any> = (props) => {
             View Member Site
           </a>
 
-          <div className="text-right bg-black text-sky-400" style={{ flexGrow: '1' }}>
+          <div className="text-right text-sky-400" style={{ flexGrow: '1' }}>
             <LoggedInUserContainer autoLogin={true} />
           </div>
         </div>

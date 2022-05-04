@@ -10,13 +10,13 @@ interface MembersListContainerProps {
   };
 }
 
-export const MembersListContainer: React.FC<any> = (props) => {
+export const MembersListContainer: React.FC<MembersListContainerProps> = (props) => {
   const {
     data: memberData,
     loading: memberLoading,
     error: memberError
   } = useQuery(AdminMembersListContainerMembersDocument, {
-    variables: { communityId: props.data.communityId ?? '' }
+    variables: { communityId: props.data.communityId }
   });
 
   if (memberLoading) {

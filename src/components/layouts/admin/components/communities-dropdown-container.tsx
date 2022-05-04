@@ -1,18 +1,17 @@
 import { useQuery } from '@apollo/client';
-import { Typography, Skeleton } from 'antd';
-import {
-  AdminCommunitiesDropdownContainerCommunityDocument,
-  AdminCommunityDetailContainerCommunityDocument
-} from '../../../../generated';
+import { Skeleton, Spin } from 'antd';
+import { AdminCommunitiesDropdownContainerCommunityDocument } from '../../../../generated';
 import { CommunitiesDropdown } from './communities-dropdown';
 
 interface CommunitiesDropdownContainerProps {
   data: {
-    id: string;
+    id?: string;
   };
 }
 
-export const CommunitiesDropdownContainer: React.FC<any> = (props) => {
+export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainerProps> = (
+  props
+) => {
   const {
     data: communityData,
     loading: communityLoading,
@@ -23,8 +22,9 @@ export const CommunitiesDropdownContainer: React.FC<any> = (props) => {
 
   if (communityLoading) {
     return (
-      <div>
-        <Skeleton active />
+      <div className="text-sky-400">
+        {/* <Skeleton active /> */}
+        Loading...
       </div>
     );
   }

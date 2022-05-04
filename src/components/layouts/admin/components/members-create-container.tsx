@@ -8,7 +8,13 @@ import { message, Skeleton } from 'antd';
 import { MembersCreate } from './members-create';
 import { useNavigate } from 'react-router-dom';
 
-export const MembersCreateContainer: React.FC<any> = (props) => {
+interface MembersCreateContainerProps {
+  data: {
+    communityId: string;
+  };
+}
+
+export const MembersCreateContainer: React.FC<MembersCreateContainerProps> = (props) => {
   const navigate = useNavigate();
   const [memberCreate, { data: createData, loading: createLoading, error: createError }] =
     useMutation(AdminMembersCreateContainerMemberCreateDocument, {
@@ -16,11 +22,13 @@ export const MembersCreateContainer: React.FC<any> = (props) => {
         // update the list with the new item
         const newMember = data?.memberCreate.member;
         const members = cache.readQuery({
-          query: AdminMembersListContainerMembersDocument
+          query: AdminMembersListContainerMembersDocument,
+          variables: { communityId: props.data.communityId ?? '' }
         })?.membersByCommunityId;
         if (newMember && members) {
           cache.writeQuery({
             query: AdminMembersListContainerMembersDocument,
+            variables: { communityId: props.data.communityId ?? '' },
             data: {
               membersByCommunityId: [...members, newMember]
             }

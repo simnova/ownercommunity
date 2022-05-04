@@ -9,15 +9,10 @@ export const PropertiesAdd: React.FC<any> = (props) => {
   const params = useParams();
   return (
     <SubPageLayout
-        fixedHeader={false}
-        header={
-          <PageHeader 
-            title="Add Property"
-            onBack={() => navigate('../')} 
-          />
-        }
-        >
-        <PropertiesAddContainer data={{communityId: params.communityId}}/>
-      </SubPageLayout>
-  )  
-}
+      fixedHeader={false}
+      header={<PageHeader title="Add Property" onBack={() => navigate('../')} />}
+    >
+      <PropertiesAddContainer data={{ communityId: params.communityId ?? '' }} />
+    </SubPageLayout>
+  );
+};

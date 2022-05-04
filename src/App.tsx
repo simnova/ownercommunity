@@ -14,35 +14,35 @@ function App() {
   const params = useParams();
 
   const authSection = (
-    <RequireMsal identifier='account' forceLogin={true}>
+    <RequireMsal identifier="account" forceLogin={true}>
       <AuthLanding />
     </RequireMsal>
-  )
+  );
 
   const rootSection = (
     <ApolloConnection AuthenticationIdentifier="account">
       <Root />
     </ApolloConnection>
-  )
+  );
 
-  const communitySection = (    
+  const communitySection = (
     <RequireMsal identifier="account">
       <ApolloConnection AuthenticationIdentifier="account">
         <Routes>
-          <Route path='/accounts/*' element={ <Accounts />} />
-          <Route path='/:communityId/admin/*' element={ <Admin />} />
-          <Route path='/:communityId/members/*' element={<Members />} />
+          <Route path="/accounts/*" element={<Accounts />} />
+          <Route path="/:communityId/admin/*" element={<Admin />} />
+          <Route path="/:communityId/members/*" element={<Members />} />
         </Routes>
       </ApolloConnection>
     </RequireMsal>
-  )
+  );
 
   return (
     <>
       <Routes>
         <Route path="*" element={rootSection}></Route>
-        <Route path='/community/*' element={communitySection} />
-        <Route path='/login' element={authSection} />
+        <Route path="/community/*" element={communitySection} />
+        <Route path="/login" element={authSection} />
       </Routes>
     </>
   );

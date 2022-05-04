@@ -6,6 +6,6 @@ export const PropertiesGeneral: React.FC<any> = (props) => {
   const params = useParams();
 
   return (
-    <PropertiesDetailContainer data={{id:params.id ?? ''}} />
+    <PropertiesDetailContainer data={{id:params.id ?? '', communityId:params.communityId ?? ''}} />
   )
 }

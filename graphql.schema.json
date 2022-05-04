@@ -5379,7 +5379,7 @@
             "deprecationReason": null
           },
           {
-            "name": "serviceTicketsById",
+            "name": "serviceTicketsByCommunityId",
             "description": null,
             "args": [
               {

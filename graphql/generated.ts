@@ -660,7 +660,7 @@ export type Query = {
   rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
   serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
-  serviceTicketsById?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicketsByCommunityId?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -730,7 +730,7 @@ export type QueryServiceTicketArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsByIdArgs = {
+export type QueryServiceTicketsByCommunityIdArgs = {
   communityId: Scalars["ID"];
 };
 
@@ -2568,11 +2568,11 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
-  serviceTicketsById?: Resolver<
+  serviceTicketsByCommunityId?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
     ParentType,
     ContextType,
-    RequireFields<QueryServiceTicketsByIdArgs, "communityId">
+    RequireFields<QueryServiceTicketsByCommunityIdArgs, "communityId">
   >;
   serviceTicketsClosedByRequestor?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,

@@ -1,7 +1,6 @@
 /** @format */
 
 import { MongoDataSource } from "apollo-datasource-mongodb";
-import { StringValueNode } from "graphql";
 import { Role } from "../../../infrastructure/data-sources/cosmos-db/models/role";
 import { Context } from "../../context";
 

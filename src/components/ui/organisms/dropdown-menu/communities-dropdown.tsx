@@ -1,8 +1,8 @@
-import { Typography, Descriptions, Dropdown } from 'antd';
+import { Dropdown } from 'antd';
 import { useState } from 'react';
-import { CommunityMenu } from './community-menu';
 import { DownOutlined } from '@ant-design/icons';
 import { Community } from '../../../../generated';
+import { CommunityMenu } from '../../../layouts/admin/components/community-menu';
 
 interface CommunitiesDropdownProps {
   data: Community;

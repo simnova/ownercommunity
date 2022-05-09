@@ -1,6 +1,9 @@
 import React, { FC, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { AdminCommunityMenuContainerCommunitiesQueryDocument } from '../../../../generated';
+import {
+  AdminCommunityMenuContainerCommunitiesQueryDocument,
+  CommunityListContainerCommunitiesQueryDocument
+} from '../../../../generated';
 import PropTypes, { InferProps } from 'prop-types';
 
 import { Menu, Spin } from 'antd';
@@ -8,20 +11,20 @@ import { Link, useLocation, matchRoutes, useNavigate } from 'react-router-dom';
 import path from 'path';
 
 const ComponentPropTypes = {
-  onItemSelected: PropTypes.func
+  onItemSelectedCallback: PropTypes.func
 };
 
 export interface ComponentProp {
-  onItemSelected: (communityName: string) => void;
+  onItemSelectedCallback: () => void;
 }
 
 export type ComponentProps = InferProps<typeof ComponentPropTypes> & ComponentProp;
 
-export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
+export const CommunityMenu: FC<any> = ({ onItemSelectedCallback }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { loading, error, data } = useQuery(AdminCommunityMenuContainerCommunitiesQueryDocument, {
+  const { loading, error, data } = useQuery(CommunityListContainerCommunitiesQueryDocument, {
     variables: {}
   });
 
@@ -60,32 +63,24 @@ export const CommunityMenu: FC<any> = ({ onItemSelected }) => {
     return {
       key: community?.id,
       name: community?.name,
-      path: `/community/${community?.id}/admin`
+      path: `/community/${community?.id}/admin/*`
     };
   });
   const matchedPages = matchRoutes(menuPages, location);
+
   const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.key.toString()) : [];
+  const onMenuItemClicked = (e: any) => {
+    onItemSelectedCallback();
+    navigate(`/community/${e.key}/admin`);
+  };
 
   return (
-    <>
-      <Menu defaultSelectedKeys={matchedIds} theme="light" selectable>
-        {data.communities.map((community) => {
-          if (community !== null) {
-            return (
-              <>
-                <Menu.Item
-                  key={community.id}
-                  onClick={() => {
-                    navigate(`/community/${community.id}/admin`);
-                  }}
-                >
-                  {community.name}
-                </Menu.Item>
-              </>
-            );
-          }
-        })}
-      </Menu>
-    </>
+    <Menu defaultSelectedKeys={matchedIds} theme="light" onClick={onMenuItemClicked}>
+      {data.communities.map((community) => {
+        if (community !== null) {
+          return <Menu.Item key={community.id}>{community.name}</Menu.Item>;
+        }
+      })}
+    </Menu>
   );
 };

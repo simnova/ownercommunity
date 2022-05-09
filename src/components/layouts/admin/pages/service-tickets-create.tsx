@@ -2,10 +2,11 @@ import React from 'react';
 import { PageHeader } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { ServiceTicketsCreateContainer } from '../components/service-tickets-create-container';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const ServiceTicketsCreate: React.FC<any> = (props) => {
   const navigate = useNavigate();
+  const params = useParams();
   return (
     <SubPageLayout
         fixedHeader={false}
@@ -16,7 +17,7 @@ export const ServiceTicketsCreate: React.FC<any> = (props) => {
           />
         }
         >
-        <ServiceTicketsCreateContainer />
+        <ServiceTicketsCreateContainer data={{communityId: params.communityId ?? ""}}/>
       </SubPageLayout>
   )  
 }

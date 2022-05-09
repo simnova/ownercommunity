@@ -1,5 +1,5 @@
-query AdminServiceTicketsListContainerServiceTicketsOpenByCommunity {
-  serviceTicketsOpenByCommunity {
+query AdminServiceTicketsListContainerServiceTicketsOpenByCommunity($communityId: ID!) {
+  serviceTicketsByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields
   }
 }

@@ -1,5 +1,5 @@
-query AdminRolesListContainerRoles {
-  roles {
+query AdminRolesListContainerRoles($communityId: ID!) {
+  rolesByCommunityId(communityId: $communityId) {
     ...AdminRolesListContainerRolesFields
   }
 }

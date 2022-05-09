@@ -645,17 +645,22 @@ export type Query = {
   community?: Maybe<Community>;
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
+  communityById?: Maybe<Community>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
+  membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
+  propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
+  rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
   serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicketsByCommunityId?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -675,6 +680,11 @@ export type QueryCommunityByHandleArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryCommunityByIdArgs = {
+  id: Scalars["ID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberArgs = {
   id: Scalars["ID"];
 };
@@ -690,6 +700,16 @@ export type QueryMemberForUserArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryMembersByCommunityIdArgs = {
+  communityId: Scalars["ID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesByCommunityIdArgs = {
+  communityId: Scalars["ID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertyArgs = {
   id: Scalars["ObjectID"];
 };
@@ -700,8 +720,18 @@ export type QueryRoleArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryRolesByCommunityIdArgs = {
+  communityId: Scalars["ID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketArgs = {
   id: Scalars["ObjectID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryServiceTicketsByCommunityIdArgs = {
+  communityId: Scalars["ID"];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -2453,6 +2483,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryCommunityByHandleArgs, "handle">
   >;
+  communityById?: Resolver<
+    Maybe<ResolversTypes["Community"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCommunityByIdArgs, "id">
+  >;
   member?: Resolver<
     Maybe<ResolversTypes["Member"]>,
     ParentType,
@@ -2481,10 +2517,22 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+  membersByCommunityId?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMembersByCommunityIdArgs, "communityId">
+  >;
   properties?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Property"]>>>,
     ParentType,
     ContextType
+  >;
+  propertiesByCommunityId?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Property"]>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPropertiesByCommunityIdArgs, "communityId">
   >;
   property?: Resolver<
     Maybe<ResolversTypes["Property"]>,
@@ -2503,6 +2551,12 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+  rolesByCommunityId?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Role"]>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryRolesByCommunityIdArgs, "communityId">
+  >;
   serviceTicket?: Resolver<
     Maybe<ResolversTypes["ServiceTicket"]>,
     ParentType,
@@ -2513,6 +2567,12 @@ export type QueryResolvers<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
     ParentType,
     ContextType
+  >;
+  serviceTicketsByCommunityId?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryServiceTicketsByCommunityIdArgs, "communityId">
   >;
   serviceTicketsClosedByRequestor?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,

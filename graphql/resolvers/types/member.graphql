@@ -1,4 +1,6 @@
-type Member implements MongoBase  {
+# @format
+
+type Member implements MongoBase {
   memberName: String
   community: Community
   role: Role
@@ -37,8 +39,9 @@ type MemberProfile {
 }
 
 extend type Query {
-  member(id: ID!): Member 
+  member(id: ID!): Member
   members: [Member]
+  membersByCommunityId(communityId: ID!): [Member]
   membersAssignableToTickets: [Member]
   memberForUser(userId: ObjectID!): Member
   memberForCurrentUser(communityId: ObjectID!): Member
@@ -51,7 +54,9 @@ extend type Mutation {
   memberAccountEdit(input: MemberAccountEditInput!): MemberMutationResult!
   memberAccountRemove(input: MemberAccountRemoveInput!): MemberMutationResult!
   memberProfileUpdate(input: MemberProfileUpdateInput!): MemberMutationResult!
-  memberProfileAvatarCreateAuthHeader(input: MemberAvatarImageInput!): MemberAvatarImageAuthHeaderResult!
+  memberProfileAvatarCreateAuthHeader(
+    input: MemberAvatarImageInput!
+  ): MemberAvatarImageAuthHeaderResult!
   memberProfileAvatarRemove(memberId: ObjectID!): MemberMutationResult!
 }
 
@@ -61,13 +66,13 @@ type MemberMutationResult implements MutationResult {
 }
 
 input MemberCreateInput {
-  memberName:String!
+  memberName: String!
 }
 input MemberUpdateInput {
   id: ObjectID!
-  memberName:String!
+  memberName: String!
   role: ObjectID!
-} 
+}
 
 input MemberAccountAddInput {
   memberId: ObjectID!

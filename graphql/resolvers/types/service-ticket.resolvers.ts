@@ -71,6 +71,9 @@ const serviceTicket : Resolvers = {
     serviceTicketsAssignedToCurrentUser: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
       return (await context.dataSources.serviceTicketApi.getServiceTicketsByAssignedTo(context.community, member.id)) as ServiceTicket[];
+    },
+    serviceTicketsByCommunityId: async (_parent, {communityId}, context, _info) => {
+      return (await context.dataSources.serviceTicketApi.getServiceTicketsByCommunityId(communityId)) as ServiceTicket[];
     }
   },
   Mutation: {

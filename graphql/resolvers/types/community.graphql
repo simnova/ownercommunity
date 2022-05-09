@@ -1,3 +1,5 @@
+# @format
+
 type Community implements MongoBase {
   name: String
   domain: String
@@ -13,6 +15,7 @@ type Community implements MongoBase {
 
 extend type Query {
   community: Community
+  communityById(id: ID!): Community
   communityByHandle(handle: String!): Community
   communityByDomain(domain: String!): Community
   communities: [Community]
@@ -21,7 +24,9 @@ extend type Query {
 extend type Mutation {
   communityCreate(input: CommunityCreateInput!): CommunityMutationResult
   communityUpdate(input: CommunityUpdateInput!): CommunityMutationResult!
-  communityPublicContentCreateAuthHeader(input: CommunityPublicContentInput!): CommunityPublicContentAuthHeaderResult!
+  communityPublicContentCreateAuthHeader(
+    input: CommunityPublicContentInput!
+  ): CommunityPublicContentAuthHeaderResult!
 }
 
 type CommunityMutationResult {

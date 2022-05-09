@@ -41,6 +41,7 @@ extend type Query {
   serviceTicketsOpenByRequestor(propertyId: ObjectID!): [ServiceTicket]
   serviceTicketsClosedByRequestor(propertyId: ObjectID!): [ServiceTicket]
   serviceTicketsAssignedToCurrentUser: [ServiceTicket]
+  serviceTicketsByCommunityId(communityId: ID!): [ServiceTicket]
 }
 
 extend type Mutation {

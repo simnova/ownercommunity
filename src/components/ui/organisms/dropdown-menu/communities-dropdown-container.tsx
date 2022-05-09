@@ -1,6 +1,8 @@
 import { useQuery } from '@apollo/client';
-import { Skeleton, Spin } from 'antd';
-import { AdminCommunitiesDropdownContainerCommunityDocument } from '../../../../generated';
+import {
+  AdminCommunitiesDropdownContainerCommunityDocument,
+  Community
+} from '../../../../generated';
 import { CommunitiesDropdown } from './communities-dropdown';
 
 interface CommunitiesDropdownContainerProps {
@@ -32,7 +34,7 @@ export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainer
     return <div>{JSON.stringify(communityError)}</div>;
   }
   if (communityData) {
-    return <CommunitiesDropdown data={communityData.communityById} />;
+    return <CommunitiesDropdown data={{ community: communityData.communityById as Community }} />;
   } else {
     return <div>No Data...</div>;
   }

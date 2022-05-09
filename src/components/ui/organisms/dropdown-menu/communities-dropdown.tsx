@@ -5,10 +5,12 @@ import { Community } from '../../../../generated';
 import { CommunityMenu } from '../../../layouts/admin/components/community-menu';
 
 interface CommunitiesDropdownProps {
-  data: Community;
+  data: {
+    community?: Community;
+  };
 }
 
-export const CommunitiesDropdown: React.FC<any> = (props) => {
+export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   return (
     <Dropdown
@@ -21,7 +23,7 @@ export const CommunitiesDropdown: React.FC<any> = (props) => {
         className="ant-dropdown-link"
         style={{ minHeight: '50px' }}
       >
-        {props.data.name} <DownOutlined />
+        {props.data.community?.name} <DownOutlined />
       </a>
     </Dropdown>
   );

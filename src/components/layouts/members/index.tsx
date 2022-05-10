@@ -3,10 +3,11 @@ import { SectionLayout } from "./section-layout";
 import { Home } from "./pages/home";
 import {
   HomeOutlined,
-  DribbbleOutlined,
+  UserOutlined,
   ReadOutlined,
 } from "@ant-design/icons";
 import { Vocabulary } from "./pages/vocabulary";
+import { MemberSettings } from "./pages/member-settings";
 
 const pageLayouts = [
   {
@@ -17,8 +18,8 @@ const pageLayouts = [
   },
   {
     path: "/community/:communityId/members/test1/*",
-    title: "Basketball",
-    icon: <DribbbleOutlined />,
+    title: "Member Settings",
+    icon: <UserOutlined />,
     id: 2,
     parent: "ROOT",
   },
@@ -36,7 +37,7 @@ export const Members: React.FC<any> = (props) => {
     <Routes>
       <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
         <Route path="/" element={<Home />} />
-        <Route path="/test1" element={<Home />} />
+        <Route path="/test1" element={<MemberSettings />} />
         <Route path="/vocabulary/*" element={<Vocabulary />} />
       </Route>
     </Routes>

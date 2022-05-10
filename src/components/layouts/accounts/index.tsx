@@ -6,7 +6,7 @@ import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
 
 export const Accounts: React.FC<any> = (_props) => {
   const params = useParams();
-  return(
+  return (
     <BlobToLocalStorage communityId={params.communityId}>
       <Routes>
         <Route path="" element={<SectionLayout />}>
@@ -15,5 +15,5 @@ export const Accounts: React.FC<any> = (_props) => {
         </Route>
       </Routes>
     </BlobToLocalStorage>
-  )
-}
+  );
+};

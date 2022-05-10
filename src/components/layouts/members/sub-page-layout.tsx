@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, PageHeader } from 'antd';
 import PropTypes from 'prop-types';
 
 const { Header, Content, Footer } = Layout;

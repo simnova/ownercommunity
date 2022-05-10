@@ -1,5 +1,5 @@
-query AdminMembersListContainerMembers {
-  members {
+query AdminMembersListContainerMembers($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
     ...AdminMembersListContainerMembersFields
   }
 }

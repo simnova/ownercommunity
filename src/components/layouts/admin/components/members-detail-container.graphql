@@ -3,8 +3,8 @@ query AdminMembersDetailContainerMember($id: ID!) {
     ...AdminMembersDetailContainerMemberFields
   }
 }
-query AdminMembersDetailContainerRoles {
-  roles {
+query AdminMembersDetailContainerRoles($communityId: ID!) {
+  rolesByCommunityId(communityId: $communityId) {
     ...AdminMembersDetailContainerRolesFields
   }
 }

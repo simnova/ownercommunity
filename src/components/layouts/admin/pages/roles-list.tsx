@@ -2,7 +2,7 @@ import React from 'react';
 import { PageHeader, Button } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams, useNavigate } from 'react-router-dom';
-import { RolesListContainer } from '../components/roles-list-container'
+import { RolesListContainer } from '../components/roles-list-container';
 
 export const RolesList: React.FC<any> = (props) => {
   const params = useParams();
@@ -11,14 +11,17 @@ export const RolesList: React.FC<any> = (props) => {
     <SubPageLayout
       fixedHeader={false}
       header={
-        <PageHeader 
+        <PageHeader
           title="Roles"
           extra={[
-            <Button type="primary" onClick={() => navigate('new')}>Add New</Button>
+            <Button type="primary" onClick={() => navigate('new')}>
+              Add New
+            </Button>
           ]}
-        />}
-      >
-        <RolesListContainer data={{communityId:params.communityId}} />
+        />
+      }
+    >
+      <RolesListContainer data={{ communityId: params.communityId ?? '' }} />
     </SubPageLayout>
-  )
-}
+  );
+};

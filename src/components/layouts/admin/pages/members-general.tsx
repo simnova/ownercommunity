@@ -6,6 +6,6 @@ export const MembersGeneral: React.FC<any> = (props) => {
   const params = useParams();
 
   return (
-    <MembersDetailContainer data={{id:params.id ?? ''}} />
-  )
-}
+    <MembersDetailContainer data={{ id: params.id ?? '', communityId: params.communityId ?? '' }} />
+  );
+};

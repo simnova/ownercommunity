@@ -1,5 +1,5 @@
-query AdminPropertiesListContainerProperties {
-  properties {
+query AdminPropertiesListContainerProperties($communityId: ID!) {
+  propertiesByCommunityId(communityId: $communityId) {
     ...AdminPropertiesListContainerPropertyFields
   }
 }

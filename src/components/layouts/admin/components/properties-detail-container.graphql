@@ -4,8 +4,8 @@ query AdminPropertiesDetailContainerProperty($id: ObjectID!) {
   }
 }
 
-query AdminPropertiesDetailContainerMembers {
-  members {
+query AdminPropertiesDetailContainerMembers($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
     ...AdminPropertiesDetailContainerMembersFields
   }
 }
@@ -45,13 +45,11 @@ fragment AdminPropertiesDetailContainerPropertyFields on Property {
     id
     memberName
   }
-  
+
   id
   createdAt
   updatedAt
 }
-
-
 
 fragment AdminPropertiesDetailContainerMembersFields on Member {
   id

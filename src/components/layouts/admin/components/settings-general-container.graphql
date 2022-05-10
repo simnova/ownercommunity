@@ -1,5 +1,5 @@
-query AdminSettingsGeneralContainerCommunity {
-  community {
+query AdminSettingsGeneralContainerCommunity($id: ID!) {
+  communityById(id: $id) {
     ...AdminSettingsGeneralContainerCommunityFields
   }
 }

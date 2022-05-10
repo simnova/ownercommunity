@@ -12,15 +12,21 @@ export const MembersList: React.FC<any> = (props) => {
     <SubPageLayout
       fixedHeader={false}
       header={
-        <PageHeader 
-          title="Members" 
+        <PageHeader
+          title="Members"
           extra={[
-            
-            <Button type="primary" onClick={() => navigate('create')} icon={<UsergroupAddOutlined />}>Create Member</Button>
+            <Button
+              type="primary"
+              onClick={() => navigate('create')}
+              icon={<UsergroupAddOutlined />}
+            >
+              Create Member
+            </Button>
           ]}
-        />}
-      >
-        <MembersListContainer data={{communityId:params.communityId}} />
+        />
+      }
+    >
+      <MembersListContainer data={{ communityId: params.communityId ?? '' }} />
     </SubPageLayout>
-  )
-}
+  );
+};

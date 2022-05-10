@@ -5,8 +5,10 @@ import {
   HomeOutlined,
   DribbbleOutlined,
   ReadOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Vocabulary } from "./pages/vocabulary";
+import { Neighbors } from "./pages/neighbors";
 
 const pageLayouts = [
   {
@@ -29,6 +31,13 @@ const pageLayouts = [
     id: 3,
     parent: "ROOT",
   },
+  {
+    path: "/community/:communityId/members/neighbors/*",
+    title: "Neighbors",
+    icon: <UserOutlined />,
+    id: 4,
+    parent: "ROOT",
+  },
 ];
 
 export const Members: React.FC<any> = (props) => {
@@ -38,6 +47,7 @@ export const Members: React.FC<any> = (props) => {
         <Route path="/" element={<Home />} />
         <Route path="/test1" element={<Home />} />
         <Route path="/vocabulary/*" element={<Vocabulary />} />
+        <Route path="/neighbors/*" element={<Neighbors />} />
       </Route>
     </Routes>
   );

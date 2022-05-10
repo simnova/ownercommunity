@@ -3,36 +3,36 @@ import { SectionLayout } from "./section-layout";
 import { Home } from "./pages/home";
 import {
   HomeOutlined,
-  DribbbleOutlined,
   ReadOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Vocabulary } from "./pages/vocabulary";
 import { Neighbors } from "./pages/neighbors";
+//import { MemberProfile } from "./pages/member-profile";
 
 const pageLayouts = [
   {
-    path: "/community/:communityId/members",
+    path: "/community/:communityId/member/:userId",
     title: "Home",
     icon: <HomeOutlined />,
     id: "ROOT",
   },
   {
-    path: "/community/:communityId/members/test1/*",
-    title: "Basketball",
-    icon: <DribbbleOutlined />,
+    path: "/community/:communityId/member/:userId/profile/*",
+    title: "Profile Settings",
+    icon: <UserOutlined />,
     id: 2,
     parent: "ROOT",
   },
   {
-    path: "/community/:communityId/members/vocabulary/*",
+    path: "/community/:communityId/member/:userId/vocabulary/*",
     title: "Vocabulary",
     icon: <ReadOutlined />,
     id: 3,
     parent: "ROOT",
   },
   {
-    path: "/community/:communityId/members/neighbors/*",
+    path: "/community/:communityId/member/:userId/neighbors/*",
     title: "Neighbors",
     icon: <UserOutlined />,
     id: 4,
@@ -45,7 +45,7 @@ export const Members: React.FC<any> = (props) => {
     <Routes>
       <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
         <Route path="/" element={<Home />} />
-        <Route path="/test1" element={<Home />} />
+        <Route path="/profile" element={<Home />} />
         <Route path="/vocabulary/*" element={<Vocabulary />} />
         <Route path="/neighbors/*" element={<Neighbors />} />
       </Route>

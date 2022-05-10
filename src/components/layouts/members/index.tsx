@@ -7,24 +7,24 @@ import {
   ReadOutlined,
 } from "@ant-design/icons";
 import { Vocabulary } from "./pages/vocabulary";
-import { MemberSettings } from "./pages/member-settings";
+import { MemberProfile } from "./pages/member-profile";
 
 const pageLayouts = [
   {
-    path: "/community/:communityId/members",
+    path: "/community/:communityId/member/:userId",
     title: "Home",
     icon: <HomeOutlined />,
     id: "ROOT",
   },
   {
-    path: "/community/:communityId/members/test1/*",
-    title: "Member Settings",
+    path: "/community/:communityId/member/:userId/profile/*",
+    title: "Profile Settings",
     icon: <UserOutlined />,
     id: 2,
     parent: "ROOT",
   },
   {
-    path: "/community/:communityId/members/vocabulary/*",
+    path: "/community/:communityId/member/:userId/vocabulary/*",
     title: "Vocabulary",
     icon: <ReadOutlined />,
     id: 3,
@@ -37,7 +37,7 @@ export const Members: React.FC<any> = (props) => {
     <Routes>
       <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
         <Route path="/" element={<Home />} />
-        <Route path="/test1" element={<MemberSettings />} />
+        <Route path="/profile" element={<MemberProfile />} />
         <Route path="/vocabulary/*" element={<Vocabulary />} />
       </Route>
     </Routes>

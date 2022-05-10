@@ -11,7 +11,7 @@ export const Neighbors: React.FC<any> = (props) => {
         fixedHeader={false}
         header={<PageHeader title="Neighbors"/>}
     >
-      <NeighborsCardListContainer />
+      <NeighborsCardListContainer data={{ communityId: localStorage.getItem('community') ?? ''}}/>
       
     </SubPageLayout>
     

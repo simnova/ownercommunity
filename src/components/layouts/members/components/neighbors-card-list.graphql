@@ -1,0 +1,5 @@
+query MemberSiteNeighborsListCurrentMemberId($communityId: ObjectID!) {
+    memberForCurrentUser(communityId: $communityId) {
+        id
+    }
+}

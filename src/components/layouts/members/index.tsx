@@ -3,11 +3,13 @@ import { SectionLayout } from "./section-layout";
 import { Home } from "./pages/home";
 import {
   HomeOutlined,
-  UserOutlined,
   ReadOutlined,
+  UserOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Vocabulary } from "./pages/vocabulary";
-import { MemberProfile } from "./pages/member-profile";
+import { Neighbors } from "./pages/neighbors";
+//import { MemberProfile } from "./pages/member-profile";
 
 const pageLayouts = [
   {
@@ -30,6 +32,13 @@ const pageLayouts = [
     id: 3,
     parent: "ROOT",
   },
+  {
+    path: "/community/:communityId/member/:userId/neighbors/*",
+    title: "Neighbors",
+    icon: <TeamOutlined />,
+    id: 4,
+    parent: "ROOT",
+  },
 ];
 
 export const Members: React.FC<any> = (props) => {
@@ -37,8 +46,9 @@ export const Members: React.FC<any> = (props) => {
     <Routes>
       <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<MemberProfile />} />
+        <Route path="/profile" element={<Home />} />
         <Route path="/vocabulary/*" element={<Vocabulary />} />
+        <Route path="/neighbors/*" element={<Neighbors />} />
       </Route>
     </Routes>
   );

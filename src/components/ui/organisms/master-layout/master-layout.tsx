@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { Layout } from 'antd';
 import { handleToggler, LocalSettingsKeys } from '../../../../constants';
 import { MenuComponent } from '../../../layouts/admin/components/menu-component';
@@ -17,6 +17,7 @@ interface MasterLayoutProps {
 
 export const MasterLayout: React.FC<MasterLayoutProps> = (props) => {
   const params = useParams();
+  const navigate = useNavigate();
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
 
@@ -32,17 +33,18 @@ export const MasterLayout: React.FC<MasterLayoutProps> = (props) => {
           }}
         >
           {props.hasHeaderDropdownMenu ? (
-            <div style={{ display: 'flex' }} className="allowBoxShadow">
-              <CommunitiesDropdownContainer data={{ id: params.communityId }} />
-            </div>
+            <>
+              <div style={{ display: 'flex' }} className="allowBoxShadow">
+                <CommunitiesDropdownContainer data={{ id: params.communityId }} />
+              </div>
+              <a
+                className="allowBoxShadow"
+                onClick={() => navigate(`/community/${params.communityId}/members`)}
+              >
+                View Member Site
+              </a>
+            </>
           ) : null}
-
-          <a
-            className="allowBoxShadow"
-            onClick={() => (window.location.href = `/community/${params.communityId}/member/`)}
-          >
-            View Member Site
-          </a>
 
           <LoggedInUserContainer autoLogin={true} />
         </div>

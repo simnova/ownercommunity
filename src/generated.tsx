@@ -2644,6 +2644,68 @@ export type CurrentMemberProfileByCommunityIdFieldsFragment = {
   } | null;
 };
 
+export type MemberSiteNeighborsListContainerQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MemberSiteNeighborsListContainerQuery = {
+  __typename?: 'Query';
+  membersByCommunityId?: Array<{
+    __typename?: 'Member';
+    id: any;
+    memberName?: string | null;
+    accounts?: Array<{
+      __typename?: 'MemberAccount';
+      user?: { __typename?: 'User'; id: any; firstName?: string | null } | null;
+    } | null> | null;
+    profile?: {
+      __typename?: 'MemberProfile';
+      name?: string | null;
+      email?: string | null;
+      bio?: string | null;
+      avatarDocumentId?: string | null;
+      interests?: Array<string | null> | null;
+      showInterests?: boolean | null;
+      showEmail?: boolean | null;
+      showProfile?: boolean | null;
+      showLocation?: boolean | null;
+      showProperties?: boolean | null;
+    } | null;
+  } | null> | null;
+};
+
+export type MemberSiteNeighborsListContainerFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+  accounts?: Array<{
+    __typename?: 'MemberAccount';
+    user?: { __typename?: 'User'; id: any; firstName?: string | null } | null;
+  } | null> | null;
+  profile?: {
+    __typename?: 'MemberProfile';
+    name?: string | null;
+    email?: string | null;
+    bio?: string | null;
+    avatarDocumentId?: string | null;
+    interests?: Array<string | null> | null;
+    showInterests?: boolean | null;
+    showEmail?: boolean | null;
+    showProfile?: boolean | null;
+    showLocation?: boolean | null;
+    showProperties?: boolean | null;
+  } | null;
+};
+
+export type MemberSiteNeighborsListCurrentMemberIdQueryVariables = Exact<{
+  communityId: Scalars['ObjectID'];
+}>;
+
+export type MemberSiteNeighborsListCurrentMemberIdQuery = {
+  __typename?: 'Query';
+  memberForCurrentUser?: { __typename?: 'Member'; id: any } | null;
+};
+
 export type MemberPhotoUploadContainerContainerMemberQueryVariables = Exact<{
   communityId: Scalars['ObjectID'];
 }>;
@@ -4199,6 +4261,62 @@ export const MembersProfileContainerMutationFieldsFragmentDoc = {
     ...CurrentMemberProfileByCommunityIdFieldsFragmentDoc.definitions
   ]
 } as unknown as DocumentNode<MembersProfileContainerMutationFieldsFragment, unknown>;
+export const MemberSiteNeighborsListContainerFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberSiteNeighborsListContainerFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showInterests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProfile' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showLocation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProperties' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberSiteNeighborsListContainerFieldsFragment, unknown>;
 export const MemberPhotoUploadContainerMemberFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -6683,6 +6801,98 @@ export const MembersProfileContainerMemberUpdateDocument = {
 } as unknown as DocumentNode<
   MembersProfileContainerMemberUpdateMutation,
   MembersProfileContainerMemberUpdateMutationVariables
+>;
+export const MemberSiteNeighborsListContainerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberSiteNeighborsListContainer' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'membersByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MemberSiteNeighborsListContainerFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MemberSiteNeighborsListContainerFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MemberSiteNeighborsListContainerQuery,
+  MemberSiteNeighborsListContainerQueryVariables
+>;
+export const MemberSiteNeighborsListCurrentMemberIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberSiteNeighborsListCurrentMemberId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberForCurrentUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberSiteNeighborsListCurrentMemberIdQuery,
+  MemberSiteNeighborsListCurrentMemberIdQueryVariables
 >;
 export const MemberPhotoUploadContainerContainerMemberDocument = {
   kind: 'Document',

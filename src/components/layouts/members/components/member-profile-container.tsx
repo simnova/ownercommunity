@@ -26,14 +26,14 @@ export const MembersProfileContainer: React.FC<MembersProfileContainerPropTypes>
     }
   });
 
+  const memberId = memberData?.memberForCurrentUser?.id;
   const handleSave = async (values: MemberProfileInput) => {
-    console.log(memberData?.memberForCurrentUser?.id)
     try {
 
       var result = await updateMember({
         variables: {
           input: {
-            memberId: memberData?.memberForCurrentUser?.id,
+            memberId: memberId,
             profile:values
           } 
         },

@@ -2644,6 +2644,25 @@ export type CurrentMemberProfileByCommunityIdFieldsFragment = {
   } | null;
 };
 
+export type MemberPhotoUploadContainerContainerMemberQueryVariables = Exact<{
+  communityId: Scalars['ObjectID'];
+}>;
+
+export type MemberPhotoUploadContainerContainerMemberQuery = {
+  __typename?: 'Query';
+  memberForCurrentUser?: {
+    __typename?: 'Member';
+    id: any;
+    profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+  } | null;
+};
+
+export type MemberPhotoUploadContainerMemberFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+};
+
 export type AdminCommunitiesDropdownContainerCommunityQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -4180,6 +4199,30 @@ export const MembersProfileContainerMutationFieldsFragmentDoc = {
     ...CurrentMemberProfileByCommunityIdFieldsFragmentDoc.definitions
   ]
 } as unknown as DocumentNode<MembersProfileContainerMutationFieldsFragment, unknown>;
+export const MemberPhotoUploadContainerMemberFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberPhotoUploadContainerMemberFieldsFragment, unknown>;
 export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -6640,6 +6683,55 @@ export const MembersProfileContainerMemberUpdateDocument = {
 } as unknown as DocumentNode<
   MembersProfileContainerMemberUpdateMutation,
   MembersProfileContainerMemberUpdateMutationVariables
+>;
+export const MemberPhotoUploadContainerContainerMemberDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberPhotoUploadContainerContainerMember' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberForCurrentUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MemberPhotoUploadContainerMemberFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MemberPhotoUploadContainerContainerMemberQuery,
+  MemberPhotoUploadContainerContainerMemberQueryVariables
 >;
 export const AdminCommunitiesDropdownContainerCommunityDocument = {
   kind: 'Document',

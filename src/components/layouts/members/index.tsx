@@ -7,6 +7,7 @@ import {
   UserOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
+import { MemberProfile } from "./pages/member-profile";
 import { Vocabulary } from "./pages/vocabulary";
 import { Neighbors } from "./pages/neighbors";
 import { MemberProfile } from "./pages/member-profile";

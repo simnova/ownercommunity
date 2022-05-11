@@ -39,7 +39,7 @@ export const MasterLayout: React.FC<MasterLayoutProps> = (props) => {
 
           <a
             className="allowBoxShadow"
-            onClick={() => (window.location.href = `/community/${params.communityId}/members`)}
+            onClick={() => (window.location.href = `/community/${params.communityId}/member/`)}
           >
             View Member Site
           </a>

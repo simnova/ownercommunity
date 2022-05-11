@@ -1,0 +1,77 @@
+query CurrentMemberProfileByCommunityId($communityId: ObjectID!) {
+  memberForCurrentUser(communityId: $communityId) {
+    ...CurrentMemberProfileByCommunityIdFields
+    }
+}
+
+query AdminMembersProfileContainerMember($id: ID!) {
+  member(id: $id) {
+    ...AdminMembersProfileContainerMemberFields
+  }
+}
+
+mutation MembersProfileContainerMemberUpdate($input: MemberProfileUpdateInput!) {
+     memberProfileUpdate(input: $input) {
+        ...MembersProfileContainerMutationFields
+     }
+}
+
+mutation AdminMembersProfileContainerMemberUpdate($input: MemberProfileUpdateInput!) {
+  memberProfileUpdate(input: $input) {
+    ...AdminMembersProfileContainerMutationFields
+  }
+}
+
+fragment AdminMembersProfileContainerMutationFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...AdminMembersProfileContainerMemberFields
+  }
+}
+
+fragment MembersProfileContainerMutationFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...CurrentMemberProfileByCommunityIdFields
+  }
+}
+
+fragment AdminMembersProfileContainerMemberFields on Member {
+  profile {
+    name
+    email
+    bio
+    avatarDocumentId
+    interests
+    showInterests
+    showEmail
+    showLocation
+    showProfile
+    showProperties
+  }
+  id
+  createdAt
+  updatedAt
+}
+
+fragment CurrentMemberProfileByCommunityIdFields on Member{
+    profile {
+        avatarDocumentId
+        bio
+        email
+        interests
+        name
+        showEmail
+        showInterests
+        showLocation
+        showProfile
+        showProperties
+    }
+    id  
+}

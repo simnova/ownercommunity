@@ -7,7 +7,6 @@ const { TextArea } = Input;
 export const MemberProfile: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
-  console.log(props)
   return (
     <>
       <Form

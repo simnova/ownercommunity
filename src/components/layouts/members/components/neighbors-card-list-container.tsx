@@ -11,14 +11,11 @@ interface NeighborsCardListContainerProps {
 }
 
 export const NeighborsCardListContainer: React.FC<NeighborsCardListContainerProps> = (props) => {
-    const {
-        data: memberData,
-        loading: memberLoading,
-        error: memberError
-      } = useQuery(MemberSiteNeighborsListContainerDocument, {
-        variables: { communityId: props.data.communityId }
-      });
-    
+    const { data: memberData, loading: memberLoading, error: memberError} = useQuery(MemberSiteNeighborsListContainerDocument, {
+      variables: { communityId: props.data.communityId }
+    });
+
+    const content = () => {
       if (memberLoading) {
         return (
           <div>
@@ -35,4 +32,9 @@ export const NeighborsCardListContainer: React.FC<NeighborsCardListContainerProp
       } else {
         return <div>No Data...</div>;
       }
+    }
+
+    return <>
+      {content()}
+    </>
 }

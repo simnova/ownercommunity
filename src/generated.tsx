@@ -2560,6 +2560,10 @@ export type MemberSiteNeighborsListContainerQuery = {
     __typename?: 'Member';
     id: any;
     memberName?: string | null;
+    accounts?: Array<{
+      __typename?: 'MemberAccount';
+      user?: { __typename?: 'User'; id: any; firstName?: string | null } | null;
+    } | null> | null;
     profile?: {
       __typename?: 'MemberProfile';
       name?: string | null;
@@ -2576,19 +2580,14 @@ export type MemberSiteNeighborsListContainerQuery = {
   } | null> | null;
 };
 
-export type MemberSiteNeighborsListContainerCurrentUserQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type MemberSiteNeighborsListContainerCurrentUserQuery = {
-  __typename?: 'Query';
-  userCurrent?: { __typename?: 'CurrentUser'; id: any } | null;
-};
-
 export type MemberSiteNeighborsListContainerFieldsFragment = {
   __typename?: 'Member';
   id: any;
   memberName?: string | null;
+  accounts?: Array<{
+    __typename?: 'MemberAccount';
+    user?: { __typename?: 'User'; id: any; firstName?: string | null } | null;
+  } | null> | null;
   profile?: {
     __typename?: 'MemberProfile';
     name?: string | null;
@@ -2602,6 +2601,15 @@ export type MemberSiteNeighborsListContainerFieldsFragment = {
     showLocation?: boolean | null;
     showProperties?: boolean | null;
   } | null;
+};
+
+export type MemberSiteNeighborsListCurrentMemberIdQueryVariables = Exact<{
+  communityId: Scalars['ObjectID'];
+}>;
+
+export type MemberSiteNeighborsListCurrentMemberIdQuery = {
+  __typename?: 'Query';
+  memberForCurrentUser?: { __typename?: 'Member'; id: any } | null;
 };
 
 export type AdminCommunitiesDropdownContainerCommunityQueryVariables = Exact<{
@@ -4077,6 +4085,26 @@ export const MemberSiteNeighborsListContainerFieldsFragmentDoc = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'profile' },
@@ -6513,19 +6541,36 @@ export const MemberSiteNeighborsListContainerDocument = {
   MemberSiteNeighborsListContainerQuery,
   MemberSiteNeighborsListContainerQueryVariables
 >;
-export const MemberSiteNeighborsListContainerCurrentUserDocument = {
+export const MemberSiteNeighborsListCurrentMemberIdDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'MemberSiteNeighborsListContainerCurrentUser' },
+      name: { kind: 'Name', value: 'MemberSiteNeighborsListCurrentMemberId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } }
+          }
+        }
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'userCurrent' },
+            name: { kind: 'Name', value: 'memberForCurrentUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
@@ -6536,8 +6581,8 @@ export const MemberSiteNeighborsListContainerCurrentUserDocument = {
     }
   ]
 } as unknown as DocumentNode<
-  MemberSiteNeighborsListContainerCurrentUserQuery,
-  MemberSiteNeighborsListContainerCurrentUserQueryVariables
+  MemberSiteNeighborsListCurrentMemberIdQuery,
+  MemberSiteNeighborsListCurrentMemberIdQueryVariables
 >;
 export const AdminCommunitiesDropdownContainerCommunityDocument = {
   kind: 'Document',

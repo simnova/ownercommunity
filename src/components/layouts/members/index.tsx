@@ -5,6 +5,7 @@ import {
   HomeOutlined,
   ReadOutlined,
   UserOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Vocabulary } from "./pages/vocabulary";
 import { Neighbors } from "./pages/neighbors";
@@ -34,7 +35,7 @@ const pageLayouts = [
   {
     path: "/community/:communityId/member/:userId/neighbors/*",
     title: "Neighbors",
-    icon: <UserOutlined />,
+    icon: <TeamOutlined />,
     id: 4,
     parent: "ROOT",
   },

@@ -4,15 +4,15 @@ query MemberSiteNeighborsListContainer($communityId: ID!) {
   }
 }
 
-query MemberSiteNeighborsListContainerCurrentUser {
-    userCurrent {
-        id
-    }
-}
-
 fragment MemberSiteNeighborsListContainerFields on Member {
   id
   memberName
+  accounts {
+    user {
+        id 
+        firstName
+    }
+  }
   profile {
     name
     email

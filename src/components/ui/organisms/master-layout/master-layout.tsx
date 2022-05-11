@@ -46,6 +46,13 @@ export const MasterLayout: React.FC<MasterLayoutProps> = (props) => {
             </>
           ) : null}
 
+          <a
+            className="allowBoxShadow"
+            onClick={() => (window.location.href = `/community/${params.communityId}/member/`)}
+          >
+            View Member Site
+          </a>
+
           <LoggedInUserContainer autoLogin={true} />
         </div>
       </Header>

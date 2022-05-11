@@ -7,6 +7,7 @@ import {
   UserOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
+import { MemberProfile } from "./pages/member-profile";
 import { Vocabulary } from "./pages/vocabulary";
 import { Neighbors } from "./pages/neighbors";
 //import { MemberProfile } from "./pages/member-profile";
@@ -46,7 +47,7 @@ export const Members: React.FC<any> = (props) => {
     <Routes>
       <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
         <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Home />} />
+        <Route path="/profile" element={<MemberProfile />} />
         <Route path="/vocabulary/*" element={<Vocabulary />} />
         <Route path="/neighbors/*" element={<Neighbors />} />
       </Route>

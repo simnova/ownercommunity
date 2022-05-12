@@ -1,14 +1,49 @@
-import { Outlet } from "react-router-dom";
-import { Dropdown, Layout } from "antd";
+import { Outlet, useParams, useNavigate } from "react-router-dom";
+import { Dropdown, Layout, Space } from "antd";
 import { LoggedInUserContainer } from "../../ui/organisms/header/logged-in-user-container";
 import { MenuComponent } from "../admin/components/menu-component";
 import { DownOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { CommunityMenu } from "../members/components/community-menu";
+import { LocalSettingsKeys, handleToggler } from "../../../constants";
+import { useQuery } from "@apollo/client";
+import { MemberSiteCurrentMemberHasAdminRoleDocument } from "../../../generated";
 
 const { Footer, Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {
-  const [collapsed, setCollapsed] = useState(false);
+
+  const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
+  const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+  const { communityId } = useParams();
+  const navigate = useNavigate();
+  const { data, loading, error } = useQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
+    variables: {
+      communityId: communityId
+    }
+  });
+
+  const adminLink = () => {
+    if (data && data.memberForCurrentUser && data.memberForCurrentUser.role?.roleName.toLowerCase() === 'admin') {
+      return (
+        <a
+          className="allowBoxShadow"
+          onClick={() => navigate(`/community/${communityId}/admin`)}
+        >
+          View Admin Site
+        </a>
+      )
+    }
+  }
+
+  // const handleToggler = () => {
+  //   if (isExpanded) {
+  //     setIsExpanded(false);
+  //     localStorage.setItem(LocalSettingsKeys.SidebarCollapsed, 'true');
+  //     return;
+  //   }
+  //   setIsExpanded(true);
+  //   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
+  // };
 
   return (
     <Layout
@@ -36,6 +71,7 @@ export const SectionLayout: React.FC<any> = (props) => {
               </a>
             </Dropdown>
           </div>
+          {adminLink()}
 
           <div
             className="text-right bg-black text-sky-400"
@@ -50,8 +86,8 @@ export const SectionLayout: React.FC<any> = (props) => {
           theme="light"
           className="site-layout-background"
           collapsible
-          collapsed={collapsed}
-          onCollapse={() => setCollapsed(!collapsed)}
+          collapsed={!isExpanded}
+          onCollapse={() => handleToggler(isExpanded, setIsExpanded)}
           style={{
             overflow: "auto",
             height: "calc(100vh - 64px)",

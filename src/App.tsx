@@ -31,7 +31,7 @@ function App() {
         <Routes>
           <Route path="/accounts/*" element={<Accounts />} />
           <Route path="/:communityId/admin/*" element={<Admin />} />
-          <Route path="/:communityId/members/*" element={<Members />} />
+          <Route path="/:communityId/member/:userId/*" element={<Members />} />
         </Routes>
       </ApolloConnection>
     </RequireMsal>

@@ -39,7 +39,7 @@ export const MasterLayout: React.FC<MasterLayoutProps> = (props) => {
               </div>
               <a
                 className="allowBoxShadow"
-                onClick={() => navigate(`/community/${params.communityId}/members`)}
+                onClick={() => navigate(`/community/${params.communityId}/member/${localStorage.getItem(LocalSettingsKeys.UserId)}`)}
               >
                 View Member Site
               </a>

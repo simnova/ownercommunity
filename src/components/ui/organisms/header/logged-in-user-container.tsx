@@ -5,6 +5,7 @@ import { LoggedInUserContainerUserCurrentQueryDocument } from '../../../../gener
 
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useMsal } from '../../../shared/msal-react-lite';
+import { LocalSettingsKeys } from '../../../../constants';
 
 const ComponentProps = {
   autoLogin: PropTypes.bool
@@ -32,6 +33,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
     return <div>Error :( {JSON.stringify(error)}</div>;
   }
   if (data && data.userCurrent) {
+    localStorage.setItem(LocalSettingsKeys.UserId, data.userCurrent.id);
     const userData: LoggedInUserPropTypes = {
       data: {
         isLoggedIn: true,

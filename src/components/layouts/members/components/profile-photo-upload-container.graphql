@@ -1,0 +1,59 @@
+query AdminPhotoUploadContainerContainerMember($id: ID!) {
+  member(id: $id) {
+    ...AdminPhotoUploadContainerMemberFields
+  }
+}
+
+query MemberPhotoUploadContainerContainerMember($communityId: ObjectID!) {
+  memberForCurrentUser(communityId: $communityId) {
+    ...MemberPhotoUploadContainerMemberFields
+    }
+}
+
+mutation AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeader($input: MemberAvatarImageInput!) {
+  memberProfileAvatarCreateAuthHeader(input: $input) {
+    authHeader {
+      authHeader
+      blobName
+      blobContainer
+      requestDate
+    }
+    status {
+      success
+      errorMessage
+    }   
+    member {
+      ...AdminPhotoUploadContainerMemberFields
+    } 
+  }
+}
+
+mutation AdminPhotoUploadContainerMemberProfileAvatarRemove($memberId: ObjectID!) {
+  memberProfileAvatarRemove(memberId: $memberId) {
+    ...AdminPhotoUploadContainerMemberMutationResultFields
+  }
+}
+
+fragment AdminPhotoUploadContainerMemberMutationResultFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...AdminPhotoUploadContainerMemberFields
+  }
+}
+
+fragment AdminPhotoUploadContainerMemberFields on Member {
+  profile {
+    avatarDocumentId
+  }
+  id
+}
+
+fragment MemberPhotoUploadContainerMemberFields on Member {
+  profile {
+    avatarDocumentId
+  }
+  id
+}

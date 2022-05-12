@@ -1,18 +1,18 @@
 import React from "react";
 import { ProfilePhotoUpload, AuthResult } from "./profile-photo-upload";
-import { AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument, AdminPhotoUploadContainerMemberProfileAvatarRemoveDocument, AdminPhotoUploadContainerContainerMemberDocument, MemberPhotoUploadContainerContainerMemberDocument } from "../../../../generated";
+import { AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument, AdminPhotoUploadContainerMemberProfileAvatarRemoveDocument, AdminPhotoUploadContainerContainerMemberDocument, MemberPhotoUploadContainerContainerMemberDocument, MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument } from "../../../../generated";
 import { useQuery, useMutation } from "@apollo/client";
 import { Image, Skeleton, Button } from "antd";
 
 export interface ProfilePhotoUploadContainerProps {
-  data :{
+  data:{
     id: string;
     communityId: string;
   }
 }
 
-export const ProfilePhotoUploadContainer: React.FC<any> = (props) => {
-  const [memberProfileAvatarCreateAuthHeader] = useMutation(AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument);
+export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerProps> = (props) => {
+  const [memberProfileAvatarCreateAuthHeader] = useMutation(MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument);
   const [memberProfileAvatarRemove] = useMutation(AdminPhotoUploadContainerMemberProfileAvatarRemoveDocument);
 
   const { data: memberData, loading: memberLoading, error: memberError } = useQuery(MemberPhotoUploadContainerContainerMemberDocument,{

@@ -2719,6 +2719,30 @@ export type MemberPhotoUploadContainerContainerMemberQuery = {
   } | null;
 };
 
+export type MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables = Exact<{
+  input: MemberAvatarImageInput;
+}>;
+
+export type MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation = {
+  __typename?: 'Mutation';
+  memberProfileAvatarCreateAuthHeader: {
+    __typename?: 'MemberAvatarImageAuthHeaderResult';
+    authHeader?: {
+      __typename?: 'BlobAuthHeader';
+      authHeader?: string | null;
+      blobName?: string | null;
+      blobContainer?: string | null;
+      requestDate?: string | null;
+    } | null;
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    member?: {
+      __typename?: 'Member';
+      id: any;
+      profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+    } | null;
+  };
+};
+
 export type MemberPhotoUploadContainerMemberFieldsFragment = {
   __typename?: 'Member';
   id: any;
@@ -6954,6 +6978,91 @@ export const MemberPhotoUploadContainerContainerMemberDocument = {
 } as unknown as DocumentNode<
   MemberPhotoUploadContainerContainerMemberQuery,
   MemberPhotoUploadContainerContainerMemberQueryVariables
+>;
+export const MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeader'
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberAvatarImageInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberProfileAvatarCreateAuthHeader' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'authHeader' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'member' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MemberPhotoUploadContainerMemberFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation,
+  MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',

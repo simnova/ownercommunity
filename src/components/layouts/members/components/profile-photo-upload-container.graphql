@@ -1,8 +1,3 @@
-query AdminPhotoUploadContainerContainerMember($id: ID!) {
-  member(id: $id) {
-    ...AdminPhotoUploadContainerMemberFields
-  }
-}
 
 query MemberPhotoUploadContainerContainerMember($communityId: ObjectID!) {
   memberForCurrentUser(communityId: $communityId) {
@@ -10,7 +5,7 @@ query MemberPhotoUploadContainerContainerMember($communityId: ObjectID!) {
     }
 }
 
-mutation AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeader($input: MemberAvatarImageInput!) {
+mutation MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeader($input: MemberAvatarImageInput!) {
   memberProfileAvatarCreateAuthHeader(input: $input) {
     authHeader {
       authHeader
@@ -23,32 +18,9 @@ mutation AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeader($input: Me
       errorMessage
     }   
     member {
-      ...AdminPhotoUploadContainerMemberFields
+      ...MemberPhotoUploadContainerMemberFields
     } 
   }
-}
-
-mutation AdminPhotoUploadContainerMemberProfileAvatarRemove($memberId: ObjectID!) {
-  memberProfileAvatarRemove(memberId: $memberId) {
-    ...AdminPhotoUploadContainerMemberMutationResultFields
-  }
-}
-
-fragment AdminPhotoUploadContainerMemberMutationResultFields on MemberMutationResult {
-  status {
-    success
-    errorMessage
-  }
-  member {
-    ...AdminPhotoUploadContainerMemberFields
-  }
-}
-
-fragment AdminPhotoUploadContainerMemberFields on Member {
-  profile {
-    avatarDocumentId
-  }
-  id
 }
 
 fragment MemberPhotoUploadContainerMemberFields on Member {

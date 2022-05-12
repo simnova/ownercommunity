@@ -4,11 +4,6 @@ query CurrentMemberProfileByCommunityId($communityId: ObjectID!) {
     }
 }
 
-query AdminMembersProfileContainerMember($id: ID!) {
-  member(id: $id) {
-    ...AdminMembersProfileContainerMemberFields
-  }
-}
 
 mutation MembersProfileContainerMemberUpdate($input: MemberProfileUpdateInput!) {
      memberProfileUpdate(input: $input) {
@@ -16,21 +11,6 @@ mutation MembersProfileContainerMemberUpdate($input: MemberProfileUpdateInput!) 
      }
 }
 
-mutation AdminMembersProfileContainerMemberUpdate($input: MemberProfileUpdateInput!) {
-  memberProfileUpdate(input: $input) {
-    ...AdminMembersProfileContainerMutationFields
-  }
-}
-
-fragment AdminMembersProfileContainerMutationFields on MemberMutationResult {
-  status {
-    success
-    errorMessage
-  }
-  member {
-    ...AdminMembersProfileContainerMemberFields
-  }
-}
 
 fragment MembersProfileContainerMutationFields on MemberMutationResult {
   status {
@@ -40,24 +20,6 @@ fragment MembersProfileContainerMutationFields on MemberMutationResult {
   member {
     ...CurrentMemberProfileByCommunityIdFields
   }
-}
-
-fragment AdminMembersProfileContainerMemberFields on Member {
-  profile {
-    name
-    email
-    bio
-    avatarDocumentId
-    interests
-    showInterests
-    showEmail
-    showLocation
-    showProfile
-    showProperties
-  }
-  id
-  createdAt
-  updatedAt
 }
 
 fragment CurrentMemberProfileByCommunityIdFields on Member{

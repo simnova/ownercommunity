@@ -10,7 +10,7 @@ import {
 import { MemberProfile } from "./pages/member-profile";
 import { Vocabulary } from "./pages/vocabulary";
 import { Neighbors } from "./pages/neighbors";
-import { MemberProfile } from "./pages/member-profile";
+
 
 const pageLayouts = [
   {

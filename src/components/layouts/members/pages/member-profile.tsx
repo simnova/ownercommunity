@@ -16,8 +16,6 @@ const { Text } = Typography;
 
 export const MemberProfile: React.FC<any> = (props) => {
   const params = useParams();
-  console.log(params);
-  console.log(params.userId);
 
   const { data: memberData, loading: memberLoading, error: memberError } = useQuery(MemberPhotoUploadContainerContainerMemberDocument,{
     variables: {

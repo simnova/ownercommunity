@@ -6,9 +6,10 @@ import { FormTags } from '../../../ui/organisms/form-tags';
 
 
 import { UsernamePasswordClient } from '@azure/msal-common';
-// import { MemberProfile } from '../components/member-profile';
 import { MembersProfileContainer } from '../components/member-profile-container';
 import { ProfilePhotoUploadContainer } from '../components/profile-upload-container';
+import { useQuery } from '@apollo/client';
+import { MemberPhotoUploadContainerContainerMemberDocument } from '../../../../generated';
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -16,11 +17,19 @@ const { Text } = Typography;
 export const MemberProfile: React.FC<any> = (props) => {
   const params = useParams();
   console.log(params);
+  console.log(params.userId);
+
+  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(MemberPhotoUploadContainerContainerMemberDocument,{
+    variables: {
+      communityId: params.communityId
+    }
+  });
+
   return (
     <SubPageLayout fixedHeader={false} header={<PageHeader title="Member Settings" />}>
         <Text strong>Member Details</Text>
         
-        <ProfilePhotoUploadContainer data={{id:params.id ?? '', communityId:params.communityId ?? ''}}/>
+        <ProfilePhotoUploadContainer data={{id: memberData?.memberForCurrentUser?.id ?? '', communityId:params.communityId ?? ''}}/>
         <MembersProfileContainer data={{communityId: params.communityId ?? ''}} />
     </SubPageLayout>
   );

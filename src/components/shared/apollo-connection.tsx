@@ -1,7 +1,9 @@
 import React, { FC, useEffect } from 'react';
 
 import {
+  HttpLink,
   ApolloClient,
+  ApolloLink,
   ApolloProvider,
   InMemoryCache,
   from,
@@ -50,15 +52,25 @@ const ApolloConnection: FC<any> = (props) => {
     }
   });
 
+
+
   const httpLink = new BatchHttpLink({ 
     uri: `${process.env.REACT_APP_FUNCTION_ENDPOINT}`,
     batchMax: 15, // No more than 15 operations per batch
     batchInterval: 50 // Wait no more than 50ms after first batched operation
   });
 
+  const countryLink = new HttpLink({
+    uri: "https://countries.trevorblades.com/",
+  })
+
  
   const client = new ApolloClient({
-    link: from([withToken, httpLink]),
+    link: ApolloLink.split(
+      (operation) => operation.getContext().clientName === 'country',
+      countryLink,
+      from([withToken, httpLink])
+    ),
     cache: new InMemoryCache(),
     connectToDevTools: process.env.NODE_ENV !== 'production',
   });

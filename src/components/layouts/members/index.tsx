@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import { SectionLayout } from "./section-layout";
 import { Home } from "./pages/home";
 import {
@@ -10,6 +10,7 @@ import {
 import { MemberProfile } from "./pages/member-profile";
 import { Vocabulary } from "./pages/vocabulary";
 import { Neighbors } from "./pages/neighbors";
+import { BlobToLocalStorage } from "../../shared/blob-to-local-storage";
 
 
 const pageLayouts = [
@@ -43,14 +44,17 @@ const pageLayouts = [
 ];
 
 export const Members: React.FC<any> = (props) => {
+  const params = useParams();
   return (
-    <Routes>
-      <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<MemberProfile />} />
-        <Route path="/vocabulary/*" element={<Vocabulary />} />
-        <Route path="/neighbors/*" element={<Neighbors />} />
-      </Route>
-    </Routes>
+    <BlobToLocalStorage communityId={params.communityId}>
+      <Routes>
+        <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<MemberProfile />} />
+          <Route path="/vocabulary/*" element={<Vocabulary />} />
+          <Route path="/neighbors/*" element={<Neighbors />} />
+        </Route>
+      </Routes>
+    </BlobToLocalStorage>
   );
 };

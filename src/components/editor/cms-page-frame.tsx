@@ -1,18 +1,27 @@
-import React from "react";
-import {  Frame, useEditor } from '@craftjs/core';
+import React, {useEffect, useState} from 'react';
+import { Frame, useEditor } from '@craftjs/core';
 
 export interface IProps {
   layout: string;
 }
 
-const CmsPageFrame: React.FC<IProps> = ({layout, ...props}) => {
-  
+export const CmsPageFrame: React.FC<IProps> = (props) => {
     const { actions } = useEditor();
-    actions.setOptions((options) => (options.enabled = false));
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+      actions.setOptions((options) => (options.enabled = false)); // disable editor for public viewing - this is a hack 
+      setLoading(false);
+      ///- https://github.com/prevwong/craft.js/issues/181
+      //https://github.com/prevwong/craft.js/issues/404
+      //https://github.com/prevwong/craft.js/issues/373
+    },[actions,setLoading]);
     
-    return <>
-      <Frame data={layout}>
-      </Frame>
+    return (<>
+      {loading ? <div>Loading...</div> : <Frame data={props.layout}  />}
     </>
+
+      
+    )
 }
-export {CmsPageFrame};

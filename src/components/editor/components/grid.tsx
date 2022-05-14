@@ -1,6 +1,6 @@
 import { useNode, Element } from '@craftjs/core';
 import { Row, Col, Input, Form, Select } from 'antd';
-import { Container } from '../page/container';
+import { Container } from './container';
 
 const { Option } = Select;
 interface GridProp {

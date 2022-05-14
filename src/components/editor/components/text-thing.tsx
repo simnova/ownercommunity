@@ -9,13 +9,11 @@ interface TextProp {
   fontSize: number
 }
 
-let TextThing:any;
 
-TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
+const TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
   const { connectors: {connect,drag}, selected, actions } = useNode((state) =>(
     {
-      selected: state.events.selected,
-    
+      selected: state.events.selected,    
     }
   ));
 
@@ -35,22 +33,19 @@ TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
                 <h2 className="text-2xl font-semibold leading-6 text-gray-800">{title}</h2>
             </div>
             <div className="md:w-80 text-base leading-6 mt-4 text-gray-600">
-              
-            <ContentEditable
-              html={body} 
-              disabled={!enabled}
-              onChange={e => 
-                actions.setProp((prop:TextProp) => 
-                  prop.body = e.target.value.replace(/<\/?[^>]+(>|$)/g, "")  
-                )
-              } 
-              tagName="p"
-              style={{fontSize: `${fontSize}px`}}
-            />  
-              
+              <ContentEditable
+                html={body} 
+                disabled={!enabled}
+                onChange={e => 
+                  actions.setProp((prop:TextProp) => 
+                    prop.body = e.target.value.replace(/<\/?[^>]+(>|$)/g, "")  
+                  )
+                } 
+                tagName="p"
+                style={{fontSize: `${fontSize}px`}}
+              />  
             </div>
         </div>
-      
     </div>
   )
 }

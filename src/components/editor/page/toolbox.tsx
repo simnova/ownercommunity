@@ -1,16 +1,80 @@
 import React from 'react';
 import { Button } from 'antd';
 import { useEditor } from '@craftjs/core';
-import { TextThing } from '../components/text-thing';
-import { CountryInfo2 } from '../components/country-info2';
-import { Breadcrumbs } from '../components/breadcrumbs';
-import { MenuComponent } from '../components/menu-component';
-import { Grid } from '../components/grid';
-import { Card } from '../components/card';
-import { TextComponent } from '../components/text-component';
+
+import * as CmsComponents from "../components/";
+
+interface EditorConfigDefinition {
+  categories: {
+    categoryName: string;
+    components: {
+      name: string;
+      component: JSX.Element;
+    }[]
+  }[]
+}
 
 export const Toolbox: React.FC<any> = (props) => {
   const { connectors, query } = useEditor();
+
+  const editorConfig:EditorConfigDefinition = {
+    categories: [
+      {
+        categoryName: 'Navigation',
+        components: [
+          {
+            name: 'menu',
+            component: <CmsComponents.MenuComponent theme="light" />
+          },
+          {
+            name: 'Breadcrumbs',
+            component: <CmsComponents.Breadcrumbs separator="/" />
+          },
+        ]
+      },
+      {
+        categoryName: 'Layout',
+        components: [
+          {
+            name: 'Grid',
+            component: <CmsComponents.Grid />
+          },
+          {
+            name: 'Footer',
+            component: <CmsComponents.Footer />
+          },
+        ]
+      },
+      {
+        categoryName: 'Content',
+        components: [
+          {
+            name: 'TextThing',
+            component: <CmsComponents.TextThing title="Add Text" body="addBody" fontSize={14} />
+          },
+          {
+            name: 'TextComponent',
+            component: <CmsComponents.TextComponent text="Add Text" fontSize={14} />
+          },
+        ]
+      },
+      {
+        categoryName: 'Dynamic Content',
+        components: [
+          {
+            name: 'Country Info2',  
+            component: <CmsComponents.CountryInfo2 country="US" />
+          },
+          {
+            name: 'Card',
+            component: <CmsComponents.Card background="#ff00ff" />
+          },
+        ]
+      }
+    ]
+  }  
+
+
   return (
     <div>
       <div
@@ -23,116 +87,33 @@ export const Toolbox: React.FC<any> = (props) => {
         Drag to add
       </div>
 
-      <h3>Navigation</h3>
-      <div
-        style={{
-          backgroundColor: 'lightgray',
-          borderRadius: '0.5rem',
-          padding: '0.5rem',
-          margin: '0.5rem',
-          textAlign: 'center',
-        }}
-      >
-        <Button
-          ref={(ref) =>
-            connectors.create(ref as HTMLElement, <Breadcrumbs separator="/" />)
-          }
-          style={{ width: '98%' }}
-        >
-          Breadcrumbs
-        </Button>
-        <Button
-          ref={(ref) =>
-            connectors.create(
-              ref as HTMLElement,
-              <MenuComponent theme="light" />
-            )
-          }
-          style={{ width: '98%' }}
-        >
-          Menu
-        </Button>
-      </div>
+      {editorConfig.categories.map((category, index) => (
+        <div 
+          key={index}
+          >
+          <div 
+            style={{
+              backgroundColor: 'lightgray',
+              padding: '0.5rem',
+              marginTop: '0.5rem',
+            }}
+          >
+          <h3>{category.categoryName}</h3>
 
-      <h3>Layout</h3>
-      <div
-        style={{
-          backgroundColor: 'lightgray',
-          borderRadius: '0.5rem',
-          padding: '0.5rem',
-          margin: '0.5rem',
-          textAlign: 'center',
-        }}
-      >
-        <Button
-          ref={(ref) => connectors.create(ref as HTMLElement, <Grid />)}
-          style={{ width: '98%' }}
-        >
-          Grid
-        </Button>
-      </div>
-
-      <h3>Content</h3>
-      <div
-        style={{
-          backgroundColor: 'lightgray',
-          borderRadius: '0.5rem',
-          padding: '0.5rem',
-          margin: '0.5rem',
-          textAlign: 'center',
-        }}
-      >
-        <Button
-          ref={(ref) =>
-            connectors.create(
-              ref as HTMLElement,
-              <TextThing text="Add Text" fontSize="14" />
-            )
-          }
-          style={{ width: '98%' }}
-        >
-          TextThing
-        </Button>
-        <Button
-          ref={(ref) =>
-            connectors.create(
-              ref as HTMLElement,
-              <TextComponent text="Add Text" fontSize="14" />
-            )
-          }
-          style={{ width: '98%' }}
-        >
-          Text
-        </Button>
-      </div>
-
-      <h3>Dynamic Content</h3>
-      <div
-        style={{
-          backgroundColor: 'lightgray',
-          borderRadius: '0.5rem',
-          padding: '0.5rem',
-          margin: '0.5rem',
-          textAlign: 'center',
-        }}
-      >
-        <Button
-          ref={(ref) =>
-            connectors.create(ref as HTMLElement, <CountryInfo2 country="US" />)
-          }
-          style={{ width: '98%' }}
-        >
-          CountryInfo2
-        </Button>
-        <Button
-          ref={(ref) =>
-            connectors.create(ref as HTMLElement, <Card background="#ff00ff" />)
-          }
-          style={{ width: '98%' }}
-        >
-          Card
-        </Button>
-      </div>
+          {category.components.map((component, componentIndex) => (
+            <div
+              key={componentIndex}
+              ref={(ref) =>
+                connectors.create(ref as HTMLElement, component.component)
+              }
+              style={{ cursor:'move', textAlign:'center', margin: '2px', borderColor: 'black', borderStyle: 'solid', borderWidth: '1px', borderRadius: '0.5rem', padding: '0.5rem', backgroundColor: 'white' }}
+            >
+              <span style={{userSelect:'none' }}>{component.name}</span>
+            </div>
+          ))}
+          </div>
+        </div>            
+        ))}
     </div>
   );
 };

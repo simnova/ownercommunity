@@ -1,0 +1,55 @@
+query MembersPropertiesListingContainerProperty($id: ObjectID!) {
+  property(id: $id) {
+    ...MembersPropertiesListingContainerPropertyFields
+  }
+}
+
+mutation MembersPropertiesListingContainerPropertyUpdate($input: PropertyUpdateInput!) {
+  propertyUpdate(input: $input) {
+    ...MembersPropertiesListingContainerPropertyMutationResultFields
+  }
+}
+
+fragment MembersPropertiesListingContainerPropertyMutationResultFields on PropertyMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  property {
+    ...MembersPropertiesListingContainerPropertyFields
+  }
+}
+
+fragment MembersPropertiesListingContainerPropertyFields on Property {
+  listingDetail {
+    price
+    rentHigh
+    rentLow
+    lease
+    maxGuests
+    bedrooms
+    bathrooms
+    squareFeet
+    description
+    video
+    floorPlan
+    listingAgent
+    listingAgentPhone
+    listingAgentEmail
+    listingAgentWebsite
+    listingAgentCompany
+    listingAgentCompanyPhone
+    listingAgentCompanyEmail
+    listingAgentCompanyWebsite
+    listingAgentCompanyAddress
+  }
+
+  id
+}
+
+fragment MembersPropertiesListingContainerMembersFields on Member {
+  id
+  memberName
+  createdAt
+  updatedAt
+}

@@ -72,6 +72,11 @@ export type AdditionalAmenities = {
   category?: Maybe<Scalars['String']>;
 };
 
+export type AdditionalAmenitiesInput = {
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  category?: InputMaybe<Scalars['String']>;
+};
+
 export type Address = {
   __typename?: 'Address';
   country?: Maybe<Scalars['String']>;
@@ -90,10 +95,32 @@ export type Address = {
   streetNumber?: Maybe<Scalars['String']>;
 };
 
+export type AddressInput = {
+  country?: InputMaybe<Scalars['String']>;
+  countryCode?: InputMaybe<Scalars['String']>;
+  countryCodeISO3?: InputMaybe<Scalars['String']>;
+  countrySecondarySubdivision?: InputMaybe<Scalars['String']>;
+  countrySubdivision?: InputMaybe<Scalars['String']>;
+  countrySubdivisionName?: InputMaybe<Scalars['String']>;
+  countryTertiarySubdivision?: InputMaybe<Scalars['String']>;
+  extendedPostalCode?: InputMaybe<Scalars['String']>;
+  freeformAddress?: InputMaybe<Scalars['String']>;
+  municipality?: InputMaybe<Scalars['String']>;
+  municipalitySubdivision?: InputMaybe<Scalars['String']>;
+  postalCode?: InputMaybe<Scalars['String']>;
+  streetName?: InputMaybe<Scalars['String']>;
+  streetNumber?: InputMaybe<Scalars['String']>;
+};
+
 export type BedroomDetails = {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
   roomName?: Maybe<Scalars['String']>;
+};
+
+export type BedroomDetailsInput = {
+  bedDescriptions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  roomName?: InputMaybe<Scalars['String']>;
 };
 
 export type BlobAuthHeader = {
@@ -215,6 +242,34 @@ export type ListingDetails = {
   video?: Maybe<Scalars['String']>;
 };
 
+export type ListingDetailsInput = {
+  additionalAmenities?: InputMaybe<AdditionalAmenitiesInput>;
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bathrooms?: InputMaybe<Scalars['Float']>;
+  bedroomDetails?: InputMaybe<BedroomDetailsInput>;
+  bedrooms?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  floorPlan?: InputMaybe<Scalars['String']>;
+  floorPlanImages?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lease?: InputMaybe<Scalars['Float']>;
+  listingAgent?: InputMaybe<Scalars['String']>;
+  listingAgentCompany?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyAddress?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyEmail?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyPhone?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyWebsite?: InputMaybe<Scalars['String']>;
+  listingAgentEmail?: InputMaybe<Scalars['String']>;
+  listingAgentPhone?: InputMaybe<Scalars['String']>;
+  listingAgentWebsite?: InputMaybe<Scalars['String']>;
+  maxGuests?: InputMaybe<Scalars['Int']>;
+  price?: InputMaybe<Scalars['Float']>;
+  rentHigh?: InputMaybe<Scalars['Float']>;
+  rentLow?: InputMaybe<Scalars['Float']>;
+  squareFeet?: InputMaybe<Scalars['Int']>;
+  video?: InputMaybe<Scalars['String']>;
+};
+
 export type Location = MongoBase & {
   __typename?: 'Location';
   address?: Maybe<Address>;
@@ -223,6 +278,15 @@ export type Location = MongoBase & {
   position?: Maybe<Point>;
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type LocationInput = {
+  address?: InputMaybe<AddressInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  position?: InputMaybe<PointInput>;
+  schemaVersion?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type Member = MongoBase & {
@@ -555,6 +619,15 @@ export type Point = MongoBase & {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type PointInput = {
+  coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  schemaVersion?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type Property = MongoBase & {
   __typename?: 'Property';
   community?: Maybe<Community>;
@@ -617,6 +690,8 @@ export type PropertyUpdateInput = {
   listedForRent?: InputMaybe<Scalars['Boolean']>;
   listedForSale?: InputMaybe<Scalars['Boolean']>;
   listedInDirectory?: InputMaybe<Scalars['Boolean']>;
+  listingDetail?: InputMaybe<ListingDetailsInput>;
+  location?: InputMaybe<LocationInput>;
   owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars['String']>;
   propertyType?: InputMaybe<Scalars['String']>;
@@ -2908,6 +2983,148 @@ export type MembersPropertiesListContainerPropertyFieldsFragment = {
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
 };
 
+export type MembersPropertiesListingContainerPropertyQueryVariables = Exact<{
+  id: Scalars['ObjectID'];
+}>;
+
+export type MembersPropertiesListingContainerPropertyQuery = {
+  __typename?: 'Query';
+  property?: {
+    __typename?: 'Property';
+    id: any;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      price?: number | null;
+      rentHigh?: number | null;
+      rentLow?: number | null;
+      lease?: number | null;
+      maxGuests?: number | null;
+      bedrooms?: number | null;
+      bathrooms?: number | null;
+      squareFeet?: number | null;
+      description?: string | null;
+      video?: string | null;
+      floorPlan?: string | null;
+      listingAgent?: string | null;
+      listingAgentPhone?: string | null;
+      listingAgentEmail?: string | null;
+      listingAgentWebsite?: string | null;
+      listingAgentCompany?: string | null;
+      listingAgentCompanyPhone?: string | null;
+      listingAgentCompanyEmail?: string | null;
+      listingAgentCompanyWebsite?: string | null;
+      listingAgentCompanyAddress?: string | null;
+    } | null;
+  } | null;
+};
+
+export type MembersPropertiesListingContainerPropertyUpdateMutationVariables = Exact<{
+  input: PropertyUpdateInput;
+}>;
+
+export type MembersPropertiesListingContainerPropertyUpdateMutation = {
+  __typename?: 'Mutation';
+  propertyUpdate: {
+    __typename?: 'PropertyMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    property?: {
+      __typename?: 'Property';
+      id: any;
+      listingDetail?: {
+        __typename?: 'ListingDetails';
+        price?: number | null;
+        rentHigh?: number | null;
+        rentLow?: number | null;
+        lease?: number | null;
+        maxGuests?: number | null;
+        bedrooms?: number | null;
+        bathrooms?: number | null;
+        squareFeet?: number | null;
+        description?: string | null;
+        video?: string | null;
+        floorPlan?: string | null;
+        listingAgent?: string | null;
+        listingAgentPhone?: string | null;
+        listingAgentEmail?: string | null;
+        listingAgentWebsite?: string | null;
+        listingAgentCompany?: string | null;
+        listingAgentCompanyPhone?: string | null;
+        listingAgentCompanyEmail?: string | null;
+        listingAgentCompanyWebsite?: string | null;
+        listingAgentCompanyAddress?: string | null;
+      } | null;
+    } | null;
+  };
+};
+
+export type MembersPropertiesListingContainerPropertyMutationResultFieldsFragment = {
+  __typename?: 'PropertyMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  property?: {
+    __typename?: 'Property';
+    id: any;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      price?: number | null;
+      rentHigh?: number | null;
+      rentLow?: number | null;
+      lease?: number | null;
+      maxGuests?: number | null;
+      bedrooms?: number | null;
+      bathrooms?: number | null;
+      squareFeet?: number | null;
+      description?: string | null;
+      video?: string | null;
+      floorPlan?: string | null;
+      listingAgent?: string | null;
+      listingAgentPhone?: string | null;
+      listingAgentEmail?: string | null;
+      listingAgentWebsite?: string | null;
+      listingAgentCompany?: string | null;
+      listingAgentCompanyPhone?: string | null;
+      listingAgentCompanyEmail?: string | null;
+      listingAgentCompanyWebsite?: string | null;
+      listingAgentCompanyAddress?: string | null;
+    } | null;
+  } | null;
+};
+
+export type MembersPropertiesListingContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  id: any;
+  listingDetail?: {
+    __typename?: 'ListingDetails';
+    price?: number | null;
+    rentHigh?: number | null;
+    rentLow?: number | null;
+    lease?: number | null;
+    maxGuests?: number | null;
+    bedrooms?: number | null;
+    bathrooms?: number | null;
+    squareFeet?: number | null;
+    description?: string | null;
+    video?: string | null;
+    floorPlan?: string | null;
+    listingAgent?: string | null;
+    listingAgentPhone?: string | null;
+    listingAgentEmail?: string | null;
+    listingAgentWebsite?: string | null;
+    listingAgentCompany?: string | null;
+    listingAgentCompanyPhone?: string | null;
+    listingAgentCompanyEmail?: string | null;
+    listingAgentCompanyWebsite?: string | null;
+    listingAgentCompanyAddress?: string | null;
+  } | null;
+};
+
+export type MembersPropertiesListingContainerMembersFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
 export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
   communityId: Scalars['ObjectID'];
 }>;
@@ -4661,6 +4878,116 @@ export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersPropertiesListContainerPropertyFieldsFragment, unknown>;
+export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersPropertiesListingContainerPropertyFieldsFragment, unknown>;
+export const MembersPropertiesListingContainerPropertyMutationResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: {
+        kind: 'Name',
+        value: 'MembersPropertiesListingContainerPropertyMutationResultFields'
+      },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesListingContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesListingContainerPropertyMutationResultFieldsFragment,
+  unknown
+>;
+export const MembersPropertiesListingContainerMembersFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListingContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersPropertiesListingContainerMembersFieldsFragment, unknown>;
 export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7598,6 +7925,107 @@ export const MembersPropertiesListContainerPropertiesDocument = {
 } as unknown as DocumentNode<
   MembersPropertiesListContainerPropertiesQuery,
   MembersPropertiesListContainerPropertiesQueryVariables
+>;
+export const MembersPropertiesListingContainerPropertyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersPropertiesListingContainerProperty' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesListingContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesListingContainerPropertyQuery,
+  MembersPropertiesListingContainerPropertyQueryVariables
+>;
+export const MembersPropertiesListingContainerPropertyUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersPropertiesListingContainerPropertyMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesListingContainerPropertyMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesListingContainerPropertyUpdateMutation,
+  MembersPropertiesListingContainerPropertyUpdateMutationVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',

@@ -7,12 +7,14 @@ import {
   UserOutlined,
   TeamOutlined,
   BarsOutlined,
+  ScheduleOutlined,
 } from '@ant-design/icons';
 import { MemberProfile } from './pages/member-profile';
 import { Vocabulary } from './pages/vocabulary';
 import { Neighbors } from './pages/neighbors';
 import { Properties } from './pages/properties';
 import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
+import { ServiceTickets } from './pages/service-tickets';
 
 
 const pageLayouts = [
@@ -37,22 +39,29 @@ const pageLayouts = [
     parent: 'ROOT'
   },
   {
+    path: '/community/:communityId/member/:userId/service-tickets/*',
+    title: 'Service Tickets',
+    icon: <ScheduleOutlined />,
+    id: 4,
+    parent: 'ROOT'
+  },
+  {
     path: '/community/:communityId/member/:userId/vocabulary/*',
     title: 'Vocabulary',
     icon: <ReadOutlined />,
-    id: 4,
+    id: 5,
     parent: 'ROOT',
   },
   {
     path: '/community/:communityId/member/:userId/neighbors/*',
     title: 'Neighbors',
     icon: <TeamOutlined />,
-    id: 5,
+    id: 6,
     parent: 'ROOT',
   },
 ];
 
-export const Members: React.FC<any> = (props) => {
+export const Members: React.FC<any> = (_props) => {
   const params = useParams();
   return (
     <BlobToLocalStorage communityId={params.communityId}>
@@ -63,6 +72,7 @@ export const Members: React.FC<any> = (props) => {
           <Route path='/vocabulary/*' element={<Vocabulary />} />
           <Route path='/neighbors/*' element={<Neighbors />} />
           <Route path='/properties/*' element={<Properties />} />
+          <Route path='/service-tickets/*' element={<ServiceTickets />} />
         </Route>
       </Routes>
     </BlobToLocalStorage>

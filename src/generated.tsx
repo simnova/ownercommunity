@@ -802,16 +802,6 @@ export type QueryServiceTicketsByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsClosedByRequestorArgs = {
-  propertyId: Scalars['ObjectID'];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsOpenByRequestorArgs = {
-  propertyId: Scalars['ObjectID'];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryUserArgs = {
   id: Scalars['ObjectID'];
 };
@@ -911,7 +901,7 @@ export type ServiceTicketChangeStatusInput = {
 export type ServiceTicketCreateInput = {
   description: Scalars['String'];
   propertyId?: InputMaybe<Scalars['ObjectID']>;
-  requestorId: Scalars['ObjectID'];
+  requestorId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
 };
 
@@ -3125,6 +3115,434 @@ export type MembersPropertiesListingContainerMembersFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type MembersServiceTicketsCreateContainerMembersQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MembersServiceTicketsCreateContainerMembersQuery = {
+  __typename?: 'Query';
+  membersByCommunityId?: Array<{
+    __typename?: 'Member';
+    id: any;
+    memberName?: string | null;
+  } | null> | null;
+};
+
+export type MembersServiceTicketsCreateContainerPropertiesQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MembersServiceTicketsCreateContainerPropertiesQuery = {
+  __typename?: 'Query';
+  propertiesForCurrentUserByCommunityId?: Array<{
+    __typename?: 'Property';
+    id: any;
+    propertyName: string;
+  } | null> | null;
+};
+
+export type MembersServiceTicketsCreateContainerServiceTicketCreateMutationVariables = Exact<{
+  input: ServiceTicketCreateInput;
+}>;
+
+export type MembersServiceTicketsCreateContainerServiceTicketCreateMutation = {
+  __typename?: 'Mutation';
+  serviceTicketCreate: {
+    __typename?: 'ServiceTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      title: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+    } | null;
+  };
+};
+
+export type MembersServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragment = {
+  __typename?: 'ServiceTicketMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  serviceTicket?: {
+    __typename?: 'ServiceTicket';
+    title: string;
+    status: string;
+    priority: number;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+    requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+  } | null;
+};
+
+export type MembersServiceTicketsCreateContainerServiceTicketFieldsFragment = {
+  __typename?: 'ServiceTicket';
+  title: string;
+  status: string;
+  priority: number;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+  requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+};
+
+export type MembersServiceTicketsCreateContainerMemberFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+};
+
+export type MembersServiceTicketsCreateContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  id: any;
+  propertyName: string;
+};
+
+export type MembersServiceTicketsDetailContainerMembersAssignableToTicketsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type MembersServiceTicketsDetailContainerMembersAssignableToTicketsQuery = {
+  __typename?: 'Query';
+  membersAssignableToTickets?: Array<{
+    __typename?: 'Member';
+    id: any;
+    memberName?: string | null;
+  } | null> | null;
+};
+
+export type MembersServiceTicketsDetailContainerPropertiesQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MembersServiceTicketsDetailContainerPropertiesQuery = {
+  __typename?: 'Query';
+  propertiesForCurrentUserByCommunityId?: Array<{
+    __typename?: 'Property';
+    id: any;
+    propertyName: string;
+  } | null> | null;
+};
+
+export type MembersServiceTicketsDetailContainerServiceTicketQueryVariables = Exact<{
+  id: Scalars['ObjectID'];
+}>;
+
+export type MembersServiceTicketsDetailContainerServiceTicketQuery = {
+  __typename?: 'Query';
+  serviceTicket?: {
+    __typename?: 'ServiceTicket';
+    title: string;
+    description: string;
+    status: string;
+    priority: number;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+    requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+    assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+    photos?: Array<{
+      __typename?: 'ServiceTicketPhoto';
+      documentId: string;
+      description: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null> | null;
+    activityLog?: Array<{
+      __typename?: 'ServiceTicketActivityDetail';
+      activityType: string;
+      activityDescription: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+    } | null> | null;
+  } | null;
+};
+
+export type MembersServiceTicketsDetailContainerServiceTicketUpdateMutationVariables = Exact<{
+  input: ServiceTicketUpdateInput;
+}>;
+
+export type MembersServiceTicketsDetailContainerServiceTicketUpdateMutation = {
+  __typename?: 'Mutation';
+  serviceTicketUpdate: {
+    __typename?: 'ServiceTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+      assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+      photos?: Array<{
+        __typename?: 'ServiceTicketPhoto';
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: 'ServiceTicketActivityDetail';
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type MembersServiceTicketsDetailContainerServiceTicketChangeStatusMutationVariables = Exact<{
+  input: ServiceTicketChangeStatusInput;
+}>;
+
+export type MembersServiceTicketsDetailContainerServiceTicketChangeStatusMutation = {
+  __typename?: 'Mutation';
+  serviceTicketChangeStatus: {
+    __typename?: 'ServiceTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+      assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+      photos?: Array<{
+        __typename?: 'ServiceTicketPhoto';
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: 'ServiceTicketActivityDetail';
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type MembersServiceTicketsDetailContainerServiceAssignMutationVariables = Exact<{
+  input: ServiceTicketAssignInput;
+}>;
+
+export type MembersServiceTicketsDetailContainerServiceAssignMutation = {
+  __typename?: 'Mutation';
+  serviceTicketAssign: {
+    __typename?: 'ServiceTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+      assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+      photos?: Array<{
+        __typename?: 'ServiceTicketPhoto';
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: 'ServiceTicketActivityDetail';
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type MembersServiceTicketsDetailContainerAddUpdateActivityMutationVariables = Exact<{
+  input: ServiceTicketAddUpdateActivityInput;
+}>;
+
+export type MembersServiceTicketsDetailContainerAddUpdateActivityMutation = {
+  __typename?: 'Mutation';
+  serviceTicketAddUpdateActivity: {
+    __typename?: 'ServiceTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+      assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+      photos?: Array<{
+        __typename?: 'ServiceTicketPhoto';
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: 'ServiceTicketActivityDetail';
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragment = {
+  __typename?: 'ServiceTicketMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  serviceTicket?: {
+    __typename?: 'ServiceTicket';
+    title: string;
+    description: string;
+    status: string;
+    priority: number;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+    requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+    assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+    photos?: Array<{
+      __typename?: 'ServiceTicketPhoto';
+      documentId: string;
+      description: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null> | null;
+    activityLog?: Array<{
+      __typename?: 'ServiceTicketActivityDetail';
+      activityType: string;
+      activityDescription: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+    } | null> | null;
+  } | null;
+};
+
+export type MembersServiceTicketsDetailContainerServiceTicketFieldsFragment = {
+  __typename?: 'ServiceTicket';
+  title: string;
+  description: string;
+  status: string;
+  priority: number;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+  requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+  assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+  photos?: Array<{
+    __typename?: 'ServiceTicketPhoto';
+    documentId: string;
+    description: string;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
+  activityLog?: Array<{
+    __typename?: 'ServiceTicketActivityDetail';
+    activityType: string;
+    activityDescription: string;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+  } | null> | null;
+};
+
+export type MembersServiceTicketsDetailContainerMemberFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+};
+
+export type MembersServiceTicketsDetailContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  id: any;
+  propertyName: string;
+};
+
+export type MembersServiceTicketsListContainerServiceTicketsOpenByRequestorQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type MembersServiceTicketsListContainerServiceTicketsOpenByRequestorQuery = {
+  __typename?: 'Query';
+  serviceTicketsOpenByRequestor?: Array<{
+    __typename?: 'ServiceTicket';
+    title: string;
+    priority: number;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    requestor: { __typename?: 'Member'; memberName?: string | null };
+    assignedTo?: { __typename?: 'Member'; memberName?: string | null } | null;
+  } | null> | null;
+};
+
+export type MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFieldsFragment = {
+  __typename?: 'ServiceTicket';
+  title: string;
+  priority: number;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  requestor: { __typename?: 'Member'; memberName?: string | null };
+  assignedTo?: { __typename?: 'Member'; memberName?: string | null } | null;
+};
+
 export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
   communityId: Scalars['ObjectID'];
 }>;
@@ -4988,6 +5406,364 @@ export const MembersPropertiesListingContainerMembersFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersPropertiesListingContainerMembersFieldsFragment, unknown>;
+export const MembersServiceTicketsCreateContainerServiceTicketFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsCreateContainerServiceTicketFieldsFragment,
+  unknown
+>;
+export const MembersServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: {
+        kind: 'Name',
+        value: 'MembersServiceTicketsCreateContainerServiceTicketMutationResultFields'
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ServiceTicketMutationResult' }
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsCreateContainerServiceTicketFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsCreateContainerServiceTicketFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragment,
+  unknown
+>;
+export const MembersServiceTicketsCreateContainerMemberFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersServiceTicketsCreateContainerMemberFieldsFragment, unknown>;
+export const MembersServiceTicketsCreateContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersServiceTicketsCreateContainerPropertyFieldsFragment, unknown>;
+export const MembersServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerServiceTicketFieldsFragment,
+  unknown
+>;
+export const MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: {
+        kind: 'Name',
+        value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields'
+      },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ServiceTicketMutationResult' }
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsDetailContainerServiceTicketFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragment,
+  unknown
+>;
+export const MembersServiceTicketsDetailContainerMemberFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersServiceTicketsDetailContainerMemberFieldsFragment, unknown>;
+export const MembersServiceTicketsDetailContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersServiceTicketsDetailContainerPropertyFieldsFragment, unknown>;
+export const MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: {
+        kind: 'Name',
+        value: 'MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields'
+      },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFieldsFragment,
+  unknown
+>;
 export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -8026,6 +8802,553 @@ export const MembersPropertiesListingContainerPropertyUpdateDocument = {
 } as unknown as DocumentNode<
   MembersPropertiesListingContainerPropertyUpdateMutation,
   MembersPropertiesListingContainerPropertyUpdateMutationVariables
+>;
+export const MembersServiceTicketsCreateContainerMembersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerMembers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'membersByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerMemberFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsCreateContainerMemberFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsCreateContainerMembersQuery,
+  MembersServiceTicketsCreateContainerMembersQueryVariables
+>;
+export const MembersServiceTicketsCreateContainerPropertiesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerProperties' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsCreateContainerPropertyFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsCreateContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsCreateContainerPropertiesQuery,
+  MembersServiceTicketsCreateContainerPropertiesQueryVariables
+>;
+export const MembersServiceTicketsCreateContainerServiceTicketCreateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerServiceTicketCreate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketCreateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketCreate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsCreateContainerServiceTicketMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsCreateContainerServiceTicketCreateMutation,
+  MembersServiceTicketsCreateContainerServiceTicketCreateMutationVariables
+>;
+export const MembersServiceTicketsDetailContainerMembersAssignableToTicketsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: {
+        kind: 'Name',
+        value: 'MembersServiceTicketsDetailContainerMembersAssignableToTickets'
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'membersAssignableToTickets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerMemberFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerMemberFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerMembersAssignableToTicketsQuery,
+  MembersServiceTicketsDetailContainerMembersAssignableToTicketsQueryVariables
+>;
+export const MembersServiceTicketsDetailContainerPropertiesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerProperties' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsDetailContainerPropertyFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerPropertiesQuery,
+  MembersServiceTicketsDetailContainerPropertiesQueryVariables
+>;
+export const MembersServiceTicketsDetailContainerServiceTicketDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicket' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsDetailContainerServiceTicketFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerServiceTicketQuery,
+  MembersServiceTicketsDetailContainerServiceTicketQueryVariables
+>;
+export const MembersServiceTicketsDetailContainerServiceTicketUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerServiceTicketUpdateMutation,
+  MembersServiceTicketsDetailContainerServiceTicketUpdateMutationVariables
+>;
+export const MembersServiceTicketsDetailContainerServiceTicketChangeStatusDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'MembersServiceTicketsDetailContainerServiceTicketChangeStatus'
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ServiceTicketChangeStatusInput' }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketChangeStatus' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerServiceTicketChangeStatusMutation,
+  MembersServiceTicketsDetailContainerServiceTicketChangeStatusMutationVariables
+>;
+export const MembersServiceTicketsDetailContainerServiceAssignDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceAssign' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketAssignInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketAssign' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerServiceAssignMutation,
+  MembersServiceTicketsDetailContainerServiceAssignMutationVariables
+>;
+export const MembersServiceTicketsDetailContainerAddUpdateActivityDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerAddUpdateActivity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ServiceTicketAddUpdateActivityInput' }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketAddUpdateActivity' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsDetailContainerAddUpdateActivityMutation,
+  MembersServiceTicketsDetailContainerAddUpdateActivityMutationVariables
+>;
+export const MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: {
+        kind: 'Name',
+        value: 'MembersServiceTicketsListContainerServiceTicketsOpenByRequestor'
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketsOpenByRequestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsListContainerServiceTicketsOpenByRequestorQuery,
+  MembersServiceTicketsListContainerServiceTicketsOpenByRequestorQueryVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',

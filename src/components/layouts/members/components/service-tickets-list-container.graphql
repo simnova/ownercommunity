@@ -1,0 +1,20 @@
+query MembersServiceTicketsListContainerServiceTicketsOpenByRequestor {
+  serviceTicketsOpenByRequestor {
+    ...MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields
+  }
+}
+
+fragment MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields on ServiceTicket {
+  title
+  requestor {
+    memberName
+  }
+  assignedTo {
+    memberName
+  }
+  priority
+
+  id
+  createdAt
+  updatedAt
+}

@@ -654,6 +654,7 @@ export type Query = {
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -706,6 +707,11 @@ export type QueryMembersByCommunityIdArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertiesByCommunityIdArgs = {
+  communityId: Scalars["ID"];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
   communityId: Scalars["ID"];
 };
 
@@ -2533,6 +2539,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryPropertiesByCommunityIdArgs, "communityId">
+  >;
+  propertiesForCurrentUserByCommunityId?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Property"]>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPropertiesForCurrentUserByCommunityIdArgs, "communityId">
   >;
   property?: Resolver<
     Maybe<ResolversTypes["Property"]>,

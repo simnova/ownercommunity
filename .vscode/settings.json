@@ -7,6 +7,7 @@
     "azureFunctions.preDeployTask": "npm prune (functions)",
     "editor.tabSize": 2,
     "cSpell.words": [
+        "datasource",
         "lucaspaganini",
         "maxlength"
     ]

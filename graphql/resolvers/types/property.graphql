@@ -93,6 +93,7 @@ extend type Query {
   properties: [Property]
   property(id: ObjectID!): Property
   propertiesByCommunityId(communityId: ID!): [Property] 
+  propertiesForCurrentUserByCommunityId(communityId: ID!): [Property] 
 }
 
 extend type Mutation {
@@ -124,6 +125,7 @@ input PropertyUpdateInput {
   listedInDirectory: Boolean
   owner: PropertyOwnerInput 
 }
+
 input PropertyOwnerInput {
   id: ObjectID
 }

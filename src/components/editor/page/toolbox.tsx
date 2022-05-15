@@ -76,29 +76,27 @@ export const Toolbox: React.FC<any> = (props) => {
 
 
   return (
-    <div>
-      <div
-        style={{
-          fontWeight: '600',
-          borderBottom: '2px solid black',
-          padding: '5px 0px',
-        }}
-      >
-        Drag to add
-      </div>
+    <div
+
+    
+    >
+      
 
       {editorConfig.categories.map((category, index) => (
         <div 
           key={index}
+          
           >
           <div 
+          className={'bg-neutral-700'}
+
             style={{
-              backgroundColor: 'lightgray',
-              padding: '0.5rem',
-              marginTop: '0.5rem',
+              minHeight:'100%',
+              padding: '0.3rem 0.5rem 0.5rem 0.5rem',
+              marginBottom: '3px',
             }}
           >
-          <h3>{category.categoryName}</h3>
+          <h3 className={'text-white text-left'}>{category.categoryName}</h3>
 
           {category.components.map((component, componentIndex) => (
             <div

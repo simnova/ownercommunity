@@ -640,6 +640,7 @@ export type Query = {
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -692,6 +693,11 @@ export type QueryMembersByCommunityIdArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertiesByCommunityIdArgs = {
+  communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
   communityId: Scalars['ID'];
 };
 
@@ -2749,6 +2755,159 @@ export type MemberPhotoUploadContainerMemberFieldsFragment = {
   profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
 };
 
+export type MembersPropertiesDetailContainerPropertyQueryVariables = Exact<{
+  id: Scalars['ObjectID'];
+}>;
+
+export type MembersPropertiesDetailContainerPropertyQuery = {
+  __typename?: 'Query';
+  property?: {
+    __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
+    listedForSale: boolean;
+    listedForRent: boolean;
+    listedForLease: boolean;
+    listedInDirectory: boolean;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+  } | null;
+};
+
+export type MembersPropertiesDetailContainerMembersQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MembersPropertiesDetailContainerMembersQuery = {
+  __typename?: 'Query';
+  membersByCommunityId?: Array<{
+    __typename?: 'Member';
+    id: any;
+    memberName?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
+};
+
+export type MembersPropertiesDetailContainerPropertyUpdateMutationVariables = Exact<{
+  input: PropertyUpdateInput;
+}>;
+
+export type MembersPropertiesDetailContainerPropertyUpdateMutation = {
+  __typename?: 'Mutation';
+  propertyUpdate: {
+    __typename?: 'PropertyMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    property?: {
+      __typename?: 'Property';
+      propertyName: string;
+      propertyType?: string | null;
+      listedForSale: boolean;
+      listedForRent: boolean;
+      listedForLease: boolean;
+      listedInDirectory: boolean;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+    } | null;
+  };
+};
+
+export type MembersPropertiesDetailContainerPropertyDeleteMutationVariables = Exact<{
+  input: PropertyDeleteInput;
+}>;
+
+export type MembersPropertiesDetailContainerPropertyDeleteMutation = {
+  __typename?: 'Mutation';
+  propertyDelete: {
+    __typename?: 'PropertyMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    property?: {
+      __typename?: 'Property';
+      propertyName: string;
+      propertyType?: string | null;
+      listedForSale: boolean;
+      listedForRent: boolean;
+      listedForLease: boolean;
+      listedInDirectory: boolean;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+    } | null;
+  };
+};
+
+export type MembersPropertiesDetailContainerPropertyMutationResultFieldsFragment = {
+  __typename?: 'PropertyMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  property?: {
+    __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
+    listedForSale: boolean;
+    listedForRent: boolean;
+    listedForLease: boolean;
+    listedInDirectory: boolean;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+  } | null;
+};
+
+export type MembersPropertiesDetailContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  propertyName: string;
+  propertyType?: string | null;
+  listedForSale: boolean;
+  listedForRent: boolean;
+  listedForLease: boolean;
+  listedInDirectory: boolean;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+};
+
+export type MembersPropertiesDetailContainerMembersFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
+export type MembersPropertiesListContainerPropertiesQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MembersPropertiesListContainerPropertiesQuery = {
+  __typename?: 'Query';
+  propertiesForCurrentUserByCommunityId?: Array<{
+    __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+  } | null> | null;
+};
+
+export type MembersPropertiesListContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  propertyName: string;
+  propertyType?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+};
+
 export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
   communityId: Scalars['ObjectID'];
 }>;
@@ -4377,6 +4536,131 @@ export const MemberPhotoUploadContainerMemberFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MemberPhotoUploadContainerMemberFieldsFragment, unknown>;
+export const MembersPropertiesDetailContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersPropertiesDetailContainerPropertyFieldsFragment, unknown>;
+export const MembersPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesDetailContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesDetailContainerPropertyMutationResultFieldsFragment,
+  unknown
+>;
+export const MembersPropertiesDetailContainerMembersFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersPropertiesDetailContainerMembersFieldsFragment, unknown>;
+export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersPropertiesListContainerPropertyFieldsFragment, unknown>;
 export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7063,6 +7347,257 @@ export const MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocume
 } as unknown as DocumentNode<
   MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation,
   MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables
+>;
+export const MembersPropertiesDetailContainerPropertyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerProperty' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesDetailContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesDetailContainerPropertyQuery,
+  MembersPropertiesDetailContainerPropertyQueryVariables
+>;
+export const MembersPropertiesDetailContainerMembersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerMembers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'membersByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesDetailContainerMembersFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesDetailContainerMembersFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesDetailContainerMembersQuery,
+  MembersPropertiesDetailContainerMembersQueryVariables
+>;
+export const MembersPropertiesDetailContainerPropertyUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersPropertiesDetailContainerPropertyMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesDetailContainerPropertyUpdateMutation,
+  MembersPropertiesDetailContainerPropertyUpdateMutationVariables
+>;
+export const MembersPropertiesDetailContainerPropertyDeleteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyDelete' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyDeleteInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyDelete' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersPropertiesDetailContainerPropertyMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesDetailContainerPropertyDeleteMutation,
+  MembersPropertiesDetailContainerPropertyDeleteMutationVariables
+>;
+export const MembersPropertiesListContainerPropertiesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersPropertiesListContainerProperties' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesListContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesListContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesListContainerPropertiesQuery,
+  MembersPropertiesListContainerPropertiesQueryVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',

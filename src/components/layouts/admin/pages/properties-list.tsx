@@ -15,7 +15,6 @@ export const PropertiesList: React.FC<any> = (props) => {
           title="Properties"
           extra={[
             <Button type="primary" onClick={() => navigate('new')}>Add New</Button>
-
           ]}
         />}
       >

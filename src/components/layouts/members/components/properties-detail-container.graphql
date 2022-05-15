@@ -1,0 +1,59 @@
+query MembersPropertiesDetailContainerProperty($id: ObjectID!) {
+  property(id: $id) {
+    ...MembersPropertiesDetailContainerPropertyFields
+  }
+}
+
+query MembersPropertiesDetailContainerMembers($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...MembersPropertiesDetailContainerMembersFields
+  }
+}
+
+mutation MembersPropertiesDetailContainerPropertyUpdate($input: PropertyUpdateInput!) {
+  propertyUpdate(input: $input) {
+    ...MembersPropertiesDetailContainerPropertyMutationResultFields
+  }
+}
+
+mutation MembersPropertiesDetailContainerPropertyDelete($input: PropertyDeleteInput!) {
+  propertyDelete(input: $input) {
+    ...MembersPropertiesDetailContainerPropertyMutationResultFields
+  }
+}
+
+fragment MembersPropertiesDetailContainerPropertyMutationResultFields on PropertyMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  property {
+    ...MembersPropertiesDetailContainerPropertyFields
+  }
+}
+
+fragment MembersPropertiesDetailContainerPropertyFields on Property {
+  propertyName
+  propertyType
+
+  listedForSale
+  listedForRent
+  listedForLease
+  listedInDirectory
+
+  owner {
+    id
+    memberName
+  }
+
+  id
+  createdAt
+  updatedAt
+}
+
+fragment MembersPropertiesDetailContainerMembersFields on Member {
+  id
+  memberName
+  createdAt
+  updatedAt
+}

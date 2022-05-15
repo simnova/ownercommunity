@@ -43,13 +43,13 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
 
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
-      if(input.propertyName) property.requestSetPropertyName(input.propertyName);
-      if(input.propertyType) property.requestSetPropertyType(input.propertyType);
-      if(input.listedForSale) property.requestSetListedForSale(input.listedForSale);
-      if(input.listedForRent) property.requestSetListedForRent(input.listedForRent);
-      if(input.listedForLease) property.requestSetListedForLease(input.listedForLease);
-      if(input.listedInDirectory) property.requestSetListedInDirectory(input.listedInDirectory);
-      if(input.owner) property.requestSetOwner(input.owner?memberDo:undefined);
+      if(input.propertyName !== undefined) property.requestSetPropertyName(input.propertyName);
+      if(input.propertyType !== undefined) property.requestSetPropertyType(input.propertyType);
+      if(input.listedForSale !== undefined) property.requestSetListedForSale(input.listedForSale);
+      if(input.listedForRent !== undefined) property.requestSetListedForRent(input.listedForRent);
+      if(input.listedForLease !== undefined) property.requestSetListedForLease(input.listedForLease);
+      if(input.listedInDirectory !== undefined) property.requestSetListedInDirectory(input.listedInDirectory);
+      if(input.owner !== undefined) property.requestSetOwner(input.owner?memberDo:undefined);
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
     return propertyToReturn;

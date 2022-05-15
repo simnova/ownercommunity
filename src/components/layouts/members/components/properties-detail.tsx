@@ -23,8 +23,8 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
         <Descriptions.Item label="Created At">{dayjs(props.data.property.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
         <Descriptions.Item label="Updated At">{dayjs(props.data.property.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
 
-        <Descriptions.Item label="Name">{props.data.property.name}</Descriptions.Item>
-        <Descriptions.Item label="Type">{props.data.property.type}</Descriptions.Item>
+        <Descriptions.Item label="Name">{props.data.property.propertyName}</Descriptions.Item>
+        <Descriptions.Item label="Type">{props.data.property.propertyType}</Descriptions.Item>
       </Descriptions>
       <Form
         layout="vertical"

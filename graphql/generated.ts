@@ -816,16 +816,6 @@ export type QueryServiceTicketsByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsClosedByRequestorArgs = {
-  propertyId: Scalars["ObjectID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsOpenByRequestorArgs = {
-  propertyId: Scalars["ObjectID"];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryUserArgs = {
   id: Scalars["ObjectID"];
 };
@@ -925,7 +915,7 @@ export type ServiceTicketChangeStatusInput = {
 export type ServiceTicketCreateInput = {
   description: Scalars["String"];
   propertyId?: InputMaybe<Scalars["ObjectID"]>;
-  requestorId: Scalars["ObjectID"];
+  requestorId?: InputMaybe<Scalars["ObjectID"]>;
   title: Scalars["String"];
 };
 
@@ -2676,8 +2666,7 @@ export type QueryResolvers<
   serviceTicketsClosedByRequestor?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
     ParentType,
-    ContextType,
-    RequireFields<QueryServiceTicketsClosedByRequestorArgs, "propertyId">
+    ContextType
   >;
   serviceTicketsOpenByCommunity?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
@@ -2687,8 +2676,7 @@ export type QueryResolvers<
   serviceTicketsOpenByRequestor?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
     ParentType,
-    ContextType,
-    RequireFields<QueryServiceTicketsOpenByRequestorArgs, "propertyId">
+    ContextType
   >;
   user?: Resolver<
     Maybe<ResolversTypes["User"]>,

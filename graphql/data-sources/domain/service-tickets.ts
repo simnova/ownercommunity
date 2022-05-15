@@ -6,6 +6,7 @@ import { Context } from '../../context';
 import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { ServiceTicket } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
+import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
@@ -30,8 +31,13 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
     let property = await this.context.dataSources.propertyApi.findOneById(input.propertyId);
     let propertyDo = new PropertyConverter().toDomain(property,{passport:ReadOnlyPassport.GetInstance()});
 
-    let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
+    let member : Member;
+    if(input.requestorId === undefined) { //assume requestor is the verified user
+      let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+      member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
+    } else {  //use the supplied requestorId - TODO: check that the current user is an admin
+      member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,input.requestorId);
+    }
     let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
 
     await this.withTransaction(async (repo) => {

@@ -38,8 +38,8 @@ type ServiceTicketPhoto implements MongoEmbeddedBase {
 extend type Query {
   serviceTicket(id: ObjectID!): ServiceTicket
   serviceTicketsOpenByCommunity: [ServiceTicket]
-  serviceTicketsOpenByRequestor(propertyId: ObjectID!): [ServiceTicket]
-  serviceTicketsClosedByRequestor(propertyId: ObjectID!): [ServiceTicket]
+  serviceTicketsOpenByRequestor: [ServiceTicket]
+  serviceTicketsClosedByRequestor: [ServiceTicket]
   serviceTicketsAssignedToCurrentUser: [ServiceTicket]
   serviceTicketsByCommunityId(communityId: ID!): [ServiceTicket]
 }
@@ -62,7 +62,7 @@ type ServiceTicketMutationResult {
 
 input ServiceTicketCreateInput {
   propertyId: ObjectID
-  requestorId: ObjectID!
+  requestorId: ObjectID
   title: String!
   description: String!
 }

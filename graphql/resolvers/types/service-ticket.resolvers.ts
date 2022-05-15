@@ -62,11 +62,13 @@ const serviceTicket : Resolvers = {
     serviceTicketsOpenByCommunity: async (_parent, _args, context, _info) => {
       return (await context.dataSources.serviceTicketApi.getServiceTicketsByCommunityId(context.community)) as ServiceTicket[];
     },
-    serviceTicketsOpenByRequestor: async (_, { propertyId }, { dataSources }) => {
-      return (await dataSources.serviceTicketApi.getServiceTicketsOpenByRequestor(propertyId)) as ServiceTicket[];
+    serviceTicketsOpenByRequestor: async (_, _args, context) => {
+      const member = await getMemberForCurrentUser(context, context.community);
+      return (await context.dataSources.serviceTicketApi.getServiceTicketsOpenByRequestor(member.id)) as ServiceTicket[];
     },
-    serviceTicketsClosedByRequestor: async (_, { propertyId }, { dataSources }) => {
-      return (await dataSources.serviceTicketApi.getServiceTicketsClosedByRequestor(propertyId)) as ServiceTicket[];
+    serviceTicketsClosedByRequestor: async (_, _args, context) => {
+      const member = await getMemberForCurrentUser(context, context.community);
+      return (await context.dataSources.serviceTicketApi.getServiceTicketsClosedByRequestor(member.id)) as ServiceTicket[];
     },
     serviceTicketsAssignedToCurrentUser: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context, context.community);

@@ -45,17 +45,63 @@ type ListingDetails {
   listingAgentCompanyWebsite: String
   listingAgentCompanyAddress: String
 }
+input ListingDetailsInput {
+  price: Float
+  rentHigh: Float
+  rentLow: Float
+  lease: Float
+  maxGuests: Int
+  bedrooms: Int
+  bedroomDetails: BedroomDetailsInput
+  bathrooms: Float
+  squareFeet: Int
+  description: String
+  amenities: [String]
+  additionalAmenities: AdditionalAmenitiesInput
+  images: [String]
+  video: String
+  floorPlan: String
+  floorPlanImages: [String]
+  listingAgent: String
+  listingAgentPhone: String
+  listingAgentEmail: String
+  listingAgentWebsite: String
+  listingAgentCompany: String
+  listingAgentCompanyPhone: String
+  listingAgentCompanyEmail: String
+  listingAgentCompanyWebsite: String
+  listingAgentCompanyAddress: String
+}
+
 type BedroomDetails {
   roomName: String
   bedDescriptions: [String]
 }
-type AdditionalAmenities{
+input BedroomDetailsInput {
+  roomName: String
+  bedDescriptions: [String]
+}
+
+type AdditionalAmenities {
   category: String
   amenities: [String]
 }
+input AdditionalAmenitiesInput {
+  category: String
+  amenities: [String]
+}
+
 type Location implements MongoBase {
   position: Point
   address: Address
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+input LocationInput {
+  position: PointInput
+  address: AddressInput
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -71,8 +117,33 @@ type Point implements MongoBase {
   createdAt: DateTime
   updatedAt: DateTime
 }
+input PointInput {
+  type: String
+  coordinates: [Float]
+  
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
 
 type Address {
+  streetNumber: String
+  streetName: String
+  municipality: String
+  municipalitySubdivision: String
+  countrySecondarySubdivision: String
+  countryTertiarySubdivision: String
+  countrySubdivision: String
+  countrySubdivisionName: String
+  postalCode: String
+  extendedPostalCode: String
+  countryCode: String
+  country: String
+  countryCodeISO3: String
+  freeformAddress: String
+}
+input AddressInput {
   streetNumber: String
   streetName: String
   municipality: String
@@ -124,6 +195,8 @@ input PropertyUpdateInput {
   listedForLease: Boolean
   listedInDirectory: Boolean
   owner: PropertyOwnerInput 
+  listingDetail: ListingDetailsInput
+  location: LocationInput
 }
 
 input PropertyOwnerInput {

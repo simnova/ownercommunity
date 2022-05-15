@@ -86,6 +86,11 @@ export type AdditionalAmenities = {
   category?: Maybe<Scalars["String"]>;
 };
 
+export type AdditionalAmenitiesInput = {
+  amenities?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  category?: InputMaybe<Scalars["String"]>;
+};
+
 export type Address = {
   __typename?: "Address";
   country?: Maybe<Scalars["String"]>;
@@ -104,10 +109,32 @@ export type Address = {
   streetNumber?: Maybe<Scalars["String"]>;
 };
 
+export type AddressInput = {
+  country?: InputMaybe<Scalars["String"]>;
+  countryCode?: InputMaybe<Scalars["String"]>;
+  countryCodeISO3?: InputMaybe<Scalars["String"]>;
+  countrySecondarySubdivision?: InputMaybe<Scalars["String"]>;
+  countrySubdivision?: InputMaybe<Scalars["String"]>;
+  countrySubdivisionName?: InputMaybe<Scalars["String"]>;
+  countryTertiarySubdivision?: InputMaybe<Scalars["String"]>;
+  extendedPostalCode?: InputMaybe<Scalars["String"]>;
+  freeformAddress?: InputMaybe<Scalars["String"]>;
+  municipality?: InputMaybe<Scalars["String"]>;
+  municipalitySubdivision?: InputMaybe<Scalars["String"]>;
+  postalCode?: InputMaybe<Scalars["String"]>;
+  streetName?: InputMaybe<Scalars["String"]>;
+  streetNumber?: InputMaybe<Scalars["String"]>;
+};
+
 export type BedroomDetails = {
   __typename?: "BedroomDetails";
   bedDescriptions?: Maybe<Array<Maybe<Scalars["String"]>>>;
   roomName?: Maybe<Scalars["String"]>;
+};
+
+export type BedroomDetailsInput = {
+  bedDescriptions?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  roomName?: InputMaybe<Scalars["String"]>;
 };
 
 export type BlobAuthHeader = {
@@ -229,6 +256,34 @@ export type ListingDetails = {
   video?: Maybe<Scalars["String"]>;
 };
 
+export type ListingDetailsInput = {
+  additionalAmenities?: InputMaybe<AdditionalAmenitiesInput>;
+  amenities?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  bathrooms?: InputMaybe<Scalars["Float"]>;
+  bedroomDetails?: InputMaybe<BedroomDetailsInput>;
+  bedrooms?: InputMaybe<Scalars["Int"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  floorPlan?: InputMaybe<Scalars["String"]>;
+  floorPlanImages?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  lease?: InputMaybe<Scalars["Float"]>;
+  listingAgent?: InputMaybe<Scalars["String"]>;
+  listingAgentCompany?: InputMaybe<Scalars["String"]>;
+  listingAgentCompanyAddress?: InputMaybe<Scalars["String"]>;
+  listingAgentCompanyEmail?: InputMaybe<Scalars["String"]>;
+  listingAgentCompanyPhone?: InputMaybe<Scalars["String"]>;
+  listingAgentCompanyWebsite?: InputMaybe<Scalars["String"]>;
+  listingAgentEmail?: InputMaybe<Scalars["String"]>;
+  listingAgentPhone?: InputMaybe<Scalars["String"]>;
+  listingAgentWebsite?: InputMaybe<Scalars["String"]>;
+  maxGuests?: InputMaybe<Scalars["Int"]>;
+  price?: InputMaybe<Scalars["Float"]>;
+  rentHigh?: InputMaybe<Scalars["Float"]>;
+  rentLow?: InputMaybe<Scalars["Float"]>;
+  squareFeet?: InputMaybe<Scalars["Int"]>;
+  video?: InputMaybe<Scalars["String"]>;
+};
+
 export type Location = MongoBase & {
   __typename?: "Location";
   address?: Maybe<Address>;
@@ -237,6 +292,15 @@ export type Location = MongoBase & {
   position?: Maybe<Point>;
   schemaVersion?: Maybe<Scalars["String"]>;
   updatedAt?: Maybe<Scalars["DateTime"]>;
+};
+
+export type LocationInput = {
+  address?: InputMaybe<AddressInput>;
+  createdAt?: InputMaybe<Scalars["DateTime"]>;
+  id: Scalars["ObjectID"];
+  position?: InputMaybe<PointInput>;
+  schemaVersion?: InputMaybe<Scalars["String"]>;
+  updatedAt?: InputMaybe<Scalars["DateTime"]>;
 };
 
 export type Member = MongoBase & {
@@ -569,6 +633,15 @@ export type Point = MongoBase & {
   updatedAt?: Maybe<Scalars["DateTime"]>;
 };
 
+export type PointInput = {
+  coordinates?: InputMaybe<Array<InputMaybe<Scalars["Float"]>>>;
+  createdAt?: InputMaybe<Scalars["DateTime"]>;
+  id: Scalars["ObjectID"];
+  schemaVersion?: InputMaybe<Scalars["String"]>;
+  type?: InputMaybe<Scalars["String"]>;
+  updatedAt?: InputMaybe<Scalars["DateTime"]>;
+};
+
 export type Property = MongoBase & {
   __typename?: "Property";
   community?: Maybe<Community>;
@@ -631,6 +704,8 @@ export type PropertyUpdateInput = {
   listedForRent?: InputMaybe<Scalars["Boolean"]>;
   listedForSale?: InputMaybe<Scalars["Boolean"]>;
   listedInDirectory?: InputMaybe<Scalars["Boolean"]>;
+  listingDetail?: InputMaybe<ListingDetailsInput>;
+  location?: InputMaybe<LocationInput>;
   owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars["String"]>;
   propertyType?: InputMaybe<Scalars["String"]>;
@@ -1044,8 +1119,11 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   AdditionalAmenities: ResolverTypeWrapper<AdditionalAmenities>;
+  AdditionalAmenitiesInput: AdditionalAmenitiesInput;
   Address: ResolverTypeWrapper<Address>;
+  AddressInput: AddressInput;
   BedroomDetails: ResolverTypeWrapper<BedroomDetails>;
+  BedroomDetailsInput: BedroomDetailsInput;
   BigInt: ResolverTypeWrapper<Scalars["BigInt"]>;
   BlobAuthHeader: ResolverTypeWrapper<BlobAuthHeader>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
@@ -1084,10 +1162,12 @@ export type ResolversTypes = ResolversObject<{
   JWT: ResolverTypeWrapper<Scalars["JWT"]>;
   Latitude: ResolverTypeWrapper<Scalars["Latitude"]>;
   ListingDetails: ResolverTypeWrapper<ListingDetails>;
+  ListingDetailsInput: ListingDetailsInput;
   LocalDate: ResolverTypeWrapper<Scalars["LocalDate"]>;
   LocalEndTime: ResolverTypeWrapper<Scalars["LocalEndTime"]>;
   LocalTime: ResolverTypeWrapper<Scalars["LocalTime"]>;
   Location: ResolverTypeWrapper<Location>;
+  LocationInput: LocationInput;
   Long: ResolverTypeWrapper<Scalars["Long"]>;
   Longitude: ResolverTypeWrapper<Scalars["Longitude"]>;
   MAC: ResolverTypeWrapper<Scalars["MAC"]>;
@@ -1136,6 +1216,7 @@ export type ResolversTypes = ResolversObject<{
   PermissionsInput: PermissionsInput;
   PhoneNumber: ResolverTypeWrapper<Scalars["PhoneNumber"]>;
   Point: ResolverTypeWrapper<Point>;
+  PointInput: PointInput;
   Port: ResolverTypeWrapper<Scalars["Port"]>;
   PositiveFloat: ResolverTypeWrapper<Scalars["PositiveFloat"]>;
   PositiveInt: ResolverTypeWrapper<Scalars["PositiveInt"]>;
@@ -1193,8 +1274,11 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   AdditionalAmenities: AdditionalAmenities;
+  AdditionalAmenitiesInput: AdditionalAmenitiesInput;
   Address: Address;
+  AddressInput: AddressInput;
   BedroomDetails: BedroomDetails;
+  BedroomDetailsInput: BedroomDetailsInput;
   BigInt: Scalars["BigInt"];
   BlobAuthHeader: BlobAuthHeader;
   Boolean: Scalars["Boolean"];
@@ -1232,10 +1316,12 @@ export type ResolversParentTypes = ResolversObject<{
   JWT: Scalars["JWT"];
   Latitude: Scalars["Latitude"];
   ListingDetails: ListingDetails;
+  ListingDetailsInput: ListingDetailsInput;
   LocalDate: Scalars["LocalDate"];
   LocalEndTime: Scalars["LocalEndTime"];
   LocalTime: Scalars["LocalTime"];
   Location: Location;
+  LocationInput: LocationInput;
   Long: Scalars["Long"];
   Longitude: Scalars["Longitude"];
   MAC: Scalars["MAC"];
@@ -1284,6 +1370,7 @@ export type ResolversParentTypes = ResolversObject<{
   PermissionsInput: PermissionsInput;
   PhoneNumber: Scalars["PhoneNumber"];
   Point: Point;
+  PointInput: PointInput;
   Port: Scalars["Port"];
   PositiveFloat: Scalars["PositiveFloat"];
   PositiveInt: Scalars["PositiveInt"];

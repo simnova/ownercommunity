@@ -50,6 +50,34 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
       if(input.listedForLease !== undefined) property.requestSetListedForLease(input.listedForLease);
       if(input.listedInDirectory !== undefined) property.requestSetListedInDirectory(input.listedInDirectory);
       if(input.owner !== undefined) property.requestSetOwner(input.owner?memberDo:undefined);
+      if(input.listingDetail !== undefined) {
+        if(input.listingDetail.price !== undefined) property.listingDetail.requestSetPrice(input.listingDetail.price);
+        if(input.listingDetail.rentHigh !== undefined) property.listingDetail.requestSetRentHigh(input.listingDetail.rentHigh);
+        if(input.listingDetail.rentLow !== undefined) property.listingDetail.requestSetRentLow(input.listingDetail.rentLow);
+        if(input.listingDetail.lease !== undefined) property.listingDetail.requestSetLease(input.listingDetail.lease);
+        if(input.listingDetail.maxGuests !== undefined) property.listingDetail.requestSetMaxGuests(input.listingDetail.maxGuests);
+        if(input.listingDetail.bedrooms !== undefined) property.listingDetail.requestSetBedrooms(input.listingDetail.bedrooms);
+        //todo bedroom details
+        if(input.listingDetail.bathrooms !== undefined) property.listingDetail.requestSetBathrooms(input.listingDetail.bathrooms);
+        if(input.listingDetail.squareFeet !== undefined) property.listingDetail.requestSetSquareFeet(input.listingDetail.squareFeet);
+        if(input.listingDetail.description !== undefined) property.listingDetail.requestSetDescription(input.listingDetail.description);
+       // if(input.listingDetail.amenities !== undefined) property.listingDetail.requestSetAmenities(input.listingDetail.amenities);
+       //todo addtional ammenities
+       //todo images
+       //todo video
+        if(input.listingDetail.floorPlan !== undefined) property.listingDetail.requestSetFloorPlan(input.listingDetail.floorPlan);
+        //todo floor plan images
+        if(input.listingDetail.listingAgent !== undefined) property.listingDetail.requestSetListingAgent(input.listingDetail.listingAgent);
+        if(input.listingDetail.listingAgentPhone !== undefined) property.listingDetail.requestSetListingAgentPhone(input.listingDetail.listingAgentPhone);
+        if(input.listingDetail.listingAgentEmail !== undefined) property.listingDetail.requestSetListingAgentEmail(input.listingDetail.listingAgentEmail);
+        if(input.listingDetail.listingAgentWebsite !== undefined) property.listingDetail.requestSetListingAgentWebsite(input.listingDetail.listingAgentWebsite);
+        if(input.listingDetail.listingAgentCompany !== undefined) property.listingDetail.requestSetListingAgentCompany(input.listingDetail.listingAgentCompany);
+        if(input.listingDetail.listingAgentCompanyPhone !== undefined) property.listingDetail.requestSetListingAgentCompanyPhone(input.listingDetail.listingAgentCompanyPhone);
+        if(input.listingDetail.listingAgentCompanyEmail !== undefined) property.listingDetail.requestSetListingAgentCompanyEmail(input.listingDetail.listingAgentCompanyEmail);
+        if(input.listingDetail.listingAgentCompanyWebsite !== undefined) property.listingDetail.requestSetListingAgentCompanyWebsite(input.listingDetail.listingAgentCompanyWebsite);
+        if(input.listingDetail.listingAgentCompanyAddress !== undefined) property.listingDetail.requestSetListingAgentCompanyAddress(input.listingDetail.listingAgentCompanyAddress);
+
+      }
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
     return propertyToReturn;

@@ -445,6 +445,7 @@ export type Mutation = {
   serviceTicketAssign: ServiceTicketMutationResult;
   serviceTicketChangeStatus: ServiceTicketMutationResult;
   serviceTicketCreate: ServiceTicketMutationResult;
+  serviceTicketDelete: ServiceTicketMutationResult;
   serviceTicketRemovePhoto: ServiceTicketMutationResult;
   serviceTicketSubmit: ServiceTicketMutationResult;
   serviceTicketUpdate: ServiceTicketMutationResult;
@@ -571,6 +572,11 @@ export type MutationServiceTicketChangeStatusArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationServiceTicketCreateArgs = {
   input: ServiceTicketCreateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationServiceTicketDeleteArgs = {
+  input: ServiceTicketDeleteInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -903,6 +909,10 @@ export type ServiceTicketCreateInput = {
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   requestorId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
+};
+
+export type ServiceTicketDeleteInput = {
+  serviceTicketId: Scalars['ObjectID'];
 };
 
 export type ServiceTicketMutationResult = {
@@ -3401,6 +3411,48 @@ export type MembersServiceTicketsDetailContainerAddUpdateActivityMutationVariabl
 export type MembersServiceTicketsDetailContainerAddUpdateActivityMutation = {
   __typename?: 'Mutation';
   serviceTicketAddUpdateActivity: {
+    __typename?: 'ServiceTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+      assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+      photos?: Array<{
+        __typename?: 'ServiceTicketPhoto';
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: 'ServiceTicketActivityDetail';
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type MembersServiceTicketDetailContainerServiceTicketDeleteMutationVariables = Exact<{
+  input: ServiceTicketDeleteInput;
+}>;
+
+export type MembersServiceTicketDetailContainerServiceTicketDeleteMutation = {
+  __typename?: 'Mutation';
+  serviceTicketDelete: {
     __typename?: 'ServiceTicketMutationResult';
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     serviceTicket?: {
@@ -9311,6 +9363,58 @@ export const MembersServiceTicketsDetailContainerAddUpdateActivityDocument = {
 } as unknown as DocumentNode<
   MembersServiceTicketsDetailContainerAddUpdateActivityMutation,
   MembersServiceTicketsDetailContainerAddUpdateActivityMutationVariables
+>;
+export const MembersServiceTicketDetailContainerServiceTicketDeleteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersServiceTicketDetailContainerServiceTicketDelete' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketDeleteInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketDelete' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketDetailContainerServiceTicketDeleteMutation,
+  MembersServiceTicketDetailContainerServiceTicketDeleteMutationVariables
 >;
 export const MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument = {
   kind: 'Document',

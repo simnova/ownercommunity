@@ -38,7 +38,11 @@ mutation MembersServiceTicketsDetailContainerAddUpdateActivity($input: ServiceTi
   }
 }
 
-
+mutation MembersServiceTicketDetailContainerServiceTicketDelete($input: ServiceTicketDeleteInput!) {
+  serviceTicketDelete(input: $input) {
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
 
 
 fragment MembersServiceTicketsDetailContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {

@@ -130,6 +130,12 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     if(!this.isNew) { throw new Error('Unauthorized'); }
     this.props.setRequestorRef(requestor);
   }
+  public requestDelete(): void {
+    if(
+      !this.isDeleted &&
+      !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets)) { throw new Error('You do not have permission to delete this property'); }
+    super.isDeleted = true;
+  }
   public requestSetAssignedTo(assignedTo:MemberEntityReference):void{
     if(
       !this.isNew &&

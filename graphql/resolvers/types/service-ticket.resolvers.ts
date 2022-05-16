@@ -96,6 +96,9 @@ const serviceTicket : Resolvers = {
     },
     serviceTicketChangeStatus: async (_, { input }, {dataSources}) => {
       return ServiceTicketMutationResolver( dataSources.serviceTicketDomainAPI.serviceTicketChangeStatus(input));
+    },
+    serviceTicketDelete: async (_, {input}, {dataSources}) => {
+      return ServiceTicketMutationResolver( dataSources.serviceTicketDomainAPI.serviceTicketDelete(input));
     }
   }
 }

@@ -53,11 +53,16 @@ extend type Mutation {
   serviceTicketAssign(input: ServiceTicketAssignInput!): ServiceTicketMutationResult!
   serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput!): ServiceTicketMutationResult!
   serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput!): ServiceTicketMutationResult!
+  serviceTicketDelete(input: ServiceTicketDeleteInput!): ServiceTicketMutationResult!
 }
 
 type ServiceTicketMutationResult {
   status: MutationStatus!
   serviceTicket: ServiceTicket
+}
+
+input ServiceTicketDeleteInput {
+  serviceTicketId: ObjectID!
 }
 
 input ServiceTicketCreateInput {

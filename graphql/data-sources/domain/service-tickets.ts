@@ -3,7 +3,7 @@ import { Member as MemberDO } from '../../../domain/contexts/community/member';
 import { ServiceTicketConverter, ServiceTicketDomainAdapter }from '../../../domain/infrastructure/persistance/adapters/service-ticket-domain-adapter';
 import { MongoServiceTicketRepository } from '../../../domain/infrastructure/persistance/repositories/mongo-service-ticket-repository';
 import { Context } from '../../context';
-import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput } from '../../generated';
+import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput, ServiceTicketDeleteInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { ServiceTicket } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
@@ -66,6 +66,17 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
       serviceTicket.requestSetPriority(input.priority);
       serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
     });
+    return serviceTicketToReturn;
+  }
+
+  async serviceTicketDelete(input: ServiceTicketDeleteInput) : Promise<ServiceTicket> {
+    let serviceTicketToReturn : ServiceTicket;
+    await this.withTransaction(async (repo) => {
+      let serviceTicket = await repo.getById(input.serviceTicketId);
+      serviceTicket.requestDelete();
+      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+    });
+
     return serviceTicketToReturn;
   }
 

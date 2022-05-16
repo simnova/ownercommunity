@@ -14,16 +14,16 @@ export const ServiceTicketsDetail: React.FC<any> = (_props) => {
         <PageHeader
           title="ServiceTicket Detail"
           onBack={() => navigate(-1)}
-          extra={[
-            <Button
-              type="primary"
-              onClick={() => {
-                navigate('./delete');
-              }}
-            >
-              Delete...
-            </Button>
-          ]}
+          // extra={[
+          //   <Button
+          //     type="primary"
+          //     onClick={() => {
+          //       navigate('./delete');
+          //     }}
+          //   >
+          //     Delete...
+          //   </Button>
+          // ]}
         />
       }
     >

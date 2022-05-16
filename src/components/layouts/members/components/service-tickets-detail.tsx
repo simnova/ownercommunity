@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { ServiceTicket, ServiceTicketUpdateInput, ServiceTicketChangeStatusInput, ServiceTicketAddUpdateActivityInput, ServiceTicketActivityDetail } from '../../../../generated';
 import { DownOutlined, UserOutlined, FileOutlined, FileTextOutlined, SolutionOutlined, FileSyncOutlined, FileDoneOutlined, FileProtectOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/lib/table';
+import { useNavigate } from "react-router-dom"
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -38,6 +39,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const currentStep = stepArray.findIndex((value) => value === props.data.serviceTicket.status) ;
   const [modalVisible,setModalVisible] = useState(false);
   const [nextState,setNextState] = useState('');
+
+  const navigate = useNavigate();
 
   const columns:ColumnsType<ServiceTicketActivityDetail> = [
     {
@@ -189,10 +192,18 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Updated At">{dayjs(props.data.serviceTicket.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
         </Descriptions>
       </div>
-
       
-
       {props.data.serviceTicket.status === 'DRAFT' && <>
+      <div style={{padding: 24 , minHeight:'100%', backgroundColor:'white' }}>
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate('./delete');
+          }}
+        >
+          Delete Ticket
+        </Button>
+      </div>
       <div  style={{ marginTop:20, padding: 24, minHeight:'100%', backgroundColor:'white' }} >
         <Title level={5}>
           Edit Draft Ticket

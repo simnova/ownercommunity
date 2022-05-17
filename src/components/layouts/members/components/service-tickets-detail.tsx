@@ -197,6 +197,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
       <div style={{padding: 24 , minHeight:'100%', backgroundColor:'white' }}>
         <Button
           type="primary"
+          danger
           onClick={props.onDelete}
         >
           Delete Ticket

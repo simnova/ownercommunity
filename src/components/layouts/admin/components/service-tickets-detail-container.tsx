@@ -12,15 +12,21 @@ import {
   AdminServiceTicketsDetailContainerServiceAssignDocument,
   AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
   ServiceTicketAssignInput,
-  ServiceTicketAddUpdateActivityInput} from "../../../../generated";
+  ServiceTicketAddUpdateActivityInput,
+  AdminServiceTicketDetailContainerServiceTicketDeleteDocument,
+  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument} from "../../../../generated";
+import { useNavigate } from "react-router-dom";
 
 export interface ServiceTicketsDetailContainerProps {
   data: {
     id: string;
+    communityId: string;
   };
 }
 
 export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContainerProps> = (props) => {
+  const navigate = useNavigate();
+
   const [serviceTicketUpdate] = useMutation(AdminServiceTicketsDetailContainerServiceTicketUpdateDocument); 
   const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument);  
   const [serviceTicketAssign] = useMutation(AdminServiceTicketsDetailContainerServiceAssignDocument);
@@ -34,6 +40,27 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
       id: props.data.id
     }
   });
+
+  const [deleteServiceTicket] = useMutation(AdminServiceTicketDetailContainerServiceTicketDeleteDocument, {
+    update(cache, {data}) {
+      const deletedServiceTicket = data?.serviceTicketDelete.serviceTicket;
+      const serviceTickets = cache.readQuery({
+        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument, 
+        variables: {communityId: props.data.communityId}
+      })?.serviceTicketsByCommunityId;
+      if (deletedServiceTicket && serviceTickets) {
+        cache.writeQuery({
+          query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+          variables: { communityId: props.data.communityId },
+          data: {
+            serviceTicketsByCommunityId: serviceTickets?.filter(
+              (serviceTickets) => serviceTickets?.id !== deletedServiceTicket.id
+            )
+          }
+        });
+      }
+    }
+  })
 
   const handleAssign = async (values: ServiceTicketAssignInput) => {
     try {
@@ -95,6 +122,22 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
     }
   } 
 
+  const handleDelete = async () => {
+    try {
+      await deleteServiceTicket({
+        variables: {
+          input: {
+            serviceTicketId: props.data.id
+          }
+        }
+      });
+      message.success('Deleted');
+      navigate('../../');
+    } catch (error) {
+      message.error(`Error deleting Service Ticket: ${JSON.stringify(error)}`);
+    }
+  };
+
   if(serviceTicketLoading || memberLoading || propertyLoading){
     return <Skeleton active />
   }else if(serviceTicketError || memberError || propertyError){
@@ -112,6 +155,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
             data={data} 
             onAssign={handleAssign}
             onAddUpdateActivity={handleAddUpdateActivity}
+            onDelete={handleDelete}
             />
   } else {
     return <div>No Data...</div>

@@ -2434,6 +2434,48 @@ export type AdminServiceTicketsDetailContainerAddUpdateActivityMutation = {
   };
 };
 
+export type AdminServiceTicketDetailContainerServiceTicketDeleteMutationVariables = Exact<{
+  input: ServiceTicketDeleteInput;
+}>;
+
+export type AdminServiceTicketDetailContainerServiceTicketDeleteMutation = {
+  __typename?: 'Mutation';
+  serviceTicketDelete: {
+    __typename?: 'ServiceTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+      assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+      photos?: Array<{
+        __typename?: 'ServiceTicketPhoto';
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: 'ServiceTicketActivityDetail';
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+    } | null;
+  };
+};
+
 export type AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragment = {
   __typename?: 'ServiceTicketMutationResult';
   status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
@@ -7914,6 +7956,58 @@ export const AdminServiceTicketsDetailContainerAddUpdateActivityDocument = {
 } as unknown as DocumentNode<
   AdminServiceTicketsDetailContainerAddUpdateActivityMutation,
   AdminServiceTicketsDetailContainerAddUpdateActivityMutationVariables
+>;
+export const AdminServiceTicketDetailContainerServiceTicketDeleteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AdminServiceTicketDetailContainerServiceTicketDelete' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketDeleteInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketDelete' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'AdminServiceTicketsDetailContainerServiceTicketMutationResultFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  AdminServiceTicketDetailContainerServiceTicketDeleteMutation,
+  AdminServiceTicketDetailContainerServiceTicketDeleteMutationVariables
 >;
 export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument = {
   kind: 'Document',

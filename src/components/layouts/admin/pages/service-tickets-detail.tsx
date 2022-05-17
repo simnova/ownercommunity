@@ -15,20 +15,20 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
         <PageHeader
           title="ServiceTicket Detail"
           onBack={() => navigate(-1)}
-          extra={[
-            <Button
-              type="primary"
-              onClick={() => {
-                navigate('./delete');
-              }}
-            >
-              Delete...
-            </Button>
-          ]}
+          // extra={[
+          //   <Button
+          //     type="primary"
+          //     onClick={() => {
+          //       navigate('./delete');
+          //     }}
+          //   >
+          //     Delete...
+          //   </Button>
+          // ]}
         />
       }
     >
-      <ServiceTicketsDetailContainer key={params.id ?? ''} data={{ id: params.id ?? '' }} />
+      <ServiceTicketsDetailContainer key={params.id ?? ''} data={{ id: params.id ?? '' , communityId:params.communityId ?? '' }} />
     </SubPageLayout>
   );
 };

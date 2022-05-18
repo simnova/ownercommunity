@@ -2687,6 +2687,7 @@ export type MemberPropertiesByCommunityIdQuery = {
     listedInDirectory: boolean;
     propertyName: string;
     propertyType?: string | null;
+    id: any;
     owner?: { __typename?: 'Member'; memberName?: string | null } | null;
     listingDetail?: {
       __typename?: 'ListingDetails';
@@ -2713,6 +2714,7 @@ export type PropertyInformationFieldsFragment = {
   listedInDirectory: boolean;
   propertyName: string;
   propertyType?: string | null;
+  id: any;
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
   listingDetail?: {
     __typename?: 'ListingDetails';
@@ -5183,6 +5185,7 @@ export const PropertyInformationFieldsFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
           { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'owner' },

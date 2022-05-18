@@ -11,6 +11,7 @@ fragment PropertyInformationFields on Property {
     listedInDirectory
     propertyName
     propertyType
+    id
     owner {
         memberName
     }

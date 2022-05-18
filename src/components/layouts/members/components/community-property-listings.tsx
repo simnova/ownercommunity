@@ -1,11 +1,61 @@
-import { Typography, Card, Space } from 'antd';
-import { Link } from 'react-router-dom';
+import { Typography, Card, Space, Button } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 
 const { Text, Title } = Typography;
 
 export const CommunityPropertyListings: React.FC<any> = (props) => {
+    const navigate = useNavigate();
 
     console.log(props);
+
+    const generateMarketListingType = (property: any) => {
+        if (property.listedForLease) {
+            return (
+                <div 
+                    style={{
+                        display: 'inline-block',
+                        backgroundColor: "green",
+                        borderRadius: "10px",
+                        padding: "2.5px 5px",
+                        fontSize: "10px",
+                        color: "#fff",
+                    }}>
+                    For Lease
+                </div>)
+        }
+
+        if (property.listedForRent) {
+            return (
+                <div 
+                    style={{
+                        display: 'inline-block',
+                        backgroundColor: "red",
+                        borderRadius: "10px",
+                        padding: "2.5px 5px",
+                        fontSize: "10px",
+                        color: "#fff",
+                    }}>
+                    For Rent
+                </div>)
+        }
+
+        if (property.listedForSale) {
+            return (
+                <div 
+                    style={{
+                        display: 'inline-block',
+                        backgroundColor: "blue",
+                        borderRadius: "10px",
+                        padding: "2.5px 5px",
+                        fontSize: "10px",
+                        color: "#fff",
+                    }}>
+                    For Sale
+                </div>)
+
+        }
+    }
+
     const generateProperties = (data: any) => {
         return data.map((property: any) => {
 
@@ -15,9 +65,21 @@ export const CommunityPropertyListings: React.FC<any> = (props) => {
                     title={<Title level={4}>{property.propertyName}</Title>} 
                     size='small' 
                     style={{ margin: '15px 0', padding: "5px 25px", borderRadius: "15px", backgroundColor: "oldlace", width: "325px"}} 
-                    extra={<Link to='listing/:propertyId' style={{marginLeft: '30px'}}>Details</Link>}
+                    //extra={<Link to='listing/:propertyId' style={{marginLeft: '30px'}}>Details</Link>}
+                    extra={
+                    <Button 
+                        onClick={() => navigate(`${property.id}`)}
+                        type='link'
+                    >
+                        Details
+                        </Button>
+                    }
                 >
+
                     <Space direction='vertical'>
+                        <Space direction='horizontal' size='small'>
+                            {generateMarketListingType(property)}
+                        </Space>
                         <Space direction='horizontal' size='small'>
                             {property.listingDetail.bedrooms && <Text>{property.listingDetail.bedrooms} Bds</Text>}
                             {property.listingDetail.bathrooms && <Text>{property.listingDetail.bathrooms} Ba </Text> }

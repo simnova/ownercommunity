@@ -8,6 +8,7 @@ import {
   TeamOutlined,
   BarsOutlined,
   ScheduleOutlined,
+  ShopOutlined
 } from '@ant-design/icons';
 import { MemberProfile } from './pages/member-profile';
 import { Vocabulary } from './pages/vocabulary';
@@ -15,6 +16,7 @@ import { Neighbors } from './pages/neighbors';
 import { Properties } from './pages/properties';
 import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
 import { ServiceTickets } from './pages/service-tickets';
+import { CommunityPropertyListings } from './pages/community-property-listings';
 
 
 const pageLayouts = [
@@ -46,9 +48,9 @@ const pageLayouts = [
     parent: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:userId/vocabulary/*',
-    title: 'Vocabulary',
-    icon: <ReadOutlined />,
+    path: '/community/:communityId/member/:userId/listings/*',
+    title: 'Listings',
+    icon: <ShopOutlined />,
     id: 5,
     parent: 'ROOT',
   },
@@ -69,7 +71,7 @@ export const Members: React.FC<any> = (_props) => {
         <Route path='' element={<SectionLayout pageLayouts={pageLayouts} />}>
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<MemberProfile />} />
-          <Route path='/vocabulary/*' element={<Vocabulary />} />
+          <Route path='/listings/*' element={<CommunityPropertyListings />} />
           <Route path='/neighbors/*' element={<Neighbors />} />
           <Route path='/properties/*' element={<Properties />} />
           <Route path='/service-tickets/*' element={<ServiceTickets />} />

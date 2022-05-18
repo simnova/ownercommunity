@@ -2673,6 +2673,35 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type MemberPropertiesByCommunityIdQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MemberPropertiesByCommunityIdQuery = {
+  __typename?: 'Query';
+  propertiesByCommunityId?: Array<{
+    __typename?: 'Property';
+    listedForLease: boolean;
+    listedForRent: boolean;
+    listedForSale: boolean;
+    listedInDirectory: boolean;
+    propertyName: string;
+    propertyType?: string | null;
+    owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+  } | null> | null;
+};
+
+export type PropertyInformationFieldsFragment = {
+  __typename?: 'Property';
+  listedForLease: boolean;
+  listedForRent: boolean;
+  listedForSale: boolean;
+  listedInDirectory: boolean;
+  propertyName: string;
+  propertyType?: string | null;
+  owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+};
+
 export type CurrentMemberProfileByCommunityIdQueryVariables = Exact<{
   communityId: Scalars['ObjectID'];
 }>;
@@ -5110,6 +5139,35 @@ export const AdminSiteEditorContainerCommunityFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<AdminSiteEditorContainerCommunityFieldsFragment, unknown>;
+export const PropertyInformationFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PropertyInformationFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<PropertyInformationFieldsFragment, unknown>;
 export const CurrentMemberProfileByCommunityIdFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -8272,6 +8330,55 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
 } as unknown as DocumentNode<
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
+>;
+export const MemberPropertiesByCommunityIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberPropertiesByCommunityId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertiesByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'PropertyInformationFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...PropertyInformationFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MemberPropertiesByCommunityIdQuery,
+  MemberPropertiesByCommunityIdQueryVariables
 >;
 export const CurrentMemberProfileByCommunityIdDocument = {
   kind: 'Document',

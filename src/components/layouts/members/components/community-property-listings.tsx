@@ -14,7 +14,7 @@ export const CommunityPropertyListings: React.FC<any> = (props) => {
                 <Card 
                     title={<Title level={4}>{property.propertyName}</Title>} 
                     size='small' 
-                    style={{ margin: '15px 0', padding: "5px 25px", borderRadius: "15px", backgroundColor: "oldlace", width: "350px"}} 
+                    style={{ margin: '15px 0', padding: "5px 25px", borderRadius: "15px", backgroundColor: "oldlace", width: "325px"}} 
                     extra={<Link to='listing/:propertyId' style={{marginLeft: '30px'}}>Details</Link>}
                 >
                     <Space direction='vertical'>

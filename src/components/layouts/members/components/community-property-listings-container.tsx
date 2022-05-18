@@ -32,5 +32,5 @@ export const CommunityPropertyListingsContainer: React.FC<any> = (props) => {
         }
     };
     
-    return (<>{content()}</>)
+    return (<div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>{content()}</div>)
 }

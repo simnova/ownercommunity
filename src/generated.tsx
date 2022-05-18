@@ -2688,6 +2688,20 @@ export type MemberPropertiesByCommunityIdQuery = {
     propertyName: string;
     propertyType?: string | null;
     owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      bathrooms?: number | null;
+      bedrooms?: number | null;
+      squareFeet?: number | null;
+    } | null;
+    location?: {
+      __typename?: 'Location';
+      address?: {
+        __typename?: 'Address';
+        streetNumber?: string | null;
+        streetName?: string | null;
+      } | null;
+    } | null;
   } | null> | null;
 };
 
@@ -2700,6 +2714,20 @@ export type PropertyInformationFieldsFragment = {
   propertyName: string;
   propertyType?: string | null;
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+  listingDetail?: {
+    __typename?: 'ListingDetails';
+    bathrooms?: number | null;
+    bedrooms?: number | null;
+    squareFeet?: number | null;
+  } | null;
+  location?: {
+    __typename?: 'Location';
+    address?: {
+      __typename?: 'Address';
+      streetNumber?: string | null;
+      streetName?: string | null;
+    } | null;
+  } | null;
 };
 
 export type CurrentMemberProfileByCommunityIdQueryVariables = Exact<{
@@ -5153,6 +5181,8 @@ export const PropertyInformationFieldsFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
           { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
           { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'owner' },
@@ -5161,8 +5191,38 @@ export const PropertyInformationFieldsFragmentDoc = {
               selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
             }
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } }
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
         ]
       }
     }

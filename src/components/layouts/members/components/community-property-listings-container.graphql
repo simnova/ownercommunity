@@ -9,11 +9,16 @@ fragment PropertyInformationFields on Property {
     listedForRent
     listedForSale
     listedInDirectory
+    propertyName
+    propertyType
     owner {
         memberName
     }
-    propertyName
-    propertyType
+    listingDetail {
+      bathrooms
+      bedrooms
+      squareFeet
+    }
     location {
         address {
             streetNumber

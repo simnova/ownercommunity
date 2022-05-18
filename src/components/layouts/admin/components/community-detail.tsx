@@ -1,6 +1,6 @@
 import { Typography, Descriptions } from 'antd';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 export const CommunityDetail: React.FC<any> = (props) => {
 
@@ -43,16 +43,28 @@ export const CommunityDetail: React.FC<any> = (props) => {
   
 
   return (
-    <Descriptions column={1}>
-      <Descriptions.Item label="Community ID">
-        <Text strong>{props.data.id}</Text>
-      </Descriptions.Item>
-      <Descriptions.Item label="Community Name">
-        <Text strong>{props.data.name}</Text>
-      </Descriptions.Item>
-      {whiteLabel()}
-      {hasDomain()}
-      {hasHandle()}
-    </Descriptions>
+    <div>
+      <div className={'bg-white w-full p-5 mx-auto my-5 shadow-lg rounded-lg border border-1'}>
+        
+        <Title level={3}>Community Admin</Title>
+        <p>
+          You can manage different aspects of your community here. The items in menu to the left reflect the permissions you have in managing this community.
+        </p>
+  
+      </div>
+      
+      <Descriptions column={1}>
+        <Descriptions.Item label="Community ID">
+          <Text strong>{props.data.id}</Text>
+        </Descriptions.Item>
+        <Descriptions.Item label="Community Name">
+          <Text strong>{props.data.name}</Text>
+        </Descriptions.Item>
+        {whiteLabel()}
+        {hasDomain()}
+        {hasHandle()}
+      </Descriptions>
+    </div>
+
   );
 };

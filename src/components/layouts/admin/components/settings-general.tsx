@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Descriptions, Checkbox } from 'antd';
+import { Form, Input, Button, Descriptions, Checkbox, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { AdminSettingsGeneralContainerCommunityDocument } from '../../../../generated';
 import { useQuery } from '@apollo/client';
@@ -7,6 +7,7 @@ import { useQuery } from '@apollo/client';
 export const SettingsGeneral: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
+  const { Text, Title } = Typography;
 
   const data = props.data;
 
@@ -39,27 +40,33 @@ export const SettingsGeneral: React.FC<any> = (props) => {
         <Form.Item
           name="whiteLabelDomain"
           label="White Label Domain"
-          rules={[
-            { required: true, message: 'Please input the white label domain!' },
-          ]}
         >
+
           <Input placeholder='White Label Domain' defaultValue={data.whiteLabelDomain} maxLength={50} />
         </Form.Item>
+        <div className={'m-3'}>
+          The white domain is used to allow users to access your public community website.<br/>
+          They will be able access it at : https://<Text strong>{data.whiteLabelDomain}</Text>.owner.community<br/>
+          <Text type={'danger'}>This is a necessary</Text> to allow users to access your community website unless you have a custom domain you own. (see below)
+      </div>
+
         <Form.Item
           name="domain"
           label="Domain"
-          rules={[
-            { required: true, message: 'Please input the domain!' },
-          ]}
         >
           <Input placeholder='Domain' maxLength={50} defaultValue={data.domain} />
         </Form.Item>
+        <div className={'m-3'}>
+          The domain is used to apply a custom domain to the public facing website.<br/>
+          You must have a domain name registered with us before you can use this feature.<br/>
+          Assign the CNAME of "www" to "cname.vercel-dns.com" in your DNS settings.<br/>
+          Once added, you can use the domain name in the white label field above.
+        </div>
+
+
         <Form.Item
           name="handle"
           label="Handle"
-          rules={[
-            { required: true, message: 'Please input your handle!' },
-          ]}
         >
           <Input placeholder='Handle' maxLength={50} defaultValue={data.handle}/>
         </Form.Item>

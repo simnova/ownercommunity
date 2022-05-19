@@ -55,7 +55,7 @@ const property: Resolvers = {
       return (await context.dataSources.propertyApi.getPropertiesForCurrentUserByCommunityId(context.community, user.id)) as Property[];
     },
     propertiesSearch: async (_, _args, context, info) => {
-      info.cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
+      // info.cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
       const searchString = _args.input.searchString.trim();
       const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(searchString);
       var idList: string[] = [];
@@ -63,12 +63,10 @@ const property: Resolvers = {
         console.log(result);
         idList.push(result.document['id']);
       }
-
       var results = (await context.dataSources.propertyApi.getPropertiesByIds(idList)) as Property[];
 
       return {
         propertyResults: results,
-        count: searchResults.count,
         facets: {
           tags: searchResults.facets.tags,
         },

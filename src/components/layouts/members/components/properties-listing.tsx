@@ -74,6 +74,12 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           <InputNumber placeholder='Bedrooms' />
         </Form.Item>
         <Form.Item
+          name={['listingDetail','bathrooms']}
+          label="Bathrooms"
+        >
+          <InputNumber placeholder='Bathrooms' />
+        </Form.Item>
+        <Form.Item
           name={['listingDetail','squareFeet']}
           label="Square Feet"
         >

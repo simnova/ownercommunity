@@ -2673,6 +2673,117 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type MemberPropertyByPropertyIdQueryVariables = Exact<{
+  propertyId: Scalars['ObjectID'];
+}>;
+
+export type MemberPropertyByPropertyIdQuery = {
+  __typename?: 'Query';
+  property?: {
+    __typename?: 'Property';
+    listedForLease: boolean;
+    listedForRent: boolean;
+    listedForSale: boolean;
+    propertyName: string;
+    propertyType?: string | null;
+    owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+    location?: {
+      __typename?: 'Location';
+      address?: {
+        __typename?: 'Address';
+        streetName?: string | null;
+        streetNumber?: string | null;
+      } | null;
+    } | null;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      amenities?: Array<string | null> | null;
+      bathrooms?: number | null;
+      bedrooms?: number | null;
+      description?: string | null;
+      floorPlan?: string | null;
+      floorPlanImages?: Array<string | null> | null;
+      images?: Array<string | null> | null;
+      lease?: number | null;
+      listingAgent?: string | null;
+      listingAgentCompany?: string | null;
+      listingAgentCompanyAddress?: string | null;
+      listingAgentCompanyEmail?: string | null;
+      listingAgentCompanyPhone?: string | null;
+      listingAgentCompanyWebsite?: string | null;
+      listingAgentEmail?: string | null;
+      listingAgentPhone?: string | null;
+      listingAgentWebsite?: string | null;
+      maxGuests?: number | null;
+      price?: number | null;
+      rentHigh?: number | null;
+      rentLow?: number | null;
+      squareFeet?: number | null;
+      video?: string | null;
+      additionalAmenities?: {
+        __typename?: 'AdditionalAmenities';
+        amenities?: Array<string | null> | null;
+      } | null;
+      bedroomDetails?: {
+        __typename?: 'BedroomDetails';
+        bedDescriptions?: Array<string | null> | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
+export type PropertyDetailsByPropertyIdFieldsFragment = {
+  __typename?: 'Property';
+  listedForLease: boolean;
+  listedForRent: boolean;
+  listedForSale: boolean;
+  propertyName: string;
+  propertyType?: string | null;
+  owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+  location?: {
+    __typename?: 'Location';
+    address?: {
+      __typename?: 'Address';
+      streetName?: string | null;
+      streetNumber?: string | null;
+    } | null;
+  } | null;
+  listingDetail?: {
+    __typename?: 'ListingDetails';
+    amenities?: Array<string | null> | null;
+    bathrooms?: number | null;
+    bedrooms?: number | null;
+    description?: string | null;
+    floorPlan?: string | null;
+    floorPlanImages?: Array<string | null> | null;
+    images?: Array<string | null> | null;
+    lease?: number | null;
+    listingAgent?: string | null;
+    listingAgentCompany?: string | null;
+    listingAgentCompanyAddress?: string | null;
+    listingAgentCompanyEmail?: string | null;
+    listingAgentCompanyPhone?: string | null;
+    listingAgentCompanyWebsite?: string | null;
+    listingAgentEmail?: string | null;
+    listingAgentPhone?: string | null;
+    listingAgentWebsite?: string | null;
+    maxGuests?: number | null;
+    price?: number | null;
+    rentHigh?: number | null;
+    rentLow?: number | null;
+    squareFeet?: number | null;
+    video?: string | null;
+    additionalAmenities?: {
+      __typename?: 'AdditionalAmenities';
+      amenities?: Array<string | null> | null;
+    } | null;
+    bedroomDetails?: {
+      __typename?: 'BedroomDetails';
+      bedDescriptions?: Array<string | null> | null;
+    } | null;
+  } | null;
+};
+
 export type MemberPropertiesByCommunityIdQueryVariables = Exact<{
   communityId: Scalars['ID'];
 }>;
@@ -5169,6 +5280,104 @@ export const AdminSiteEditorContainerCommunityFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<AdminSiteEditorContainerCommunityFieldsFragment, unknown>;
+export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PropertyDetailsByPropertyIdFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'amenities' } }]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<PropertyDetailsByPropertyIdFieldsFragment, unknown>;
 export const PropertyInformationFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -8393,6 +8602,55 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
 } as unknown as DocumentNode<
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
+>;
+export const MemberPropertyByPropertyIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberPropertyByPropertyId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'propertyId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'propertyId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'PropertyDetailsByPropertyIdFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...PropertyDetailsByPropertyIdFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MemberPropertyByPropertyIdQuery,
+  MemberPropertyByPropertyIdQueryVariables
 >;
 export const MemberPropertiesByCommunityIdDocument = {
   kind: 'Document',

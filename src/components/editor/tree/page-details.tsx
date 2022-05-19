@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Form, Input, FormInstance} from 'antd';
+import {Button, Form, Input, FormInstance, Select } from 'antd';
 import { RuleObject } from 'antd/lib/form';
+
+const { Option } = Select;
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
     pageName: PropTypes.string,
+    pageType: PropTypes.string,
     invalidPageNames: PropTypes.arrayOf(PropTypes.string),
   }),
   saveData: PropTypes.func.isRequired,
@@ -17,6 +20,7 @@ interface ComponentPropInterface {
   data: {  
     id: string;
     title: string;
+    pageType: string;
     pageName: string;
     invalidPageNames: string[];
   },
@@ -24,6 +28,7 @@ interface ComponentPropInterface {
   saveData: (data: {
     id: string,
     title: string,
+    pageType: string,
     pageName: string,
   }) => void;
 }
@@ -38,6 +43,7 @@ export const PageDetails: React.FC<PageDetailsPropTypes> = (props) => {
     form.setFieldsValue({
       title: props.data.title,
       pageName: props.data.pageName,
+      pageType: props.data.pageType,
     });
   }, [props.data]);
 
@@ -58,6 +64,7 @@ export const PageDetails: React.FC<PageDetailsPropTypes> = (props) => {
         initialValues={{
           title: props.data.title,
           pageName: props.data.pageName,
+          pageType: props.data.pageType,
         }}
         onFinish={(values) => {
           props.saveData(values);
@@ -71,7 +78,16 @@ export const PageDetails: React.FC<PageDetailsPropTypes> = (props) => {
         ]}  
         >
         <Input />
-      </Form.Item>  
+      </Form.Item>
+      <Form.Item
+        name="pageType"
+        label="Page Type"
+      >
+        <Select>
+          <Option value="Blank">Blank</Option>
+          <Option value="Listing">Listing</Option>
+        </Select>
+      </Form.Item>
       <Form.Item 
         name="pageName" 
         label="Page Name"

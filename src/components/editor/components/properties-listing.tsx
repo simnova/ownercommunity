@@ -38,8 +38,9 @@ let PropertiesListing: any;
 PropertiesListing = (props: PropertiesListingProps) => {
     const { connectors: { connect, drag }, selected } = useNode((state) =>(
         {
-        selected: state.events.selected
-    }));
+            selected: state.events.selected,
+        }
+    ));
 
     const { loading, error, data } = useQuery(GET_PROPERTIES_BY_COMMUNITY, {
         variables: { 
@@ -102,6 +103,9 @@ const PropertiesListingSettings = () => {
 PropertiesListing.craft = {
     related: {
         settings: PropertiesListingSettings
+    },
+    custom: {
+        isDeletable: false,
     }
 }
 

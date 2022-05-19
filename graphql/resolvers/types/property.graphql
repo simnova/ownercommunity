@@ -1,3 +1,5 @@
+# @format
+
 type Property implements MongoBase {
   community: Community
   location: Location
@@ -111,7 +113,7 @@ input LocationInput {
 type Point implements MongoBase {
   type: String
   coordinates: [Float]
-  
+
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -120,7 +122,7 @@ type Point implements MongoBase {
 input PointInput {
   type: String
   coordinates: [Float]
-  
+
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -163,8 +165,9 @@ input AddressInput {
 extend type Query {
   properties: [Property]
   property(id: ObjectID!): Property
-  propertiesByCommunityId(communityId: ID!): [Property] 
-  propertiesForCurrentUserByCommunityId(communityId: ID!): [Property] 
+  propertiesByCommunityId(communityId: ID!): [Property]
+  propertiesForCurrentUserByCommunityId(communityId: ID!): [Property]
+  propertiesSearch(input: PropertiesSearchInput!): PropertySearchResult
 }
 
 extend type Mutation {
@@ -175,7 +178,7 @@ extend type Mutation {
   propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!
 }
 
-type PropertyMutationResult  {
+type PropertyMutationResult {
   status: MutationStatus!
   property: Property
 }
@@ -183,6 +186,9 @@ input PropertyDeleteInput {
   id: ObjectID!
 }
 
+input PropertiesSearchInput {
+  searchString: String
+}
 input PropertyAddInput {
   propertyName: String!
 }
@@ -194,7 +200,7 @@ input PropertyUpdateInput {
   listedForRent: Boolean
   listedForLease: Boolean
   listedInDirectory: Boolean
-  owner: PropertyOwnerInput 
+  owner: PropertyOwnerInput
   listingDetail: ListingDetailsInput
   location: LocationInput
 }
@@ -208,4 +214,19 @@ input PropertyAssignOwnerInput {
 }
 input PropertyRemoveOwnerInput {
   id: ObjectID!
+}
+
+type PropertySearchResult {
+  propertyResults: [Property]
+  total: Int
+  facets: PropertySearchFacets
+}
+type PropertySearchFacets {
+  tags: [FacetDetail]
+  primaryCategory: [FacetDetail]
+}
+
+type FacetDetail {
+  value: String
+  count: Int
 }

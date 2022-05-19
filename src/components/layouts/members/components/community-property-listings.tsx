@@ -1,5 +1,5 @@
 import { Typography, Card, Space, Button } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const { Text, Title } = Typography;
 
@@ -9,9 +9,38 @@ export const CommunityPropertyListings: React.FC<any> = (props) => {
     console.log(props);
 
     const generateMarketListingType = (property: any) => {
-        if (property.listedForLease) {
-            return (
-                <div 
+        return(
+        <div>
+            {
+                 property.listedForSale && <div 
+                 style={{
+                     display: 'inline-block',
+                     backgroundColor: "blue",
+                     borderRadius: "10px",
+                     padding: "2.5px 5px",
+                     fontSize: "10px",
+                     color: "#fff",
+                 }}>
+                 For Sale
+             </div>
+            }
+            
+            {
+                property.listedForRent && <div 
+                style={{
+                    display: 'inline-block',
+                    backgroundColor: "red",
+                    borderRadius: "10px",
+                    padding: "2.5px 5px",
+                    fontSize: "10px",
+                    color: "#fff",
+                }}>
+                For Rent
+            </div>
+            }
+
+            {
+                property.listedForLease && <div 
                     style={{
                         display: 'inline-block',
                         backgroundColor: "green",
@@ -21,51 +50,22 @@ export const CommunityPropertyListings: React.FC<any> = (props) => {
                         color: "#fff",
                     }}>
                     For Lease
-                </div>)
-        }
+            
+                </div>
+            }
 
-        if (property.listedForRent) {
-            return (
-                <div 
-                    style={{
-                        display: 'inline-block',
-                        backgroundColor: "red",
-                        borderRadius: "10px",
-                        padding: "2.5px 5px",
-                        fontSize: "10px",
-                        color: "#fff",
-                    }}>
-                    For Rent
-                </div>)
-        }
-
-        if (property.listedForSale) {
-            return (
-                <div 
-                    style={{
-                        display: 'inline-block',
-                        backgroundColor: "blue",
-                        borderRadius: "10px",
-                        padding: "2.5px 5px",
-                        fontSize: "10px",
-                        color: "#fff",
-                    }}>
-                    For Sale
-                </div>)
-
-        }
+            </div>
+        )
     }
 
     const generateProperties = (data: any) => {
         return data.map((property: any) => {
-
             if (property.listedInDirectory){
                 return (
                 <Card 
                     title={<Title level={4}>{property.propertyName}</Title>} 
                     size='small' 
                     style={{ margin: '15px 0', padding: "5px 25px", borderRadius: "15px", backgroundColor: "oldlace", width: "325px"}} 
-                    //extra={<Link to='listing/:propertyId' style={{marginLeft: '30px'}}>Details</Link>}
                     extra={
                     <Button 
                         onClick={() => navigate(`${property.id}`)}

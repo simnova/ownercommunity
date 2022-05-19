@@ -7,6 +7,8 @@ import { ListingDetails, ListingDetailProps, ListingDetailsEntityReference } fro
 import { Location, LocationEntityReference, LocationProps } from './location';
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { PropertyVisa } from '../iam/property-visa';
+import { PropertyCreatedEvent } from '../../events/property-created';
+import { PropertyDeletedEvent } from '../../events/property-deleted';
 
 export interface PropertyProps extends EntityProps {
   readonly community: CommunityProps;
@@ -49,7 +51,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
 
   public static getNewInstance<props extends PropertyProps>(newProps: props, propertyName:string,community:CommunityEntityReference, context:DomainExecutionContext): Property<props> {
     var property = new Property(newProps,context);
-    property.isNew = true;
+    property.MarkAsNew();
     property.requestSetPropertyName(propertyName);
     property.requestSetCommunity(community);
     property.isNew = false;
@@ -70,6 +72,11 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   get updatedAt() { return this.props.updatedAt; }
   get schemaVersion() { return this.props.schemaVersion; }
 
+  private MarkAsNew(): void {
+    this.isNew = true;
+    this.addIntegrationEvent(PropertyCreatedEvent,{id:this.props.id});
+  }
+
   public requestSetCommunity(community: CommunityEntityReference): void {
     if(
       !this.isNew &&
@@ -89,6 +96,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
       !this.isDeleted &&
       !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('You do not have permission to delete this property'); }
     super.isDeleted = true;
+    this.addIntegrationEvent(PropertyDeletedEvent,{id:this.props.id});
   }
   public requestSetPropertyName(propertyName: ValueObjects.PropertyName): void {
     if(

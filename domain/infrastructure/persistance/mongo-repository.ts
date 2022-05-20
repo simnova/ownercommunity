@@ -24,6 +24,7 @@ export abstract class MongoRepositoryBase<ContextType extends ExecutionContext, 
   }
 
   async save(item: DomainType): Promise<DomainType> {
+    item.onSave(this.typeConverter.toMongo(item).isModified());
    
     console.log('saving item');
     for await (let event of item.getDomainEvents()) {

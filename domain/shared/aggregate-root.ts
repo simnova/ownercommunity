@@ -40,4 +40,8 @@ export abstract class AggregateRoot<PropType extends EntityProps> extends Entity
     return this.integrationEvents;
   }
 
+  public onSave(isModified:boolean):void {
+    //override this method to do something on save
+  }
+
 }

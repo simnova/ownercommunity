@@ -4,6 +4,7 @@ import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from '.
 import { default as RegisterCommunityDomainUpdatedUpdateDomainBlobHandler } from './community-domain-updated-update-domain-blob';
 import { default as RegisterPropertyCreatedUpdateSearchIndexHandler } from './property-created-update-search-index';
 import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from './property-deleted-update-search-index';
+import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './property-updated-update-search-index';  
 
 var RegisterHandlers = () => {
   // Register all event handlers
@@ -13,6 +14,7 @@ var RegisterHandlers = () => {
   RegisterCommunityDomainUpdatedUpdateDomainBlobHandler();
   RegisterPropertyCreatedUpdateSearchIndexHandler();
   RegisterPropertyDeletedUpdateSearchIndexHandler();
+  RegisterPropertyUpdatedUpdateSearchIndexHandler();
 };
 
 export default RegisterHandlers;

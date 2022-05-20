@@ -1,0 +1,7 @@
+query MemberSiteCurrentMemberHasAdminRole($communityId: ObjectID!) {
+  memberForCurrentUser(communityId: $communityId) {
+    role {
+      roleName
+    }
+  }
+}

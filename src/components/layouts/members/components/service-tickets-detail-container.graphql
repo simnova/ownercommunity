@@ -1,0 +1,107 @@
+query MembersServiceTicketsDetailContainerMembersAssignableToTickets {
+  membersAssignableToTickets {
+    ...MembersServiceTicketsDetailContainerMemberFields
+  }
+}
+
+query MembersServiceTicketsDetailContainerProperties($communityId: ID!) {
+  propertiesForCurrentUserByCommunityId(communityId: $communityId) { 
+    ...MembersServiceTicketsDetailContainerPropertyFields
+  }
+}
+
+query MembersServiceTicketsDetailContainerServiceTicket($id: ObjectID!) {
+  serviceTicket(id: $id) {
+    ...MembersServiceTicketsDetailContainerServiceTicketFields
+  }
+}
+
+mutation MembersServiceTicketsDetailContainerServiceTicketUpdate($input: ServiceTicketUpdateInput!) {
+  serviceTicketUpdate(input: $input) {
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+mutation MembersServiceTicketsDetailContainerServiceTicketChangeStatus($input: ServiceTicketChangeStatusInput!) {
+  serviceTicketChangeStatus(input: $input) {
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+mutation MembersServiceTicketsDetailContainerServiceAssign($input: ServiceTicketAssignInput!) {
+  serviceTicketAssign(input: $input) {
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+mutation MembersServiceTicketsDetailContainerAddUpdateActivity($input: ServiceTicketAddUpdateActivityInput!) {
+  serviceTicketAddUpdateActivity(input: $input) {
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+mutation MembersServiceTicketDetailContainerServiceTicketDelete($input: ServiceTicketDeleteInput!) {
+  serviceTicketDelete(input: $input) {
+    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+
+fragment MembersServiceTicketsDetailContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  serviceTicket {
+    ...MembersServiceTicketsDetailContainerServiceTicketFields
+  }
+}
+
+fragment MembersServiceTicketsDetailContainerServiceTicketFields on ServiceTicket {
+  title
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  assignedTo {
+    id
+    memberName
+  }
+  title
+  description
+  status
+  priority
+  photos {
+    documentId
+    description
+
+    id
+    createdAt
+    updatedAt
+  }
+  activityLog {
+    activityType
+    activityDescription
+    activityBy {
+      id
+      memberName
+    }
+    id
+    createdAt
+    updatedAt
+  }
+  id
+  createdAt
+  updatedAt
+}
+
+fragment MembersServiceTicketsDetailContainerMemberFields on Member {
+  id
+  memberName
+}
+fragment MembersServiceTicketsDetailContainerPropertyFields on Property {
+  id
+  propertyName
+}

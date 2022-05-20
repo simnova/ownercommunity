@@ -192,6 +192,16 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
         </Descriptions>
       </div>
 
+      <div style={{padding: 24, minHeight:'100%', backgroundColor:'white' }}>
+        <Button 
+          type="primary" 
+          danger
+          onClick={props.onDelete}
+        >
+          Delete Ticket
+        </Button>
+      </div>
+
       {props.data.serviceTicket.status === 'SUBMITTED' && <>      
       <div  style={{ marginTop:20, padding: 24, minHeight:'100%', backgroundColor:'white' }} >
         <Title level={5}>

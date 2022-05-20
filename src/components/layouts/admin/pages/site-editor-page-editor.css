@@ -1,0 +1,15 @@
+.site-drawer-render-in-current-wrapper {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  text-align: center;
+  border: 1px solid lightgray;
+  margin: 0;
+  padding: 0;
+  border-radius: 2px;
+  z-index: 100;
+}
+
+.site-drawer-render-in-current-wrapper .ant-drawer-body {
+  padding: 0;
+}

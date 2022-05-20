@@ -38,6 +38,11 @@ mutation AdminServiceTicketsDetailContainerAddUpdateActivity($input: ServiceTick
   }
 }
 
+mutation AdminServiceTicketDetailContainerServiceTicketDelete($input: ServiceTicketDeleteInput!) {
+  serviceTicketDelete(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
 
 
 

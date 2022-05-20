@@ -16,6 +16,7 @@ export const Home: React.FC<any> = (props) => {
       />}
     >
       <Text> Community ID: {params.communityId}</Text>
+      <Text> User ID: {params.userId}</Text>
       
     </SubPageLayout>
     

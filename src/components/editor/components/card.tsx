@@ -1,5 +1,5 @@
 import { Element, useNode } from "@craftjs/core";
-import { Container } from "../page/container";
+import { Container } from "./container";
 import { TextComponent } from "./text-component";
 import { Form, Input, Button } from "antd";
 import { TextThing } from "./text-thing";
@@ -9,7 +9,7 @@ interface CardGrop {
     padding: number;
 }
 
-export const CardTop = (props: any) => {
+const CardTop = (props: any) => {
     const { connectors: {connect} } = useNode();
     return (
       <div ref={ref => connect(ref as HTMLDivElement)}>
@@ -83,5 +83,7 @@ Card.craft = {
 }
 
 export {
-    Card
+    Card,
+    CardTop
+
 }

@@ -1,6 +1,7 @@
 
 export const LocalSettingsKeys = {
     SidebarCollapsed : 'sidebar-collapsed',
+    UserId: 'userId'
 }  
 
 export const handleToggler = (isExpanded : boolean, callback : (isExpanded : boolean) => void ) => {

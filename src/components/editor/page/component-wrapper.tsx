@@ -28,7 +28,8 @@ export const ComponentWrapper = ({render}:any) => {
   useEffect(() => {
     if (dom ) {
       if ((isActive || isHover)) {
-          dom.classList.add('border-cyan-500','border-2');
+        dom.classList.remove('border-transparent');
+        dom.classList.add('border-cyan-500','border-2');
       }
       else {
         dom.classList.remove('border-cyan-500');
@@ -39,6 +40,7 @@ export const ComponentWrapper = ({render}:any) => {
   }, [dom,id, isActive, isHover]);
   return (
     <div className="bg-slate-50" style={{display:'flex', flex:'1', alignItems:'stretch', flexDirection:'column'}}>
+      hey
       {render}
     </div>
   )

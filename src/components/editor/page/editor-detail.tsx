@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Element, Frame,useEditor, SerializedNodes } from '@craftjs/core';
 import { usePageLayouts } from '../local-data';
-import { Container } from './container';
+import { Container } from '../components/container';
 
 import { Button, Input, TreeSelect,notification, Empty, Space } from 'antd';
 
@@ -48,7 +48,7 @@ export const EditorDetail = (props:any) => {
 
   return (
     <div style={{display:"flex",flex:'1', flexDirection:'column', alignItems:'stretch'}}>
-      <Space size={"middle"} align="center">
+      <div style={{overflow:'scroll'}}>
         <TreeSelect 
           style={{ width: '200px' }}
           treeData={formatAntTreeData(pageLayouts)}
@@ -70,15 +70,15 @@ export const EditorDetail = (props:any) => {
             setJson(parsedJson);
           }}
         />
-        <a onClick={() => save()}>Save</a>
+        <Button size="small" onClick={() => save()}>Save</Button>
         <MobileOutlined onClick={() => setMobileView(true)} style={{fontSize: '20px', border: mobileView?'black solid 3px':'none', padding:'5px'}} /><DesktopOutlined onClick={() => setMobileView(false)} style={{fontSize: '20px', border: !mobileView?'black solid 3px':'none', padding:'5px'}} />
-        <Button onClick={() => setMobileView(!mobileView)}>Toggle Mobile View</Button>
-      </Space>
+        <Button size='small' onClick={() => setMobileView(!mobileView)}>Toggle Mobile View</Button>
+      </div>
       <div style={{display:'flex',flexGrow:1, height:0}}>
                    
         {
           selectedPage ?
-          <div className="bg-slate-500 items-center flex flex-col" style={{flex:'1, auto', overflowY:'auto', border:'1px solid lightgray'}}> 
+          <div className="bg-slate-500 items-center flex flex-col" style={{flex:'1, auto', overflow:'auto', border:'1px solid lightgray'}}> 
             <div key={selectedPage.toString()} style={{display:'flex', flexDirection:'column'}} className={"grow overflow-y-auto transition-[max-width] transition-[min-width] ease-in-out duration-150 " + (mobileView ? " max-w-[375px] max-h-[667px] min-w-[375px] " : "max-w-[100%] max-h-[100%] min-w-[100%]")}>
               {editorJson !== undefined  ? 
                 <Frame data={editorJson} >
@@ -90,7 +90,7 @@ export const EditorDetail = (props:any) => {
                   <div>No JSON</div>
                   <Frame data={editorJson} >
                     <Element is={Container} canvas>
-                      <TextThing title="Add Components" body="to this page" />
+                      <TextThing title="Add Components" body="to this page" fontSize={14} />
                     </Element>
                   </Frame>
                 </div>
@@ -107,16 +107,11 @@ export const EditorDetail = (props:any) => {
                 Select a Page above to edit
                 </span>
               }>
-              
             </Empty>
           </div>
         </div>
         }
-        
       </div>
-
-
-      
     </div>
   )
 }

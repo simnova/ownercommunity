@@ -17,7 +17,6 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
   const { connectors: {connect,drag}, selected, actions } = useNode((state) =>(
     {
       selected: state.events.selected,
-    
     }
   ));
 
@@ -43,21 +42,14 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
   ].concat(extraBreadcrumbItems)
 
   return (
-
-    
-
-
-
     <div 
       className="px-4 py-2"
       ref={ref => connect(drag(ref as HTMLDivElement))} 
       {...props}
       >
         <div role="listitem" className="bg-white cursor-pointer shadow rounded-lg p-8 relative z-30">
-        <Breadcrumb>{breadcrumbItems}</Breadcrumb>
-
+          <Breadcrumb>{breadcrumbItems}</Breadcrumb>
         </div>
-      
     </div>
   )
 }

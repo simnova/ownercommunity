@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { Layout } from 'antd';
 import { handleToggler, LocalSettingsKeys } from '../../../../constants';
 import { MenuComponent } from '../../../layouts/admin/components/menu-component';
@@ -17,7 +17,6 @@ interface MasterLayoutProps {
 
 export const MasterLayout: React.FC<MasterLayoutProps> = (props) => {
   const params = useParams();
-  const navigate = useNavigate();
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
 
@@ -37,12 +36,12 @@ export const MasterLayout: React.FC<MasterLayoutProps> = (props) => {
               <div style={{ display: 'flex' }} className="allowBoxShadow">
                 <CommunitiesDropdownContainer data={{ id: params.communityId }} />
               </div>
-              <a
+              <Link 
                 className="allowBoxShadow"
-                onClick={() => navigate(`/community/${params.communityId}/members`)}
+                to={`/community/${params.communityId}/member/${localStorage.getItem(LocalSettingsKeys.UserId)}`}
               >
                 View Member Site
-              </a>
+              </Link>
             </>
           ) : null}
 

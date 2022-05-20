@@ -1,0 +1,54 @@
+query MembersServiceTicketsCreateContainerMembers($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...MembersServiceTicketsCreateContainerMemberFields
+  }
+}
+
+query MembersServiceTicketsCreateContainerProperties($communityId: ID!) {
+  propertiesForCurrentUserByCommunityId(communityId: $communityId) {
+    ...MembersServiceTicketsCreateContainerPropertyFields
+  }
+}
+
+mutation MembersServiceTicketsCreateContainerServiceTicketCreate($input: ServiceTicketCreateInput!) {
+  serviceTicketCreate(input: $input) {
+    ...MembersServiceTicketsCreateContainerServiceTicketMutationResultFields
+  }
+}
+
+fragment MembersServiceTicketsCreateContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  serviceTicket {
+    ...MembersServiceTicketsCreateContainerServiceTicketFields
+  }
+}
+
+fragment MembersServiceTicketsCreateContainerServiceTicketFields on ServiceTicket {
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  title
+  status
+  priority
+
+  id
+  createdAt
+  updatedAt
+}
+
+fragment MembersServiceTicketsCreateContainerMemberFields on Member {
+  id
+  memberName
+}
+fragment MembersServiceTicketsCreateContainerPropertyFields on Property {
+  id
+  propertyName
+}

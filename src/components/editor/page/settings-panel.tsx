@@ -23,15 +23,18 @@ export const SettingsPanel = () => {
   });
 
 
-  return <>
-    <Collapse defaultActiveKey={['1']} expandIconPosition="right">
+  return (
+    <Collapse 
+      defaultActiveKey={['1']} 
+      expandIconPosition="right"
+      >
       {!selected ? 
         <Panel header="No Node Selected" key="1"><p>Select a node to see its settings</p> </Panel> : 
         <Panel header={selected.name} key="1">
           {(selected && selected.settings && React.createElement(selected.settings)) || <>No settings</>}
-          {selected.isDeletable && <Button  style={{ color: "#fff", backgroundColor: "#ff0000", borderRadius: "5px"}} onClick={() => actions.delete(selected.id)}>Delete</Button> || <>Not deletable</>}
+          {selected.isDeletable && <Button  style={{ color: "#fff", backgroundColor: "#ff0000", borderRadius: "5px"}} onClick={() => actions.delete(selected.id)}>Delete</Button> || <>Cannot Delete</>}
         </Panel>
       }
     </Collapse>
-  </>
+  );
 }

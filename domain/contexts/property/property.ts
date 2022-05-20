@@ -9,6 +9,7 @@ import { AggregateRoot } from '../../shared/aggregate-root';
 import { PropertyVisa } from '../iam/property-visa';
 import { PropertyCreatedEvent } from '../../events/property-created';
 import { PropertyDeletedEvent } from '../../events/property-deleted';
+import { PropertyUpdatedEvent } from '../../events/property-updated';
 
 export interface PropertyProps extends EntityProps {
   readonly community: CommunityProps;
@@ -123,6 +124,12 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   public requestSetListedInDirectory(listedInDirectory: boolean): void {
     if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) { throw new Error('Unauthorized'); }
     this.props.listedInDirectory = listedInDirectory;
+  }
+
+  public override onSave(isModified: boolean): void {
+    if(isModified && !super.isDeleted) {
+      this.addIntegrationEvent(PropertyUpdatedEvent,{id:this.props.id});
+    } 
   }
   
 }

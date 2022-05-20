@@ -1,16 +1,37 @@
-import { SearchIndex } from "@azure/search-documents";
+/** @format */
+
+import { SearchIndex } from '@azure/search-documents';
 
 export const propertyListingIndexSpec = {
-  name: "property-listings",
+  name: 'property-listings',
   fields: [
-    { name: "id", type: "Edm.String", searchable: false, key: true },
-    { name: "communityId", type: "Edm.String", searchable: true },
-    { name: "name", type: "Edm.String", searchable: true, filterable: false, sortable: true, facetable: false },
-    { name: "type", type: "Edm.String", searchable: true, filterable: false, sortable: false, facetable: true},
-  ]
+    { name: 'id', type: 'Edm.String', searchable: false, key: true },
+    {
+      name: 'communityId',
+      type: 'Edm.String',
+      searchable: false,
+      filterable: true,
+    },
+    {
+      name: 'name',
+      type: 'Edm.String',
+      searchable: true,
+      filterable: false,
+      sortable: true,
+      facetable: false,
+    },
+    {
+      name: 'type',
+      type: 'Edm.String',
+      searchable: true,
+      filterable: false,
+      sortable: false,
+      facetable: true,
+    },
+  ],
 } as SearchIndex;
 
-export interface PropertyListingIndexDocument  {
+export interface PropertyListingIndexDocument {
   id: string;
   communityId: string;
   name: string;

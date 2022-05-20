@@ -1,23 +1,11 @@
-import {
-  GraphQLResolveInfo,
-  GraphQLScalarType,
-  GraphQLScalarTypeConfig,
-} from "graphql";
-import { Context } from "./context";
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { Context } from './context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
-  [P in K]-?: NonNullable<T[P]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -81,360 +69,366 @@ export type Scalars = {
 };
 
 export type AdditionalAmenities = {
-  __typename?: "AdditionalAmenities";
-  amenities?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  category?: Maybe<Scalars["String"]>;
+  __typename?: 'AdditionalAmenities';
+  amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
+  category?: Maybe<Scalars['String']>;
 };
 
 export type AdditionalAmenitiesInput = {
-  amenities?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  category?: InputMaybe<Scalars["String"]>;
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  category?: InputMaybe<Scalars['String']>;
 };
 
 export type Address = {
-  __typename?: "Address";
-  country?: Maybe<Scalars["String"]>;
-  countryCode?: Maybe<Scalars["String"]>;
-  countryCodeISO3?: Maybe<Scalars["String"]>;
-  countrySecondarySubdivision?: Maybe<Scalars["String"]>;
-  countrySubdivision?: Maybe<Scalars["String"]>;
-  countrySubdivisionName?: Maybe<Scalars["String"]>;
-  countryTertiarySubdivision?: Maybe<Scalars["String"]>;
-  extendedPostalCode?: Maybe<Scalars["String"]>;
-  freeformAddress?: Maybe<Scalars["String"]>;
-  municipality?: Maybe<Scalars["String"]>;
-  municipalitySubdivision?: Maybe<Scalars["String"]>;
-  postalCode?: Maybe<Scalars["String"]>;
-  streetName?: Maybe<Scalars["String"]>;
-  streetNumber?: Maybe<Scalars["String"]>;
+  __typename?: 'Address';
+  country?: Maybe<Scalars['String']>;
+  countryCode?: Maybe<Scalars['String']>;
+  countryCodeISO3?: Maybe<Scalars['String']>;
+  countrySecondarySubdivision?: Maybe<Scalars['String']>;
+  countrySubdivision?: Maybe<Scalars['String']>;
+  countrySubdivisionName?: Maybe<Scalars['String']>;
+  countryTertiarySubdivision?: Maybe<Scalars['String']>;
+  extendedPostalCode?: Maybe<Scalars['String']>;
+  freeformAddress?: Maybe<Scalars['String']>;
+  municipality?: Maybe<Scalars['String']>;
+  municipalitySubdivision?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+  streetName?: Maybe<Scalars['String']>;
+  streetNumber?: Maybe<Scalars['String']>;
 };
 
 export type AddressInput = {
-  country?: InputMaybe<Scalars["String"]>;
-  countryCode?: InputMaybe<Scalars["String"]>;
-  countryCodeISO3?: InputMaybe<Scalars["String"]>;
-  countrySecondarySubdivision?: InputMaybe<Scalars["String"]>;
-  countrySubdivision?: InputMaybe<Scalars["String"]>;
-  countrySubdivisionName?: InputMaybe<Scalars["String"]>;
-  countryTertiarySubdivision?: InputMaybe<Scalars["String"]>;
-  extendedPostalCode?: InputMaybe<Scalars["String"]>;
-  freeformAddress?: InputMaybe<Scalars["String"]>;
-  municipality?: InputMaybe<Scalars["String"]>;
-  municipalitySubdivision?: InputMaybe<Scalars["String"]>;
-  postalCode?: InputMaybe<Scalars["String"]>;
-  streetName?: InputMaybe<Scalars["String"]>;
-  streetNumber?: InputMaybe<Scalars["String"]>;
+  country?: InputMaybe<Scalars['String']>;
+  countryCode?: InputMaybe<Scalars['String']>;
+  countryCodeISO3?: InputMaybe<Scalars['String']>;
+  countrySecondarySubdivision?: InputMaybe<Scalars['String']>;
+  countrySubdivision?: InputMaybe<Scalars['String']>;
+  countrySubdivisionName?: InputMaybe<Scalars['String']>;
+  countryTertiarySubdivision?: InputMaybe<Scalars['String']>;
+  extendedPostalCode?: InputMaybe<Scalars['String']>;
+  freeformAddress?: InputMaybe<Scalars['String']>;
+  municipality?: InputMaybe<Scalars['String']>;
+  municipalitySubdivision?: InputMaybe<Scalars['String']>;
+  postalCode?: InputMaybe<Scalars['String']>;
+  streetName?: InputMaybe<Scalars['String']>;
+  streetNumber?: InputMaybe<Scalars['String']>;
 };
 
 export type BedroomDetails = {
-  __typename?: "BedroomDetails";
-  bedDescriptions?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  roomName?: Maybe<Scalars["String"]>;
+  __typename?: 'BedroomDetails';
+  bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  roomName?: Maybe<Scalars['String']>;
 };
 
 export type BedroomDetailsInput = {
-  bedDescriptions?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  roomName?: InputMaybe<Scalars["String"]>;
+  bedDescriptions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  roomName?: InputMaybe<Scalars['String']>;
 };
 
 export type BlobAuthHeader = {
-  __typename?: "BlobAuthHeader";
-  authHeader?: Maybe<Scalars["String"]>;
-  blobContainer?: Maybe<Scalars["String"]>;
-  blobName?: Maybe<Scalars["String"]>;
-  requestDate?: Maybe<Scalars["String"]>;
+  __typename?: 'BlobAuthHeader';
+  authHeader?: Maybe<Scalars['String']>;
+  blobContainer?: Maybe<Scalars['String']>;
+  blobName?: Maybe<Scalars['String']>;
+  requestDate?: Maybe<Scalars['String']>;
 };
 
 /**  Required to enable Apollo Cache Control  */
 export enum CacheControlScope {
-  Private = "PRIVATE",
-  Public = "PUBLIC",
+  Private = 'PRIVATE',
+  Public = 'PUBLIC',
 }
 
 export type Community = MongoBase & {
-  __typename?: "Community";
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  domain?: Maybe<Scalars["String"]>;
-  handle?: Maybe<Scalars["String"]>;
-  id: Scalars["ObjectID"];
-  name?: Maybe<Scalars["String"]>;
-  publicContentBlobUrl?: Maybe<Scalars["String"]>;
+  __typename?: 'Community';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  domain?: Maybe<Scalars['String']>;
+  handle?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  name?: Maybe<Scalars['String']>;
+  publicContentBlobUrl?: Maybe<Scalars['String']>;
   roles?: Maybe<Array<Maybe<Role>>>;
-  schemaVersion?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
-  whiteLabelDomain?: Maybe<Scalars["String"]>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  whiteLabelDomain?: Maybe<Scalars['String']>;
 };
 
 export type CommunityCreateInput = {
-  name: Scalars["String"];
+  name: Scalars['String'];
 };
 
 export type CommunityMutationResult = {
-  __typename?: "CommunityMutationResult";
+  __typename?: 'CommunityMutationResult';
   community?: Maybe<Community>;
   status: MutationStatus;
 };
 
 export type CommunityPermissions = {
-  __typename?: "CommunityPermissions";
-  canEditOwnMemberAccounts: Scalars["Boolean"];
-  canEditOwnMemberProfile: Scalars["Boolean"];
-  canManageCommunitySettings: Scalars["Boolean"];
-  canManageMembers: Scalars["Boolean"];
-  canManageRolesAndPermissions: Scalars["Boolean"];
-  canManageSiteContent: Scalars["Boolean"];
+  __typename?: 'CommunityPermissions';
+  canEditOwnMemberAccounts: Scalars['Boolean'];
+  canEditOwnMemberProfile: Scalars['Boolean'];
+  canManageCommunitySettings: Scalars['Boolean'];
+  canManageMembers: Scalars['Boolean'];
+  canManageRolesAndPermissions: Scalars['Boolean'];
+  canManageSiteContent: Scalars['Boolean'];
 };
 
 export type CommunityPermissionsInput = {
-  canEditOwnMemberAccounts: Scalars["Boolean"];
-  canEditOwnMemberProfile: Scalars["Boolean"];
-  canManageCommunitySettings: Scalars["Boolean"];
-  canManageMembers: Scalars["Boolean"];
-  canManageRolesAndPermissions: Scalars["Boolean"];
-  canManageSiteContent: Scalars["Boolean"];
+  canEditOwnMemberAccounts: Scalars['Boolean'];
+  canEditOwnMemberProfile: Scalars['Boolean'];
+  canManageCommunitySettings: Scalars['Boolean'];
+  canManageMembers: Scalars['Boolean'];
+  canManageRolesAndPermissions: Scalars['Boolean'];
+  canManageSiteContent: Scalars['Boolean'];
 };
 
 export type CommunityPublicContentAuthHeaderResult = {
-  __typename?: "CommunityPublicContentAuthHeaderResult";
+  __typename?: 'CommunityPublicContentAuthHeaderResult';
   authHeader?: Maybe<BlobAuthHeader>;
   community?: Maybe<Community>;
   status: MutationStatus;
 };
 
 export type CommunityPublicContentInput = {
-  communityId: Scalars["ObjectID"];
-  contentLength?: InputMaybe<Scalars["Int"]>;
-  contentType?: InputMaybe<Scalars["String"]>;
+  communityId: Scalars['ObjectID'];
+  contentLength?: InputMaybe<Scalars['Int']>;
+  contentType?: InputMaybe<Scalars['String']>;
 };
 
 export type CommunityUpdateInput = {
-  domain?: InputMaybe<Scalars["String"]>;
-  handle?: InputMaybe<Scalars["String"]>;
-  id: Scalars["ID"];
-  name?: InputMaybe<Scalars["String"]>;
-  whiteLabelDomain?: InputMaybe<Scalars["String"]>;
+  domain?: InputMaybe<Scalars['String']>;
+  handle?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name?: InputMaybe<Scalars['String']>;
+  whiteLabelDomain?: InputMaybe<Scalars['String']>;
 };
 
 export type CurrentUser = MongoBase & {
-  __typename?: "CurrentUser";
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  email?: Maybe<Scalars["EmailAddress"]>;
-  externalId?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
-  id: Scalars["ObjectID"];
-  lastName?: Maybe<Scalars["String"]>;
-  schemaVersion?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  __typename?: 'CurrentUser';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  email?: Maybe<Scalars['EmailAddress']>;
+  externalId?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: Maybe<Scalars['String']>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type FacetDetail = {
+  __typename?: 'FacetDetail';
+  count?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['String']>;
 };
 
 export type ListingDetails = {
-  __typename?: "ListingDetails";
+  __typename?: 'ListingDetails';
   additionalAmenities?: Maybe<AdditionalAmenities>;
-  amenities?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  bathrooms?: Maybe<Scalars["Float"]>;
+  amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
+  bathrooms?: Maybe<Scalars['Float']>;
   bedroomDetails?: Maybe<BedroomDetails>;
-  bedrooms?: Maybe<Scalars["Int"]>;
-  description?: Maybe<Scalars["String"]>;
-  floorPlan?: Maybe<Scalars["String"]>;
-  floorPlanImages?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  images?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  lease?: Maybe<Scalars["Float"]>;
-  listingAgent?: Maybe<Scalars["String"]>;
-  listingAgentCompany?: Maybe<Scalars["String"]>;
-  listingAgentCompanyAddress?: Maybe<Scalars["String"]>;
-  listingAgentCompanyEmail?: Maybe<Scalars["String"]>;
-  listingAgentCompanyPhone?: Maybe<Scalars["String"]>;
-  listingAgentCompanyWebsite?: Maybe<Scalars["String"]>;
-  listingAgentEmail?: Maybe<Scalars["String"]>;
-  listingAgentPhone?: Maybe<Scalars["String"]>;
-  listingAgentWebsite?: Maybe<Scalars["String"]>;
-  maxGuests?: Maybe<Scalars["Int"]>;
-  price?: Maybe<Scalars["Float"]>;
-  rentHigh?: Maybe<Scalars["Float"]>;
-  rentLow?: Maybe<Scalars["Float"]>;
-  squareFeet?: Maybe<Scalars["Int"]>;
-  video?: Maybe<Scalars["String"]>;
+  bedrooms?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  floorPlan?: Maybe<Scalars['String']>;
+  floorPlanImages?: Maybe<Array<Maybe<Scalars['String']>>>;
+  images?: Maybe<Array<Maybe<Scalars['String']>>>;
+  lease?: Maybe<Scalars['Float']>;
+  listingAgent?: Maybe<Scalars['String']>;
+  listingAgentCompany?: Maybe<Scalars['String']>;
+  listingAgentCompanyAddress?: Maybe<Scalars['String']>;
+  listingAgentCompanyEmail?: Maybe<Scalars['String']>;
+  listingAgentCompanyPhone?: Maybe<Scalars['String']>;
+  listingAgentCompanyWebsite?: Maybe<Scalars['String']>;
+  listingAgentEmail?: Maybe<Scalars['String']>;
+  listingAgentPhone?: Maybe<Scalars['String']>;
+  listingAgentWebsite?: Maybe<Scalars['String']>;
+  maxGuests?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Float']>;
+  rentHigh?: Maybe<Scalars['Float']>;
+  rentLow?: Maybe<Scalars['Float']>;
+  squareFeet?: Maybe<Scalars['Int']>;
+  video?: Maybe<Scalars['String']>;
 };
 
 export type ListingDetailsInput = {
   additionalAmenities?: InputMaybe<AdditionalAmenitiesInput>;
-  amenities?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  bathrooms?: InputMaybe<Scalars["Float"]>;
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bathrooms?: InputMaybe<Scalars['Float']>;
   bedroomDetails?: InputMaybe<BedroomDetailsInput>;
-  bedrooms?: InputMaybe<Scalars["Int"]>;
-  description?: InputMaybe<Scalars["String"]>;
-  floorPlan?: InputMaybe<Scalars["String"]>;
-  floorPlanImages?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  images?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  lease?: InputMaybe<Scalars["Float"]>;
-  listingAgent?: InputMaybe<Scalars["String"]>;
-  listingAgentCompany?: InputMaybe<Scalars["String"]>;
-  listingAgentCompanyAddress?: InputMaybe<Scalars["String"]>;
-  listingAgentCompanyEmail?: InputMaybe<Scalars["String"]>;
-  listingAgentCompanyPhone?: InputMaybe<Scalars["String"]>;
-  listingAgentCompanyWebsite?: InputMaybe<Scalars["String"]>;
-  listingAgentEmail?: InputMaybe<Scalars["String"]>;
-  listingAgentPhone?: InputMaybe<Scalars["String"]>;
-  listingAgentWebsite?: InputMaybe<Scalars["String"]>;
-  maxGuests?: InputMaybe<Scalars["Int"]>;
-  price?: InputMaybe<Scalars["Float"]>;
-  rentHigh?: InputMaybe<Scalars["Float"]>;
-  rentLow?: InputMaybe<Scalars["Float"]>;
-  squareFeet?: InputMaybe<Scalars["Int"]>;
-  video?: InputMaybe<Scalars["String"]>;
+  bedrooms?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  floorPlan?: InputMaybe<Scalars['String']>;
+  floorPlanImages?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lease?: InputMaybe<Scalars['Float']>;
+  listingAgent?: InputMaybe<Scalars['String']>;
+  listingAgentCompany?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyAddress?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyEmail?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyPhone?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyWebsite?: InputMaybe<Scalars['String']>;
+  listingAgentEmail?: InputMaybe<Scalars['String']>;
+  listingAgentPhone?: InputMaybe<Scalars['String']>;
+  listingAgentWebsite?: InputMaybe<Scalars['String']>;
+  maxGuests?: InputMaybe<Scalars['Int']>;
+  price?: InputMaybe<Scalars['Float']>;
+  rentHigh?: InputMaybe<Scalars['Float']>;
+  rentLow?: InputMaybe<Scalars['Float']>;
+  squareFeet?: InputMaybe<Scalars['Int']>;
+  video?: InputMaybe<Scalars['String']>;
 };
 
 export type Location = MongoBase & {
-  __typename?: "Location";
+  __typename?: 'Location';
   address?: Maybe<Address>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id: Scalars["ObjectID"];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
   position?: Maybe<Point>;
-  schemaVersion?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type LocationInput = {
   address?: InputMaybe<AddressInput>;
-  createdAt?: InputMaybe<Scalars["DateTime"]>;
-  id: Scalars["ObjectID"];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
   position?: InputMaybe<PointInput>;
-  schemaVersion?: InputMaybe<Scalars["String"]>;
-  updatedAt?: InputMaybe<Scalars["DateTime"]>;
+  schemaVersion?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type Member = MongoBase & {
-  __typename?: "Member";
+  __typename?: 'Member';
   accounts?: Maybe<Array<Maybe<MemberAccount>>>;
   community?: Maybe<Community>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id: Scalars["ObjectID"];
-  memberName?: Maybe<Scalars["String"]>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  memberName?: Maybe<Scalars['String']>;
   profile?: Maybe<MemberProfile>;
   role?: Maybe<Role>;
-  schemaVersion?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type MemberAccount = MongoEmbeddedBase & {
-  __typename?: "MemberAccount";
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  __typename?: 'MemberAccount';
+  createdAt?: Maybe<Scalars['DateTime']>;
   createdBy?: Maybe<User>;
-  firstName: Scalars["String"];
-  id: Scalars["ObjectID"];
-  lastName?: Maybe<Scalars["String"]>;
-  statusCode?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  firstName: Scalars['String'];
+  id: Scalars['ObjectID'];
+  lastName?: Maybe<Scalars['String']>;
+  statusCode?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
   user?: Maybe<User>;
 };
 
 export type MemberAccountAddInput = {
   account: MemberAccountCreateInput;
-  memberId: Scalars["ObjectID"];
+  memberId: Scalars['ObjectID'];
 };
 
 export type MemberAccountCreateInput = {
-  firstName: Scalars["String"];
-  lastName?: InputMaybe<Scalars["String"]>;
-  user: Scalars["ObjectID"];
+  firstName: Scalars['String'];
+  lastName?: InputMaybe<Scalars['String']>;
+  user: Scalars['ObjectID'];
 };
 
 export type MemberAccountEditInput = {
-  accountId: Scalars["ObjectID"];
-  firstName: Scalars["String"];
-  lastName?: InputMaybe<Scalars["String"]>;
-  memberId: Scalars["ObjectID"];
+  accountId: Scalars['ObjectID'];
+  firstName: Scalars['String'];
+  lastName?: InputMaybe<Scalars['String']>;
+  memberId: Scalars['ObjectID'];
 };
 
 export type MemberAccountRemoveInput = {
-  accountId: Scalars["ObjectID"];
-  memberId: Scalars["ObjectID"];
+  accountId: Scalars['ObjectID'];
+  memberId: Scalars['ObjectID'];
 };
 
 export type MemberAvatarImageAuthHeaderResult = {
-  __typename?: "MemberAvatarImageAuthHeaderResult";
+  __typename?: 'MemberAvatarImageAuthHeaderResult';
   authHeader?: Maybe<BlobAuthHeader>;
   member?: Maybe<Member>;
   status: MutationStatus;
 };
 
 export type MemberAvatarImageInput = {
-  contentLength?: InputMaybe<Scalars["Int"]>;
-  contentType?: InputMaybe<Scalars["String"]>;
-  memberId: Scalars["ObjectID"];
+  contentLength?: InputMaybe<Scalars['Int']>;
+  contentType?: InputMaybe<Scalars['String']>;
+  memberId: Scalars['ObjectID'];
 };
 
 export type MemberCreateInput = {
-  memberName: Scalars["String"];
+  memberName: Scalars['String'];
 };
 
 export type MemberMutationResult = MutationResult & {
-  __typename?: "MemberMutationResult";
+  __typename?: 'MemberMutationResult';
   member?: Maybe<Member>;
   status: MutationStatus;
 };
 
 export type MemberProfile = {
-  __typename?: "MemberProfile";
-  avatarDocumentId?: Maybe<Scalars["String"]>;
-  bio?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
-  interests?: Maybe<Array<Maybe<Scalars["String"]>>>;
-  name?: Maybe<Scalars["String"]>;
-  showEmail?: Maybe<Scalars["Boolean"]>;
-  showInterests?: Maybe<Scalars["Boolean"]>;
-  showLocation?: Maybe<Scalars["Boolean"]>;
-  showProfile?: Maybe<Scalars["Boolean"]>;
-  showProperties?: Maybe<Scalars["Boolean"]>;
+  __typename?: 'MemberProfile';
+  avatarDocumentId?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  interests?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: Maybe<Scalars['String']>;
+  showEmail?: Maybe<Scalars['Boolean']>;
+  showInterests?: Maybe<Scalars['Boolean']>;
+  showLocation?: Maybe<Scalars['Boolean']>;
+  showProfile?: Maybe<Scalars['Boolean']>;
+  showProperties?: Maybe<Scalars['Boolean']>;
 };
 
 export type MemberProfileInput = {
-  bio?: InputMaybe<Scalars["String"]>;
-  email?: InputMaybe<Scalars["String"]>;
-  interests?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
-  name?: InputMaybe<Scalars["String"]>;
-  showEmail?: InputMaybe<Scalars["Boolean"]>;
-  showInterests?: InputMaybe<Scalars["Boolean"]>;
-  showLocation?: InputMaybe<Scalars["Boolean"]>;
-  showProfile?: InputMaybe<Scalars["Boolean"]>;
-  showProperties?: InputMaybe<Scalars["Boolean"]>;
+  bio?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  interests?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  name?: InputMaybe<Scalars['String']>;
+  showEmail?: InputMaybe<Scalars['Boolean']>;
+  showInterests?: InputMaybe<Scalars['Boolean']>;
+  showLocation?: InputMaybe<Scalars['Boolean']>;
+  showProfile?: InputMaybe<Scalars['Boolean']>;
+  showProperties?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type MemberProfileUpdateInput = {
-  memberId: Scalars["ObjectID"];
+  memberId: Scalars['ObjectID'];
   profile?: InputMaybe<MemberProfileInput>;
 };
 
 export type MemberUpdateInput = {
-  id: Scalars["ObjectID"];
-  memberName: Scalars["String"];
-  role: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
+  memberName: Scalars['String'];
+  role: Scalars['ObjectID'];
 };
 
 /** Base type for all models in mongo. */
 export type MongoBase = {
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** The ID of the object. */
-  id: Scalars["ObjectID"];
-  schemaVersion?: Maybe<Scalars["String"]>;
+  id: Scalars['ObjectID'];
+  schemaVersion?: Maybe<Scalars['String']>;
   /** Automatically generated timestamp, updated on every save. */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 /** Base type for all models in mongo. */
 export type MongoEmbeddedBase = {
-  createdAt?: Maybe<Scalars["DateTime"]>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** The ID of the object. */
-  id: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
   /** Automatically generated timestamp, updated on every save. */
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type Mutation = {
-  __typename?: "Mutation";
+  __typename?: 'Mutation';
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
-  _empty?: Maybe<Scalars["String"]>;
+  _empty?: Maybe<Scalars['String']>;
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityPublicContentAuthHeaderResult;
   communityUpdate: CommunityMutationResult;
@@ -510,7 +504,7 @@ export type MutationMemberProfileAvatarCreateAuthHeaderArgs = {
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberProfileAvatarRemoveArgs = {
-  memberId: Scalars["ObjectID"];
+  memberId: Scalars['ObjectID'];
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -618,9 +612,9 @@ export type MutationResult = {
 };
 
 export type MutationStatus = {
-  __typename?: "MutationStatus";
-  errorMessage?: Maybe<Scalars["String"]>;
-  success: Scalars["Boolean"];
+  __typename?: 'MutationStatus';
+  errorMessage?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
 };
 
 export type PermissionsInput = {
@@ -630,98 +624,115 @@ export type PermissionsInput = {
 };
 
 export type Point = MongoBase & {
-  __typename?: "Point";
-  coordinates?: Maybe<Array<Maybe<Scalars["Float"]>>>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id: Scalars["ObjectID"];
-  schemaVersion?: Maybe<Scalars["String"]>;
-  type?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  __typename?: 'Point';
+  coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  schemaVersion?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type PointInput = {
-  coordinates?: InputMaybe<Array<InputMaybe<Scalars["Float"]>>>;
-  createdAt?: InputMaybe<Scalars["DateTime"]>;
-  id: Scalars["ObjectID"];
-  schemaVersion?: InputMaybe<Scalars["String"]>;
-  type?: InputMaybe<Scalars["String"]>;
-  updatedAt?: InputMaybe<Scalars["DateTime"]>;
+  coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  schemaVersion?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type PropertiesSearchInput = {
+  searchString?: InputMaybe<Scalars['String']>;
 };
 
 export type Property = MongoBase & {
-  __typename?: "Property";
+  __typename?: 'Property';
   community?: Maybe<Community>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id: Scalars["ObjectID"];
-  listedForLease: Scalars["Boolean"];
-  listedForRent: Scalars["Boolean"];
-  listedForSale: Scalars["Boolean"];
-  listedInDirectory: Scalars["Boolean"];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  listedForLease: Scalars['Boolean'];
+  listedForRent: Scalars['Boolean'];
+  listedForSale: Scalars['Boolean'];
+  listedInDirectory: Scalars['Boolean'];
   listingDetail?: Maybe<ListingDetails>;
   location?: Maybe<Location>;
   owner?: Maybe<Member>;
-  propertyName: Scalars["String"];
-  propertyType?: Maybe<Scalars["String"]>;
-  schemaVersion?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  propertyName: Scalars['String'];
+  propertyType?: Maybe<Scalars['String']>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type PropertyAddInput = {
-  propertyName: Scalars["String"];
+  propertyName: Scalars['String'];
 };
 
 export type PropertyAssignOwnerInput = {
-  id: Scalars["ObjectID"];
-  ownerId: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
+  ownerId: Scalars['ObjectID'];
 };
 
 export type PropertyDeleteInput = {
-  id: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
 };
 
 export type PropertyMutationResult = {
-  __typename?: "PropertyMutationResult";
+  __typename?: 'PropertyMutationResult';
   property?: Maybe<Property>;
   status: MutationStatus;
 };
 
 export type PropertyOwnerInput = {
-  id?: InputMaybe<Scalars["ObjectID"]>;
+  id?: InputMaybe<Scalars['ObjectID']>;
 };
 
 export type PropertyPermissions = {
-  __typename?: "PropertyPermissions";
-  canEditOwnProperty: Scalars["Boolean"];
-  canManageProperties: Scalars["Boolean"];
+  __typename?: 'PropertyPermissions';
+  canEditOwnProperty: Scalars['Boolean'];
+  canManageProperties: Scalars['Boolean'];
 };
 
 export type PropertyPermissionsInput = {
-  canEditOwnProperty: Scalars["Boolean"];
-  canManageProperties: Scalars["Boolean"];
+  canEditOwnProperty: Scalars['Boolean'];
+  canManageProperties: Scalars['Boolean'];
 };
 
 export type PropertyRemoveOwnerInput = {
-  id: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
+};
+
+export type PropertySearchFacets = {
+  __typename?: 'PropertySearchFacets';
+  primaryCategory?: Maybe<Array<Maybe<FacetDetail>>>;
+  tags?: Maybe<Array<Maybe<FacetDetail>>>;
+};
+
+export type PropertySearchResult = {
+  __typename?: 'PropertySearchResult';
+  facets?: Maybe<PropertySearchFacets>;
+  propertyResults?: Maybe<Array<Maybe<Property>>>;
+  total?: Maybe<Scalars['Int']>;
 };
 
 export type PropertyUpdateInput = {
-  id: Scalars["ObjectID"];
-  listedForLease?: InputMaybe<Scalars["Boolean"]>;
-  listedForRent?: InputMaybe<Scalars["Boolean"]>;
-  listedForSale?: InputMaybe<Scalars["Boolean"]>;
-  listedInDirectory?: InputMaybe<Scalars["Boolean"]>;
+  id: Scalars['ObjectID'];
+  listedForLease?: InputMaybe<Scalars['Boolean']>;
+  listedForRent?: InputMaybe<Scalars['Boolean']>;
+  listedForSale?: InputMaybe<Scalars['Boolean']>;
+  listedInDirectory?: InputMaybe<Scalars['Boolean']>;
   listingDetail?: InputMaybe<ListingDetailsInput>;
   location?: InputMaybe<LocationInput>;
   owner?: InputMaybe<PropertyOwnerInput>;
-  propertyName?: InputMaybe<Scalars["String"]>;
-  propertyType?: InputMaybe<Scalars["String"]>;
+  propertyName?: InputMaybe<Scalars['String']>;
+  propertyType?: InputMaybe<Scalars['String']>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type Query = {
-  __typename?: "Query";
+  __typename?: 'Query';
   /** IGNORE: Dummy field necessary for the Query type to be valid */
-  _empty?: Maybe<Scalars["String"]>;
+  _empty?: Maybe<Scalars['String']>;
   communities?: Maybe<Array<Maybe<Community>>>;
   community?: Maybe<Community>;
   communityByDomain?: Maybe<Community>;
@@ -736,6 +747,7 @@ export type Query = {
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesSearch?: Maybe<PropertySearchResult>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -753,259 +765,264 @@ export type Query = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryCommunityByDomainArgs = {
-  domain: Scalars["String"];
+  domain: Scalars['String'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryCommunityByHandleArgs = {
-  handle: Scalars["String"];
+  handle: Scalars['String'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryCommunityByIdArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberArgs = {
-  id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberForCurrentUserArgs = {
-  communityId: Scalars["ObjectID"];
+  communityId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberForUserArgs = {
-  userId: Scalars["ObjectID"];
+  userId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMembersByCommunityIdArgs = {
-  communityId: Scalars["ID"];
+  communityId: Scalars['ID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertiesByCommunityIdArgs = {
-  communityId: Scalars["ID"];
+  communityId: Scalars['ID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
-  communityId: Scalars["ID"];
+  communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesSearchArgs = {
+  input: PropertiesSearchInput;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertyArgs = {
-  id: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryRoleArgs = {
-  id: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryRolesByCommunityIdArgs = {
-  communityId: Scalars["ID"];
+  communityId: Scalars['ID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketArgs = {
-  id: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsByCommunityIdArgs = {
-  communityId: Scalars["ID"];
+  communityId: Scalars['ID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryUserArgs = {
-  id: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
 };
 
 export type Role = MongoBase & {
-  __typename?: "Role";
+  __typename?: 'Role';
   community?: Maybe<Community>;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id: Scalars["ObjectID"];
-  isDefault: Scalars["Boolean"];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  isDefault: Scalars['Boolean'];
   permissions: RolePermissions;
-  roleName: Scalars["String"];
-  schemaVersion?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  roleName: Scalars['String'];
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type RoleAddInput = {
   permissions: PermissionsInput;
-  roleName: Scalars["String"];
+  roleName: Scalars['String'];
 };
 
 export type RoleDeleteAndReassignInput = {
-  roleToDelete: Scalars["ObjectID"];
-  roleToReassignTo: Scalars["ObjectID"];
+  roleToDelete: Scalars['ObjectID'];
+  roleToReassignTo: Scalars['ObjectID'];
 };
 
 export type RoleMutationResult = {
-  __typename?: "RoleMutationResult";
+  __typename?: 'RoleMutationResult';
   role?: Maybe<Role>;
   status: MutationStatus;
 };
 
 export type RolePermissions = {
-  __typename?: "RolePermissions";
+  __typename?: 'RolePermissions';
   communityPermissions: CommunityPermissions;
   propertyPermissions: PropertyPermissions;
   serviceTicketPermissions: ServiceTicketPermissions;
 };
 
 export type RoleUpdateInput = {
-  id: Scalars["ObjectID"];
+  id: Scalars['ObjectID'];
   permissions: PermissionsInput;
-  roleName: Scalars["String"];
+  roleName: Scalars['String'];
 };
 
 export type ServiceTicket = MongoBase & {
-  __typename?: "ServiceTicket";
+  __typename?: 'ServiceTicket';
   activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
   assignedTo?: Maybe<Member>;
   community: Community;
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
-  id: Scalars["ObjectID"];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description: Scalars['String'];
+  id: Scalars['ObjectID'];
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
-  priority: Scalars["Int"];
+  priority: Scalars['Int'];
   property?: Maybe<Property>;
   requestor: Member;
-  schemaVersion?: Maybe<Scalars["String"]>;
-  status: Scalars["String"];
-  title: Scalars["String"];
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  status: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ServiceTicketActivityDetail = MongoEmbeddedBase & {
-  __typename?: "ServiceTicketActivityDetail";
+  __typename?: 'ServiceTicketActivityDetail';
   activityBy: Member;
-  activityDescription: Scalars["String"];
-  activityType: Scalars["String"];
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  id: Scalars["ObjectID"];
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  activityDescription: Scalars['String'];
+  activityType: Scalars['String'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ServiceTicketAddPhotoInput = {
-  contentLength: Scalars["String"];
-  contentType: Scalars["String"];
-  description?: InputMaybe<Scalars["String"]>;
-  serviceTicketId: Scalars["ObjectID"];
+  contentLength: Scalars['String'];
+  contentType: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
+  serviceTicketId: Scalars['ObjectID'];
 };
 
 export type ServiceTicketAddUpdateActivityInput = {
-  activityDescription: Scalars["String"];
-  serviceTicketId: Scalars["ObjectID"];
+  activityDescription: Scalars['String'];
+  serviceTicketId: Scalars['ObjectID'];
 };
 
 export type ServiceTicketAssignInput = {
-  assignedToId?: InputMaybe<Scalars["ObjectID"]>;
-  serviceTicketId: Scalars["ObjectID"];
+  assignedToId?: InputMaybe<Scalars['ObjectID']>;
+  serviceTicketId: Scalars['ObjectID'];
 };
 
 export type ServiceTicketChangeStatusInput = {
-  activityDescription?: InputMaybe<Scalars["String"]>;
-  serviceTicketId: Scalars["ObjectID"];
-  status: Scalars["String"];
+  activityDescription?: InputMaybe<Scalars['String']>;
+  serviceTicketId: Scalars['ObjectID'];
+  status: Scalars['String'];
 };
 
 export type ServiceTicketCreateInput = {
-  description: Scalars["String"];
-  propertyId?: InputMaybe<Scalars["ObjectID"]>;
-  requestorId?: InputMaybe<Scalars["ObjectID"]>;
-  title: Scalars["String"];
+  description: Scalars['String'];
+  propertyId?: InputMaybe<Scalars['ObjectID']>;
+  requestorId?: InputMaybe<Scalars['ObjectID']>;
+  title: Scalars['String'];
 };
 
 export type ServiceTicketDeleteInput = {
-  serviceTicketId: Scalars["ObjectID"];
+  serviceTicketId: Scalars['ObjectID'];
 };
 
 export type ServiceTicketMutationResult = {
-  __typename?: "ServiceTicketMutationResult";
+  __typename?: 'ServiceTicketMutationResult';
   serviceTicket?: Maybe<ServiceTicket>;
   status: MutationStatus;
 };
 
 export type ServiceTicketPermissions = {
-  __typename?: "ServiceTicketPermissions";
-  canAssignTickets: Scalars["Boolean"];
-  canCreateTickets: Scalars["Boolean"];
-  canManageTickets: Scalars["Boolean"];
-  canWorkOnTickets: Scalars["Boolean"];
+  __typename?: 'ServiceTicketPermissions';
+  canAssignTickets: Scalars['Boolean'];
+  canCreateTickets: Scalars['Boolean'];
+  canManageTickets: Scalars['Boolean'];
+  canWorkOnTickets: Scalars['Boolean'];
 };
 
 export type ServiceTicketPermissionsInput = {
-  canAssignTickets: Scalars["Boolean"];
-  canCreateTickets: Scalars["Boolean"];
-  canManageTickets: Scalars["Boolean"];
-  canWorkOnTickets: Scalars["Boolean"];
+  canAssignTickets: Scalars['Boolean'];
+  canCreateTickets: Scalars['Boolean'];
+  canManageTickets: Scalars['Boolean'];
+  canWorkOnTickets: Scalars['Boolean'];
 };
 
 export type ServiceTicketPhoto = MongoEmbeddedBase & {
-  __typename?: "ServiceTicketPhoto";
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  description: Scalars["String"];
-  documentId: Scalars["String"];
-  id: Scalars["ObjectID"];
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  __typename?: 'ServiceTicketPhoto';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description: Scalars['String'];
+  documentId: Scalars['String'];
+  id: Scalars['ObjectID'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ServiceTicketPhotoAuthHeaderResult = MutationResult & {
-  __typename?: "ServiceTicketPhotoAuthHeaderResult";
+  __typename?: 'ServiceTicketPhotoAuthHeaderResult';
   authHeader?: Maybe<BlobAuthHeader>;
   serviceTicket?: Maybe<ServiceTicket>;
   status: MutationStatus;
 };
 
 export type ServiceTicketRemovePhotoInput = {
-  photoId: Scalars["ObjectID"];
-  serviceTicketId: Scalars["ObjectID"];
+  photoId: Scalars['ObjectID'];
+  serviceTicketId: Scalars['ObjectID'];
 };
 
 export type ServiceTicketSubmitInput = {
-  serviceTicketId: Scalars["ObjectID"];
+  serviceTicketId: Scalars['ObjectID'];
 };
 
 export type ServiceTicketUpdateInput = {
-  description: Scalars["String"];
-  priority: Scalars["Int"];
-  propertyId?: InputMaybe<Scalars["ObjectID"]>;
-  serviceTicketId: Scalars["ObjectID"];
-  title: Scalars["String"];
+  description: Scalars['String'];
+  priority: Scalars['Int'];
+  propertyId?: InputMaybe<Scalars['ObjectID']>;
+  serviceTicketId: Scalars['ObjectID'];
+  title: Scalars['String'];
 };
 
 export type User = MongoBase & {
-  __typename?: "User";
-  createdAt?: Maybe<Scalars["DateTime"]>;
-  email?: Maybe<Scalars["EmailAddress"]>;
-  externalId?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
-  id: Scalars["ObjectID"];
-  lastName?: Maybe<Scalars["String"]>;
-  schemaVersion?: Maybe<Scalars["String"]>;
-  updatedAt?: Maybe<Scalars["DateTime"]>;
+  __typename?: 'User';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  email?: Maybe<Scalars['EmailAddress']>;
+  externalId?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: Maybe<Scalars['String']>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type UserMutationResult = MutationResult & {
-  __typename?: "UserMutationResult";
+  __typename?: 'UserMutationResult';
   status: MutationStatus;
   user?: Maybe<User>;
 };
 
 export type UserUpdateInput = {
-  email?: InputMaybe<Scalars["String"]>;
-  firstName?: InputMaybe<Scalars["String"]>;
-  id: Scalars["ObjectID"];
-  lastName?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: InputMaybe<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -1016,16 +1033,9 @@ export type ResolverTypeWrapper<T> = Promise<T> | T;
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-  | ResolverFn<TResult, TParent, TContext, TArgs>
-  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
-export type ResolverFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => Promise<TResult> | TResult;
+export type ResolverFn<TResult, TParent, TContext, TArgs> = (parent: TParent, args: TArgs, context: TContext, info: GraphQLResolveInfo) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -1034,32 +1044,11 @@ export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   info: GraphQLResolveInfo
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
-export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => TResult | Promise<TResult>;
+export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (parent: TParent, args: TArgs, context: TContext, info: GraphQLResolveInfo) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs
-> {
-  subscribe: SubscriptionSubscribeFn<
-    { [key in TKey]: TResult },
-    TParent,
-    TContext,
-    TArgs
-  >;
-  resolve?: SubscriptionResolveFn<
-    TResult,
-    { [key in TKey]: TResult },
-    TContext,
-    TArgs
-  >;
+export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
+  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
+  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -1067,48 +1056,21 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs
-> =
+export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<
-  TResult,
-  TKey extends string,
-  TParent = {},
-  TContext = {},
-  TArgs = {}
-> =
-  | ((
-      ...args: any[]
-    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
+  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
-export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
-  parent: TParent,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
+export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (parent: TParent, context: TContext, info: GraphQLResolveInfo) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
-  obj: T,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<
-  TResult = {},
-  TParent = {},
-  TContext = {},
-  TArgs = {}
-> = (
+export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
@@ -1124,10 +1086,10 @@ export type ResolversTypes = ResolversObject<{
   AddressInput: AddressInput;
   BedroomDetails: ResolverTypeWrapper<BedroomDetails>;
   BedroomDetailsInput: BedroomDetailsInput;
-  BigInt: ResolverTypeWrapper<Scalars["BigInt"]>;
+  BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
   BlobAuthHeader: ResolverTypeWrapper<BlobAuthHeader>;
-  Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
-  Byte: ResolverTypeWrapper<Scalars["Byte"]>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Byte: ResolverTypeWrapper<Scalars['Byte']>;
   CacheControlScope: CacheControlScope;
   Community: ResolverTypeWrapper<Community>;
   CommunityCreateInput: CommunityCreateInput;
@@ -1137,40 +1099,41 @@ export type ResolversTypes = ResolversObject<{
   CommunityPublicContentAuthHeaderResult: ResolverTypeWrapper<CommunityPublicContentAuthHeaderResult>;
   CommunityPublicContentInput: CommunityPublicContentInput;
   CommunityUpdateInput: CommunityUpdateInput;
-  Currency: ResolverTypeWrapper<Scalars["Currency"]>;
+  Currency: ResolverTypeWrapper<Scalars['Currency']>;
   CurrentUser: ResolverTypeWrapper<CurrentUser>;
-  DID: ResolverTypeWrapper<Scalars["DID"]>;
-  Date: ResolverTypeWrapper<Scalars["Date"]>;
-  DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
-  Duration: ResolverTypeWrapper<Scalars["Duration"]>;
-  EmailAddress: ResolverTypeWrapper<Scalars["EmailAddress"]>;
-  Float: ResolverTypeWrapper<Scalars["Float"]>;
-  GUID: ResolverTypeWrapper<Scalars["GUID"]>;
-  HSL: ResolverTypeWrapper<Scalars["HSL"]>;
-  HSLA: ResolverTypeWrapper<Scalars["HSLA"]>;
-  HexColorCode: ResolverTypeWrapper<Scalars["HexColorCode"]>;
-  Hexadecimal: ResolverTypeWrapper<Scalars["Hexadecimal"]>;
-  IBAN: ResolverTypeWrapper<Scalars["IBAN"]>;
-  ID: ResolverTypeWrapper<Scalars["ID"]>;
-  IPv4: ResolverTypeWrapper<Scalars["IPv4"]>;
-  IPv6: ResolverTypeWrapper<Scalars["IPv6"]>;
-  ISBN: ResolverTypeWrapper<Scalars["ISBN"]>;
-  ISO8601Duration: ResolverTypeWrapper<Scalars["ISO8601Duration"]>;
-  Int: ResolverTypeWrapper<Scalars["Int"]>;
-  JSON: ResolverTypeWrapper<Scalars["JSON"]>;
-  JSONObject: ResolverTypeWrapper<Scalars["JSONObject"]>;
-  JWT: ResolverTypeWrapper<Scalars["JWT"]>;
-  Latitude: ResolverTypeWrapper<Scalars["Latitude"]>;
+  DID: ResolverTypeWrapper<Scalars['DID']>;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  Duration: ResolverTypeWrapper<Scalars['Duration']>;
+  EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
+  FacetDetail: ResolverTypeWrapper<FacetDetail>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  GUID: ResolverTypeWrapper<Scalars['GUID']>;
+  HSL: ResolverTypeWrapper<Scalars['HSL']>;
+  HSLA: ResolverTypeWrapper<Scalars['HSLA']>;
+  HexColorCode: ResolverTypeWrapper<Scalars['HexColorCode']>;
+  Hexadecimal: ResolverTypeWrapper<Scalars['Hexadecimal']>;
+  IBAN: ResolverTypeWrapper<Scalars['IBAN']>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  IPv4: ResolverTypeWrapper<Scalars['IPv4']>;
+  IPv6: ResolverTypeWrapper<Scalars['IPv6']>;
+  ISBN: ResolverTypeWrapper<Scalars['ISBN']>;
+  ISO8601Duration: ResolverTypeWrapper<Scalars['ISO8601Duration']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  JSON: ResolverTypeWrapper<Scalars['JSON']>;
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
+  JWT: ResolverTypeWrapper<Scalars['JWT']>;
+  Latitude: ResolverTypeWrapper<Scalars['Latitude']>;
   ListingDetails: ResolverTypeWrapper<ListingDetails>;
   ListingDetailsInput: ListingDetailsInput;
-  LocalDate: ResolverTypeWrapper<Scalars["LocalDate"]>;
-  LocalEndTime: ResolverTypeWrapper<Scalars["LocalEndTime"]>;
-  LocalTime: ResolverTypeWrapper<Scalars["LocalTime"]>;
+  LocalDate: ResolverTypeWrapper<Scalars['LocalDate']>;
+  LocalEndTime: ResolverTypeWrapper<Scalars['LocalEndTime']>;
+  LocalTime: ResolverTypeWrapper<Scalars['LocalTime']>;
   Location: ResolverTypeWrapper<Location>;
   LocationInput: LocationInput;
-  Long: ResolverTypeWrapper<Scalars["Long"]>;
-  Longitude: ResolverTypeWrapper<Scalars["Longitude"]>;
-  MAC: ResolverTypeWrapper<Scalars["MAC"]>;
+  Long: ResolverTypeWrapper<Scalars['Long']>;
+  Longitude: ResolverTypeWrapper<Scalars['Longitude']>;
+  MAC: ResolverTypeWrapper<Scalars['MAC']>;
   Member: ResolverTypeWrapper<Member>;
   MemberAccount: ResolverTypeWrapper<MemberAccount>;
   MemberAccountAddInput: MemberAccountAddInput;
@@ -1186,41 +1149,36 @@ export type ResolversTypes = ResolversObject<{
   MemberProfileUpdateInput: MemberProfileUpdateInput;
   MemberUpdateInput: MemberUpdateInput;
   MongoBase:
-    | ResolversTypes["Community"]
-    | ResolversTypes["CurrentUser"]
-    | ResolversTypes["Location"]
-    | ResolversTypes["Member"]
-    | ResolversTypes["Point"]
-    | ResolversTypes["Property"]
-    | ResolversTypes["Role"]
-    | ResolversTypes["ServiceTicket"]
-    | ResolversTypes["User"];
-  MongoEmbeddedBase:
-    | ResolversTypes["MemberAccount"]
-    | ResolversTypes["ServiceTicketActivityDetail"]
-    | ResolversTypes["ServiceTicketPhoto"];
+    | ResolversTypes['Community']
+    | ResolversTypes['CurrentUser']
+    | ResolversTypes['Location']
+    | ResolversTypes['Member']
+    | ResolversTypes['Point']
+    | ResolversTypes['Property']
+    | ResolversTypes['Role']
+    | ResolversTypes['ServiceTicket']
+    | ResolversTypes['User'];
+  MongoEmbeddedBase: ResolversTypes['MemberAccount'] | ResolversTypes['ServiceTicketActivityDetail'] | ResolversTypes['ServiceTicketPhoto'];
   Mutation: ResolverTypeWrapper<{}>;
-  MutationResult:
-    | ResolversTypes["MemberMutationResult"]
-    | ResolversTypes["ServiceTicketPhotoAuthHeaderResult"]
-    | ResolversTypes["UserMutationResult"];
+  MutationResult: ResolversTypes['MemberMutationResult'] | ResolversTypes['ServiceTicketPhotoAuthHeaderResult'] | ResolversTypes['UserMutationResult'];
   MutationStatus: ResolverTypeWrapper<MutationStatus>;
-  NegativeFloat: ResolverTypeWrapper<Scalars["NegativeFloat"]>;
-  NegativeInt: ResolverTypeWrapper<Scalars["NegativeInt"]>;
-  NonEmptyString: ResolverTypeWrapper<Scalars["NonEmptyString"]>;
-  NonNegativeFloat: ResolverTypeWrapper<Scalars["NonNegativeFloat"]>;
-  NonNegativeInt: ResolverTypeWrapper<Scalars["NonNegativeInt"]>;
-  NonPositiveFloat: ResolverTypeWrapper<Scalars["NonPositiveFloat"]>;
-  NonPositiveInt: ResolverTypeWrapper<Scalars["NonPositiveInt"]>;
-  ObjectID: ResolverTypeWrapper<Scalars["ObjectID"]>;
+  NegativeFloat: ResolverTypeWrapper<Scalars['NegativeFloat']>;
+  NegativeInt: ResolverTypeWrapper<Scalars['NegativeInt']>;
+  NonEmptyString: ResolverTypeWrapper<Scalars['NonEmptyString']>;
+  NonNegativeFloat: ResolverTypeWrapper<Scalars['NonNegativeFloat']>;
+  NonNegativeInt: ResolverTypeWrapper<Scalars['NonNegativeInt']>;
+  NonPositiveFloat: ResolverTypeWrapper<Scalars['NonPositiveFloat']>;
+  NonPositiveInt: ResolverTypeWrapper<Scalars['NonPositiveInt']>;
+  ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
   PermissionsInput: PermissionsInput;
-  PhoneNumber: ResolverTypeWrapper<Scalars["PhoneNumber"]>;
+  PhoneNumber: ResolverTypeWrapper<Scalars['PhoneNumber']>;
   Point: ResolverTypeWrapper<Point>;
   PointInput: PointInput;
-  Port: ResolverTypeWrapper<Scalars["Port"]>;
-  PositiveFloat: ResolverTypeWrapper<Scalars["PositiveFloat"]>;
-  PositiveInt: ResolverTypeWrapper<Scalars["PositiveInt"]>;
-  PostalCode: ResolverTypeWrapper<Scalars["PostalCode"]>;
+  Port: ResolverTypeWrapper<Scalars['Port']>;
+  PositiveFloat: ResolverTypeWrapper<Scalars['PositiveFloat']>;
+  PositiveInt: ResolverTypeWrapper<Scalars['PositiveInt']>;
+  PostalCode: ResolverTypeWrapper<Scalars['PostalCode']>;
+  PropertiesSearchInput: PropertiesSearchInput;
   Property: ResolverTypeWrapper<Property>;
   PropertyAddInput: PropertyAddInput;
   PropertyAssignOwnerInput: PropertyAssignOwnerInput;
@@ -1230,17 +1188,19 @@ export type ResolversTypes = ResolversObject<{
   PropertyPermissions: ResolverTypeWrapper<PropertyPermissions>;
   PropertyPermissionsInput: PropertyPermissionsInput;
   PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
+  PropertySearchFacets: ResolverTypeWrapper<PropertySearchFacets>;
+  PropertySearchResult: ResolverTypeWrapper<PropertySearchResult>;
   PropertyUpdateInput: PropertyUpdateInput;
   Query: ResolverTypeWrapper<{}>;
-  RGB: ResolverTypeWrapper<Scalars["RGB"]>;
-  RGBA: ResolverTypeWrapper<Scalars["RGBA"]>;
+  RGB: ResolverTypeWrapper<Scalars['RGB']>;
+  RGBA: ResolverTypeWrapper<Scalars['RGBA']>;
   Role: ResolverTypeWrapper<Role>;
   RoleAddInput: RoleAddInput;
   RoleDeleteAndReassignInput: RoleDeleteAndReassignInput;
   RoleMutationResult: ResolverTypeWrapper<RoleMutationResult>;
   RolePermissions: ResolverTypeWrapper<RolePermissions>;
   RoleUpdateInput: RoleUpdateInput;
-  SafeInt: ResolverTypeWrapper<Scalars["SafeInt"]>;
+  SafeInt: ResolverTypeWrapper<Scalars['SafeInt']>;
   ServiceTicket: ResolverTypeWrapper<ServiceTicket>;
   ServiceTicketActivityDetail: ResolverTypeWrapper<ServiceTicketActivityDetail>;
   ServiceTicketAddPhotoInput: ServiceTicketAddPhotoInput;
@@ -1257,19 +1217,19 @@ export type ResolversTypes = ResolversObject<{
   ServiceTicketRemovePhotoInput: ServiceTicketRemovePhotoInput;
   ServiceTicketSubmitInput: ServiceTicketSubmitInput;
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
-  String: ResolverTypeWrapper<Scalars["String"]>;
-  Time: ResolverTypeWrapper<Scalars["Time"]>;
-  Timestamp: ResolverTypeWrapper<Scalars["Timestamp"]>;
-  URL: ResolverTypeWrapper<Scalars["URL"]>;
-  USCurrency: ResolverTypeWrapper<Scalars["USCurrency"]>;
-  UUID: ResolverTypeWrapper<Scalars["UUID"]>;
-  UnsignedFloat: ResolverTypeWrapper<Scalars["UnsignedFloat"]>;
-  UnsignedInt: ResolverTypeWrapper<Scalars["UnsignedInt"]>;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  Time: ResolverTypeWrapper<Scalars['Time']>;
+  Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
+  URL: ResolverTypeWrapper<Scalars['URL']>;
+  USCurrency: ResolverTypeWrapper<Scalars['USCurrency']>;
+  UUID: ResolverTypeWrapper<Scalars['UUID']>;
+  UnsignedFloat: ResolverTypeWrapper<Scalars['UnsignedFloat']>;
+  UnsignedInt: ResolverTypeWrapper<Scalars['UnsignedInt']>;
   User: ResolverTypeWrapper<User>;
   UserMutationResult: ResolverTypeWrapper<UserMutationResult>;
   UserUpdateInput: UserUpdateInput;
-  UtcOffset: ResolverTypeWrapper<Scalars["UtcOffset"]>;
-  Void: ResolverTypeWrapper<Scalars["Void"]>;
+  UtcOffset: ResolverTypeWrapper<Scalars['UtcOffset']>;
+  Void: ResolverTypeWrapper<Scalars['Void']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -1280,10 +1240,10 @@ export type ResolversParentTypes = ResolversObject<{
   AddressInput: AddressInput;
   BedroomDetails: BedroomDetails;
   BedroomDetailsInput: BedroomDetailsInput;
-  BigInt: Scalars["BigInt"];
+  BigInt: Scalars['BigInt'];
   BlobAuthHeader: BlobAuthHeader;
-  Boolean: Scalars["Boolean"];
-  Byte: Scalars["Byte"];
+  Boolean: Scalars['Boolean'];
+  Byte: Scalars['Byte'];
   Community: Community;
   CommunityCreateInput: CommunityCreateInput;
   CommunityMutationResult: CommunityMutationResult;
@@ -1292,40 +1252,41 @@ export type ResolversParentTypes = ResolversObject<{
   CommunityPublicContentAuthHeaderResult: CommunityPublicContentAuthHeaderResult;
   CommunityPublicContentInput: CommunityPublicContentInput;
   CommunityUpdateInput: CommunityUpdateInput;
-  Currency: Scalars["Currency"];
+  Currency: Scalars['Currency'];
   CurrentUser: CurrentUser;
-  DID: Scalars["DID"];
-  Date: Scalars["Date"];
-  DateTime: Scalars["DateTime"];
-  Duration: Scalars["Duration"];
-  EmailAddress: Scalars["EmailAddress"];
-  Float: Scalars["Float"];
-  GUID: Scalars["GUID"];
-  HSL: Scalars["HSL"];
-  HSLA: Scalars["HSLA"];
-  HexColorCode: Scalars["HexColorCode"];
-  Hexadecimal: Scalars["Hexadecimal"];
-  IBAN: Scalars["IBAN"];
-  ID: Scalars["ID"];
-  IPv4: Scalars["IPv4"];
-  IPv6: Scalars["IPv6"];
-  ISBN: Scalars["ISBN"];
-  ISO8601Duration: Scalars["ISO8601Duration"];
-  Int: Scalars["Int"];
-  JSON: Scalars["JSON"];
-  JSONObject: Scalars["JSONObject"];
-  JWT: Scalars["JWT"];
-  Latitude: Scalars["Latitude"];
+  DID: Scalars['DID'];
+  Date: Scalars['Date'];
+  DateTime: Scalars['DateTime'];
+  Duration: Scalars['Duration'];
+  EmailAddress: Scalars['EmailAddress'];
+  FacetDetail: FacetDetail;
+  Float: Scalars['Float'];
+  GUID: Scalars['GUID'];
+  HSL: Scalars['HSL'];
+  HSLA: Scalars['HSLA'];
+  HexColorCode: Scalars['HexColorCode'];
+  Hexadecimal: Scalars['Hexadecimal'];
+  IBAN: Scalars['IBAN'];
+  ID: Scalars['ID'];
+  IPv4: Scalars['IPv4'];
+  IPv6: Scalars['IPv6'];
+  ISBN: Scalars['ISBN'];
+  ISO8601Duration: Scalars['ISO8601Duration'];
+  Int: Scalars['Int'];
+  JSON: Scalars['JSON'];
+  JSONObject: Scalars['JSONObject'];
+  JWT: Scalars['JWT'];
+  Latitude: Scalars['Latitude'];
   ListingDetails: ListingDetails;
   ListingDetailsInput: ListingDetailsInput;
-  LocalDate: Scalars["LocalDate"];
-  LocalEndTime: Scalars["LocalEndTime"];
-  LocalTime: Scalars["LocalTime"];
+  LocalDate: Scalars['LocalDate'];
+  LocalEndTime: Scalars['LocalEndTime'];
+  LocalTime: Scalars['LocalTime'];
   Location: Location;
   LocationInput: LocationInput;
-  Long: Scalars["Long"];
-  Longitude: Scalars["Longitude"];
-  MAC: Scalars["MAC"];
+  Long: Scalars['Long'];
+  Longitude: Scalars['Longitude'];
+  MAC: Scalars['MAC'];
   Member: Member;
   MemberAccount: MemberAccount;
   MemberAccountAddInput: MemberAccountAddInput;
@@ -1341,41 +1302,36 @@ export type ResolversParentTypes = ResolversObject<{
   MemberProfileUpdateInput: MemberProfileUpdateInput;
   MemberUpdateInput: MemberUpdateInput;
   MongoBase:
-    | ResolversParentTypes["Community"]
-    | ResolversParentTypes["CurrentUser"]
-    | ResolversParentTypes["Location"]
-    | ResolversParentTypes["Member"]
-    | ResolversParentTypes["Point"]
-    | ResolversParentTypes["Property"]
-    | ResolversParentTypes["Role"]
-    | ResolversParentTypes["ServiceTicket"]
-    | ResolversParentTypes["User"];
-  MongoEmbeddedBase:
-    | ResolversParentTypes["MemberAccount"]
-    | ResolversParentTypes["ServiceTicketActivityDetail"]
-    | ResolversParentTypes["ServiceTicketPhoto"];
+    | ResolversParentTypes['Community']
+    | ResolversParentTypes['CurrentUser']
+    | ResolversParentTypes['Location']
+    | ResolversParentTypes['Member']
+    | ResolversParentTypes['Point']
+    | ResolversParentTypes['Property']
+    | ResolversParentTypes['Role']
+    | ResolversParentTypes['ServiceTicket']
+    | ResolversParentTypes['User'];
+  MongoEmbeddedBase: ResolversParentTypes['MemberAccount'] | ResolversParentTypes['ServiceTicketActivityDetail'] | ResolversParentTypes['ServiceTicketPhoto'];
   Mutation: {};
-  MutationResult:
-    | ResolversParentTypes["MemberMutationResult"]
-    | ResolversParentTypes["ServiceTicketPhotoAuthHeaderResult"]
-    | ResolversParentTypes["UserMutationResult"];
+  MutationResult: ResolversParentTypes['MemberMutationResult'] | ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult'] | ResolversParentTypes['UserMutationResult'];
   MutationStatus: MutationStatus;
-  NegativeFloat: Scalars["NegativeFloat"];
-  NegativeInt: Scalars["NegativeInt"];
-  NonEmptyString: Scalars["NonEmptyString"];
-  NonNegativeFloat: Scalars["NonNegativeFloat"];
-  NonNegativeInt: Scalars["NonNegativeInt"];
-  NonPositiveFloat: Scalars["NonPositiveFloat"];
-  NonPositiveInt: Scalars["NonPositiveInt"];
-  ObjectID: Scalars["ObjectID"];
+  NegativeFloat: Scalars['NegativeFloat'];
+  NegativeInt: Scalars['NegativeInt'];
+  NonEmptyString: Scalars['NonEmptyString'];
+  NonNegativeFloat: Scalars['NonNegativeFloat'];
+  NonNegativeInt: Scalars['NonNegativeInt'];
+  NonPositiveFloat: Scalars['NonPositiveFloat'];
+  NonPositiveInt: Scalars['NonPositiveInt'];
+  ObjectID: Scalars['ObjectID'];
   PermissionsInput: PermissionsInput;
-  PhoneNumber: Scalars["PhoneNumber"];
+  PhoneNumber: Scalars['PhoneNumber'];
   Point: Point;
   PointInput: PointInput;
-  Port: Scalars["Port"];
-  PositiveFloat: Scalars["PositiveFloat"];
-  PositiveInt: Scalars["PositiveInt"];
-  PostalCode: Scalars["PostalCode"];
+  Port: Scalars['Port'];
+  PositiveFloat: Scalars['PositiveFloat'];
+  PositiveInt: Scalars['PositiveInt'];
+  PostalCode: Scalars['PostalCode'];
+  PropertiesSearchInput: PropertiesSearchInput;
   Property: Property;
   PropertyAddInput: PropertyAddInput;
   PropertyAssignOwnerInput: PropertyAssignOwnerInput;
@@ -1385,17 +1341,19 @@ export type ResolversParentTypes = ResolversObject<{
   PropertyPermissions: PropertyPermissions;
   PropertyPermissionsInput: PropertyPermissionsInput;
   PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
+  PropertySearchFacets: PropertySearchFacets;
+  PropertySearchResult: PropertySearchResult;
   PropertyUpdateInput: PropertyUpdateInput;
   Query: {};
-  RGB: Scalars["RGB"];
-  RGBA: Scalars["RGBA"];
+  RGB: Scalars['RGB'];
+  RGBA: Scalars['RGBA'];
   Role: Role;
   RoleAddInput: RoleAddInput;
   RoleDeleteAndReassignInput: RoleDeleteAndReassignInput;
   RoleMutationResult: RoleMutationResult;
   RolePermissions: RolePermissions;
   RoleUpdateInput: RoleUpdateInput;
-  SafeInt: Scalars["SafeInt"];
+  SafeInt: Scalars['SafeInt'];
   ServiceTicket: ServiceTicket;
   ServiceTicketActivityDetail: ServiceTicketActivityDetail;
   ServiceTicketAddPhotoInput: ServiceTicketAddPhotoInput;
@@ -1412,1632 +1370,703 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceTicketRemovePhotoInput: ServiceTicketRemovePhotoInput;
   ServiceTicketSubmitInput: ServiceTicketSubmitInput;
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
-  String: Scalars["String"];
-  Time: Scalars["Time"];
-  Timestamp: Scalars["Timestamp"];
-  URL: Scalars["URL"];
-  USCurrency: Scalars["USCurrency"];
-  UUID: Scalars["UUID"];
-  UnsignedFloat: Scalars["UnsignedFloat"];
-  UnsignedInt: Scalars["UnsignedInt"];
+  String: Scalars['String'];
+  Time: Scalars['Time'];
+  Timestamp: Scalars['Timestamp'];
+  URL: Scalars['URL'];
+  USCurrency: Scalars['USCurrency'];
+  UUID: Scalars['UUID'];
+  UnsignedFloat: Scalars['UnsignedFloat'];
+  UnsignedInt: Scalars['UnsignedInt'];
   User: User;
   UserMutationResult: UserMutationResult;
   UserUpdateInput: UserUpdateInput;
-  UtcOffset: Scalars["UtcOffset"];
-  Void: Scalars["Void"];
+  UtcOffset: Scalars['UtcOffset'];
+  Void: Scalars['Void'];
 }>;
 
 export type CacheControl22DirectiveArgs = {
-  inheritMaxAge?: Maybe<Scalars["Boolean"]>;
-  maxAge?: Maybe<Scalars["Int"]>;
+  inheritMaxAge?: Maybe<Scalars['Boolean']>;
+  maxAge?: Maybe<Scalars['Int']>;
   scope?: Maybe<CacheControlScope>;
 };
 
-export type CacheControl22DirectiveResolver<
-  Result,
-  Parent,
-  ContextType = Context,
-  Args = CacheControl22DirectiveArgs
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type CacheControl22DirectiveResolver<Result, Parent, ContextType = Context, Args = CacheControl22DirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type AdditionalAmenitiesResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["AdditionalAmenities"] = ResolversParentTypes["AdditionalAmenities"]
-> = ResolversObject<{
-  amenities?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  category?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+export type AdditionalAmenitiesResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AdditionalAmenities'] = ResolversParentTypes['AdditionalAmenities']> = ResolversObject<{
+  amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type AddressResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Address"] = ResolversParentTypes["Address"]
-> = ResolversObject<{
-  country?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  countryCode?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  countryCodeISO3?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  countrySecondarySubdivision?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  countrySubdivision?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  countrySubdivisionName?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  countryTertiarySubdivision?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  extendedPostalCode?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  freeformAddress?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  municipality?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  municipalitySubdivision?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  postalCode?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  streetName?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  streetNumber?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
+export type AddressResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = ResolversObject<{
+  country?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  countryCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  countryCodeISO3?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  countrySecondarySubdivision?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  countrySubdivision?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  countrySubdivisionName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  countryTertiarySubdivision?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  extendedPostalCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  freeformAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  municipality?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  municipalitySubdivision?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  postalCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  streetName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  streetNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type BedroomDetailsResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["BedroomDetails"] = ResolversParentTypes["BedroomDetails"]
-> = ResolversObject<{
-  bedDescriptions?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  roomName?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+export type BedroomDetailsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BedroomDetails'] = ResolversParentTypes['BedroomDetails']> = ResolversObject<{
+  bedDescriptions?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  roomName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface BigIntScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["BigInt"], any> {
-  name: "BigInt";
+export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
+  name: 'BigInt';
 }
 
-export type BlobAuthHeaderResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["BlobAuthHeader"] = ResolversParentTypes["BlobAuthHeader"]
-> = ResolversObject<{
-  authHeader?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  blobContainer?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  blobName?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  requestDate?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
+export type BlobAuthHeaderResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BlobAuthHeader'] = ResolversParentTypes['BlobAuthHeader']> = ResolversObject<{
+  authHeader?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  blobContainer?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  blobName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  requestDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface ByteScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Byte"], any> {
-  name: "Byte";
+export interface ByteScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Byte'], any> {
+  name: 'Byte';
 }
 
-export type CommunityResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Community"] = ResolversParentTypes["Community"]
-> = ResolversObject<{
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  domain?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  handle?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  publicContentBlobUrl?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  roles?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Role"]>>>,
-    ParentType,
-    ContextType
-  >;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  whiteLabelDomain?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
+export type CommunityResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Community'] = ResolversParentTypes['Community']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  domain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  handle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  publicContentBlobUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  roles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  whiteLabelDomain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CommunityMutationResultResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["CommunityMutationResult"] = ResolversParentTypes["CommunityMutationResult"]
+  ParentType extends ResolversParentTypes['CommunityMutationResult'] = ResolversParentTypes['CommunityMutationResult']
 > = ResolversObject<{
-  community?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType
-  >;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+  community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type CommunityPermissionsResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["CommunityPermissions"] = ResolversParentTypes["CommunityPermissions"]
-> = ResolversObject<{
-  canEditOwnMemberAccounts?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canEditOwnMemberProfile?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canManageCommunitySettings?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canManageMembers?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canManageRolesAndPermissions?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canManageSiteContent?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
+export type CommunityPermissionsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CommunityPermissions'] = ResolversParentTypes['CommunityPermissions']> = ResolversObject<{
+  canEditOwnMemberAccounts?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canEditOwnMemberProfile?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canManageCommunitySettings?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canManageMembers?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canManageRolesAndPermissions?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canManageSiteContent?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CommunityPublicContentAuthHeaderResultResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["CommunityPublicContentAuthHeaderResult"] = ResolversParentTypes["CommunityPublicContentAuthHeaderResult"]
+  ParentType extends ResolversParentTypes['CommunityPublicContentAuthHeaderResult'] = ResolversParentTypes['CommunityPublicContentAuthHeaderResult']
 > = ResolversObject<{
-  authHeader?: Resolver<
-    Maybe<ResolversTypes["BlobAuthHeader"]>,
-    ParentType,
-    ContextType
-  >;
-  community?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType
-  >;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+  authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
+  community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface CurrencyScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Currency"], any> {
-  name: "Currency";
+export interface CurrencyScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Currency'], any> {
+  name: 'Currency';
 }
 
-export type CurrentUserResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["CurrentUser"] = ResolversParentTypes["CurrentUser"]
-> = ResolversObject<{
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  email?: Resolver<
-    Maybe<ResolversTypes["EmailAddress"]>,
-    ParentType,
-    ContextType
-  >;
-  externalId?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  firstName?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  lastName?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type CurrentUserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CurrentUser'] = ResolversParentTypes['CurrentUser']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['EmailAddress']>, ParentType, ContextType>;
+  externalId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface DidScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["DID"], any> {
-  name: "DID";
+export interface DidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DID'], any> {
+  name: 'DID';
 }
 
-export interface DateScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Date"], any> {
-  name: "Date";
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
 }
 
-export interface DateTimeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["DateTime"], any> {
-  name: "DateTime";
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
 }
 
-export interface DurationScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Duration"], any> {
-  name: "Duration";
+export interface DurationScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Duration'], any> {
+  name: 'Duration';
 }
 
-export interface EmailAddressScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["EmailAddress"], any> {
-  name: "EmailAddress";
+export interface EmailAddressScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['EmailAddress'], any> {
+  name: 'EmailAddress';
 }
 
-export interface GuidScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["GUID"], any> {
-  name: "GUID";
-}
-
-export interface HslScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["HSL"], any> {
-  name: "HSL";
-}
-
-export interface HslaScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["HSLA"], any> {
-  name: "HSLA";
-}
-
-export interface HexColorCodeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["HexColorCode"], any> {
-  name: "HexColorCode";
-}
-
-export interface HexadecimalScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Hexadecimal"], any> {
-  name: "Hexadecimal";
-}
-
-export interface IbanScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["IBAN"], any> {
-  name: "IBAN";
-}
-
-export interface IPv4ScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["IPv4"], any> {
-  name: "IPv4";
-}
-
-export interface IPv6ScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["IPv6"], any> {
-  name: "IPv6";
-}
-
-export interface IsbnScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["ISBN"], any> {
-  name: "ISBN";
-}
-
-export interface Iso8601DurationScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["ISO8601Duration"], any> {
-  name: "ISO8601Duration";
-}
-
-export interface JsonScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["JSON"], any> {
-  name: "JSON";
-}
-
-export interface JsonObjectScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["JSONObject"], any> {
-  name: "JSONObject";
-}
-
-export interface JwtScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["JWT"], any> {
-  name: "JWT";
-}
-
-export interface LatitudeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Latitude"], any> {
-  name: "Latitude";
-}
-
-export type ListingDetailsResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["ListingDetails"] = ResolversParentTypes["ListingDetails"]
-> = ResolversObject<{
-  additionalAmenities?: Resolver<
-    Maybe<ResolversTypes["AdditionalAmenities"]>,
-    ParentType,
-    ContextType
-  >;
-  amenities?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  bathrooms?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  bedroomDetails?: Resolver<
-    Maybe<ResolversTypes["BedroomDetails"]>,
-    ParentType,
-    ContextType
-  >;
-  bedrooms?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
-  description?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  floorPlan?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  floorPlanImages?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  images?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  lease?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  listingAgent?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  listingAgentCompany?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  listingAgentCompanyAddress?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  listingAgentCompanyEmail?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  listingAgentCompanyPhone?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  listingAgentCompanyWebsite?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  listingAgentEmail?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  listingAgentPhone?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  listingAgentWebsite?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  maxGuests?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
-  price?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  rentHigh?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  rentLow?: Resolver<Maybe<ResolversTypes["Float"]>, ParentType, ContextType>;
-  squareFeet?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
-  video?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+export type FacetDetailResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FacetDetail'] = ResolversParentTypes['FacetDetail']> = ResolversObject<{
+  count?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface LocalDateScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["LocalDate"], any> {
-  name: "LocalDate";
+export interface GuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['GUID'], any> {
+  name: 'GUID';
 }
 
-export interface LocalEndTimeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["LocalEndTime"], any> {
-  name: "LocalEndTime";
+export interface HslScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['HSL'], any> {
+  name: 'HSL';
 }
 
-export interface LocalTimeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["LocalTime"], any> {
-  name: "LocalTime";
+export interface HslaScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['HSLA'], any> {
+  name: 'HSLA';
 }
 
-export type LocationResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Location"] = ResolversParentTypes["Location"]
-> = ResolversObject<{
-  address?: Resolver<Maybe<ResolversTypes["Address"]>, ParentType, ContextType>;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  position?: Resolver<Maybe<ResolversTypes["Point"]>, ParentType, ContextType>;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export interface HexColorCodeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['HexColorCode'], any> {
+  name: 'HexColorCode';
+}
+
+export interface HexadecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Hexadecimal'], any> {
+  name: 'Hexadecimal';
+}
+
+export interface IbanScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['IBAN'], any> {
+  name: 'IBAN';
+}
+
+export interface IPv4ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['IPv4'], any> {
+  name: 'IPv4';
+}
+
+export interface IPv6ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['IPv6'], any> {
+  name: 'IPv6';
+}
+
+export interface IsbnScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ISBN'], any> {
+  name: 'ISBN';
+}
+
+export interface Iso8601DurationScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ISO8601Duration'], any> {
+  name: 'ISO8601Duration';
+}
+
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
+export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject';
+}
+
+export interface JwtScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JWT'], any> {
+  name: 'JWT';
+}
+
+export interface LatitudeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Latitude'], any> {
+  name: 'Latitude';
+}
+
+export type ListingDetailsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ListingDetails'] = ResolversParentTypes['ListingDetails']> = ResolversObject<{
+  additionalAmenities?: Resolver<Maybe<ResolversTypes['AdditionalAmenities']>, ParentType, ContextType>;
+  amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  bedroomDetails?: Resolver<Maybe<ResolversTypes['BedroomDetails']>, ParentType, ContextType>;
+  bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  floorPlan?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  floorPlanImages?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  lease?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  listingAgent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  listingAgentCompany?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  listingAgentCompanyAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  listingAgentCompanyEmail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  listingAgentCompanyPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  listingAgentCompanyWebsite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  listingAgentEmail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  listingAgentPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  listingAgentWebsite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  maxGuests?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  price?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  rentHigh?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  rentLow?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  squareFeet?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  video?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface LongScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Long"], any> {
-  name: "Long";
+export interface LocalDateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalDate'], any> {
+  name: 'LocalDate';
 }
 
-export interface LongitudeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Longitude"], any> {
-  name: "Longitude";
+export interface LocalEndTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalEndTime'], any> {
+  name: 'LocalEndTime';
 }
 
-export interface MacScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["MAC"], any> {
-  name: "MAC";
+export interface LocalTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalTime'], any> {
+  name: 'LocalTime';
 }
 
-export type MemberResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Member"] = ResolversParentTypes["Member"]
-> = ResolversObject<{
-  accounts?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["MemberAccount"]>>>,
-    ParentType,
-    ContextType
-  >;
-  community?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType
-  >;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  memberName?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  profile?: Resolver<
-    Maybe<ResolversTypes["MemberProfile"]>,
-    ParentType,
-    ContextType
-  >;
-  role?: Resolver<Maybe<ResolversTypes["Role"]>, ParentType, ContextType>;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type LocationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = ResolversObject<{
+  address?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  position?: Resolver<Maybe<ResolversTypes['Point']>, ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MemberAccountResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["MemberAccount"] = ResolversParentTypes["MemberAccount"]
-> = ResolversObject<{
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  createdBy?: Resolver<Maybe<ResolversTypes["User"]>, ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  lastName?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  statusCode?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  user?: Resolver<Maybe<ResolversTypes["User"]>, ParentType, ContextType>;
+export interface LongScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Long'], any> {
+  name: 'Long';
+}
+
+export interface LongitudeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Longitude'], any> {
+  name: 'Longitude';
+}
+
+export interface MacScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['MAC'], any> {
+  name: 'MAC';
+}
+
+export type MemberResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Member'] = ResolversParentTypes['Member']> = ResolversObject<{
+  accounts?: Resolver<Maybe<Array<Maybe<ResolversTypes['MemberAccount']>>>, ParentType, ContextType>;
+  community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  memberName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  profile?: Resolver<Maybe<ResolversTypes['MemberProfile']>, ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type MemberAccountResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MemberAccount'] = ResolversParentTypes['MemberAccount']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  statusCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MemberAvatarImageAuthHeaderResultResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["MemberAvatarImageAuthHeaderResult"] = ResolversParentTypes["MemberAvatarImageAuthHeaderResult"]
+  ParentType extends ResolversParentTypes['MemberAvatarImageAuthHeaderResult'] = ResolversParentTypes['MemberAvatarImageAuthHeaderResult']
 > = ResolversObject<{
-  authHeader?: Resolver<
-    Maybe<ResolversTypes["BlobAuthHeader"]>,
-    ParentType,
-    ContextType
-  >;
-  member?: Resolver<Maybe<ResolversTypes["Member"]>, ParentType, ContextType>;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+  authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
+  member?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MemberMutationResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["MemberMutationResult"] = ResolversParentTypes["MemberMutationResult"]
-> = ResolversObject<{
-  member?: Resolver<Maybe<ResolversTypes["Member"]>, ParentType, ContextType>;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+export type MemberMutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MemberMutationResult'] = ResolversParentTypes['MemberMutationResult']> = ResolversObject<{
+  member?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MemberProfileResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["MemberProfile"] = ResolversParentTypes["MemberProfile"]
-> = ResolversObject<{
-  avatarDocumentId?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  bio?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  email?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  interests?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["String"]>>>,
-    ParentType,
-    ContextType
-  >;
-  name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  showEmail?: Resolver<
-    Maybe<ResolversTypes["Boolean"]>,
-    ParentType,
-    ContextType
-  >;
-  showInterests?: Resolver<
-    Maybe<ResolversTypes["Boolean"]>,
-    ParentType,
-    ContextType
-  >;
-  showLocation?: Resolver<
-    Maybe<ResolversTypes["Boolean"]>,
-    ParentType,
-    ContextType
-  >;
-  showProfile?: Resolver<
-    Maybe<ResolversTypes["Boolean"]>,
-    ParentType,
-    ContextType
-  >;
-  showProperties?: Resolver<
-    Maybe<ResolversTypes["Boolean"]>,
-    ParentType,
-    ContextType
-  >;
+export type MemberProfileResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MemberProfile'] = ResolversParentTypes['MemberProfile']> = ResolversObject<{
+  avatarDocumentId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  interests?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  showEmail?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  showInterests?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  showLocation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  showProfile?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  showProperties?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MongoBaseResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["MongoBase"] = ResolversParentTypes["MongoBase"]
-> = ResolversObject<{
-  __resolveType: TypeResolveFn<
-    | "Community"
-    | "CurrentUser"
-    | "Location"
-    | "Member"
-    | "Point"
-    | "Property"
-    | "Role"
-    | "ServiceTicket"
-    | "User",
-    ParentType,
-    ContextType
-  >;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type MongoBaseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MongoBase'] = ResolversParentTypes['MongoBase']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'Community' | 'CurrentUser' | 'Location' | 'Member' | 'Point' | 'Property' | 'Role' | 'ServiceTicket' | 'User', ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
 }>;
 
-export type MongoEmbeddedBaseResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["MongoEmbeddedBase"] = ResolversParentTypes["MongoEmbeddedBase"]
-> = ResolversObject<{
-  __resolveType: TypeResolveFn<
-    "MemberAccount" | "ServiceTicketActivityDetail" | "ServiceTicketPhoto",
-    ParentType,
-    ContextType
-  >;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type MongoEmbeddedBaseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MongoEmbeddedBase'] = ResolversParentTypes['MongoEmbeddedBase']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'MemberAccount' | 'ServiceTicketActivityDetail' | 'ServiceTicketPhoto', ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
-> = ResolversObject<{
-  _empty?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  communityCreate?: Resolver<
-    Maybe<ResolversTypes["CommunityMutationResult"]>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationCommunityCreateArgs, "input">
-  >;
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  communityCreate?: Resolver<Maybe<ResolversTypes['CommunityMutationResult']>, ParentType, ContextType, RequireFields<MutationCommunityCreateArgs, 'input'>>;
   communityPublicContentCreateAuthHeader?: Resolver<
-    ResolversTypes["CommunityPublicContentAuthHeaderResult"],
+    ResolversTypes['CommunityPublicContentAuthHeaderResult'],
     ParentType,
     ContextType,
-    RequireFields<MutationCommunityPublicContentCreateAuthHeaderArgs, "input">
+    RequireFields<MutationCommunityPublicContentCreateAuthHeaderArgs, 'input'>
   >;
-  communityUpdate?: Resolver<
-    ResolversTypes["CommunityMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCommunityUpdateArgs, "input">
-  >;
-  memberAccountAdd?: Resolver<
-    ResolversTypes["MemberMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberAccountAddArgs, "input">
-  >;
-  memberAccountEdit?: Resolver<
-    ResolversTypes["MemberMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberAccountEditArgs, "input">
-  >;
-  memberAccountRemove?: Resolver<
-    ResolversTypes["MemberMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberAccountRemoveArgs, "input">
-  >;
-  memberCreate?: Resolver<
-    ResolversTypes["MemberMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberCreateArgs, "input">
-  >;
-  memberProfileAvatarCreateAuthHeader?: Resolver<
-    ResolversTypes["MemberAvatarImageAuthHeaderResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberProfileAvatarCreateAuthHeaderArgs, "input">
-  >;
-  memberProfileAvatarRemove?: Resolver<
-    ResolversTypes["MemberMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberProfileAvatarRemoveArgs, "memberId">
-  >;
-  memberProfileUpdate?: Resolver<
-    ResolversTypes["MemberMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberProfileUpdateArgs, "input">
-  >;
-  memberUpdate?: Resolver<
-    ResolversTypes["MemberMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationMemberUpdateArgs, "input">
-  >;
-  propertyAdd?: Resolver<
-    ResolversTypes["PropertyMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationPropertyAddArgs, "input">
-  >;
-  propertyAssignOwner?: Resolver<
-    ResolversTypes["PropertyMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationPropertyAssignOwnerArgs, "input">
-  >;
-  propertyDelete?: Resolver<
-    ResolversTypes["PropertyMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationPropertyDeleteArgs, "input">
-  >;
-  propertyRemoveOwner?: Resolver<
-    ResolversTypes["PropertyMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationPropertyRemoveOwnerArgs, "input">
-  >;
-  propertyUpdate?: Resolver<
-    ResolversTypes["PropertyMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationPropertyUpdateArgs, "input">
-  >;
-  roleAdd?: Resolver<
-    ResolversTypes["RoleMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationRoleAddArgs, "input">
-  >;
-  roleDeleteAndReassign?: Resolver<
-    ResolversTypes["RoleMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationRoleDeleteAndReassignArgs, "input">
-  >;
-  roleUpdate?: Resolver<
-    ResolversTypes["RoleMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationRoleUpdateArgs, "input">
-  >;
-  serviceTicketAddPhoto?: Resolver<
-    ResolversTypes["ServiceTicketPhotoAuthHeaderResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketAddPhotoArgs, "input">
-  >;
-  serviceTicketAddUpdateActivity?: Resolver<
-    ResolversTypes["ServiceTicketMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketAddUpdateActivityArgs, "input">
-  >;
-  serviceTicketAssign?: Resolver<
-    ResolversTypes["ServiceTicketMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketAssignArgs, "input">
-  >;
-  serviceTicketChangeStatus?: Resolver<
-    ResolversTypes["ServiceTicketMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketChangeStatusArgs, "input">
-  >;
-  serviceTicketCreate?: Resolver<
-    ResolversTypes["ServiceTicketMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketCreateArgs, "input">
-  >;
-  serviceTicketDelete?: Resolver<
-    ResolversTypes["ServiceTicketMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketDeleteArgs, "input">
-  >;
-  serviceTicketRemovePhoto?: Resolver<
-    ResolversTypes["ServiceTicketMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketRemovePhotoArgs, "input">
-  >;
-  serviceTicketSubmit?: Resolver<
-    ResolversTypes["ServiceTicketMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketSubmitArgs, "input">
-  >;
-  serviceTicketUpdate?: Resolver<
-    ResolversTypes["ServiceTicketMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationServiceTicketUpdateArgs, "input">
-  >;
-  userCreate?: Resolver<
-    ResolversTypes["UserMutationResult"],
-    ParentType,
-    ContextType
-  >;
-  userUpdate?: Resolver<
-    ResolversTypes["UserMutationResult"],
-    ParentType,
-    ContextType,
-    RequireFields<MutationUserUpdateArgs, "input">
-  >;
+  communityUpdate?: Resolver<ResolversTypes['CommunityMutationResult'], ParentType, ContextType, RequireFields<MutationCommunityUpdateArgs, 'input'>>;
+  memberAccountAdd?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountAddArgs, 'input'>>;
+  memberAccountEdit?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountEditArgs, 'input'>>;
+  memberAccountRemove?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountRemoveArgs, 'input'>>;
+  memberCreate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberCreateArgs, 'input'>>;
+  memberProfileAvatarCreateAuthHeader?: Resolver<ResolversTypes['MemberAvatarImageAuthHeaderResult'], ParentType, ContextType, RequireFields<MutationMemberProfileAvatarCreateAuthHeaderArgs, 'input'>>;
+  memberProfileAvatarRemove?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberProfileAvatarRemoveArgs, 'memberId'>>;
+  memberProfileUpdate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberProfileUpdateArgs, 'input'>>;
+  memberUpdate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberUpdateArgs, 'input'>>;
+  propertyAdd?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAddArgs, 'input'>>;
+  propertyAssignOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAssignOwnerArgs, 'input'>>;
+  propertyDelete?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyDeleteArgs, 'input'>>;
+  propertyRemoveOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyRemoveOwnerArgs, 'input'>>;
+  propertyUpdate?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyUpdateArgs, 'input'>>;
+  roleAdd?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleAddArgs, 'input'>>;
+  roleDeleteAndReassign?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleDeleteAndReassignArgs, 'input'>>;
+  roleUpdate?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleUpdateArgs, 'input'>>;
+  serviceTicketAddPhoto?: Resolver<ResolversTypes['ServiceTicketPhotoAuthHeaderResult'], ParentType, ContextType, RequireFields<MutationServiceTicketAddPhotoArgs, 'input'>>;
+  serviceTicketAddUpdateActivity?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketAddUpdateActivityArgs, 'input'>>;
+  serviceTicketAssign?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketAssignArgs, 'input'>>;
+  serviceTicketChangeStatus?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketChangeStatusArgs, 'input'>>;
+  serviceTicketCreate?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketCreateArgs, 'input'>>;
+  serviceTicketDelete?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketDeleteArgs, 'input'>>;
+  serviceTicketRemovePhoto?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketRemovePhotoArgs, 'input'>>;
+  serviceTicketSubmit?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketSubmitArgs, 'input'>>;
+  serviceTicketUpdate?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketUpdateArgs, 'input'>>;
+  userCreate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType>;
+  userUpdate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType, RequireFields<MutationUserUpdateArgs, 'input'>>;
 }>;
 
-export type MutationResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["MutationResult"] = ResolversParentTypes["MutationResult"]
-> = ResolversObject<{
-  __resolveType: TypeResolveFn<
-    | "MemberMutationResult"
-    | "ServiceTicketPhotoAuthHeaderResult"
-    | "UserMutationResult",
-    ParentType,
-    ContextType
-  >;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+export type MutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MutationResult'] = ResolversParentTypes['MutationResult']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'MemberMutationResult' | 'ServiceTicketPhotoAuthHeaderResult' | 'UserMutationResult', ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
 }>;
 
-export type MutationStatusResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["MutationStatus"] = ResolversParentTypes["MutationStatus"]
-> = ResolversObject<{
-  errorMessage?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+export type MutationStatusResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MutationStatus'] = ResolversParentTypes['MutationStatus']> = ResolversObject<{
+  errorMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface NegativeFloatScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["NegativeFloat"], any> {
-  name: "NegativeFloat";
+export interface NegativeFloatScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NegativeFloat'], any> {
+  name: 'NegativeFloat';
 }
 
-export interface NegativeIntScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["NegativeInt"], any> {
-  name: "NegativeInt";
+export interface NegativeIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NegativeInt'], any> {
+  name: 'NegativeInt';
 }
 
-export interface NonEmptyStringScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["NonEmptyString"], any> {
-  name: "NonEmptyString";
+export interface NonEmptyStringScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NonEmptyString'], any> {
+  name: 'NonEmptyString';
 }
 
-export interface NonNegativeFloatScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["NonNegativeFloat"], any> {
-  name: "NonNegativeFloat";
+export interface NonNegativeFloatScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NonNegativeFloat'], any> {
+  name: 'NonNegativeFloat';
 }
 
-export interface NonNegativeIntScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["NonNegativeInt"], any> {
-  name: "NonNegativeInt";
+export interface NonNegativeIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NonNegativeInt'], any> {
+  name: 'NonNegativeInt';
 }
 
-export interface NonPositiveFloatScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["NonPositiveFloat"], any> {
-  name: "NonPositiveFloat";
+export interface NonPositiveFloatScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NonPositiveFloat'], any> {
+  name: 'NonPositiveFloat';
 }
 
-export interface NonPositiveIntScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["NonPositiveInt"], any> {
-  name: "NonPositiveInt";
+export interface NonPositiveIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['NonPositiveInt'], any> {
+  name: 'NonPositiveInt';
 }
 
-export interface ObjectIdScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["ObjectID"], any> {
-  name: "ObjectID";
+export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ObjectID'], any> {
+  name: 'ObjectID';
 }
 
-export interface PhoneNumberScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["PhoneNumber"], any> {
-  name: "PhoneNumber";
+export interface PhoneNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PhoneNumber'], any> {
+  name: 'PhoneNumber';
 }
 
-export type PointResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Point"] = ResolversParentTypes["Point"]
-> = ResolversObject<{
-  coordinates?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Float"]>>>,
-    ParentType,
-    ContextType
-  >;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  type?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type PointResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Point'] = ResolversParentTypes['Point']> = ResolversObject<{
+  coordinates?: Resolver<Maybe<Array<Maybe<ResolversTypes['Float']>>>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface PortScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Port"], any> {
-  name: "Port";
+export interface PortScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Port'], any> {
+  name: 'Port';
 }
 
-export interface PositiveFloatScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["PositiveFloat"], any> {
-  name: "PositiveFloat";
+export interface PositiveFloatScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PositiveFloat'], any> {
+  name: 'PositiveFloat';
 }
 
-export interface PositiveIntScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["PositiveInt"], any> {
-  name: "PositiveInt";
+export interface PositiveIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PositiveInt'], any> {
+  name: 'PositiveInt';
 }
 
-export interface PostalCodeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["PostalCode"], any> {
-  name: "PostalCode";
+export interface PostalCodeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PostalCode'], any> {
+  name: 'PostalCode';
 }
 
-export type PropertyResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Property"] = ResolversParentTypes["Property"]
-> = ResolversObject<{
-  community?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType
-  >;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  listedForLease?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  listedForRent?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  listedForSale?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  listedInDirectory?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  listingDetail?: Resolver<
-    Maybe<ResolversTypes["ListingDetails"]>,
-    ParentType,
-    ContextType
-  >;
-  location?: Resolver<
-    Maybe<ResolversTypes["Location"]>,
-    ParentType,
-    ContextType
-  >;
-  owner?: Resolver<Maybe<ResolversTypes["Member"]>, ParentType, ContextType>;
-  propertyName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  propertyType?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type PropertyResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Property'] = ResolversParentTypes['Property']> = ResolversObject<{
+  community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  listedForLease?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  listedForRent?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  listedForSale?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  listedInDirectory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  listingDetail?: Resolver<Maybe<ResolversTypes['ListingDetails']>, ParentType, ContextType>;
+  location?: Resolver<Maybe<ResolversTypes['Location']>, ParentType, ContextType>;
+  owner?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  propertyName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  propertyType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type PropertyMutationResultResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["PropertyMutationResult"] = ResolversParentTypes["PropertyMutationResult"]
+  ParentType extends ResolversParentTypes['PropertyMutationResult'] = ResolversParentTypes['PropertyMutationResult']
 > = ResolversObject<{
-  property?: Resolver<
-    Maybe<ResolversTypes["Property"]>,
-    ParentType,
-    ContextType
-  >;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+  property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type PropertyPermissionsResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["PropertyPermissions"] = ResolversParentTypes["PropertyPermissions"]
-> = ResolversObject<{
-  canEditOwnProperty?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canManageProperties?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
+export type PropertyPermissionsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertyPermissions'] = ResolversParentTypes['PropertyPermissions']> = ResolversObject<{
+  canEditOwnProperty?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canManageProperties?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type QueryResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
-> = ResolversObject<{
-  _empty?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  communities?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Community"]>>>,
-    ParentType,
-    ContextType
-  >;
-  community?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType
-  >;
-  communityByDomain?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryCommunityByDomainArgs, "domain">
-  >;
-  communityByHandle?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryCommunityByHandleArgs, "handle">
-  >;
-  communityById?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryCommunityByIdArgs, "id">
-  >;
-  member?: Resolver<
-    Maybe<ResolversTypes["Member"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryMemberArgs, "id">
-  >;
-  memberForCurrentUser?: Resolver<
-    Maybe<ResolversTypes["Member"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryMemberForCurrentUserArgs, "communityId">
-  >;
-  memberForUser?: Resolver<
-    Maybe<ResolversTypes["Member"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryMemberForUserArgs, "userId">
-  >;
-  members?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
-    ParentType,
-    ContextType
-  >;
-  membersAssignableToTickets?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
-    ParentType,
-    ContextType
-  >;
-  membersByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Member"]>>>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryMembersByCommunityIdArgs, "communityId">
-  >;
-  properties?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Property"]>>>,
-    ParentType,
-    ContextType
-  >;
-  propertiesByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Property"]>>>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryPropertiesByCommunityIdArgs, "communityId">
-  >;
+export type PropertySearchFacetsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertySearchFacets'] = ResolversParentTypes['PropertySearchFacets']> = ResolversObject<{
+  primaryCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PropertySearchResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertySearchResult'] = ResolversParentTypes['PropertySearchResult']> = ResolversObject<{
+  facets?: Resolver<Maybe<ResolversTypes['PropertySearchFacets']>, ParentType, ContextType>;
+  propertyResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
+  total?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  communities?: Resolver<Maybe<Array<Maybe<ResolversTypes['Community']>>>, ParentType, ContextType>;
+  community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
+  communityByDomain?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByDomainArgs, 'domain'>>;
+  communityByHandle?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByHandleArgs, 'handle'>>;
+  communityById?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByIdArgs, 'id'>>;
+  member?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberArgs, 'id'>>;
+  memberForCurrentUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberForCurrentUserArgs, 'communityId'>>;
+  memberForUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberForUserArgs, 'userId'>>;
+  members?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
+  membersAssignableToTickets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
+  membersByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType, RequireFields<QueryMembersByCommunityIdArgs, 'communityId'>>;
+  properties?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
+  propertiesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType, RequireFields<QueryPropertiesByCommunityIdArgs, 'communityId'>>;
   propertiesForCurrentUserByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Property"]>>>,
+    Maybe<Array<Maybe<ResolversTypes['Property']>>>,
     ParentType,
     ContextType,
-    RequireFields<QueryPropertiesForCurrentUserByCommunityIdArgs, "communityId">
+    RequireFields<QueryPropertiesForCurrentUserByCommunityIdArgs, 'communityId'>
   >;
-  property?: Resolver<
-    Maybe<ResolversTypes["Property"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryPropertyArgs, "id">
-  >;
-  role?: Resolver<
-    Maybe<ResolversTypes["Role"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryRoleArgs, "id">
-  >;
-  roles?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Role"]>>>,
-    ParentType,
-    ContextType
-  >;
-  rolesByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Role"]>>>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryRolesByCommunityIdArgs, "communityId">
-  >;
-  serviceTicket?: Resolver<
-    Maybe<ResolversTypes["ServiceTicket"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryServiceTicketArgs, "id">
-  >;
-  serviceTicketsAssignedToCurrentUser?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
-    ParentType,
-    ContextType
-  >;
-  serviceTicketsByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryServiceTicketsByCommunityIdArgs, "communityId">
-  >;
-  serviceTicketsClosedByRequestor?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
-    ParentType,
-    ContextType
-  >;
-  serviceTicketsOpenByCommunity?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
-    ParentType,
-    ContextType
-  >;
-  serviceTicketsOpenByRequestor?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ServiceTicket"]>>>,
-    ParentType,
-    ContextType
-  >;
-  user?: Resolver<
-    Maybe<ResolversTypes["User"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryUserArgs, "id">
-  >;
-  userCurrent?: Resolver<
-    Maybe<ResolversTypes["CurrentUser"]>,
-    ParentType,
-    ContextType
-  >;
-  users?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["User"]>>>,
-    ParentType,
-    ContextType
-  >;
+  propertiesSearch?: Resolver<Maybe<ResolversTypes['PropertySearchResult']>, ParentType, ContextType, RequireFields<QueryPropertiesSearchArgs, 'input'>>;
+  property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType, RequireFields<QueryPropertyArgs, 'id'>>;
+  role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;
+  roles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType>;
+  rolesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType, RequireFields<QueryRolesByCommunityIdArgs, 'communityId'>>;
+  serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType, RequireFields<QueryServiceTicketArgs, 'id'>>;
+  serviceTicketsAssignedToCurrentUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
+  serviceTicketsByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType, RequireFields<QueryServiceTicketsByCommunityIdArgs, 'communityId'>>;
+  serviceTicketsClosedByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
+  serviceTicketsOpenByCommunity?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
+  serviceTicketsOpenByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  userCurrent?: Resolver<Maybe<ResolversTypes['CurrentUser']>, ParentType, ContextType>;
+  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 }>;
 
-export interface RgbScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["RGB"], any> {
-  name: "RGB";
+export interface RgbScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['RGB'], any> {
+  name: 'RGB';
 }
 
-export interface RgbaScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["RGBA"], any> {
-  name: "RGBA";
+export interface RgbaScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['RGBA'], any> {
+  name: 'RGBA';
 }
 
-export type RoleResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["Role"] = ResolversParentTypes["Role"]
-> = ResolversObject<{
-  community?: Resolver<
-    Maybe<ResolversTypes["Community"]>,
-    ParentType,
-    ContextType
-  >;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  isDefault?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  permissions?: Resolver<
-    ResolversTypes["RolePermissions"],
-    ParentType,
-    ContextType
-  >;
-  roleName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type RoleResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Role'] = ResolversParentTypes['Role']> = ResolversObject<{
+  community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  isDefault?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  permissions?: Resolver<ResolversTypes['RolePermissions'], ParentType, ContextType>;
+  roleName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RoleMutationResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["RoleMutationResult"] = ResolversParentTypes["RoleMutationResult"]
-> = ResolversObject<{
-  role?: Resolver<Maybe<ResolversTypes["Role"]>, ParentType, ContextType>;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+export type RoleMutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RoleMutationResult'] = ResolversParentTypes['RoleMutationResult']> = ResolversObject<{
+  role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RolePermissionsResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["RolePermissions"] = ResolversParentTypes["RolePermissions"]
-> = ResolversObject<{
-  communityPermissions?: Resolver<
-    ResolversTypes["CommunityPermissions"],
-    ParentType,
-    ContextType
-  >;
-  propertyPermissions?: Resolver<
-    ResolversTypes["PropertyPermissions"],
-    ParentType,
-    ContextType
-  >;
-  serviceTicketPermissions?: Resolver<
-    ResolversTypes["ServiceTicketPermissions"],
-    ParentType,
-    ContextType
-  >;
+export type RolePermissionsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RolePermissions'] = ResolversParentTypes['RolePermissions']> = ResolversObject<{
+  communityPermissions?: Resolver<ResolversTypes['CommunityPermissions'], ParentType, ContextType>;
+  propertyPermissions?: Resolver<ResolversTypes['PropertyPermissions'], ParentType, ContextType>;
+  serviceTicketPermissions?: Resolver<ResolversTypes['ServiceTicketPermissions'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface SafeIntScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["SafeInt"], any> {
-  name: "SafeInt";
+export interface SafeIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['SafeInt'], any> {
+  name: 'SafeInt';
 }
 
-export type ServiceTicketResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["ServiceTicket"] = ResolversParentTypes["ServiceTicket"]
-> = ResolversObject<{
-  activityLog?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ServiceTicketActivityDetail"]>>>,
-    ParentType,
-    ContextType
-  >;
-  assignedTo?: Resolver<
-    Maybe<ResolversTypes["Member"]>,
-    ParentType,
-    ContextType
-  >;
-  community?: Resolver<ResolversTypes["Community"], ParentType, ContextType>;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  description?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  photos?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["ServiceTicketPhoto"]>>>,
-    ParentType,
-    ContextType
-  >;
-  priority?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
-  property?: Resolver<
-    Maybe<ResolversTypes["Property"]>,
-    ParentType,
-    ContextType
-  >;
-  requestor?: Resolver<ResolversTypes["Member"], ParentType, ContextType>;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  status?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type ServiceTicketResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicket'] = ResolversParentTypes['ServiceTicket']> = ResolversObject<{
+  activityLog?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketActivityDetail']>>>, ParentType, ContextType>;
+  assignedTo?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  community?: Resolver<ResolversTypes['Community'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  photos?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketPhoto']>>>, ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
+  requestor?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ServiceTicketActivityDetailResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["ServiceTicketActivityDetail"] = ResolversParentTypes["ServiceTicketActivityDetail"]
+  ParentType extends ResolversParentTypes['ServiceTicketActivityDetail'] = ResolversParentTypes['ServiceTicketActivityDetail']
 > = ResolversObject<{
-  activityBy?: Resolver<ResolversTypes["Member"], ParentType, ContextType>;
-  activityDescription?: Resolver<
-    ResolversTypes["String"],
-    ParentType,
-    ContextType
-  >;
-  activityType?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+  activityBy?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
+  activityDescription?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  activityType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ServiceTicketMutationResultResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["ServiceTicketMutationResult"] = ResolversParentTypes["ServiceTicketMutationResult"]
+  ParentType extends ResolversParentTypes['ServiceTicketMutationResult'] = ResolversParentTypes['ServiceTicketMutationResult']
 > = ResolversObject<{
-  serviceTicket?: Resolver<
-    Maybe<ResolversTypes["ServiceTicket"]>,
-    ParentType,
-    ContextType
-  >;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+  serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ServiceTicketPermissionsResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["ServiceTicketPermissions"] = ResolversParentTypes["ServiceTicketPermissions"]
+  ParentType extends ResolversParentTypes['ServiceTicketPermissions'] = ResolversParentTypes['ServiceTicketPermissions']
 > = ResolversObject<{
-  canAssignTickets?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canCreateTickets?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canManageTickets?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
-  canWorkOnTickets?: Resolver<
-    ResolversTypes["Boolean"],
-    ParentType,
-    ContextType
-  >;
+  canAssignTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canCreateTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canManageTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canWorkOnTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ServiceTicketPhotoResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["ServiceTicketPhoto"] = ResolversParentTypes["ServiceTicketPhoto"]
-> = ResolversObject<{
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  description?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  documentId?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type ServiceTicketPhotoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketPhoto'] = ResolversParentTypes['ServiceTicketPhoto']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  documentId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ServiceTicketPhotoAuthHeaderResultResolvers<
   ContextType = Context,
-  ParentType extends ResolversParentTypes["ServiceTicketPhotoAuthHeaderResult"] = ResolversParentTypes["ServiceTicketPhotoAuthHeaderResult"]
+  ParentType extends ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult'] = ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult']
 > = ResolversObject<{
-  authHeader?: Resolver<
-    Maybe<ResolversTypes["BlobAuthHeader"]>,
-    ParentType,
-    ContextType
-  >;
-  serviceTicket?: Resolver<
-    Maybe<ResolversTypes["ServiceTicket"]>,
-    ParentType,
-    ContextType
-  >;
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
+  authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
+  serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface TimeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Time"], any> {
-  name: "Time";
+export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
+  name: 'Time';
 }
 
-export interface TimestampScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Timestamp"], any> {
-  name: "Timestamp";
+export interface TimestampScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Timestamp'], any> {
+  name: 'Timestamp';
 }
 
-export interface UrlScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["URL"], any> {
-  name: "URL";
+export interface UrlScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['URL'], any> {
+  name: 'URL';
 }
 
-export interface UsCurrencyScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["USCurrency"], any> {
-  name: "USCurrency";
+export interface UsCurrencyScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['USCurrency'], any> {
+  name: 'USCurrency';
 }
 
-export interface UuidScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["UUID"], any> {
-  name: "UUID";
+export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UUID'], any> {
+  name: 'UUID';
 }
 
-export interface UnsignedFloatScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["UnsignedFloat"], any> {
-  name: "UnsignedFloat";
+export interface UnsignedFloatScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UnsignedFloat'], any> {
+  name: 'UnsignedFloat';
 }
 
-export interface UnsignedIntScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["UnsignedInt"], any> {
-  name: "UnsignedInt";
+export interface UnsignedIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UnsignedInt'], any> {
+  name: 'UnsignedInt';
 }
 
-export type UserResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
-> = ResolversObject<{
-  createdAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  email?: Resolver<
-    Maybe<ResolversTypes["EmailAddress"]>,
-    ParentType,
-    ContextType
-  >;
-  externalId?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  firstName?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  id?: Resolver<ResolversTypes["ObjectID"], ParentType, ContextType>;
-  lastName?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  schemaVersion?: Resolver<
-    Maybe<ResolversTypes["String"]>,
-    ParentType,
-    ContextType
-  >;
-  updatedAt?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['EmailAddress']>, ParentType, ContextType>;
+  externalId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserMutationResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes["UserMutationResult"] = ResolversParentTypes["UserMutationResult"]
-> = ResolversObject<{
-  status?: Resolver<ResolversTypes["MutationStatus"], ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes["User"]>, ParentType, ContextType>;
+export type UserMutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UserMutationResult'] = ResolversParentTypes['UserMutationResult']> = ResolversObject<{
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface UtcOffsetScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["UtcOffset"], any> {
-  name: "UtcOffset";
+export interface UtcOffsetScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UtcOffset'], any> {
+  name: 'UtcOffset';
 }
 
-export interface VoidScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Void"], any> {
-  name: "Void";
+export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
+  name: 'Void';
 }
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
@@ -3058,6 +2087,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   DateTime?: GraphQLScalarType;
   Duration?: GraphQLScalarType;
   EmailAddress?: GraphQLScalarType;
+  FacetDetail?: FacetDetailResolvers<ContextType>;
   GUID?: GraphQLScalarType;
   HSL?: GraphQLScalarType;
   HSLA?: GraphQLScalarType;
@@ -3107,6 +2137,8 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Property?: PropertyResolvers<ContextType>;
   PropertyMutationResult?: PropertyMutationResultResolvers<ContextType>;
   PropertyPermissions?: PropertyPermissionsResolvers<ContextType>;
+  PropertySearchFacets?: PropertySearchFacetsResolvers<ContextType>;
+  PropertySearchResult?: PropertySearchResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RGB?: GraphQLScalarType;
   RGBA?: GraphQLScalarType;

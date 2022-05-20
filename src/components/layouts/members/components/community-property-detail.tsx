@@ -1,8 +1,19 @@
-import { Image, Typography, Space, Divider } from 'antd';
-import { TextComponent } from '../../../editor/components';
+import { Typography, Space, Divider, Modal, Button } from 'antd';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 const { Title, Text  } = Typography;
 
 export const CommunityPropertyDetail: React.FC<any> = (props) => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const showModal = () => {
+      setIsModalVisible(true);
+    };
+  
+    const handleCancel = () => {
+      setIsModalVisible(false);
+    };
+
     console.log(props.data.property)
 
     const generateMarketData = () => {
@@ -27,12 +38,6 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 </Title>
 
                 }
-
-               
-
-
-
-                
             </Space>
         )
     }
@@ -43,13 +48,39 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             <Space direction='vertical'>
                 <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Agent Details</Title></Divider>
                 <Space>
-                    {props.data.property.listingDetail.listingAgent}
-                    <Text italic style={{color: 'gray'}}>{props.data.property.listingDetail.listingAgentCompany}</Text>
+                    {props.data.property.listingDetail.listingAgent ? props.data.property.listingDetail.listingAgent : <></>}
+                    {props.data.property.listingDetail.listingAgentCompany ? 
+                        <Button type='link' onClick={showModal}><Text italic  style={{color: 'gray'}}>{props.data.property.listingDetail.listingAgentCompany}</Text></Button> : <></>
+                    }
                 </Space>
-                {props.data.property.listingDetail.listingAgentEmail}
-                {props.data.property.listingDetail.listingAgentPhone}
-                {props.data.property.listingDetail.listingAgentWebsite}
+                {props.data.property.listingDetail.listingAgentEmail ? <a href={`mailto:${props.data.property.listingDetail.listingAgentEmail}`}>{props.data.property.listingDetail.listingAgentEmail}</a> : <></>}
+                {props.data.property.listingDetail.listingAgentPhone ? 
+                    <a href={`tel:${props.data.property.listingDetail.listingAgentPhone}`}>{props.data.property.listingDetail.listingAgentPhone}</a> : 
+                    <></>
+                }
+                {props.data.property.listingDetail.listingAgentWebsite ?
+                    <Link to={props.data.property.listingDetail.listingAgentWebsite}>{props.data.property.listingDetail.listingAgentWebsite}</Link> :
+                    <></>
+                }
+                {props.data.property.listingDetail.listingAgentCompany ? <Modal visible={isModalVisible} onCancel={handleCancel} title={"Company Details"} footer={null}>
+                    <Space direction='vertical'>
+                        <Title level={3}>{props.data.property.listingDetail.listingAgentCompany}</Title>
+                        {props.data.property.listingDetail.listingAgentCompanyAddress ? props.data.property.listingDetail.listingAgentCompanyAddress : <></>}
+                        {props.data.property.listingDetail.listingAgentCompanyEmail ? <a href={`mailto:${props.data.property.listingDetail.listingAgentCompanyEmail}`}>{props.data.property.listingDetail.listingAgentCompanyEmail}</a> : <></>}
+                        {props.data.property.listingDetail.listingAgentCompanyPhone ? 
+                            <a href={`tel:${props.data.property.listingDetail.listingAgentCompanyPhone}`}>{props.data.property.listingDetail.listingAgentCompanyPhone}</a> : 
+                            <></>
+                        }
+                        {props.data.property.listingDetail.listingAgentCompanyWebsite ?
+                            <Link to={props.data.property.listingDetail.listingAgentCompanyWebsite}>{props.data.property.listingDetail.listingAgentCompanyWebsite}</Link> :
+                            <></>
+                        }
+                    </Space>
+                </Modal> : 
+                <></>
+                }
             </Space>
+
         )
     }
 

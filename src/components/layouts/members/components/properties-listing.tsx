@@ -37,19 +37,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           setFormLoading(false);
         }}
         >
-        {/* <Form.Item 
-          name={['location', 'address', 'streetName']}
-          label="Street Name"
-        >
-          <Input placeholder='Street Name'/>
-        </Form.Item>
-        <Form.Item 
-          name={['location', 'address', 'streetNumber']}
-          label="Street Number"
-        >
-          <InputNumber placeholder='Street Number'/>
-        </Form.Item> */}
-        
         <Form.Item
           name={['listingDetail','price']}
           label="Price"

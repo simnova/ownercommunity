@@ -640,13 +640,10 @@ export type PointInput = {
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
-<<<<<<< HEAD
 export type PropertiesSearchInput = {
   searchString?: InputMaybe<Scalars['String']>;
 };
 
-=======
->>>>>>> origin/main
 export type Property = MongoBase & {
   __typename?: 'Property';
   community?: Maybe<Community>;
@@ -748,10 +745,7 @@ export type Query = {
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
-<<<<<<< HEAD
   propertiesSearch?: Maybe<PropertySearchResult>;
-=======
->>>>>>> origin/main
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -813,14 +807,11 @@ export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-<<<<<<< HEAD
 export type QueryPropertiesSearchArgs = {
   input: PropertiesSearchInput;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-=======
->>>>>>> origin/main
 export type QueryPropertyArgs = {
   id: Scalars['ObjectID'];
 };
@@ -2711,42 +2702,9 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
-<<<<<<< HEAD
-export type AdminCommunitiesDropdownContainerCommunityQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-export type AdminCommunitiesDropdownContainerCommunityQuery = {
-  __typename?: 'Query';
-  communityById?: {
-    __typename?: 'Community';
-    name?: string | null;
-    domain?: string | null;
-    whiteLabelDomain?: string | null;
-    handle?: string | null;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  } | null;
-};
-
-export type AdminCommunitiesDropdownContainerCommunityFieldsFragment = {
-  __typename?: 'Community';
-  name?: string | null;
-  domain?: string | null;
-  whiteLabelDomain?: string | null;
-  handle?: string | null;
-  id: any;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-};
-
-export type LoggedInUserContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
-=======
 export type MemberPropertiesByCommunityIdQueryVariables = Exact<{
   communityId: Scalars['ID'];
 }>;
->>>>>>> origin/main
 
 export type MemberPropertiesByCommunityIdQuery = {
   __typename?: 'Query';
@@ -5491,10 +5449,6 @@ export const MembersPropertiesDetailContainerPropertyFieldsFragmentDoc = {
       }
     }
   ]
-<<<<<<< HEAD
-} as unknown as DocumentNode<CommunityListContainerCommunitiesFieldsFragment, unknown>;
-export const AdminCommunityDetailContainerCommunityFieldsFragmentDoc = {
-=======
 } as unknown as DocumentNode<MembersPropertiesDetailContainerPropertyFieldsFragment, unknown>;
 export const MembersPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc = {
   kind: 'Document',
@@ -5559,7 +5513,6 @@ export const MembersPropertiesDetailContainerMembersFieldsFragmentDoc = {
   ]
 } as unknown as DocumentNode<MembersPropertiesDetailContainerMembersFieldsFragment, unknown>;
 export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
->>>>>>> origin/main
   kind: 'Document',
   definitions: [
     {
@@ -7240,38 +7193,11 @@ export const AdminPropertiesDetailContainerMembersDocument = {
     },
     ...AdminPropertiesDetailContainerMembersFieldsFragmentDoc.definitions
   ]
-<<<<<<< HEAD
-} as unknown as DocumentNode<AdminSiteEditorContainerCommunityFieldsFragment, unknown>;
-export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunityFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<AdminCommunitiesDropdownContainerCommunityFieldsFragment, unknown>;
-export const LoggedInUserContainerUserCurrentFieldsFragmentDoc = {
-=======
 } as unknown as DocumentNode<
   AdminPropertiesDetailContainerMembersQuery,
   AdminPropertiesDetailContainerMembersQueryVariables
 >;
 export const AdminPropertiesDetailContainerPropertyUpdateDocument = {
->>>>>>> origin/main
   kind: 'Document',
   definitions: [
     {
@@ -7424,9 +7350,6 @@ export const AdminPropertiesListContainerPropertiesDocument = {
   AdminPropertiesListContainerPropertiesQuery,
   AdminPropertiesListContainerPropertiesQueryVariables
 >;
-<<<<<<< HEAD
-export const AdminCommunityDetailContainerCommunityDocument = {
-=======
 export const AdminRolesDeleteContainerRolesDocument = {
   kind: 'Document',
   definitions: [
@@ -7558,7 +7481,6 @@ export const AdminRolesDetailContainerRoleDocument = {
   AdminRolesDetailContainerRoleQueryVariables
 >;
 export const AdminRolesDetailContainerRoleAddDocument = {
->>>>>>> origin/main
   kind: 'Document',
   definitions: [
     {
@@ -9876,55 +9798,6 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
 } as unknown as DocumentNode<
   MemberSiteCurrentMemberHasAdminRoleQuery,
   MemberSiteCurrentMemberHasAdminRoleQueryVariables
->;
-export const AdminCommunitiesDropdownContainerCommunityDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunity' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'communityById' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunityFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    ...AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc.definitions
-  ]
-} as unknown as DocumentNode<
-  AdminCommunitiesDropdownContainerCommunityQuery,
-  AdminCommunitiesDropdownContainerCommunityQueryVariables
 >;
 export const AdminCommunitiesDropdownContainerCommunityDocument = {
   kind: 'Document',

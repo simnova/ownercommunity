@@ -1,0 +1,40 @@
+query MembersPropertiesListContainerProperties($communityId: ID!) {
+  propertiesForCurrentUserByCommunityId(communityId: $communityId) {
+    ...MembersPropertiesListContainerPropertyFields
+  }
+}
+
+query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInput!) {
+  propertiesSearch(input: $input) {
+    ...MemberPropertiesListSearchContainerPropertyFields
+  }
+}
+
+fragment MembersPropertiesListContainerPropertyFields on Property {
+  propertyName
+  propertyType
+  owner {
+    memberName
+  }
+
+  id
+  createdAt
+  updatedAt
+}
+
+fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResult {
+  propertyResults {
+    ...MembersPropertiesListContainerPropertyFields
+  }
+  total
+  facets {
+    tags {
+      value
+      count
+    }
+    primaryCategory {
+      value
+      count
+    }
+  }
+}

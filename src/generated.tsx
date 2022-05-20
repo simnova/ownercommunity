@@ -213,6 +213,12 @@ export type CurrentUser = MongoBase & {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type FacetDetail = {
+  __typename?: 'FacetDetail';
+  count?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['String']>;
+};
+
 export type ListingDetails = {
   __typename?: 'ListingDetails';
   additionalAmenities?: Maybe<AdditionalAmenities>;
@@ -634,6 +640,10 @@ export type PointInput = {
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
+export type PropertiesSearchInput = {
+  searchString?: InputMaybe<Scalars['String']>;
+};
+
 export type Property = MongoBase & {
   __typename?: 'Property';
   community?: Maybe<Community>;
@@ -690,6 +700,19 @@ export type PropertyRemoveOwnerInput = {
   id: Scalars['ObjectID'];
 };
 
+export type PropertySearchFacets = {
+  __typename?: 'PropertySearchFacets';
+  primaryCategory?: Maybe<Array<Maybe<FacetDetail>>>;
+  tags?: Maybe<Array<Maybe<FacetDetail>>>;
+};
+
+export type PropertySearchResult = {
+  __typename?: 'PropertySearchResult';
+  facets?: Maybe<PropertySearchFacets>;
+  propertyResults?: Maybe<Array<Maybe<Property>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
 export type PropertyUpdateInput = {
   id: Scalars['ObjectID'];
   listedForLease?: InputMaybe<Scalars['Boolean']>;
@@ -722,6 +745,7 @@ export type Query = {
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesSearch?: Maybe<PropertySearchResult>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -780,6 +804,11 @@ export type QueryPropertiesByCommunityIdArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
   communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesSearchArgs = {
+  input: PropertiesSearchInput;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -3193,6 +3222,67 @@ export type MembersPropertiesListContainerPropertyFieldsFragment = {
   createdAt?: any | null;
   updatedAt?: any | null;
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+};
+
+export type MemberPropertiesListSearchContainerPropertiesQueryVariables = Exact<{
+  input: PropertiesSearchInput;
+}>;
+
+export type MemberPropertiesListSearchContainerPropertiesQuery = {
+  __typename?: 'Query';
+  propertiesSearch?: {
+    __typename?: 'PropertySearchResult';
+    total?: number | null;
+    propertyResults?: Array<{
+      __typename?: 'Property';
+      propertyName: string;
+      propertyType?: string | null;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+    } | null> | null;
+    facets?: {
+      __typename?: 'PropertySearchFacets';
+      tags?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      primaryCategory?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+    } | null;
+  } | null;
+};
+
+export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
+  __typename?: 'PropertySearchResult';
+  total?: number | null;
+  propertyResults?: Array<{
+    __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+  } | null> | null;
+  facets?: {
+    __typename?: 'PropertySearchFacets';
+    tags?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    primaryCategory?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+  } | null;
 };
 
 export type MembersPropertiesListingContainerPropertyQueryVariables = Exact<{
@@ -5720,6 +5810,67 @@ export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersPropertiesListContainerPropertyFieldsFragment, unknown>;
+export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberPropertiesListSearchContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertySearchResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyResults' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesListContainerPropertyFields' }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'total' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'facets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tags' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'primaryCategory' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesListContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<MemberPropertiesListSearchContainerPropertyFieldsFragment, unknown>;
 export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -9275,6 +9426,55 @@ export const MembersPropertiesListContainerPropertiesDocument = {
 } as unknown as DocumentNode<
   MembersPropertiesListContainerPropertiesQuery,
   MembersPropertiesListContainerPropertiesQueryVariables
+>;
+export const MemberPropertiesListSearchContainerPropertiesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberPropertiesListSearchContainerProperties' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertiesSearchInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertiesSearch' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MemberPropertiesListSearchContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MemberPropertiesListSearchContainerPropertiesQuery,
+  MemberPropertiesListSearchContainerPropertiesQueryVariables
 >;
 export const MembersPropertiesListingContainerPropertyDocument = {
   kind: 'Document',

@@ -72,6 +72,11 @@ export type AdditionalAmenities = {
   category?: Maybe<Scalars['String']>;
 };
 
+export type AdditionalAmenitiesInput = {
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  category?: InputMaybe<Scalars['String']>;
+};
+
 export type Address = {
   __typename?: 'Address';
   country?: Maybe<Scalars['String']>;
@@ -90,10 +95,32 @@ export type Address = {
   streetNumber?: Maybe<Scalars['String']>;
 };
 
+export type AddressInput = {
+  country?: InputMaybe<Scalars['String']>;
+  countryCode?: InputMaybe<Scalars['String']>;
+  countryCodeISO3?: InputMaybe<Scalars['String']>;
+  countrySecondarySubdivision?: InputMaybe<Scalars['String']>;
+  countrySubdivision?: InputMaybe<Scalars['String']>;
+  countrySubdivisionName?: InputMaybe<Scalars['String']>;
+  countryTertiarySubdivision?: InputMaybe<Scalars['String']>;
+  extendedPostalCode?: InputMaybe<Scalars['String']>;
+  freeformAddress?: InputMaybe<Scalars['String']>;
+  municipality?: InputMaybe<Scalars['String']>;
+  municipalitySubdivision?: InputMaybe<Scalars['String']>;
+  postalCode?: InputMaybe<Scalars['String']>;
+  streetName?: InputMaybe<Scalars['String']>;
+  streetNumber?: InputMaybe<Scalars['String']>;
+};
+
 export type BedroomDetails = {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
   roomName?: Maybe<Scalars['String']>;
+};
+
+export type BedroomDetailsInput = {
+  bedDescriptions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  roomName?: InputMaybe<Scalars['String']>;
 };
 
 export type BlobAuthHeader = {
@@ -186,6 +213,12 @@ export type CurrentUser = MongoBase & {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type FacetDetail = {
+  __typename?: 'FacetDetail';
+  count?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['String']>;
+};
+
 export type ListingDetails = {
   __typename?: 'ListingDetails';
   additionalAmenities?: Maybe<AdditionalAmenities>;
@@ -215,6 +248,34 @@ export type ListingDetails = {
   video?: Maybe<Scalars['String']>;
 };
 
+export type ListingDetailsInput = {
+  additionalAmenities?: InputMaybe<AdditionalAmenitiesInput>;
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bathrooms?: InputMaybe<Scalars['Float']>;
+  bedroomDetails?: InputMaybe<BedroomDetailsInput>;
+  bedrooms?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  floorPlan?: InputMaybe<Scalars['String']>;
+  floorPlanImages?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lease?: InputMaybe<Scalars['Float']>;
+  listingAgent?: InputMaybe<Scalars['String']>;
+  listingAgentCompany?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyAddress?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyEmail?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyPhone?: InputMaybe<Scalars['String']>;
+  listingAgentCompanyWebsite?: InputMaybe<Scalars['String']>;
+  listingAgentEmail?: InputMaybe<Scalars['String']>;
+  listingAgentPhone?: InputMaybe<Scalars['String']>;
+  listingAgentWebsite?: InputMaybe<Scalars['String']>;
+  maxGuests?: InputMaybe<Scalars['Int']>;
+  price?: InputMaybe<Scalars['Float']>;
+  rentHigh?: InputMaybe<Scalars['Float']>;
+  rentLow?: InputMaybe<Scalars['Float']>;
+  squareFeet?: InputMaybe<Scalars['Int']>;
+  video?: InputMaybe<Scalars['String']>;
+};
+
 export type Location = MongoBase & {
   __typename?: 'Location';
   address?: Maybe<Address>;
@@ -223,6 +284,15 @@ export type Location = MongoBase & {
   position?: Maybe<Point>;
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type LocationInput = {
+  address?: InputMaybe<AddressInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  position?: InputMaybe<PointInput>;
+  schemaVersion?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type Member = MongoBase & {
@@ -381,6 +451,7 @@ export type Mutation = {
   serviceTicketAssign: ServiceTicketMutationResult;
   serviceTicketChangeStatus: ServiceTicketMutationResult;
   serviceTicketCreate: ServiceTicketMutationResult;
+  serviceTicketDelete: ServiceTicketMutationResult;
   serviceTicketRemovePhoto: ServiceTicketMutationResult;
   serviceTicketSubmit: ServiceTicketMutationResult;
   serviceTicketUpdate: ServiceTicketMutationResult;
@@ -510,6 +581,11 @@ export type MutationServiceTicketCreateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationServiceTicketDeleteArgs = {
+  input: ServiceTicketDeleteInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationServiceTicketRemovePhotoArgs = {
   input: ServiceTicketRemovePhotoInput;
 };
@@ -553,6 +629,19 @@ export type Point = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type PointInput = {
+  coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  schemaVersion?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type PropertiesSearchInput = {
+  searchString?: InputMaybe<Scalars['String']>;
 };
 
 export type Property = MongoBase & {
@@ -611,12 +700,27 @@ export type PropertyRemoveOwnerInput = {
   id: Scalars['ObjectID'];
 };
 
+export type PropertySearchFacets = {
+  __typename?: 'PropertySearchFacets';
+  primaryCategory?: Maybe<Array<Maybe<FacetDetail>>>;
+  tags?: Maybe<Array<Maybe<FacetDetail>>>;
+};
+
+export type PropertySearchResult = {
+  __typename?: 'PropertySearchResult';
+  facets?: Maybe<PropertySearchFacets>;
+  propertyResults?: Maybe<Array<Maybe<Property>>>;
+  total?: Maybe<Scalars['Int']>;
+};
+
 export type PropertyUpdateInput = {
   id: Scalars['ObjectID'];
   listedForLease?: InputMaybe<Scalars['Boolean']>;
   listedForRent?: InputMaybe<Scalars['Boolean']>;
   listedForSale?: InputMaybe<Scalars['Boolean']>;
   listedInDirectory?: InputMaybe<Scalars['Boolean']>;
+  listingDetail?: InputMaybe<ListingDetailsInput>;
+  location?: InputMaybe<LocationInput>;
   owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars['String']>;
   propertyType?: InputMaybe<Scalars['String']>;
@@ -640,6 +744,8 @@ export type Query = {
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesSearch?: Maybe<PropertySearchResult>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
@@ -696,6 +802,16 @@ export type QueryPropertiesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
+  communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryPropertiesSearchArgs = {
+  input: PropertiesSearchInput;
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryPropertyArgs = {
   id: Scalars['ObjectID'];
 };
@@ -718,16 +834,6 @@ export type QueryServiceTicketArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsByCommunityIdArgs = {
   communityId: Scalars['ID'];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsClosedByRequestorArgs = {
-  propertyId: Scalars['ObjectID'];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryServiceTicketsOpenByRequestorArgs = {
-  propertyId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -830,8 +936,12 @@ export type ServiceTicketChangeStatusInput = {
 export type ServiceTicketCreateInput = {
   description: Scalars['String'];
   propertyId?: InputMaybe<Scalars['ObjectID']>;
-  requestorId: Scalars['ObjectID'];
+  requestorId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
+};
+
+export type ServiceTicketDeleteInput = {
+  serviceTicketId: Scalars['ObjectID'];
 };
 
 export type ServiceTicketMutationResult = {
@@ -981,35 +1091,6 @@ export type CommunityListContainerCommunitiesFieldsFragment = {
   publicContentBlobUrl?: string | null;
   id: any;
   schemaVersion?: string | null;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-};
-
-export type AdminCommunitiesDropdownContainerCommunityQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-export type AdminCommunitiesDropdownContainerCommunityQuery = {
-  __typename?: 'Query';
-  communityById?: {
-    __typename?: 'Community';
-    name?: string | null;
-    domain?: string | null;
-    whiteLabelDomain?: string | null;
-    handle?: string | null;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  } | null;
-};
-
-export type AdminCommunitiesDropdownContainerCommunityFieldsFragment = {
-  __typename?: 'Community';
-  name?: string | null;
-  domain?: string | null;
-  whiteLabelDomain?: string | null;
-  handle?: string | null;
-  id: any;
   createdAt?: any | null;
   updatedAt?: any | null;
 };
@@ -2579,6 +2660,35 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type AdminCommunitiesDropdownContainerCommunityQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type AdminCommunitiesDropdownContainerCommunityQuery = {
+  __typename?: 'Query';
+  communityById?: {
+    __typename?: 'Community';
+    name?: string | null;
+    domain?: string | null;
+    whiteLabelDomain?: string | null;
+    handle?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type AdminCommunitiesDropdownContainerCommunityFieldsFragment = {
+  __typename?: 'Community';
+  name?: string | null;
+  domain?: string | null;
+  whiteLabelDomain?: string | null;
+  handle?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
 export type LoggedInUserContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type LoggedInUserContainerUserCurrentQueryQuery = {
@@ -2674,28 +2784,6 @@ export const CommunityListContainerCommunitiesFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<CommunityListContainerCommunitiesFieldsFragment, unknown>;
-export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunityFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<AdminCommunitiesDropdownContainerCommunityFieldsFragment, unknown>;
 export const AdminCommunityDetailContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -4033,6 +4121,28 @@ export const AdminSiteEditorContainerCommunityFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<AdminSiteEditorContainerCommunityFieldsFragment, unknown>;
+export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminCommunitiesDropdownContainerCommunityFieldsFragment, unknown>;
 export const LoggedInUserContainerUserCurrentFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -4136,55 +4246,6 @@ export const CommunityListContainerCommunitiesQueryDocument = {
 } as unknown as DocumentNode<
   CommunityListContainerCommunitiesQueryQuery,
   CommunityListContainerCommunitiesQueryQueryVariables
->;
-export const AdminCommunitiesDropdownContainerCommunityDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunity' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'communityById' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunityFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    ...AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc.definitions
-  ]
-} as unknown as DocumentNode<
-  AdminCommunitiesDropdownContainerCommunityQuery,
-  AdminCommunitiesDropdownContainerCommunityQueryVariables
 >;
 export const AdminCommunityDetailContainerCommunityDocument = {
   kind: 'Document',
@@ -6422,6 +6483,55 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
 } as unknown as DocumentNode<
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
+>;
+export const AdminCommunitiesDropdownContainerCommunityDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'communityById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunityFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  AdminCommunitiesDropdownContainerCommunityQuery,
+  AdminCommunitiesDropdownContainerCommunityQueryVariables
 >;
 export const LoggedInUserContainerUserCurrentQueryDocument = {
   kind: 'Document',

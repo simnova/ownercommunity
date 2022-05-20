@@ -6,8 +6,6 @@ const { Text, Title } = Typography;
 export const CommunityPropertyListings: React.FC<any> = (props) => {
     const navigate = useNavigate();
 
-    console.log(props);
-
     const generateMarketListingType = (property: any) => {
         return(
         <div>
@@ -24,7 +22,7 @@ export const CommunityPropertyListings: React.FC<any> = (props) => {
                  For Sale
              </div>
             }
-            
+
             {
                 property.listedForRent && <div 
                 style={{

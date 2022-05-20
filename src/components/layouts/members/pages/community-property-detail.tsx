@@ -1,6 +1,7 @@
 import { useNavigate, useNavigationType, useParams } from "react-router-dom";
 import { PageHeader, Typography } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
+import { CommunityPropertyDetailContainer } from "../components/community-property-detail-container";
 
 const { Text } = Typography;
 
@@ -18,8 +19,8 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
           onBack={() => navigate(-1)}
         />}
       >
-        <Text> Property ID: {params.propertyId}</Text>
-        <Text> Implement me!</Text>
+          
+        <CommunityPropertyDetailContainer data={params}></CommunityPropertyDetailContainer>
 
       </SubPageLayout>
       

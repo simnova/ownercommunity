@@ -8,6 +8,7 @@ const { Text, Title } = Typography;
 const GET_PROPERTIES_BY_COMMUNITY = gql`
     query PropertiesByCommunity($communityId: ID!) {
         propertiesByCommunityId(communityId: $communityId) {
+            id
             propertyName
             propertyType
             owner {
@@ -27,15 +28,15 @@ const GET_PROPERTIES_BY_COMMUNITY = gql`
     }
 `;
 
-interface PropertiesListingProps {
-    data: {
-        communityId: string;
-    }
-}
+// interface PropertiesListingProps {
+//     path: string;
+// }
 
 let PropertiesListing: any;
 
-PropertiesListing = (props: PropertiesListingProps) => {
+PropertiesListing = () => {
+    const path = window.location.href.slice(window.location.href.lastIndexOf('/'));
+
     const { connectors: { connect, drag }, selected } = useNode((state) =>(
         {
             selected: state.events.selected,
@@ -50,7 +51,7 @@ PropertiesListing = (props: PropertiesListingProps) => {
 
     const generatePropertyCard = (property: any) => {
         return (
-            <Card title={<Title level={4}>{property.propertyName}</Title>} size='small' style={{ margin: '15px 0', padding: "5px 25px"}} extra={<Link to='listing/:propertyId' style={{marginLeft: '30px'}}>Details</Link>}>
+            <Card key={property.id} title={<Title level={4}>{property.propertyName}</Title>} size='small' style={{ margin: '15px 0', padding: "5px 25px"}} extra={<Link to={`${path}/:propertyId`} style={{marginLeft: '30px'}}>Details</Link>}>
                 <Space direction='vertical' size='small'>
                     {property.owner && <Text italic>Owner: {property.owner.memberName}</Text>}
                     {property.propertyType && <Text>Property Type: {property.propertyType}</Text>}

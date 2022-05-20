@@ -12,7 +12,7 @@ export default () => { NodeEventBus.register(PropertyCreatedEvent, async (payloa
   const context = await SystemExecutionContext();
   await PropertyUnitOfWork.withTransaction(context,async (repo) => {
 
-    let property = await repo.get(payload.id);
+    let property = await repo.getById(payload.id);
     let listingDoc:Partial<PropertyListingIndexDocument> = {
       id: property.id,
       communityId: property.community.id,
@@ -22,6 +22,7 @@ export default () => { NodeEventBus.register(PropertyCreatedEvent, async (payloa
     let cognitiveSearch = new CognitiveSearch();
     await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
     await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
+    console.log(`Property Created - Search Completed: ${JSON.stringify(listingDoc)}`);
   
   });
 

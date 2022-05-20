@@ -59,7 +59,7 @@ const property: Resolvers = {
       const searchString = _args.input.searchString.trim();
       const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(searchString);
       var idList: string[] = [];
-      for await (const result of searchResults.results) {
+      for await (const result of searchResults?.results) {
         console.log(result);
         idList.push(result.document['id']);
       }
@@ -68,7 +68,7 @@ const property: Resolvers = {
       return {
         propertyResults: results,
         facets: {
-          tags: searchResults.facets.tags,
+          tags: searchResults?.facets?.tags,
         },
       } as PropertySearchResult;
     },

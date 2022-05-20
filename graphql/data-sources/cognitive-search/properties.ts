@@ -11,16 +11,12 @@ export class Properties extends CognitiveSearchDataSource<Context> {
     const searchService = new CognitiveSearch();
 
     console.log(`Resolver>Query>propertiesSearch ${searchString}`);
-    const searchResults = await searchService.search(
-      'properties', // ???: not sure if this is "property" or "properties"
-      searchString.trim() + '*',
-      {
-        queryType: 'full',
-        searchMode: 'all',
-        // filter: tagFilter, // ???: don't understand
-        // facets: ['tags', 'primaryCategory'], // ???: don't understand
-      }
-    );
+    const searchResults = await searchService.search('property-listings', searchString.trim() + '*', {
+      queryType: 'full',
+      searchMode: 'all',
+      // filter: tagFilter, // ???: don't understand
+      facets: [], // ???: don't understand
+    });
 
     console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);
     return searchResults;

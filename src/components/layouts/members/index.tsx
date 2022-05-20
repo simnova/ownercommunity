@@ -15,21 +15,21 @@ import { Properties } from './pages/properties';
 import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
 import { ServiceTickets } from './pages/service-tickets';
 import { CommunityProperty } from './pages/community-property';
-
+import { PropertiesSearch } from './pages/properties-search';
 
 const pageLayouts = [
   {
     path: '/community/:communityId/member/:userId',
     title: 'Home',
     icon: <HomeOutlined />,
-    id: 'ROOT',
+    id: 'ROOT'
   },
   {
     path: '/community/:communityId/member/:userId/profile/*',
     title: 'Profile Settings',
     icon: <UserOutlined />,
     id: 2,
-    parent: 'ROOT',
+    parent: 'ROOT'
   },
   {
     path: '/community/:communityId/member/:userId/properties/*',
@@ -50,15 +50,22 @@ const pageLayouts = [
     title: 'Listings',
     icon: <ShopOutlined />,
     id: 5,
-    parent: 'ROOT',
+    parent: 'ROOT'
   },
   {
     path: '/community/:communityId/member/:userId/neighbors/*',
     title: 'Neighbors',
     icon: <TeamOutlined />,
     id: 6,
-    parent: 'ROOT',
+    parent: 'ROOT'
   },
+  {
+    path: '/community/:communityId/member/:userId/propertiesSearch/*',
+    title: 'Property Search',
+    icon: <BarsOutlined />,
+    id: 7,
+    parent: 'ROOT'
+  }
 ];
 
 export const Members: React.FC<any> = (_props) => {
@@ -66,13 +73,14 @@ export const Members: React.FC<any> = (_props) => {
   return (
     <BlobToLocalStorage communityId={params.communityId}>
       <Routes>
-        <Route path='' element={<SectionLayout pageLayouts={pageLayouts} />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/profile' element={<MemberProfile />} />
-          <Route path='/listings/*' element={<CommunityProperty />} />
-          <Route path='/neighbors/*' element={<Neighbors />} />
-          <Route path='/properties/*' element={<Properties />} />
-          <Route path='/service-tickets/*' element={<ServiceTickets />} />
+        <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<MemberProfile />} />
+          <Route path="/listings/*" element={<CommunityProperty />} />
+          <Route path="/neighbors/*" element={<Neighbors />} />
+          <Route path="/properties/*" element={<Properties />} />
+          <Route path="/service-tickets/*" element={<ServiceTickets />} />
+          <Route path="/propertiesSearch/*" element={<PropertiesSearch />} />
         </Route>
       </Routes>
     </BlobToLocalStorage>

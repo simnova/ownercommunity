@@ -127,7 +127,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   }
 
   public override onSave(isModified: boolean): void {
-    if(isModified) {
+    if(isModified && !super.isDeleted) {
       this.addIntegrationEvent(PropertyUpdatedEvent,{id:this.props.id});
     } 
   }

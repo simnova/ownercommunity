@@ -141,6 +141,7 @@ export type Community = MongoBase & {
   __typename?: 'Community';
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
+  files?: Maybe<Array<Maybe<FileInfo>>>;
   handle?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   name?: Maybe<Scalars['String']>;
@@ -149,6 +150,26 @@ export type Community = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   whiteLabelDomain?: Maybe<Scalars['String']>;
+};
+
+export type CommunityBlobContentAuthHeaderResult = {
+  __typename?: 'CommunityBlobContentAuthHeaderResult';
+  authHeader?: Maybe<BlobAuthHeader>;
+  community?: Maybe<Community>;
+  status: MutationStatus;
+};
+
+export type CommunityBlobContentInput = {
+  communityId: Scalars['ObjectID'];
+  contentLength: Scalars['Int'];
+  contentType: Scalars['String'];
+};
+
+export type CommunityBlobFileInput = {
+  communityId: Scalars['ObjectID'];
+  contentLength: Scalars['Int'];
+  contentType: Scalars['String'];
+  fileName: Scalars['String'];
 };
 
 export type CommunityCreateInput = {
@@ -180,19 +201,6 @@ export type CommunityPermissionsInput = {
   canManageSiteContent: Scalars['Boolean'];
 };
 
-export type CommunityPublicContentAuthHeaderResult = {
-  __typename?: 'CommunityPublicContentAuthHeaderResult';
-  authHeader?: Maybe<BlobAuthHeader>;
-  community?: Maybe<Community>;
-  status: MutationStatus;
-};
-
-export type CommunityPublicContentInput = {
-  communityId: Scalars['ObjectID'];
-  contentLength?: InputMaybe<Scalars['Int']>;
-  contentType?: InputMaybe<Scalars['String']>;
-};
-
 export type CommunityUpdateInput = {
   domain?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
@@ -217,6 +225,14 @@ export type FacetDetail = {
   __typename?: 'FacetDetail';
   count?: Maybe<Scalars['Int']>;
   value?: Maybe<Scalars['String']>;
+};
+
+export type FileInfo = {
+  __typename?: 'FileInfo';
+  name?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type ListingDetails = {
@@ -428,7 +444,8 @@ export type Mutation = {
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
   communityCreate?: Maybe<CommunityMutationResult>;
-  communityPublicContentCreateAuthHeader: CommunityPublicContentAuthHeaderResult;
+  communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
+  communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityUpdate: CommunityMutationResult;
   memberAccountAdd: MemberMutationResult;
   memberAccountEdit: MemberMutationResult;
@@ -467,7 +484,12 @@ export type MutationCommunityCreateArgs = {
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationCommunityPublicContentCreateAuthHeaderArgs = {
-  input: CommunityPublicContentInput;
+  input: CommunityBlobContentInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationCommunityPublicFileCreateAuthHeaderArgs = {
+  input: CommunityBlobFileInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -2665,13 +2687,13 @@ export type AdminSettingsGeneralContainerCommunityFieldsFragment = {
 
 export type AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables =
   Exact<{
-    input: CommunityPublicContentInput;
+    input: CommunityBlobContentInput;
   }>;
 
 export type AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation = {
   __typename?: 'Mutation';
   communityPublicContentCreateAuthHeader: {
-    __typename?: 'CommunityPublicContentAuthHeaderResult';
+    __typename?: 'CommunityBlobContentAuthHeaderResult';
     authHeader?: {
       __typename?: 'BlobAuthHeader';
       authHeader?: string | null;
@@ -8682,10 +8704,7 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
           type: {
             kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CommunityPublicContentInput' }
-            }
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CommunityBlobContentInput' } }
           }
         }
       ],

@@ -1,4 +1,4 @@
-mutation AdminSiteEditorContainerCommunityPublicContentCreateAuthHeader($input: CommunityPublicContentInput!) {
+mutation AdminSiteEditorContainerCommunityPublicContentCreateAuthHeader($input: CommunityBlobContentInput!) {
   communityPublicContentCreateAuthHeader(input: $input) {
     authHeader {
       authHeader

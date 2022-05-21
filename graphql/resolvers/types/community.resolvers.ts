@@ -5,6 +5,7 @@ import {
   Community,
   CommunityMutationResult,
   Role,
+  FileInfo,
 } from "../../generated";
 import { Community as CommunityDo } from "../../../infrastructure/data-sources/cosmos-db/models/community";
 import { DataSources } from "../../data-sources";
@@ -26,13 +27,17 @@ const CommunityMutationResolver = async (
 };
 
 const community: Resolvers = {
+
   Community: {
-    roles: async (community: Community) => {
+    roles: async (_rootObj: Community) => {
       return (await DataSources.roleApi.getRoles()) as Role[];
     },
+    files: async (rootObj: Community) => {
+      return (await DataSources.communityBlobAPI.communityPublicFilesList(rootObj.id)) as FileInfo[];
+    }
   },
   Query: {
-    community: async (_, {}, { dataSources }) => {
+    community: async (_, _args, { dataSources }) => {
       return (await dataSources.communityApi.getCurrentCommunity()) as Community;
     },
     communityById: async (_, { id }, { dataSources }) => {
@@ -63,23 +68,16 @@ const community: Resolvers = {
         dataSources.communityDomainAPI.communityUpdate(input)
       );
     },
-    communityPublicContentCreateAuthHeader: async (
-      _,
-      { input },
-      { dataSources }
-    ) => {
-      var result =
-        await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(
-          input.communityId,
-          input.contentType,
-          input.contentLength
-        );
-      console.log(
-        `communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`
-      );
-      result.community = (await dataSources.communityApi.getCommunityById(
-        input.communityId
-      )) as Community;
+    communityPublicFileCreateAuthHeader: async (_,{ input },{ dataSources }) => {
+      var result = await dataSources.communityBlobAPI.communityPublicFileCreateAuthHeader(input.communityId,input.fileName, input.contentType,input.contentLength);
+      console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
+      result.community = (await dataSources.communityApi.getCommunityById(input.communityId)) as Community;
+      return result;
+    },
+    communityPublicContentCreateAuthHeader: async (_,{ input },{ dataSources }) => {
+      var result = await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType,input.contentLength);
+      console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
+      result.community = (await dataSources.communityApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
   },

@@ -7,6 +7,7 @@ type Community implements MongoBase {
   handle: String
   publicContentBlobUrl: String
   roles: [Role]
+  files: [FileInfo]
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -24,9 +25,8 @@ extend type Query {
 extend type Mutation {
   communityCreate(input: CommunityCreateInput!): CommunityMutationResult
   communityUpdate(input: CommunityUpdateInput!): CommunityMutationResult!
-  communityPublicContentCreateAuthHeader(
-    input: CommunityPublicContentInput!
-  ): CommunityPublicContentAuthHeaderResult!
+  communityPublicContentCreateAuthHeader(input: CommunityBlobContentInput!): CommunityBlobContentAuthHeaderResult!
+  communityPublicFileCreateAuthHeader(input: CommunityBlobFileInput!): CommunityBlobContentAuthHeaderResult!
 }
 
 type CommunityMutationResult {
@@ -46,13 +46,27 @@ input CommunityUpdateInput {
   handle: String
 }
 
-input CommunityPublicContentInput {
+input CommunityBlobFileInput {
   communityId: ObjectID!
-  contentType: String
-  contentLength: Int
+  contentType: String!
+  contentLength: Int!
+  fileName: String!
 }
-type CommunityPublicContentAuthHeaderResult {
+
+input CommunityBlobContentInput {
+  communityId: ObjectID!
+  contentType: String!
+  contentLength: Int!
+}
+type CommunityBlobContentAuthHeaderResult {
   status: MutationStatus!
   authHeader: BlobAuthHeader
   community: Community
+}
+
+type FileInfo {
+  name: String
+  size: Int
+  type: String
+  url: String
 }

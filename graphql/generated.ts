@@ -143,6 +143,7 @@ export type Community = MongoBase & {
   __typename?: 'Community';
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
+  files?: Maybe<Array<Maybe<FileInfo>>>;
   handle?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   name?: Maybe<Scalars['String']>;
@@ -151,6 +152,26 @@ export type Community = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   whiteLabelDomain?: Maybe<Scalars['String']>;
+};
+
+export type CommunityBlobContentAuthHeaderResult = {
+  __typename?: 'CommunityBlobContentAuthHeaderResult';
+  authHeader?: Maybe<BlobAuthHeader>;
+  community?: Maybe<Community>;
+  status: MutationStatus;
+};
+
+export type CommunityBlobContentInput = {
+  communityId: Scalars['ObjectID'];
+  contentLength: Scalars['Int'];
+  contentType: Scalars['String'];
+};
+
+export type CommunityBlobFileInput = {
+  communityId: Scalars['ObjectID'];
+  contentLength: Scalars['Int'];
+  contentType: Scalars['String'];
+  fileName: Scalars['String'];
 };
 
 export type CommunityCreateInput = {
@@ -182,19 +203,6 @@ export type CommunityPermissionsInput = {
   canManageSiteContent: Scalars['Boolean'];
 };
 
-export type CommunityPublicContentAuthHeaderResult = {
-  __typename?: 'CommunityPublicContentAuthHeaderResult';
-  authHeader?: Maybe<BlobAuthHeader>;
-  community?: Maybe<Community>;
-  status: MutationStatus;
-};
-
-export type CommunityPublicContentInput = {
-  communityId: Scalars['ObjectID'];
-  contentLength?: InputMaybe<Scalars['Int']>;
-  contentType?: InputMaybe<Scalars['String']>;
-};
-
 export type CommunityUpdateInput = {
   domain?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
@@ -219,6 +227,14 @@ export type FacetDetail = {
   __typename?: 'FacetDetail';
   count?: Maybe<Scalars['Int']>;
   value?: Maybe<Scalars['String']>;
+};
+
+export type FileInfo = {
+  __typename?: 'FileInfo';
+  name?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type ListingDetails = {
@@ -430,7 +446,8 @@ export type Mutation = {
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
   communityCreate?: Maybe<CommunityMutationResult>;
-  communityPublicContentCreateAuthHeader: CommunityPublicContentAuthHeaderResult;
+  communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
+  communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityUpdate: CommunityMutationResult;
   memberAccountAdd: MemberMutationResult;
   memberAccountEdit: MemberMutationResult;
@@ -469,7 +486,12 @@ export type MutationCommunityCreateArgs = {
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationCommunityPublicContentCreateAuthHeaderArgs = {
-  input: CommunityPublicContentInput;
+  input: CommunityBlobContentInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationCommunityPublicFileCreateAuthHeaderArgs = {
+  input: CommunityBlobFileInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1092,12 +1114,13 @@ export type ResolversTypes = ResolversObject<{
   Byte: ResolverTypeWrapper<Scalars['Byte']>;
   CacheControlScope: CacheControlScope;
   Community: ResolverTypeWrapper<Community>;
+  CommunityBlobContentAuthHeaderResult: ResolverTypeWrapper<CommunityBlobContentAuthHeaderResult>;
+  CommunityBlobContentInput: CommunityBlobContentInput;
+  CommunityBlobFileInput: CommunityBlobFileInput;
   CommunityCreateInput: CommunityCreateInput;
   CommunityMutationResult: ResolverTypeWrapper<CommunityMutationResult>;
   CommunityPermissions: ResolverTypeWrapper<CommunityPermissions>;
   CommunityPermissionsInput: CommunityPermissionsInput;
-  CommunityPublicContentAuthHeaderResult: ResolverTypeWrapper<CommunityPublicContentAuthHeaderResult>;
-  CommunityPublicContentInput: CommunityPublicContentInput;
   CommunityUpdateInput: CommunityUpdateInput;
   Currency: ResolverTypeWrapper<Scalars['Currency']>;
   CurrentUser: ResolverTypeWrapper<CurrentUser>;
@@ -1107,6 +1130,7 @@ export type ResolversTypes = ResolversObject<{
   Duration: ResolverTypeWrapper<Scalars['Duration']>;
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
   FacetDetail: ResolverTypeWrapper<FacetDetail>;
+  FileInfo: ResolverTypeWrapper<FileInfo>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
@@ -1245,12 +1269,13 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'];
   Byte: Scalars['Byte'];
   Community: Community;
+  CommunityBlobContentAuthHeaderResult: CommunityBlobContentAuthHeaderResult;
+  CommunityBlobContentInput: CommunityBlobContentInput;
+  CommunityBlobFileInput: CommunityBlobFileInput;
   CommunityCreateInput: CommunityCreateInput;
   CommunityMutationResult: CommunityMutationResult;
   CommunityPermissions: CommunityPermissions;
   CommunityPermissionsInput: CommunityPermissionsInput;
-  CommunityPublicContentAuthHeaderResult: CommunityPublicContentAuthHeaderResult;
-  CommunityPublicContentInput: CommunityPublicContentInput;
   CommunityUpdateInput: CommunityUpdateInput;
   Currency: Scalars['Currency'];
   CurrentUser: CurrentUser;
@@ -1260,6 +1285,7 @@ export type ResolversParentTypes = ResolversObject<{
   Duration: Scalars['Duration'];
   EmailAddress: Scalars['EmailAddress'];
   FacetDetail: FacetDetail;
+  FileInfo: FileInfo;
   Float: Scalars['Float'];
   GUID: Scalars['GUID'];
   HSL: Scalars['HSL'];
@@ -1442,6 +1468,7 @@ export interface ByteScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type CommunityResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Community'] = ResolversParentTypes['Community']> = ResolversObject<{
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   domain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  files?: Resolver<Maybe<Array<Maybe<ResolversTypes['FileInfo']>>>, ParentType, ContextType>;
   handle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1450,6 +1477,16 @@ export type CommunityResolvers<ContextType = Context, ParentType extends Resolve
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   whiteLabelDomain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CommunityBlobContentAuthHeaderResultResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['CommunityBlobContentAuthHeaderResult'] = ResolversParentTypes['CommunityBlobContentAuthHeaderResult']
+> = ResolversObject<{
+  authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
+  community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1469,16 +1506,6 @@ export type CommunityPermissionsResolvers<ContextType = Context, ParentType exte
   canManageMembers?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   canManageRolesAndPermissions?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   canManageSiteContent?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type CommunityPublicContentAuthHeaderResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['CommunityPublicContentAuthHeaderResult'] = ResolversParentTypes['CommunityPublicContentAuthHeaderResult']
-> = ResolversObject<{
-  authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
-  community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
-  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1521,6 +1548,14 @@ export interface EmailAddressScalarConfig extends GraphQLScalarTypeConfig<Resolv
 export type FacetDetailResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FacetDetail'] = ResolversParentTypes['FacetDetail']> = ResolversObject<{
   count?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type FileInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FileInfo'] = ResolversParentTypes['FileInfo']> = ResolversObject<{
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  size?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1717,10 +1752,16 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   communityCreate?: Resolver<Maybe<ResolversTypes['CommunityMutationResult']>, ParentType, ContextType, RequireFields<MutationCommunityCreateArgs, 'input'>>;
   communityPublicContentCreateAuthHeader?: Resolver<
-    ResolversTypes['CommunityPublicContentAuthHeaderResult'],
+    ResolversTypes['CommunityBlobContentAuthHeaderResult'],
     ParentType,
     ContextType,
     RequireFields<MutationCommunityPublicContentCreateAuthHeaderArgs, 'input'>
+  >;
+  communityPublicFileCreateAuthHeader?: Resolver<
+    ResolversTypes['CommunityBlobContentAuthHeaderResult'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCommunityPublicFileCreateAuthHeaderArgs, 'input'>
   >;
   communityUpdate?: Resolver<ResolversTypes['CommunityMutationResult'], ParentType, ContextType, RequireFields<MutationCommunityUpdateArgs, 'input'>>;
   memberAccountAdd?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountAddArgs, 'input'>>;
@@ -2077,9 +2118,9 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   BlobAuthHeader?: BlobAuthHeaderResolvers<ContextType>;
   Byte?: GraphQLScalarType;
   Community?: CommunityResolvers<ContextType>;
+  CommunityBlobContentAuthHeaderResult?: CommunityBlobContentAuthHeaderResultResolvers<ContextType>;
   CommunityMutationResult?: CommunityMutationResultResolvers<ContextType>;
   CommunityPermissions?: CommunityPermissionsResolvers<ContextType>;
-  CommunityPublicContentAuthHeaderResult?: CommunityPublicContentAuthHeaderResultResolvers<ContextType>;
   Currency?: GraphQLScalarType;
   CurrentUser?: CurrentUserResolvers<ContextType>;
   DID?: GraphQLScalarType;
@@ -2088,6 +2129,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Duration?: GraphQLScalarType;
   EmailAddress?: GraphQLScalarType;
   FacetDetail?: FacetDetailResolvers<ContextType>;
+  FileInfo?: FileInfoResolvers<ContextType>;
   GUID?: GraphQLScalarType;
   HSL?: GraphQLScalarType;
   HSLA?: GraphQLScalarType;

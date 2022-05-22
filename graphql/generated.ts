@@ -203,6 +203,11 @@ export type CommunityPermissionsInput = {
   canManageSiteContent: Scalars['Boolean'];
 };
 
+export type CommunityPublicFileRemoveInput = {
+  communityId: Scalars['ObjectID'];
+  fileName: Scalars['String'];
+};
+
 export type CommunityUpdateInput = {
   domain?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
@@ -231,10 +236,10 @@ export type FacetDetail = {
 
 export type FileInfo = {
   __typename?: 'FileInfo';
-  name?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Int']>;
-  type?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  size: Scalars['Int'];
+  type: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type ListingDetails = {
@@ -448,6 +453,7 @@ export type Mutation = {
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
+  communityPublicFileRemove: CommunityMutationResult;
   communityUpdate: CommunityMutationResult;
   memberAccountAdd: MemberMutationResult;
   memberAccountEdit: MemberMutationResult;
@@ -492,6 +498,11 @@ export type MutationCommunityPublicContentCreateAuthHeaderArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationCommunityPublicFileCreateAuthHeaderArgs = {
   input: CommunityBlobFileInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationCommunityPublicFileRemoveArgs = {
+  input: CommunityPublicFileRemoveInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1121,6 +1132,7 @@ export type ResolversTypes = ResolversObject<{
   CommunityMutationResult: ResolverTypeWrapper<CommunityMutationResult>;
   CommunityPermissions: ResolverTypeWrapper<CommunityPermissions>;
   CommunityPermissionsInput: CommunityPermissionsInput;
+  CommunityPublicFileRemoveInput: CommunityPublicFileRemoveInput;
   CommunityUpdateInput: CommunityUpdateInput;
   Currency: ResolverTypeWrapper<Scalars['Currency']>;
   CurrentUser: ResolverTypeWrapper<CurrentUser>;
@@ -1276,6 +1288,7 @@ export type ResolversParentTypes = ResolversObject<{
   CommunityMutationResult: CommunityMutationResult;
   CommunityPermissions: CommunityPermissions;
   CommunityPermissionsInput: CommunityPermissionsInput;
+  CommunityPublicFileRemoveInput: CommunityPublicFileRemoveInput;
   CommunityUpdateInput: CommunityUpdateInput;
   Currency: Scalars['Currency'];
   CurrentUser: CurrentUser;
@@ -1552,10 +1565,10 @@ export type FacetDetailResolvers<ContextType = Context, ParentType extends Resol
 }>;
 
 export type FileInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FileInfo'] = ResolversParentTypes['FileInfo']> = ResolversObject<{
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  size?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  size?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1763,6 +1776,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
     ContextType,
     RequireFields<MutationCommunityPublicFileCreateAuthHeaderArgs, 'input'>
   >;
+  communityPublicFileRemove?: Resolver<ResolversTypes['CommunityMutationResult'], ParentType, ContextType, RequireFields<MutationCommunityPublicFileRemoveArgs, 'input'>>;
   communityUpdate?: Resolver<ResolversTypes['CommunityMutationResult'], ParentType, ContextType, RequireFields<MutationCommunityUpdateArgs, 'input'>>;
   memberAccountAdd?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountAddArgs, 'input'>>;
   memberAccountEdit?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountEditArgs, 'input'>>;

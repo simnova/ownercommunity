@@ -24,10 +24,10 @@ export class BlobActions {
     const options: ContainerListBlobsOptions = {
       prefix: path,
       includeMetadata: true,
-      includeTags: true
+      includeTags: true,
     };
 
-    let blobList: FileInfo[];
+    let blobList: FileInfo[] = [];
     for await (const blob of containerClient.listBlobsFlat(options)) {
       blobList.push({
         name: blob.name,

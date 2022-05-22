@@ -1,14 +1,6 @@
-/** @format */
-
-import {
-  Resolvers,
-  Community,
-  CommunityMutationResult,
-  Role,
-  FileInfo,
-} from "../../generated";
-import { Community as CommunityDo } from "../../../infrastructure/data-sources/cosmos-db/models/community";
-import { DataSources } from "../../data-sources";
+import { Resolvers, Community, CommunityMutationResult, Role, FileInfo } from '../../generated';
+import { Community as CommunityDo } from '../../../infrastructure/data-sources/cosmos-db/models/community';
+import { DataSources } from '../../data-sources';
 
 const CommunityMutationResolver = async (
   getCommunity: Promise<CommunityDo>
@@ -33,7 +25,7 @@ const community: Resolvers = {
       return (await DataSources.roleApi.getRoles()) as Role[];
     },
     files: async (rootObj: Community) => {
-      return (await DataSources.communityBlobAPI.communityPublicFilesList(rootObj.id)) as FileInfo[];
+      return DataSources.communityBlobAPI.communityPublicFilesList(rootObj.id);
     }
   },
   Query: {
@@ -44,14 +36,10 @@ const community: Resolvers = {
       return (await dataSources.communityApi.getCommunityById(id)) as Community;
     },
     communityByHandle: async (_, { handle }, { dataSources }) => {
-      return (await dataSources.communityApi.getCommunityByHandle(
-        handle
-      )) as Community;
+      return (await dataSources.communityApi.getCommunityByHandle(handle)) as Community;
     },
     communityByDomain: async (_, { domain }, { dataSources }) => {
-      return (await dataSources.communityApi.getCommunityByDomain(
-        domain
-      )) as Community;
+      return (await dataSources.communityApi.getCommunityByDomain(domain)) as Community;
     },
     communities: async (_, _args, { dataSources }) => {
       return (await dataSources.communityApi.getCommunitiesForCurrentUser()) as Community[];
@@ -59,27 +47,29 @@ const community: Resolvers = {
   },
   Mutation: {
     communityCreate: async (_, { input }, { dataSources }) => {
-      return CommunityMutationResolver(
-        dataSources.communityDomainAPI.communityCreate(input)
-      );
+      return CommunityMutationResolver(dataSources.communityDomainAPI.communityCreate(input));
     },
     communityUpdate: async (_, { input }, { dataSources }) => {
-      return CommunityMutationResolver(
-        dataSources.communityDomainAPI.communityUpdate(input)
-      );
+      return CommunityMutationResolver(dataSources.communityDomainAPI.communityUpdate(input));
     },
-    communityPublicFileCreateAuthHeader: async (_,{ input },{ dataSources }) => {
-      var result = await dataSources.communityBlobAPI.communityPublicFileCreateAuthHeader(input.communityId,input.fileName, input.contentType,input.contentLength);
+    communityPublicFileCreateAuthHeader: async (_, { input }, { dataSources }) => {
+      var result = await dataSources.communityBlobAPI.communityPublicFileCreateAuthHeader(input.communityId, input.fileName, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
       result.community = (await dataSources.communityApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
-    communityPublicContentCreateAuthHeader: async (_,{ input },{ dataSources }) => {
-      var result = await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType,input.contentLength);
+    communityPublicContentCreateAuthHeader: async (_, { input }, { dataSources }) => {
+      var result = await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
       result.community = (await dataSources.communityApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
+    communityPublicFileRemove: async (_, { input }, { dataSources }) => {
+      var result = await dataSources.communityBlobAPI.communityPublicFileRemove(input.communityId, input.fileName);
+      console.log(`communityPublicFileRemove: ${JSON.stringify(result)}`);
+      return CommunityMutationResolver( dataSources.communityApi.getCommunityById(input.communityId));// as Community;
+      //return result;
+    }
   },
 };
 

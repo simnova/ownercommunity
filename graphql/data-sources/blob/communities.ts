@@ -13,15 +13,19 @@ export class Communities extends BlobDataSource<Context> {
 			if(!passport.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)){
 				return ;
 			}
-			var files = await blobStorage.listBlobs(community.id,'public-files');
-			result = files.map((file) => {
-				return {
-					name: file.name,
-					url: file.url,
-					size: file.size,
-					type: file.type
-				} as FileInfo;
-			});
+			try{
+				var files = await blobStorage.listBlobs(community.id,'public-files/');
+				result = files.map((file) => {
+					return {
+						name: file.name,
+						url: file.url,
+						size: file.size,
+						type: file.type
+					} as FileInfo;
+				});
+			}catch(e){ //	BlobNotFound
+				return ;
+			}
 		});
 		return result;
 	}
@@ -38,8 +42,23 @@ export class Communities extends BlobDataSource<Context> {
 				'application/json',
 				'application/pdf'
 		];
-		const blobName = `public-files\{${fileName}}`;
+		const blobName = `public-files/${fileName}`;
 		return this.getHeader(communityId, permittedContentTypes, contentType, contentLength, maxSizeBytes, blobName);
+	}
+
+	public async communityPublicFileRemove(communityId: string, fileName: string): Promise<void> {
+		const blobName = `public-files/${fileName}`;
+		await this.withStorage(async (passport, blobStorage) => {
+			var community = await this.context.dataSources.communityApi.findOneById(communityId);
+			if (!community) {
+				return;
+			}
+			var communityDO = new CommunityConverter().toDomain(community, { passport: passport });
+			if (!passport.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
+				return;
+			}
+			blobStorage.deleteBlob(communityId, blobName);
+		});
 	}
 
 	public async communityPublicContentCreateAuthHeader(communityId: string, contentType: string, contentLength: number): Promise<CommunityBlobContentAuthHeaderResult> {

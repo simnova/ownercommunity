@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes, useLocation, useNavigate, useParams, useResolvedPath, matchRoutes } from "react-router-dom"
 import SiteEditorPageEditor from "./site-editor-page-editor"
+import { SiteEditorFiles } from './site-editor-files';
 import { PageTree } from "./site-editor-page-tree"
 import { PageHeader, Tabs } from 'antd';
 import { SubPageLayout } from "../sub-page-layout";
@@ -16,6 +17,7 @@ export const SiteEditor: React.FC<any> = () => {
   const pages = [
     {id:'page-tree', path:useResolvedPath('page-tree').pathname, title:'Pages'},
     {id:'page-editor', path:useResolvedPath('page-editor').pathname, title:'Editor'},
+    {id:'files', path:useResolvedPath('files').pathname, title:'Files'}
   ]
 
   var matchedPages = matchRoutes(pages,location)
@@ -43,6 +45,7 @@ export const SiteEditor: React.FC<any> = () => {
     >        
       <Routes>
         <Route path="page-editor" element={<SiteEditorPageEditor />} />
+        <Route path="files" element={<SiteEditorFiles />} />
         <Route path="*" element={<PageTree />} />
       </Routes>
     </SubPageLayout>

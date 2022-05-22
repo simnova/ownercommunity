@@ -201,6 +201,11 @@ export type CommunityPermissionsInput = {
   canManageSiteContent: Scalars['Boolean'];
 };
 
+export type CommunityPublicFileRemoveInput = {
+  communityId: Scalars['ObjectID'];
+  fileName: Scalars['String'];
+};
+
 export type CommunityUpdateInput = {
   domain?: InputMaybe<Scalars['String']>;
   handle?: InputMaybe<Scalars['String']>;
@@ -229,10 +234,10 @@ export type FacetDetail = {
 
 export type FileInfo = {
   __typename?: 'FileInfo';
-  name?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Int']>;
-  type?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  size: Scalars['Int'];
+  type: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type ListingDetails = {
@@ -446,6 +451,7 @@ export type Mutation = {
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
+  communityPublicFileRemove: CommunityMutationResult;
   communityUpdate: CommunityMutationResult;
   memberAccountAdd: MemberMutationResult;
   memberAccountEdit: MemberMutationResult;
@@ -490,6 +496,11 @@ export type MutationCommunityPublicContentCreateAuthHeaderArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationCommunityPublicFileCreateAuthHeaderArgs = {
   input: CommunityBlobFileInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationCommunityPublicFileRemoveArgs = {
+  input: CommunityPublicFileRemoveInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -2722,6 +2733,113 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   schemaVersion?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
+};
+
+export type AdminSiteEditorFilesListContainerCommunityByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type AdminSiteEditorFilesListContainerCommunityByIdQuery = {
+  __typename?: 'Query';
+  communityById?: {
+    __typename?: 'Community';
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    files?: Array<{
+      __typename?: 'FileInfo';
+      name: string;
+      size: number;
+      type: string;
+      url: string;
+    } | null> | null;
+  } | null;
+};
+
+export type AdminSiteEditorFilesListContainerCommunityPublicFileRemoveMutationVariables = Exact<{
+  input: CommunityPublicFileRemoveInput;
+}>;
+
+export type AdminSiteEditorFilesListContainerCommunityPublicFileRemoveMutation = {
+  __typename?: 'Mutation';
+  communityPublicFileRemove: {
+    __typename?: 'CommunityMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    community?: {
+      __typename?: 'Community';
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      files?: Array<{
+        __typename?: 'FileInfo';
+        name: string;
+        size: number;
+        type: string;
+        url: string;
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type AdminSiteEditorFilesListContainerCommunityFieldsFragment = {
+  __typename?: 'Community';
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  files?: Array<{
+    __typename?: 'FileInfo';
+    name: string;
+    size: number;
+    type: string;
+    url: string;
+  } | null> | null;
+};
+
+export type AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeaderMutationVariables =
+  Exact<{
+    input: CommunityBlobFileInput;
+  }>;
+
+export type AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeaderMutation = {
+  __typename?: 'Mutation';
+  communityPublicFileCreateAuthHeader: {
+    __typename?: 'CommunityBlobContentAuthHeaderResult';
+    authHeader?: {
+      __typename?: 'BlobAuthHeader';
+      authHeader?: string | null;
+      blobName?: string | null;
+      blobContainer?: string | null;
+      requestDate?: string | null;
+    } | null;
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    community?: {
+      __typename?: 'Community';
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      files?: Array<{
+        __typename?: 'FileInfo';
+        name: string;
+        size: number;
+        type: string;
+        url: string;
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type AdminSiteEditorFilesUploadContainerCommunityFieldsFragment = {
+  __typename?: 'Community';
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  files?: Array<{
+    __typename?: 'FileInfo';
+    name: string;
+    size: number;
+    type: string;
+    url: string;
+  } | null> | null;
 };
 
 export type MemberPropertyByPropertyIdQueryVariables = Exact<{
@@ -5392,6 +5510,68 @@ export const AdminSiteEditorContainerCommunityFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<AdminSiteEditorContainerCommunityFieldsFragment, unknown>;
+export const AdminSiteEditorFilesListContainerCommunityFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminSiteEditorFilesListContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'files' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'size' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminSiteEditorFilesListContainerCommunityFieldsFragment, unknown>;
+export const AdminSiteEditorFilesUploadContainerCommunityFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminSiteEditorFilesUploadContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'files' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'size' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminSiteEditorFilesUploadContainerCommunityFieldsFragment, unknown>;
 export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -8772,6 +8952,218 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
 } as unknown as DocumentNode<
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
+>;
+export const AdminSiteEditorFilesListContainerCommunityByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AdminSiteEditorFilesListContainerCommunityById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'communityById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminSiteEditorFilesListContainerCommunityFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...AdminSiteEditorFilesListContainerCommunityFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  AdminSiteEditorFilesListContainerCommunityByIdQuery,
+  AdminSiteEditorFilesListContainerCommunityByIdQueryVariables
+>;
+export const AdminSiteEditorFilesListContainerCommunityPublicFileRemoveDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AdminSiteEditorFilesListContainerCommunityPublicFileRemove' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CommunityPublicFileRemoveInput' }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'communityPublicFileRemove' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'community' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'AdminSiteEditorFilesListContainerCommunityFields'
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...AdminSiteEditorFilesListContainerCommunityFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  AdminSiteEditorFilesListContainerCommunityPublicFileRemoveMutation,
+  AdminSiteEditorFilesListContainerCommunityPublicFileRemoveMutationVariables
+>;
+export const AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeaderDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeader'
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CommunityBlobFileInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'communityPublicFileCreateAuthHeader' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'authHeader' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'community' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'AdminSiteEditorFilesUploadContainerCommunityFields'
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...AdminSiteEditorFilesUploadContainerCommunityFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeaderMutation,
+  AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeaderMutationVariables
 >;
 export const MemberPropertyByPropertyIdDocument = {
   kind: 'Document',

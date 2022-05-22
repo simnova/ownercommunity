@@ -1,0 +1,30 @@
+query AdminSiteEditorFilesListContainerCommunityById($id: ID!) {
+  communityById(id: $id) {
+    ...AdminSiteEditorFilesListContainerCommunityFields
+  }
+}
+
+mutation AdminSiteEditorFilesListContainerCommunityPublicFileRemove($input: CommunityPublicFileRemoveInput!) {
+  communityPublicFileRemove(input: $input) {
+    status {
+      success
+      errorMessage
+    }   
+    community {
+      ...AdminSiteEditorFilesListContainerCommunityFields
+    } 
+  }
+}
+
+fragment AdminSiteEditorFilesListContainerCommunityFields on Community {
+  files {
+    name
+    size
+    type
+    url
+  }
+
+  id
+  createdAt
+  updatedAt
+}

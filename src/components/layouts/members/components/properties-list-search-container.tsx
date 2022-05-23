@@ -14,9 +14,19 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   );
 
   const handleSearch = (e: any) => {
-    setSearchString(e.target.value);
     gqlSearchProperties({ variables: { input: { searchString: e.target.value } } });
   };
+
+  var result = () => {
+    if(error){
+      return <div>{JSON.stringify(error)}</div>
+    } else if(loading){
+      return <Skeleton active />
+    } else  if(called && data){
+      return <div>{JSON.stringify(data)}</div>
+    }
+    return <div>Search Please</div>
+  }
 
   return (
     <>
@@ -26,7 +36,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         value={searchString}
         onChange={(e) => setSearchString(e.target.value)}
       />
-      <PropertiesListSearch data={data?.propertiesSearch} />
+      
+      {result()}
     </>
   );
 };

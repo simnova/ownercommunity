@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, TableColumnsType, Row, message, Button, notification } from 'antd';
+import { Table, TableColumnsType, Row, message, Button, notification, Modal } from 'antd';
 import { FileInfo } from '../../../../generated';
 import ResizeObserver from 'rc-resize-observer';
 import './site-editor-files-list.css';
@@ -13,6 +13,8 @@ export interface SiteEditorFilesListProps {
 
 export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) => {
   const [tableHeight, setTableHeight] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<FileInfo | undefined>(undefined);
   //const scroll = true;
 
   const bytesToSize = (bytes: number): string => {
@@ -48,7 +50,7 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
       key: "name",
       width: "100%",
       sorter: ((a, b) => a.name.localeCompare(b.name)),
-      render: (text: any) => text ? <span>{text.substring(text.indexOf('/')+1)}</span> : <span>n/a</span>
+      render: (text: any, record:FileInfo) => text ? <a onClick={() => {setSelectedFile(record); setShowModal(true)}}>{text.substring(text.indexOf('/')+1)}</a> : <span>n/a</span>
     },
     {
       title: "Size",
@@ -116,26 +118,55 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
     return acc + cur.size
   }, 0));
 
-  return (<>
-    <div style={{minHeight:'100%', display:'flex', flexDirection:'column'}}>
-      <div style={{flex:1}}>
-        <span>Space Used {bytesToSize(spaceUsed)} out of 50MB </span>
-      </div>
-      <ResizeObserver onResize={({ height }) => { setTableHeight(height); console.log('setHeight',height) }} >
-      <div className={'file-table'} style={{flex:'1 0 auto'}}>
-        <Table 
-          style={{ width: "100%",  height: `${tableHeight-15}px` }}
-          columns={columns} 
-          dataSource={props.data}
-          rowKey={(record: FileInfo) => record.name}
-          scroll={{ y: `${tableHeight-90}px`, x: '100%' }}
-          size="small"
-         // sticky={true}
-        />
-      </div>
-      </ResizeObserver>
-      
-    </div>
-  </>)
 
+  let preview = (file: FileInfo) : JSX.Element => {
+    if(file.type.startsWith('image/')) {
+      return <img src={file.url} alt="File Preview" />
+    } else if (file.type.startsWith('application/pdf')) {
+      return <embed src={file.url} />
+    } else {
+      return <p>Preview not available for this file type</p>
+    }
+  }
+
+
+  return (<>
+      <Modal
+        title="File Preview"
+        visible={showModal}
+        onCancel={() => setShowModal(false)}
+        onOk={() => setShowModal(false)}
+        >
+          <div>
+          {selectedFile && 
+            preview(selectedFile)
+          }
+          </div>
+      </Modal>
+    <div className="site-editor-files-list">
+
+      <div className="site-editor-files-list-header">
+        <div className="site-editor-files-list-header-title">Files</div>
+        <div className="site-editor-files-list-header-space-used">
+          <div>Space Used:</div>
+          <div>{bytesToSize(spaceUsed)}</div>
+        </div>
+      </div>
+
+      <div className="site-editor-files-list-table">
+        <ResizeObserver onResize={(rect) => setTableHeight(rect.height)}>
+          <Table
+            //scroll={scroll}
+            columns={columns}
+            dataSource={props.data}
+            pagination={false}
+            rowKey="name"
+  
+            size="small"
+            style={{ height: tableHeight }}
+          />
+        </ResizeObserver>
+      </div>
+    </div>
+  </>);
 }

@@ -94,5 +94,5 @@ export const CommunityPropertyListings: React.FC<any> = (props) => {
     }
 
 
-    return (<>{generateProperties(props.data.property)}</>)
+    return (<div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>{generateProperties(props.data.property)}</div>)
 }

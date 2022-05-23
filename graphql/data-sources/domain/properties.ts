@@ -8,6 +8,7 @@ import { Property } from '../../../infrastructure/data-sources/cosmos-db/models/
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
+import { Amenities } from '../../../domain/contexts/property/listing-detail-value-objects';
 
 type PropType = PropertyDomainAdapter;
 type DomainType = PropertyDO<PropType>;
@@ -61,7 +62,7 @@ export class Properties extends DomainDataSource<Context,Property,PropType,Domai
         if(input.listingDetail.bathrooms !== undefined) property.listingDetail.requestSetBathrooms(input.listingDetail.bathrooms);
         if(input.listingDetail.squareFeet !== undefined) property.listingDetail.requestSetSquareFeet(input.listingDetail.squareFeet);
         if(input.listingDetail.description !== undefined) property.listingDetail.requestSetDescription(input.listingDetail.description);
-       // if(input.listingDetail.amenities !== undefined) property.listingDetail.requestSetAmenities(input.listingDetail.amenities);
+        if(input.listingDetail.amenities !== undefined) property.listingDetail.requestSetAmenities(new Amenities(input.listingDetail.amenities));
        //todo addtional ammenities
        //todo images
        //todo video

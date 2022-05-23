@@ -67,9 +67,6 @@ const property: Resolvers = {
 
       return {
         propertyResults: results,
-        facets: {
-          tags: searchResults?.facets?.tags,
-        },
       } as PropertySearchResult;
     },
   },

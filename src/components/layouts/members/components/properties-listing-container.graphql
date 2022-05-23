@@ -42,6 +42,7 @@ fragment MembersPropertiesListingContainerPropertyFields on Property {
     listingAgentCompanyEmail
     listingAgentCompanyWebsite
     listingAgentCompanyAddress
+    amenities
   }
 
   id

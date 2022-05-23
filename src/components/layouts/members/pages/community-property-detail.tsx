@@ -3,10 +3,6 @@ import { PageHeader, Typography } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { CommunityPropertyDetailContainer } from "../components/community-property-detail-container";
 
-const { Text } = Typography;
-
-
-
 export const CommunityPropertyDetail: React.FC<any> = (props) => {
     const params = useParams();
     const navigate = useNavigate();

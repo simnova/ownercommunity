@@ -17,6 +17,7 @@ export class BlobActions {
     this.sharedKeyCredential = new StorageSharedKeyCredential(this.accountName, this.accountKey)
   }
 
+
   public listBlobs = async (containerName: string, path: string): Promise<FileInfo[]> => {
     const blobServiceClient = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net/`, this.sharedKeyCredential);
     const containerClient = blobServiceClient.getContainerClient(containerName);

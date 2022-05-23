@@ -3456,6 +3456,7 @@ export type MembersPropertiesListingContainerPropertyQuery = {
       listingAgentCompanyEmail?: string | null;
       listingAgentCompanyWebsite?: string | null;
       listingAgentCompanyAddress?: string | null;
+      amenities?: Array<string | null> | null;
     } | null;
   } | null;
 };
@@ -3494,6 +3495,7 @@ export type MembersPropertiesListingContainerPropertyUpdateMutation = {
         listingAgentCompanyEmail?: string | null;
         listingAgentCompanyWebsite?: string | null;
         listingAgentCompanyAddress?: string | null;
+        amenities?: Array<string | null> | null;
       } | null;
     } | null;
   };
@@ -3527,6 +3529,7 @@ export type MembersPropertiesListingContainerPropertyMutationResultFieldsFragmen
       listingAgentCompanyEmail?: string | null;
       listingAgentCompanyWebsite?: string | null;
       listingAgentCompanyAddress?: string | null;
+      amenities?: Array<string | null> | null;
     } | null;
   } | null;
 };
@@ -3556,6 +3559,7 @@ export type MembersPropertiesListingContainerPropertyFieldsFragment = {
     listingAgentCompanyEmail?: string | null;
     listingAgentCompanyWebsite?: string | null;
     listingAgentCompanyAddress?: string | null;
+    amenities?: Array<string | null> | null;
   } | null;
 };
 
@@ -6108,7 +6112,8 @@ export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
               ]
             }
           },

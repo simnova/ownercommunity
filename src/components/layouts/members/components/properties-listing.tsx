@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, InputNumber, Button, Descriptions } from 'antd';
 import dayjs from 'dayjs';
 import { PropertyUpdateInput } from '../../../../generated';
+import { FormTags } from '../../../ui/organisms/form-tags';
 
 export interface PropertiesListingProps {
   data: {
@@ -150,6 +151,14 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           label="Listing Agent Company Address"
         >
           <Input placeholder='Listing Agent Company Address' />
+        </Form.Item>
+
+        <Form.Item 
+          name={['listingDetail', 'amenities']}
+          label="Amenities"
+        >
+          <FormTags />
+
         </Form.Item>
 
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>

@@ -39,6 +39,8 @@ export const PropertiesList: React.FC<any> = (props) => {
     },
   ]
 
+
+
   return (<>
     <div>
       <Table 

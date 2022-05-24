@@ -30,8 +30,8 @@ PropertyDetails = () => {
                 className="px-4 py-2"
                 ref={ref => connect(drag(ref as HTMLDivElement))} 
             >
-                <div className="bg-white shadow overflow-hidden sm:rounded">
-                    <CommunityPropertyDetail data={propertyData} />
+                <div className="bg-white shadow overflow-hidden sm:rounded" style={{padding: '5%', display: 'flex', justifyContent: 'center'}}>
+                    <CommunityPropertyDetail data={propertyData} space="horizontal"/>
                 </div>
             </div>
         )

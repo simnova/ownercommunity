@@ -81,7 +81,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
     const generateAgentDetails = () => {
         return (
             
-            <Space direction='vertical'>
+            <Space direction={props.space ?? 'vertical'}>
                 <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Agent Details</Title></Divider>
                 <Space>
                     {props.data.property.listingDetail.listingAgent ? props.data.property.listingDetail.listingAgent : <></>}

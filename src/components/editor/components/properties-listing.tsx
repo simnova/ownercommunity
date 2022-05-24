@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { useNode } from '@craftjs/core';
-import { Typography, Card, Space, Badge, Skeleton } from 'antd';
+import { Typography, Card, Space, Badge, Skeleton, Button } from 'antd';
 
 const { Text, Title } = Typography;
 
@@ -36,6 +36,7 @@ let PropertiesListing: any;
 
 PropertiesListing = () => {
     const path = window.location.href.slice(window.location.href.lastIndexOf('/'));
+    const navigate = useNavigate();
 
     const { connectors: { connect, drag }, selected } = useNode((state) =>(
         {
@@ -51,8 +52,9 @@ PropertiesListing = () => {
 
     const generatePropertyCard = (property: any) => {
         return (
-            <Card key={property.id} title={<Title level={4}>{property.propertyName}</Title>} size='small' style={{ margin: '15px 0', padding: "5px 25px"}} extra={<Link to={`${path}/:propertyId`} style={{marginLeft: '30px'}}>Details</Link>}>
+            <Card key={property.id} title={<Title level={4}>{property.propertyName}</Title>} size='small' style={{ margin: '15px 0', padding: "5px 25px"}} extra={<Button size="small" type="link" onClick={() => navigate(`${path}/${property.id}`, { state: {propertyId: property.id}})}>Details</Button>}>
                 <Space direction='vertical' size='small'>
+                    <Text>ID: {property.id}</Text>
                     {property.owner && <Text italic>Owner: {property.owner.memberName}</Text>}
                     {property.propertyType && <Text>Property Type: {property.propertyType}</Text>}
                 </Space>

@@ -1,7 +1,18 @@
 import { Typography, Space, Divider, Modal, Button } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { StringLiteralLike } from 'typescript';
+import { Listing } from './listing';
 const { Title, Text  } = Typography;
+
+interface MarketDataConfigDefinition {
+    listedFor: {
+      title: string;
+      listedFlag: boolean;
+      name: string;
+      location: string;
+    }[]
+  }
 
 export const CommunityPropertyDetail: React.FC<any> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -14,30 +25,55 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
       setIsModalVisible(false);
     };
 
-    console.log(props.data.property)
+    console.log(props.data)
+
+    const marketDataConfig: MarketDataConfigDefinition = {
+        listedFor: [
+            {
+                title: 'Sale',
+                listedFlag: props.data.property.listedForSale,
+                name: 'sale',
+                location: '123 Street St',
+            },
+            {
+                title: 'Rent',
+                listedFlag: props.data.property.listedForRent,
+                name: 'rent',
+                location: '123 Street St',
+            },
+            {
+                title: 'Lease',
+                listedFlag: props.data.property.listedForLease,
+                name: 'lease',
+                location: '123 Street St',
+            }
+        ]
+    }
+
+    const buildMarketData = () => {
+        return marketDataConfig.listedFor.map((marketData, index) => {
+            if (marketData.listedFlag) {
+                return (
+                    <div key={index}>
+                        <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>{marketData.title} Details</Title></Divider>
+                        <Listing 
+                            propertyName={props.data.property.propertyName} 
+                            location={marketData.location}
+                            description={props.data.property.listingDetail.description} 
+                            rentLow = {props.data.property.listingDetail.rentLow}
+                            rentHigh = {props.data.property.listingDetail.rentHigh}
+                            {...marketData.name}
+                        />
+                    </div>
+                )
+            }
+        })
+    }
 
     const generateMarketData = () => {
         return (
-            <Space direction='vertical'>
-                {props.data.property.listedForSale && 
-                <Title level={3}>
-                    Sale Price: ${props.data.property.listingDetail.price}
-                </Title>
-
-                }
-
-                {props.data.property.listedForRent && 
-                <Title level={3}>
-                    Rent: ${props.data.property.listingDetail.rentLow} - ${props.data.property.listingDetail.rentHigh}
-                </Title>
-                }
-
-                {props.data.property.listedForLease && 
-                <Title level={3}>
-                    Lease: ${props.data.property.listingDetail.lease}
-                </Title>
-
-                }
+            <Space direction="vertical" style={{width: "100%"}}>
+                {buildMarketData()}
             </Space>
         )
     }
@@ -45,7 +81,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
     const generateAgentDetails = () => {
         return (
             
-            <Space direction='vertical'>
+            <Space direction={props.space ?? 'vertical'}>
                 <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Agent Details</Title></Divider>
                 <Space>
                     {props.data.property.listingDetail.listingAgent ? props.data.property.listingDetail.listingAgent : <></>}
@@ -107,6 +143,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>About 123 Street St</Title></Divider>
             <Text italic>{props.data.property.listingDetail.description}</Text>
             {generateAgentDetails()}
+
         </Space>
     )
 

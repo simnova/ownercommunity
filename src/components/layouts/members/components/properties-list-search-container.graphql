@@ -28,11 +28,7 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
   }
   total
   facets {
-    tags {
-      value
-      count
-    }
-    primaryCategory {
+    type {
       value
       count
     }

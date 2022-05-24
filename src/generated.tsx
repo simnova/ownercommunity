@@ -674,7 +674,13 @@ export type PointInput = {
 };
 
 export type PropertiesSearchInput = {
+  options?: InputMaybe<PropertiesSearchOptions>;
   searchString?: InputMaybe<Scalars['String']>;
+};
+
+export type PropertiesSearchOptions = {
+  facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filters?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type Property = MongoBase & {
@@ -735,8 +741,7 @@ export type PropertyRemoveOwnerInput = {
 
 export type PropertySearchFacets = {
   __typename?: 'PropertySearchFacets';
-  primaryCategory?: Maybe<Array<Maybe<FacetDetail>>>;
-  tags?: Maybe<Array<Maybe<FacetDetail>>>;
+  type?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -3384,12 +3389,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
     } | null> | null;
     facets?: {
       __typename?: 'PropertySearchFacets';
-      tags?: Array<{
-        __typename?: 'FacetDetail';
-        value?: string | null;
-        count?: number | null;
-      } | null> | null;
-      primaryCategory?: Array<{
+      type?: Array<{
         __typename?: 'FacetDetail';
         value?: string | null;
         count?: number | null;
@@ -3412,12 +3412,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
   } | null> | null;
   facets?: {
     __typename?: 'PropertySearchFacets';
-    tags?: Array<{
-      __typename?: 'FacetDetail';
-      value?: string | null;
-      count?: number | null;
-    } | null> | null;
-    primaryCategory?: Array<{
+    type?: Array<{
       __typename?: 'FacetDetail';
       value?: string | null;
       count?: number | null;
@@ -6044,18 +6039,7 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'tags' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'primaryCategory' },
+                  name: { kind: 'Name', value: 'type' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [

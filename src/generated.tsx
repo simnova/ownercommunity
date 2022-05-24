@@ -70,11 +70,13 @@ export type AdditionalAmenities = {
   __typename?: 'AdditionalAmenities';
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   category?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
 };
 
 export type AdditionalAmenitiesInput = {
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   category?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
 };
 
 export type Address = {
@@ -242,7 +244,7 @@ export type FileInfo = {
 
 export type ListingDetails = {
   __typename?: 'ListingDetails';
-  additionalAmenities?: Maybe<AdditionalAmenities>;
+  additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenities>>>;
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   bathrooms?: Maybe<Scalars['Float']>;
   bedroomDetails?: Maybe<BedroomDetails>;
@@ -270,7 +272,7 @@ export type ListingDetails = {
 };
 
 export type ListingDetailsInput = {
-  additionalAmenities?: InputMaybe<AdditionalAmenitiesInput>;
+  additionalAmenities?: InputMaybe<Array<InputMaybe<AdditionalAmenitiesInput>>>;
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   bathrooms?: InputMaybe<Scalars['Float']>;
   bedroomDetails?: InputMaybe<BedroomDetailsInput>;
@@ -2889,10 +2891,10 @@ export type MemberPropertyByPropertyIdQuery = {
       rentLow?: number | null;
       squareFeet?: number | null;
       video?: string | null;
-      additionalAmenities?: {
+      additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         amenities?: Array<string | null> | null;
-      } | null;
+      } | null> | null;
       bedroomDetails?: {
         __typename?: 'BedroomDetails';
         bedDescriptions?: Array<string | null> | null;
@@ -2942,10 +2944,10 @@ export type PropertyDetailsByPropertyIdFieldsFragment = {
     rentLow?: number | null;
     squareFeet?: number | null;
     video?: string | null;
-    additionalAmenities?: {
+    additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenities';
       amenities?: Array<string | null> | null;
-    } | null;
+    } | null> | null;
     bedroomDetails?: {
       __typename?: 'BedroomDetails';
       bedDescriptions?: Array<string | null> | null;

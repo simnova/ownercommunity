@@ -9,3 +9,4 @@ export * from './menu-component';
 export * from './text-component';
 export * from './text-thing';
 export * from './properties-listing';
+export * from './property-details';

@@ -84,7 +84,8 @@ const SiteEditorPageTree: React.FC = (props) => {
   const updatePathOnChildren = (node:any, currentPath:string) => {
     if(node.children) {
       node.children.forEach((child:any) => {
-        var childPath = currentPath + "/" + child.pageName;
+        var childPath = currentPath + "/";
+        child.pageType === 'Details' ? childPath += ":propertyId/*" : childPath += child.pageName;
         child.path = childPath;
         updatePathOnChildren(child,childPath);
       });
@@ -104,12 +105,33 @@ const SiteEditorPageTree: React.FC = (props) => {
   }
 
   const canDrop = ({ node, nextParent, prevPath, nextPath }:any) => {
-    // ensure only one root node or if targeted node is a listing page
-    if (nextPath.length === 1 || nextParent.pageType === 'Listing') { 
+    // ensure only one root node or if targeted node is a listing/details page
+    if (nextPath.length === 1 || nextParent.pageType === 'Listing' || nextParent.pageType === 'Details') { 
       return false;
     }
 
     return true;
+  }
+
+  const canDrag = ({ node }: any) => {
+    return node.pageType !== 'Details';
+  }
+
+  const createDetailsPage = (treeData: any, parentNodeId: string) => {
+    const newNode = {
+      title: 'Details Page',
+      pageType: 'Details',
+      pageName: 'details',
+      id: uniqid(),
+    }
+    return addNodeUnderParent({
+      treeData: treeData,
+      newNode: newNode,
+      parentKey: parentNodeId,
+      ignoreCollapsed: true,
+      expandParent: true,
+      getNodeKey: keyFromTreeId,
+      addAsFirstChild: true}).treeData;
   }
  
   return <>
@@ -130,6 +152,7 @@ const SiteEditorPageTree: React.FC = (props) => {
             getNodeKey: keyFromTreeId,
             addAsFirstChild:true}).treeData;
           //console.log('updatedTree',updatedTree);
+          if (newNode.pageType === 'Listing') { updatedTree = createDetailsPage(updatedTree,newNode.id); }
           setTreeData(updatedTree as any);
           setIsModalVisible(false);
 
@@ -159,7 +182,8 @@ const SiteEditorPageTree: React.FC = (props) => {
             treeData={treeData}
             onChange={setTreeData}
             canDrop={canDrop}
-            canNodeHaveChildren={(node: any) => node.pageType !== 'Listing'}
+            canDrag={canDrag}
+            canNodeHaveChildren={(node: any) => node.pageType !== 'Listing' || node.pageType !== 'Details'}
             generateNodeProps={({node, path}) => {
               let buttons = [
                 <Button onClick={() => {
@@ -184,6 +208,7 @@ const SiteEditorPageTree: React.FC = (props) => {
               if (node.pageType === 'Listing') {
                 buttons.shift();
               }
+
               return {
                 onClick: () => {
                   onClickPage(node,path);
@@ -193,7 +218,7 @@ const SiteEditorPageTree: React.FC = (props) => {
                   borderWidth: node.id === selectedNode?.id ? '2px' : '1px',
                   borderStyle: 'solid',
                 },
-                buttons: buttons,
+                buttons: node.pageType === 'Details' ? [<></>] : buttons,
               }
             }}  
           />

@@ -97,6 +97,13 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           <Input placeholder='Description' />
         </Form.Item>
 
+        <Form.Item 
+          name={['listingDetail', 'amenities']}
+          label="Amenities"
+        >
+          <FormTags />
+
+        </Form.Item>
 
         <Title level={4}>Additional Amenities</Title>
         <Form.List name={['listingDetail','additionalAmenities']}>
@@ -208,14 +215,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           label="Listing Agent Company Address"
         >
           <Input placeholder='Listing Agent Company Address' />
-        </Form.Item>
-
-        <Form.Item 
-          name={['listingDetail', 'amenities']}
-          label="Amenities"
-        >
-          <FormTags />
-
         </Form.Item>
 
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>

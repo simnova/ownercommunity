@@ -21,6 +21,9 @@ fragment MembersPropertiesListingContainerPropertyMutationResultFields on Proper
 }
 
 fragment MembersPropertiesListingContainerPropertyFields on Property {
+  propertyName
+  propertyType
+
   listingDetail {
     price
     rentHigh
@@ -31,6 +34,12 @@ fragment MembersPropertiesListingContainerPropertyFields on Property {
     bathrooms
     squareFeet
     description
+    amenities
+    additionalAmenities {
+      id
+      category
+      amenities
+    } 
     video
     floorPlan
     listingAgent
@@ -42,10 +51,11 @@ fragment MembersPropertiesListingContainerPropertyFields on Property {
     listingAgentCompanyEmail
     listingAgentCompanyWebsite
     listingAgentCompanyAddress
-    amenities
   }
 
   id
+  createdAt
+  updatedAt
 }
 
 fragment MembersPropertiesListingContainerMembersFields on Member {

@@ -56,8 +56,15 @@ const property: Resolvers = {
     },
     propertiesSearch: async (_, _args, context, info) => {
       // info.cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
-      const searchString = _args.input.searchString.trim();
-      const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(searchString);
+      const searchInput = {
+        searchString: _args.input.searchString.trim(),
+        options: {
+          filters: _args.input?.options?.filters ?? [],
+          facets: _args.input?.options?.facets ?? [],
+        },
+      };
+
+      const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(searchInput);
       var idList: string[] = [];
       for await (const result of searchResults?.results) {
         console.log(result);
@@ -67,6 +74,9 @@ const property: Resolvers = {
 
       return {
         propertyResults: results,
+        facets: {
+          type: searchResults.facets?.type,
+        },
       } as PropertySearchResult;
     },
   },

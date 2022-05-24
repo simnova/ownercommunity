@@ -188,7 +188,14 @@ input PropertyDeleteInput {
 
 input PropertiesSearchInput {
   searchString: String
+  options: PropertiesSearchOptions
 }
+
+input PropertiesSearchOptions {
+  filters: [String]
+  facets: [String]
+}
+
 input PropertyAddInput {
   propertyName: String!
 }
@@ -222,8 +229,7 @@ type PropertySearchResult {
   facets: PropertySearchFacets
 }
 type PropertySearchFacets {
-  tags: [FacetDetail]
-  primaryCategory: [FacetDetail]
+  type: [FacetDetail]
 }
 
 type FacetDetail {

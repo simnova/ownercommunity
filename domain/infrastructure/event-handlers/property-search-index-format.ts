@@ -23,8 +23,8 @@ export const propertyListingIndexSpec = {
     {
       name: 'type',
       type: 'Edm.String',
-      searchable: true,
-      filterable: false,
+      searchable: false,
+      filterable: true,
       sortable: false,
       facetable: true,
     },

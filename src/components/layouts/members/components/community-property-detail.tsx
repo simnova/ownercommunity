@@ -1,6 +1,7 @@
 import { Typography, Space, Divider, Modal, Button } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Listing } from './listing';
 const { Title, Text  } = Typography;
 
 export const CommunityPropertyDetail: React.FC<any> = (props) => {
@@ -14,28 +15,52 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
       setIsModalVisible(false);
     };
 
-    console.log(props.data.property)
+    console.log(props.data)
 
     const generateMarketData = () => {
         return (
-            <Space direction='vertical'>
+            <Space direction="vertical" style={{width: "100%"}}>
                 {props.data.property.listedForSale && 
-                <Title level={3}>
-                    Sale Price: ${props.data.property.listingDetail.price}
-                </Title>
-
+                <div>
+                    <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Sale Details</Title></Divider>
+                    {/* <Title level={3}>
+                        Sale Price: ${props.data.property.listingDetail.price}
+                    </Title> */}
+                    <Listing 
+                        propertyName={props.data.property.propertyName} 
+                        location="123 Street St" 
+                        description={props.data.property.listingDetail.description}
+                        salePrice={props.data.property.listingDetail.price} 
+                        sale
+                    />
+                </div>
                 }
 
                 {props.data.property.listedForRent && 
-                <Title level={3}>
-                    Rent: ${props.data.property.listingDetail.rentLow} - ${props.data.property.listingDetail.rentHigh}
-                </Title>
+                <div>
+                    <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Rental Details</Title></Divider>
+                    <Listing 
+                        propertyName={props.data.property.propertyName} 
+                        location="123 Street St" 
+                        description={props.data.property.listingDetail.description} 
+                        rentLow = {props.data.property.listingDetail.rentLow}
+                        rentHigh = {props.data.property.listingDetail.rentHigh}
+                        rental
+                    />
+                </div>
                 }
 
                 {props.data.property.listedForLease && 
-                <Title level={3}>
-                    Lease: ${props.data.property.listingDetail.lease}
-                </Title>
+                    <div>
+                        <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Rental Details</Title></Divider>
+                        <Listing 
+                            propertyName={props.data.property.propertyName} 
+                            location="123 Street St" 
+                            description={props.data.property.listingDetail.description} 
+                            leasePrice = {props.data.property.listingDetail.lease}
+                            lease
+                        />
+                    </div>
 
                 }
             </Space>
@@ -107,6 +132,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>About 123 Street St</Title></Divider>
             <Text italic>{props.data.property.listingDetail.description}</Text>
             {generateAgentDetails()}
+
         </Space>
     )
 

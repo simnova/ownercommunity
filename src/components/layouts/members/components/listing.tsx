@@ -1,4 +1,5 @@
 export const Listing: React.FC<any> = (props) => {
+    console.log(props)
     return (
         <main className="py-6 px-4 sm:p-6 md:py-4 md:px-8">
             <div className="max-w-4xl mx-auto grid grid-cols-1 lg:max-w-full lg:gap-x-20 lg:grid-cols-2">

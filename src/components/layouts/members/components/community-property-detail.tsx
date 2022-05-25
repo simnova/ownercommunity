@@ -63,7 +63,9 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                             description={props.data.property.listingDetail.description} 
                             rentLow = {props.data.property.listingDetail.rentLow}
                             rentHigh = {props.data.property.listingDetail.rentHigh}
-                            {...marketData.name}
+                            isRental={marketData.name === 'rent'}
+                            isLease={marketData.name === 'lease'}
+                            isSale={marketData.name === 'sale'}
                         />
                     </div>
                 )

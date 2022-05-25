@@ -244,6 +244,11 @@ export type FileInfo = {
   url: Scalars['String'];
 };
 
+export type FilterDetails = {
+  fieldName: Scalars['String'];
+  fieldValues: Array<Scalars['String']>;
+};
+
 export type ListingDetails = {
   __typename?: 'ListingDetails';
   additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenities>>>;
@@ -678,7 +683,13 @@ export type PointInput = {
 };
 
 export type PropertiesSearchInput = {
+  options?: InputMaybe<PropertiesSearchOptions>;
   searchString?: InputMaybe<Scalars['String']>;
+};
+
+export type PropertiesSearchOptions = {
+  facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filters?: InputMaybe<Array<InputMaybe<FilterDetails>>>;
 };
 
 export type Property = MongoBase & {
@@ -739,8 +750,7 @@ export type PropertyRemoveOwnerInput = {
 
 export type PropertySearchFacets = {
   __typename?: 'PropertySearchFacets';
-  primaryCategory?: Maybe<Array<Maybe<FacetDetail>>>;
-  tags?: Maybe<Array<Maybe<FacetDetail>>>;
+  type?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -1145,6 +1155,7 @@ export type ResolversTypes = ResolversObject<{
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
   FacetDetail: ResolverTypeWrapper<FacetDetail>;
   FileInfo: ResolverTypeWrapper<FileInfo>;
+  FilterDetails: FilterDetails;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
@@ -1217,6 +1228,7 @@ export type ResolversTypes = ResolversObject<{
   PositiveInt: ResolverTypeWrapper<Scalars['PositiveInt']>;
   PostalCode: ResolverTypeWrapper<Scalars['PostalCode']>;
   PropertiesSearchInput: PropertiesSearchInput;
+  PropertiesSearchOptions: PropertiesSearchOptions;
   Property: ResolverTypeWrapper<Property>;
   PropertyAddInput: PropertyAddInput;
   PropertyAssignOwnerInput: PropertyAssignOwnerInput;
@@ -1301,6 +1313,7 @@ export type ResolversParentTypes = ResolversObject<{
   EmailAddress: Scalars['EmailAddress'];
   FacetDetail: FacetDetail;
   FileInfo: FileInfo;
+  FilterDetails: FilterDetails;
   Float: Scalars['Float'];
   GUID: Scalars['GUID'];
   HSL: Scalars['HSL'];
@@ -1373,6 +1386,7 @@ export type ResolversParentTypes = ResolversObject<{
   PositiveInt: Scalars['PositiveInt'];
   PostalCode: Scalars['PostalCode'];
   PropertiesSearchInput: PropertiesSearchInput;
+  PropertiesSearchOptions: PropertiesSearchOptions;
   Property: Property;
   PropertyAddInput: PropertyAddInput;
   PropertyAssignOwnerInput: PropertyAssignOwnerInput;
@@ -1917,8 +1931,7 @@ export type PropertyPermissionsResolvers<ContextType = Context, ParentType exten
 }>;
 
 export type PropertySearchFacetsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertySearchFacets'] = ResolversParentTypes['PropertySearchFacets']> = ResolversObject<{
-  primaryCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
-  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  type?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

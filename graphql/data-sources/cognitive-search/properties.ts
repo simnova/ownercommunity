@@ -1,21 +1,49 @@
 /** @format */
 
 import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
-import { Property, PropertySearchResult } from '../../generated';
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
 
+export interface FilterDetails {
+  fieldName: string;
+  fieldValues: string[];
+}
+export interface SearchInput {
+  searchString: string;
+  options: {
+    filters: FilterDetails[];
+    facets: string[];
+  };
+}
+
+const PropertyFilterNames = {
+  Bedrooms: 'bedrooms',
+  Type: 'type',
+};
 export class Properties extends CognitiveSearchDataSource<Context> {
-  async propertiesSearch(searchString: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
+  private getFilterString(filters: FilterDetails[]): string {
+    const filterQueries = filters.map((filter) => {
+      if (filter.fieldName === PropertyFilterNames.Bedrooms) {
+        return `${PropertyFilterNames.Bedrooms} ge ${filter.fieldValues[0]}`;
+      }
+      return `search.in(${filter.fieldName}, '${filter.fieldValues.join(',')}',',')`;
+    });
+
+    return filterQueries.join(' and ');
+  }
+
+  async propertiesSearch(input: SearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     const searchService = new CognitiveSearch();
 
-    console.log(`Resolver>Query>propertiesSearch ${searchString}`);
-    const searchResults = await searchService.search('property-listings', searchString.trim() + '*', {
+    console.log(`Resolver>Query>propertiesSearch ${input.searchString}`);
+    let filterString = this.getFilterString(input.options.filters);
+    console.log('filterString: ', filterString);
+    const searchResults = await searchService.search('property-listings', input.searchString.trim(), {
       queryType: 'full',
       searchMode: 'all',
-      // filter: tagFilter, // ???: don't understand
-      facets: [], // ???: don't understand
+      filter: filterString, // `search.in(type, 'condo,townhouse',',') and bedrooms ge 2`,
+      facets: input.options.facets, // ['type'],
     });
 
     console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);

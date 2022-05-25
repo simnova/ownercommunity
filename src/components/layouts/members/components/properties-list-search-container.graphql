@@ -1,6 +1,6 @@
-query MembersPropertiesListContainerProperties($communityId: ID!) {
+query MembersPropertiesListSearchContainerProperties($communityId: ID!) {
   propertiesForCurrentUserByCommunityId(communityId: $communityId) {
-    ...MembersPropertiesListContainerPropertyFields
+    ...MembersPropertiesListSearchContainerPropertyFields
   }
 }
 
@@ -10,13 +10,15 @@ query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInpu
   }
 }
 
-fragment MembersPropertiesListContainerPropertyFields on Property {
+fragment MembersPropertiesListSearchContainerPropertyFields on Property {
   propertyName
   propertyType
   owner {
     memberName
   }
-
+  listingDetail {
+    bedrooms
+  }
   id
   createdAt
   updatedAt
@@ -24,7 +26,7 @@ fragment MembersPropertiesListContainerPropertyFields on Property {
 
 fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResult {
   propertyResults {
-    ...MembersPropertiesListContainerPropertyFields
+    ...MembersPropertiesListSearchContainerPropertyFields
   }
   total
   facets {

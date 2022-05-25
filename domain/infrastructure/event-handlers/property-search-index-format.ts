@@ -28,6 +28,14 @@ export const propertyListingIndexSpec = {
       sortable: false,
       facetable: true,
     },
+    {
+      name: 'bedrooms',
+      type: 'Edm.Int32',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
   ],
 } as SearchIndex;
 
@@ -36,4 +44,5 @@ export interface PropertyListingIndexDocument {
   communityId: string;
   name: string;
   type: string;
+  bedrooms: number;
 }

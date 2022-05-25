@@ -242,6 +242,11 @@ export type FileInfo = {
   url: Scalars['String'];
 };
 
+export type FilterDetails = {
+  fieldName: Scalars['String'];
+  fieldValues: Array<Scalars['String']>;
+};
+
 export type ListingDetails = {
   __typename?: 'ListingDetails';
   additionalAmenities?: Maybe<AdditionalAmenities>;
@@ -682,7 +687,7 @@ export type PropertiesSearchInput = {
 
 export type PropertiesSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  filters?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filters?: InputMaybe<Array<InputMaybe<FilterDetails>>>;
 };
 
 export type Property = MongoBase & {
@@ -1148,6 +1153,7 @@ export type ResolversTypes = ResolversObject<{
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
   FacetDetail: ResolverTypeWrapper<FacetDetail>;
   FileInfo: ResolverTypeWrapper<FileInfo>;
+  FilterDetails: FilterDetails;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
@@ -1305,6 +1311,7 @@ export type ResolversParentTypes = ResolversObject<{
   EmailAddress: Scalars['EmailAddress'];
   FacetDetail: FacetDetail;
   FileInfo: FileInfo;
+  FilterDetails: FilterDetails;
   Float: Scalars['Float'];
   GUID: Scalars['GUID'];
   HSL: Scalars['HSL'];

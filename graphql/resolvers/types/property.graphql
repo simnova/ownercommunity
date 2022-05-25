@@ -191,8 +191,13 @@ input PropertiesSearchInput {
   options: PropertiesSearchOptions
 }
 
+input FilterDetails {
+  fieldName: String!
+  fieldValues: [String!]!
+}
+
 input PropertiesSearchOptions {
-  filters: [String]
+  filters: [FilterDetails]
   facets: [String]
 }
 

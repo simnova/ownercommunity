@@ -1,7 +1,8 @@
-import { Typography, Space, Divider, Modal, Button } from 'antd';
+import { Typography, Space, Divider, Modal, Button, Card } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { StringLiteralLike } from 'typescript';
+import { Small } from '../../../../stories/Button.stories';
 import { Listing } from './listing';
 const { Title, Text  } = Typography;
 
@@ -119,20 +120,26 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         )
     }
 
-    const generateAmentities = () => {
-        return props.data.property.listingDetail.amenities.map((amenitity: any) => {
-            {console.log(amenitity)}
+    const generateAmentities = (amenities: any) => {
+        return amenities.map((amenitity: any) => {
             return <Text>{amenitity}</Text>
         })
-        
-        //(
-            // <div>
-            //     <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Amentities</Title></Divider>
-            //     <div style={{display: "flex"}}>
-            //         {props.data.property.listingDetail.amenities}
-            //     </div>
-            // </div>
-        //)
+    }
+
+    const generateAdditionalAmentities = () => {
+        return props.data.property.listingDetail.additionalAmenities.map((additionalAmenitity: any) => {
+            return (
+
+                    <Card 
+                        bordered={false}
+                    >
+                        <Space direction='vertical'>
+                            <Title level={5}>{additionalAmenitity.category}</Title>
+                            {generateAmentities(additionalAmenitity.amenities)}
+                        </Space>
+                    </Card>
+            )
+        })
     }
 
     return (
@@ -156,8 +163,10 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             {generateMarketData()}
 
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Amentities</Title></Divider>
-            {/* <div style={{display: "flex", gap: "10px", flexWrap: "wrap", padding:"10px"}}>{generateAmentities()}</div> */}
-            <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAmentities()}</div>
+            <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAmentities(props.data.property.listingDetail.amenities)}</div>
+
+            <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Additional Amentities</Title></Divider>
+            <div className='max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAdditionalAmentities()}</div>
 
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>About 123 Street St</Title></Divider>
             <Text italic>{props.data.property.listingDetail.description}</Text>

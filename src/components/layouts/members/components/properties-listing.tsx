@@ -1,11 +1,16 @@
 import React from 'react';
-import { Form, Input, InputNumber, Button, Descriptions } from 'antd';
+import { Form, Input, InputNumber, Button, Descriptions, Typography } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+
 import dayjs from 'dayjs';
-import { PropertyUpdateInput } from '../../../../generated';
+import { PropertyUpdateInput, MembersPropertiesListingContainerPropertyFieldsFragment } from '../../../../generated';
+import { FormTags } from '../../../ui/organisms/form-tags';
+
+const { Title } = Typography;
 
 export interface PropertiesListingProps {
   data: {
-    property: any
+    property: MembersPropertiesListingContainerPropertyFieldsFragment
   };
   onSave: (property: PropertyUpdateInput) => void;
 }
@@ -18,7 +23,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
       <Descriptions title="Property Info" size={'small'} layout={'vertical'}>
         <Descriptions.Item label="Id">{props.data.property.id}</Descriptions.Item>
         <Descriptions.Item label="Created At">{dayjs(props.data.property.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
-        <Descriptions.Item label="Updated At">{dayjs(props.data.property.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
+        <Descriptions.Item label="Updated At">{dayjs(props.data.property.updatedAt).format('DD/MM/YYYY')}</Descriptions.Item>
 
         <Descriptions.Item label="Name">{props.data.property.propertyName}</Descriptions.Item>
         <Descriptions.Item label="Type">{props.data.property.propertyType}</Descriptions.Item>
@@ -91,6 +96,66 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         >
           <Input placeholder='Description' />
         </Form.Item>
+
+        <Form.Item 
+          name={['listingDetail', 'amenities']}
+          label="Amenities"
+        >
+          <FormTags />
+
+        </Form.Item>
+
+        <Title level={4}>Additional Amenities</Title>
+        <Form.List name={['listingDetail','additionalAmenities']}>
+          {(fields, { add, remove }) => {
+            return (
+              <div>
+                {fields.map((field, index) => (
+                  <div key={field.key} style={{marginBottom:'15px'}}>
+                    <div style={{display:'inline-block',verticalAlign:'top', paddingRight:'10px',}}>
+                      <MinusCircleOutlined
+                        className="dynamic-delete-button"
+                        onClick={() => remove(field.name)}
+                      />
+                    </div>
+                    <div style={{display:'inline-block',paddingTop:'3px',paddingLeft:'10px', borderLeft:'1px solid darkgrey'}}>
+                      <Form.Item
+                          name={[index, 'id']}
+                          hidden={true}
+                        >
+                        <Input hidden={true} />
+                      </Form.Item>
+                      <Form.Item
+                        name={[index, 'category']}
+                        label="Category"
+                      >
+                        <Input placeholder='Category' />
+                      </Form.Item>
+                      <Form.Item 
+                        name={[index,'amenities']}
+                        label="Amenities"
+                      >
+                        <FormTags />
+                      </Form.Item>
+                    </div>
+                  </div>  
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => {
+                      add();
+                    }}
+                    block
+                  >
+                    <PlusOutlined /> Add Additional Amenity
+                  </Button>
+                </Form.Item>
+              </div>
+            );
+          }}
+        </Form.List>
+
         <Form.Item
           name={['listingDetail','floorPlan']}
           label="Floor Plan"

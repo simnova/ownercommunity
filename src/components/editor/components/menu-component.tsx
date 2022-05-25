@@ -34,7 +34,7 @@ MenuComponent = ({ theme, ...props } : TextProp) => {
       let child = pageLayouts.find((y:any) => y.id === x.id) as any
       let grandChildren = pageLayouts.filter((x:any) => x.parent === child.id)
       return (
-        (grandChildren && grandChildren.length > 0 )? 
+        (grandChildren && grandChildren.length > 0 && child.pageType !== 'Listing' )? 
           <SubMenu key={child.id} title={child.title}>
             <Menu.Item key={`${child.id}-link`}>
               <Link to={child.path}>{child.title}</Link>

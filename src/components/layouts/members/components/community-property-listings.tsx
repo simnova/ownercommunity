@@ -3,55 +3,58 @@ import { useNavigate } from 'react-router-dom';
 
 const { Text, Title } = Typography;
 
+interface MarketListingConfigDefinition {
+    listedFor: {
+        title: string;
+        listedFlag: boolean;
+        color: string;
+    }[]
+}
+
 export const CommunityPropertyListings: React.FC<any> = (props) => {
     const navigate = useNavigate();
 
     const generateMarketListingType = (property: any) => {
+        const marketListingConfig: MarketListingConfigDefinition = {
+            listedFor: [
+                {
+                    title: 'Sale',
+                    listedFlag: property.listedForSale,
+                    color: "blue",
+                },
+                {
+                    title: 'Rent',
+                    listedFlag: property.listedForRent,
+                    color: "red",
+                },
+                {
+                    title: 'Lease',
+                    listedFlag: property.listedForLease,
+                    color: "green",
+                },
+            ]
+        }
+
         return(
-        <div>
-            {
-                 property.listedForSale && <div 
-                 style={{
-                     display: 'inline-block',
-                     backgroundColor: "blue",
-                     borderRadius: "10px",
-                     padding: "2.5px 5px",
-                     fontSize: "10px",
-                     color: "#fff",
-                 }}>
-                 For Sale
-             </div>
-            }
-
-            {
-                property.listedForRent && <div 
-                style={{
-                    display: 'inline-block',
-                    backgroundColor: "red",
-                    borderRadius: "10px",
-                    padding: "2.5px 5px",
-                    fontSize: "10px",
-                    color: "#fff",
-                }}>
-                For Rent
-            </div>
-            }
-
-            {
-                property.listedForLease && <div 
-                    style={{
-                        display: 'inline-block',
-                        backgroundColor: "green",
-                        borderRadius: "10px",
-                        padding: "2.5px 5px",
-                        fontSize: "10px",
-                        color: "#fff",
-                    }}>
-                    For Lease
-            
-                </div>
-            }
-
+            <div>
+                {marketListingConfig.listedFor.map((marketData, index) => {
+                    console.log("MARKET DATA", marketData);
+                    if (marketData.listedFlag) {
+                        return (
+                            <div key={index}
+                                style={{
+                                    display: 'inline-block',
+                                    background: marketData.color,
+                                    borderRadius: "10px",
+                                    padding: "2.5px 5px",
+                                    fontSize: "10px",
+                                    color: "#fff",
+                                }}>
+                                For {marketData.title}
+                            </div>
+                        )
+                    }
+                })}
             </div>
         )
     }
@@ -94,5 +97,5 @@ export const CommunityPropertyListings: React.FC<any> = (props) => {
     }
 
 
-    return (<>{generateProperties(props.data.property)}</>)
+    return (<div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>{generateProperties(props.data.property)}</div>)
 }

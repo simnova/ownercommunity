@@ -1,7 +1,18 @@
-import { Typography, Space, Divider, Modal, Button } from 'antd';
+import { Typography, Space, Divider, Modal, Button, Card } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Listing } from './listing';
 const { Title, Text  } = Typography;
+
+interface MarketDataConfigDefinition {
+    listedFor: {
+      title: string;
+      listedFlag: boolean;
+      name: string;
+      location: string;
+      price: number[];
+    }[]
+  }
 
 export const CommunityPropertyDetail: React.FC<any> = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -14,30 +25,59 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
       setIsModalVisible(false);
     };
 
-    console.log(props.data.property)
+    console.log(props.data)
+
+    const marketDataConfig: MarketDataConfigDefinition = {
+        listedFor: [
+            {
+                title: 'Sale',
+                listedFlag: props.data.property.listedForSale,
+                name: 'sale',
+                location: '123 Street St',
+                price: [props.data.property.listingDetail.price],
+            },
+            {
+                title: 'Rent',
+                listedFlag: props.data.property.listedForRent,
+                name: 'rental',
+                location: '123 Street St',
+                price: [props.data.property.listingDetail.rentLow, props.data.property.listingDetail.rentHigh],
+            },
+            {
+                title: 'Lease',
+                listedFlag: props.data.property.listedForLease,
+                name: 'lease',
+                location: '123 Street St',
+                price: [props.data.property.listingDetail.lease],
+            }
+        ]
+    }
+
+    const buildMarketData = () => {
+        return marketDataConfig.listedFor.map((marketData, index) => {
+            if (marketData.listedFlag) {
+                return (
+                    <div key={index}>
+                        <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>{marketData.title} Details</Title></Divider>
+                        <Listing 
+                            propertyName={props.data.property.propertyName} 
+                            location={marketData.location}
+                            description={props.data.property.listingDetail.description} 
+                            price={marketData.price}
+                            isRent={marketData.name === 'rental'}
+                            isLease={marketData.name === 'lease'}
+                            isSale={marketData.name === 'sale'}
+                        />
+                    </div>
+                )
+            }
+        })
+    }
 
     const generateMarketData = () => {
         return (
-            <Space direction='vertical'>
-                {props.data.property.listedForSale && 
-                <Title level={3}>
-                    Sale Price: ${props.data.property.listingDetail.price}
-                </Title>
-
-                }
-
-                {props.data.property.listedForRent && 
-                <Title level={3}>
-                    Rent: ${props.data.property.listingDetail.rentLow} - ${props.data.property.listingDetail.rentHigh}
-                </Title>
-                }
-
-                {props.data.property.listedForLease && 
-                <Title level={3}>
-                    Lease: ${props.data.property.listingDetail.lease}
-                </Title>
-
-                }
+            <Space direction="vertical" style={{width: "100%"}}>
+                {buildMarketData()}
             </Space>
         )
     }
@@ -45,7 +85,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
     const generateAgentDetails = () => {
         return (
             
-            <Space direction='vertical'>
+            <Space direction={props.space ?? 'vertical'}>
                 <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Agent Details</Title></Divider>
                 <Space>
                     {props.data.property.listingDetail.listingAgent ? props.data.property.listingDetail.listingAgent : <></>}
@@ -80,8 +120,29 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 <></>
                 }
             </Space>
-
         )
+    }
+
+    const generateAmentities = (amenities: any) => {
+        return amenities.map((amenitity: any) => {
+            return <Text>{amenitity}</Text>
+        })
+    }
+
+    const generateAdditionalAmentities = () => {
+        return props.data.property.listingDetail.additionalAmenities.map((additionalAmenitity: any) => {
+            return (
+
+                    <Card 
+                        bordered={false}
+                    >
+                        <Space direction='vertical'>
+                            <Title level={5}>{additionalAmenitity.category}</Title>
+                            {generateAmentities(additionalAmenitity.amenities)}
+                        </Space>
+                    </Card>
+            )
+        })
     }
 
     return (
@@ -104,9 +165,16 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
             {generateMarketData()}
 
+            <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Amentities</Title></Divider>
+            <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAmentities(props.data.property.listingDetail.amenities)}</div>
+
+            <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Additional Amentities</Title></Divider>
+            <div className='max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAdditionalAmentities()}</div>
+
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>About 123 Street St</Title></Divider>
             <Text italic>{props.data.property.listingDetail.description}</Text>
             {generateAgentDetails()}
+
         </Space>
     )
 

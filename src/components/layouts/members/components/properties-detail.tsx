@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import { PropertyUpdateInput } from '../../../../generated';
 import { UserDeleteOutlined } from '@ant-design/icons';
 
+
+
 export interface PropertiesDetailProps {
   data: {
     property: any
@@ -64,6 +66,8 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
           > 
           <Checkbox style={{ lineHeight: '32px' }}>Listed in Directory</Checkbox>
         </Form.Item>
+
+
 
         <Button type="primary" htmlType="submit" value={'save'} >
           Save

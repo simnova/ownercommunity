@@ -70,11 +70,13 @@ export type AdditionalAmenities = {
   __typename?: 'AdditionalAmenities';
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   category?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
 };
 
 export type AdditionalAmenitiesInput = {
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   category?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
 };
 
 export type Address = {
@@ -247,7 +249,7 @@ export type FilterDetails = {
 
 export type ListingDetails = {
   __typename?: 'ListingDetails';
-  additionalAmenities?: Maybe<AdditionalAmenities>;
+  additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenities>>>;
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   bathrooms?: Maybe<Scalars['Float']>;
   bedroomDetails?: Maybe<BedroomDetails>;
@@ -275,7 +277,7 @@ export type ListingDetails = {
 };
 
 export type ListingDetailsInput = {
-  additionalAmenities?: InputMaybe<AdditionalAmenitiesInput>;
+  additionalAmenities?: InputMaybe<Array<InputMaybe<AdditionalAmenitiesInput>>>;
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   bathrooms?: InputMaybe<Scalars['Float']>;
   bedroomDetails?: InputMaybe<BedroomDetailsInput>;
@@ -2899,10 +2901,11 @@ export type MemberPropertyByPropertyIdQuery = {
       rentLow?: number | null;
       squareFeet?: number | null;
       video?: string | null;
-      additionalAmenities?: {
+      additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
+        category?: string | null;
         amenities?: Array<string | null> | null;
-      } | null;
+      } | null> | null;
       bedroomDetails?: {
         __typename?: 'BedroomDetails';
         bedDescriptions?: Array<string | null> | null;
@@ -2952,10 +2955,11 @@ export type PropertyDetailsByPropertyIdFieldsFragment = {
     rentLow?: number | null;
     squareFeet?: number | null;
     video?: string | null;
-    additionalAmenities?: {
+    additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenities';
+      category?: string | null;
       amenities?: Array<string | null> | null;
-    } | null;
+    } | null> | null;
     bedroomDetails?: {
       __typename?: 'BedroomDetails';
       bedDescriptions?: Array<string | null> | null;
@@ -3464,7 +3468,11 @@ export type MembersPropertiesListingContainerPropertyQuery = {
   __typename?: 'Query';
   property?: {
     __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
     id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
     listingDetail?: {
       __typename?: 'ListingDetails';
       price?: number | null;
@@ -3476,6 +3484,7 @@ export type MembersPropertiesListingContainerPropertyQuery = {
       bathrooms?: number | null;
       squareFeet?: number | null;
       description?: string | null;
+      amenities?: Array<string | null> | null;
       video?: string | null;
       floorPlan?: string | null;
       listingAgent?: string | null;
@@ -3487,6 +3496,12 @@ export type MembersPropertiesListingContainerPropertyQuery = {
       listingAgentCompanyEmail?: string | null;
       listingAgentCompanyWebsite?: string | null;
       listingAgentCompanyAddress?: string | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenities';
+        id: any;
+        category?: string | null;
+        amenities?: Array<string | null> | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -3502,7 +3517,11 @@ export type MembersPropertiesListingContainerPropertyUpdateMutation = {
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     property?: {
       __typename?: 'Property';
+      propertyName: string;
+      propertyType?: string | null;
       id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
       listingDetail?: {
         __typename?: 'ListingDetails';
         price?: number | null;
@@ -3514,6 +3533,7 @@ export type MembersPropertiesListingContainerPropertyUpdateMutation = {
         bathrooms?: number | null;
         squareFeet?: number | null;
         description?: string | null;
+        amenities?: Array<string | null> | null;
         video?: string | null;
         floorPlan?: string | null;
         listingAgent?: string | null;
@@ -3525,6 +3545,12 @@ export type MembersPropertiesListingContainerPropertyUpdateMutation = {
         listingAgentCompanyEmail?: string | null;
         listingAgentCompanyWebsite?: string | null;
         listingAgentCompanyAddress?: string | null;
+        additionalAmenities?: Array<{
+          __typename?: 'AdditionalAmenities';
+          id: any;
+          category?: string | null;
+          amenities?: Array<string | null> | null;
+        } | null> | null;
       } | null;
     } | null;
   };
@@ -3535,7 +3561,11 @@ export type MembersPropertiesListingContainerPropertyMutationResultFieldsFragmen
   status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
   property?: {
     __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
     id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
     listingDetail?: {
       __typename?: 'ListingDetails';
       price?: number | null;
@@ -3547,6 +3577,7 @@ export type MembersPropertiesListingContainerPropertyMutationResultFieldsFragmen
       bathrooms?: number | null;
       squareFeet?: number | null;
       description?: string | null;
+      amenities?: Array<string | null> | null;
       video?: string | null;
       floorPlan?: string | null;
       listingAgent?: string | null;
@@ -3558,13 +3589,23 @@ export type MembersPropertiesListingContainerPropertyMutationResultFieldsFragmen
       listingAgentCompanyEmail?: string | null;
       listingAgentCompanyWebsite?: string | null;
       listingAgentCompanyAddress?: string | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenities';
+        id: any;
+        category?: string | null;
+        amenities?: Array<string | null> | null;
+      } | null> | null;
     } | null;
   } | null;
 };
 
 export type MembersPropertiesListingContainerPropertyFieldsFragment = {
   __typename?: 'Property';
+  propertyName: string;
+  propertyType?: string | null;
   id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
   listingDetail?: {
     __typename?: 'ListingDetails';
     price?: number | null;
@@ -3576,6 +3617,7 @@ export type MembersPropertiesListingContainerPropertyFieldsFragment = {
     bathrooms?: number | null;
     squareFeet?: number | null;
     description?: string | null;
+    amenities?: Array<string | null> | null;
     video?: string | null;
     floorPlan?: string | null;
     listingAgent?: string | null;
@@ -3587,6 +3629,12 @@ export type MembersPropertiesListingContainerPropertyFieldsFragment = {
     listingAgentCompanyEmail?: string | null;
     listingAgentCompanyWebsite?: string | null;
     listingAgentCompanyAddress?: string | null;
+    additionalAmenities?: Array<{
+      __typename?: 'AdditionalAmenities';
+      id: any;
+      category?: string | null;
+      amenities?: Array<string | null> | null;
+    } | null> | null;
   } | null;
 };
 
@@ -5657,7 +5705,10 @@ export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
                   name: { kind: 'Name', value: 'additionalAmenities' },
                   selectionSet: {
                     kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'amenities' } }]
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
                   }
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
@@ -6142,6 +6193,8 @@ export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'listingDetail' },
@@ -6157,6 +6210,19 @@ export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'video' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
@@ -6171,7 +6237,9 @@ export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
               ]
             }
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
       }
     }

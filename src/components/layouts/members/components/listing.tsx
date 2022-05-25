@@ -6,7 +6,7 @@ export const Listing: React.FC<any> = (props) => {
                 <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t from-black/75 via-black/0 sm:bg-none sm:row-start-2 sm:p-0 lg:row-start-1">
                     {props.isSale && <h2 className="text-lg font-semibold text-white sm:text-slate-900 md:text-xl dark:sm:text-white">Sale Price: ${props.price[0]}</h2>}
                     {props.isRent && <h2 className="text-lg font-semibold text-white sm:text-slate-900 md:text-xl dark:sm:text-white">Rent: ${props.price[0]} - ${props.price[1]}</h2>}
-                    {props.isLease && <h2 className="text-lg font-semibold text-white sm:text-slate-900 md:text-xl dark:sm:text-white">Lease Price: ${props.leasePrice}</h2>}
+                    {props.isLease && <h2 className="text-lg font-semibold text-white sm:text-slate-900 md:text-xl dark:sm:text-white">Lease Price: ${props.price[0]}</h2>}
                     <h1 className="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-2xl dark:sm:text-white">{props.propertyName}</h1>
                     <p className="text-sm leading-4 font-medium text-white sm:text-slate-500 dark:sm:text-slate-400">Entire house</p>
                 </div>

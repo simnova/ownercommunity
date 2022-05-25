@@ -1,8 +1,6 @@
 import { Typography, Space, Divider, Modal, Button, Card } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { StringLiteralLike } from 'typescript';
-import { Small } from '../../../../stories/Button.stories';
 import { Listing } from './listing';
 const { Title, Text  } = Typography;
 
@@ -66,7 +64,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                             location={marketData.location}
                             description={props.data.property.listingDetail.description} 
                             price={marketData.price}
-                            isRent={marketData.name === 'rent'}
+                            isRent={marketData.name === 'rental'}
                             isLease={marketData.name === 'lease'}
                             isSale={marketData.name === 'sale'}
                         />

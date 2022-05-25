@@ -2893,6 +2893,7 @@ export type MemberPropertyByPropertyIdQuery = {
       video?: string | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
+        category?: string | null;
         amenities?: Array<string | null> | null;
       } | null> | null;
       bedroomDetails?: {
@@ -2946,6 +2947,7 @@ export type PropertyDetailsByPropertyIdFieldsFragment = {
     video?: string | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenities';
+      category?: string | null;
       amenities?: Array<string | null> | null;
     } | null> | null;
     bedroomDetails?: {
@@ -5672,7 +5674,10 @@ export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
                   name: { kind: 'Name', value: 'additionalAmenities' },
                   selectionSet: {
                     kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'amenities' } }]
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
                   }
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },

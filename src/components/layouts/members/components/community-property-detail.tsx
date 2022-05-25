@@ -1,7 +1,6 @@
-import { Typography, Space, Divider, Modal, Button } from 'antd';
+import { Typography, Space, Divider, Modal, Button, Card } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { StringLiteralLike } from 'typescript';
 import { Listing } from './listing';
 const { Title, Text  } = Typography;
 
@@ -40,7 +39,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             {
                 title: 'Rent',
                 listedFlag: props.data.property.listedForRent,
-                name: 'rent',
+                name: 'rental',
                 location: '123 Street St',
                 price: [props.data.property.listingDetail.rentLow, props.data.property.listingDetail.rentHigh],
             },
@@ -65,7 +64,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                             location={marketData.location}
                             description={props.data.property.listingDetail.description} 
                             price={marketData.price}
-                            isRent={marketData.name === 'rent'}
+                            isRent={marketData.name === 'rental'}
                             isLease={marketData.name === 'lease'}
                             isSale={marketData.name === 'sale'}
                         />
@@ -121,8 +120,29 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 <></>
                 }
             </Space>
-
         )
+    }
+
+    const generateAmentities = (amenities: any) => {
+        return amenities.map((amenitity: any) => {
+            return <Text>{amenitity}</Text>
+        })
+    }
+
+    const generateAdditionalAmentities = () => {
+        return props.data.property.listingDetail.additionalAmenities.map((additionalAmenitity: any) => {
+            return (
+
+                    <Card 
+                        bordered={false}
+                    >
+                        <Space direction='vertical'>
+                            <Title level={5}>{additionalAmenitity.category}</Title>
+                            {generateAmentities(additionalAmenitity.amenities)}
+                        </Space>
+                    </Card>
+            )
+        })
     }
 
     return (
@@ -144,6 +164,12 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             {/* <Title level={3}>{props.data.property.location}</Title> */}
 
             {generateMarketData()}
+
+            <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Amentities</Title></Divider>
+            <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAmentities(props.data.property.listingDetail.amenities)}</div>
+
+            <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Additional Amentities</Title></Divider>
+            <div className='max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAdditionalAmentities()}</div>
 
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>About 123 Street St</Title></Divider>
             <Text italic>{props.data.property.listingDetail.description}</Text>

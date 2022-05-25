@@ -21,6 +21,7 @@ fragment PropertyDetailsByPropertyIdFields on Property{
     }
     listingDetail {
       additionalAmenities {
+        category
         amenities
       }
       amenities

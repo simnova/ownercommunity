@@ -32,7 +32,7 @@ type ListingDetails {
   squareFeet: Int
   description: String
   amenities: [String]
-  additionalAmenities: AdditionalAmenities
+  additionalAmenities: [AdditionalAmenities]
   images: [String]
   video: String
   floorPlan: String
@@ -59,7 +59,7 @@ input ListingDetailsInput {
   squareFeet: Int
   description: String
   amenities: [String]
-  additionalAmenities: AdditionalAmenitiesInput
+  additionalAmenities: [AdditionalAmenitiesInput]
   images: [String]
   video: String
   floorPlan: String
@@ -85,10 +85,12 @@ input BedroomDetailsInput {
 }
 
 type AdditionalAmenities {
+  id: ObjectID!
   category: String
   amenities: [String]
 }
 input AdditionalAmenitiesInput {
+  id: ObjectID
   category: String
   amenities: [String]
 }

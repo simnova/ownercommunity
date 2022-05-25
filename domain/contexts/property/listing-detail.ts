@@ -187,9 +187,18 @@ export class ListingDetails extends Entity<ListingDetailProps> implements Listin
     this.validateVisa();
     this.props.amenities = amenities?.valueOf();
   }
-  //requestSetAdditionalAmenities(additionalAmenities: AdditionalAmenity[]):void{
-  /// this.props.additionalAmenities.items = additionalAmenities.map(additionalAmenity => additionalAmenity.props);
-  // }
+  requestNewAmenity(): AdditionalAmenity {
+    this.validateVisa();
+    return new AdditionalAmenity(this.props.additionalAmenities.getNewItem(), this.visa);
+  }
+  requestRemoveAdditionalAmenity(additionalAmenity: AdditionalAmenity): void {
+    this.validateVisa();
+    this.props.additionalAmenities.removeItem(additionalAmenity.props);
+  }
+  requestAddAdditionalAmenity(additionalAmenity: AdditionalAmenity): void {
+    this.validateVisa();
+    this.props.additionalAmenities.addItem(additionalAmenity.props);
+  }
   requestSetImages(images: ValueObjects.Images | null): void {
     this.validateVisa();
     this.props.images = images?.valueOf();

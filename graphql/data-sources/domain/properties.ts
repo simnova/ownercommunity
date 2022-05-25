@@ -8,6 +8,8 @@ import { Property } from '../../../infrastructure/data-sources/cosmos-db/models/
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
+import { Amenities } from '../../../domain/contexts/property/listing-detail-value-objects';
+import { AdditionalAmenity, AdditionalAmenityProps } from '../../../domain/contexts/property/additional-amenity';
 
 type PropType = PropertyDomainAdapter;
 type DomainType = PropertyDO<PropType>;
@@ -57,8 +59,30 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
         if (input.listingDetail.bathrooms !== undefined) property.listingDetail.requestSetBathrooms(input.listingDetail.bathrooms);
         if (input.listingDetail.squareFeet !== undefined) property.listingDetail.requestSetSquareFeet(input.listingDetail.squareFeet);
         if (input.listingDetail.description !== undefined) property.listingDetail.requestSetDescription(input.listingDetail.description);
-        // if(input.listingDetail.amenities !== undefined) property.listingDetail.requestSetAmenities(input.listingDetail.amenities);
-        //todo addtional ammenities
+        if (input.listingDetail.amenities !== undefined) property.listingDetail.requestSetAmenities(new Amenities(input.listingDetail.amenities));
+        if (input.listingDetail.additionalAmenities !== undefined) {
+          let systemAdditionalAmenities = property.listingDetail.additionalAmenities;
+          let updatedAdditionalAmenities = input.listingDetail.additionalAmenities;
+          updatedAdditionalAmenities.forEach((updatedAmenity) => {
+            if (!updatedAmenity.id) {
+              let newAmenity = property.listingDetail.requestNewAmenity();
+              newAmenity.requestSetCategory(updatedAmenity.category);
+              newAmenity.requestSetAmenities(new Amenities(updatedAmenity.amenities));
+            } else {
+              let systemAmenity = systemAdditionalAmenities.find((amenity) => amenity.id === updatedAmenity.id);
+              if (systemAmenity === undefined) throw new Error('Amenity not found');
+              systemAmenity.requestSetCategory(updatedAmenity.category);
+              systemAmenity.requestSetAmenities(new Amenities(updatedAmenity.amenities));
+            }
+          });
+          let updatedIds = updatedAdditionalAmenities.filter((x) => x.id !== undefined).map((x) => x.id);
+          systemAdditionalAmenities
+            .filter((amenity) => !updatedIds.includes(amenity.id))
+            .forEach((systemAmenity) => {
+              property.listingDetail.requestRemoveAdditionalAmenity(systemAmenity);
+            });
+        }
+
         //todo images
         //todo video
         if (input.listingDetail.floorPlan !== undefined) property.listingDetail.requestSetFloorPlan(input.listingDetail.floorPlan);

@@ -242,6 +242,11 @@ export type FileInfo = {
   url: Scalars['String'];
 };
 
+export type FilterDetails = {
+  fieldName: Scalars['String'];
+  fieldValues: Array<Scalars['String']>;
+};
+
 export type ListingDetails = {
   __typename?: 'ListingDetails';
   additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenities>>>;
@@ -676,7 +681,13 @@ export type PointInput = {
 };
 
 export type PropertiesSearchInput = {
+  options?: InputMaybe<PropertiesSearchOptions>;
   searchString?: InputMaybe<Scalars['String']>;
+};
+
+export type PropertiesSearchOptions = {
+  facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filters?: InputMaybe<Array<InputMaybe<FilterDetails>>>;
 };
 
 export type Property = MongoBase & {
@@ -737,8 +748,7 @@ export type PropertyRemoveOwnerInput = {
 
 export type PropertySearchFacets = {
   __typename?: 'PropertySearchFacets';
-  primaryCategory?: Maybe<Array<Maybe<FacetDetail>>>;
-  tags?: Maybe<Array<Maybe<FacetDetail>>>;
+  type?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -3368,6 +3378,24 @@ export type MembersPropertiesListContainerPropertyFieldsFragment = {
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
 };
 
+export type MembersPropertiesListSearchContainerPropertiesQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MembersPropertiesListSearchContainerPropertiesQuery = {
+  __typename?: 'Query';
+  propertiesForCurrentUserByCommunityId?: Array<{
+    __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+    listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+  } | null> | null;
+};
+
 export type MemberPropertiesListSearchContainerPropertiesQueryVariables = Exact<{
   input: PropertiesSearchInput;
 }>;
@@ -3385,21 +3413,28 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       createdAt?: any | null;
       updatedAt?: any | null;
       owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+      listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
     } | null> | null;
     facets?: {
       __typename?: 'PropertySearchFacets';
-      tags?: Array<{
-        __typename?: 'FacetDetail';
-        value?: string | null;
-        count?: number | null;
-      } | null> | null;
-      primaryCategory?: Array<{
+      type?: Array<{
         __typename?: 'FacetDetail';
         value?: string | null;
         count?: number | null;
       } | null> | null;
     } | null;
   } | null;
+};
+
+export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  propertyName: string;
+  propertyType?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+  listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
 };
 
 export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
@@ -3413,15 +3448,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     createdAt?: any | null;
     updatedAt?: any | null;
     owner?: { __typename?: 'Member'; memberName?: string | null } | null;
+    listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
   } | null> | null;
   facets?: {
     __typename?: 'PropertySearchFacets';
-    tags?: Array<{
-      __typename?: 'FacetDetail';
-      value?: string | null;
-      count?: number | null;
-    } | null> | null;
-    primaryCategory?: Array<{
+    type?: Array<{
       __typename?: 'FacetDetail';
       value?: string | null;
       count?: number | null;
@@ -6063,6 +6094,42 @@ export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersPropertiesListContainerPropertyFieldsFragment, unknown>;
+export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListSearchContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MembersPropertiesListSearchContainerPropertyFieldsFragment, unknown>;
 export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -6081,7 +6148,10 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
               selections: [
                 {
                   kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'MembersPropertiesListContainerPropertyFields' }
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersPropertiesListSearchContainerPropertyFields'
+                  }
                 }
               ]
             }
@@ -6095,18 +6165,7 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'tags' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'primaryCategory' },
+                  name: { kind: 'Name', value: 'type' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -6121,7 +6180,7 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
         ]
       }
     },
-    ...MembersPropertiesListContainerPropertyFieldsFragmentDoc.definitions
+    ...MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc.definitions
   ]
 } as unknown as DocumentNode<MemberPropertiesListSearchContainerPropertyFieldsFragment, unknown>;
 export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
@@ -9905,6 +9964,58 @@ export const MembersPropertiesListContainerPropertiesDocument = {
 } as unknown as DocumentNode<
   MembersPropertiesListContainerPropertiesQuery,
   MembersPropertiesListContainerPropertiesQueryVariables
+>;
+export const MembersPropertiesListSearchContainerPropertiesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MembersPropertiesListSearchContainerProperties' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersPropertiesListSearchContainerPropertyFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesListSearchContainerPropertiesQuery,
+  MembersPropertiesListSearchContainerPropertiesQueryVariables
 >;
 export const MemberPropertiesListSearchContainerPropertiesDocument = {
   kind: 'Document',

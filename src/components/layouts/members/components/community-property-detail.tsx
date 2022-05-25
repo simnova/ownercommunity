@@ -157,7 +157,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Amentities</Title></Divider>
             {/* <div style={{display: "flex", gap: "10px", flexWrap: "wrap", padding:"10px"}}>{generateAmentities()}</div> */}
-            <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAmentities()}</div>
+            <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAmentities()}</div>
 
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>About 123 Street St</Title></Divider>
             <Text italic>{props.data.property.listingDetail.description}</Text>

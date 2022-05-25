@@ -38,18 +38,21 @@ export const CommunityPropertyListings: React.FC<any> = (props) => {
         return(
             <div>
                 {marketListingConfig.listedFor.map((marketData, index) => {
+                    console.log("MARKET DATA", marketData);
                     if (marketData.listedFlag) {
-                        <div key={index}
-                            style={{
-                                display: 'inline-block',
-                                background: marketData.color,
-                                borderRadius: "10px",
-                                padding: "2.5px 5px",
-                                fontSize: "10px",
-                                color: "#fff",
-                            }}>
-                        For {marketData.title}
-                        </div>
+                        return (
+                            <div key={index}
+                                style={{
+                                    display: 'inline-block',
+                                    background: marketData.color,
+                                    borderRadius: "10px",
+                                    padding: "2.5px 5px",
+                                    fontSize: "10px",
+                                    color: "#fff",
+                                }}>
+                                For {marketData.title}
+                            </div>
+                        )
                     }
                 })}
             </div>

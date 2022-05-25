@@ -12,6 +12,7 @@ interface MarketDataConfigDefinition {
       listedFlag: boolean;
       name: string;
       location: string;
+      price: number[];
     }[]
   }
 
@@ -35,18 +36,21 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 listedFlag: props.data.property.listedForSale,
                 name: 'sale',
                 location: '123 Street St',
+                price: [props.data.property.listingDetail.price],
             },
             {
                 title: 'Rent',
                 listedFlag: props.data.property.listedForRent,
                 name: 'rental',
                 location: '123 Street St',
+                price: [props.data.property.listingDetail.rentLow, props.data.property.listingDetail.rentHigh],
             },
             {
                 title: 'Lease',
                 listedFlag: props.data.property.listedForLease,
                 name: 'lease',
                 location: '123 Street St',
+                price: [props.data.property.listingDetail.lease],
             }
         ]
     }
@@ -61,9 +65,8 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                             propertyName={props.data.property.propertyName} 
                             location={marketData.location}
                             description={props.data.property.listingDetail.description} 
-                            rentLow = {props.data.property.listingDetail.rentLow}
-                            rentHigh = {props.data.property.listingDetail.rentHigh}
-                            isRental={marketData.name === 'rent'}
+                            price={marketData.price}
+                            isRent={marketData.name === 'rent'}
                             isLease={marketData.name === 'lease'}
                             isSale={marketData.name === 'sale'}
                         />

@@ -38,7 +38,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             {
                 title: 'Rent',
                 listedFlag: props.data.property.listedForRent,
-                name: 'rent',
+                name: 'rental',
                 location: '123 Street St',
             },
             {
@@ -116,8 +116,23 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 <></>
                 }
             </Space>
-
         )
+    }
+
+    const generateAmentities = () => {
+        return props.data.property.listingDetail.amenities.map((amenitity: any) => {
+            {console.log(amenitity)}
+            return <Text>{amenitity}</Text>
+        })
+        
+        //(
+            // <div>
+            //     <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Amentities</Title></Divider>
+            //     <div style={{display: "flex"}}>
+            //         {props.data.property.listingDetail.amenities}
+            //     </div>
+            // </div>
+        //)
     }
 
     return (
@@ -139,6 +154,10 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             {/* <Title level={3}>{props.data.property.location}</Title> */}
 
             {generateMarketData()}
+
+            <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Amentities</Title></Divider>
+            {/* <div style={{display: "flex", gap: "10px", flexWrap: "wrap", padding:"10px"}}>{generateAmentities()}</div> */}
+            <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAmentities()}</div>
 
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>About 123 Street St</Title></Divider>
             <Text italic>{props.data.property.listingDetail.description}</Text>

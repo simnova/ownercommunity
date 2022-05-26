@@ -52,7 +52,7 @@ PropertiesListing = () => {
 
     const generatePropertyCard = (property: any) => {
         return (
-            <Card key={property.id} title={<Title level={4}>{property.propertyName}</Title>} size='small' style={{ margin: '15px 0', padding: "5px 25px"}} extra={<Button size="small" type="link" onClick={() => navigate(`${path}/${property.id}`, { state: {propertyId: property.id}})}>Details</Button>}>
+            <Card key={property.id} title={<Title level={4}>{property.propertyName}</Title>} size='small' style={{ margin: '15px 0', padding: "5px 25px"}} extra={<Button size="small" type="link" onClick={() => navigate(`${path}/${property.id}`)}>Details</Button>}>
                 <Space direction='vertical' size='small'>
                     <Text>ID: {property.id}</Text>
                     {property.owner && <Text italic>Owner: {property.owner.memberName}</Text>}

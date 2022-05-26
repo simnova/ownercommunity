@@ -20,8 +20,11 @@ PropertyDetails = () => {
 
     const {loading: propertyLoading, error: propertyError, data: propertyData } = useQuery(MemberPropertyByPropertyIdDocument, 
         {
-            variables: { propertyId: propertyId}
-        }
+            variables: { 
+                propertyId: propertyId,
+                skip: () => propertyId === 'page-editor'
+            }
+        },
     );
 
     if (propertyId === 'page-editor') {

@@ -18,6 +18,7 @@ fragment MembersPropertiesListSearchContainerPropertyFields on Property {
   }
   listingDetail {
     bedrooms
+    amenities
   }
   id
   createdAt

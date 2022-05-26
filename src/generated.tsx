@@ -3392,7 +3392,11 @@ export type MembersPropertiesListSearchContainerPropertiesQuery = {
     createdAt?: any | null;
     updatedAt?: any | null;
     owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-    listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      bedrooms?: number | null;
+      amenities?: Array<string | null> | null;
+    } | null;
   } | null> | null;
 };
 
@@ -3413,7 +3417,11 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       createdAt?: any | null;
       updatedAt?: any | null;
       owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-      listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+      listingDetail?: {
+        __typename?: 'ListingDetails';
+        bedrooms?: number | null;
+        amenities?: Array<string | null> | null;
+      } | null;
     } | null> | null;
     facets?: {
       __typename?: 'PropertySearchFacets';
@@ -3434,7 +3442,11 @@ export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
   createdAt?: any | null;
   updatedAt?: any | null;
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-  listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+  listingDetail?: {
+    __typename?: 'ListingDetails';
+    bedrooms?: number | null;
+    amenities?: Array<string | null> | null;
+  } | null;
 };
 
 export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
@@ -3448,7 +3460,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     createdAt?: any | null;
     updatedAt?: any | null;
     owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-    listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      bedrooms?: number | null;
+      amenities?: Array<string | null> | null;
+    } | null;
   } | null> | null;
   facets?: {
     __typename?: 'PropertySearchFacets';
@@ -6119,7 +6135,10 @@ export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
             name: { kind: 'Name', value: 'listingDetail' },
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } }]
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+              ]
             }
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },

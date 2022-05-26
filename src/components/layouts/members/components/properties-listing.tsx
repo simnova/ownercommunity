@@ -5,12 +5,15 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
 import { PropertyUpdateInput, MembersPropertiesListingContainerPropertyFieldsFragment } from '../../../../generated';
 import { FormTags } from '../../../ui/organisms/form-tags';
+import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload-container';
+
 
 const { Title } = Typography;
 
 export interface PropertiesListingProps {
   data: {
     property: MembersPropertiesListingContainerPropertyFieldsFragment
+    communityId: string
   };
   onSave: (property: PropertyUpdateInput) => void;
 }
@@ -155,6 +158,13 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
             );
           }}
         </Form.List>
+
+        <Form.Item
+          name={['listingDetail','images']}
+          label="Images"
+        >
+          <PropertiesListingImageUploadContainer propertyId={props.data.property.id} communityId={props.data.communityId} />
+        </Form.Item>
 
         <Form.Item
           name={['listingDetail','floorPlan']}

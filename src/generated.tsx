@@ -2927,6 +2927,7 @@ export type MemberPropertyByPropertyIdQuery = {
       } | null> | null;
       bedroomDetails?: {
         __typename?: 'BedroomDetails';
+        roomName?: string | null;
         bedDescriptions?: Array<string | null> | null;
       } | null;
     } | null;
@@ -2981,6 +2982,7 @@ export type PropertyDetailsByPropertyIdFieldsFragment = {
     } | null> | null;
     bedroomDetails?: {
       __typename?: 'BedroomDetails';
+      roomName?: string | null;
       bedDescriptions?: Array<string | null> | null;
     } | null;
   } | null;
@@ -5781,6 +5783,7 @@ export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } }
                     ]
                   }

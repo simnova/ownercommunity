@@ -201,6 +201,7 @@ export class ListingDetails extends Entity<ListingDetailProps> implements Listin
   }
   requestSetImages(images: ValueObjects.Images | null): void {
     this.validateVisa();
+    //TODO: if any images are removed, remove them from blob storage as well as part of events.
     this.props.images = images?.valueOf();
   }
   requestSetVideo(video: ValueObjects.Video | null): void {

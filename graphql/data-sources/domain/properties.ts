@@ -8,7 +8,7 @@ import { Property } from '../../../infrastructure/data-sources/cosmos-db/models/
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
-import { Amenities } from '../../../domain/contexts/property/listing-detail-value-objects';
+import { Amenities, Images } from '../../../domain/contexts/property/listing-detail-value-objects';
 import { AdditionalAmenity, AdditionalAmenityProps } from '../../../domain/contexts/property/additional-amenity';
 
 type PropType = PropertyDomainAdapter;
@@ -82,8 +82,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
               property.listingDetail.requestRemoveAdditionalAmenity(systemAmenity);
             });
         }
-
-        //todo images
+        if (input.listingDetail.images !== undefined) property.listingDetail.requestSetImages(new Images(input.listingDetail.images));
         //todo video
         if (input.listingDetail.floorPlan !== undefined) property.listingDetail.requestSetFloorPlan(input.listingDetail.floorPlan);
         //todo floor plan images

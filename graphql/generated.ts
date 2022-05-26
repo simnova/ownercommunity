@@ -473,6 +473,7 @@ export type Mutation = {
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
   propertyDelete: PropertyMutationResult;
+  propertyListingImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyRemoveOwner: PropertyMutationResult;
   propertyUpdate: PropertyMutationResult;
   roleAdd: RoleMutationResult;
@@ -570,6 +571,11 @@ export type MutationPropertyAssignOwnerArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationPropertyDeleteArgs = {
   input: PropertyDeleteInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyListingImageCreateAuthHeaderArgs = {
+  input: PropertyBlobFileInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -717,6 +723,19 @@ export type PropertyAddInput = {
 export type PropertyAssignOwnerInput = {
   id: Scalars['ObjectID'];
   ownerId: Scalars['ObjectID'];
+};
+
+export type PropertyBlobFileAuthHeaderResult = {
+  __typename?: 'PropertyBlobFileAuthHeaderResult';
+  authHeader?: Maybe<BlobAuthHeader>;
+  property?: Maybe<Property>;
+  status: MutationStatus;
+};
+
+export type PropertyBlobFileInput = {
+  contentLength: Scalars['Int'];
+  contentType: Scalars['String'];
+  propertyId: Scalars['ObjectID'];
 };
 
 export type PropertyDeleteInput = {
@@ -1232,6 +1251,8 @@ export type ResolversTypes = ResolversObject<{
   Property: ResolverTypeWrapper<Property>;
   PropertyAddInput: PropertyAddInput;
   PropertyAssignOwnerInput: PropertyAssignOwnerInput;
+  PropertyBlobFileAuthHeaderResult: ResolverTypeWrapper<PropertyBlobFileAuthHeaderResult>;
+  PropertyBlobFileInput: PropertyBlobFileInput;
   PropertyDeleteInput: PropertyDeleteInput;
   PropertyMutationResult: ResolverTypeWrapper<PropertyMutationResult>;
   PropertyOwnerInput: PropertyOwnerInput;
@@ -1390,6 +1411,8 @@ export type ResolversParentTypes = ResolversObject<{
   Property: Property;
   PropertyAddInput: PropertyAddInput;
   PropertyAssignOwnerInput: PropertyAssignOwnerInput;
+  PropertyBlobFileAuthHeaderResult: PropertyBlobFileAuthHeaderResult;
+  PropertyBlobFileInput: PropertyBlobFileInput;
   PropertyDeleteInput: PropertyDeleteInput;
   PropertyMutationResult: PropertyMutationResult;
   PropertyOwnerInput: PropertyOwnerInput;
@@ -1806,6 +1829,12 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   propertyAdd?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAddArgs, 'input'>>;
   propertyAssignOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAssignOwnerArgs, 'input'>>;
   propertyDelete?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyDeleteArgs, 'input'>>;
+  propertyListingImageCreateAuthHeader?: Resolver<
+    ResolversTypes['PropertyBlobFileAuthHeaderResult'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPropertyListingImageCreateAuthHeaderArgs, 'input'>
+  >;
   propertyRemoveOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyRemoveOwnerArgs, 'input'>>;
   propertyUpdate?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyUpdateArgs, 'input'>>;
   roleAdd?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleAddArgs, 'input'>>;
@@ -1912,6 +1941,16 @@ export type PropertyResolvers<ContextType = Context, ParentType extends Resolver
   propertyType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PropertyBlobFileAuthHeaderResultResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['PropertyBlobFileAuthHeaderResult'] = ResolversParentTypes['PropertyBlobFileAuthHeaderResult']
+> = ResolversObject<{
+  authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
+  property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2207,6 +2246,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   PositiveInt?: GraphQLScalarType;
   PostalCode?: GraphQLScalarType;
   Property?: PropertyResolvers<ContextType>;
+  PropertyBlobFileAuthHeaderResult?: PropertyBlobFileAuthHeaderResultResolvers<ContextType>;
   PropertyMutationResult?: PropertyMutationResultResolvers<ContextType>;
   PropertyPermissions?: PropertyPermissionsResolvers<ContextType>;
   PropertySearchFacets?: PropertySearchFacetsResolvers<ContextType>;

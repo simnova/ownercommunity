@@ -6,6 +6,7 @@ import { Modal, Button ,Row, Col, Collapse,Typography } from 'antd';
 import { useEditor } from '@craftjs/core';
 
 import { PageDetails, PageDetailsPropTypes } from "../../../editor/tree/page-details";
+import { DetailsPageDetails } from "../../../editor/tree/details-page-details";
 import uniqid from 'uniqid';
 
 const { Title } = Typography;
@@ -226,7 +227,20 @@ const SiteEditorPageTree: React.FC = (props) => {
         <Col span={6} style={{backgroundColor:'gray', minHeight:'100%'}}>
           <Collapse defaultActiveKey={['1']}  expandIconPosition="right">
             <Panel header="Page Settings" key="1">
-            {selectedNode ?
+            {selectedNode.pageType === 'Details' ?
+            <>
+                <hr/>
+                <DetailsPageDetails
+                  data={selectedNode}
+                  saveData={function (data: { id: string; title: string;}): void {
+                    var node = getNodeAtPath({treeData: treeData, path: selectedNodePath, getNodeKey: keyFromTreeIndex})?.node as any;
+                    node.title = data.title;
+                    var updatedTree = changeNodeAtPath({treeData: treeData, path: selectedNodePath, newNode: node, getNodeKey: keyFromTreeIndex});
+                    setTreeData(updatedTree);
+                  }}
+                />
+              </>
+              : selectedNode ?
               <>
                 <hr/>
                 <PageDetails

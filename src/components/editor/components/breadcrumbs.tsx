@@ -31,7 +31,7 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
   const listingPagePath = parentPage?.pageType === 'Listing' ? pageLayouts.find((x:any) => x.id === parentPage?.id)?.path : '';
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-    if (url.slice(listingPagePath.length).length > 0) {
+    if (listingPagePath !== '' && url.slice(listingPagePath.length).length > 0) {
       const pageTitle = pageLayouts.find((x:any) => x.parent === parentPage.id)?.title as any;
       return (
         <Breadcrumb.Item key={url}>

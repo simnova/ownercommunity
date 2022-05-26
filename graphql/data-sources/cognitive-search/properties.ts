@@ -20,12 +20,18 @@ export interface SearchInput {
 const PropertyFilterNames = {
   Bedrooms: 'bedrooms',
   Type: 'type',
+  Amenities: 'amenities',
+  AdditionalAmenitiesCategory: 'additionalAmenities/category',
+  AdditionalAmenitiesAmenities: 'additionalAmenities/amenities',
 };
 export class Properties extends CognitiveSearchDataSource<Context> {
   private getFilterString(filters: FilterDetails[]): string {
     const filterQueries = filters.map((filter) => {
       if (filter.fieldName === PropertyFilterNames.Bedrooms) {
         return `${PropertyFilterNames.Bedrooms} ge ${filter.fieldValues[0]}`;
+      }
+      if (filter.fieldName === PropertyFilterNames.Amenities) {
+        return "amenities/any(t: t eq '" + filter.fieldValues?.join("') and amenities/any(t: t eq '") + "')";
       }
       return `search.in(${filter.fieldName}, '${filter.fieldValues.join(',')}',',')`;
     });

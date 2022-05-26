@@ -18,6 +18,7 @@ export default () => {
         name: property.propertyName,
         type: property.propertyType,
         bedrooms: property.listingDetail.bedrooms,
+        amenities: property.listingDetail.amenities,
       };
       let cognitiveSearch = new CognitiveSearch();
       await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);

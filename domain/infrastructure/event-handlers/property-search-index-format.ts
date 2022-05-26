@@ -36,6 +36,38 @@ export const propertyListingIndexSpec = {
       sortable: true,
       facetable: true,
     },
+    {
+      name: 'amenities',
+      type: 'Collection(Edm.String)',
+      searchable: false,
+      filterable: true,
+      sortable: false,
+      facetable: true,
+    },
+    {
+      name: 'additionalAmenities',
+      type: 'Collection(Edm.Complex)',
+      fields: [
+        {
+          name: 'category',
+          type: 'Edm.String',
+          facetable: true,
+          filterable: true,
+          retrievable: true,
+          searchable: false,
+          sortable: false,
+        },
+        {
+          name: 'amenities',
+          type: 'Collection(Edm.String)',
+          facetable: true,
+          filterable: true,
+          retrievable: true,
+          searchable: false,
+          sortable: false,
+        },
+      ],
+    },
   ],
 } as SearchIndex;
 
@@ -45,4 +77,9 @@ export interface PropertyListingIndexDocument {
   name: string;
   type: string;
   bedrooms: number;
+  amenities: string[];
+  additionalAmenities: {
+    category: string;
+    amenities: string[];
+  };
 }

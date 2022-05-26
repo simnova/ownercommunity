@@ -27,8 +27,18 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
   const location = useLocation();
   if(!pageLayouts || typeof pageLayouts === 'undefined') return <div>Loading...</div>
   const pathSnippets = location.pathname.split('/').filter(i => i);
+  const parentPage = pathSnippets.length > 1 ? pageLayouts.find((x:any) => x.path === '/' + pathSnippets[pathSnippets.length-2]) as any : '';
+  const listingPagePath = parentPage?.pageType === 'Listing' ? pageLayouts.find((x:any) => x.id === parentPage?.id)?.path : '';
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+    if (url.slice(listingPagePath.length).length > 0) {
+      const pageTitle = pageLayouts.find((x:any) => x.parent === parentPage.id)?.title as any;
+      return (
+        <Breadcrumb.Item key={url}>
+          <Link to={url}>{pageTitle}</Link>
+        </Breadcrumb.Item>
+      )
+    }
     return (
       <Breadcrumb.Item key={url}>
         <Link to={url}>{pageLayouts.find((x:any) => x.path === url)?.title}</Link>

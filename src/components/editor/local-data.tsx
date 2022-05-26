@@ -34,9 +34,11 @@ export const mockPropertyData = {
     }
     },
     listingDetail: {
-    additionalAmenities: {
-        amenities: ['Wifi', 'Laundry', 'Pets Allowed'],
-    },
+    additionalAmenities: [
+        {
+          amenities: ['Wifi', 'Laundry', 'Pets Allowed']
+        },
+    ],
     amenities: ['Gym', 'A/C'],
     bathrooms: 1.5,
     bedroomDetails: {

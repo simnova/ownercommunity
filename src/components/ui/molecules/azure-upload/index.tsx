@@ -3,8 +3,10 @@ import { Upload } from 'antd';
 import axios from 'axios';
 import ImgCrop from 'antd-img-crop';
 import imageCompression from 'browser-image-compression';
+import React, { useState } from 'react';
 
-import { UploadFile } from 'antd/lib/upload/interface';
+import { UploadFile, UploadProps, RcFile } from 'antd/lib/upload/interface';
+
 
 const ComponentProps = {
   data: PropTypes.shape({
@@ -40,52 +42,72 @@ interface ComponentProp {
   }    
   onInvalidContentType?: () => void
   onInvalidContentLength?: () => void
-  onSuccess?: () => void
+  onSuccess?: (file:UploadFile) => void
   onError?: (file:File,error:any) => void
   onRemoveRequested?: (file:UploadFile<unknown>) => Promise<boolean>
   authorizeRequest: (file:File) => Promise<AuthResult>
   cropperProps?: object
-  uploadProps?: object
+  uploadProps?: UploadProps
 }
 
 export type AzureUploadProps = PropTypes.InferProps<typeof ComponentProps> & ComponentProp;
 
 
 export const AzureUpload:React.FC<AzureUploadProps> = (props) => {
+  const [authResult, setAuthResult] = useState<AuthResult|undefined>(undefined);
   
-  const beforeUpload = async (file:File) => {
+  const beforeUpload = async (file:any) => {
     const isValidContentType = props.data.permittedContentTypes && props.data.permittedContentTypes.includes(file.type);
 
     if (!isValidContentType) {
       if(props.onInvalidContentType) {props.onInvalidContentType() }
       return Upload.LIST_IGNORE;
     }
-   
+    var newFile: RcFile ;
     if(file.type.startsWith('image/') && (props.data.maxFileSizeBytes || props.data.maxWidthOrHeight)) {
       try {
-        console.log('beforeUpload:', file.size);
+        console.log('beforeCompression size:', file.size);
         var options:any = {};
         if(props.data.maxFileSizeBytes) { options.maxSizeMB = props.data.maxFileSizeBytes / 1024 / 1024; }
         if(props.data.maxWidthOrHeight) { options.maxWidthOrHeight = props.data.maxWidthOrHeight; }
-        return await imageCompression(file, options);
+        console.log('beforeCompression options:', options);
+        const uid = file.uid;
+        newFile = (await imageCompression(file, options)) as RcFile;
+        file.uid = uid;
+        
+
       } catch (error) {
         console.error('cannot compress:',error);
+        return Upload.LIST_IGNORE;
       } 
+    }else{
+      newFile = file;
     }
-    console.log('afterCompress:', file.size);
-    const isValidContentLength = props.data.maxFileSizeBytes && file.size <= props.data.maxFileSizeBytes;
+    console.log('afterCompression size:', newFile.size);
+    const isValidContentLength = props.data.maxFileSizeBytes && newFile.size <= props.data.maxFileSizeBytes;
 
     if (!isValidContentLength) {
       if(props.onInvalidContentLength) {props.onInvalidContentLength() }
     }
-    return  isValidContentType && isValidContentLength ? true : Upload.LIST_IGNORE;    
+    if( isValidContentType && isValidContentLength){
+      const result =  await props.authorizeRequest(newFile) as AuthResult;
+      if(result.isAuthorized) {
+        //@ts-ignore
+        newFile['url'] = `${props.data.blobPath}/${result.blobName}`;
+        console.log('file',newFile);
+        setAuthResult(result);
+        return newFile;
+      }
+    }
+      return Upload.LIST_IGNORE;;
   }
 
   const customizeUpload =  async (option:any) => {
-    const result =  await props.authorizeRequest(option.file) as AuthResult;
-    if(result && result.isAuthorized) {
-      const {authHeader,blobName,requestDate} = result;
+ //   const result =  await props.authorizeRequest(option.file) as AuthResult;
+    if(authResult && authResult.isAuthorized) {
+      const {authHeader,blobName,requestDate} = authResult;
       try {
+        option.file.url = `${props.data.blobPath}/${blobName}`;
         var response = await axios.request({
           method: 'put',
           url: `${props.data.blobPath}/${blobName}`, 
@@ -102,9 +124,13 @@ export const AzureUpload:React.FC<AzureUploadProps> = (props) => {
             const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             option.onProgress({percent:percentCompleted},option.file);
           }
+          
         });
+        
+        
+        console.log('uploaded:',option.file);
+        if(props.onSuccess) {props.onSuccess(option.file) }
         option.onSuccess(response,option.file);
-        if(props.onSuccess) {props.onSuccess() }
       } catch (uploadError) {
         if(props.onError) {props.onError(option.file,uploadError) }
         option.onError(uploadError,option.file);

@@ -104,7 +104,8 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
       return <div>{JSON.stringify(propertyError)}</div>;
     } else if (propertyData && propertyData.property) {
       var detailData = {
-        property: propertyData.property
+        property: propertyData.property,
+        communityId: props.data.communityId
       };
       return <PropertiesListing data={detailData} onSave={handleSave}  />;
     } else {

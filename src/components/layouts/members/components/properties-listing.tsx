@@ -5,12 +5,15 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
 import { PropertyUpdateInput, MembersPropertiesListingContainerPropertyFieldsFragment } from '../../../../generated';
 import { FormTags } from '../../../ui/organisms/form-tags';
+import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload-container';
+
 
 const { Title } = Typography;
 
 export interface PropertiesListingProps {
   data: {
     property: MembersPropertiesListingContainerPropertyFieldsFragment
+    communityId: string
   };
   onSave: (property: PropertyUpdateInput) => void;
 }
@@ -76,8 +79,62 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           name={['listingDetail','bedrooms']}
           label="Bedrooms"
         >
-          <InputNumber placeholder='Bedrooms' />
+          <InputNumber placeholder='Bedrooms'/>
         </Form.Item>
+        
+        <Title level={4}>Bedroom Details</Title>
+        <Form.List name={['listingDetail','bedroomDetails']}>
+          {(fields, { add, remove }) => {
+            return (
+              <div>
+                {fields.map((field, index) => (
+                  <div key={field.key} style={{marginBottom:'15px'}}>
+                    <div style={{display:'inline-block',verticalAlign:'top', paddingRight:'10px',}}>
+                      <MinusCircleOutlined
+                        className="dynamic-delete-button"
+                        onClick={() => remove(field.name)}
+                      />
+                    </div>
+                    <div style={{display:'inline-block',paddingTop:'3px',paddingLeft:'10px', borderLeft:'1px solid darkgrey'}}>
+                      <Form.Item
+                          name={[index, 'id']}
+                          hidden={true}
+                        >
+                        <Input hidden={true} />
+                      </Form.Item>
+                      <Form.Item
+                        name={[index, 'roomName']}
+                        label="Room Name"
+                      >
+                        <Input placeholder='Room Name' />
+                      </Form.Item>
+                      <Form.Item 
+                        name={[index,'bedDescriptions']}
+                        label="Types of Beds"
+                      >
+                        <FormTags />
+                      </Form.Item>
+                    </div>
+                  </div>  
+                ))}
+                <Form.Item>
+                  {fields.length < (props.data.property.listingDetail?.bedrooms ? props.data.property.listingDetail?.bedrooms : 0) ? 
+                  <Button
+                    type="dashed"
+                    onClick={() => {
+                      add();
+                    }}
+                    block
+                  >
+                    <PlusOutlined /> Add Additional Bed
+                  </Button>
+                  : <></>}
+                </Form.Item>
+              </div>
+            );
+          }}
+        </Form.List>
+
         <Form.Item
           name={['listingDetail','bathrooms']}
           label="Bathrooms"
@@ -155,6 +212,13 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
             );
           }}
         </Form.List>
+
+        <Form.Item
+          name={['listingDetail','images']}
+          label="Images"
+        >
+          <PropertiesListingImageUploadContainer propertyId={props.data.property.id} communityId={props.data.communityId} />
+        </Form.Item>
 
         <Form.Item
           name={['listingDetail','floorPlan']}

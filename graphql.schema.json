@@ -545,6 +545,22 @@
             "deprecationReason": null
           },
           {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ObjectID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "roomName",
             "description": null,
             "args": [],
@@ -579,6 +595,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "ObjectID",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2007,9 +2035,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "BedroomDetails",
-              "ofType": null
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "BedroomDetails",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2389,9 +2421,13 @@
             "name": "bedroomDetails",
             "description": null,
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "BedroomDetailsInput",
-              "ofType": null
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "BedroomDetailsInput",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -4616,6 +4652,39 @@
             "deprecationReason": null
           },
           {
+            "name": "propertyListingImageCreateAuthHeader",
+            "description": null,
+            "args": [
+              {
+                "name": "input",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "PropertyBlobFileInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PropertyBlobFileAuthHeaderResult",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "propertyRemoveOwner",
             "description": null,
             "args": [
@@ -5925,6 +5994,116 @@
           },
           {
             "name": "ownerId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ObjectID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "PropertyBlobFileAuthHeaderResult",
+        "description": null,
+        "fields": [
+          {
+            "name": "authHeader",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "BlobAuthHeader",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "property",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Property",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "status",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "MutationStatus",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "PropertyBlobFileInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "contentLength",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "contentType",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "propertyId",
             "description": null,
             "type": {
               "kind": "NON_NULL",

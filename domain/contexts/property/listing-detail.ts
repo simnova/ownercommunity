@@ -160,9 +160,21 @@ export class ListingDetails extends Entity<ListingDetailProps> implements Listin
     this.validateVisa();
     this.props.bedrooms = bedrooms?.valueOf();
   }
-  //requestSetBedroomDetails(bedroomDetails: BedroomDetail[]):void{
+  // requestSetBedroomDetails(bedroomDetails: BedroomDetail[]):void{
   //  this.props.bedroomDetails.items = bedroomDetails.map(bedroomDetail => bedroomDetail.props);
-  //}
+  // }
+  requestRemoveBedroomDetails(bedroomDetails: BedroomDetail): void {
+    this.validateVisa();
+    this.props.bedroomDetails.removeItem(bedroomDetails.props);
+  }
+  requestNewBedroom(): BedroomDetail {
+    this.validateVisa();
+    return new BedroomDetail(this.props.bedroomDetails.getNewItem(), this.visa);
+  }
+  // requestNewAmenity(): AdditionalAmenity {
+  //   this.validateVisa();
+  //   return new AdditionalAmenity(this.props.additionalAmenities.getNewItem(), this.visa);
+  // }
   requestSetBathrooms(bathrooms: ValueObjects.Bathrooms | null): void {
     this.validateVisa();
     this.props.bathrooms = bathrooms?.valueOf();
@@ -201,6 +213,7 @@ export class ListingDetails extends Entity<ListingDetailProps> implements Listin
   }
   requestSetImages(images: ValueObjects.Images | null): void {
     this.validateVisa();
+    //TODO: if any images are removed, remove them from blob storage as well as part of events.
     this.props.images = images?.valueOf();
   }
   requestSetVideo(video: ValueObjects.Video | null): void {

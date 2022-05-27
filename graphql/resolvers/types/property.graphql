@@ -27,7 +27,7 @@ type ListingDetails {
   lease: Float
   maxGuests: Int
   bedrooms: Int
-  bedroomDetails: BedroomDetails
+  bedroomDetails: [BedroomDetails]
   bathrooms: Float
   squareFeet: Int
   description: String
@@ -54,7 +54,7 @@ input ListingDetailsInput {
   lease: Float
   maxGuests: Int
   bedrooms: Int
-  bedroomDetails: BedroomDetailsInput
+  bedroomDetails: [BedroomDetailsInput]
   bathrooms: Float
   squareFeet: Int
   description: String
@@ -76,10 +76,12 @@ input ListingDetailsInput {
 }
 
 type BedroomDetails {
+  id: ObjectID!
   roomName: String
   bedDescriptions: [String]
 }
 input BedroomDetailsInput {
+  id: ObjectID
   roomName: String
   bedDescriptions: [String]
 }
@@ -177,7 +179,8 @@ extend type Mutation {
   propertyUpdate(input: PropertyUpdateInput!): PropertyMutationResult!
   propertyDelete(input: PropertyDeleteInput!): PropertyMutationResult!
   propertyAssignOwner(input: PropertyAssignOwnerInput!): PropertyMutationResult!
-  propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!
+  propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!  
+  propertyListingImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
 }
 
 type PropertyMutationResult {
@@ -250,4 +253,16 @@ type PropertySearchFacets {
 type FacetDetail {
   value: String
   count: Int
+}
+
+
+input PropertyBlobFileInput {
+  propertyId: ObjectID!
+  contentType: String!
+  contentLength: Int!
+}
+type PropertyBlobFileAuthHeaderResult {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  property: Property
 }

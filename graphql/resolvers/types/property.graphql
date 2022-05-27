@@ -27,7 +27,7 @@ type ListingDetails {
   lease: Float
   maxGuests: Int
   bedrooms: Int
-  bedroomDetails: BedroomDetails
+  bedroomDetails: [BedroomDetails]
   bathrooms: Float
   squareFeet: Int
   description: String
@@ -54,7 +54,7 @@ input ListingDetailsInput {
   lease: Float
   maxGuests: Int
   bedrooms: Int
-  bedroomDetails: BedroomDetailsInput
+  bedroomDetails: [BedroomDetailsInput]
   bathrooms: Float
   squareFeet: Int
   description: String
@@ -76,10 +76,12 @@ input ListingDetailsInput {
 }
 
 type BedroomDetails {
+  id: ObjectID!
   roomName: String
   bedDescriptions: [String]
 }
 input BedroomDetailsInput {
+  id: ObjectID
   roomName: String
   bedDescriptions: [String]
 }

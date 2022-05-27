@@ -119,11 +119,13 @@ export type AddressInput = {
 export type BedroomDetails = {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id: Scalars['ObjectID'];
   roomName?: Maybe<Scalars['String']>;
 };
 
 export type BedroomDetailsInput = {
   bedDescriptions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id?: InputMaybe<Scalars['ObjectID']>;
   roomName?: InputMaybe<Scalars['String']>;
 };
 
@@ -254,7 +256,7 @@ export type ListingDetails = {
   additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenities>>>;
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   bathrooms?: Maybe<Scalars['Float']>;
-  bedroomDetails?: Maybe<BedroomDetails>;
+  bedroomDetails?: Maybe<Array<Maybe<BedroomDetails>>>;
   bedrooms?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   floorPlan?: Maybe<Scalars['String']>;
@@ -282,7 +284,7 @@ export type ListingDetailsInput = {
   additionalAmenities?: InputMaybe<Array<InputMaybe<AdditionalAmenitiesInput>>>;
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   bathrooms?: InputMaybe<Scalars['Float']>;
-  bedroomDetails?: InputMaybe<BedroomDetailsInput>;
+  bedroomDetails?: InputMaybe<Array<InputMaybe<BedroomDetailsInput>>>;
   bedrooms?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
   floorPlan?: InputMaybe<Scalars['String']>;
@@ -1498,6 +1500,7 @@ export type AddressResolvers<ContextType = Context, ParentType extends Resolvers
 
 export type BedroomDetailsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BedroomDetails'] = ResolversParentTypes['BedroomDetails']> = ResolversObject<{
   bedDescriptions?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   roomName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -1672,7 +1675,7 @@ export type ListingDetailsResolvers<ContextType = Context, ParentType extends Re
   additionalAmenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['AdditionalAmenities']>>>, ParentType, ContextType>;
   amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  bedroomDetails?: Resolver<Maybe<ResolversTypes['BedroomDetails']>, ParentType, ContextType>;
+  bedroomDetails?: Resolver<Maybe<Array<Maybe<ResolversTypes['BedroomDetails']>>>, ParentType, ContextType>;
   bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   floorPlan?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

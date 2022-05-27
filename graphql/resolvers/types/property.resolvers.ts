@@ -1,6 +1,6 @@
 /** @format */
 
-import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertySearchResult } from '../../generated';
+import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertySearchResult, PropertiesSearchInput } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
 import { CacheScope } from 'apollo-server-types';
@@ -59,10 +59,10 @@ const property: Resolvers = {
       const searchInput = {
         searchString: _args.input.searchString.trim(),
         options: {
-          filters: _args.input?.options?.filters ?? [],
+          filter: _args.input?.options?.filter ?? null,
           facets: _args.input?.options?.facets ?? [],
         },
-      };
+      } as PropertiesSearchInput;
 
       const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(searchInput);
       var idList: string[] = [];

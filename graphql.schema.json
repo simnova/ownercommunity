@@ -494,6 +494,22 @@
             "deprecationReason": null
           },
           {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ObjectID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "roomName",
             "description": null,
             "args": [],
@@ -528,6 +544,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "ObjectID",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -1968,9 +1996,13 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "BedroomDetails",
-              "ofType": null
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "BedroomDetails",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2295,9 +2327,13 @@
             "name": "bedroomDetails",
             "description": null,
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "BedroomDetailsInput",
-              "ofType": null
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "BedroomDetailsInput",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,

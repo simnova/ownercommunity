@@ -10,6 +10,7 @@ import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
 import { Amenities, Images } from '../../../domain/contexts/property/listing-detail-value-objects';
 import { AdditionalAmenity, AdditionalAmenityProps } from '../../../domain/contexts/property/additional-amenity';
+import { BedDescriptions } from '../../../domain/contexts/property/bedroom-detail-value-objects';
 
 type PropType = PropertyDomainAdapter;
 type DomainType = PropertyDO<PropType>;
@@ -55,7 +56,29 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
         if (input.listingDetail.lease !== undefined) property.listingDetail.requestSetLease(input.listingDetail.lease);
         if (input.listingDetail.maxGuests !== undefined) property.listingDetail.requestSetMaxGuests(input.listingDetail.maxGuests);
         if (input.listingDetail.bedrooms !== undefined) property.listingDetail.requestSetBedrooms(input.listingDetail.bedrooms);
-        //todo bedroom details
+        if (input.listingDetail.bedroomDetails !== undefined) {
+          let systemBedroomDetails = property.listingDetail.bedroomDetails;
+          let updatedBedroomDetails = input.listingDetail.bedroomDetails;
+          updatedBedroomDetails.forEach((updatedBedroom) => {
+            if (!updatedBedroom.id) {
+              let newBedroom = property.listingDetail.requestNewBedroom();  
+              newBedroom.requestSetRoomName(updatedBedroom.roomName);  
+              newBedroom.requestSetBedDescriptions(new BedDescriptions(updatedBedroom.bedDescriptions)); 
+            } else {
+              let systemBedroom = systemBedroomDetails.find((bedroom) => bedroom.id === updatedBedroom.id);
+              if (systemBedroom === undefined) throw new Error('Bedroom not found');
+              systemBedroom.requestSetRoomName(updatedBedroom.roomName); 
+              systemBedroom.requestSetBedDescriptions(new BedDescriptions(updatedBedroom.bedDescriptions)); 
+            }
+          });
+          let updatedIds = updatedBedroomDetails.filter((x) => x.id !== undefined).map((x) => x.id);
+          systemBedroomDetails
+            .filter((bedroom) => !updatedIds.includes(bedroom.id))
+            .forEach((systemBedroom) => {
+              property.listingDetail.requestRemoveBedroomDetails(systemBedroom); 
+            });
+        }
+
         if (input.listingDetail.bathrooms !== undefined) property.listingDetail.requestSetBathrooms(input.listingDetail.bathrooms);
         if (input.listingDetail.squareFeet !== undefined) property.listingDetail.requestSetSquareFeet(input.listingDetail.squareFeet);
         if (input.listingDetail.description !== undefined) property.listingDetail.requestSetDescription(input.listingDetail.description);

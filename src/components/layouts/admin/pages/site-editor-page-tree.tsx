@@ -227,7 +227,7 @@ const SiteEditorPageTree: React.FC = (props) => {
         <Col span={6} style={{backgroundColor:'gray', minHeight:'100%'}}>
           <Collapse defaultActiveKey={['1']}  expandIconPosition="right">
             <Panel header="Page Settings" key="1">
-            {selectedNode.pageType === 'Details' ?
+            {selectedNode?.pageType === 'Details' ?
             <>
                 <hr/>
                 <DetailsPageDetails

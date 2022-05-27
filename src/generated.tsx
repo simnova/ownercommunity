@@ -73,6 +73,12 @@ export type AdditionalAmenities = {
   id: Scalars['ObjectID'];
 };
 
+export type AdditionalAmenitiesFilterInput = {
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  category?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+};
+
 export type AdditionalAmenitiesInput = {
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   category?: InputMaybe<Scalars['String']>;
@@ -244,9 +250,9 @@ export type FileInfo = {
   url: Scalars['String'];
 };
 
-export type FilterDetails = {
-  fieldName: Scalars['String'];
-  fieldValues: Array<Scalars['String']>;
+export type FilterDetail = {
+  listingDetail?: InputMaybe<ListingDetailsFilterInput>;
+  propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type ListingDetails = {
@@ -276,6 +282,12 @@ export type ListingDetails = {
   rentLow?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
   video?: Maybe<Scalars['String']>;
+};
+
+export type ListingDetailsFilterInput = {
+  additionalAmenities?: InputMaybe<Array<InputMaybe<AdditionalAmenitiesFilterInput>>>;
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bedrooms?: InputMaybe<Scalars['Int']>;
 };
 
 export type ListingDetailsInput = {
@@ -695,7 +707,7 @@ export type PropertiesSearchInput = {
 
 export type PropertiesSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  filters?: InputMaybe<Array<InputMaybe<FilterDetails>>>;
+  filter?: InputMaybe<FilterDetail>;
 };
 
 export type Property = MongoBase & {
@@ -3415,7 +3427,16 @@ export type MembersPropertiesListSearchContainerPropertiesQuery = {
     createdAt?: any | null;
     updatedAt?: any | null;
     owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-    listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      bedrooms?: number | null;
+      amenities?: Array<string | null> | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenities';
+        category?: string | null;
+        amenities?: Array<string | null> | null;
+      } | null> | null;
+    } | null;
   } | null> | null;
 };
 
@@ -3436,7 +3457,16 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       createdAt?: any | null;
       updatedAt?: any | null;
       owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-      listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+      listingDetail?: {
+        __typename?: 'ListingDetails';
+        bedrooms?: number | null;
+        amenities?: Array<string | null> | null;
+        additionalAmenities?: Array<{
+          __typename?: 'AdditionalAmenities';
+          category?: string | null;
+          amenities?: Array<string | null> | null;
+        } | null> | null;
+      } | null;
     } | null> | null;
     facets?: {
       __typename?: 'PropertySearchFacets';
@@ -3457,7 +3487,16 @@ export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
   createdAt?: any | null;
   updatedAt?: any | null;
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-  listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+  listingDetail?: {
+    __typename?: 'ListingDetails';
+    bedrooms?: number | null;
+    amenities?: Array<string | null> | null;
+    additionalAmenities?: Array<{
+      __typename?: 'AdditionalAmenities';
+      category?: string | null;
+      amenities?: Array<string | null> | null;
+    } | null> | null;
+  } | null;
 };
 
 export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
@@ -3471,7 +3510,16 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     createdAt?: any | null;
     updatedAt?: any | null;
     owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-    listingDetail?: { __typename?: 'ListingDetails'; bedrooms?: number | null } | null;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      bedrooms?: number | null;
+      amenities?: Array<string | null> | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenities';
+        category?: string | null;
+        amenities?: Array<string | null> | null;
+      } | null> | null;
+    } | null;
   } | null> | null;
   facets?: {
     __typename?: 'PropertySearchFacets';
@@ -6210,7 +6258,21 @@ export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
             name: { kind: 'Name', value: 'listingDetail' },
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } }]
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                }
+              ]
             }
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },

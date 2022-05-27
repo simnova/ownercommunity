@@ -1,11 +1,10 @@
 import { useLazyQuery } from '@apollo/client';
 import {
-  FilterDetails,
+  FilterDetail,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
 import { Skeleton, Input, Button, Space, Checkbox, Radio } from 'antd';
 import { useState } from 'react';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 const FilterNames = {
   Type: 'type',
@@ -14,20 +13,23 @@ const FilterNames = {
   AdditionalAmenitiesCategory: 'additionalAmenities/category',
   AdditionalAmenitiesAmenities: 'additionalAmenities/amenities'
 };
+const AdditionalAmenitiesCategories = {
+  AdditionalAmenitiesFeatures: 'features'
+};
 const CheckboxGroup = Checkbox.Group;
 const BedroomsFilterOptions = [
-  { label: '+1', value: '1' },
-  { label: '+2', value: '2' },
-  { label: '+3', value: '3' },
-  { label: '+4', value: '4' },
-  { label: '+5', value: '5' }
+  { label: '1+', value: '1' },
+  { label: '2+', value: '2' },
+  { label: '3+', value: '3' },
+  { label: '4+', value: '4' },
+  { label: '5+', value: '5' }
 ];
 const PropertyTypes = ['condo', 'single family', 'townhouse'];
 const Amenities = ['Wifi', 'Pool', 'TV'];
 const AdditionalAmenitiesFeatures = ['Iron', 'Washer/dryer'];
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
-  const [selectedFilters, setSelectedFilters] = useState<FilterDetails[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [bedrooms, setBedrooms] = useState<undefined | number>(undefined);
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
@@ -39,71 +41,52 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       variables: {
         input: {
           searchString: searchString,
-          options: { facets: [FilterNames.Type], filters: selectedFilters }
+          options: { facets: [FilterNames.Type], filter: selectedFilter }
         }
       }
     });
   };
 
-  const onPropertyTypeFilterChange = (filedName: string, checkedValues: CheckboxValueType[]) => {
-    // make a copy of selected filters
-    const newFilters = [...selectedFilters];
+  const onPropertyTypeFilterChange = (checkedValues: string[]) => {
+    setSelectedFilter({ ...selectedFilter, propertyType: checkedValues });
+  };
 
-    // if no values are selected, remove the filter
-    if (checkedValues.length === 0) {
-      setSelectedFilters(
-        newFilters.filter((filter: FilterDetails) => filter.fieldName !== filedName)
-      );
-      return;
-    }
-    if (newFilters.length === 0) {
-      setSelectedFilters([{ fieldName: filedName, fieldValues: checkedValues as string[] }]);
-    } else {
-      // find the filter with the same fieldName
-      const filterIndex = newFilters.findIndex((filter: FilterDetails) => {
-        return filter.fieldName === filedName;
-      });
-      // if the filter is found, update the fieldValues
-      if (filterIndex !== -1) {
-        newFilters[filterIndex].fieldValues = checkedValues as string[];
-      }
-      // if the filter is not found, add a new filter
-      else {
-        newFilters.push({ fieldName: filedName, fieldValues: checkedValues as string[] });
-      }
-      setSelectedFilters(newFilters);
-    }
+  const onAmenitiesFilterChange = (checkedValues: string[]) => {
+    setSelectedFilter({ ...selectedFilter, listingDetail: { amenities: checkedValues } });
   };
 
   const onBedroomsClicked = (e: any) => {
     setBedrooms(e.target.value);
-    // make a copy of selected filters
-    const newFilters = [...selectedFilters];
-    // find the filter with the same fieldName
-    const filterIndex = newFilters.findIndex((filter: FilterDetails) => {
-      return filter.fieldName === FilterNames.Bedrooms;
-    });
-    // if the filter is found, update the fieldValues
-    if (filterIndex !== -1) {
-      newFilters[filterIndex].fieldValues = [e.target.value.toString()];
-    }
-    // if the filter is not found, add a new filter
-    else {
-      newFilters.push({
-        fieldName: FilterNames.Bedrooms,
-        fieldValues: [e.target.value.toString()]
-      });
-    }
-    setSelectedFilters(newFilters);
+    setSelectedFilter({ ...selectedFilter, listingDetail: { bedrooms: parseInt(e.target.value) } });
+  };
 
-    gqlSearchProperties({
-      variables: {
-        input: {
-          searchString: searchString,
-          options: { facets: [FilterNames.Type], filters: newFilters }
-        }
-      }
-    });
+  const onAdditionalAmenitiesChange = (categoryValue: string, amenities: string[]) => {
+    // // make a copy of selected filters
+    // const newFilters = [...selectedFilter];
+    // // find the filter with the same fieldName
+    // const filterIndex = newFilters.findIndex((filter: FilterDetails) => {
+    //   return filter.fieldName === FilterNames.AdditionalAmenitiesCategory;
+    // });
+    // // if the filter is found, update the fieldValues
+    // if (filterIndex !== -1) {
+    //   newFilters[filterIndex].fieldValues = [categoryValue];
+    // }
+    // // if the filter is not found, add a new filter
+    // else {
+    //   newFilters.push({
+    //     fieldName: FilterNames.AdditionalAmenitiesCategory,
+    //     fieldValues: [categoryValue]
+    //   });
+    // }
+    // setSelectedFilter(newFilters);
+    // gqlSearchProperties({
+    //   variables: {
+    //     input: {
+    //       searchString: searchString,
+    //       options: { facets: [FilterNames.Type], filters: newFilters }
+    //     }
+    //   }
+    // });
   };
 
   var result = () => {
@@ -143,7 +126,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             label: value,
             value: value
           }))}
-          onChange={(checkedValues) => onPropertyTypeFilterChange(FilterNames.Type, checkedValues)}
+          onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
         />
         {/* Bedrooms */}
         <h2 className="font-bold">Bedrooms</h2>
@@ -163,24 +146,26 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           label: value,
           value: value
         }))}
-        onChange={(checkedValues) =>
-          onPropertyTypeFilterChange(FilterNames.Amenities, checkedValues)
-        }
+        onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
       />
       {/* Additional Amenities */}
-      {/* <h2 className="font-bold">Additional Amenities</h2>
-      
-      <h2 className="font-bold">Features</h2>
-      <CheckboxGroup
-        key={FilterNames.AdditionalAmenitiesFeatures}
-        options={AdditionalAmenitiesFeatures.map((value: string) => ({
-          label: value,
-          value: value
-        }))}
-        onChange={(checkedValues) =>
-          onAdditionalAmenitiesChange(FilterNames.AdditionalAmenitiesCategory, checkedValues)
-        }
-      /> */}
+      <h2 className="font-bold">Additional Amenities</h2>
+      <div style={{ paddingLeft: '20px' }}>
+        <h2 className="font-bold">Features</h2>
+        <CheckboxGroup
+          key={AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures}
+          options={AdditionalAmenitiesFeatures.map((value: string) => ({
+            label: value,
+            value: value
+          }))}
+          onChange={(checkedValues) =>
+            onAdditionalAmenitiesChange(
+              AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures,
+              checkedValues as string[]
+            )
+          }
+        />
+      </div>
       {result()}
     </>
   );

@@ -27,6 +27,7 @@ fragment PropertyDetailsByPropertyIdFields on Property{
       amenities
       bathrooms
       bedroomDetails {
+        roomName
         bedDescriptions
       }
       bedrooms

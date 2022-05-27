@@ -117,11 +117,13 @@ export type AddressInput = {
 export type BedroomDetails = {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id: Scalars['ObjectID'];
   roomName?: Maybe<Scalars['String']>;
 };
 
 export type BedroomDetailsInput = {
   bedDescriptions?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id?: InputMaybe<Scalars['ObjectID']>;
   roomName?: InputMaybe<Scalars['String']>;
 };
 
@@ -252,7 +254,7 @@ export type ListingDetails = {
   additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenities>>>;
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   bathrooms?: Maybe<Scalars['Float']>;
-  bedroomDetails?: Maybe<BedroomDetails>;
+  bedroomDetails?: Maybe<Array<Maybe<BedroomDetails>>>;
   bedrooms?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   floorPlan?: Maybe<Scalars['String']>;
@@ -280,7 +282,7 @@ export type ListingDetailsInput = {
   additionalAmenities?: InputMaybe<Array<InputMaybe<AdditionalAmenitiesInput>>>;
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   bathrooms?: InputMaybe<Scalars['Float']>;
-  bedroomDetails?: InputMaybe<BedroomDetailsInput>;
+  bedroomDetails?: InputMaybe<Array<InputMaybe<BedroomDetailsInput>>>;
   bedrooms?: InputMaybe<Scalars['Int']>;
   description?: InputMaybe<Scalars['String']>;
   floorPlan?: InputMaybe<Scalars['String']>;
@@ -2925,10 +2927,11 @@ export type MemberPropertyByPropertyIdQuery = {
         category?: string | null;
         amenities?: Array<string | null> | null;
       } | null> | null;
-      bedroomDetails?: {
+      bedroomDetails?: Array<{
         __typename?: 'BedroomDetails';
+        roomName?: string | null;
         bedDescriptions?: Array<string | null> | null;
-      } | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -2979,10 +2982,11 @@ export type PropertyDetailsByPropertyIdFieldsFragment = {
       category?: string | null;
       amenities?: Array<string | null> | null;
     } | null> | null;
-    bedroomDetails?: {
+    bedroomDetails?: Array<{
       __typename?: 'BedroomDetails';
+      roomName?: string | null;
       bedDescriptions?: Array<string | null> | null;
-    } | null;
+    } | null> | null;
   } | null;
 };
 
@@ -3516,6 +3520,12 @@ export type MembersPropertiesListingContainerPropertyQuery = {
       listingAgentCompanyEmail?: string | null;
       listingAgentCompanyWebsite?: string | null;
       listingAgentCompanyAddress?: string | null;
+      bedroomDetails?: Array<{
+        __typename?: 'BedroomDetails';
+        id: any;
+        bedDescriptions?: Array<string | null> | null;
+        roomName?: string | null;
+      } | null> | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         id: any;
@@ -3566,6 +3576,12 @@ export type MembersPropertiesListingContainerPropertyUpdateMutation = {
         listingAgentCompanyEmail?: string | null;
         listingAgentCompanyWebsite?: string | null;
         listingAgentCompanyAddress?: string | null;
+        bedroomDetails?: Array<{
+          __typename?: 'BedroomDetails';
+          id: any;
+          bedDescriptions?: Array<string | null> | null;
+          roomName?: string | null;
+        } | null> | null;
         additionalAmenities?: Array<{
           __typename?: 'AdditionalAmenities';
           id: any;
@@ -3611,6 +3627,12 @@ export type MembersPropertiesListingContainerPropertyMutationResultFieldsFragmen
       listingAgentCompanyEmail?: string | null;
       listingAgentCompanyWebsite?: string | null;
       listingAgentCompanyAddress?: string | null;
+      bedroomDetails?: Array<{
+        __typename?: 'BedroomDetails';
+        id: any;
+        bedDescriptions?: Array<string | null> | null;
+        roomName?: string | null;
+      } | null> | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         id: any;
@@ -3652,6 +3674,12 @@ export type MembersPropertiesListingContainerPropertyFieldsFragment = {
     listingAgentCompanyEmail?: string | null;
     listingAgentCompanyWebsite?: string | null;
     listingAgentCompanyAddress?: string | null;
+    bedroomDetails?: Array<{
+      __typename?: 'BedroomDetails';
+      id: any;
+      bedDescriptions?: Array<string | null> | null;
+      roomName?: string | null;
+    } | null> | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenities';
       id: any;
@@ -5781,6 +5809,7 @@ export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } }
                     ]
                   }
@@ -6269,6 +6298,18 @@ export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
+                    ]
+                  }
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },

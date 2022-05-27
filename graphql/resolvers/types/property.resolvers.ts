@@ -1,4 +1,6 @@
-import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertySearchResult, PropertyUpdateInput } from '../../generated';
+/** @format */
+
+import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertySearchResult, PropertiesSearchInput, PropertyUpdateInput } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
 import { getMemberForCurrentUser } from './helpers';
@@ -57,10 +59,10 @@ const property: Resolvers = {
       const searchInput = {
         searchString: _args.input.searchString.trim(),
         options: {
-          filters: _args.input?.options?.filters ?? [],
+          filter: _args.input?.options?.filter ?? null,
           facets: _args.input?.options?.facets ?? [],
         },
-      };
+      } as PropertiesSearchInput;
 
       const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(searchInput);
       var idList: string[] = [];
@@ -97,14 +99,14 @@ const property: Resolvers = {
     propertyListingImageCreateAuthHeader: async (_, { input }, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
       var result = await context.dataSources.propertyBlobAPI.propertyListingImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
-      if(result.status.success) {
-        let propertyDbObj = await ((await context.dataSources.propertyApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
+      if (result.status.success) {
+        let propertyDbObj = (await (await context.dataSources.propertyApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
         propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
         result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
       }
       console.log(`propertyListingImageCreateAuthHeader: ${JSON.stringify(result)}`);
       return result;
-    }
+    },
   },
 };
 

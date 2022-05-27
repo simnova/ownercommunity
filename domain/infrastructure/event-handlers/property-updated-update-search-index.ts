@@ -12,12 +12,19 @@ export default () => {
     const context = await SystemExecutionContext();
     await PropertyUnitOfWork.withTransaction(context, async (repo) => {
       let property = await repo.getById(payload.id);
+
+      const updatedAdditionalAmenities = property.listingDetail.additionalAmenities.map((additionalAmenity) => {
+        return { category: additionalAmenity.category, amenities: additionalAmenity.amenities };
+      });
+
       let listingDoc: Partial<PropertyListingIndexDocument> = {
         id: property.id,
         communityId: property.community.id,
         name: property.propertyName,
         type: property.propertyType,
         bedrooms: property.listingDetail.bedrooms,
+        amenities: property.listingDetail.amenities,
+        additionalAmenities: updatedAdditionalAmenities,
       };
       let cognitiveSearch = new CognitiveSearch();
       await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);

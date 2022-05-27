@@ -195,15 +195,23 @@ input PropertiesSearchInput {
   searchString: String
   options: PropertiesSearchOptions
 }
-
-input FilterDetails {
-  fieldName: String!
-  fieldValues: [String!]!
-}
-
 input PropertiesSearchOptions {
-  filters: [FilterDetails]
+  filter: FilterDetail
   facets: [String]
+}
+input FilterDetail {
+  propertyType: [String]
+  listingDetail: ListingDetailsFilterInput
+}
+input ListingDetailsFilterInput {
+  bedrooms: Int
+  amenities: [String]
+  additionalAmenities: [AdditionalAmenitiesFilterInput]
+}
+input AdditionalAmenitiesFilterInput {
+  id: ObjectID
+  category: String
+  amenities: [String]
 }
 
 input PropertyAddInput {

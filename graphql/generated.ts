@@ -75,6 +75,12 @@ export type AdditionalAmenities = {
   id: Scalars['ObjectID'];
 };
 
+export type AdditionalAmenitiesFilterInput = {
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  category?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+};
+
 export type AdditionalAmenitiesInput = {
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   category?: InputMaybe<Scalars['String']>;
@@ -246,9 +252,9 @@ export type FileInfo = {
   url: Scalars['String'];
 };
 
-export type FilterDetails = {
-  fieldName: Scalars['String'];
-  fieldValues: Array<Scalars['String']>;
+export type FilterDetail = {
+  listingDetail?: InputMaybe<ListingDetailsFilterInput>;
+  propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type ListingDetails = {
@@ -278,6 +284,12 @@ export type ListingDetails = {
   rentLow?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
   video?: Maybe<Scalars['String']>;
+};
+
+export type ListingDetailsFilterInput = {
+  additionalAmenities?: InputMaybe<Array<InputMaybe<AdditionalAmenitiesFilterInput>>>;
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bedrooms?: InputMaybe<Scalars['Int']>;
 };
 
 export type ListingDetailsInput = {
@@ -697,7 +709,7 @@ export type PropertiesSearchInput = {
 
 export type PropertiesSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  filters?: InputMaybe<Array<InputMaybe<FilterDetails>>>;
+  filter?: InputMaybe<FilterDetail>;
 };
 
 export type Property = MongoBase & {
@@ -1147,6 +1159,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   AdditionalAmenities: ResolverTypeWrapper<AdditionalAmenities>;
+  AdditionalAmenitiesFilterInput: AdditionalAmenitiesFilterInput;
   AdditionalAmenitiesInput: AdditionalAmenitiesInput;
   Address: ResolverTypeWrapper<Address>;
   AddressInput: AddressInput;
@@ -1176,7 +1189,7 @@ export type ResolversTypes = ResolversObject<{
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
   FacetDetail: ResolverTypeWrapper<FacetDetail>;
   FileInfo: ResolverTypeWrapper<FileInfo>;
-  FilterDetails: FilterDetails;
+  FilterDetail: FilterDetail;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
@@ -1195,6 +1208,7 @@ export type ResolversTypes = ResolversObject<{
   JWT: ResolverTypeWrapper<Scalars['JWT']>;
   Latitude: ResolverTypeWrapper<Scalars['Latitude']>;
   ListingDetails: ResolverTypeWrapper<ListingDetails>;
+  ListingDetailsFilterInput: ListingDetailsFilterInput;
   ListingDetailsInput: ListingDetailsInput;
   LocalDate: ResolverTypeWrapper<Scalars['LocalDate']>;
   LocalEndTime: ResolverTypeWrapper<Scalars['LocalEndTime']>;
@@ -1308,6 +1322,7 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   AdditionalAmenities: AdditionalAmenities;
+  AdditionalAmenitiesFilterInput: AdditionalAmenitiesFilterInput;
   AdditionalAmenitiesInput: AdditionalAmenitiesInput;
   Address: Address;
   AddressInput: AddressInput;
@@ -1336,7 +1351,7 @@ export type ResolversParentTypes = ResolversObject<{
   EmailAddress: Scalars['EmailAddress'];
   FacetDetail: FacetDetail;
   FileInfo: FileInfo;
-  FilterDetails: FilterDetails;
+  FilterDetail: FilterDetail;
   Float: Scalars['Float'];
   GUID: Scalars['GUID'];
   HSL: Scalars['HSL'];
@@ -1355,6 +1370,7 @@ export type ResolversParentTypes = ResolversObject<{
   JWT: Scalars['JWT'];
   Latitude: Scalars['Latitude'];
   ListingDetails: ListingDetails;
+  ListingDetailsFilterInput: ListingDetailsFilterInput;
   ListingDetailsInput: ListingDetailsInput;
   LocalDate: Scalars['LocalDate'];
   LocalEndTime: Scalars['LocalEndTime'];

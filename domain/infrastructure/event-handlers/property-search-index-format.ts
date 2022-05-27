@@ -1,6 +1,7 @@
 /** @format */
 
 import { SearchIndex } from '@azure/search-documents';
+import { AdditionalAmenities } from '../../../graphql/generated';
 
 export const propertyListingIndexSpec = {
   name: 'property-listings',
@@ -46,7 +47,7 @@ export const propertyListingIndexSpec = {
     },
     {
       name: 'additionalAmenities',
-      type: 'Collection(Edm.Complex)',
+      type: 'Collection(Edm.ComplexType)',
       fields: [
         {
           name: 'category',
@@ -81,5 +82,5 @@ export interface PropertyListingIndexDocument {
   additionalAmenities: {
     category: string;
     amenities: string[];
-  };
+  }[];
 }

@@ -27,40 +27,30 @@ PropertyDetails = () => {
         },
     );
 
-    if (propertyId === 'page-editor') {
+    const generatePropertyDetails = (property: any) => {
         return (
             <div 
                 className="px-4 py-2"
                 ref={ref => connect(drag(ref as HTMLDivElement))} 
             >
                 <div className="bg-white shadow overflow-hidden sm:rounded" style={{padding: '5%', display: 'flex', justifyContent: 'center'}}>
-                    <CommunityPropertyDetail data={mockPropertyData} space="horizontal"/>
+                    <CommunityPropertyDetail data={property} space="horizontal"/>
                 </div>
             </div>
         )
     }
-    
 
     const content = () => {
         if (propertyLoading) return <Skeleton active/>;
         if (propertyError) return <p>Error! ${propertyError.message}</p>;
-        if (propertyData) return (
-            <div 
-                className="px-4 py-2"
-                ref={ref => connect(drag(ref as HTMLDivElement))} 
-            >
-                <div className="bg-white shadow overflow-hidden sm:rounded" style={{padding: '5%', display: 'flex', justifyContent: 'center'}}>
-                    <CommunityPropertyDetail data={propertyData} space="horizontal"/>
-                </div>
-            </div>
-        )
+        if (propertyData) return generatePropertyDetails(propertyData);
         return (
         <div>No data</div>
         )
     }
 
     return <>
-        {content()}
+        {propertyId === 'page-editor' ? generatePropertyDetails(mockPropertyData) : content()}
     </>
 }
 

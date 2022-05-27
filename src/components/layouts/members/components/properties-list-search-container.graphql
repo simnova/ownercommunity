@@ -19,6 +19,10 @@ fragment MembersPropertiesListSearchContainerPropertyFields on Property {
   listingDetail {
     bedrooms
     amenities
+    additionalAmenities {
+      category
+      amenities
+    }
   }
   id
   createdAt

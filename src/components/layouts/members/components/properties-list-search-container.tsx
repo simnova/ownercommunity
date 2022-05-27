@@ -14,7 +14,7 @@ const FilterNames = {
   AdditionalAmenitiesAmenities: 'additionalAmenities/amenities'
 };
 const AdditionalAmenitiesCategories = {
-  AdditionalAmenitiesFeatures: 'features'
+  AdditionalAmenitiesFeatures: 'Features'
 };
 const CheckboxGroup = Checkbox.Group;
 const BedroomsFilterOptions = [
@@ -61,32 +61,34 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   };
 
   const onAdditionalAmenitiesChange = (categoryValue: string, amenities: string[]) => {
-    // // make a copy of selected filters
-    // const newFilters = [...selectedFilter];
-    // // find the filter with the same fieldName
-    // const filterIndex = newFilters.findIndex((filter: FilterDetails) => {
-    //   return filter.fieldName === FilterNames.AdditionalAmenitiesCategory;
-    // });
-    // // if the filter is found, update the fieldValues
-    // if (filterIndex !== -1) {
-    //   newFilters[filterIndex].fieldValues = [categoryValue];
-    // }
-    // // if the filter is not found, add a new filter
-    // else {
-    //   newFilters.push({
-    //     fieldName: FilterNames.AdditionalAmenitiesCategory,
-    //     fieldValues: [categoryValue]
-    //   });
-    // }
-    // setSelectedFilter(newFilters);
-    // gqlSearchProperties({
-    //   variables: {
-    //     input: {
-    //       searchString: searchString,
-    //       options: { facets: [FilterNames.Type], filters: newFilters }
-    //     }
-    //   }
-    // });
+    // get current additional amenities
+    const currentAdditionalAmenities = selectedFilter?.listingDetail?.additionalAmenities ?? [];
+    // find index of updated category
+    const index = currentAdditionalAmenities?.findIndex((a) => a?.category === categoryValue);
+    // update amenities
+    if (index !== -1) {
+      if (amenities.length === 0) {
+        // remove category
+        currentAdditionalAmenities.splice(index, 1);
+      } else {
+        currentAdditionalAmenities[index] = {
+          category: categoryValue,
+          amenities: amenities
+        };
+      }
+    } else {
+      currentAdditionalAmenities?.push({
+        category: categoryValue,
+        amenities: amenities
+      });
+    }
+
+    setSelectedFilter({
+      ...selectedFilter,
+      listingDetail: {
+        additionalAmenities: currentAdditionalAmenities
+      }
+    });
   };
 
   var result = () => {

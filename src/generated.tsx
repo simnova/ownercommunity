@@ -3408,6 +3408,11 @@ export type MembersPropertiesListSearchContainerPropertiesQuery = {
       __typename?: 'ListingDetails';
       bedrooms?: number | null;
       amenities?: Array<string | null> | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenities';
+        category?: string | null;
+        amenities?: Array<string | null> | null;
+      } | null> | null;
     } | null;
   } | null> | null;
 };
@@ -3433,6 +3438,11 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         __typename?: 'ListingDetails';
         bedrooms?: number | null;
         amenities?: Array<string | null> | null;
+        additionalAmenities?: Array<{
+          __typename?: 'AdditionalAmenities';
+          category?: string | null;
+          amenities?: Array<string | null> | null;
+        } | null> | null;
       } | null;
     } | null> | null;
     facets?: {
@@ -3458,6 +3468,11 @@ export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
     __typename?: 'ListingDetails';
     bedrooms?: number | null;
     amenities?: Array<string | null> | null;
+    additionalAmenities?: Array<{
+      __typename?: 'AdditionalAmenities';
+      category?: string | null;
+      amenities?: Array<string | null> | null;
+    } | null> | null;
   } | null;
 };
 
@@ -3476,6 +3491,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       __typename?: 'ListingDetails';
       bedrooms?: number | null;
       amenities?: Array<string | null> | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenities';
+        category?: string | null;
+        amenities?: Array<string | null> | null;
+      } | null> | null;
     } | null;
   } | null> | null;
   facets?: {
@@ -6149,7 +6169,18 @@ export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                }
               ]
             }
           },

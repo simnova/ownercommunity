@@ -288,6 +288,7 @@ export type ListingDetailsFilterInput = {
   additionalAmenities?: InputMaybe<Array<InputMaybe<AdditionalAmenitiesFilterInput>>>;
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   bedrooms?: InputMaybe<Scalars['Int']>;
+  prices?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
 };
 
 export type ListingDetailsInput = {
@@ -3431,6 +3432,7 @@ export type MembersPropertiesListSearchContainerPropertiesQuery = {
       __typename?: 'ListingDetails';
       bedrooms?: number | null;
       amenities?: Array<string | null> | null;
+      price?: number | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         category?: string | null;
@@ -3461,6 +3463,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         __typename?: 'ListingDetails';
         bedrooms?: number | null;
         amenities?: Array<string | null> | null;
+        price?: number | null;
         additionalAmenities?: Array<{
           __typename?: 'AdditionalAmenities';
           category?: string | null;
@@ -3491,6 +3494,7 @@ export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
     __typename?: 'ListingDetails';
     bedrooms?: number | null;
     amenities?: Array<string | null> | null;
+    price?: number | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenities';
       category?: string | null;
@@ -3514,6 +3518,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       __typename?: 'ListingDetails';
       bedrooms?: number | null;
       amenities?: Array<string | null> | null;
+      price?: number | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         category?: string | null;
@@ -6271,7 +6276,8 @@ export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                       { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
                     ]
                   }
-                }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } }
               ]
             }
           },

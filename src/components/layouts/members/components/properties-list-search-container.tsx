@@ -5,6 +5,7 @@ import {
 } from '../../../../generated';
 import { Skeleton, Input, Button, Space, Checkbox, Radio, Slider, Row, Col } from 'antd';
 import { useState } from 'react';
+import type { SliderMarks } from 'antd/lib/slider';
 
 const FilterNames = {
   Type: 'type',
@@ -29,12 +30,25 @@ const PropertyTypes = ['condo', 'single family', 'townhouse'];
 const Amenities = ['Wifi', 'Pool', 'TV'];
 const AdditionalAmenitiesFeatures = ['Iron', 'Washer/dryer'];
 const AdditionalAmenitiesLocation = ['Waterfront', 'Beachfront'];
+const prices: SliderMarks = {
+  0: '0',
+  10: '100,000+',
+  20: '200,000+',
+  30: '300,000+',
+  40: '400,000+',
+  50: '500,000+',
+  60: '600,000+',
+  70: '700,000+',
+  80: '800,000+',
+  90: '900,000+',
+  100: '1,000,000+'
+};
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [bedrooms, setBedrooms] = useState<undefined | number>(undefined);
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100);
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
     { fetchPolicy: 'network-only' }
@@ -64,7 +78,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   const onBedroomsClicked = (e: any) => {
     setBedrooms(e.target.value);
-    setSelectedFilter({ ...selectedFilter, listingDetail: { bedrooms: parseInt(e.target.value) } });
+    setSelectedFilter({
+      ...selectedFilter,
+      listingDetail: { ...selectedFilter?.listingDetail, bedrooms: parseInt(e.target.value) }
+    });
   };
 
   const onAdditionalAmenitiesChange = (categoryValue: string, amenities: string[]) => {
@@ -102,12 +119,24 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const onPriceChanged = (type: string, e: any) => {
     switch (type) {
       case 'min':
-        setMinPrice(e.target.value);
+        setMinPrice(e.target.value * 10000);
         break;
       case 'max':
-        setMaxPrice(e.target.value);
+        setMaxPrice(e.target.value * 10000);
         break;
     }
+  };
+
+  const onSliderPriceChanged = (values: [number, number]) => {
+    setMinPrice(values[0] * 10000);
+    setMaxPrice(values[1] * 10000);
+    setSelectedFilter({
+      ...selectedFilter,
+      listingDetail: {
+        ...selectedFilter?.listingDetail,
+        prices: [values[0] * 10000, values[1] * 10000]
+      }
+    });
   };
 
   var result = () => {
@@ -208,15 +237,22 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       </div>
       {/* Price */}
       <h2 className="font-bold">Price</h2>
-      <Slider range defaultValue={[10, 11000]} />
+      <Slider
+        range
+        marks={prices}
+        defaultValue={[0, 100]}
+        step={null}
+        onChange={(values) => onSliderPriceChanged(values)}
+        tooltipVisible={false}
+      />
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <div>Min price</div>
-          <Input onChange={(e) => onPriceChanged('min', e)} />
+          <Input value={minPrice * 10000} onChange={(e) => onPriceChanged('min', e)} />
         </Col>
         <Col span={12}>
           <div>Max price</div>
-          <Input onChange={(e) => onPriceChanged('max', e)} />
+          <Input value={maxPrice * 10000} onChange={(e) => onPriceChanged('max', e)} />
         </Col>
       </Row>
       {result()}

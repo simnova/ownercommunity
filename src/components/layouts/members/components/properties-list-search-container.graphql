@@ -23,6 +23,7 @@ fragment MembersPropertiesListSearchContainerPropertyFields on Property {
       category
       amenities
     }
+    price
   }
   id
   createdAt

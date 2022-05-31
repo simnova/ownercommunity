@@ -3,7 +3,7 @@ import {
   FilterDetail,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space, Checkbox, Radio } from 'antd';
+import { Skeleton, Input, Button, Space, Checkbox, Radio, Slider, Row, Col } from 'antd';
 import { useState } from 'react';
 
 const FilterNames = {
@@ -14,7 +14,8 @@ const FilterNames = {
   AdditionalAmenitiesAmenities: 'additionalAmenities/amenities'
 };
 const AdditionalAmenitiesCategories = {
-  AdditionalAmenitiesFeatures: 'Features'
+  AdditionalAmenitiesFeatures: 'Features',
+  AdditionalAmenitiesLocation: 'Location'
 };
 const CheckboxGroup = Checkbox.Group;
 const BedroomsFilterOptions = [
@@ -27,10 +28,13 @@ const BedroomsFilterOptions = [
 const PropertyTypes = ['condo', 'single family', 'townhouse'];
 const Amenities = ['Wifi', 'Pool', 'TV'];
 const AdditionalAmenitiesFeatures = ['Iron', 'Washer/dryer'];
+const AdditionalAmenitiesLocation = ['Waterfront', 'Beachfront'];
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [bedrooms, setBedrooms] = useState<undefined | number>(undefined);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
     { fetchPolicy: 'network-only' }
@@ -52,7 +56,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   };
 
   const onAmenitiesFilterChange = (checkedValues: string[]) => {
-    setSelectedFilter({ ...selectedFilter, listingDetail: { amenities: checkedValues } });
+    setSelectedFilter({
+      ...selectedFilter,
+      listingDetail: { ...selectedFilter?.listingDetail, amenities: checkedValues }
+    });
   };
 
   const onBedroomsClicked = (e: any) => {
@@ -86,9 +93,21 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     setSelectedFilter({
       ...selectedFilter,
       listingDetail: {
+        ...selectedFilter?.listingDetail,
         additionalAmenities: currentAdditionalAmenities
       }
     });
+  };
+
+  const onPriceChanged = (type: string, e: any) => {
+    switch (type) {
+      case 'min':
+        setMinPrice(e.target.value);
+        break;
+      case 'max':
+        setMaxPrice(e.target.value);
+        break;
+    }
   };
 
   var result = () => {
@@ -140,6 +159,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           options={BedroomsFilterOptions}
         />
       </div>
+
       {/* Amenities */}
       <h2 className="font-bold">Amenities</h2>
       <CheckboxGroup
@@ -150,7 +170,9 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         }))}
         onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
       />
+
       {/* Additional Amenities */}
+      {/* Features */}
       <h2 className="font-bold">Additional Amenities</h2>
       <div style={{ paddingLeft: '20px' }}>
         <h2 className="font-bold">Features</h2>
@@ -168,6 +190,35 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           }
         />
       </div>
+      <div style={{ paddingLeft: '20px' }}>
+        <h2 className="font-bold">Location</h2>
+        <CheckboxGroup
+          key={AdditionalAmenitiesCategories.AdditionalAmenitiesLocation}
+          options={AdditionalAmenitiesLocation.map((value: string) => ({
+            label: value,
+            value: value
+          }))}
+          onChange={(checkedValues) =>
+            onAdditionalAmenitiesChange(
+              AdditionalAmenitiesCategories.AdditionalAmenitiesLocation,
+              checkedValues as string[]
+            )
+          }
+        />
+      </div>
+      {/* Price */}
+      <h2 className="font-bold">Price</h2>
+      <Slider range defaultValue={[10, 11000]} />
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <div>Min price</div>
+          <Input onChange={(e) => onPriceChanged('min', e)} />
+        </Col>
+        <Col span={12}>
+          <div>Max price</div>
+          <Input onChange={(e) => onPriceChanged('max', e)} />
+        </Col>
+      </Row>
       {result()}
     </>
   );

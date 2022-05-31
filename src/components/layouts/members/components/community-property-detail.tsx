@@ -88,9 +88,10 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             return (<div style={{
                 display: 'inline-block',
                 padding: "2.5px 5px",
+                borderRadius: "4px",
                 fontSize: "10px",
                 color: "black",
-                background: "grey",
+                background: "#bfbdb8",
             }}>{bed}</div>)
         })
     }

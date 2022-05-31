@@ -152,6 +152,7 @@ export type Community = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
   files?: Maybe<Array<Maybe<FileInfo>>>;
+  filesByType?: Maybe<Array<Maybe<FileInfo>>>;
   handle?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   name?: Maybe<Scalars['String']>;
@@ -160,6 +161,10 @@ export type Community = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   whiteLabelDomain?: Maybe<Scalars['String']>;
+};
+
+export type CommunityFilesByTypeArgs = {
+  type: Scalars['String'];
 };
 
 export type CommunityBlobContentAuthHeaderResult = {

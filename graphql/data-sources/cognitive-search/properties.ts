@@ -12,6 +12,7 @@ const PropertyFilterNames = {
   Amenities: 'amenities',
   AdditionalAmenitiesCategory: 'additionalAmenities/category',
   AdditionalAmenitiesAmenities: 'additionalAmenities/amenities',
+  Price: 'price',
 };
 export class Properties extends CognitiveSearchDataSource<Context> {
   private getFilterString(filter: FilterDetail): string {
@@ -38,21 +39,13 @@ export class Properties extends CognitiveSearchDataSource<Context> {
         });
         filterStrings.push(additionalAmenitiesFilterStrings.join(' and '));
       }
+      // price
+      if (filter.listingDetail?.prices) {
+        filterStrings.push(`${PropertyFilterNames.Price} ge ${filter.listingDetail.prices[0]} and ${PropertyFilterNames.Price} le ${filter.listingDetail.prices[1]}`);
+      }
     }
 
     return filterStrings.join(' and ');
-
-    // const filterQueries = filters.map((filter) => {
-    //   if (filter.fieldName === PropertyFilterNames.Bedrooms) {
-    //     return `${PropertyFilterNames.Bedrooms} ge ${filter.fieldValues[0]}`;
-    //   }
-    //   if (filter.fieldName === PropertyFilterNames.Amenities) {
-    //     return "amenities/any(t: t eq '" + filter.fieldValues?.join("') and amenities/any(t: t eq '") + "')";
-    //   }
-    //   return `search.in(${filter.fieldName}, '${filter.fieldValues.join(',')}',',')`;
-    // });
-
-    // return filterQueries.join(' and ');
   }
 
   async propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {

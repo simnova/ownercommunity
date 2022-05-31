@@ -69,6 +69,14 @@ export const propertyListingIndexSpec = {
         },
       ],
     },
+    {
+      name: 'price',
+      type: 'Edm.Double',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: false,
+    },
   ],
 } as SearchIndex;
 
@@ -83,4 +91,5 @@ export interface PropertyListingIndexDocument {
     category: string;
     amenities: string[];
   }[];
+  price: number;
 }

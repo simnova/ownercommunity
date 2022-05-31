@@ -1,4 +1,5 @@
 import { Typography, Space, Divider, Modal, Button, Card } from 'antd';
+import  Icon  from '@ant-design/icons';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Listing } from './listing';
@@ -82,9 +83,34 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         )
     }
 
+    const generateBeds = (beds: any) => {
+        return beds.map((bed: any) => {
+            return (<div style={{
+                display: 'inline-block',
+                padding: "2.5px 5px",
+                fontSize: "10px",
+                color: "black",
+                background: "grey",
+            }}>{bed}</div>)
+        })
+    }
+
+    const generateBedrooms = () => { 
+        return props.data.property.listingDetail.bedroomDetails.map((bedroom: any) => {
+            return (
+                <Card>
+                    <Space direction='vertical'>
+                        <Title level={5}>{bedroom.roomName}</Title>
+                        <Space direction='horizontal'>{generateBeds(bedroom.bedDescriptions)}</Space>
+                        <Icon  component={() => {return <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M3 4.5A2.5 2.5 0 0 1 5.5 2h5A2.5 2.5 0 0 1 13 4.5v1.55a2.5 2.5 0 0 1 2 2.45v5a.5.5 0 0 1-1 0V11H2v2.5a.5.5 0 0 1-1 0v-5a2.5 2.5 0 0 1 2-2.45V4.5ZM2 10h12V8.5A1.5 1.5 0 0 0 12.5 7h-9A1.5 1.5 0 0 0 2 8.5V10Zm10-5.5A1.5 1.5 0 0 0 10.5 3h-5A1.5 1.5 0 0 0 4 4.5V6h1v-.5a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 .5.5V6h1v-.5A.5.5 0 0 1 9 5h1.5a.5.5 0 0 1 .5.5V6h1V4.5Z"/></svg>}}/>
+                    </Space>
+                </Card>
+            )
+        })
+    }
+
     const generateAgentDetails = () => {
         return (
-            
             <Space direction={props.space ?? 'vertical'}>
                 <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Agent Details</Title></Divider>
                 <Space>
@@ -132,15 +158,14 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
     const generateAdditionalAmentities = () => {
         return props.data.property.listingDetail.additionalAmenities.map((additionalAmenitity: any) => {
             return (
-
-                    <Card 
-                        bordered={false}
-                    >
-                        <Space direction='vertical'>
-                            <Title level={5}>{additionalAmenitity.category}</Title>
-                            {generateAmentities(additionalAmenitity.amenities)}
-                        </Space>
-                    </Card>
+                <Card 
+                    bordered={false}
+                >
+                    <Space direction='vertical'>
+                        <Title level={5}>{additionalAmenitity.category}</Title>
+                        {generateAmentities(additionalAmenitity.amenities)}
+                    </Space>
+                </Card>
             )
         })
     }
@@ -164,6 +189,9 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             {/* <Title level={3}>{props.data.property.location}</Title> */}
 
             {generateMarketData()}
+
+            <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Bedrooms</Title></Divider>
+            <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateBedrooms()}</div>
 
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Amentities</Title></Divider>
             <div className='px-4 md:px-8 sm:px-6 max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4'>{generateAmentities(props.data.property.listingDetail.amenities)}</div>

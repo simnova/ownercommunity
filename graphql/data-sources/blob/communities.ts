@@ -30,6 +30,11 @@ export class Communities extends BlobDataSource<Context> {
 		return result;
 	}
 
+	public async communityPublicFilesListByType(communityId: string, type: string): Promise<FileInfo[]> {
+		var result: FileInfo[] = await this.communityPublicFilesList(communityId);
+		return result.filter((file) => file.type.includes(type));
+	}
+
 	public async communityPublicFileCreateAuthHeader(communityId: string, fileName: string, contentType: string, contentLength: number): Promise<CommunityBlobContentAuthHeaderResult> {
 		const maxSizeMb = 10;
 		const maxSizeBytes = maxSizeMb * 1024 * 1024;

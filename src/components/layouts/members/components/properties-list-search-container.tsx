@@ -1,5 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
 import {
+  FacetDetail,
   FilterDetail,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
@@ -28,7 +29,7 @@ const BedroomsFilterOptions = [
 ];
 const PropertyTypes = ['condo', 'single family', 'townhouse'];
 const Amenities = ['Wifi', 'Pool', 'TV'];
-const AdditionalAmenitiesFeatures = ['Iron', 'Washer/dryer'];
+const AdditionalAmenitiesFeatures = ['Iron', 'WasherDryer'];
 const AdditionalAmenitiesLocation = ['Waterfront', 'Beachfront'];
 const prices: SliderMarks = {
   0: '0',
@@ -60,7 +61,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         input: {
           searchString: searchString,
           options: {
-            facets: [FilterNames.Type, FilterNames.AdditionalAmenitiesCategory],
+            facets: [
+              FilterNames.Type,
+              FilterNames.AdditionalAmenitiesCategory,
+              FilterNames.AdditionalAmenitiesAmenities + ',count:30',
+              FilterNames.Amenities + ',count:30'
+            ],
             filter: selectedFilter
           }
         }
@@ -208,10 +214,22 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       <h2 className="font-bold">Amenities</h2>
       <CheckboxGroup
         key={FilterNames.Amenities}
-        options={Amenities.map((value: string) => ({
-          label: value,
-          value: value
-        }))}
+        options={Amenities.map((value: string) => {
+          const count = data?.propertiesSearch?.facets?.amenities?.find(
+            (t) => t?.value === value
+          )?.count;
+          console.log(value + ' ' + count);
+          return {
+            label: `${value} ${
+              count !== undefined && count !== null && count > 0
+                ? `(${count})`
+                : count === 0
+                ? '(0)'
+                : ''
+            }`,
+            value: value
+          };
+        })}
         onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
       />
 
@@ -219,13 +237,33 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       {/* Features */}
       <h2 className="font-bold">Additional Amenities</h2>
       <div style={{ paddingLeft: '20px' }}>
-        <h2 className="font-bold">Features</h2>
+        <h2 className="font-bold">
+          Features (
+          {
+            data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
+              (t) => t?.value === 'Features'
+            )?.count
+          }
+          )
+        </h2>
         <CheckboxGroup
           key={AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures}
-          options={AdditionalAmenitiesFeatures.map((value: string) => ({
-            label: value,
-            value: value
-          }))}
+          options={AdditionalAmenitiesFeatures.map((value: string) => {
+            const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
+              (t) => t?.value === value
+            )?.count;
+            console.log(value + ' ' + count);
+            return {
+              label: `${value} ${
+                count !== undefined && count !== null && count > 0
+                  ? `(${count})`
+                  : count === 0
+                  ? '(0)'
+                  : ''
+              }`,
+              value: value
+            };
+          })}
           onChange={(checkedValues) =>
             onAdditionalAmenitiesChange(
               AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures,
@@ -235,13 +273,33 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         />
       </div>
       <div style={{ paddingLeft: '20px' }}>
-        <h2 className="font-bold">Location</h2>
+        <h2 className="font-bold">
+          Location (
+          {
+            data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
+              (t) => t?.value === 'Location'
+            )?.count
+          }
+          )
+        </h2>
         <CheckboxGroup
           key={AdditionalAmenitiesCategories.AdditionalAmenitiesLocation}
-          options={AdditionalAmenitiesLocation.map((value: string) => ({
-            label: value,
-            value: value
-          }))}
+          options={AdditionalAmenitiesLocation.map((value: string) => {
+            const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
+              (t) => t?.value === value
+            )?.count;
+            console.log(value + ' ' + count);
+            return {
+              label: `${value} ${
+                count !== undefined && count !== null && count > 0
+                  ? `(${count})`
+                  : count === 0
+                  ? '(0)'
+                  : ''
+              }`,
+              value: value
+            };
+          })}
           onChange={(checkedValues) =>
             onAdditionalAmenitiesChange(
               AdditionalAmenitiesCategories.AdditionalAmenitiesLocation,

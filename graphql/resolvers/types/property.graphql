@@ -179,7 +179,7 @@ extend type Mutation {
   propertyUpdate(input: PropertyUpdateInput!): PropertyMutationResult!
   propertyDelete(input: PropertyDeleteInput!): PropertyMutationResult!
   propertyAssignOwner(input: PropertyAssignOwnerInput!): PropertyMutationResult!
-  propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!  
+  propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!
   propertyListingImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
   propertyFloorPlanImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
 }
@@ -207,6 +207,7 @@ input FilterDetail {
 input ListingDetailsFilterInput {
   bedrooms: Int
   amenities: [String]
+  prices: [Float]
   additionalAmenities: [AdditionalAmenitiesFilterInput]
 }
 input AdditionalAmenitiesFilterInput {
@@ -255,7 +256,6 @@ type FacetDetail {
   value: String
   count: Int
 }
-
 
 input PropertyBlobFileInput {
   propertyId: ObjectID!

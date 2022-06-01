@@ -57,6 +57,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
     const searchResults = await searchService.search('property-listings', input.searchString.trim(), {
       queryType: 'full',
       searchMode: 'all',
+      includeTotalCount: true,
       filter: filterString, // `search.in(type, 'condo,townhouse',',') and bedrooms ge 2`,
       facets: input.options.facets, // ['type'],
     });

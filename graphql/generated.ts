@@ -803,9 +803,9 @@ export type PropertySearchFacets = {
 
 export type PropertySearchResult = {
   __typename?: 'PropertySearchResult';
+  count?: Maybe<Scalars['Int']>;
   facets?: Maybe<PropertySearchFacets>;
   propertyResults?: Maybe<Array<Maybe<Property>>>;
-  total?: Maybe<Scalars['Int']>;
 };
 
 export type PropertyUpdateInput = {
@@ -2019,9 +2019,9 @@ export type PropertySearchFacetsResolvers<ContextType = Context, ParentType exte
 }>;
 
 export type PropertySearchResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertySearchResult'] = ResolversParentTypes['PropertySearchResult']> = ResolversObject<{
+  count?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   facets?: Resolver<Maybe<ResolversTypes['PropertySearchFacets']>, ParentType, ContextType>;
   propertyResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
-  total?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

@@ -26,9 +26,11 @@ export default () => {
         amenities: property.listingDetail.amenities,
         additionalAmenities: updatedAdditionalAmenities,
         price: property.listingDetail.price,
+        bathrooms: property.listingDetail.bathrooms,
+        squareFeet: property.listingDetail.squareFeet,
       };
       let cognitiveSearch = new CognitiveSearch();
-      await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
+      await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
       await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
       console.log(`Property Updated - Search Completed: ${JSON.stringify(listingDoc)}`);
     });

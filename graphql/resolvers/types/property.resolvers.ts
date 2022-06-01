@@ -74,6 +74,7 @@ const property: Resolvers = {
 
       return {
         propertyResults: results,
+        count: searchResults.count,
         facets: {
           type: searchResults.facets?.type,
           amenities: searchResults.facets?.amenities,
@@ -83,6 +84,7 @@ const property: Resolvers = {
       } as PropertySearchResult;
     },
   },
+
   Mutation: {
     propertyAdd: async (_, { input }, { dataSources }) => {
       return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyAdd(input));

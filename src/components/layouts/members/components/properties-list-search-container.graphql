@@ -24,6 +24,8 @@ fragment MembersPropertiesListSearchContainerPropertyFields on Property {
       amenities
     }
     price
+    bathrooms
+    squareFeet
   }
   id
   createdAt
@@ -34,9 +36,21 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
   propertyResults {
     ...MembersPropertiesListSearchContainerPropertyFields
   }
-  total
+  count
   facets {
     type {
+      value
+      count
+    }
+    amenities {
+      value
+      count
+    }
+    additionalAmenitiesCategory {
+      value
+      count
+    }
+    additionalAmenitiesAmenities {
       value
       count
     }

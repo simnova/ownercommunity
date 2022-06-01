@@ -1,5 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
 import {
+  FacetDetail,
   FilterDetail,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
@@ -28,7 +29,7 @@ const BedroomsFilterOptions = [
 ];
 const PropertyTypes = ['condo', 'single family', 'townhouse'];
 const Amenities = ['Wifi', 'Pool', 'TV'];
-const AdditionalAmenitiesFeatures = ['Iron', 'Washer/dryer'];
+const AdditionalAmenitiesFeatures = ['Iron', 'WasherDryer'];
 const AdditionalAmenitiesLocation = ['Waterfront', 'Beachfront'];
 const prices: SliderMarks = {
   0: '0',
@@ -48,7 +49,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [bedrooms, setBedrooms] = useState<undefined | number>(undefined);
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(100);
+  const [maxPrice, setMaxPrice] = useState(1000000);
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
     { fetchPolicy: 'network-only' }
@@ -59,7 +60,15 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       variables: {
         input: {
           searchString: searchString,
-          options: { facets: [FilterNames.Type], filter: selectedFilter }
+          options: {
+            facets: [
+              FilterNames.Type,
+              FilterNames.AdditionalAmenitiesCategory,
+              FilterNames.AdditionalAmenitiesAmenities + ',count:30',
+              FilterNames.Amenities + ',count:30'
+            ],
+            filter: selectedFilter
+          }
         }
       }
     });
@@ -164,6 +173,11 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           Search
         </Button>
       </Space>
+      <div>
+        {data?.propertiesSearch?.count
+          ? '(' + data?.propertiesSearch?.count + ' records found)'
+          : ''}
+      </div>
 
       <div>
         <h1>Filters</h1>
@@ -172,10 +186,22 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         <h2 className="font-bold">Type </h2>
         <CheckboxGroup
           key={FilterNames.Type}
-          options={PropertyTypes.map((value: string) => ({
-            label: value,
-            value: value
-          }))}
+          options={PropertyTypes.map((value: string) => {
+            const count = data?.propertiesSearch?.facets?.type?.find(
+              (t) => t?.value === value
+            )?.count;
+            console.log(value + ' ' + count);
+            return {
+              label: `${value} ${
+                count !== undefined && count !== null && count > 0
+                  ? `(${count})`
+                  : count === 0
+                  ? '(0)'
+                  : ''
+              }`,
+              value: value
+            };
+          })}
           onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
         />
         {/* Bedrooms */}
@@ -193,10 +219,22 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       <h2 className="font-bold">Amenities</h2>
       <CheckboxGroup
         key={FilterNames.Amenities}
-        options={Amenities.map((value: string) => ({
-          label: value,
-          value: value
-        }))}
+        options={Amenities.map((value: string) => {
+          const count = data?.propertiesSearch?.facets?.amenities?.find(
+            (t) => t?.value === value
+          )?.count;
+          console.log(value + ' ' + count);
+          return {
+            label: `${value} ${
+              count !== undefined && count !== null && count > 0
+                ? `(${count})`
+                : count === 0
+                ? '(0)'
+                : ''
+            }`,
+            value: value
+          };
+        })}
         onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
       />
 
@@ -204,13 +242,33 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       {/* Features */}
       <h2 className="font-bold">Additional Amenities</h2>
       <div style={{ paddingLeft: '20px' }}>
-        <h2 className="font-bold">Features</h2>
+        <h2 className="font-bold">
+          Features (
+          {
+            data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
+              (t) => t?.value === 'Features'
+            )?.count
+          }
+          )
+        </h2>
         <CheckboxGroup
           key={AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures}
-          options={AdditionalAmenitiesFeatures.map((value: string) => ({
-            label: value,
-            value: value
-          }))}
+          options={AdditionalAmenitiesFeatures.map((value: string) => {
+            const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
+              (t) => t?.value === value
+            )?.count;
+            console.log(value + ' ' + count);
+            return {
+              label: `${value} ${
+                count !== undefined && count !== null && count > 0
+                  ? `(${count})`
+                  : count === 0
+                  ? '(0)'
+                  : ''
+              }`,
+              value: value
+            };
+          })}
           onChange={(checkedValues) =>
             onAdditionalAmenitiesChange(
               AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures,
@@ -220,13 +278,33 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         />
       </div>
       <div style={{ paddingLeft: '20px' }}>
-        <h2 className="font-bold">Location</h2>
+        <h2 className="font-bold">
+          Location (
+          {
+            data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
+              (t) => t?.value === 'Location'
+            )?.count
+          }
+          )
+        </h2>
         <CheckboxGroup
           key={AdditionalAmenitiesCategories.AdditionalAmenitiesLocation}
-          options={AdditionalAmenitiesLocation.map((value: string) => ({
-            label: value,
-            value: value
-          }))}
+          options={AdditionalAmenitiesLocation.map((value: string) => {
+            const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
+              (t) => t?.value === value
+            )?.count;
+            console.log(value + ' ' + count);
+            return {
+              label: `${value} ${
+                count !== undefined && count !== null && count > 0
+                  ? `(${count})`
+                  : count === 0
+                  ? '(0)'
+                  : ''
+              }`,
+              value: value
+            };
+          })}
           onChange={(checkedValues) =>
             onAdditionalAmenitiesChange(
               AdditionalAmenitiesCategories.AdditionalAmenitiesLocation,
@@ -248,11 +326,11 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <div>Min price</div>
-          <Input value={minPrice * 10000} onChange={(e) => onPriceChanged('min', e)} />
+          <Input value={minPrice} onChange={(e) => onPriceChanged('min', e)} />
         </Col>
         <Col span={12}>
           <div>Max price</div>
-          <Input value={maxPrice * 10000} onChange={(e) => onPriceChanged('max', e)} />
+          <Input value={maxPrice} onChange={(e) => onPriceChanged('max', e)} />
         </Col>
       </Row>
       {result()}

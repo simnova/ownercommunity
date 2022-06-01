@@ -249,6 +249,7 @@ type PropertySearchResult {
 }
 type PropertySearchFacets {
   type: [FacetDetail]
+  additionalAmenitiesCategory: [FacetDetail]
 }
 
 type FacetDetail {

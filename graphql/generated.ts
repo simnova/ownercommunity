@@ -784,6 +784,7 @@ export type PropertyRemoveOwnerInput = {
 
 export type PropertySearchFacets = {
   __typename?: 'PropertySearchFacets';
+  additionalAmenitiesCategory?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
@@ -1990,6 +1991,7 @@ export type PropertyPermissionsResolvers<ContextType = Context, ParentType exten
 }>;
 
 export type PropertySearchFacetsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertySearchFacets'] = ResolversParentTypes['PropertySearchFacets']> = ResolversObject<{
+  additionalAmenitiesCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   type?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

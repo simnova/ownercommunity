@@ -1,0 +1,27 @@
+mutation MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeader($input: PropertyBlobFileInput!) {
+  propertyFloorPlanImageCreateAuthHeader(input: $input) {
+    authHeader {
+      authHeader
+      blobName
+      blobContainer
+      requestDate
+    }
+    status {
+      success
+      errorMessage
+    }   
+    property {
+      ...MembersPropertiesFloorPlanImageUploadContainerPropertyFields
+    } 
+  }
+}
+
+fragment MembersPropertiesFloorPlanImageUploadContainerPropertyFields on Property {
+  listingDetail {
+    floorPlanImages
+  }
+
+  id
+  createdAt
+  updatedAt
+}

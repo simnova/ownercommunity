@@ -48,6 +48,7 @@ fragment MembersPropertiesListingContainerPropertyFields on Property {
     images
     video
     floorPlan
+    floorPlanImages
     listingAgent
     listingAgentPhone
     listingAgentEmail

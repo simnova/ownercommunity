@@ -3485,6 +3485,7 @@ export type MembersPropertiesListSearchContainerPropertiesQuery = {
       __typename?: 'ListingDetails';
       bedrooms?: number | null;
       amenities?: Array<string | null> | null;
+      price?: number | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         category?: string | null;
@@ -3515,6 +3516,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         __typename?: 'ListingDetails';
         bedrooms?: number | null;
         amenities?: Array<string | null> | null;
+        price?: number | null;
         additionalAmenities?: Array<{
           __typename?: 'AdditionalAmenities';
           category?: string | null;
@@ -3545,6 +3547,7 @@ export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
     __typename?: 'ListingDetails';
     bedrooms?: number | null;
     amenities?: Array<string | null> | null;
+    price?: number | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenities';
       category?: string | null;
@@ -3568,6 +3571,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       __typename?: 'ListingDetails';
       bedrooms?: number | null;
       amenities?: Array<string | null> | null;
+      price?: number | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         category?: string | null;
@@ -6358,7 +6362,8 @@ export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                       { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
                     ]
                   }
-                }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } }
               ]
             }
           },

@@ -108,7 +108,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
         if (input.listingDetail.images !== undefined) property.listingDetail.requestSetImages(new Images(input.listingDetail.images));
         //todo video
         if (input.listingDetail.floorPlan !== undefined) property.listingDetail.requestSetFloorPlan(input.listingDetail.floorPlan);
-        //todo floor plan images
+        if (input.listingDetail.floorPlanImages !== undefined) property.listingDetail.requestSetFloorPlanImages(new Images(input.listingDetail.floorPlanImages));
         if (input.listingDetail.listingAgent !== undefined) property.listingDetail.requestSetListingAgent(input.listingDetail.listingAgent);
         if (input.listingDetail.listingAgentPhone !== undefined) property.listingDetail.requestSetListingAgentPhone(input.listingDetail.listingAgentPhone);
         if (input.listingDetail.listingAgentEmail !== undefined) property.listingDetail.requestSetListingAgentEmail(input.listingDetail.listingAgentEmail);

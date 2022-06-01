@@ -33,6 +33,18 @@ export class Properties extends BlobDataSource<Context> {
 		return this.getHeader(propertyId, memberId, permittedContentTypes, contentType, contentLength, maxSizeBytes, blobName);
 	}
 
+	public async propertyFloorPlanImageCreateAuthHeader(propertyId: string, memberId:string, contentType: string, contentLength: number): Promise<PropertyBlobFileAuthHeaderResult> {
+		const maxSizeMb = 10;
+		const maxSizeBytes = maxSizeMb * 1024 * 1024;
+		const permittedContentTypes = [
+				'image/jpeg',
+				'image/png',
+				'image/gif',
+		];
+		const blobName = `property/${propertyId}/listing-floor-plan-images/${nanoid()}`;
+		return this.getHeader(propertyId, memberId, permittedContentTypes, contentType, contentLength, maxSizeBytes, blobName);
+	}
+
 	private async getHeader(propertyId: string, memberId:string, permittedContentTypes: string[], contentType: string, contentLength: number, maxSizeBytes: number, blobName: string) {
 		var headerResult: PropertyBlobFileAuthHeaderResult;
 		await this.withStorage(async (passport, blobStorage) => {

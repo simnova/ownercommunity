@@ -493,6 +493,7 @@ export type Mutation = {
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
   propertyDelete: PropertyMutationResult;
+  propertyFloorPlanImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyListingImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyRemoveOwner: PropertyMutationResult;
   propertyUpdate: PropertyMutationResult;
@@ -591,6 +592,11 @@ export type MutationPropertyAssignOwnerArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationPropertyDeleteArgs = {
   input: PropertyDeleteInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyFloorPlanImageCreateAuthHeaderArgs = {
+  input: PropertyBlobFileInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1855,6 +1861,12 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   propertyAdd?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAddArgs, 'input'>>;
   propertyAssignOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAssignOwnerArgs, 'input'>>;
   propertyDelete?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyDeleteArgs, 'input'>>;
+  propertyFloorPlanImageCreateAuthHeader?: Resolver<
+    ResolversTypes['PropertyBlobFileAuthHeaderResult'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPropertyFloorPlanImageCreateAuthHeaderArgs, 'input'>
+  >;
   propertyListingImageCreateAuthHeader?: Resolver<
     ResolversTypes['PropertyBlobFileAuthHeaderResult'],
     ParentType,

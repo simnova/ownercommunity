@@ -233,7 +233,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           label="Floor Plan Images"
         >
           <PropertiesFloorPlanUploadContainer propertyId={props.data.property.id} communityId={props.data.communityId} />
-          {/* <Input placeholder='Floor Plan' /> */}
         </Form.Item>
 
         <Form.Item

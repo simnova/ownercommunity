@@ -173,6 +173,11 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           Search
         </Button>
       </Space>
+      <div>
+        {data?.propertiesSearch?.count
+          ? '(' + data?.propertiesSearch?.count + ' records found)'
+          : ''}
+      </div>
 
       <div>
         <h1>Filters</h1>

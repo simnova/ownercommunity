@@ -801,9 +801,9 @@ export type PropertySearchFacets = {
 
 export type PropertySearchResult = {
   __typename?: 'PropertySearchResult';
+  count?: Maybe<Scalars['Int']>;
   facets?: Maybe<PropertySearchFacets>;
   propertyResults?: Maybe<Array<Maybe<Property>>>;
-  total?: Maybe<Scalars['Int']>;
 };
 
 export type PropertyUpdateInput = {
@@ -3489,6 +3489,8 @@ export type MembersPropertiesListSearchContainerPropertiesQuery = {
       bedrooms?: number | null;
       amenities?: Array<string | null> | null;
       price?: number | null;
+      bathrooms?: number | null;
+      squareFeet?: number | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         category?: string | null;
@@ -3506,7 +3508,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
   __typename?: 'Query';
   propertiesSearch?: {
     __typename?: 'PropertySearchResult';
-    total?: number | null;
+    count?: number | null;
     propertyResults?: Array<{
       __typename?: 'Property';
       propertyName: string;
@@ -3520,6 +3522,8 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         bedrooms?: number | null;
         amenities?: Array<string | null> | null;
         price?: number | null;
+        bathrooms?: number | null;
+        squareFeet?: number | null;
         additionalAmenities?: Array<{
           __typename?: 'AdditionalAmenities';
           category?: string | null;
@@ -3566,6 +3570,8 @@ export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
     bedrooms?: number | null;
     amenities?: Array<string | null> | null;
     price?: number | null;
+    bathrooms?: number | null;
+    squareFeet?: number | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenities';
       category?: string | null;
@@ -3576,7 +3582,7 @@ export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
 
 export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
   __typename?: 'PropertySearchResult';
-  total?: number | null;
+  count?: number | null;
   propertyResults?: Array<{
     __typename?: 'Property';
     propertyName: string;
@@ -3590,6 +3596,8 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       bedrooms?: number | null;
       amenities?: Array<string | null> | null;
       price?: number | null;
+      bathrooms?: number | null;
+      squareFeet?: number | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         category?: string | null;
@@ -6396,7 +6404,9 @@ export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                     ]
                   }
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } }
               ]
             }
           },
@@ -6434,7 +6444,7 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
               ]
             }
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'total' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'facets' },

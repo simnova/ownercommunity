@@ -76,7 +76,9 @@ const property: Resolvers = {
         propertyResults: results,
         facets: {
           type: searchResults.facets?.type,
-          additionalAmenitiesCategory: searchResults.facets?.additionalAmenitiesCategory,
+          amenities: searchResults.facets?.amenities,
+          additionalAmenitiesCategory: searchResults.facets?.['additionalAmenities/category'],
+          additionalAmenitiesAmenities: searchResults.facets?.['additionalAmenities/amenities'],
         },
       } as PropertySearchResult;
     },

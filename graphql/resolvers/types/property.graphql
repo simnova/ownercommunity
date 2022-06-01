@@ -250,7 +250,9 @@ type PropertySearchResult {
 }
 type PropertySearchFacets {
   type: [FacetDetail]
+  amenities: [FacetDetail]
   additionalAmenitiesCategory: [FacetDetail]
+  additionalAmenitiesAmenities: [FacetDetail]
 }
 
 type FacetDetail {

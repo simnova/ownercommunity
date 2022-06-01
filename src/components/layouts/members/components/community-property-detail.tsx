@@ -1,7 +1,7 @@
 import { Typography, Space, Divider, Modal, Button, Card } from 'antd';
 import  Icon  from '@ant-design/icons';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Listing } from './listing';
 const { Title, Text  } = Typography;
 
@@ -12,6 +12,7 @@ interface MarketDataConfigDefinition {
       name: string;
       location: string;
       price: number[];
+      listingImages: string[];
     }[]
   }
 
@@ -26,7 +27,19 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
       setIsModalVisible(false);
     };
 
+    const params = useParams();
+
     console.log(props.data)
+
+    let images = props.data.property.listingDetail.images;
+
+    const listingImages = images.map((image: any) => {
+        let link = "https://ownercommunity.blob.core.windows.net/" + params.communityId + "/" + image;
+        return link;
+    });
+
+    console.log(listingImages);
+
 
     const marketDataConfig: MarketDataConfigDefinition = {
         listedFor: [
@@ -36,6 +49,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 name: 'sale',
                 location: '123 Street St',
                 price: [props.data.property.listingDetail.price],
+                listingImages: listingImages
             },
             {
                 title: 'Rent',
@@ -43,6 +57,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 name: 'rental',
                 location: '123 Street St',
                 price: [props.data.property.listingDetail.rentLow, props.data.property.listingDetail.rentHigh],
+                listingImages: listingImages
             },
             {
                 title: 'Lease',
@@ -50,6 +65,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 name: 'lease',
                 location: '123 Street St',
                 price: [props.data.property.listingDetail.lease],
+                listingImages: listingImages
             }
         ]
     }
@@ -68,6 +84,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                             isRent={marketData.name === 'rental'}
                             isLease={marketData.name === 'lease'}
                             isSale={marketData.name === 'sale'}
+                            listingImages={marketData.listingImages}
                         />
                     </div>
                 )

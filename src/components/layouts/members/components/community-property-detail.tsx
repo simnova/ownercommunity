@@ -1,4 +1,4 @@
-import { Typography, Space, Divider, Modal, Button, Card } from 'antd';
+import { Typography, Space, Divider, Modal, Button, Card, Image } from 'antd';
 import  Icon  from '@ant-design/icons';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
@@ -31,15 +31,17 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
     console.log(props.data)
 
-    let images = props.data.property.listingDetail.images;
-
-    const listingImages = images.map((image: any) => {
-        let link = "https://ownercommunity.blob.core.windows.net/" + params.communityId + "/" + image;
+    const listingImages = props.data.property.listingDetail.images.map((image: any) => {
+        const link = "https://ownercommunity.blob.core.windows.net/" + params.communityId + "/" + image;
         return link;
     });
 
-    console.log(listingImages);
-
+    const floorPlans = props.data.property.listingDetail.floorPlanImages.map((floorPlan: any) => {
+        const floorPlanImages = "https://ownercommunity.blob.core.windows.net/" + params.communityId + "/" + floorPlan;
+        return (
+            <Image src={floorPlanImages} alt={"floor plan"}/>
+        );
+    });
 
     const marketDataConfig: MarketDataConfigDefinition = {
         listedFor: [
@@ -130,7 +132,6 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
     const generateAgentDetails = () => {
         return (
             <Space direction={props.space ?? 'vertical'}>
-                <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Agent Details</Title></Divider>
                 <Space>
                     {props.data.property.listingDetail.listingAgent ? props.data.property.listingDetail.listingAgent : <></>}
                     {props.data.property.listingDetail.listingAgentCompany ? 
@@ -201,10 +202,6 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 <Title level={4}>{props.data.property.listingDetail.bathrooms ? props.data.property.listingDetail.bathrooms : "-"} Ba</Title>
                 <Title level={4}>{props.data.property.listingDetail.squareFeet ? props.data.property.listingDetail.squareFeet : "-"} Sqft</Title>
             </Space>
-            
-
-
-            {/* <Title level={3}>{props.data.property.location}</Title> */}
 
             {generateMarketData()}
 
@@ -219,6 +216,12 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
             <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>About 123 Street St</Title></Divider>
             <Text italic>{props.data.property.listingDetail.description}</Text>
+
+            {
+                 floorPlans.length !== 0 ? (<div><Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Floor Plans</Title></Divider> <div>{floorPlans}</div></div>)  : <></>
+            }
+
+            <Divider orientation='left' orientationMargin={"5px"}><Title level={5}>Agent Details</Title></Divider>
             {generateAgentDetails()}
 
         </Space>

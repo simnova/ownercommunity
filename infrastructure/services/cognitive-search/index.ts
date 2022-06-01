@@ -26,11 +26,27 @@ export class CognitiveSearch {
       .getIndex(indexName)
       .then((index) => {
         console.log(`Index ${indexName} already exists`);
+
         return index;
       })
       .catch((err) => {
         console.log(`Index ${indexName} does not exist error ${JSON.stringify(err)} thrown, creating it...`);
         return this.client.createIndex(indexDefinition);
+      });
+    this.searchClients.set(indexName, this.client.getSearchClient(indexName));
+  }
+
+  async createOrUpdateIndex(indexName: string, indexDefinition: SearchIndex): Promise<void> {
+    if (this.searchClients.has(indexName)) return;
+    await this.client
+      .getIndex(indexName)
+      .then(() => {
+        console.log(`Index ${indexName} already exists`);
+        return this.client.createOrUpdateIndex(indexDefinition);
+      })
+      .catch((err) => {
+        console.log(`Index ${indexName} does not exist error ${JSON.stringify(err)} thrown, creating it...`);
+        return this.client.createOrUpdateIndex(indexDefinition);
       });
     this.searchClients.set(indexName, this.client.getSearchClient(indexName));
   }

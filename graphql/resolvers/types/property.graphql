@@ -245,11 +245,14 @@ input PropertyRemoveOwnerInput {
 
 type PropertySearchResult {
   propertyResults: [Property]
-  total: Int
+  count: Int
   facets: PropertySearchFacets
 }
 type PropertySearchFacets {
   type: [FacetDetail]
+  amenities: [FacetDetail]
+  additionalAmenitiesCategory: [FacetDetail]
+  additionalAmenitiesAmenities: [FacetDetail]
 }
 
 type FacetDetail {

@@ -74,12 +74,17 @@ const property: Resolvers = {
 
       return {
         propertyResults: results,
+        count: searchResults.count,
         facets: {
           type: searchResults.facets?.type,
+          amenities: searchResults.facets?.amenities,
+          additionalAmenitiesCategory: searchResults.facets?.['additionalAmenities/category'],
+          additionalAmenitiesAmenities: searchResults.facets?.['additionalAmenities/amenities'],
         },
       } as PropertySearchResult;
     },
   },
+
   Mutation: {
     propertyAdd: async (_, { input }, { dataSources }) => {
       return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyAdd(input));

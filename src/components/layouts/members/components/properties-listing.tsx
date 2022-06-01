@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { PropertyUpdateInput, MembersPropertiesListingContainerPropertyFieldsFragment } from '../../../../generated';
 import { FormTags } from '../../../ui/organisms/form-tags';
 import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload-container';
+import { PropertiesFloorPlanUploadContainer } from './properties-floor-plan-upload-container';
 
 
 const { Title } = Typography;
@@ -226,6 +227,15 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         >
           <Input placeholder='Floor Plan' />
         </Form.Item>
+
+        <Form.Item
+          name={['listingDetail','floorPlanImages']}
+          label="Floor Plan Images"
+        >
+          <PropertiesFloorPlanUploadContainer propertyId={props.data.property.id} communityId={props.data.communityId} />
+          {/* <Input placeholder='Floor Plan' /> */}
+        </Form.Item>
+
         <Form.Item
           name={['listingDetail','listingAgent']}
           label="Listing Agent"

@@ -152,6 +152,7 @@ export type Community = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
   files?: Maybe<Array<Maybe<FileInfo>>>;
+  filesByType?: Maybe<Array<Maybe<FileInfo>>>;
   handle?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   name?: Maybe<Scalars['String']>;
@@ -160,6 +161,10 @@ export type Community = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   whiteLabelDomain?: Maybe<Scalars['String']>;
+};
+
+export type CommunityFilesByTypeArgs = {
+  type: Scalars['String'];
 };
 
 export type CommunityBlobContentAuthHeaderResult = {
@@ -486,6 +491,7 @@ export type Mutation = {
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
   propertyDelete: PropertyMutationResult;
+  propertyFloorPlanImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyListingImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyRemoveOwner: PropertyMutationResult;
   propertyUpdate: PropertyMutationResult;
@@ -584,6 +590,11 @@ export type MutationPropertyAssignOwnerArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationPropertyDeleteArgs = {
   input: PropertyDeleteInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyFloorPlanImageCreateAuthHeaderArgs = {
+  input: PropertyBlobFileInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -3388,6 +3399,48 @@ export type MembersPropertiesDetailContainerMembersFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables =
+  Exact<{
+    input: PropertyBlobFileInput;
+  }>;
+
+export type MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation =
+  {
+    __typename?: 'Mutation';
+    propertyFloorPlanImageCreateAuthHeader: {
+      __typename?: 'PropertyBlobFileAuthHeaderResult';
+      authHeader?: {
+        __typename?: 'BlobAuthHeader';
+        authHeader?: string | null;
+        blobName?: string | null;
+        blobContainer?: string | null;
+        requestDate?: string | null;
+      } | null;
+      status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+      property?: {
+        __typename?: 'Property';
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        listingDetail?: {
+          __typename?: 'ListingDetails';
+          floorPlanImages?: Array<string | null> | null;
+        } | null;
+      } | null;
+    };
+  };
+
+export type MembersPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  listingDetail?: {
+    __typename?: 'ListingDetails';
+    floorPlanImages?: Array<string | null> | null;
+  } | null;
+};
+
 export type MembersPropertiesListContainerPropertiesQueryVariables = Exact<{
   communityId: Scalars['ID'];
 }>;
@@ -3575,6 +3628,7 @@ export type MembersPropertiesListingContainerPropertyQuery = {
       images?: Array<string | null> | null;
       video?: string | null;
       floorPlan?: string | null;
+      floorPlanImages?: Array<string | null> | null;
       listingAgent?: string | null;
       listingAgentPhone?: string | null;
       listingAgentEmail?: string | null;
@@ -3631,6 +3685,7 @@ export type MembersPropertiesListingContainerPropertyUpdateMutation = {
         images?: Array<string | null> | null;
         video?: string | null;
         floorPlan?: string | null;
+        floorPlanImages?: Array<string | null> | null;
         listingAgent?: string | null;
         listingAgentPhone?: string | null;
         listingAgentEmail?: string | null;
@@ -3682,6 +3737,7 @@ export type MembersPropertiesListingContainerPropertyMutationResultFieldsFragmen
       images?: Array<string | null> | null;
       video?: string | null;
       floorPlan?: string | null;
+      floorPlanImages?: Array<string | null> | null;
       listingAgent?: string | null;
       listingAgentPhone?: string | null;
       listingAgentEmail?: string | null;
@@ -3729,6 +3785,7 @@ export type MembersPropertiesListingContainerPropertyFieldsFragment = {
     images?: Array<string | null> | null;
     video?: string | null;
     floorPlan?: string | null;
+    floorPlanImages?: Array<string | null> | null;
     listingAgent?: string | null;
     listingAgentPhone?: string | null;
     listingAgentEmail?: string | null;
@@ -6221,6 +6278,35 @@ export const MembersPropertiesDetailContainerMembersFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersPropertiesDetailContainerMembersFieldsFragment, unknown>;
+export const MembersPropertiesFloorPlanImageUploadContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesFloorPlanImageUploadContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MembersPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment,
+  unknown
+>;
 export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -6419,6 +6505,7 @@ export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'images' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'video' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
@@ -10139,6 +10226,96 @@ export const MembersPropertiesDetailContainerPropertyDeleteDocument = {
   MembersPropertiesDetailContainerPropertyDeleteMutation,
   MembersPropertiesDetailContainerPropertyDeleteMutationVariables
 >;
+export const MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument =
+  {
+    kind: 'Document',
+    definitions: [
+      {
+        kind: 'OperationDefinition',
+        operation: 'mutation',
+        name: {
+          kind: 'Name',
+          value:
+            'MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeader'
+        },
+        variableDefinitions: [
+          {
+            kind: 'VariableDefinition',
+            variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+            type: {
+              kind: 'NonNullType',
+              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyBlobFileInput' } }
+            }
+          }
+        ],
+        selectionSet: {
+          kind: 'SelectionSet',
+          selections: [
+            {
+              kind: 'Field',
+              name: { kind: 'Name', value: 'propertyFloorPlanImageCreateAuthHeader' },
+              arguments: [
+                {
+                  kind: 'Argument',
+                  name: { kind: 'Name', value: 'input' },
+                  value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+                }
+              ],
+              selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                  {
+                    kind: 'Field',
+                    name: { kind: 'Name', value: 'authHeader' },
+                    selectionSet: {
+                      kind: 'SelectionSet',
+                      selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
+                      ]
+                    }
+                  },
+                  {
+                    kind: 'Field',
+                    name: { kind: 'Name', value: 'status' },
+                    selectionSet: {
+                      kind: 'SelectionSet',
+                      selections: [
+                        { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                        { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                      ]
+                    }
+                  },
+                  {
+                    kind: 'Field',
+                    name: { kind: 'Name', value: 'property' },
+                    selectionSet: {
+                      kind: 'SelectionSet',
+                      selections: [
+                        {
+                          kind: 'FragmentSpread',
+                          name: {
+                            kind: 'Name',
+                            value: 'MembersPropertiesFloorPlanImageUploadContainerPropertyFields'
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      ...MembersPropertiesFloorPlanImageUploadContainerPropertyFieldsFragmentDoc.definitions
+    ]
+  } as unknown as DocumentNode<
+    MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation,
+    MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables
+  >;
 export const MembersPropertiesListContainerPropertiesDocument = {
   kind: 'Document',
   definitions: [

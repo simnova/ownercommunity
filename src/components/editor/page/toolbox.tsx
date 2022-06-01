@@ -58,6 +58,10 @@ export const Toolbox: React.FC<any> = (props) => {
             name: 'TextComponent',
             component: <CmsComponents.TextComponent text="Add Text" fontSize={14} />
           },
+          {
+            name: 'Image',
+            component: <CmsComponents.ImageComponent />
+          },
         ]
       },
       {

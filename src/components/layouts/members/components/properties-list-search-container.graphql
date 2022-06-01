@@ -40,5 +40,9 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
+    additionalAmenitiesCategory {
+      value
+      count
+    }
   }
 }

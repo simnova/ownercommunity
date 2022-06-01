@@ -181,6 +181,7 @@ extend type Mutation {
   propertyAssignOwner(input: PropertyAssignOwnerInput!): PropertyMutationResult!
   propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!
   propertyListingImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
+  propertyFloorPlanImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
 }
 
 type PropertyMutationResult {

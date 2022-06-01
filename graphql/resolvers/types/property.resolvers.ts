@@ -108,6 +108,17 @@ const property: Resolvers = {
       console.log(`propertyListingImageCreateAuthHeader: ${JSON.stringify(result)}`);
       return result;
     },
+    propertyFloorPlanImageCreateAuthHeader: async (_, { input }, context) => {
+      const member = await getMemberForCurrentUser(context, context.community);
+      var result = await context.dataSources.propertyBlobAPI.propertyFloorPlanImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
+      if (result.status.success) {
+        let propertyDbObj = (await (await context.dataSources.propertyApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
+        propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
+        result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
+      }
+      console.log(`propertyFloorPlanImageCreateAuthHeader: ${JSON.stringify(result)}`);
+      return result;
+    },
   },
 };
 

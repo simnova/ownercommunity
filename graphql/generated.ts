@@ -154,6 +154,7 @@ export type Community = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   domain?: Maybe<Scalars['String']>;
   files?: Maybe<Array<Maybe<FileInfo>>>;
+  filesByType?: Maybe<Array<Maybe<FileInfo>>>;
   handle?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   name?: Maybe<Scalars['String']>;
@@ -162,6 +163,10 @@ export type Community = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   whiteLabelDomain?: Maybe<Scalars['String']>;
+};
+
+export type CommunityFilesByTypeArgs = {
+  type: Scalars['String'];
 };
 
 export type CommunityBlobContentAuthHeaderResult = {
@@ -488,6 +493,7 @@ export type Mutation = {
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
   propertyDelete: PropertyMutationResult;
+  propertyFloorPlanImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyListingImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyRemoveOwner: PropertyMutationResult;
   propertyUpdate: PropertyMutationResult;
@@ -586,6 +592,11 @@ export type MutationPropertyAssignOwnerArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationPropertyDeleteArgs = {
   input: PropertyDeleteInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyFloorPlanImageCreateAuthHeaderArgs = {
+  input: PropertyBlobFileInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1543,6 +1554,7 @@ export type CommunityResolvers<ContextType = Context, ParentType extends Resolve
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   domain?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   files?: Resolver<Maybe<Array<Maybe<ResolversTypes['FileInfo']>>>, ParentType, ContextType>;
+  filesByType?: Resolver<Maybe<Array<Maybe<ResolversTypes['FileInfo']>>>, ParentType, ContextType, RequireFields<CommunityFilesByTypeArgs, 'type'>>;
   handle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1850,6 +1862,12 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   propertyAdd?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAddArgs, 'input'>>;
   propertyAssignOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAssignOwnerArgs, 'input'>>;
   propertyDelete?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyDeleteArgs, 'input'>>;
+  propertyFloorPlanImageCreateAuthHeader?: Resolver<
+    ResolversTypes['PropertyBlobFileAuthHeaderResult'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPropertyFloorPlanImageCreateAuthHeaderArgs, 'input'>
+  >;
   propertyListingImageCreateAuthHeader?: Resolver<
     ResolversTypes['PropertyBlobFileAuthHeaderResult'],
     ParentType,

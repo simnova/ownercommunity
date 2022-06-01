@@ -6,6 +6,7 @@ type Community implements MongoBase {
   publicContentBlobUrl: String
   roles: [Role]
   files: [FileInfo]
+  filesByType(type: String!): [FileInfo]
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime

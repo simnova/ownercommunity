@@ -26,7 +26,10 @@ const community: Resolvers = {
     },
     files: async (rootObj: Community) => {
       return DataSources.communityBlobAPI.communityPublicFilesList(rootObj.id);
-    }
+    },
+    filesByType: async (rootObj: Community, { type } ) => {
+      return DataSources.communityBlobAPI.communityPublicFilesListByType(rootObj.id, type);
+    },
   },
   Query: {
     community: async (_, _args, { dataSources }) => {

@@ -8,11 +8,13 @@ import { FilterDetail, PropertiesSearchInput } from '../../generated';
 
 const PropertyFilterNames = {
   Bedrooms: 'bedrooms',
+  Bathrooms: 'bathrooms',
   Type: 'type',
   Amenities: 'amenities',
   AdditionalAmenitiesCategory: 'additionalAmenities/category',
   AdditionalAmenitiesAmenities: 'additionalAmenities/amenities',
   Price: 'price',
+  SquareFeet: 'squareFeet',
 };
 export class Properties extends CognitiveSearchDataSource<Context> {
   private getFilterString(filter: FilterDetail): string {
@@ -25,6 +27,10 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       // bedrooms
       if (filter.listingDetail?.bedrooms) {
         filterStrings.push(`${PropertyFilterNames.Bedrooms} ge ${filter.listingDetail.bedrooms}`);
+      }
+      // bathrooms
+      if (filter.listingDetail?.bathrooms) {
+        filterStrings.push(`${PropertyFilterNames.Bathrooms} ge ${filter.listingDetail.bathrooms}`);
       }
       // amenities
       if (filter.listingDetail?.amenities && filter.listingDetail.amenities.length > 0) {
@@ -40,8 +46,12 @@ export class Properties extends CognitiveSearchDataSource<Context> {
         filterStrings.push(additionalAmenitiesFilterStrings.join(' and '));
       }
       // price
-      if (filter.listingDetail?.prices) {
+      if (filter.listingDetail?.prices && filter.listingDetail.prices.length > 0) {
         filterStrings.push(`${PropertyFilterNames.Price} ge ${filter.listingDetail.prices[0]} and ${PropertyFilterNames.Price} le ${filter.listingDetail.prices[1]}`);
+      }
+      // squareFeet
+      if (filter.listingDetail?.squareFeets && filter.listingDetail.squareFeets.length > 0) {
+        filterStrings.push(`${PropertyFilterNames.SquareFeet} ge ${filter.listingDetail.squareFeets[0]} and ${PropertyFilterNames.SquareFeet} le ${filter.listingDetail.squareFeets[1]}`);
       }
     }
 

@@ -13,7 +13,7 @@ export default () => {
     await PropertyUnitOfWork.withTransaction(context, async (repo) => {
       let property = await repo.getById(payload.id);
 
-      const updatedAdditionalAmenities = property.listingDetail.additionalAmenities.map((additionalAmenity) => {
+      const updatedAdditionalAmenities = property.listingDetail?.additionalAmenities?.map((additionalAmenity) => {
         return { category: additionalAmenity.category, amenities: additionalAmenity.amenities };
       });
 
@@ -22,12 +22,14 @@ export default () => {
         communityId: property.community.id,
         name: property.propertyName,
         type: property.propertyType,
-        bedrooms: property.listingDetail.bedrooms,
-        amenities: property.listingDetail.amenities,
+        bedrooms: property.listingDetail?.bedrooms,
+        amenities: property.listingDetail?.amenities,
         additionalAmenities: updatedAdditionalAmenities,
-        price: property.listingDetail.price,
-        bathrooms: property.listingDetail.bathrooms,
-        squareFeet: property.listingDetail.squareFeet,
+        price: property.listingDetail?.price,
+        bathrooms: property.listingDetail?.bathrooms,
+        squareFeet: property.listingDetail?.squareFeet,
+        coordinates: property.location?.position?.coordinates,
+        images: property.listingDetail?.images,
       };
       let cognitiveSearch = new CognitiveSearch();
       await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);

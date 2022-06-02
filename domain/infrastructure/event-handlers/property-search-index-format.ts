@@ -94,6 +94,22 @@ export const propertyListingIndexSpec = {
       sortable: true,
       facetable: true,
     },
+    {
+      name: 'coordinates',
+      type: 'Collection(Edm.Double)',
+      searchable: false,
+      filterable: true,
+      sortable: false,
+      facetable: false,
+    },
+    {
+      name: 'images',
+      type: 'Collection(Edm.String)',
+      searchable: false,
+      filterable: false,
+      sortable: false,
+      facetable: false,
+    },
   ],
 } as SearchIndex;
 
@@ -111,4 +127,6 @@ export interface PropertyListingIndexDocument {
   price: number;
   bathrooms: number;
   squareFeet: number;
+  coordinates: number[];
+  images: string[];
 }

@@ -244,8 +244,28 @@ input PropertyRemoveOwnerInput {
   id: ObjectID!
 }
 
+type PropertyResult {
+  id: String
+  communityId: String
+  name: String
+  type: String
+  bedrooms: Int
+  amenities: [String]
+  additionalAmenities: [AdditionalAmenitiesSearchResult]
+  price: Float
+  bathrooms: Float
+  squareFeet: Int
+  coordinates: [Float]
+  images: [String]
+}
+
+type AdditionalAmenitiesSearchResult {
+  category: String
+  amenities: [String]
+}
+
 type PropertySearchResult {
-  propertyResults: [Property]
+  propertyResults: [PropertyResult]
   count: Int
   facets: PropertySearchFacets
 }

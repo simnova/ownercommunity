@@ -87,6 +87,12 @@ export type AdditionalAmenitiesInput = {
   id?: InputMaybe<Scalars['ObjectID']>;
 };
 
+export type AdditionalAmenitiesSearchResult = {
+  __typename?: 'AdditionalAmenitiesSearchResult';
+  amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
+  category?: Maybe<Scalars['String']>;
+};
+
 export type Address = {
   __typename?: 'Address';
   country?: Maybe<Scalars['String']>;
@@ -795,6 +801,22 @@ export type PropertyRemoveOwnerInput = {
   id: Scalars['ObjectID'];
 };
 
+export type PropertyResult = {
+  __typename?: 'PropertyResult';
+  additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenitiesSearchResult>>>;
+  amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
+  bathrooms?: Maybe<Scalars['Float']>;
+  bedrooms?: Maybe<Scalars['Int']>;
+  communityId?: Maybe<Scalars['String']>;
+  coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
+  id?: Maybe<Scalars['String']>;
+  images?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  squareFeet?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+};
+
 export type PropertySearchFacets = {
   __typename?: 'PropertySearchFacets';
   additionalAmenitiesAmenities?: Maybe<Array<Maybe<FacetDetail>>>;
@@ -807,7 +829,7 @@ export type PropertySearchResult = {
   __typename?: 'PropertySearchResult';
   count?: Maybe<Scalars['Int']>;
   facets?: Maybe<PropertySearchFacets>;
-  propertyResults?: Maybe<Array<Maybe<Property>>>;
+  propertyResults?: Maybe<Array<Maybe<PropertyResult>>>;
 };
 
 export type PropertyUpdateInput = {
@@ -1178,6 +1200,7 @@ export type ResolversTypes = ResolversObject<{
   AdditionalAmenities: ResolverTypeWrapper<AdditionalAmenities>;
   AdditionalAmenitiesFilterInput: AdditionalAmenitiesFilterInput;
   AdditionalAmenitiesInput: AdditionalAmenitiesInput;
+  AdditionalAmenitiesSearchResult: ResolverTypeWrapper<AdditionalAmenitiesSearchResult>;
   Address: ResolverTypeWrapper<Address>;
   AddressInput: AddressInput;
   BedroomDetails: ResolverTypeWrapper<BedroomDetails>;
@@ -1292,6 +1315,7 @@ export type ResolversTypes = ResolversObject<{
   PropertyPermissions: ResolverTypeWrapper<PropertyPermissions>;
   PropertyPermissionsInput: PropertyPermissionsInput;
   PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
+  PropertyResult: ResolverTypeWrapper<PropertyResult>;
   PropertySearchFacets: ResolverTypeWrapper<PropertySearchFacets>;
   PropertySearchResult: ResolverTypeWrapper<PropertySearchResult>;
   PropertyUpdateInput: PropertyUpdateInput;
@@ -1341,6 +1365,7 @@ export type ResolversParentTypes = ResolversObject<{
   AdditionalAmenities: AdditionalAmenities;
   AdditionalAmenitiesFilterInput: AdditionalAmenitiesFilterInput;
   AdditionalAmenitiesInput: AdditionalAmenitiesInput;
+  AdditionalAmenitiesSearchResult: AdditionalAmenitiesSearchResult;
   Address: Address;
   AddressInput: AddressInput;
   BedroomDetails: BedroomDetails;
@@ -1454,6 +1479,7 @@ export type ResolversParentTypes = ResolversObject<{
   PropertyPermissions: PropertyPermissions;
   PropertyPermissionsInput: PropertyPermissionsInput;
   PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
+  PropertyResult: PropertyResult;
   PropertySearchFacets: PropertySearchFacets;
   PropertySearchResult: PropertySearchResult;
   PropertyUpdateInput: PropertyUpdateInput;
@@ -1510,6 +1536,15 @@ export type AdditionalAmenitiesResolvers<ContextType = Context, ParentType exten
   amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type AdditionalAmenitiesSearchResultResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['AdditionalAmenitiesSearchResult'] = ResolversParentTypes['AdditionalAmenitiesSearchResult']
+> = ResolversObject<{
+  amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2012,6 +2047,22 @@ export type PropertyPermissionsResolvers<ContextType = Context, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type PropertyResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertyResult'] = ResolversParentTypes['PropertyResult']> = ResolversObject<{
+  additionalAmenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['AdditionalAmenitiesSearchResult']>>>, ParentType, ContextType>;
+  amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  communityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  coordinates?: Resolver<Maybe<Array<Maybe<ResolversTypes['Float']>>>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  price?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  squareFeet?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type PropertySearchFacetsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertySearchFacets'] = ResolversParentTypes['PropertySearchFacets']> = ResolversObject<{
   additionalAmenitiesAmenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   additionalAmenitiesCategory?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
@@ -2023,7 +2074,7 @@ export type PropertySearchFacetsResolvers<ContextType = Context, ParentType exte
 export type PropertySearchResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertySearchResult'] = ResolversParentTypes['PropertySearchResult']> = ResolversObject<{
   count?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   facets?: Resolver<Maybe<ResolversTypes['PropertySearchFacets']>, ParentType, ContextType>;
-  propertyResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
+  propertyResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['PropertyResult']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2227,6 +2278,7 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
   AdditionalAmenities?: AdditionalAmenitiesResolvers<ContextType>;
+  AdditionalAmenitiesSearchResult?: AdditionalAmenitiesSearchResultResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
   BedroomDetails?: BedroomDetailsResolvers<ContextType>;
   BigInt?: GraphQLScalarType;
@@ -2295,6 +2347,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   PropertyBlobFileAuthHeaderResult?: PropertyBlobFileAuthHeaderResultResolvers<ContextType>;
   PropertyMutationResult?: PropertyMutationResultResolvers<ContextType>;
   PropertyPermissions?: PropertyPermissionsResolvers<ContextType>;
+  PropertyResult?: PropertyResultResolvers<ContextType>;
   PropertySearchFacets?: PropertySearchFacetsResolvers<ContextType>;
   PropertySearchResult?: PropertySearchResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

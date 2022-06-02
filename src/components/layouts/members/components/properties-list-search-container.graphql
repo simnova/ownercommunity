@@ -1,41 +1,29 @@
-query MembersPropertiesListSearchContainerProperties($communityId: ID!) {
-  propertiesForCurrentUserByCommunityId(communityId: $communityId) {
-    ...MembersPropertiesListSearchContainerPropertyFields
-  }
-}
-
 query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInput!) {
   propertiesSearch(input: $input) {
     ...MemberPropertiesListSearchContainerPropertyFields
   }
 }
 
-fragment MembersPropertiesListSearchContainerPropertyFields on Property {
-  propertyName
-  propertyType
-  owner {
-    memberName
-  }
-  listingDetail {
-    bedrooms
+fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyResult {
+  communityId
+  name
+  type
+  bedrooms
+  amenities
+  additionalAmenities {
+    category
     amenities
-    additionalAmenities {
-      category
-      amenities
-    }
-    price
-    bathrooms
-    squareFeet
-    images
   }
-  id
-  createdAt
-  updatedAt
+  price
+  bathrooms
+  squareFeet
+  coordinates
+  images
 }
 
 fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResult {
   propertyResults {
-    ...MembersPropertiesListSearchContainerPropertyFields
+    ...MembersPropertiesListSearchContainerPropertyResultFields
   }
   count
   facets {

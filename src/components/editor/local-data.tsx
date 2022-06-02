@@ -34,32 +34,46 @@ export const mockPropertyData = {
     }
     },
     listingDetail: {
-    additionalAmenities: [
+      price: 200000,
+      rentHigh: 2000,
+      rentLow: 1250,
+      lease: 12,
+      maxGuests: 8,
+      bedrooms: 2,
+      bedroomDetails: [
         {
-          amenities: ['Wifi', 'Laundry', 'Pets Allowed']
+          roomName: 'Master Bedroom',
+          bedDescriptions: ['Queen'],
         },
-    ],
-    amenities: ['Gym', 'A/C'],
-    bathrooms: 1.5,
-    bedroomDetails: {
-        bedDescriptions: ['Queen', 'King'],
-    },
-    bedrooms: 2,
-    description: 'A very nice apartment',
-    lease: 12,
-    listingAgent: 'Ryan Smith',
-    listingAgentCompany: 'ABC Real Estate',
-    listingAgentCompanyAddress: '123 Main St',
-    listingAgentCompanyEmail: 'abc@abcrealestate.com',
-    listingAgentCompanyPhone: '123-456-7890',
-    listingAgentCompanyWebsite: 'www.abcrealestate.com',
-    listingAgentEmail: 'ryan.smith@gmail.com',
-    listingAgentPhone: '702-555-5555',
-    maxGuests: 20,
-    price: 200000,
-    rentHigh: 2000,
-    rentLow: 1250,
-    squareFeet: 1200,
+        {
+          roomName: 'Guest Bedroom',
+          bedDescriptions: ['Double'],
+        },
+        {
+          roomName: 'Living Room',
+          bedDescriptions: ['Pullout Couch'],
+        },
+      ],
+      bathrooms: 1.5,
+      squareFeet: 1200,
+      description: 'A very nice apartment',
+      amenities: ['Gym', 'A/C'],
+      additionalAmenities: [
+          {
+            amenities: ['Wifi', 'Laundry', 'Pets Allowed']
+          },
+      ],
+      images: [],
+      video: '',
+      floorPlanImages: [],
+      listingAgent: 'Ryan Smith',
+      listingAgentPhone: '702-555-5555',
+      listingAgentEmail: 'ryan.smith@gmail.com',
+      listingAgentCompany: 'ABC Real Estate',
+      listingAgentCompanyPhone: '123-456-7890',
+      listingAgentCompanyEmail: 'abc@abcrealestate.com',
+      listingAgentCompanyWebsite: 'www.abcrealestate.com',
+      listingAgentCompanyAddress: '123 Main St, City, State 12345',
     }
   }
 }

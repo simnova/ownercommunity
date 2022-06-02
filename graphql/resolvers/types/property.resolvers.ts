@@ -65,12 +65,10 @@ const property: Resolvers = {
       } as PropertiesSearchInput;
 
       const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(searchInput);
-      var idList: string[] = [];
+      let results = [];
       for await (const result of searchResults?.results) {
-        console.log(result);
-        idList.push(result.document['id']);
+        results.push(result.document);
       }
-      var results = (await context.dataSources.propertyApi.getPropertiesByIds(idList)) as Property[];
 
       return {
         propertyResults: results,

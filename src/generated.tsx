@@ -3493,6 +3493,7 @@ export type MembersPropertiesListSearchContainerPropertiesQuery = {
       price?: number | null;
       bathrooms?: number | null;
       squareFeet?: number | null;
+      images?: Array<string | null> | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         category?: string | null;
@@ -3526,6 +3527,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         price?: number | null;
         bathrooms?: number | null;
         squareFeet?: number | null;
+        images?: Array<string | null> | null;
         additionalAmenities?: Array<{
           __typename?: 'AdditionalAmenities';
           category?: string | null;
@@ -3574,6 +3576,7 @@ export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
     price?: number | null;
     bathrooms?: number | null;
     squareFeet?: number | null;
+    images?: Array<string | null> | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenities';
       category?: string | null;
@@ -3600,6 +3603,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       price?: number | null;
       bathrooms?: number | null;
       squareFeet?: number | null;
+      images?: Array<string | null> | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenities';
         category?: string | null;
@@ -6408,7 +6412,8 @@ export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'price' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } }
               ]
             }
           },

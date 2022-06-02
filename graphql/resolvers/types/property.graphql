@@ -13,7 +13,6 @@ type Property implements MongoBase {
   listedInDirectory: Boolean!
 
   listingDetail: ListingDetails
-  location: Location
 
   id: ObjectID!
   schemaVersion: String
@@ -209,6 +208,8 @@ input ListingDetailsFilterInput {
   amenities: [String]
   prices: [Float]
   additionalAmenities: [AdditionalAmenitiesFilterInput]
+  bathrooms: Float
+  squareFeets: [Int]
 }
 input AdditionalAmenitiesFilterInput {
   id: ObjectID

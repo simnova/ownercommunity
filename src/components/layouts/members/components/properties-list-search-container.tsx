@@ -7,6 +7,7 @@ import {
 import { Skeleton, Input, Button, Space, Checkbox, Radio, Slider, Row, Col, Select } from 'antd';
 import { useState } from 'react';
 import type { SliderMarks } from 'antd/lib/slider';
+import { ListingCard } from './listing-card';
 const { Option } = Select;
 
 const FilterNames = {
@@ -231,7 +232,24 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     } else if (loading) {
       return <Skeleton active />;
     } else if (called && data) {
-      return <pre>{JSON.stringify(data, null, 2)}</pre>;
+
+      const generatedPropertyData = JSON.parse(JSON.stringify(data.propertiesSearch?.propertyResults, null, 2));
+
+      const properties = () => {
+        return generatedPropertyData.map((property: any) => {
+          return (
+            <ListingCard data={property} />
+          )
+      })};
+      
+      return (
+        <div>
+          <div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>
+            {properties()}
+          </div>
+          <pre>{JSON.stringify(data, null, 2)}</pre>;
+        </div>
+      )
     }
     return <div>Search Please</div>;
   };

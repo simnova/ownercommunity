@@ -39,3 +39,7 @@
 .ant-layout-sider-trigger {
   border-top: solid 1px darkgrey;
 }
+
+.selected-img {
+  border: solid 2px #61dafb;
+}

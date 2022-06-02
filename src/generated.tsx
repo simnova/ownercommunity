@@ -85,6 +85,12 @@ export type AdditionalAmenitiesInput = {
   id?: InputMaybe<Scalars['ObjectID']>;
 };
 
+export type AdditionalAmenitiesSearchResult = {
+  __typename?: 'AdditionalAmenitiesSearchResult';
+  amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
+  category?: Maybe<Scalars['String']>;
+};
+
 export type Address = {
   __typename?: 'Address';
   country?: Maybe<Scalars['String']>;
@@ -793,6 +799,22 @@ export type PropertyRemoveOwnerInput = {
   id: Scalars['ObjectID'];
 };
 
+export type PropertyResult = {
+  __typename?: 'PropertyResult';
+  additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenitiesSearchResult>>>;
+  amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
+  bathrooms?: Maybe<Scalars['Float']>;
+  bedrooms?: Maybe<Scalars['Int']>;
+  communityId?: Maybe<Scalars['String']>;
+  coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
+  id?: Maybe<Scalars['String']>;
+  images?: Maybe<Array<Maybe<Scalars['String']>>>;
+  name?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  squareFeet?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+};
+
 export type PropertySearchFacets = {
   __typename?: 'PropertySearchFacets';
   additionalAmenitiesAmenities?: Maybe<Array<Maybe<FacetDetail>>>;
@@ -805,7 +827,7 @@ export type PropertySearchResult = {
   __typename?: 'PropertySearchResult';
   count?: Maybe<Scalars['Int']>;
   facets?: Maybe<PropertySearchFacets>;
-  propertyResults?: Maybe<Array<Maybe<Property>>>;
+  propertyResults?: Maybe<Array<Maybe<PropertyResult>>>;
 };
 
 export type PropertyUpdateInput = {
@@ -3472,36 +3494,6 @@ export type MembersPropertiesListContainerPropertyFieldsFragment = {
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
 };
 
-export type MembersPropertiesListSearchContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
-}>;
-
-export type MembersPropertiesListSearchContainerPropertiesQuery = {
-  __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
-    __typename?: 'Property';
-    propertyName: string;
-    propertyType?: string | null;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-    listingDetail?: {
-      __typename?: 'ListingDetails';
-      bedrooms?: number | null;
-      amenities?: Array<string | null> | null;
-      price?: number | null;
-      bathrooms?: number | null;
-      squareFeet?: number | null;
-      additionalAmenities?: Array<{
-        __typename?: 'AdditionalAmenities';
-        category?: string | null;
-        amenities?: Array<string | null> | null;
-      } | null> | null;
-    } | null;
-  } | null> | null;
-};
-
 export type MemberPropertiesListSearchContainerPropertiesQueryVariables = Exact<{
   input: PropertiesSearchInput;
 }>;
@@ -3512,26 +3504,22 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
     __typename?: 'PropertySearchResult';
     count?: number | null;
     propertyResults?: Array<{
-      __typename?: 'Property';
-      propertyName: string;
-      propertyType?: string | null;
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-      owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-      listingDetail?: {
-        __typename?: 'ListingDetails';
-        bedrooms?: number | null;
+      __typename?: 'PropertyResult';
+      communityId?: string | null;
+      name?: string | null;
+      type?: string | null;
+      bedrooms?: number | null;
+      amenities?: Array<string | null> | null;
+      price?: number | null;
+      bathrooms?: number | null;
+      squareFeet?: number | null;
+      coordinates?: Array<number | null> | null;
+      images?: Array<string | null> | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenitiesSearchResult';
+        category?: string | null;
         amenities?: Array<string | null> | null;
-        price?: number | null;
-        bathrooms?: number | null;
-        squareFeet?: number | null;
-        additionalAmenities?: Array<{
-          __typename?: 'AdditionalAmenities';
-          category?: string | null;
-          amenities?: Array<string | null> | null;
-        } | null> | null;
-      } | null;
+      } | null> | null;
     } | null> | null;
     facets?: {
       __typename?: 'PropertySearchFacets';
@@ -3559,53 +3547,45 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
   } | null;
 };
 
-export type MembersPropertiesListSearchContainerPropertyFieldsFragment = {
-  __typename?: 'Property';
-  propertyName: string;
-  propertyType?: string | null;
-  id: any;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-  owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-  listingDetail?: {
-    __typename?: 'ListingDetails';
-    bedrooms?: number | null;
+export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
+  __typename?: 'PropertyResult';
+  communityId?: string | null;
+  name?: string | null;
+  type?: string | null;
+  bedrooms?: number | null;
+  amenities?: Array<string | null> | null;
+  price?: number | null;
+  bathrooms?: number | null;
+  squareFeet?: number | null;
+  coordinates?: Array<number | null> | null;
+  images?: Array<string | null> | null;
+  additionalAmenities?: Array<{
+    __typename?: 'AdditionalAmenitiesSearchResult';
+    category?: string | null;
     amenities?: Array<string | null> | null;
-    price?: number | null;
-    bathrooms?: number | null;
-    squareFeet?: number | null;
-    additionalAmenities?: Array<{
-      __typename?: 'AdditionalAmenities';
-      category?: string | null;
-      amenities?: Array<string | null> | null;
-    } | null> | null;
-  } | null;
+  } | null> | null;
 };
 
 export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
   __typename?: 'PropertySearchResult';
   count?: number | null;
   propertyResults?: Array<{
-    __typename?: 'Property';
-    propertyName: string;
-    propertyType?: string | null;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-    listingDetail?: {
-      __typename?: 'ListingDetails';
-      bedrooms?: number | null;
+    __typename?: 'PropertyResult';
+    communityId?: string | null;
+    name?: string | null;
+    type?: string | null;
+    bedrooms?: number | null;
+    amenities?: Array<string | null> | null;
+    price?: number | null;
+    bathrooms?: number | null;
+    squareFeet?: number | null;
+    coordinates?: Array<number | null> | null;
+    images?: Array<string | null> | null;
+    additionalAmenities?: Array<{
+      __typename?: 'AdditionalAmenitiesSearchResult';
+      category?: string | null;
       amenities?: Array<string | null> | null;
-      price?: number | null;
-      bathrooms?: number | null;
-      squareFeet?: number | null;
-      additionalAmenities?: Array<{
-        __typename?: 'AdditionalAmenities';
-        category?: string | null;
-        amenities?: Array<string | null> | null;
-      } | null> | null;
-    } | null;
+    } | null> | null;
   } | null> | null;
   facets?: {
     __typename?: 'PropertySearchFacets';
@@ -6367,59 +6347,45 @@ export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersPropertiesListContainerPropertyFieldsFragment, unknown>;
-export const MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
+export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListSearchContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      name: { kind: 'Name', value: 'MembersPropertiesListSearchContainerPropertyResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyResult' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'owner' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
+            name: { kind: 'Name', value: 'additionalAmenities' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'additionalAmenities' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
               ]
             }
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'coordinates' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'images' } }
         ]
       }
     }
   ]
-} as unknown as DocumentNode<MembersPropertiesListSearchContainerPropertyFieldsFragment, unknown>;
+} as unknown as DocumentNode<
+  MembersPropertiesListSearchContainerPropertyResultFieldsFragment,
+  unknown
+>;
 export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -6440,7 +6406,7 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                   kind: 'FragmentSpread',
                   name: {
                     kind: 'Name',
-                    value: 'MembersPropertiesListSearchContainerPropertyFields'
+                    value: 'MembersPropertiesListSearchContainerPropertyResultFields'
                   }
                 }
               ]
@@ -6503,7 +6469,7 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
         ]
       }
     },
-    ...MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc.definitions
+    ...MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc.definitions
   ]
 } as unknown as DocumentNode<MemberPropertiesListSearchContainerPropertyFieldsFragment, unknown>;
 export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
@@ -10420,58 +10386,6 @@ export const MembersPropertiesListContainerPropertiesDocument = {
 } as unknown as DocumentNode<
   MembersPropertiesListContainerPropertiesQuery,
   MembersPropertiesListContainerPropertiesQueryVariables
->;
-export const MembersPropertiesListSearchContainerPropertiesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'MembersPropertiesListSearchContainerProperties' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: {
-                    kind: 'Name',
-                    value: 'MembersPropertiesListSearchContainerPropertyFields'
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    ...MembersPropertiesListSearchContainerPropertyFieldsFragmentDoc.definitions
-  ]
-} as unknown as DocumentNode<
-  MembersPropertiesListSearchContainerPropertiesQuery,
-  MembersPropertiesListSearchContainerPropertiesQueryVariables
 >;
 export const MemberPropertiesListSearchContainerPropertiesDocument = {
   kind: 'Document',

@@ -4,9 +4,10 @@ import {
   FilterDetail,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space, Checkbox, Radio, Slider, Row, Col } from 'antd';
+import { Skeleton, Input, Button, Space, Checkbox, Radio, Slider, Row, Col, Select } from 'antd';
 import { useState } from 'react';
 import type { SliderMarks } from 'antd/lib/slider';
+const { Option } = Select;
 
 const FilterNames = {
   Type: 'type',
@@ -22,6 +23,14 @@ const AdditionalAmenitiesCategories = {
 const CheckboxGroup = Checkbox.Group;
 const BedroomsFilterOptions = [
   { label: '1+', value: '1' },
+  { label: '2+', value: '2' },
+  { label: '3+', value: '3' },
+  { label: '4+', value: '4' },
+  { label: '5+', value: '5' }
+];
+const BathroomsFilterOptions = [
+  { label: '1+', value: '1' },
+  { label: '1.5+', value: '1.5' },
   { label: '2+', value: '2' },
   { label: '3+', value: '3' },
   { label: '4+', value: '4' },
@@ -44,12 +53,47 @@ const prices: SliderMarks = {
   90: '900,000+',
   100: '1,000,000+'
 };
+const MinSquareFeetOptions = [
+  { label: 'No min', value: 0 },
+  { label: '750', value: 750 },
+  { label: '1,000', value: 1000 },
+  { label: '1,100', value: 1100 },
+  { label: '1,200', value: 1200 },
+  { label: '1,300', value: 1300 },
+  { label: '1,400', value: 1400 },
+  { label: '1,500', value: 1500 },
+  { label: '1,600', value: 1600 },
+  { label: '1,700', value: 1700 },
+  { label: '1,800', value: 1800 },
+  { label: '1,900', value: 1900 },
+  { label: '2,000', value: 2000 }
+];
+
+const MaxSquareFeetOptions = [
+  { label: 'No max', value: 100000 },
+  { label: '750', value: 750 },
+  { label: '1,000', value: 1000 },
+  { label: '1,100', value: 1100 },
+  { label: '1,200', value: 1200 },
+  { label: '1,300', value: 1300 },
+  { label: '1,400', value: 1400 },
+  { label: '1,500', value: 1500 },
+  { label: '1,600', value: 1600 },
+  { label: '1,700', value: 1700 },
+  { label: '1,800', value: 1800 },
+  { label: '1,900', value: 1900 },
+  { label: '2,000', value: 2000 }
+];
+
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [bedrooms, setBedrooms] = useState<undefined | number>(undefined);
+  const [bathrooms, setBathrooms] = useState<undefined | number>(undefined);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000000);
+  const [minSquareFeet, setMinSquareFeet] = useState<number>(MinSquareFeetOptions[0].value);
+  const [maxSquareFeet, setMaxSquareFeet] = useState<number>(MaxSquareFeetOptions[0].value);
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
     { fetchPolicy: 'network-only' }
@@ -90,6 +134,14 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     setSelectedFilter({
       ...selectedFilter,
       listingDetail: { ...selectedFilter?.listingDetail, bedrooms: parseInt(e.target.value) }
+    });
+  };
+
+  const onBathroomsClicked = (e: any) => {
+    setBathrooms(e.target.value);
+    setSelectedFilter({
+      ...selectedFilter,
+      listingDetail: { ...selectedFilter?.listingDetail, bathrooms: parseFloat(e.target.value) }
     });
   };
 
@@ -146,6 +198,31 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         prices: [values[0] * 10000, values[1] * 10000]
       }
     });
+  };
+
+  const onSquareFeetChanged = (type: string, value: any) => {
+    switch (type) {
+      case 'min':
+        setMinSquareFeet(value);
+        setSelectedFilter({
+          ...selectedFilter,
+          listingDetail: {
+            ...selectedFilter?.listingDetail,
+            squareFeets: [value, maxSquareFeet]
+          }
+        });
+        break;
+      case 'max':
+        setMaxSquareFeet(value);
+        setSelectedFilter({
+          ...selectedFilter,
+          listingDetail: {
+            ...selectedFilter?.listingDetail,
+            squareFeets: [minSquareFeet, value]
+          }
+        });
+        break;
+    }
   };
 
   var result = () => {
@@ -213,48 +290,23 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           optionType="button"
           options={BedroomsFilterOptions}
         />
-      </div>
 
-      {/* Amenities */}
-      <h2 className="font-bold">Amenities</h2>
-      <CheckboxGroup
-        key={FilterNames.Amenities}
-        options={Amenities.map((value: string) => {
-          const count = data?.propertiesSearch?.facets?.amenities?.find(
-            (t) => t?.value === value
-          )?.count;
-          console.log(value + ' ' + count);
-          return {
-            label: `${value} ${
-              count !== undefined && count !== null && count > 0
-                ? `(${count})`
-                : count === 0
-                ? '(0)'
-                : ''
-            }`,
-            value: value
-          };
-        })}
-        onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
-      />
+        {/* Bathrooms */}
+        <h2 className="font-bold">Bathrooms</h2>
+        <Radio.Group
+          value={bathrooms}
+          onChange={onBathroomsClicked}
+          buttonStyle="solid"
+          optionType="button"
+          options={BathroomsFilterOptions}
+        />
 
-      {/* Additional Amenities */}
-      {/* Features */}
-      <h2 className="font-bold">Additional Amenities</h2>
-      <div style={{ paddingLeft: '20px' }}>
-        <h2 className="font-bold">
-          Features (
-          {
-            data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
-              (t) => t?.value === 'Features'
-            )?.count
-          }
-          )
-        </h2>
+        {/* Amenities */}
+        <h2 className="font-bold">Amenities</h2>
         <CheckboxGroup
-          key={AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures}
-          options={AdditionalAmenitiesFeatures.map((value: string) => {
-            const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
+          key={FilterNames.Amenities}
+          options={Amenities.map((value: string) => {
+            const count = data?.propertiesSearch?.facets?.amenities?.find(
               (t) => t?.value === value
             )?.count;
             console.log(value + ' ' + count);
@@ -269,70 +321,134 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               value: value
             };
           })}
-          onChange={(checkedValues) =>
-            onAdditionalAmenitiesChange(
-              AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures,
-              checkedValues as string[]
-            )
-          }
+          onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
         />
-      </div>
-      <div style={{ paddingLeft: '20px' }}>
-        <h2 className="font-bold">
-          Location (
-          {
-            data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
-              (t) => t?.value === 'Location'
-            )?.count
-          }
-          )
-        </h2>
-        <CheckboxGroup
-          key={AdditionalAmenitiesCategories.AdditionalAmenitiesLocation}
-          options={AdditionalAmenitiesLocation.map((value: string) => {
-            const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
-              (t) => t?.value === value
-            )?.count;
-            console.log(value + ' ' + count);
-            return {
-              label: `${value} ${
-                count !== undefined && count !== null && count > 0
-                  ? `(${count})`
-                  : count === 0
-                  ? '(0)'
-                  : ''
-              }`,
-              value: value
-            };
-          })}
-          onChange={(checkedValues) =>
-            onAdditionalAmenitiesChange(
-              AdditionalAmenitiesCategories.AdditionalAmenitiesLocation,
-              checkedValues as string[]
+
+        {/* Additional Amenities */}
+        {/* Features */}
+        <h2 className="font-bold">Additional Amenities</h2>
+        <div style={{ paddingLeft: '20px' }}>
+          <h2 className="font-bold">
+            Features (
+            {
+              data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
+                (t) => t?.value === 'Features'
+              )?.count
+            }
             )
-          }
+          </h2>
+          <CheckboxGroup
+            key={AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures}
+            options={AdditionalAmenitiesFeatures.map((value: string) => {
+              const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
+                (t) => t?.value === value
+              )?.count;
+              console.log(value + ' ' + count);
+              return {
+                label: `${value} ${
+                  count !== undefined && count !== null && count > 0
+                    ? `(${count})`
+                    : count === 0
+                    ? '(0)'
+                    : ''
+                }`,
+                value: value
+              };
+            })}
+            onChange={(checkedValues) =>
+              onAdditionalAmenitiesChange(
+                AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures,
+                checkedValues as string[]
+              )
+            }
+          />
+        </div>
+        <div style={{ paddingLeft: '20px' }}>
+          <h2 className="font-bold">
+            Location (
+            {
+              data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
+                (t) => t?.value === 'Location'
+              )?.count
+            }
+            )
+          </h2>
+          <CheckboxGroup
+            key={AdditionalAmenitiesCategories.AdditionalAmenitiesLocation}
+            options={AdditionalAmenitiesLocation.map((value: string) => {
+              const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
+                (t) => t?.value === value
+              )?.count;
+              console.log(value + ' ' + count);
+              return {
+                label: `${value} ${
+                  count !== undefined && count !== null && count > 0
+                    ? `(${count})`
+                    : count === 0
+                    ? '(0)'
+                    : ''
+                }`,
+                value: value
+              };
+            })}
+            onChange={(checkedValues) =>
+              onAdditionalAmenitiesChange(
+                AdditionalAmenitiesCategories.AdditionalAmenitiesLocation,
+                checkedValues as string[]
+              )
+            }
+          />
+        </div>
+        {/* Price */}
+        <h2 className="font-bold">Price</h2>
+        <Slider
+          range
+          marks={prices}
+          defaultValue={[0, 100]}
+          step={null}
+          onChange={(values) => onSliderPriceChanged(values)}
+          tooltipVisible={false}
         />
+        <Row gutter={[16, 16]}>
+          <Col span={12}>
+            <div>Min price</div>
+            <Input value={minPrice} onChange={(e) => onPriceChanged('min', e)} />
+          </Col>
+          <Col span={12}>
+            <div>Max price</div>
+            <Input value={maxPrice} onChange={(e) => onPriceChanged('max', e)} />
+          </Col>
+        </Row>
+
+        {/* squareFeet */}
+        <h2 className="font-bold">Square Feet</h2>
+        <Space split="-">
+          <Select
+            defaultValue={minSquareFeet}
+            style={{ width: 100 }}
+            onChange={(value) => onSquareFeetChanged('min', value)}
+          >
+            {MinSquareFeetOptions.map((op) => (
+              <Option key={op.value} value={op.value} disabled={op.value > maxSquareFeet}>
+                {op.label}
+              </Option>
+            ))}
+          </Select>
+
+          <Select
+            defaultValue={maxSquareFeet}
+            style={{ width: 100 }}
+            onChange={(value) => onSquareFeetChanged('max', value)}
+          >
+            {MaxSquareFeetOptions.map((op) => (
+              <Option key={op.value} value={op.value} disabled={op.value < minSquareFeet}>
+                {op.label}
+              </Option>
+            ))}
+          </Select>
+        </Space>
       </div>
-      {/* Price */}
-      <h2 className="font-bold">Price</h2>
-      <Slider
-        range
-        marks={prices}
-        defaultValue={[0, 100]}
-        step={null}
-        onChange={(values) => onSliderPriceChanged(values)}
-        tooltipVisible={false}
-      />
-      <Row gutter={[16, 16]}>
-        <Col span={12}>
-          <div>Min price</div>
-          <Input value={minPrice} onChange={(e) => onPriceChanged('min', e)} />
-        </Col>
-        <Col span={12}>
-          <div>Max price</div>
-          <Input value={maxPrice} onChange={(e) => onPriceChanged('max', e)} />
-        </Col>
-      </Row>
+
       {result()}
     </>
   );

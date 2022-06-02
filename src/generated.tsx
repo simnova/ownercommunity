@@ -292,8 +292,10 @@ export type ListingDetails = {
 export type ListingDetailsFilterInput = {
   additionalAmenities?: InputMaybe<Array<InputMaybe<AdditionalAmenitiesFilterInput>>>;
   amenities?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bathrooms?: InputMaybe<Scalars['Float']>;
   bedrooms?: InputMaybe<Scalars['Int']>;
   prices?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  squareFeets?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type ListingDetailsInput = {

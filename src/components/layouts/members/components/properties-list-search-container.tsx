@@ -6,6 +6,7 @@ import {
 import { Skeleton, Input, Button, Space, Checkbox, Radio, Slider, Row, Col } from 'antd';
 import { useState } from 'react';
 import type { SliderMarks } from 'antd/lib/slider';
+import { ListingCard } from './listing-card';
 
 const FilterNames = {
   Type: 'type',
@@ -145,7 +146,30 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     } else if (loading) {
       return <Skeleton active />;
     } else if (called && data) {
-      return <pre>{JSON.stringify(data, null, 2)}</pre>;
+      // console.log("Search", data.propertiesSearch?.propertyResults);
+      const generatedPropertyData = JSON.stringify(data.propertiesSearch?.propertyResults, null, 2);
+      const propertyData = JSON.parse(generatedPropertyData);
+      // console.log(propertyData);
+
+      const properties = () => {
+        return propertyData.map((property: any) => {
+          return (
+            // <Col key={property.id} span={8}>
+            //   <ListingCard property={property} />
+            // </Col>
+            <ListingCard data={property} />
+          )
+      })};
+      
+      return (
+        <div>
+          <div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>
+            {properties()}
+          </div>
+          {/* <ListingCard data={generatedPropertyData}/> */}
+          <pre>{JSON.stringify(data, null, 2)}</pre>;
+        </div>
+      )
     }
     return <div>Search Please</div>;
   };

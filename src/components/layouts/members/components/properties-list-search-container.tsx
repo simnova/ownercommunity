@@ -232,17 +232,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     } else if (loading) {
       return <Skeleton active />;
     } else if (called && data) {
-      // console.log("Search", data.propertiesSearch?.propertyResults);
-      const generatedPropertyData = JSON.stringify(data.propertiesSearch?.propertyResults, null, 2);
-      const propertyData = JSON.parse(generatedPropertyData);
-      // console.log(propertyData);
+
+      const generatedPropertyData = JSON.parse(JSON.stringify(data.propertiesSearch?.propertyResults, null, 2));
 
       const properties = () => {
-        return propertyData.map((property: any) => {
+        return generatedPropertyData.map((property: any) => {
           return (
-            // <Col key={property.id} span={8}>
-            //   <ListingCard property={property} />
-            // </Col>
             <ListingCard data={property} />
           )
       })};
@@ -252,7 +247,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           <div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>
             {properties()}
           </div>
-          {/* <ListingCard data={generatedPropertyData}/> */}
           <pre>{JSON.stringify(data, null, 2)}</pre>;
         </div>
       )

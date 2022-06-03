@@ -110,6 +110,14 @@ export const propertyListingIndexSpec = {
       sortable: false,
       facetable: false,
     },
+    {
+      name: 'listingAgentCompany',
+      type: 'Edm.String',
+      searchable: false,
+      filterable: false,
+      sortable: false,
+      facetable: false,
+    },
   ],
 } as SearchIndex;
 
@@ -129,4 +137,5 @@ export interface PropertyListingIndexDocument {
   squareFeet: number;
   coordinates: number[];
   images: string[];
+  listingAgentCompany: string;
 }

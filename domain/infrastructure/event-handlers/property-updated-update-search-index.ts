@@ -30,6 +30,7 @@ export default () => {
         squareFeet: property.listingDetail?.squareFeet,
         coordinates: property.location?.position?.coordinates,
         images: property.listingDetail?.images,
+        listingAgentCompany: property.listingDetail?.listingAgentCompany,
       };
       let cognitiveSearch = new CognitiveSearch();
       await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);

@@ -4,6 +4,7 @@ import { CognitiveSearch } from '../../../infrastructure/services/cognitive-sear
 import { PropertyUnitOfWork } from '../persistance/repositories';
 import { SystemExecutionContext } from '../persistance/execution-context';
 import { PropertyUpdatedEvent } from '../../events/property-updated';
+import { GeographyPoint } from '@azure/search-documents';
 
 export default () => {
   NodeEventBus.register(PropertyUpdatedEvent, async (payload) => {
@@ -17,6 +18,12 @@ export default () => {
         return { category: additionalAmenity.category, amenities: additionalAmenity.amenities };
       });
 
+      const coordinates = property.location?.position?.coordinates;
+      let geoGraphyPoint: GeographyPoint = null;
+      if (coordinates && coordinates.length === 2) {
+        geoGraphyPoint = new GeographyPoint({ longitude: coordinates[0], latitude: coordinates[1] });
+      }
+
       let listingDoc: Partial<PropertyListingIndexDocument> = {
         id: property.id,
         communityId: property.community.id,
@@ -28,7 +35,7 @@ export default () => {
         price: property.listingDetail?.price,
         bathrooms: property.listingDetail?.bathrooms,
         squareFeet: property.listingDetail?.squareFeet,
-        coordinates: property.location?.position?.coordinates,
+        coordinates: geoGraphyPoint,
         images: property.listingDetail?.images,
         listingAgentCompany: property.listingDetail?.listingAgentCompany,
         address: {
@@ -49,7 +56,8 @@ export default () => {
         },
       };
       let cognitiveSearch = new CognitiveSearch();
-      await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
+      await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
+      // await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
       await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
       console.log(`Property Updated - Search Completed: ${JSON.stringify(listingDoc)}`);
     });

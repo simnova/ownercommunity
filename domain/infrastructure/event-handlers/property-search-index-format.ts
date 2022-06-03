@@ -1,7 +1,6 @@
 /** @format */
 
-import { SearchIndex } from '@azure/search-documents';
-import { AdditionalAmenities } from '../../../graphql/generated';
+import { GeographyPoint, SearchIndex } from '@azure/search-documents';
 
 export const propertyListingIndexSpec = {
   name: 'property-listings',
@@ -96,11 +95,9 @@ export const propertyListingIndexSpec = {
     },
     {
       name: 'coordinates',
-      type: 'Collection(Edm.Double)',
-      searchable: false,
+      type: 'Edm.GeographyPoint',
       filterable: true,
-      sortable: false,
-      facetable: false,
+      sortable: true,
     },
     {
       name: 'images',
@@ -125,30 +122,28 @@ export const propertyListingIndexSpec = {
         {
           name: 'streetNumber',
           type: 'Edm.String',
-          facetable: false,
-          filterable: true,
-          retrievable: true,
-          searchable: true,
+          filterable: false,
           sortable: false,
+          facetable: false,
+          searchable: true,
         },
         {
           name: 'streetName',
           type: 'Edm.String',
-          facetable: false,
-          filterable: true,
-          retrievable: true,
-          searchable: true,
+          filterable: false,
           sortable: false,
+          facetable: false,
+          searchable: true,
         },
 
         {
           name: 'municipality',
           type: 'Edm.String',
-          facetable: false,
+          facetable: true,
           filterable: true,
           retrievable: true,
           searchable: true,
-          sortable: false,
+          sortable: true,
         },
         {
           name: 'municipalitySubdivision',
@@ -198,11 +193,10 @@ export const propertyListingIndexSpec = {
         {
           name: 'postalCode',
           type: 'Edm.String',
-          facetable: false,
-          filterable: true,
-          retrievable: true,
           searchable: true,
-          sortable: false,
+          filterable: true,
+          sortable: true,
+          facetable: true,
         },
         {
           name: 'extendedPostalCode',
@@ -225,11 +219,10 @@ export const propertyListingIndexSpec = {
         {
           name: 'country',
           type: 'Edm.String',
-          facetable: false,
-          filterable: true,
-          retrievable: true,
           searchable: true,
-          sortable: false,
+          filterable: true,
+          sortable: true,
+          facetable: true,
         },
         {
           name: 'countryCodeISO3',
@@ -268,7 +261,7 @@ export interface PropertyListingIndexDocument {
   price: number;
   bathrooms: number;
   squareFeet: number;
-  coordinates: number[];
+  coordinates: GeographyPoint;
   images: string[];
   listingAgentCompany: string;
   address: {

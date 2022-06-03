@@ -7,7 +7,8 @@
     "BLOB_ACCOUNT_KEY": "something",
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsStorage": "",
-    "MAPS_KEY" : "map key"
-
+    "MAPS_KEY": "map key",
+    "AZURE_SUBSCRIPTION_ID": "test",
+    "MAPS_ACCOUNT_NAME": "map name"
   }
 }

@@ -804,6 +804,7 @@ export type PropertyRemoveOwnerInput = {
 export type PropertyResult = {
   __typename?: 'PropertyResult';
   additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenitiesSearchResult>>>;
+  address?: Maybe<Address>;
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
@@ -2050,6 +2051,7 @@ export type PropertyPermissionsResolvers<ContextType = Context, ParentType exten
 
 export type PropertyResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertyResult'] = ResolversParentTypes['PropertyResult']> = ResolversObject<{
   additionalAmenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['AdditionalAmenitiesSearchResult']>>>, ParentType, ContextType>;
+  address?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
   amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;

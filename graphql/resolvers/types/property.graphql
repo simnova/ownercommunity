@@ -258,6 +258,7 @@ type PropertyResult {
   coordinates: [Float]
   images: [String]
   listingAgentCompany: String
+  address: Address
 }
 
 type AdditionalAmenitiesSearchResult {

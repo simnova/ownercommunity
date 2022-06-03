@@ -6496,6 +6496,18 @@
             "deprecationReason": null
           },
           {
+            "name": "address",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Address",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "amenities",
             "description": null,
             "args": [],

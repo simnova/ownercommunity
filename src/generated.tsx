@@ -809,6 +809,7 @@ export type PropertyResult = {
   coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
+  listingAgentCompany?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
@@ -3515,6 +3516,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       squareFeet?: number | null;
       coordinates?: Array<number | null> | null;
       images?: Array<string | null> | null;
+      listingAgentCompany?: string | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenitiesSearchResult';
         category?: string | null;
@@ -3559,6 +3561,7 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   squareFeet?: number | null;
   coordinates?: Array<number | null> | null;
   images?: Array<string | null> | null;
+  listingAgentCompany?: string | null;
   additionalAmenities?: Array<{
     __typename?: 'AdditionalAmenitiesSearchResult';
     category?: string | null;
@@ -3581,6 +3584,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     squareFeet?: number | null;
     coordinates?: Array<number | null> | null;
     images?: Array<string | null> | null;
+    listingAgentCompany?: string | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenitiesSearchResult';
       category?: string | null;
@@ -6377,7 +6381,8 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
           { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
           { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
           { kind: 'Field', name: { kind: 'Name', value: 'coordinates' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'images' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } }
         ]
       }
     }

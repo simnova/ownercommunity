@@ -19,6 +19,7 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
   squareFeet
   coordinates
   images
+  listingAgentCompany
 }
 
 fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResult {

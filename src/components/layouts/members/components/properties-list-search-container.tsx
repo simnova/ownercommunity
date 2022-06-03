@@ -226,30 +226,38 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
   };
 
-  var result = () => {
+  const clearFilter = () => {
+    setSelectedFilter(undefined);
+    setBedrooms(undefined);
+    setBathrooms(undefined);
+    setMinPrice(0);
+    setMaxPrice(1000000);
+    setMinSquareFeet(MinSquareFeetOptions[0].value);
+    setMaxSquareFeet(MaxSquareFeetOptions[0].value);
+  };
+
+  const result = () => {
     if (error) {
       return <div>{JSON.stringify(error)}</div>;
     } else if (loading) {
       return <Skeleton active />;
     } else if (called && data) {
-
-      const generatedPropertyData = JSON.parse(JSON.stringify(data.propertiesSearch?.propertyResults, null, 2));
+      const generatedPropertyData = JSON.parse(
+        JSON.stringify(data.propertiesSearch?.propertyResults, null, 2)
+      );
 
       const properties = () => {
         return generatedPropertyData.map((property: any) => {
-          return (
-            <ListingCard data={property} />
-          )
-      })};
-      
+          return <ListingCard data={property} />;
+        });
+      };
+
       return (
         <div>
-          <div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>
-            {properties()}
-          </div>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>{properties()}</div>
+          <pre>{JSON.stringify(data, null, 2)}</pre>;
         </div>
-      )
+      );
     }
     return <div>Search Please</div>;
   };
@@ -275,7 +283,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       </div>
 
       <div>
-        <h1>Filters</h1>
+        <Space>
+          <h1>Filters</h1>
+          <Button type="link" onClick={() => clearFilter()}>
+            Clear filters
+          </Button>
+        </Space>
 
         {/* Type */}
         <h2 className="font-bold">Type </h2>

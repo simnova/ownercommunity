@@ -802,6 +802,7 @@ export type PropertyRemoveOwnerInput = {
 export type PropertyResult = {
   __typename?: 'PropertyResult';
   additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenitiesSearchResult>>>;
+  address?: Maybe<Address>;
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
@@ -3522,6 +3523,23 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         category?: string | null;
         amenities?: Array<string | null> | null;
       } | null> | null;
+      address?: {
+        __typename?: 'Address';
+        streetNumber?: string | null;
+        streetName?: string | null;
+        municipality?: string | null;
+        municipalitySubdivision?: string | null;
+        countrySecondarySubdivision?: string | null;
+        countryTertiarySubdivision?: string | null;
+        countrySubdivision?: string | null;
+        countrySubdivisionName?: string | null;
+        postalCode?: string | null;
+        extendedPostalCode?: string | null;
+        countryCode?: string | null;
+        country?: string | null;
+        countryCodeISO3?: string | null;
+        freeformAddress?: string | null;
+      } | null;
     } | null> | null;
     facets?: {
       __typename?: 'PropertySearchFacets';
@@ -3549,26 +3567,6 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
   } | null;
 };
 
-export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
-  __typename?: 'PropertyResult';
-  communityId?: string | null;
-  name?: string | null;
-  type?: string | null;
-  bedrooms?: number | null;
-  amenities?: Array<string | null> | null;
-  price?: number | null;
-  bathrooms?: number | null;
-  squareFeet?: number | null;
-  coordinates?: Array<number | null> | null;
-  images?: Array<string | null> | null;
-  listingAgentCompany?: string | null;
-  additionalAmenities?: Array<{
-    __typename?: 'AdditionalAmenitiesSearchResult';
-    category?: string | null;
-    amenities?: Array<string | null> | null;
-  } | null> | null;
-};
-
 export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
   __typename?: 'PropertySearchResult';
   count?: number | null;
@@ -3590,6 +3588,23 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       category?: string | null;
       amenities?: Array<string | null> | null;
     } | null> | null;
+    address?: {
+      __typename?: 'Address';
+      streetNumber?: string | null;
+      streetName?: string | null;
+      municipality?: string | null;
+      municipalitySubdivision?: string | null;
+      countrySecondarySubdivision?: string | null;
+      countryTertiarySubdivision?: string | null;
+      countrySubdivision?: string | null;
+      countrySubdivisionName?: string | null;
+      postalCode?: string | null;
+      extendedPostalCode?: string | null;
+      countryCode?: string | null;
+      country?: string | null;
+      countryCodeISO3?: string | null;
+      freeformAddress?: string | null;
+    } | null;
   } | null> | null;
   facets?: {
     __typename?: 'PropertySearchFacets';
@@ -3613,6 +3628,43 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       value?: string | null;
       count?: number | null;
     } | null> | null;
+  } | null;
+};
+
+export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
+  __typename?: 'PropertyResult';
+  communityId?: string | null;
+  name?: string | null;
+  type?: string | null;
+  bedrooms?: number | null;
+  amenities?: Array<string | null> | null;
+  price?: number | null;
+  bathrooms?: number | null;
+  squareFeet?: number | null;
+  coordinates?: Array<number | null> | null;
+  images?: Array<string | null> | null;
+  listingAgentCompany?: string | null;
+  additionalAmenities?: Array<{
+    __typename?: 'AdditionalAmenitiesSearchResult';
+    category?: string | null;
+    amenities?: Array<string | null> | null;
+  } | null> | null;
+  address?: {
+    __typename?: 'Address';
+    streetNumber?: string | null;
+    streetName?: string | null;
+    municipality?: string | null;
+    municipalitySubdivision?: string | null;
+    countrySecondarySubdivision?: string | null;
+    countryTertiarySubdivision?: string | null;
+    countrySubdivision?: string | null;
+    countrySubdivisionName?: string | null;
+    postalCode?: string | null;
+    extendedPostalCode?: string | null;
+    countryCode?: string | null;
+    country?: string | null;
+    countryCodeISO3?: string | null;
+    freeformAddress?: string | null;
   } | null;
 };
 
@@ -6382,7 +6434,30 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
           { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
           { kind: 'Field', name: { kind: 'Name', value: 'coordinates' } },
           { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'address' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } }
+              ]
+            }
+          }
         ]
       }
     }

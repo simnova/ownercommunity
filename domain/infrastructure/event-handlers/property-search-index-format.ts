@@ -118,6 +118,139 @@ export const propertyListingIndexSpec = {
       sortable: false,
       facetable: false,
     },
+    {
+      name: 'address',
+      type: 'Edm.ComplexType',
+      fields: [
+        {
+          name: 'streetNumber',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'streetName',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+
+        {
+          name: 'municipality',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'municipalitySubdivision',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'countrySecondarySubdivision',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'countryTertiarySubdivision',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'countrySubdivision',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'countrySubdivisionName',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'postalCode',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'extendedPostalCode',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'countryCode',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'country',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'countryCodeISO3',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'freeformAddress',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+      ],
+    },
   ],
 } as SearchIndex;
 
@@ -138,4 +271,20 @@ export interface PropertyListingIndexDocument {
   coordinates: number[];
   images: string[];
   listingAgentCompany: string;
+  address: {
+    streetNumber: string;
+    streetName: string;
+    municipality: string;
+    municipalitySubdivision: string;
+    countrySecondarySubdivision: string;
+    countryTertiarySubdivision: string;
+    countrySubdivision: string;
+    countrySubdivisionName: string;
+    postalCode: string;
+    extendedPostalCode: string;
+    countryCode: string;
+    country: string;
+    countryCodeISO3: string;
+    freeformAddress: string;
+  };
 }

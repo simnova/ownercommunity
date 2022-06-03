@@ -257,6 +257,7 @@ type PropertyResult {
   squareFeet: Int
   coordinates: [Float]
   images: [String]
+  listingAgentCompany: String
 }
 
 type AdditionalAmenitiesSearchResult {

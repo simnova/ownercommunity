@@ -4,24 +4,6 @@ query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInpu
   }
 }
 
-fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyResult {
-  communityId
-  name
-  type
-  bedrooms
-  amenities
-  additionalAmenities {
-    category
-    amenities
-  }
-  price
-  bathrooms
-  squareFeet
-  coordinates
-  images
-  listingAgentCompany
-}
-
 fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResult {
   propertyResults {
     ...MembersPropertiesListSearchContainerPropertyResultFields
@@ -44,5 +26,39 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
+  }
+}
+
+fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyResult {
+  communityId
+  name
+  type
+  bedrooms
+  amenities
+  additionalAmenities {
+    category
+    amenities
+  }
+  price
+  bathrooms
+  squareFeet
+  coordinates
+  images
+  listingAgentCompany
+  address {
+    streetNumber
+    streetName
+    municipality
+    municipalitySubdivision
+    countrySecondarySubdivision
+    countryTertiarySubdivision
+    countrySubdivision
+    countrySubdivisionName
+    postalCode
+    extendedPostalCode
+    countryCode
+    country
+    countryCodeISO3
+    freeformAddress
   }
 }

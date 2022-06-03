@@ -16,16 +16,16 @@ test('get map key', () => {
   
 });
 
-test('get azure key credential', () => {
-  
-  // arrange
-  const maps = new Maps();
-
-  
-  // act
-  var azureKeyCredential = maps.azureKeyCredential; 
-
-  // assert
-  expect(azureKeyCredential).toBe(new AzureKeyCredential("map key")); // expect test to fail - but helpul to see actual ouput
-  
+test('get account', () => {
+    
+    // arrange
+    const maps = new Maps();
+    
+    
+    // act
+    var account = maps.accountName; 
+    
+    // assert
+    expect(account).toBe('map name'); // expect test to fail - but helpul to see actual ouput
+    
 });

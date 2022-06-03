@@ -29,6 +29,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "@azure/arm-maps": "^3.1.0-beta.1",
     "@azure/cognitiveservices-contentmoderator": "^5.0.1",
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/search-documents": "^11.2.1",

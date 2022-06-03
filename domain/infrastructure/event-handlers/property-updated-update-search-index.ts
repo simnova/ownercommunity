@@ -31,6 +31,22 @@ export default () => {
         coordinates: property.location?.position?.coordinates,
         images: property.listingDetail?.images,
         listingAgentCompany: property.listingDetail?.listingAgentCompany,
+        address: {
+          streetNumber: property.location?.address?.streetNumber,
+          streetName: property.location?.address?.streetName,
+          municipality: property.location?.address?.municipality,
+          municipalitySubdivision: property.location?.address?.municipalitySubdivision,
+          countrySecondarySubdivision: property.location?.address?.countrySecondarySubdivision,
+          countryTertiarySubdivision: property.location?.address?.countryTertiarySubdivision,
+          countrySubdivision: property.location?.address?.countrySubdivision,
+          countrySubdivisionName: property.location?.address?.countrySubdivisionName,
+          postalCode: property.location?.address?.postalCode,
+          extendedPostalCode: property.location?.address?.extendedPostalCode,
+          countryCode: property.location?.address?.countryCode,
+          country: property.location?.address?.country,
+          countryCodeISO3: property.location?.address?.countryCodeISO3,
+          freeformAddress: property.location?.address?.freeformAddress,
+        },
       };
       let cognitiveSearch = new CognitiveSearch();
       await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);

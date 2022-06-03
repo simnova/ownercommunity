@@ -247,7 +247,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           <div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>
             {properties()}
           </div>
-          <pre>{JSON.stringify(data, null, 2)}</pre>;
+          <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
       )
     }

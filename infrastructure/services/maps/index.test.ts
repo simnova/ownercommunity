@@ -2,7 +2,7 @@ import { AzureKeyCredential } from '@azure/search-documents';
 import { Maps } from './index';
 
 
-test('get map key', () => {
+test.skip('get map key', () => {
   
   // arrange
   const maps = new Maps();

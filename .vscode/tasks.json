@@ -22,6 +22,12 @@
 		},
 		{
 			"type": "shell",
+			"label": "test",
+			"command": "npx jest --watchAll=true",
+			"dependsOn": "npm build (functions)"
+		},
+		{
+			"type": "shell",
 			"label": "npm prune (functions)",
 			"command": "npm prune --production",
 			"dependsOn": "npm build (functions)",

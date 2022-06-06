@@ -743,6 +743,7 @@ export type Property = MongoBase & {
   listedInDirectory: Scalars['Boolean'];
   listingDetail?: Maybe<ListingDetails>;
   location?: Maybe<Location>;
+  mapSASToken?: Maybe<Scalars['String']>;
   owner?: Maybe<Member>;
   propertyName: Scalars['String'];
   propertyType?: Maybe<Scalars['String']>;
@@ -2016,6 +2017,7 @@ export type PropertyResolvers<ContextType = Context, ParentType extends Resolver
   listedInDirectory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   listingDetail?: Resolver<Maybe<ResolversTypes['ListingDetails']>, ParentType, ContextType>;
   location?: Resolver<Maybe<ResolversTypes['Location']>, ParentType, ContextType>;
+  mapSASToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
   propertyName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   propertyType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

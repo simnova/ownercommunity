@@ -741,6 +741,7 @@ export type Property = MongoBase & {
   listedInDirectory: Scalars['Boolean'];
   listingDetail?: Maybe<ListingDetails>;
   location?: Maybe<Location>;
+  mapSASToken?: Maybe<Scalars['String']>;
   owner?: Maybe<Member>;
   propertyName: Scalars['String'];
   propertyType?: Maybe<Scalars['String']>;

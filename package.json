@@ -31,6 +31,7 @@
   "dependencies": {
     "@azure/arm-maps": "^3.1.0-beta.1",
     "@azure/cognitiveservices-contentmoderator": "^5.0.1",
+    "@azure/identity": "^2.0.4",
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/search-documents": "^11.2.1",
     "@azure/storage-blob": "^12.8.0",
@@ -44,6 +45,7 @@
     "apollo-datasource-mongodb": "^0.5.2",
     "apollo-server-azure-functions": "^3.6.3",
     "apollo-server-plugin-response-cache": "^3.5.1",
+    "dayjs": "^1.11.3",
     "graphql": "^15.8.0",
     "graphql-fields": "^2.0.3",
     "graphql-middleware": "^6.1.13",

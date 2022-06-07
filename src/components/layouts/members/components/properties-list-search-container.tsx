@@ -1,15 +1,19 @@
 import { useLazyQuery } from '@apollo/client';
 import {
-  FacetDetail,
   FilterDetail,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
 import { Skeleton, Input, Button, Space, Checkbox, Radio, Slider, Row, Col, Select } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { SliderMarks } from 'antd/lib/slider';
 import { ListingCard } from './listing-card';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 const { Option } = Select;
 
+interface AdditionalAmenities {
+  category: string;
+  amenities: string[];
+}
 const FilterNames = {
   Type: 'type',
   Bedrooms: 'bedrooms',
@@ -39,20 +43,29 @@ const BathroomsFilterOptions = [
 ];
 const PropertyTypes = ['condo', 'single family', 'townhouse'];
 const Amenities = ['Wifi', 'Pool', 'TV'];
-const AdditionalAmenitiesFeatures = ['Iron', 'WasherDryer'];
-const AdditionalAmenitiesLocation = ['Waterfront', 'Beachfront'];
+const AdditionalAmenitiesValues: AdditionalAmenities[] = [
+  {
+    category: 'Features',
+    amenities: ['Iron', 'WasherDryer']
+  },
+  {
+    category: 'Location',
+    amenities: ['Waterfront', 'Beachfront']
+  }
+];
+
 const prices: SliderMarks = {
   0: '0',
-  10: '100,000+',
-  20: '200,000+',
-  30: '300,000+',
-  40: '400,000+',
-  50: '500,000+',
-  60: '600,000+',
-  70: '700,000+',
-  80: '800,000+',
-  90: '900,000+',
-  100: '1,000,000+'
+  100000: '100,000+',
+  200000: '200,000+',
+  300000: '300,000+',
+  400000: '400,000+',
+  500000: '500,000+',
+  600000: '600,000+',
+  700000: '700,000+',
+  800000: '800,000+',
+  900000: '900,000+',
+  1000000: '1,000,000+'
 };
 const MinSquareFeetOptions = [
   { label: 'No min', value: 0 },
@@ -89,19 +102,182 @@ const MaxSquareFeetOptions = [
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
+  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [selectedAdditionalAmenities, setSelectedAdditionalAmenities] = useState<
+    AdditionalAmenities[]
+  >([]);
   const [bedrooms, setBedrooms] = useState<undefined | number>(undefined);
   const [bathrooms, setBathrooms] = useState<undefined | number>(undefined);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000000);
   const [minSquareFeet, setMinSquareFeet] = useState<number>(MinSquareFeetOptions[0].value);
   const [maxSquareFeet, setMaxSquareFeet] = useState<number>(MaxSquareFeetOptions[0].value);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
     { fetchPolicy: 'network-only' }
   );
 
-  const handleSearch = (searchString: string) => {
-    gqlSearchProperties({
+  useEffect(() => {
+    // get all search params
+    const searchParams = new URLSearchParams(location.search);
+    const properTypes = searchParams.get('type')?.split(',');
+    const qsbedrooms = searchParams.get('bedrooms');
+    const qsbathrooms = searchParams.get('bathrooms');
+    const qsminPrice = searchParams.get('minPrice');
+    const qsmaxPrice = searchParams.get('maxPrice');
+    const qsminSquareFeet = searchParams.get('minSquareFeet');
+    const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
+    const qsamenities = searchParams.get('amenities')?.split(',');
+    const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
+
+    let filters = {} as FilterDetail;
+    if (properTypes) {
+      setSelectedPropertyTypes(properTypes);
+      filters = {
+        ...selectedFilter,
+        propertyType: properTypes
+      };
+    }
+    if (qsbedrooms) {
+      console.log('bedrooms', qsbedrooms);
+      setBedrooms(parseInt(qsbedrooms));
+      filters = {
+        ...filters,
+        listingDetail: {
+          ...filters?.listingDetail,
+          bedrooms: parseInt(qsbedrooms)
+        }
+      };
+    }
+    if (qsbathrooms) {
+      setBathrooms(parseFloat(qsbathrooms));
+      filters = {
+        ...filters,
+        listingDetail: {
+          ...filters?.listingDetail,
+          bathrooms: parseFloat(qsbathrooms)
+        }
+      };
+    }
+
+    if (qsamenities) {
+      setSelectedAmenities(qsamenities);
+      filters = {
+        ...filters,
+        listingDetail: {
+          ...filters?.listingDetail,
+          amenities: qsamenities
+        }
+      };
+    }
+
+    if (qsminPrice && qsmaxPrice) {
+      setMinPrice(parseInt(qsminPrice));
+      setMaxPrice(parseInt(qsmaxPrice));
+      filters = {
+        ...filters,
+        listingDetail: {
+          ...filters?.listingDetail,
+          prices: [parseInt(qsminPrice), parseInt(qsmaxPrice)]
+        }
+      };
+    }
+
+    if (qsminSquareFeet && qsmaxSquareFeet) {
+      setMinSquareFeet(parseInt(qsminSquareFeet));
+      setMaxSquareFeet(parseInt(qsmaxSquareFeet));
+      filters = {
+        ...filters,
+        listingDetail: {
+          ...filters?.listingDetail,
+          squareFeets: [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
+        }
+      };
+    }
+
+    // 0: "Features:Iron,Washer/Dryer"
+    // 1: "Location:Beachfront"
+    if (qsadditionalAmenities) {
+      let temp: AdditionalAmenities[] = [];
+
+      qsadditionalAmenities.forEach((amenity) => {
+        const [cate, amen] = amenity.split(':');
+        temp.push({
+          category: cate,
+          amenities: amen.split(',')
+        });
+      });
+      setSelectedAdditionalAmenities(temp);
+      filters = {
+        ...filters,
+        listingDetail: {
+          ...filters?.listingDetail,
+          additionalAmenities: temp
+        }
+      };
+    }
+
+    setSelectedFilter(filters);
+  }, []);
+
+  useEffect(() => {
+    updateQueryString(selectedFilter);
+  }, [selectedFilter]);
+
+  const updateQueryString = (filters: FilterDetail | undefined) => {
+    if (!filters) {
+      setSearchParams({});
+      return;
+    }
+
+    let queryStrings = [];
+    if (filters.propertyType && filters.propertyType.length > 0) {
+      queryStrings.push(`type=${filters.propertyType}`);
+    }
+    if (filters.listingDetail?.bedrooms) {
+      queryStrings.push(`bedrooms=${filters.listingDetail.bedrooms}`);
+    }
+    if (filters.listingDetail?.bathrooms) {
+      queryStrings.push(`bathrooms=${filters.listingDetail.bathrooms}`);
+    }
+    if (filters.listingDetail?.amenities && filters.listingDetail.amenities.length > 0) {
+      queryStrings.push(`amenities=${filters.listingDetail.amenities.join(',')}`);
+    }
+    if (
+      filters.listingDetail?.additionalAmenities &&
+      filters.listingDetail.additionalAmenities.length > 0
+    ) {
+      let additionalAmenitiesQueryStrings: string[] = [];
+      filters.listingDetail.additionalAmenities.forEach((amenity) => {
+        additionalAmenitiesQueryStrings.push(
+          `${amenity?.category}:${amenity?.amenities?.join(',')}`
+        );
+      });
+      queryStrings.push(`additionalAmenities=${additionalAmenitiesQueryStrings.join(';')}`);
+    }
+    if (filters.listingDetail?.prices && filters.listingDetail.prices.length > 0) {
+      queryStrings.push(`minPrice=${filters.listingDetail.prices[0]}`);
+      queryStrings.push(`maxPrice=${filters.listingDetail.prices[1]}`);
+    }
+    if (filters.listingDetail?.squareFeets && filters.listingDetail.squareFeets.length > 0) {
+      queryStrings.push(`minSquareFeet=${filters.listingDetail.squareFeets[0]}`);
+      queryStrings.push(`maxSquareFeet=${filters.listingDetail.squareFeets[1]}`);
+    }
+
+    if (queryStrings) {
+      setSearchParams(new URLSearchParams(queryStrings.join('&')));
+    }
+  };
+
+  const handleSearch = async (searchString: string) => {
+    navigate('.?' + searchParams);
+    await gqlSearchProperties({
       variables: {
         input: {
           searchString: searchString,
@@ -120,10 +296,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   };
 
   const onPropertyTypeFilterChange = (checkedValues: string[]) => {
+    setSelectedPropertyTypes(checkedValues);
     setSelectedFilter({ ...selectedFilter, propertyType: checkedValues });
   };
 
   const onAmenitiesFilterChange = (checkedValues: string[]) => {
+    setSelectedAmenities(checkedValues);
     setSelectedFilter({
       ...selectedFilter,
       listingDetail: { ...selectedFilter?.listingDetail, amenities: checkedValues }
@@ -131,7 +309,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   };
 
   const onBedroomsClicked = (e: any) => {
-    setBedrooms(e.target.value);
+    setBedrooms(parseInt(e.target.value));
+
     setSelectedFilter({
       ...selectedFilter,
       listingDetail: { ...selectedFilter?.listingDetail, bedrooms: parseInt(e.target.value) }
@@ -139,7 +318,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   };
 
   const onBathroomsClicked = (e: any) => {
-    setBathrooms(e.target.value);
+    setBathrooms(parseFloat(e.target.value));
+
     setSelectedFilter({
       ...selectedFilter,
       listingDetail: { ...selectedFilter?.listingDetail, bathrooms: parseFloat(e.target.value) }
@@ -169,6 +349,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       });
     }
 
+    setSelectedAdditionalAmenities(currentAdditionalAmenities as AdditionalAmenities[]);
+
     setSelectedFilter({
       ...selectedFilter,
       listingDetail: {
@@ -181,22 +363,22 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const onPriceChanged = (type: string, e: any) => {
     switch (type) {
       case 'min':
-        setMinPrice(e.target.value * 10000);
+        setMinPrice(e.target.value);
         break;
       case 'max':
-        setMaxPrice(e.target.value * 10000);
+        setMaxPrice(e.target.value);
         break;
     }
   };
 
   const onSliderPriceChanged = (values: [number, number]) => {
-    setMinPrice(values[0] * 10000);
-    setMaxPrice(values[1] * 10000);
+    setMinPrice(values[0]);
+    setMaxPrice(values[1]);
     setSelectedFilter({
       ...selectedFilter,
       listingDetail: {
         ...selectedFilter?.listingDetail,
-        prices: [values[0] * 10000, values[1] * 10000]
+        prices: [values[0], values[1]]
       }
     });
   };
@@ -234,6 +416,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     setMaxPrice(1000000);
     setMinSquareFeet(MinSquareFeetOptions[0].value);
     setMaxSquareFeet(MaxSquareFeetOptions[0].value);
+    setSelectedPropertyTypes([]);
+    setSelectedAmenities([]);
+    setSelectedAdditionalAmenities([]);
+    setSearchParams('');
   };
 
   const result = () => {
@@ -298,7 +484,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             const count = data?.propertiesSearch?.facets?.type?.find(
               (t) => t?.value === value
             )?.count;
-            console.log(value + ' ' + count);
             return {
               label: `${value} ${
                 count !== undefined && count !== null && count > 0
@@ -310,12 +495,14 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               value: value
             };
           })}
+          value={selectedPropertyTypes}
           onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
         />
         {/* Bedrooms */}
         <h2 className="font-bold">Bedrooms</h2>
         <Radio.Group
-          value={bedrooms}
+          value={bedrooms?.toString()}
+          defaultValue={bedrooms?.toString()}
           onChange={onBedroomsClicked}
           buttonStyle="solid"
           optionType="button"
@@ -325,7 +512,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         {/* Bathrooms */}
         <h2 className="font-bold">Bathrooms</h2>
         <Radio.Group
-          value={bathrooms}
+          value={bathrooms?.toString()}
+          defaultValue={bathrooms?.toString()}
           onChange={onBathroomsClicked}
           buttonStyle="solid"
           optionType="button"
@@ -340,7 +528,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             const count = data?.propertiesSearch?.facets?.amenities?.find(
               (t) => t?.value === value
             )?.count;
-            console.log(value + ' ' + count);
             return {
               label: `${value} ${
                 count !== undefined && count !== null && count > 0
@@ -352,6 +539,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               value: value
             };
           })}
+          value={selectedAmenities}
           onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
         />
 
@@ -359,86 +547,51 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         {/* Features */}
         <h2 className="font-bold">Additional Amenities</h2>
         <div style={{ paddingLeft: '20px' }}>
-          <h2 className="font-bold">
-            Features (
-            {
-              data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
-                (t) => t?.value === 'Features'
-              )?.count
-            }
-            )
-          </h2>
-          <CheckboxGroup
-            key={AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures}
-            options={AdditionalAmenitiesFeatures.map((value: string) => {
-              const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
-                (t) => t?.value === value
-              )?.count;
-              console.log(value + ' ' + count);
-              return {
-                label: `${value} ${
-                  count !== undefined && count !== null && count > 0
-                    ? `(${count})`
-                    : count === 0
-                    ? '(0)'
-                    : ''
-                }`,
-                value: value
-              };
-            })}
-            onChange={(checkedValues) =>
-              onAdditionalAmenitiesChange(
-                AdditionalAmenitiesCategories.AdditionalAmenitiesFeatures,
-                checkedValues as string[]
-              )
-            }
-          />
-        </div>
-        <div style={{ paddingLeft: '20px' }}>
-          <h2 className="font-bold">
-            Location (
-            {
-              data?.propertiesSearch?.facets?.additionalAmenitiesCategory?.find(
-                (t) => t?.value === 'Location'
-              )?.count
-            }
-            )
-          </h2>
-          <CheckboxGroup
-            key={AdditionalAmenitiesCategories.AdditionalAmenitiesLocation}
-            options={AdditionalAmenitiesLocation.map((value: string) => {
-              const count = data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
-                (t) => t?.value === value
-              )?.count;
-              console.log(value + ' ' + count);
-              return {
-                label: `${value} ${
-                  count !== undefined && count !== null && count > 0
-                    ? `(${count})`
-                    : count === 0
-                    ? '(0)'
-                    : ''
-                }`,
-                value: value
-              };
-            })}
-            onChange={(checkedValues) =>
-              onAdditionalAmenitiesChange(
-                AdditionalAmenitiesCategories.AdditionalAmenitiesLocation,
-                checkedValues as string[]
-              )
-            }
-          />
+          {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => {
+            return (
+              <>
+                <h2 className="font-bold">{aam.category}</h2>
+                <CheckboxGroup
+                  key={aam.category}
+                  options={aam.amenities.map((value: string) => {
+                    const count =
+                      data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
+                        (t) => t?.value === value
+                      )?.count;
+                    return {
+                      label: `${value} ${
+                        count !== undefined && count !== null && count > 0
+                          ? `(${count})`
+                          : count === 0
+                          ? '(0)'
+                          : ''
+                      }`,
+                      value: value
+                    };
+                  })}
+                  value={
+                    selectedAdditionalAmenities.find((a) => a.category === aam.category)?.amenities
+                  }
+                  onChange={(checkedValues) =>
+                    onAdditionalAmenitiesChange(aam.category, checkedValues as string[])
+                  }
+                />
+              </>
+            );
+          })}
         </div>
         {/* Price */}
         <h2 className="font-bold">Price</h2>
         <Slider
           range
           marks={prices}
-          defaultValue={[0, 100]}
+          defaultValue={[minPrice, maxPrice]}
+          max={1000000}
+          min={0}
           step={null}
           onChange={(values) => onSliderPriceChanged(values)}
           tooltipVisible={false}
+          value={[minPrice, maxPrice]}
         />
         <Row gutter={[16, 16]}>
           <Col span={12}>
@@ -456,6 +609,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         <Space split="-">
           <Select
             defaultValue={minSquareFeet}
+            value={minSquareFeet}
             style={{ width: 100 }}
             onChange={(value) => onSquareFeetChanged('min', value)}
           >
@@ -468,6 +622,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
           <Select
             defaultValue={maxSquareFeet}
+            value={maxSquareFeet}
             style={{ width: 100 }}
             onChange={(value) => onSquareFeetChanged('max', value)}
           >

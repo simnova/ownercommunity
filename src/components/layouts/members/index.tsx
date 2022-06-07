@@ -60,7 +60,7 @@ const pageLayouts = [
     parent: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:userId/propertiesSearch/*',
+    path: '/community/:communityId/member/:userId/propertiesSearch',
     title: 'Property Search',
     icon: <BarsOutlined />,
     id: 7,

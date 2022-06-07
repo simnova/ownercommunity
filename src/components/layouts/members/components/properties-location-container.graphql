@@ -1,0 +1,5 @@
+query SASToken($propertyId: ObjectID!){
+  property(id: $propertyId) {
+    mapSASToken
+  }
+}

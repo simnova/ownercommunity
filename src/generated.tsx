@@ -3926,6 +3926,15 @@ export type MembersPropertiesListingImageUploadContainerPropertyFieldsFragment =
   listingDetail?: { __typename?: 'ListingDetails'; images?: Array<string | null> | null } | null;
 };
 
+export type SasTokenQueryVariables = Exact<{
+  propertyId: Scalars['ObjectID'];
+}>;
+
+export type SasTokenQuery = {
+  __typename?: 'Query';
+  property?: { __typename?: 'Property'; mapSASToken?: string | null } | null;
+};
+
 export type MembersServiceTicketsCreateContainerMembersQueryVariables = Exact<{
   communityId: Scalars['ID'];
 }>;
@@ -10707,6 +10716,46 @@ export const MembersPropertiesListingImageUploadContainerPropertyListingImageCre
     MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutation,
     MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutationVariables
   >;
+export const SasTokenDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SASToken' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'propertyId' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'propertyId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'mapSASToken' } }]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SasTokenQuery, SasTokenQueryVariables>;
 export const MembersServiceTicketsCreateContainerMembersDocument = {
   kind: 'Document',
   definitions: [

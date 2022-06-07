@@ -45,7 +45,6 @@ export class Maps {
             useIdentityPlugin(vsCodePlugin)
             credentials = new DefaultAzureCredential( );
 
-//            credentials = new VisualStudioCodeCredential();
         }
         else {
             credentials = new DefaultAzureCredential( { ManangedIdentityClientId: this.tryGetEnvVar(this._appIdentityKey) } as DefaultAzureCredentialOptions);
@@ -67,15 +66,9 @@ export class Maps {
         return new AzureKeyCredential(this._mapKey);
     }
 
-    // public get accountName(): string {
-    //     return this._accountName;
-    // }
-
     public async listKeys(): Promise<AccountsListKeysResponse> {
         return await this._azureMapsClient.accounts.listKeys(this._resourceGroup, this._mapsAccountName);
     }
-
-    // public listbyResourceGroup(): PagedAsyncIterableIterator<MapsAccount>
 
     public async generateSharedKey(): Promise<string> {
         try {

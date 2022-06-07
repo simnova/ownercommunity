@@ -4,7 +4,11 @@ import { Context } from '../../context';
 export class Properties extends MapsDataSource<Context> {
 
 	public async getSasToken(): Promise<string> {
-        return this.getSasToken();
+        let sasToken: string = "";
+        await this.withMaps(async (passport, maps) => {
+            sasToken = await maps.generateSharedKey();
+        });
+        return sasToken;
     }
 
 }

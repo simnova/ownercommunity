@@ -8,96 +8,16 @@ import { useEffect, useState } from 'react';
 import type { SliderMarks } from 'antd/lib/slider';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  AdditionalAmenities,
+  FilterNames,
+  MaxSquareFeetOptions,
+  MinSquareFeetOptions
+} from '../../../../constants';
+import { PropertiesListSearchFilters } from './properties-list-search-filters';
 const { Option } = Select;
-
-interface AdditionalAmenities {
-  category: string;
-  amenities: string[];
-}
-const FilterNames = {
-  Type: 'type',
-  Bedrooms: 'bedrooms',
-  Amenities: 'amenities',
-  AdditionalAmenitiesCategory: 'additionalAmenities/category',
-  AdditionalAmenitiesAmenities: 'additionalAmenities/amenities'
-};
-const AdditionalAmenitiesCategories = {
-  AdditionalAmenitiesFeatures: 'Features',
-  AdditionalAmenitiesLocation: 'Location'
-};
 const CheckboxGroup = Checkbox.Group;
-const BedroomsFilterOptions = [
-  { label: '1+', value: '1' },
-  { label: '2+', value: '2' },
-  { label: '3+', value: '3' },
-  { label: '4+', value: '4' },
-  { label: '5+', value: '5' }
-];
-const BathroomsFilterOptions = [
-  { label: '1+', value: '1' },
-  { label: '1.5+', value: '1.5' },
-  { label: '2+', value: '2' },
-  { label: '3+', value: '3' },
-  { label: '4+', value: '4' },
-  { label: '5+', value: '5' }
-];
-const PropertyTypes = ['condo', 'single family', 'townhouse'];
-const Amenities = ['Wifi', 'Pool', 'TV'];
-const AdditionalAmenitiesValues: AdditionalAmenities[] = [
-  {
-    category: 'Features',
-    amenities: ['Iron', 'WasherDryer']
-  },
-  {
-    category: 'Location',
-    amenities: ['Waterfront', 'Beachfront']
-  }
-];
-
-const prices: SliderMarks = {
-  0: '0',
-  100000: '100,000+',
-  200000: '200,000+',
-  300000: '300,000+',
-  400000: '400,000+',
-  500000: '500,000+',
-  600000: '600,000+',
-  700000: '700,000+',
-  800000: '800,000+',
-  900000: '900,000+',
-  1000000: '1,000,000+'
-};
-const MinSquareFeetOptions = [
-  { label: 'No min', value: 0 },
-  { label: '750', value: 750 },
-  { label: '1,000', value: 1000 },
-  { label: '1,100', value: 1100 },
-  { label: '1,200', value: 1200 },
-  { label: '1,300', value: 1300 },
-  { label: '1,400', value: 1400 },
-  { label: '1,500', value: 1500 },
-  { label: '1,600', value: 1600 },
-  { label: '1,700', value: 1700 },
-  { label: '1,800', value: 1800 },
-  { label: '1,900', value: 1900 },
-  { label: '2,000', value: 2000 }
-];
-
-const MaxSquareFeetOptions = [
-  { label: 'No max', value: 100000 },
-  { label: '750', value: 750 },
-  { label: '1,000', value: 1000 },
-  { label: '1,100', value: 1100 },
-  { label: '1,200', value: 1200 },
-  { label: '1,300', value: 1300 },
-  { label: '1,400', value: 1400 },
-  { label: '1,500', value: 1500 },
-  { label: '1,600', value: 1600 },
-  { label: '1,700', value: 1700 },
-  { label: '1,800', value: 1800 },
-  { label: '1,900', value: 1900 },
-  { label: '2,000', value: 2000 }
-];
+const { Search } = Input;
 
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
@@ -126,7 +46,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   useEffect(() => {
     // get all search params
     const searchParams = new URLSearchParams(location.search);
-    const properTypes = searchParams.get('type')?.split(',');
+    const qssearchString = searchParams.get('search');
+    const qsproperTypes = searchParams.get('type')?.split(',');
     const qsbedrooms = searchParams.get('bedrooms');
     const qsbathrooms = searchParams.get('bathrooms');
     const qsminPrice = searchParams.get('minPrice');
@@ -137,11 +58,14 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
 
     let filters = {} as FilterDetail;
-    if (properTypes) {
-      setSelectedPropertyTypes(properTypes);
+    if (qssearchString) {
+      setSearchString(qssearchString);
+    }
+    if (qsproperTypes) {
+      setSelectedPropertyTypes(qsproperTypes);
       filters = {
         ...selectedFilter,
-        propertyType: properTypes
+        propertyType: qsproperTypes
       };
     }
     if (qsbedrooms) {
@@ -201,8 +125,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       };
     }
 
-    // 0: "Features:Iron,Washer/Dryer"
-    // 1: "Location:Beachfront"
     if (qsadditionalAmenities) {
       let temp: AdditionalAmenities[] = [];
 
@@ -227,16 +149,19 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   }, []);
 
   useEffect(() => {
-    updateQueryString(selectedFilter);
-  }, [selectedFilter]);
+    updateQueryString(searchString, selectedFilter);
+  }, [selectedFilter, searchString]);
 
-  const updateQueryString = (filters: FilterDetail | undefined) => {
+  const updateQueryString = (searchString: string, filters: FilterDetail | undefined) => {
     if (!filters) {
       setSearchParams({});
       return;
     }
 
     let queryStrings = [];
+    if (searchString) {
+      queryStrings.push(`search=${searchString}`);
+    }
     if (filters.propertyType && filters.propertyType.length > 0) {
       queryStrings.push(`type=${filters.propertyType}`);
     }
@@ -276,7 +201,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   };
 
   const handleSearch = async (searchString: string) => {
-    navigate('.?' + searchParams);
+    navigate(`.?` + searchParams);
     await gqlSearchProperties({
       variables: {
         input: {
@@ -450,7 +375,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <Space>
+      <Space size={0}>
         <Input
           placeholder="Search properties"
           onPressEnter={(e: any) => handleSearch(e.target.value)}
@@ -475,166 +400,28 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             Clear filters
           </Button>
         </Space>
-
-        {/* Type */}
-        <h2 className="font-bold">Type </h2>
-        <CheckboxGroup
-          key={FilterNames.Type}
-          options={PropertyTypes.map((value: string) => {
-            const count = data?.propertiesSearch?.facets?.type?.find(
-              (t) => t?.value === value
-            )?.count;
-            return {
-              label: `${value} ${
-                count !== undefined && count !== null && count > 0
-                  ? `(${count})`
-                  : count === 0
-                  ? '(0)'
-                  : ''
-              }`,
-              value: value
-            };
-          })}
-          value={selectedPropertyTypes}
-          onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
-        />
-        {/* Bedrooms */}
-        <h2 className="font-bold">Bedrooms</h2>
-        <Radio.Group
-          value={bedrooms?.toString()}
-          defaultValue={bedrooms?.toString()}
-          onChange={onBedroomsClicked}
-          buttonStyle="solid"
-          optionType="button"
-          options={BedroomsFilterOptions}
-        />
-
-        {/* Bathrooms */}
-        <h2 className="font-bold">Bathrooms</h2>
-        <Radio.Group
-          value={bathrooms?.toString()}
-          defaultValue={bathrooms?.toString()}
-          onChange={onBathroomsClicked}
-          buttonStyle="solid"
-          optionType="button"
-          options={BathroomsFilterOptions}
-        />
-
-        {/* Amenities */}
-        <h2 className="font-bold">Amenities</h2>
-        <CheckboxGroup
-          key={FilterNames.Amenities}
-          options={Amenities.map((value: string) => {
-            const count = data?.propertiesSearch?.facets?.amenities?.find(
-              (t) => t?.value === value
-            )?.count;
-            return {
-              label: `${value} ${
-                count !== undefined && count !== null && count > 0
-                  ? `(${count})`
-                  : count === 0
-                  ? '(0)'
-                  : ''
-              }`,
-              value: value
-            };
-          })}
-          value={selectedAmenities}
-          onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
-        />
-
-        {/* Additional Amenities */}
-        {/* Features */}
-        <h2 className="font-bold">Additional Amenities</h2>
-        <div style={{ paddingLeft: '20px' }}>
-          {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => {
-            return (
-              <>
-                <h2 className="font-bold">{aam.category}</h2>
-                <CheckboxGroup
-                  key={aam.category}
-                  options={aam.amenities.map((value: string) => {
-                    const count =
-                      data?.propertiesSearch?.facets?.additionalAmenitiesAmenities?.find(
-                        (t) => t?.value === value
-                      )?.count;
-                    return {
-                      label: `${value} ${
-                        count !== undefined && count !== null && count > 0
-                          ? `(${count})`
-                          : count === 0
-                          ? '(0)'
-                          : ''
-                      }`,
-                      value: value
-                    };
-                  })}
-                  value={
-                    selectedAdditionalAmenities.find((a) => a.category === aam.category)?.amenities
-                  }
-                  onChange={(checkedValues) =>
-                    onAdditionalAmenitiesChange(aam.category, checkedValues as string[])
-                  }
-                />
-              </>
-            );
-          })}
-        </div>
-        {/* Price */}
-        <h2 className="font-bold">Price</h2>
-        <Slider
-          range
-          marks={prices}
-          defaultValue={[minPrice, maxPrice]}
-          max={1000000}
-          min={0}
-          step={null}
-          onChange={(values) => onSliderPriceChanged(values)}
-          tooltipVisible={false}
-          value={[minPrice, maxPrice]}
-        />
-        <Row gutter={[16, 16]}>
-          <Col span={12}>
-            <div>Min price</div>
-            <Input value={minPrice} onChange={(e) => onPriceChanged('min', e)} />
-          </Col>
-          <Col span={12}>
-            <div>Max price</div>
-            <Input value={maxPrice} onChange={(e) => onPriceChanged('max', e)} />
-          </Col>
-        </Row>
-
-        {/* squareFeet */}
-        <h2 className="font-bold">Square Feet</h2>
-        <Space split="-">
-          <Select
-            defaultValue={minSquareFeet}
-            value={minSquareFeet}
-            style={{ width: 100 }}
-            onChange={(value) => onSquareFeetChanged('min', value)}
-          >
-            {MinSquareFeetOptions.map((op) => (
-              <Option key={op.value} value={op.value} disabled={op.value > maxSquareFeet}>
-                {op.label}
-              </Option>
-            ))}
-          </Select>
-
-          <Select
-            defaultValue={maxSquareFeet}
-            value={maxSquareFeet}
-            style={{ width: 100 }}
-            onChange={(value) => onSquareFeetChanged('max', value)}
-          >
-            {MaxSquareFeetOptions.map((op) => (
-              <Option key={op.value} value={op.value} disabled={op.value < minSquareFeet}>
-                {op.label}
-              </Option>
-            ))}
-          </Select>
-        </Space>
       </div>
 
+      <PropertiesListSearchFilters
+        data={data}
+        selectedPropertyTypes={selectedPropertyTypes}
+        onPropertyTypeFilterChange={onPropertyTypeFilterChange}
+        bedrooms={bedrooms}
+        onBedroomsClicked={onBedroomsClicked}
+        bathrooms={bathrooms}
+        onBathroomsClicked={onBathroomsClicked}
+        selectedAmenities={selectedAmenities}
+        onAmenitiesFilterChange={onAmenitiesFilterChange}
+        selectedAdditionalAmenities={selectedAdditionalAmenities}
+        onAdditionalAmenitiesChange={onAdditionalAmenitiesChange}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        onPriceChanged={onPriceChanged}
+        onSliderPriceChanged={onSliderPriceChanged}
+        minSquareFeet={minSquareFeet}
+        maxSquareFeet={maxSquareFeet}
+        onSquareFeetChanged={onSquareFeetChanged}
+      />
       {result()}
     </>
   );

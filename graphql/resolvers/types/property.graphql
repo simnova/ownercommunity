@@ -3,6 +3,7 @@
 type Property implements MongoBase {
   community: Community
   location: Location
+  mapSASToken: String
   owner: Member
   propertyName: String!
   propertyType: String

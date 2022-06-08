@@ -146,6 +146,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
 
     setSelectedFilter(filters);
+    handleSearch(qssearchString ?? '', filters);
   }, []);
 
   useEffect(() => {
@@ -200,7 +201,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
   };
 
-  const handleSearch = async (searchString: string) => {
+  const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
     await gqlSearchProperties({
       variables: {
@@ -213,7 +214,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.AdditionalAmenitiesAmenities + ',count:30',
               FilterNames.Amenities + ',count:30'
             ],
-            filter: selectedFilter
+            filter: filter
           }
         }
       }
@@ -345,6 +346,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     setSelectedAmenities([]);
     setSelectedAdditionalAmenities([]);
     setSearchParams('');
+    setSearchString('');
   };
 
   const result = () => {
@@ -378,12 +380,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       <Space size={0}>
         <Input
           placeholder="Search properties"
-          onPressEnter={(e: any) => handleSearch(e.target.value)}
+          onPressEnter={(e: any) => handleSearch(e.target.value, selectedFilter)}
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         />
 
-        <Button type="primary" onClick={() => handleSearch(searchString)}>
+        <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
           Search
         </Button>
       </Space>

@@ -56,7 +56,7 @@ export const AdditionalAmenitiesValues: AdditionalAmenities[] = [
   }
 ];
 
-export const prices: SliderMarks = {
+export const PriceMarkers: SliderMarks = {
   0: '0',
   100000: '100,000+',
   200000: '200,000+',

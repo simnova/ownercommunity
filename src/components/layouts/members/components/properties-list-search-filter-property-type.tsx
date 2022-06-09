@@ -1,9 +1,40 @@
 import { Checkbox } from 'antd';
+import { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { FilterNames, PropertyTypes } from '../../../../constants';
 
 const CheckboxGroup = Checkbox.Group;
 
 export const PropertiesListSearchFilterPropertyType = (props: any) => {
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>();
+
+  const onPropertyTypeFilterChange = (checkedValues: string[]) => {
+    setSelectedPropertyTypes(checkedValues);
+    // update query string
+    if (checkedValues.length > 0) {
+      searchParams.set('type', checkedValues.join(','));
+    } else {
+      searchParams.delete('type');
+    }
+    setSearchParams(searchParams);
+    props.setSelectedFilter({ ...props.selectedFilter, propertyType: checkedValues });
+  };
+
+  // Update UI (selected property types) with corresponding property types when page is loaded
+  useEffect(() => {
+    const qsproperTypes = searchParams.get('type');
+    setSelectedPropertyTypes(qsproperTypes?.split(',') ?? []);
+  }, []);
+
+  // clear filter
+  useEffect(() => {
+    if (!location.search) {
+      setSelectedPropertyTypes([]);
+    }
+  }, [location]);
+
   return (
     <>
       <h2 className="font-bold">Type </h2>
@@ -24,8 +55,8 @@ export const PropertiesListSearchFilterPropertyType = (props: any) => {
             value: value
           };
         })}
-        value={props.selectedPropertyTypes}
-        onChange={(checkedValues) => props.onPropertyTypeFilterChange(checkedValues as string[])}
+        value={selectedPropertyTypes}
+        onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
       />
     </>
   );

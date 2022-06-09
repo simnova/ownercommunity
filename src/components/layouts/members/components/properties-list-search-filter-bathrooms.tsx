@@ -1,14 +1,49 @@
 import { Radio } from 'antd';
+import { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { BathroomsFilterOptions } from '../../../../constants';
 
 export const PropertiesListSearchFilterBathrooms = (props: any) => {
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [bathrooms, setBathrooms] = useState<undefined | number>();
+
+  const onBathroomsClicked = (e: any) => {
+    setBathrooms(parseInt(e.target.value));
+    if (e.target.value) {
+      searchParams.set('bathrooms', e.target.value);
+    } else {
+      searchParams.delete('bathrooms');
+    }
+    setSearchParams(searchParams);
+    props.setSelectedFilter({
+      ...props.selectedFilter,
+      listingDetail: {
+        ...props.selectedFilter?.listingDetail,
+        bathrooms: parseFloat(e.target.value)
+      }
+    });
+  };
+
+  useEffect(() => {
+    const qsbathrooms = searchParams.get('bathrooms');
+    if (qsbathrooms) {
+      setBathrooms(parseFloat(qsbathrooms));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!location.search) {
+      setBathrooms(undefined);
+    }
+  }, [location]);
   return (
     <>
       <h2 className="font-bold">Bathrooms</h2>
       <Radio.Group
-        value={props.bathrooms?.toString()}
-        defaultValue={props.bathrooms?.toString()}
-        onChange={props.onBathroomsClicked}
+        value={bathrooms?.toString()}
+        defaultValue={bathrooms?.toString()}
+        onChange={onBathroomsClicked}
         buttonStyle="solid"
         optionType="button"
         options={BathroomsFilterOptions}

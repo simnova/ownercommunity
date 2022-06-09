@@ -1,10 +1,18 @@
 import { Space, Select } from 'antd';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { MaxSquareFeetOptions, MinSquareFeetOptions } from '../../../../constants';
+import { FilterDetail } from '../../../../generated';
 const { Option } = Select;
 
-export const PropertiesListSearchFilterSquareFeet = (props: any) => {
+interface PropertiesListSearchFilterSquareFeetProps {
+  setSelectedFilter: (selectedFilter: FilterDetail) => void;
+  selectedFilter?: FilterDetail;
+}
+
+export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilterSquareFeetProps> = (
+  props: any
+) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [minSquareFeet, setMinSquareFeet] = useState(0);

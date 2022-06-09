@@ -119,6 +119,12 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
         if (input.listingDetail.listingAgentCompanyWebsite !== undefined) property.listingDetail.requestSetListingAgentCompanyWebsite(input.listingDetail.listingAgentCompanyWebsite);
         if (input.listingDetail.listingAgentCompanyAddress !== undefined) property.listingDetail.requestSetListingAgentCompanyAddress(input.listingDetail.listingAgentCompanyAddress);
       }
+
+      if (input.location !== undefined) {
+       if (input.location.address !== undefined) {
+         if (input.location.address.streetName !== undefined) property.location.requestSetStreetName(input.location.address.streetName);
+       }
+      }
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
     return propertyToReturn;

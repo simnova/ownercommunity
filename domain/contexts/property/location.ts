@@ -1,6 +1,7 @@
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
+import { PropertyVisa } from '../iam/property-visa';
 
 export interface LocationProps extends EntityProps {
   id: string;
@@ -55,7 +56,7 @@ export interface LocationEntityReference {
 
 
 export class Location<props extends LocationProps> extends AggregateRoot<props> implements LocationEntityReference {
-  constructor(props: props, context:DomainExecutionContext) { super(props); }
+  constructor(props: props, context:DomainExecutionContext,  private readonly visa: PropertyVisa) { super(props); }
   get id(): string {return this.props.id;}
   get position() { 
     if(! this.props.position) {
@@ -87,6 +88,17 @@ export class Location<props extends LocationProps> extends AggregateRoot<props> 
       get countryCodeISO3(): string { return this.props.address.countryCodeISO3; },
       get freeformAddress(): string { return this.props.address.freeformAddress; }
     }
+  }
+
+  private validateVisa() {
+    if (!this.visa.determineIf((permissions) => permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
+      throw new Error('You do not have permission to update this listing');
+    }
+  }
+
+  requestSetStreetName(streetName: string) {
+    this.validateVisa();
+    this.props.address.streetName = streetName;
   }
 }
 

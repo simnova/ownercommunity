@@ -347,7 +347,7 @@ export type Location = MongoBase & {
 export type LocationInput = {
   address?: InputMaybe<AddressInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  id: Scalars['ObjectID'];
+  id?: InputMaybe<Scalars['ObjectID']>;
   position?: InputMaybe<PointInput>;
   schemaVersion?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;

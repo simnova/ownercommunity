@@ -108,7 +108,7 @@ type Location implements MongoBase {
 input LocationInput {
   position: PointInput
   address: AddressInput
-  id: ObjectID!
+  id: ObjectID
   schemaVersion: String
   createdAt: DateTime
   updatedAt: DateTime

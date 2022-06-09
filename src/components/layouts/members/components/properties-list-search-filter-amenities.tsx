@@ -1,11 +1,17 @@
 import { Checkbox } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Amenities, FilterNames } from '../../../../constants';
+import { FacetDetail, FilterDetail } from '../../../../generated';
 
 const CheckboxGroup = Checkbox.Group;
 
-export const PropertiesListSearchFilterAmenities = (props: any) => {
+interface AmenitiesFilterProps {
+  selectedFilter?: FilterDetail;
+  setSelectedFilter: (selectedFilter: FilterDetail) => void;
+  amenitiesFacets?: FacetDetail[];
+}
+export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (props) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>();
@@ -43,9 +49,7 @@ export const PropertiesListSearchFilterAmenities = (props: any) => {
       <CheckboxGroup
         key={FilterNames.Amenities}
         options={Amenities.map((value: string) => {
-          const count = props.data?.propertiesSearch?.facets?.amenities?.find(
-            (t: any) => t?.value === value
-          )?.count;
+          const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
           return {
             label: `${value} ${
               count !== undefined && count !== null && count > 0

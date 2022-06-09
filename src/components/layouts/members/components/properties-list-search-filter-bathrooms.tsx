@@ -1,9 +1,17 @@
 import { Radio } from 'antd';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { BathroomsFilterOptions } from '../../../../constants';
+import { FilterDetail } from '../../../../generated';
 
-export const PropertiesListSearchFilterBathrooms = (props: any) => {
+interface PropertiesListSearchFilterBathroomsProps {
+  setSelectedFilter: (selectedFilter: FilterDetail) => void;
+  selectedFilter?: FilterDetail;
+}
+
+export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterBathroomsProps> = (
+  props
+) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [bathrooms, setBathrooms] = useState<undefined | number>();

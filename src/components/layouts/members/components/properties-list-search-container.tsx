@@ -1,7 +1,8 @@
 import { useLazyQuery } from '@apollo/client';
 import {
   FilterDetail,
-  MemberPropertiesListSearchContainerPropertiesDocument
+  MemberPropertiesListSearchContainerPropertiesDocument,
+  PropertySearchFacets
 } from '../../../../generated';
 import { Skeleton, Input, Button, Space } from 'antd';
 import { useEffect, useState } from 'react';
@@ -186,7 +187,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       </div>
 
       <PropertiesListSearchFilters
-        data={data}
+        facets={data?.propertiesSearch?.facets as PropertySearchFacets}
         setSelectedFilter={setSelectedFilter}
         selectedFilter={selectedFilter}
       />

@@ -1,9 +1,17 @@
 import { Col, Row, Slider, Input } from 'antd';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { PriceMarkers } from '../../../../constants';
+import { FilterDetail } from '../../../../generated';
 
-export const PropertiesListSearchFilterPrice = (props: any) => {
+interface PropertiesListSearchFilterPriceProps {
+  setSelectedFilter: (selectedFilter: FilterDetail) => void;
+  selectedFilter?: FilterDetail;
+}
+
+export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPriceProps> = (
+  props
+) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [minPrice, setMinPrice] = useState(0);

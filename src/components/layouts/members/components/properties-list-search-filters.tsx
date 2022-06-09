@@ -7,8 +7,16 @@ import { PropertiesListSearchFilterPropertyType } from './properties-list-search
 import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
 import { Space, Button } from 'antd';
 import { useSearchParams } from 'react-router-dom';
+import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
+import { FC } from 'react';
 
-export const PropertiesListSearchFilters = (props: any) => {
+interface PropertiesListSearchFiltersProps {
+  facets?: PropertySearchFacets;
+  selectedFilter?: FilterDetail;
+  setSelectedFilter: (filter: FilterDetail | undefined) => void;
+}
+
+export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const clearFilter = () => {
@@ -28,7 +36,7 @@ export const PropertiesListSearchFilters = (props: any) => {
       </div>
       {/* Type */}
       <PropertiesListSearchFilterPropertyType
-        data={props.data}
+        propertyTypeFacets={props.facets?.type as FacetDetail[]}
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
       />
@@ -46,14 +54,14 @@ export const PropertiesListSearchFilters = (props: any) => {
 
       {/* Amenities */}
       <PropertiesListSearchFilterAmenities
-        data={props.data}
+        amenitiesFacets={props.facets?.amenities as FacetDetail[]}
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
       />
 
       {/* Additional Amenities */}
       <PropertiesListSearchFilterAdditionalAmenities
-        data={props.data}
+        additionalAmenitieFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
       />
@@ -66,9 +74,8 @@ export const PropertiesListSearchFilters = (props: any) => {
 
       {/* squareFeet */}
       <PropertiesListSearchFilterSquareFeet
-        minSquareFeet={props.minSquareFeet}
-        maxSquareFeet={props.maxSquareFeet}
-        onSquareFeetChanged={props.onSquareFeetChanged}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
       />
     </>
   );

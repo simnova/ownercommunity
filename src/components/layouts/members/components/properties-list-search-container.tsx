@@ -3,38 +3,17 @@ import {
   FilterDetail,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space, Checkbox, Radio, Slider, Row, Col, Select } from 'antd';
+import { Skeleton, Input, Button, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import type { SliderMarks } from 'antd/lib/slider';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  AdditionalAmenities,
-  FilterNames,
-  MaxSquareFeetOptions,
-  MinSquareFeetOptions
-} from '../../../../constants';
+import { AdditionalAmenities, FilterNames } from '../../../../constants';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
-const { Option } = Select;
-const CheckboxGroup = Checkbox.Group;
-const { Search } = Input;
 
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
-  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState<string[]>([]);
-  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-  const [selectedAdditionalAmenities, setSelectedAdditionalAmenities] = useState<
-    AdditionalAmenities[]
-  >([]);
-  const [bedrooms, setBedrooms] = useState<undefined | number>(undefined);
-  const [bathrooms, setBathrooms] = useState<undefined | number>(undefined);
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000000);
-  const [minSquareFeet, setMinSquareFeet] = useState<number>(MinSquareFeetOptions[0].value);
-  const [maxSquareFeet, setMaxSquareFeet] = useState<number>(MaxSquareFeetOptions[0].value);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -43,6 +22,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     { fetchPolicy: 'network-only' }
   );
 
+  // get selected filters from query string
   useEffect(() => {
     // get all search params
     const searchParams = new URLSearchParams(location.search);
@@ -62,15 +42,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       setSearchString(qssearchString);
     }
     if (qsproperTypes) {
-      setSelectedPropertyTypes(qsproperTypes);
       filters = {
         ...selectedFilter,
         propertyType: qsproperTypes
       };
     }
     if (qsbedrooms) {
-      console.log('bedrooms', qsbedrooms);
-      setBedrooms(parseInt(qsbedrooms));
       filters = {
         ...filters,
         listingDetail: {
@@ -80,7 +57,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       };
     }
     if (qsbathrooms) {
-      setBathrooms(parseFloat(qsbathrooms));
       filters = {
         ...filters,
         listingDetail: {
@@ -91,7 +67,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
 
     if (qsamenities) {
-      setSelectedAmenities(qsamenities);
       filters = {
         ...filters,
         listingDetail: {
@@ -102,8 +77,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
 
     if (qsminPrice && qsmaxPrice) {
-      setMinPrice(parseInt(qsminPrice));
-      setMaxPrice(parseInt(qsmaxPrice));
       filters = {
         ...filters,
         listingDetail: {
@@ -114,8 +87,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
 
     if (qsminSquareFeet && qsmaxSquareFeet) {
-      setMinSquareFeet(parseInt(qsminSquareFeet));
-      setMaxSquareFeet(parseInt(qsmaxSquareFeet));
       filters = {
         ...filters,
         listingDetail: {
@@ -135,7 +106,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           amenities: amen.split(',')
         });
       });
-      setSelectedAdditionalAmenities(temp);
       filters = {
         ...filters,
         listingDetail: {
@@ -148,58 +118,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     setSelectedFilter(filters);
     handleSearch(qssearchString ?? '', filters);
   }, []);
-
-  useEffect(() => {
-    updateQueryString(searchString, selectedFilter);
-  }, [selectedFilter, searchString]);
-
-  const updateQueryString = (searchString: string, filters: FilterDetail | undefined) => {
-    if (!filters) {
-      setSearchParams({});
-      return;
-    }
-
-    let queryStrings = [];
-    if (searchString) {
-      queryStrings.push(`search=${searchString}`);
-    }
-    if (filters.propertyType && filters.propertyType.length > 0) {
-      queryStrings.push(`type=${filters.propertyType}`);
-    }
-    if (filters.listingDetail?.bedrooms) {
-      queryStrings.push(`bedrooms=${filters.listingDetail.bedrooms}`);
-    }
-    if (filters.listingDetail?.bathrooms) {
-      queryStrings.push(`bathrooms=${filters.listingDetail.bathrooms}`);
-    }
-    if (filters.listingDetail?.amenities && filters.listingDetail.amenities.length > 0) {
-      queryStrings.push(`amenities=${filters.listingDetail.amenities.join(',')}`);
-    }
-    if (
-      filters.listingDetail?.additionalAmenities &&
-      filters.listingDetail.additionalAmenities.length > 0
-    ) {
-      let additionalAmenitiesQueryStrings: string[] = [];
-      filters.listingDetail.additionalAmenities.forEach((amenity) => {
-        additionalAmenitiesQueryStrings.push(
-          `${amenity?.category}:${amenity?.amenities?.join(',')}`
-        );
-      });
-      queryStrings.push(`additionalAmenities=${additionalAmenitiesQueryStrings.join(';')}`);
-    }
-    if (filters.listingDetail?.prices && filters.listingDetail.prices.length > 0) {
-      queryStrings.push(`minPrice=${filters.listingDetail.prices[0]}`);
-      queryStrings.push(`maxPrice=${filters.listingDetail.prices[1]}`);
-    }
-    if (filters.listingDetail?.squareFeets && filters.listingDetail.squareFeets.length > 0) {
-      queryStrings.push(`minSquareFeet=${filters.listingDetail.squareFeets[0]}`);
-      queryStrings.push(`maxSquareFeet=${filters.listingDetail.squareFeets[1]}`);
-    }
-
-    if (queryStrings) {
-      setSearchParams(new URLSearchParams(queryStrings.join('&')));
-    }
-  };
 
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
@@ -219,134 +137,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         }
       }
     });
-  };
-
-  const onPropertyTypeFilterChange = (checkedValues: string[]) => {
-    setSelectedPropertyTypes(checkedValues);
-    setSelectedFilter({ ...selectedFilter, propertyType: checkedValues });
-  };
-
-  const onAmenitiesFilterChange = (checkedValues: string[]) => {
-    setSelectedAmenities(checkedValues);
-    setSelectedFilter({
-      ...selectedFilter,
-      listingDetail: { ...selectedFilter?.listingDetail, amenities: checkedValues }
-    });
-  };
-
-  const onBedroomsClicked = (e: any) => {
-    setBedrooms(parseInt(e.target.value));
-
-    setSelectedFilter({
-      ...selectedFilter,
-      listingDetail: { ...selectedFilter?.listingDetail, bedrooms: parseInt(e.target.value) }
-    });
-  };
-
-  const onBathroomsClicked = (e: any) => {
-    setBathrooms(parseFloat(e.target.value));
-
-    setSelectedFilter({
-      ...selectedFilter,
-      listingDetail: { ...selectedFilter?.listingDetail, bathrooms: parseFloat(e.target.value) }
-    });
-  };
-
-  const onAdditionalAmenitiesChange = (categoryValue: string, amenities: string[]) => {
-    // get current additional amenities
-    const currentAdditionalAmenities = selectedFilter?.listingDetail?.additionalAmenities ?? [];
-    // find index of updated category
-    const index = currentAdditionalAmenities?.findIndex((a) => a?.category === categoryValue);
-    // update amenities
-    if (index !== -1) {
-      if (amenities.length === 0) {
-        // remove category
-        currentAdditionalAmenities.splice(index, 1);
-      } else {
-        currentAdditionalAmenities[index] = {
-          category: categoryValue,
-          amenities: amenities
-        };
-      }
-    } else {
-      currentAdditionalAmenities?.push({
-        category: categoryValue,
-        amenities: amenities
-      });
-    }
-
-    setSelectedAdditionalAmenities(currentAdditionalAmenities as AdditionalAmenities[]);
-
-    setSelectedFilter({
-      ...selectedFilter,
-      listingDetail: {
-        ...selectedFilter?.listingDetail,
-        additionalAmenities: currentAdditionalAmenities
-      }
-    });
-  };
-
-  const onPriceChanged = (type: string, e: any) => {
-    switch (type) {
-      case 'min':
-        setMinPrice(e.target.value);
-        break;
-      case 'max':
-        setMaxPrice(e.target.value);
-        break;
-    }
-  };
-
-  const onSliderPriceChanged = (values: [number, number]) => {
-    setMinPrice(values[0]);
-    setMaxPrice(values[1]);
-    setSelectedFilter({
-      ...selectedFilter,
-      listingDetail: {
-        ...selectedFilter?.listingDetail,
-        prices: [values[0], values[1]]
-      }
-    });
-  };
-
-  const onSquareFeetChanged = (type: string, value: any) => {
-    switch (type) {
-      case 'min':
-        setMinSquareFeet(value);
-        setSelectedFilter({
-          ...selectedFilter,
-          listingDetail: {
-            ...selectedFilter?.listingDetail,
-            squareFeets: [value, maxSquareFeet]
-          }
-        });
-        break;
-      case 'max':
-        setMaxSquareFeet(value);
-        setSelectedFilter({
-          ...selectedFilter,
-          listingDetail: {
-            ...selectedFilter?.listingDetail,
-            squareFeets: [minSquareFeet, value]
-          }
-        });
-        break;
-    }
-  };
-
-  const clearFilter = () => {
-    setSelectedFilter(undefined);
-    setBedrooms(undefined);
-    setBathrooms(undefined);
-    setMinPrice(0);
-    setMaxPrice(1000000);
-    setMinSquareFeet(MinSquareFeetOptions[0].value);
-    setMaxSquareFeet(MaxSquareFeetOptions[0].value);
-    setSelectedPropertyTypes([]);
-    setSelectedAmenities([]);
-    setSelectedAdditionalAmenities([]);
-    setSearchParams('');
-    setSearchString('');
   };
 
   const result = () => {
@@ -395,34 +185,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           : ''}
       </div>
 
-      <div>
-        <Space>
-          <h1>Filters</h1>
-          <Button type="link" onClick={() => clearFilter()}>
-            Clear filters
-          </Button>
-        </Space>
-      </div>
-
       <PropertiesListSearchFilters
         data={data}
-        selectedPropertyTypes={selectedPropertyTypes}
-        onPropertyTypeFilterChange={onPropertyTypeFilterChange}
-        bedrooms={bedrooms}
-        onBedroomsClicked={onBedroomsClicked}
-        bathrooms={bathrooms}
-        onBathroomsClicked={onBathroomsClicked}
-        selectedAmenities={selectedAmenities}
-        onAmenitiesFilterChange={onAmenitiesFilterChange}
-        selectedAdditionalAmenities={selectedAdditionalAmenities}
-        onAdditionalAmenitiesChange={onAdditionalAmenitiesChange}
-        minPrice={minPrice}
-        maxPrice={maxPrice}
-        onPriceChanged={onPriceChanged}
-        onSliderPriceChanged={onSliderPriceChanged}
-        minSquareFeet={minSquareFeet}
-        maxSquareFeet={maxSquareFeet}
-        onSquareFeetChanged={onSquareFeetChanged}
+        setSelectedFilter={setSelectedFilter}
+        selectedFilter={selectedFilter}
       />
       {result()}
     </>

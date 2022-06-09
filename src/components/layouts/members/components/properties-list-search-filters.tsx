@@ -5,48 +5,63 @@ import { PropertiesListSearchFilterBedrooms } from './properties-list-search-fil
 import { PropertiesListSearchFilterPrice } from './properties-list-search-filter-price';
 import { PropertiesListSearchFilterPropertyType } from './properties-list-search-filter-property-type';
 import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
+import { Space, Button } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 
 export const PropertiesListSearchFilters = (props: any) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const clearFilter = () => {
+    props.setSelectedFilter(undefined);
+    setSearchParams({});
+  };
+
   return (
     <>
+      <div>
+        <Space>
+          <h1>Filters</h1>
+          <Button type="link" onClick={() => clearFilter()}>
+            Clear filters
+          </Button>
+        </Space>
+      </div>
       {/* Type */}
       <PropertiesListSearchFilterPropertyType
         data={props.data}
-        onPropertyTypeFilterChange={props.onPropertyTypeFilterChange}
-        selectedPropertyTypes={props.selectedPropertyTypes}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
       />
       {/* Bedrooms */}
       <PropertiesListSearchFilterBedrooms
-        bedrooms={props.bedrooms}
-        onBedroomsClicked={props.onBedroomsClicked}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
       />
 
       {/* Bathrooms */}
       <PropertiesListSearchFilterBathrooms
-        bathrooms={props.bathrooms}
-        onBathroomsClicked={props.onBathroomsClicked}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
       />
 
       {/* Amenities */}
       <PropertiesListSearchFilterAmenities
         data={props.data}
-        selectedAmenities={props.selectedAmenities}
-        onAmenitiesFilterChange={props.onAmenitiesFilterChange}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
       />
 
       {/* Additional Amenities */}
       <PropertiesListSearchFilterAdditionalAmenities
         data={props.data}
-        selectedAdditionalAmenities={props.selectedAdditionalAmenities}
-        onAdditionalAmenitiesChange={props.onAdditionalAmenitiesChange}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
       />
 
       {/* Price */}
       <PropertiesListSearchFilterPrice
-        minPrice={props.minPrice}
-        maxPrice={props.maxPrice}
-        onSliderPriceChanged={props.onSliderPriceChanged}
-        onPriceChanged={props.onPriceChanged}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
       />
 
       {/* squareFeet */}

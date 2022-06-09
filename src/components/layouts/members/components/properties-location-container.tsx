@@ -1,9 +1,9 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { SasTokenDocument } from '../../../../generated';
+import { AddressInput, AddressLocationUpdateContainerDocument, PropertyUpdateInput, PropertiesLocationContainerPropertyDocument } from '../../../../generated';
 import { PropertiesLocation } from './properties-location';
-import { Skeleton } from 'antd';
+import { Skeleton, message } from 'antd';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -24,18 +24,37 @@ export type PropertiesLocationContainerPropTypes = PropTypes.InferProps<typeof C
 
 export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPropTypes> = (props) => {
   const params = useParams();
-  console.log(params);
+  const [updateAddress] = useMutation(AddressLocationUpdateContainerDocument);
 
   const {
     data: propertyData,
     loading: propertyLoading,
     error: propertyError
-  } = useQuery(SasTokenDocument, {
+  } = useQuery(PropertiesLocationContainerPropertyDocument, {
     variables: {
       propertyId: params.id
     }
   });
 
+    
+  const handleSave = async (values: PropertyUpdateInput) => {
+    try {
+      
+      var result = await updateAddress({
+        variables: {
+          input: values
+        },
+      });
+      if(result.data?.propertyUpdate.status.success){
+        console.log(result)
+        message.success("Saved");
+      }else {
+        message.error(`Error updating Member: ${result.data?.propertyUpdate.status.errorMessage}`);
+      }
+    } catch (error) {
+      message.error(`Error updating Member: ${JSON.stringify(error)}`);
+    }
+  }
 
 
   const content = () => {
@@ -48,12 +67,13 @@ export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPr
       } else if (propertyError ) {
         return <div>{JSON.stringify(propertyError)}</div>;
       } else if (propertyData && propertyData.property) {
-        return <PropertiesLocation data={propertyData}  />;
+        console.log(propertyData)
+        return <PropertiesLocation data={propertyData} onSave={handleSave} />;
       } else {
         return <div>No data</div>;
       }
     };
-  
+
 
   return <>
     {content()}

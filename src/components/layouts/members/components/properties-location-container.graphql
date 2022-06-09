@@ -1,5 +1,38 @@
-query SASToken($propertyId: ObjectID!){
+query PropertiesLocationContainerProperty($propertyId: ObjectID!){
   property(id: $propertyId) {
-    mapSASToken
+      mapSASToken
+      ...AddressLocationContainerPropertyFields
+    }
+}
+
+mutation AddressLocationUpdateContainer($input: PropertyUpdateInput!){
+  propertyUpdate(input: $input) {
+    ...AddressLocationContainerPropertyMutationResultFields
+  }
+}
+
+fragment AddressLocationContainerPropertyMutationResultFields on PropertyMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  property {
+    ...AddressLocationContainerPropertyFields
+  }
+}
+
+fragment AddressLocationContainerPropertyFields on Property {
+  id
+  location {
+    id
+    address {
+      country
+      streetNumber
+      streetName
+      postalCode
+      countrySubdivision
+      countrySecondarySubdivision
+      freeformAddress
+    }
   }
 }

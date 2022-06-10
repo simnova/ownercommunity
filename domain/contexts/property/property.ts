@@ -60,7 +60,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   }
 
   get community():CommunityEntityReference { return new Community(this.props.community, this.context); }
-  get location():LocationEntityReference|undefined { return this.props.location? new Location(this.props.location, this.context, this.visa):undefined; }
+  get location():LocationEntityReference|undefined { return this.props.location? new Location(this.props.location, this.context):undefined; }
   get owner():MemberEntityReference|undefined { return this.props.owner?new Member(this.props.owner, this.context): undefined; }
   get propertyName() { return this.props.propertyName; }
   get propertyType() { return this.props.propertyType; }

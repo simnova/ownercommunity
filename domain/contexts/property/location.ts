@@ -9,6 +9,7 @@ export interface LocationProps extends EntityProps {
     type: string;
     coordinates: number[];
   } 
+ //readonly address: AddressProps;
   address: {
     streetNumber: string;
     streetName: string;
@@ -31,7 +32,7 @@ export interface LocationProps extends EntityProps {
 }
 
 export interface LocationEntityReference {
-  readonly id: string;
+  readonly id?: string;
   readonly position?:  {
     readonly type: string;
     readonly coordinates: number[];
@@ -56,7 +57,8 @@ export interface LocationEntityReference {
 
 
 export class Location<props extends LocationProps> extends AggregateRoot<props> implements LocationEntityReference {
-  constructor(props: props, context:DomainExecutionContext,  private readonly visa: PropertyVisa) { super(props); }
+  private readonly visa: PropertyVisa;
+  constructor(props: props, context:DomainExecutionContext) { super(props); }
   get id(): string {return this.props.id;}
   get position() { 
     if(! this.props.position) {

@@ -39,7 +39,7 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
     if(!this.props.location){this.props.set('location',{});  }
     return new LocationDomainAdapter(this.props.location); 
   }
-  
+
   get owner() {
     if(this.props.owner) {return new MemberDomainAdapter(this.props.owner);}
   }
@@ -190,8 +190,16 @@ export class LocationDomainAdapter implements LocationProps {
       set coordinates(value){this.props.position.coordinates = value}
     }
   }
+
+  // get location(){
+  //   if(!this.props.location){this.props.set('location',{});  }
+  //   return new LocationDomainAdapter(this.props.location); 
+  // }
+
   get address() {
-    if(!this.props || !this.props.address) return null;
+    if(!this.props || !this.props.address) {
+      this.props.set('address',{})
+    }
     return {
       get streetNumber(): string { return this.props.address.streetNumber; },
       set streetNumber(value: string) { this.props.address.streetNumber = value; },

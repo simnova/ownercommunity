@@ -122,6 +122,7 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
     this.props.address.extendedPostalCode = address.extendedPostalCode;
     this.props.address.streetName = address.streetName;
     this.props.address.streetNumber = address.streetNumber;
+    console.log("post", this.props)
   }
   // requestSetStreetName(streetName: string) {
   //   this.validateVisa();

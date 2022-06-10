@@ -100,30 +100,38 @@ export type Address = {
   countrySubdivision?: Maybe<Scalars['String']>;
   countrySubdivisionName?: Maybe<Scalars['String']>;
   countryTertiarySubdivision?: Maybe<Scalars['String']>;
+  crossStreet?: Maybe<Scalars['String']>;
   extendedPostalCode?: Maybe<Scalars['String']>;
   freeformAddress?: Maybe<Scalars['String']>;
+  localName?: Maybe<Scalars['String']>;
   municipality?: Maybe<Scalars['String']>;
   municipalitySubdivision?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
+  routeNumbers?: Maybe<Scalars['String']>;
   streetName?: Maybe<Scalars['String']>;
+  streetNameAndNumber?: Maybe<Scalars['String']>;
   streetNumber?: Maybe<Scalars['String']>;
 };
 
 export type AddressInput = {
-  country?: InputMaybe<Scalars['String']>;
-  countryCode?: InputMaybe<Scalars['String']>;
-  countryCodeISO3?: InputMaybe<Scalars['String']>;
-  countrySecondarySubdivision?: InputMaybe<Scalars['String']>;
-  countrySubdivision?: InputMaybe<Scalars['String']>;
-  countrySubdivisionName?: InputMaybe<Scalars['String']>;
-  countryTertiarySubdivision?: InputMaybe<Scalars['String']>;
-  extendedPostalCode?: InputMaybe<Scalars['String']>;
-  freeformAddress?: InputMaybe<Scalars['String']>;
-  municipality?: InputMaybe<Scalars['String']>;
-  municipalitySubdivision?: InputMaybe<Scalars['String']>;
-  postalCode?: InputMaybe<Scalars['String']>;
-  streetName?: InputMaybe<Scalars['String']>;
-  streetNumber?: InputMaybe<Scalars['String']>;
+  country: Scalars['String'];
+  countryCode: Scalars['String'];
+  countryCodeISO3: Scalars['String'];
+  countrySecondarySubdivision: Scalars['String'];
+  countrySubdivision: Scalars['String'];
+  countrySubdivisionName: Scalars['String'];
+  countryTertiarySubdivision: Scalars['String'];
+  crossStreet: Scalars['String'];
+  extendedPostalCode: Scalars['String'];
+  freeformAddress: Scalars['String'];
+  localName: Scalars['String'];
+  municipality: Scalars['String'];
+  municipalitySubdivision: Scalars['String'];
+  postalCode: Scalars['String'];
+  routeNumbers: Scalars['String'];
+  streetName: Scalars['String'];
+  streetNameAndNumber: Scalars['String'];
+  streetNumber: Scalars['String'];
 };
 
 export type BedroomDetails = {
@@ -3530,6 +3538,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         streetName?: string | null;
         municipality?: string | null;
         municipalitySubdivision?: string | null;
+        localName?: string | null;
         countrySecondarySubdivision?: string | null;
         countryTertiarySubdivision?: string | null;
         countrySubdivision?: string | null;
@@ -3540,6 +3549,9 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         country?: string | null;
         countryCodeISO3?: string | null;
         freeformAddress?: string | null;
+        streetNameAndNumber?: string | null;
+        routeNumbers?: string | null;
+        crossStreet?: string | null;
       } | null;
     } | null> | null;
     facets?: {
@@ -3595,6 +3607,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       streetName?: string | null;
       municipality?: string | null;
       municipalitySubdivision?: string | null;
+      localName?: string | null;
       countrySecondarySubdivision?: string | null;
       countryTertiarySubdivision?: string | null;
       countrySubdivision?: string | null;
@@ -3605,6 +3618,9 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       country?: string | null;
       countryCodeISO3?: string | null;
       freeformAddress?: string | null;
+      streetNameAndNumber?: string | null;
+      routeNumbers?: string | null;
+      crossStreet?: string | null;
     } | null;
   } | null> | null;
   facets?: {
@@ -3656,6 +3672,7 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
     streetName?: string | null;
     municipality?: string | null;
     municipalitySubdivision?: string | null;
+    localName?: string | null;
     countrySecondarySubdivision?: string | null;
     countryTertiarySubdivision?: string | null;
     countrySubdivision?: string | null;
@@ -3666,6 +3683,9 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
     country?: string | null;
     countryCodeISO3?: string | null;
     freeformAddress?: string | null;
+    streetNameAndNumber?: string | null;
+    routeNumbers?: string | null;
+    crossStreet?: string | null;
   } | null;
 };
 
@@ -3942,12 +3962,23 @@ export type PropertiesLocationContainerPropertyQuery = {
       address?: {
         __typename?: 'Address';
         country?: string | null;
-        streetNumber?: string | null;
-        streetName?: string | null;
-        postalCode?: string | null;
-        countrySubdivision?: string | null;
+        countryCode?: string | null;
+        countryCodeISO3?: string | null;
         countrySecondarySubdivision?: string | null;
+        countrySubdivision?: string | null;
+        countrySubdivisionName?: string | null;
+        countryTertiarySubdivision?: string | null;
+        extendedPostalCode?: string | null;
         freeformAddress?: string | null;
+        municipality?: string | null;
+        municipalitySubdivision?: string | null;
+        crossStreet?: string | null;
+        localName?: string | null;
+        postalCode?: string | null;
+        streetName?: string | null;
+        streetNumber?: string | null;
+        routeNumbers?: string | null;
+        streetNameAndNumber?: string | null;
       } | null;
     } | null;
   } | null;
@@ -3971,12 +4002,23 @@ export type AddressLocationUpdateContainerMutation = {
         address?: {
           __typename?: 'Address';
           country?: string | null;
-          streetNumber?: string | null;
-          streetName?: string | null;
-          postalCode?: string | null;
-          countrySubdivision?: string | null;
+          countryCode?: string | null;
+          countryCodeISO3?: string | null;
           countrySecondarySubdivision?: string | null;
+          countrySubdivision?: string | null;
+          countrySubdivisionName?: string | null;
+          countryTertiarySubdivision?: string | null;
+          extendedPostalCode?: string | null;
           freeformAddress?: string | null;
+          municipality?: string | null;
+          municipalitySubdivision?: string | null;
+          crossStreet?: string | null;
+          localName?: string | null;
+          postalCode?: string | null;
+          streetName?: string | null;
+          streetNumber?: string | null;
+          routeNumbers?: string | null;
+          streetNameAndNumber?: string | null;
         } | null;
       } | null;
     } | null;
@@ -3995,12 +4037,23 @@ export type AddressLocationContainerPropertyMutationResultFieldsFragment = {
       address?: {
         __typename?: 'Address';
         country?: string | null;
-        streetNumber?: string | null;
-        streetName?: string | null;
-        postalCode?: string | null;
-        countrySubdivision?: string | null;
+        countryCode?: string | null;
+        countryCodeISO3?: string | null;
         countrySecondarySubdivision?: string | null;
+        countrySubdivision?: string | null;
+        countrySubdivisionName?: string | null;
+        countryTertiarySubdivision?: string | null;
+        extendedPostalCode?: string | null;
         freeformAddress?: string | null;
+        municipality?: string | null;
+        municipalitySubdivision?: string | null;
+        crossStreet?: string | null;
+        localName?: string | null;
+        postalCode?: string | null;
+        streetName?: string | null;
+        streetNumber?: string | null;
+        routeNumbers?: string | null;
+        streetNameAndNumber?: string | null;
       } | null;
     } | null;
   } | null;
@@ -4015,12 +4068,23 @@ export type AddressLocationContainerPropertyFieldsFragment = {
     address?: {
       __typename?: 'Address';
       country?: string | null;
-      streetNumber?: string | null;
-      streetName?: string | null;
-      postalCode?: string | null;
-      countrySubdivision?: string | null;
+      countryCode?: string | null;
+      countryCodeISO3?: string | null;
       countrySecondarySubdivision?: string | null;
+      countrySubdivision?: string | null;
+      countrySubdivisionName?: string | null;
+      countryTertiarySubdivision?: string | null;
+      extendedPostalCode?: string | null;
       freeformAddress?: string | null;
+      municipality?: string | null;
+      municipalitySubdivision?: string | null;
+      crossStreet?: string | null;
+      localName?: string | null;
+      postalCode?: string | null;
+      streetName?: string | null;
+      streetNumber?: string | null;
+      routeNumbers?: string | null;
+      streetNameAndNumber?: string | null;
     } | null;
   } | null;
 };
@@ -6545,6 +6609,7 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
                 { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
@@ -6554,7 +6619,10 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
                 { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'country' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } }
               ]
             }
           }
@@ -6847,15 +6915,29 @@ export const AddressLocationContainerPropertyFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'countrySecondarySubdivision' }
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'countryTertiarySubdivision' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
                     ]
                   }
                 }

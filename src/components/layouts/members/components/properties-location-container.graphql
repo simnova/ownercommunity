@@ -27,12 +27,23 @@ fragment AddressLocationContainerPropertyFields on Property {
     id
     address {
       country
-      streetNumber
-      streetName
-      postalCode
-      countrySubdivision
+      countryCode
+      countryCodeISO3
       countrySecondarySubdivision
+      countrySubdivision
+      countrySubdivisionName
+      countryTertiarySubdivision
+      extendedPostalCode
       freeformAddress
+      municipality
+      municipalitySubdivision
+      crossStreet
+      localName
+      postalCode
+      streetName
+      streetNumber
+      routeNumbers
+      streetNameAndNumber
     }
   }
 }

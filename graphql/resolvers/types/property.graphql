@@ -138,6 +138,7 @@ type Address {
   streetName: String
   municipality: String
   municipalitySubdivision: String
+  localName: String
   countrySecondarySubdivision: String
   countryTertiarySubdivision: String
   countrySubdivision: String
@@ -148,22 +149,29 @@ type Address {
   country: String
   countryCodeISO3: String
   freeformAddress: String
+  streetNameAndNumber: String
+  routeNumbers: String
+  crossStreet: String
 }
 input AddressInput {
-  streetNumber: String
-  streetName: String
-  municipality: String
-  municipalitySubdivision: String
-  countrySecondarySubdivision: String
-  countryTertiarySubdivision: String
-  countrySubdivision: String
-  countrySubdivisionName: String
-  postalCode: String
-  extendedPostalCode: String
-  countryCode: String
-  country: String
-  countryCodeISO3: String
-  freeformAddress: String
+  streetNumber: String!
+  streetName: String!
+  municipality: String!
+  municipalitySubdivision: String!
+  localName: String!
+  countrySecondarySubdivision: String!
+  countryTertiarySubdivision: String!
+  countrySubdivision: String!
+  countrySubdivisionName: String!
+  postalCode: String!
+  extendedPostalCode: String!
+  countryCode: String!
+  country: String!
+  countryCodeISO3: String!
+  freeformAddress: String!
+  streetNameAndNumber: String!
+  routeNumbers: String!
+  crossStreet: String!
 }
 
 extend type Query {

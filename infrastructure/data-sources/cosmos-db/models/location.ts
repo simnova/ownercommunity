@@ -8,7 +8,7 @@ export interface Location extends Base {
     streetNumber: string;
     streetName: string;
     municipality: string;
-    municipalitySubdivision: string;
+    localName: string;
     countrySecondarySubdivision: string;
     countryTertiarySubdivision: string;
     countrySubdivision: string;
@@ -43,6 +43,10 @@ export const LocationModel = model<Location>('Location', new Schema<Location, Mo
         required: true,
       },
       municipalitySubdivision: {
+        type: String,
+        required: true,
+      },
+      localName: {
         type: String,
         required: true,
       },
@@ -83,6 +87,18 @@ export const LocationModel = model<Location>('Location', new Schema<Location, Mo
         required: true,
       },
       freeformAddress: {
+        type: String,
+        required: true,
+      },
+      streetNameAndNumber: {
+        type: String,
+        required: true,
+      },
+      routeNumbers: {
+        type: String,
+        required: true,
+      },
+      crossStreet: {
         type: String,
         required: true,
       },

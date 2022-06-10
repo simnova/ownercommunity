@@ -145,8 +145,18 @@ export const propertyListingIndexSpec = {
           searchable: true,
           sortable: true,
         },
+
         {
           name: 'municipalitySubdivision',
+          type: 'Edm.String',
+          facetable: true,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: true,
+        },
+        {
+          name: 'localName',
           type: 'Edm.String',
           facetable: false,
           filterable: true,
@@ -242,6 +252,33 @@ export const propertyListingIndexSpec = {
           searchable: true,
           sortable: false,
         },
+        {
+          name: 'streetNameAndNumber',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'routeNumbers',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
+        {
+          name: 'crossStreet',
+          type: 'Edm.String',
+          facetable: false,
+          filterable: true,
+          retrievable: true,
+          searchable: true,
+          sortable: false,
+        },
       ],
     },
   ],
@@ -269,6 +306,7 @@ export interface PropertyListingIndexDocument {
     streetName: string;
     municipality: string;
     municipalitySubdivision: string;
+    localName: string;
     countrySecondarySubdivision: string;
     countryTertiarySubdivision: string;
     countrySubdivision: string;
@@ -279,5 +317,8 @@ export interface PropertyListingIndexDocument {
     country: string;
     countryCodeISO3: string;
     freeformAddress: string;
+    streetNameAndNumber: string;
+    routeNumbers: string;
+    crossStreet: string;
   };
 }

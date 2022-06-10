@@ -32,6 +32,8 @@ export class LocationDomainAdapter extends MongooseDomainAdapter<Location> imple
       set municipality(value: string) { this.props.address.municipality = value; },
       get municipalitySubdivision(): string { return this.props.address.municipalitySubdivision; },
       set municipalitySubdivision(value: string) { this.props.address.municipalitySubdivision = value; },
+      get localName(): string { return this.props.address.localName; },
+      set localName(value: string) { this.props.address.localName = value; },
       get countrySecondarySubdivision(): string { return this.props.address.countrySecondarySubdivision; },
       set countrySecondarySubdivision(value: string) { this.props.address.countrySecondarySubdivision = value; },
       get countryTertiarySubdivision(): string { return this.props.address.countryTertiarySubdivision; },
@@ -51,7 +53,14 @@ export class LocationDomainAdapter extends MongooseDomainAdapter<Location> imple
       get countryCodeISO3(): string { return this.props.address.countryCodeISO3; },
       set countryCodeISO3(value: string) { this.props.address.countryCodeISO3 = value; },
       get freeformAddress(): string { return this.props.address.freeformAddress; },
-      set freeformAddress(value: string) { this.props.address.freeformAddress = value; }
+      set freeformAddress(value: string) { this.props.address.freeformAddress = value; },
+
+      get streetNameAndNumber(): string { return this.props.address.streetNameAndNumber; },
+      set streetNameAndNumber(value: string) { this.props.address.streetNameAndNumber = value; },
+      get routeNumbers(): string { return this.props.address.routeNumbers; },
+      set routeNumbers(value: string) { this.props.address.routeNumbers = value; },
+      get crossStreet(): string { return this.props.address.crossStreet; },
+      set crossStreet(value: string) { this.props.address.crossStreet = value; }
     }
   }
 }

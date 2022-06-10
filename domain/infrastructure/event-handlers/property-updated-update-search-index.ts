@@ -43,6 +43,7 @@ export default () => {
           streetName: property.location?.address?.streetName,
           municipality: property.location?.address?.municipality,
           municipalitySubdivision: property.location?.address?.municipalitySubdivision,
+          localName: property.location?.address?.localName,
           countrySecondarySubdivision: property.location?.address?.countrySecondarySubdivision,
           countryTertiarySubdivision: property.location?.address?.countryTertiarySubdivision,
           countrySubdivision: property.location?.address?.countrySubdivision,
@@ -53,6 +54,9 @@ export default () => {
           country: property.location?.address?.country,
           countryCodeISO3: property.location?.address?.countryCodeISO3,
           freeformAddress: property.location?.address?.freeformAddress,
+          streetNameAndNumber: property.location?.address?.streetNameAndNumber,
+          crossStreet: property.location?.address?.crossStreet,
+          routeNumbers: property.location?.address?.routeNumbers,
         },
       };
       let cognitiveSearch = new CognitiveSearch();

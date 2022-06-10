@@ -2,6 +2,7 @@ import { AggregateRoot } from '../../shared/aggregate-root';
 import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
 import { PropertyVisa } from '../iam/property-visa';
+import { AddressEntityReference } from './address';
 
 export interface LocationProps extends EntityProps {
   id: string;
@@ -14,7 +15,7 @@ export interface LocationProps extends EntityProps {
     streetNumber: string;
     streetName: string;
     municipality: string;
-    municipalitySubdivision: string;
+    localName: string;
     countrySecondarySubdivision: string;
     countryTertiarySubdivision: string;
     countrySubdivision: string;
@@ -41,7 +42,7 @@ export interface LocationEntityReference {
     readonly streetNumber: string;
     readonly streetName: string;
     readonly municipality: string;
-    readonly municipalitySubdivision: string;
+    readonly localName: string;
     readonly countrySecondarySubdivision: string;
     readonly countryTertiarySubdivision: string;
     readonly countrySubdivision: string;
@@ -79,6 +80,7 @@ export class Location<props extends LocationProps> extends AggregateRoot<props> 
       get streetName(): string { return this.props.address.streetName; },
       get municipality(): string { return this.props.address.municipality; },
       get municipalitySubdivision(): string { return this.props.address.municipalitySubdivision; },
+      get localName(): string { return this.props.address.localName; },
       get countrySecondarySubdivision(): string { return this.props.address.countrySecondarySubdivision; },
       get countryTertiarySubdivision(): string { return this.props.address.countryTertiarySubdivision; },
       get countrySubdivision(): string { return this.props.address.countrySubdivision; },
@@ -88,7 +90,10 @@ export class Location<props extends LocationProps> extends AggregateRoot<props> 
       get countryCode(): string { return this.props.address.countryCode; },
       get country(): string { return this.props.address.countr; },
       get countryCodeISO3(): string { return this.props.address.countryCodeISO3; },
-      get freeformAddress(): string { return this.props.address.freeformAddress; }
+      get freeformAddress(): string { return this.props.address.freeformAddress; },
+      get streetNameAndNumber(): string { return this.props.address.streetNameAndNumber; },
+      get routeNumbers(): string { return this.props.address.routeNumbers; },
+      get crossStreet(): string { return this.props.address.crossStreet; },
     }
   }
 
@@ -98,10 +103,14 @@ export class Location<props extends LocationProps> extends AggregateRoot<props> 
     }
   }
 
-  requestSetStreetName(streetName: string) {
+  public requestSetAddress(address: LocationEntityReference["address"]) {
     this.validateVisa();
-    this.props.address.streetName = streetName;
+    this.props.address = address;
   }
+  // requestSetStreetName(streetName: string) {
+  //   this.validateVisa();
+  //   this.props.address.streetName = streetName;
+  // }
 }
 
 

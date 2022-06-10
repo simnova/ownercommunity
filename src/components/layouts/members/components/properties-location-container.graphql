@@ -24,7 +24,6 @@ fragment AddressLocationContainerPropertyMutationResultFields on PropertyMutatio
 fragment AddressLocationContainerPropertyFields on Property {
   id
   location {
-    id
     address {
       country
       countryCode

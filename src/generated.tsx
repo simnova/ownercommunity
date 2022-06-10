@@ -3958,7 +3958,6 @@ export type PropertiesLocationContainerPropertyQuery = {
     id: any;
     location?: {
       __typename?: 'Location';
-      id: any;
       address?: {
         __typename?: 'Address';
         country?: string | null;
@@ -3998,7 +3997,6 @@ export type AddressLocationUpdateContainerMutation = {
       id: any;
       location?: {
         __typename?: 'Location';
-        id: any;
         address?: {
           __typename?: 'Address';
           country?: string | null;
@@ -4033,7 +4031,6 @@ export type AddressLocationContainerPropertyMutationResultFieldsFragment = {
     id: any;
     location?: {
       __typename?: 'Location';
-      id: any;
       address?: {
         __typename?: 'Address';
         country?: string | null;
@@ -4064,7 +4061,6 @@ export type AddressLocationContainerPropertyFieldsFragment = {
   id: any;
   location?: {
     __typename?: 'Location';
-    id: any;
     address?: {
       __typename?: 'Address';
       country?: string | null;
@@ -6907,7 +6903,6 @@ export const AddressLocationContainerPropertyFieldsFragmentDoc = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'address' },

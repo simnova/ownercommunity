@@ -8,6 +8,7 @@ export interface Location extends Base {
     streetNumber: string;
     streetName: string;
     municipality: string;
+    municipalitySubdivision: string;
     localName: string;
     countrySecondarySubdivision: string;
     countryTertiarySubdivision: string;

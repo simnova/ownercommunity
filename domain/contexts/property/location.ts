@@ -5,7 +5,6 @@ import { PropertyVisa } from '../iam/property-visa';
 import { AddressEntityReference } from './address';
 
 export interface LocationProps extends EntityProps {
-  id: string;
   position:  {
     type: string;
     coordinates: number[];
@@ -15,6 +14,7 @@ export interface LocationProps extends EntityProps {
     streetNumber: string;
     streetName: string;
     municipality: string;
+    municipalitySubdivision: string;
     localName: string;
     countrySecondarySubdivision: string;
     countryTertiarySubdivision: string;
@@ -27,13 +27,9 @@ export interface LocationProps extends EntityProps {
     countryCodeISO3: string;
     freeformAddress: string;
   }
-  createdAt: Date;
-  updatedAt: Date;
-  schemaVersion: string;
 }
 
 export interface LocationEntityReference {
-  readonly id?: string;
   readonly position?:  {
     readonly type: string;
     readonly coordinates: number[];
@@ -42,6 +38,7 @@ export interface LocationEntityReference {
     readonly streetNumber: string;
     readonly streetName: string;
     readonly municipality: string;
+    readonly municipalitySubdivision: string;
     readonly localName: string;
     readonly countrySecondarySubdivision: string;
     readonly countryTertiarySubdivision: string;
@@ -53,14 +50,16 @@ export interface LocationEntityReference {
     readonly country: string;
     readonly countryCodeISO3: string;
     readonly freeformAddress: string;
+    readonly streetNameAndNumber: string;
+    readonly routeNumbers: string;
+    readonly crossStreet: string;
   };
 }
 
 
-export class Location<props extends LocationProps> extends AggregateRoot<props> implements LocationEntityReference {
-  private readonly visa: PropertyVisa;
-  constructor(props: props, context:DomainExecutionContext) { super(props); }
-  get id(): string {return this.props.id;}
+export class Location extends Entity<LocationProps> implements LocationEntityReference {
+  
+  constructor(props: LocationProps, private readonly visa: PropertyVisa) { super(props); }
   get position() { 
     if(! this.props.position) {
       return undefined;
@@ -103,9 +102,26 @@ export class Location<props extends LocationProps> extends AggregateRoot<props> 
     }
   }
 
-  public requestSetAddress(address: LocationEntityReference["address"]) {
+  public requestSetAddress(address: LocationProps["address"]) {
     this.validateVisa();
-    this.props.address = address;
+    console.log("props ", this.props);
+    console.log("address ", address)
+    //this.props.address = address;
+    // this.props.address = {...address};
+    this.props.address.country = address.country;
+    this.props.address.countryCode = address.countryCode;
+    this.props.address.countryCodeISO3 = address.countryCodeISO3;
+    this.props.address.countrySubdivision = address.countrySubdivision;
+    this.props.address.countrySubdivisionName = address.countrySubdivisionName;
+    this.props.address.countryTertiarySubdivision = address.countryTertiarySubdivision;
+    this.props.address.countrySecondarySubdivision = address.countrySecondarySubdivision;
+    this.props.address.municipality = address.municipality;
+    this.props.address.municipalitySubdivision = address.municipalitySubdivision;
+    this.props.address.localName = address.localName;
+    this.props.address.postalCode = address.postalCode;
+    this.props.address.extendedPostalCode = address.extendedPostalCode;
+    this.props.address.streetName = address.streetName;
+    this.props.address.streetNumber = address.streetNumber;
   }
   // requestSetStreetName(streetName: string) {
   //   this.validateVisa();

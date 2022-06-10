@@ -5,6 +5,7 @@ export interface AddressProps extends EntityProps {
     streetNumber: string;
     streetName: string;
     municipality: string;
+    municipalitySubdivision: string;
     localName: string;
     countrySecondarySubdivision: string;
     countryTertiarySubdivision: string;
@@ -16,6 +17,9 @@ export interface AddressProps extends EntityProps {
     country: string;
     countryCodeISO3: string;
     freeformAddress: string;
+    streetNameAndNumber: string;
+    routeNumbers: string;
+    crossStreet: string;
 }
 
 export interface AddressEntityReference extends Readonly<AddressProps> {}
@@ -35,6 +39,10 @@ export class Address extends Entity<AddressProps> implements AddressEntityRefere
 
     get municipality() {
         return this.props.municipality;
+    }
+
+    get municipalitySubdivision() {
+        return this.props.municipalitySubdivision;
     }
 
     get localName() {
@@ -79,6 +87,18 @@ export class Address extends Entity<AddressProps> implements AddressEntityRefere
 
     get freeformAddress() {
         return this.props.freeformAddress;
+    }
+
+    get streetNameAndNumber() {
+        return this.props.streetNameAndNumber;
+    }
+
+    get routeNumbers() {
+        return this.props.routeNumbers;
+    }
+
+    get crossStreet() {
+        return this.props.crossStreet;
     }
 
     get id() {

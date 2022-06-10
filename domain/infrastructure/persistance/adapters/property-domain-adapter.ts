@@ -1,13 +1,12 @@
-import { Property, ListingDetail, BedroomDetail, AdditionalAmenity } from '../../../../infrastructure/data-sources/cosmos-db/models/property';
+import { Property, ListingDetail, BedroomDetail, AdditionalAmenity, Location } from '../../../../infrastructure/data-sources/cosmos-db/models/property';
 import { CommunityEntityReference } from '../../../contexts/community/community';
 import { MemberEntityReference } from '../../../contexts/community/member';
 import { DomainExecutionContext } from '../../../contexts/context';
-import { LocationEntityReference } from '../../../contexts/property/location';
+import { LocationEntityReference, LocationProps } from '../../../contexts/property/location';
 import { Property as PropertyDO, PropertyProps } from '../../../contexts/property/property';
 import { MongooseDomainAdapter, MongoosePropArray } from '../mongo-domain-adapter';
 import { MongoTypeConverter } from '../mongo-type-converter';
 import { CommunityDomainAdapter } from './community-domain-adapter';
-import { LocationDomainAdapter } from './location-domain-adapter';
 import { MemberDomainAdapter } from './member-domain-adapter';
 import { ListingDetailProps } from '../../../contexts/property/listing-detail';
 import { BedroomDetailProps } from '../../../contexts/property/bedroom-detail';
@@ -29,11 +28,16 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
     this.props.set('community',community['props']['props']);
   }
 
-  get location() {
-    if(this.props.location) {return new LocationDomainAdapter(this.props.location);}
-  }
-  public setLocationRef(owner:LocationEntityReference) {
-    this.props.set('location',owner.id);
+  // get location() {
+  //   if(this.props.location) {return new LocationDomainAdapter(this.props.location);}
+  // }
+
+  // public setLocationRef(owner:LocationEntityReference) {
+  //   this.props.set('location',owner.id);
+  // }
+  get location(){
+    if(!this.props.location){this.props.set('location',{});  }
+    return new LocationDomainAdapter(this.props.location); 
   }
   
   get owner() {
@@ -172,4 +176,60 @@ export class AdditionalAmenityDomainAdapter implements AdditionalAmenityProps {
 
   get amenities() {return this.props.amenities;}
   set amenities(amenities) {this.props.amenities = amenities;}
+}
+
+export class LocationDomainAdapter implements LocationProps {
+  constructor(public readonly props: Location) {}
+  public get id(): string { return this.props.id.valueOf() as string; }
+  get position(){
+    if(!this.props || !this.props.position) return null;
+    return{
+      get type(){return this.props.position.type},
+      set type(value){this.props.position.type = value},
+      get coordinates(){return this.props.position.coordinates},
+      set coordinates(value){this.props.position.coordinates = value}
+    }
+  }
+  get address() {
+    if(!this.props || !this.props.address) return null;
+    return {
+      get streetNumber(): string { return this.props.address.streetNumber; },
+      set streetNumber(value: string) { this.props.address.streetNumber = value; },
+      get streetName(): string { return this.props.address.streetName; },
+      set streetName(value: string) { this.props.address.streetName = value; },
+      get municipality(): string { return this.props.address.municipality; },
+      set municipality(value: string) { this.props.address.municipality = value; },
+      get municipalitySubdivision(): string { return this.props.address.municipalitySubdivision; },
+      set municipalitySubdivision(value: string) { this.props.address.municipalitySubdivision = value; },
+      get localName(): string { return this.props.address.localName; },
+      set localName(value: string) { this.props.address.localName = value; },
+      get countrySecondarySubdivision(): string { return this.props.address.countrySecondarySubdivision; },
+      set countrySecondarySubdivision(value: string) { this.props.address.countrySecondarySubdivision = value; },
+      get countryTertiarySubdivision(): string { return this.props.address.countryTertiarySubdivision; },
+      set countryTertiarySubdivision(value: string) { this.props.address.countryTertiarySubdivision = value; },
+      get countrySubdivision(): string { return this.props.address.countrySubdivision; },
+      set countrySubdivision(value: string) { this.props.address.countrySubdivision = value; },
+      get countrySubdivisionName(): string { return this.props.address.countrySubdivisionName; },
+      set countrySubdivisionName(value: string) { this.props.address.countrySubdivisionName = value; },
+      get postalCode(): string { return this.props.address.postalCode; },
+      set postalCode(value: string) { this.props.address.postalCode = value; },
+      get extendedPostalCode(): string { return this.props.address.extendedPostalCode; },
+      set extendedPostalCode(value: string) { this.props.address.extendedPostalCode = value; },
+      get countryCode(): string { return this.props.address.countryCode; },
+      set countryCode(value: string) { this.props.address.countryCode = value; },
+      get country(): string { return this.props.address.country; },
+      set country(value: string) { this.props.address.country = value; },
+      get countryCodeISO3(): string { return this.props.address.countryCodeISO3; },
+      set countryCodeISO3(value: string) { this.props.address.countryCodeISO3 = value; },
+      get freeformAddress(): string { return this.props.address.freeformAddress; },
+      set freeformAddress(value: string) { this.props.address.freeformAddress = value; },
+
+      get streetNameAndNumber(): string { return this.props.address.streetNameAndNumber; },
+      set streetNameAndNumber(value: string) { this.props.address.streetNameAndNumber = value; },
+      get routeNumbers(): string { return this.props.address.routeNumbers; },
+      set routeNumbers(value: string) { this.props.address.routeNumbers = value; },
+      get crossStreet(): string { return this.props.address.crossStreet; },
+      set crossStreet(value: string) { this.props.address.crossStreet = value; }
+    }
+  }
 }

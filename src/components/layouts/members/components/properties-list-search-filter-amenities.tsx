@@ -1,8 +1,10 @@
-import { Checkbox } from 'antd';
+import { Checkbox, Collapse } from 'antd';
 import { useEffect, useState, FC } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Amenities, FilterNames } from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
+
+const { Panel } = Collapse;
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -44,26 +46,27 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
   }, [location]);
 
   return (
-    <>
-      <h2 className="font-bold">Amenities</h2>
-      <CheckboxGroup
-        key={FilterNames.Amenities}
-        options={Amenities.map((value: string) => {
-          const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
-          return {
-            label: `${value} ${
-              count !== undefined && count !== null && count > 0
-                ? `(${count})`
-                : count === 0
-                ? '(0)'
-                : ''
-            }`,
-            value: value
-          };
-        })}
-        value={selectedAmenities}
-        onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
-      />
-    </>
+    <Collapse className='search-filter-collapse'>
+      <Panel header={<h2 className="font-bold">Amenities</h2>} key="4">
+        <CheckboxGroup
+          key={FilterNames.Amenities}
+          options={Amenities.map((value: string) => {
+            const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
+            return {
+              label: `${value} ${
+                count !== undefined && count !== null && count > 0
+                  ? `(${count})`
+                  : count === 0
+                  ? '(0)'
+                  : ''
+              }`,
+              value: value
+            };
+          })}
+          value={selectedAmenities}
+          onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
+        />
+      </Panel>
+    </Collapse>
   );
 };

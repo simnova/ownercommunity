@@ -1,9 +1,10 @@
-import { Radio } from 'antd';
+import { Radio, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { BathroomsFilterOptions } from '../../../../constants';
 import { FilterDetail } from '../../../../generated';
 
+const { Panel } = Collapse;
 interface PropertiesListSearchFilterBathroomsProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   selectedFilter?: FilterDetail;
@@ -46,16 +47,17 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
     }
   }, [location]);
   return (
-    <>
-      <h2 className="font-bold">Bathrooms</h2>
-      <Radio.Group
-        value={bathrooms?.toString()}
-        defaultValue={bathrooms?.toString()}
-        onChange={onBathroomsClicked}
-        buttonStyle="solid"
-        optionType="button"
-        options={BathroomsFilterOptions}
-      />
-    </>
+    <Collapse className='search-filter-collapse'>
+      <Panel header={<h2 className="font-bold">Bathrooms</h2>} key="3">
+        <Radio.Group
+          value={bathrooms?.toString()}
+          defaultValue={bathrooms?.toString()}
+          onChange={onBathroomsClicked}
+          buttonStyle="solid"
+          optionType="button"
+          options={BathroomsFilterOptions}
+        />
+      </Panel>
+    </Collapse>
   );
 };

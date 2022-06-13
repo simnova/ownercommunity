@@ -26,6 +26,9 @@ export interface LocationProps extends EntityProps {
     country: string;
     countryCodeISO3: string;
     freeformAddress: string;
+    streetNameAndNumber: string;
+    routeNumbers: string;
+    crossStreet: string;
   }
 }
 
@@ -123,6 +126,10 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
     this.props.address.extendedPostalCode = address.extendedPostalCode;
     this.props.address.streetName = address.streetName;
     this.props.address.streetNumber = address.streetNumber;
+    this.props.address.freeformAddress = address.freeformAddress;
+    this.props.address.streetNameAndNumber = address.streetNameAndNumber;
+    this.props.address.routeNumbers = address.routeNumbers;
+    this.props.address.crossStreet = address.crossStreet;
     console.log("post", this.props)
   }
   // requestSetStreetName(streetName: string) {

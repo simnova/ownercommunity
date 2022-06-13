@@ -2,7 +2,8 @@ import { Schema, model, Model,ObjectId, PopulatedDoc, Types } from 'mongoose';
 import { Base, BaseOptions, EmbeddedBase, Patterns } from './interfaces/base';
 import * as Community from './community';
 import * as Member from './member';
-import * as Location from './location';
+// import * as Location from './location';
+import * as Point from './point';
 
 export interface ListingDetail extends EmbeddedBase {
   id: ObjectId;
@@ -46,10 +47,34 @@ export interface AdditionalAmenity extends EmbeddedBase {
   amenities: string[];
 }
 
+export interface Location extends EmbeddedBase {
+  position: Point.Point;
+  address: {
+    streetNumber: string;
+    streetName: string;
+    municipality: string;
+    municipalitySubdivision: string;
+    localName: string;
+    countrySecondarySubdivision: string;
+    countryTertiarySubdivision: string;
+    countrySubdivision: string;
+    countrySubdivisionName: string;
+    postalCode: string;
+    extendedPostalCode: string;
+    countryCode: string;
+    country: string;
+    countryCodeISO3: string;
+    freeformAddress: string;
 
+    streetNameAndNumber: string;
+    routeNumbers: string;
+    crossStreet: string;
+  }
+}
 export interface Property extends Base {
   community: PopulatedDoc<Community.Community>;
-  location?: PopulatedDoc<Location.Location>;
+  // location?: PopulatedDoc<Location.Location>;
+  location: Location;
   owner?: PopulatedDoc<Member.Member>;
   propertyName: string;
   propertyType: string;
@@ -69,7 +94,30 @@ const schema = new Schema<Property, Model<Property>, Property>(
       required: false,
     },
     community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true, unique: false },    
-    location: Location.LocationModel.schema,
+    // location: Location.LocationModel.schema,
+    location: {
+      position: Point.PointModel.schema,
+      address: {
+        streetNumber: { type: String, required: false,},
+        streetName: { type: String, required: false,},
+        municipality: { type: String, required: false,},
+        municipalitySubdivision: { type: String, required: false, },
+        localName: { type: String, required: false,},
+        countrySecondarySubdivision: { type: String, required: false,},
+        countryTertiarySubdivision: { type: String, required: false,},
+        countrySubdivision: { type: String, required: false,},
+        countrySubdivisionName: { type: String, required: false,},
+        postalCode: { type: String, required: false, },
+        extendedPostalCode: { type: String, required: false,},
+        countryCode: {type: String, required: false,},
+        country: { type: String, required: false,},
+        countryCodeISO3: { type: String, required: false,},
+        freeformAddress: {type: String, required: false,},
+        streetNameAndNumber: { type: String, required: false,},
+        routeNumbers: { type: String, required: false,},
+        crossStreet: { type: String, required: false,}
+      },
+    },
     owner: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true, unique: false },
     propertyName: { type: String, required: true, maxlength: 100, index: true },
     propertyType: { type: String, required: false, maxlength: 100 },
@@ -116,8 +164,6 @@ const schema = new Schema<Property, Model<Property>, Property>(
       listingAgentCompanyWebsite: { type: String, required: false, maxlength: 1000 },
       listingAgentCompanyAddress: { type: String, required: false, maxlength: 1000 },
     }
-
-      
   },
   {
     ...BaseOptions,

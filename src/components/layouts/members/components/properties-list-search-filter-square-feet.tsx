@@ -72,7 +72,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
   }, [location]);
 
   return (
-    <Collapse style={{ width: "25%" }}>
+    <Collapse className='search-filter-collapse'>
       <Panel header={<h2 className="font-bold">Square Feet</h2>} key="6">
         <Space split="-">
           <Select

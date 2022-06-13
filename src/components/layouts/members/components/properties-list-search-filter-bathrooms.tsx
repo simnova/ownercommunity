@@ -47,7 +47,7 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
     }
   }, [location]);
   return (
-    <Collapse style={{ width: "25%" }}>
+    <Collapse className='search-filter-collapse'>
       <Panel header={<h2 className="font-bold">Bathrooms</h2>} key="3">
         <Radio.Group
           value={bathrooms?.toString()}

@@ -54,6 +54,9 @@ export default () => {
           countryCodeISO3: property.location?.address?.countryCodeISO3,
           freeformAddress: property.location?.address?.freeformAddress,
         },
+        listedForSale: property.listedForSale,
+        listedForRent: property.listedForRent,
+        listedForLease: property.listedForLease,
       };
       let cognitiveSearch = new CognitiveSearch();
       await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);

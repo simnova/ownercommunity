@@ -259,6 +259,9 @@ type PropertyResult {
   images: [String]
   listingAgentCompany: String
   address: Address
+  listedForLease: Boolean
+  listedForRent: Boolean
+  listedForSale: Boolean
 }
 
 type AdditionalAmenitiesSearchResult {
@@ -276,6 +279,9 @@ type PropertySearchFacets {
   amenities: [FacetDetail]
   additionalAmenitiesCategory: [FacetDetail]
   additionalAmenitiesAmenities: [FacetDetail]
+  listedForLease: [FacetDetail]
+  listedForRent: [FacetDetail]
+  listedForSale: [FacetDetail]
 }
 
 type FacetDetail {

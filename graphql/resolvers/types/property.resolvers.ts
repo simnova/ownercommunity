@@ -78,6 +78,9 @@ const property: Resolvers = {
           amenities: searchResults.facets?.amenities,
           additionalAmenitiesCategory: searchResults.facets?.['additionalAmenities/category'],
           additionalAmenitiesAmenities: searchResults.facets?.['additionalAmenities/amenities'],
+          listedForSale: searchResults.facets?.listedForSale,
+          listedForRent: searchResults.facets?.listedForRent,
+          listedForLease: searchResults.facets?.listedForLease,
         },
       } as PropertySearchResult;
     },

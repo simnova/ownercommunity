@@ -244,6 +244,30 @@ export const propertyListingIndexSpec = {
         },
       ],
     },
+    {
+      name: 'listedForSale',
+      type: 'Edm.Boolean',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      name: 'listedForRent',
+      type: 'Edm.Boolean',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      name: 'listedForLease',
+      type: 'Edm.Boolean',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
   ],
 } as SearchIndex;
 
@@ -280,4 +304,7 @@ export interface PropertyListingIndexDocument {
     countryCodeISO3: string;
     freeformAddress: string;
   };
+  listedForSale: boolean;
+  listedForRent: boolean;
+  listedForLease: boolean;
 }

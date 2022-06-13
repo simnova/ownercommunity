@@ -149,11 +149,11 @@ export const propertyListingIndexSpec = {
         {
           name: 'municipalitySubdivision',
           type: 'Edm.String',
-          facetable: true,
+          facetable: false,
           filterable: true,
           retrievable: true,
           searchable: true,
-          sortable: true,
+          sortable: false,
         },
         {
           name: 'localName',
@@ -280,6 +280,31 @@ export const propertyListingIndexSpec = {
           sortable: false,
         },
       ],
+    },
+    {
+      name: 'listedForSale',
+      type: 'Edm.Boolean',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+
+    {
+      name: 'listedForRent',
+      type: 'Edm.Boolean',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      name: 'listedForLease',
+      type: 'Edm.Boolean',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
     },
   ],
 } as SearchIndex;

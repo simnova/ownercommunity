@@ -60,8 +60,8 @@ export default () => {
         },
       };
       let cognitiveSearch = new CognitiveSearch();
-      await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
-      // await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
+      // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
+      await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
       await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
       console.log(`Property Updated - Search Completed: ${JSON.stringify(listingDoc)}`);
     });

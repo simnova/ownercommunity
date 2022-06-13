@@ -49,7 +49,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 title: 'Sale',
                 listedFlag: props.data.property.listedForSale,
                 name: 'sale',
-                location: '123 Street St',
+                location: props.data.property.location.address.freeformAddress,
                 price: [props.data.property.listingDetail.price],
                 listingImages: listingImages
             },
@@ -57,7 +57,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 title: 'Rent',
                 listedFlag: props.data.property.listedForRent,
                 name: 'rental',
-                location: '123 Street St',
+                location: props.data.property.location.address.freeformAddress,
                 price: [props.data.property.listingDetail.rentLow, props.data.property.listingDetail.rentHigh],
                 listingImages: listingImages
             },
@@ -65,7 +65,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 title: 'Lease',
                 listedFlag: props.data.property.listedForLease,
                 name: 'lease',
-                location: '123 Street St',
+                location: props.data.property.location.address.freeformAddress,
                 price: [props.data.property.listingDetail.lease],
                 listingImages: listingImages
             }

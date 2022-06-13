@@ -17,6 +17,7 @@ fragment PropertyDetailsByPropertyIdFields on Property{
       address {
         streetName
         streetNumber
+        freeformAddress
       }
     }
     listingDetail {

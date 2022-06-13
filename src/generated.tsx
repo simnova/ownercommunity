@@ -2957,6 +2957,7 @@ export type MemberPropertyByPropertyIdQuery = {
         __typename?: 'Address';
         streetName?: string | null;
         streetNumber?: string | null;
+        freeformAddress?: string | null;
       } | null;
     } | null;
     listingDetail?: {
@@ -3012,6 +3013,7 @@ export type PropertyDetailsByPropertyIdFieldsFragment = {
       __typename?: 'Address';
       streetName?: string | null;
       streetNumber?: string | null;
+      freeformAddress?: string | null;
     } | null;
   } | null;
   listingDetail?: {
@@ -6126,7 +6128,8 @@ export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } }
                     ]
                   }
                 }

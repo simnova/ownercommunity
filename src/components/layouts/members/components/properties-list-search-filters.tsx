@@ -5,11 +5,12 @@ import { PropertiesListSearchFilterBedrooms } from './properties-list-search-fil
 import { PropertiesListSearchFilterPrice } from './properties-list-search-filter-price';
 import { PropertiesListSearchFilterPropertyType } from './properties-list-search-filter-property-type';
 import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
-import { Space, Button } from 'antd';
+import { Space, Button, Collapse } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
 import { FC } from 'react';
 
+const { Panel } = Collapse;
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
@@ -25,58 +26,61 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
   };
 
   return (
-    <>
-      <div>
-        <Space>
-          <h1>Filters</h1>
-          <Button type="link" onClick={() => clearFilter()}>
-            Clear filters
-          </Button>
-        </Space>
-      </div>
-      {/* Type */}
-      <PropertiesListSearchFilterPropertyType
-        propertyTypeFacets={props.facets?.type as FacetDetail[]}
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-      {/* Bedrooms */}
-      <PropertiesListSearchFilterBedrooms
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+    <Collapse >
+      <Panel header={
+        <div>
+          <Space>
+            <h1>Filters</h1>
+            <Button type="link" onClick={() => clearFilter()}>
+              Clear filters
+            </Button>
+          </Space>
+        </div>
+      } key="1">
+        {/* Type */}
+        <PropertiesListSearchFilterPropertyType
+          propertyTypeFacets={props.facets?.type as FacetDetail[]}
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+        />
+        {/* Bedrooms */}
+        <PropertiesListSearchFilterBedrooms
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+        />
 
-      {/* Bathrooms */}
-      <PropertiesListSearchFilterBathrooms
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* Bathrooms */}
+        <PropertiesListSearchFilterBathrooms
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+        />
 
-      {/* Amenities */}
-      <PropertiesListSearchFilterAmenities
-        amenitiesFacets={props.facets?.amenities as FacetDetail[]}
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* Amenities */}
+        <PropertiesListSearchFilterAmenities
+          amenitiesFacets={props.facets?.amenities as FacetDetail[]}
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+        />
 
-      {/* Additional Amenities */}
-      <PropertiesListSearchFilterAdditionalAmenities
-        additionalAmenitieFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* Additional Amenities */}
+        <PropertiesListSearchFilterAdditionalAmenities
+          additionalAmenitieFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+        />
 
-      {/* squareFeet */}
-      <PropertiesListSearchFilterSquareFeet
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* squareFeet */}
+        <PropertiesListSearchFilterSquareFeet
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+        />
 
-      {/* Price */}
-      <PropertiesListSearchFilterPrice
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-    </>
+        {/* Price */}
+        <PropertiesListSearchFilterPrice
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+        />
+      </Panel>
+    </Collapse>
   );
 };

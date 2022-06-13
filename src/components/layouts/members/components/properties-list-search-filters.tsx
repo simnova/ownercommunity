@@ -28,7 +28,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
   return (
     <div>
-      <Button type="primary" onClick={() => setIsModalVisible(true)}>
+      <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
         <Space size="middle">
           <FilterOutlined />
           <span>Filters</span>
@@ -37,11 +37,19 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
       <Modal 
         title="Filters" 
         visible={isModalVisible} 
-        onOk={() => setIsModalVisible(false)} 
-        onCancel={clearFilter}
         width={1000}
-        okText="Apply"
-        cancelText="Clear Filters"
+        onCancel={() => setIsModalVisible(false)}
+        footer={[
+          <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+            Cancel
+          </Button>,
+          <Button key="clear" type="link" onClick={clearFilter}>
+            Clear Filters
+          </Button>,
+          <Button key="submit" type="primary" onClick={() => setIsModalVisible(false)}>
+            Apply
+          </Button>,
+        ]}
       >
          {/* Type */}
          <PropertiesListSearchFilterPropertyType

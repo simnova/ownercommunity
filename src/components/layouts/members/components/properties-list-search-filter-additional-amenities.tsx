@@ -1,8 +1,11 @@
 import { AdditionalAmenities, AdditionalAmenitiesValues } from '../../../../constants';
-import { Checkbox } from 'antd';
+import { Checkbox, Collapse } from 'antd';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState, FC } from 'react';
 import { FacetDetail, FilterDetail } from '../../../../generated';
+
+const { Panel } = Collapse;
+
 const CheckboxGroup = Checkbox.Group;
 
 interface PropertiesListSearchFilterAdditionalAmenitiesProps {
@@ -99,42 +102,43 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
     }, [location]);
 
     return (
-      <>
-        <h2 className="font-bold">Additional Amenities</h2>
-        <div style={{ paddingLeft: '20px' }}>
-          {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => {
-            return (
-              <>
-                <h2 className="font-bold">{aam.category}</h2>
-                <CheckboxGroup
-                  key={aam.category}
-                  options={aam.amenities.map((value: string) => {
-                    const count = props.additionalAmenitieFacets?.find(
-                      (t: any) => t?.value === value
-                    )?.count;
-                    return {
-                      label: `${value} ${
-                        count !== undefined && count !== null && count > 0
-                          ? `(${count})`
-                          : count === 0
-                          ? '(0)'
-                          : ''
-                      }`,
-                      value: value
-                    };
-                  })}
-                  value={
-                    selectedAdditionalAmenities?.find((a: any) => a.category === aam.category)
-                      ?.amenities
-                  }
-                  onChange={(checkedValues) =>
-                    onAdditionalAmenitiesChange(aam.category, checkedValues as string[])
-                  }
-                />
-              </>
-            );
-          })}
-        </div>
-      </>
+      <Collapse style={{ width: "25%" }}>
+        <Panel header={<h2 className="font-bold">Additional Amenities</h2>} key="5">
+          <div style={{ paddingLeft: '20px' }}>
+            {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => {
+              return (
+                <>
+                  <h2 className="font-bold">{aam.category}</h2>
+                  <CheckboxGroup
+                    key={aam.category}
+                    options={aam.amenities.map((value: string) => {
+                      const count = props.additionalAmenitieFacets?.find(
+                        (t: any) => t?.value === value
+                      )?.count;
+                      return {
+                        label: `${value} ${
+                          count !== undefined && count !== null && count > 0
+                            ? `(${count})`
+                            : count === 0
+                            ? '(0)'
+                            : ''
+                        }`,
+                        value: value
+                      };
+                    })}
+                    value={
+                      selectedAdditionalAmenities?.find((a: any) => a.category === aam.category)
+                        ?.amenities
+                    }
+                    onChange={(checkedValues) =>
+                      onAdditionalAmenitiesChange(aam.category, checkedValues as string[])
+                    }
+                  />
+                </>
+              );
+            })}
+          </div>
+        </Panel>
+      </Collapse>
     );
   };

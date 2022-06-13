@@ -1,9 +1,10 @@
-import { Space, Select } from 'antd';
+import { Space, Select, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { MaxSquareFeetOptions, MinSquareFeetOptions } from '../../../../constants';
 import { FilterDetail } from '../../../../generated';
 const { Option } = Select;
+const { Panel } = Collapse;
 
 interface PropertiesListSearchFilterSquareFeetProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
@@ -71,35 +72,36 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
   }, [location]);
 
   return (
-    <>
-      <h2 className="font-bold">Square Feet</h2>
-      <Space split="-">
-        <Select
-          defaultValue={minSquareFeet}
-          value={minSquareFeet}
-          style={{ width: 100 }}
-          onChange={(value) => onSquareFeetChanged('min', value)}
-        >
-          {MinSquareFeetOptions.map((op) => (
-            <Option key={op.value} value={op.value} disabled={op.value > props.maxSquareFeet}>
-              {op.label}
-            </Option>
-          ))}
-        </Select>
+    <Collapse style={{ width: "25%" }}>
+      <Panel header={<h2 className="font-bold">Square Feet</h2>} key="6">
+        <Space split="-">
+          <Select
+            defaultValue={minSquareFeet}
+            value={minSquareFeet}
+            style={{ width: 100 }}
+            onChange={(value) => onSquareFeetChanged('min', value)}
+          >
+            {MinSquareFeetOptions.map((op) => (
+              <Option key={op.value} value={op.value} disabled={op.value > props.maxSquareFeet}>
+                {op.label}
+              </Option>
+            ))}
+          </Select>
 
-        <Select
-          defaultValue={maxSquareFeet}
-          value={maxSquareFeet}
-          style={{ width: 100 }}
-          onChange={(value) => onSquareFeetChanged('max', value)}
-        >
-          {MaxSquareFeetOptions.map((op) => (
-            <Option key={op.value} value={op.value} disabled={op.value < props.minSquareFeet}>
-              {op.label}
-            </Option>
-          ))}
-        </Select>
-      </Space>
-    </>
+          <Select
+            defaultValue={maxSquareFeet}
+            value={maxSquareFeet}
+            style={{ width: 100 }}
+            onChange={(value) => onSquareFeetChanged('max', value)}
+          >
+            {MaxSquareFeetOptions.map((op) => (
+              <Option key={op.value} value={op.value} disabled={op.value < props.minSquareFeet}>
+                {op.label}
+              </Option>
+            ))}
+          </Select>
+        </Space>
+      </Panel>
+    </Collapse>
   );
 };

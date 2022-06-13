@@ -66,14 +66,14 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         setSelectedFilter={props.setSelectedFilter}
       />
 
-      {/* Price */}
-      <PropertiesListSearchFilterPrice
+      {/* squareFeet */}
+      <PropertiesListSearchFilterSquareFeet
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
       />
 
-      {/* squareFeet */}
-      <PropertiesListSearchFilterSquareFeet
+      {/* Price */}
+      <PropertiesListSearchFilterPrice
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
       />

@@ -65,6 +65,10 @@ export interface Location extends EmbeddedBase {
     country: string;
     countryCodeISO3: string;
     freeformAddress: string;
+
+    streetNameAndNumber: string;
+    routeNumbers: string;
+    crossStreet: string;
   }
 }
 export interface Property extends Base {

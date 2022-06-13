@@ -73,6 +73,7 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
   get address() {
     if(! this.props.address) {
       return undefined;
+      console.error('Address is not defined');
     }
     return {
       get streetNumber(): string { return this.props.address.streetNumber; },
@@ -87,7 +88,7 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
       get postalCode(): string { return this.props.address.postalCode; },
       get extendedPostalCode(): string { return this.props.address.extendedPostalCode; },
       get countryCode(): string { return this.props.address.countryCode; },
-      get country(): string { return this.props.address.countr; },
+      get country(): string { return this.props.address.country; },
       get countryCodeISO3(): string { return this.props.address.countryCodeISO3; },
       get freeformAddress(): string { return this.props.address.freeformAddress; },
       get streetNameAndNumber(): string { return this.props.address.streetNameAndNumber; },

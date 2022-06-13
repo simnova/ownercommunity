@@ -11,6 +11,7 @@ import { MemberDomainAdapter } from './member-domain-adapter';
 import { ListingDetailProps } from '../../../contexts/property/listing-detail';
 import { BedroomDetailProps } from '../../../contexts/property/bedroom-detail';
 import { AdditionalAmenityProps } from '../../../contexts/property/additional-amenity';
+import { AddressProps } from '../../../contexts/property/address';
 
 export class PropertyConverter extends MongoTypeConverter<DomainExecutionContext,Property,PropertyDomainAdapter,PropertyDO<PropertyDomainAdapter>> {
   constructor() {
@@ -36,7 +37,7 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   //   this.props.set('location',owner.id);
   // }
   get location(){
-    if(!this.props.location){this.props.set('location',{address: {}});  }
+    if(!this.props.location){this.props.set('location',{address: {country:'USA'}});  }
     return new LocationDomainAdapter(this.props.location); 
   }
 
@@ -190,54 +191,53 @@ export class LocationDomainAdapter implements LocationProps {
       set coordinates(value){this.props.position.coordinates = value}
     }
   }
-
-  // get location(){
-  //   if(!this.props.location){this.props.set('location',{});  }
-  //   return new LocationDomainAdapter(this.props.location); 
-  // }
-
-  get address() {
-    if(!this.props || !this.props.address) {
-      this.props.set('address',{country : ''})
-    }
-    return {
-      get streetNumber(): string { return this.props.address.streetNumber; },
-      set streetNumber(value: string) { this.props.address.streetNumber = value; },
-      get streetName(): string { return this.props.address.streetName; },
-      set streetName(value: string) { this.props.address.streetName = value; },
-      get municipality(): string { return this.props.address.municipality; },
-      set municipality(value: string) { this.props.address.municipality = value; },
-      get municipalitySubdivision(): string { return this.props.address.municipalitySubdivision; },
-      set municipalitySubdivision(value: string) { this.props.address.municipalitySubdivision = value; },
-      get localName(): string { return this.props.address.localName; },
-      set localName(value: string) { this.props.address.localName = value; },
-      get countrySecondarySubdivision(): string { return this.props.address.countrySecondarySubdivision; },
-      set countrySecondarySubdivision(value: string) { this.props.address.countrySecondarySubdivision = value; },
-      get countryTertiarySubdivision(): string { return this.props.address.countryTertiarySubdivision; },
-      set countryTertiarySubdivision(value: string) { this.props.address.countryTertiarySubdivision = value; },
-      get countrySubdivision(): string { return this.props.address.countrySubdivision; },
-      set countrySubdivision(value: string) { this.props.address.countrySubdivision = value; },
-      get countrySubdivisionName(): string { return this.props.address.countrySubdivisionName; },
-      set countrySubdivisionName(value: string) { this.props.address.countrySubdivisionName = value; },
-      get postalCode(): string { return this.props.address.postalCode; },
-      set postalCode(value: string) { this.props.address.postalCode = value; },
-      get extendedPostalCode(): string { return this.props.address.extendedPostalCode; },
-      set extendedPostalCode(value: string) { this.props.address.extendedPostalCode = value; },
-      get countryCode(): string { return this.props.address.countryCode; },
-      set countryCode(value: string) { this.props.address.countryCode = value; },
-      get country(): string { return this.props.address.country; },
-      set country(value: string) { this.props.address.country = value; },
-      get countryCodeISO3(): string { return this.props.address.countryCodeISO3; },
-      set countryCodeISO3(value: string) { this.props.address.countryCodeISO3 = value; },
-      get freeformAddress(): string { return this.props.address.freeformAddress; },
-      set freeformAddress(value: string) { this.props.address.freeformAddress = value; },
-
-      get streetNameAndNumber(): string { return this.props.address.streetNameAndNumber; },
-      set streetNameAndNumber(value: string) { this.props.address.streetNameAndNumber = value; },
-      get routeNumbers(): string { return this.props.address.routeNumbers; },
-      set routeNumbers(value: string) { this.props.address.routeNumbers = value; },
-      get crossStreet(): string { return this.props.address.crossStreet; },
-      set crossStreet(value: string) { this.props.address.crossStreet = value; }
-    }
+  get address(){
+    if(!this.props.address){this.props.set('address',{});  }
+    return new AddressDomainAdapter(this.props.address); 
   }
+
+  
+}
+
+export class AddressDomainAdapter implements AddressProps {  
+  constructor(public readonly props: Location['address']) {}
+  public get id(): string { return "" as string; }
+
+  get streetNumber(): string { return this.props.streetNumber; }
+  set streetNumber(value: string) { this.props.streetNumber = value; }
+  get streetName(): string { return this.props.streetName; }
+  set streetName(value: string) { this.props.streetName = value; }
+  get municipality(): string { return this.props.municipality; }
+  set municipality(value: string) { this.props.municipality = value; }
+  get municipalitySubdivision(): string { return this.props.municipalitySubdivision; }
+  set municipalitySubdivision(value: string) { this.props.municipalitySubdivision = value; }
+  get localName(): string { return this.props.localName; }
+  set localName(value: string) { this.props.localName = value; }
+  get countrySecondarySubdivision(): string { return this.props.countrySecondarySubdivision; }
+  set countrySecondarySubdivision(value: string) { this.props.countrySecondarySubdivision = value; }
+  get countryTertiarySubdivision(): string { return this.props.countryTertiarySubdivision; }
+  set countryTertiarySubdivision(value: string) { this.props.countryTertiarySubdivision = value; }
+  get countrySubdivision(): string { return this.props.countrySubdivision; }
+  set countrySubdivision(value: string) { this.props.countrySubdivision = value; }
+  get countrySubdivisionName(): string { return this.props.countrySubdivisionName; }
+  set countrySubdivisionName(value: string) { this.props.countrySubdivisionName = value; }
+  get postalCode(): string { return this.props.postalCode; }
+  set postalCode(value: string) { this.props.postalCode = value; }
+  get extendedPostalCode(): string { return this.props.extendedPostalCode; }
+  set extendedPostalCode(value: string) { this.props.extendedPostalCode = value; }
+  get countryCode(): string { return this.props.countryCode; }
+  set countryCode(value: string) { this.props.countryCode = value; }
+  get country(): string { return this.props.country; }
+  set country(value: string) { this.props.country = value; }
+  get countryCodeISO3(): string { return this.props.countryCodeISO3; }
+  set countryCodeISO3(value: string) { this.props.countryCodeISO3 = value; }
+  get freeformAddress(): string { return this.props.freeformAddress; }
+  set freeformAddress(value: string) { this.props.freeformAddress = value; }
+
+  get streetNameAndNumber(): string { return this.props.streetNameAndNumber; }
+  set streetNameAndNumber(value: string) { this.props.streetNameAndNumber = value; }
+  get routeNumbers(): string { return this.props.routeNumbers; }
+  set routeNumbers(value: string) { this.props.routeNumbers = value; }
+  get crossStreet(): string { return this.props.crossStreet; }
+  set crossStreet(value: string) { this.props.crossStreet = value; }
 }

@@ -1,0 +1,48 @@
+query PropertiesLocationContainerProperty($propertyId: ObjectID!){
+  property(id: $propertyId) {
+      mapSASToken
+      ...AddressLocationContainerPropertyFields
+    }
+}
+
+mutation AddressLocationUpdateContainer($input: PropertyUpdateInput!){
+  propertyUpdate(input: $input) {
+    ...AddressLocationContainerPropertyMutationResultFields
+  }
+}
+
+fragment AddressLocationContainerPropertyMutationResultFields on PropertyMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  property {
+    ...AddressLocationContainerPropertyFields
+  }
+}
+
+fragment AddressLocationContainerPropertyFields on Property {
+  id
+  location {
+    address {
+      country
+      countryCode
+      countryCodeISO3
+      countrySecondarySubdivision
+      countrySubdivision
+      countrySubdivisionName
+      countryTertiarySubdivision
+      extendedPostalCode
+      freeformAddress
+      municipality
+      municipalitySubdivision
+      crossStreet
+      localName
+      postalCode
+      streetName
+      streetNumber
+      routeNumbers
+      streetNameAndNumber
+    }
+  }
+}

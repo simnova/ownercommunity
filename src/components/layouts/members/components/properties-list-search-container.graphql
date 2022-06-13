@@ -50,6 +50,7 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
     streetName
     municipality
     municipalitySubdivision
+    localName
     countrySecondarySubdivision
     countryTertiarySubdivision
     countrySubdivision
@@ -60,5 +61,8 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
     country
     countryCodeISO3
     freeformAddress
+    streetNameAndNumber
+    routeNumbers
+    crossStreet
   }
 }

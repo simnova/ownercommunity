@@ -1,7 +1,7 @@
 import { Checkbox, Collapse } from 'antd';
 import { useEffect, useState, FC } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { Amenities, FilterNames } from '../../../../constants';
+import { Amenities, FilterNames, SearchParamKeys } from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
@@ -22,9 +22,9 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
     setSelectedAmenities(checkedValues);
     // update query string
     if (checkedValues.length > 0) {
-      searchParams.set('amenities', checkedValues.join(','));
+      searchParams.set(SearchParamKeys.Amenities, checkedValues.join(','));
     } else {
-      searchParams.delete('amenities');
+      searchParams.delete(SearchParamKeys.Amenities);
     }
     setSearchParams(searchParams);
     props.setSelectedFilter({
@@ -35,10 +35,11 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
 
   // Update UI (selected amenities) with corresponding amenities when page is loaded
   useEffect(() => {
-    const qsAmenities = searchParams.get('amenities');
+    const qsAmenities = searchParams.get(SearchParamKeys.Amenities);
     setSelectedAmenities(qsAmenities?.split(',') ?? []);
   }, []);
 
+  // handle when clear all filter clicked
   useEffect(() => {
     if (!location.search) {
       setSelectedAmenities([]);
@@ -46,7 +47,7 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
   }, [location]);
 
   return (
-    <Collapse className='search-filter-collapse'>
+    <Collapse className="search-filter-collapse">
       <Panel header={<h2 className="font-bold">Amenities</h2>} key="4">
         <CheckboxGroup
           key={FilterNames.Amenities}

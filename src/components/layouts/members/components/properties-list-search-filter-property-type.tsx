@@ -1,7 +1,7 @@
 import { Checkbox, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { FilterNames, PropertyTypes } from '../../../../constants';
+import { FilterNames, PropertyTypes, SearchParamKeys } from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
@@ -24,9 +24,9 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
       setSelectedPropertyTypes(checkedValues);
       // update query string
       if (checkedValues.length > 0) {
-        searchParams.set('type', checkedValues.join(','));
+        searchParams.set(SearchParamKeys.PropertyType, checkedValues.join(','));
       } else {
-        searchParams.delete('type');
+        searchParams.delete(SearchParamKeys.PropertyType);
       }
       setSearchParams(searchParams);
       props.setSelectedFilter({ ...props.selectedFilter, propertyType: checkedValues });
@@ -34,11 +34,11 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
 
     // Update UI (selected property types) with corresponding property types when page is loaded
     useEffect(() => {
-      const qsproperTypes = searchParams.get('type');
+      const qsproperTypes = searchParams.get(SearchParamKeys.PropertyType);
       setSelectedPropertyTypes(qsproperTypes?.split(',') ?? []);
     }, []);
 
-    // clear filter
+    // handle when clear all filter clicked
     useEffect(() => {
       if (!location.search) {
         setSelectedPropertyTypes([]);
@@ -46,7 +46,7 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
     }, [location]);
 
     return (
-      <Collapse className='search-filter-collapse'>
+      <Collapse className="search-filter-collapse">
         <Panel header={<h2 className="font-bold">Type </h2>} key="1">
           <CheckboxGroup
             key={FilterNames.Type}

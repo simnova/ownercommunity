@@ -190,6 +190,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         facets={data?.propertiesSearch?.facets as PropertySearchFacets}
         setSelectedFilter={setSelectedFilter}
         selectedFilter={selectedFilter}
+        handleSearch={handleSearch}
+        searchString={searchString}
       />
       {result()}
     </>

@@ -14,6 +14,8 @@ interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
+  handleSearch: (searchString?: string, filter?: FilterDetail) => void;
+  searchString?: string;
 }
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
@@ -43,10 +45,16 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           <Button key="cancel" onClick={() => setIsModalVisible(false)}>
             Cancel
           </Button>,
-          <Button key="clear" type="link" onClick={clearFilter}>
+          <Button key="clear" type="link" onClick={() => {
+            props.handleSearch('', undefined);
+            clearFilter();
+          }}>
             Clear Filters
           </Button>,
-          <Button key="submit" type="primary" onClick={() => setIsModalVisible(false)}>
+          <Button key="submit" type="primary" onClick={() => {
+            props.handleSearch(props.searchString, props.selectedFilter);
+            setIsModalVisible(false)}
+          }>
             Apply
           </Button>,
         ]}

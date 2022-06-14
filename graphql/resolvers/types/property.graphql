@@ -127,7 +127,7 @@ input PointInput {
   type: String
   coordinates: [Float]
 
-  id: ObjectID!
+  id: ObjectID
   schemaVersion: String
   createdAt: DateTime
   updatedAt: DateTime

@@ -47,7 +47,7 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
   }, [location]);
 
   return (
-    <Collapse style={{ width: '25%' }}>
+    <Collapse className="search-filter-collapse">
       <Panel header={<h2 className="font-bold">Amenities</h2>} key="4">
         <CheckboxGroup
           key={FilterNames.Amenities}

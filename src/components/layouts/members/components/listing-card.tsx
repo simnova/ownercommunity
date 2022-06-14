@@ -37,7 +37,7 @@ export const ListingCard: React.FC<any> = (props) => {
           <p className="text-xs leading-6 col-start-1 dark:text-slate-400">
             <em> A {props.data.type} in City</em>
           </p>
-          <p className="mt-4 text-xs leading-6 col-start-1 dark:text-slate-400">Statefarm</p>
+          <p className="mt-4 text-xs leading-6 col-start-1 dark:text-slate-400">{props.data.listingAgentCompany}</p>
         </div>
       </div>
     </div>

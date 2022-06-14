@@ -97,7 +97,10 @@ const schema = new Schema<Property, Model<Property>, Property>(
     community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true, unique: false },    
     // location: Location.LocationModel.schema,
     location: {
-      position: Point.PointModel.schema,
+      // position: Point.PointModel.schema,
+      position: {
+        coordinates: { type: [Number], required: false },
+      },
       address: {
         streetNumber: { type: String, required: false,},
         streetName: { type: String, required: false,},

@@ -162,6 +162,11 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
   //   this.validateVisa();
   //   this.props.address.streetName = streetName;
   // }
+
+  requestSetPosition(position: any) {
+    this.validateVisa();
+    this.props.position.coordinates = position.coordinates;
+  }
 }
 
 

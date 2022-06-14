@@ -12,6 +12,7 @@ import { ListingDetailProps } from '../../../contexts/property/listing-detail';
 import { BedroomDetailProps } from '../../../contexts/property/bedroom-detail';
 import { AdditionalAmenityProps } from '../../../contexts/property/additional-amenity';
 import { AddressProps } from '../../../contexts/property/address';
+import { PositionProps } from '../../../contexts/property/position';
 
 export class PropertyConverter extends MongoTypeConverter<DomainExecutionContext,Property,PropertyDomainAdapter,PropertyDO<PropertyDomainAdapter>> {
   constructor() {
@@ -185,13 +186,17 @@ export class LocationDomainAdapter implements LocationProps {
   constructor(public readonly props: Location) {}
   public get id(): string { return this.props.id.valueOf() as string; }
   get position(){
-    if(!this.props || !this.props.position) return null;
-    return{
-      get type(){return this.props.position.type},
-      set type(value){this.props.position.type = value},
-      get coordinates(){return this.props.position.coordinates},
-      set coordinates(value){this.props.position.coordinates = value}
-    }
+    if(!this.props || !this.props.position) {
+      this.props.set('position', {}) 
+      return null;
+    };
+    return new PositionDomainAdapter(this.props.position);
+    // return{
+    //   get type(){return this.props.position.type},
+    //   set type(value){this.props.position.type = value},
+    //   get coordinates(){return this.props.position.coordinates},
+    //   set coordinates(value){this.props.position.coordinates = value}
+    // }
   }
   get address(){
     if(!this.props.address){
@@ -246,4 +251,16 @@ export class AddressDomainAdapter implements AddressProps {
   set routeNumbers(value: string) { this.props.routeNumbers = value; }
   get crossStreet(): string { return this.props.crossStreet; }
   set crossStreet(value: string) { this.props.crossStreet = value; }
+}
+
+export class PositionDomainAdapter implements PositionProps {
+  constructor(public readonly props: Location['position']) {}
+
+  public get id(): string { return this.props.id.valueOf() as string; }
+
+  get type(): string { return this.props.type; }
+  set type(value: string) { this.props.type = value; }
+
+  get coordinates(): number[] { return this.props.coordinates; }
+  set coordinates(value: number[]) { this.props.coordinates = value; }
 }

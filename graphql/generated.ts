@@ -725,7 +725,7 @@ export type Point = MongoBase & {
 export type PointInput = {
   coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  id: Scalars['ObjectID'];
+  id?: InputMaybe<Scalars['ObjectID']>;
   schemaVersion?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;

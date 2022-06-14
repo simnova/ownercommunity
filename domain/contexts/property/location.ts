@@ -76,8 +76,6 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
   }
 
   get address() {
-    console.log("props ",this.props);
-    console.log("address ",this.props.address);
     if(!this.props.address) {
       return undefined;
       //console.error('Address is not defined');

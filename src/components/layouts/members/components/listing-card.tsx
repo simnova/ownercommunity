@@ -32,10 +32,10 @@ export const ListingCard: React.FC<any> = (props) => {
             {props.data.squareFeet} sqft
           </p>
           <p className="mb-0 text-sm leading-6 col-start-1 dark:text-slate-400">
-            <em> 123 Street St. City, AA 12345</em>
+            <em> {props.data.address.freeformAddress}</em>
           </p>
           <p className="text-xs leading-6 col-start-1 dark:text-slate-400">
-            <em> A {props.data.type} in City</em>
+            <em> A {props.data.type} in {props.data.address.localName}</em>
           </p>
           <p className="mt-4 text-xs leading-6 col-start-1 dark:text-slate-400">{props.data.listingAgentCompany}</p>
         </div>

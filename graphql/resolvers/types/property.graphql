@@ -265,13 +265,18 @@ type PropertyResult {
   price: Float
   bathrooms: Float
   squareFeet: Int
-  position: Point
+  position: GeographyPoint
   images: [String]
   listingAgentCompany: String
   address: Address
   listedForLease: Boolean
   listedForRent: Boolean
   listedForSale: Boolean
+}
+
+type GeographyPoint {
+  latitude: Float
+  longitude: Float
 }
 
 type AdditionalAmenitiesSearchResult {

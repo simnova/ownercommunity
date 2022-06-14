@@ -2088,6 +2088,41 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "GeographyPoint",
+        "description": null,
+        "fields": [
+          {
+            "name": "latitude",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "longitude",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "SCALAR",
         "name": "HSL",
         "description": null,
@@ -6841,7 +6876,7 @@
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Point",
+              "name": "GeographyPoint",
               "ofType": null
             },
             "isDeprecated": false,

@@ -202,6 +202,7 @@ input PropertiesSearchOptions {
 input FilterDetail {
   propertyType: [String]
   listingDetail: ListingDetailsFilterInput
+  listedInfo: [String]
 }
 input ListingDetailsFilterInput {
   bedrooms: Int

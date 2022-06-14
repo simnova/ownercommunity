@@ -1851,6 +1851,22 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "listedInfo",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "listingDetail",
             "description": null,
             "type": {

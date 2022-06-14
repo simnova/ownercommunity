@@ -264,6 +264,7 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };

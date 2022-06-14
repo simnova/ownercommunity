@@ -53,6 +53,19 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       if (filter.listingDetail?.squareFeets && filter.listingDetail.squareFeets.length > 0) {
         filterStrings.push(`${PropertyFilterNames.SquareFeet} ge ${filter.listingDetail.squareFeets[0]} and ${PropertyFilterNames.SquareFeet} le ${filter.listingDetail.squareFeets[1]}`);
       }
+      // listed info (listedForSale, listedForRent, listedForLease)
+      if (filter.listedInfo && filter.listedInfo.length > 0) {
+        // sample data: ['listedForSale', 'listedForRent', 'listedForLease']
+        if (filter.listedInfo.includes('listedForSale')) {
+          filterStrings.push('listedForSale eq true');
+        }
+        if (filter.listedInfo.includes('listedForRent')) {
+          filterStrings.push('listedForRent eq true');
+        }
+        if (filter.listedInfo.includes('listedForLease')) {
+          filterStrings.push('listedForLease eq true');
+        }
+      }
     }
 
     return filterStrings.join(' and ');

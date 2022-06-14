@@ -26,6 +26,18 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
+    listedForSale {
+      value
+      count
+    }
+    listedForRent {
+      value
+      count
+    }
+    listedForLease {
+      value
+      count
+    }
   }
 }
 
@@ -65,4 +77,7 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
     routeNumbers
     crossStreet
   }
+  listedForSale
+  listedForRent
+  listedForLease
 }

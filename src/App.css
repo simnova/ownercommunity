@@ -43,3 +43,8 @@
 .selected-img {
   border: solid 2px #61dafb;
 }
+
+.search-filter-collapse {
+  width: 60%;
+  margin: 0 auto;
+}

@@ -1,9 +1,10 @@
-import { Radio } from 'antd';
+import { Radio, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { BedroomsFilterOptions } from '../../../../constants';
+import { BedroomsFilterOptions, SearchParamKeys } from '../../../../constants';
 import { FilterDetail } from '../../../../generated';
 
+const { Panel } = Collapse;
 interface PropertiesListSearchFilterBedroomsProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   selectedFilter?: FilterDetail;
@@ -19,9 +20,9 @@ export const PropertiesListSearchFilterBedrooms: FC<PropertiesListSearchFilterBe
   const onBedroomsClicked = (e: any) => {
     setBedrooms(parseInt(e.target.value));
     if (e.target.value) {
-      searchParams.set('bedrooms', e.target.value);
+      searchParams.set(SearchParamKeys.Bedrooms, e.target.value);
     } else {
-      searchParams.delete('bedrooms');
+      searchParams.delete(SearchParamKeys.Bedrooms);
     }
     setSearchParams(searchParams);
     props.setSelectedFilter({
@@ -31,12 +32,13 @@ export const PropertiesListSearchFilterBedrooms: FC<PropertiesListSearchFilterBe
   };
 
   useEffect(() => {
-    const qsbedrooms = searchParams.get('bedrooms');
+    const qsbedrooms = searchParams.get(SearchParamKeys.Bedrooms);
     if (qsbedrooms) {
       setBedrooms(parseInt(qsbedrooms));
     }
   }, []);
 
+  // handle when clear all filter clicked
   useEffect(() => {
     if (!location.search) {
       setBedrooms(undefined);
@@ -44,16 +46,17 @@ export const PropertiesListSearchFilterBedrooms: FC<PropertiesListSearchFilterBe
   }, [location]);
 
   return (
-    <>
-      <h2 className="font-bold">Bedrooms</h2>
-      <Radio.Group
-        value={bedrooms?.toString()}
-        defaultValue={bedrooms?.toString()}
-        onChange={onBedroomsClicked}
-        buttonStyle="solid"
-        optionType="button"
-        options={BedroomsFilterOptions}
-      />
-    </>
+    <Collapse className="search-filter-collapse">
+      <Panel header={<h2 className="font-bold">Bedrooms</h2>} key="2">
+        <Radio.Group
+          value={bedrooms?.toString()}
+          defaultValue={bedrooms?.toString()}
+          onChange={onBedroomsClicked}
+          buttonStyle="solid"
+          optionType="button"
+          options={BedroomsFilterOptions}
+        />
+      </Panel>
+    </Collapse>
   );
 };

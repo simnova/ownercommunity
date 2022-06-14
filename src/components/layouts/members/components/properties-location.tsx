@@ -211,7 +211,7 @@ export const PropertiesLocation = (props: any) => {
         <Form.Item name={["location","address", "crossStreet"]} label="Cross Street">
           <Input disabled placeholder='Cross Street' ></Input>
         </Form.Item>
-        <Form.Item name={["location", "position","coordinates"]}>
+        <Form.Item name={["location", "position","coordinates"]} label="Coordinates (Lat, Lon)">
           <Input disabled placeholder='Coordinates' ></Input>
         </Form.Item>
 

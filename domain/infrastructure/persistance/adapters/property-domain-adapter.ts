@@ -37,7 +37,9 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   //   this.props.set('location',owner.id);
   // }
   get location(){
-    if(!this.props.location){this.props.set('location',{address: {country:'USA'}});  }
+    if(!this.props.location){
+      this.props.set('location',{});
+    }
     return new LocationDomainAdapter(this.props.location); 
   }
 
@@ -192,7 +194,10 @@ export class LocationDomainAdapter implements LocationProps {
     }
   }
   get address(){
-    if(!this.props.address){this.props.set('address',{});  }
+    if(!this.props.address){
+      this.props.set('address',{});  
+      return null;
+    }
     return new AddressDomainAdapter(this.props.address); 
   }
 
@@ -203,7 +208,7 @@ export class AddressDomainAdapter implements AddressProps {
   constructor(public readonly props: Location['address']) {}
   public get id(): string { return "" as string; }
 
-  get streetNumber(): string { return this.props.streetNumber; }
+  get streetNumber(): string { return this.props.streetNumber }
   set streetNumber(value: string) { this.props.streetNumber = value; }
   get streetName(): string { return this.props.streetName; }
   set streetName(value: string) { this.props.streetName = value; }

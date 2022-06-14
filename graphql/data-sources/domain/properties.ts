@@ -122,11 +122,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
 
       if (input.location !== undefined) {
        if (input.location.address !== undefined) {
-         console.log(input.location);
-        //  property.requestSetLocation();
         property.location.requestSetAddress(input.location.address);
-         //property.requestSetLocation(input.location);
-         //if (input.location.address.streetName !== undefined) property.location.requestSetStreetName(input.location.address.streetName);
        }
       }
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));

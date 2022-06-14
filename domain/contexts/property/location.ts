@@ -63,6 +63,8 @@ export interface LocationEntityReference {
 export class Location extends Entity<LocationProps> implements LocationEntityReference {
   
   constructor(props: LocationProps, private readonly visa: PropertyVisa) { super(props); }
+
+
   get position() { 
     if(! this.props.position) {
       return undefined;
@@ -74,30 +76,53 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
   }
 
   get address() {
-    if(! this.props.address) {
+    if(!this.props.address) {
       return undefined;
-      console.error('Address is not defined');
+      //console.error('Address is not defined');
     }
-    return {
-      get streetNumber(): string { return this.props.address.streetNumber; },
-      get streetName(): string { return this.props.address.streetName; },
-      get municipality(): string { return this.props.address.municipality; },
-      get municipalitySubdivision(): string { return this.props.address.municipalitySubdivision; },
-      get localName(): string { return this.props.address.localName; },
-      get countrySecondarySubdivision(): string { return this.props.address.countrySecondarySubdivision; },
-      get countryTertiarySubdivision(): string { return this.props.address.countryTertiarySubdivision; },
-      get countrySubdivision(): string { return this.props.address.countrySubdivision; },
-      get countrySubdivisionName(): string { return this.props.address.countrySubdivisionName; },
-      get postalCode(): string { return this.props.address.postalCode; },
-      get extendedPostalCode(): string { return this.props.address.extendedPostalCode; },
-      get countryCode(): string { return this.props.address.countryCode; },
-      get country(): string { return this.props.address.country; },
-      get countryCodeISO3(): string { return this.props.address.countryCodeISO3; },
-      get freeformAddress(): string { return this.props.address.freeformAddress; },
-      get streetNameAndNumber(): string { return this.props.address.streetNameAndNumber; },
-      get routeNumbers(): string { return this.props.address.routeNumbers; },
-      get crossStreet(): string { return this.props.address.crossStreet; },
+    
+    let addressInfo = {
+      streetNumber: this.props.address.streetNumber,
+      streetName: this.props.address.streetName,
+      municipality: this.props.address.municipality,
+      municipalitySubdivision: this.props.address.municipalitySubdivision,
+      localName: this.props.address.localName,
+      countrySecondarySubdivision: this.props.address.countrySecondarySubdivision,
+      countryTertiarySubdivision: this.props.address.countryTertiarySubdivision,
+      countrySubdivision: this.props.address.countrySubdivision,
+      countrySubdivisionName: this.props.address.countrySubdivisionName,
+      postalCode: this.props.address.postalCode,
+      extendedPostalCode: this.props.address.extendedPostalCode,
+      countryCode: this.props.address.countryCode,
+      country: this.props.address.country,
+      countryCodeISO3: this.props.address.countryCodeISO3,
+      freeformAddress: this.props.address.freeformAddress,
+      streetNameAndNumber: this.props.address.streetNameAndNumber,
+      routeNumbers: this.props.address.routeNumbers,
+      crossStreet: this.props.address.crossStreet
     }
+
+    return addressInfo;
+    // {
+      // get streetNumber(): string { return this.props.address.streetNumber; },
+      // get streetName(): string { return this.props.address.streetName; },
+      // get municipality(): string { return this.props.address.municipality; },
+      // get municipalitySubdivision(): string { return this.props.address.municipalitySubdivision; },
+      // get localName(): string { return this.props.address.localName; },
+      // get countrySecondarySubdivision(): string { return this.props.address.countrySecondarySubdivision; },
+      // get countryTertiarySubdivision(): string { return this.props.address.countryTertiarySubdivision; },
+      // get countrySubdivision(): string { return this.props.address.countrySubdivision; },
+      // get countrySubdivisionName(): string { return this.props.address.countrySubdivisionName; },
+      // get postalCode(): string { return this.props.address.postalCode; },
+      // get extendedPostalCode(): string { return this.props.address.extendedPostalCode; },
+      // get countryCode(): string { return this.props.address.countryCode; },
+      // get country(): string { return this.props.address.country; },
+      // get countryCodeISO3(): string { return this.props.address.countryCodeISO3; },
+      // get freeformAddress(): string { return this.props.address.freeformAddress; },
+      // get streetNameAndNumber(): string { return this.props.address.streetNameAndNumber; },
+      // get routeNumbers(): string { return this.props.address.routeNumbers; },
+      // get crossStreet(): string { return this.props.address.crossStreet; },
+    // }
   }
 
   private validateVisa() {
@@ -108,10 +133,7 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
 
   public requestSetAddress(address: LocationProps["address"]) {
     this.validateVisa();
-    console.log("props ", this.props);
-    console.log("address ", address)
-    //this.props.address = address;
-    // this.props.address = {...address};
+
     this.props.address.country = address.country;
     this.props.address.countryCode = address.countryCode;
     this.props.address.countryCodeISO3 = address.countryCodeISO3;
@@ -130,7 +152,6 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
     this.props.address.streetNameAndNumber = address.streetNameAndNumber;
     this.props.address.routeNumbers = address.routeNumbers;
     this.props.address.crossStreet = address.crossStreet;
-    console.log("post", this.props)
   }
   // requestSetStreetName(streetName: string) {
   //   this.validateVisa();

@@ -58,6 +58,9 @@ export default () => {
           crossStreet: property.location?.address?.crossStreet,
           routeNumbers: property.location?.address?.routeNumbers,
         },
+        listedForSale: property.listedForSale,
+        listedForRent: property.listedForRent,
+        listedForLease: property.listedForLease,
       };
       let cognitiveSearch = new CognitiveSearch();
       // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);

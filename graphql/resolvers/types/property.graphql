@@ -211,6 +211,7 @@ input PropertiesSearchOptions {
 input FilterDetail {
   propertyType: [String]
   listingDetail: ListingDetailsFilterInput
+  listedInfo: [String]
 }
 input ListingDetailsFilterInput {
   bedrooms: Int
@@ -268,6 +269,9 @@ type PropertyResult {
   images: [String]
   listingAgentCompany: String
   address: Address
+  listedForLease: Boolean
+  listedForRent: Boolean
+  listedForSale: Boolean
 }
 
 type AdditionalAmenitiesSearchResult {
@@ -285,6 +289,9 @@ type PropertySearchFacets {
   amenities: [FacetDetail]
   additionalAmenitiesCategory: [FacetDetail]
   additionalAmenitiesAmenities: [FacetDetail]
+  listedForLease: [FacetDetail]
+  listedForRent: [FacetDetail]
+  listedForSale: [FacetDetail]
 }
 
 type FacetDetail {

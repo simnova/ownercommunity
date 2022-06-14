@@ -346,4 +346,7 @@ export interface PropertyListingIndexDocument {
     routeNumbers: string;
     crossStreet: string;
   };
+  listedForSale: boolean;
+  listedForRent: boolean;
+  listedForLease: boolean;
 }

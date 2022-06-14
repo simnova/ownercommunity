@@ -8,13 +8,16 @@ interface AddressDataType {
   'value': string,
   'label': string,
   'key': string,
-  'address': any
+  'address': any,
+  'lat': number,
+  'long': number
 }
 
 export const PropertiesLocation = (props: any) => {
   const [value, setValue] = useState('');
   const [addresses, setAddresses] = useState<AddressDataType[]>([]);
   const [currentAddress, setCurrentAddress] = useState<any>('');
+  const [currentPoint, setCurrentPoint] = useState<number[]>([0,0]);
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
   console.log(props);
@@ -39,7 +42,7 @@ export const PropertiesLocation = (props: any) => {
       });
       
       const data = await request.json();
-
+      console.log(data);
       return data.results;
     }
 
@@ -57,7 +60,9 @@ export const PropertiesLocation = (props: any) => {
                 "label" : address.address.freeformAddress,
                 "value" : address.address.freeformAddress,
                 "key" : address.id,
-                "address" : address.address
+                "address" : address.address,
+                "lat" : address.position.lat,
+                "long" : address.position.lon
               });
             // return address
           }
@@ -76,8 +81,9 @@ export const PropertiesLocation = (props: any) => {
   }
 
   const onSelect = (value: any, option: any) => {
-    console.log(option)
+    console.log("options", option)
     setCurrentAddress(option.address);
+    setCurrentPoint([option.lat, option.long]);
     form.setFieldsValue({
       location:
       {
@@ -100,8 +106,17 @@ export const PropertiesLocation = (props: any) => {
           municipalitySubdivision: option.address.municipalitySubdivision ? option.address.municipalitySubdivision : ' ',
           streetNameAndNumber: option.address.streetNameAndNumber ? option.address.streetNameAndNumber : ' ',
           routeNumbers: option.address.routeNumbers ? option.address.routeNumbers : ' ',
-          crossStreet: option.address.crossStreet ? option.address.crossStreet : ' '
-        },
+          crossStreet: option.address.crossStreet ? option.address.crossStreet : ' ',
+        },   
+        position: {
+          coordinates: [option.lat, option.long]
+        }
+        
+        
+        // {
+        //   lat: option.lat ? option.lat : ' ',
+        //   long: option.long ? option.long : ' ',
+        // }
       
       } ,
     });
@@ -196,6 +211,16 @@ export const PropertiesLocation = (props: any) => {
         <Form.Item name={["location","address", "crossStreet"]} label="Cross Street">
           <Input disabled placeholder='Cross Street' ></Input>
         </Form.Item>
+        <Form.Item name={["location", "position","coordinates"]}>
+          <Input disabled placeholder='Coordinates' ></Input>
+        </Form.Item>
+
+        {/* <Form.Item name={["location","coordinates", "lat"]} label="Latitude">
+          <Input disabled placeholder='Latitude' ></Input>
+        </Form.Item>
+        <Form.Item name={["location","point", "long"]} label="Longitude">
+          <Input disabled placeholder='Longitude' ></Input>
+        </Form.Item> */}
         <Form.Item>
           <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
             Save

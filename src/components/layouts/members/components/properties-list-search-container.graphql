@@ -55,7 +55,8 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
   bathrooms
   squareFeet
   position {
-    coordinates
+    latitude
+    longitude
   }
   images
   listingAgentCompany

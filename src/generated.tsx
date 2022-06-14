@@ -275,6 +275,12 @@ export type FilterDetail = {
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type GeographyPoint = {
+  __typename?: 'GeographyPoint';
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+};
+
 export type ListingDetails = {
   __typename?: 'ListingDetails';
   additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenities>>>;
@@ -824,7 +830,7 @@ export type PropertyResult = {
   listedForSale?: Maybe<Scalars['Boolean']>;
   listingAgentCompany?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  position?: Maybe<Point>;
+  position?: Maybe<GeographyPoint>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
@@ -3543,7 +3549,11 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         category?: string | null;
         amenities?: Array<string | null> | null;
       } | null> | null;
-      position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
+      position?: {
+        __typename?: 'GeographyPoint';
+        latitude?: number | null;
+        longitude?: number | null;
+      } | null;
       address?: {
         __typename?: 'Address';
         streetNumber?: string | null;
@@ -3630,7 +3640,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       category?: string | null;
       amenities?: Array<string | null> | null;
     } | null> | null;
-    position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
+    position?: {
+      __typename?: 'GeographyPoint';
+      latitude?: number | null;
+      longitude?: number | null;
+    } | null;
     address?: {
       __typename?: 'Address';
       streetNumber?: string | null;
@@ -3713,7 +3727,11 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
     category?: string | null;
     amenities?: Array<string | null> | null;
   } | null> | null;
-  position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
+  position?: {
+    __typename?: 'GeographyPoint';
+    latitude?: number | null;
+    longitude?: number | null;
+  } | null;
   address?: {
     __typename?: 'Address';
     streetNumber?: string | null;
@@ -6650,7 +6668,10 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
             name: { kind: 'Name', value: 'position' },
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } }
+              ]
             }
           },
           { kind: 'Field', name: { kind: 'Name', value: 'images' } },

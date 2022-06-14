@@ -206,7 +206,8 @@ export class LocationDomainAdapter implements LocationProps {
 
 export class AddressDomainAdapter implements AddressProps {  
   constructor(public readonly props: Location['address']) {}
-  public get id(): string { return "" as string; }
+  // public get id(): string { return "" as string; }
+  public get id(): string { return this.props.id.valueOf() as string; }
 
   get streetNumber(): string { return this.props.streetNumber }
   set streetNumber(value: string) { this.props.streetNumber = value; }

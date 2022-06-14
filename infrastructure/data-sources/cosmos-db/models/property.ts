@@ -50,6 +50,7 @@ export interface AdditionalAmenity extends EmbeddedBase {
 export interface Location extends EmbeddedBase {
   position: Point.Point;
   address: {
+    id: ObjectId;
     streetNumber: string;
     streetName: string;
     municipality: string;

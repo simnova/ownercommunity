@@ -723,7 +723,7 @@ export type Point = MongoBase & {
 export type PointInput = {
   coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
-  id: Scalars['ObjectID'];
+  id?: InputMaybe<Scalars['ObjectID']>;
   schemaVersion?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -2964,6 +2964,7 @@ export type MemberPropertyByPropertyIdQuery = {
         __typename?: 'Address';
         streetName?: string | null;
         streetNumber?: string | null;
+        freeformAddress?: string | null;
       } | null;
     } | null;
     listingDetail?: {
@@ -3019,6 +3020,7 @@ export type PropertyDetailsByPropertyIdFieldsFragment = {
       __typename?: 'Address';
       streetName?: string | null;
       streetNumber?: string | null;
+      freeformAddress?: string | null;
     } | null;
   } | null;
   listingDetail?: {
@@ -4025,6 +4027,7 @@ export type PropertiesLocationContainerPropertyQuery = {
         routeNumbers?: string | null;
         streetNameAndNumber?: string | null;
       } | null;
+      position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
     } | null;
   } | null;
 };
@@ -4064,6 +4067,7 @@ export type AddressLocationUpdateContainerMutation = {
           routeNumbers?: string | null;
           streetNameAndNumber?: string | null;
         } | null;
+        position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
       } | null;
     } | null;
   };
@@ -4098,6 +4102,7 @@ export type AddressLocationContainerPropertyMutationResultFieldsFragment = {
         routeNumbers?: string | null;
         streetNameAndNumber?: string | null;
       } | null;
+      position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
     } | null;
   } | null;
 };
@@ -4128,6 +4133,7 @@ export type AddressLocationContainerPropertyFieldsFragment = {
       routeNumbers?: string | null;
       streetNameAndNumber?: string | null;
     } | null;
+    position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
   } | null;
 };
 
@@ -6172,7 +6178,8 @@ export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } }
                     ]
                   }
                 }
@@ -7016,6 +7023,14 @@ export const AddressLocationContainerPropertyFieldsFragmentDoc = {
                       { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
                     ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'position' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
                   }
                 }
               ]

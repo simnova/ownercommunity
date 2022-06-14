@@ -262,6 +262,7 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -810,6 +811,9 @@ export type PropertyResult = {
   coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
+  listedForLease?: Maybe<Scalars['Boolean']>;
+  listedForRent?: Maybe<Scalars['Boolean']>;
+  listedForSale?: Maybe<Scalars['Boolean']>;
   listingAgentCompany?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
@@ -822,6 +826,9 @@ export type PropertySearchFacets = {
   additionalAmenitiesAmenities?: Maybe<Array<Maybe<FacetDetail>>>;
   additionalAmenitiesCategory?: Maybe<Array<Maybe<FacetDetail>>>;
   amenities?: Maybe<Array<Maybe<FacetDetail>>>;
+  listedForLease?: Maybe<Array<Maybe<FacetDetail>>>;
+  listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
+  listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
@@ -3518,6 +3525,9 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       coordinates?: Array<number | null> | null;
       images?: Array<string | null> | null;
       listingAgentCompany?: string | null;
+      listedForSale?: boolean | null;
+      listedForRent?: boolean | null;
+      listedForLease?: boolean | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenitiesSearchResult';
         category?: string | null;
@@ -3563,6 +3573,21 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      listedForSale?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      listedForRent?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      listedForLease?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -3583,6 +3608,9 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     coordinates?: Array<number | null> | null;
     images?: Array<string | null> | null;
     listingAgentCompany?: string | null;
+    listedForSale?: boolean | null;
+    listedForRent?: boolean | null;
+    listedForLease?: boolean | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenitiesSearchResult';
       category?: string | null;
@@ -3628,6 +3656,21 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       value?: string | null;
       count?: number | null;
     } | null> | null;
+    listedForSale?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    listedForRent?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    listedForLease?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
   } | null;
 };
 
@@ -3644,6 +3687,9 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   coordinates?: Array<number | null> | null;
   images?: Array<string | null> | null;
   listingAgentCompany?: string | null;
+  listedForSale?: boolean | null;
+  listedForRent?: boolean | null;
+  listedForLease?: boolean | null;
   additionalAmenities?: Array<{
     __typename?: 'AdditionalAmenitiesSearchResult';
     category?: string | null;
@@ -6457,7 +6503,10 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
                 { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } }
               ]
             }
-          }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } }
         ]
       }
     }
@@ -6535,6 +6584,39 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'additionalAmenitiesAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'listedForSale' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'listedForRent' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'listedForLease' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [

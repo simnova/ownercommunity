@@ -8,7 +8,9 @@ import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-f
 import { Space, Button } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
+import { FilterNames } from '../../../../constants';
 
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
@@ -22,6 +24,34 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
   const clearFilter = () => {
     props.setSelectedFilter(undefined);
     setSearchParams({});
+  };
+
+  const getListedInfoFacets = (facets?: PropertySearchFacets) => {
+    const listedInfoFacets: FacetDetail[] = [];
+    if (facets) {
+      if (facets.listedForLease) {
+        const temp = facets.listedForLease.find((l) => l?.value === 'true');
+        listedInfoFacets.push({
+          value: FilterNames.ListedForLease,
+          count: temp?.count
+        } as FacetDetail);
+      }
+      if (facets.listedForSale) {
+        const temp = facets.listedForSale.find((l) => l?.value === 'true');
+        listedInfoFacets.push({
+          value: FilterNames.ListedForSale,
+          count: temp?.count
+        } as FacetDetail);
+      }
+      if (facets.listedForRent) {
+        const temp = facets.listedForRent.find((l) => l?.value === 'true');
+        listedInfoFacets.push({
+          value: FilterNames.ListedForRent,
+          count: temp?.count
+        } as FacetDetail);
+      }
+    }
+    return listedInfoFacets;
   };
 
   return (
@@ -40,6 +70,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
       />
+
       {/* Bedrooms */}
       <PropertiesListSearchFilterBedrooms
         selectedFilter={props.selectedFilter}
@@ -76,6 +107,13 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
       <PropertiesListSearchFilterPrice
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
+      />
+
+      {/* Listed Info: listedForSale, listedForLease, listedForRent */}
+      <PropertiesListSearchFilterListedInfo
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        listedInfoFacets={getListedInfoFacets(props.facets)}
       />
     </>
   );

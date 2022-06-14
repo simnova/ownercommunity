@@ -1,4 +1,8 @@
-import { AdditionalAmenities, AdditionalAmenitiesValues } from '../../../../constants';
+import {
+  AdditionalAmenities,
+  AdditionalAmenitiesValues,
+  SearchParamKeys
+} from '../../../../constants';
 import { Checkbox, Collapse } from 'antd';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState, FC } from 'react';
@@ -57,9 +61,12 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
             `${amenity?.category}:${amenity?.amenities?.join(',')}`
           );
         });
-        searchParams.set('additionalAmenities', additionalAmenitiesQueryStrings.join(';'));
+        searchParams.set(
+          SearchParamKeys.AdditionalAmenities,
+          additionalAmenitiesQueryStrings.join(';')
+        );
       } else {
-        searchParams.delete('additionalAmenities');
+        searchParams.delete(SearchParamKeys.AdditionalAmenities);
       }
       setSearchParams(searchParams);
 
@@ -73,7 +80,9 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
     };
 
     useEffect(() => {
-      const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
+      const qsadditionalAmenities = searchParams
+        .get(SearchParamKeys.AdditionalAmenities)
+        ?.split(';');
       if (qsadditionalAmenities) {
         let temp: AdditionalAmenities[] = [];
 
@@ -102,7 +111,7 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
     }, [location]);
 
     return (
-      <Collapse style={{ width: "25%" }}>
+      <Collapse style={{ width: '25%' }}>
         <Panel header={<h2 className="font-bold">Additional Amenities</h2>} key="5">
           <div style={{ paddingLeft: '20px' }}>
             {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => {

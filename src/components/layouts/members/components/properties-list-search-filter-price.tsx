@@ -1,7 +1,7 @@
 import { Col, Row, Slider, Input } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { PriceMarkers } from '../../../../constants';
+import { PriceMarkers, SearchParamKeys } from '../../../../constants';
 import { FilterDetail } from '../../../../generated';
 
 interface PropertiesListSearchFilterPriceProps {
@@ -21,8 +21,8 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
     setMinPrice(values[0]);
     setMaxPrice(values[1]);
     // update query string
-    searchParams.set('minPrice', values[0].toString());
-    searchParams.set('maxPrice', values[1].toString());
+    searchParams.set(SearchParamKeys.MinPrice, values[0].toString());
+    searchParams.set(SearchParamKeys.MaxPrice, values[1].toString());
     setSearchParams(searchParams);
     props.setSelectedFilter({
       ...props.selectedFilter,
@@ -37,7 +37,7 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
     switch (type) {
       case 'min':
         setMinPrice(e.target.value);
-        searchParams.set('minPrice', e.target.value);
+        searchParams.set(SearchParamKeys.MinPrice, e.target.value);
         props.setSelectedFilter({
           ...props.selectedFilter,
           listingDetail: {
@@ -48,7 +48,7 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
         break;
       case 'max':
         setMaxPrice(e.target.value);
-        searchParams.set('maxPrice', e.target.value);
+        searchParams.set(SearchParamKeys.MaxPrice, e.target.value);
         props.setSelectedFilter({
           ...props.selectedFilter,
           listingDetail: {
@@ -63,8 +63,8 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
 
   // Update UI (selected prices) with corresponding prices when page is loaded
   useEffect(() => {
-    const qsMinPrice = searchParams.get('minPrice');
-    const qsMaxPrice = searchParams.get('maxPrice');
+    const qsMinPrice = searchParams.get(SearchParamKeys.MinPrice);
+    const qsMaxPrice = searchParams.get(SearchParamKeys.MaxPrice);
     if (qsMinPrice) {
       setMinPrice(parseInt(qsMinPrice));
     }
@@ -73,6 +73,7 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
     }
   }, []);
 
+  // handle when clear all filter clicked
   useEffect(() => {
     if (!location.search) {
       setMinPrice(0);

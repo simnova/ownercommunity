@@ -817,7 +817,6 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
-  coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -825,6 +824,7 @@ export type PropertyResult = {
   listedForSale?: Maybe<Scalars['Boolean']>;
   listingAgentCompany?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  position?: Maybe<Point>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
@@ -3533,7 +3533,6 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       price?: number | null;
       bathrooms?: number | null;
       squareFeet?: number | null;
-      coordinates?: Array<number | null> | null;
       images?: Array<string | null> | null;
       listingAgentCompany?: string | null;
       listedForSale?: boolean | null;
@@ -3544,6 +3543,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         category?: string | null;
         amenities?: Array<string | null> | null;
       } | null> | null;
+      position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
       address?: {
         __typename?: 'Address';
         streetNumber?: string | null;
@@ -3620,7 +3620,6 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     price?: number | null;
     bathrooms?: number | null;
     squareFeet?: number | null;
-    coordinates?: Array<number | null> | null;
     images?: Array<string | null> | null;
     listingAgentCompany?: string | null;
     listedForSale?: boolean | null;
@@ -3631,6 +3630,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       category?: string | null;
       amenities?: Array<string | null> | null;
     } | null> | null;
+    position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
     address?: {
       __typename?: 'Address';
       streetNumber?: string | null;
@@ -3703,7 +3703,6 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   price?: number | null;
   bathrooms?: number | null;
   squareFeet?: number | null;
-  coordinates?: Array<number | null> | null;
   images?: Array<string | null> | null;
   listingAgentCompany?: string | null;
   listedForSale?: boolean | null;
@@ -3714,6 +3713,7 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
     category?: string | null;
     amenities?: Array<string | null> | null;
   } | null> | null;
+  position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
   address?: {
     __typename?: 'Address';
     streetNumber?: string | null;
@@ -6645,7 +6645,14 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
           { kind: 'Field', name: { kind: 'Name', value: 'price' } },
           { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
           { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'coordinates' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'position' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'images' } },
           { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
           {

@@ -54,7 +54,9 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
   price
   bathrooms
   squareFeet
-  coordinates
+  position {
+    coordinates
+  }
   images
   listingAgentCompany
   address {

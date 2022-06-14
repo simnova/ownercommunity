@@ -4,6 +4,7 @@ import { Resolvers, Community, Member, Property, PropertyMutationResult, Propert
 import { isValidObjectId } from 'mongoose';
 import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
 import { getMemberForCurrentUser } from './helpers';
+import { ContentModeratorClientContext } from '@azure/cognitiveservices-contentmoderator';
 
 const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promise<PropertyMutationResult> => {
   try {
@@ -22,6 +23,9 @@ const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promi
 
 const property: Resolvers = {
   Property: {
+    mapSASToken: async (parent, args, context) => {
+      return (await context.dataSources.propertyMapApi.getSasToken()) ;
+    },
     community: async (parent, args, context, info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
         return (await context.dataSources.communityApi.findOneById(parent.community.toString())) as Community;

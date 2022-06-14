@@ -15,7 +15,6 @@ export interface PropertyProps extends EntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
   readonly location: LocationProps;
-  setLocationRef(location: LocationEntityReference): void;
   readonly owner: MemberProps | undefined;
   setOwnerRef(owner: MemberEntityReference): void;
   propertyName: string;
@@ -33,7 +32,7 @@ export interface PropertyProps extends EntityProps {
 
 export interface PropertyEntityReference extends Readonly<Omit<PropertyProps,
   'community' | 'setCommunityRef' |
-  'location' | 'setLocationRef' |
+  'location' | 
   'owner' | 'setOwnerRef' |
   'listingDetail'>> {
   readonly community: CommunityEntityReference;
@@ -60,7 +59,8 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   }
 
   get community():CommunityEntityReference { return new Community(this.props.community, this.context); }
-  get location():LocationEntityReference|undefined { return this.props.location? new Location(this.props.location, this.context):undefined; }
+  // get location():LocationEntityReference|undefined { return this.props.location? new Location(this.props.location, this.context):undefined; }
+  get location() { return new Location(this.props.location, this.visa); }
   get owner():MemberEntityReference|undefined { return this.props.owner?new Member(this.props.owner, this.context): undefined; }
   get propertyName() { return this.props.propertyName; }
   get propertyType() { return this.props.propertyType; }
@@ -84,10 +84,10 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
       !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
     this.props.setCommunityRef(community);
   }
-  public requestSetLocation(location: LocationEntityReference): void {
-    if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
-    this.props.setLocationRef(location);
-  }
+  // public requestSetLocation(location: LocationEntityReference): void {
+  //   if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
+  //   this.props.setLocationRef(location);
+  // }
   public requestSetOwner(owner: MemberEntityReference): void {
     if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
     this.props.setOwnerRef(owner);

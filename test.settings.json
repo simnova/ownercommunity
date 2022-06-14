@@ -6,6 +6,9 @@
     "BLOB_CONNECTION_STRING": "blob-connection-string",
     "BLOB_ACCOUNT_KEY": "something",
     "FUNCTIONS_WORKER_RUNTIME": "node",
-    "AzureWebJobsStorage": ""
+    "AzureWebJobsStorage": "",
+    "MAPS_KEY": "map key",
+    "AZURE_SUBSCRIPTION_ID": "test",
+    "MAPS_ACCOUNT_NAME": "map name"
   }
 }

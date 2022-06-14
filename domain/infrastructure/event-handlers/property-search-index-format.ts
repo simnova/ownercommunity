@@ -331,7 +331,7 @@ export interface PropertyListingIndexDocument {
     streetName: string;
     municipality: string;
     municipalitySubdivision: string;
-    // localName: string;
+    localName: string;
     countrySecondarySubdivision: string;
     countryTertiarySubdivision: string;
     countrySubdivision: string;
@@ -342,6 +342,9 @@ export interface PropertyListingIndexDocument {
     country: string;
     countryCodeISO3: string;
     freeformAddress: string;
+    streetNameAndNumber: string;
+    routeNumbers: string;
+    crossStreet: string;
   };
   listedForSale: boolean;
   listedForRent: boolean;

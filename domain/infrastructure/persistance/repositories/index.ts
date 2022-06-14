@@ -22,10 +22,6 @@ import { PropertyModel } from '../../../../infrastructure/data-sources/cosmos-db
 import { PropertyConverter } from '../adapters/property-domain-adapter';
 import { MongoPropertyRepository } from './mongo-property-repository';
 
-import { LocationModel } from '../../../../infrastructure/data-sources/cosmos-db/models/location';
-import { LocationConverter } from '../adapters/location-domain-adapter';
-import { MongoLocationRepository } from './mongo-location-repository';
-
 import { ServiceTicketModel } from '../../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { ServiceTicketConverter } from '../adapters/service-ticket-domain-adapter';
 import { MongoServiceTicketRepository } from './mongo-service-ticket-repository';
@@ -35,5 +31,4 @@ export const CommunityUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventB
 export const MemberUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, MemberModel, new MemberConverter(), MongoMemberRepository);
 export const RoleUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, RoleModel, new RoleConverter(), MongoRoleRepository);
 export const PropertyUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, PropertyModel, new PropertyConverter(), MongoPropertyRepository);
-export const LocationUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, LocationModel, new LocationConverter(), MongoLocationRepository);
 export const ServiceTicketUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, ServiceTicketModel, new ServiceTicketConverter(), MongoServiceTicketRepository);

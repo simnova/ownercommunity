@@ -1,17 +1,17 @@
-import { Property, ListingDetail, BedroomDetail, AdditionalAmenity } from '../../../../infrastructure/data-sources/cosmos-db/models/property';
+import { Property, ListingDetail, BedroomDetail, AdditionalAmenity, Location } from '../../../../infrastructure/data-sources/cosmos-db/models/property';
 import { CommunityEntityReference } from '../../../contexts/community/community';
 import { MemberEntityReference } from '../../../contexts/community/member';
 import { DomainExecutionContext } from '../../../contexts/context';
-import { LocationEntityReference } from '../../../contexts/property/location';
+import { LocationEntityReference, LocationProps } from '../../../contexts/property/location';
 import { Property as PropertyDO, PropertyProps } from '../../../contexts/property/property';
 import { MongooseDomainAdapter, MongoosePropArray } from '../mongo-domain-adapter';
 import { MongoTypeConverter } from '../mongo-type-converter';
 import { CommunityDomainAdapter } from './community-domain-adapter';
-import { LocationDomainAdapter } from './location-domain-adapter';
 import { MemberDomainAdapter } from './member-domain-adapter';
 import { ListingDetailProps } from '../../../contexts/property/listing-detail';
 import { BedroomDetailProps } from '../../../contexts/property/bedroom-detail';
 import { AdditionalAmenityProps } from '../../../contexts/property/additional-amenity';
+import { AddressProps } from '../../../contexts/property/address';
 
 export class PropertyConverter extends MongoTypeConverter<DomainExecutionContext,Property,PropertyDomainAdapter,PropertyDO<PropertyDomainAdapter>> {
   constructor() {
@@ -29,13 +29,20 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
     this.props.set('community',community['props']['props']);
   }
 
-  get location() {
-    if(this.props.location) {return new LocationDomainAdapter(this.props.location);}
+  // get location() {
+  //   if(this.props.location) {return new LocationDomainAdapter(this.props.location);}
+  // }
+
+  // public setLocationRef(owner:LocationEntityReference) {
+  //   this.props.set('location',owner.id);
+  // }
+  get location(){
+    if(!this.props.location){
+      this.props.set('location',{});
+    }
+    return new LocationDomainAdapter(this.props.location); 
   }
-  public setLocationRef(owner:LocationEntityReference) {
-    this.props.set('location',owner.id);
-  }
-  
+
   get owner() {
     if(this.props.owner) {return new MemberDomainAdapter(this.props.owner);}
   }
@@ -172,4 +179,71 @@ export class AdditionalAmenityDomainAdapter implements AdditionalAmenityProps {
 
   get amenities() {return this.props.amenities;}
   set amenities(amenities) {this.props.amenities = amenities;}
+}
+
+export class LocationDomainAdapter implements LocationProps {
+  constructor(public readonly props: Location) {}
+  public get id(): string { return this.props.id.valueOf() as string; }
+  get position(){
+    if(!this.props || !this.props.position) return null;
+    return{
+      get type(){return this.props.position.type},
+      set type(value){this.props.position.type = value},
+      get coordinates(){return this.props.position.coordinates},
+      set coordinates(value){this.props.position.coordinates = value}
+    }
+  }
+  get address(){
+    if(!this.props.address){
+      this.props.set('address',{});  
+      return null;
+    }
+    return new AddressDomainAdapter(this.props.address); 
+  }
+
+  
+}
+
+export class AddressDomainAdapter implements AddressProps {  
+  constructor(public readonly props: Location['address']) {}
+  // public get id(): string { return "" as string; }
+  public get id(): string { return this.props.id.valueOf() as string; }
+
+  get streetNumber(): string { return this.props.streetNumber }
+  set streetNumber(value: string) { this.props.streetNumber = value; }
+  get streetName(): string { return this.props.streetName; }
+  set streetName(value: string) { this.props.streetName = value; }
+  get municipality(): string { return this.props.municipality; }
+  set municipality(value: string) { this.props.municipality = value; }
+  get municipalitySubdivision(): string { return this.props.municipalitySubdivision; }
+  set municipalitySubdivision(value: string) { this.props.municipalitySubdivision = value; }
+  get localName(): string { return this.props.localName; }
+  set localName(value: string) { this.props.localName = value; }
+  get countrySecondarySubdivision(): string { return this.props.countrySecondarySubdivision; }
+  set countrySecondarySubdivision(value: string) { this.props.countrySecondarySubdivision = value; }
+  get countryTertiarySubdivision(): string { return this.props.countryTertiarySubdivision; }
+  set countryTertiarySubdivision(value: string) { this.props.countryTertiarySubdivision = value; }
+  get countrySubdivision(): string { return this.props.countrySubdivision; }
+  set countrySubdivision(value: string) { this.props.countrySubdivision = value; }
+  get countrySubdivisionName(): string { return this.props.countrySubdivisionName; }
+  set countrySubdivisionName(value: string) { this.props.countrySubdivisionName = value; }
+  get postalCode(): string { return this.props.postalCode; }
+  set postalCode(value: string) { this.props.postalCode = value; }
+  get extendedPostalCode(): string { return this.props.extendedPostalCode; }
+  set extendedPostalCode(value: string) { this.props.extendedPostalCode = value; }
+  get countryCode(): string { return this.props.countryCode; }
+  set countryCode(value: string) { this.props.countryCode = value; }
+  get country(): string { return this.props.country; }
+  set country(value: string) { this.props.country = value; }
+  get countryCodeISO3(): string { return this.props.countryCodeISO3; }
+  set countryCodeISO3(value: string) { this.props.countryCodeISO3 = value; }
+  get freeformAddress(): string { return this.props.freeformAddress; }
+  set freeformAddress(value: string) { this.props.freeformAddress = value; }
+
+  get streetNameAndNumber(): string { return this.props.streetNameAndNumber; }
+  set streetNameAndNumber(value: string) { this.props.streetNameAndNumber = value; }
+  get routeNumbers(): string { return this.props.routeNumbers; }
+  set routeNumbers(value: string) { this.props.routeNumbers = value; }
+  get crossStreet(): string { return this.props.crossStreet; }
+  set crossStreet(value: string) { this.props.crossStreet = value; }
 }

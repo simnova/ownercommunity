@@ -265,7 +265,7 @@ type PropertyResult {
   price: Float
   bathrooms: Float
   squareFeet: Int
-  coordinates: [Float]
+  position: Point
   images: [String]
   listingAgentCompany: String
   address: Address

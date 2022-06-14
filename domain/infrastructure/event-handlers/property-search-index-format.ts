@@ -94,7 +94,7 @@ export const propertyListingIndexSpec = {
       facetable: true,
     },
     {
-      name: 'coordinates',
+      name: 'position',
       type: 'Edm.GeographyPoint',
       filterable: true,
       sortable: true,
@@ -323,7 +323,7 @@ export interface PropertyListingIndexDocument {
   price: number;
   bathrooms: number;
   squareFeet: number;
-  coordinates: GeographyPoint;
+  position: GeographyPoint;
   images: string[];
   listingAgentCompany: string;
   address: {

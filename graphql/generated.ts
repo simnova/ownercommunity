@@ -819,7 +819,6 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
-  coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -827,6 +826,7 @@ export type PropertyResult = {
   listedForSale?: Maybe<Scalars['Boolean']>;
   listingAgentCompany?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  position?: Maybe<Point>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
@@ -2077,7 +2077,6 @@ export type PropertyResultResolvers<ContextType = Context, ParentType extends Re
   bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   communityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  coordinates?: Resolver<Maybe<Array<Maybe<ResolversTypes['Float']>>>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   listedForLease?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -2085,6 +2084,7 @@ export type PropertyResultResolvers<ContextType = Context, ParentType extends Re
   listedForSale?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   listingAgentCompany?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  position?: Resolver<Maybe<ResolversTypes['Point']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   squareFeet?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

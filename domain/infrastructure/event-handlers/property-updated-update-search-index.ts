@@ -35,7 +35,7 @@ export default () => {
         price: property.listingDetail?.price,
         bathrooms: property.listingDetail?.bathrooms,
         squareFeet: property.listingDetail?.squareFeet,
-        coordinates: geoGraphyPoint,
+        position: geoGraphyPoint,
         images: property.listingDetail?.images,
         listingAgentCompany: property.listingDetail?.listingAgentCompany,
         address: {

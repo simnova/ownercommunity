@@ -44,5 +44,8 @@ fragment AddressLocationContainerPropertyFields on Property {
       routeNumbers
       streetNameAndNumber
     }
+    position {
+      coordinates
+    }
   }
 }

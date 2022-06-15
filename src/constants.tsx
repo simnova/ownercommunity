@@ -15,12 +15,28 @@ export const handleToggler = (isExpanded: boolean, callback: (isExpanded: boolea
   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
 };
 
+export const SearchParamKeys = {
+  ListedInfo: 'listedInfo',
+  PropertyType: 'type',
+  Amenities: 'amenities',
+  AdditionalAmenities: 'additionalAmenities',
+  MinPrice: 'minPrice',
+  MaxPrice: 'maxPrice',
+  Bedrooms: 'bedrooms',
+  Bathrooms: 'bathrooms',
+  MinSquareFeet: 'minSquareFeet',
+  MaxSquareFeet: 'maxSquareFeet'
+};
+
 export const FilterNames = {
   Type: 'type',
   Bedrooms: 'bedrooms',
   Amenities: 'amenities',
   AdditionalAmenitiesCategory: 'additionalAmenities/category',
-  AdditionalAmenitiesAmenities: 'additionalAmenities/amenities'
+  AdditionalAmenitiesAmenities: 'additionalAmenities/amenities',
+  ListedForSale: 'listedForSale',
+  ListedForRent: 'listedForRent',
+  ListedForLease: 'listedForLease'
 };
 
 export interface AdditionalAmenities {
@@ -44,6 +60,11 @@ export const BathroomsFilterOptions = [
   { label: '5+', value: '5' }
 ];
 export const PropertyTypes = ['condo', 'single family', 'townhouse'];
+export const Listed = [
+  { label: 'For Sale', value: 'listedForSale' },
+  { label: 'For Rent', value: 'listedForRent' },
+  { label: 'For Lease', value: 'listedForLease' }
+];
 export const Amenities = ['Wifi', 'Pool', 'TV'];
 export const AdditionalAmenitiesValues: AdditionalAmenities[] = [
   {

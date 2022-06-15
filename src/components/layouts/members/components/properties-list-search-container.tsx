@@ -23,7 +23,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     { fetchPolicy: 'network-only' }
   );
 
-  // get selected filters from query string
+  // get selected filters from query string (when page is loaded)
   useEffect(() => {
     // get all search params
     const searchParams = new URLSearchParams(location.search);
@@ -131,7 +131,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.Type,
               FilterNames.AdditionalAmenitiesCategory,
               FilterNames.AdditionalAmenitiesAmenities + ',count:30',
-              FilterNames.Amenities + ',count:30'
+              FilterNames.Amenities + ',count:30',
+              FilterNames.ListedForLease + ',count:30',
+              FilterNames.ListedForSale + ',count:30',
+              FilterNames.ListedForRent + ',count:30'
             ],
             filter: filter
           }

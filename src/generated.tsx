@@ -3517,6 +3517,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
     propertyResults?: Array<{
       __typename?: 'PropertyResult';
       communityId?: string | null;
+      id?: string | null;
       name?: string | null;
       type?: string | null;
       bedrooms?: number | null;
@@ -3586,6 +3587,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
   propertyResults?: Array<{
     __typename?: 'PropertyResult';
     communityId?: string | null;
+    id?: string | null;
     name?: string | null;
     type?: string | null;
     bedrooms?: number | null;
@@ -3651,6 +3653,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
 export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   __typename?: 'PropertyResult';
   communityId?: string | null;
+  id?: string | null;
   name?: string | null;
   type?: string | null;
   bedrooms?: number | null;
@@ -6574,6 +6577,7 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'type' } },
           { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },

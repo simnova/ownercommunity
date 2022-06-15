@@ -193,7 +193,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         <Space direction='vertical'>
             <Space direction='vertical' size={0}>
                 <Title level={2} style={{marginBottom: "0px"}}>{props.data.property.propertyName}</Title>
-                <Text italic style={{color: "gray"}}>Owned By: {props.data.property.owner.memberName}</Text>
+                <Text italic style={{color: "gray"}}>Owned By: {props.data.property.owner?.memberName ? props.data.property.owner.memberName : ''}</Text>
             </Space>
 
             <Space direction='horizontal' size={50} >

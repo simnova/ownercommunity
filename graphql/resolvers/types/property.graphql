@@ -207,6 +207,8 @@ input PropertiesSearchInput {
 input PropertiesSearchOptions {
   filter: FilterDetail
   facets: [String]
+  top: Int
+  skip: Int
 }
 input FilterDetail {
   propertyType: [String]

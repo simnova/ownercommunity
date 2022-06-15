@@ -82,6 +82,8 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       includeTotalCount: true,
       filter: filterString, // `search.in(type, 'condo,townhouse',',') and bedrooms ge 2`,
       facets: input.options.facets, // ['type'],
+      top: input.options.top, // 10, 15, 20
+      skip: input.options.skip, // 0, skip += top
     });
 
     console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);

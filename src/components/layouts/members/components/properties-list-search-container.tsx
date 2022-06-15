@@ -4,7 +4,7 @@ import {
   MemberPropertiesListSearchContainerPropertiesDocument,
   PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space } from 'antd';
+import { Skeleton, Input, Button, Space, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -15,6 +15,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [top, setTop] = useState(10);
+  const [skip, setSkip] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -118,7 +120,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
     setSelectedFilter(filters);
     handleSearch(qssearchString ?? '', filters);
-  }, []);
+  }, [top]);
 
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
@@ -136,7 +138,9 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.ListedForSale + ',count:30',
               FilterNames.ListedForRent + ',count:30'
             ],
-            filter: filter
+            filter: filter,
+            top: top,
+            skip: 0,
           }
         }
       }
@@ -182,6 +186,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
           Search
         </Button>
+        <Pagination defaultCurrent={1} total={data?.propertiesSearch?.count ? data?.propertiesSearch?.count / top : 10} />
       </Space>
       <div>
         {data?.propertiesSearch?.count
@@ -195,6 +200,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         selectedFilter={selectedFilter}
         handleSearch={handleSearch}
         searchString={searchString}
+        setTop={setTop}
       />
       {result()}
     </>

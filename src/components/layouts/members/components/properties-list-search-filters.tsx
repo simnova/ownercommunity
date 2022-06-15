@@ -5,7 +5,7 @@ import { PropertiesListSearchFilterBedrooms } from './properties-list-search-fil
 import { PropertiesListSearchFilterPrice } from './properties-list-search-filter-price';
 import { PropertiesListSearchFilterPropertyType } from './properties-list-search-filter-property-type';
 import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
-import { Space, Button, Modal } from 'antd';
+import { Space, Button, Modal, Select } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
@@ -13,12 +13,14 @@ import { FC, useEffect, useState } from 'react';
 import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
 import { FilterNames } from '../../../../constants';
 
+const { Option } = Select;
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
   handleSearch: (searchString?: string, filter?: FilterDetail) => void;
   searchString?: string;
+  setTop: (top: number) => void;
 }
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
@@ -60,12 +62,21 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
   return (
     <div>
-      <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
-        <Space size="middle">
-          <FilterOutlined />
-          <span>Filters</span>
-        </Space>
-      </Button>
+      <Space>
+        <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
+          <Space size="middle">
+            <FilterOutlined />
+            <span>Filters</span>
+          </Space>
+        </Button>
+        <Select defaultValue={10} onChange={(value) => props.setTop(value)}>
+          <Option value={5}>5</Option>
+          <Option value={10}>10</Option>
+          <Option value={15}>15</Option>
+          <Option value={25}>25</Option>
+          <Option value={50}>50</Option>
+        </Select>
+      </Space>
       <Modal
         title="Filters"
         visible={isModalVisible}

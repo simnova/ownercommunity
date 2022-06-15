@@ -43,6 +43,7 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
 
 fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyResult {
   communityId
+  id
   name
   type
   bedrooms

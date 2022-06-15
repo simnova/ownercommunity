@@ -37,7 +37,7 @@ export const PropertiesLocation = (props: any) => {
     const address = async () => {
       const request = await fetch(requestUrl, {
         method: 'GET',
-        mode: 'no-cors',
+        mode: 'cors',
         headers: {
           Authorization: 'jwt-sas ' + token,
           'Content-Type': 'application/json; charset=utf-8'

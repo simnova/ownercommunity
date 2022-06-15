@@ -1,15 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 export const ListingCard: React.FC<any> = (props) => {
 
   const params = useParams();
+  const navigate = useNavigate();
   // const imageGallery = props.images.map((image: any) => {
   //     return image;
   // })
   console.log(props.data);
 
   return (
-    <div className="p-2">
+    <div className="p-2" onClick={() => navigate(`../../listings/${props.data.id}`)} style={{ cursor: 'pointer' }}>
       <div
         className="max-w-xs grid grid-cols-1"
         style={{ border: '1px solid gray', borderRadius: '9px' }}
@@ -21,7 +22,6 @@ export const ListingCard: React.FC<any> = (props) => {
           {/* <h1 className="mt-1 text-lg font-semibold text-white dark:sm:text-white">Name</h1>
                     <p className="text-sm leading-4 font-medium text-white dark:sm:text-slate-400">Entire house</p> */}
         </div>
-
         <div className="grid gap-4 col-start-1 col-end-3 row-start-1">
           <img src={"https://ownercommunity.blob.core.windows.net/" + props.data.communityId + "/" + props.data.images[0]} className="w-full h-60 object-cover rounded-lg col-span-2 h-52" />
         </div>

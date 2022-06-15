@@ -28,8 +28,8 @@ export const ListingCard: React.FC<any> = (props) => {
 
         <div className="px-2">
           <p className="mt-4 mb-0 text-sm leading-6 col-start-1 dark:text-slate-400">
-            {props.data.bedrooms} Bds, {props.data.bathrooms} Ba,{' '}
-            {props.data.squareFeet} sqft
+            {props.data.bedrooms ? props.data.bedrooms : "-"} Bds, {props.data.bathrooms ? props.data.bathrooms : "-"} Ba,{' '}
+            {props.data.squareFeet ? props.data.squareFeet : "-"} sqft
           </p>
           <p className="mb-0 text-sm leading-6 col-start-1 dark:text-slate-400">
             <em> {props.data.address.freeformAddress}</em>

@@ -21,7 +21,7 @@ export default () => {
       const coordinates = property.location?.position?.coordinates;
       let geoGraphyPoint: GeographyPoint = null;
       if (coordinates && coordinates.length === 2) {
-        geoGraphyPoint = new GeographyPoint({ longitude: coordinates[0], latitude: coordinates[1] });
+        geoGraphyPoint = new GeographyPoint({ longitude: coordinates[1], latitude: coordinates[0] });
       }
 
       let listingDoc: Partial<PropertyListingIndexDocument> = {
@@ -35,7 +35,7 @@ export default () => {
         price: property.listingDetail?.price,
         bathrooms: property.listingDetail?.bathrooms,
         squareFeet: property.listingDetail?.squareFeet,
-        coordinates: geoGraphyPoint,
+        position: geoGraphyPoint,
         images: property.listingDetail?.images,
         listingAgentCompany: property.listingDetail?.listingAgentCompany,
         address: {

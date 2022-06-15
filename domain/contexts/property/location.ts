@@ -3,12 +3,14 @@ import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
 import { PropertyVisa } from '../iam/property-visa';
 import { Address, AddressEntityReference, AddressProps } from './address';
+import { Position, PositionProps } from './position';
 
 export interface LocationProps extends EntityProps {
-  position:  {
-    type: string;
-    coordinates: number[];
-  } 
+  position:  PositionProps;
+  // {
+  //   type: string;
+  //   coordinates: number[];
+  // } 
  address: AddressProps;
   // address: {
   //   streetNumber: string;
@@ -68,15 +70,16 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
   constructor(props: LocationProps, private readonly visa: PropertyVisa) { super(props); }
 
 
-  get position() { 
-    if(! this.props.position) {
-      return undefined;
-    }
-    return {
-      get type(): string { return this.props.position.type;},
-      get coordinates(): number[] { return this.props.position.coordinates;}
-    };
-  }
+  // get position() { 
+  //   if(! this.props.position) {
+  //     return undefined;
+  //   }
+  //   return {
+  //     get type(): string { return this.props.position.type;},
+  //     get coordinates(): number[] { return this.props.position.coordinates;}
+  //   };
+  // }
+  get position() { return new Position(this.props.position, this.visa); }
 
   get address() { return new Address(this.props.address, this.visa); }
 
@@ -163,7 +166,7 @@ export class Location extends Entity<LocationProps> implements LocationEntityRef
   //   this.props.address.streetName = streetName;
   // }
 
-  requestSetPosition(position: any) {
+  requestSetPosition(position: Omit<PositionProps, 'id'>) {
     this.validateVisa();
     this.props.position.coordinates = position.coordinates;
   }

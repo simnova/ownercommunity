@@ -55,7 +55,6 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       }
       // listed info (listedForSale, listedForRent, listedForLease)
       if (filter.listedInfo && filter.listedInfo.length > 0) {
-        // sample data: ['listedForSale', 'listedForRent', 'listedForLease']
         if (filter.listedInfo.includes('listedForSale')) {
           filterStrings.push('listedForSale eq true');
         }

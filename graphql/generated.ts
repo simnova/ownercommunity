@@ -277,6 +277,12 @@ export type FilterDetail = {
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type GeographyPoint = {
+  __typename?: 'GeographyPoint';
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+};
+
 export type ListingDetails = {
   __typename?: 'ListingDetails';
   additionalAmenities?: Maybe<Array<Maybe<AdditionalAmenities>>>;
@@ -819,7 +825,6 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
-  coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -827,6 +832,7 @@ export type PropertyResult = {
   listedForSale?: Maybe<Scalars['Boolean']>;
   listingAgentCompany?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  position?: Maybe<GeographyPoint>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
@@ -1250,6 +1256,7 @@ export type ResolversTypes = ResolversObject<{
   FilterDetail: FilterDetail;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
+  GeographyPoint: ResolverTypeWrapper<GeographyPoint>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
   HSLA: ResolverTypeWrapper<Scalars['HSLA']>;
   HexColorCode: ResolverTypeWrapper<Scalars['HexColorCode']>;
@@ -1414,6 +1421,7 @@ export type ResolversParentTypes = ResolversObject<{
   FilterDetail: FilterDetail;
   Float: Scalars['Float'];
   GUID: Scalars['GUID'];
+  GeographyPoint: GeographyPoint;
   HSL: Scalars['HSL'];
   HSLA: Scalars['HSLA'];
   HexColorCode: Scalars['HexColorCode'];
@@ -1709,6 +1717,12 @@ export type FileInfoResolvers<ContextType = Context, ParentType extends Resolver
 export interface GuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['GUID'], any> {
   name: 'GUID';
 }
+
+export type GeographyPointResolvers<ContextType = Context, ParentType extends ResolversParentTypes['GeographyPoint'] = ResolversParentTypes['GeographyPoint']> = ResolversObject<{
+  latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export interface HslScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['HSL'], any> {
   name: 'HSL';
@@ -2077,7 +2091,6 @@ export type PropertyResultResolvers<ContextType = Context, ParentType extends Re
   bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   communityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  coordinates?: Resolver<Maybe<Array<Maybe<ResolversTypes['Float']>>>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   listedForLease?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -2085,6 +2098,7 @@ export type PropertyResultResolvers<ContextType = Context, ParentType extends Re
   listedForSale?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   listingAgentCompany?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  position?: Resolver<Maybe<ResolversTypes['GeographyPoint']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   squareFeet?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2329,6 +2343,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   FacetDetail?: FacetDetailResolvers<ContextType>;
   FileInfo?: FileInfoResolvers<ContextType>;
   GUID?: GraphQLScalarType;
+  GeographyPoint?: GeographyPointResolvers<ContextType>;
   HSL?: GraphQLScalarType;
   HSLA?: GraphQLScalarType;
   HexColorCode?: GraphQLScalarType;

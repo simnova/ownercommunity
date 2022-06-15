@@ -2,8 +2,8 @@ import { Entity, EntityProps } from "../../shared/entity";
 import { PropertyVisa } from "../iam/property-visa";
 
 export interface PositionProps extends EntityProps {
-    type: string;
-    coordinates: number[];
+    type?: string;
+    coordinates?: number[];
 }
 
 export interface PositionEntityReference extends Readonly<PositionProps> {}

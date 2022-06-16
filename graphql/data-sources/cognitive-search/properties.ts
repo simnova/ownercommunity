@@ -65,6 +65,11 @@ export class Properties extends CognitiveSearchDataSource<Context> {
           filterStrings.push('listedForLease eq true');
         }
       }
+
+      // distance
+      if (filter.distance) {
+        filterStrings.push("geo.distance(position, geography'POINT(-75.15284 40.03926)') le " + filter.distance)
+      }
     }
 
     return filterStrings.join(' and ');

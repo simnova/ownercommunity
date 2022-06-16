@@ -272,6 +272,7 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;

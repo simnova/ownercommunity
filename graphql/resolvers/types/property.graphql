@@ -212,6 +212,7 @@ input FilterDetail {
   propertyType: [String]
   listingDetail: ListingDetailsFilterInput
   listedInfo: [String]
+  distance: Float
 }
 input ListingDetailsFilterInput {
   bedrooms: Int

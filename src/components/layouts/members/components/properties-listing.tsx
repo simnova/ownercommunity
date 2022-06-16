@@ -7,6 +7,7 @@ import { PropertyUpdateInput, MembersPropertiesListingContainerPropertyFieldsFra
 import { FormTags } from '../../../ui/organisms/form-tags';
 import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload-container';
 import { PropertiesFloorPlanUploadContainer } from './properties-floor-plan-upload-container';
+import { SelectTags } from './select-tags';
 
 
 const { Title } = Typography;
@@ -22,6 +23,17 @@ export interface PropertiesListingProps {
 export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
+
+  const amentitiesOptions = 
+  [
+    'Cable',
+    'Pool (Private)',
+    'Pool (Public)',
+    'Gym',
+    'Washer/Dryer (Private)',
+    'Washer/Dryer (Public)'
+  ];
+
   return(
     <div>
       <Descriptions title="Property Info" size={'small'} layout={'vertical'}>
@@ -158,8 +170,13 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         <Form.Item 
           name={['listingDetail', 'amenities']}
           label="Amenities"
+          //valuePropName='option'
         >
-          <FormTags />
+          {/* <FormTags /> */}
+          
+          <SelectTags 
+            options={amentitiesOptions} 
+            label='Amenities'/>
 
         </Form.Item>
 

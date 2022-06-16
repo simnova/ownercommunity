@@ -1,7 +1,7 @@
 import { Radio, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { BathroomsFilterOptions, SearchParamKeys } from '../../../../constants';
+import { BathroomsFilterOptions, FilterNames, SearchParamKeys } from '../../../../constants';
 import { FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
@@ -18,7 +18,7 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
   const [bathrooms, setBathrooms] = useState<undefined | number>();
 
   const onBathroomsClicked = (e: any) => {
-    setBathrooms(parseInt(e.target.value));
+    setBathrooms(parseFloat(e.target.value));
     if (e.target.value) {
       searchParams.set(SearchParamKeys.Bathrooms, e.target.value);
     } else {
@@ -49,10 +49,10 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
   }, [location]);
   return (
     <Collapse className="search-filter-collapse">
-      <Panel header={<h2 className="font-bold">Bathrooms</h2>} key="3">
+      <Panel header={<h2 className="font-bold">Bathrooms</h2>} key={FilterNames.Bathrooms}>
         <Radio.Group
-          value={bathrooms?.toString()}
-          defaultValue={bathrooms?.toString()}
+          value={bathrooms}
+          defaultValue={bathrooms}
           onChange={onBathroomsClicked}
           buttonStyle="solid"
           optionType="button"

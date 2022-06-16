@@ -12,6 +12,7 @@ import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../gen
 import { FC, useEffect, useState } from 'react';
 import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
 import { FilterNames } from '../../../../constants';
+import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
 
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
@@ -75,16 +76,24 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           <Button key="cancel" onClick={() => setIsModalVisible(false)}>
             Cancel
           </Button>,
-          <Button key="clear" type="link" onClick={() => {
-            props.handleSearch('', undefined);
-            clearFilter();
-          }}>
+          <Button
+            key="clear"
+            type="link"
+            onClick={() => {
+              props.handleSearch('', undefined);
+              clearFilter();
+            }}
+          >
             Clear Filters
           </Button>,
-          <Button key="submit" type="primary" onClick={() => {
-            props.handleSearch(props.searchString, props.selectedFilter);
-            setIsModalVisible(false)}
-          }>
+          <Button
+            key="submit"
+            type="primary"
+            onClick={() => {
+              props.handleSearch(props.searchString, props.selectedFilter);
+              setIsModalVisible(false);
+            }}
+          >
             Apply
           </Button>
         ]}
@@ -123,6 +132,12 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
         {/* squareFeet */}
         <PropertiesListSearchFilterSquareFeet
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+        />
+
+        {/* Distance */}
+        <PropertiesListSearchFilterDistance
           selectedFilter={props.selectedFilter}
           setSelectedFilter={props.setSelectedFilter}
         />

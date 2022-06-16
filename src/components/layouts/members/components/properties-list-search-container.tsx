@@ -172,12 +172,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   return (
     <>
       <Space size={0}>
-        <Input
-          placeholder="Search properties"
+        {/* <Input
+          placeholder="Enter an address"
           onPressEnter={(e: any) => handleSearch(e.target.value, selectedFilter)}
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
-        />
+        /> */}
 
         <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
           Search

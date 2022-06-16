@@ -47,7 +47,7 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
 
     return (
       <Collapse className="search-filter-collapse">
-        <Panel header={<h2 className="font-bold">Type </h2>} key="1">
+        <Panel header={<h2 className="font-bold">Type </h2>} key={FilterNames.Type}>
           <CheckboxGroup
             key={FilterNames.Type}
             options={PropertyTypes.map((value: string) => {

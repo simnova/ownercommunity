@@ -10,7 +10,7 @@ export const ListingCard: React.FC<any> = (props) => {
   console.log(props.data);
 
   return (
-    <div className="p-2" onClick={() => navigate(`../../listings/${props.data.id}`)} style={{ cursor: 'pointer' }}>
+    <div className="p-2" onClick={() => navigate(`../../listings/${props.data.id}`)} style={{ cursor: 'pointer', width: '100%', height:'100%' }}>
       <div
         className="max-w-xs grid grid-cols-1"
         style={{ border: '1px solid gray', borderRadius: '9px' }}
@@ -23,10 +23,15 @@ export const ListingCard: React.FC<any> = (props) => {
                     {/* <p className="text-sm leading-4 font-medium text-white dark:sm:text-slate-400">Entire house</p> */}
         </div>
         <div className="grid gap-4 col-start-1 col-end-3 row-start-1">
-          <img src={"https://ownercommunity.blob.core.windows.net/" + props.data.communityId + "/" + props.data.images[0]} className="w-full h-60 object-cover rounded-lg col-span-2 h-52" alt="Property Image" style={{width: "400px"}}/>
+          <img src={"https://ownercommunity.blob.core.windows.net/" + props.data.communityId + "/" + props.data.images[0]} className="w-full h-60 object-cover rounded-lg col-span-2 h-52" alt="Property Image" 
+          // style={{width: "400px"}}
+          />
         </div>
 
-        <div className="px-2" style={{height: '130px'}}>
+        <div 
+          className="px-2" 
+          style={{height: '150px'}}
+          >
           <p className="mt-4 mb-0 text-sm leading-6 col-start-1 dark:text-slate-400">
             {props.data.bedrooms ? props.data.bedrooms : "-"} Bds, {props.data.bathrooms ? props.data.bathrooms : "-"} Ba,{' '}
             {props.data.squareFeet ? props.data.squareFeet : "-"} sqft

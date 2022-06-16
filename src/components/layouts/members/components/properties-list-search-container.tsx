@@ -4,7 +4,7 @@ import {
   MemberPropertiesListSearchContainerPropertiesDocument,
   PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space } from 'antd';
+import { Skeleton, Input, Button, Space, List } from 'antd';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -161,7 +161,24 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
       return (
         <div>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>{properties()}</div>
+          {/* <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>{properties()}</div> */}
+          <List
+            grid={{
+              gutter: 16,
+              xs: 1,
+              sm: 1,
+              md: 2,
+              lg: 2,
+              xl: 3,
+              xxl: 3
+            }}
+            dataSource={generatedPropertyData}
+            renderItem={item => (
+              <List.Item>
+                <ListingCard data={item}></ListingCard>
+              </List.Item>
+            )}
+          ></List>
           <pre>{JSON.stringify(data, null, 2)}</pre>;
         </div>
       );

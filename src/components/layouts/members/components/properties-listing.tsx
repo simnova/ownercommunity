@@ -34,6 +34,10 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Washer/Dryer (Public)'
   ];
 
+  const additionalAmenitiesOptions = [];
+
+  const bedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King' ];
+
   return(
     <div>
       <Descriptions title="Property Info" size={'small'} layout={'vertical'}>
@@ -125,7 +129,11 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                         name={[index,'bedDescriptions']}
                         label="Types of Beds"
                       >
-                        <FormTags />
+                        {/* <FormTags /> */}
+                        <SelectTags 
+                          options={bedTypeOptions} 
+                          label="Types of Beds"
+                        />
                       </Form.Item>
                     </div>
                   </div>  
@@ -170,7 +178,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         <Form.Item 
           name={['listingDetail', 'amenities']}
           label="Amenities"
-          //valuePropName='option'
         >
           {/* <FormTags /> */}
           

@@ -19,7 +19,8 @@ export interface SelectTagsProps {
 
 export const SelectTags: React.FC<SelectTagsProps> = (props) => {
 
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+  const [selectedItems, setSelectedItems] = useState<string[]>(props.value ?? []);
 
   const filteredOptions = props.options?.filter((option: string) => !selectedItems.includes(option));
 
@@ -29,7 +30,7 @@ export const SelectTags: React.FC<SelectTagsProps> = (props) => {
 
   
   const onSelectChanged = (values: string[]) => {
-    console.log(values)
+    // console.log(values)
     setSelectedItems(values)
   }
 
@@ -49,14 +50,7 @@ export const SelectTags: React.FC<SelectTagsProps> = (props) => {
           </Select.Option>
         ))}
       </Select>
-      
-      {/* {selectedItems.map((item: any) => {
-        console.log(item)
-        return (
-          <Input key={item} value={item} hidden/>
-        )
-      })} */}
-
+    
     </>
   );
 };

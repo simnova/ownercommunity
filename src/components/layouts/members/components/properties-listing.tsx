@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, InputNumber, Button, Descriptions, Typography } from 'antd';
+import { Form, Input, InputNumber, Button, Descriptions, Typography, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 import dayjs from 'dayjs';
@@ -23,6 +23,40 @@ export interface PropertiesListingProps {
 export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = React.useState<string>('');
+
+
+  const onSelectChanged = (values: string) => {
+    console.log(values);
+    setSelectedCategories([...selectedCategories, values]);
+    setSelectedCategory(values);
+  }
+
+  const additionalAmenitiesOptions: any = {
+    'Features': ['Iron', 'Washer/Dryer (Private)'], 
+    'Heating & Cooling':['Central Air', 'Central Heat'], 
+    'Kitchen & Dining':['Dishwasher', 'Microwave', 'Refrigerator'], 
+    'Location':['Oceanfront', 'Gated Community'],
+    'Media':['Cable', 'Internet', 'TV'],
+    'On-site Activities':['Pool (Private)', 'Gym', 'Basketball Court'],
+    'Outdoor':['Balcony'],
+    'Parking & Access':['Garage'],
+    '':[]
+  }
+
+  const additionalAmenitiesCategories = [
+    'Features', 
+    'Heating & Cooling', 
+    'Kitchen & Dining', 
+    'Location',
+    'Media',
+    'On-site Activities',
+    'Outdoor',
+    'Parking & Access'
+    ];
+
+  const filteredOptions = additionalAmenitiesCategories.filter((option: string) => !selectedCategories.includes(option));
 
   const amentitiesOptions = 
   [
@@ -34,7 +68,18 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Washer/Dryer (Public)'
   ];
 
-  const additionalAmenitiesOptions = [];
+  // const additionalAmenitiesOptions = [];
+
+  // const additionalAmenitiesCategories = [
+  //   'Features', 
+  //   'Heating & Cooling', 
+  //   'Kitchen & Dining', 
+  //   'Location',
+  //   'Media',
+  //   'On-site Activities',
+  //   'Outdoor',
+  //   'Parking & Access'
+  // ];
 
   const bedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King' ];
 
@@ -211,13 +256,25 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                         name={[index, 'category']}
                         label="Category"
                       >
-                        <Input placeholder='Category' />
+                        <Select
+                          placeholder='Category'
+                          onChange={(values) => {onSelectChanged(values)}}
+                        >
+                          {filteredOptions?.map((item: any) => (
+                            <Select.Option key={item} value={item}>
+                              {item}
+                            </Select.Option>
+                          ))}
+                        </Select>
+
+                        {/* <Input placeholder='Category' /> */}
                       </Form.Item>
                       <Form.Item 
                         name={[index,'amenities']}
                         label="Amenities"
                       >
-                        <FormTags />
+                        <SelectTags options={additionalAmenitiesOptions[selectedCategory ]}/>
+                        {/* <FormTags /> */}
                       </Form.Item>
                     </div>
                   </div>  

@@ -26,11 +26,49 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = React.useState<string>('');
 
+  const [additionalAmenities, setAdditionalAmenities] = React.useState<any[]>([]);
 
-  const onSelectChanged = (values: string) => {
-    console.log(values);
-    setSelectedCategories([...selectedCategories, values]);
-    setSelectedCategory(values);
+  /*
+
+    [ 
+      {Category: 'Location', Amentities: ['Cable'] },
+      {Category: 'Features', Amentities: ['Cable'] },
+    ]
+
+
+    Category: 'Features', Amentities: ['Iron', 'Washer/Dryer (Private)'], 
+    Category: 'Heating & Cooling', Amentities:['Central Air', 'Central Heat'], 
+    Category: 'Kitchen & Dining', Amentities:['Dishwasher', 'Microwave', 'Refrigerator'], 
+    Category: 'Location', Amentities:['Oceanfront', 'Gated Community'],
+    Category: 'Media', Amentities:['Cable', 'Internet', 'TV'],
+    Category: 'On-site Activities', Amentities:['Pool (Private)', 'Gym', 'Basketball Court'],
+    Category: 'Outdoor', Amentities:['Balcony'],
+    Category: 'Parking & Access' , Amentities:['Garage'],
+    
+
+  */
+
+  const onSelectChanged = (value: string, index: number) => {
+    console.log(value);
+    console.log(index);
+
+    const newAdditionalAmenities = [...additionalAmenities];
+    newAdditionalAmenities[index].Category = value; // Filter to find options not in this category
+    newAdditionalAmenities[index].Amentities = [];
+
+    // get all selected categories
+    const selectedCategories : string[]= []
+    additionalAmenities.forEach(amenity => {
+      if (amenity.Category) {
+        selectedCategories.push(amenity.Category);
+      }
+    })
+
+    const remainingCategories =  additionalAmenitiesCategories.filter((category: any) => !selectedCategories.includes(category))
+    console.log(remainingCategories);
+    setSelectedCategories(remainingCategories);
+    // setSelectedCategories([...selectedCategories, values]);
+    setSelectedCategory(value);
   }
 
   const additionalAmenitiesOptions: any = {
@@ -237,7 +275,9 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           {(fields, { add, remove }) => {
             return (
               <div>
-                {fields.map((field, index) => (
+                {fields.map((field, index) => { 
+                  
+                  return (
                   <div key={field.key} style={{marginBottom:'15px'}}>
                     <div style={{display:'inline-block',verticalAlign:'top', paddingRight:'10px',}}>
                       <MinusCircleOutlined
@@ -258,9 +298,9 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                       >
                         <Select
                           placeholder='Category'
-                          onChange={(values) => {onSelectChanged(values)}}
+                          onChange={(values) => {onSelectChanged(values, index)}}
                         >
-                          {filteredOptions?.map((item: any) => (
+                          {selectedCategories?.map((item: any) => (
                             <Select.Option key={item} value={item}>
                               {item}
                             </Select.Option>
@@ -278,11 +318,12 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                       </Form.Item>
                     </div>
                   </div>  
-                ))}
+                ) } )} 
                 <Form.Item>
                   <Button
                     type="dashed"
                     onClick={() => {
+                      setAdditionalAmenities([...additionalAmenities, {category: '', amenities: []} ]);
                       add();
                     }}
                     block

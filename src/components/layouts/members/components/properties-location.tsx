@@ -23,16 +23,13 @@ export const PropertiesLocation = (props: any) => {
   console.log(props);
 
   const addressQuery = async (addressRequest: string) => {
-    var addresssGeocodeServiceUrlTemplate: string =
-      'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
-    //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
+    var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
 
     var requestUrl = addresssGeocodeServiceUrlTemplate.replace(
       '{query}',
       encodeURIComponent(addressRequest)
     );
     const token = props.data.property.mapSASToken;
-    console.log(token);
 
     const address = async () => {
       const request = await fetch(requestUrl, {
@@ -45,7 +42,6 @@ export const PropertiesLocation = (props: any) => {
       });
 
       const data = await request.json();
-      console.log(data);
       return data.results;
     };
 
@@ -67,20 +63,10 @@ export const PropertiesLocation = (props: any) => {
               lat: address.position.lat,
               long: address.position.lon
             });
-            // return address
           }
         });
         setAddresses(tmp);
       });
-
-      // addressData.forEach((address: any) => {
-      // console.log(address.properties.address.formattedAddress);
-      // tmp.push({ "value" : address.address.freeformAddress})
-      // tmp.push({ "value" : address.properties.address.formattedAddress});
-      // });
-      // }).finally(() => {
-      //   setAddresses(tmp);
-      // });
     }
   };
 
@@ -168,84 +154,62 @@ export const PropertiesLocation = (props: any) => {
         }}
       >
         <Form.Item name={['location', 'address', 'streetNumber']} label="Street Number">
-          <Input disabled placeholder="Street Number"></Input>
+          <Input disabled placeholder="Street Number" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'streetName']} label="Street Name">
-          <Input disabled placeholder="Street Name"></Input>
+          <Input disabled placeholder="Street Name"/>
         </Form.Item>
-        <Form.Item
-          name={['location', 'address', 'countryTertiarySubdivision']}
-          label="Country Tertiary Subdivision"
-        >
-          <Input disabled placeholder="Country Tertiary Subdivision"></Input>
+        <Form.Item name={['location', 'address', 'countryTertiarySubdivision']} label="Country Tertiary Subdivision">
+          <Input disabled placeholder="Country Tertiary Subdivision"/>
         </Form.Item>
-        <Form.Item
-          name={['location', 'address', 'countrySecondarySubdivision']}
-          label="Country Secondary Subdivision"
-        >
-          <Input disabled placeholder="Country Secondary Subdivision"></Input>
+        <Form.Item name={['location', 'address', 'countrySecondarySubdivision']} label="Country Secondary Subdivision">
+          <Input disabled placeholder="Country Secondary Subdivision" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'countrySubdivision']} label="Country Subdivision">
-          <Input disabled placeholder="Country Subdivision"></Input>
+          <Input disabled placeholder="Country Subdivision"/>
         </Form.Item>
-        <Form.Item
-          name={['location', 'address', 'countrySubdivisionName']}
-          label="Country Subdivision Name"
-        >
-          <Input disabled placeholder="Country Subdivision Name"></Input>
+        <Form.Item name={['location', 'address', 'countrySubdivisionName']} label="Country Subdivision Name">
+          <Input disabled placeholder="Country Subdivision Name" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'municipality']} label="Municipality">
-          <Input disabled placeholder="Country Municipality"></Input>
+          <Input disabled placeholder="Country Municipality"/>
         </Form.Item>
-        <Form.Item
-          name={['location', 'address', 'municipalitySubdivision']}
-          label="Municipality Subdivision"
-        >
-          <Input disabled placeholder="Country Municipality Subdivision"></Input>
+        <Form.Item name={['location', 'address', 'municipalitySubdivision']} label="Municipality Subdivision">
+          <Input disabled placeholder="Country Municipality Subdivision"/>
         </Form.Item>
         <Form.Item name={['location', 'address', 'localName']} label="Local Name">
-          <Input disabled placeholder="Local Name"></Input>
+          <Input disabled placeholder="Local Name" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'postalCode']} label="Zip Code">
-          <Input disabled placeholder="Zip Code"></Input>
+          <Input disabled placeholder="Zip Code" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'extendedPostalCode']} label="Extended Zip Code">
-          <Input disabled placeholder="Extended Zip Code"></Input>
+          <Input disabled placeholder="Extended Zip Code"/>
         </Form.Item>
         <Form.Item name={['location', 'address', 'country']} label="Country">
-          <Input disabled placeholder="Country"></Input>
+          <Input disabled placeholder="Country"/>
         </Form.Item>
         <Form.Item name={['location', 'address', 'countryCode']} label="Country Code">
-          <Input disabled placeholder="Country Code"></Input>
+          <Input disabled placeholder="Country Code"/>
         </Form.Item>
         <Form.Item name={['location', 'address', 'countryCodeISO3']} label="Country Code ISO3">
-          <Input disabled placeholder="Country Code ISO3"></Input>
+          <Input disabled placeholder="Country Code ISO3"/>
         </Form.Item>
         <Form.Item name={['location', 'address', 'freeformAddress']} label="Free Form Address">
-          <Input disabled placeholder="Free Form Address"></Input>
+          <Input disabled placeholder="Free Form Address"/>
         </Form.Item>
-        <Form.Item
-          name={['location', 'address', 'streetNameAndNumber']}
-          label="Street Name and Number"
-        >
-          <Input disabled placeholder="Free Form Address"></Input>
+        <Form.Item name={['location', 'address', 'streetNameAndNumber']} label="Street Name and Number">
+          <Input disabled placeholder="Free Form Address"/>
         </Form.Item>
         <Form.Item name={['location', 'address', 'routeNumbers']} label="Route Numbers">
-          <Input disabled placeholder="Route Numbers"></Input>
+          <Input disabled placeholder="Route Numbers" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'crossStreet']} label="Cross Street">
-          <Input disabled placeholder="Cross Street"></Input>
+          <Input disabled placeholder="Cross Street" />
         </Form.Item>
         <Form.Item name={['location', 'position', 'coordinates']} label="Coordinates (Lat, Lon)">
-          <Input disabled placeholder="Coordinates"></Input>
+          <Input disabled placeholder="Coordinates" />
         </Form.Item>
-
-        {/* <Form.Item name={["location","coordinates", "lat"]} label="Latitude">
-          <Input disabled placeholder='Latitude' ></Input>
-        </Form.Item>
-        <Form.Item name={["location","point", "long"]} label="Longitude">
-          <Input disabled placeholder='Longitude' ></Input>
-        </Form.Item> */}
         <Form.Item>
           <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
             Save

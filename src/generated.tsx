@@ -270,8 +270,10 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
+  position?: InputMaybe<GeographyPointInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -279,6 +281,11 @@ export type GeographyPoint = {
   __typename?: 'GeographyPoint';
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+};
+
+export type GeographyPointInput = {
+  latitude?: InputMaybe<Scalars['Float']>;
+  longitude?: InputMaybe<Scalars['Float']>;
 };
 
 export type ListingDetails = {
@@ -879,6 +886,7 @@ export type Query = {
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
+  getMapSasToken?: Maybe<Scalars['String']>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
@@ -3618,6 +3626,15 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       } | null> | null;
     } | null;
   } | null;
+};
+
+export type MemberPropertiesListSearchContainerMapSasTokenQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type MemberPropertiesListSearchContainerMapSasTokenQuery = {
+  __typename?: 'Query';
+  getMapSasToken?: string | null;
 };
 
 export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
@@ -10908,6 +10925,23 @@ export const MemberPropertiesListSearchContainerPropertiesDocument = {
 } as unknown as DocumentNode<
   MemberPropertiesListSearchContainerPropertiesQuery,
   MemberPropertiesListSearchContainerPropertiesQueryVariables
+>;
+export const MemberPropertiesListSearchContainerMapSasTokenDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberPropertiesListSearchContainerMapSasToken' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'getMapSasToken' } }]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberPropertiesListSearchContainerMapSasTokenQuery,
+  MemberPropertiesListSearchContainerMapSasTokenQueryVariables
 >;
 export const MembersPropertiesListingContainerPropertyDocument = {
   kind: 'Document',

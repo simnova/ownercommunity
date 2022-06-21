@@ -1,4 +1,5 @@
 import type { SliderMarks } from 'antd/lib/slider';
+import { kMaxLength } from 'buffer';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -25,18 +26,24 @@ export const SearchParamKeys = {
   Bedrooms: 'bedrooms',
   Bathrooms: 'bathrooms',
   MinSquareFeet: 'minSquareFeet',
-  MaxSquareFeet: 'maxSquareFeet'
+  MaxSquareFeet: 'maxSquareFeet',
+  Latitude: 'lat',
+  Longtitude: 'long'
 };
 
 export const FilterNames = {
   Type: 'type',
   Bedrooms: 'bedrooms',
+  Bathrooms: 'bathrooms',
   Amenities: 'amenities',
+  AdditionalAmenities: 'additionalAmenities',
   AdditionalAmenitiesCategory: 'additionalAmenities/category',
   AdditionalAmenitiesAmenities: 'additionalAmenities/amenities',
+  SquareFeet: 'squareFeet',
   ListedForSale: 'listedForSale',
   ListedForRent: 'listedForRent',
-  ListedForLease: 'listedForLease'
+  ListedForLease: 'listedForLease',
+  Distance: 'distance'
 };
 
 export interface AdditionalAmenities {
@@ -45,19 +52,19 @@ export interface AdditionalAmenities {
 }
 
 export const BedroomsFilterOptions = [
-  { label: '1+', value: '1' },
-  { label: '2+', value: '2' },
-  { label: '3+', value: '3' },
-  { label: '4+', value: '4' },
-  { label: '5+', value: '5' }
+  { label: '1+', value: 1 },
+  { label: '2+', value: 2 },
+  { label: '3+', value: 3 },
+  { label: '4+', value: 4 },
+  { label: '5+', value: 5 }
 ];
 export const BathroomsFilterOptions = [
-  { label: '1+', value: '1' },
-  { label: '1.5+', value: '1.5' },
-  { label: '2+', value: '2' },
-  { label: '3+', value: '3' },
-  { label: '4+', value: '4' },
-  { label: '5+', value: '5' }
+  { label: '1+', value: 1 },
+  { label: '1.5+', value: 1.5 },
+  { label: '2+', value: 2 },
+  { label: '3+', value: 3 },
+  { label: '4+', value: 4 },
+  { label: '5+', value: 5 }
 ];
 export const PropertyTypes = ['condo', 'single family', 'townhouse'];
 export const Listed = [
@@ -75,6 +82,13 @@ export const AdditionalAmenitiesValues: AdditionalAmenities[] = [
     category: 'Location',
     amenities: ['Waterfront', 'Beachfront']
   }
+];
+export const DistanceOptions = [
+  { label: '1 Km', value: 1 },
+  { label: '5 Km', value: 5 },
+  { label: '10 Km', value: 10 },
+  { label: '20 Km', value: 20 },
+  { label: '50 Km', value: 50 }
 ];
 
 export const PriceMarkers: SliderMarks = {
@@ -121,3 +135,33 @@ export const MaxSquareFeetOptions = [
   { label: '1,900', value: 1900 },
   { label: '2,000', value: 2000 }
 ];
+
+export const addressQuery = async (addressInput: string, mapSASToken: string) => {
+  var addresssGeocodeServiceUrlTemplate: string =
+    'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
+  //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
+
+  var requestUrl = addresssGeocodeServiceUrlTemplate.replace(
+    '{query}',
+    encodeURIComponent(addressInput)
+  );
+  const token = mapSASToken;
+  console.log(token);
+
+  const address = async () => {
+    const request = await fetch(requestUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: 'jwt-sas ' + token,
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    });
+
+    const data = await request.json();
+    console.log(data);
+    return data.results;
+  };
+
+  return address();
+};

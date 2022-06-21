@@ -24,7 +24,7 @@ const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promi
 const property: Resolvers = {
   Property: {
     mapSASToken: async (parent, args, context) => {
-      return (await context.dataSources.propertyMapApi.getSasToken()) ;
+      return await context.dataSources.propertyMapApi.getSasToken();
     },
     community: async (parent, args, context, info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
@@ -87,6 +87,9 @@ const property: Resolvers = {
           listedForLease: searchResults.facets?.listedForLease,
         },
       } as PropertySearchResult;
+    },
+    getMapSasToken: async (_, _args, context) => {
+      return await context.dataSources.propertyMapApi.getSasToken();
     },
   },
 

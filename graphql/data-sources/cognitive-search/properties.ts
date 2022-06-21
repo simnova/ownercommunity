@@ -66,11 +66,13 @@ export class Properties extends CognitiveSearchDataSource<Context> {
         }
       }
 
-      // distance
-      if (filter.distance) {
-        filterStrings.push("geo.distance(position, geography'POINT(-75.15284 40.03926)') le " + filter.distance)
+      // distance, lat and long
+      if (filter.position && filter.distance) {
+        filterStrings.push(`geo.distance(position, geography'POINT(${filter.position.longitude} ${filter.position.latitude})') le ${filter.distance}`);
       }
     }
+
+    console.log('filterStrings: ', filterStrings);
 
     return filterStrings.join(' and ');
   }
@@ -78,10 +80,16 @@ export class Properties extends CognitiveSearchDataSource<Context> {
   async propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     const searchService = new CognitiveSearch();
 
-    console.log(`Resolver>Query>propertiesSearch ${input.searchString}`);
+    let searchString = '';
+    if (!input.options.filter.position) {
+      searchString = input.searchString;
+    }
+
+    console.log(`Resolver>Query>propertiesSearch: ${searchString}`);
     let filterString = this.getFilterString(input.options.filter);
     console.log('filterString: ', filterString);
-    const searchResults = await searchService.search('property-listings', input.searchString.trim(), {
+
+    const searchResults = await searchService.search('property-listings', searchString, {
       queryType: 'full',
       searchMode: 'all',
       includeTotalCount: true,

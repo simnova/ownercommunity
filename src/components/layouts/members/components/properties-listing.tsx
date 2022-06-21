@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, InputNumber, Button, Descriptions, Typography, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
@@ -23,8 +23,6 @@ export interface PropertiesListingProps {
 export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
-  // const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
-  // const [selectedCategory, setSelectedCategory] = React.useState<string>('');
 
   const [additionalAmenities, setAdditionalAmenities] = React.useState<any[]>([]);
 
@@ -41,8 +39,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   ]);
 
   const onSelectChanged = (value: string, index: number) => {
-    // console.log(value);
-    // console.log(index);
 
     const newAdditionalAmenities = [...additionalAmenities];
     newAdditionalAmenities[index].Category = value;
@@ -50,7 +46,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
 
     // get all selected categories
     const selectedCategories : string[] = [];
-    additionalAmenities.forEach(amenity => {
+    newAdditionalAmenities.forEach(amenity => {
       if (amenity.Category) {
         selectedCategories.push(amenity.Category);
       }
@@ -59,13 +55,12 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     const remainingCategories =  additionalAmenitiesCategories.filter((category: any) => !selectedCategories.includes(category))
     setSelectableCategories(remainingCategories);
 
-    // const fields = form.getFieldsValue();
-    // const changedFields = fields;
-    // Object.assign(changedFields['listingDetail']['additionalAmenities'][index], { amenities: [] });
-    // changedFields['listingDetail']['additionalAmenities'][index]['amenities'] = [];
-    // console.log(changedFields);
+    const fields = form.getFieldsValue();
+    const changedFields = fields;
+    Object.assign(changedFields['listingDetail']['additionalAmenities'][index], { id:undefined, category: value, amenities: [] });
+    changedFields['listingDetail']['additionalAmenities'][index]['amenities'] = [];
 
-    // form.setFieldsValue(changedFields);
+    form.setFields([{name: ['listingDetail', 'additionalAmenities', index ,'amenities'], value: []}])
   }
 
   const additionalAmenitiesOptions: any = {
@@ -91,7 +86,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Parking & Access'
     ];
 
-  const filteredOptions = additionalAmenitiesCategories.filter((option: string) => !selectableCategories.includes(option));
+  // const filteredOptions = additionalAmenitiesCategories.filter((option: string) => !selectableCategories.includes(option));
 
   const amentitiesOptions = 
   [
@@ -298,9 +293,9 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                         label="Amenities"
                       >
                         <SelectTags 
-                          // options={additionalAmenitiesOptions[selectedCategory ]} 
                           // options={additionalAmenitiesOptions[form.getFieldsValue().listingDetail.additionalAmenities[index]?.category ?? '' ]}
                           options={additionalAmenitiesOptions[form.getFieldValue(['listingDetail','additionalAmenities',index,'category'])]}
+                          //value={form.getFieldValue(['listingDetail','additionalAmenities',index,'amenities'])}
                         />
 
                         {/* <FormTags /> */}

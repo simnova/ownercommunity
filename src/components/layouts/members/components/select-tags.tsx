@@ -20,18 +20,22 @@ export interface SelectTagsProps {
 export const SelectTags: React.FC<SelectTagsProps> = (props) => {
 
 
+
   const [selectedItems, setSelectedItems] = useState<string[]>(props.value ?? []);
 
   const filteredOptions = props.options?.filter((option: string) => !selectedItems.includes(option));
 
+  
   useEffect(() => {
-    props.onChange!(selectedItems);
-  }, [selectedItems, props.onChange]);
+    setSelectedItems(props.value ?? [])
+  }, [props.value]);
 
   
   const onSelectChanged = (values: string[]) => {
     // console.log(values)
     setSelectedItems(values)
+    if (props.onChange) {
+      props.onChange(values) }
   }
 
   return (

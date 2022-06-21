@@ -23,41 +23,33 @@ export interface PropertiesListingProps {
 export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
-  const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = React.useState<string>('');
+  // const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
+  // const [selectedCategory, setSelectedCategory] = React.useState<string>('');
 
   const [additionalAmenities, setAdditionalAmenities] = React.useState<any[]>([]);
 
-  /*
 
-    [ 
-      {Category: 'Location', Amentities: ['Cable'] },
-      {Category: 'Features', Amentities: ['Cable'] },
-    ]
-
-
-    Category: 'Features', Amentities: ['Iron', 'Washer/Dryer (Private)'], 
-    Category: 'Heating & Cooling', Amentities:['Central Air', 'Central Heat'], 
-    Category: 'Kitchen & Dining', Amentities:['Dishwasher', 'Microwave', 'Refrigerator'], 
-    Category: 'Location', Amentities:['Oceanfront', 'Gated Community'],
-    Category: 'Media', Amentities:['Cable', 'Internet', 'TV'],
-    Category: 'On-site Activities', Amentities:['Pool (Private)', 'Gym', 'Basketball Court'],
-    Category: 'Outdoor', Amentities:['Balcony'],
-    Category: 'Parking & Access' , Amentities:['Garage'],
-    
-
-  */
+  const [selectableCategories, setSelectableCategories] = React.useState<string[]>([
+    'Features', 
+    'Heating & Cooling', 
+    'Kitchen & Dining', 
+    'Location',
+    'Media',
+    'On-site Activities',
+    'Outdoor',
+    'Parking & Access'
+  ]);
 
   const onSelectChanged = (value: string, index: number) => {
-    console.log(value);
-    console.log(index);
+    // console.log(value);
+    // console.log(index);
 
     const newAdditionalAmenities = [...additionalAmenities];
-    newAdditionalAmenities[index].Category = value; // Filter to find options not in this category
+    newAdditionalAmenities[index].Category = value;
     newAdditionalAmenities[index].Amentities = [];
 
     // get all selected categories
-    const selectedCategories : string[]= []
+    const selectedCategories : string[] = [];
     additionalAmenities.forEach(amenity => {
       if (amenity.Category) {
         selectedCategories.push(amenity.Category);
@@ -65,10 +57,15 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     })
 
     const remainingCategories =  additionalAmenitiesCategories.filter((category: any) => !selectedCategories.includes(category))
-    console.log(remainingCategories);
-    setSelectedCategories(remainingCategories);
-    // setSelectedCategories([...selectedCategories, values]);
-    setSelectedCategory(value);
+    setSelectableCategories(remainingCategories);
+
+    // const fields = form.getFieldsValue();
+    // const changedFields = fields;
+    // Object.assign(changedFields['listingDetail']['additionalAmenities'][index], { amenities: [] });
+    // changedFields['listingDetail']['additionalAmenities'][index]['amenities'] = [];
+    // console.log(changedFields);
+
+    // form.setFieldsValue(changedFields);
   }
 
   const additionalAmenitiesOptions: any = {
@@ -94,7 +91,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Parking & Access'
     ];
 
-  const filteredOptions = additionalAmenitiesCategories.filter((option: string) => !selectedCategories.includes(option));
+  const filteredOptions = additionalAmenitiesCategories.filter((option: string) => !selectableCategories.includes(option));
 
   const amentitiesOptions = 
   [
@@ -105,19 +102,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Washer/Dryer (Private)',
     'Washer/Dryer (Public)'
   ];
-
-  // const additionalAmenitiesOptions = [];
-
-  // const additionalAmenitiesCategories = [
-  //   'Features', 
-  //   'Heating & Cooling', 
-  //   'Kitchen & Dining', 
-  //   'Location',
-  //   'Media',
-  //   'On-site Activities',
-  //   'Outdoor',
-  //   'Parking & Access'
-  // ];
 
   const bedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King' ];
 
@@ -276,7 +260,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
             return (
               <div>
                 {fields.map((field, index) => { 
-                  
+                  console.log();
                   return (
                   <div key={field.key} style={{marginBottom:'15px'}}>
                     <div style={{display:'inline-block',verticalAlign:'top', paddingRight:'10px',}}>
@@ -300,7 +284,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                           placeholder='Category'
                           onChange={(values) => {onSelectChanged(values, index)}}
                         >
-                          {selectedCategories?.map((item: any) => (
+                          {selectableCategories?.map((item: any) => (
                             <Select.Option key={item} value={item}>
                               {item}
                             </Select.Option>
@@ -313,7 +297,12 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                         name={[index,'amenities']}
                         label="Amenities"
                       >
-                        <SelectTags options={additionalAmenitiesOptions[selectedCategory ]}/>
+                        <SelectTags 
+                          // options={additionalAmenitiesOptions[selectedCategory ]} 
+                          // options={additionalAmenitiesOptions[form.getFieldsValue().listingDetail.additionalAmenities[index]?.category ?? '' ]}
+                          options={additionalAmenitiesOptions[form.getFieldValue(['listingDetail','additionalAmenities',index,'category'])]}
+                        />
+
                         {/* <FormTags /> */}
                       </Form.Item>
                     </div>

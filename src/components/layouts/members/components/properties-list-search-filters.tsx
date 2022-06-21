@@ -138,17 +138,17 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           setSelectedFilter={props.setSelectedFilter}
         />
 
-        {/* Price */}
-        <PropertiesListSearchFilterPrice
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
-
         {/* Listed Info: listedForSale, listedForLease, listedForRent */}
         <PropertiesListSearchFilterListedInfo
           selectedFilter={props.selectedFilter}
           setSelectedFilter={props.setSelectedFilter}
           listedInfoFacets={getListedInfoFacets(props.facets)}
+        />
+
+        {/* Price */}
+        <PropertiesListSearchFilterPrice
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
         />
       </Modal>
     </div>

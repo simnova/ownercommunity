@@ -752,6 +752,8 @@ export type PropertiesSearchInput = {
 export type PropertiesSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   filter?: InputMaybe<FilterDetail>;
+  skip?: InputMaybe<Scalars['Int']>;
+  top?: InputMaybe<Scalars['Int']>;
 };
 
 export type Property = MongoBase & {

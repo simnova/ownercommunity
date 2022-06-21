@@ -5,7 +5,7 @@ import {
   MemberPropertiesListSearchContainerPropertiesDocument,
   PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, Space, Button, AutoComplete, Input } from 'antd';
+import { Skeleton, Input, Button, Space, AutoComplete, Pagination, List } from 'antd';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -31,6 +31,9 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [addresses, setAddresses] = useState<AddressDataType[]>([]);
+  const [top, setTop] = useState(10);
+  const [skip, setSkip] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -65,6 +68,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
     const qsamenities = searchParams.get('amenities')?.split(',');
     const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
+    const qspage = searchParams.get('page');
 
     let filters = {} as FilterDetail;
     if (qssearchString) {
@@ -171,7 +175,14 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       };
     }
 
+    // page - for pagination
+    if (qspage) {
+      console.log('PAGE IS: ', qspage);
+      setCurrentPage(parseInt(qspage) - 1);
+    }
+
     setSelectedFilter(filters);
+    // setSkip(currentPage * top);
     handleSearch(qssearchString ?? '', filters);
   }, []);
 
@@ -181,8 +192,15 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
   }, [mapSasTokenData]);
 
+  useEffect(() => {
+    setSkip(currentPage * top);
+    handleSearch(searchString, selectedFilter);
+  }, [top, currentPage]);
+
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
+    setSkip(currentPage * top);
+    console.log('TOP< SKIP, CURRENT PAGE: ', top, skip, currentPage);
     await gqlSearchProperties({
       variables: {
         input: {
@@ -197,7 +215,9 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.ListedForSale + ',count:30',
               FilterNames.ListedForRent + ',count:30'
             ],
-            filter: filter
+            filter: filter,
+            top: top,
+            skip: currentPage !== 0 && skip === 0 ? currentPage * top : skip
           }
         }
       }
@@ -263,6 +283,14 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
   };
 
+  const handlePagination = (newPage: number) => {
+    const current = newPage - 1;
+    setSkip(current * top);
+    setCurrentPage(current);
+    searchParams.set('page', newPage.toString());
+    setSearchParams(searchParams);
+  };
+
   const result = () => {
     if (error || mapSasTokenError) {
       if (error) {
@@ -285,7 +313,24 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
       return (
         <div>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>{properties()}</div>
+          {/* <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>{properties()}</div> */}
+          <List
+            grid={{
+              gutter: 16,
+              xs: 1,
+              sm: 1,
+              md: 2,
+              lg: 2,
+              xl: 3,
+              xxl: 3
+            }}
+            dataSource={generatedPropertyData}
+            renderItem={(item) => (
+              <List.Item>
+                <ListingCard data={item}></ListingCard>
+              </List.Item>
+            )}
+          ></List>
           <pre>{JSON.stringify(data, null, 2)}</pre>;
         </div>
       );
@@ -295,28 +340,36 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <Space size={0}>
-        {/* <Input
+      <Space size="large">
+        <Space size={0}>
+          {/* <Input
           placeholder="Enter an address"
           onPressEnter={(e: any) => handleSearch(e.target.value, selectedFilter)}
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         /> */}
-        <AutoComplete
-          options={addresses}
-          style={{
-            width: '400px'
-          }}
-          placeholder="Enter an address or a property name"
-          filterOption={false}
-          value={searchString}
-          onChange={(value: string) => onInputAddressChanged(value)}
-          onSelect={(value: string) => onInputAddressSelected(value)}
-        ></AutoComplete>
+          <AutoComplete
+            options={addresses}
+            style={{
+              width: '400px'
+            }}
+            placeholder="Enter an address or a property name"
+            filterOption={false}
+            value={searchString}
+            onChange={(value: string) => onInputAddressChanged(value)}
+            onSelect={(value: string) => onInputAddressSelected(value)}
+          ></AutoComplete>
 
-        <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
-          Search
-        </Button>
+          <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
+            Search
+          </Button>
+          <Pagination
+            current={currentPage + 1}
+            total={data?.propertiesSearch?.count ?? 10}
+            pageSize={top}
+            onChange={(page) => handlePagination(page)}
+          />
+        </Space>
       </Space>
       <div>
         {data?.propertiesSearch?.count
@@ -330,6 +383,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         selectedFilter={selectedFilter}
         handleSearch={handleSearch}
         searchString={searchString}
+        setTop={setTop}
       />
       {result()}
     </>

@@ -5,7 +5,7 @@ import { PropertiesListSearchFilterBedrooms } from './properties-list-search-fil
 import { PropertiesListSearchFilterPrice } from './properties-list-search-filter-price';
 import { PropertiesListSearchFilterPropertyType } from './properties-list-search-filter-property-type';
 import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
-import { Space, Button, Modal } from 'antd';
+import { Space, Button, Modal, Select } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
@@ -14,12 +14,14 @@ import { PropertiesListSearchFilterListedInfo } from './properties-list-search-f
 import { FilterNames } from '../../../../constants';
 import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
 
+const { Option } = Select;
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
   handleSearch: (searchString?: string, filter?: FilterDetail) => void;
   searchString?: string;
+  setTop: (top: number) => void;
 }
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
@@ -28,7 +30,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
   const clearFilter = () => {
     props.setSelectedFilter(undefined);
-    setSearchParams({});
+    setSearchParams({ page: '1' });
   };
 
   const getListedInfoFacets = (facets?: PropertySearchFacets) => {
@@ -61,12 +63,25 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
   return (
     <div>
-      <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
-        <Space size="middle">
-          <FilterOutlined />
-          <span>Filters</span>
-        </Space>
-      </Button>
+      <Space>
+        <Button
+          type="ghost"
+          onClick={() => setIsModalVisible(true)}
+          style={{ borderRadius: '10px' }}
+        >
+          <Space size="middle">
+            <FilterOutlined />
+            <span>Filters</span>
+          </Space>
+        </Button>
+        <Select defaultValue={10} onChange={(value) => props.setTop(value)}>
+          <Option value={5}>5</Option>
+          <Option value={10}>10</Option>
+          <Option value={15}>15</Option>
+          <Option value={25}>25</Option>
+          <Option value={50}>50</Option>
+        </Select>
+      </Space>
       <Modal
         title="Filters"
         visible={isModalVisible}
@@ -142,17 +157,17 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           setSelectedFilter={props.setSelectedFilter}
         />
 
-        {/* Price */}
-        <PropertiesListSearchFilterPrice
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
-
         {/* Listed Info: listedForSale, listedForLease, listedForRent */}
         <PropertiesListSearchFilterListedInfo
           selectedFilter={props.selectedFilter}
           setSelectedFilter={props.setSelectedFilter}
           listedInfoFacets={getListedInfoFacets(props.facets)}
+        />
+
+        {/* Price */}
+        <PropertiesListSearchFilterPrice
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
         />
       </Modal>
     </div>

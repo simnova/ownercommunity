@@ -1,9 +1,10 @@
-import { Checkbox } from 'antd';
+import { Checkbox, Collapse } from 'antd';
 import { useState, FC, useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Listed, SearchParamKeys } from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
 const CheckboxGroup = Checkbox.Group;
+const { Panel } = Collapse;
 
 interface PropertiesListSearchFilterListedInfoProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
@@ -45,25 +46,26 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
   }, [location]);
 
   return (
-    <>
-      <h2 className="font-bold">Listed</h2>
-      <CheckboxGroup
-        options={Listed.map((op) => {
-          const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;
-          return {
-            label: `${op.label} ${
-              count !== undefined && count !== null && count > 0
-                ? `(${count})`
-                : count === 0
-                ? '(0)'
-                : ''
-            }`,
-            value: op.value
-          };
-        })}
-        value={selectedListedInfo}
-        onChange={(checkedValues) => onListedInfoFilterChange(checkedValues as string[])}
-      />
-    </>
+    <Collapse className='search-filter-collapse'>
+      <Panel header={<h2 className="font-bold">Listed</h2>} key="7">
+        <CheckboxGroup
+          options={Listed.map((op) => {
+            const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;
+            return {
+              label: `${op.label} ${
+                count !== undefined && count !== null && count > 0
+                  ? `(${count})`
+                  : count === 0
+                  ? '(0)'
+                  : ''
+              }`,
+              value: op.value
+            };
+          })}
+          value={selectedListedInfo}
+          onChange={(checkedValues) => onListedInfoFilterChange(checkedValues as string[])}
+        />
+      </Panel>
+    </Collapse>
   );
 };

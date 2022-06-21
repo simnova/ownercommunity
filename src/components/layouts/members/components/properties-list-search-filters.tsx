@@ -29,7 +29,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
   const clearFilter = () => {
     props.setSelectedFilter(undefined);
-    setSearchParams({});
+    setSearchParams({page:  '1'});
   };
 
   const getListedInfoFacets = (facets?: PropertySearchFacets) => {

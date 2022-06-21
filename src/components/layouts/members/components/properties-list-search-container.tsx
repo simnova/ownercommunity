@@ -17,6 +17,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [top, setTop] = useState(10);
   const [skip, setSkip] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,6 +40,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
     const qsamenities = searchParams.get('amenities')?.split(',');
     const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
+    const qspage = searchParams.get('page');
 
     let filters = {} as FilterDetail;
     if (qssearchString) {
@@ -118,9 +120,26 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       };
     }
 
+    if (qspage) {
+      console.log("PAGE IS: ", qspage);
+      setCurrentPage(parseInt(qspage)-1);
+    }
+
     setSelectedFilter(filters);
+    setSkip(currentPage * top);
     handleSearch(qssearchString ?? '', filters);
-  }, [top]);
+  }, []);
+
+  useEffect(() => {
+    setSkip(currentPage * top);
+    handleSearch(searchString, selectedFilter);
+  }, [top])
+
+  useEffect(() => {
+    setSkip(currentPage * top);
+    handleSearch(searchString, selectedFilter);
+  }, [currentPage])
+  
 
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
@@ -140,12 +159,20 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             ],
             filter: filter,
             top: top,
-            skip: 0,
+            skip: skip,
           }
         }
       }
     });
   };
+
+  const handlePagination = (newPage: number) => {
+    const current = newPage - 1;
+    setSkip(current * top);
+    setCurrentPage(current);
+    searchParams.set('page', newPage.toString());
+    setSearchParams(searchParams);
+  }
 
   const result = () => {
     if (error) {
@@ -175,18 +202,20 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <Space size={0}>
-        <Input
-          placeholder="Search properties"
-          onPressEnter={(e: any) => handleSearch(e.target.value, selectedFilter)}
-          value={searchString}
-          onChange={(e) => setSearchString(e.target.value)}
-        />
+      <Space size='large'>
+        <Space size={0}>
+          <Input
+            placeholder="Search properties"
+            onPressEnter={(e: any) => handleSearch(e.target.value, selectedFilter)}
+            value={searchString}
+            onChange={(e) => setSearchString(e.target.value)}
+          />
 
-        <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
-          Search
-        </Button>
-        <Pagination defaultCurrent={1} total={data?.propertiesSearch?.count ? data?.propertiesSearch?.count / top : 10} />
+          <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
+            Search
+          </Button>
+        </Space>
+        <Pagination current={currentPage+1} total={data?.propertiesSearch?.count ?? 10} pageSize={top} onChange={(page) => handlePagination(page)} />
       </Space>
       <div>
         {data?.propertiesSearch?.count

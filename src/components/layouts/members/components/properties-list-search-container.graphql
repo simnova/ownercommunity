@@ -4,6 +4,10 @@ query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInpu
   }
 }
 
+query MemberPropertiesListSearchContainerMapSasToken {
+  getMapSasToken
+}
+
 fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResult {
   propertyResults {
     ...MembersPropertiesListSearchContainerPropertyResultFields

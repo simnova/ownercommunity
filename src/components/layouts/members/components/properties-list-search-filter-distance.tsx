@@ -16,7 +16,7 @@ export const PropertiesListSearchFilterDistance = (
 ) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [distance, setDistance] = useState<undefined | number>();
+  const [distance, setDistance] = useState<undefined | number>(100);
 
   const onDistanceClicked = (e: any) => {
     setDistance(parseInt(e.target.value));
@@ -29,9 +29,6 @@ export const PropertiesListSearchFilterDistance = (
 
     props.setSelectedFilter({
       ...props.selectedFilter,
-      listingDetail: {
-        ...props.selectedFilter?.listingDetail
-      },
       distance: parseFloat(e.target.value)
     });
   };

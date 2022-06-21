@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AutoComplete, Form, Input, Typography, Button } from 'antd';
 import { PropertyUpdateInput } from '../../../../generated';
+import { addressQuery } from '../../../../constants';
 
 const { Paragraph } = Typography;
 
@@ -22,41 +23,41 @@ export const PropertiesLocation = (props: any) => {
   const [formLoading, setFormLoading] = React.useState(false);
   console.log(props);
 
-  const addressQuery = async (addressRequest: string) => {
-    var addresssGeocodeServiceUrlTemplate: string =
-      'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
-    //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
+  // const addressQuery = async (addressRequest: string) => {
+  //   var addresssGeocodeServiceUrlTemplate: string =
+  //     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
+  //   //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
 
-    var requestUrl = addresssGeocodeServiceUrlTemplate.replace(
-      '{query}',
-      encodeURIComponent(addressRequest)
-    );
-    const token = props.data.property.mapSASToken;
-    console.log(token);
+  //   var requestUrl = addresssGeocodeServiceUrlTemplate.replace(
+  //     '{query}',
+  //     encodeURIComponent(addressRequest)
+  //   );
+  //   const token = props.data.property.mapSASToken;
+  //   console.log(token);
 
-    const address = async () => {
-      const request = await fetch(requestUrl, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          Authorization: 'jwt-sas ' + token,
-          'Content-Type': 'application/json; charset=utf-8'
-        }
-      });
+  //   const address = async () => {
+  //     const request = await fetch(requestUrl, {
+  //       method: 'GET',
+  //       mode: 'cors',
+  //       headers: {
+  //         Authorization: 'jwt-sas ' + token,
+  //         'Content-Type': 'application/json; charset=utf-8'
+  //       }
+  //     });
 
-      const data = await request.json();
-      console.log(data);
-      return data.results;
-    };
+  //     const data = await request.json();
+  //     console.log(data);
+  //     return data.results;
+  //   };
 
-    return address();
-  };
+  //   return address();
+  // };
 
-  const onChange = (data: string) => {
-    setValue(data);
+  const onChange = (addressInput: string) => {
+    setValue(addressInput);
     let tmp: AddressDataType[] = [];
-    if (data.length >= 4) {
-      addressQuery(data).then((addressData) => {
+    if (addressInput.length >= 4) {
+      addressQuery(addressInput, props.data.property.mapSASToken).then((addressData) => {
         addressData.filter((address: any) => {
           if (address.address.streetNumber && address.address.streetName) {
             tmp.push({

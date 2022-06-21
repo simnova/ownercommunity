@@ -1,27 +1,55 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import {
   FilterDetail,
+  MemberPropertiesListSearchContainerMapSasTokenDocument,
   MemberPropertiesListSearchContainerPropertiesDocument,
   PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space } from 'antd';
+import { Skeleton, Space, Button, AutoComplete, Input } from 'antd';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { AdditionalAmenities, FilterNames } from '../../../../constants';
+import {
+  AdditionalAmenities,
+  addressQuery,
+  FilterNames,
+  SearchParamKeys
+} from '../../../../constants';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
+
+interface AddressDataType {
+  value: string;
+  label: string;
+  key: string;
+  address: any;
+  lat: number;
+  long: number;
+}
 
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [addresses, setAddresses] = useState<AddressDataType[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const {
+    data: mapSasTokenData,
+    loading: mapSasTokenLoading,
+    error: mapSasTokenError
+  } = useQuery(MemberPropertiesListSearchContainerMapSasTokenDocument);
 
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
     { fetchPolicy: 'network-only' }
   );
+
+  useEffect(() => {
+    if (!location.search) {
+      setSearchString('');
+    }
+  }, [location]);
 
   // get selected filters from query string (when page is loaded)
   useEffect(() => {
@@ -116,9 +144,42 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       };
     }
 
+    // distance
+    const qsdistance = searchParams.get('distance');
+    if (qsdistance) {
+      filters = {
+        ...filters,
+        distance: parseInt(qsdistance)
+      };
+    } else {
+      filters = {
+        ...filters,
+        distance: 0
+      };
+    }
+
+    // lat and long
+    const qslat = searchParams.get('lat');
+    const qslong = searchParams.get('long');
+    if (qslat && qslong) {
+      filters = {
+        ...filters,
+        position: {
+          latitude: parseFloat(qslat),
+          longitude: parseFloat(qslong)
+        }
+      };
+    }
+
     setSelectedFilter(filters);
     handleSearch(qssearchString ?? '', filters);
   }, []);
+
+  useEffect(() => {
+    if (mapSasTokenData) {
+      console.log('mapSasTokenData', mapSasTokenData);
+    }
+  }, [mapSasTokenData]);
 
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
@@ -143,10 +204,73 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     });
   };
 
+  const onInputAddressChanged = (value: string) => {
+    if (!value) {
+      searchParams.delete('search');
+    } else {
+      searchParams.set('search', value);
+    }
+
+    searchParams.delete('lat');
+    searchParams.delete('long');
+    setSearchParams(searchParams);
+    setSearchString(value);
+    setSelectedFilter({
+      ...selectedFilter,
+      position: undefined
+    });
+
+    let tmp: AddressDataType[] = [];
+    if (mapSasTokenData?.getMapSasToken) {
+      if (value.length >= 4) {
+        addressQuery(value, mapSasTokenData?.getMapSasToken).then((addressData) => {
+          addressData.filter((address: any) => {
+            if (address.address.streetNumber && address.address.streetName) {
+              tmp.push({
+                label: address.address.freeformAddress,
+                value: address.address.freeformAddress,
+                key: address.id,
+                address: address.address,
+                lat: address.position.lat,
+                long: address.position.lon
+              });
+              // return address
+            }
+          });
+          setAddresses(tmp);
+        });
+      }
+    }
+  };
+
+  const onInputAddressSelected = (value: string) => {
+    setSearchString(value);
+    // find selected address in addresses
+    const selectedAddress = addresses.find((address: any) => {
+      return address.label === value;
+    });
+    if (selectedAddress) {
+      const lat = selectedAddress.lat;
+      const long = selectedAddress.long;
+      setSearchParams('search=' + selectedAddress.value + '&lat=' + lat + '&long=' + long);
+      setSelectedFilter({
+        ...selectedFilter,
+        position: {
+          latitude: lat,
+          longitude: long
+        }
+      });
+    }
+  };
+
   const result = () => {
-    if (error) {
-      return <div>{JSON.stringify(error)}</div>;
-    } else if (loading) {
+    if (error || mapSasTokenError) {
+      if (error) {
+        return <div>{JSON.stringify(error)}</div>;
+      } else {
+        return <div>{JSON.stringify(mapSasTokenError)}</div>;
+      }
+    } else if (loading || mapSasTokenLoading) {
       return <Skeleton active />;
     } else if (called && data) {
       const generatedPropertyData = JSON.parse(
@@ -178,6 +302,17 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         /> */}
+        <AutoComplete
+          options={addresses}
+          style={{
+            width: '400px'
+          }}
+          placeholder="Enter an address or a property name"
+          filterOption={false}
+          value={searchString}
+          onChange={(value: string) => onInputAddressChanged(value)}
+          onSelect={(value: string) => onInputAddressSelected(value)}
+        ></AutoComplete>
 
         <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
           Search

@@ -26,7 +26,9 @@ export const SearchParamKeys = {
   Bedrooms: 'bedrooms',
   Bathrooms: 'bathrooms',
   MinSquareFeet: 'minSquareFeet',
-  MaxSquareFeet: 'maxSquareFeet'
+  MaxSquareFeet: 'maxSquareFeet',
+  Latitude: 'lat',
+  Longtitude: 'long'
 };
 
 export const FilterNames = {
@@ -133,3 +135,33 @@ export const MaxSquareFeetOptions = [
   { label: '1,900', value: 1900 },
   { label: '2,000', value: 2000 }
 ];
+
+export const addressQuery = async (addressInput: string, mapSASToken: string) => {
+  var addresssGeocodeServiceUrlTemplate: string =
+    'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
+  //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
+
+  var requestUrl = addresssGeocodeServiceUrlTemplate.replace(
+    '{query}',
+    encodeURIComponent(addressInput)
+  );
+  const token = mapSASToken;
+  console.log(token);
+
+  const address = async () => {
+    const request = await fetch(requestUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: 'jwt-sas ' + token,
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    });
+
+    const data = await request.json();
+    console.log(data);
+    return data.results;
+  };
+
+  return address();
+};

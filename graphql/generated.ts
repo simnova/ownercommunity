@@ -272,8 +272,10 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
+  position?: InputMaybe<GeographyPointInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -281,6 +283,11 @@ export type GeographyPoint = {
   __typename?: 'GeographyPoint';
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+};
+
+export type GeographyPointInput = {
+  latitude?: InputMaybe<Scalars['Float']>;
+  longitude?: InputMaybe<Scalars['Float']>;
 };
 
 export type ListingDetails = {
@@ -881,6 +888,7 @@ export type Query = {
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
+  getMapSasToken?: Maybe<Scalars['String']>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
@@ -1259,6 +1267,7 @@ export type ResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   GeographyPoint: ResolverTypeWrapper<GeographyPoint>;
+  GeographyPointInput: GeographyPointInput;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
   HSLA: ResolverTypeWrapper<Scalars['HSLA']>;
   HexColorCode: ResolverTypeWrapper<Scalars['HexColorCode']>;
@@ -1424,6 +1433,7 @@ export type ResolversParentTypes = ResolversObject<{
   Float: Scalars['Float'];
   GUID: Scalars['GUID'];
   GeographyPoint: GeographyPoint;
+  GeographyPointInput: GeographyPointInput;
   HSL: Scalars['HSL'];
   HSLA: Scalars['HSLA'];
   HexColorCode: Scalars['HexColorCode'];
@@ -2132,6 +2142,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   communityByDomain?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByDomainArgs, 'domain'>>;
   communityByHandle?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByHandleArgs, 'handle'>>;
   communityById?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByIdArgs, 'id'>>;
+  getMapSasToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   member?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberArgs, 'id'>>;
   memberForCurrentUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberForCurrentUserArgs, 'communityId'>>;
   memberForUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberForUserArgs, 'userId'>>;

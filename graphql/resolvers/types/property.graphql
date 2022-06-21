@@ -180,6 +180,7 @@ extend type Query {
   propertiesByCommunityId(communityId: ID!): [Property]
   propertiesForCurrentUserByCommunityId(communityId: ID!): [Property]
   propertiesSearch(input: PropertiesSearchInput!): PropertySearchResult
+  getMapSasToken: String
 }
 
 extend type Mutation {
@@ -214,7 +215,15 @@ input FilterDetail {
   propertyType: [String]
   listingDetail: ListingDetailsFilterInput
   listedInfo: [String]
+  distance: Float
+  position: GeographyPointInput
 }
+
+input GeographyPointInput {
+  latitude: Float
+  longitude: Float
+}
+
 input ListingDetailsFilterInput {
   bedrooms: Int
   amenities: [String]

@@ -126,23 +126,25 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
 
     setSelectedFilter(filters);
-    setSkip(currentPage * top);
+    // setSkip(currentPage * top);
     handleSearch(qssearchString ?? '', filters);
   }, []);
 
   useEffect(() => {
     setSkip(currentPage * top);
     handleSearch(searchString, selectedFilter);
-  }, [top])
+  }, [top, currentPage])
 
-  useEffect(() => {
-    setSkip(currentPage * top);
-    handleSearch(searchString, selectedFilter);
-  }, [currentPage])
+  // useEffect(() => {
+  //   setSkip(currentPage * top);
+  //   handleSearch(searchString, selectedFilter);
+  // }, [currentPage])
   
 
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
+    setSkip(currentPage * top);
+    console.log("TOP< SKIP, CURRENT PAGE: ", top, skip, currentPage); 
     await gqlSearchProperties({
       variables: {
         input: {
@@ -159,7 +161,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             ],
             filter: filter,
             top: top,
-            skip: skip,
+            skip: (currentPage !== 0 && skip === 0) ? currentPage * top : skip,
           }
         }
       }

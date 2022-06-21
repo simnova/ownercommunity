@@ -187,14 +187,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (mapSasTokenData) {
-      console.log('mapSasTokenData', mapSasTokenData);
-    }
-  }, [mapSasTokenData]);
-
-  useEffect(() => {
     setSkip(currentPage * top);
-    handleSearch(searchString, selectedFilter);
+    if (mapSasTokenData) {
+      handleSearch(searchString, selectedFilter);
+    }
   }, [top, currentPage]);
 
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {

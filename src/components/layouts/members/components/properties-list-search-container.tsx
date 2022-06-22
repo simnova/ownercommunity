@@ -71,6 +71,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const qsamenities = searchParams.get('amenities')?.split(',');
     const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
     const qspage = searchParams.get('page');
+    const qstop = searchParams.get('top');
 
     let filters = {} as FilterDetail;
     if (qssearchString) {
@@ -179,12 +180,18 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
     // page - for pagination
     if (qspage) {
-      console.log('PAGE IS: ', qspage);
       setCurrentPage(parseInt(qspage) - 1);
+      console.log("PAGE IS: ", qspage);
     }
 
+    if (qstop) {
+      console.log("TOP IS: ", qstop);
+      setTop(parseInt(qstop));
+    }
+
+    console.log("FILTERS: ", filters);
+
     setSelectedFilter(filters);
-    // setSkip(currentPage * top);
     handleSearch(qssearchString ?? '', filters);
   }, []);
 
@@ -197,8 +204,9 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
-    setSkip(currentPage * top);
-    console.log('TOP< SKIP, CURRENT PAGE: ', top, skip, currentPage);
+    console.log("SKIP SHOULD BE ", (parseInt(searchParams.get('page') ?? '1') - 1) * (parseInt(searchParams.get('top') ?? '10') ?? top) ?? skip);
+    setSkip((parseInt(searchParams.get('page') ?? '1') - 1) * top);
+    console.log('TOP, SKIP, CURRENT PAGE: ', top, skip, currentPage);
     await gqlSearchProperties({
       variables: {
         input: {
@@ -214,8 +222,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.ListedForRent + ',count:30'
             ],
             filter: filter,
-            top: top,
-            skip: currentPage !== 0 && skip === 0 ? currentPage * top : skip
+            top: parseInt(searchParams.get('top') ?? '10') ?? top,
+            skip: (parseInt(searchParams.get('page') ?? '1') - 1) * (parseInt(searchParams.get('top') ?? '10') ?? top) ?? skip,
           }
         }
       }
@@ -303,12 +311,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         JSON.stringify(data.propertiesSearch?.propertyResults, null, 2)
       );
 
-      const properties = () => {
-        return generatedPropertyData.map((property: any) => {
-          return <ListingCard data={property} />;
-        });
-      };
-
       return (
         <div>
           {/* <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>{properties()}</div> */}
@@ -351,6 +353,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         top={top}
         setTop={setTop}
         currentPage={currentPage}
+        searchParams={searchParams}
         setSearchParams={setSearchParams}
       />
       <div>

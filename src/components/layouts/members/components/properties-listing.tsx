@@ -8,6 +8,7 @@ import { FormTags } from '../../../ui/organisms/form-tags';
 import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload-container';
 import { PropertiesFloorPlanUploadContainer } from './properties-floor-plan-upload-container';
 import { SelectTags } from './select-tags';
+import { SelectableRoomsOptions, AdditionalAmenitiesCategories, BedTypeOptions, AmentitiesOptions, additionalAmenitiesOptions } from '../../../../constants';
 
 
 const { Title } = Typography;
@@ -27,117 +28,74 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [additionalAmenities, setAdditionalAmenities] = React.useState<any[]>([]);
   const [bedroomDetails, setBedroomDetails] = React.useState<any[]>([]);
 
-  const [selectableCategories, setSelectableCategories] = React.useState<string[]>([
-    'Features', 
-    'Heating & Cooling', 
-    'Kitchen & Dining', 
-    'Location',
-    'Media',
-    'On-site Activities',
-    'Outdoor',
-    'Parking & Access'
-  ]);
+  const [selectableCategories, setSelectableCategories] = React.useState<string[]>(AdditionalAmenitiesCategories);
 
-  const [selectableRooms, setSelectableRooms] = React.useState<string[]>([
-    'Master Bedroom',
-    'Guest Room 1',
-    'Guest Room 2',
-    'Guest Room 3',
-    'Guest Room 4',
-    'Living Room',
-  ]);
+  const [selectableRooms, setSelectableRooms] = React.useState<string[]>(SelectableRoomsOptions);
 
   useEffect(() => {
-    console.log(props.data.property)  
+    const propertyBedroomDetails = props.data.property.listingDetail?.bedroomDetails;
+    const additionalAmenitiesDetails = props.data.property.listingDetail?.additionalAmenities;
+    setBedroomDetails(propertyBedroomDetails ?? []);
+    setAdditionalAmenities(additionalAmenitiesDetails ?? []);
+
+    const selectedBedrooms: string[] = [];
+    propertyBedroomDetails?.forEach((bedroom: any )=> {
+      if (bedroom.roomName) {
+        selectedBedrooms.push(bedroom.roomName);
+      }
+    });
+
+    const selectedCategories: string[] = [];
+    additionalAmenitiesDetails?.forEach((amenity: any )=> {
+      if (amenity.category) {
+        selectedCategories.push(amenity.category);
+      }
+    })
+
+    const remainingBeds = SelectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
+    const remainingCategories = selectableCategories.filter((category: any) => !selectedCategories.includes(category));
+
+    setSelectableRooms(remainingBeds);
+    setSelectableCategories(remainingCategories);
   }, []);
 
 
   const onBedroomChange = (value: string, index: number) => {
-    const newBedroomDetails = [...bedroomDetails];
-    newBedroomDetails[index].bedroomType = value;
+    let newBedroomDetails = JSON.parse(JSON.stringify(bedroomDetails));
+    newBedroomDetails[index].roomName = value;
 
     const selectedBedrooms: string[] = [];
-    newBedroomDetails.forEach(bedroom => {
-      if (bedroom.bedroomType) {
-        selectedBedrooms.push(bedroom.bedroomType);
+    newBedroomDetails.forEach((bedroom: any )=> {
+      if (bedroom.roomName) {
+        selectedBedrooms.push(bedroom.roomName);
       }
     });
 
-    const remainingBeds = selectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
+    const remainingBeds = SelectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
     setSelectableRooms(remainingBeds);
+    setBedroomDetails(newBedroomDetails);
     form.setFields([{name: ['listingDetail', 'bedroomDetails', index ,'bedDescriptions'], value: []}])
   }
 
   const onSelectChanged = (value: string, index: number) => {
 
-    const newAdditionalAmenities = [...additionalAmenities];
-    newAdditionalAmenities[index].Category = value;
-    newAdditionalAmenities[index].Amentities = [];
+    let newAdditionalAmenities = JSON.parse(JSON.stringify(additionalAmenities));
+    newAdditionalAmenities[index].category = value;
+    newAdditionalAmenities[index].amentities = [];
 
     // get all selected categories
     const selectedCategories : string[] = [];
-    newAdditionalAmenities.forEach(amenity => {
-      if (amenity.Category) {
-        selectedCategories.push(amenity.Category);
+    newAdditionalAmenities.forEach((amenity: any) => {
+      if (amenity.category) {
+        selectedCategories.push(amenity.category);
       }
     })
 
-    const remainingCategories =  additionalAmenitiesCategories.filter((category: any) => !selectedCategories.includes(category))
+    const remainingCategories =  AdditionalAmenitiesCategories.filter((category: any) => !selectedCategories.includes(category))
     setSelectableCategories(remainingCategories);
-
-    // const fields = form.getFieldsValue();
-    // const changedFields = fields;
-    // Object.assign(changedFields['listingDetail']['additionalAmenities'][index], { id:undefined, category: value, amenities: [] });
-    // changedFields['listingDetail']['additionalAmenities'][index]['amenities'] = [];
-
+    setAdditionalAmenities(newAdditionalAmenities);
     form.setFields([{name: ['listingDetail', 'additionalAmenities', index ,'amenities'], value: []}])
   }
-
-  const additionalAmenitiesOptions: any = {
-    'Features': ['Iron', 'Washer/Dryer (Private)'], 
-    'Heating & Cooling':['Central Air', 'Central Heat'], 
-    'Kitchen & Dining':['Dishwasher', 'Microwave', 'Refrigerator'], 
-    'Location':['Oceanfront', 'Gated Community'],
-    'Media':['Cable', 'Internet', 'TV'],
-    'On-site Activities':['Pool (Private)', 'Gym', 'Basketball Court'],
-    'Outdoor':['Balcony'],
-    'Parking & Access':['Garage'],
-    '':[]
-  }
-
-  const additionalAmenitiesCategories = [
-    'Features', 
-    'Heating & Cooling', 
-    'Kitchen & Dining', 
-    'Location',
-    'Media',
-    'On-site Activities',
-    'Outdoor',
-    'Parking & Access'
-    ];
-
-  const selectableRoomsOptions = [
-    'Master Bedroom',
-    'Guest Room 1',
-    'Guest Room 2',
-    'Guest Room 3',
-    'Guest Room 4',
-    'Living Room',
-  ]
-
-  // const filteredOptions = additionalAmenitiesCategories.filter((option: string) => !selectableCategories.includes(option));
-
-  const amentitiesOptions = 
-  [
-    'Cable',
-    'Pool (Private)',
-    'Pool (Public)',
-    'Gym',
-    'Washer/Dryer (Private)',
-    'Washer/Dryer (Public)'
-  ];
-
-  const bedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed' ];
 
   return(
     <div>
@@ -241,7 +199,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                       >
                         {/* <FormTags /> */}
                         <SelectTags 
-                          options={bedTypeOptions} 
+                          options={BedTypeOptions} 
                           label="Types of Beds"
                         />
                       </Form.Item>
@@ -253,7 +211,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                   <Button
                     type="dashed"
                     onClick={() => {
-                      setBedroomDetails([...bedroomDetails, { bedroomType: ''}])
+                      setBedroomDetails([...bedroomDetails, { roomName: ''}])
                       add();
                     }}
                     block
@@ -293,7 +251,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           {/* <FormTags /> */}
           
           <SelectTags 
-            options={amentitiesOptions} 
+            options={AmentitiesOptions} 
             label='Amenities'/>
 
         </Form.Item>

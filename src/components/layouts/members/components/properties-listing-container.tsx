@@ -42,18 +42,19 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
   });
 
   function stripTypenames(obj: any, propToDelete: string) {
-    for (const property in obj) {
-      if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
-        delete obj.property;
-        const newData = stripTypenames(obj[property], propToDelete);
-        obj[property] = newData;
+    let tempObj = JSON.parse(JSON.stringify(obj))
+    for (const property in tempObj) {
+      if (typeof tempObj[property] === 'object' && !(tempObj[property] instanceof File)) {
+        delete tempObj.property;
+        const newData = stripTypenames(tempObj[property], propToDelete);
+        tempObj[property] = newData;
       } else {
         if (property === propToDelete) {
-          delete obj[property];
+          delete tempObj[property];
         }
       }
     }
-    return obj;
+    return tempObj;
   }
 
   function stripTypename<T>(input: T) {

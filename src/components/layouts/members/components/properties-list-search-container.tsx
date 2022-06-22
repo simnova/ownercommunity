@@ -5,7 +5,8 @@ import {
   MemberPropertiesListSearchContainerPropertiesDocument,
   PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space, AutoComplete, Pagination, List } from 'antd';
+import { Skeleton, Input, Button, Space, AutoComplete, Pagination, List, Modal, Select } from 'antd';
+import { FilterOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -15,8 +16,8 @@ import {
   FilterNames,
   SearchParamKeys
 } from '../../../../constants';
-import { PropertiesListSearchFilters } from './properties-list-search-filters';
-
+import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
+const { Option } = Select;
 interface AddressDataType {
   value: string;
   label: string;
@@ -34,6 +35,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [top, setTop] = useState(10);
   const [skip, setSkip] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -336,51 +338,26 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <Space size="large">
-        <Space size={0}>
-          {/* <Input
-          placeholder="Enter an address"
-          onPressEnter={(e: any) => handleSearch(e.target.value, selectedFilter)}
-          value={searchString}
-          onChange={(e) => setSearchString(e.target.value)}
-        /> */}
-          <AutoComplete
-            options={addresses}
-            style={{
-              width: '400px'
-            }}
-            placeholder="Enter an address or a property name"
-            filterOption={false}
-            value={searchString}
-            onChange={(value: string) => onInputAddressChanged(value)}
-            onSelect={(value: string) => onInputAddressSelected(value)}
-          ></AutoComplete>
-
-          <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
-            Search
-          </Button>
-          <Pagination
-            current={currentPage + 1}
-            total={data?.propertiesSearch?.count ?? 10}
-            pageSize={top}
-            onChange={(page) => handlePagination(page)}
-          />
-        </Space>
-      </Space>
+      <PropertiesListSearchToolbar 
+        data={data}
+        searchString={searchString}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        handleSearch={handleSearch}
+        onInputAddressChanged={onInputAddressChanged}
+        onInputAddressSelected={onInputAddressSelected}
+        handlePagination={handlePagination}
+        addresses={addresses}
+        top={top}
+        setTop={setTop}
+        currentPage={currentPage}
+        setSearchParams={setSearchParams}
+      />
       <div>
         {data?.propertiesSearch?.count
           ? '(' + data?.propertiesSearch?.count + ' records found)'
           : ''}
       </div>
-
-      <PropertiesListSearchFilters
-        facets={data?.propertiesSearch?.facets as PropertySearchFacets}
-        setSelectedFilter={setSelectedFilter}
-        selectedFilter={selectedFilter}
-        handleSearch={handleSearch}
-        searchString={searchString}
-        setTop={setTop}
-      />
       {result()}
     </>
   );

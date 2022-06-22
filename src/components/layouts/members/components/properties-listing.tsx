@@ -25,6 +25,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [formLoading,setFormLoading] = React.useState(false);
 
   const [additionalAmenities, setAdditionalAmenities] = React.useState<any[]>([]);
+  const [bedroomDetails, setBedroomDetails] = React.useState<any[]>([]);
 
 
   const [selectableCategories, setSelectableCategories] = React.useState<string[]>([
@@ -37,6 +38,34 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Outdoor',
     'Parking & Access'
   ]);
+
+  const [selectableRooms, setSelectableRooms] = React.useState<string[]>([
+    'Master Bedroom',
+    'Guest Room 1',
+    'Guest Room 2',
+    'Guest Room 3',
+    'Guest Room 4',
+    'Living Room',
+  ]);
+
+  const bedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed' ];
+
+  const onBedroomChange = (value: string, index: number) => {
+    const newBedroomDetails = [...bedroomDetails];
+    newBedroomDetails[index].bedroomType = value;
+
+    const selectedBedrooms: string[] = [];
+    newBedroomDetails.forEach(bedroom => {
+      if (bedroom.bedroomType) {
+        selectedBedrooms.push(bedroom.bedroomType);
+      }
+    });
+
+    const remainingBeds = selectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
+    console.log(remainingBeds);
+    setSelectableRooms(remainingBeds);
+    form.setFields([{name: ['listingDetail', 'bedroomDetails', index ,'bedDescriptions'], value: []}])
+  }
 
   const onSelectChanged = (value: string, index: number) => {
 
@@ -86,6 +115,15 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Parking & Access'
     ];
 
+  const selectableRoomsOptions = [
+    'Master Bedroom',
+    'Guest Room 1',
+    'Guest Room 2',
+    'Guest Room 3',
+    'Guest Room 4',
+    'Living Room',
+  ]
+
   // const filteredOptions = additionalAmenitiesCategories.filter((option: string) => !selectableCategories.includes(option));
 
   const amentitiesOptions = 
@@ -97,8 +135,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Washer/Dryer (Private)',
     'Washer/Dryer (Public)'
   ];
-
-  const bedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King' ];
 
   return(
     <div>
@@ -185,7 +221,16 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                         name={[index, 'roomName']}
                         label="Room Name"
                       >
-                        <Input placeholder='Room Name' />
+                        <Select 
+                          placeholder="Room"
+                          onChange={(values) => {onBedroomChange(values, index)}}
+                        >
+                          {selectableRooms?.map((room: any) => (
+                            <Select.Option key={room} value={room}>{room}</Select.Option>
+                          ))}
+
+                        </Select>
+                        {/* <Input placeholder='Room Name' /> */}
                       </Form.Item>
                       <Form.Item 
                         name={[index,'bedDescriptions']}
@@ -205,6 +250,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                   <Button
                     type="dashed"
                     onClick={() => {
+                      setBedroomDetails([...bedroomDetails, { bedroomType: ''}])
                       add();
                     }}
                     block

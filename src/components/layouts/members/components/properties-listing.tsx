@@ -27,7 +27,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [additionalAmenities, setAdditionalAmenities] = React.useState<any[]>([]);
   const [bedroomDetails, setBedroomDetails] = React.useState<any[]>([]);
 
-
   const [selectableCategories, setSelectableCategories] = React.useState<string[]>([
     'Features', 
     'Heating & Cooling', 
@@ -48,7 +47,10 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Living Room',
   ]);
 
-  const bedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed' ];
+  useEffect(() => {
+    console.log(props.data.property)  
+  }, []);
+
 
   const onBedroomChange = (value: string, index: number) => {
     const newBedroomDetails = [...bedroomDetails];
@@ -62,7 +64,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     });
 
     const remainingBeds = selectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
-    console.log(remainingBeds);
     setSelectableRooms(remainingBeds);
     form.setFields([{name: ['listingDetail', 'bedroomDetails', index ,'bedDescriptions'], value: []}])
   }
@@ -84,10 +85,10 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     const remainingCategories =  additionalAmenitiesCategories.filter((category: any) => !selectedCategories.includes(category))
     setSelectableCategories(remainingCategories);
 
-    const fields = form.getFieldsValue();
-    const changedFields = fields;
-    Object.assign(changedFields['listingDetail']['additionalAmenities'][index], { id:undefined, category: value, amenities: [] });
-    changedFields['listingDetail']['additionalAmenities'][index]['amenities'] = [];
+    // const fields = form.getFieldsValue();
+    // const changedFields = fields;
+    // Object.assign(changedFields['listingDetail']['additionalAmenities'][index], { id:undefined, category: value, amenities: [] });
+    // changedFields['listingDetail']['additionalAmenities'][index]['amenities'] = [];
 
     form.setFields([{name: ['listingDetail', 'additionalAmenities', index ,'amenities'], value: []}])
   }
@@ -135,6 +136,8 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     'Washer/Dryer (Private)',
     'Washer/Dryer (Public)'
   ];
+
+  const bedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed' ];
 
   return(
     <div>

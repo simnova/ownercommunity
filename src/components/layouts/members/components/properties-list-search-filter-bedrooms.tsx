@@ -1,7 +1,7 @@
 import { Radio, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { BedroomsFilterOptions, SearchParamKeys } from '../../../../constants';
+import { BedroomsFilterOptions, FilterNames, SearchParamKeys } from '../../../../constants';
 import { FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
@@ -47,10 +47,10 @@ export const PropertiesListSearchFilterBedrooms: FC<PropertiesListSearchFilterBe
 
   return (
     <Collapse className="search-filter-collapse">
-      <Panel header={<h2 className="font-bold">Bedrooms</h2>} key="2">
+      <Panel header={<h2 className="font-bold">Bedrooms</h2>} key={FilterNames.Bedrooms}>
         <Radio.Group
-          value={bedrooms?.toString()}
-          defaultValue={bedrooms?.toString()}
+          value={bedrooms}
+          defaultValue={bedrooms}
           onChange={onBedroomsClicked}
           buttonStyle="solid"
           optionType="button"

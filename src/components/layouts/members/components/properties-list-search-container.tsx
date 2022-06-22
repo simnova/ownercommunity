@@ -1,27 +1,60 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import {
   FilterDetail,
+  MemberPropertiesListSearchContainerMapSasTokenDocument,
   MemberPropertiesListSearchContainerPropertiesDocument,
   PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space, List } from 'antd';
+import { Skeleton, Input, Button, Space, AutoComplete, Pagination, List, Modal, Select } from 'antd';
+import { FilterOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { AdditionalAmenities, FilterNames } from '../../../../constants';
-import { PropertiesListSearchFilters } from './properties-list-search-filters';
+import {
+  AdditionalAmenities,
+  addressQuery,
+  FilterNames,
+  SearchParamKeys
+} from '../../../../constants';
+import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
+const { Option } = Select;
+interface AddressDataType {
+  value: string;
+  label: string;
+  key: string;
+  address: any;
+  lat: number;
+  long: number;
+}
 
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [addresses, setAddresses] = useState<AddressDataType[]>([]);
+  const [top, setTop] = useState(10);
+  const [skip, setSkip] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const {
+    data: mapSasTokenData,
+    loading: mapSasTokenLoading,
+    error: mapSasTokenError
+  } = useQuery(MemberPropertiesListSearchContainerMapSasTokenDocument);
 
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
     { fetchPolicy: 'network-only' }
   );
+
+  useEffect(() => {
+    if (!location.search) {
+      setSearchString('');
+    }
+  }, [location]);
 
   // get selected filters from query string (when page is loaded)
   useEffect(() => {
@@ -37,6 +70,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
     const qsamenities = searchParams.get('amenities')?.split(',');
     const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
+    const qspage = searchParams.get('page');
 
     let filters = {} as FilterDetail;
     if (qssearchString) {
@@ -116,12 +150,55 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       };
     }
 
+    // distance
+    const qsdistance = searchParams.get('distance');
+    if (qsdistance) {
+      filters = {
+        ...filters,
+        distance: parseInt(qsdistance)
+      };
+    } else {
+      filters = {
+        ...filters,
+        distance: 0
+      };
+    }
+
+    // lat and long
+    const qslat = searchParams.get('lat');
+    const qslong = searchParams.get('long');
+    if (qslat && qslong) {
+      filters = {
+        ...filters,
+        position: {
+          latitude: parseFloat(qslat),
+          longitude: parseFloat(qslong)
+        }
+      };
+    }
+
+    // page - for pagination
+    if (qspage) {
+      console.log('PAGE IS: ', qspage);
+      setCurrentPage(parseInt(qspage) - 1);
+    }
+
     setSelectedFilter(filters);
+    // setSkip(currentPage * top);
     handleSearch(qssearchString ?? '', filters);
   }, []);
 
+  useEffect(() => {
+    setSkip(currentPage * top);
+    if (mapSasTokenData) {
+      handleSearch(searchString, selectedFilter);
+    }
+  }, [top, currentPage]);
+
   const handleSearch = async (searchString?: string, filter?: FilterDetail) => {
     navigate(`.?` + searchParams);
+    setSkip(currentPage * top);
+    console.log('TOP< SKIP, CURRENT PAGE: ', top, skip, currentPage);
     await gqlSearchProperties({
       variables: {
         input: {
@@ -136,17 +213,90 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.ListedForSale + ',count:30',
               FilterNames.ListedForRent + ',count:30'
             ],
-            filter: filter
+            filter: filter,
+            top: top,
+            skip: currentPage !== 0 && skip === 0 ? currentPage * top : skip
           }
         }
       }
     });
   };
 
+  const onInputAddressChanged = (value: string) => {
+    if (!value) {
+      searchParams.delete('search');
+    } else {
+      searchParams.set('search', value);
+    }
+
+    searchParams.delete('lat');
+    searchParams.delete('long');
+    setSearchParams(searchParams);
+    setSearchString(value);
+    setSelectedFilter({
+      ...selectedFilter,
+      position: undefined
+    });
+
+    let tmp: AddressDataType[] = [];
+    if (mapSasTokenData?.getMapSasToken) {
+      if (value.length >= 4) {
+        addressQuery(value, mapSasTokenData?.getMapSasToken).then((addressData) => {
+          addressData.filter((address: any) => {
+            if (address.address.streetNumber && address.address.streetName) {
+              tmp.push({
+                label: address.address.freeformAddress,
+                value: address.address.freeformAddress,
+                key: address.id,
+                address: address.address,
+                lat: address.position.lat,
+                long: address.position.lon
+              });
+              // return address
+            }
+          });
+          setAddresses(tmp);
+        });
+      }
+    }
+  };
+
+  const onInputAddressSelected = (value: string) => {
+    setSearchString(value);
+    // find selected address in addresses
+    const selectedAddress = addresses.find((address: any) => {
+      return address.label === value;
+    });
+    if (selectedAddress) {
+      const lat = selectedAddress.lat;
+      const long = selectedAddress.long;
+      setSearchParams('search=' + selectedAddress.value + '&lat=' + lat + '&long=' + long);
+      setSelectedFilter({
+        ...selectedFilter,
+        position: {
+          latitude: lat,
+          longitude: long
+        }
+      });
+    }
+  };
+
+  const handlePagination = (newPage: number) => {
+    const current = newPage - 1;
+    setSkip(current * top);
+    setCurrentPage(current);
+    searchParams.set('page', newPage.toString());
+    setSearchParams(searchParams);
+  };
+
   const result = () => {
-    if (error) {
-      return <div>{JSON.stringify(error)}</div>;
-    } else if (loading) {
+    if (error || mapSasTokenError) {
+      if (error) {
+        return <div>{JSON.stringify(error)}</div>;
+      } else {
+        return <div>{JSON.stringify(mapSasTokenError)}</div>;
+      }
+    } else if (loading || mapSasTokenLoading) {
       return <Skeleton active />;
     } else if (called && data) {
       const generatedPropertyData = JSON.parse(
@@ -173,7 +323,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               xxl: 3
             }}
             dataSource={generatedPropertyData}
-            renderItem={item => (
+            renderItem={(item) => (
               <List.Item>
                 <ListingCard data={item}></ListingCard>
               </List.Item>
@@ -188,31 +338,26 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <Space size={0}>
-        <Input
-          placeholder="Search properties"
-          onPressEnter={(e: any) => handleSearch(e.target.value, selectedFilter)}
-          value={searchString}
-          onChange={(e) => setSearchString(e.target.value)}
-        />
-
-        <Button type="primary" onClick={() => handleSearch(searchString, selectedFilter)}>
-          Search
-        </Button>
-      </Space>
+      <PropertiesListSearchToolbar 
+        data={data}
+        searchString={searchString}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        handleSearch={handleSearch}
+        onInputAddressChanged={onInputAddressChanged}
+        onInputAddressSelected={onInputAddressSelected}
+        handlePagination={handlePagination}
+        addresses={addresses}
+        top={top}
+        setTop={setTop}
+        currentPage={currentPage}
+        setSearchParams={setSearchParams}
+      />
       <div>
         {data?.propertiesSearch?.count
           ? '(' + data?.propertiesSearch?.count + ' records found)'
           : ''}
       </div>
-
-      <PropertiesListSearchFilters
-        facets={data?.propertiesSearch?.facets as PropertySearchFacets}
-        setSelectedFilter={setSelectedFilter}
-        selectedFilter={selectedFilter}
-        handleSearch={handleSearch}
-        searchString={searchString}
-      />
       {result()}
     </>
   );

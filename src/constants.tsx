@@ -136,6 +136,41 @@ export const MaxSquareFeetOptions = [
   { label: '2,000', value: 2000 }
 ];
 
+export const additionalAmenitiesOptions: any = {
+  'Features': ['Iron', 'Washer/Dryer (Private)'], 
+  'Heating & Cooling':['Central Air', 'Central Heat'], 
+  'Kitchen & Dining':['Dishwasher', 'Microwave', 'Refrigerator'], 
+  'Location':['Oceanfront', 'Gated Community'],
+  'Media':['Cable', 'Internet', 'TV'],
+  'On-site Activities':['Pool (Private)', 'Gym', 'Basketball Court'],
+  'Outdoor':['Balcony'],
+  'Parking & Access':['Garage'],
+  // '':[]
+}
+
+export const AdditionalAmenitiesCategories = Object.keys(additionalAmenitiesOptions);
+
+export const SelectableRoomsOptions = [
+  'Master Bedroom',
+  'Guest Room 1',
+  'Guest Room 2',
+  'Guest Room 3',
+  'Guest Room 4',
+  'Living Room',
+]
+
+export const AmentitiesOptions = 
+[
+  'Cable',
+  'Pool (Private)',
+  'Pool (Public)',
+  'Gym',
+  'Washer/Dryer (Private)',
+  'Washer/Dryer (Public)'
+];
+
+export const BedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed' ];
+
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
   var addresssGeocodeServiceUrlTemplate: string =
     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';

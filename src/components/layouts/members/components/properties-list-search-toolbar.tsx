@@ -19,6 +19,7 @@ interface PropertiesListSearchToolbarProps {
   setTop: (top: number) => void;
   addresses: AddressDataType[];
   currentPage: number;
+  searchParams: any;
   setSearchParams: (searchParams: any) => void;
 
 }
@@ -76,7 +77,11 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           <span>Filters</span>
         </Space>
       </Button>
-      <Select defaultValue={10} onChange={(value) => props.setTop(value)}>
+      <Select defaultValue={props.searchParams.get('top') ?? props.top} onChange={(value) => {
+        props.setTop(value);
+        props.searchParams.set('top', value);
+        props.setSearchParams(props.searchParams);
+      }}>
         <Option value={5}>5</Option>
         <Option value={10}>10</Option>
         <Option value={15}>15</Option>
@@ -98,7 +103,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             onClick={() => {
               props.handleSearch('', undefined);
               props.setSelectedFilter(undefined);
-              props.setSearchParams({ page: (props.currentPage + 1).toString() ??  '1'});
+              props.setSearchParams({ page: (props.currentPage + 1).toString() ??  '1', top: props.top.toString() ?? '10' });
             }}
           >
             Clear Filters

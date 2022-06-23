@@ -21,7 +21,7 @@ interface PropertiesListSearchToolbarProps {
   currentPage: number;
   searchParams: any;
   setSearchParams: (searchParams: any) => void;
-
+  setOrderBy: (orderBy: string) => void;
 }
 
 interface AddressDataType {
@@ -87,6 +87,17 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         <Option value={15}>15</Option>
         <Option value={25}>25</Option>
         <Option value={50}>50</Option>
+      </Select>
+      <Select defaultValue={''} onChange={(value) => {
+        console.log("KEY ", value);
+        props.setOrderBy(value);
+        props.searchParams.set('sort', value);
+        props.setSearchParams(props.searchParams);
+        props.handleSearch(props.searchString, props.selectedFilter);
+      }}>
+        <Option value={''}>None</Option>
+        <Option value={'price'}>Price: High to Low</Option>
+        <Option value={'price desc'}>Price: Low to High</Option>
       </Select>
       <Modal
         title="Filters"

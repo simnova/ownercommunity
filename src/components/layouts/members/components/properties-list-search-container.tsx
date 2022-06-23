@@ -35,7 +35,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [top, setTop] = useState(10);
   const [skip, setSkip] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [orderBy, setOrderBy] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -224,6 +224,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             filter: filter,
             top: parseInt(searchParams.get('top') ?? '10') ?? top,
             skip: (parseInt(searchParams.get('page') ?? '1') - 1) * (parseInt(searchParams.get('top') ?? '10') ?? top) ?? skip,
+            orderBy: 'price',
           }
         }
       }
@@ -355,6 +356,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         currentPage={currentPage}
         searchParams={searchParams}
         setSearchParams={setSearchParams}
+        setOrderBy={setOrderBy}
       />
       <div>
         {data?.propertiesSearch?.count

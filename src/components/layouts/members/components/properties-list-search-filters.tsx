@@ -138,6 +138,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
               props.handleSearch(0);
               searchParams.set('page', '1');
               setSearchParams(searchParams);
+              props.setCurrentPage(0);
               setIsModalVisible(false);
             }}
           >

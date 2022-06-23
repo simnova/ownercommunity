@@ -47,7 +47,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
   const onSelectOrderByChanged = (value: string) => {
     props.setOrderBy([value]);
-    props.handleSearch(props.currentPage, props.top);
+    props.handleSearch();
   }
 
   const clearFilter = () => {
@@ -116,10 +116,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
       <Select
         defaultValue={''}
         onChange={(value) => {onSelectOrderByChanged(value)}}
+        style={{ width: '160px' }}
       >
         <Option value={''}>None</Option>
         <Option value={'price desc'}>Price: High to Low</Option>
-        <Option value={'price'}>Price: Low to High</Option>
+        <Option value={'price asc'}>Price: Low to High</Option>
+        <Option value={'bedrooms desc'}>Bedrooms</Option>
+        <Option value={'squareFeet desc'}>Square Feet</Option>
       </Select>
       <Modal
         title="Filters"
@@ -162,111 +165,5 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         />
       </Modal>
     </Space>
-    // <Space size="large">
-    //   <Space size={0}>
-    //     {/* <Input
-    //     placeholder="Enter an address"
-    //     onPressEnter={(e: any) => handleSearch(e.target.value, selectedFilter)}
-    //     value={searchString}
-    //     onChange={(e) => setSearchString(e.target.value)}
-    //   /> */}
-    //     <AutoComplete
-    //       options={props.addresses}
-    //       style={{
-    //         width: '400px'
-    //       }}
-    //       placeholder="Enter an address or a property name"
-    //       filterOption={false}
-    //       value={props.searchString}
-    //       onChange={(value: string) => props.onInputAddressChanged(value)}
-    //       onSelect={(value: string) => props.onInputAddressSelected(value)}
-    //     ></AutoComplete>
-
-    //     <Button
-    //       type="primary"
-    //       onClick={() => props.handleSearch(props.searchString, props.selectedFilter)}
-    //     >
-    //       Search
-    //     </Button>
-    //   </Space>
-    //   <Pagination
-    //     current={props.currentPage + 1}
-    //     total={props.data?.propertiesSearch?.count ?? 10}
-    //     pageSize={props.top}
-    //     onChange={(page) => props.handlePagination(page)}
-    //   />
-    //   <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
-    //     <Space size="middle">
-    //       <FilterOutlined />
-    //       <span>Filters</span>
-    //     </Space>
-    //   </Button>
-    //   <Select
-    //     defaultValue={props.searchParams.get('top') ?? props.top}
-    //     onChange={(value) => {
-    //       props.setTop(value);
-    //       props.searchParams.set('top', value);
-    //       props.setSearchParams(props.searchParams);
-    //     }}
-    //   >
-    //     <Option value={5}>5</Option>
-    //     <Option value={10}>10</Option>
-    //     <Option value={15}>15</Option>
-    //     <Option value={25}>25</Option>
-    //     <Option value={50}>50</Option>
-    //   </Select>
-    //   <Select defaultValue={''} onChange={(value) => {
-    //     console.log("KEY ", value);
-    //     props.setOrderBy(value);
-    //     props.searchParams.set('sort', value);
-    //     props.setSearchParams(props.searchParams);
-    //     props.handleSearch(props.searchString, props.selectedFilter);
-    //   }}>
-    //     <Option value={''}>None</Option>
-    //     <Option value={'price'}>Price: High to Low</Option>
-    //     <Option value={'price desc'}>Price: Low to High</Option>
-    //   </Select>
-    //   <Modal
-    //     title="Filters"
-    //     visible={isModalVisible}
-    //     width={1000}
-    //     onCancel={() => setIsModalVisible(false)}
-    //     footer={[
-    //       <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-    //         Cancel
-    //       </Button>,
-    //       <Button
-    //         key="clear"
-    //         type="link"
-    //         onClick={() => {
-    //           props.handleSearch('', undefined);
-    //           props.setSelectedFilter(undefined);
-    //           props.setSearchParams({
-    //             page: (props.currentPage + 1).toString() ?? '1',
-    //             top: props.top.toString() ?? '10'
-    //           });
-    //         }}
-    //       >
-    //         Clear Filters
-    //       </Button>,
-    //       <Button
-    //         key="submit"
-    //         type="primary"
-    //         onClick={() => {
-    //           props.handleSearch(props.searchString, props.selectedFilter);
-    //           setIsModalVisible(false);
-    //         }}
-    //       >
-    //         Apply
-    //       </Button>
-    //     ]}
-    //   >
-    //     {/* <PropertiesListSearchFilters
-    //       facets={props.data?.propertiesSearch?.facets as PropertySearchFacets}
-    //       setSelectedFilter={props.setSelectedFilter}
-    //       selectedFilter={props.selectedFilter}
-    //     /> */}
-    //   </Modal>
-    // </Space>
   );
 };

@@ -5,7 +5,7 @@ import {
   MemberPropertiesListSearchContainerPropertiesDocument,
   PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, Input, Button, Space, AutoComplete, Pagination, List } from 'antd';
+import { Skeleton, Button, Space, AutoComplete, Pagination, List, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -16,7 +16,7 @@ import {
   SearchParamKeys
 } from '../../../../constants';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
-
+const { Option } = Select;
 interface AddressDataType {
   value: string;
   label: string;
@@ -203,16 +203,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       };
     }
 
-    // page - for pagination
-    // const page = qspage ? parseInt(qspage) - 1 : 0;
-    // if (qspage) {
-    //   console.log('PAGE IS: ', qspage);
-    //   setCurrentPage(page);
-    // }
     return filters;
-
-    // setSelectedFilter(filters);
-    // setSkip(currentPage * top);
   };
 
   const handleSearch = async (page: number = 0) => {
@@ -283,7 +274,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
                 lat: address.position.lat,
                 long: address.position.lon
               });
-              // return address
             }
           });
           setAddresses(tmp);
@@ -335,12 +325,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       const generatedPropertyData = JSON.parse(
         JSON.stringify(data.propertiesSearch?.propertyResults, null, 2)
       );
-
-      const properties = () => {
-        return generatedPropertyData.map((property: any) => {
-          return <ListingCard data={property} />;
-        });
-      };
 
       return (
         <div>

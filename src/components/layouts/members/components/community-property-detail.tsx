@@ -197,7 +197,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
             </Space>
 
             <Space direction='horizontal' size={50} >
-                <Title level={3} style={{marginTop: '0px'}}>123 Street St</Title>
+                <Title level={3} style={{marginTop: '0px'}}>{props.data.property.location.address.streetNumber + " " +props.data.property.location.address.streetName}</Title>
                 <Title level={4}>{props.data.property.listingDetail.bedrooms ? props.data.property.listingDetail.bedrooms : "-"} Bds</Title>
                 <Title level={4}>{props.data.property.listingDetail.bathrooms ? props.data.property.listingDetail.bathrooms : "-"} Ba</Title>
                 <Title level={4}>{props.data.property.listingDetail.squareFeet ? props.data.property.listingDetail.squareFeet : "-"} Sqft</Title>

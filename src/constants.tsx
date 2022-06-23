@@ -31,7 +31,8 @@ export const SearchParamKeys = {
   Latitude: 'lat',
   Longtitude: 'long',
   Page: 'page',
-  Top: 'top'
+  Top: 'top',
+  Distance: 'distance'
 };
 
 export const FilterNames = {
@@ -141,16 +142,16 @@ export const MaxSquareFeetOptions = [
 ];
 
 export const additionalAmenitiesOptions: any = {
-  'Features': ['Iron', 'Washer/Dryer (Private)'], 
-  'Heating & Cooling':['Central Air', 'Central Heat'], 
-  'Kitchen & Dining':['Dishwasher', 'Microwave', 'Refrigerator'], 
-  'Location':['Oceanfront', 'Gated Community'],
-  'Media':['Cable', 'Internet', 'TV'],
-  'On-site Activities':['Pool (Private)', 'Gym', 'Basketball Court'],
-  'Outdoor':['Balcony'],
-  'Parking & Access':['Garage'],
+  Features: ['Iron', 'Washer/Dryer (Private)'],
+  'Heating & Cooling': ['Central Air', 'Central Heat'],
+  'Kitchen & Dining': ['Dishwasher', 'Microwave', 'Refrigerator'],
+  Location: ['Oceanfront', 'Gated Community'],
+  Media: ['Cable', 'Internet', 'TV'],
+  'On-site Activities': ['Pool (Private)', 'Gym', 'Basketball Court'],
+  Outdoor: ['Balcony'],
+  'Parking & Access': ['Garage']
   // '':[]
-}
+};
 
 export const AdditionalAmenitiesCategories = Object.keys(additionalAmenitiesOptions);
 
@@ -160,11 +161,10 @@ export const SelectableRoomsOptions = [
   'Guest Room 2',
   'Guest Room 3',
   'Guest Room 4',
-  'Living Room',
-]
+  'Living Room'
+];
 
-export const AmentitiesOptions = 
-[
+export const AmentitiesOptions = [
   'Cable',
   'Pool (Private)',
   'Pool (Public)',
@@ -173,7 +173,7 @@ export const AmentitiesOptions =
   'Washer/Dryer (Public)'
 ];
 
-export const BedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed' ];
+export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
   var addresssGeocodeServiceUrlTemplate: string =

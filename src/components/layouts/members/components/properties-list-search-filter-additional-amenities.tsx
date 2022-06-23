@@ -106,7 +106,7 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
     }, []);
 
     useEffect(() => {
-      if (!location.search) {
+      if (!location.search.includes(SearchParamKeys.AdditionalAmenities)) {
         setSelectedAdditionalAmenities([]);
       }
     }, [location]);

@@ -13,7 +13,7 @@ interface PropertiesListSearchToolbarProps {
   searchString: string;
   selectedFilter: FilterDetail | undefined;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
-  handleSearch: (page?: number, top?: number) => void;
+  handleSearch: (page: number, top: number) => void;
   onInputAddressChanged: (value: string) => void;
   onInputAddressSelected: (value: string) => void;
   handlePagination: (page: number) => void;
@@ -47,8 +47,8 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
   const onSelectOrderByChanged = (value: string) => {
     props.setOrderBy([value]);
-    props.handleSearch();
-  }
+    props.handleSearch(props.currentPage ?? 0, props.top ?? 10);
+  };
 
   const clearFilter = () => {
     props.setSelectedFilter(undefined);
@@ -62,8 +62,14 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.PropertyType);
     searchParams.delete(SearchParamKeys.MaxSquareFeet);
     searchParams.delete(SearchParamKeys.MinSquareFeet);
+    searchParams.delete(SearchParamKeys.Distance);
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
+  };
+
+  const searchButtonClicked = () => {
+    props.setCurrentPage(0);
+    props.handleSearch(0, props.top ?? 10);
   };
 
   return (
@@ -81,7 +87,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           onSelect={(value: string) => props.onInputAddressSelected(value)}
         ></AutoComplete>
 
-        <Button type="primary" onClick={() => props.handleSearch(0)}>
+        <Button type="primary" onClick={() => searchButtonClicked()}>
           Search
         </Button>
       </Space>
@@ -102,11 +108,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         <Option value={50}>50</Option>
       </Select>
 
-      <Button
-        type="ghost"
-        onClick={() => setIsModalVisible(true)}
-        style={{ borderRadius: '10px' }}
-      >
+      <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
         <Space size="middle">
           <FilterOutlined />
           <span>Filters</span>
@@ -115,7 +117,9 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
       <Select
         defaultValue={''}
-        onChange={(value) => {onSelectOrderByChanged(value)}}
+        onChange={(value) => {
+          onSelectOrderByChanged(value);
+        }}
         style={{ width: '160px' }}
       >
         <Option value={''}>None</Option>
@@ -146,7 +150,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             key="submit"
             type="primary"
             onClick={() => {
-              props.handleSearch(0);
+              props.handleSearch(0, props.top ?? 10);
               searchParams.set('page', '1');
               setSearchParams(searchParams);
               props.setCurrentPage(0);

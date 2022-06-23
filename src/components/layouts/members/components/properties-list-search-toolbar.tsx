@@ -57,7 +57,10 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           onSelect={(value: string) => props.onInputAddressSelected(value)}
         ></AutoComplete>
 
-        <Button type="primary" onClick={() => props.handleSearch(props.searchString, props.selectedFilter)}>
+        <Button
+          type="primary"
+          onClick={() => props.handleSearch(props.searchString, props.selectedFilter)}
+        >
           Search
         </Button>
       </Space>
@@ -67,21 +70,20 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         pageSize={props.top}
         onChange={(page) => props.handlePagination(page)}
       />
-      <Button
-        type="ghost"
-        onClick={() => setIsModalVisible(true)}
-        style={{ borderRadius: '10px' }}
-      >
+      <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
         <Space size="middle">
           <FilterOutlined />
           <span>Filters</span>
         </Space>
       </Button>
-      <Select defaultValue={props.searchParams.get('top') ?? props.top} onChange={(value) => {
-        props.setTop(value);
-        props.searchParams.set('top', value);
-        props.setSearchParams(props.searchParams);
-      }}>
+      <Select
+        defaultValue={props.searchParams.get('top') ?? props.top}
+        onChange={(value) => {
+          props.setTop(value);
+          props.searchParams.set('top', value);
+          props.setSearchParams(props.searchParams);
+        }}
+      >
         <Option value={5}>5</Option>
         <Option value={10}>10</Option>
         <Option value={15}>15</Option>
@@ -114,7 +116,10 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             onClick={() => {
               props.handleSearch('', undefined);
               props.setSelectedFilter(undefined);
-              props.setSearchParams({ page: (props.currentPage + 1).toString() ??  '1', top: props.top.toString() ?? '10' });
+              props.setSearchParams({
+                page: (props.currentPage + 1).toString() ?? '1',
+                top: props.top.toString() ?? '10'
+              });
             }}
           >
             Clear Filters
@@ -131,12 +136,12 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           </Button>
         ]}
       >
-        <PropertiesListSearchFilters
+        {/* <PropertiesListSearchFilters
           facets={props.data?.propertiesSearch?.facets as PropertySearchFacets}
           setSelectedFilter={props.setSelectedFilter}
           selectedFilter={props.selectedFilter}
-        />
-    </Modal>
-  </Space>
-  )
-}
+        /> */}
+      </Modal>
+    </Space>
+  );
+};

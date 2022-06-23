@@ -17,6 +17,7 @@ export const handleToggler = (isExpanded: boolean, callback: (isExpanded: boolea
 };
 
 export const SearchParamKeys = {
+  SearchString: 'search',
   ListedInfo: 'listedInfo',
   PropertyType: 'type',
   Amenities: 'amenities',
@@ -28,7 +29,9 @@ export const SearchParamKeys = {
   MinSquareFeet: 'minSquareFeet',
   MaxSquareFeet: 'maxSquareFeet',
   Latitude: 'lat',
-  Longtitude: 'long'
+  Longtitude: 'long',
+  Page: 'page',
+  Top: 'top'
 };
 
 export const FilterNames = {
@@ -43,6 +46,7 @@ export const FilterNames = {
   ListedForSale: 'listedForSale',
   ListedForRent: 'listedForRent',
   ListedForLease: 'listedForLease',
+  ListedInfo: 'listedInfo',
   Distance: 'distance'
 };
 

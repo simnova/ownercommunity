@@ -91,36 +91,36 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         pageSize={props.top ?? 10}
         onChange={(page) => props.handlePagination(page)}
       />
-      <Space>
-        <Button
-          type="ghost"
-          onClick={() => setIsModalVisible(true)}
-          style={{ borderRadius: '10px' }}
-        >
-          <Space size="middle">
-            <FilterOutlined />
-            <span>Filters</span>
-          </Space>
-        </Button>
-        <Select
-          defaultValue={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
-          onChange={(value) => onSelectTopChanged(value)}
-        >
-          <Option value={5}>5</Option>
-          <Option value={10}>10</Option>
-          <Option value={15}>15</Option>
-          <Option value={25}>25</Option>
-          <Option value={50}>50</Option>
-        </Select>
-        <Select
-          defaultValue={''}
-          onChange={(value) => {onSelectOrderByChanged(value)}}
-        >
-          <Option value={''}>None</Option>
-          <Option value={'price desc'}>Price: High to Low</Option>
-          <Option value={'price'}>Price: Low to High</Option>
-        </Select>
-      </Space>
+      <Select
+        defaultValue={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
+        onChange={(value) => onSelectTopChanged(value)}
+      >
+        <Option value={5}>5</Option>
+        <Option value={10}>10</Option>
+        <Option value={15}>15</Option>
+        <Option value={25}>25</Option>
+        <Option value={50}>50</Option>
+      </Select>
+
+      <Button
+        type="ghost"
+        onClick={() => setIsModalVisible(true)}
+        style={{ borderRadius: '10px' }}
+      >
+        <Space size="middle">
+          <FilterOutlined />
+          <span>Filters</span>
+        </Space>
+      </Button>
+
+      <Select
+        defaultValue={''}
+        onChange={(value) => {onSelectOrderByChanged(value)}}
+      >
+        <Option value={''}>None</Option>
+        <Option value={'price desc'}>Price: High to Low</Option>
+        <Option value={'price'}>Price: Low to High</Option>
+      </Select>
       <Modal
         title="Filters"
         visible={isModalVisible}

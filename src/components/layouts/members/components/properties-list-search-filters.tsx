@@ -19,10 +19,7 @@ interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
-  handleSearch: (page?: number) => void;
-  searchString?: string;
   setTop: (top: number) => void;
-  setCurrentPage: (page: number) => void;
 }
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
@@ -35,22 +32,6 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
       props.setTop(Number(qsTop));
     }
   }, []);
-
-  const clearFilter = () => {
-    props.setSelectedFilter(undefined);
-    searchParams.delete(SearchParamKeys.AdditionalAmenities);
-    searchParams.delete(SearchParamKeys.Amenities);
-    searchParams.delete(SearchParamKeys.Bathrooms);
-    searchParams.delete(SearchParamKeys.Bedrooms);
-    searchParams.delete(SearchParamKeys.ListedInfo);
-    searchParams.delete(SearchParamKeys.MaxPrice);
-    searchParams.delete(SearchParamKeys.MinPrice);
-    searchParams.delete(SearchParamKeys.PropertyType);
-    searchParams.delete(SearchParamKeys.MaxSquareFeet);
-    searchParams.delete(SearchParamKeys.MinSquareFeet);
-    searchParams.set(SearchParamKeys.Page, '1');
-    setSearchParams(searchParams);
-  };
 
   const getListedInfoFacets = (facets?: PropertySearchFacets) => {
     const listedInfoFacets: FacetDetail[] = [];
@@ -80,72 +61,8 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
     return listedInfoFacets;
   };
 
-  const onSelectTopChanged = (value: number) => {
-    props.setTop(value);
-    searchParams.set(SearchParamKeys.Top, value.toString());
-    searchParams.set('page', '1');
-    setSearchParams(searchParams);
-    props.setCurrentPage(0);
-    setIsModalVisible(false);
-  };
-
   return (
     <div>
-      <Space>
-        <Button
-          type="ghost"
-          onClick={() => setIsModalVisible(true)}
-          style={{ borderRadius: '10px' }}
-        >
-          <Space size="middle">
-            <FilterOutlined />
-            <span>Filters</span>
-          </Space>
-        </Button>
-        <Select
-          defaultValue={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
-          onChange={(value) => onSelectTopChanged(value)}
-        >
-          <Option value={5}>5</Option>
-          <Option value={10}>10</Option>
-          <Option value={15}>15</Option>
-          <Option value={25}>25</Option>
-          <Option value={50}>50</Option>
-        </Select>
-      </Space>
-      <Modal
-        title="Filters"
-        visible={isModalVisible}
-        width={1000}
-        onCancel={() => setIsModalVisible(false)}
-        footer={[
-          <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-            Cancel
-          </Button>,
-          <Button
-            key="clear"
-            type="link"
-            onClick={() => {
-              clearFilter();
-            }}
-          >
-            Clear Filters
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            onClick={() => {
-              props.handleSearch(0);
-              searchParams.set('page', '1');
-              setSearchParams(searchParams);
-              props.setCurrentPage(0);
-              setIsModalVisible(false);
-            }}
-          >
-            Apply
-          </Button>
-        ]}
-      >
         {/* Type */}
         <PropertiesListSearchFilterPropertyType
           propertyTypeFacets={props.facets?.type as FacetDetail[]}
@@ -202,7 +119,6 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           selectedFilter={props.selectedFilter}
           setSelectedFilter={props.setSelectedFilter}
         />
-      </Modal>
     </div>
   );
 };

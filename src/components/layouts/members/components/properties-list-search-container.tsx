@@ -16,6 +16,7 @@ import {
   SearchParamKeys
 } from '../../../../constants';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
+import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
 const { Option } = Select;
 interface AddressDataType {
   value: string;
@@ -44,6 +45,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       ? parseInt(searchParams.get(SearchParamKeys.Page)!) - 1
       : undefined
   );
+  const [orderBy, setOrderBy] = useState<string[]>([''])
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -237,7 +239,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             ],
             filter: filter,
             top: qsTop,
-            skip: tempSkip
+            skip: tempSkip,
+            orderBy: orderBy
           }
         }
       }
@@ -355,46 +358,28 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <Space size="large">
-        <Space size={0}>
-          <AutoComplete
-            options={addresses}
-            style={{
-              width: '400px'
-            }}
-            placeholder="Enter an address or a property name"
-            filterOption={false}
-            value={searchString}
-            onChange={(value: string) => onInputAddressChanged(value)}
-            onSelect={(value: string) => onInputAddressSelected(value)}
-          ></AutoComplete>
-
-          <Button type="primary" onClick={() => handleSearch(0)}>
-            Search
-          </Button>
-        </Space>
-        <Pagination
-          current={(currentPage ?? 0) + 1}
-          total={data?.propertiesSearch?.count ?? 10}
-          pageSize={top ?? 10}
-          onChange={(page) => handlePagination(page)}
-        />
-      </Space>
+      <PropertiesListSearchToolbar
+        data={data}
+        searchString={searchString}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        handleSearch={handleSearch}
+        onInputAddressChanged={onInputAddressChanged}
+        onInputAddressSelected={onInputAddressSelected}
+        handlePagination={handlePagination}
+        top={top}
+        setTop={setTop}
+        addresses={addresses}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        orderBy={orderBy}
+        setOrderBy={setOrderBy}
+      />
       <div>
         {data?.propertiesSearch?.count
           ? '(' + data?.propertiesSearch?.count + ' records found)'
           : ''}
       </div>
-
-      <PropertiesListSearchFilters
-        facets={data?.propertiesSearch?.facets as PropertySearchFacets}
-        setSelectedFilter={setSelectedFilter}
-        selectedFilter={selectedFilter}
-        handleSearch={handleSearch}
-        searchString={searchString}
-        setTop={setTop}
-        setCurrentPage={setCurrentPage}
-      />
       {result()}
     </>
   );

@@ -55,15 +55,17 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       }
       // listed info (listedForSale, listedForRent, listedForLease)
       if (filter.listedInfo && filter.listedInfo.length > 0) {
+        let listedInfoFilterStrings = [];
         if (filter.listedInfo.includes('listedForSale')) {
-          filterStrings.push('listedForSale eq true');
+          listedInfoFilterStrings.push('listedForSale eq true');
         }
         if (filter.listedInfo.includes('listedForRent')) {
-          filterStrings.push('listedForRent eq true');
+          listedInfoFilterStrings.push('listedForRent eq true');
         }
         if (filter.listedInfo.includes('listedForLease')) {
-          filterStrings.push('listedForLease eq true');
+          listedInfoFilterStrings.push('listedForLease eq true');
         }
+        filterStrings.push(listedInfoFilterStrings.join(' or '));
       }
 
       // distance, lat and long
@@ -81,7 +83,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
     const searchService = new CognitiveSearch();
 
     let searchString = '';
-    if (!input.options.filter.position) {
+    if (!input.options.filter?.position) {
       searchString = input.searchString;
     }
 

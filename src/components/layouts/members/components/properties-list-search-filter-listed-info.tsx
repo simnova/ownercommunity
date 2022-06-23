@@ -1,7 +1,7 @@
 import { Checkbox, Collapse } from 'antd';
 import { useState, FC, useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { Listed, SearchParamKeys } from '../../../../constants';
+import { FilterNames, Listed, SearchParamKeys } from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
 const CheckboxGroup = Checkbox.Group;
 const { Panel } = Collapse;
@@ -46,8 +46,8 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
   }, [location]);
 
   return (
-    <Collapse className='search-filter-collapse'>
-      <Panel header={<h2 className="font-bold">Listed</h2>} key="7">
+    <Collapse className="search-filter-collapse">
+      <Panel header={<h2 className="font-bold">Listed</h2>} key={FilterNames.ListedInfo}>
         <CheckboxGroup
           options={Listed.map((op) => {
             const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;

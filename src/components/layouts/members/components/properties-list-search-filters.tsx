@@ -20,8 +20,6 @@ interface PropertiesListSearchFiltersProps {
   selectedFilter?: FilterDetail;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
   setTop: (top: number) => void;
-  setCurrentPage: (page: number) => void;
-  handleSearch: (page?: number, top?: number) => void;
 }
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
@@ -61,12 +59,6 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
       }
     }
     return listedInfoFacets;
-  };
-
-  const onSelectTopChanged = (value: number) => {
-    props.setTop(value);
-    props.setCurrentPage(0);
-    props.handleSearch(0, value);
   };
 
   return (

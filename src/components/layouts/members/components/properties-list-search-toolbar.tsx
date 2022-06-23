@@ -13,7 +13,7 @@ interface PropertiesListSearchToolbarProps {
   searchString: string;
   selectedFilter: FilterDetail | undefined;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
-  handleSearch: (page?: number) => void;
+  handleSearch: (page?: number, top?: number) => void;
   onInputAddressChanged: (value: string) => void;
   onInputAddressSelected: (value: string) => void;
   handlePagination: (page: number) => void;
@@ -41,15 +41,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
   const onSelectTopChanged = (value: number) => {
     props.setTop(value);
-    searchParams.set(SearchParamKeys.Top, value.toString());
-    searchParams.set('page', '1');
-    setSearchParams(searchParams);
     props.setCurrentPage(0);
-    setIsModalVisible(false);
+    props.handleSearch(0, value);
   };
 
   const onSelectOrderByChanged = (value: string) => {
     props.setOrderBy([value]);
+    props.handleSearch(props.currentPage, props.top);
   }
 
   const clearFilter = () => {
@@ -161,8 +159,6 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           setSelectedFilter={props.setSelectedFilter}
           selectedFilter={props.selectedFilter}
           setTop={props.setTop}
-          setCurrentPage={props.setCurrentPage}
-          handleSearch={props.handleSearch}
         />
       </Modal>
     </Space>

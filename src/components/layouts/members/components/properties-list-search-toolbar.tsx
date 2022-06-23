@@ -161,6 +161,8 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           setSelectedFilter={props.setSelectedFilter}
           selectedFilter={props.selectedFilter}
           setTop={props.setTop}
+          setCurrentPage={props.setCurrentPage}
+          handleSearch={props.handleSearch}
         />
       </Modal>
     </Space>

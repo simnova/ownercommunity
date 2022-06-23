@@ -60,14 +60,20 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   );
 
   useEffect(() => {
-    // get all info for the search
-    const filter = getFilterFromQueryString();
-    handleSearch(currentPage);
+    // get current page
+    const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
+
+    // get top
+    const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
+
+    handleSearch(page, top);
   }, []);
 
   useEffect(() => {
     if (!location.search) {
       setSearchString('');
+      searchParams.set(SearchParamKeys.Page, '1');
+      setSearchParams(searchParams);
     }
   }, [location]);
 
@@ -208,19 +214,23 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     return filters;
   };
 
-  const handleSearch = async (page: number = 0) => {
+  const handleSearch = async (page: number = 0, top: number = 10) => {
+    // set top here to fix the issue of top/current page not being set in the url
+    searchParams.set(SearchParamKeys.Top, top.toString());
+    searchParams.set(SearchParamKeys.Page, (page + 1).toString());
+    setSearchParams(searchParams);
     navigate(`.?` + searchParams);
 
     // get search string
     const qsSearchString = searchParams.get(SearchParamKeys.SearchString) ?? '';
 
     // get top
-    const qsTop = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
+    // const qsTop = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
 
     // get filter
     const filter = getFilterFromQueryString();
 
-    let tempSkip = page * qsTop;
+    let tempSkip = page * top;
     setSkip(tempSkip);
 
     await gqlSearchProperties({
@@ -238,7 +248,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.ListedForRent + ',count:30'
             ],
             filter: filter,
-            top: qsTop,
+            top: top,
             skip: tempSkip,
             orderBy: orderBy
           }
@@ -309,10 +319,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const current = newPage - 1;
     setSkip(current * (top ?? 10));
     setCurrentPage(current);
-    searchParams.set('page', newPage.toString());
-    setSearchParams(searchParams);
-    const filter = getFilterFromQueryString();
-    handleSearch(current);
+    handleSearch(current, top ?? 10);
   };
 
   const result = () => {

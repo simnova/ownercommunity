@@ -210,6 +210,7 @@ input PropertiesSearchOptions {
   facets: [String]
   top: Int
   skip: Int
+  orderBy: String
 }
 input FilterDetail {
   propertyType: [String]

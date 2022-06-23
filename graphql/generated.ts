@@ -752,6 +752,7 @@ export type PropertiesSearchInput = {
 export type PropertiesSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   filter?: InputMaybe<FilterDetail>;
+  orderBy?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
   top?: InputMaybe<Scalars['Int']>;
 };

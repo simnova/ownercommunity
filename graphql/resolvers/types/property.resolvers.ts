@@ -67,6 +67,7 @@ const property: Resolvers = {
           facets: _args.input?.options?.facets ?? [],
           top: _args.input?.options?.top ?? 10,
           skip: _args.input?.options?.skip ?? 0,
+          orderBy: _args.input?.options?.orderBy ?? '',
         },
       } as PropertiesSearchInput;
 

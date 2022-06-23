@@ -19,7 +19,7 @@ interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
-  handleSearch: (page?: number) => void;
+  handleSearch: (page?: number, top?: number) => void;
   searchString?: string;
   setTop: (top: number) => void;
   setCurrentPage: (page: number) => void;
@@ -82,11 +82,8 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
   const onSelectTopChanged = (value: number) => {
     props.setTop(value);
-    searchParams.set(SearchParamKeys.Top, value.toString());
-    searchParams.set('page', '1');
-    setSearchParams(searchParams);
     props.setCurrentPage(0);
-    setIsModalVisible(false);
+    props.handleSearch(0, value);
   };
 
   return (

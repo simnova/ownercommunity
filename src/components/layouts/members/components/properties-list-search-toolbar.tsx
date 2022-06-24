@@ -47,7 +47,6 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
   const onSelectOrderByChanged = (value: string) => {
     props.setOrderBy([value]);
-    props.handleSearch(props.currentPage ?? 0, props.top ?? 10);
   };
 
   const clearFilter = () => {

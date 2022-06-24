@@ -77,6 +77,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
   }, [location]);
 
+  useEffect(() => {
+    const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
+    const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
+     handleSearch(page, top);
+  }, [orderBy]);
+
   const getFilterFromQueryString = (): FilterDetail => {
     // get all search params
     // const searchParams = new URLSearchParams(location.search);

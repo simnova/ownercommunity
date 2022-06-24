@@ -99,6 +99,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       facets: input.options.facets, // ['type'],
       top: input.options.top, // 10, 15, 20
       skip: input.options.skip, // 0, skip += top
+      orderBy: input.options.orderBy, // 'price', 'squareFeet', 'bedrooms', 'bathrooms'
     });
 
     console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);

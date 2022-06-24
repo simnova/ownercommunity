@@ -71,7 +71,10 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
 
   // handle when clear all filter clicked
   useEffect(() => {
-    if (!location.search) {
+    if (
+      !location.search.includes(SearchParamKeys.MaxSquareFeet) &&
+      !location.search.includes(SearchParamKeys.MinSquareFeet)
+    ) {
       setMinSquareFeet(0);
       setMaxSquareFeet(100000);
     }

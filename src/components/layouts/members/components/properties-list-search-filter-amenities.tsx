@@ -41,7 +41,7 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
 
   // handle when clear all filter clicked
   useEffect(() => {
-    if (!location.search) {
+    if (!location.search.includes(SearchParamKeys.Amenities)) {
       setSelectedAmenities([]);
     }
   }, [location]);

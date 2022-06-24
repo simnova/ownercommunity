@@ -3,20 +3,18 @@ import {
   FilterDetail,
   MemberPropertiesListSearchContainerMapSasTokenDocument,
   MemberPropertiesListSearchContainerPropertiesDocument,
-  PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, Button, Space, AutoComplete, Pagination, List, Select } from 'antd';
+import { Skeleton, List } from 'antd';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
-  AdditionalAmenities,
   addressQuery,
   FilterNames,
-  SearchParamKeys
+  SearchParamKeys,
+  GetFilterFromQueryString
 } from '../../../../constants';
-import { PropertiesListSearchFilters } from './properties-list-search-filters';
-const { Option } = Select;
+import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
 interface AddressDataType {
   value: string;
   label: string;
@@ -38,12 +36,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       ? parseInt(searchParams.get(SearchParamKeys.Top)!)
       : undefined
   );
-  const [skip, setSkip] = useState(0);
   const [currentPage, setCurrentPage] = useState<number | undefined>(
     searchParams.get(SearchParamKeys.Page)
       ? parseInt(searchParams.get(SearchParamKeys.Page)!) - 1
       : undefined
   );
+  const [orderBy, setOrderBy] = useState<string[]>(['']);
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -64,6 +62,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     // get top
     const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
 
+    // get order by
+    const orderBy = searchParams.get(SearchParamKeys.OrderBy) ?? '';
+    if (orderBy !== '') setOrderBy([orderBy]);
+
     handleSearch(page, top);
   }, []);
 
@@ -75,144 +77,13 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
   }, [location]);
 
-  const getFilterFromQueryString = (): FilterDetail => {
-    // get all search params
-    // const searchParams = new URLSearchParams(location.search);
-    const qsproperTypes = searchParams.get('type')?.split(',');
-    const qsbedrooms = searchParams.get('bedrooms');
-    const qsbathrooms = searchParams.get('bathrooms');
-    const qsminPrice = searchParams.get('minPrice');
-    const qsmaxPrice = searchParams.get('maxPrice');
-    const qsminSquareFeet = searchParams.get('minSquareFeet');
-    const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
-    const qsamenities = searchParams.get('amenities')?.split(',');
-    const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
-    const qsdistance = searchParams.get('distance');
-    const qsListedInfo = searchParams.get('listedInfo')?.split(',');
-    const qslat = searchParams.get('lat');
-    const qslong = searchParams.get('long');
+  useEffect(() => {
+    const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
+    const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
+    handleSearch(page, top);
+  }, [orderBy]);
 
-    let filters = {} as FilterDetail;
-
-    // proper type
-    if (qsproperTypes) {
-      filters = {
-        ...selectedFilter,
-        propertyType: qsproperTypes
-      };
-    }
-
-    // bedrooms
-    if (qsbedrooms) {
-      filters = {
-        ...filters,
-        listingDetail: {
-          ...filters?.listingDetail,
-          bedrooms: parseInt(qsbedrooms)
-        }
-      };
-    }
-
-    // bathrooms
-    if (qsbathrooms) {
-      filters = {
-        ...filters,
-        listingDetail: {
-          ...filters?.listingDetail,
-          bathrooms: parseFloat(qsbathrooms)
-        }
-      };
-    }
-
-    // amenities
-    if (qsamenities) {
-      filters = {
-        ...filters,
-        listingDetail: {
-          ...filters?.listingDetail,
-          amenities: qsamenities
-        }
-      };
-    }
-
-    // price
-    if (qsminPrice && qsmaxPrice) {
-      filters = {
-        ...filters,
-        listingDetail: {
-          ...filters?.listingDetail,
-          prices: [parseInt(qsminPrice), parseInt(qsmaxPrice)]
-        }
-      };
-    }
-
-    // square feet
-    if (qsminSquareFeet && qsmaxSquareFeet) {
-      filters = {
-        ...filters,
-        listingDetail: {
-          ...filters?.listingDetail,
-          squareFeets: [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
-        }
-      };
-    }
-
-    // additional amenities
-    if (qsadditionalAmenities) {
-      let temp: AdditionalAmenities[] = [];
-
-      qsadditionalAmenities.forEach((amenity) => {
-        const [cate, amen] = amenity.split(':');
-        temp.push({
-          category: cate,
-          amenities: amen.split(',')
-        });
-      });
-      filters = {
-        ...filters,
-        listingDetail: {
-          ...filters?.listingDetail,
-          additionalAmenities: temp
-        }
-      };
-    }
-
-    // listed info
-    if (qsListedInfo) {
-      filters = {
-        ...filters,
-        listedInfo: qsListedInfo
-      };
-    }
-
-    // distance
-    if (qsdistance) {
-      filters = {
-        ...filters,
-        distance: parseInt(qsdistance)
-      };
-    } else {
-      filters = {
-        ...filters,
-        distance: 0
-      };
-    }
-
-    // lat and long
-    if (qslat && qslong) {
-      filters = {
-        ...filters,
-        position: {
-          latitude: parseFloat(qslat),
-          longitude: parseFloat(qslong)
-        }
-      };
-    }
-
-    return filters;
-  };
-
-  const handleSearch = async (page: number = 0, top: number = 10) => {
+  const handleSearch = async (page: number, top: number) => {
     // set top here to fix the issue of top/current page not being set in the url
     searchParams.set(SearchParamKeys.Top, top.toString());
     searchParams.set(SearchParamKeys.Page, (page + 1).toString());
@@ -222,14 +93,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     // get search string
     const qsSearchString = searchParams.get(SearchParamKeys.SearchString) ?? '';
 
-    // get top
-    // const qsTop = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
-
     // get filter
-    const filter = getFilterFromQueryString();
+    const filter = GetFilterFromQueryString(searchParams, selectedFilter ?? {});
 
     let tempSkip = page * top;
-    setSkip(tempSkip);
 
     await gqlSearchProperties({
       variables: {
@@ -247,7 +114,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             ],
             filter: filter,
             top: top,
-            skip: tempSkip
+            skip: tempSkip,
+            orderBy: orderBy
           }
         }
       }
@@ -312,13 +180,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     }
   };
 
-  const handlePagination = (newPage: number) => {
-    const current = newPage - 1;
-    setSkip(current * (top ?? 10));
-    setCurrentPage(current);
-    handleSearch(current, top ?? 10);
-  };
-
   const result = () => {
     if (error || mapSasTokenError) {
       if (error) {
@@ -335,7 +196,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
       return (
         <div>
-          {/* <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>{properties()}</div> */}
           <List
             grid={{
               gutter: 16,
@@ -362,38 +222,29 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <Space size="large">
-        <Space size={0}>
-          <AutoComplete
-            options={addresses}
-            style={{
-              width: '400px'
-            }}
-            placeholder="Enter an address or a property name"
-            filterOption={false}
-            value={searchString}
-            onChange={(value: string) => onInputAddressChanged(value)}
-            onSelect={(value: string) => onInputAddressSelected(value)}
-          ></AutoComplete>
-
-          <Button type="primary" onClick={() => handleSearch(0)}>
-            Search
-          </Button>
-        </Space>
-        <Pagination
-          current={(currentPage ?? 0) + 1}
-          total={data?.propertiesSearch?.count ?? 10}
-          pageSize={top ?? 10}
-          onChange={(page) => handlePagination(page)}
-        />
-      </Space>
+      <PropertiesListSearchToolbar
+        data={data}
+        searchString={searchString}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        handleSearch={handleSearch}
+        onInputAddressChanged={onInputAddressChanged}
+        onInputAddressSelected={onInputAddressSelected}
+        top={top}
+        setTop={setTop}
+        addresses={addresses}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        orderBy={orderBy}
+        setOrderBy={setOrderBy}
+      />
       <div>
         {data?.propertiesSearch?.count
           ? '(' + data?.propertiesSearch?.count + ' records found)'
           : ''}
       </div>
 
-      <PropertiesListSearchFilters
+      {/* <PropertiesListSearchFilters
         facets={data?.propertiesSearch?.facets as PropertySearchFacets}
         setSelectedFilter={setSelectedFilter}
         selectedFilter={selectedFilter}
@@ -402,7 +253,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         setTop={setTop}
         setCurrentPage={setCurrentPage}
         
-      />
+      /> */}
       {result()}
     </>
   );

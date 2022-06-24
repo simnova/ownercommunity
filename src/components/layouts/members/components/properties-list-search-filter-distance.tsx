@@ -1,7 +1,7 @@
 import { Collapse, Checkbox, Radio } from 'antd';
 import { useState, useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { DistanceOptions, FilterNames } from '../../../../constants';
+import { DistanceOptions, FilterNames, SearchParamKeys } from '../../../../constants';
 import { FilterDetail } from '../../../../generated';
 
 const CheckboxGroup = Checkbox.Group;
@@ -34,7 +34,7 @@ export const PropertiesListSearchFilterDistance = (
   };
 
   useEffect(() => {
-    const qsdistance = searchParams.get('distance');
+    const qsdistance = searchParams.get(SearchParamKeys.Distance);
     if (qsdistance) {
       setDistance(parseInt(qsdistance));
     }
@@ -42,7 +42,7 @@ export const PropertiesListSearchFilterDistance = (
 
   // handle when clear all filter clicked
   useEffect(() => {
-    if (!location.search) {
+    if (!location.search.includes(SearchParamKeys.Distance)) {
       setDistance(undefined);
     }
   }, [location]);

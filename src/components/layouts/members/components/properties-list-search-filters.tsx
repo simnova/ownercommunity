@@ -86,6 +86,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
     props.handleSearch(0, value);
   };
 
+  console.log('props', props)
   return (
     <div>
       <Space>

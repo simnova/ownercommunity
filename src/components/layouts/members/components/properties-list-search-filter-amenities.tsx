@@ -45,25 +45,55 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
       setSelectedAmenities([]);
     }
   }, [location]);
+  
+  console.log(Amenities);
+  console.log('props amenties', props);
+
+  const amenitiyFacets = props.amenitiesFacets ?? [{value: '', count: 0}];
+  console.log('amenitiyFacets', amenitiyFacets);
+
+  const amenities: string[] = []; 
+  amenitiyFacets.forEach((amenityFacet) => {
+    if (amenityFacet.value) {
+      if (Amenities.includes(amenityFacet.value)) {
+        amenities.push(amenityFacet.value);
+      }
+    }
+  }
+  )
+
+  console.log('amen', amenities);
+
+  const options = amenities.map((value) => {
+    // const count = amenityFacet.count;
+    const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
+    return {
+      label:`${value} (${count})`,
+      value: value
+    };
+  })
+
+  console.log('options', options);
 
   return (
     <Collapse className="search-filter-collapse">
       <Panel header={<h2 className="font-bold">Amenities</h2>} key={FilterNames.Amenities}>
         <CheckboxGroup
           key={FilterNames.Amenities}
-          options={Amenities.map((value: string) => {
-            const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
-            return {
-              label: `${value} ${
-                count !== undefined && count !== null && count > 0
-                  ? `(${count})`
-                  : count === 0
-                  ? '(0)'
-                  : ''
-              }`,
-              value: value
-            };
-          })}
+          // options={Amenities.map((value: string) => {
+          //   const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
+          //   return {
+          //     label: `${value} ${
+          //       count !== undefined && count !== null && count > 0
+          //         ? `(${count})`
+          //         : count === 0
+          //         ? '(0)'
+          //         : ''
+          //     }`,
+          //     value: value
+          //   };
+          // })}
+          options={options}
           value={selectedAmenities}
           onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
         />

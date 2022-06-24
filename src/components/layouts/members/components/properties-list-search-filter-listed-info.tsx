@@ -40,7 +40,7 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
 
   // handle when clear all filter clicked
   useEffect(() => {
-    if (!location.search) {
+    if (!location.search.includes(SearchParamKeys.ListedInfo)) {
       setSelectedListedInfo([]);
     }
   }, [location]);

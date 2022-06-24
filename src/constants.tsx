@@ -1,5 +1,5 @@
 import type { SliderMarks } from 'antd/lib/slider';
-import { kMaxLength } from 'buffer';
+import { FilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -31,7 +31,9 @@ export const SearchParamKeys = {
   Latitude: 'lat',
   Longtitude: 'long',
   Page: 'page',
-  Top: 'top'
+  Top: 'top',
+  Distance: 'distance',
+  OrderBy: 'orderBy'
 };
 
 export const FilterNames = {
@@ -141,16 +143,16 @@ export const MaxSquareFeetOptions = [
 ];
 
 export const additionalAmenitiesOptions: any = {
-  'Features': ['Iron', 'Washer/Dryer (Private)'], 
-  'Heating & Cooling':['Central Air', 'Central Heat'], 
-  'Kitchen & Dining':['Dishwasher', 'Microwave', 'Refrigerator'], 
-  'Location':['Oceanfront', 'Gated Community'],
-  'Media':['Cable', 'Internet', 'TV'],
-  'On-site Activities':['Pool (Private)', 'Gym', 'Basketball Court'],
-  'Outdoor':['Balcony'],
-  'Parking & Access':['Garage'],
+  Features: ['Iron', 'Washer/Dryer (Private)'],
+  'Heating & Cooling': ['Central Air', 'Central Heat'],
+  'Kitchen & Dining': ['Dishwasher', 'Microwave', 'Refrigerator'],
+  Location: ['Oceanfront', 'Gated Community'],
+  Media: ['Cable', 'Internet', 'TV'],
+  'On-site Activities': ['Pool (Private)', 'Gym', 'Basketball Court'],
+  Outdoor: ['Balcony'],
+  'Parking & Access': ['Garage']
   // '':[]
-}
+};
 
 export const AdditionalAmenitiesCategories = Object.keys(additionalAmenitiesOptions);
 
@@ -160,11 +162,10 @@ export const SelectableRoomsOptions = [
   'Guest Room 2',
   'Guest Room 3',
   'Guest Room 4',
-  'Living Room',
-]
+  'Living Room'
+];
 
-export const AmentitiesOptions = 
-[
+export const AmentitiesOptions = [
   'Cable',
   'Pool (Private)',
   'Pool (Public)',
@@ -173,7 +174,7 @@ export const AmentitiesOptions =
   'Washer/Dryer (Public)'
 ];
 
-export const BedTypeOptions = [ 'Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed' ];
+export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
   var addresssGeocodeServiceUrlTemplate: string =
@@ -203,4 +204,140 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
   };
 
   return address();
+};
+
+export const GetFilterFromQueryString = (searchParams: URLSearchParams, selectedFilter: FilterDetail): FilterDetail => {
+  // get all search params
+  const qsproperTypes = searchParams.get('type')?.split(',');
+  const qsbedrooms = searchParams.get('bedrooms');
+  const qsbathrooms = searchParams.get('bathrooms');
+  const qsminPrice = searchParams.get('minPrice');
+  const qsmaxPrice = searchParams.get('maxPrice');
+  const qsminSquareFeet = searchParams.get('minSquareFeet');
+  const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
+  const qsamenities = searchParams.get('amenities')?.split(',');
+  const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
+  const qsdistance = searchParams.get('distance');
+  const qsListedInfo = searchParams.get('listedInfo')?.split(',');
+  const qslat = searchParams.get('lat');
+  const qslong = searchParams.get('long');
+
+  let filters = {} as FilterDetail;
+
+  // proper type
+  if (qsproperTypes) {
+    filters = {
+      ...selectedFilter,
+      propertyType: qsproperTypes
+    };
+  }
+
+  // bedrooms
+  if (qsbedrooms) {
+    filters = {
+      ...filters,
+      listingDetail: {
+        ...filters?.listingDetail,
+        bedrooms: parseInt(qsbedrooms)
+      }
+    };
+  }
+
+  // bathrooms
+  if (qsbathrooms) {
+    filters = {
+      ...filters,
+      listingDetail: {
+        ...filters?.listingDetail,
+        bathrooms: parseFloat(qsbathrooms)
+      }
+    };
+  }
+
+  // amenities
+  if (qsamenities) {
+    filters = {
+      ...filters,
+      listingDetail: {
+        ...filters?.listingDetail,
+        amenities: qsamenities
+      }
+    };
+  }
+
+  // price
+  if (qsminPrice && qsmaxPrice) {
+    filters = {
+      ...filters,
+      listingDetail: {
+        ...filters?.listingDetail,
+        prices: [parseInt(qsminPrice), parseInt(qsmaxPrice)]
+      }
+    };
+  }
+
+  // square feet
+  if (qsminSquareFeet && qsmaxSquareFeet) {
+    filters = {
+      ...filters,
+      listingDetail: {
+        ...filters?.listingDetail,
+        squareFeets: [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
+      }
+    };
+  }
+
+  // additional amenities
+  if (qsadditionalAmenities) {
+    let temp: AdditionalAmenities[] = [];
+
+    qsadditionalAmenities.forEach((amenity) => {
+      const [cate, amen] = amenity.split(':');
+      temp.push({
+        category: cate,
+        amenities: amen.split(',')
+      });
+    });
+    filters = {
+      ...filters,
+      listingDetail: {
+        ...filters?.listingDetail,
+        additionalAmenities: temp
+      }
+    };
+  }
+
+  // listed info
+  if (qsListedInfo) {
+    filters = {
+      ...filters,
+      listedInfo: qsListedInfo
+    };
+  }
+
+  // distance
+  if (qsdistance) {
+    filters = {
+      ...filters,
+      distance: parseInt(qsdistance)
+    };
+  } else {
+    filters = {
+      ...filters,
+      distance: 0
+    };
+  }
+
+  // lat and long
+  if (qslat && qslong) {
+    filters = {
+      ...filters,
+      position: {
+        latitude: parseFloat(qslat),
+        longitude: parseFloat(qslong)
+      }
+    };
+  }
+
+  return filters;
 };

@@ -40,7 +40,7 @@ export const PropertiesListSearchFilterBedrooms: FC<PropertiesListSearchFilterBe
 
   // handle when clear all filter clicked
   useEffect(() => {
-    if (!location.search) {
+    if (!location.search.includes(SearchParamKeys.Bedrooms)) {
       setBedrooms(undefined);
     }
   }, [location]);

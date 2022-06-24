@@ -75,7 +75,10 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
 
   // handle when clear all filter clicked
   useEffect(() => {
-    if (!location.search) {
+    if (
+      !location.search.includes(SearchParamKeys.MaxPrice) &&
+      !location.search.includes(SearchParamKeys.MinPrice)
+    ) {
       setMinPrice(0);
       setMaxPrice(1000000);
     }

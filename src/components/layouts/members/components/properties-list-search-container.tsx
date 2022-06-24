@@ -401,6 +401,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         searchString={searchString}
         setTop={setTop}
         setCurrentPage={setCurrentPage}
+        
       />
       {result()}
     </>

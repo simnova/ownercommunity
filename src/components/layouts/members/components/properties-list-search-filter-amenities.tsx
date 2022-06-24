@@ -46,12 +46,9 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
     }
   }, [location]);
   
-  console.log(Amenities);
-  console.log('props amenties', props);
-
   const amenitiyFacets = props.amenitiesFacets ?? [{value: '', count: 0}];
-  console.log('amenitiyFacets', amenitiyFacets);
 
+  //May need to be changed 
   const amenities: string[] = []; 
   amenitiyFacets.forEach((amenityFacet) => {
     if (amenityFacet.value) {

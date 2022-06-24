@@ -111,6 +111,12 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
       }
     }, [location]);
 
+    // const additionalAmenities = props.additionalAmenitieFacets?.map((facet) => {
+    //   console.log(facet)
+    // })
+
+    console.log('additional props', props);
+
     return (
       <Collapse className="search-filter-collapse">
         <Panel

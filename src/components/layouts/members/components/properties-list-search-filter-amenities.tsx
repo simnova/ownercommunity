@@ -54,9 +54,9 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
     if (amenityFacet.value) {
       if (Amenities.includes(amenityFacet.value)) {
         amenities.push(amenityFacet.value);
+        }
       }
     }
-  }
   )
 
   console.log('amen', amenities);

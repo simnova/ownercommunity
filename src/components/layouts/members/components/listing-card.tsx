@@ -7,7 +7,7 @@ export const ListingCard: React.FC<any> = (props) => {
   // const imageGallery = props.images.map((image: any) => {
   //     return image;
   // })
-  console.log(props.data);
+  // console.log(props.data);
 
   return (
     <div className="p-2" onClick={() => navigate(`../../listings/${props.data.id}`)} style={{ cursor: 'pointer', width: '100%', height:'100%' }}>

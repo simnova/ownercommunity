@@ -16,7 +16,6 @@ interface PropertiesListSearchToolbarProps {
   handleSearch: (page: number, top: number) => void;
   onInputAddressChanged: (value: string) => void;
   onInputAddressSelected: (value: string) => void;
-  handlePagination: (page: number) => void;
   top: number | undefined;
   setTop: (top: number) => void;
   addresses: AddressDataType[];
@@ -47,6 +46,14 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
   const onSelectOrderByChanged = (value: string) => {
     props.setOrderBy([value]);
+    searchParams.set(SearchParamKeys.OrderBy, value);
+    setSearchParams(searchParams);
+  };
+
+  const handlePagination = (newPage: number) => {
+    const current = newPage - 1;
+    props.setCurrentPage(current);
+    props.handleSearch(current, props.top ?? 10);
   };
 
   const clearFilter = () => {
@@ -94,7 +101,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         current={(props.currentPage ?? 0) + 1}
         total={props.data?.propertiesSearch?.count ?? 10}
         pageSize={props.top ?? 10}
-        onChange={(page) => props.handlePagination(page)}
+        onChange={(page) => handlePagination(page)}
       />
       <Select
         defaultValue={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
@@ -115,7 +122,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
       </Button>
 
       <Select
-        defaultValue={''}
+        defaultValue={searchParams.get(SearchParamKeys.OrderBy) ?? ''}
         onChange={(value) => {
           onSelectOrderByChanged(value);
         }}

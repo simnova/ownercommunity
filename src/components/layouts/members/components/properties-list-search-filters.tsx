@@ -5,16 +5,13 @@ import { PropertiesListSearchFilterBedrooms } from './properties-list-search-fil
 import { PropertiesListSearchFilterPrice } from './properties-list-search-filter-price';
 import { PropertiesListSearchFilterPropertyType } from './properties-list-search-filter-property-type';
 import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
-import { Space, Button, Modal, Select } from 'antd';
-import { FilterOutlined } from '@ant-design/icons';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
 import { FilterNames, SearchParamKeys } from '../../../../constants';
 import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
 
-const { Option } = Select;
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
@@ -24,7 +21,6 @@ interface PropertiesListSearchFiltersProps {
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     const qsTop = searchParams.get(SearchParamKeys.Top);

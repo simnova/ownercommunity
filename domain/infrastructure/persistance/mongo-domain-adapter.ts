@@ -16,6 +16,7 @@ export interface MongooseDomainAdapterType<T extends Base> extends EntityProps {
   readonly props: T;
 }
 
+// [MG] - need to create a MongooseVariableTypePropArray
 export class MongoosePropArray<propType extends EntityProps, docType extends mongoose.Document> implements PropArray<propType> {
   constructor( protected docArray:mongoose.Types.DocumentArray<docType> ,protected adapter:new(doc:docType)=>propType) {}
   addItem(item: propType): propType {

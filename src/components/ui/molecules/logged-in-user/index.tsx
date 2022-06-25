@@ -35,6 +35,8 @@ interface ComponentPropInterface {
 
 export type LoggedInUserPropTypes = PropTypes.InferProps<typeof ComponentProps> & ComponentPropInterface;
 
+
+
 export const LoggedInUser: React.FC<LoggedInUserPropTypes> = (props) => {
   const content = () => {
     const dummyFunction = () => {return };

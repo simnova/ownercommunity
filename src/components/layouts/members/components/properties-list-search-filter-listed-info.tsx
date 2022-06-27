@@ -69,30 +69,32 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
     };
   })
 
-  console.log('optiion', options);
-
-  return (
-    <Collapse className="search-filter-collapse">
-      <Panel header={<h2 className="font-bold">Listed</h2>} key={FilterNames.ListedInfo}>
-        <CheckboxGroup
-          // options={Listed.map((op) => {
-          //   const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;
-          //   return {
-          //     label: `${op.label} ${
-          //       count !== undefined && count !== null && count > 0
-          //         ? `(${count})`
-          //         : count === 0
-          //         ? '(0)'
-          //         : ''
-          //     }`,
-          //     value: op.value
-          //   };
-          // })}
-          options={options}
-          value={selectedListedInfo}
-          onChange={(checkedValues) => onListedInfoFilterChange(checkedValues as string[])}
-        />
-      </Panel>
-    </Collapse>
-  );
-};
+  if (options.length === 0) {
+    return <></>
+  } else {
+    return (
+      <Collapse className="search-filter-collapse">
+        <Panel header={<h2 className="font-bold">Listed</h2>} key={FilterNames.ListedInfo}>
+          <CheckboxGroup
+            // options={Listed.map((op) => {
+            //   const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;
+            //   return {
+            //     label: `${op.label} ${
+            //       count !== undefined && count !== null && count > 0
+            //         ? `(${count})`
+            //         : count === 0
+            //         ? '(0)'
+            //         : ''
+            //     }`,
+            //     value: op.value
+            //   };
+            // })}
+            options={options}
+            value={selectedListedInfo}
+            onChange={(checkedValues) => onListedInfoFilterChange(checkedValues as string[])}
+          />
+        </Panel>
+      </Collapse>
+    );
+  };
+}

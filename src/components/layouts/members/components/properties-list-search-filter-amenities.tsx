@@ -68,8 +68,6 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
     };
   })
 
-  console.log('options', options);
-
   if (options.length === 0) {
     return <></>
   } else {

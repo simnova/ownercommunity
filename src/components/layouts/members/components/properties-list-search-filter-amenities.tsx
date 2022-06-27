@@ -70,29 +70,33 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
 
   console.log('options', options);
 
-  return (
-    <Collapse className="search-filter-collapse">
-      <Panel header={<h2 className="font-bold">Amenities</h2>} key={FilterNames.Amenities}>
-        <CheckboxGroup
-          key={FilterNames.Amenities}
-          // options={Amenities.map((value: string) => {
-          //   const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
-          //   return {
-          //     label: `${value} ${
-          //       count !== undefined && count !== null && count > 0
-          //         ? `(${count})`
-          //         : count === 0
-          //         ? '(0)'
-          //         : ''
-          //     }`,
-          //     value: value
-          //   };
-          // })}
-          options={options}
-          value={selectedAmenities}
-          onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
-        />
-      </Panel>
-    </Collapse>
-  );
-};
+  if (options.length === 0) {
+    return <></>
+  } else {
+    return (
+      <Collapse className="search-filter-collapse">
+        <Panel header={<h2 className="font-bold">Amenities</h2>} key={FilterNames.Amenities}>
+          <CheckboxGroup
+            key={FilterNames.Amenities}
+            // options={Amenities.map((value: string) => {
+            //   const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
+            //   return {
+            //     label: `${value} ${
+            //       count !== undefined && count !== null && count > 0
+            //         ? `(${count})`
+            //         : count === 0
+            //         ? '(0)'
+            //         : ''
+            //     }`,
+            //     value: value
+            //   };
+            // })}
+            options={options}
+            value={selectedAmenities}
+            onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
+          />
+        </Panel>
+      </Collapse>
+    );
+  };
+}

@@ -59,8 +59,6 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
     }
   )
 
-  console.log('amen', amenities);
-
   const options = amenities.map((value) => {
     // const count = amenityFacet.count;
     const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;

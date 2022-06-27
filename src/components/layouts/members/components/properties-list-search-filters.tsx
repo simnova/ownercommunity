@@ -95,7 +95,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
         {/* Additional Amenities */}
         <PropertiesListSearchFilterAdditionalAmenities
-          additionalAmenitieFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
+          additionalAmenitiesAmenitiesFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
           selectedFilter={props.selectedFilter}
           setSelectedFilter={props.setSelectedFilter}
         />

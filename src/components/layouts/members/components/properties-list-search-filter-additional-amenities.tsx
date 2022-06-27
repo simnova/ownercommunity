@@ -17,7 +17,6 @@ interface PropertiesListSearchFilterAdditionalAmenitiesProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   selectedFilter?: FilterDetail;
   additionalAmenitiesAmenitiesFacets?: FacetDetail[];
-  additionalAmenitiesCategoryFacets?: FacetDetail[];
 }
 
 export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSearchFilterAdditionalAmenitiesProps> =
@@ -112,29 +111,7 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
       }
     }, [location]);
 
-    // const additionalAmenities = props.additionalAmenitieFacets?.map((facet) => {
-    //   console.log(facet)
-    // })
-
-    const additionalAmenityCategories = props.additionalAmenitiesCategoryFacets ?? [{value: ''}];
     const additionalAmenityAmenities = props.additionalAmenitiesAmenitiesFacets ?? [{value: ''}];
-
-    // additionalAmenityCategories.forEach((additionalAmenity) => {
-    //   if (additionalAmenity.value) {
-    //     // if ()
-    //     categories.push(additionalAmenity.value);
-    //   }
-    // })
-
-
-    // {
-    //   category: 'Features',
-    //   amenities: ['Iron', 'WasherDryer']
-    // },
-    // {
-    //   category: 'Location',
-    //   amenities: ['Waterfront', 'Beachfront']
-    // }
 
     let additionalAmenities: any[] = [];
 

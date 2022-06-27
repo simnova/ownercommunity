@@ -16,7 +16,8 @@ const CheckboxGroup = Checkbox.Group;
 interface PropertiesListSearchFilterAdditionalAmenitiesProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   selectedFilter?: FilterDetail;
-  additionalAmenitieFacets?: FacetDetail[];
+  additionalAmenitiesAmenitiesFacets?: FacetDetail[];
+  additionalAmenitiesCategoryFacets?: FacetDetail[];
 }
 
 export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSearchFilterAdditionalAmenitiesProps> =
@@ -115,6 +116,47 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
     //   console.log(facet)
     // })
 
+    const additionalAmenityCategories = props.additionalAmenitiesCategoryFacets ?? [{value: ''}];
+    const additionalAmenityAmenities = props.additionalAmenitiesAmenitiesFacets ?? [{value: ''}];
+
+    // additionalAmenityCategories.forEach((additionalAmenity) => {
+    //   if (additionalAmenity.value) {
+    //     // if ()
+    //     categories.push(additionalAmenity.value);
+    //   }
+    // })
+
+
+    // {
+    //   category: 'Features',
+    //   amenities: ['Iron', 'WasherDryer']
+    // },
+    // {
+    //   category: 'Location',
+    //   amenities: ['Waterfront', 'Beachfront']
+    // }
+
+    let additionalAmenities: any[] = [];
+
+    additionalAmenityAmenities.forEach((additionalAmenity) => {
+      if (additionalAmenity.value) {
+        for (const [key , val] of Object.entries(AdditionalAmenitiesValues)){
+          if (val.amenities.includes( additionalAmenity.value)) {
+            if (additionalAmenities[Number(key)]?.amenities ) {
+              additionalAmenities[Number(key)] = {category: val.category, amenities: [...additionalAmenities[Number(key)].amenities, additionalAmenity.value]};
+            } else {
+              additionalAmenities[Number(key)] = {category: val.category, amenities: [additionalAmenity.value]};
+            }
+            
+          }
+        }
+      }
+    })
+
+    additionalAmenities = additionalAmenities.filter(n => n)
+
+    console.log('test', additionalAmenities)
+
     console.log('additional props', props);
 
     return (
@@ -124,14 +166,15 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
           key={FilterNames.AdditionalAmenities}
         >
           <div style={{ paddingLeft: '20px' }}>
-            {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => {
+            {/* {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => { */}
+            {additionalAmenities.map((aam: AdditionalAmenities) => {
               return (
                 <>
                   <h2 className="font-bold">{aam.category}</h2>
                   <CheckboxGroup
                     key={aam.category}
                     options={aam.amenities.map((value: string) => {
-                      const count = props.additionalAmenitieFacets?.find(
+                      const count = props.additionalAmenitiesAmenitiesFacets?.find(
                         (t: any) => t?.value === value
                       )?.count;
                       return {

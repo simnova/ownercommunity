@@ -42,6 +42,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       : undefined
   );
   const [orderBy, setOrderBy] = useState<string[]>(['']);
+  const [hideNullResults, setHideNullResults] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -115,7 +116,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             filter: filter,
             top: top,
             skip: tempSkip,
-            orderBy: orderBy
+            orderBy: orderBy,
+            hideNullResults: hideNullResults
           }
         }
       }
@@ -237,6 +239,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         setCurrentPage={setCurrentPage}
         orderBy={orderBy}
         setOrderBy={setOrderBy}
+        setHideNullResults={setHideNullResults}
       />
       <div>
         {data?.propertiesSearch?.count

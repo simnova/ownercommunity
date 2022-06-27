@@ -211,6 +211,7 @@ input PropertiesSearchOptions {
   top: Int
   skip: Int
   orderBy: [String]
+  hideNullResults: Boolean
 }
 input FilterDetail {
   propertyType: [String]

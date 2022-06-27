@@ -91,6 +91,16 @@ export class Properties extends CognitiveSearchDataSource<Context> {
     let filterString = this.getFilterString(input.options.filter);
     console.log('filterString: ', filterString);
 
+    if (input.options.hideNullResults) {
+      if (input.options.orderBy[0].includes('price')) {
+        filterString += ' and price ne null';
+      } else if (input.options.orderBy[0].includes('squareFeet')) {
+        filterString += ' and squareFeet ne null';
+      } else if (input.options.orderBy[0].includes('bedrooms')) {
+        filterString += ' and bedrooms ne null';
+      }
+    }
+
     const searchResults = await searchService.search('property-listings', searchString, {
       queryType: 'full',
       searchMode: 'all',

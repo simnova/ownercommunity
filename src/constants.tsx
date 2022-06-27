@@ -176,6 +176,37 @@ export const AmentitiesOptions = [
 
 export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
 
+export const PropertyTypeOptions = [
+  {
+    label : 'Townhouse',
+    value : 'Townhouse'
+  },
+  {
+    label : 'Condo',
+    value : 'Condo'
+  },
+  {
+    label : 'Single Family',
+    value : 'Single Family'
+  },
+  { 
+    label: 'Apartment', 
+    value: 'Apartment' 
+  },
+  {
+    label: 'Land',
+    value: 'Land'
+  },
+  {
+    label: 'Studio',
+    value: 'Studio'
+  },
+  {
+    label: 'Multi-Family',
+    value: 'Multi-Family'
+  }
+];
+
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
   var addresssGeocodeServiceUrlTemplate: string =
     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';

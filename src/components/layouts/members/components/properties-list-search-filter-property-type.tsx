@@ -12,6 +12,9 @@ interface PropertiesListSearchFilterPropertyTypeProps {
   selectedFilter?: FilterDetail;
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   propertyTypeFacets?: FacetDetail[];
+  // handleSearch: (page?: number, top?: number) => void;
+  // searchString?: string;
+
 }
 
 export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilterPropertyTypeProps> =
@@ -44,6 +47,11 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
         setSelectedPropertyTypes([]);
       }
     }, [location]);
+
+    // useEffect(() => {
+    //   // console.log('test')
+    //   props.handleSearch();
+    // }, [selectedPropertyTypes]);
 
     return (
       <Collapse className="search-filter-collapse">

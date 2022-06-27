@@ -243,6 +243,17 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           ? '(' + data?.propertiesSearch?.count + ' records found)'
           : ''}
       </div>
+
+      {/* <PropertiesListSearchFilters
+        facets={data?.propertiesSearch?.facets as PropertySearchFacets}
+        setSelectedFilter={setSelectedFilter}
+        selectedFilter={selectedFilter}
+        handleSearch={handleSearch}
+        searchString={searchString}
+        setTop={setTop}
+        setCurrentPage={setCurrentPage}
+        
+      /> */}
       {result()}
     </>
   );

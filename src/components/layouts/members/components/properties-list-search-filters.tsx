@@ -57,6 +57,13 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
     return listedInfoFacets;
   };
 
+  // const onSelectTopChanged = (value: number) => {
+  //   props.setTop(value);
+  //   props.setCurrentPage(0);
+  //   props.handleSearch(0, value);
+  // };
+
+  // console.log('props', props)
   return (
     <div>
         {/* Type */}
@@ -64,6 +71,8 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           propertyTypeFacets={props.facets?.type as FacetDetail[]}
           selectedFilter={props.selectedFilter}
           setSelectedFilter={props.setSelectedFilter}
+          // handleSearch= {props.handleSearch}
+          // searchString ={props.searchString}
         />
         {/* Bedrooms */}
         <PropertiesListSearchFilterBedrooms
@@ -86,7 +95,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
         {/* Additional Amenities */}
         <PropertiesListSearchFilterAdditionalAmenities
-          additionalAmenitieFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
+          additionalAmenitiesAmenitiesFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
           selectedFilter={props.selectedFilter}
           setSelectedFilter={props.setSelectedFilter}
         />

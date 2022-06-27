@@ -132,52 +132,54 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
 
     additionalAmenities = additionalAmenities.filter(n => n)
 
-    console.log('test', additionalAmenities)
-
-    console.log('additional props', props);
-
-    return (
-      <Collapse className="search-filter-collapse">
-        <Panel
-          header={<h2 className="font-bold">Additional Amenities</h2>}
-          key={FilterNames.AdditionalAmenities}
-        >
-          <div style={{ paddingLeft: '20px' }}>
-            {/* {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => { */}
-            {additionalAmenities.map((aam: AdditionalAmenities) => {
-              return (
-                <>
-                  <h2 className="font-bold">{aam.category}</h2>
-                  <CheckboxGroup
-                    key={aam.category}
-                    options={aam.amenities.map((value: string) => {
-                      const count = props.additionalAmenitiesAmenitiesFacets?.find(
-                        (t: any) => t?.value === value
-                      )?.count;
-                      return {
-                        label: `${value} ${
-                          count !== undefined && count !== null && count > 0
-                            ? `(${count})`
-                            : count === 0
-                            ? '(0)'
-                            : ''
-                        }`,
-                        value: value
-                      };
-                    })}
-                    value={
-                      selectedAdditionalAmenities?.find((a: any) => a.category === aam.category)
-                        ?.amenities
-                    }
-                    onChange={(checkedValues) =>
-                      onAdditionalAmenitiesChange(aam.category, checkedValues as string[])
-                    }
-                  />
-                </>
-              );
-            })}
-          </div>
-        </Panel>
-      </Collapse>
-    );
+    
+    
+    if (additionalAmenities.length === 0) {
+      return <></>
+    } else {
+      return (
+        <Collapse className="search-filter-collapse">
+          <Panel
+            header={<h2 className="font-bold">Additional Amenities</h2>}
+            key={FilterNames.AdditionalAmenities}
+          >
+            <div style={{ paddingLeft: '20px' }}>
+              {/* {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => { */}
+              {additionalAmenities.map((aam: AdditionalAmenities) => {
+                return (
+                  <>
+                    <h2 className="font-bold">{aam.category}</h2>
+                    <CheckboxGroup
+                      key={aam.category}
+                      options={aam.amenities.map((value: string) => {
+                        const count = props.additionalAmenitiesAmenitiesFacets?.find(
+                          (t: any) => t?.value === value
+                        )?.count;
+                        return {
+                          label: `${value} ${
+                            count !== undefined && count !== null && count > 0
+                              ? `(${count})`
+                              : count === 0
+                              ? '(0)'
+                              : ''
+                          }`,
+                          value: value
+                        };
+                      })}
+                      value={
+                        selectedAdditionalAmenities?.find((a: any) => a.category === aam.category)
+                          ?.amenities
+                      }
+                      onChange={(checkedValues) =>
+                        onAdditionalAmenitiesChange(aam.category, checkedValues as string[])
+                      }
+                    />
+                  </>
+                );
+              })}
+            </div>
+          </Panel>
+        </Collapse>
+      );
+    };
   };

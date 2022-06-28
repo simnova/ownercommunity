@@ -9,10 +9,13 @@ import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
 import { FC, useEffect } from 'react';
 import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
-import { FilterNames, SearchParamKeys } from '../../../../constants';
+import { AvailableFilters, FilterNames, SearchParamKeys } from '../../../../constants';
 import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
 import { PropertiesListSearchFilterUpdatedDate } from './properties-list-search-filter-updated-date';
+import { PropertiesListSearchFilterCreatedDate } from './properties-list-search-filter-created-date';
+import { Collapse } from 'antd';
 
+const { Panel } = Collapse;
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
@@ -64,69 +67,110 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
   //   props.handleSearch(0, value);
   // };
 
-  // console.log('props', props)
+  console.log('props facet', props.facets);
+  const additionalAmenitiesAmenities = 'additionalAmenitiesAmenities';
+  console.log(
+    AvailableFilters.filter((f) =>
+      props?.facets?.[additionalAmenitiesAmenities]
+        ? props?.facets?.[additionalAmenitiesAmenities].length > 0
+        : false
+    )
+  );
   return (
     <div>
-      {/* Type */}
-      <PropertiesListSearchFilterPropertyType
-        propertyTypeFacets={props.facets?.type as FacetDetail[]}
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-      {/* Bedrooms */}
-      <PropertiesListSearchFilterBedrooms
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        bedroomsFacets={props.facets?.bedrooms as FacetDetail[]}
-      />
+      <Collapse className="search-filter-collapse" defaultActiveKey={[]}>
+        {/* Type */}
+        <Panel header={<h2 className="font-bold">Type </h2>} key={FilterNames.Type}>
+          <PropertiesListSearchFilterPropertyType
+            propertyTypeFacets={props.facets?.type as FacetDetail[]}
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
 
-      {/* Bathrooms */}
-      <PropertiesListSearchFilterBathrooms
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        bathroomsFacets={props.facets?.bathrooms as FacetDetail[]}
-      />
+        {/* Bedrooms */}
+        <Panel header={<h2 className="font-bold">Bedrooms</h2>} key={FilterNames.Bedrooms}>
+          <PropertiesListSearchFilterBedrooms
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+            bedroomsFacets={props.facets?.bedrooms as FacetDetail[]}
+          />
+        </Panel>
 
-      {/* Amenities */}
-      <PropertiesListSearchFilterAmenities
-        amenitiesFacets={props.facets?.amenities as FacetDetail[]}
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* Bathrooms */}
+        <Panel header={<h2 className="font-bold">Bathrooms</h2>} key={FilterNames.Bathrooms}>
+          <PropertiesListSearchFilterBathrooms
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+            bathroomsFacets={props.facets?.bathrooms as FacetDetail[]}
+          />
+        </Panel>
 
-      {/* Additional Amenities */}
-      <PropertiesListSearchFilterAdditionalAmenities
-        additionalAmenitiesAmenitiesFacets={
-          props.facets?.additionalAmenitiesAmenities as FacetDetail[]
-        }
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* Amenities */}
+        <Panel header={<h2 className="font-bold">Amenities</h2>} key={FilterNames.Amenities}>
+          <PropertiesListSearchFilterAmenities
+            amenitiesFacets={props.facets?.amenities as FacetDetail[]}
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
 
-      {/* squareFeet */}
-      <PropertiesListSearchFilterSquareFeet
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* Additional Amenities */}
+        <Panel
+          header={<h2 className="font-bold">Additional Amenities</h2>}
+          key={FilterNames.AdditionalAmenities}
+        >
+          <PropertiesListSearchFilterAdditionalAmenities
+            additionalAmenitiesAmenitiesFacets={
+              props.facets?.additionalAmenitiesAmenities as FacetDetail[]
+            }
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
 
-      {/* Distance */}
-      <PropertiesListSearchFilterDistance
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* squareFeet */}
+        <Panel header={<h2 className="font-bold">Square Feet</h2>} key={FilterNames.SquareFeet}>
+          <PropertiesListSearchFilterSquareFeet
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
 
-      {/* Listed Info: listedForSale, listedForLease, listedForRent */}
-      <PropertiesListSearchFilterListedInfo
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        listedInfoFacets={getListedInfoFacets(props.facets)}
-      />
+        {/* Distance */}
+        <Panel header={<h2 className="font-bold">Distance</h2>} key={FilterNames.Distance}>
+          <PropertiesListSearchFilterDistance
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
 
-      {/* Date (updatedAt) */}
-      <PropertiesListSearchFilterUpdatedDate
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+        {/* Listed Info: listedForSale, listedForLease, listedForRent */}
+        <Panel header={<h2 className="font-bold">Listed Info</h2>} key={FilterNames.ListedInfo}>
+          <PropertiesListSearchFilterListedInfo
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+            listedInfoFacets={getListedInfoFacets(props.facets)}
+          />
+        </Panel>
+
+        {/* Date (updatedAt) */}
+        <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedDate}>
+          <PropertiesListSearchFilterUpdatedDate
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
+
+        {/* Date (createdAt) */}
+        {/*
+        <Panel header={<h2 className="font-bold">Created Date </h2>} key={FilterNames.CreatedDate}>
+          <PropertiesListSearchFilterCreatedDate
+          selectedFilter={props.selectedFilter}
+          setSelectedFilter={props.setSelectedFilter}
+          /> 
+        </Panel>*/}
+      </Collapse>
 
       {/* Price */}
       <PropertiesListSearchFilterPrice

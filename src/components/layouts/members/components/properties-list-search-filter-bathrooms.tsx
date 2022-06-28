@@ -49,24 +49,20 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
     }
   }, [location]);
   return (
-    <Collapse className="search-filter-collapse">
-      <Panel header={<h2 className="font-bold">Bathrooms</h2>} key={FilterNames.Bathrooms}>
-        <Radio.Group
-          value={bathrooms}
-          onChange={onBathroomsClicked}
-          buttonStyle="solid"
-          optionType="button"
-          options={props.bathroomsFacets?.map((option) => {
-            let value = option.value?.slice(0, -1);
-            return {
-              label: `${option.value} ${
-                option.count != undefined && option.count > 0 ? `(${option.count})` : ''
-              }`,
-              value: value ? parseFloat(value) : ''
-            };
-          })}
-        />
-      </Panel>
-    </Collapse>
+    <Radio.Group
+      value={bathrooms}
+      onChange={onBathroomsClicked}
+      buttonStyle="solid"
+      optionType="button"
+      options={props.bathroomsFacets?.map((option) => {
+        let value = option.value?.slice(0, -1);
+        return {
+          label: `${option.value} ${
+            option.count != undefined && option.count > 0 ? `(${option.count})` : ''
+          }`,
+          value: value ? parseFloat(value) : ''
+        };
+      })}
+    />
   );
 };

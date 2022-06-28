@@ -6,13 +6,13 @@ import { FilterNames, SearchParamKeys, UpdatedAtOptions } from '../../../../cons
 import { FilterDetail, FacetDetail } from '../../../../generated';
 const { Panel } = Collapse;
 
-interface PropertiesListSearchFilterUpdatedDateProps {
+interface PropertiesListSearchFilterCreatedDateProps {
   selectedFilter?: FilterDetail;
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   propertyTypeFacets?: FacetDetail[];
 }
 
-export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearchFilterUpdatedDateProps> =
+export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearchFilterCreatedDateProps> =
   (props) => {
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -50,11 +50,13 @@ export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearc
 
     return (
       <>
-        <Radio.Group
-          value={selectedDateOption}
-          options={UpdatedAtOptions}
-          onChange={(e: any) => onUpdatedDateChanged(e)}
-        />
+        <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedDate}>
+          <Radio.Group
+            value={selectedDateOption}
+            options={UpdatedAtOptions}
+            onChange={(e: any) => onUpdatedDateChanged(e)}
+          />
+        </Panel>
       </>
     );
   };

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
 import { Space, AutoComplete, Button, Pagination, Modal, Select } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
@@ -37,6 +37,10 @@ interface AddressDataType {
 export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    props.handleSearch(0, props.top?? 10);
+  }, [searchParams]);
 
   const onSelectTopChanged = (value: number) => {
     props.setTop(value);

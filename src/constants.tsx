@@ -55,6 +55,17 @@ export const FilterNames = {
   UpdatedDate: 'updatedDate'
 };
 
+export const AvailableFilters = [
+  'additionalAmenitiesAmenities',
+  'additionalAmenitiesCategory',
+  'amenities',
+  'bathrooms',
+  'bedrooms',
+  'listedForLease',
+  'listedForRent',
+  'listedForSale',
+  'type'
+];
 export interface AdditionalAmenities {
   category: string;
   amenities: string[];

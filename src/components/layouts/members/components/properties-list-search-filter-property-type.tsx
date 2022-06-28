@@ -14,7 +14,6 @@ interface PropertiesListSearchFilterPropertyTypeProps {
   propertyTypeFacets?: FacetDetail[];
   // handleSearch: (page?: number, top?: number) => void;
   // searchString?: string;
-
 }
 
 export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilterPropertyTypeProps> =
@@ -48,33 +47,24 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
       }
     }, [location]);
 
-    // useEffect(() => {
-    //   // console.log('test')
-    //   props.handleSearch();
-    // }, [selectedPropertyTypes]);
-
     return (
-      <Collapse className="search-filter-collapse">
-        <Panel header={<h2 className="font-bold">Type </h2>} key={FilterNames.Type}>
-          <CheckboxGroup
-            key={FilterNames.Type}
-            options={PropertyTypes.map((value: string) => {
-              const count = props?.propertyTypeFacets?.find((t: any) => t?.value === value)?.count;
-              return {
-                label: `${value} ${
-                  count !== undefined && count !== null && count > 0
-                    ? `(${count})`
-                    : count === 0
-                    ? '(0)'
-                    : ''
-                }`,
-                value: value
-              };
-            })}
-            value={selectedPropertyTypes}
-            onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
-          />
-        </Panel>
-      </Collapse>
+      <CheckboxGroup
+        key={FilterNames.Type}
+        options={PropertyTypes.map((value: string) => {
+          const count = props?.propertyTypeFacets?.find((t: any) => t?.value === value)?.count;
+          return {
+            label: `${value} ${
+              count !== undefined && count !== null && count > 0
+                ? `(${count})`
+                : count === 0
+                ? '(0)'
+                : ''
+            }`,
+            value: value
+          };
+        })}
+        value={selectedPropertyTypes}
+        onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
+      />
     );
   };

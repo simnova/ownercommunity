@@ -84,6 +84,14 @@ export class Properties extends CognitiveSearchDataSource<Context> {
     return filterStrings.join(' and ');
   }
 
+  private toggleNullResults(options: any, filterString: string) {
+    if (options.hideNullResults) {
+      const field = options.orderBy[0].split(' ')[0];
+      filterString += filterString.length > 0 ? `and ${field} ne null` : `${field} ne null`
+    }
+    return filterString;
+  }
+
   async propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     const searchService = new CognitiveSearch();
 
@@ -94,6 +102,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
 
     console.log(`Resolver>Query>propertiesSearch: ${searchString}`);
     let filterString = this.getFilterString(input.options.filter);
+    if (input.options.orderBy[0] !== '') filterString = this.toggleNullResults(input.options, filterString);
     console.log('filterString: ', filterString);
 
     const searchResults = await searchService.search('property-listings', searchString, {

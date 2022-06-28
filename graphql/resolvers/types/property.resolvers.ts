@@ -68,6 +68,7 @@ const property: Resolvers = {
           top: _args.input?.options?.top ?? 10,
           skip: _args.input?.options?.skip ?? 0,
           orderBy: _args.input?.options?.orderBy ?? [],
+          hideNullResults: _args.input?.options?.hideNullResults ?? false,
         },
       } as PropertiesSearchInput;
 

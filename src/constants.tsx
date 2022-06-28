@@ -35,7 +35,8 @@ export const SearchParamKeys = {
   Top: 'top',
   Distance: 'distance',
   OrderBy: 'orderBy',
-  UpdatedDate: 'updatedDate'
+  UpdatedDate: 'updatedDate',
+  HideNullResults: 'hideNullResults'
 };
 
 export const FilterNames = {

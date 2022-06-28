@@ -67,6 +67,9 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const orderBy = searchParams.get(SearchParamKeys.OrderBy) ?? '';
     if (orderBy !== '') setOrderBy([orderBy]);
 
+    // get hide null results
+    if (searchParams.get(SearchParamKeys.HideNullResults)) setHideNullResults(true);
+
     handleSearch(page, top);
   }, []);
 

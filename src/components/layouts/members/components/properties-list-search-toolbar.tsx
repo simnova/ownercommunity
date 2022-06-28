@@ -46,7 +46,8 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
   const onSelectOrderByChanged = (value: string) => {
     props.setOrderBy([value]);
-    searchParams.set(SearchParamKeys.OrderBy, value);
+    if (value === '') searchParams.delete(SearchParamKeys.OrderBy);
+    else searchParams.set(SearchParamKeys.OrderBy, value);
     setSearchParams(searchParams);
   };
 

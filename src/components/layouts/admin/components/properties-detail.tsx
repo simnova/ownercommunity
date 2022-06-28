@@ -3,6 +3,7 @@ import { Form,Input,Button,Descriptions, Select, Checkbox } from 'antd';
 import dayjs from 'dayjs';
 import { PropertyUpdateInput } from '../../../../generated';
 import { UserDeleteOutlined } from '@ant-design/icons';
+import { PropertyTypeOptions } from '../../../../constants';
 
 export interface PropertiesDetailProps {
   data: {
@@ -50,14 +51,15 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
           name={['propertyType']}
           label="Property Type"
         >
-          <Input placeholder='Name' maxLength={200} />
+          <Select placeholder='Property Type' options={PropertyTypeOptions}/>
+          {/* <Input placeholder='Name' maxLength={200} /> */}
         </Form.Item>
 
         <Form.Item
           name={['owner','id']}
           label="Owner"
         >
-          <Select allowClear={true}  placeholder="Select am Owner" options={props.data.members} fieldNames={{label:'memberName', value:'id'}} />
+          <Select allowClear={true}  placeholder="Select an Owner" options={props.data.members} fieldNames={{label:'memberName', value:'id'}} />
         </Form.Item>
 
         <Form.Item 

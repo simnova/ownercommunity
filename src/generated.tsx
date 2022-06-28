@@ -275,6 +275,7 @@ export type FilterDetail = {
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
   position?: InputMaybe<GeographyPointInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updatedAt?: InputMaybe<Scalars['String']>;
 };
 
 export type GeographyPoint = {
@@ -845,6 +846,7 @@ export type PropertyResult = {
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type PropertySearchFacets = {
@@ -852,6 +854,8 @@ export type PropertySearchFacets = {
   additionalAmenitiesAmenities?: Maybe<Array<Maybe<FacetDetail>>>;
   additionalAmenitiesCategory?: Maybe<Array<Maybe<FacetDetail>>>;
   amenities?: Maybe<Array<Maybe<FacetDetail>>>;
+  bathrooms?: Maybe<Array<Maybe<FacetDetail>>>;
+  bedrooms?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForLease?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
@@ -3557,6 +3561,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       listedForSale?: boolean | null;
       listedForRent?: boolean | null;
       listedForLease?: boolean | null;
+      updatedAt?: any | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenitiesSearchResult';
         category?: string | null;
@@ -3626,6 +3631,16 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      bedrooms?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      bathrooms?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -3658,6 +3673,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     listedForSale?: boolean | null;
     listedForRent?: boolean | null;
     listedForLease?: boolean | null;
+    updatedAt?: any | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenitiesSearchResult';
       category?: string | null;
@@ -3727,6 +3743,16 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       value?: string | null;
       count?: number | null;
     } | null> | null;
+    bedrooms?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    bathrooms?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
   } | null;
 };
 
@@ -3746,6 +3772,7 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   listedForSale?: boolean | null;
   listedForRent?: boolean | null;
   listedForLease?: boolean | null;
+  updatedAt?: any | null;
   additionalAmenities?: Array<{
     __typename?: 'AdditionalAmenitiesSearchResult';
     category?: string | null;
@@ -6730,7 +6757,8 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
           },
           { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
           { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
       }
     }
@@ -6841,6 +6869,28 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'listedForLease' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedrooms' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bathrooms' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [

@@ -2,7 +2,7 @@ import { useLazyQuery, useQuery } from '@apollo/client';
 import {
   FilterDetail,
   MemberPropertiesListSearchContainerMapSasTokenDocument,
-  MemberPropertiesListSearchContainerPropertiesDocument,
+  MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
 import { Skeleton, List } from 'antd';
 import { useEffect, useState } from 'react';
@@ -105,13 +105,15 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           searchString: qsSearchString,
           options: {
             facets: [
-              FilterNames.Type,
+              FilterNames.Type + ',count:1000',
               FilterNames.AdditionalAmenitiesCategory,
-              FilterNames.AdditionalAmenitiesAmenities + ',count:30',
-              FilterNames.Amenities + ',count:30',
-              FilterNames.ListedForLease + ',count:30',
-              FilterNames.ListedForSale + ',count:30',
-              FilterNames.ListedForRent + ',count:30'
+              FilterNames.AdditionalAmenitiesAmenities + ',count:1000',
+              FilterNames.Amenities + ',count:1000',
+              FilterNames.ListedForLease + ',count:1000',
+              FilterNames.ListedForSale + ',count:1000',
+              FilterNames.ListedForRent + ',count:1000',
+              FilterNames.Bedrooms + ',count:1000',
+              FilterNames.Bathrooms + ',count:1000'
             ],
             filter: filter,
             top: top,

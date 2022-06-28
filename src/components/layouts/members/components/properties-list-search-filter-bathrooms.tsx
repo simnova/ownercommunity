@@ -2,12 +2,13 @@ import { Radio, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { BathroomsFilterOptions, FilterNames, SearchParamKeys } from '../../../../constants';
-import { FilterDetail } from '../../../../generated';
+import { FacetDetail, FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
 interface PropertiesListSearchFilterBathroomsProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   selectedFilter?: FilterDetail;
+  bathroomsFacets?: FacetDetail[];
 }
 
 export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterBathroomsProps> = (
@@ -52,11 +53,18 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
       <Panel header={<h2 className="font-bold">Bathrooms</h2>} key={FilterNames.Bathrooms}>
         <Radio.Group
           value={bathrooms}
-          defaultValue={bathrooms}
           onChange={onBathroomsClicked}
           buttonStyle="solid"
           optionType="button"
-          options={BathroomsFilterOptions}
+          options={props.bathroomsFacets?.map((option) => {
+            let value = option.value?.slice(0, -1);
+            return {
+              label: `${option.value} ${
+                option.count != undefined && option.count > 0 ? `(${option.count})` : ''
+              }`,
+              value: value ? parseFloat(value) : ''
+            };
+          })}
         />
       </Panel>
     </Collapse>

@@ -1,4 +1,5 @@
 import type { SliderMarks } from 'antd/lib/slider';
+import dayjs from 'dayjs';
 import { FilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
@@ -33,7 +34,8 @@ export const SearchParamKeys = {
   Page: 'page',
   Top: 'top',
   Distance: 'distance',
-  OrderBy: 'orderBy'
+  OrderBy: 'orderBy',
+  UpdatedDate: 'updatedDate'
 };
 
 export const FilterNames = {
@@ -49,7 +51,8 @@ export const FilterNames = {
   ListedForRent: 'listedForRent',
   ListedForLease: 'listedForLease',
   ListedInfo: 'listedInfo',
-  Distance: 'distance'
+  Distance: 'distance',
+  UpdatedDate: 'updatedDate'
 };
 
 export interface AdditionalAmenities {
@@ -176,22 +179,29 @@ export const AmentitiesOptions = [
 
 export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
 
+export const UpdatedAtOptions = [
+  { label: '1 week ago', value: 7 },
+  { label: '2 weeks ago', value: 14 },
+  { label: '1 month ago', value: 30 },
+  { label: '3 months ago', value: 90 }
+];
+
 export const PropertyTypeOptions = [
   {
-    label : 'Townhouse',
-    value : 'Townhouse'
+    label: 'Townhouse',
+    value: 'Townhouse'
   },
   {
-    label : 'Condo',
-    value : 'Condo'
+    label: 'Condo',
+    value: 'Condo'
   },
   {
-    label : 'Single Family',
-    value : 'Single Family'
+    label: 'Single Family',
+    value: 'Single Family'
   },
-  { 
-    label: 'Apartment', 
-    value: 'Apartment' 
+  {
+    label: 'Apartment',
+    value: 'Apartment'
   },
   {
     label: 'Land',
@@ -237,7 +247,10 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
   return address();
 };
 
-export const GetFilterFromQueryString = (searchParams: URLSearchParams, selectedFilter: FilterDetail): FilterDetail => {
+export const GetFilterFromQueryString = (
+  searchParams: URLSearchParams,
+  selectedFilter: FilterDetail
+): FilterDetail => {
   // get all search params
   const qsproperTypes = searchParams.get('type')?.split(',');
   const qsbedrooms = searchParams.get('bedrooms');
@@ -252,6 +265,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
   const qslat = searchParams.get('lat');
   const qslong = searchParams.get('long');
+  const qsupdatedDate = searchParams.get('updatedDate'); // in days
 
   let filters = {} as FilterDetail;
 
@@ -367,6 +381,15 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
         latitude: parseFloat(qslat),
         longitude: parseFloat(qslong)
       }
+    };
+  }
+
+  // updated date
+  if (qsupdatedDate) {
+    const date = dayjs().subtract(parseInt(qsupdatedDate), 'day').toISOString();
+    filters = {
+      ...filters,
+      updatedAt: date
     };
   }
 

@@ -42,6 +42,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       : undefined
   );
   const [orderBy, setOrderBy] = useState<string[]>(['']);
+  const [hideNullResults, setHideNullResults] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -81,7 +82,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
     const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
     handleSearch(page, top);
-  }, [orderBy]);
+  }, [orderBy, hideNullResults]);
 
   const handleSearch = async (page: number, top: number) => {
     // set top here to fix the issue of top/current page not being set in the url
@@ -117,7 +118,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             filter: filter,
             top: top,
             skip: tempSkip,
-            orderBy: orderBy
+            orderBy: orderBy,
+            hideNullResults: hideNullResults
           }
         }
       }
@@ -239,6 +241,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         setCurrentPage={setCurrentPage}
         orderBy={orderBy}
         setOrderBy={setOrderBy}
+        setHideNullResults={setHideNullResults}
       />
       <div>
         {data?.propertiesSearch?.count

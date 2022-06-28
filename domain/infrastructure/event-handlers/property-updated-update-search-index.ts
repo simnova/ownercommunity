@@ -61,6 +61,7 @@ export default () => {
         listedForSale: property.listedForSale,
         listedForRent: property.listedForRent,
         listedForLease: property.listedForLease,
+        updatedAt: property.updatedAt.toISOString(),
       };
       let cognitiveSearch = new CognitiveSearch();
       // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);

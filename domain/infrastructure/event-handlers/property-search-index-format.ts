@@ -306,6 +306,14 @@ export const propertyListingIndexSpec = {
       sortable: true,
       facetable: true,
     },
+    {
+      name: 'updatedAt',
+      type: 'Edm.DateTimeOffset',
+      facetable: true,
+      filterable: true,
+      retrievable: true,
+      sortable: true,
+    },
   ],
 } as SearchIndex;
 
@@ -349,4 +357,5 @@ export interface PropertyListingIndexDocument {
   listedForSale: boolean;
   listedForRent: boolean;
   listedForLease: boolean;
+  updatedAt: string;
 }

@@ -72,6 +72,11 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       if (filter.position && filter.distance) {
         filterStrings.push(`geo.distance(position, geography'POINT(${filter.position.longitude} ${filter.position.latitude})') le ${filter.distance}`);
       }
+
+      // update at
+      if (filter.updatedAt) {
+        filterStrings.push(`updatedAt ge ${filter.updatedAt}`);
+      }
     }
 
     console.log('filterStrings: ', filterStrings);

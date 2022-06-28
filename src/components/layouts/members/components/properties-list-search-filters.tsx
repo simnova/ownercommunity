@@ -11,6 +11,7 @@ import { FC, useEffect } from 'react';
 import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
 import { FilterNames, SearchParamKeys } from '../../../../constants';
 import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
+import { PropertiesListSearchFilterUpdatedDate } from './properties-list-search-filter-updated-date';
 
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
@@ -59,62 +60,70 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
   return (
     <div>
-        {/* Type */}
-        <PropertiesListSearchFilterPropertyType
-          propertyTypeFacets={props.facets?.type as FacetDetail[]}
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
-        {/* Bedrooms */}
-        <PropertiesListSearchFilterBedrooms
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Type */}
+      <PropertiesListSearchFilterPropertyType
+        propertyTypeFacets={props.facets?.type as FacetDetail[]}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
+      {/* Bedrooms */}
+      <PropertiesListSearchFilterBedrooms
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        bedroomsFacets={props.facets?.bedrooms as FacetDetail[]}
+      />
 
-        {/* Bathrooms */}
-        <PropertiesListSearchFilterBathrooms
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Bathrooms */}
+      <PropertiesListSearchFilterBathrooms
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        bathroomsFacets={props.facets?.bathrooms as FacetDetail[]}
+      />
 
-        {/* Amenities */}
-        <PropertiesListSearchFilterAmenities
-          amenitiesFacets={props.facets?.amenities as FacetDetail[]}
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Amenities */}
+      <PropertiesListSearchFilterAmenities
+        amenitiesFacets={props.facets?.amenities as FacetDetail[]}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
 
-        {/* Additional Amenities */}
-        <PropertiesListSearchFilterAdditionalAmenities
-          additionalAmenitieFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Additional Amenities */}
+      <PropertiesListSearchFilterAdditionalAmenities
+        additionalAmenitieFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
 
-        {/* squareFeet */}
-        <PropertiesListSearchFilterSquareFeet
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* squareFeet */}
+      <PropertiesListSearchFilterSquareFeet
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
 
-        {/* Distance */}
-        <PropertiesListSearchFilterDistance
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Distance */}
+      <PropertiesListSearchFilterDistance
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
 
-        {/* Listed Info: listedForSale, listedForLease, listedForRent */}
-        <PropertiesListSearchFilterListedInfo
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-          listedInfoFacets={getListedInfoFacets(props.facets)}
-        />
+      {/* Listed Info: listedForSale, listedForLease, listedForRent */}
+      <PropertiesListSearchFilterListedInfo
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        listedInfoFacets={getListedInfoFacets(props.facets)}
+      />
 
-        {/* Price */}
-        <PropertiesListSearchFilterPrice
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Date (updatedAt) */}
+      <PropertiesListSearchFilterUpdatedDate
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
+
+      {/* Price */}
+      <PropertiesListSearchFilterPrice
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
     </div>
   );
 };

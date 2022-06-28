@@ -219,6 +219,7 @@ input FilterDetail {
   listedInfo: [String]
   distance: Float
   position: GeographyPointInput
+  updatedAt: String
 }
 
 input GeographyPointInput {
@@ -285,6 +286,7 @@ type PropertyResult {
   listedForLease: Boolean
   listedForRent: Boolean
   listedForSale: Boolean
+  updatedAt: DateTime
 }
 
 type GeographyPoint {
@@ -310,6 +312,8 @@ type PropertySearchFacets {
   listedForLease: [FacetDetail]
   listedForRent: [FacetDetail]
   listedForSale: [FacetDetail]
+  bedrooms: [FacetDetail]
+  bathrooms: [FacetDetail]
 }
 
 type FacetDetail {

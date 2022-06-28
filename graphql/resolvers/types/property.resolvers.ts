@@ -78,6 +78,32 @@ const property: Resolvers = {
         results.push(result.document);
       }
 
+      const bedroomsOptions = [1, 2, 3, 4, 5];
+      let bedroomsFacet = bedroomsOptions.map((option) => {
+        const found = searchResults?.facets?.bedrooms?.filter((facet) => facet.value >= option);
+        let count = 0;
+        found.forEach((f) => {
+          count += f.count;
+        });
+        return {
+          value: option + '+',
+          count: count,
+        };
+      });
+
+      const bathroomsOptions = [1, 1.5, 2, 3, 4, 5];
+      let bathroomsFacet = bathroomsOptions.map((option) => {
+        const found = searchResults?.facets?.bathrooms?.filter((facet) => facet.value >= option);
+        let count = 0;
+        found.forEach((f) => {
+          count += f.count;
+        });
+        return {
+          value: option + '+',
+          count: count,
+        };
+      });
+
       return {
         propertyResults: results,
         count: searchResults.count,
@@ -89,6 +115,8 @@ const property: Resolvers = {
           listedForSale: searchResults.facets?.listedForSale,
           listedForRent: searchResults.facets?.listedForRent,
           listedForLease: searchResults.facets?.listedForLease,
+          bedrooms: bedroomsFacet,
+          bathrooms: bathroomsFacet,
         },
       } as PropertySearchResult;
     },

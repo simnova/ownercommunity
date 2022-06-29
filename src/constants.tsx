@@ -76,7 +76,46 @@ export const BathroomsFilterOptions = [
   { label: '4+', value: 4 },
   { label: '5+', value: 5 }
 ];
-export const PropertyTypeList = ['condo', 'single family', 'townhouse'];
+
+export const PropertyTypeOptions = [
+  {
+    label: 'Townhouse',
+    value: 'Townhouse'
+  },
+  {
+    label: 'Condo',
+    value: 'Condo'
+  },
+  {
+    label: 'Single Family',
+    value: 'Single Family'
+  },
+  {
+    label: 'Apartment',
+    value: 'Apartment'
+  },
+  {
+    label: 'Land',
+    value: 'Land'
+  },
+  {
+    label: 'Studio',
+    value: 'Studio'
+  },
+  {
+    label: 'Multi-Family',
+    value: 'Multi-Family'
+  },
+  {
+    label: 'Storefront',
+    value: 'Storefront'
+  }
+];
+
+export const PropertyTypeList = PropertyTypeOptions.map((property) => {
+  return property.value;
+});
+
 export const Listed = [
   { label: 'For Sale', value: 'listedForSale' },
   { label: 'For Rent', value: 'listedForRent' },
@@ -187,37 +226,6 @@ export const UpdatedAtOptions = [
   { label: '2 weeks ago', value: 14 },
   { label: '1 month ago', value: 30 },
   { label: '3 months ago', value: 90 }
-];
-
-export const PropertyTypeOptions = [
-  {
-    label: 'Townhouse',
-    value: 'Townhouse'
-  },
-  {
-    label: 'Condo',
-    value: 'Condo'
-  },
-  {
-    label: 'Single Family',
-    value: 'Single Family'
-  },
-  {
-    label: 'Apartment',
-    value: 'Apartment'
-  },
-  {
-    label: 'Land',
-    value: 'Land'
-  },
-  {
-    label: 'Studio',
-    value: 'Studio'
-  },
-  {
-    label: 'Multi-Family',
-    value: 'Multi-Family'
-  }
 ];
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {

@@ -46,7 +46,7 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
     }
   }, [location]);
 
-  const amenitiyFacets = props.amenitiesFacets ?? [{ value: '', count: 0 }];
+  // const amenitiyFacets = props.amenitiesFacets ?? [{ value: '', count: 0 }];
 
   //May need to be changed
   // const amenities: string[] = [];

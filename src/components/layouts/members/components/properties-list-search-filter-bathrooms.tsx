@@ -48,21 +48,39 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
       setBathrooms(undefined);
     }
   }, [location]);
-  return (
-    <Radio.Group
-      value={bathrooms}
-      onChange={onBathroomsClicked}
-      buttonStyle="solid"
-      optionType="button"
-      options={props.bathroomsFacets?.map((option) => {
-        let value = option.value?.slice(0, -1);
-        return {
-          label: `${option.value} ${
-            option.count != undefined && option.count > 0 ? `(${option.count})` : ''
-          }`,
+
+  const getOptions = () => {
+    const options: any = [];
+    props.bathroomsFacets?.forEach((option) => {
+      let value = option.value?.slice(0, -1);
+      if (option.count != undefined && option.count > 0) {
+        options.push({
+          label: `${option.value} (${option.count})`,
           value: value ? parseFloat(value) : ''
-        };
-      })}
-    />
+        });
+      }
+    });
+    return options;
+  };
+
+  if (getOptions().length === 0) {
+    return null;
+  }
+
+  return (
+    <Collapse
+      className="search-filter-collapse"
+      defaultActiveKey={searchParams.get(FilterNames.Bathrooms) ? FilterNames.Bathrooms : undefined}
+    >
+      <Panel header={<h2 className="font-bold">Bathrooms</h2>} key={FilterNames.Bathrooms}>
+        <Radio.Group
+          value={bathrooms}
+          onChange={onBathroomsClicked}
+          buttonStyle="solid"
+          optionType="button"
+          options={getOptions()}
+        />
+      </Panel>
+    </Collapse>
   );
 };

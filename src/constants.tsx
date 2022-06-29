@@ -1,6 +1,6 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
-import { FilterDetail } from './generated';
+import { FacetDetail, FilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -55,17 +55,7 @@ export const FilterNames = {
   UpdatedDate: 'updatedDate'
 };
 
-export const AvailableFilters = [
-  'additionalAmenitiesAmenities',
-  'additionalAmenitiesCategory',
-  'amenities',
-  'bathrooms',
-  'bedrooms',
-  'listedForLease',
-  'listedForRent',
-  'listedForSale',
-  'type'
-];
+export const AvailableFilters = Object.values(FilterNames);
 export interface AdditionalAmenities {
   category: string;
   amenities: string[];
@@ -86,13 +76,13 @@ export const BathroomsFilterOptions = [
   { label: '4+', value: 4 },
   { label: '5+', value: 5 }
 ];
-export const PropertyTypes = ['condo', 'single family', 'townhouse'];
+export const PropertyTypeList = ['condo', 'single family', 'townhouse'];
 export const Listed = [
   { label: 'For Sale', value: 'listedForSale' },
   { label: 'For Rent', value: 'listedForRent' },
   { label: 'For Lease', value: 'listedForLease' }
 ];
-export const Amenities = ['Wifi', 'Pool', 'TV'];
+
 export const AdditionalAmenitiesValues: AdditionalAmenities[] = [
   {
     category: 'Features',
@@ -185,7 +175,9 @@ export const AmentitiesOptions = [
   'Pool (Public)',
   'Gym',
   'Washer/Dryer (Private)',
-  'Washer/Dryer (Public)'
+  'Washer/Dryer (Public)',
+  'TV',
+  'Wifi'
 ];
 
 export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
@@ -406,3 +398,22 @@ export const GetFilterFromQueryString = (
 
   return filters;
 };
+
+// export const GetFilterOptions = (allOptions: string[], facets?: FacetDetail[]) => {
+//   const options: any = [];
+
+//   allOptions.forEach((value: string) => {
+//     const count = facets?.find((t: any) => t?.value === value)?.count;
+//     if (count === undefined) {
+//       return;
+//     }
+//     options.push({
+//       label: `${value} ${
+//         count !== undefined && count !== null && count > 0 ? `(${count})` : count === 0 ? '(0)' : ''
+//       }`,
+//       value: value
+//     });
+//   });
+//   console.log(options);
+//   return options;
+// };

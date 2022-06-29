@@ -81,32 +81,36 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
   }, [location]);
 
   return (
-    <Space split="-">
-      <Select
-        defaultValue={minSquareFeet}
-        value={minSquareFeet}
-        style={{ width: 100 }}
-        onChange={(value) => onSquareFeetChanged('min', value)}
-      >
-        {MinSquareFeetOptions.map((op) => (
-          <Option key={op.value} value={op.value} disabled={op.value > props.maxSquareFeet}>
-            {op.label}
-          </Option>
-        ))}
-      </Select>
+    <Collapse className="search-filter-collapse">
+      <Panel header={<h2 className="font-bold">Square Feet</h2>} key={FilterNames.SquareFeet}>
+        <Space split="-">
+          <Select
+            defaultValue={minSquareFeet}
+            value={minSquareFeet}
+            style={{ width: 100 }}
+            onChange={(value) => onSquareFeetChanged('min', value)}
+          >
+            {MinSquareFeetOptions.map((op) => (
+              <Option key={op.value} value={op.value} disabled={op.value > maxSquareFeet}>
+                {op.label}
+              </Option>
+            ))}
+          </Select>
 
-      <Select
-        defaultValue={maxSquareFeet}
-        value={maxSquareFeet}
-        style={{ width: 100 }}
-        onChange={(value) => onSquareFeetChanged('max', value)}
-      >
-        {MaxSquareFeetOptions.map((op) => (
-          <Option key={op.value} value={op.value} disabled={op.value < props.minSquareFeet}>
-            {op.label}
-          </Option>
-        ))}
-      </Select>
-    </Space>
+          <Select
+            defaultValue={maxSquareFeet}
+            value={maxSquareFeet}
+            style={{ width: 100 }}
+            onChange={(value) => onSquareFeetChanged('max', value)}
+          >
+            {MaxSquareFeetOptions.map((op) => (
+              <Option key={op.value} value={op.value} disabled={op.value < minSquareFeet}>
+                {op.label}
+              </Option>
+            ))}
+          </Select>
+        </Space>
+      </Panel>
+    </Collapse>
   );
 };

@@ -1,7 +1,7 @@
 import { Checkbox, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { FilterNames, PropertyTypes, SearchParamKeys } from '../../../../constants';
+import { FilterNames, PropertyTypeList, SearchParamKeys } from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
@@ -47,24 +47,45 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
       }
     }, [location]);
 
+    const getOptions = () => {
+      const options: any = [];
+
+      PropertyTypeList.forEach((value: string) => {
+        const count = props.propertyTypeFacets?.find((t: any) => t?.value === value)?.count;
+        if (count === undefined) {
+          return;
+        }
+        options.push({
+          label: `${value} ${
+            count !== undefined && count !== null && count > 0
+              ? `(${count})`
+              : count === 0
+              ? '(0)'
+              : ''
+          }`,
+          value: value
+        });
+      });
+      console.log(options);
+      return options;
+    };
+
+    if (getOptions().length === 0) {
+      return null;
+    }
+
     return (
-      <CheckboxGroup
-        key={FilterNames.Type}
-        options={PropertyTypes.map((value: string) => {
-          const count = props?.propertyTypeFacets?.find((t: any) => t?.value === value)?.count;
-          return {
-            label: `${value} ${
-              count !== undefined && count !== null && count > 0
-                ? `(${count})`
-                : count === 0
-                ? '(0)'
-                : ''
-            }`,
-            value: value
-          };
-        })}
-        value={selectedPropertyTypes}
-        onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
-      />
+      <Collapse
+        className="search-filter-collapse"
+        defaultActiveKey={searchParams.get(FilterNames.Type) ? FilterNames.Type : undefined}
+      >
+        <Panel header={<h2 className="font-bold">Type </h2>} key={FilterNames.Type}>
+          <CheckboxGroup
+            options={getOptions()}
+            value={selectedPropertyTypes}
+            onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
+          />
+        </Panel>
+      </Collapse>
     );
   };

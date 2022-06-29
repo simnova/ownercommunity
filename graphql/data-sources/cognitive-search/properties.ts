@@ -65,7 +65,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
         if (filter.listedInfo.includes('listedForLease')) {
           listedInfoFilterStrings.push('listedForLease eq true');
         }
-        filterStrings.push(listedInfoFilterStrings.join(' or '));
+        filterStrings.push("(" + listedInfoFilterStrings.join(' or ') + ")");
       }
 
       // distance, lat and long
@@ -79,7 +79,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       }
     }
 
-    console.log('filterStrings: ', filterStrings);
+    console.log('filterStrings: ', filterStrings.join(' and '));
 
     return filterStrings.join(' and ');
   }

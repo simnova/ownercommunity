@@ -31,6 +31,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
         setSearchParams(searchParams);
         // update query string
         searchParams.set(SearchParamKeys.MinSquareFeet, value);
+        searchParams.set(SearchParamKeys.MaxSquareFeet, maxSquareFeet.toString());
         setSearchParams(searchParams);
 
         props.setSelectedFilter({
@@ -45,6 +46,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
         setMaxSquareFeet(value);
         // update query string
         searchParams.set(SearchParamKeys.MaxSquareFeet, value);
+        searchParams.set(SearchParamKeys.MinSquareFeet, minSquareFeet.toString());
         setSearchParams(searchParams);
         props.setSelectedFilter({
           ...props.selectedFilter,

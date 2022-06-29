@@ -7,7 +7,8 @@ import {
   TeamOutlined,
   BarsOutlined,
   ScheduleOutlined,
-  ShopOutlined
+  ShopOutlined,
+  SearchOutlined
 } from '@ant-design/icons';
 import { MemberProfile } from './pages/member-profile';
 import { Neighbors } from './pages/neighbors';
@@ -62,7 +63,7 @@ const pageLayouts = [
   {
     path: '/community/:communityId/member/:userId/propertiesSearch',
     title: 'Property Search',
-    icon: <BarsOutlined />,
+    icon: <SearchOutlined />,
     id: 7,
     parent: 'ROOT'
   }

@@ -273,7 +273,22 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                       >
                         <MinusCircleOutlined
                           className="dynamic-delete-button"
-                          onClick={() => remove(field.name)}
+                          onClick={() => {
+                            if (additionalAmenities[index].category) {
+                              setSelectableCategories([
+                                ...selectableCategories,
+                                additionalAmenities[index].category
+                              ]);
+
+                              setAdditionalAmenities(
+                                additionalAmenities.filter(
+                                  (amenity) =>
+                                    amenity.category !== additionalAmenities[index].category
+                                )
+                              );
+                            }
+                            remove(field.name);
+                          }}
                         />
                       </div>
                       <div
@@ -325,7 +340,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                     </div>
                   );
                 })}
-                {fields.length < 8 ? (
+                {fields.length < AdditionalAmenitiesCategories.length ? (
                   <Form.Item>
                     <Button
                       type="dashed"

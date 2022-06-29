@@ -70,28 +70,38 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
     };
   });
 
-  // if (options.length === 0) {
-  //   return <></>
-  // } else {
+  if (options.length === 0) {
+    return null;
+  }
+
   return (
-    <CheckboxGroup
-      // options={Listed.map((op) => {
-      //   const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;
-      //   return {
-      //     label: `${op.label} ${
-      //       count !== undefined && count !== null && count > 0
-      //         ? `(${count})`
-      //         : count === 0
-      //         ? '(0)'
-      //         : ''
-      //     }`,
-      //     value: op.value
-      //   };
-      // })}
-      options={options}
-      value={selectedListedInfo}
-      onChange={(checkedValues) => onListedInfoFilterChange(checkedValues as string[])}
-    />
+    <Collapse
+      className="search-filter-collapse"
+      defaultActiveKey={
+        searchParams.get(FilterNames.ListedInfo) ? FilterNames.ListedInfo : undefined
+      }
+    >
+      <Panel header={<h2 className="font-bold">Listed</h2>} key={FilterNames.ListedInfo}>
+        <CheckboxGroup
+          // options={Listed.map((op) => {
+          //   const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;
+          //   return {
+          //     label: `${op.label} ${
+          //       count !== undefined && count !== null && count > 0
+          //         ? `(${count})`
+          //         : count === 0
+          //         ? '(0)'
+          //         : ''
+          //     }`,
+          //     value: op.value
+          //   };
+          // })}
+          options={options}
+          value={selectedListedInfo}
+          onChange={(checkedValues) => onListedInfoFilterChange(checkedValues as string[])}
+        />
+      </Panel>
+    </Collapse>
   );
 };
 // }

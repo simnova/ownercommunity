@@ -129,21 +129,19 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         setSelectedFilter={props.setSelectedFilter}
       />
 
+      {/* Listed Info: listedForSale, listedForLease, listedForRent */}
+      <PropertiesListSearchFilterListedInfo
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        listedInfoFacets={getListedInfoFacets(props.facets)}
+      />
+
       <Collapse className="search-filter-collapse">
         {/* Distance */}
         <Panel header={<h2 className="font-bold">Distance</h2>} key={FilterNames.Distance}>
           <PropertiesListSearchFilterDistance
             selectedFilter={props.selectedFilter}
             setSelectedFilter={props.setSelectedFilter}
-          />
-        </Panel>
-
-        {/* Listed Info: listedForSale, listedForLease, listedForRent */}
-        <Panel header={<h2 className="font-bold">Listed Info</h2>} key={FilterNames.ListedInfo}>
-          <PropertiesListSearchFilterListedInfo
-            selectedFilter={props.selectedFilter}
-            setSelectedFilter={props.setSelectedFilter}
-            listedInfoFacets={getListedInfoFacets(props.facets)}
           />
         </Panel>
 

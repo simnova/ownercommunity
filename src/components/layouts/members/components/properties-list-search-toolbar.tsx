@@ -56,6 +56,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     setSearchParams(searchParams);
   };
 
+  const onHideNullResultsChanged = (e: any) => {
+    props.setHideNullResults(e.target.checked);
+    if (e.target.checked) searchParams.set(SearchParamKeys.HideNullResults, 'true');
+    else searchParams.delete(SearchParamKeys.HideNullResults);
+    setSearchParams(searchParams);
+  };
+
   const handlePagination = (newPage: number) => {
     const current = newPage - 1;
     props.setCurrentPage(current);
@@ -143,7 +150,10 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         <Option value={'squareFeet desc'}>Square Feet</Option>
       </Select>
 
-      <Checkbox onChange={(e) => props.setHideNullResults(e.target.checked)}>
+      <Checkbox
+        onChange={(e) => onHideNullResultsChanged(e)}
+        defaultChecked={searchParams.get(SearchParamKeys.HideNullResults) ? true : false}
+      >
         Hide Null Results
       </Checkbox>
       <Modal

@@ -41,7 +41,7 @@ export class CognitiveSearch {
     await this.client
       .getIndex(indexName)
       .then(() => {
-        console.log(`Index ${indexName} already exists`);
+        console.log(`Index ${indexName} already exists, updating it...`);
         return this.client.createOrUpdateIndex(indexDefinition);
       })
       .catch((err) => {

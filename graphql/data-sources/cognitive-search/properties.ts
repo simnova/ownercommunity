@@ -65,7 +65,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
         if (filter.listedInfo.includes('listedForLease')) {
           listedInfoFilterStrings.push('listedForLease eq true');
         }
-        filterStrings.push(listedInfoFilterStrings.join(' or '));
+        filterStrings.push('(' + listedInfoFilterStrings.join(' or ') + ')');
       }
 
       // distance, lat and long
@@ -77,9 +77,14 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       if (filter.updatedAt) {
         filterStrings.push(`updatedAt ge ${filter.updatedAt}`);
       }
+
+      // created at
+      if (filter.createdAt) {
+        filterStrings.push(`createdAt ge ${filter.createdAt}`);
+      }
     }
 
-    console.log('filterStrings: ', filterStrings);
+    console.log('filterStrings: ', filterStrings.join(' and '));
 
     return filterStrings.join(' and ');
   }
@@ -87,7 +92,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
   private toggleNullResults(options: any, filterString: string) {
     if (options.hideNullResults) {
       const field = options.orderBy[0].split(' ')[0];
-      filterString += filterString.length > 0 ? `and ${field} ne null` : `${field} ne null`
+      filterString += filterString.length > 0 ? `and ${field} ne null` : `${field} ne null`;
     }
     return filterString;
   }

@@ -220,6 +220,7 @@ input FilterDetail {
   distance: Float
   position: GeographyPointInput
   updatedAt: String
+  createdAt: String
 }
 
 input GeographyPointInput {
@@ -287,6 +288,7 @@ type PropertyResult {
   listedForRent: Boolean
   listedForSale: Boolean
   updatedAt: DateTime
+  createdAt: DateTime
 }
 
 type GeographyPoint {

@@ -87,6 +87,17 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     handleSearch(page, top);
   }, [orderBy, hideNullResults]);
 
+  useEffect(() => {
+    if (data && data.propertiesSearch?.count) {
+      const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
+      const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
+      if (data.propertiesSearch?.count < top * page) {
+        setCurrentPage(0);
+        handleSearch(0, top);
+      }
+    }
+  }, [data]);
+
   const handleSearch = async (page: number, top: number) => {
     // set top here to fix the issue of top/current page not being set in the url
     searchParams.set(SearchParamKeys.Top, top.toString());
@@ -200,7 +211,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       const generatedPropertyData = JSON.parse(
         JSON.stringify(data.propertiesSearch?.propertyResults, null, 2)
       );
-
       return (
         <div>
           <List
@@ -251,17 +261,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           ? '(' + data?.propertiesSearch?.count + ' records found)'
           : ''}
       </div>
-
-      {/* <PropertiesListSearchFilters
-        facets={data?.propertiesSearch?.facets as PropertySearchFacets}
-        setSelectedFilter={setSelectedFilter}
-        selectedFilter={selectedFilter}
-        handleSearch={handleSearch}
-        searchString={searchString}
-        setTop={setTop}
-        setCurrentPage={setCurrentPage}
-        
-      /> */}
       {result()}
     </>
   );

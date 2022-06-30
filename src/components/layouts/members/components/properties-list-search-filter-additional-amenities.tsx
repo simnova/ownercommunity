@@ -157,7 +157,6 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
               // console.log(key, val);
             }
           }
-          console.log(options);
         });
         if (tmp.length > 0) {
           options.push({

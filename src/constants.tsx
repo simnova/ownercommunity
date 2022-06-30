@@ -35,7 +35,8 @@ export const SearchParamKeys = {
   Top: 'top',
   Distance: 'distance',
   OrderBy: 'orderBy',
-  UpdatedAt: 'updatedAt'
+  UpdatedAt: 'updatedAt',
+  CreatedDate: 'createdDate'
 };
 
 export const FilterNames = {
@@ -52,7 +53,8 @@ export const FilterNames = {
   ListedForLease: 'listedForLease',
   ListedInfo: 'listedInfo',
   Distance: 'distance',
-  UpdatedAt: 'updatedAt'
+  UpdatedAt: 'updatedAt',
+  CreatedDate: 'createdDate'
 };
 
 export const AvailableFilters = Object.values(FilterNames);
@@ -277,6 +279,7 @@ export const GetFilterFromQueryString = (
   const qslat = searchParams.get('lat');
   const qslong = searchParams.get('long');
   const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
+  const qscreatedDate = searchParams.get('createdDate'); // in days
 
   let filters = {} as FilterDetail;
 
@@ -401,6 +404,15 @@ export const GetFilterFromQueryString = (
     filters = {
       ...filters,
       updatedAt: date
+    };
+  }
+
+  // created date
+  if (qscreatedDate) {
+    const date = dayjs().subtract(parseInt(qscreatedDate), 'day').toISOString();
+    filters = {
+      ...filters,
+      createdAt: date
     };
   }
 

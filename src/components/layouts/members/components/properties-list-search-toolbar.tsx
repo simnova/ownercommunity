@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { Space, AutoComplete, Button, Pagination, Modal, Select } from 'antd';
+import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
 import { SearchParamKeys } from '../../../../constants';
@@ -23,6 +23,7 @@ interface PropertiesListSearchToolbarProps {
   setCurrentPage: (page: number) => void;
   orderBy: string[];
   setOrderBy: (orderBy: string[]) => void;
+  setHideNullResults: (hideNullResults: boolean) => void;
 }
 
 interface AddressDataType {
@@ -75,6 +76,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.MinSquareFeet);
     searchParams.delete(SearchParamKeys.Distance);
     searchParams.delete(SearchParamKeys.UpdatedAt);
+    searchParams.delete(SearchParamKeys.CreatedDate);
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
   };
@@ -140,6 +142,10 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         <Option value={'bedrooms desc'}>Bedrooms</Option>
         <Option value={'squareFeet desc'}>Square Feet</Option>
       </Select>
+
+      <Checkbox onChange={(e) => props.setHideNullResults(e.target.checked)}>
+        Hide Null Results
+      </Checkbox>
       <Modal
         title="Filters"
         visible={isModalVisible}

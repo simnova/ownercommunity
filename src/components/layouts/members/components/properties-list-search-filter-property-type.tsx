@@ -60,7 +60,6 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
           value: value
         });
       });
-      console.log(options);
       return options;
     };
 

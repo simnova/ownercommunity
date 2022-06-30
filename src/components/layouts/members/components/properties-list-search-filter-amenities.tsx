@@ -86,7 +86,6 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
         value: value
       });
     });
-    console.log(options);
     return options;
   };
 

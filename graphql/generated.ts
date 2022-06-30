@@ -272,6 +272,7 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  createdAt?: InputMaybe<Scalars['String']>;
   distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
@@ -837,6 +838,7 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -2109,6 +2111,7 @@ export type PropertyResultResolvers<ContextType = Context, ParentType extends Re
   bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   communityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   listedForLease?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;

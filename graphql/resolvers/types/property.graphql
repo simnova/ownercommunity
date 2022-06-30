@@ -19,6 +19,8 @@ type Property implements MongoBase {
   schemaVersion: String
   createdAt: DateTime
   updatedAt: DateTime
+
+  tags: [String]
 }
 type ListingDetails {
   price: Float

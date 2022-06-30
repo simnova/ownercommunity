@@ -39,7 +39,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    props.handleSearch(0, props.top?? 10);
+    props.handleSearch(0, props.top ?? 10);
   }, [searchParams]);
 
   const onSelectTopChanged = (value: number) => {
@@ -75,6 +75,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.MinSquareFeet);
     searchParams.delete(SearchParamKeys.Distance);
     searchParams.delete(SearchParamKeys.UpdatedDate);
+    searchParams.delete(SearchParamKeys.CreatedDate);
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
   };

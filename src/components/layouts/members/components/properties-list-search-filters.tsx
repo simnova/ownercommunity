@@ -154,13 +154,13 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         </Panel>
 
         {/* Date (createdAt) */}
-        {/*
+
         <Panel header={<h2 className="font-bold">Created Date </h2>} key={FilterNames.CreatedDate}>
           <PropertiesListSearchFilterCreatedDate
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-          /> 
-        </Panel>*/}
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
       </Collapse>
 
       {/* Price */}

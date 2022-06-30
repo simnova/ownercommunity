@@ -97,4 +97,5 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
   listedForRent
   listedForLease
   updatedAt
+  createdAt
 }

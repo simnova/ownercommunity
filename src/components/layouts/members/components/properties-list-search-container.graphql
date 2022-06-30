@@ -50,6 +50,10 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
+    updatedAt {
+      value
+      count
+    }
   }
 }
 

@@ -146,10 +146,11 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         </Panel>
 
         {/* Date (updatedAt) */}
-        <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedDate}>
+        <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedAt}>
           <PropertiesListSearchFilterUpdatedDate
             selectedFilter={props.selectedFilter}
             setSelectedFilter={props.setSelectedFilter}
+            updatedDateFacet={props.facets?.updatedAt as FacetDetail[]}
           />
         </Panel>
 

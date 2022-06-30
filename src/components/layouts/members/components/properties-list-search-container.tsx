@@ -112,7 +112,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.ListedForSale + ',count:1000',
               FilterNames.ListedForRent + ',count:1000',
               FilterNames.Bedrooms + ',count:1000',
-              FilterNames.Bathrooms + ',count:1000'
+              FilterNames.Bathrooms + ',count:1000',
+              FilterNames.UpdatedAt + ',count:1000'
             ],
             filter: filter,
             top: top,

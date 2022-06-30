@@ -52,17 +52,11 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
 
       PropertyTypeList.forEach((value: string) => {
         const count = props.propertyTypeFacets?.find((t: any) => t?.value === value)?.count;
-        if (count === undefined) {
+        if (!count) {
           return;
         }
         options.push({
-          label: `${value} ${
-            count !== undefined && count !== null && count > 0
-              ? `(${count})`
-              : count === 0
-              ? '(0)'
-              : ''
-          }`,
+          label: value + ' ' + `(${count})`,
           value: value
         });
       });

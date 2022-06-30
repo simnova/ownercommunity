@@ -39,7 +39,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    props.handleSearch(0, props.top?? 10);
+    props.handleSearch(0, props.top ?? 10);
   }, [searchParams]);
 
   const onSelectTopChanged = (value: number) => {
@@ -74,7 +74,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.MaxSquareFeet);
     searchParams.delete(SearchParamKeys.MinSquareFeet);
     searchParams.delete(SearchParamKeys.Distance);
-    searchParams.delete(SearchParamKeys.UpdatedDate);
+    searchParams.delete(SearchParamKeys.UpdatedAt);
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
   };
@@ -147,7 +147,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         onCancel={() => setIsModalVisible(false)}
         footer={[
           <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-            Cancel
+            Close
           </Button>,
           <Button
             key="clear"
@@ -157,20 +157,20 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             }}
           >
             Clear Filters
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            onClick={() => {
-              props.handleSearch(0, props.top ?? 10);
-              searchParams.set('page', '1');
-              setSearchParams(searchParams);
-              props.setCurrentPage(0);
-              setIsModalVisible(false);
-            }}
-          >
-            Apply
           </Button>
+          // <Button
+          //   key="submit"
+          //   type="primary"
+          //   onClick={() => {
+          //     props.handleSearch(0, props.top ?? 10);
+          //     searchParams.set('page', '1');
+          //     setSearchParams(searchParams);
+          //     props.setCurrentPage(0);
+          //     setIsModalVisible(false);
+          //   }}
+          // >
+          //   Apply
+          // </Button>
         ]}
       >
         <PropertiesListSearchFilters

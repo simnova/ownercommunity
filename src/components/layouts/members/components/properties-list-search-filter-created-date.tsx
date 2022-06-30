@@ -23,7 +23,7 @@ export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearc
       const date = dayjs().subtract(value, 'day').toISOString();
       setSelectedDateOption(value);
       // update query string
-      searchParams.set(SearchParamKeys.UpdatedDate, value);
+      searchParams.set(SearchParamKeys.UpdatedAt, value);
       setSearchParams(searchParams);
       props.setSelectedFilter({
         ...props.selectedFilter,
@@ -33,7 +33,7 @@ export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearc
 
     // Update UI (selected property types) with corresponding property types when page is loaded
     useEffect(() => {
-      const qsUpdatedDate = searchParams.get(SearchParamKeys.UpdatedDate);
+      const qsUpdatedDate = searchParams.get(SearchParamKeys.UpdatedAt);
       if (qsUpdatedDate) {
         setSelectedDateOption(parseInt(qsUpdatedDate));
       } else {
@@ -43,14 +43,14 @@ export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearc
 
     // handle when clear all filter clicked
     useEffect(() => {
-      if (!location.search.includes(SearchParamKeys.UpdatedDate)) {
+      if (!location.search.includes(SearchParamKeys.UpdatedAt)) {
         setSelectedDateOption(undefined);
       }
     }, [location]);
 
     return (
       <>
-        <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedDate}>
+        <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedAt}>
           <Radio.Group
             value={selectedDateOption}
             options={UpdatedAtOptions}

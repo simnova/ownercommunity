@@ -751,6 +751,7 @@ export type PropertiesSearchInput = {
 export type PropertiesSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   filter?: InputMaybe<FilterDetail>;
+  hideNullResults?: InputMaybe<Scalars['Boolean']>;
   orderBy?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skip?: InputMaybe<Scalars['Int']>;
   top?: InputMaybe<Scalars['Int']>;
@@ -859,6 +860,7 @@ export type PropertySearchFacets = {
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
+  updatedAt?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -3640,6 +3642,11 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      updatedAt?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -3748,6 +3755,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       count?: number | null;
     } | null> | null;
     bathrooms?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    updatedAt?: Array<{
       __typename?: 'FacetDetail';
       value?: string | null;
       count?: number | null;
@@ -6890,6 +6902,17 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'bathrooms' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'updatedAt' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [

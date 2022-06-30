@@ -272,6 +272,7 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  createdAt?: InputMaybe<Scalars['String']>;
   distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
@@ -837,6 +838,7 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -862,6 +864,7 @@ export type PropertySearchFacets = {
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
+  updatedAt?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -2109,6 +2112,7 @@ export type PropertyResultResolvers<ContextType = Context, ParentType extends Re
   bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   communityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   listedForLease?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -2134,6 +2138,7 @@ export type PropertySearchFacetsResolvers<ContextType = Context, ParentType exte
   listedForRent?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   listedForSale?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   type?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

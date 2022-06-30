@@ -5,6 +5,7 @@ import { isValidObjectId } from 'mongoose';
 import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
 import { getMemberForCurrentUser } from './helpers';
 import { ContentModeratorClientContext } from '@azure/cognitiveservices-contentmoderator';
+import dayjs from 'dayjs';
 
 const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promise<PropertyMutationResult> => {
   try {
@@ -78,6 +79,7 @@ const property: Resolvers = {
         results.push(result.document);
       }
 
+      // calculate bedrooms facets
       const bedroomsOptions = [1, 2, 3, 4, 5];
       let bedroomsFacet = bedroomsOptions.map((option) => {
         const found = searchResults?.facets?.bedrooms?.filter((facet) => facet.value >= option);
@@ -91,6 +93,7 @@ const property: Resolvers = {
         };
       });
 
+      // calculate bathrooms facets
       const bathroomsOptions = [1, 1.5, 2, 3, 4, 5];
       let bathroomsFacet = bathroomsOptions.map((option) => {
         const found = searchResults?.facets?.bathrooms?.filter((facet) => facet.value >= option);
@@ -100,6 +103,34 @@ const property: Resolvers = {
         });
         return {
           value: option + '+',
+          count: count,
+        };
+      });
+
+      // calculate update date facets
+      const periods = [7, 14, 30, 90];
+      const periodTextMaps = {
+        7: '1 week ago',
+        14: '2 weeks ago',
+        30: '1 month ago',
+        90: '3 months ago',
+      };
+      let updatedAtFacet = periods.map((option) => {
+        // const found = results.filter((r) => dayjs(r.updatedAt).diff(_args.input?.options?.filter?.updatedAt ? dayjs(_args.input?.options?.filter?.updatedAt) : dayjs(), 'day') <= period);
+        // return {
+        //   value: periodTextMaps[period],
+        //   count: found.length,
+        // };
+        const found = searchResults?.facets?.updatedAt?.filter((facet) => {
+          let temp = _args.input?.options?.filter?.updatedAt ? dayjs(_args.input?.options?.filter?.updatedAt).diff(dayjs(facet.value), 'day', true) : dayjs().diff(dayjs(facet.value), 'day', true);
+          return temp <= option;
+        });
+        let count = 0;
+        found.forEach((f) => {
+          count += f.count;
+        });
+        return {
+          value: periodTextMaps[option],
           count: count,
         };
       });
@@ -117,6 +148,7 @@ const property: Resolvers = {
           listedForLease: searchResults.facets?.listedForLease,
           bedrooms: bedroomsFacet,
           bathrooms: bathroomsFacet,
+          updatedAt: updatedAtFacet,
         },
       } as PropertySearchResult;
     },

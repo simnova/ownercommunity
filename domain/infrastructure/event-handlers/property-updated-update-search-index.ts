@@ -5,6 +5,7 @@ import { PropertyUnitOfWork } from '../persistance/repositories';
 import { SystemExecutionContext } from '../persistance/execution-context';
 import { PropertyUpdatedEvent } from '../../events/property-updated';
 import { GeographyPoint } from '@azure/search-documents';
+import dayjs from 'dayjs';
 
 export default () => {
   NodeEventBus.register(PropertyUpdatedEvent, async (payload) => {
@@ -23,6 +24,9 @@ export default () => {
       if (coordinates && coordinates.length === 2) {
         geoGraphyPoint = new GeographyPoint({ longitude: coordinates[1], latitude: coordinates[0] });
       }
+
+      let updatedDate = property.updatedAt.toISOString();
+      updatedDate = dayjs(property.updatedAt.toISOString().split('T')[0]).toISOString();
 
       let listingDoc: Partial<PropertyListingIndexDocument> = {
         id: property.id,
@@ -61,11 +65,11 @@ export default () => {
         listedForSale: property.listedForSale,
         listedForRent: property.listedForRent,
         listedForLease: property.listedForLease,
-        updatedAt: property.updatedAt.toISOString(),
+        updatedAt: updatedDate,
       };
       let cognitiveSearch = new CognitiveSearch();
-      // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
-      await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
+      await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
+      // await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
       await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
       console.log(`Property Updated - Search Completed: ${JSON.stringify(listingDoc)}`);
     });

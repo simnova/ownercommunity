@@ -7,12 +7,15 @@ import { PropertiesListSearchFilterPropertyType } from './properties-list-search
 import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
-import { FilterNames, SearchParamKeys } from '../../../../constants';
+import { AvailableFilters, FilterNames, SearchParamKeys } from '../../../../constants';
 import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
 import { PropertiesListSearchFilterUpdatedDate } from './properties-list-search-filter-updated-date';
+import { PropertiesListSearchFilterCreatedDate } from './properties-list-search-filter-created-date';
+import { Collapse } from 'antd';
 
+const { Panel } = Collapse;
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
@@ -22,6 +25,7 @@ interface PropertiesListSearchFiltersProps {
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [displayedFilters, setDisplayedFilters] = useState<string[]>([]);
 
   useEffect(() => {
     const qsTop = searchParams.get(SearchParamKeys.Top);
@@ -29,6 +33,20 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
       props.setTop(Number(qsTop));
     }
   }, []);
+
+  useEffect(() => {
+    const filters = [];
+    // type
+    if (props?.facets?.type && props.facets.type.length > 0) {
+      filters.push(FilterNames.Type);
+    }
+
+    // bedrooms
+    if (props?.facets?.bedrooms && props.facets.bedrooms.length > 0) {
+      filters.push(FilterNames.Bedrooms);
+    }
+    setDisplayedFilters(filters);
+  }, [props.facets]);
 
   const getListedInfoFacets = (facets?: PropertySearchFacets) => {
     const listedInfoFacets: FacetDetail[] = [];
@@ -64,7 +82,8 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
   //   props.handleSearch(0, value);
   // };
 
-  // console.log('props', props)
+  console.log('props facet', props.facets);
+
   return (
     <div>
       {/* Type */}
@@ -73,6 +92,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
       />
+
       {/* Bedrooms */}
       <PropertiesListSearchFilterBedrooms
         selectedFilter={props.selectedFilter}
@@ -109,12 +129,6 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         setSelectedFilter={props.setSelectedFilter}
       />
 
-      {/* Distance */}
-      <PropertiesListSearchFilterDistance
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-
       {/* Listed Info: listedForSale, listedForLease, listedForRent */}
       <PropertiesListSearchFilterListedInfo
         selectedFilter={props.selectedFilter}
@@ -122,11 +136,33 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         listedInfoFacets={getListedInfoFacets(props.facets)}
       />
 
-      {/* Date (updatedAt) */}
-      <PropertiesListSearchFilterUpdatedDate
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
+      <Collapse className="search-filter-collapse">
+        {/* Distance */}
+        <Panel header={<h2 className="font-bold">Distance</h2>} key={FilterNames.Distance}>
+          <PropertiesListSearchFilterDistance
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
+
+        {/* Date (updatedAt) */}
+        <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedAt}>
+          <PropertiesListSearchFilterUpdatedDate
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+            updatedDateFacet={props.facets?.updatedAt as FacetDetail[]}
+          />
+        </Panel>
+
+        {/* Date (createdAt) */}
+
+        <Panel header={<h2 className="font-bold">Created Date </h2>} key={FilterNames.CreatedDate}>
+          <PropertiesListSearchFilterCreatedDate
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
+      </Collapse>
 
       {/* Price */}
       <PropertiesListSearchFilterPrice

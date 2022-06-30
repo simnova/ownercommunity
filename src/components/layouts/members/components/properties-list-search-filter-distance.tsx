@@ -49,16 +49,12 @@ export const PropertiesListSearchFilterDistance = (
 
   return (
     <>
-      <Collapse className="search-filter-collapse">
-        <Panel header={<h2 className="font-bold">Distance</h2>} key={FilterNames.Distance}>
-          <Radio.Group
-            value={distance}
-            defaultValue={distance}
-            onChange={onDistanceClicked}
-            options={DistanceOptions}
-          />
-        </Panel>
-      </Collapse>
+      <Radio.Group
+        value={distance}
+        defaultValue={distance}
+        onChange={onDistanceClicked}
+        options={DistanceOptions}
+      />
     </>
   );
 };

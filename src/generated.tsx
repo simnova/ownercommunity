@@ -270,6 +270,7 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  createdAt?: InputMaybe<Scalars['String']>;
   distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
@@ -835,6 +836,7 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -860,6 +862,7 @@ export type PropertySearchFacets = {
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
+  updatedAt?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -3562,6 +3565,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       listedForRent?: boolean | null;
       listedForLease?: boolean | null;
       updatedAt?: any | null;
+      createdAt?: any | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenitiesSearchResult';
         category?: string | null;
@@ -3641,6 +3645,11 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      updatedAt?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -3674,6 +3683,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     listedForRent?: boolean | null;
     listedForLease?: boolean | null;
     updatedAt?: any | null;
+    createdAt?: any | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenitiesSearchResult';
       category?: string | null;
@@ -3753,6 +3763,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       value?: string | null;
       count?: number | null;
     } | null> | null;
+    updatedAt?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
   } | null;
 };
 
@@ -3773,6 +3788,7 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   listedForRent?: boolean | null;
   listedForLease?: boolean | null;
   updatedAt?: any | null;
+  createdAt?: any | null;
   additionalAmenities?: Array<{
     __typename?: 'AdditionalAmenitiesSearchResult';
     category?: string | null;
@@ -6758,7 +6774,8 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
           { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
           { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
           { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } }
         ]
       }
     }
@@ -6891,6 +6908,17 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'bathrooms' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'updatedAt' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [

@@ -45,56 +45,63 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
     }
   }, [location]);
 
-  const listedInfo:string[] = [];
-  const listedInfoFacets = props.listedInfoFacets ?? [{value: '', count: 0}];
+  const listedInfo: string[] = [];
+  const listedInfoFacets = props.listedInfoFacets ?? [{ value: '', count: 0 }];
   listedInfoFacets.forEach((listedInfoFacet) => {
     if (listedInfoFacet.value && listedInfoFacet.count) {
-        listedInfo.push(listedInfoFacet.value);
-      }
+      listedInfo.push(listedInfoFacet.value);
     }
-  )
+  });
 
   const options = listedInfo.map((value) => {
     // const count = amenityFacet.count;
     const count = props.listedInfoFacets?.find((t: any) => t?.value === value)?.count;
     return {
-      label:`${(
-        value === 'listedForSale') ? 
-        'For Sale' : 
-        (value === 'listedForRent') ? 
-        'For Rent' : 
-        (value === 'listedForLease') ?
-        'For Lease' : ''} (${count})`,
+      label: `${
+        value === 'listedForSale'
+          ? 'For Sale'
+          : value === 'listedForRent'
+          ? 'For Rent'
+          : value === 'listedForLease'
+          ? 'For Lease'
+          : ''
+      } (${count})`,
       value: value
     };
-  })
+  });
 
   if (options.length === 0) {
-    return <></>
-  } else {
-    return (
-      <Collapse className="search-filter-collapse">
-        <Panel header={<h2 className="font-bold">Listed</h2>} key={FilterNames.ListedInfo}>
-          <CheckboxGroup
-            // options={Listed.map((op) => {
-            //   const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;
-            //   return {
-            //     label: `${op.label} ${
-            //       count !== undefined && count !== null && count > 0
-            //         ? `(${count})`
-            //         : count === 0
-            //         ? '(0)'
-            //         : ''
-            //     }`,
-            //     value: op.value
-            //   };
-            // })}
-            options={options}
-            value={selectedListedInfo}
-            onChange={(checkedValues) => onListedInfoFilterChange(checkedValues as string[])}
-          />
-        </Panel>
-      </Collapse>
-    );
-  };
-}
+    return null;
+  }
+
+  return (
+    <Collapse
+      className="search-filter-collapse"
+      defaultActiveKey={
+        searchParams.get(FilterNames.ListedInfo) ? FilterNames.ListedInfo : undefined
+      }
+    >
+      <Panel header={<h2 className="font-bold">Listed</h2>} key={FilterNames.ListedInfo}>
+        <CheckboxGroup
+          // options={Listed.map((op) => {
+          //   const count = props?.listedInfoFacets?.find((t: any) => t?.value === op.value)?.count;
+          //   return {
+          //     label: `${op.label} ${
+          //       count !== undefined && count !== null && count > 0
+          //         ? `(${count})`
+          //         : count === 0
+          //         ? '(0)'
+          //         : ''
+          //     }`,
+          //     value: op.value
+          //   };
+          // })}
+          options={options}
+          value={selectedListedInfo}
+          onChange={(checkedValues) => onListedInfoFilterChange(checkedValues as string[])}
+        />
+      </Panel>
+    </Collapse>
+  );
+};
+// }

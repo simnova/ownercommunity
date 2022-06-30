@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
 import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
@@ -39,6 +39,10 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  useEffect(() => {
+    props.handleSearch(0, props.top ?? 10);
+  }, [searchParams]);
+
   const onSelectTopChanged = (value: number) => {
     props.setTop(value);
     props.setCurrentPage(0);
@@ -57,7 +61,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     if (e.target.checked) searchParams.set(SearchParamKeys.HideNullResults, 'true');
     else searchParams.delete(SearchParamKeys.HideNullResults);
     setSearchParams(searchParams);
-  }
+  };
 
   const handlePagination = (newPage: number) => {
     const current = newPage - 1;
@@ -78,7 +82,8 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.MaxSquareFeet);
     searchParams.delete(SearchParamKeys.MinSquareFeet);
     searchParams.delete(SearchParamKeys.Distance);
-    searchParams.delete(SearchParamKeys.UpdatedDate);
+    searchParams.delete(SearchParamKeys.UpdatedAt);
+    searchParams.delete(SearchParamKeys.CreatedDate);
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
   };
@@ -145,9 +150,12 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         <Option value={'squareFeet desc'}>Square Feet</Option>
       </Select>
 
-      <Checkbox 
+      <Checkbox
         onChange={(e) => onHideNullResultsChanged(e)}
-        defaultChecked={searchParams.get(SearchParamKeys.HideNullResults) ? true : false} >Hide Null Results</Checkbox>
+        defaultChecked={searchParams.get(SearchParamKeys.HideNullResults) ? true : false}
+      >
+        Hide Null Results
+      </Checkbox>
       <Modal
         title="Filters"
         visible={isModalVisible}
@@ -155,7 +163,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         onCancel={() => setIsModalVisible(false)}
         footer={[
           <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-            Cancel
+            Close
           </Button>,
           <Button
             key="clear"
@@ -165,20 +173,20 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             }}
           >
             Clear Filters
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            onClick={() => {
-              props.handleSearch(0, props.top ?? 10);
-              searchParams.set('page', '1');
-              setSearchParams(searchParams);
-              props.setCurrentPage(0);
-              setIsModalVisible(false);
-            }}
-          >
-            Apply
           </Button>
+          // <Button
+          //   key="submit"
+          //   type="primary"
+          //   onClick={() => {
+          //     props.handleSearch(0, props.top ?? 10);
+          //     searchParams.set('page', '1');
+          //     setSearchParams(searchParams);
+          //     props.setCurrentPage(0);
+          //     setIsModalVisible(false);
+          //   }}
+          // >
+          //   Apply
+          // </Button>
         ]}
       >
         <PropertiesListSearchFilters

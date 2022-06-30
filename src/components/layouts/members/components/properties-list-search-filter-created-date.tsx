@@ -18,7 +18,6 @@ export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearc
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedDateOption, setSelectedDateOption] = useState<number | undefined>();
 
-    console.log(props);
     const onCreatedDateChanged = (e: any) => {
       const value = e.target.value;
       const date = dayjs().subtract(value, 'day').toISOString();

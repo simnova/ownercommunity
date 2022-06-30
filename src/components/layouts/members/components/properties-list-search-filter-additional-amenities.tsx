@@ -149,7 +149,6 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
         let tmp: string[] = [];
         additionalAmenityAmenities.forEach((additionalAmenity) => {
           if (additionalAmenity.value) {
-            console.log(additionalAmenity);
             if ((val as string[]).includes(additionalAmenity.value)) {
               if (additionalAmenity.count !== 0) {
                 tmp.push(additionalAmenity.value);

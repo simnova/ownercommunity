@@ -258,6 +258,7 @@ input PropertyUpdateInput {
   owner: PropertyOwnerInput
   listingDetail: ListingDetailsInput
   location: LocationInput
+  tags: [String]
 }
 
 input PropertyOwnerInput {
@@ -291,6 +292,7 @@ type PropertyResult {
   listedForSale: Boolean
   updatedAt: DateTime
   createdAt: DateTime
+  tags: [String]
 }
 
 type GeographyPoint {

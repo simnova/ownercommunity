@@ -109,6 +109,9 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   get tags() {
     return this.props.tags;
   }
+  set tags(tags) {
+    this.props.tags = tags;
+  }
 }
 
 export class ListingDetailDomainAdapter implements ListingDetailProps {

@@ -61,21 +61,21 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
           let updatedBedroomDetails = input.listingDetail.bedroomDetails;
           updatedBedroomDetails.forEach((updatedBedroom) => {
             if (!updatedBedroom.id) {
-              let newBedroom = property.listingDetail.requestNewBedroom();  
-              newBedroom.requestSetRoomName(updatedBedroom.roomName);  
-              newBedroom.requestSetBedDescriptions(new BedDescriptions(updatedBedroom.bedDescriptions)); 
+              let newBedroom = property.listingDetail.requestNewBedroom();
+              newBedroom.requestSetRoomName(updatedBedroom.roomName);
+              newBedroom.requestSetBedDescriptions(new BedDescriptions(updatedBedroom.bedDescriptions));
             } else {
               let systemBedroom = systemBedroomDetails.find((bedroom) => bedroom.id === updatedBedroom.id);
               if (systemBedroom === undefined) throw new Error('Bedroom not found');
-              systemBedroom.requestSetRoomName(updatedBedroom.roomName); 
-              systemBedroom.requestSetBedDescriptions(new BedDescriptions(updatedBedroom.bedDescriptions)); 
+              systemBedroom.requestSetRoomName(updatedBedroom.roomName);
+              systemBedroom.requestSetBedDescriptions(new BedDescriptions(updatedBedroom.bedDescriptions));
             }
           });
           let updatedIds = updatedBedroomDetails.filter((x) => x.id !== undefined).map((x) => x.id);
           systemBedroomDetails
             .filter((bedroom) => !updatedIds.includes(bedroom.id))
             .forEach((systemBedroom) => {
-              property.listingDetail.requestRemoveBedroomDetails(systemBedroom); 
+              property.listingDetail.requestRemoveBedroomDetails(systemBedroom);
             });
         }
 
@@ -121,13 +121,14 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
       }
 
       if (input.location !== undefined) {
-       if (input.location.address !== undefined) {
-        property.location.requestSetAddress(input.location.address);
-       }
-       if (input.location.position !== undefined) {
-        property.location.requestSetPosition(input.location.position);
-       }
+        if (input.location.address !== undefined) {
+          property.location.requestSetAddress(input.location.address);
+        }
+        if (input.location.position !== undefined) {
+          property.location.requestSetPosition(input.location.position);
+        }
       }
+      if (input.tags !== undefined) property.requestSetTags(input.tags);
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
     return propertyToReturn;

@@ -167,6 +167,13 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     this.props.listedInDirectory = listedInDirectory;
   }
 
+  public requestSetTags(tags: string[]): void {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
+      throw new Error('Unauthorized');
+    }
+    this.props.tags = tags;
+  }
+
   public override onSave(isModified: boolean): void {
     if (isModified && !super.isDeleted) {
       this.addIntegrationEvent(PropertyUpdatedEvent, { id: this.props.id });

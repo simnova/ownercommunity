@@ -9,10 +9,12 @@ import dayjs from 'dayjs';
 
 const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promise<PropertyMutationResult> => {
   try {
-    return {
+    const temp = {
       status: { success: true },
       property: await getProperty,
     } as PropertyMutationResult;
+    console.log(temp);
+    return temp;
   } catch (error) {
     console.error('Property > Mutation  : ', error);
     return {

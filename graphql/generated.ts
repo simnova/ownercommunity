@@ -776,6 +776,7 @@ export type Property = MongoBase & {
   propertyName: Scalars['String'];
   propertyType?: Maybe<Scalars['String']>;
   schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -849,6 +850,7 @@ export type PropertyResult = {
   position?: Maybe<GeographyPoint>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -885,6 +887,7 @@ export type PropertyUpdateInput = {
   owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars['String']>;
   propertyType?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1197,12 +1200,7 @@ export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = Resolve
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (parent: TParent, args: TArgs, context: TContext, info: GraphQLResolveInfo) => Promise<TResult> | TResult;
 
-export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
+export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (parent: TParent, args: TArgs, context: TContext, info: GraphQLResolveInfo) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (parent: TParent, args: TArgs, context: TContext, info: GraphQLResolveInfo) => TResult | Promise<TResult>;
 
@@ -1216,13 +1214,9 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
-  | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
-  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
+export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> = SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs> | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
-  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
-  | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
+export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> = ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>) | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (parent: TParent, context: TContext, info: GraphQLResolveInfo) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
@@ -1230,13 +1224,7 @@ export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TConte
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
-  next: NextResolverFn<TResult>,
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => TResult | Promise<TResult>;
+export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (next: NextResolverFn<TResult>, parent: TParent, args: TArgs, context: TContext, info: GraphQLResolveInfo) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
@@ -1586,10 +1574,7 @@ export type AdditionalAmenitiesResolvers<ContextType = Context, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type AdditionalAmenitiesSearchResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['AdditionalAmenitiesSearchResult'] = ResolversParentTypes['AdditionalAmenitiesSearchResult']
-> = ResolversObject<{
+export type AdditionalAmenitiesSearchResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AdditionalAmenitiesSearchResult'] = ResolversParentTypes['AdditionalAmenitiesSearchResult']> = ResolversObject<{
   amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1656,20 +1641,14 @@ export type CommunityResolvers<ContextType = Context, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type CommunityBlobContentAuthHeaderResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['CommunityBlobContentAuthHeaderResult'] = ResolversParentTypes['CommunityBlobContentAuthHeaderResult']
-> = ResolversObject<{
+export type CommunityBlobContentAuthHeaderResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CommunityBlobContentAuthHeaderResult'] = ResolversParentTypes['CommunityBlobContentAuthHeaderResult']> = ResolversObject<{
   authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
   community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type CommunityMutationResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['CommunityMutationResult'] = ResolversParentTypes['CommunityMutationResult']
-> = ResolversObject<{
+export type CommunityMutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CommunityMutationResult'] = ResolversParentTypes['CommunityMutationResult']> = ResolversObject<{
   community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1885,10 +1864,7 @@ export type MemberAccountResolvers<ContextType = Context, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MemberAvatarImageAuthHeaderResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['MemberAvatarImageAuthHeaderResult'] = ResolversParentTypes['MemberAvatarImageAuthHeaderResult']
-> = ResolversObject<{
+export type MemberAvatarImageAuthHeaderResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MemberAvatarImageAuthHeaderResult'] = ResolversParentTypes['MemberAvatarImageAuthHeaderResult']> = ResolversObject<{
   authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
   member?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
@@ -1933,18 +1909,8 @@ export type MongoEmbeddedBaseResolvers<ContextType = Context, ParentType extends
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   communityCreate?: Resolver<Maybe<ResolversTypes['CommunityMutationResult']>, ParentType, ContextType, RequireFields<MutationCommunityCreateArgs, 'input'>>;
-  communityPublicContentCreateAuthHeader?: Resolver<
-    ResolversTypes['CommunityBlobContentAuthHeaderResult'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCommunityPublicContentCreateAuthHeaderArgs, 'input'>
-  >;
-  communityPublicFileCreateAuthHeader?: Resolver<
-    ResolversTypes['CommunityBlobContentAuthHeaderResult'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCommunityPublicFileCreateAuthHeaderArgs, 'input'>
-  >;
+  communityPublicContentCreateAuthHeader?: Resolver<ResolversTypes['CommunityBlobContentAuthHeaderResult'], ParentType, ContextType, RequireFields<MutationCommunityPublicContentCreateAuthHeaderArgs, 'input'>>;
+  communityPublicFileCreateAuthHeader?: Resolver<ResolversTypes['CommunityBlobContentAuthHeaderResult'], ParentType, ContextType, RequireFields<MutationCommunityPublicFileCreateAuthHeaderArgs, 'input'>>;
   communityPublicFileRemove?: Resolver<ResolversTypes['CommunityMutationResult'], ParentType, ContextType, RequireFields<MutationCommunityPublicFileRemoveArgs, 'input'>>;
   communityUpdate?: Resolver<ResolversTypes['CommunityMutationResult'], ParentType, ContextType, RequireFields<MutationCommunityUpdateArgs, 'input'>>;
   memberAccountAdd?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountAddArgs, 'input'>>;
@@ -1958,18 +1924,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   propertyAdd?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAddArgs, 'input'>>;
   propertyAssignOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAssignOwnerArgs, 'input'>>;
   propertyDelete?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyDeleteArgs, 'input'>>;
-  propertyFloorPlanImageCreateAuthHeader?: Resolver<
-    ResolversTypes['PropertyBlobFileAuthHeaderResult'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationPropertyFloorPlanImageCreateAuthHeaderArgs, 'input'>
-  >;
-  propertyListingImageCreateAuthHeader?: Resolver<
-    ResolversTypes['PropertyBlobFileAuthHeaderResult'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationPropertyListingImageCreateAuthHeaderArgs, 'input'>
-  >;
+  propertyFloorPlanImageCreateAuthHeader?: Resolver<ResolversTypes['PropertyBlobFileAuthHeaderResult'], ParentType, ContextType, RequireFields<MutationPropertyFloorPlanImageCreateAuthHeaderArgs, 'input'>>;
+  propertyListingImageCreateAuthHeader?: Resolver<ResolversTypes['PropertyBlobFileAuthHeaderResult'], ParentType, ContextType, RequireFields<MutationPropertyListingImageCreateAuthHeaderArgs, 'input'>>;
   propertyRemoveOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyRemoveOwnerArgs, 'input'>>;
   propertyUpdate?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyUpdateArgs, 'input'>>;
   roleAdd?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleAddArgs, 'input'>>;
@@ -2076,24 +2032,19 @@ export type PropertyResolvers<ContextType = Context, ParentType extends Resolver
   propertyName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   propertyType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type PropertyBlobFileAuthHeaderResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['PropertyBlobFileAuthHeaderResult'] = ResolversParentTypes['PropertyBlobFileAuthHeaderResult']
-> = ResolversObject<{
+export type PropertyBlobFileAuthHeaderResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertyBlobFileAuthHeaderResult'] = ResolversParentTypes['PropertyBlobFileAuthHeaderResult']> = ResolversObject<{
   authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type PropertyMutationResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['PropertyMutationResult'] = ResolversParentTypes['PropertyMutationResult']
-> = ResolversObject<{
+export type PropertyMutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PropertyMutationResult'] = ResolversParentTypes['PropertyMutationResult']> = ResolversObject<{
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -2123,6 +2074,7 @@ export type PropertyResultResolvers<ContextType = Context, ParentType extends Re
   position?: Resolver<Maybe<ResolversTypes['GeographyPoint']>, ParentType, ContextType>;
   price?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   squareFeet?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -2165,12 +2117,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   membersByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType, RequireFields<QueryMembersByCommunityIdArgs, 'communityId'>>;
   properties?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
   propertiesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType, RequireFields<QueryPropertiesByCommunityIdArgs, 'communityId'>>;
-  propertiesForCurrentUserByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['Property']>>>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryPropertiesForCurrentUserByCommunityIdArgs, 'communityId'>
-  >;
+  propertiesForCurrentUserByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType, RequireFields<QueryPropertiesForCurrentUserByCommunityIdArgs, 'communityId'>>;
   propertiesSearch?: Resolver<Maybe<ResolversTypes['PropertySearchResult']>, ParentType, ContextType, RequireFields<QueryPropertiesSearchArgs, 'input'>>;
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType, RequireFields<QueryPropertyArgs, 'id'>>;
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;
@@ -2242,10 +2189,7 @@ export type ServiceTicketResolvers<ContextType = Context, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ServiceTicketActivityDetailResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['ServiceTicketActivityDetail'] = ResolversParentTypes['ServiceTicketActivityDetail']
-> = ResolversObject<{
+export type ServiceTicketActivityDetailResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketActivityDetail'] = ResolversParentTypes['ServiceTicketActivityDetail']> = ResolversObject<{
   activityBy?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
   activityDescription?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   activityType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2255,19 +2199,13 @@ export type ServiceTicketActivityDetailResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ServiceTicketMutationResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['ServiceTicketMutationResult'] = ResolversParentTypes['ServiceTicketMutationResult']
-> = ResolversObject<{
+export type ServiceTicketMutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketMutationResult'] = ResolversParentTypes['ServiceTicketMutationResult']> = ResolversObject<{
   serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ServiceTicketPermissionsResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['ServiceTicketPermissions'] = ResolversParentTypes['ServiceTicketPermissions']
-> = ResolversObject<{
+export type ServiceTicketPermissionsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketPermissions'] = ResolversParentTypes['ServiceTicketPermissions']> = ResolversObject<{
   canAssignTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   canCreateTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   canManageTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -2284,10 +2222,7 @@ export type ServiceTicketPhotoResolvers<ContextType = Context, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ServiceTicketPhotoAuthHeaderResultResolvers<
-  ContextType = Context,
-  ParentType extends ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult'] = ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult']
-> = ResolversObject<{
+export type ServiceTicketPhotoAuthHeaderResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult'] = ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult']> = ResolversObject<{
   authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
   serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;

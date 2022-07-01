@@ -774,6 +774,7 @@ export type Property = MongoBase & {
   propertyName: Scalars['String'];
   propertyType?: Maybe<Scalars['String']>;
   schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -847,6 +848,7 @@ export type PropertyResult = {
   position?: Maybe<GeographyPoint>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -858,6 +860,7 @@ export type PropertySearchFacets = {
   amenities?: Maybe<Array<Maybe<FacetDetail>>>;
   bathrooms?: Maybe<Array<Maybe<FacetDetail>>>;
   bedrooms?: Maybe<Array<Maybe<FacetDetail>>>;
+  createdAt?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForLease?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
@@ -883,6 +886,7 @@ export type PropertyUpdateInput = {
   owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars['String']>;
   propertyType?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -3650,6 +3654,11 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      createdAt?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -3764,6 +3773,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       count?: number | null;
     } | null> | null;
     updatedAt?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    createdAt?: Array<{
       __typename?: 'FacetDetail';
       value?: string | null;
       count?: number | null;
@@ -6919,6 +6933,17 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'updatedAt' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdAt' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [

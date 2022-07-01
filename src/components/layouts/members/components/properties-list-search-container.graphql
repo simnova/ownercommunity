@@ -102,4 +102,5 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
   listedForLease
   updatedAt
   createdAt
+  tags
 }

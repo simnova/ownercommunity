@@ -3,6 +3,7 @@ import { Form, Input, Button, Descriptions, Select, Checkbox } from 'antd';
 import dayjs from 'dayjs';
 import { PropertyUpdateInput } from '../../../../generated';
 import { UserDeleteOutlined } from '@ant-design/icons';
+import { FormTags } from '../../../ui/organisms/form-tags';
 
 export interface PropertiesDetailProps {
   data: {
@@ -55,6 +56,9 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
         </Form.Item>
         <Form.Item name={['listedInDirectory']} valuePropName="checked">
           <Checkbox style={{ lineHeight: '32px' }}>Listed in Directory</Checkbox>
+        </Form.Item>
+        <Form.Item name={['tags']} label="Tags">
+          <FormTags />
         </Form.Item>
 
         <Button type="primary" htmlType="submit" value={'save'}>

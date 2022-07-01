@@ -774,6 +774,7 @@ export type Property = MongoBase & {
   propertyName: Scalars['String'];
   propertyType?: Maybe<Scalars['String']>;
   schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -847,6 +848,7 @@ export type PropertyResult = {
   position?: Maybe<GeographyPoint>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -883,6 +885,7 @@ export type PropertyUpdateInput = {
   owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars['String']>;
   propertyType?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -3361,6 +3364,7 @@ export type MembersPropertiesDetailContainerPropertyQuery = {
     id: any;
     createdAt?: any | null;
     updatedAt?: any | null;
+    tags?: Array<string | null> | null;
     owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
   } | null;
 };
@@ -3400,6 +3404,7 @@ export type MembersPropertiesDetailContainerPropertyUpdateMutation = {
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
+      tags?: Array<string | null> | null;
       owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
     } | null;
   };
@@ -3425,6 +3430,7 @@ export type MembersPropertiesDetailContainerPropertyDeleteMutation = {
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
+      tags?: Array<string | null> | null;
       owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
     } | null;
   };
@@ -3444,6 +3450,7 @@ export type MembersPropertiesDetailContainerPropertyMutationResultFieldsFragment
     id: any;
     createdAt?: any | null;
     updatedAt?: any | null;
+    tags?: Array<string | null> | null;
     owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
   } | null;
 };
@@ -3459,6 +3466,7 @@ export type MembersPropertiesDetailContainerPropertyFieldsFragment = {
   id: any;
   createdAt?: any | null;
   updatedAt?: any | null;
+  tags?: Array<string | null> | null;
   owner?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
 };
 
@@ -3566,6 +3574,7 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       listedForLease?: boolean | null;
       updatedAt?: any | null;
       createdAt?: any | null;
+      tags?: Array<string | null> | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenitiesSearchResult';
         category?: string | null;
@@ -3684,6 +3693,7 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     listedForLease?: boolean | null;
     updatedAt?: any | null;
     createdAt?: any | null;
+    tags?: Array<string | null> | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenitiesSearchResult';
       category?: string | null;
@@ -3789,6 +3799,7 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   listedForLease?: boolean | null;
   updatedAt?: any | null;
   createdAt?: any | null;
+  tags?: Array<string | null> | null;
   additionalAmenities?: Array<{
     __typename?: 'AdditionalAmenitiesSearchResult';
     category?: string | null;
@@ -6576,7 +6587,8 @@ export const MembersPropertiesDetailContainerPropertyFieldsFragmentDoc = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'tags' } }
         ]
       }
     }
@@ -6775,7 +6787,8 @@ export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc
           { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
           { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'tags' } }
         ]
       }
     }

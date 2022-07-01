@@ -28,6 +28,9 @@ export default () => {
       let updatedDate = property.updatedAt.toISOString();
       updatedDate = dayjs(property.updatedAt.toISOString().split('T')[0]).toISOString();
 
+      let createdDate = property.createdAt.toISOString();
+      createdDate = dayjs(property.createdAt.toISOString().split('T')[0]).toISOString();
+
       let listingDoc: Partial<PropertyListingIndexDocument> = {
         id: property.id,
         communityId: property.community.id,
@@ -66,7 +69,7 @@ export default () => {
         listedForRent: property.listedForRent,
         listedForLease: property.listedForLease,
         updatedAt: updatedDate,
-        createdAt: property.createdAt.toISOString(),
+        createdAt: createdDate,
       };
       let cognitiveSearch = new CognitiveSearch();
       await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);

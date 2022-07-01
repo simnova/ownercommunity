@@ -137,6 +137,25 @@ const property: Resolvers = {
         };
       });
 
+      const createdAtInput = parseInt(_args.input?.options?.filter?.createdAt); // in days
+
+      let createdAtFacet = periods.map((option) => {
+        const day0 = createdAtInput ? dayjs().subtract(createdAtInput, 'day').toISOString() : dayjs().subtract(option, 'day').toISOString();
+        const found = searchResults?.facets?.createdAt?.filter((facet) => {
+          let temp = dayjs(facet.value).diff(dayjs(day0), 'day', true);
+          return temp >= 0;
+        });
+        let count = 0;
+        found.forEach((f) => {
+          count += f.count;
+        });
+
+        return {
+          value: periodTextMaps[option],
+          count: count,
+        };
+      });
+
       return {
         propertyResults: results,
         count: searchResults.count,
@@ -151,6 +170,7 @@ const property: Resolvers = {
           bedrooms: bedroomsFacet,
           bathrooms: bathroomsFacet,
           updatedAt: updatedAtFacet,
+          createdAt: createdAtFacet,
         },
       } as PropertySearchResult;
     },

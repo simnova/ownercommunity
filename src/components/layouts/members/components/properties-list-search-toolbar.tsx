@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox } from 'antd';
+import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox, Input, Form } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
 import { SearchParamKeys } from '../../../../constants';
@@ -37,6 +37,8 @@ interface AddressDataType {
 
 export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
+  const [selectedFilterName, setSelectedFilterName] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
 
   const onSelectTopChanged = (value: number) => {
@@ -57,7 +59,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     if (e.target.checked) searchParams.set(SearchParamKeys.HideNullResults, 'true');
     else searchParams.delete(SearchParamKeys.HideNullResults);
     setSearchParams(searchParams);
-  }
+  };
+
+  const saveFilter = () => {
+    if (props.selectedFilter && selectedFilterName != '') console.log(selectedFilterName + ":" + props.selectedFilter);
+    setIsSaveModalVisible(false);
+  };
+
 
   const handlePagination = (newPage: number) => {
     const current = newPage - 1;
@@ -124,12 +132,32 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         <Option value={50}>50</Option>
       </Select>
 
-      <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
+      <Button onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
         <Space size="middle">
           <FilterOutlined />
           <span>Filters</span>
         </Space>
       </Button>
+
+      <Button onClick={() => setIsSaveModalVisible(true)} style={{ borderRadius: '10px' }}>
+        <Space size="middle">
+          <FilterOutlined />
+          <span>Save</span>
+        </Space>
+      </Button>
+      <Modal
+        title="Save Filter"
+        visible={isSaveModalVisible}
+        onOk={() => saveFilter()}
+        onCancel={() => setIsSaveModalVisible(false)}
+      >
+        <Space size="middle">
+          <Input
+            placeholder='Filter Name'
+            onChange={(e) => setSelectedFilterName(e.target.value)}
+          />
+        </Space>
+      </Modal>
 
       <Select
         defaultValue={searchParams.get(SearchParamKeys.OrderBy) ?? ''}

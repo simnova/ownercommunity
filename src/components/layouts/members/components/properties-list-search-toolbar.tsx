@@ -41,6 +41,8 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   const [selectedFilterName, setSelectedFilterName] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const filters = JSON.parse(localStorage.getItem('filters') ?? "[]");
+
   useEffect(() => {
     props.handleSearch(0, props.top ?? 10);
   }, [searchParams]);
@@ -58,6 +60,14 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     setSearchParams(searchParams);
   };
 
+  const onSelectFilterChanged = (value: string) => {
+    console.log("VALUE: ", value);
+    props.setSelectedFilter(filters.find((f: any) => f.name === value).value);
+    const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
+    const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
+    props.handleSearch(page, top);
+  };
+
   const onHideNullResultsChanged = (e: any) => {
     props.setHideNullResults(e.target.checked);
     if (e.target.checked) searchParams.set(SearchParamKeys.HideNullResults, 'true');
@@ -66,7 +76,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   };
 
   const saveFilter = () => {
-    if (props.selectedFilter && selectedFilterName != '') console.log(selectedFilterName + ":" + props.selectedFilter);
+    if (props.selectedFilter && selectedFilterName != '') {
+      filters.push({
+        name: selectedFilterName,
+        value: props.selectedFilter,
+      })
+      localStorage.setItem('filters', JSON.stringify(filters));
+    }
     setIsSaveModalVisible(false);
   };
 
@@ -143,6 +159,18 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           <span>Filters</span>
         </Space>
       </Button>
+
+      <Select 
+        defaultValue={''}
+        onChange={(value) => onSelectFilterChanged(value)}
+      >
+        <Option value={''}>None</Option>
+        {filters.map((filter: any) => {
+          return (
+            <Option value={filter.name}>{filter.name}</Option>
+          )
+        })}
+      </Select>
 
       <Button onClick={() => setIsSaveModalVisible(true)} style={{ borderRadius: '10px' }}>
         <Space size="middle">

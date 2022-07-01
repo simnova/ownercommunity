@@ -6,36 +6,36 @@ import { FilterNames, SearchParamKeys, UpdatedAtOptions } from '../../../../cons
 import { FilterDetail, FacetDetail } from '../../../../generated';
 const { Panel } = Collapse;
 
-interface PropertiesListSearchFilterUpdatedDateProps {
+interface PropertiesListSearchFilterCreatedDateProps {
   selectedFilter?: FilterDetail;
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
-  updatedDateFacet?: FacetDetail[];
+  propertyTypeFacets?: FacetDetail[];
 }
 
-export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearchFilterUpdatedDateProps> =
+export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearchFilterCreatedDateProps> =
   (props) => {
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedDateOption, setSelectedDateOption] = useState<number | undefined>();
 
-    const onUpdatedDateChanged = (e: any) => {
+    const onCreatedDateChanged = (e: any) => {
       const value = e.target.value;
       const date = dayjs().subtract(value, 'day').toISOString();
       setSelectedDateOption(value);
       // update query string
-      searchParams.set(SearchParamKeys.UpdatedAt, value);
+      searchParams.set(SearchParamKeys.CreatedDate, value);
       setSearchParams(searchParams);
       props.setSelectedFilter({
         ...props.selectedFilter,
-        updatedAt: date
+        createdAt: date
       });
     };
 
     // Update UI (selected property types) with corresponding property types when page is loaded
     useEffect(() => {
-      const qsUpdatedDate = searchParams.get(SearchParamKeys.UpdatedAt);
-      if (qsUpdatedDate) {
-        setSelectedDateOption(parseInt(qsUpdatedDate));
+      const qsCreatedDate = searchParams.get(SearchParamKeys.CreatedDate);
+      if (qsCreatedDate) {
+        setSelectedDateOption(parseInt(qsCreatedDate));
       } else {
         setSelectedDateOption(undefined);
       }
@@ -43,39 +43,20 @@ export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearc
 
     // handle when clear all filter clicked
     useEffect(() => {
-      if (!location.search.includes(SearchParamKeys.UpdatedAt)) {
+      if (!location.search.includes(SearchParamKeys.CreatedDate)) {
         setSelectedDateOption(undefined);
       }
     }, [location]);
 
-    const getOptions = () => {
-      const options: any = [];
-
-      UpdatedAtOptions.forEach((option: { label: string; value: number }) => {
-        const count = props.updatedDateFacet?.find((t: any) => t?.value === option.label)?.count;
-        if (!count) {
-          return;
-        }
-        options.push({
-          label: option.label + ' ' + `(${count})`,
-          value: option.value
-        });
-      });
-      console.log(options);
-      return options;
-    };
-
-    if (getOptions().length === 0) {
-      return null;
-    }
-
     return (
       <>
+        {/* <Panel header={<h2 className="font-bold">Created Date</h2>} key={FilterNames.UpdatedDate}> */}
         <Radio.Group
           value={selectedDateOption}
-          options={getOptions()}
-          onChange={(e: any) => onUpdatedDateChanged(e)}
+          options={UpdatedAtOptions}
+          onChange={(e: any) => onCreatedDateChanged(e)}
         />
+        {/* </Panel> */}
       </>
     );
   };

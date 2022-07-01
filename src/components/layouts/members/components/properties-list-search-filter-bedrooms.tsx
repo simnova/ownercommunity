@@ -46,23 +46,36 @@ export const PropertiesListSearchFilterBedrooms: FC<PropertiesListSearchFilterBe
     }
   }, [location]);
 
+  const getOptions = () => {
+    const options: any = [];
+    props.bedroomsFacets?.forEach((option) => {
+      let value = option.value?.slice(0, -1);
+      if (option.count != undefined && option.count > 0) {
+        options.push({
+          label: `${option.value} (${option.count})`,
+          value: value ? parseInt(value) : ''
+        });
+      }
+    });
+    return options;
+  };
+
+  if (getOptions().length === 0) {
+    return null;
+  }
+
   return (
-    <Collapse className="search-filter-collapse">
+    <Collapse
+      className="search-filter-collapse"
+      defaultActiveKey={searchParams.get(FilterNames.Bedrooms) ? FilterNames.Bedrooms : undefined}
+    >
       <Panel header={<h2 className="font-bold">Bedrooms</h2>} key={FilterNames.Bedrooms}>
         <Radio.Group
           value={bedrooms}
           onChange={onBedroomsClicked}
           buttonStyle="solid"
           optionType="button"
-          options={props.bedroomsFacets?.map((option) => {
-            let value = option.value?.slice(0, -1);
-            return {
-              label: `${option.value} ${
-                option.count != undefined && option.count > 0 ? `(${option.count})` : ''
-              }`,
-              value: value ? parseInt(value) : ''
-            };
-          })}
+          options={getOptions()}
         />
       </Panel>
     </Collapse>

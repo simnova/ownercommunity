@@ -1,6 +1,6 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
-import { FilterDetail } from './generated';
+import { FacetDetail, FilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -35,7 +35,8 @@ export const SearchParamKeys = {
   Top: 'top',
   Distance: 'distance',
   OrderBy: 'orderBy',
-  UpdatedDate: 'updatedDate',
+  UpdatedAt: 'updatedAt',
+  CreatedDate: 'createdDate',
   HideNullResults: 'hideNullResults'
 };
 
@@ -53,9 +54,11 @@ export const FilterNames = {
   ListedForLease: 'listedForLease',
   ListedInfo: 'listedInfo',
   Distance: 'distance',
-  UpdatedDate: 'updatedDate'
+  UpdatedAt: 'updatedAt',
+  CreatedDate: 'createdDate'
 };
 
+export const AvailableFilters = Object.values(FilterNames);
 export interface AdditionalAmenities {
   category: string;
   amenities: string[];
@@ -76,13 +79,52 @@ export const BathroomsFilterOptions = [
   { label: '4+', value: 4 },
   { label: '5+', value: 5 }
 ];
-export const PropertyTypes = ['condo', 'single family', 'townhouse'];
+
+export const PropertyTypeOptions = [
+  {
+    label: 'Townhouse',
+    value: 'Townhouse'
+  },
+  {
+    label: 'Condo',
+    value: 'Condo'
+  },
+  {
+    label: 'Single Family',
+    value: 'Single Family'
+  },
+  {
+    label: 'Apartment',
+    value: 'Apartment'
+  },
+  {
+    label: 'Land',
+    value: 'Land'
+  },
+  {
+    label: 'Studio',
+    value: 'Studio'
+  },
+  {
+    label: 'Multi-Family',
+    value: 'Multi-Family'
+  },
+  {
+    label: 'Storefront',
+    value: 'Storefront'
+  }
+];
+
+export const PropertyTypeList = PropertyTypeOptions.map((property) => {
+  return property.value;
+});
+
 export const Listed = [
   { label: 'For Sale', value: 'listedForSale' },
   { label: 'For Rent', value: 'listedForRent' },
   { label: 'For Lease', value: 'listedForLease' }
 ];
-export const Amenities = ['Wifi', 'Pool', 'TV'];
+
 export const AdditionalAmenitiesValues: AdditionalAmenities[] = [
   {
     category: 'Features',
@@ -175,7 +217,9 @@ export const AmentitiesOptions = [
   'Pool (Public)',
   'Gym',
   'Washer/Dryer (Private)',
-  'Washer/Dryer (Public)'
+  'Washer/Dryer (Public)',
+  'TV',
+  'Wifi'
 ];
 
 export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
@@ -185,37 +229,6 @@ export const UpdatedAtOptions = [
   { label: '2 weeks ago', value: 14 },
   { label: '1 month ago', value: 30 },
   { label: '3 months ago', value: 90 }
-];
-
-export const PropertyTypeOptions = [
-  {
-    label: 'Townhouse',
-    value: 'Townhouse'
-  },
-  {
-    label: 'Condo',
-    value: 'Condo'
-  },
-  {
-    label: 'Single Family',
-    value: 'Single Family'
-  },
-  {
-    label: 'Apartment',
-    value: 'Apartment'
-  },
-  {
-    label: 'Land',
-    value: 'Land'
-  },
-  {
-    label: 'Studio',
-    value: 'Studio'
-  },
-  {
-    label: 'Multi-Family',
-    value: 'Multi-Family'
-  }
 ];
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
@@ -266,7 +279,8 @@ export const GetFilterFromQueryString = (
   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
   const qslat = searchParams.get('lat');
   const qslong = searchParams.get('long');
-  const qsupdatedDate = searchParams.get('updatedDate'); // in days
+  const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
+  const qscreatedDate = searchParams.get('createdDate'); // in days
 
   let filters = {} as FilterDetail;
 
@@ -386,13 +400,41 @@ export const GetFilterFromQueryString = (
   }
 
   // updated date
-  if (qsupdatedDate) {
-    const date = dayjs().subtract(parseInt(qsupdatedDate), 'day').toISOString();
+  if (qsupdatedAt) {
+    const date = dayjs().subtract(parseInt(qsupdatedAt), 'day').toISOString();
     filters = {
       ...filters,
       updatedAt: date
     };
   }
 
+  // created date
+  if (qscreatedDate) {
+    const date = dayjs().subtract(parseInt(qscreatedDate), 'day').toISOString();
+    filters = {
+      ...filters,
+      createdAt: date
+    };
+  }
+
   return filters;
 };
+
+// export const GetFilterOptions = (allOptions: string[], facets?: FacetDetail[]) => {
+//   const options: any = [];
+
+//   allOptions.forEach((value: string) => {
+//     const count = facets?.find((t: any) => t?.value === value)?.count;
+//     if (count === undefined) {
+//       return;
+//     }
+//     options.push({
+//       label: `${value} ${
+//         count !== undefined && count !== null && count > 0 ? `(${count})` : count === 0 ? '(0)' : ''
+//       }`,
+//       value: value
+//     });
+//   });
+//   console.log(options);
+//   return options;
+// };

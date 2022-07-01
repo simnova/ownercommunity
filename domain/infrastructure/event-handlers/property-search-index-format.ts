@@ -322,6 +322,15 @@ export const propertyListingIndexSpec = {
       retrievable: true,
       sortable: true,
     },
+
+    {
+      name: 'tags',
+      type: 'Collection(Edm.String)',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
   ],
 } as SearchIndex;
 
@@ -367,4 +376,5 @@ export interface PropertyListingIndexDocument {
   listedForLease: boolean;
   updatedAt: string;
   createdAt: string;
+  tags: string[];
 }

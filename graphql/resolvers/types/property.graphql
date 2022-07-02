@@ -19,6 +19,8 @@ type Property implements MongoBase {
   schemaVersion: String
   createdAt: DateTime
   updatedAt: DateTime
+
+  tags: [String]
 }
 type ListingDetails {
   price: Float
@@ -256,6 +258,7 @@ input PropertyUpdateInput {
   owner: PropertyOwnerInput
   listingDetail: ListingDetailsInput
   location: LocationInput
+  tags: [String]
 }
 
 input PropertyOwnerInput {
@@ -289,6 +292,7 @@ type PropertyResult {
   listedForSale: Boolean
   updatedAt: DateTime
   createdAt: DateTime
+  tags: [String]
 }
 
 type GeographyPoint {
@@ -317,6 +321,7 @@ type PropertySearchFacets {
   bedrooms: [FacetDetail]
   bathrooms: [FacetDetail]
   updatedAt: [FacetDetail]
+  createdAt: [FacetDetail]
 }
 
 type FacetDetail {

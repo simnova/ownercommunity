@@ -1,4 +1,4 @@
-import { Schema, model, Model,ObjectId, PopulatedDoc, Types } from 'mongoose';
+import { Schema, model, Model, ObjectId, PopulatedDoc, Types } from 'mongoose';
 import { Base, BaseOptions, EmbeddedBase, Patterns } from './interfaces/base';
 import * as Community from './community';
 import * as Member from './member';
@@ -25,16 +25,15 @@ export interface ListingDetail extends EmbeddedBase {
   video: string;
   floorPlan: string;
   floorPlanImages: string[];
-  listingAgent: string,
-  listingAgentPhone: string,
-  listingAgentEmail: string,
-  listingAgentWebsite: string,
-  listingAgentCompany: string,
-  listingAgentCompanyPhone: string,
-  listingAgentCompanyEmail: string,
-  listingAgentCompanyWebsite: string,
-  listingAgentCompanyAddress: string
-  
+  listingAgent: string;
+  listingAgentPhone: string;
+  listingAgentEmail: string;
+  listingAgentWebsite: string;
+  listingAgentCompany: string;
+  listingAgentCompanyPhone: string;
+  listingAgentCompanyEmail: string;
+  listingAgentCompanyWebsite: string;
+  listingAgentCompanyAddress: string;
 }
 export interface BedroomDetail extends EmbeddedBase {
   id: ObjectId;
@@ -43,7 +42,7 @@ export interface BedroomDetail extends EmbeddedBase {
 }
 export interface AdditionalAmenity extends EmbeddedBase {
   id: ObjectId;
-  category: string;      
+  category: string;
   amenities: string[];
 }
 
@@ -70,7 +69,7 @@ export interface Location extends EmbeddedBase {
     streetNameAndNumber: string;
     routeNumbers: string;
     crossStreet: string;
-  }
+  };
 }
 export interface Property extends Base {
   community: PopulatedDoc<Community.Community>;
@@ -85,7 +84,9 @@ export interface Property extends Base {
   listedForLease: boolean;
   listedInDirectory: boolean;
 
-  listingDetail : ListingDetail;
+  listingDetail: ListingDetail;
+
+  tags: string[];
 }
 const schema = new Schema<Property, Model<Property>, Property>(
   {
@@ -94,7 +95,7 @@ const schema = new Schema<Property, Model<Property>, Property>(
       default: '1.0.0',
       required: false,
     },
-    community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true, unique: false },    
+    community: { type: Schema.Types.ObjectId, ref: Community.CommunityModel.modelName, required: true, index: true, unique: false },
     // location: Location.LocationModel.schema,
     location: {
       // position: Point.PointModel.schema,
@@ -102,24 +103,24 @@ const schema = new Schema<Property, Model<Property>, Property>(
         coordinates: { type: [Number], required: false },
       },
       address: {
-        streetNumber: { type: String, required: false,},
-        streetName: { type: String, required: false,},
-        municipality: { type: String, required: false,},
-        municipalitySubdivision: { type: String, required: false, },
-        localName: { type: String, required: false,},
-        countrySecondarySubdivision: { type: String, required: false,},
-        countryTertiarySubdivision: { type: String, required: false,},
-        countrySubdivision: { type: String, required: false,},
-        countrySubdivisionName: { type: String, required: false,},
-        postalCode: { type: String, required: false, },
-        extendedPostalCode: { type: String, required: false,},
-        countryCode: {type: String, required: false,},
-        country: { type: String, required: false,},
-        countryCodeISO3: { type: String, required: false,},
-        freeformAddress: {type: String, required: false,},
-        streetNameAndNumber: { type: String, required: false,},
-        routeNumbers: { type: String, required: false,},
-        crossStreet: { type: String, required: false,}
+        streetNumber: { type: String, required: false },
+        streetName: { type: String, required: false },
+        municipality: { type: String, required: false },
+        municipalitySubdivision: { type: String, required: false },
+        localName: { type: String, required: false },
+        countrySecondarySubdivision: { type: String, required: false },
+        countryTertiarySubdivision: { type: String, required: false },
+        countrySubdivision: { type: String, required: false },
+        countrySubdivisionName: { type: String, required: false },
+        postalCode: { type: String, required: false },
+        extendedPostalCode: { type: String, required: false },
+        countryCode: { type: String, required: false },
+        country: { type: String, required: false },
+        countryCodeISO3: { type: String, required: false },
+        freeformAddress: { type: String, required: false },
+        streetNameAndNumber: { type: String, required: false },
+        routeNumbers: { type: String, required: false },
+        crossStreet: { type: String, required: false },
       },
     },
     owner: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true, unique: false },
@@ -131,28 +132,30 @@ const schema = new Schema<Property, Model<Property>, Property>(
     listedForLease: { type: Boolean, required: false, default: false },
     listedInDirectory: { type: Boolean, required: false, default: false },
 
-    listingDetail : {
+    listingDetail: {
       price: { type: Number, required: false },
       rentHigh: { type: Number, required: false },
       rentLow: { type: Number, required: false },
       lease: { type: Number, required: false },
-      maxGuests : { type: Number, required: false },
+      maxGuests: { type: Number, required: false },
       bedrooms: { type: Number, required: false },
-      bedroomDetails: [{
-        roomName: { type: String, required: false, maxlength: 100 },
-        bedDescriptions: { type: [{type: String, maxlength:40}], required: false },
-      }],
+      bedroomDetails: [
+        {
+          roomName: { type: String, required: false, maxlength: 100 },
+          bedDescriptions: { type: [{ type: String, maxlength: 40 }], required: false },
+        },
+      ],
       bathrooms: { type: Number, required: false },
       squareFeet: { type: Number, required: false },
       yearBuilt: { type: Number, required: false },
       lotSize: { type: Number, required: false },
       description: { type: String, required: false, maxlength: 5000 },
-      amenities: { type: [{type: String, maxlength:100}], required: false },
+      amenities: { type: [{ type: String, maxlength: 100 }], required: false },
       additionalAmenities: [
         {
-          category: { type: String, required: false, maxlength: 100  },
-          amenities: { type: [{type: String, maxlength: 100 }], required: false },
-        }
+          category: { type: String, required: false, maxlength: 100 },
+          amenities: { type: [{ type: String, maxlength: 100 }], required: false },
+        },
       ],
       images: { type: [String], required: false },
       video: { type: String, required: false },
@@ -162,20 +165,19 @@ const schema = new Schema<Property, Model<Property>, Property>(
       listingAgentPhone: { type: String, required: false, maxlength: 100 },
       listingAgentEmail: { type: String, match: Patterns.EMAIL_PATTERN, required: false, maxlength: 254 },
       listingAgentWebsite: { type: String, required: false, maxlength: 1000 },
-      listingAgentCompany: { type: String, required: false, maxlength: 500  },
+      listingAgentCompany: { type: String, required: false, maxlength: 500 },
       listingAgentCompanyPhone: { type: String, required: false, maxlength: 100 },
-      listingAgentCompanyEmail: { type: String, match: Patterns.EMAIL_PATTERN, required: false, maxlength: 254  },
+      listingAgentCompanyEmail: { type: String, match: Patterns.EMAIL_PATTERN, required: false, maxlength: 254 },
       listingAgentCompanyWebsite: { type: String, required: false, maxlength: 1000 },
       listingAgentCompanyAddress: { type: String, required: false, maxlength: 1000 },
-    }
+    },
+    tags: { type: [{ type: String, maxlength: 100 }], required: false },
   },
   {
     ...BaseOptions,
-    shardKey: {community:1} 
+    shardKey: { community: 1 },
   }
-  ).index(
-    { community: 1, propertyName: 1 },  { unique: true }
-  );  
+).index({ community: 1, propertyName: 1 }, { unique: true });
 /*
 schema.path('listingDetails.additionalAmenities').validate(function(additionalAmenities) {
   return additionalAmenities.length > 20;

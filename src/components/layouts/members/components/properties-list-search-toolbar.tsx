@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox, Input, Form } from 'antd';
+import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox, Input, message } from 'antd';
 import { FilterOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
 import { SearchParamKeys, GetSearchParamsFromFilter } from '../../../../constants';
@@ -69,7 +69,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   };
 
   const onSelectFilterChanged = (value: string) => {
-    if (!value) clearFilter();
+    if (value === '') clearFilter();
     else {
       const filter = filters.find((f: any) => f.name === value);
       setSavedFilter(value);
@@ -89,11 +89,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     if (props.selectedFilter && selectedFilterName != '') {
       if (filters.find((f: any) => f.name === selectedFilterName)) {
         filters.splice(filters.findIndex((f: any) => f.name === selectedFilterName), 1, { name: selectedFilterName, value: props.selectedFilter });
+        message.success(`Filter ${selectedFilterName} updated`);
       } else {
         filters.push({
           name: selectedFilterName,
           value: props.selectedFilter,
         })
+        message.success(`Filter "${selectedFilterName}" saved`);
       }
       localStorage.setItem('filters', JSON.stringify(filters));
     }
@@ -105,6 +107,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
       filters.splice(filters.findIndex((f: any) => f.name === savedFilter), 1);
       localStorage.setItem('filters', JSON.stringify(filters));
       clearFilter();
+      message.success(`Filter "${savedFilter}" deleted`);
     }
   }
 
@@ -192,7 +195,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         onChange={(value) => onSelectFilterChanged(value)}
         style={{ width: '160px' }}
       >
-        <Option value={''}>None</Option>
+        <Option value={''}>No filter</Option>
         {filters.map((filter: any) => {
           return (
             <Option value={filter.name}>{filter.name}</Option>

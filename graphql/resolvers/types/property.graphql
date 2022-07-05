@@ -321,6 +321,7 @@ type PropertySearchFacets {
   bedrooms: [FacetDetail]
   bathrooms: [FacetDetail]
   updatedAt: [FacetDetail]
+  createdAt: [FacetDetail]
 }
 
 type FacetDetail {

@@ -5,6 +5,7 @@ import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
 import { FilterDetail, PropertiesSearchInput } from '../../generated';
+import dayjs from 'dayjs';
 
 const PropertyFilterNames = {
   Bedrooms: 'bedrooms',
@@ -39,9 +40,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       // additional amenities
       if (filter.listingDetail?.additionalAmenities && filter.listingDetail.additionalAmenities.length > 0) {
         const additionalAmenitiesFilterStrings = filter.listingDetail.additionalAmenities.map((additionalAmenity) => {
-          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join(
-            "') and ad/amenities/any(am: am eq '"
-          )}'))`;
+          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join("') and ad/amenities/any(am: am eq '")}'))`;
         });
         filterStrings.push(additionalAmenitiesFilterStrings.join(' and '));
       }
@@ -75,12 +74,14 @@ export class Properties extends CognitiveSearchDataSource<Context> {
 
       // update at
       if (filter.updatedAt) {
+        const day0 = dayjs().subtract(parseInt(filter.updatedAt), 'day').toISOString();
         filterStrings.push(`updatedAt ge ${filter.updatedAt}`);
       }
 
       // created at
       if (filter.createdAt) {
-        filterStrings.push(`createdAt ge ${filter.createdAt}`);
+        const day0 = dayjs().subtract(parseInt(filter.createdAt), 'day').toISOString();
+        filterStrings.push(`createdAt ge ${day0}`);
       }
     }
 

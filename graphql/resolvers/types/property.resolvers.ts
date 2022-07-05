@@ -117,20 +117,36 @@ const property: Resolvers = {
         30: '1 month ago',
         90: '3 months ago',
       };
+
+      let periodInput = parseInt(_args.input?.options?.filter?.updatedAt); // in days
       let updatedAtFacet = periods.map((option) => {
-        // const found = results.filter((r) => dayjs(r.updatedAt).diff(_args.input?.options?.filter?.updatedAt ? dayjs(_args.input?.options?.filter?.updatedAt) : dayjs(), 'day') <= period);
-        // return {
-        //   value: periodTextMaps[period],
-        //   count: found.length,
-        // };
+        const day0 = option === periodInput ? dayjs().subtract(periodInput, 'day') : dayjs().subtract(option, 'day');
         const found = searchResults?.facets?.updatedAt?.filter((facet) => {
-          let temp = _args.input?.options?.filter?.updatedAt ? dayjs(_args.input?.options?.filter?.updatedAt).diff(dayjs(facet.value), 'day', true) : dayjs().diff(dayjs(facet.value), 'day', true);
-          return temp <= option;
+          let temp = dayjs(facet.value).diff(day0, 'day', true);
+          return temp >= 0;
         });
         let count = 0;
         found.forEach((f) => {
           count += f.count;
         });
+        return {
+          value: periodTextMaps[option],
+          count: count,
+        };
+      });
+
+      periodInput = parseInt(_args.input?.options?.filter?.createdAt); // in days
+      let createdAtFacet = periods.map((option) => {
+        const day0 = option === periodInput ? dayjs().subtract(periodInput, 'day') : dayjs().subtract(option, 'day');
+        const found = searchResults?.facets?.createdAt?.filter((facet) => {
+          let temp = dayjs(facet.value).diff(day0, 'day', true);
+          return temp >= 0;
+        });
+        let count = 0;
+        found.forEach((f) => {
+          count += f.count;
+        });
+
         return {
           value: periodTextMaps[option],
           count: count,
@@ -151,6 +167,7 @@ const property: Resolvers = {
           bedrooms: bedroomsFacet,
           bathrooms: bathroomsFacet,
           updatedAt: updatedAtFacet,
+          createdAt: createdAtFacet,
         },
       } as PropertySearchResult;
     },

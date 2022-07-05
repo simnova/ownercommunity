@@ -54,6 +54,10 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
+    createdAt {
+      value
+      count
+    }
   }
 }
 

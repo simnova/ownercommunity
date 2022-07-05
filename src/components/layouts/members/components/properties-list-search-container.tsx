@@ -151,7 +151,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
     searchParams.delete('lat');
     searchParams.delete('long');
-    setSearchParams(searchParams);
+    // setSearchParams(searchParams);
     setSearchString(value);
     setSelectedFilter({
       ...selectedFilter,
@@ -160,7 +160,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
     let tmp: AddressDataType[] = [];
     if (mapSasTokenData?.getMapSasToken) {
-      if (value.length >= 4) {
+      if (value.length >= 3) {
         addressQuery(value, mapSasTokenData?.getMapSasToken).then((addressData) => {
           addressData.filter((address: any) => {
             if (address.address.streetNumber && address.address.streetName) {
@@ -189,7 +189,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     if (selectedAddress) {
       const lat = selectedAddress.lat;
       const long = selectedAddress.long;
-      setSearchParams('search=' + selectedAddress.value + '&lat=' + lat + '&long=' + long);
+      searchParams.set(SearchParamKeys.SearchString, selectedAddress.value);
+      searchParams.set(SearchParamKeys.Latitude, lat.toString());
+      searchParams.set(SearchParamKeys.Longitude, long.toString());
+      setSearchParams(searchParams);
       setSelectedFilter({
         ...selectedFilter,
         position: {
@@ -220,10 +223,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               gutter: 16,
               xs: 1,
               sm: 1,
-              md: 2,
-              lg: 2,
-              xl: 3,
-              xxl: 3
+              md: 3,
+              lg: 3,
+              xl: 4,
+              xxl: 4
             }}
             dataSource={generatedPropertyData}
             renderItem={(item) => (
@@ -244,6 +247,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       <PropertiesListSearchToolbar
         data={data}
         searchString={searchString}
+        setSearchString={setSearchString}
         selectedFilter={selectedFilter}
         setSelectedFilter={setSelectedFilter}
         handleSearch={handleSearch}

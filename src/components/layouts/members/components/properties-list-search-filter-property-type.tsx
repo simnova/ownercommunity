@@ -52,11 +52,11 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
 
       PropertyTypeList.forEach((value: string) => {
         const count = props.propertyTypeFacets?.find((t: any) => t?.value === value)?.count;
-        if (!count) {
-          return;
-        }
+        // if (!count) {
+        //   return;
+        // }
         options.push({
-          label: value + ' ' + `(${count})`,
+          label: value + ' ' + `(${count ?? 0})`,
           value: value
         });
       });

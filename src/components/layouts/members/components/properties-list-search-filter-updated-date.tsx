@@ -61,7 +61,6 @@ export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearc
           value: option.value
         });
       });
-      console.log(options);
       return options;
     };
 
@@ -71,11 +70,20 @@ export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearc
 
     return (
       <>
-        <Radio.Group
-          value={selectedDateOption}
-          options={getOptions()}
-          onChange={(e: any) => onUpdatedDateChanged(e)}
-        />
+        <Collapse
+          className="search-filter-collapse"
+          defaultActiveKey={
+            searchParams.get(FilterNames.UpdatedAt) ? FilterNames.UpdatedAt : undefined
+          }
+        >
+          <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedAt}>
+            <Radio.Group
+              value={selectedDateOption}
+              options={getOptions()}
+              onChange={(e: any) => onUpdatedDateChanged(e)}
+            />
+          </Panel>
+        </Collapse>
       </>
     );
   };

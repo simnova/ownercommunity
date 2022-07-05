@@ -11,6 +11,7 @@ const { Option } = Select;
 interface PropertiesListSearchToolbarProps {
   data: any;
   searchString: string;
+  setSearchString: (searchString: string) => void;
   selectedFilter: FilterDetail | undefined;
   setSelectedFilter: (filter: FilterDetail | undefined) => void;
   handleSearch: (page: number, top: number) => void;
@@ -118,6 +119,10 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.Distance);
     searchParams.delete(SearchParamKeys.UpdatedAt);
     searchParams.delete(SearchParamKeys.CreatedAt);
+    searchParams.delete(SearchParamKeys.SearchString);
+    searchParams.delete(SearchParamKeys.Latitude);
+    searchParams.delete(SearchParamKeys.Longitude);
+    props.setSearchString('');
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
     setSavedFilter('')

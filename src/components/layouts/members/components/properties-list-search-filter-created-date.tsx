@@ -70,13 +70,20 @@ export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearc
 
     return (
       <>
-        {/* <Panel header={<h2 className="font-bold">Created Date</h2>} key={FilterNames.UpdatedDate}> */}
-        <Radio.Group
-          value={selectedDateOption}
-          options={getOptions()}
-          onChange={(e: any) => onCreatedDateChanged(e)}
-        />
-        {/* </Panel> */}
+        <Collapse
+          className="search-filter-collapse"
+          defaultActiveKey={
+            searchParams.get(FilterNames.CreatedAt) ? FilterNames.CreatedAt : undefined
+          }
+        >
+          <Panel header={<h2 className="font-bold">Created Date</h2>} key={FilterNames.CreatedAt}>
+            <Radio.Group
+              value={selectedDateOption}
+              options={getOptions()}
+              onChange={(e: any) => onCreatedDateChanged(e)}
+            />
+          </Panel>
+        </Collapse>
       </>
     );
   };

@@ -30,7 +30,7 @@ export const SearchParamKeys = {
   MinSquareFeet: 'minSquareFeet',
   MaxSquareFeet: 'maxSquareFeet',
   Latitude: 'lat',
-  Longtitude: 'long',
+  Longitude: 'long',
   Page: 'page',
   Top: 'top',
   Distance: 'distance',

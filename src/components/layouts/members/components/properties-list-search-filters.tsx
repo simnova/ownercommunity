@@ -144,26 +144,21 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
             setSelectedFilter={props.setSelectedFilter}
           />
         </Panel>
-
-        {/* Date (updatedAt) */}
-        <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedAt}>
-          <PropertiesListSearchFilterUpdatedDate
-            selectedFilter={props.selectedFilter}
-            setSelectedFilter={props.setSelectedFilter}
-            updatedDateFacet={props.facets?.updatedAt as FacetDetail[]}
-          />
-        </Panel>
-
-        {/* Date (createdAt) */}
-
-        <Panel header={<h2 className="font-bold">Created Date </h2>} key={FilterNames.CreatedAt}>
-          <PropertiesListSearchFilterCreatedDate
-            selectedFilter={props.selectedFilter}
-            setSelectedFilter={props.setSelectedFilter}
-            createdDateFacet={props.facets?.createdAt as FacetDetail[]}
-          />
-        </Panel>
       </Collapse>
+
+      {/* Date (updatedAt) */}
+      <PropertiesListSearchFilterUpdatedDate
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        updatedDateFacet={props.facets?.updatedAt as FacetDetail[]}
+      />
+
+      {/* Date (createdAt) */}
+      <PropertiesListSearchFilterCreatedDate
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        createdDateFacet={props.facets?.createdAt as FacetDetail[]}
+      />
 
       {/* Price */}
       <PropertiesListSearchFilterPrice

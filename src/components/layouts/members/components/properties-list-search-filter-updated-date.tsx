@@ -2,7 +2,7 @@ import { Collapse, Radio } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { FilterNames, SearchParamKeys, UpdatedAtOptions } from '../../../../constants';
+import { FilterNames, SearchParamKeys, DateOptions } from '../../../../constants';
 import { FilterDetail, FacetDetail } from '../../../../generated';
 const { Panel } = Collapse;
 
@@ -51,7 +51,7 @@ export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearc
     const getOptions = () => {
       const options: any = [];
 
-      UpdatedAtOptions.forEach((option: { label: string; value: number }) => {
+      DateOptions.forEach((option: { label: string; value: number }) => {
         const count = props.updatedDateFacet?.find((t: any) => t?.value === option.label)?.count;
         if (!count) {
           return;
@@ -61,7 +61,6 @@ export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearc
           value: option.value
         });
       });
-      console.log(options);
       return options;
     };
 
@@ -71,11 +70,20 @@ export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearc
 
     return (
       <>
-        <Radio.Group
-          value={selectedDateOption}
-          options={getOptions()}
-          onChange={(e: any) => onUpdatedDateChanged(e)}
-        />
+        <Collapse
+          className="search-filter-collapse"
+          defaultActiveKey={
+            searchParams.get(FilterNames.UpdatedAt) ? FilterNames.UpdatedAt : undefined
+          }
+        >
+          <Panel header={<h2 className="font-bold">Updated Date</h2>} key={FilterNames.UpdatedAt}>
+            <Radio.Group
+              value={selectedDateOption}
+              options={getOptions()}
+              onChange={(e: any) => onUpdatedDateChanged(e)}
+            />
+          </Panel>
+        </Collapse>
       </>
     );
   };

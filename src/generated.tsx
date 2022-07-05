@@ -860,6 +860,7 @@ export type PropertySearchFacets = {
   amenities?: Maybe<Array<Maybe<FacetDetail>>>;
   bathrooms?: Maybe<Array<Maybe<FacetDetail>>>;
   bedrooms?: Maybe<Array<Maybe<FacetDetail>>>;
+  createdAt?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForLease?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
@@ -3659,6 +3660,11 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      createdAt?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -3774,6 +3780,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       count?: number | null;
     } | null> | null;
     updatedAt?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    createdAt?: Array<{
       __typename?: 'FacetDetail';
       value?: string | null;
       count?: number | null;
@@ -6932,6 +6943,17 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'updatedAt' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdAt' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [

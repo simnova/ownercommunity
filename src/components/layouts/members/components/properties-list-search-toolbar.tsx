@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
 import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox, Input, Form } from 'antd';
-import { FilterOutlined, SaveOutlined } from '@ant-design/icons';
+import { FilterOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
 import { SearchParamKeys, GetSearchParamsFromFilter } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
@@ -100,6 +100,14 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     setIsSaveModalVisible(false);
   };
 
+  const deleteSavedFilter = () => {
+    if (savedFilter) {
+      filters.splice(filters.findIndex((f: any) => f.name === savedFilter), 1);
+      localStorage.setItem('filters', JSON.stringify(filters));
+      clearFilter();
+    }
+  }
+
 
   const handlePagination = (newPage: number) => {
     const current = newPage - 1;
@@ -182,6 +190,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
       <Select 
         value={savedFilter}
         onChange={(value) => onSelectFilterChanged(value)}
+        style={{ width: '160px' }}
       >
         <Option value={''}>None</Option>
         {filters.map((filter: any) => {
@@ -194,7 +203,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
       <Button onClick={() => setIsSaveModalVisible(true)} style={{ borderRadius: '10px' }}>
         <Space size="small">
           <SaveOutlined />
-          <span>Save Filer</span>
+          <span>Save Filter</span>
         </Space>
       </Button>
       <Modal
@@ -210,6 +219,15 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           />
         </Space>
       </Modal>
+
+      {savedFilter !== '' && (
+        <Button onClick={() => deleteSavedFilter()} danger style={{ borderRadius: '10px' }}>
+          <Space size="small">
+            <CloseCircleOutlined />
+            <span>Delete Filter</span>
+          </Space>
+        </Button>
+      )}
 
       <Select
         defaultValue={searchParams.get(SearchParamKeys.OrderBy) ?? ''}

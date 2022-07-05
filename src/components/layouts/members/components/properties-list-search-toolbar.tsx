@@ -89,7 +89,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     if (props.selectedFilter && selectedFilterName != '') {
       if (filters.find((f: any) => f.name === selectedFilterName)) {
         filters.splice(filters.findIndex((f: any) => f.name === selectedFilterName), 1, { name: selectedFilterName, value: props.selectedFilter });
-        message.success(`Filter ${selectedFilterName} updated`);
+        message.success(`Filter "${selectedFilterName}" updated`);
       } else {
         filters.push({
           name: selectedFilterName,

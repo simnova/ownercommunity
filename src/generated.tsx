@@ -276,6 +276,7 @@ export type FilterDetail = {
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
   position?: InputMaybe<GeographyPointInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   updatedAt?: InputMaybe<Scalars['String']>;
 };
 
@@ -864,6 +865,7 @@ export type PropertySearchFacets = {
   listedForLease?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
+  tags?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
   updatedAt?: Maybe<Array<Maybe<FacetDetail>>>;
 };
@@ -3665,6 +3667,11 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      tags?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -3785,6 +3792,11 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
       count?: number | null;
     } | null> | null;
     createdAt?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    tags?: Array<{
       __typename?: 'FacetDetail';
       value?: string | null;
       count?: number | null;
@@ -6954,6 +6966,17 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'createdAt' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tags' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [

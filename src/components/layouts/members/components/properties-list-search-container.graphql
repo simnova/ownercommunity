@@ -58,6 +58,10 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
+    tags {
+      value
+      count
+    }
   }
 }
 

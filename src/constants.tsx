@@ -420,6 +420,48 @@ export const GetFilterFromQueryString = (
   return filters;
 };
 
+export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, searchParams: URLSearchParams) => {
+  if (filter) {
+    if (filter.propertyType) searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
+    if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
+    if (filter.distance && filter.distance !== 0) searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
+    if (filter.position) {
+      if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
+      if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
+    }
+    if (filter.updatedAt) {
+      searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
+    }
+    if (filter.createdAt) {
+      searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
+    } 
+    if (filter.listingDetail) {
+      if (filter.listingDetail.bedrooms) searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());
+      if (filter.listingDetail.bathrooms) searchParams.set(SearchParamKeys.Bathrooms, filter.listingDetail.bathrooms.toString());
+      if (filter.listingDetail.amenities) searchParams.set(SearchParamKeys.Amenities, filter.listingDetail.amenities.join(','));
+      if (filter.listingDetail.prices) {
+        if (filter.listingDetail.prices[0]) searchParams.set(SearchParamKeys.MinPrice, filter.listingDetail.prices[0].toString());
+        if (filter.listingDetail.prices[1]) searchParams.set(SearchParamKeys.MaxPrice, filter.listingDetail.prices[1].toString());
+      }
+      if (filter.listingDetail.squareFeets) {
+        if (filter.listingDetail.squareFeets[0]) searchParams.set(SearchParamKeys.MinSquareFeet, filter.listingDetail.squareFeets[0].toString());
+        if (filter.listingDetail.squareFeets[1]) searchParams.set(SearchParamKeys.MaxSquareFeet, filter.listingDetail.squareFeets[1].toString());
+      }
+      if (filter.listingDetail.additionalAmenities) {
+        let additionalAmenities: string[] = [];
+        filter.listingDetail.additionalAmenities.forEach((amenity: any) => {
+          additionalAmenities.push(
+            `${amenity?.category}:${amenity?.amenities?.join(',')}`
+          );
+        });
+        searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenities.join(';'));
+      }
+    }
+  }
+
+  return searchParams;
+}
+
 // export const GetFilterOptions = (allOptions: string[], facets?: FacetDetail[]) => {
 //   const options: any = [];
 

@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox } from 'antd';
-import { FilterOutlined } from '@ant-design/icons';
+import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox, Input, message } from 'antd';
+import { FilterOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
-import { SearchParamKeys } from '../../../../constants';
+import { SearchParamKeys, GetSearchParamsFromFilter } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
 
 const { Option } = Select;
@@ -38,11 +38,22 @@ interface AddressDataType {
 
 export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
+  const [selectedFilterName, setSelectedFilterName] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
+  const [savedFilter, setSavedFilter] = useState('');
+
+  const filters = JSON.parse(localStorage.getItem('filters') ?? "[]");
 
   useEffect(() => {
-    props.handleSearch(0, props.top ?? 10);
+    props.handleSearch(props.currentPage ?? 0, props.top ?? 10);
   }, [searchParams]);
+
+  useEffect(() => {
+    const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
+    const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
+    props.handleSearch(page, top);
+  }, [props.selectedFilter]);
 
   const onSelectTopChanged = (value: number) => {
     props.setTop(value);
@@ -57,12 +68,49 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     setSearchParams(searchParams);
   };
 
+  const onSelectFilterChanged = (value: string) => {
+    if (value === '') clearFilter();
+    else {
+      const filter = filters.find((f: any) => f.name === value);
+      setSavedFilter(value);
+      props.setSelectedFilter(filter.value);
+      setSearchParams(GetSearchParamsFromFilter(filter.value, searchParams));
+    }
+  };
+
   const onHideNullResultsChanged = (e: any) => {
     props.setHideNullResults(e.target.checked);
     if (e.target.checked) searchParams.set(SearchParamKeys.HideNullResults, 'true');
     else searchParams.delete(SearchParamKeys.HideNullResults);
     setSearchParams(searchParams);
   };
+
+  const saveFilter = () => {
+    if (props.selectedFilter && selectedFilterName != '') {
+      if (filters.find((f: any) => f.name === selectedFilterName)) {
+        filters.splice(filters.findIndex((f: any) => f.name === selectedFilterName), 1, { name: selectedFilterName, value: props.selectedFilter });
+        message.success(`Filter "${selectedFilterName}" updated`);
+      } else {
+        filters.push({
+          name: selectedFilterName,
+          value: props.selectedFilter,
+        })
+        message.success(`Filter "${selectedFilterName}" saved`);
+      }
+      localStorage.setItem('filters', JSON.stringify(filters));
+    }
+    setIsSaveModalVisible(false);
+  };
+
+  const deleteSavedFilter = () => {
+    if (savedFilter) {
+      filters.splice(filters.findIndex((f: any) => f.name === savedFilter), 1);
+      localStorage.setItem('filters', JSON.stringify(filters));
+      clearFilter();
+      message.success(`Filter "${savedFilter}" deleted`);
+    }
+  }
+
 
   const handlePagination = (newPage: number) => {
     const current = newPage - 1;
@@ -91,6 +139,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     props.setSearchString('');
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
+    setSavedFilter('')
   };
 
   const searchButtonClicked = () => {
@@ -134,12 +183,54 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         <Option value={50}>50</Option>
       </Select>
 
-      <Button type="ghost" onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
-        <Space size="middle">
+      <Button onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
+        <Space size="small">
           <FilterOutlined />
           <span>Filters</span>
         </Space>
       </Button>
+
+      <Select 
+        value={savedFilter}
+        onChange={(value) => onSelectFilterChanged(value)}
+        style={{ width: '160px' }}
+      >
+        <Option value={''}>No filter</Option>
+        {filters.map((filter: any) => {
+          return (
+            <Option value={filter.name}>{filter.name}</Option>
+          )
+        })}
+      </Select>
+
+      <Button onClick={() => setIsSaveModalVisible(true)} style={{ borderRadius: '10px' }}>
+        <Space size="small">
+          <SaveOutlined />
+          <span>Save Filter</span>
+        </Space>
+      </Button>
+      <Modal
+        title="Save Filter"
+        visible={isSaveModalVisible}
+        onOk={() => saveFilter()}
+        onCancel={() => setIsSaveModalVisible(false)}
+      >
+        <Space size="middle">
+          <Input
+            placeholder='Filter Name'
+            onChange={(e) => setSelectedFilterName(e.target.value)}
+          />
+        </Space>
+      </Modal>
+
+      {savedFilter !== '' && (
+        <Button onClick={() => deleteSavedFilter()} danger style={{ borderRadius: '10px' }}>
+          <Space size="small">
+            <CloseCircleOutlined />
+            <span>Delete Filter</span>
+          </Space>
+        </Button>
+      )}
 
       <Select
         defaultValue={searchParams.get(SearchParamKeys.OrderBy) ?? ''}

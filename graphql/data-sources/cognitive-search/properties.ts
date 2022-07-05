@@ -16,6 +16,7 @@ const PropertyFilterNames = {
   AdditionalAmenitiesAmenities: 'additionalAmenities/amenities',
   Price: 'price',
   SquareFeet: 'squareFeet',
+  Tags: 'tags',
 };
 export class Properties extends CognitiveSearchDataSource<Context> {
   private getFilterString(filter: FilterDetail): string {
@@ -82,6 +83,11 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       if (filter.createdAt) {
         const day0 = dayjs().subtract(parseInt(filter.createdAt), 'day').toISOString();
         filterStrings.push(`createdAt ge ${day0}`);
+      }
+
+      // tags
+      if (filter.tags && filter.tags.length > 0) {
+        filterStrings.push("tags/any(a: a eq '" + filter.tags.join("') or tags/any(a: a eq '") + "')");
       }
     }
 

@@ -183,6 +183,7 @@ extend type Query {
   propertiesForCurrentUserByCommunityId(communityId: ID!): [Property]
   propertiesSearch(input: PropertiesSearchInput!): PropertySearchResult
   getMapSasToken: String
+  getAllPropertyTags: [String]
 }
 
 extend type Mutation {
@@ -223,6 +224,7 @@ input FilterDetail {
   position: GeographyPointInput
   updatedAt: String
   createdAt: String
+  tags: [String]
 }
 
 input GeographyPointInput {
@@ -322,6 +324,7 @@ type PropertySearchFacets {
   bathrooms: [FacetDetail]
   updatedAt: [FacetDetail]
   createdAt: [FacetDetail]
+  tags: [FacetDetail]
 }
 
 type FacetDetail {

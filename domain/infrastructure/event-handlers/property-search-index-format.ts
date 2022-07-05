@@ -328,7 +328,7 @@ export const propertyListingIndexSpec = {
       type: 'Collection(Edm.String)',
       searchable: false,
       filterable: true,
-      sortable: true,
+      sortable: false,
       facetable: true,
     },
   ],

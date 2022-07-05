@@ -61,6 +61,7 @@ const property: Resolvers = {
       const user = await context.dataSources.userApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
       return (await context.dataSources.propertyApi.getPropertiesForCurrentUserByCommunityId(context.community, user.id)) as Property[];
     },
+    
     propertiesSearch: async (_, _args, context, info) => {
       // info.cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
       const searchInput = {
@@ -168,6 +169,7 @@ const property: Resolvers = {
           bathrooms: bathroomsFacet,
           updatedAt: updatedAtFacet,
           createdAt: createdAtFacet,
+          tags: searchResults.facets?.tags,
         },
       } as PropertySearchResult;
     },

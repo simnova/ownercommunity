@@ -423,6 +423,18 @@ export const GetFilterFromQueryString = (
 export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, searchParams: URLSearchParams) => {
   if (filter) {
     if (filter.propertyType) searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
+    if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
+    if (filter.distance && filter.distance !== 0) searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
+    if (filter.position) {
+      if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
+      if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
+    }
+    if (filter.updatedAt) {
+      searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
+    }
+    if (filter.createdAt) {
+      searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
+    } 
     if (filter.listingDetail) {
       if (filter.listingDetail.bedrooms) searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());
       if (filter.listingDetail.bathrooms) searchParams.set(SearchParamKeys.Bathrooms, filter.listingDetail.bathrooms.toString());
@@ -444,19 +456,6 @@ export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, sear
         });
         searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenities.join(';'));
       }
-      if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
-      if (filter.distance && filter.distance !== 0) searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
-      if (filter.position) {
-        if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
-        if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
-      }
-      if (filter.updatedAt) {
-        console.log("DIFF ", dayjs().diff(filter.updatedAt, 'day'))
-        searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
-      }
-      if (filter.createdAt) {
-        searchParams.set(SearchParamKeys.CreatedDate, dayjs().diff(filter.createdAt, 'day').toString());
-      } 
     }
   }
 

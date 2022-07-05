@@ -46,13 +46,12 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   const filters = JSON.parse(localStorage.getItem('filters') ?? "[]");
 
   useEffect(() => {
-    props.handleSearch(0, props.top ?? 10);
+    props.handleSearch(props.currentPage ?? 0, props.top ?? 10);
   }, [searchParams]);
 
   useEffect(() => {
     const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
     const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
-    console.log("THE FILTER IS ", props.selectedFilter)
     props.handleSearch(page, top);
   }, [props.selectedFilter]);
 
@@ -88,10 +87,14 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
   const saveFilter = () => {
     if (props.selectedFilter && selectedFilterName != '') {
-      filters.push({
-        name: selectedFilterName,
-        value: props.selectedFilter,
-      })
+      if (filters.find((f: any) => f.name === selectedFilterName)) {
+        filters.splice(filters.findIndex((f: any) => f.name === selectedFilterName), 1, { name: selectedFilterName, value: props.selectedFilter });
+      } else {
+        filters.push({
+          name: selectedFilterName,
+          value: props.selectedFilter,
+        })
+      }
       localStorage.setItem('filters', JSON.stringify(filters));
     }
     setIsSaveModalVisible(false);

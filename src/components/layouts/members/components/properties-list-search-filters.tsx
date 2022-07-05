@@ -156,10 +156,11 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
         {/* Date (createdAt) */}
 
-        <Panel header={<h2 className="font-bold">Created Date </h2>} key={FilterNames.CreatedDate}>
+        <Panel header={<h2 className="font-bold">Created Date </h2>} key={FilterNames.CreatedAt}>
           <PropertiesListSearchFilterCreatedDate
             selectedFilter={props.selectedFilter}
             setSelectedFilter={props.setSelectedFilter}
+            createdDateFacet={props.facets?.createdAt as FacetDetail[]}
           />
         </Panel>
       </Collapse>

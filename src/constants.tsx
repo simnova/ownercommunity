@@ -36,7 +36,7 @@ export const SearchParamKeys = {
   Distance: 'distance',
   OrderBy: 'orderBy',
   UpdatedAt: 'updatedAt',
-  CreatedDate: 'createdDate',
+  CreatedAt: 'createdAt',
   HideNullResults: 'hideNullResults'
 };
 
@@ -55,7 +55,7 @@ export const FilterNames = {
   ListedInfo: 'listedInfo',
   Distance: 'distance',
   UpdatedAt: 'updatedAt',
-  CreatedDate: 'createdDate'
+  CreatedAt: 'createdAt'
 };
 
 export const AvailableFilters = Object.values(FilterNames);
@@ -224,7 +224,7 @@ export const AmentitiesOptions = [
 
 export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
 
-export const UpdatedAtOptions = [
+export const DateOptions = [
   { label: '1 week ago', value: 7 },
   { label: '2 weeks ago', value: 14 },
   { label: '1 month ago', value: 30 },
@@ -280,7 +280,7 @@ export const GetFilterFromQueryString = (
   const qslat = searchParams.get('lat');
   const qslong = searchParams.get('long');
   const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
-  const qscreatedDate = searchParams.get('createdDate'); // in days
+  const qscreatedAt = searchParams.get(SearchParamKeys.CreatedAt); // in days
 
   let filters = {} as FilterDetail;
 
@@ -409,11 +409,11 @@ export const GetFilterFromQueryString = (
   }
 
   // created date
-  if (qscreatedDate) {
-    const date = dayjs().subtract(parseInt(qscreatedDate), 'day').toISOString();
+  if (qscreatedAt) {
+    // const date = dayjs().subtract(parseInt(qscreatedAt), 'day').toISOString();
     filters = {
       ...filters,
-      createdAt: date
+      createdAt: qscreatedAt
     };
   }
 

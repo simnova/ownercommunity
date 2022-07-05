@@ -117,7 +117,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.MinSquareFeet);
     searchParams.delete(SearchParamKeys.Distance);
     searchParams.delete(SearchParamKeys.UpdatedAt);
-    searchParams.delete(SearchParamKeys.CreatedDate);
+    searchParams.delete(SearchParamKeys.CreatedAt);
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
     setSavedFilter('')

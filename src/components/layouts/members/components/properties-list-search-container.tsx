@@ -128,7 +128,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               FilterNames.ListedForRent + ',count:1000',
               FilterNames.Bedrooms + ',count:1000',
               FilterNames.Bathrooms + ',count:1000',
-              FilterNames.UpdatedAt + ',count:1000'
+              FilterNames.UpdatedAt + ',count:1000',
+              FilterNames.CreatedAt + ',count:1000'
             ],
             filter: filter,
             top: top,

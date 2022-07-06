@@ -36,9 +36,12 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
       let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
       member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
     } else {  //use the supplied requestorId - TODO: check that the current user is an admin
-      member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,input.requestorId);
+      member = await this.context.dataSources.memberApi.findOneById(input.requestorId);
     }
     let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
+
+    console.log(`serviceTicketCreate:memberDO`,memberDo);
+    console.log(`serviceTicketCreate:requestorId`,input.requestorId);
 
     await this.withTransaction(async (repo) => {
       let newServiceTicket = await repo.getNewInstance(

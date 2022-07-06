@@ -40,7 +40,7 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
     if (qsbathrooms) {
       setBathrooms(parseFloat(qsbathrooms));
     }
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

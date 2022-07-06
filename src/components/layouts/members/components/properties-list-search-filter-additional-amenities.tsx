@@ -104,7 +104,7 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
           }
         });
       }
-    }, []);
+    }, [searchParams]);
 
     useEffect(() => {
       if (!location.search.includes(SearchParamKeys.AdditionalAmenities)) {

@@ -36,7 +36,7 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
   useEffect(() => {
     const qsListedInfo = searchParams.get(SearchParamKeys.ListedInfo);
     setSelectedListedInfo(qsListedInfo?.split(',') ?? []);
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

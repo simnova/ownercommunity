@@ -38,7 +38,7 @@ export const PropertiesListSearchFilterDistance = (
     if (qsdistance) {
       setDistance(parseInt(qsdistance));
     }
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

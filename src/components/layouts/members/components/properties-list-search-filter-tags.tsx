@@ -36,7 +36,7 @@ export const PropertiesListSearchFilterTags: FC<PropertiesListSearchFilterTagsPr
   useEffect(() => {
     const qsTags = searchParams.get(SearchParamKeys.Tags);
     setSelectedTags(qsTags?.split(',') ?? []);
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

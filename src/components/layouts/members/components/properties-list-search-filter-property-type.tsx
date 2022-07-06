@@ -38,7 +38,7 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
     useEffect(() => {
       const qsproperTypes = searchParams.get(SearchParamKeys.PropertyType);
       setSelectedPropertyTypes(qsproperTypes?.split(',') ?? []);
-    }, []);
+    }, [searchParams]);
 
     // handle when clear all filter clicked
     useEffect(() => {

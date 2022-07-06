@@ -1,12 +1,14 @@
 import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { ServiceTicketConverter } from '../../../domain/infrastructure/persistance/adapters/service-ticket-domain-adapter';
-import { ServiceTicket } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
+import { ServiceTicket, ServiceTicketModel } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { Context } from '../../context';
 
 export class ServiceTickets extends MongoDataSource<ServiceTicket, Context> {
 
   async getServiceTicketsByCommunityId(communityId : string): Promise<ServiceTicket[]> {
-    var dbData =  await this.findByFields({community: communityId});
+    var dbData = await ServiceTicketModel.find({community: communityId}).populate(['community','property','requestor','assignedTo']).exec();
+    
+    //(await this.collection.find({community: communityId}))..  // await this.findByFields({community: communityId});
     return this.applyPermissionFilter(dbData, this.context);
   }
 
@@ -29,7 +31,7 @@ export class ServiceTickets extends MongoDataSource<ServiceTicket, Context> {
   private async applyPermissionFilter(serviceTickets: ServiceTicket[], context: Context) : Promise<ServiceTicket[]>{
     let converter = new ServiceTicketConverter();
     
-    return (await Promise.all(serviceTickets.map(ticket => ticket.populate(['community','property','requestor','assignedTo']))))
+    return (await Promise.all(serviceTickets.map(ticket => ticket))) //.populate(['community','property','requestor','assignedTo']))))
       .map(ticket => converter.toDomain(ticket, context))
       .filter( ticket => 
           context.passport

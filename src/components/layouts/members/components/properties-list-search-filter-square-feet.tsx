@@ -69,7 +69,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
     if (qsmaxSquareFeet) {
       setMaxSquareFeet(parseInt(qsmaxSquareFeet));
     }
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

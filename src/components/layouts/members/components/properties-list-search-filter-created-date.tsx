@@ -39,7 +39,7 @@ export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearc
       } else {
         setSelectedDateOption(undefined);
       }
-    }, []);
+    }, [searchParams]);
 
     // handle when clear all filter clicked
     useEffect(() => {

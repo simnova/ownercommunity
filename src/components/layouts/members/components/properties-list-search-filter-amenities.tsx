@@ -37,7 +37,7 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
   useEffect(() => {
     const qsAmenities = searchParams.get(SearchParamKeys.Amenities);
     setSelectedAmenities(qsAmenities?.split(',') ?? []);
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

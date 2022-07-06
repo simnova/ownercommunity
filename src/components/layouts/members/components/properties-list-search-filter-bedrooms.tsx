@@ -37,7 +37,7 @@ export const PropertiesListSearchFilterBedrooms: FC<PropertiesListSearchFilterBe
     if (qsbedrooms) {
       setBedrooms(parseInt(qsbedrooms));
     }
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

@@ -73,7 +73,7 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
     if (qsMaxPrice) {
       setMaxPrice(parseInt(qsMaxPrice));
     }
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

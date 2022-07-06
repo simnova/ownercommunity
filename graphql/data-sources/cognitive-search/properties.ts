@@ -41,9 +41,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       // additional amenities
       if (filter.listingDetail?.additionalAmenities && filter.listingDetail.additionalAmenities.length > 0) {
         const additionalAmenitiesFilterStrings = filter.listingDetail.additionalAmenities.map((additionalAmenity) => {
-          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join(
-            "') and ad/amenities/any(am: am eq '"
-          )}'))`;
+          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join("') and ad/amenities/any(am: am eq '")}'))`;
         });
         filterStrings.push(additionalAmenitiesFilterStrings.join(' and '));
       }
@@ -71,14 +69,14 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       }
 
       // distance, lat and long
-      if (filter.position && filter.distance) {
+      if (filter.position && filter.position.latitude && filter.position.longitude && filter.distance) {
         filterStrings.push(`geo.distance(position, geography'POINT(${filter.position.longitude} ${filter.position.latitude})') le ${filter.distance}`);
       }
 
       // update at
       if (filter.updatedAt) {
         const day0 = dayjs().subtract(parseInt(filter.updatedAt), 'day').toISOString();
-        filterStrings.push(`updatedAt ge ${filter.updatedAt}`);
+        filterStrings.push(`updatedAt ge ${day0}`);
       }
 
       // created at

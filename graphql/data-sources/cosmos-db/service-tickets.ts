@@ -35,8 +35,10 @@ export class ServiceTickets extends MongoDataSource<ServiceTicket, Context> {
           context.passport
             .forServiceTicket(ticket)
             .determineIf((permissions) => 
-              permissions.isSystemAccount ||
-              permissions.canManageTickets 
+              permissions.canManageTickets ||
+              permissions.canAssignTickets ||
+              (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
+              (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) 
             ))
       .map(ticket => converter.toMongo(ticket))
   }

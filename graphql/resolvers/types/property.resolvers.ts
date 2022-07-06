@@ -50,17 +50,21 @@ const property: Resolvers = {
       return null;
     },
     properties: async (_, _args, context) => {
-      const user = await context.dataSources.userApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
-      return (await context.dataSources.propertyApi.getPropertiesByCommunityId(context.community, user.id)) as Property[];
+      return (await context.dataSources.propertyApi.getPropertiesByCommunityId(context.community)) as Property[];
     },
     propertiesByCommunityId: async (_, { communityId }, context) => {
-      const user = await context.dataSources.userApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
-      return (await context.dataSources.propertyApi.getPropertiesByCommunityId(communityId, user.id)) as Property[];
+      return (await context.dataSources.propertyApi.getPropertiesByCommunityId(communityId)) as Property[];
     },
     propertiesForCurrentUserByCommunityId: async (_, _args, context) => {
       const user = await context.dataSources.userApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
       return (await context.dataSources.propertyApi.getPropertiesForCurrentUserByCommunityId(context.community, user.id)) as Property[];
     },
+    getAllPropertyTags: async (_, _args, context) => {
+      const properties = (await context.dataSources.propertyApi.getAllProperties()) as Property[];
+      const tags = properties.map((p) => p.tags).flat();
+      return [...new Set(tags)];
+    },
+
     propertiesSearch: async (_, _args, context, info) => {
       // info.cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
       const searchInput = {
@@ -168,6 +172,7 @@ const property: Resolvers = {
           bathrooms: bathroomsFacet,
           updatedAt: updatedAtFacet,
           createdAt: createdAtFacet,
+          tags: searchResults.facets?.tags,
         },
       } as PropertySearchResult;
     },

@@ -41,7 +41,9 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       // additional amenities
       if (filter.listingDetail?.additionalAmenities && filter.listingDetail.additionalAmenities.length > 0) {
         const additionalAmenitiesFilterStrings = filter.listingDetail.additionalAmenities.map((additionalAmenity) => {
-          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join("') and ad/amenities/any(am: am eq '")}'))`;
+          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join(
+            "') and ad/amenities/any(am: am eq '"
+          )}'))`;
         });
         filterStrings.push(additionalAmenitiesFilterStrings.join(' and '));
       }
@@ -87,7 +89,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
 
       // tags
       if (filter.tags && filter.tags.length > 0) {
-        filterStrings.push("tags/any(a: a eq '" + filter.tags.join("') or tags/any(a: a eq '") + "')");
+        filterStrings.push("(tags/any(a: a eq '" + filter.tags.join("') or tags/any(a: a eq '") + "'))");
       }
     }
 

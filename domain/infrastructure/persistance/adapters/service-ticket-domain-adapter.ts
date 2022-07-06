@@ -43,7 +43,7 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
     if(this.props.requestor) {return new MemberDomainAdapter(this.props.requestor);}
   }
   public setRequestorRef(requestor:MemberEntityReference) {
-    this.props.set('requestor',requestor['props']['props']);
+    this.props.set('requestor',requestor?requestor['props']['props']:null);
   }
 
   get assignedTo() {

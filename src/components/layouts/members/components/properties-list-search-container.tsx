@@ -16,7 +16,8 @@ import {
   MinSquareFeet,
   MaxSquareFeet,
   MinPrice,
-  MaxPrice
+  MaxPrice,
+  additionalAmenitiesOptions
 } from '../../../../constants';
 import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
 import { FormTags } from '../../../ui/organisms/form-tags';
@@ -282,10 +283,19 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       tempList.push(...amenities);
     }
 
-    // if (qsadditionalAmenities) {
-    //   const additionalAmenities = qsadditionalAmenities.map((amenity) => 'AdditionalAmenities:' + amenity);
-    //   tempList.push(...additionalAmenities);
-    // }
+    if (qsadditionalAmenities) {
+      console.log(qsadditionalAmenities);
+
+      const additionalAmenities: string[] = [];
+      qsadditionalAmenities.forEach((amenity) => {
+        let category = amenity.split(':')[0];
+        let amenities = amenity.split(':')[1].split(',');
+        amenities.forEach((amenity) => {
+          additionalAmenities.push('AdditionalAmenities:' + category + '-' + amenity);
+        });
+      });
+      tempList.push(...additionalAmenities);
+    }
 
     if (qsListedInfo) {
       const listedInfo = qsListedInfo.map((listedInfo) => 'ListedInfo:' + listedInfo);
@@ -365,15 +375,34 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       }
     }
 
-    // if (section === 'AdditionalAmenities') {
-    //   const qsadditionalAmenities = searchParams.get(SearchParamKeys.AdditionalAmenities)?.split(';');
-    //   let newAdditionalAmenities = qsadditionalAmenities?.filter((amenity) => amenity !== value);
-    //   if (newAdditionalAmenities && newAdditionalAmenities.length > 0) {
-    //     searchParams.set(SearchParamKeys.AdditionalAmenities, newAdditionalAmenities.join(';'));
-    //   } else {
-    //     searchParams.delete(SearchParamKeys.AdditionalAmenities);
-    //   }
-    // }
+    if (section === 'AdditionalAmenities') {
+      //Get the category and amenity
+      const deletedCategory = value.split('-')[0];
+      const deletedAmenity = value.split('-')[1];
+      const qsadditionalAmenities = searchParams
+        .get(SearchParamKeys.AdditionalAmenities)
+        ?.split(';'); // [Features:Iron,Washer/Dryer (Private) , Location:Oceanfront , Outdoor:Balcony]
+
+      if (qsadditionalAmenities) {
+        for (let i = 0; i < qsadditionalAmenities.length; i++) {
+          let category = qsadditionalAmenities[i].split(':')[0];
+          let amenities = qsadditionalAmenities[i].split(':')[1].split(',');
+          if (category === deletedCategory) {
+            amenities = amenities.filter((amenity) => amenity !== deletedAmenity);
+            if (amenities.length > 0) {
+              qsadditionalAmenities[i] = category + ':' + amenities.join(',');
+            } else {
+              qsadditionalAmenities.splice(i, 1);
+            }
+          }
+        }
+      }
+      if (qsadditionalAmenities && qsadditionalAmenities.length > 0) {
+        searchParams.set(SearchParamKeys.AdditionalAmenities, qsadditionalAmenities.join(';'));
+      } else {
+        searchParams.delete(SearchParamKeys.AdditionalAmenities);
+      }
+    }
 
     if (section === 'ListedInfo') {
       const qsListedInfo = searchParams.get(SearchParamKeys.ListedInfo)?.split(',');

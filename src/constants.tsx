@@ -196,7 +196,7 @@ export const additionalAmenitiesOptions: any = {
   'Kitchen & Dining': ['Dishwasher', 'Microwave', 'Refrigerator'],
   Location: ['Oceanfront', 'Gated Community'],
   Media: ['Cable', 'Internet', 'TV'],
-  'On-site Activities': ['Pool (Private)', 'Gym', 'Basketball Court'],
+  'Onsite Activities': ['Pool (Private)', 'Gym', 'Basketball Court'],
   Outdoor: ['Balcony'],
   'Parking & Access': ['Garage']
   // '':[]

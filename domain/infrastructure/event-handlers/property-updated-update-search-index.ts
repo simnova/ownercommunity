@@ -6,6 +6,12 @@ import { SystemExecutionContext } from '../persistance/execution-context';
 import { PropertyUpdatedEvent } from '../../events/property-updated';
 import { GeographyPoint } from '@azure/search-documents';
 import dayjs from 'dayjs';
+const crypto = require('crypto');
+
+const hashFunction = (property: any) => {
+  const sha256Hasher = crypto.createHmac('sha256', "a secret");
+  return sha256Hasher.update(JSON.stringify(property));
+}
 
 export default () => {
   NodeEventBus.register(PropertyUpdatedEvent, async (payload) => {
@@ -30,6 +36,13 @@ export default () => {
 
       let createdDate = property.createdAt.toISOString();
       createdDate = dayjs(property.createdAt.toISOString().split('T')[0]).toISOString();
+
+      let differentHashes = true;
+      const hash = hashFunction(property);
+      console.log("HASH: ", hash.digest('hex'));
+      if (property.hash) {
+        differentHashes = hash === property.hash ? false : true;
+      }
 
       let listingDoc: Partial<PropertyListingIndexDocument> = {
         id: property.id,
@@ -71,12 +84,16 @@ export default () => {
         updatedAt: updatedDate,
         createdAt: createdDate,
         tags: property.tags,
+        hash: hash.digest('hex'),
       };
-      let cognitiveSearch = new CognitiveSearch();
-      await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
-      // await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
-      await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
-      console.log(`Property Updated - Search Completed: ${JSON.stringify(listingDoc)}`);
+      if (differentHashes) {
+        let cognitiveSearch = new CognitiveSearch();
+        await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
+        // await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
+        await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
+        console.log(`Property Updated - Search Completed: ${JSON.stringify(listingDoc)}`);
+      }
+      else console.log('No need to update search index');
     });
   });
 };

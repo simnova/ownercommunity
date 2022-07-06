@@ -30,6 +30,8 @@ export interface PropertyProps extends EntityProps {
 
   tags: string[];
   schemaVersion: string;
+
+  hash: string;
 }
 
 export interface PropertyEntityReference extends Readonly<Omit<PropertyProps, 'community' | 'setCommunityRef' | 'location' | 'owner' | 'setOwnerRef' | 'listingDetail'>> {
@@ -100,6 +102,10 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
 
   get schemaVersion() {
     return this.props.schemaVersion;
+  }
+
+  get hash() {
+    return this.props.hash;
   }
 
   private MarkAsNew(): void {

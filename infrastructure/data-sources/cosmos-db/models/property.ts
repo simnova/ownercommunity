@@ -87,6 +87,7 @@ export interface Property extends Base {
   listingDetail: ListingDetail;
 
   tags: string[];
+  hash: string;
 }
 const schema = new Schema<Property, Model<Property>, Property>(
   {
@@ -172,6 +173,7 @@ const schema = new Schema<Property, Model<Property>, Property>(
       listingAgentCompanyAddress: { type: String, required: false, maxlength: 1000 },
     },
     tags: { type: [{ type: String, maxlength: 100 }], required: false },
+    hash: { type: String, required: false, maxlength: 100 },
   },
   {
     ...BaseOptions,

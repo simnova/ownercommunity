@@ -37,6 +37,7 @@ export const SearchParamKeys = {
   OrderBy: 'orderBy',
   UpdatedAt: 'updatedAt',
   CreatedAt: 'createdAt',
+  Tags: 'tags',
   HideNullResults: 'hideNullResults'
 };
 
@@ -55,7 +56,8 @@ export const FilterNames = {
   ListedInfo: 'listedInfo',
   Distance: 'distance',
   UpdatedAt: 'updatedAt',
-  CreatedAt: 'createdAt'
+  CreatedAt: 'createdAt',
+  Tags: 'tags'
 };
 
 export const AvailableFilters = Object.values(FilterNames);
@@ -414,6 +416,15 @@ export const GetFilterFromQueryString = (
     filters = {
       ...filters,
       createdAt: qscreatedAt
+    };
+  }
+
+  // tags
+  const qstags = searchParams.get('tags')?.split(',');
+  if (qstags) {
+    filters = {
+      ...filters,
+      tags: qstags
     };
   }
 

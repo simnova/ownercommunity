@@ -14,6 +14,8 @@ import { PropertiesListSearchFilterDistance } from './properties-list-search-fil
 import { PropertiesListSearchFilterUpdatedDate } from './properties-list-search-filter-updated-date';
 import { PropertiesListSearchFilterCreatedDate } from './properties-list-search-filter-created-date';
 import { Collapse } from 'antd';
+import { PropertiesListSearchFilterTags } from './properties-list-search-filter-tags';
+import { PropertiesListSearchFilterTagsContainer } from './properties-list-search-filter-tags-container';
 
 const { Panel } = Collapse;
 interface PropertiesListSearchFiltersProps {
@@ -158,6 +160,13 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
         createdDateFacet={props.facets?.createdAt as FacetDetail[]}
+      />
+
+      {/* Tags */}
+      <PropertiesListSearchFilterTagsContainer
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        tagsFacets={props.facets?.tags as FacetDetail[]}
       />
 
       {/* Price */}

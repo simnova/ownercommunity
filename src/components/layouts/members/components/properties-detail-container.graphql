@@ -49,6 +49,7 @@ fragment MembersPropertiesDetailContainerPropertyFields on Property {
   id
   createdAt
   updatedAt
+  tags
 }
 
 fragment MembersPropertiesDetailContainerMembersFields on Member {

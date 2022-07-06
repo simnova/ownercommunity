@@ -136,6 +136,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.SearchString);
     searchParams.delete(SearchParamKeys.Latitude);
     searchParams.delete(SearchParamKeys.Longitude);
+    searchParams.delete(SearchParamKeys.Tags);
     props.setSearchString('');
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);

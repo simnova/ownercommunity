@@ -1,20 +1,44 @@
 import { MongoDataSource } from 'apollo-datasource-mongodb';
+import { ServiceTicketConverter } from '../../../domain/infrastructure/persistance/adapters/service-ticket-domain-adapter';
 import { ServiceTicket } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { Context } from '../../context';
 
 export class ServiceTickets extends MongoDataSource<ServiceTicket, Context> {
 
   async getServiceTicketsByCommunityId(communityId : string): Promise<ServiceTicket[]> {
-    return this.findByFields({community: communityId});
+    var dbData =  await this.findByFields({community: communityId});
+    return this.applyPermissionFilter(dbData, this.context);
   }
+
   async getServiceTicketsOpenByRequestor(memberId : string): Promise<ServiceTicket[]> {
-    return (await this.findByFields({requestor: memberId})).filter(ticket => ticket.status !== 'CLOSED');
+    var dbData = await this.findByFields({requestor: memberId});
+    return this.applyPermissionFilter(dbData, this.context);
   }
+
   async getServiceTicketsClosedByRequestor(memberId : string): Promise<ServiceTicket[]> {
-    return (await this.findByFields({requestor: memberId})).filter(ticket => ticket.status === 'CLOSED');
+    var dbData = (await this.findByFields({requestor: memberId})).filter(ticket => ticket.status === 'CLOSED');
+    return this.applyPermissionFilter(dbData, this.context);
   }
   async getServiceTicketsByAssignedTo(communityId : string, memberId:string): Promise<ServiceTicket[]> {
-    return this.findByFields({community: communityId, assignedTo: memberId});
+    var dbData =  (await this.findByFields({community: communityId, assignedTo: memberId}))
+    return this.applyPermissionFilter(dbData, this.context);
+  }
+
+  
+
+  private async applyPermissionFilter(serviceTickets: ServiceTicket[], context: Context) : Promise<ServiceTicket[]>{
+    let converter = new ServiceTicketConverter();
+    
+    return (await Promise.all(serviceTickets.map(ticket => ticket.populate(['community','property','requestor','assignedTo']))))
+      .map(ticket => converter.toDomain(ticket, context))
+      .filter( ticket => 
+          context.passport
+            .forServiceTicket(ticket)
+            .determineIf((permissions) => 
+              permissions.isSystemAccount ||
+              permissions.canManageTickets 
+            ))
+      .map(ticket => converter.toMongo(ticket))
   }
 
 }

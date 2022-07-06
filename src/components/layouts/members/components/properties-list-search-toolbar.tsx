@@ -73,6 +73,8 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     else {
       const filter = filters.find((f: any) => f.name === value);
       setSavedFilter(value);
+      searchParams.set(SearchParamKeys.SavedFilter, value);
+      setSearchParams(searchParams);
       props.setSelectedFilter(filter.value);
       setSearchParams(GetSearchParamsFromFilter(filter.value, searchParams));
     }
@@ -136,6 +138,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     searchParams.delete(SearchParamKeys.SearchString);
     searchParams.delete(SearchParamKeys.Latitude);
     searchParams.delete(SearchParamKeys.Longitude);
+    searchParams.delete(SearchParamKeys.SavedFilter);
     props.setSearchString('');
     searchParams.set(SearchParamKeys.Page, '1');
     setSearchParams(searchParams);
@@ -191,7 +194,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
       </Button>
 
       <Select 
-        value={savedFilter}
+        value={searchParams.get(SearchParamKeys.SavedFilter) ?? savedFilter}
         onChange={(value) => onSelectFilterChanged(value)}
         style={{ width: '160px' }}
       >

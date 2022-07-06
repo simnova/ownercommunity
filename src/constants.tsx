@@ -37,7 +37,8 @@ export const SearchParamKeys = {
   OrderBy: 'orderBy',
   UpdatedAt: 'updatedAt',
   CreatedAt: 'createdAt',
-  HideNullResults: 'hideNullResults'
+  HideNullResults: 'hideNullResults',
+  SavedFilter: 'savedFilter',
 };
 
 export const FilterNames = {

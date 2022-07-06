@@ -293,95 +293,82 @@ export const GetFilterFromQueryString = (
   let filters = {} as FilterDetail;
 
   // proper type
-  if (qsproperTypes) {
-    filters = {
-      ...selectedFilter,
-      propertyType: qsproperTypes
-    };
-  }
+  filters = {
+    ...selectedFilter,
+    propertyType: qsproperTypes
+  };
 
   // bedrooms
-  if (qsbedrooms) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        bedrooms: parseInt(qsbedrooms)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      bedrooms: qsbedrooms ? parseInt(qsbedrooms) : undefined
+    }
+  };
 
   // bathrooms
-  if (qsbathrooms) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        bathrooms: parseFloat(qsbathrooms)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      bathrooms: qsbathrooms ? parseFloat(qsbathrooms) : undefined
+    }
+  };
 
   // amenities
-  if (qsamenities) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        amenities: qsamenities
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      amenities: qsamenities
+    }
+  };
 
   // price
-  if (qsminPrice && qsmaxPrice) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        prices: [parseInt(qsminPrice), parseInt(qsmaxPrice)]
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : undefined
+    }
+  };
 
   // square feet
-  if (qsminSquareFeet && qsmaxSquareFeet) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        squareFeets: [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
-      }
-    };
-  }
+
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      squareFeets:
+        qsminSquareFeet && qsmaxSquareFeet
+          ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
+          : undefined
+    }
+  };
 
   // additional amenities
-  if (qsadditionalAmenities) {
-    let temp: AdditionalAmenities[] = [];
-
-    qsadditionalAmenities.forEach((amenity) => {
-      const [cate, amen] = amenity.split(':');
-      temp.push({
-        category: cate,
-        amenities: amen.split(',')
-      });
+  let temp: AdditionalAmenities[] = [];
+  qsadditionalAmenities?.forEach((amenity) => {
+    const [cate, amen] = amenity.split(':');
+    temp.push({
+      category: cate,
+      amenities: amen.split(',')
     });
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        additionalAmenities: temp
-      }
-    };
-  }
+  });
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      additionalAmenities: temp
+    }
+  };
 
   // listed info
-  if (qsListedInfo) {
-    filters = {
-      ...filters,
-      listedInfo: qsListedInfo
-    };
-  }
+  filters = {
+    ...filters,
+    listedInfo: qsListedInfo
+  };
 
   // distance
   if (qsdistance) {
@@ -397,42 +384,32 @@ export const GetFilterFromQueryString = (
   }
 
   // lat and long
-  if (qslat && qslong) {
-    filters = {
-      ...filters,
-      position: {
-        latitude: parseFloat(qslat),
-        longitude: parseFloat(qslong)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    position: {
+      latitude: qslat ? parseFloat(qslat) : undefined,
+      longitude: qslong ? parseFloat(qslong) : undefined
+    }
+  };
 
   // updated date
-  if (qsupdatedAt) {
-    const date = dayjs().subtract(parseInt(qsupdatedAt), 'day').toISOString();
-    filters = {
-      ...filters,
-      updatedAt: date
-    };
-  }
+  filters = {
+    ...filters,
+    updatedAt: qsupdatedAt
+  };
 
   // created date
-  if (qscreatedAt) {
-    // const date = dayjs().subtract(parseInt(qscreatedAt), 'day').toISOString();
-    filters = {
-      ...filters,
-      createdAt: qscreatedAt
-    };
-  }
+  filters = {
+    ...filters,
+    createdAt: qscreatedAt
+  };
 
   // tags
   const qstags = searchParams.get('tags')?.split(',');
-  if (qstags) {
-    filters = {
-      ...filters,
-      tags: qstags
-    };
-  }
+  filters = {
+    ...filters,
+    tags: qstags
+  };
 
   return filters;
 };

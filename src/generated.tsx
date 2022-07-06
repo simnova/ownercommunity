@@ -901,6 +901,7 @@ export type Query = {
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
+  getAllPropertyTags?: Maybe<Array<Maybe<Scalars['String']>>>;
   getMapSasToken?: Maybe<Scalars['String']>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
@@ -3854,6 +3855,13 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
     routeNumbers?: string | null;
     crossStreet?: string | null;
   } | null;
+};
+
+export type MemberPropertiesGetAllTagsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MemberPropertiesGetAllTagsQuery = {
+  __typename?: 'Query';
+  getAllPropertyTags?: Array<string | null> | null;
 };
 
 export type MembersPropertiesListingContainerPropertyQueryVariables = Exact<{
@@ -11080,6 +11088,23 @@ export const MemberPropertiesListSearchContainerMapSasTokenDocument = {
 } as unknown as DocumentNode<
   MemberPropertiesListSearchContainerMapSasTokenQuery,
   MemberPropertiesListSearchContainerMapSasTokenQueryVariables
+>;
+export const MemberPropertiesGetAllTagsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberPropertiesGetAllTags' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'getAllPropertyTags' } }]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberPropertiesGetAllTagsQuery,
+  MemberPropertiesGetAllTagsQueryVariables
 >;
 export const MembersPropertiesListingContainerPropertyDocument = {
   kind: 'Document',

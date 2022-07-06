@@ -12,6 +12,7 @@ interface PropertiesListSearchFilterTagsProps {
   selectedFilter?: FilterDetail;
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   tagsFacets?: FacetDetail[];
+  allTags?: string[];
 }
 
 export const PropertiesListSearchFilterTags: FC<PropertiesListSearchFilterTagsProps> = (props) => {
@@ -47,19 +48,20 @@ export const PropertiesListSearchFilterTags: FC<PropertiesListSearchFilterTagsPr
   const getOptions = () => {
     const options: any = [];
 
-    props.tagsFacets?.forEach((option: any) => {
+    props?.allTags?.forEach((tag: string) => {
+      const count = props?.tagsFacets?.find((t: any) => t?.value === tag)?.count;
       options.push({
-        label: option.value,
-        value: option.value
+        label: tag + ' ' + `(${count ?? 0})`,
+        value: tag
       });
     });
 
     return options;
   };
 
-  // if (getOptions().length === 0) {
-  //   return null;
-  // }
+  if (getOptions().length === 0) {
+    return null;
+  }
 
   return (
     <Collapse

@@ -112,6 +112,20 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   set tags(tags) {
     this.props.tags = tags;
   }
+
+  get hash() {
+    return this.props.hash;
+  }
+  set hash(hash) {
+    this.props.hash = hash;
+  }
+
+  get lastIndexed() {
+    return this.props.lastIndexed;
+  }
+  set lastIndexed(lastIndexed) {
+    this.props.lastIndexed = lastIndexed;
+  }s
 }
 
 export class ListingDetailDomainAdapter implements ListingDetailProps {

@@ -30,6 +30,9 @@ export interface PropertyProps extends EntityProps {
 
   tags: string[];
   schemaVersion: string;
+
+  hash: string;
+  lastIndexed: Date;
 }
 
 export interface PropertyEntityReference extends Readonly<Omit<PropertyProps, 'community' | 'setCommunityRef' | 'location' | 'owner' | 'setOwnerRef' | 'listingDetail'>> {
@@ -102,6 +105,14 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     return this.props.schemaVersion;
   }
 
+  get hash() {
+    return this.props.hash;
+  }
+
+  get lastIndexed() {
+    return this.props.lastIndexed;
+  }
+
   private MarkAsNew(): void {
     this.isNew = true;
     this.addIntegrationEvent(PropertyCreatedEvent, { id: this.props.id });
@@ -172,6 +183,20 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
       throw new Error('Unauthorized');
     }
     this.props.tags = tags;
+  }
+
+  public requestSetHash(hash: string): void {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
+      throw new Error('Unauthorized');
+    }
+    this.props.hash = hash;
+  }
+
+  public requestSetLastIndexed(lastIndexed: Date): void {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
+      throw new Error('Unauthorized');
+    }
+    this.props.lastIndexed = lastIndexed;
   }
 
   public override onSave(isModified: boolean): void {

@@ -39,6 +39,7 @@ export const SearchParamKeys = {
   CreatedAt: 'createdAt',
   HideNullResults: 'hideNullResults',
   SavedFilter: 'savedFilter',
+  Tags: 'tags',
 };
 
 export const FilterNames = {
@@ -56,7 +57,8 @@ export const FilterNames = {
   ListedInfo: 'listedInfo',
   Distance: 'distance',
   UpdatedAt: 'updatedAt',
-  CreatedAt: 'createdAt'
+  CreatedAt: 'createdAt',
+  Tags: 'tags'
 };
 
 export const AvailableFilters = Object.values(FilterNames);
@@ -195,7 +197,7 @@ export const additionalAmenitiesOptions: any = {
   'Kitchen & Dining': ['Dishwasher', 'Microwave', 'Refrigerator'],
   Location: ['Oceanfront', 'Gated Community'],
   Media: ['Cable', 'Internet', 'TV'],
-  'On-site Activities': ['Pool (Private)', 'Gym', 'Basketball Court'],
+  'Onsite Activities': ['Pool (Private)', 'Gym', 'Basketball Court'],
   Outdoor: ['Balcony'],
   'Parking & Access': ['Garage']
   // '':[]
@@ -231,6 +233,12 @@ export const DateOptions = [
   { label: '1 month ago', value: 30 },
   { label: '3 months ago', value: 90 }
 ];
+
+export const MinSquareFeet = 0;
+export const MaxSquareFeet = 100000;
+
+export const MinPrice = 0;
+export const MaxPrice = 1000000;
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
   var addresssGeocodeServiceUrlTemplate: string =
@@ -286,174 +294,174 @@ export const GetFilterFromQueryString = (
   let filters = {} as FilterDetail;
 
   // proper type
-  if (qsproperTypes) {
-    filters = {
-      ...selectedFilter,
-      propertyType: qsproperTypes
-    };
-  }
+  filters = {
+    ...selectedFilter,
+    propertyType: qsproperTypes
+  };
 
   // bedrooms
-  if (qsbedrooms) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        bedrooms: parseInt(qsbedrooms)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      bedrooms: qsbedrooms ? parseInt(qsbedrooms) : undefined
+    }
+  };
 
   // bathrooms
-  if (qsbathrooms) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        bathrooms: parseFloat(qsbathrooms)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      bathrooms: qsbathrooms ? parseFloat(qsbathrooms) : undefined
+    }
+  };
 
   // amenities
-  if (qsamenities) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        amenities: qsamenities
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      amenities: qsamenities
+    }
+  };
 
   // price
-  if (qsminPrice && qsmaxPrice) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        prices: [parseInt(qsminPrice), parseInt(qsmaxPrice)]
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : undefined
+    }
+  };
 
   // square feet
-  if (qsminSquareFeet && qsmaxSquareFeet) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        squareFeets: [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      squareFeets:
+        qsminSquareFeet && qsmaxSquareFeet
+          ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
+          : undefined
+    }
+  };
 
   // additional amenities
-  if (qsadditionalAmenities) {
-    let temp: AdditionalAmenities[] = [];
-
-    qsadditionalAmenities.forEach((amenity) => {
-      const [cate, amen] = amenity.split(':');
-      temp.push({
-        category: cate,
-        amenities: amen.split(',')
-      });
+  let temp: AdditionalAmenities[] = [];
+  qsadditionalAmenities?.forEach((amenity) => {
+    const [cate, amen] = amenity.split(':');
+    temp.push({
+      category: cate,
+      amenities: amen.split(',')
     });
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        additionalAmenities: temp
-      }
-    };
-  }
+  });
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      additionalAmenities: temp
+    }
+  };
 
   // listed info
-  if (qsListedInfo) {
-    filters = {
-      ...filters,
-      listedInfo: qsListedInfo
-    };
-  }
+  filters = {
+    ...filters,
+    listedInfo: qsListedInfo
+  };
 
   // distance
-  if (qsdistance) {
-    filters = {
-      ...filters,
-      distance: parseInt(qsdistance)
-    };
-  } else {
-    filters = {
-      ...filters,
-      distance: 0
-    };
-  }
+  filters = {
+    ...filters,
+    distance: qsdistance ? parseInt(qsdistance) : 0
+  };
 
   // lat and long
-  if (qslat && qslong) {
-    filters = {
-      ...filters,
-      position: {
-        latitude: parseFloat(qslat),
-        longitude: parseFloat(qslong)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    position:
+      qslat && qslong
+        ? {
+            latitude: parseFloat(qslat),
+            longitude: parseFloat(qslong)
+          }
+        : undefined
+  };
 
   // updated date
-  if (qsupdatedAt) {
-    const date = dayjs().subtract(parseInt(qsupdatedAt), 'day').toISOString();
-    filters = {
-      ...filters,
-      updatedAt: date
-    };
-  }
+  filters = {
+    ...filters,
+    updatedAt: qsupdatedAt
+  };
 
   // created date
-  if (qscreatedAt) {
-    // const date = dayjs().subtract(parseInt(qscreatedAt), 'day').toISOString();
-    filters = {
-      ...filters,
-      createdAt: qscreatedAt
-    };
-  }
+  filters = {
+    ...filters,
+    createdAt: qscreatedAt
+  };
+
+  // tags
+  const qstags = searchParams.get('tags')?.split(',');
+  filters = {
+    ...filters,
+    tags: qstags
+  };
 
   return filters;
 };
 
-export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, searchParams: URLSearchParams) => {
+export const GetSearchParamsFromFilter = (
+  filter: FilterDetail | undefined,
+  searchParams: URLSearchParams
+) => {
   if (filter) {
-    if (filter.propertyType) searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
-    if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
-    if (filter.distance && filter.distance !== 0) searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
+    if (filter.propertyType)
+      searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
+    if (filter.listedInfo)
+      searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
+    if (filter.distance && filter.distance !== 0)
+      searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
     if (filter.position) {
-      if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
-      if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
+      if (filter.position.latitude)
+        searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
+      if (filter.position.longitude)
+        searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
     }
     if (filter.updatedAt) {
       searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
     }
     if (filter.createdAt) {
       searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
-    } 
+    }
     if (filter.listingDetail) {
-      if (filter.listingDetail.bedrooms) searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());
-      if (filter.listingDetail.bathrooms) searchParams.set(SearchParamKeys.Bathrooms, filter.listingDetail.bathrooms.toString());
-      if (filter.listingDetail.amenities) searchParams.set(SearchParamKeys.Amenities, filter.listingDetail.amenities.join(','));
+      if (filter.listingDetail.bedrooms)
+        searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());
+      if (filter.listingDetail.bathrooms)
+        searchParams.set(SearchParamKeys.Bathrooms, filter.listingDetail.bathrooms.toString());
+      if (filter.listingDetail.amenities)
+        searchParams.set(SearchParamKeys.Amenities, filter.listingDetail.amenities.join(','));
       if (filter.listingDetail.prices) {
-        if (filter.listingDetail.prices[0]) searchParams.set(SearchParamKeys.MinPrice, filter.listingDetail.prices[0].toString());
-        if (filter.listingDetail.prices[1]) searchParams.set(SearchParamKeys.MaxPrice, filter.listingDetail.prices[1].toString());
+        if (filter.listingDetail.prices[0])
+          searchParams.set(SearchParamKeys.MinPrice, filter.listingDetail.prices[0].toString());
+        if (filter.listingDetail.prices[1])
+          searchParams.set(SearchParamKeys.MaxPrice, filter.listingDetail.prices[1].toString());
       }
       if (filter.listingDetail.squareFeets) {
-        if (filter.listingDetail.squareFeets[0]) searchParams.set(SearchParamKeys.MinSquareFeet, filter.listingDetail.squareFeets[0].toString());
-        if (filter.listingDetail.squareFeets[1]) searchParams.set(SearchParamKeys.MaxSquareFeet, filter.listingDetail.squareFeets[1].toString());
+        if (filter.listingDetail.squareFeets[0])
+          searchParams.set(
+            SearchParamKeys.MinSquareFeet,
+            filter.listingDetail.squareFeets[0].toString()
+          );
+        if (filter.listingDetail.squareFeets[1])
+          searchParams.set(
+            SearchParamKeys.MaxSquareFeet,
+            filter.listingDetail.squareFeets[1].toString()
+          );
       }
       if (filter.listingDetail.additionalAmenities) {
         let additionalAmenities: string[] = [];
         filter.listingDetail.additionalAmenities.forEach((amenity: any) => {
-          additionalAmenities.push(
-            `${amenity?.category}:${amenity?.amenities?.join(',')}`
-          );
+          additionalAmenities.push(`${amenity?.category}:${amenity?.amenities?.join(',')}`);
         });
         searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenities.join(';'));
       }
@@ -461,7 +469,7 @@ export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, sear
   }
 
   return searchParams;
-}
+};
 
 // export const GetFilterOptions = (allOptions: string[], facets?: FacetDetail[]) => {
 //   const options: any = [];

@@ -58,6 +58,10 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
+    tags {
+      value
+      count
+    }
   }
 }
 
@@ -106,4 +110,5 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
   listedForLease
   updatedAt
   createdAt
+  tags
 }

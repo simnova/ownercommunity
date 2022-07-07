@@ -69,7 +69,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       }
 
       // distance, lat and long
-      if (filter.position && filter.position.latitude && filter.position.longitude && filter.distance) {
+      if (filter.position && filter.distance !== undefined) {
         filterStrings.push(`geo.distance(position, geography'POINT(${filter.position.longitude} ${filter.position.latitude})') le ${filter.distance}`);
       }
 

@@ -119,6 +119,13 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   set hash(hash) {
     this.props.hash = hash;
   }
+
+  get lastIndexed() {
+    return this.props.lastIndexed;
+  }
+  set lastIndexed(lastIndexed) {
+    this.props.lastIndexed = lastIndexed;
+  }s
 }
 
 export class ListingDetailDomainAdapter implements ListingDetailProps {

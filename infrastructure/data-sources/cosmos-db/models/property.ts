@@ -88,6 +88,7 @@ export interface Property extends Base {
 
   tags: string[];
   hash: string;
+  lastIndexed: Date;
 }
 const schema = new Schema<Property, Model<Property>, Property>(
   {
@@ -174,6 +175,7 @@ const schema = new Schema<Property, Model<Property>, Property>(
     },
     tags: { type: [{ type: String, maxlength: 100 }], required: false },
     hash: { type: String, required: false, maxlength: 100 },
+    lastIndexed: { type: Date, required: false },
   },
   {
     ...BaseOptions,

@@ -481,30 +481,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <PropertiesListSearchToolbar
-        data={data}
-        searchString={searchString}
-        setSearchString={setSearchString}
-        selectedFilter={selectedFilter}
-        setSelectedFilter={setSelectedFilter}
-        handleSearch={handleSearch}
-        onInputAddressChanged={onInputAddressChanged}
-        onInputAddressSelected={onInputAddressSelected}
-        top={top}
-        setTop={setTop}
-        addresses={addresses}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        orderBy={orderBy}
-        setOrderBy={setOrderBy}
-        setHideNullResults={setHideNullResults}
-      />
-
       <div>
-        {/* <Tag closable onClose={(e) => console.log(e.target)}>
-          test
-        </Tag> */}
-        {/* <FormTags value={selectedFilterList} onChange={setSelectedFilterList} /> */}
         {selectedFilterList.map((filter: string) => {
           return (
             <Tag
@@ -525,6 +502,26 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
           ? '(' + data?.propertiesSearch?.count + ' records found)'
           : ''}
       </div>
+      <PropertiesListSearchToolbar
+        data={data}
+        searchString={searchString}
+        setSearchString={setSearchString}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        handleSearch={handleSearch}
+        onInputAddressChanged={onInputAddressChanged}
+        onInputAddressSelected={onInputAddressSelected}
+        top={top}
+        setTop={setTop}
+        addresses={addresses}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        orderBy={orderBy}
+        setOrderBy={setOrderBy}
+        setHideNullResults={setHideNullResults}
+      />
+      <br />
+      <br />
       {result()}
     </>
   );

@@ -335,7 +335,6 @@ export const GetFilterFromQueryString = (
   };
 
   // square feet
-
   filters = {
     ...filters,
     listingDetail: {
@@ -371,25 +370,21 @@ export const GetFilterFromQueryString = (
   };
 
   // distance
-  if (qsdistance) {
-    filters = {
-      ...filters,
-      distance: parseInt(qsdistance)
-    };
-  } else {
-    filters = {
-      ...filters,
-      distance: 0
-    };
-  }
+  filters = {
+    ...filters,
+    distance: qsdistance ? parseInt(qsdistance) : 0
+  };
 
   // lat and long
   filters = {
     ...filters,
-    position: {
-      latitude: qslat ? parseFloat(qslat) : undefined,
-      longitude: qslong ? parseFloat(qslong) : undefined
-    }
+    position:
+      qslat && qslong
+        ? {
+            latitude: parseFloat(qslat),
+            longitude: parseFloat(qslong)
+          }
+        : undefined
   };
 
   // updated date

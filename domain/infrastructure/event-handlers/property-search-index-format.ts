@@ -386,5 +386,4 @@ export interface PropertyListingIndexDocument {
   createdAt: string;
   tags: string[];
   hash: string;
-  updateState: string;
 }

@@ -223,7 +223,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         <Space>
           <span>Saved filters: </span>
           <Select
-            value={savedFilter}
+            value={searchParams.get(SearchParamKeys.SavedFilter) ?? savedFilter}
             onChange={(value) => onSelectFilterChanged(value)}
             style={{ width: '160px' }}
           >

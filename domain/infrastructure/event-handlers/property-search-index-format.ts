@@ -331,14 +331,6 @@ export const propertyListingIndexSpec = {
       sortable: false,
       facetable: true,
     },
-    {
-      name: 'hash',
-      type: 'Edm.String',
-      searchable: false,
-      filterable: false,
-      sortable: false,
-      facetable: false,
-    }
   ],
 } as SearchIndex;
 
@@ -385,5 +377,4 @@ export interface PropertyListingIndexDocument {
   updatedAt: string;
   createdAt: string;
   tags: string[];
-  hash: string;
 }

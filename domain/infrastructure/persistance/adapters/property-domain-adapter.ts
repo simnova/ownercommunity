@@ -21,17 +21,17 @@ export class PropertyConverter extends MongoTypeConverter<DomainExecutionContext
 }
 
 export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> implements PropertyProps {
-  constructor(props: Property) {
-    super(props);
+  constructor(doc: Property) {
+    super(doc);
   }
 
   get community() {
-    if (this.props.community) {
-      return new CommunityDomainAdapter(this.props.community);
+    if (this.doc.community) {
+      return new CommunityDomainAdapter(this.doc.community);
     }
   }
   public setCommunityRef(community: CommunityEntityReference) {
-    this.props.set('community', community['props']['props']);
+    this.doc.set('community', community['props']['doc']);
   }
 
   // get location() {
@@ -42,97 +42,94 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   //   this.props.set('location',owner.id);
   // }
   get location() {
-    if (!this.props.location) {
-      this.props.set('location', {});
+    if (!this.doc.location) {
+      this.doc.set('location', {});
     }
-    return new LocationDomainAdapter(this.props.location);
+    return new LocationDomainAdapter(this.doc.location);
   }
 
   get owner() {
-    if (this.props.owner) {
-      return new MemberDomainAdapter(this.props.owner);
+    if (this.doc.owner) {
+      return new MemberDomainAdapter(this.doc.owner);
     }
   }
   public setOwnerRef(owner: MemberEntityReference | undefined) {
-    this.props.set('owner', owner ? owner.id : undefined);
+    this.doc.set('owner', owner ? owner.id : undefined);
   }
 
   get propertyName() {
-    return this.props.propertyName;
+    return this.doc.propertyName;
   }
   set propertyName(propertyName) {
-    this.props.propertyName = propertyName;
+    this.doc.propertyName = propertyName;
   }
 
   get propertyType() {
-    return this.props.propertyType;
+    return this.doc.propertyType;
   }
   set propertyType(propertyType) {
-    this.props.propertyType = propertyType;
+    this.doc.propertyType = propertyType;
   }
 
   get listedForSale() {
-    return this.props.listedForSale;
+    return this.doc.listedForSale;
   }
   set listedForSale(listedForSale) {
-    this.props.listedForSale = listedForSale;
+    this.doc.listedForSale = listedForSale;
   }
 
   get listedForRent() {
-    return this.props.listedForRent;
+    return this.doc.listedForRent;
   }
   set listedForRent(listedForRent) {
-    this.props.listedForRent = listedForRent;
+    this.doc.listedForRent = listedForRent;
   }
 
   get listedForLease() {
-    return this.props.listedForLease;
+    return this.doc.listedForLease;
   }
   set listedForLease(listedForLease) {
-    this.props.listedForLease = listedForLease;
+    this.doc.listedForLease = listedForLease;
   }
 
   get listedInDirectory() {
-    return this.props.listedInDirectory;
+    return this.doc.listedInDirectory;
   }
   set listedInDirectory(listedInDirectory) {
-    this.props.listedInDirectory = listedInDirectory;
+    this.doc.listedInDirectory = listedInDirectory;
   }
 
   get listingDetail() {
-    if (!this.props.listingDetail) {
-      this.props.set('listingDetail', {});
+    if (!this.doc.listingDetail) {
+      this.doc.set('listingDetail', {});
     }
-    return new ListingDetailDomainAdapter(this.props.listingDetail);
+    return new ListingDetailDomainAdapter(this.doc.listingDetail);
   }
 
   get tags() {
-    return this.props.tags;
+    return this.doc.tags;
   }
   set tags(tags) {
-    this.props.tags = tags;
+    this.doc.tags = tags;
   }
 
   get hash() {
-    return this.props.hash;
+    return this.doc.hash;
   }
   set hash(hash) {
-    this.props.hash = hash;
+    this.doc.hash = hash;
   }
 
   get lastIndexed() {
-    return this.props.lastIndexed;
+    return this.doc.lastIndexed;
   }
   set lastIndexed(lastIndexed) {
-    this.props.lastIndexed = lastIndexed;
+    this.doc.lastIndexed = lastIndexed;
   }s
 }
 
 export class ListingDetailDomainAdapter implements ListingDetailProps {
   constructor(public readonly props: ListingDetail) {}
-  public get id(): string {
-    return this.props.id.valueOf() as string;
-  }
 
   get price() {
     return this.props.price;
@@ -362,21 +359,13 @@ export class AdditionalAmenityDomainAdapter implements AdditionalAmenityProps {
 
 export class LocationDomainAdapter implements LocationProps {
   constructor(public readonly props: Location) {}
-  public get id(): string {
-    return this.props.id.valueOf() as string;
-  }
+
   get position() {
     if (!this.props || !this.props.position) {
       this.props.set('position', {});
       return null;
     }
     return new PositionDomainAdapter(this.props.position);
-    // return{
-    //   get type(){return this.props.position.type},
-    //   set type(value){this.props.position.type = value},
-    //   get coordinates(){return this.props.position.coordinates},
-    //   set coordinates(value){this.props.position.coordinates = value}
-    // }
   }
   get address() {
     if (!this.props.address) {
@@ -389,10 +378,6 @@ export class LocationDomainAdapter implements LocationProps {
 
 export class AddressDomainAdapter implements AddressProps {
   constructor(public readonly props: Location['address']) {}
-  // public get id(): string { return "" as string; }
-  public get id(): string {
-    return this.props.id.valueOf() as string;
-  }
 
   get streetNumber(): string {
     return this.props.streetNumber;
@@ -507,10 +492,6 @@ export class AddressDomainAdapter implements AddressProps {
 
 export class PositionDomainAdapter implements PositionProps {
   constructor(public readonly props: Location['position']) {}
-
-  public get id(): string {
-    return this.props.id.valueOf() as string;
-  }
 
   get type(): string {
     return this.props.type;

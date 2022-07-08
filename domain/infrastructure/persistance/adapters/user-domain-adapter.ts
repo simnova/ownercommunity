@@ -11,17 +11,17 @@ export class UserConverter extends MongoTypeConverter<DomainExecutionContext,Use
 }
 
 export class UserDomainAdapter extends MongooseDomainAdapter<User> implements UserProps {
-  constructor(props: User) { super(props); }
+  constructor(doc: User) { super(doc); }
 
-  get externalId() {return this.props.externalId;}
-  set externalId(externalId) {this.props.externalId = externalId;}
+  get externalId() {return this.doc.externalId;}
+  set externalId(externalId) {this.doc.externalId = externalId;}
 
-  get firstName() {return this.props.firstName;}
-  set firstName(firstName) {this.props.firstName = firstName;}
+  get firstName() {return this.doc.firstName;}
+  set firstName(firstName) {this.doc.firstName = firstName;}
 
-  get lastName() {return this.props.lastName;}
-  set lastName(lastName) {this.props.lastName = lastName;}
+  get lastName() {return this.doc.lastName;}
+  set lastName(lastName) {this.doc.lastName = lastName;}
 
-  get email() {return this.props.email;}
-  set email(email) {this.props.email = email;}
+  get email() {return this.doc.email;}
+  set email(email) {this.doc.email = email;}
 }

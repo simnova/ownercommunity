@@ -9,7 +9,7 @@ import { CommunityConverter } from '../../../domain/infrastructure/persistance/a
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { RoleConverter } from '../../../domain/infrastructure/persistance/adapters/role-domain-adapter';
 import { UserConverter } from '../../../domain/infrastructure/persistance/adapters/user-domain-adapter';
-import { Interests } from '../../../domain/contexts/community/profile-value-objects';
+import { Interests } from '../../../domain/contexts/community/profile.value-objects';
 
 type PropType = MemberDomainAdapter;
 type DomainType = MemberDO<PropType>;

@@ -1,5 +1,5 @@
 import { Role as RoleDO, RoleProps } from '../../../../domain/contexts/community/role';
-import { RoleRepository } from '../../../contexts/community/role-repository';
+import { RoleRepository } from '../../../contexts/community/role.repository';
 import { Role, RoleModel }from '../../../../infrastructure/data-sources/cosmos-db/models/role';
 import { MongoRepositoryBase } from '../mongo-repository';
 import { TypeConverter } from '../../../shared/type-converter';

@@ -13,25 +13,25 @@ export class CommunityConverter extends MongoTypeConverter<DomainExecutionContex
 }
 
 export class CommunityDomainAdapter extends MongooseDomainAdapter<Community> implements CommunityProps {
-  constructor(props: Community) { super(props); }
+  constructor(doc: Community) { super(doc); }
 
-  get name() {return this.props.name;}
-  set name(name) {this.props.name = name;}
+  get name() {return this.doc.name;}
+  set name(name) {this.doc.name = name;}
 
-  get domain() {return this.props.domain;}
-  set domain(domain) {this.props.domain = domain;}
+  get domain() {return this.doc.domain;}
+  set domain(domain) {this.doc.domain = domain;}
 
-  get whiteLabelDomain() {return this.props.whiteLabelDomain;}
-  set whiteLabelDomain(whiteLabelDomain: string) {this.props.whiteLabelDomain = whiteLabelDomain;}
+  get whiteLabelDomain() {return this.doc.whiteLabelDomain;}
+  set whiteLabelDomain(whiteLabelDomain: string) {this.doc.whiteLabelDomain = whiteLabelDomain;}
 
-  get handle() {return this.props.handle;}
-  set handle(handle) {this.props.handle = handle;}
+  get handle() {return this.doc.handle;}
+  set handle(handle) {this.doc.handle = handle;}
 
   get createdBy(): UserProps {
-    if(this.props.createdBy) {return new UserDomainAdapter(this.props.createdBy);}
+    if(this.doc.createdBy) {return new UserDomainAdapter(this.doc.createdBy);}
   }
   setCreatedByRef(user: UserEntityReference) {
-    this.props.set('createdBy',user['props']['props']);
+    this.doc.set('createdBy',user['props']['doc']);
   }
 
 }

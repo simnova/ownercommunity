@@ -1,5 +1,5 @@
 import { Member as MemberDO, MemberProps } from '../../../../domain/contexts/community/member';
-import { MemberRepository } from '../../../contexts/community/member-repository';
+import { MemberRepository } from '../../../contexts/community/member.repository';
 import { Member, MemberModel }from '../../../../infrastructure/data-sources/cosmos-db/models/member';
 import { MongoRepositoryBase } from '../mongo-repository';
 import { TypeConverter } from '../../../shared/type-converter';

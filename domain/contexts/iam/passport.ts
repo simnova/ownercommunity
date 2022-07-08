@@ -1,8 +1,11 @@
-import { CommunityEntityReference, CommunityPermissions } from '../community/community';
+import { CommunityEntityReference } from '../community/community';
+import { CommunityPermissions } from "../community/community-permissions.spec";
 import { MemberEntityReference } from '../community/member';
 import { RoleEntityReference } from '../community/role';
-import { PropertyEntityReference, PropertyPermissions } from '../property/property';
-import { ServiceTicketEntityReference, ServiceTicketPermissions } from '../service-ticket/service-ticket';
+import { PropertyEntityReference } from '../property/property';
+import { PropertyPermissions } from "../property/property-permissions.spec";
+import { ServiceTicketEntityReference } from '../service-ticket/service-ticket';
+import { ServiceTicketPermissions } from "../service-ticket/service-ticket-permissions.spec";
 import { UserEntityReference } from '../user/user';
 import { CommunityVisa, CommunityVisaImpl } from './community-visa';
 import { MemberVisaImpl } from './member-visa';

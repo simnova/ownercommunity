@@ -1,9 +1,9 @@
-import { Entity, EntityProps } from '../../shared/entity';
+import { ValueObject, ValueObjectProps } from '../../shared/value-object';
 import { DomainExecutionContext } from '../context';
 import { CommunityVisa } from '../iam/community-visa';
-import * as ValueObjects from './profile-value-objects';
+import * as ValueObjects from './profile.value-objects';
 
-export interface ProfileProps extends EntityProps {
+export interface ProfileProps extends ValueObjectProps {
   name: string;
   email: string;
   bio: string;
@@ -18,7 +18,7 @@ export interface ProfileProps extends EntityProps {
 
 export interface ProfileEntityReference extends Readonly<ProfileProps> {}
 
-export class Profile extends Entity<ProfileProps> implements ProfileEntityReference {
+export class Profile extends ValueObject<ProfileProps> implements ProfileEntityReference {
   constructor(props: ProfileProps, private readonly visa: CommunityVisa) { super(props); }
 
   get name() {return this.props.name;}

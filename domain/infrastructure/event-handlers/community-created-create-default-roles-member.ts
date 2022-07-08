@@ -5,7 +5,7 @@ import { SystemExecutionContext, ReadOnlyContext } from '../persistance/executio
 import { CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/models/community';
 import { CommunityConverter } from '../persistance/adapters/community-domain-adapter';
 import { Role } from '../../contexts/community/role';
-import { AccountStatusCodes } from '../../contexts/community/account-value-objects';
+import { AccountStatusCodes } from '../../contexts/community/account.value-objects';
 
 export default () => { NodeEventBus.register(CommunityCreatedEvent, async (payload) => {
 

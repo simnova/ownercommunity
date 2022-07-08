@@ -23,51 +23,51 @@ export class ServiceTicketConverter extends MongoTypeConverter<DomainExecutionCo
 }
 
 export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTicket> implements ServiceTicketProps {
-  constructor(props: ServiceTicket) { super(props); }
+  constructor(doc: ServiceTicket) { super(doc); }
 
   get community() {
-    if(this.props.community) {return new CommunityDomainAdapter(this.props.community);}
+    if(this.doc.community) {return new CommunityDomainAdapter(this.doc.community);}
   }
   public setCommunityRef(community:CommunityEntityReference) {
-    this.props.set('community',community.id);
+    this.doc.set('community',community.id);
   }
 
   get property() {
-    if(this.props.property) {return new PropertyDomainAdapter(this.props.property);}
+    if(this.doc.property) {return new PropertyDomainAdapter(this.doc.property);}
   }
   public setPropertyRef(property:PropertyEntityReference) {
-    this.props.set('property',property.id);
+    this.doc.set('property',property.id);
   }
 
   get requestor() {
-    if(this.props.requestor) {return new MemberDomainAdapter(this.props.requestor);}
+    if(this.doc.requestor) {return new MemberDomainAdapter(this.doc.requestor);}
   }
   public setRequestorRef(requestor:MemberEntityReference) {
-    this.props.set('requestor',requestor?requestor['props']['props']:null);
+    this.doc.set('requestor',requestor?requestor['props']['doc']:null);
   }
 
   get assignedTo() {
-    if(this.props.assignedTo) {return this.props.assignedTo?new MemberDomainAdapter(this.props.assignedTo):undefined;}
+    if(this.doc.assignedTo) {return this.doc.assignedTo?new MemberDomainAdapter(this.doc.assignedTo):undefined;}
   }
   public setAssignedToRef(assignedTo:MemberEntityReference) {
-    this.props.set('assignedTo',assignedTo?assignedTo['props']['props']:null);
+    this.doc.set('assignedTo',assignedTo?assignedTo['props']['doc']:null);
   }
 
-  get title() {return this.props.title;}
-  set title(title) {this.props.title = title;}
+  get title() {return this.doc.title;}
+  set title(title) {this.doc.title = title;}
 
-  get description() {return this.props.description;}
-  set description(description) {this.props.description = description;}
+  get description() {return this.doc.description;}
+  set description(description) {this.doc.description = description;}
 
-  get status() {return this.props.status;}
-  set status(status) {this.props.status = status;}
+  get status() {return this.doc.status;}
+  set status(status) {this.doc.status = status;}
 
-  get priority() {return this.props.priority;}
-  set priority(priority) {this.props.priority = priority;}
+  get priority() {return this.doc.priority;}
+  set priority(priority) {this.doc.priority = priority;}
 
-  get activityLog() {return new MongoosePropArray(this.props.activityLog, ActivityDetailDomainAdapter) }
+  get activityLog() {return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter) }
 
-  get photos() {return new MongoosePropArray(this.props.photos, PhotoDomainAdapter) }
+  get photos() {return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter) }
 }
 
 
@@ -85,7 +85,7 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
     if(this.props.activityBy) { return new MemberDomainAdapter(this.props.activityBy);}
   }
   public setActivityByRef (activityBy: MemberEntityReference) {
-    this.props.set('activityBy', activityBy['props']['props']);
+    this.props.set('activityBy', activityBy['props']['doc']);
   }
 }
 

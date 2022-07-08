@@ -1,6 +1,6 @@
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { EntityProps } from '../../shared/entity';
-import * as ValueObjects from './member-value-objects';
+import * as ValueObjects from './member.value-objects';
 import { Community, CommunityProps,CommunityEntityReference } from './community';
 import { PropArray } from '../../shared/prop-array';
 import { Account, AccountEntityReference, AccountProps } from './account';

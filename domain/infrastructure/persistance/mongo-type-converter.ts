@@ -9,7 +9,7 @@ export abstract class MongoTypeConverter<ContextType, MongooseModelType extends 
     private domainObject: new(args:DomainPropInterface, context:ContextType) => DomainType
   ) {}
   toMongo(domainType: DomainType): MongooseModelType {
-    return domainType.props.props;
+    return domainType.props.doc;
   }
   toDomain(mongoType: MongooseModelType, context:ContextType): DomainType {
     if(!mongoType) { return null;}

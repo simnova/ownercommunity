@@ -99,40 +99,22 @@ input AdditionalAmenitiesInput {
   amenities: [String]
 }
 
-type Location implements MongoBase {
+type Location {
   position: Point
   address: Address
-  id: ObjectID!
-  schemaVersion: String
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 input LocationInput {
   position: PointInput
   address: AddressInput
-  id: ObjectID
-  schemaVersion: String
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
-type Point implements MongoBase {
+type Point {
   type: String
   coordinates: [Float]
-
-  id: ObjectID!
-  schemaVersion: String
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 input PointInput {
   type: String
   coordinates: [Float]
-
-  id: ObjectID
-  schemaVersion: String
-  createdAt: DateTime
-  updatedAt: DateTime
 }
 
 type Address {

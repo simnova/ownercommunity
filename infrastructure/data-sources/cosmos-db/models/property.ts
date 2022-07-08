@@ -3,7 +3,20 @@ import { Base, BaseOptions, SubdocumentBase, SubdocumentBaseOptions, Patterns, N
 import * as Community from './community';
 import * as Member from './member';
 // import * as Location from './location';
-import * as Point from './point';
+// import * as Point from './point';
+
+/**
+ * @description
+ * Point model - used to store lat/long coordinates
+ */
+ export interface Point{
+  type: string;
+  /**
+   * @description
+   * Latitude must be the first coordinate
+   */
+  coordinates: number[];
+}
 
 export interface ListingDetail extends NestedPath {
   id: ObjectId;
@@ -57,7 +70,7 @@ const AdditionalAmenitySchema = new Schema<AdditionalAmenity, Model<AdditionalAm
 },{...SubdocumentBaseOptions})
 
 export interface Location extends NestedPath {
-  position: Point.Point;
+  position: Point;
   address: {
     id: ObjectId;
     streetNumber: string;
@@ -113,6 +126,12 @@ const schema = new Schema<Property, Model<Property>, Property>(
     location: {
       // position: Point.PointModel.schema,
       position: {
+        type: {
+          type: String,
+          enum: ['Point'],
+          default: 'Point',
+          required: true
+        },
         coordinates: { type: [Number], required: false },
       },
       address: {

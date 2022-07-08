@@ -1,5 +1,5 @@
 import { User as UserDO, UserProps } from '../../../../domain/contexts/user/user';
-import { UserRepository } from '../../../contexts/user/user-repository';
+import { UserRepository } from '../../../contexts/user/user.repository';
 import { User, UserModel }from '../../../../infrastructure/data-sources/cosmos-db/models/user';
 import { MongoRepositoryBase } from '../mongo-repository';
 import { TypeConverter } from '../../../shared/type-converter';

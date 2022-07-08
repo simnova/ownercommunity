@@ -1,14 +1,12 @@
-import { AdditionalAmenities } from '../../../graphql/generated';
-import { Entity, EntityProps } from '../../shared/entity';
+import { ValueObject, ValueObjectProps } from '../../shared/value-object';
 import { PropArray } from '../../shared/prop-array';
-import { DomainExecutionContext } from '../context';
 import { BedroomDetail, BedroomDetailProps, BedroomDetailReference } from './bedroom-detail';
 import { AdditionalAmenity, AdditionalAmenityProps, AdditionalAmenityReference } from './additional-amenity';
-import * as ValueObjects from './listing-detail-value-objects';
+import * as ValueObjects from './listing-detail.value-objects';
 import { PropertyVisa } from '../iam/property-visa';
 import { isNull } from '@lucaspaganini/value-objects/dist/utils';
 
-export interface ListingDetailProps extends EntityProps {
+export interface ListingDetailProps extends ValueObjectProps {
   price: number;
   rentHigh: number;
   rentLow: number;
@@ -43,7 +41,7 @@ export interface ListingDetailsEntityReference extends Readonly<Omit<ListingDeta
   additionalAmenities: ReadonlyArray<AdditionalAmenityReference>;
 }
 
-export class ListingDetails extends Entity<ListingDetailProps> implements ListingDetailsEntityReference {
+export class ListingDetails extends ValueObject<ListingDetailProps> implements ListingDetailsEntityReference {
   constructor(props: ListingDetailProps, private readonly visa: PropertyVisa) {
     super(props);
   }

@@ -8,9 +8,9 @@ import { Property } from '../../../infrastructure/data-sources/cosmos-db/models/
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
-import { Amenities, Images } from '../../../domain/contexts/property/listing-detail-value-objects';
+import { Amenities, Images } from '../../../domain/contexts/property/listing-detail.value-objects';
 import { AdditionalAmenity, AdditionalAmenityProps } from '../../../domain/contexts/property/additional-amenity';
-import { BedDescriptions } from '../../../domain/contexts/property/bedroom-detail-value-objects';
+import { BedDescriptions } from '../../../domain/contexts/property/bedroom-detail.value-objects';
 
 type PropType = PropertyDomainAdapter;
 type DomainType = PropertyDO<PropType>;

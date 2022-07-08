@@ -177,6 +177,7 @@ const schema = new Schema<Property, Model<Property>, Property>(
     tags: { type: [{ type: String, maxlength: 100 }], required: false },
     hash: { type: String, required: false, maxlength: 100 },
     lastIndexed: { type: Date, required: false },
+    updateIndexFailedDate: { type: Date, required: false },
   },
   {
     ...BaseOptions,

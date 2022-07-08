@@ -12,6 +12,7 @@ import { DomainExecutionContext } from '../../../contexts/context';
 import { RoleEntityReference, RoleProps } from '../../../contexts/community/role';
 import { ProfileProps } from '../../../contexts/community/profile';
 import { UserEntityReference } from '../../../contexts/user/user';
+import { AccountsListBySubscriptionNextResponse } from '@azure/arm-maps';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext,Member,MemberDomainAdapter,MemberDO<MemberDomainAdapter>> {
   constructor() {

@@ -38,6 +38,7 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
       case 'min':
         setMinPrice(e.target.value);
         searchParams.set(SearchParamKeys.MinPrice, e.target.value);
+        searchParams.set(SearchParamKeys.MaxPrice, maxPrice.toString());
         props.setSelectedFilter({
           ...props.selectedFilter,
           listingDetail: {
@@ -49,6 +50,7 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
       case 'max':
         setMaxPrice(e.target.value);
         searchParams.set(SearchParamKeys.MaxPrice, e.target.value);
+        searchParams.set(SearchParamKeys.MinPrice, minPrice.toString());
         props.setSelectedFilter({
           ...props.selectedFilter,
           listingDetail: {
@@ -71,7 +73,7 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
     if (qsMaxPrice) {
       setMaxPrice(parseInt(qsMaxPrice));
     }
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {

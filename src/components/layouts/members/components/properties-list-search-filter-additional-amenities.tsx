@@ -1,5 +1,6 @@
 import {
   AdditionalAmenities,
+  additionalAmenitiesOptions,
   AdditionalAmenitiesValues,
   FilterNames,
   SearchParamKeys
@@ -16,7 +17,7 @@ const CheckboxGroup = Checkbox.Group;
 interface PropertiesListSearchFilterAdditionalAmenitiesProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   selectedFilter?: FilterDetail;
-  additionalAmenitieFacets?: FacetDetail[];
+  additionalAmenitiesAmenitiesFacets?: FacetDetail[];
 }
 
 export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSearchFilterAdditionalAmenitiesProps> =
@@ -103,7 +104,7 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
           }
         });
       }
-    }, []);
+    }, [searchParams]);
 
     useEffect(() => {
       if (!location.search.includes(SearchParamKeys.AdditionalAmenities)) {
@@ -111,21 +112,90 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
       }
     }, [location]);
 
+    // const additionalAmenityAmenities = props.additionalAmenitiesAmenitiesFacets ?? [{ value: '' }];
+
+    // let additionalAmenities: any[] = [];
+
+    // additionalAmenityAmenities.forEach((additionalAmenity) => {
+    //   if (additionalAmenity.value) {
+    //     for (const [key, val] of Object.entries(AdditionalAmenitiesValues)) {
+    //       if (val.amenities.includes(additionalAmenity.value)) {
+    //         if (additionalAmenities[Number(key)]?.amenities) {
+    //           additionalAmenities[Number(key)] = {
+    //             category: val.category,
+    //             amenities: [...additionalAmenities[Number(key)].amenities, additionalAmenity.value]
+    //           };
+    //         } else {
+    //           additionalAmenities[Number(key)] = {
+    //             category: val.category,
+    //             amenities: [additionalAmenity.value]
+    //           };
+    //         }
+    //       }
+    //     }
+    //   }
+    // });
+
+    // additionalAmenities = additionalAmenities.filter((n) => n);
+
+    const getOptions = () => {
+      const additionalAmenityAmenities = props.additionalAmenitiesAmenitiesFacets ?? [
+        { value: '' }
+      ];
+
+      const options: any = [];
+
+      for (const [key, val] of Object.entries(additionalAmenitiesOptions)) {
+        let tmp: string[] = [];
+        additionalAmenityAmenities.forEach((additionalAmenity) => {
+          if (additionalAmenity.value) {
+            if ((val as string[]).includes(additionalAmenity.value)) {
+              if (additionalAmenity.count !== 0) {
+                tmp.push(additionalAmenity.value);
+              }
+              // console.log(key, val);
+            }
+          }
+        });
+        if (tmp.length > 0) {
+          options.push({
+            category: key,
+            amenities: tmp
+          });
+        }
+      }
+
+      return options;
+    };
+
+    if (getOptions().length === 0) {
+      return null;
+    }
+
     return (
-      <Collapse className="search-filter-collapse">
+      <Collapse
+        className="search-filter-collapse"
+        defaultActiveKey={
+          searchParams.get(FilterNames.AdditionalAmenities)
+            ? FilterNames.AdditionalAmenities
+            : undefined
+        }
+      >
         <Panel
           header={<h2 className="font-bold">Additional Amenities</h2>}
           key={FilterNames.AdditionalAmenities}
         >
           <div style={{ paddingLeft: '20px' }}>
-            {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => {
+            {/* {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => { */}
+            {/* {additionalAmenities.map((aam: AdditionalAmenities) => { */}
+            {getOptions().map((aam: AdditionalAmenities) => {
               return (
                 <>
                   <h2 className="font-bold">{aam.category}</h2>
                   <CheckboxGroup
                     key={aam.category}
                     options={aam.amenities.map((value: string) => {
-                      const count = props.additionalAmenitieFacets?.find(
+                      const count = props.additionalAmenitiesAmenitiesFacets?.find(
                         (t: any) => t?.value === value
                       )?.count;
                       return {

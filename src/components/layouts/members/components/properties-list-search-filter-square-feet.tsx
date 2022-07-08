@@ -31,6 +31,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
         setSearchParams(searchParams);
         // update query string
         searchParams.set(SearchParamKeys.MinSquareFeet, value);
+        searchParams.set(SearchParamKeys.MaxSquareFeet, maxSquareFeet.toString());
         setSearchParams(searchParams);
 
         props.setSelectedFilter({
@@ -45,6 +46,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
         setMaxSquareFeet(value);
         // update query string
         searchParams.set(SearchParamKeys.MaxSquareFeet, value);
+        searchParams.set(SearchParamKeys.MinSquareFeet, minSquareFeet.toString());
         setSearchParams(searchParams);
         props.setSelectedFilter({
           ...props.selectedFilter,
@@ -67,7 +69,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
     if (qsmaxSquareFeet) {
       setMaxSquareFeet(parseInt(qsmaxSquareFeet));
     }
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {
@@ -91,7 +93,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
             onChange={(value) => onSquareFeetChanged('min', value)}
           >
             {MinSquareFeetOptions.map((op) => (
-              <Option key={op.value} value={op.value} disabled={op.value > props.maxSquareFeet}>
+              <Option key={op.value} value={op.value} disabled={op.value > maxSquareFeet}>
                 {op.label}
               </Option>
             ))}
@@ -104,7 +106,7 @@ export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilter
             onChange={(value) => onSquareFeetChanged('max', value)}
           >
             {MaxSquareFeetOptions.map((op) => (
-              <Option key={op.value} value={op.value} disabled={op.value < props.minSquareFeet}>
+              <Option key={op.value} value={op.value} disabled={op.value < minSquareFeet}>
                 {op.label}
               </Option>
             ))}

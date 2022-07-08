@@ -42,6 +42,26 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
+    bedrooms {
+      value
+      count
+    }
+    bathrooms {
+      value
+      count
+    }
+    updatedAt {
+      value
+      count
+    }
+    createdAt {
+      value
+      count
+    }
+    tags {
+      value
+      count
+    }
   }
 }
 
@@ -88,4 +108,7 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
   listedForSale
   listedForRent
   listedForLease
+  updatedAt
+  createdAt
+  tags
 }

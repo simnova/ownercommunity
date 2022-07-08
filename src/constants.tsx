@@ -1,5 +1,6 @@
 import type { SliderMarks } from 'antd/lib/slider';
-import { FilterDetail } from './generated';
+import dayjs from 'dayjs';
+import { FacetDetail, FilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -29,11 +30,16 @@ export const SearchParamKeys = {
   MinSquareFeet: 'minSquareFeet',
   MaxSquareFeet: 'maxSquareFeet',
   Latitude: 'lat',
-  Longtitude: 'long',
+  Longitude: 'long',
   Page: 'page',
   Top: 'top',
   Distance: 'distance',
-  OrderBy: 'orderBy'
+  OrderBy: 'orderBy',
+  UpdatedAt: 'updatedAt',
+  CreatedAt: 'createdAt',
+  HideNullResults: 'hideNullResults',
+  SavedFilter: 'savedFilter',
+  Tags: 'tags',
 };
 
 export const FilterNames = {
@@ -49,9 +55,13 @@ export const FilterNames = {
   ListedForRent: 'listedForRent',
   ListedForLease: 'listedForLease',
   ListedInfo: 'listedInfo',
-  Distance: 'distance'
+  Distance: 'distance',
+  UpdatedAt: 'updatedAt',
+  CreatedAt: 'createdAt',
+  Tags: 'tags'
 };
 
+export const AvailableFilters = Object.values(FilterNames);
 export interface AdditionalAmenities {
   category: string;
   amenities: string[];
@@ -72,13 +82,52 @@ export const BathroomsFilterOptions = [
   { label: '4+', value: 4 },
   { label: '5+', value: 5 }
 ];
-export const PropertyTypes = ['condo', 'single family', 'townhouse'];
+
+export const PropertyTypeOptions = [
+  {
+    label: 'Townhouse',
+    value: 'Townhouse'
+  },
+  {
+    label: 'Condo',
+    value: 'Condo'
+  },
+  {
+    label: 'Single Family',
+    value: 'Single Family'
+  },
+  {
+    label: 'Apartment',
+    value: 'Apartment'
+  },
+  {
+    label: 'Land',
+    value: 'Land'
+  },
+  {
+    label: 'Studio',
+    value: 'Studio'
+  },
+  {
+    label: 'Multi-Family',
+    value: 'Multi-Family'
+  },
+  {
+    label: 'Storefront',
+    value: 'Storefront'
+  }
+];
+
+export const PropertyTypeList = PropertyTypeOptions.map((property) => {
+  return property.value;
+});
+
 export const Listed = [
   { label: 'For Sale', value: 'listedForSale' },
   { label: 'For Rent', value: 'listedForRent' },
   { label: 'For Lease', value: 'listedForLease' }
 ];
-export const Amenities = ['Wifi', 'Pool', 'TV'];
+
 export const AdditionalAmenitiesValues: AdditionalAmenities[] = [
   {
     category: 'Features',
@@ -148,7 +197,7 @@ export const additionalAmenitiesOptions: any = {
   'Kitchen & Dining': ['Dishwasher', 'Microwave', 'Refrigerator'],
   Location: ['Oceanfront', 'Gated Community'],
   Media: ['Cable', 'Internet', 'TV'],
-  'On-site Activities': ['Pool (Private)', 'Gym', 'Basketball Court'],
+  'Onsite Activities': ['Pool (Private)', 'Gym', 'Basketball Court'],
   Outdoor: ['Balcony'],
   'Parking & Access': ['Garage']
   // '':[]
@@ -171,10 +220,25 @@ export const AmentitiesOptions = [
   'Pool (Public)',
   'Gym',
   'Washer/Dryer (Private)',
-  'Washer/Dryer (Public)'
+  'Washer/Dryer (Public)',
+  'TV',
+  'Wifi'
 ];
 
 export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
+
+export const DateOptions = [
+  { label: '1 week ago', value: 7 },
+  { label: '2 weeks ago', value: 14 },
+  { label: '1 month ago', value: 30 },
+  { label: '3 months ago', value: 90 }
+];
+
+export const MinSquareFeet = 0;
+export const MaxSquareFeet = 100000;
+
+export const MinPrice = 0;
+export const MaxPrice = 1000000;
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
   var addresssGeocodeServiceUrlTemplate: string =
@@ -206,7 +270,10 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
   return address();
 };
 
-export const GetFilterFromQueryString = (searchParams: URLSearchParams, selectedFilter: FilterDetail): FilterDetail => {
+export const GetFilterFromQueryString = (
+  searchParams: URLSearchParams,
+  selectedFilter: FilterDetail
+): FilterDetail => {
   // get all search params
   const qsproperTypes = searchParams.get('type')?.split(',');
   const qsbedrooms = searchParams.get('bedrooms');
@@ -221,123 +288,204 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
   const qslat = searchParams.get('lat');
   const qslong = searchParams.get('long');
+  const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
+  const qscreatedAt = searchParams.get(SearchParamKeys.CreatedAt); // in days
 
   let filters = {} as FilterDetail;
 
   // proper type
-  if (qsproperTypes) {
-    filters = {
-      ...selectedFilter,
-      propertyType: qsproperTypes
-    };
-  }
+  filters = {
+    ...selectedFilter,
+    propertyType: qsproperTypes
+  };
 
   // bedrooms
-  if (qsbedrooms) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        bedrooms: parseInt(qsbedrooms)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      bedrooms: qsbedrooms ? parseInt(qsbedrooms) : undefined
+    }
+  };
 
   // bathrooms
-  if (qsbathrooms) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        bathrooms: parseFloat(qsbathrooms)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      bathrooms: qsbathrooms ? parseFloat(qsbathrooms) : undefined
+    }
+  };
 
   // amenities
-  if (qsamenities) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        amenities: qsamenities
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      amenities: qsamenities
+    }
+  };
 
   // price
-  if (qsminPrice && qsmaxPrice) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        prices: [parseInt(qsminPrice), parseInt(qsmaxPrice)]
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : undefined
+    }
+  };
 
   // square feet
-  if (qsminSquareFeet && qsmaxSquareFeet) {
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        squareFeets: [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      squareFeets:
+        qsminSquareFeet && qsmaxSquareFeet
+          ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
+          : undefined
+    }
+  };
 
   // additional amenities
-  if (qsadditionalAmenities) {
-    let temp: AdditionalAmenities[] = [];
-
-    qsadditionalAmenities.forEach((amenity) => {
-      const [cate, amen] = amenity.split(':');
-      temp.push({
-        category: cate,
-        amenities: amen.split(',')
-      });
+  let temp: AdditionalAmenities[] = [];
+  qsadditionalAmenities?.forEach((amenity) => {
+    const [cate, amen] = amenity.split(':');
+    temp.push({
+      category: cate,
+      amenities: amen.split(',')
     });
-    filters = {
-      ...filters,
-      listingDetail: {
-        ...filters?.listingDetail,
-        additionalAmenities: temp
-      }
-    };
-  }
+  });
+  filters = {
+    ...filters,
+    listingDetail: {
+      ...filters?.listingDetail,
+      additionalAmenities: temp
+    }
+  };
 
   // listed info
-  if (qsListedInfo) {
-    filters = {
-      ...filters,
-      listedInfo: qsListedInfo
-    };
-  }
+  filters = {
+    ...filters,
+    listedInfo: qsListedInfo
+  };
 
   // distance
-  if (qsdistance) {
-    filters = {
-      ...filters,
-      distance: parseInt(qsdistance)
-    };
-  } else {
-    filters = {
-      ...filters,
-      distance: 0
-    };
-  }
+  filters = {
+    ...filters,
+    distance: qsdistance ? parseInt(qsdistance) : 0
+  };
 
   // lat and long
-  if (qslat && qslong) {
-    filters = {
-      ...filters,
-      position: {
-        latitude: parseFloat(qslat),
-        longitude: parseFloat(qslong)
-      }
-    };
-  }
+  filters = {
+    ...filters,
+    position:
+      qslat && qslong
+        ? {
+            latitude: parseFloat(qslat),
+            longitude: parseFloat(qslong)
+          }
+        : undefined
+  };
+
+  // updated date
+  filters = {
+    ...filters,
+    updatedAt: qsupdatedAt
+  };
+
+  // created date
+  filters = {
+    ...filters,
+    createdAt: qscreatedAt
+  };
+
+  // tags
+  const qstags = searchParams.get('tags')?.split(',');
+  filters = {
+    ...filters,
+    tags: qstags
+  };
 
   return filters;
 };
+
+export const GetSearchParamsFromFilter = (
+  filter: FilterDetail | undefined,
+  searchParams: URLSearchParams
+) => {
+  if (filter) {
+    if (filter.propertyType)
+      searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
+    if (filter.listedInfo)
+      searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
+    if (filter.distance && filter.distance !== 0)
+      searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
+    if (filter.position) {
+      if (filter.position.latitude)
+        searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
+      if (filter.position.longitude)
+        searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
+    }
+    if (filter.updatedAt) {
+      searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
+    }
+    if (filter.createdAt) {
+      searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
+    }
+    if (filter.listingDetail) {
+      if (filter.listingDetail.bedrooms)
+        searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());
+      if (filter.listingDetail.bathrooms)
+        searchParams.set(SearchParamKeys.Bathrooms, filter.listingDetail.bathrooms.toString());
+      if (filter.listingDetail.amenities)
+        searchParams.set(SearchParamKeys.Amenities, filter.listingDetail.amenities.join(','));
+      if (filter.listingDetail.prices) {
+        if (filter.listingDetail.prices[0])
+          searchParams.set(SearchParamKeys.MinPrice, filter.listingDetail.prices[0].toString());
+        if (filter.listingDetail.prices[1])
+          searchParams.set(SearchParamKeys.MaxPrice, filter.listingDetail.prices[1].toString());
+      }
+      if (filter.listingDetail.squareFeets) {
+        if (filter.listingDetail.squareFeets[0])
+          searchParams.set(
+            SearchParamKeys.MinSquareFeet,
+            filter.listingDetail.squareFeets[0].toString()
+          );
+        if (filter.listingDetail.squareFeets[1])
+          searchParams.set(
+            SearchParamKeys.MaxSquareFeet,
+            filter.listingDetail.squareFeets[1].toString()
+          );
+      }
+      if (filter.listingDetail.additionalAmenities) {
+        let additionalAmenities: string[] = [];
+        filter.listingDetail.additionalAmenities.forEach((amenity: any) => {
+          additionalAmenities.push(`${amenity?.category}:${amenity?.amenities?.join(',')}`);
+        });
+        searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenities.join(';'));
+      }
+    }
+  }
+
+  return searchParams;
+};
+
+// export const GetFilterOptions = (allOptions: string[], facets?: FacetDetail[]) => {
+//   const options: any = [];
+
+//   allOptions.forEach((value: string) => {
+//     const count = facets?.find((t: any) => t?.value === value)?.count;
+//     if (count === undefined) {
+//       return;
+//     }
+//     options.push({
+//       label: `${value} ${
+//         count !== undefined && count !== null && count > 0 ? `(${count})` : count === 0 ? '(0)' : ''
+//       }`,
+//       value: value
+//     });
+//   });
+//   console.log(options);
+//   return options;
+// };

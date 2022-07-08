@@ -1,7 +1,7 @@
 import { Checkbox, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { FilterNames, PropertyTypes, SearchParamKeys } from '../../../../constants';
+import { FilterNames, PropertyTypeList, SearchParamKeys } from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
@@ -12,6 +12,8 @@ interface PropertiesListSearchFilterPropertyTypeProps {
   selectedFilter?: FilterDetail;
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   propertyTypeFacets?: FacetDetail[];
+  // handleSearch: (page?: number, top?: number) => void;
+  // searchString?: string;
 }
 
 export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilterPropertyTypeProps> =
@@ -36,7 +38,7 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
     useEffect(() => {
       const qsproperTypes = searchParams.get(SearchParamKeys.PropertyType);
       setSelectedPropertyTypes(qsproperTypes?.split(',') ?? []);
-    }, []);
+    }, [searchParams]);
 
     // handle when clear all filter clicked
     useEffect(() => {
@@ -45,24 +47,34 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
       }
     }, [location]);
 
+    const getOptions = () => {
+      const options: any = [];
+
+      PropertyTypeList.forEach((value: string) => {
+        const count = props.propertyTypeFacets?.find((t: any) => t?.value === value)?.count;
+        // if (!count) {
+        //   return;
+        // }
+        options.push({
+          label: value + ' ' + `(${count ?? 0})`,
+          value: value
+        });
+      });
+      return options;
+    };
+
+    if (getOptions().length === 0) {
+      return null;
+    }
+
     return (
-      <Collapse className="search-filter-collapse">
+      <Collapse
+        className="search-filter-collapse"
+        defaultActiveKey={searchParams.get(FilterNames.Type) ? FilterNames.Type : undefined}
+      >
         <Panel header={<h2 className="font-bold">Type </h2>} key={FilterNames.Type}>
           <CheckboxGroup
-            key={FilterNames.Type}
-            options={PropertyTypes.map((value: string) => {
-              const count = props?.propertyTypeFacets?.find((t: any) => t?.value === value)?.count;
-              return {
-                label: `${value} ${
-                  count !== undefined && count !== null && count > 0
-                    ? `(${count})`
-                    : count === 0
-                    ? '(0)'
-                    : ''
-                }`,
-                value: value
-              };
-            })}
+            options={getOptions()}
             value={selectedPropertyTypes}
             onChange={(checkedValues) => onPropertyTypeFilterChange(checkedValues as string[])}
           />

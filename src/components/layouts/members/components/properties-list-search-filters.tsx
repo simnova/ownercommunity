@@ -7,11 +7,17 @@ import { PropertiesListSearchFilterPropertyType } from './properties-list-search
 import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
-import { FilterNames, SearchParamKeys } from '../../../../constants';
+import { AvailableFilters, FilterNames, SearchParamKeys } from '../../../../constants';
 import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
+import { PropertiesListSearchFilterUpdatedDate } from './properties-list-search-filter-updated-date';
+import { PropertiesListSearchFilterCreatedDate } from './properties-list-search-filter-created-date';
+import { Collapse } from 'antd';
+import { PropertiesListSearchFilterTags } from './properties-list-search-filter-tags';
+import { PropertiesListSearchFilterTagsContainer } from './properties-list-search-filter-tags-container';
 
+const { Panel } = Collapse;
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   selectedFilter?: FilterDetail;
@@ -21,6 +27,7 @@ interface PropertiesListSearchFiltersProps {
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [displayedFilters, setDisplayedFilters] = useState<string[]>([]);
 
   useEffect(() => {
     const qsTop = searchParams.get(SearchParamKeys.Top);
@@ -28,6 +35,20 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
       props.setTop(Number(qsTop));
     }
   }, []);
+
+  useEffect(() => {
+    const filters = [];
+    // type
+    if (props?.facets?.type && props.facets.type.length > 0) {
+      filters.push(FilterNames.Type);
+    }
+
+    // bedrooms
+    if (props?.facets?.bedrooms && props.facets.bedrooms.length > 0) {
+      filters.push(FilterNames.Bedrooms);
+    }
+    setDisplayedFilters(filters);
+  }, [props.facets]);
 
   const getListedInfoFacets = (facets?: PropertySearchFacets) => {
     const listedInfoFacets: FacetDetail[] = [];
@@ -57,64 +78,102 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
     return listedInfoFacets;
   };
 
+  // const onSelectTopChanged = (value: number) => {
+  //   props.setTop(value);
+  //   props.setCurrentPage(0);
+  //   props.handleSearch(0, value);
+  // };
+
+  console.log('props facet', props.facets);
+
   return (
     <div>
-        {/* Type */}
-        <PropertiesListSearchFilterPropertyType
-          propertyTypeFacets={props.facets?.type as FacetDetail[]}
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
-        {/* Bedrooms */}
-        <PropertiesListSearchFilterBedrooms
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Type */}
+      <PropertiesListSearchFilterPropertyType
+        propertyTypeFacets={props.facets?.type as FacetDetail[]}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
 
-        {/* Bathrooms */}
-        <PropertiesListSearchFilterBathrooms
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Bedrooms */}
+      <PropertiesListSearchFilterBedrooms
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        bedroomsFacets={props.facets?.bedrooms as FacetDetail[]}
+      />
 
-        {/* Amenities */}
-        <PropertiesListSearchFilterAmenities
-          amenitiesFacets={props.facets?.amenities as FacetDetail[]}
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Bathrooms */}
+      <PropertiesListSearchFilterBathrooms
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        bathroomsFacets={props.facets?.bathrooms as FacetDetail[]}
+      />
 
-        {/* Additional Amenities */}
-        <PropertiesListSearchFilterAdditionalAmenities
-          additionalAmenitieFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Amenities */}
+      <PropertiesListSearchFilterAmenities
+        amenitiesFacets={props.facets?.amenities as FacetDetail[]}
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
 
-        {/* squareFeet */}
-        <PropertiesListSearchFilterSquareFeet
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Additional Amenities */}
+      <PropertiesListSearchFilterAdditionalAmenities
+        additionalAmenitiesAmenitiesFacets={
+          props.facets?.additionalAmenitiesAmenities as FacetDetail[]
+        }
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
 
+      {/* squareFeet */}
+      <PropertiesListSearchFilterSquareFeet
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
+
+      {/* Listed Info: listedForSale, listedForLease, listedForRent */}
+      <PropertiesListSearchFilterListedInfo
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        listedInfoFacets={getListedInfoFacets(props.facets)}
+      />
+
+      <Collapse className="search-filter-collapse">
         {/* Distance */}
-        <PropertiesListSearchFilterDistance
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+        <Panel header={<h2 className="font-bold">Distance</h2>} key={FilterNames.Distance}>
+          <PropertiesListSearchFilterDistance
+            selectedFilter={props.selectedFilter}
+            setSelectedFilter={props.setSelectedFilter}
+          />
+        </Panel>
+      </Collapse>
 
-        {/* Listed Info: listedForSale, listedForLease, listedForRent */}
-        <PropertiesListSearchFilterListedInfo
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-          listedInfoFacets={getListedInfoFacets(props.facets)}
-        />
+      {/* Date (updatedAt) */}
+      <PropertiesListSearchFilterUpdatedDate
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        updatedDateFacet={props.facets?.updatedAt as FacetDetail[]}
+      />
 
-        {/* Price */}
-        <PropertiesListSearchFilterPrice
-          selectedFilter={props.selectedFilter}
-          setSelectedFilter={props.setSelectedFilter}
-        />
+      {/* Date (createdAt) */}
+      <PropertiesListSearchFilterCreatedDate
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        createdDateFacet={props.facets?.createdAt as FacetDetail[]}
+      />
+
+      {/* Tags */}
+      <PropertiesListSearchFilterTagsContainer
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+        tagsFacets={props.facets?.tags as FacetDetail[]}
+      />
+
+      {/* Price */}
+      <PropertiesListSearchFilterPrice
+        selectedFilter={props.selectedFilter}
+        setSelectedFilter={props.setSelectedFilter}
+      />
     </div>
   );
 };

@@ -2,12 +2,13 @@ import { Radio, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { BathroomsFilterOptions, FilterNames, SearchParamKeys } from '../../../../constants';
-import { FilterDetail } from '../../../../generated';
+import { FacetDetail, FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
 interface PropertiesListSearchFilterBathroomsProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   selectedFilter?: FilterDetail;
+  bathroomsFacets?: FacetDetail[];
 }
 
 export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterBathroomsProps> = (
@@ -39,7 +40,7 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
     if (qsbathrooms) {
       setBathrooms(parseFloat(qsbathrooms));
     }
-  }, []);
+  }, [searchParams]);
 
   // handle when clear all filter clicked
   useEffect(() => {
@@ -47,16 +48,37 @@ export const PropertiesListSearchFilterBathrooms: FC<PropertiesListSearchFilterB
       setBathrooms(undefined);
     }
   }, [location]);
+
+  const getOptions = () => {
+    const options: any = [];
+    props.bathroomsFacets?.forEach((option) => {
+      let value = option.value?.slice(0, -1);
+      if (option.count != undefined && option.count > 0) {
+        options.push({
+          label: `${option.value} (${option.count})`,
+          value: value ? parseFloat(value) : ''
+        });
+      }
+    });
+    return options;
+  };
+
+  if (getOptions().length === 0) {
+    return null;
+  }
+
   return (
-    <Collapse className="search-filter-collapse">
+    <Collapse
+      className="search-filter-collapse"
+      defaultActiveKey={searchParams.get(FilterNames.Bathrooms) ? FilterNames.Bathrooms : undefined}
+    >
       <Panel header={<h2 className="font-bold">Bathrooms</h2>} key={FilterNames.Bathrooms}>
         <Radio.Group
           value={bathrooms}
-          defaultValue={bathrooms}
           onChange={onBathroomsClicked}
           buttonStyle="solid"
           optionType="button"
-          options={BathroomsFilterOptions}
+          options={getOptions()}
         />
       </Panel>
     </Collapse>

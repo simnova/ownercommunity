@@ -5,7 +5,11 @@ import {
   AdminPropertiesDetailContainerMembersDocument,
   AdminPropertiesDetailContainerPropertyDocument,
   AdminPropertiesDetailContainerPropertyUpdateDocument,
-  PropertyUpdateInput
+  PropertyUpdateInput,
+  MembersPropertiesDetailContainerMembersDocument,
+  MembersPropertiesDetailContainerPropertyDocument,
+  MembersPropertiesDetailContainerPropertyUpdateDocument,
+  MembersPropertiesDetailContainerPropertyDeleteDocument
 } from '../../../../generated';
 import { PropertiesDetail } from './properties-detail';
 import PropTypes from 'prop-types';
@@ -31,8 +35,8 @@ export type PropertiesDetailContainerPropTypes = PropTypes.InferProps<typeof Com
 
 export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTypes> = (props) => {
   const navigate = useNavigate();
-  const [updateProperty] = useMutation(AdminPropertiesDetailContainerPropertyUpdateDocument);
-  const [deleteProperty] = useMutation(AdminPropertiesDetailContainerPropertyDeleteDocument, {
+  const [updateProperty] = useMutation(MembersPropertiesDetailContainerPropertyUpdateDocument);
+  const [deleteProperty] = useMutation(MembersPropertiesDetailContainerPropertyDeleteDocument, {
     update(cache, { data }) {
       // update the list by removing the deleted item - necessary for root objects
       const deletedProperty = data?.propertyDelete.property;
@@ -58,7 +62,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
     data: memberData,
     loading: memberLoading,
     error: memberError
-  } = useQuery(AdminPropertiesDetailContainerMembersDocument, {
+  } = useQuery(MembersPropertiesDetailContainerMembersDocument, {
     variables: { communityId: props.data.communityId }
   });
 
@@ -66,7 +70,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
     data: propertyData,
     loading: propertyLoading,
     error: propertyError
-  } = useQuery(AdminPropertiesDetailContainerPropertyDocument, {
+  } = useQuery(MembersPropertiesDetailContainerPropertyDocument, {
     variables: {
       id: props.data.id
     }

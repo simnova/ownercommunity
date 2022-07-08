@@ -270,6 +270,7 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  communityId?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['String']>;
   distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;

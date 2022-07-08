@@ -70,7 +70,10 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
     };
   });
 
-  if (options.length === 0) {
+  if (
+    props.listedInfoFacets?.filter((info) => info.count && info?.value === 'true' && info.count > 0)
+      .length === 0
+  ) {
     return null;
   }
 

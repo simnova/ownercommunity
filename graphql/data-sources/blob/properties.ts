@@ -9,7 +9,7 @@ export class Properties extends BlobDataSource<Context> {
 	public async propertyPublicFileRemove(propertyId: string,memberId: string, fileName: string): Promise<void> {
 		const blobName = `public-files/${fileName}`;
 		await this.withStorage(async (passport, blobStorage) => {
-			var property = await this.context.dataSources.propertyApi.findOneById(propertyId);
+			var property = await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId);
 			if (!property) {
 				return;
 			}
@@ -48,7 +48,7 @@ export class Properties extends BlobDataSource<Context> {
 	private async getHeader(propertyId: string, memberId:string, permittedContentTypes: string[], contentType: string, contentLength: number, maxSizeBytes: number, blobName: string) {
 		var headerResult: PropertyBlobFileAuthHeaderResult;
 		await this.withStorage(async (passport, blobStorage) => {
-			var property = await (await this.context.dataSources.propertyApi.findOneById(propertyId)).populate(['community','owner']);
+			var property = await (await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId)).populate(['community','owner']);
 			if (!property) {
 				headerResult = { status: { success: false, errorMessage: `Property not found: ${propertyId}` } } as PropertyBlobFileAuthHeaderResult;
 				return;

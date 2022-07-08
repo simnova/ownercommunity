@@ -8,7 +8,7 @@ export class Communities extends BlobDataSource<Context> {
 	public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {
 		var result: FileInfo[] = [];
 		await	this.withStorage(async (passport, blobStorage) => {
-			var community = await this.context.dataSources.communityApi.findOneById(communityId);
+			var community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
 			var communityDO = new CommunityConverter().toDomain(community,{passport:passport});
 			if(!passport.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)){
 				return ;
@@ -54,7 +54,7 @@ export class Communities extends BlobDataSource<Context> {
 	public async communityPublicFileRemove(communityId: string, fileName: string): Promise<void> {
 		const blobName = `public-files/${fileName}`;
 		await this.withStorage(async (passport, blobStorage) => {
-			var community = await this.context.dataSources.communityApi.findOneById(communityId);
+			var community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
 			if (!community) {
 				return;
 			}
@@ -84,7 +84,7 @@ export class Communities extends BlobDataSource<Context> {
 	private async getHeader(communityId: string, permittedContentTypes: string[], contentType: string, contentLength: number, maxSizeBytes: number, blobName: string) {
 		var headerResult: CommunityBlobContentAuthHeaderResult;
 		await this.withStorage(async (passport, blobStorage) => {
-			var community = await this.context.dataSources.communityApi.findOneById(communityId);
+			var community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
 			if (!community) {
 				headerResult = { status: { success: false, errorMessage: `Community not found: ${communityId}` } } as CommunityBlobContentAuthHeaderResult;
 				return;

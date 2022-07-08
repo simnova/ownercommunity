@@ -8,7 +8,7 @@ export class Members extends BlobDataSource<Context> {
 	async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {
 		var mutationResult:MutationStatus;
 		await	this.withStorage(async (passport, blobStorage) => {
-			var member = await (await this.context.dataSources.memberApi.findOneById(memberId)).populate('community');
+			var member = await (await this.context.dataSources.memberCosmosdbApi.findOneById(memberId)).populate('community');
 			if(!member){
 				mutationResult = {success:false, errorMessage:`Member not found: ${memberId}`} as MutationStatus;
 			}
@@ -27,7 +27,7 @@ export class Members extends BlobDataSource<Context> {
 	async memberProfileAvatarCreateAuthHeader(memberId: string, contentType: string, contentLength: number): Promise<MemberAvatarImageAuthHeaderResult> {
 		var headerResult:MemberAvatarImageAuthHeaderResult;
 	  await	this.withStorage(async (passport, blobStorage) => {
-			var member = await (await this.context.dataSources.memberApi.findOneById(memberId)).populate('community');
+			var member = await (await this.context.dataSources.memberCosmosdbApi.findOneById(memberId)).populate('community');
 			if(!member){
 				headerResult = {status:{success:false, errorMessage:`Member not found: ${memberId}`}} as MemberAvatarImageAuthHeaderResult;
 				return;

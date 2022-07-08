@@ -20,5 +20,3 @@ export const Domain  = {
   propertyDomainAPI: new Properties(PropertyUnitOfWork),
   serviceTicketDomainAPI: new ServiceTickets(ServiceTicketUnitOfWork)
 }
-
-export type DomainType = typeof Domain;

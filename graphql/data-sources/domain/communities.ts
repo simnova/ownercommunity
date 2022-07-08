@@ -19,7 +19,7 @@ export class Communities extends DomainDataSource<Context,Community,PropType,Dom
     if(this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized:communityCreate');
     }
-    let mongoUser = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let mongoUser = await this.context.dataSources.userCosmosdbApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let userDo = new UserConverter().toDomain(mongoUser,ReadOnlyContext());
 
     let communityToReturn : Community;

@@ -9,6 +9,8 @@ import dayjs from 'dayjs';
 import { PropertyDomainAdapter } from '../persistance/adapters/property-domain-adapter';
 import { Property } from '../../contexts/property/property';
 import { MongoPropertyRepository } from '../persistance/repositories/mongo-property-repository';
+import retry from 'retry';
+
 const crypto = require('crypto');
 
 export default () => {
@@ -84,8 +86,21 @@ export default () => {
 
       if (property.hash !== hash) {
         await updateSearchIndex(listingDoc, property, hash, repo);
-      } else {
-        console.log('No need to update document')
+
+        //     let operation = retry.operation({
+        //       retries: 2,
+        //       factor: 2,
+        //       minTimeout: 1 * 1000,
+        //       maxTimeout: 2 * 1000,
+        //     });
+
+        //     operation.attempt(async function () {
+        //       await updateSearchIndex(listingDoc, property, hash, repo);
+
+        //       console.log('Retry complete.');
+        //     });
+        //   } else {
+        //     console.log('No need to update document');
       }
     });
   });
@@ -100,6 +115,5 @@ async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocumen
   property.requestSetLastIndexed(new Date());
   property.requestSetHash(hash);
   await repo.save(property);
-  console.log("LAST INDEXED: ", property.lastIndexed);
+  console.log('LAST INDEXED: ', property.lastIndexed);
 }
-

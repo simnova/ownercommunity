@@ -89,6 +89,7 @@ export interface Property extends Base {
   tags: string[];
   hash: string;
   lastIndexed: Date;
+  updateIndexFailedDate: Date;
 }
 const schema = new Schema<Property, Model<Property>, Property>(
   {

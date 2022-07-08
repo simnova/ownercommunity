@@ -63,7 +63,7 @@ export const PropertiesListSearchFilterPropertyType: FC<PropertiesListSearchFilt
       return options;
     };
 
-    if (getOptions().length === 0) {
+    if (props.propertyTypeFacets?.length === 0) {
       return null;
     }
 

@@ -4,10 +4,10 @@ import {
   MemberPropertiesListSearchContainerMapSasTokenDocument,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
-import { Skeleton, List, Tag, Form } from 'antd';
+import { Skeleton, List, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams,useParams } from 'react-router-dom';
 import {
   addressQuery,
   FilterNames,
@@ -17,10 +17,9 @@ import {
   MaxSquareFeet,
   MinPrice,
   MaxPrice,
-  additionalAmenitiesOptions
+  
 } from '../../../../constants';
 import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
-import { FormTags } from '../../../ui/organisms/form-tags';
 interface AddressDataType {
   value: string;
   label: string;
@@ -32,7 +31,7 @@ interface AddressDataType {
 
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const params = useParams();
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [selectedFilterList, setSelectedFilterList] = useState<string[]>([]);
   const [searchString, setSearchString] = useState(
@@ -121,8 +120,11 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const qsSearchString = searchParams.get(SearchParamKeys.SearchString) ?? '';
 
     // get filter
-    const filter = GetFilterFromQueryString(searchParams, selectedFilter ?? {});
-
+    let filter = GetFilterFromQueryString(searchParams, selectedFilter ?? {});
+    filter = {
+      ...filter,
+      communityId: params.communityId
+    };
     let tempSkip = page * top;
 
     await gqlSearchProperties({

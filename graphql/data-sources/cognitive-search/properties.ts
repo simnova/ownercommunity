@@ -21,6 +21,10 @@ const PropertyFilterNames = {
 export class Properties extends CognitiveSearchDataSource<Context> {
   private getFilterString(filter: FilterDetail): string {
     let filterStrings = [];
+
+    // only show properties in the current community
+    filterStrings.push(`communityId eq '${filter.communityId}'`);
+
     if (filter) {
       // property type
       if (filter.propertyType && filter.propertyType.length > 0) {

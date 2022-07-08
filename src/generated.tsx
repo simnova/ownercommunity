@@ -270,11 +270,14 @@ export type FileInfo = {
 };
 
 export type FilterDetail = {
+  createdAt?: InputMaybe<Scalars['String']>;
   distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
   position?: InputMaybe<GeographyPointInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updatedAt?: InputMaybe<Scalars['String']>;
 };
 
 export type GeographyPoint = {
@@ -354,23 +357,15 @@ export type ListingDetailsInput = {
   video?: InputMaybe<Scalars['String']>;
 };
 
-export type Location = MongoBase & {
+export type Location = {
   __typename?: 'Location';
   address?: Maybe<Address>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  id: Scalars['ObjectID'];
   position?: Maybe<Point>;
-  schemaVersion?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type LocationInput = {
   address?: InputMaybe<AddressInput>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['ObjectID']>;
   position?: InputMaybe<PointInput>;
-  schemaVersion?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type Member = MongoBase & {
@@ -386,7 +381,7 @@ export type Member = MongoBase & {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type MemberAccount = MongoEmbeddedBase & {
+export type MemberAccount = MongoSubdocument & {
   __typename?: 'MemberAccount';
   createdAt?: Maybe<Scalars['DateTime']>;
   createdBy?: Maybe<User>;
@@ -492,7 +487,7 @@ export type MongoBase = {
 };
 
 /** Base type for all models in mongo. */
-export type MongoEmbeddedBase = {
+export type MongoSubdocument = {
   createdAt?: Maybe<Scalars['DateTime']>;
   /** The ID of the object. */
   id: Scalars['ObjectID'];
@@ -723,23 +718,15 @@ export type PermissionsInput = {
   serviceTicketPermissions: ServiceTicketPermissionsInput;
 };
 
-export type Point = MongoBase & {
+export type Point = {
   __typename?: 'Point';
   coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  id: Scalars['ObjectID'];
-  schemaVersion?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type PointInput = {
   coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['ObjectID']>;
-  schemaVersion?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type PropertiesSearchInput = {
@@ -750,6 +737,7 @@ export type PropertiesSearchInput = {
 export type PropertiesSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   filter?: InputMaybe<FilterDetail>;
+  hideNullResults?: InputMaybe<Scalars['Boolean']>;
   orderBy?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skip?: InputMaybe<Scalars['Int']>;
   top?: InputMaybe<Scalars['Int']>;
@@ -771,6 +759,7 @@ export type Property = MongoBase & {
   propertyName: Scalars['String'];
   propertyType?: Maybe<Scalars['String']>;
   schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -833,6 +822,7 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -843,7 +833,9 @@ export type PropertyResult = {
   position?: Maybe<GeographyPoint>;
   price?: Maybe<Scalars['Float']>;
   squareFeet?: Maybe<Scalars['Int']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   type?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type PropertySearchFacets = {
@@ -851,10 +843,15 @@ export type PropertySearchFacets = {
   additionalAmenitiesAmenities?: Maybe<Array<Maybe<FacetDetail>>>;
   additionalAmenitiesCategory?: Maybe<Array<Maybe<FacetDetail>>>;
   amenities?: Maybe<Array<Maybe<FacetDetail>>>;
+  bathrooms?: Maybe<Array<Maybe<FacetDetail>>>;
+  bedrooms?: Maybe<Array<Maybe<FacetDetail>>>;
+  createdAt?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForLease?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
+  tags?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
+  updatedAt?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -875,6 +872,7 @@ export type PropertyUpdateInput = {
   owner?: InputMaybe<PropertyOwnerInput>;
   propertyName?: InputMaybe<Scalars['String']>;
   propertyType?: InputMaybe<Scalars['String']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -887,6 +885,7 @@ export type Query = {
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
+  getAllPropertyTags?: Maybe<Array<Maybe<Scalars['String']>>>;
   getMapSasToken?: Maybe<Scalars['String']>;
   member?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
@@ -1052,7 +1051,7 @@ export type ServiceTicket = MongoBase & {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type ServiceTicketActivityDetail = MongoEmbeddedBase & {
+export type ServiceTicketActivityDetail = MongoSubdocument & {
   __typename?: 'ServiceTicketActivityDetail';
   activityBy: Member;
   activityDescription: Scalars['String'];
@@ -1117,7 +1116,7 @@ export type ServiceTicketPermissionsInput = {
   canWorkOnTickets: Scalars['Boolean'];
 };
 
-export type ServiceTicketPhoto = MongoEmbeddedBase & {
+export type ServiceTicketPhoto = MongoSubdocument & {
   __typename?: 'ServiceTicketPhoto';
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];

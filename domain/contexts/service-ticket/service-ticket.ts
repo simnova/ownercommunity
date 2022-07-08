@@ -55,14 +55,14 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     this.visa = context.passport.forServiceTicket(this);
   }
 
-  public static async getNewInstance<props extends ServiceTicketProps> (
+  public static getNewInstance<props extends ServiceTicketProps> (
       newProps:props,
       title:string,
       description:string,
       community:CommunityEntityReference, 
       property:PropertyEntityReference,
       requestor:MemberEntityReference,
-      context:DomainExecutionContext): Promise<ServiceTicket<props>> {
+      context:DomainExecutionContext): ServiceTicket<props> {
     let serviceTicket = new ServiceTicket(newProps,context);
     serviceTicket.isNew = true;
     serviceTicket.requestSetTitle(title);

@@ -32,7 +32,8 @@ export interface PropertyProps extends EntityProps {
   schemaVersion: string;
 
   hash: string;
-  lastIndexed: Date;
+  lastIndexed: Date; // success
+  updateIndexFailedDate: Date; // failure
 }
 
 export interface PropertyEntityReference extends Readonly<Omit<PropertyProps, 'community' | 'setCommunityRef' | 'location' | 'owner' | 'setOwnerRef' | 'listingDetail'>> {
@@ -111,6 +112,10 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
 
   get lastIndexed() {
     return this.props.lastIndexed;
+  }
+
+  get updateIndexFailedDate() {
+    return this.props.updateIndexFailedDate;
   }
 
   private MarkAsNew(): void {
@@ -197,6 +202,13 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
       throw new Error('Unauthorized');
     }
     this.props.lastIndexed = lastIndexed;
+  }
+
+  public requestSetUpdateIndexFailedDate(updateIndexFailedDate: Date): void {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
+      throw new Error('Unauthorized');
+    }
+    this.props.updateIndexFailedDate = updateIndexFailedDate;
   }
 
   public override onSave(isModified: boolean): void {

@@ -1,9 +1,9 @@
-import { UserUnitOfWork } from '../../../domain/infrastructure/persistance/repositories';
-import { CommunityUnitOfWork } from '../../../domain/infrastructure/persistance/repositories';
-import { MemberUnitOfWork } from '../../../domain/infrastructure/persistance/repositories';
-import { RoleUnitOfWork } from '../../../domain/infrastructure/persistance/repositories';
-import { PropertyUnitOfWork } from '../../../domain/infrastructure/persistance/repositories';
-import { ServiceTicketUnitOfWork } from '../../../domain/infrastructure/persistance/repositories';
+import { UserUnitOfWork } from '../../../domain/infrastructure/persistence/user.uow';
+import { CommunityUnitOfWork } from '../../../domain/infrastructure/persistence/community.uow';
+import { MemberUnitOfWork } from '../../../domain/infrastructure/persistence/member.uow';
+import { RoleUnitOfWork } from '../../../domain/infrastructure/persistence/role.uow';
+import { PropertyUnitOfWork } from '../../../domain/infrastructure/persistence/property.uow';
+import { ServiceTicketUnitOfWork } from '../../../domain/infrastructure/persistence/service-ticket.uow';
 
 import { Users } from './users';
 import { Communities } from './communities';

@@ -1,9 +1,9 @@
-import { NodeEventBus } from '../events/node-event-bus';
-import { MemberUnitOfWork } from '../persistance/repositories';
-import { SystemExecutionContext, ReadOnlyContext } from '../persistance/execution-context';
+import { NodeEventBus } from '../core/events/node-event-bus';
+import { MemberUnitOfWork } from '../persistence/member.uow';
+import { SystemExecutionContext, ReadOnlyContext } from '../execution-context';
 import { RoleDeletedReassignEvent } from '../../events/role-deleted-reassign';
 import { RoleModel } from '../../../infrastructure/data-sources/cosmos-db/models/role';
-import { RoleConverter } from '../persistance/adapters/role-domain-adapter';
+import { RoleConverter } from '../persistence/role.domain-adapter';
 
 export default () => { NodeEventBus.register(RoleDeletedReassignEvent, async (payload) => {
 

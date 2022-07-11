@@ -1,17 +1,17 @@
-import { Member, Account, Profile } from '../../../../infrastructure/data-sources/cosmos-db/models/member';
+import { Member, Account, Profile } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 
-import { Member as MemberDO, MemberProps } from '../../../../domain/contexts/community/member';
-import { MongooseDomainAdapter, MongoosePropArray } from '../mongo-domain-adapter';
-import { MongoTypeConverter } from '../mongo-type-converter';
-import { AccountProps } from '../../../contexts/community/account';
-import { UserDomainAdapter } from './user-domain-adapter';
-import { CommunityEntityReference, CommunityProps } from '../../../contexts/community/community';
-import { CommunityDomainAdapter } from './community-domain-adapter';
-import { RoleDomainAdapter } from './role-domain-adapter';
-import { DomainExecutionContext } from '../../../contexts/context';
-import { RoleEntityReference, RoleProps } from '../../../contexts/community/role';
-import { ProfileProps } from '../../../contexts/community/profile';
-import { UserEntityReference } from '../../../contexts/user/user';
+import { Member as MemberDO, MemberProps } from '../../contexts/community/member';
+import { MongooseDomainAdapter, MongoosePropArray } from '../core/mongo/mongo-domain-adapter';
+import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
+import { AccountProps } from '../../contexts/community/account';
+import { UserDomainAdapter } from './user.domain-adapter';
+import { CommunityEntityReference, CommunityProps } from '../../contexts/community/community';
+import { CommunityDomainAdapter } from './community.domain-adapter';
+import { RoleDomainAdapter } from './role.domain-adapter';
+import { DomainExecutionContext } from '../../contexts/context';
+import { RoleEntityReference, RoleProps } from '../../contexts/community/role';
+import { ProfileProps } from '../../contexts/community/profile';
+import { UserEntityReference } from '../../contexts/user/user';
 import { AccountsListBySubscriptionNextResponse } from '@azure/arm-maps';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext,Member,MemberDomainAdapter,MemberDO<MemberDomainAdapter>> {

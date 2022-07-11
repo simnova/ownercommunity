@@ -1,14 +1,14 @@
 import { Member as MemberDO } from '../../../domain/contexts/community/member';
-import { MemberConverter, MemberDomainAdapter }from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
-import { MongoMemberRepository } from '../../../domain/infrastructure/persistance/repositories/mongo-member-repository';
+import { MemberConverter, MemberDomainAdapter }from '../../../domain/infrastructure/persistence/member.domain-adapter';
+import { MongoMemberRepository } from '../../../domain/infrastructure/persistence/member.mongo-repository';
 import { Context } from '../../context';
 import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
-import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
+import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
-import { RoleConverter } from '../../../domain/infrastructure/persistance/adapters/role-domain-adapter';
-import { UserConverter } from '../../../domain/infrastructure/persistance/adapters/user-domain-adapter';
+import { RoleConverter } from '../../../domain/infrastructure/persistence/role.domain-adapter';
+import { UserConverter } from '../../../domain/infrastructure/persistence/user.domain-adapter';
 import { Interests } from '../../../domain/contexts/community/profile.value-objects';
 
 type PropType = MemberDomainAdapter;

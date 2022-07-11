@@ -48,3 +48,12 @@
   width: 80%;
   margin: 0 auto;
 }
+
+.service-ticket-search-filter-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding-bottom: 0;
+}
+
+.service-ticket-search-filter-collapse > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+  padding-top: 0;
+  margin-left: 10px;
+}

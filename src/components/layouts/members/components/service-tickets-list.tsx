@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 
 const { Sider, Content } = Layout;
 
@@ -80,7 +81,8 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
             />
           </div>
 
-          {/* Component goes here */}
+          <ServiceTicketsSearchFilters />
+          
           {!collapsed && <div className="p-3">Thing</div>}
         </Sider>
         <Content className="pl-2">

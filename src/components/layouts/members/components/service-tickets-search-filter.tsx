@@ -13,7 +13,7 @@ interface ServiceTicketSearchFilterProps {
   ]
 }
 
-export const ServiceTicketSearchFilter: React.FC<any> = (props: ServiceTicketSearchFilterProps) => {
+export const ServiceTicketsSearchFilter: React.FC<any> = (props: ServiceTicketSearchFilterProps) => {
   return (
     <>
       <Collapse

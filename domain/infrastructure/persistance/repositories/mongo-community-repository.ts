@@ -1,5 +1,5 @@
 import { Community as CommunityDO, CommunityProps } from '../../../../domain/contexts/community/community';
-import { CommunityRepository } from '../../../contexts/community/community-repository';
+import { CommunityRepository } from '../../../contexts/community/community.repository';
 import { Community, CommunityModel }from '../../../../infrastructure/data-sources/cosmos-db/models/community';
 import { MongoRepositoryBase } from '../mongo-repository';
 import { TypeConverter } from '../../../shared/type-converter';

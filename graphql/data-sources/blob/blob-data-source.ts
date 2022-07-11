@@ -1,5 +1,4 @@
 import { DataSource,DataSourceConfig } from 'apollo-datasource';
-import { getPassport } from '../domain-data-utils';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
 import { BlobStorage } from '../../../infrastructure/services/blob-storage';

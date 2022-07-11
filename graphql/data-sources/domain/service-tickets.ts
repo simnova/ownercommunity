@@ -25,18 +25,18 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
     }
     
     let serviceTicketToReturn : ServiceTicket;
-    let community = await this.context.dataSources.communityApi.getCommunityById(this.context.community);
+    let community = await this.context.dataSources.communityCosmosdbApi.getCommunityById(this.context.community);
     let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
 
-    let property = await this.context.dataSources.propertyApi.findOneById(input.propertyId);
+    let property = await this.context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId);
     let propertyDo = new PropertyConverter().toDomain(property,{passport:ReadOnlyPassport.GetInstance()});
 
     let member : Member;
     if(input.requestorId === undefined) { //assume requestor is the verified user
-      let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-      member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
+      let user = await this.context.dataSources.userCosmosdbApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+      member = await this.context.dataSources.memberCosmosdbApi.getMemberByCommunityIdUserId(this.context.community,user.id);
     } else {  //use the supplied requestorId - TODO: check that the current user is an admin
-      member = await this.context.dataSources.memberApi.findOneById(input.requestorId);
+      member = await this.context.dataSources.memberCosmosdbApi.findOneById(input.requestorId);
     }
     let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
 
@@ -60,7 +60,7 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
       if(serviceTicket.property.id !== input.propertyId) {
-        let property = await this.context.dataSources.propertyApi.findOneById(input.propertyId);
+        let property = await this.context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId);
         let propertyDo = new PropertyConverter().toDomain(property,{passport:ReadOnlyPassport.GetInstance()});
         serviceTicket.requestSetProperty(propertyDo);
       }
@@ -91,7 +91,7 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
     let serviceTicketToReturn : ServiceTicket;
     let memberDo:MemberDO<any>|undefined = undefined;
     if(input.assignedToId) {
-      let member = await this.context.dataSources.memberApi.findOneById(input.assignedToId);
+      let member = await this.context.dataSources.memberCosmosdbApi.findOneById(input.assignedToId);
       memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
     }
     await this.withTransaction(async (repo) => {
@@ -104,8 +104,8 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
   }  
 
   async serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput) : Promise<ServiceTicket> {
-    let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
+    let user = await this.context.dataSources.userCosmosdbApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let member = await this.context.dataSources.memberCosmosdbApi.getMemberByCommunityIdUserId(this.context.community,user.id);
     let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
     let serviceTicketToReturn : ServiceTicket;
     await this.withTransaction(async (repo) => {
@@ -117,8 +117,8 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
   }
 
   async serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput) : Promise<ServiceTicket> {
-    let user = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.dataSources.memberApi.getMemberByCommunityIdUserId(this.context.community,user.id);
+    let user = await this.context.dataSources.userCosmosdbApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let member = await this.context.dataSources.memberCosmosdbApi.getMemberByCommunityIdUserId(this.context.community,user.id);
     let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
     let serviceTicketToReturn : ServiceTicket;
     await this.withTransaction(async (repo) => {

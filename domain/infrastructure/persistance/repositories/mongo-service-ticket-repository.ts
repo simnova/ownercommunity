@@ -1,5 +1,5 @@
 import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../../../domain/contexts/service-ticket/service-ticket';
-import { ServiceTicketRepository } from '../../../contexts/service-ticket/service-ticket-repository';
+import { ServiceTicketRepository } from '../../../contexts/service-ticket/service-ticket.repository';
 import { ServiceTicket, ServiceTicketModel }from '../../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { MongoRepositoryBase } from '../mongo-repository';
 import { TypeConverter } from '../../../shared/type-converter';

@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../shared/entity';
 import { CommunityVisa } from '../iam/community-visa';
-import { ServiceTicketPermissions as ServiceTicketPermissionsSpec } from '../service-ticket/service-ticket';
+import { ServiceTicketPermissions as ServiceTicketPermissionsSpec } from "../service-ticket/service-ticket-permissions.spec";
 
 export interface ServiceTicketPermissionsProps extends ServiceTicketPermissionsSpec, EntityProps {}
 

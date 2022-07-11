@@ -9,7 +9,7 @@ import { CommunityConverter } from '../../../domain/infrastructure/persistance/a
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { RoleConverter } from '../../../domain/infrastructure/persistance/adapters/role-domain-adapter';
 import { UserConverter } from '../../../domain/infrastructure/persistance/adapters/user-domain-adapter';
-import { Interests } from '../../../domain/contexts/community/profile-value-objects';
+import { Interests } from '../../../domain/contexts/community/profile.value-objects';
 
 type PropType = MemberDomainAdapter;
 type DomainType = MemberDO<PropType>;
@@ -24,7 +24,7 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
     }
     
     let memberToReturn : Member;
-    let community = await this.context.dataSources.communityApi.getCommunityById(this.context.community);
+    let community = await this.context.dataSources.communityCosmosdbApi.getCommunityById(this.context.community);
     let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
 
     await this.withTransaction(async (repo) => {
@@ -38,7 +38,7 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
 
   async memberUpdate(input: MemberUpdateInput) : Promise<Member> {
     let memberToReturn : Member;
-    let mongoRole = await this.context.dataSources.roleApi.findOneById(input.role);
+    let mongoRole = await this.context.dataSources.roleCosmosdbApi.findOneById(input.role);
     let roleDo = new RoleConverter().toDomain(mongoRole,{passport:ReadOnlyPassport.GetInstance()});
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.id);
@@ -52,10 +52,10 @@ export class Members extends DomainDataSource<Context,Member,PropType,DomainType
   async memberAccountAdd(input: MemberAccountAddInput) : Promise<Member> {
     let memberToReturn : Member;
 
-    let mongoUser = await this.context.dataSources.userApi.findOneById(input.account.user);
+    let mongoUser = await this.context.dataSources.userCosmosdbApi.findOneById(input.account.user);
     let userDo = new UserConverter().toDomain(mongoUser,{passport:ReadOnlyPassport.GetInstance()});
 
-    let currentMongoUser = await this.context.dataSources.userApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let currentMongoUser = await this.context.dataSources.userCosmosdbApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let currentUserDo = new UserConverter().toDomain(currentMongoUser,{passport:ReadOnlyPassport.GetInstance()});
     
     await this.withTransaction(async (repo) => {

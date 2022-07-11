@@ -13,12 +13,11 @@ import { Communities } from './communities';
 import { Properties } from './properties';
 
 export const CosmosDB = {
-  userApi: new Users(UserModel),
-  roleApi: new Roles(RoleModel),
-  serviceTicketApi: new ServiceTickets(ServiceTicketModel),
-  memberApi: new Members(MemberModel),
-  communityApi: new Communities(CommunityModel),
-  propertyApi: new Properties(PropertyModel)
+  userCosmosdbApi: new Users(UserModel),
+  roleCosmosdbApi: new Roles(RoleModel),
+  serviceTicketCosmosdbApi: new ServiceTickets(ServiceTicketModel),
+  memberCosmosdbApi: new Members(MemberModel),
+  communityCosmosdbApi: new Communities(CommunityModel),
+  propertyCosmosdbApi: new Properties(PropertyModel)
 }
 
-export type CosmosDBType = typeof CosmosDB;

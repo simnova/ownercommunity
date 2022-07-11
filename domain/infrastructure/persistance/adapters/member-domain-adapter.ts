@@ -12,6 +12,7 @@ import { DomainExecutionContext } from '../../../contexts/context';
 import { RoleEntityReference, RoleProps } from '../../../contexts/community/role';
 import { ProfileProps } from '../../../contexts/community/profile';
 import { UserEntityReference } from '../../../contexts/user/user';
+import { AccountsListBySubscriptionNextResponse } from '@azure/arm-maps';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext,Member,MemberDomainAdapter,MemberDO<MemberDomainAdapter>> {
   constructor() {
@@ -20,66 +21,65 @@ export class MemberConverter extends MongoTypeConverter<DomainExecutionContext,M
 }
 
 export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implements MemberProps {
-  constructor(props: Member) { super(props); }
+  constructor(doc: Member) { super(doc); }
 
-  get memberName() {return this.props.memberName;}
-  set memberName(memberName) {this.props.memberName = memberName;}
+  get memberName() {return this.doc.memberName;}
+  set memberName(memberName) {this.doc.memberName = memberName;}
 
   get community() {
-    if(this.props.community) {return new CommunityDomainAdapter(this.props.community);}
+    if(this.doc.community) {return new CommunityDomainAdapter(this.doc.community);}
   }
   setCommunityRef(community: CommunityEntityReference) {
-    this.props.set('community',community.id);
+    this.doc.set('community',community.id);
   }
 
   get accounts() {
-    return new MongoosePropArray(this.props.accounts, AccountDomainAdapter);
+    return new MongoosePropArray(this.doc.accounts, AccountDomainAdapter);
   } 
 
   get role() {
-    if(this.props.role) {return new RoleDomainAdapter(this.props.role);}
+    if(this.doc.role) {return new RoleDomainAdapter(this.doc.role);}
   }
   setRoleRef(role: RoleEntityReference) {
-    this.props.set('role',role.id);
+    this.doc.set('role',role.id);
   }
 
   get profile() { 
-    if(!this.props.profile){this.props.set('profile',{});} //embedded - ensure it exists
-    return new ProfileDomainAdapter(this.props.profile);
+    if(!this.doc.profile){this.doc.set('profile',{});} //embedded - ensure it exists
+    return new ProfileDomainAdapter(this.doc.profile);
   }
 }
 
 export class AccountDomainAdapter implements AccountProps {
-  constructor(public readonly props: Account) {}
-  public get id(): string { return this.props.id.valueOf() as string; }
+  constructor(public readonly doc: Account) {}
+  public get id(): string { return this.doc.id.valueOf() as string; }
 
-  get firstName() {return this.props.firstName;}
-  set firstName(firstName) {this.props.firstName = firstName;}
+  get firstName() {return this.doc.firstName;}
+  set firstName(firstName) {this.doc.firstName = firstName;}
 
-  get lastName() {return this.props.lastName;}
-  set lastName(lastName) {this.props.lastName = lastName;}
+  get lastName() {return this.doc.lastName;}
+  set lastName(lastName) {this.doc.lastName = lastName;}
 
   get user(){
-    if(this.props.user) { return new UserDomainAdapter(this.props.user);}
+    if(this.doc.user) { return new UserDomainAdapter(this.doc.user);}
   }
   setUserRef(user: UserEntityReference) {
-    this.props.set('user', user['props']['props']);
+    this.doc.set('user', user['props']['doc']);
   }
 
-  get statusCode() {return this.props.statusCode;}
-  set statusCode(statusCode) {this.props.statusCode = statusCode;}
+  get statusCode() {return this.doc.statusCode;}
+  set statusCode(statusCode) {this.doc.statusCode = statusCode;}
 
   get createdBy(){
-    if(this.props.createdBy) { return new UserDomainAdapter(this.props.createdBy);}
+    if(this.doc.createdBy) { return new UserDomainAdapter(this.doc.createdBy);}
   }
   setCreatedByRef(createdBy: UserEntityReference) {
-    this.props.set('createdBy', createdBy.id);
+    this.doc.set('createdBy', createdBy.id);
   }
 }
 
 export class ProfileDomainAdapter implements ProfileProps {
   constructor(public readonly props: Profile) {}
-  public get id(): string { return this.props.id.valueOf() as string; }
 
   get name() {return this.props.name;}
   set name(name) {this.props.name = name;}

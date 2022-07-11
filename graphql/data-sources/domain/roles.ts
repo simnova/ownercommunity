@@ -21,7 +21,7 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
     }
     
     let roleToReturn : Role;
-    let community = await this.context.dataSources.communityApi.getCommunityById(this.context.community);
+    let community = await this.context.dataSources.communityCosmosdbApi.getCommunityById(this.context.community);
     let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
 
     await this.withTransaction(async (repo) => {
@@ -87,7 +87,7 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
       throw new Error('Unauthorized:roleDeleteAndReassign');
     }
 
-    let mongoNewRole = await this.context.dataSources.roleApi.getRoleById(input.roleToReassignTo);
+    let mongoNewRole = await this.context.dataSources.roleCosmosdbApi.getRoleById(input.roleToReassignTo);
     let newROleDo = new RoleConverter().toDomain(mongoNewRole,{passport:ReadOnlyPassport.GetInstance()});
     let roleToReturn : Role;
     await this.withTransaction(async (repo) => {

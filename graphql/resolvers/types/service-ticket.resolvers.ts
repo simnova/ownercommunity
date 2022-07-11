@@ -24,25 +24,25 @@ const serviceTicket : Resolvers = {
   ServiceTicket: {
     community: async (parent, args, context, info) => {
       if(parent.community && isValidObjectId(parent.community.toString())){
-        return (await context.dataSources.communityApi.findOneById(parent.community.toString())) as Community;
+        return (await context.dataSources.communityCosmosdbApi.findOneById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
     property: async (parent, args, context, info) => {
       if(parent.property && isValidObjectId(parent.property.toString())){
-        return (await context.dataSources.propertyApi.findOneById(parent.property.toString())) as Property;
+        return (await context.dataSources.propertyCosmosdbApi.findOneById(parent.property.toString())) as Property;
       }
       return parent.property;
     },
     requestor: async (parent, args, context, info) => {
       if(parent.requestor && isValidObjectId(parent.requestor.toString())){
-        return (await context.dataSources.memberApi.findOneById(parent.requestor.toString())) as Member;
+        return (await context.dataSources.memberCosmosdbApi.findOneById(parent.requestor.toString())) as Member;
       }
       return parent.requestor;
     },
     assignedTo: async (parent, args, context, info) => {
       if(parent.assignedTo && isValidObjectId(parent.assignedTo.toString())){
-        return (await context.dataSources.memberApi.findOneById(parent.assignedTo.toString())) as Member;
+        return (await context.dataSources.memberCosmosdbApi.findOneById(parent.assignedTo.toString())) as Member;
       }
       return parent.assignedTo;
     }
@@ -50,32 +50,32 @@ const serviceTicket : Resolvers = {
   ServiceTicketActivityDetail: {
     activityBy: async (parent, args, context, info) => {
       if(parent.activityBy && isValidObjectId(parent.activityBy.toString())){
-        return (await context.dataSources.memberApi.findOneById(parent.activityBy.toString())) as Member;
+        return (await context.dataSources.memberCosmosdbApi.findOneById(parent.activityBy.toString())) as Member;
       }
       return parent.activityBy;
     }
   },
   Query: {
     serviceTicket: async (_parent, args, context, _info) => {
-      return (await context.dataSources.serviceTicketApi.findOneById(args.id)) as ServiceTicket;
+      return (await context.dataSources.serviceTicketCosmosdbApi.findOneById(args.id)) as ServiceTicket;
     },
     serviceTicketsOpenByCommunity: async (_parent, _args, context, _info) => {
-      return (await context.dataSources.serviceTicketApi.getServiceTicketsByCommunityId(context.community)) as ServiceTicket[];
+      return (await context.dataSources.serviceTicketCosmosdbApi.getServiceTicketsByCommunityId(context.community)) as ServiceTicket[];
     },
     serviceTicketsOpenByRequestor: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
-      return (await context.dataSources.serviceTicketApi.getServiceTicketsOpenByRequestor(member.id)) as ServiceTicket[];
+      return (await context.dataSources.serviceTicketCosmosdbApi.getServiceTicketsOpenByRequestor(member.id)) as ServiceTicket[];
     },
     serviceTicketsClosedByRequestor: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
-      return (await context.dataSources.serviceTicketApi.getServiceTicketsClosedByRequestor(member.id)) as ServiceTicket[];
+      return (await context.dataSources.serviceTicketCosmosdbApi.getServiceTicketsClosedByRequestor(member.id)) as ServiceTicket[];
     },
     serviceTicketsAssignedToCurrentUser: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
-      return (await context.dataSources.serviceTicketApi.getServiceTicketsByAssignedTo(context.community, member.id)) as ServiceTicket[];
+      return (await context.dataSources.serviceTicketCosmosdbApi.getServiceTicketsByAssignedTo(context.community, member.id)) as ServiceTicket[];
     },
     serviceTicketsByCommunityId: async (_parent, {communityId}, context, _info) => {
-      return (await context.dataSources.serviceTicketApi.getServiceTicketsByCommunityId(communityId)) as ServiceTicket[];
+      return (await context.dataSources.serviceTicketCosmosdbApi.getServiceTicketsByCommunityId(communityId)) as ServiceTicket[];
     }
   },
   Mutation: {

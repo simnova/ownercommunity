@@ -5,7 +5,7 @@ import { EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
 import { CommunityVisa } from '../iam/community-visa';
 import { User, UserEntityReference, UserProps } from '../user/user';
-import * as ValueObjects from './community-value-objects';
+import * as ValueObjects from './community.value-objects';
 
 export interface CommunityProps extends EntityProps {
   name:string;
@@ -94,13 +94,3 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
 
 }
 
-export interface CommunityPermissions {
-  canManageRolesAndPermissions: boolean;
-  canManageCommunitySettings: boolean;
-  canManageSiteContent: boolean;
-  canManageMembers: boolean;
-  canEditOwnMemberProfile: boolean;
-  canEditOwnMemberAccounts: boolean;
-  isEditingOwnMemberAccount: boolean;
-  isSystemAccount: boolean;
-} 

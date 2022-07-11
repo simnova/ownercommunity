@@ -15,13 +15,25 @@ import { Document, SchemaOptions } from 'mongoose';
  */
 export interface Base extends Document,MongoBase  {
 }
-
-export interface EmbeddedBase extends Document, Omit<MongoBase, 'schemaVersion'> {
-}
-
 export const BaseOptions : SchemaOptions = {
   timestamps: true, 
   versionKey: 'version', 
+}
+
+/**
+ * This interface is to be used for all Mongoose Subdocuments, either inside an array or as a single document
+ * While defining the Mongoose Schema, Subdocument object should be defined as a separate Schema
+ */
+export interface SubdocumentBase extends Document, Omit<MongoBase, 'schemaVersion'> {
+}
+export const SubdocumentBaseOptions : SchemaOptions = BaseOptions
+
+/**
+ * This interface can only be used for defining a grouping of properties inside a path ina document
+ * This should NOT be used for defining array elements, as they will be automatically converted to Subdocuments
+ * While defining the Mongoose Schema, NestedPath object should be defined inline with the parent schema 
+ */
+export interface NestedPath extends Document {
 }
 
 export const Patterns = {

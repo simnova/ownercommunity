@@ -8,9 +8,9 @@ import { Property } from '../../../infrastructure/data-sources/cosmos-db/models/
 import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
-import { Amenities, Images } from '../../../domain/contexts/property/listing-detail-value-objects';
+import { Amenities, Images } from '../../../domain/contexts/property/listing-detail.value-objects';
 import { AdditionalAmenity, AdditionalAmenityProps } from '../../../domain/contexts/property/additional-amenity';
-import { BedDescriptions } from '../../../domain/contexts/property/bedroom-detail-value-objects';
+import { BedDescriptions } from '../../../domain/contexts/property/bedroom-detail.value-objects';
 
 type PropType = PropertyDomainAdapter;
 type DomainType = PropertyDO<PropType>;
@@ -24,7 +24,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
     }
 
     let propertyToReturn: Property;
-    let community = await this.context.dataSources.communityApi.getCommunityById(this.context.community);
+    let community = await this.context.dataSources.communityCosmosdbApi.getCommunityById(this.context.community);
     let communityDo = new CommunityConverter().toDomain(community, { passport: ReadOnlyPassport.GetInstance() });
 
     await this.withTransaction(async (repo) => {
@@ -37,7 +37,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
   async propertyUpdate(input: PropertyUpdateInput): Promise<Property> {
     let propertyToReturn: Property;
 
-    let mongoMember = await this.context.dataSources.memberApi.findOneById(input.owner?.id);
+    let mongoMember = await this.context.dataSources.memberCosmosdbApi.findOneById(input.owner?.id);
     let memberDo = new MemberConverter().toDomain(mongoMember, { passport: ReadOnlyPassport.GetInstance() });
 
     await this.withTransaction(async (repo) => {
@@ -146,7 +146,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
 
   async propertyAssignOwner(input: PropertyAssignOwnerInput): Promise<Property> {
     let propertyToReturn: Property;
-    let mongoMember = await this.context.dataSources.memberApi.findOneById(input.ownerId);
+    let mongoMember = await this.context.dataSources.memberCosmosdbApi.findOneById(input.ownerId);
     let memberDo = new MemberConverter().toDomain(mongoMember, { passport: ReadOnlyPassport.GetInstance() });
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);

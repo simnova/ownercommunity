@@ -3,7 +3,7 @@ import { DomainExecutionContext } from '../context';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';
 import { User, UserEntityReference, UserProps } from '../user/user';
 import { Member, MemberEntityReference, MemberProps } from '../community/member';
-import * as ValueObjects from './activity-detail-value-objects';
+import * as ValueObjects from './activity-detail.value-objects';
 
 export interface ActivityDetailPropValues extends EntityProps {
   activityType: string;

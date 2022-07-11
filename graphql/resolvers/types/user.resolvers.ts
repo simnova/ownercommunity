@@ -11,13 +11,13 @@ const user : Resolvers = {
       }
     //  info.cacheControl.setCacheHint({ maxAge: 60,scope: CacheScope.Public });
       console.log(`Resolver>Query>user ${args.id}`)
-      return (await context.dataSources.userApi.getUser(args.id)) as User;
+      return (await context.dataSources.userCosmosdbApi.getUser(args.id)) as User;
     },
     users : async (parent, args, context, info) => {
       info.cacheControl.setCacheHint({ maxAge: 60,scope: CacheScope.Public }); //this works, but doesn't work when setting it with a directive 
       console.log(`Resolver>Query>users`)
       console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`)
-      return (await context.dataSources.userApi.getUsers()) as User[];
+      return (await context.dataSources.userCosmosdbApi.getUsers()) as User[];
     },
     userCurrent: async (parent, args, context, info) => {
       return await context.dataSources.userDomainAPI.addUser()   as CurrentUser;

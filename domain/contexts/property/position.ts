@@ -1,14 +1,14 @@
-import { Entity, EntityProps } from "../../shared/entity";
+import { ValueObject, ValueObjectProps } from "../../shared/value-object";
 import { PropertyVisa } from "../iam/property-visa";
 
-export interface PositionProps extends EntityProps {
+export interface PositionProps extends ValueObjectProps {
     type?: string;
     coordinates?: number[];
 }
 
 export interface PositionEntityReference extends Readonly<PositionProps> {}
 
-export class Position extends Entity<PositionProps> implements PositionProps {
+export class Position extends ValueObject<PositionProps> implements PositionProps {
     constructor(props: PositionProps, private readonly visa: PropertyVisa) {
         super(props);
     }
@@ -21,7 +21,4 @@ export class Position extends Entity<PositionProps> implements PositionProps {
         return this.props.coordinates;
     }
 
-    get id() {
-        return this.props.id;
-    }
 }

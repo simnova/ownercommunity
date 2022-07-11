@@ -1,6 +1,6 @@
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { EntityProps } from '../../shared/entity';
-import * as ValueObjects from './member-value-objects';
+import * as ValueObjects from './member.value-objects';
 import { Community, CommunityProps,CommunityEntityReference } from './community';
 import { PropArray } from '../../shared/prop-array';
 import { Account, AccountEntityReference, AccountProps } from './account';
@@ -52,7 +52,7 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   get updatedAt() {return this.props.updatedAt;}
   get schemaVersion() {return this.props.schemaVersion;}
 
-  public static async getNewInstance<props extends MemberProps> (newProps:props,name:string,community:CommunityEntityReference, context:DomainExecutionContext): Promise<Member<props>> {
+  public static getNewInstance<props extends MemberProps> (newProps:props,name:string,community:CommunityEntityReference, context:DomainExecutionContext): Member<props> {
     let member = new Member(newProps,context);
     member.isNew = true;
     member.requestSetMemberName(name);

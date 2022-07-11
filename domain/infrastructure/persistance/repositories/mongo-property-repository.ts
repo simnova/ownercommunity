@@ -1,5 +1,5 @@
 import { Property as PropertyDO, PropertyProps } from '../../../../domain/contexts/property/property';
-import { PropertyRepository } from '../../../contexts/property/property-repository';
+import { PropertyRepository } from '../../../contexts/property/property.repository';
 import { Property, PropertyModel }from '../../../../infrastructure/data-sources/cosmos-db/models/property';
 import { MongoRepositoryBase } from '../mongo-repository';
 import { TypeConverter } from '../../../shared/type-converter';

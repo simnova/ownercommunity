@@ -1,6 +1,7 @@
 
 import { MemberEntityReference } from '../community/member';
-import { ServiceTicketEntityReference, ServiceTicketPermissions } from '../service-ticket/service-ticket';
+import { ServiceTicketEntityReference } from '../service-ticket/service-ticket';
+import { ServiceTicketPermissions } from "../service-ticket/service-ticket-permissions.spec";
 import { Visa } from './passport';
 
 export class ServiceTicketVisaImpl<root extends ServiceTicketEntityReference> implements ServiceTicketVisa {

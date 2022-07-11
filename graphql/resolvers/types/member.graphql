@@ -13,7 +13,7 @@ type Member implements MongoBase {
   updatedAt: DateTime
 }
 
-type MemberAccount implements MongoEmbeddedBase {
+type MemberAccount implements MongoSubdocument {
   firstName: String!
   lastName: String
   user: User

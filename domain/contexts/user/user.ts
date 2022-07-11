@@ -2,7 +2,7 @@ import { UserCreatedEvent } from '../../events/user-created';
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
-import * as ValueObjects from './user-value-objects';
+import * as ValueObjects from './user.value-objects';
 
 export interface UserProps extends EntityProps {
   externalId:string;

@@ -2,7 +2,7 @@
 
 import { GeographyPoint, SearchIndex } from '@azure/search-documents';
 
-export const propertyListingIndexSpec = {
+export const PropertyListingIndexSpec = {
   name: 'property-listings',
   fields: [
     { name: 'id', type: 'Edm.String', searchable: false, key: true },

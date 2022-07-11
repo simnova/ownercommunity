@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import { PropertyDomainAdapter } from '../persistance/adapters/property-domain-adapter';
 import { Property } from '../../contexts/property/property';
 import { MongoPropertyRepository } from '../persistance/repositories/mongo-property-repository';
+import retry from 'async-retry';
 const crypto = require('crypto');
 
 export default () => {
@@ -82,10 +83,39 @@ export default () => {
 
       const hash = crypto.createHash('sha256').update(JSON.stringify(listingDocCopy)).digest('base64');
 
+      const maxAttempt = 3;
       if (property.hash !== hash) {
-        await updateSearchIndex(listingDoc, property, hash, repo);
-      } else {
-        console.log('No need to update document')
+        await retry(
+          async (failedCB, currentAttempt) => {
+            if (currentAttempt > maxAttempt) {
+              property.requestSetUpdateIndexFailedDate(new Date());
+              property.requestSetHash(hash);
+              await repo.save(property);
+              console.log('Index update failed: ', property.updateIndexFailedDate);
+              console.log(property);
+              return;
+            }
+            await updateSearchIndex(listingDoc, property, hash, repo);
+          },
+          {
+            retries: maxAttempt,
+          }
+        );
+
+        //     let operation = retry.operation({
+        //       retries: 2,
+        //       factor: 2,
+        //       minTimeout: 1 * 1000,
+        //       maxTimeout: 2 * 1000,
+        //     });
+
+        //     operation.attempt(async function () {
+        //       await updateSearchIndex(listingDoc, property, hash, repo);
+
+        //       console.log('Retry complete.');
+        //     });
+        //   } else {
+        //     console.log('No need to update document');
       }
     });
   });
@@ -93,13 +123,13 @@ export default () => {
 
 async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocument>, property: Property<PropertyDomainAdapter>, hash: any, repo: MongoPropertyRepository<PropertyDomainAdapter>) {
   let cognitiveSearch = new CognitiveSearch();
-  await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
-  // await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
+  // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
+  await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
   await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
-  console.log(`Property Updated - Search Completed: ${JSON.stringify(listingDoc)}`);
+  console.log(`Property Updated - Index Updated: ${JSON.stringify(listingDoc)}`);
+
   property.requestSetLastIndexed(new Date());
   property.requestSetHash(hash);
   await repo.save(property);
-  console.log("LAST INDEXED: ", property.lastIndexed);
+  console.log('Index update successful: ', property.lastIndexed);
 }
-

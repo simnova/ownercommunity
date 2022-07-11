@@ -199,6 +199,7 @@ input PropertiesSearchOptions {
   hideNullResults: Boolean
 }
 input FilterDetail {
+  communityId: String
   propertyType: [String]
   listingDetail: ListingDetailsFilterInput
   listedInfo: [String]

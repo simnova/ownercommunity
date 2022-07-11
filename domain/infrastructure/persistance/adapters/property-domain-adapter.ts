@@ -125,7 +125,15 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   }
   set lastIndexed(lastIndexed) {
     this.doc.lastIndexed = lastIndexed;
-  }s
+  }
+
+  get updateIndexFailedDate() {
+    return this.doc.updateIndexFailedDate;
+  }
+
+  set updateIndexFailedDate(updateIndexFailedDate) {
+    this.doc.updateIndexFailedDate = updateIndexFailedDate;
+  }
 }
 
 export class ListingDetailDomainAdapter implements ListingDetailProps {

@@ -1,12 +1,12 @@
 import { Community as CommunityDO } from '../../../domain/contexts/community/community';
-import { CommunityConverter, CommunityDomainAdapter }from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
-import { MongoCommunityRepository } from '../../../domain/infrastructure/persistance/repositories/mongo-community-repository';
+import { CommunityConverter, CommunityDomainAdapter }from '../../../domain/infrastructure/persistence/community.domain-adapter';
+import { MongoCommunityRepository } from '../../../domain/infrastructure/persistence/community.mongo-repository';
 import { Context } from '../../context';
 import { CommunityCreateInput, CommunityUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Community } from '../../../infrastructure/data-sources/cosmos-db/models/community';
-import { UserConverter } from '../../../domain/infrastructure/persistance/adapters/user-domain-adapter';
-import { ReadOnlyContext } from '../../../domain/infrastructure/persistance/execution-context';
+import { UserConverter } from '../../../domain/infrastructure/persistence/user.domain-adapter';
+import { ReadOnlyContext } from '../../../domain/infrastructure/execution-context';
 
 type PropType = CommunityDomainAdapter;
 type DomainType = CommunityDO<PropType>;

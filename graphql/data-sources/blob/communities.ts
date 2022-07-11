@@ -1,6 +1,6 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
-import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
+import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../generated';
 
 export class Communities extends BlobDataSource<Context> {

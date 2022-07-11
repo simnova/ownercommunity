@@ -1,12 +1,12 @@
-import { PersistanceUnitOfWork } from '../../shared/unit-of-work';
-import { AggregateRoot } from '../../shared/aggregate-root';
+import { PersistanceUnitOfWork } from '../../../shared/unit-of-work';
+import { AggregateRoot } from '../../../shared/aggregate-root';
 import mongoose, { ClientSession,Model,Document } from 'mongoose';
 import { MongoRepositoryBase } from './mongo-repository';
-import { TypeConverter } from '../../shared/type-converter';
-import { EntityProps } from '../../shared/entity';
-import { EventBus } from '../../shared/event-bus';
-import { DomainEvent } from '../../shared/domain-event';
-import { ExecutionContext } from '../../shared/execution-context';
+import { TypeConverter } from '../../../shared/type-converter';
+import { EntityProps } from '../../../shared/entity';
+import { EventBus } from '../../../shared/event-bus';
+import { DomainEvent } from '../../../shared/domain-event';
+import { ExecutionContext } from '../../../shared/execution-context';
 
 export class MongoUnitOfWork<ContextType extends ExecutionContext, MongoType extends Document,PropType extends EntityProps, DomainType  extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<ContextType, MongoType,PropType,DomainType> > extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
   async withTransaction(context:ContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {

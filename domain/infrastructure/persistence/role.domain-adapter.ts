@@ -1,15 +1,15 @@
-import { Role, Permissions,CommunityPermissions, PropertyPermissions, ServiceTicketPermissions } from '../../../../infrastructure/data-sources/cosmos-db/models/role';
-import { Role as RoleDO, RoleProps } from '../../../contexts/community/role';
-import { MongooseDomainAdapter } from '../mongo-domain-adapter';
-import { MongoTypeConverter } from '../mongo-type-converter';
+import { Role, Permissions,CommunityPermissions, PropertyPermissions, ServiceTicketPermissions } from '../../../infrastructure/data-sources/cosmos-db/models/role';
+import { Role as RoleDO, RoleProps } from '../../contexts/community/role';
+import { MongooseDomainAdapter } from '../core/mongo/mongo-domain-adapter';
+import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
 
-import { CommunityProps } from '../../../contexts/community/community';
-import { CommunityPermissionsProps } from '../../../contexts/community/community-permissions';
-import { PermissionsProps } from '../../../contexts/community/permissions';
-import { CommunityConverter, CommunityDomainAdapter } from './community-domain-adapter';
-import { DomainExecutionContext } from '../../../contexts/context';
-import { PropertyPermissionsProps } from '../../../contexts/community/property-permissions';
-import { ServiceTicketPermissionsProps } from '../../../contexts/community/service-ticket-permissions';
+import { CommunityProps } from '../../contexts/community/community';
+import { CommunityPermissionsProps } from '../../contexts/community/community-permissions';
+import { PermissionsProps } from '../../contexts/community/permissions';
+import { CommunityConverter, CommunityDomainAdapter } from './community.domain-adapter';
+import { DomainExecutionContext } from '../../contexts/context';
+import { PropertyPermissionsProps } from '../../contexts/community/property-permissions';
+import { ServiceTicketPermissionsProps } from '../../contexts/community/service-ticket-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext,Role,RoleDomainAdapter,RoleDO<RoleDomainAdapter>> {
   constructor() {

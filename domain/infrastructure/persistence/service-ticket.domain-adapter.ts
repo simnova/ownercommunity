@@ -1,18 +1,18 @@
-import { ActivityDetail, ServiceTicket, Photo } from '../../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
-import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../../../domain/contexts/service-ticket/service-ticket';
-import { MongooseDomainAdapter, MongoosePropArray } from '../mongo-domain-adapter';
-import { MongoTypeConverter } from '../mongo-type-converter';
-import { DomainExecutionContext } from '../../../contexts/context';
-import { CommunityEntityReference, CommunityProps } from '../../../contexts/community/community';
-import { CommunityDomainAdapter } from './community-domain-adapter';
-import { PropertyDomainAdapter } from './property-domain-adapter';
-import { PropertyEntityReference, PropertyProps } from '../../../contexts/property/property';
-import { MemberEntityReference, MemberProps } from '../../../contexts/community/member';
-import { MemberDomainAdapter } from './member-domain-adapter';
-import { ActivityDetailProps } from '../../../contexts/service-ticket/activity-detail';
-import { PhotoProps } from '../../../contexts/service-ticket/photo';
-import { UserDomainAdapter } from './user-domain-adapter';
-import { UserProps } from '../../../contexts/user/user';
+import { ActivityDetail, ServiceTicket, Photo } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
+import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../contexts/service-ticket/service-ticket';
+import { MongooseDomainAdapter, MongoosePropArray } from '../core/mongo/mongo-domain-adapter';
+import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
+import { DomainExecutionContext } from '../../contexts/context';
+import { CommunityEntityReference, CommunityProps } from '../../contexts/community/community';
+import { CommunityDomainAdapter } from './community.domain-adapter';
+import { PropertyDomainAdapter } from './property.domain-adapter';
+import { PropertyEntityReference, PropertyProps } from '../../contexts/property/property';
+import { MemberEntityReference, MemberProps } from '../../contexts/community/member';
+import { MemberDomainAdapter } from './member.domain-adapter';
+import { ActivityDetailProps } from '../../contexts/service-ticket/activity-detail';
+import { PhotoProps } from '../../contexts/service-ticket/photo';
+import { UserDomainAdapter } from './user.domain-adapter';
+import { UserProps } from '../../contexts/user/user';
 import { nanoid } from 'nanoid';
 
 

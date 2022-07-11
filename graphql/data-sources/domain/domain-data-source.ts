@@ -1,6 +1,6 @@
 import { DataSource,DataSourceConfig } from 'apollo-datasource';
-import { MongoUnitOfWork } from '../../../domain/infrastructure/persistance/mongo-unit-of-work';
-import { MongoRepositoryBase } from '../../../domain/infrastructure/persistance/mongo-repository';
+import { MongoUnitOfWork } from '../../../domain/infrastructure/core/mongo/mongo-unit-of-work';
+import { MongoRepositoryBase } from '../../../domain/infrastructure/core/mongo/mongo-repository';
 import { AggregateRoot } from '../../../domain/shared/aggregate-root';
 import { EntityProps } from '../../../domain/shared/entity';
 import { Document } from 'mongoose';

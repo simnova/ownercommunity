@@ -1,6 +1,6 @@
-import { Base } from '../../../infrastructure/data-sources/cosmos-db/models/interfaces/base';
-import { Entity, EntityProps } from '../../shared/entity';
-import { PropArray } from '../../shared/prop-array';
+import { Base } from '../../../../infrastructure/data-sources/cosmos-db/models/interfaces/base';
+import { Entity, EntityProps } from '../../../shared/entity';
+import { PropArray } from '../../../shared/prop-array';
 import mongoose, {ObjectId} from 'mongoose';
 
 export abstract class MongooseDomainAdapter<T extends Base> implements MongooseDomainAdapterType<T>{

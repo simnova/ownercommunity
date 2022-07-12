@@ -35,7 +35,23 @@ export const ServiceTicketIndexSpec = {
       facetable: true,
     },
     {
+      name: 'requestorId',
+      type: 'Edm.String',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
       name: 'assignedTo',
+      type: 'Edm.String',
+      searchable: false,
+      filterable: true,
+      sortable: true,
+      facetable: true,
+    },
+    {
+      name: 'assignedToId',
       type: 'Edm.String',
       searchable: false,
       filterable: true,
@@ -66,6 +82,22 @@ export const ServiceTicketIndexSpec = {
       sortable: true,
       facetable: true,
     },
+    {
+      name: 'updatedAt',
+      type: 'Edm.DateTimeOffset',
+      facetable: true,
+      filterable: true,
+      retrievable: true,
+      sortable: true,
+    },
+    {
+      name: 'createdAt',
+      type: 'Edm.DateTimeOffset',
+      facetable: true,
+      filterable: true,
+      retrievable: true,
+      sortable: true,
+    },
   ],
 } as SearchIndex;
 
@@ -75,8 +107,12 @@ export interface ServiceTicketIndexDocument {
   propertyId: string;
   title: string;
   requestor: string;
+  requestorId: string;
   assignedTo: string;
+  assignedToId: string;
   description: string;
   status: string;
   priority: number;
+  createdAt: string;
+  updatedAt: string;
 }

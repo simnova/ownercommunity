@@ -76,6 +76,7 @@ const serviceTicket: Resolvers = {
       return (await context.dataSources.serviceTicketCosmosdbApi.getServiceTicketsByCommunityId(communityId)) as ServiceTicket[];
     },
     serviceTicketsSearch: async (_, _args, context, info) => {
+      const member = await getMemberForCurrentUser(context, context.community);
       const searchInput = {
         searchString: _args.input.searchString.trim(),
         options: {
@@ -84,7 +85,7 @@ const serviceTicket: Resolvers = {
         },
       } as ServiceTicketsSearchInput;
 
-      const searchResults = await context.dataSources.serviceTicketsSearchApi.serviceTicketsSearch(searchInput);
+      const searchResults = await context.dataSources.serviceTicketsSearchApi.serviceTicketsSearch(searchInput, member.id);
       let results = [];
       for await (const result of searchResults?.results) {
         results.push(result.document);

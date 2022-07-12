@@ -67,6 +67,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     context: DomainExecutionContext
   ): ServiceTicket<props> {
     let serviceTicket = new ServiceTicket(newProps, context);
+    serviceTicket.MarkAsNew();
     serviceTicket.isNew = true;
     serviceTicket.requestSetTitle(title);
     serviceTicket.requestSetDescription(description);

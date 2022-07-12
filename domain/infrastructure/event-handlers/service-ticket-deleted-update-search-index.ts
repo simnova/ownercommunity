@@ -1,4 +1,4 @@
-import { NodeEventBus } from '../events/node-event-bus';
+import { NodeEventBus } from '../core/events/node-event-bus';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from './service-ticket-search-index-format';
 import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 import { ServiceTicketDeletedEvent } from '../../events/service-ticket-deleted';

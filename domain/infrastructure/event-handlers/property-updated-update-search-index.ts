@@ -101,21 +101,6 @@ export default () => {
             retries: maxAttempt,
           }
         );
-
-        //     let operation = retry.operation({
-        //       retries: 2,
-        //       factor: 2,
-        //       minTimeout: 1 * 1000,
-        //       maxTimeout: 2 * 1000,
-        //     });
-
-        //     operation.attempt(async function () {
-        //       await updateSearchIndex(listingDoc, property, hash, repo);
-
-        //       console.log('Retry complete.');
-        //     });
-        //   } else {
-        //     console.log('No need to update document');
       }
     });
   });
@@ -133,3 +118,5 @@ async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocumen
   await repo.save(property);
   console.log('Index update successful: ', property.lastIndexed);
 }
+
+

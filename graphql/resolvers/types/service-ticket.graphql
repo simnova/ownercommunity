@@ -149,9 +149,13 @@ type ServiceTicketsResult {
   title: String
   requestor: String
   assignedTo: String
+  requestorId: String
+  assignedToId: String
   description: String
   status: String
   priority: Int
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 type ServiceTicketsSearchFacets {

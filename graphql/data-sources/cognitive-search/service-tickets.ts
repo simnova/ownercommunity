@@ -13,8 +13,9 @@ const ServiceTicketFilterNames = {
   Priority: 'priority',
 };
 export class ServiceTickets extends CognitiveSearchDataSource<Context> {
-  private getFilterString(filter: ServiceTicketsSearchFilterDetail): string {
+  private getFilterString(filter: ServiceTicketsSearchFilterDetail, requestorId: string): string {
     let filterStrings = [];
+    filterStrings.push(`(requestorId eq '${requestorId}')`);
     if (filter) {
       // requestor
       if (filter.requestor && filter.requestor.length > 0) {
@@ -41,13 +42,13 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
     return filterStrings.join(' and ');
   }
 
-  async serviceTicketsSearch(input: ServiceTicketsSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
+  async serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     const searchService = new CognitiveSearch();
 
     let searchString = input.searchString;
 
     console.log(`Resolver>Query>serviceTicketsSearch: ${searchString}`);
-    let filterString = this.getFilterString(input.options.filter);
+    let filterString = this.getFilterString(input.options.filter, requestorId);
     console.log('filterString: ', filterString);
 
     const searchResults = await searchService.search('service-ticket-index', searchString, {

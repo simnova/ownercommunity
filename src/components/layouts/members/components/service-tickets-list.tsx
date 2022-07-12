@@ -63,8 +63,11 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
           collapsed={collapsed}
           style={{ overflow: 'auto', border: '1px solid #ccc' }}
           theme="light"
-          collapsedWidth={48}
+          collapsedWidth={60}
+          width={445}
         >
+          {!collapsed && <ServiceTicketsSearchFilters />}
+
           <div
             style={{
               display: 'flex',
@@ -77,13 +80,9 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
               type="text"
               icon={collapsed ? <LeftOutlined /> : <RightOutlined />}
               onClick={() => setCollapsed(!collapsed)}
-              style={{ margin: '0 auto', color: 'black', backgroundColor: 'transparent' }}
+              style={{ margin: '0 auto', color: 'black', backgroundColor: 'transparent', position: 'absolute', bottom: '5px' }}
             />
           </div>
-
-          <ServiceTicketsSearchFilters />
-          
-          {!collapsed && <div className="p-3">Thing</div>}
         </Sider>
         <Content className="pl-2">
           <Table columns={columns} dataSource={props.data} rowKey={(record: any) => record.id} />

@@ -20,7 +20,7 @@ export const ServiceTicketsSearchFilter: React.FC<any> = (props: ServiceTicketSe
         className="service-ticket-search-filter-collapse" 
         defaultActiveKey={['1']} 
         ghost 
-        style={{ width: '25%' }}
+        style={{ width: '80%' }}
         expandIcon={({ isActive }) => isActive ? <MinusOutlined style={{ fontSize: '30px' }} /> : <PlusOutlined style={{ fontSize: '30px' }} />}
       >
         <Panel 

@@ -1,10 +1,10 @@
-import { Community } from '../../../../infrastructure/data-sources/cosmos-db/models/community';
-import { Community as CommunityDO, CommunityProps } from '../../../../domain/contexts/community/community';
-import { MongooseDomainAdapter } from '../mongo-domain-adapter';
-import { MongoTypeConverter } from '../mongo-type-converter';
-import { DomainExecutionContext } from '../../../contexts/context';
-import { UserEntityReference, UserProps } from '../../../contexts/user/user';
-import { UserDomainAdapter } from './user-domain-adapter';
+import { Community } from '../../../infrastructure/data-sources/cosmos-db/models/community';
+import { Community as CommunityDO, CommunityProps } from '../../contexts/community/community';
+import { MongooseDomainAdapter } from '../core/mongo/mongo-domain-adapter';
+import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
+import { DomainExecutionContext } from '../../contexts/context';
+import { UserEntityReference, UserProps } from '../../contexts/user/user';
+import { UserDomainAdapter } from './user.domain-adapter';
 
 export class CommunityConverter extends MongoTypeConverter<DomainExecutionContext,Community,CommunityDomainAdapter,CommunityDO<CommunityDomainAdapter>> {
   constructor() {

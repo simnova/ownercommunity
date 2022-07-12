@@ -1,9 +1,9 @@
 import { PassportImpl, Passport, ReadOnlyPassport } from "../../../domain/contexts/iam/passport";
 import { Context } from "../../context";
 
-import { UserConverter } from '../../../domain/infrastructure/persistance/adapters/user-domain-adapter';
-import { MemberConverter } from '../../../domain/infrastructure/persistance/adapters/member-domain-adapter';
-import { CommunityConverter } from '../../../domain/infrastructure/persistance/adapters/community-domain-adapter';
+import { UserConverter } from '../../../domain/infrastructure/persistence/user.domain-adapter';
+import { MemberConverter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
+import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
 import { HttpRequest } from "@azure/functions";
 import { Community, CommunityModel } from "../../../infrastructure/data-sources/cosmos-db/models/community";
 import { isValidObjectId } from "mongoose";

@@ -1,12 +1,12 @@
-import { Property as PropertyDO, PropertyProps } from '../../../../domain/contexts/property/property';
-import { PropertyRepository } from '../../../contexts/property/property.repository';
-import { Property, PropertyModel }from '../../../../infrastructure/data-sources/cosmos-db/models/property';
-import { MongoRepositoryBase } from '../mongo-repository';
-import { TypeConverter } from '../../../shared/type-converter';
+import { Property as PropertyDO, PropertyProps } from '../../contexts/property/property';
+import { PropertyRepository } from '../../contexts/property/property.repository';
+import { Property, PropertyModel }from '../../../infrastructure/data-sources/cosmos-db/models/property';
+import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
+import { TypeConverter } from '../../shared/type-converter';
 import { ClientSession } from 'mongoose';
-import { EventBus } from '../../../shared/event-bus';
-import { DomainExecutionContext } from '../../../contexts/context';
-import { CommunityEntityReference } from '../../../contexts/community/community';
+import { EventBus } from '../../shared/event-bus';
+import { DomainExecutionContext } from '../../contexts/context';
+import { CommunityEntityReference } from '../../contexts/community/community';
 
 export class MongoPropertyRepository<PropType extends PropertyProps> extends MongoRepositoryBase<DomainExecutionContext, Property,PropType,PropertyDO<PropType>> implements PropertyRepository<PropType> {
   constructor(

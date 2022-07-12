@@ -1,12 +1,12 @@
-import { Role as RoleDO, RoleProps } from '../../../../domain/contexts/community/role';
-import { RoleRepository } from '../../../contexts/community/role.repository';
-import { Role, RoleModel }from '../../../../infrastructure/data-sources/cosmos-db/models/role';
-import { MongoRepositoryBase } from '../mongo-repository';
-import { TypeConverter } from '../../../shared/type-converter';
+import { Role as RoleDO, RoleProps } from '../../contexts/community/role';
+import { RoleRepository } from '../../contexts/community/role.repository';
+import { Role, RoleModel }from '../../../infrastructure/data-sources/cosmos-db/models/role';
+import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
+import { TypeConverter } from '../../shared/type-converter';
 import { ClientSession } from 'mongoose';
-import { EventBus } from '../../../shared/event-bus';
-import { DomainExecutionContext } from '../../../contexts/context';
-import { CommunityEntityReference } from '../../../contexts/community/community';
+import { EventBus } from '../../shared/event-bus';
+import { DomainExecutionContext } from '../../contexts/context';
+import { CommunityEntityReference } from '../../contexts/community/community';
 
 export class MongoRoleRepository<PropType extends RoleProps> extends MongoRepositoryBase<DomainExecutionContext, Role,PropType,RoleDO<PropType>> implements RoleRepository<PropType> {
   constructor(

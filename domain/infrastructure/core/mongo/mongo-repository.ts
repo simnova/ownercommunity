@@ -1,11 +1,11 @@
-import { Repository } from '../../shared/repository';
-import { AggregateRoot } from '../../shared/aggregate-root';
+import { Repository } from '../../../shared/repository';
+import { AggregateRoot } from '../../../shared/aggregate-root';
 import { Model, ClientSession,Document } from 'mongoose';
-import { TypeConverter } from '../../shared/type-converter';
-import { EntityProps } from '../../shared/entity';
-import { EventBus } from '../../shared/event-bus';
-import { DomainEvent } from '../../shared/domain-event';
-import { ExecutionContext } from '../../shared/execution-context';
+import { TypeConverter } from '../../../shared/type-converter';
+import { EntityProps } from '../../../shared/entity';
+import { EventBus } from '../../../shared/event-bus';
+import { DomainEvent } from '../../../shared/domain-event';
+import { ExecutionContext } from '../../../shared/execution-context';
 
 export abstract class MongoRepositoryBase<ContextType extends ExecutionContext, MongoType extends Document,PropType extends EntityProps,DomainType extends AggregateRoot<PropType>> implements Repository<DomainType> {
   protected itemsInTransaction:DomainType[] = [];

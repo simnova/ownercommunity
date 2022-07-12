@@ -1,6 +1,6 @@
 import { User as UserDO } from '../../../domain/contexts/user/user';
-import { UserConverter, UserDomainAdapter }from '../../../domain/infrastructure/persistance/adapters/user-domain-adapter';
-import { MongoUserRepository } from '../../../domain/infrastructure/persistance/repositories/mongo-user-repository';
+import { UserConverter, UserDomainAdapter }from '../../../domain/infrastructure/persistence/user.domain-adapter';
+import { MongoUserRepository } from '../../../domain/infrastructure/persistence/user.mongo-repository';
 import { Context } from '../../context';
 import { UserUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';

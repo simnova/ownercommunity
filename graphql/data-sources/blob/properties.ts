@@ -1,6 +1,6 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
-import { PropertyConverter } from '../../../domain/infrastructure/persistance/adapters/property-domain-adapter';
+import { PropertyConverter } from '../../../domain/infrastructure/persistence/property.domain-adapter';
 import { PropertyBlobFileAuthHeaderResult } from '../../generated';
 import { nanoid } from 'nanoid';
 

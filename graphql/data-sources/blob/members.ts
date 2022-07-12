@@ -1,7 +1,7 @@
 import { BlobDataSource } from "./blob-data-source";
 import { Context } from "../../context";
 import { MemberAvatarImageAuthHeaderResult, MutationStatus } from "../../generated";
-import { MemberConverter } from "../../../domain/infrastructure/persistance/adapters/member-domain-adapter";
+import { MemberConverter } from "../../../domain/infrastructure/persistence/member.domain-adapter";
 
 export class Members extends BlobDataSource<Context> {
 

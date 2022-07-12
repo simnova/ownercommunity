@@ -39,7 +39,7 @@ export const SearchParamKeys = {
   CreatedAt: 'createdAt',
   HideNullResults: 'hideNullResults',
   SavedFilter: 'savedFilter',
-  Tags: 'tags',
+  Tags: 'tags'
 };
 
 export const FilterNames = {
@@ -59,6 +59,13 @@ export const FilterNames = {
   UpdatedAt: 'updatedAt',
   CreatedAt: 'createdAt',
   Tags: 'tags'
+};
+
+export const ServiceTicketFilterNames = {
+  Requestor: 'requestor',
+  AssignedTo: 'assignedTo',
+  Status: 'status',
+  Priority: 'priority'
 };
 
 export const AvailableFilters = Object.values(FilterNames);

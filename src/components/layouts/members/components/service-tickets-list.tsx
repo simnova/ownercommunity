@@ -30,12 +30,12 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     },
     {
       title: 'Requestor',
-      dataIndex: ['requestor', 'memberName'],
+      dataIndex: ['requestor'],
       key: 'requestor'
     },
     {
       title: 'Assigned To',
-      dataIndex: ['assignedTo', 'memberName'],
+      dataIndex: ['assignedTo'],
       key: 'assignedTo'
     },
     {
@@ -59,7 +59,7 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
 
   return (
     <>
-      <Layout style={{ margin: '0px'}}>
+      <Layout style={{ margin: '0px' }}>
         {/* <Sider
           collapsible
           trigger={null}
@@ -88,11 +88,21 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
             />
           </div>
         </Sider> */}
-        <Drawer title="Search Filters" placement="left" onClose={() => setVisible(false)} visible={visible} width={445}>
+        <Drawer
+          title="Search Filters"
+          placement="left"
+          onClose={() => setVisible(false)}
+          visible={visible}
+          width={445}
+        >
           <ServiceTicketsSearchToolbar />
           <ServiceTicketsSearchFilters />
         </Drawer>
-        <Button type="default" onClick={() => setVisible(true)} style={{ width: '48px', margin: '20px 8px' }}>
+        <Button
+          type="default"
+          onClick={() => setVisible(true)}
+          style={{ width: '48px', margin: '20px 8px' }}
+        >
           <FilterOutlined />
         </Button>
         <Content className="pl-2">

@@ -908,6 +908,7 @@ export type Query = {
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicketsSearch?: Maybe<ServiceTicketsSearchResult>;
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
@@ -986,6 +987,11 @@ export type QueryServiceTicketArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsByCommunityIdArgs = {
   communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryServiceTicketsSearchArgs = {
+  input: ServiceTicketsSearchInput;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1148,6 +1154,55 @@ export type ServiceTicketUpdateInput = {
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
   title: Scalars['String'];
+};
+
+export type ServiceTicketsResult = {
+  __typename?: 'ServiceTicketsResult';
+  assignedTo?: Maybe<Scalars['String']>;
+  assignedToId?: Maybe<Scalars['String']>;
+  communityId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['Int']>;
+  propertyId?: Maybe<Scalars['String']>;
+  requestor?: Maybe<Scalars['String']>;
+  requestorId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ServiceTicketsSearchFacets = {
+  __typename?: 'ServiceTicketsSearchFacets';
+  assignedTo?: Maybe<Array<Maybe<FacetDetail>>>;
+  priority?: Maybe<Array<Maybe<FacetDetail>>>;
+  requestor?: Maybe<Array<Maybe<FacetDetail>>>;
+  status?: Maybe<Array<Maybe<FacetDetail>>>;
+};
+
+export type ServiceTicketsSearchFilterDetail = {
+  assignedTo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  priority?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  requestor?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  status?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ServiceTicketsSearchInput = {
+  options?: InputMaybe<ServiceTicketsSearchOptions>;
+  searchString?: InputMaybe<Scalars['String']>;
+};
+
+export type ServiceTicketsSearchOptions = {
+  facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filter?: InputMaybe<ServiceTicketsSearchFilterDetail>;
+};
+
+export type ServiceTicketsSearchResult = {
+  __typename?: 'ServiceTicketsSearchResult';
+  count?: Maybe<Scalars['Int']>;
+  facets?: Maybe<ServiceTicketsSearchFacets>;
+  serviceTicketsResults?: Maybe<Array<Maybe<ServiceTicketsResult>>>;
 };
 
 export type User = MongoBase & {
@@ -4708,6 +4763,57 @@ export type MembersServiceTicketsListContainerServiceTicketsOpenByRequestorQuery
   } | null> | null;
 };
 
+export type MemberServiceTicketsListContainerSearchServiceTicketsQueryVariables = Exact<{
+  input: ServiceTicketsSearchInput;
+}>;
+
+export type MemberServiceTicketsListContainerSearchServiceTicketsQuery = {
+  __typename?: 'Query';
+  serviceTicketsSearch?: {
+    __typename?: 'ServiceTicketsSearchResult';
+    count?: number | null;
+    serviceTicketsResults?: Array<{
+      __typename?: 'ServiceTicketsResult';
+      id?: string | null;
+      communityId?: string | null;
+      propertyId?: string | null;
+      title?: string | null;
+      requestor?: string | null;
+      assignedTo?: string | null;
+      requestorId?: string | null;
+      assignedToId?: string | null;
+      description?: string | null;
+      status?: string | null;
+      priority?: number | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null> | null;
+    facets?: {
+      __typename?: 'ServiceTicketsSearchFacets';
+      requestor?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      assignedTo?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      status?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      priority?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+    } | null;
+  } | null;
+};
+
 export type MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFieldsFragment = {
   __typename?: 'ServiceTicket';
   title: string;
@@ -4717,6 +4823,67 @@ export type MembersServiceTicketsListContainerServiceTicketsOpenByRequestorField
   updatedAt?: any | null;
   requestor: { __typename?: 'Member'; memberName?: string | null };
   assignedTo?: { __typename?: 'Member'; memberName?: string | null } | null;
+};
+
+export type MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragment = {
+  __typename?: 'ServiceTicketsSearchResult';
+  count?: number | null;
+  serviceTicketsResults?: Array<{
+    __typename?: 'ServiceTicketsResult';
+    id?: string | null;
+    communityId?: string | null;
+    propertyId?: string | null;
+    title?: string | null;
+    requestor?: string | null;
+    assignedTo?: string | null;
+    requestorId?: string | null;
+    assignedToId?: string | null;
+    description?: string | null;
+    status?: string | null;
+    priority?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
+  facets?: {
+    __typename?: 'ServiceTicketsSearchFacets';
+    requestor?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    assignedTo?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    status?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+    priority?: Array<{
+      __typename?: 'FacetDetail';
+      value?: string | null;
+      count?: number | null;
+    } | null> | null;
+  } | null;
+};
+
+export type MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFragment = {
+  __typename?: 'ServiceTicketsResult';
+  id?: string | null;
+  communityId?: string | null;
+  propertyId?: string | null;
+  title?: string | null;
+  requestor?: string | null;
+  assignedTo?: string | null;
+  requestorId?: string | null;
+  assignedToId?: string | null;
+  description?: string | null;
+  status?: string | null;
+  priority?: number | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
 };
 
 export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
@@ -7619,6 +7786,132 @@ export const MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFiel
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFieldsFragment,
+  unknown
+>;
+export const MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: {
+        kind: 'Name',
+        value: 'MemberServiceTicketsListContainerSearchServiceTicketsResultFields'
+      },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedTo' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestorId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedToId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFragment,
+  unknown
+>;
+export const MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsListContainerSearchServiceTicketsFields' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'ServiceTicketsSearchResult' }
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketsResults' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MemberServiceTicketsListContainerSearchServiceTicketsResultFields'
+                  }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'facets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'requestor' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignedTo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'priority' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragment,
   unknown
 >;
 export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
@@ -11981,6 +12274,58 @@ export const MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocu
 } as unknown as DocumentNode<
   MembersServiceTicketsListContainerServiceTicketsOpenByRequestorQuery,
   MembersServiceTicketsListContainerServiceTicketsOpenByRequestorQueryVariables
+>;
+export const MemberServiceTicketsListContainerSearchServiceTicketsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberServiceTicketsListContainerSearchServiceTickets' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsSearchInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketsSearch' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MembersServiceTicketsListContainerSearchServiceTicketsFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MemberServiceTicketsListContainerSearchServiceTicketsQuery,
+  MemberServiceTicketsListContainerSearchServiceTicketsQueryVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',

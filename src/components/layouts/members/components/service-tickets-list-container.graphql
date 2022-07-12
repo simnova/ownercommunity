@@ -4,6 +4,12 @@ query MembersServiceTicketsListContainerServiceTicketsOpenByRequestor {
   }
 }
 
+query MemberServiceTicketsListContainerSearchServiceTickets($input: ServiceTicketsSearchInput!) {
+  serviceTicketsSearch(input: $input) {
+    ...MembersServiceTicketsListContainerSearchServiceTicketsFields
+  }
+}
+
 fragment MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields on ServiceTicket {
   title
   requestor {
@@ -15,6 +21,47 @@ fragment MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields o
   priority
 
   id
+  createdAt
+  updatedAt
+}
+
+fragment MembersServiceTicketsListContainerSearchServiceTicketsFields on ServiceTicketsSearchResult {
+  serviceTicketsResults {
+    ...MemberServiceTicketsListContainerSearchServiceTicketsResultFields
+  }
+  count
+  facets {
+    requestor {
+      value
+      count
+    }
+    assignedTo {
+      value
+      count
+    }
+    status {
+      value
+      count
+    }
+    priority {
+      value
+      count
+    }
+  }
+}
+
+fragment MemberServiceTicketsListContainerSearchServiceTicketsResultFields on ServiceTicketsResult {
+  id
+  communityId
+  propertyId
+  title
+  requestor
+  assignedTo
+  requestorId
+  assignedToId
+  description
+  status
+  priority
   createdAt
   updatedAt
 }

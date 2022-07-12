@@ -926,6 +926,7 @@ export type Query = {
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicketsSearch?: Maybe<ServiceTicketsSearchResult>;
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
@@ -1004,6 +1005,11 @@ export type QueryServiceTicketArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsByCommunityIdArgs = {
   communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryServiceTicketsSearchArgs = {
+  input: ServiceTicketsSearchInput;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1166,6 +1172,51 @@ export type ServiceTicketUpdateInput = {
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
   title: Scalars['String'];
+};
+
+export type ServiceTicketsResult = {
+  __typename?: 'ServiceTicketsResult';
+  assignedTo?: Maybe<Scalars['String']>;
+  communityId?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['Int']>;
+  propertyId?: Maybe<Scalars['String']>;
+  requestor?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type ServiceTicketsSearchFacets = {
+  __typename?: 'ServiceTicketsSearchFacets';
+  assignedTo?: Maybe<Array<Maybe<FacetDetail>>>;
+  priority?: Maybe<Array<Maybe<FacetDetail>>>;
+  requestor?: Maybe<Array<Maybe<FacetDetail>>>;
+  status?: Maybe<Array<Maybe<FacetDetail>>>;
+};
+
+export type ServiceTicketsSearchFilterDetail = {
+  assignedTo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  priority?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  requestor?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  status?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ServiceTicketsSearchInput = {
+  options?: InputMaybe<ServiceTicketsSearchOptions>;
+  searchString?: InputMaybe<Scalars['String']>;
+};
+
+export type ServiceTicketsSearchOptions = {
+  facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filter?: InputMaybe<ServiceTicketsSearchFilterDetail>;
+};
+
+export type ServiceTicketsSearchResult = {
+  __typename?: 'ServiceTicketsSearchResult';
+  count?: Maybe<Scalars['Int']>;
+  facets?: Maybe<ServiceTicketsSearchFacets>;
+  serviceTicketsResults?: Maybe<Array<Maybe<ServiceTicketsResult>>>;
 };
 
 export type User = MongoBase & {
@@ -1383,6 +1434,12 @@ export type ResolversTypes = ResolversObject<{
   ServiceTicketRemovePhotoInput: ServiceTicketRemovePhotoInput;
   ServiceTicketSubmitInput: ServiceTicketSubmitInput;
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
+  ServiceTicketsResult: ResolverTypeWrapper<ServiceTicketsResult>;
+  ServiceTicketsSearchFacets: ResolverTypeWrapper<ServiceTicketsSearchFacets>;
+  ServiceTicketsSearchFilterDetail: ServiceTicketsSearchFilterDetail;
+  ServiceTicketsSearchInput: ServiceTicketsSearchInput;
+  ServiceTicketsSearchOptions: ServiceTicketsSearchOptions;
+  ServiceTicketsSearchResult: ResolverTypeWrapper<ServiceTicketsSearchResult>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
@@ -1549,6 +1606,12 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceTicketRemovePhotoInput: ServiceTicketRemovePhotoInput;
   ServiceTicketSubmitInput: ServiceTicketSubmitInput;
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
+  ServiceTicketsResult: ServiceTicketsResult;
+  ServiceTicketsSearchFacets: ServiceTicketsSearchFacets;
+  ServiceTicketsSearchFilterDetail: ServiceTicketsSearchFilterDetail;
+  ServiceTicketsSearchInput: ServiceTicketsSearchInput;
+  ServiceTicketsSearchOptions: ServiceTicketsSearchOptions;
+  ServiceTicketsSearchResult: ServiceTicketsSearchResult;
   String: Scalars['String'];
   Time: Scalars['Time'];
   Timestamp: Scalars['Timestamp'];
@@ -2137,6 +2200,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   serviceTicketsClosedByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsOpenByCommunity?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsOpenByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
+  serviceTicketsSearch?: Resolver<Maybe<ResolversTypes['ServiceTicketsSearchResult']>, ParentType, ContextType, RequireFields<QueryServiceTicketsSearchArgs, 'input'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userCurrent?: Resolver<Maybe<ResolversTypes['CurrentUser']>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
@@ -2234,6 +2298,34 @@ export type ServiceTicketPhotoAuthHeaderResultResolvers<ContextType = Context, P
   authHeader?: Resolver<Maybe<ResolversTypes['BlobAuthHeader']>, ParentType, ContextType>;
   serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceTicketsResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketsResult'] = ResolversParentTypes['ServiceTicketsResult']> = ResolversObject<{
+  assignedTo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  communityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  priority?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  propertyId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  requestor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceTicketsSearchFacetsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketsSearchFacets'] = ResolversParentTypes['ServiceTicketsSearchFacets']> = ResolversObject<{
+  assignedTo?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  priority?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  requestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  status?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceTicketsSearchResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketsSearchResult'] = ResolversParentTypes['ServiceTicketsSearchResult']> = ResolversObject<{
+  count?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  facets?: Resolver<Maybe<ResolversTypes['ServiceTicketsSearchFacets']>, ParentType, ContextType>;
+  serviceTicketsResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketsResult']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2379,6 +2471,9 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ServiceTicketPermissions?: ServiceTicketPermissionsResolvers<ContextType>;
   ServiceTicketPhoto?: ServiceTicketPhotoResolvers<ContextType>;
   ServiceTicketPhotoAuthHeaderResult?: ServiceTicketPhotoAuthHeaderResultResolvers<ContextType>;
+  ServiceTicketsResult?: ServiceTicketsResultResolvers<ContextType>;
+  ServiceTicketsSearchFacets?: ServiceTicketsSearchFacetsResolvers<ContextType>;
+  ServiceTicketsSearchResult?: ServiceTicketsSearchResultResolvers<ContextType>;
   Time?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;
   URL?: GraphQLScalarType;

@@ -42,6 +42,7 @@ extend type Query {
   serviceTicketsClosedByRequestor: [ServiceTicket]
   serviceTicketsAssignedToCurrentUser: [ServiceTicket]
   serviceTicketsByCommunityId(communityId: ID!): [ServiceTicket]
+  serviceTicketsSearch(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
 }
 
 extend type Mutation {
@@ -92,7 +93,7 @@ input ServiceTicketRemovePhotoInput {
   photoId: ObjectID!
 }
 
-type ServiceTicketPhotoAuthHeaderResult implements MutationResult  {
+type ServiceTicketPhotoAuthHeaderResult implements MutationResult {
   status: MutationStatus!
   authHeader: BlobAuthHeader
   serviceTicket: ServiceTicket
@@ -116,4 +117,46 @@ input ServiceTicketChangeStatusInput {
   serviceTicketId: ObjectID!
   status: String!
   activityDescription: String
+}
+
+input ServiceTicketsSearchInput {
+  searchString: String
+  options: ServiceTicketsSearchOptions
+}
+
+input ServiceTicketsSearchOptions {
+  filter: ServiceTicketsSearchFilterDetail
+  facets: [String]
+}
+
+input ServiceTicketsSearchFilterDetail {
+  requestor: [String]
+  assignedTo: [String]
+  status: [String]
+  priority: [Int]
+}
+
+type ServiceTicketsSearchResult {
+  serviceTicketsResults: [ServiceTicketsResult]
+  count: Int
+  facets: ServiceTicketsSearchFacets
+}
+
+type ServiceTicketsResult {
+  id: String
+  communityId: String
+  propertyId: String
+  title: String
+  requestor: String
+  assignedTo: String
+  description: String
+  status: String
+  priority: Int
+}
+
+type ServiceTicketsSearchFacets {
+  requestor: [FacetDetail]
+  assignedTo: [FacetDetail]
+  status: [FacetDetail]
+  priority: [FacetDetail]
 }

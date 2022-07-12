@@ -1,5 +1,5 @@
 
-import { CommunityPermissions } from '../community/community';
+import { CommunityPermissions } from "../community/community-permissions.spec";
 import { MemberEntityReference } from '../community/member';
 import { CommunityVisa } from './community-visa';
 

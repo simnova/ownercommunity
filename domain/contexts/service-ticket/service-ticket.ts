@@ -4,8 +4,8 @@ import { Property, PropertyEntityReference, PropertyProps } from '../property/pr
 import { MemberEntityReference, Member, MemberProps } from '../community/member';
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { DomainExecutionContext } from '../context';
-import * as ActivityDetailValueObjects from './activity-detail-value-objects';
-import * as ValueObjects from './service-ticket-value-objects';
+import * as ActivityDetailValueObjects from './activity-detail.value-objects';
+import * as ValueObjects from './service-ticket.value-objects';
 import { PropArray } from '../../shared/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
@@ -57,7 +57,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     this.visa = context.passport.forServiceTicket(this);
   }
 
-  public static async getNewInstance<props extends ServiceTicketProps>(
+  public static getNewInstance<props extends ServiceTicketProps>(
     newProps: props,
     title: string,
     description: string,
@@ -65,9 +65,8 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
     context: DomainExecutionContext
-  ): Promise<ServiceTicket<props>> {
+  ): ServiceTicket<props> {
     let serviceTicket = new ServiceTicket(newProps, context);
-    serviceTicket.MarkAsNew();
     serviceTicket.isNew = true;
     serviceTicket.requestSetTitle(title);
     serviceTicket.requestSetDescription(description);
@@ -297,14 +296,4 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
       this.addIntegrationEvent(ServiceTicketUpdatedEvent, { id: this.props.id });
     }
   }
-}
-
-export interface ServiceTicketPermissions {
-  canCreateTickets: boolean;
-  canManageTickets: boolean;
-  canAssignTickets: boolean;
-  canWorkOnTickets: boolean;
-  isEditingOwnTicket: boolean;
-  isEditingAssignedTicket: boolean;
-  isSystemAccount: boolean;
 }

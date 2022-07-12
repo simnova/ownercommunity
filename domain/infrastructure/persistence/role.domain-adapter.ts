@@ -1,15 +1,15 @@
-import { Role, Permissions,CommunityPermissions, PropertyPermissions, ServiceTicketPermissions } from '../../../../infrastructure/data-sources/cosmos-db/models/role';
-import { Role as RoleDO, RoleProps } from '../../../contexts/community/role';
-import { MongooseDomainAdapter } from '../mongo-domain-adapter';
-import { MongoTypeConverter } from '../mongo-type-converter';
+import { Role, Permissions,CommunityPermissions, PropertyPermissions, ServiceTicketPermissions } from '../../../infrastructure/data-sources/cosmos-db/models/role';
+import { Role as RoleDO, RoleProps } from '../../contexts/community/role';
+import { MongooseDomainAdapter } from '../core/mongo/mongo-domain-adapter';
+import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
 
-import { CommunityProps } from '../../../contexts/community/community';
-import { CommunityPermissionsProps } from '../../../contexts/community/community-permissions';
-import { PermissionsProps } from '../../../contexts/community/permissions';
-import { CommunityConverter, CommunityDomainAdapter } from './community-domain-adapter';
-import { DomainExecutionContext } from '../../../contexts/context';
-import { PropertyPermissionsProps } from '../../../contexts/community/property-permissions';
-import { ServiceTicketPermissionsProps } from '../../../contexts/community/service-ticket-permissions';
+import { CommunityProps } from '../../contexts/community/community';
+import { CommunityPermissionsProps } from '../../contexts/community/community-permissions';
+import { PermissionsProps } from '../../contexts/community/permissions';
+import { CommunityConverter, CommunityDomainAdapter } from './community.domain-adapter';
+import { DomainExecutionContext } from '../../contexts/context';
+import { PropertyPermissionsProps } from '../../contexts/community/property-permissions';
+import { ServiceTicketPermissionsProps } from '../../contexts/community/service-ticket-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext,Role,RoleDomainAdapter,RoleDO<RoleDomainAdapter>> {
   constructor() {
@@ -18,27 +18,27 @@ export class RoleConverter extends MongoTypeConverter<DomainExecutionContext,Rol
 }
 
 export class RoleDomainAdapter extends MongooseDomainAdapter<Role> implements RoleProps {
-  constructor(props: Role) { super(props); }
+  constructor(doc: Role) { super(doc); }
 
-  get roleName() {return this.props.roleName;}
-  set roleName(roleName) {this.props.roleName = roleName;}
+  get roleName() {return this.doc.roleName;}
+  set roleName(roleName) {this.doc.roleName = roleName;}
 
   get community() {
-    if(this.props.community && !this.props.populated('community')) {
-      console.warn('Community not populated - may want to look at repository populate',this.props.community);
+    if(this.doc.community && !this.doc.populated('community')) {
+      console.warn('Community not populated - may want to look at repository populate',this.doc.community);
     }
-    if(this.props.community){return new CommunityDomainAdapter(this.props.community);}
+    if(this.doc.community){return new CommunityDomainAdapter(this.doc.community);}
   }
   setCommunityRef(community: CommunityProps) {
-    this.props.set('community', community['props']['props']);
+    this.doc.set('community', community['props']['doc']);
   }
 
-  get isDefault() {return this.props.isDefault;}
-  set isDefault(isDefault) {this.props.isDefault = isDefault;}
+  get isDefault() {return this.doc.isDefault;}
+  set isDefault(isDefault) {this.doc.isDefault = isDefault;}
 
   public get permissions(): PermissionsProps { 
-    if(!this.props.permissions){this.props.set('permissions',{});  }
-    return new PermissionsAdapter(this.props.permissions); 
+    if(!this.doc.permissions){this.doc.set('permissions',{});  }
+    return new PermissionsAdapter(this.doc.permissions); 
   }
 }
 

@@ -1,14 +1,14 @@
-import { NodeEventBus } from '../events/node-event-bus';
+import { NodeEventBus } from '../core/events/node-event-bus';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from './property-search-index-format';
 import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
-import { PropertyUnitOfWork } from '../persistance/repositories';
-import { SystemExecutionContext } from '../persistance/execution-context';
+import { PropertyUnitOfWork } from '../persistence/property.uow';
+import { SystemExecutionContext } from '../execution-context';
 import { PropertyUpdatedEvent } from '../../events/property-updated';
 import { GeographyPoint } from '@azure/search-documents';
 import dayjs from 'dayjs';
-import { PropertyDomainAdapter } from '../persistance/adapters/property-domain-adapter';
+import { PropertyDomainAdapter } from '../persistence/property.domain-adapter';
 import { Property } from '../../contexts/property/property';
-import { MongoPropertyRepository } from '../persistance/repositories/mongo-property-repository';
+import { MongoPropertyRepository } from '../persistence/property.mongo-repository';
 import retry from 'async-retry';
 const crypto = require('crypto');
 

@@ -30,7 +30,7 @@ const role: Resolvers = {
   Role: {
     community: async (parent, _args, context, _info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.dataSources.communityApi.findOneById(
+        return (await context.dataSources.communityCosmosdbApi.findOneById(
           parent.community.toString()
         )) as Community;
       }
@@ -39,13 +39,13 @@ const role: Resolvers = {
   },
   Query: {
     role: async (_, { id }, { dataSources }) => {
-      return (await dataSources.roleApi.getRoleById(id)) as Role;
+      return (await dataSources.roleCosmosdbApi.getRoleById(id)) as Role;
     },
     roles: async (_, _args, { dataSources }) => {
-      return (await dataSources.roleApi.getRoles()) as Role[];
+      return (await dataSources.roleCosmosdbApi.getRoles()) as Role[];
     },
     rolesByCommunityId: async (_, { communityId }, { dataSources }) => {
-      return (await dataSources.roleApi.getRolesByCommunityId(
+      return (await dataSources.roleCosmosdbApi.getRolesByCommunityId(
         communityId
       )) as Role[];
     },

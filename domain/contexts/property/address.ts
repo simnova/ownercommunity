@@ -1,7 +1,7 @@
-import { Entity, EntityProps } from "../../shared/entity";
+import { ValueObject, ValueObjectProps } from "../../shared/value-object";
 import { PropertyVisa } from "../iam/property-visa";
 
-export interface AddressProps extends EntityProps {
+export interface AddressProps extends ValueObjectProps {
     streetNumber: string;
     streetName: string;
     municipality: string;
@@ -24,7 +24,7 @@ export interface AddressProps extends EntityProps {
 
 export interface AddressEntityReference extends Readonly<AddressProps> {}
 
-export class Address extends Entity<AddressProps> implements AddressEntityReference {
+export class Address extends ValueObject<AddressProps> implements AddressEntityReference {
     constructor(props: AddressProps, private readonly visa: PropertyVisa) {
         super(props);
     }
@@ -99,10 +99,6 @@ export class Address extends Entity<AddressProps> implements AddressEntityRefere
 
     get crossStreet() {
         return this.props.crossStreet;
-    }
-
-    get id() {
-        return this.props.id;
     }
 
     private validateVisa(){

@@ -1,11 +1,12 @@
-import { NodeEventBus } from '../events/node-event-bus';
+import { NodeEventBus } from '../core/events/node-event-bus';
 import { CommunityCreatedEvent } from '../../events/community-created';
-import { RoleUnitOfWork, MemberUnitOfWork } from '../persistance/repositories';
-import { SystemExecutionContext, ReadOnlyContext } from '../persistance/execution-context';
+import { RoleUnitOfWork } from '../persistence/role.uow';
+import { MemberUnitOfWork } from '../persistence/member.uow';
+import { SystemExecutionContext, ReadOnlyContext } from '../execution-context';
 import { CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/models/community';
-import { CommunityConverter } from '../persistance/adapters/community-domain-adapter';
+import { CommunityConverter } from '../persistence/community.domain-adapter';
 import { Role } from '../../contexts/community/role';
-import { AccountStatusCodes } from '../../contexts/community/account-value-objects';
+import { AccountStatusCodes } from '../../contexts/community/account.value-objects';
 
 export default () => { NodeEventBus.register(CommunityCreatedEvent, async (payload) => {
 

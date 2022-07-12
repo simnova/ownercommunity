@@ -1,30 +1,28 @@
-import { Base } from '../../../infrastructure/data-sources/cosmos-db/models/interfaces/base';
-import { Entity, EntityProps } from '../../shared/entity';
-import { PropArray } from '../../shared/prop-array';
+import { Base } from '../../../../infrastructure/data-sources/cosmos-db/models/interfaces/base';
+import { Entity, EntityProps } from '../../../shared/entity';
+import { PropArray } from '../../../shared/prop-array';
 import mongoose, {ObjectId} from 'mongoose';
-import { PropertyType } from '../../contexts/property/property-value-objects';
 
 export abstract class MongooseDomainAdapter<T extends Base> implements MongooseDomainAdapterType<T>{
-  constructor(public readonly props: T) { }
-  get id() {return this.props.id;}
-  get createdAt() {return this.props.createdAt;}
-  get updatedAt() {return this.props.updatedAt;}
-  get schemaVersion() {return this.props.schemaVersion;}
+  constructor(public readonly doc: T) { }
+  get id() {return this.doc.id;}
+  get createdAt() {return this.doc.createdAt;}
+  get updatedAt() {return this.doc.updatedAt;}
+  get schemaVersion() {return this.doc.schemaVersion;}
 }
 
 export interface MongooseDomainAdapterType<T extends Base> extends EntityProps {
-  readonly props: T;
+  readonly doc: T;
 }
 
-// [MG] - need to create a MongooseVariableTypePropArray
 export class MongoosePropArray<propType extends EntityProps, docType extends mongoose.Document> implements PropArray<propType> {
   constructor( protected docArray:mongoose.Types.DocumentArray<docType> ,protected adapter:new(doc:docType)=>propType) {}
   addItem(item: propType): propType {
-    var itemId = this.docArray.push(item['props']);
+    var itemId = this.docArray.push(item['doc']);
     return this.docArray[itemId] as any as propType;
   }
   removeItem(item: propType): void {
-    this.docArray.pull({_id:item['props']['_id'] } );
+    this.docArray.pull({_id:item['doc']['_id'] } );
   }
   removeAll(): void {
     var ids = this.docArray.map((doc) => doc._id);

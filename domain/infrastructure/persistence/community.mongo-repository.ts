@@ -1,12 +1,12 @@
-import { Community as CommunityDO, CommunityProps } from '../../../../domain/contexts/community/community';
-import { CommunityRepository } from '../../../contexts/community/community-repository';
-import { Community, CommunityModel }from '../../../../infrastructure/data-sources/cosmos-db/models/community';
-import { MongoRepositoryBase } from '../mongo-repository';
-import { TypeConverter } from '../../../shared/type-converter';
+import { Community as CommunityDO, CommunityProps } from '../../contexts/community/community';
+import { CommunityRepository } from '../../contexts/community/community.repository';
+import { Community, CommunityModel }from '../../../infrastructure/data-sources/cosmos-db/models/community';
+import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
+import { TypeConverter } from '../../shared/type-converter';
 import { ClientSession } from 'mongoose';
-import { EventBus } from '../../../shared/event-bus';
-import { DomainExecutionContext } from '../../../contexts/context';
-import { UserEntityReference } from '../../../contexts/user/user';
+import { EventBus } from '../../shared/event-bus';
+import { DomainExecutionContext } from '../../contexts/context';
+import { UserEntityReference } from '../../contexts/user/user';
 
 export class MongoCommunityRepository<PropType extends CommunityProps> extends MongoRepositoryBase<DomainExecutionContext, Community,PropType,CommunityDO<PropType>> implements CommunityRepository<PropType> {
   constructor(

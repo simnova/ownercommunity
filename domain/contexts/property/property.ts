@@ -2,7 +2,7 @@ import { Entity, EntityProps } from '../../shared/entity';
 import { Community, CommunityEntityReference, CommunityProps } from '../community/community';
 import { Member, MemberEntityReference, MemberProps } from '../community/member';
 import { DomainExecutionContext } from '../context';
-import * as ValueObjects from './property-value-objects';
+import * as ValueObjects from './property.value-objects';
 import { ListingDetails, ListingDetailProps, ListingDetailsEntityReference } from './listing-detail';
 import { Location, LocationEntityReference, LocationProps } from './location';
 import { AggregateRoot } from '../../shared/aggregate-root';
@@ -218,9 +218,4 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   }
 }
 
-export interface PropertyPermissions {
-  canManageProperties: boolean;
-  canEditOwnProperty: boolean;
-  isEditingOwnProperty: boolean;
-  isSystemAccount: boolean;
-}
+

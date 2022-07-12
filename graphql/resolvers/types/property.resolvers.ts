@@ -31,13 +31,13 @@ const property: Resolvers = {
     },
     community: async (parent, args, context, info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.dataSources.communityApi.findOneById(parent.community.toString())) as Community;
+        return (await context.dataSources.communityCosmosdbApi.findOneById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
     owner: async (parent, args, context, info) => {
       if (parent.owner && isValidObjectId(parent.owner.toString())) {
-        return (await context.dataSources.memberApi.findOneById(parent.owner.toString())) as Member;
+        return (await context.dataSources.memberCosmosdbApi.findOneById(parent.owner.toString())) as Member;
       }
       return parent.owner;
     },
@@ -45,22 +45,22 @@ const property: Resolvers = {
   Query: {
     property: async (_parent, args, context, info) => {
       if (args.id && isValidObjectId(args.id)) {
-        return (await context.dataSources.propertyApi.findOneById(args.id)) as Property;
+        return (await context.dataSources.propertyCosmosdbApi.findOneById(args.id)) as Property;
       }
       return null;
     },
     properties: async (_, _args, context) => {
-      return (await context.dataSources.propertyApi.getPropertiesByCommunityId(context.community)) as Property[];
+      return (await context.dataSources.propertyCosmosdbApi.getPropertiesByCommunityId(context.community)) as Property[];
     },
     propertiesByCommunityId: async (_, { communityId }, context) => {
-      return (await context.dataSources.propertyApi.getPropertiesByCommunityId(communityId)) as Property[];
+      return (await context.dataSources.propertyCosmosdbApi.getPropertiesByCommunityId(communityId)) as Property[];
     },
     propertiesForCurrentUserByCommunityId: async (_, _args, context) => {
-      const user = await context.dataSources.userApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
-      return (await context.dataSources.propertyApi.getPropertiesForCurrentUserByCommunityId(context.community, user.id)) as Property[];
+      const user = await context.dataSources.userCosmosdbApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
+      return (await context.dataSources.propertyCosmosdbApi.getPropertiesForCurrentUserByCommunityId(context.community, user.id)) as Property[];
     },
     getAllPropertyTags: async (_, _args, context) => {
-      const properties = (await context.dataSources.propertyApi.getAllProperties()) as Property[];
+      const properties = (await context.dataSources.propertyCosmosdbApi.getAllProperties()) as Property[];
       const tags = properties.map((p) => p.tags).flat();
       return [...new Set(tags)];
     },
@@ -201,7 +201,7 @@ const property: Resolvers = {
       const member = await getMemberForCurrentUser(context, context.community);
       var result = await context.dataSources.propertyBlobAPI.propertyListingImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
-        let propertyDbObj = (await (await context.dataSources.propertyApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
+        let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
         propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
         result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
       }
@@ -212,7 +212,7 @@ const property: Resolvers = {
       const member = await getMemberForCurrentUser(context, context.community);
       var result = await context.dataSources.propertyBlobAPI.propertyFloorPlanImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
-        let propertyDbObj = (await (await context.dataSources.propertyApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
+        let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
         propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
         result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
       }

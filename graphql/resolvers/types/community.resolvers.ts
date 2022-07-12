@@ -22,7 +22,7 @@ const community: Resolvers = {
 
   Community: {
     roles: async (_rootObj: Community) => {
-      return (await DataSources.roleApi.getRoles()) as Role[];
+      return (await DataSources.roleCosmosdbApi.getRoles()) as Role[];
     },
     files: async (rootObj: Community) => {
       return DataSources.communityBlobAPI.communityPublicFilesList(rootObj.id);
@@ -33,19 +33,19 @@ const community: Resolvers = {
   },
   Query: {
     community: async (_, _args, { dataSources }) => {
-      return (await dataSources.communityApi.getCurrentCommunity()) as Community;
+      return (await dataSources.communityCosmosdbApi.getCurrentCommunity()) as Community;
     },
     communityById: async (_, { id }, { dataSources }) => {
-      return (await dataSources.communityApi.getCommunityById(id)) as Community;
+      return (await dataSources.communityCosmosdbApi.getCommunityById(id)) as Community;
     },
     communityByHandle: async (_, { handle }, { dataSources }) => {
-      return (await dataSources.communityApi.getCommunityByHandle(handle)) as Community;
+      return (await dataSources.communityCosmosdbApi.getCommunityByHandle(handle)) as Community;
     },
     communityByDomain: async (_, { domain }, { dataSources }) => {
-      return (await dataSources.communityApi.getCommunityByDomain(domain)) as Community;
+      return (await dataSources.communityCosmosdbApi.getCommunityByDomain(domain)) as Community;
     },
     communities: async (_, _args, { dataSources }) => {
-      return (await dataSources.communityApi.getCommunitiesForCurrentUser()) as Community[];
+      return (await dataSources.communityCosmosdbApi.getCommunitiesForCurrentUser()) as Community[];
     },
   },
   Mutation: {
@@ -58,19 +58,19 @@ const community: Resolvers = {
     communityPublicFileCreateAuthHeader: async (_, { input }, { dataSources }) => {
       var result = await dataSources.communityBlobAPI.communityPublicFileCreateAuthHeader(input.communityId, input.fileName, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
-      result.community = (await dataSources.communityApi.getCommunityById(input.communityId)) as Community;
+      result.community = (await dataSources.communityCosmosdbApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
     communityPublicContentCreateAuthHeader: async (_, { input }, { dataSources }) => {
       var result = await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
-      result.community = (await dataSources.communityApi.getCommunityById(input.communityId)) as Community;
+      result.community = (await dataSources.communityCosmosdbApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
     communityPublicFileRemove: async (_, { input }, { dataSources }) => {
       var result = await dataSources.communityBlobAPI.communityPublicFileRemove(input.communityId, input.fileName);
       console.log(`communityPublicFileRemove: ${JSON.stringify(result)}`);
-      return CommunityMutationResolver( dataSources.communityApi.getCommunityById(input.communityId));// as Community;
+      return CommunityMutationResolver( dataSources.communityCosmosdbApi.getCommunityById(input.communityId));// as Community;
       //return result;
     }
   },

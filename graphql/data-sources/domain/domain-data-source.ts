@@ -1,11 +1,10 @@
 import { DataSource,DataSourceConfig } from 'apollo-datasource';
-import { MongoUnitOfWork } from '../../../domain/infrastructure/persistance/mongo-unit-of-work';
-import { MongoRepositoryBase } from '../../../domain/infrastructure/persistance/mongo-repository';
+import { MongoUnitOfWork } from '../../../domain/infrastructure/core/mongo/mongo-unit-of-work';
+import { MongoRepositoryBase } from '../../../domain/infrastructure/core/mongo/mongo-repository';
 import { AggregateRoot } from '../../../domain/shared/aggregate-root';
 import { EntityProps } from '../../../domain/shared/entity';
 import { Document } from 'mongoose';
 import { DomainExecutionContext } from '../../../domain/contexts/context';
-import { getPassport } from '../domain-data-utils';
 import { Context as GraphQLContext } from '../../context';
 
 export class DomainDataSource<Context extends GraphQLContext,MongoType extends Document,PropType extends EntityProps,DomainType extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType,PropType,DomainType>> extends DataSource<Context> {

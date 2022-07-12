@@ -1,7 +1,7 @@
 """
 Base type for all models in mongo.
 """
-interface MongoEmbeddedBase {
+interface MongoSubdocument {
   """
   The ID of the object.
   """

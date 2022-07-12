@@ -16,7 +16,7 @@ type ServiceTicket implements MongoBase {
   updatedAt: DateTime
 }
 
-type ServiceTicketActivityDetail implements MongoEmbeddedBase {
+type ServiceTicketActivityDetail implements MongoSubdocument {
   activityType: String!
   activityDescription: String!
   activityBy: Member!
@@ -26,7 +26,7 @@ type ServiceTicketActivityDetail implements MongoEmbeddedBase {
   updatedAt: DateTime
 }
 
-type ServiceTicketPhoto implements MongoEmbeddedBase {
+type ServiceTicketPhoto implements MongoSubdocument {
   documentId: String!
   description: String!
 

@@ -2,7 +2,7 @@ import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
 import { CommunityVisa } from '../iam/community-visa';
 import { User, UserEntityReference, UserProps } from '../user/user';
-import * as ValueObjects from './account-value-objects';
+import * as ValueObjects from './account.value-objects';
 
 export interface AccountPropValues extends EntityProps {
   firstName: string;

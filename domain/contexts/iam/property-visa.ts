@@ -1,6 +1,7 @@
 
 import { MemberEntityReference } from '../community/member';
-import { PropertyEntityReference, PropertyPermissions } from '../property/property';
+import { PropertyEntityReference } from '../property/property';
+import { PropertyPermissions } from "../property/property-permissions.spec";
 import { Visa } from './passport';
 
 export class PropertyVisaImpl<root extends PropertyEntityReference> implements PropertyVisa {

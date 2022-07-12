@@ -1,13 +1,13 @@
-import { UserModel } from "../../../infrastructure/data-sources/cosmos-db/models/user";
-import { UserDomainAdapter } from "./adapters/user-domain-adapter";
-import { User as UserDO } from "../../contexts/user/user";
+import { UserModel } from "../../infrastructure/data-sources/cosmos-db/models/user";
+import { UserDomainAdapter } from "./persistence/user.domain-adapter";
+import { User as UserDO } from "../contexts/user/user";
 
-import { MemberModel } from "../../../infrastructure/data-sources/cosmos-db/models/member";
-import { MemberDomainAdapter } from "./adapters/member-domain-adapter";
-import { Member as MemberDO } from "../../contexts/community/member";
+import { MemberModel } from "../../infrastructure/data-sources/cosmos-db/models/member";
+import { MemberDomainAdapter } from "./persistence/member.domain-adapter";
+import { Member as MemberDO } from "../contexts/community/member";
 
-import { PassportImpl, ReadOnlyPassport, SystemPassport } from "../../contexts/iam/passport";
-import { DomainExecutionContext } from "../../contexts/context";
+import { PassportImpl, ReadOnlyPassport, SystemPassport } from "../contexts/iam/passport";
+import { DomainExecutionContext } from "../contexts/context";
 
 
 export const ExecutionContext = async (userId:string, communityId:string): Promise<DomainExecutionContext> => { 

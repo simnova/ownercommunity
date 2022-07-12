@@ -43,9 +43,7 @@ export class ApolloServerRequestHandler {
         return context;
       },
       dataSources: () => {
-        return {
-        ...DataSources
-        }
+        return DataSources
       },
     //  playground: { endpoint: '/api/graphql/playground' },
       plugins:[

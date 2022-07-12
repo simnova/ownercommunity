@@ -19,13 +19,13 @@ const member: Resolvers = {
   Member: {
     community: async (parent, _args, context) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.dataSources.communityApi.findOneById(parent.community.toString())) as Community;
+        return (await context.dataSources.communityCosmosdbApi.findOneById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
     role: async (parent, _args, context) => {
       if (parent.role && isValidObjectId(parent.role.toString())) {
-        return (await context.dataSources.roleApi.findOneById(parent.role.toString())) as Role;
+        return (await context.dataSources.roleCosmosdbApi.findOneById(parent.role.toString())) as Role;
       }
       return parent.role;
     },
@@ -33,13 +33,13 @@ const member: Resolvers = {
   MemberAccount: {
     user: async (parent, _args, context) => {
       if (parent.user && isValidObjectId(parent.user.toString())) {
-        return (await context.dataSources.userApi.findOneById(parent.user.toString())) as User;
+        return (await context.dataSources.userCosmosdbApi.findOneById(parent.user.toString())) as User;
       }
       return parent.user;
     },
     createdBy: async (parent, _args, context) => {
       if (parent.createdBy && isValidObjectId(parent.createdBy.toString())) {
-        return (await context.dataSources.userApi.findOneById(parent.createdBy.toString())) as User;
+        return (await context.dataSources.userCosmosdbApi.findOneById(parent.createdBy.toString())) as User;
       }
       return parent.createdBy;
     },
@@ -47,21 +47,21 @@ const member: Resolvers = {
   Query: {
     member: async (_parent, args, context) => {
       if (args.id && isValidObjectId(args.id)) {
-        return (await context.dataSources.memberApi.findOneById(args.id)) as Member;
+        return (await context.dataSources.memberCosmosdbApi.findOneById(args.id)) as Member;
       }
       return null;
     },
     members: async (_, _input, { dataSources }) => {
-      return (await dataSources.memberApi.getMembers()) as Member[];
+      return (await dataSources.memberCosmosdbApi.getMembers()) as Member[];
     },
     membersByCommunityId: async (_, { communityId }, { dataSources }) => {
-      return (await dataSources.memberApi.getMembersByCommunityId(communityId)) as Member[];
+      return (await dataSources.memberCosmosdbApi.getMembersByCommunityId(communityId)) as Member[];
     },
     membersAssignableToTickets: async (_, _input, { dataSources }) => {
-      return (await dataSources.memberApi.getMembersAssignableToTickets()) as Member[];
+      return (await dataSources.memberCosmosdbApi.getMembersAssignableToTickets()) as Member[];
     },
     memberForUser: async (_parent, input, context) => {
-      return (await context.dataSources.memberApi.getMemberByCommunityIdUserId(context.community, input.userId)) as Member;
+      return (await context.dataSources.memberCosmosdbApi.getMemberByCommunityIdUserId(context.community, input.userId)) as Member;
     },
     memberForCurrentUser: async (_, { communityId }, context) => {
       return getMemberForCurrentUser(context, communityId);

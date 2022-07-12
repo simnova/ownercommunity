@@ -1,7 +1,7 @@
 import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
 import { PropertyVisa } from '../iam/property-visa';
-import * as ValueObjects from './additional-amenity-value-objects';
+import * as ValueObjects from './additional-amenity.value-objects';
 
 export interface AdditionalAmenityProps extends EntityProps {
   category: string;

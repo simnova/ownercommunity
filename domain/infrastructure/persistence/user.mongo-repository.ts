@@ -1,11 +1,11 @@
-import { User as UserDO, UserProps } from '../../../../domain/contexts/user/user';
-import { UserRepository } from '../../../contexts/user/user-repository';
-import { User, UserModel }from '../../../../infrastructure/data-sources/cosmos-db/models/user';
-import { MongoRepositoryBase } from '../mongo-repository';
-import { TypeConverter } from '../../../shared/type-converter';
+import { User as UserDO, UserProps } from '../../contexts/user/user';
+import { UserRepository } from '../../contexts/user/user.repository';
+import { User, UserModel }from '../../../infrastructure/data-sources/cosmos-db/models/user';
+import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
+import { TypeConverter } from '../../shared/type-converter';
 import { ClientSession } from 'mongoose';
-import { EventBus } from '../../../shared/event-bus';
-import { DomainExecutionContext } from '../../../contexts/context';
+import { EventBus } from '../../shared/event-bus';
+import { DomainExecutionContext } from '../../contexts/context';
 
 export class MongoUserRepository<PropType extends UserProps> extends MongoRepositoryBase<DomainExecutionContext, User,PropType,UserDO<PropType>> implements UserRepository<PropType> {
   constructor(

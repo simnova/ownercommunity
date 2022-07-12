@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
+import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
 
 const { Sider, Content } = Layout;
 
@@ -66,6 +67,7 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
           collapsedWidth={60}
           width={445}
         >
+          {!collapsed && <ServiceTicketsSearchToolbar />}
           {!collapsed && <ServiceTicketsSearchFilters />}
 
           <div

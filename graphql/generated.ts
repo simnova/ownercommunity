@@ -68,11 +68,13 @@ export type Scalars = {
   Void: any;
 };
 
-export type AdditionalAmenities = {
+export type AdditionalAmenities = MongoSubdocument & {
   __typename?: 'AdditionalAmenities';
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   category?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id: Scalars['ObjectID'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type AdditionalAmenitiesFilterInput = {
@@ -136,11 +138,13 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
-export type BedroomDetails = {
+export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id: Scalars['ObjectID'];
   roomName?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type BedroomDetailsInput = {
@@ -207,7 +211,7 @@ export type CommunityCreateInput = {
   name: Scalars['String'];
 };
 
-export type CommunityMutationResult = {
+export type CommunityMutationResult = MutationResult & {
   __typename?: 'CommunityMutationResult';
   community?: Maybe<Community>;
   status: MutationStatus;
@@ -792,7 +796,7 @@ export type PropertyDeleteInput = {
   id: Scalars['ObjectID'];
 };
 
-export type PropertyMutationResult = {
+export type PropertyMutationResult = MutationResult & {
   __typename?: 'PropertyMutationResult';
   property?: Maybe<Property>;
   status: MutationStatus;
@@ -1017,7 +1021,7 @@ export type RoleDeleteAndReassignInput = {
   roleToReassignTo: Scalars['ObjectID'];
 };
 
-export type RoleMutationResult = {
+export type RoleMutationResult = MutationResult & {
   __typename?: 'RoleMutationResult';
   role?: Maybe<Role>;
   status: MutationStatus;
@@ -1098,7 +1102,7 @@ export type ServiceTicketDeleteInput = {
   serviceTicketId: Scalars['ObjectID'];
 };
 
-export type ServiceTicketMutationResult = {
+export type ServiceTicketMutationResult = MutationResult & {
   __typename?: 'ServiceTicketMutationResult';
   serviceTicket?: Maybe<ServiceTicket>;
   status: MutationStatus;
@@ -1317,9 +1321,21 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['Role']
     | ResolversTypes['ServiceTicket']
     | ResolversTypes['User'];
-  MongoSubdocument: ResolversTypes['MemberAccount'] | ResolversTypes['ServiceTicketActivityDetail'] | ResolversTypes['ServiceTicketPhoto'];
+  MongoSubdocument:
+    | ResolversTypes['AdditionalAmenities']
+    | ResolversTypes['BedroomDetails']
+    | ResolversTypes['MemberAccount']
+    | ResolversTypes['ServiceTicketActivityDetail']
+    | ResolversTypes['ServiceTicketPhoto'];
   Mutation: ResolverTypeWrapper<{}>;
-  MutationResult: ResolversTypes['MemberMutationResult'] | ResolversTypes['ServiceTicketPhotoAuthHeaderResult'] | ResolversTypes['UserMutationResult'];
+  MutationResult:
+    | ResolversTypes['CommunityMutationResult']
+    | ResolversTypes['MemberMutationResult']
+    | ResolversTypes['PropertyMutationResult']
+    | ResolversTypes['RoleMutationResult']
+    | ResolversTypes['ServiceTicketMutationResult']
+    | ResolversTypes['ServiceTicketPhotoAuthHeaderResult']
+    | ResolversTypes['UserMutationResult'];
   MutationStatus: ResolverTypeWrapper<MutationStatus>;
   NegativeFloat: ResolverTypeWrapper<Scalars['NegativeFloat']>;
   NegativeInt: ResolverTypeWrapper<Scalars['NegativeInt']>;
@@ -1481,9 +1497,21 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['Role']
     | ResolversParentTypes['ServiceTicket']
     | ResolversParentTypes['User'];
-  MongoSubdocument: ResolversParentTypes['MemberAccount'] | ResolversParentTypes['ServiceTicketActivityDetail'] | ResolversParentTypes['ServiceTicketPhoto'];
+  MongoSubdocument:
+    | ResolversParentTypes['AdditionalAmenities']
+    | ResolversParentTypes['BedroomDetails']
+    | ResolversParentTypes['MemberAccount']
+    | ResolversParentTypes['ServiceTicketActivityDetail']
+    | ResolversParentTypes['ServiceTicketPhoto'];
   Mutation: {};
-  MutationResult: ResolversParentTypes['MemberMutationResult'] | ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult'] | ResolversParentTypes['UserMutationResult'];
+  MutationResult:
+    | ResolversParentTypes['CommunityMutationResult']
+    | ResolversParentTypes['MemberMutationResult']
+    | ResolversParentTypes['PropertyMutationResult']
+    | ResolversParentTypes['RoleMutationResult']
+    | ResolversParentTypes['ServiceTicketMutationResult']
+    | ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult']
+    | ResolversParentTypes['UserMutationResult'];
   MutationStatus: MutationStatus;
   NegativeFloat: Scalars['NegativeFloat'];
   NegativeInt: Scalars['NegativeInt'];
@@ -1570,7 +1598,9 @@ export type CacheControl22DirectiveResolver<Result, Parent, ContextType = Contex
 export type AdditionalAmenitiesResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AdditionalAmenities'] = ResolversParentTypes['AdditionalAmenities']> = ResolversObject<{
   amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1607,8 +1637,10 @@ export type AddressResolvers<ContextType = Context, ParentType extends Resolvers
 
 export type BedroomDetailsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BedroomDetails'] = ResolversParentTypes['BedroomDetails']> = ResolversObject<{
   bedDescriptions?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   roomName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1908,7 +1940,7 @@ export type MongoBaseResolvers<ContextType = Context, ParentType extends Resolve
 }>;
 
 export type MongoSubdocumentResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MongoSubdocument'] = ResolversParentTypes['MongoSubdocument']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'MemberAccount' | 'ServiceTicketActivityDetail' | 'ServiceTicketPhoto', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'AdditionalAmenities' | 'BedroomDetails' | 'MemberAccount' | 'ServiceTicketActivityDetail' | 'ServiceTicketPhoto', ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -1973,7 +2005,11 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 }>;
 
 export type MutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MutationResult'] = ResolversParentTypes['MutationResult']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'MemberMutationResult' | 'ServiceTicketPhotoAuthHeaderResult' | 'UserMutationResult', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<
+    'CommunityMutationResult' | 'MemberMutationResult' | 'PropertyMutationResult' | 'RoleMutationResult' | 'ServiceTicketMutationResult' | 'ServiceTicketPhotoAuthHeaderResult' | 'UserMutationResult',
+    ParentType,
+    ContextType
+  >;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
 }>;
 

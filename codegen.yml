@@ -2,8 +2,8 @@
 
 overwrite: true
 schema:
-  - './graphql/resolvers/core/graphql-tools-scalars.ts'
-  - './graphql/resolvers/**/**.graphql'
+  - './graphql/schema/core/graphql-tools-scalars.ts'
+  - './graphql/schema/**/**.graphql'
 documents: '../ui/src/components/**/**.graphql'
 generates:
   graphql/generated.ts:

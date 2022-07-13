@@ -66,11 +66,13 @@ export type Scalars = {
   Void: any;
 };
 
-export type AdditionalAmenities = {
+export type AdditionalAmenities = MongoSubdocument & {
   __typename?: 'AdditionalAmenities';
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
   category?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id: Scalars['ObjectID'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type AdditionalAmenitiesFilterInput = {
@@ -134,11 +136,13 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
-export type BedroomDetails = {
+export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id: Scalars['ObjectID'];
   roomName?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type BedroomDetailsInput = {
@@ -205,7 +209,7 @@ export type CommunityCreateInput = {
   name: Scalars['String'];
 };
 
-export type CommunityMutationResult = {
+export type CommunityMutationResult = MutationResult & {
   __typename?: 'CommunityMutationResult';
   community?: Maybe<Community>;
   status: MutationStatus;
@@ -790,7 +794,7 @@ export type PropertyDeleteInput = {
   id: Scalars['ObjectID'];
 };
 
-export type PropertyMutationResult = {
+export type PropertyMutationResult = MutationResult & {
   __typename?: 'PropertyMutationResult';
   property?: Maybe<Property>;
   status: MutationStatus;
@@ -1021,7 +1025,7 @@ export type RoleDeleteAndReassignInput = {
   roleToReassignTo: Scalars['ObjectID'];
 };
 
-export type RoleMutationResult = {
+export type RoleMutationResult = MutationResult & {
   __typename?: 'RoleMutationResult';
   role?: Maybe<Role>;
   status: MutationStatus;
@@ -1102,7 +1106,7 @@ export type ServiceTicketDeleteInput = {
   serviceTicketId: Scalars['ObjectID'];
 };
 
-export type ServiceTicketMutationResult = {
+export type ServiceTicketMutationResult = MutationResult & {
   __typename?: 'ServiceTicketMutationResult';
   serviceTicket?: Maybe<ServiceTicket>;
   status: MutationStatus;

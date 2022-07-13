@@ -7,7 +7,7 @@ import {
 import { ServiceTicketsList } from './service-tickets-list';
 import { Skeleton, Input, Drawer, Button } from 'antd';
 import { ServiceTicketFilterNames } from '../../../../constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FilterOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
@@ -34,6 +34,13 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   ] = useLazyQuery(MemberServiceTicketsListContainerSearchServiceTicketsDocument, {
     fetchPolicy: 'network-only'
   });
+
+  useEffect(() => {
+    (async () => {
+      await handleSearch();
+    })();
+  }, []);
+
 
   const handleSearch = async () => {
     let filters: ServiceTicketsSearchFilterDetail = {

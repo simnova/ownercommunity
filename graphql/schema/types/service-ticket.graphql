@@ -163,4 +163,6 @@ type ServiceTicketsSearchFacets {
   assignedTo: [FacetDetail]
   status: [FacetDetail]
   priority: [FacetDetail]
+  requestorId: [FacetDetail]
+  assignedToId: [FacetDetail]
 }

@@ -1182,8 +1182,10 @@ export type ServiceTicketsResult = {
 export type ServiceTicketsSearchFacets = {
   __typename?: 'ServiceTicketsSearchFacets';
   assignedTo?: Maybe<Array<Maybe<FacetDetail>>>;
+  assignedToId?: Maybe<Array<Maybe<FacetDetail>>>;
   priority?: Maybe<Array<Maybe<FacetDetail>>>;
   requestor?: Maybe<Array<Maybe<FacetDetail>>>;
+  requestorId?: Maybe<Array<Maybe<FacetDetail>>>;
   status?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
@@ -2405,8 +2407,10 @@ export type ServiceTicketsSearchFacetsResolvers<
   ParentType extends ResolversParentTypes['ServiceTicketsSearchFacets'] = ResolversParentTypes['ServiceTicketsSearchFacets']
 > = ResolversObject<{
   assignedTo?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  assignedToId?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   priority?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   requestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  requestorId?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   status?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

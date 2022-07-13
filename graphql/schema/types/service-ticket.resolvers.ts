@@ -99,6 +99,8 @@ const serviceTicket: Resolvers = {
           assignedTo: searchResults?.facets?.assignedTo,
           priority: searchResults?.facets?.priority,
           status: searchResults?.facets?.status,
+          requestorId: searchResults?.facets?.requestorId,
+          assignedToId: searchResults?.facets?.assignedToId,
         },
       };
     },

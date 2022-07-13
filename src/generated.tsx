@@ -1188,8 +1188,10 @@ export type ServiceTicketsResult = {
 export type ServiceTicketsSearchFacets = {
   __typename?: 'ServiceTicketsSearchFacets';
   assignedTo?: Maybe<Array<Maybe<FacetDetail>>>;
+  assignedToId?: Maybe<Array<Maybe<FacetDetail>>>;
   priority?: Maybe<Array<Maybe<FacetDetail>>>;
   requestor?: Maybe<Array<Maybe<FacetDetail>>>;
+  requestorId?: Maybe<Array<Maybe<FacetDetail>>>;
   status?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
@@ -5390,6 +5392,16 @@ export type MemberServiceTicketsListContainerSearchServiceTicketsQuery = {
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      requestorId?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      assignedToId?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   } | null;
 };
@@ -5448,6 +5460,16 @@ export type MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragment
         value?: string | null;
         count?: number | null;
       } | null> | null;
+      requestorId?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
+      assignedToId?: Array<{
+        __typename?: 'FacetDetail';
+        value?: string | null;
+        count?: number | null;
+      } | null> | null;
     } | null;
   };
 
@@ -5468,6 +5490,25 @@ export type MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFra
     createdAt?: any | null;
     updatedAt?: any | null;
   };
+
+export type MemberNameServiceTicketContainerQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type MemberNameServiceTicketContainerQuery = {
+  __typename?: 'Query';
+  membersByCommunityId?: Array<{
+    __typename?: 'Member';
+    id: any;
+    memberName?: string | null;
+  } | null> | null;
+};
+
+export type MemberNameServiceTicketContainerFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+};
 
 export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
   communityId: Scalars['ObjectID'];
@@ -9492,6 +9533,40 @@ export const MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragmen
                         }
                       ]
                     }
+                  },
+                  {
+                    kind: 'Field',
+                    name: { kind: 'Name', value: 'requestorId' },
+                    selectionSet: {
+                      kind: 'SelectionSet',
+                      selections: [
+                        {
+                          kind: 'Field',
+                          name: { kind: 'Name', value: 'value' }
+                        },
+                        {
+                          kind: 'Field',
+                          name: { kind: 'Name', value: 'count' }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    kind: 'Field',
+                    name: { kind: 'Name', value: 'assignedToId' },
+                    selectionSet: {
+                      kind: 'SelectionSet',
+                      selections: [
+                        {
+                          kind: 'Field',
+                          name: { kind: 'Name', value: 'value' }
+                        },
+                        {
+                          kind: 'Field',
+                          name: { kind: 'Name', value: 'count' }
+                        }
+                      ]
+                    }
                   }
                 ]
               }
@@ -9505,6 +9580,29 @@ export const MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragmen
     MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragment,
     unknown
   >;
+export const MemberNameServiceTicketContainerFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberNameServiceTicketContainerFields' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Member' }
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberNameServiceTicketContainerFieldsFragment,
+  unknown
+>;
 export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -14914,6 +15012,64 @@ export const MemberServiceTicketsListContainerSearchServiceTicketsDocument = {
 } as unknown as DocumentNode<
   MemberServiceTicketsListContainerSearchServiceTicketsQuery,
   MemberServiceTicketsListContainerSearchServiceTicketsQueryVariables
+>;
+export const MemberNameServiceTicketContainerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberNameServiceTicketContainer' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'communityId' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'membersByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'communityId' }
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'MemberNameServiceTicketContainerFields'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MemberNameServiceTicketContainerFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MemberNameServiceTicketContainerQuery,
+  MemberNameServiceTicketContainerQueryVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',

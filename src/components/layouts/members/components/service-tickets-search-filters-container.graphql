@@ -1,0 +1,10 @@
+query MemberNameServiceTicketContainer($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...MemberNameServiceTicketContainerFields
+  }
+}
+
+fragment MemberNameServiceTicketContainerFields on Member {
+  id
+  memberName
+}

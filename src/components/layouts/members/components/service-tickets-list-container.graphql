@@ -4,7 +4,9 @@ query MembersServiceTicketsListContainerServiceTicketsOpenByRequestor {
   }
 }
 
-query MemberServiceTicketsListContainerSearchServiceTickets($input: ServiceTicketsSearchInput!) {
+query MemberServiceTicketsListContainerSearchServiceTickets(
+  $input: ServiceTicketsSearchInput!
+) {
   serviceTicketsSearch(input: $input) {
     ...MembersServiceTicketsListContainerSearchServiceTicketsFields
   }
@@ -44,6 +46,14 @@ fragment MembersServiceTicketsListContainerSearchServiceTicketsFields on Service
       count
     }
     priority {
+      value
+      count
+    }
+    requestorId {
+      value
+      count
+    }
+    assignedToId {
       value
       count
     }

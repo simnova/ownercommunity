@@ -3,7 +3,7 @@
 import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertySearchResult, PropertiesSearchInput, PropertyUpdateInput } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
-import { getMemberForCurrentUser } from './helpers';
+import { getMemberForCurrentUser } from '../resolver-helper';
 import { ContentModeratorClientContext } from '@azure/cognitiveservices-contentmoderator';
 import dayjs from 'dayjs';
 

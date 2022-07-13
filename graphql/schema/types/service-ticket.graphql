@@ -56,7 +56,7 @@ extend type Mutation {
   serviceTicketDelete(input: ServiceTicketDeleteInput!): ServiceTicketMutationResult!
 }
 
-type ServiceTicketMutationResult {
+type ServiceTicketMutationResult implements MutationResult {
   status: MutationStatus!
   serviceTicket: ServiceTicket
 }

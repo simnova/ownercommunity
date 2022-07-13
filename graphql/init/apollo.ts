@@ -11,7 +11,7 @@ import * as util  from './extensions/util';
 import RegisterHandlers from '../../domain/infrastructure/event-handlers/index'
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware'
-import { permissions } from '../resolvers/index';
+import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
 
 import {

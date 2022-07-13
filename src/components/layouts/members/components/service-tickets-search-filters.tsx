@@ -3,6 +3,7 @@ import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
 interface SearchFilterConfigDefinition {
   filters: {
     title: string;
+    searchbar?: boolean;
     options: {
       name: string;
       count: number;
@@ -66,7 +67,32 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
       },
       {
         title: 'Pathway',
+        searchbar: true,
         options: [
+          {
+            name: 'Pathway 1',
+            count: 8,
+          },
+          {
+            name: 'Pathway 2',
+            count: 3,
+          },
+          {
+            name: 'Pathway 3',
+            count: 8,
+          },
+          {
+            name: 'Pathway 4',
+            count: 103,
+          },
+          {
+            name: 'Pathway 5',
+            count: 12,
+          },
+          {
+            name: 'Pathway 6',
+            count: 9,
+          },
           {
             name: 'Pathway 1',
             count: 8,
@@ -107,6 +133,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
           <ServiceTicketsSearchFilter
             title={filter.title}
             options={filter.options}
+            searchbar={filter.searchbar ?? false}
           />
         )
       })}

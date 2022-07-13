@@ -8,6 +8,7 @@ import { ServiceTicketsList } from './service-tickets-list';
 import { Skeleton, Input, Drawer, Button } from 'antd';
 import { ServiceTicketFilterNames } from '../../../../constants';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
@@ -15,6 +16,7 @@ import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
 const { Search } = Input;
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState('');
   const [visible, setVisible] = useState(false);
   // const {
@@ -103,7 +105,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             width={445}
           >
             <ServiceTicketsSearchToolbar />
-            <ServiceTicketsSearchFilters />
+            <ServiceTicketsSearchFilters data={props.data} />
           </Drawer>
           <Button type="default" onClick={() => setVisible(true)} className="ml-4">
             <FilterOutlined />

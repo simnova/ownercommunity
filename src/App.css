@@ -57,3 +57,7 @@
   padding-top: 0;
   margin-left: 10px;
 }
+
+.search-filter-scrollbar::-webkit-scrollbar-button:double-button {
+  display: none
+}

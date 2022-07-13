@@ -1,7 +1,8 @@
-import { Collapse, Checkbox, Typography } from 'antd';
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import { Collapse, Checkbox, Typography, Input } from 'antd';
+import { MinusOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 const { Title } = Typography;
 const { Panel } = Collapse;
+const { Search } = Input;
 
 interface ServiceTicketSearchFilterProps {
   title: string;
@@ -11,6 +12,7 @@ interface ServiceTicketSearchFilterProps {
       count: number;
     }
   ]
+  searchbar: boolean;
 }
 
 export const ServiceTicketsSearchFilter: React.FC<any> = (props: ServiceTicketSearchFilterProps) => {
@@ -33,7 +35,14 @@ export const ServiceTicketsSearchFilter: React.FC<any> = (props: ServiceTicketSe
           } 
           key="1"
         >
-          {props.options.map((option: any) => {
+          {props.searchbar && 
+            <Search 
+              allowClear 
+              placeholder='Search'
+              suffix={<SearchOutlined />}
+          />}
+          {props.options && <div className='search-filter-scrollbar' style={{ maxHeight: '182px', overflowY: 'auto' }}>
+            {props.options.map((option: any) => {
             return (
               <div style={{ display: 'flex', justifyContent: 'space-between'}}>
                 <Checkbox>{option.name}</Checkbox>
@@ -41,6 +50,8 @@ export const ServiceTicketsSearchFilter: React.FC<any> = (props: ServiceTicketSe
               </div>
             )
           })}
+          </div>}
+
         </Panel>
       </Collapse>
     </>

@@ -15,7 +15,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
-import { ServiceTicketsListSearchFilterTagsContainer } from './service-tickets-search-filters-container';
+import { ServiceTicketsListSearchFilterContainer } from './service-tickets-search-filters-container';
 
 const { Search } = Input;
 
@@ -134,7 +134,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             width={445}
           >
             <ServiceTicketsSearchToolbar />
-            <ServiceTicketsListSearchFilterTagsContainer
+            <ServiceTicketsListSearchFilterContainer
               searchData={searchServiceTicketsData?.serviceTicketsSearch}
             />
           </Drawer>

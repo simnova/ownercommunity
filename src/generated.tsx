@@ -1196,9 +1196,9 @@ export type ServiceTicketsSearchFacets = {
 };
 
 export type ServiceTicketsSearchFilterDetail = {
-  assignedTo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  assignedToId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   priority?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
-  requestor?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  requestorId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   status?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 

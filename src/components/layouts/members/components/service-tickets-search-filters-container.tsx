@@ -11,7 +11,7 @@ import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 //   tagsFacets?: FacetDetail[];
 // }
 
-export const ServiceTicketsListSearchFilterTagsContainer: FC<any> = (props) => {
+export const ServiceTicketsListSearchFilterContainer: FC<any> = (props) => {
   const params = useParams();
 
   const { data, loading, error } = useQuery(
@@ -27,7 +27,10 @@ export const ServiceTicketsListSearchFilterTagsContainer: FC<any> = (props) => {
     return <Skeleton active />;
   } else if (data) {
     return (
-      <ServiceTicketsSearchFilters data={data} searchData={props.searchData} />
+      <ServiceTicketsSearchFilters
+        memberData={data}
+        searchData={props.searchData}
+      />
     );
   }
   return null;

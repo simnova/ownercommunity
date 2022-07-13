@@ -59,7 +59,7 @@
 }
 
 .search-filter-scrollbar::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 .search-filter-scrollbar::-webkit-scrollbar-track {
@@ -69,20 +69,9 @@
 
 .search-filter-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 5px;
-}
-
-.search-filter-scrollbar::-webkit-scrollbar-thumb {
   background: #ccc; 
 }
 
 .search-filter-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #aaa;
 }
-
-/* .search-filter-scrollbar::-webkit-scrollbar-button:double-button {
-  display: none
-}
-
-.search-filter-scrollbar::-webkit-scrollbar-button:single-button {
-  display: none
-} */

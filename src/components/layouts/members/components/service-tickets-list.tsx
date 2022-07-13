@@ -2,16 +2,12 @@ import { Table, Button, Layout, Menu, Drawer } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FilterOutlined } from '@ant-design/icons';
-import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
-import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
 
 const { Sider, Content } = Layout;
 
 export const ServiceTicketsList: React.FC<any> = (props) => {
   const navigate = useNavigate();
   // const [collapsed, setCollapsed] = useState(false);
-  const [visible, setVisible] = useState(false);
 
   const columns = [
     {
@@ -88,24 +84,8 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
             />
           </div>
         </Sider> */}
-        <Drawer
-          title="Search Filters"
-          placement="left"
-          onClose={() => setVisible(false)}
-          visible={visible}
-          width={445}
-        >
-          <ServiceTicketsSearchToolbar />
-          <ServiceTicketsSearchFilters />
-        </Drawer>
-        <Button
-          type="default"
-          onClick={() => setVisible(true)}
-          style={{ width: '48px', margin: '20px 8px' }}
-        >
-          <FilterOutlined />
-        </Button>
-        <Content className="pl-2">
+
+        <Content>
           <Table columns={columns} dataSource={props.data} rowKey={(record: any) => record.id} />
         </Content>
       </Layout>

@@ -5,13 +5,18 @@ import {
   ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { ServiceTicketsList } from './service-tickets-list';
-import { Skeleton, Input } from 'antd';
+import { Skeleton, Input, Drawer, Button } from 'antd';
 import { ServiceTicketFilterNames } from '../../../../constants';
 import { useState } from 'react';
+import { FilterOutlined } from '@ant-design/icons';
+import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
+import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
+
 const { Search } = Input;
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState('');
+  const [visible, setVisible] = useState(false);
   // const {
   //   data: serviceTicketData,
   //   loading: serviceTicketLoading,
@@ -74,14 +79,29 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
     SearchResult = <pre>{JSON.stringify(searchServiceTicketsData, null, 2)}</pre>;
     return (
       <>
-        <Search
-          style={{ width: '40%' }}
-          placeholder="input search text"
-          onSearch={() => handleSearch()}
-          value={searchString}
-          onChange={(e) => setSearchString(e.target.value)}
-          enterButton
-        />
+        <div className="py-4">
+          <Search
+            style={{ width: '40%' }}
+            placeholder="input search text"
+            onSearch={() => handleSearch()}
+            value={searchString}
+            onChange={(e) => setSearchString(e.target.value)}
+            enterButton
+          />
+          <Drawer
+            title="Search Filters"
+            placement="left"
+            onClose={() => setVisible(false)}
+            visible={visible}
+            width={445}
+          >
+            <ServiceTicketsSearchToolbar />
+            <ServiceTicketsSearchFilters />
+          </Drawer>
+          <Button type="default" onClick={() => setVisible(true)} className="ml-4">
+            <FilterOutlined />
+          </Button>
+        </div>
         <ServiceTicketsList
           data={searchServiceTicketsData?.serviceTicketsSearch?.serviceTicketsResults}
         />

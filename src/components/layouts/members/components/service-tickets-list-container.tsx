@@ -6,9 +6,9 @@ import {
 } from '../../../../generated';
 import { ServiceTicketsList } from './service-tickets-list';
 import { Skeleton, Input, Drawer, Button } from 'antd';
-import { ServiceTicketFilterNames } from '../../../../constants';
+import { ServiceTicketFilterNames, GetFilterFromServiceTicketQueryString } from '../../../../constants';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
@@ -17,8 +17,9 @@ const { Search } = Input;
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState(searchParams.get('searchString') ??'');
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
   // const {
   //   data: serviceTicketData,
   //   loading: serviceTicketLoading,
@@ -45,16 +46,22 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
 
 
   const handleSearch = async () => {
-    let filters: ServiceTicketsSearchFilterDetail = {
+    // navigate(`.?` + searchParams);
+
+    const qsSearchString = searchParams.get('searchString') ?? '';
+
+    // let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
       // assignedTo: []
       // priority: [5]
       // status: [],
-    };
+
+    let filters: ServiceTicketsSearchFilterDetail = {};
+  
 
     await gqlSearchServiceTickets({
       variables: {
         input: {
-          searchString: searchString,
+          searchString: qsSearchString,
           options: {
             facets: [
               ServiceTicketFilterNames.Requestor + ',count:1000',
@@ -68,6 +75,17 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
       }
     });
   };
+
+  const onChange = (e: any) => {
+    setSearchString(e.target.value)
+    if (e.target.value.length > 0) {
+      searchParams.set('searchString', e.target.value);
+      setSearchParams(searchParams);
+    } else {
+      searchParams.delete('searchString');
+      setSearchParams(searchParams);
+    }
+  }; 
 
   // if (serviceTicketError) {
   //   return <div>{JSON.stringify(serviceTicketError)}</div>;
@@ -94,7 +112,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             placeholder="input search text"
             onSearch={() => handleSearch()}
             value={searchString}
-            onChange={(e) => setSearchString(e.target.value)}
+            onChange={(e) => onChange(e)}
             enterButton
           />
           <Drawer

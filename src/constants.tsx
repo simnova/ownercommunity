@@ -1,6 +1,6 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
-import { FacetDetail, FilterDetail } from './generated';
+import { FacetDetail, FilterDetail, ServiceTicketsSearchFilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -412,6 +412,24 @@ export const GetFilterFromQueryString = (
   filters = {
     ...filters,
     tags: qstags
+  };
+
+  return filters;
+};
+
+export const GetFilterFromServiceTicketQueryString = 
+  (searchParams: URLSearchParams): ServiceTicketsSearchFilterDetail => {
+  // get all search params
+  const qsassignedTo = searchParams.get('assignedTo')?.split(',');
+  const qspriority = searchParams.get('priority')?.split(',').map((p) => parseInt(p));
+  const qsstatus = searchParams.get('status')?.split(',');
+
+  let filters = {} as ServiceTicketsSearchFilterDetail;
+
+  filters = {
+    priority: qspriority,
+    assignedTo: qsassignedTo,
+    status: qsstatus,
   };
 
   return filters;

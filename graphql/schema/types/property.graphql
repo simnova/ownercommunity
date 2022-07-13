@@ -77,10 +77,12 @@ input ListingDetailsInput {
   listingAgentCompanyAddress: String
 }
 
-type BedroomDetails {
+type BedroomDetails implements MongoSubdocument {
   id: ObjectID!
   roomName: String
   bedDescriptions: [String]
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 input BedroomDetailsInput {
   id: ObjectID
@@ -88,10 +90,12 @@ input BedroomDetailsInput {
   bedDescriptions: [String]
 }
 
-type AdditionalAmenities {
+type AdditionalAmenities implements MongoSubdocument {
   id: ObjectID!
   category: String
   amenities: [String]
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 input AdditionalAmenitiesInput {
   id: ObjectID
@@ -178,7 +182,7 @@ extend type Mutation {
   propertyFloorPlanImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
 }
 
-type PropertyMutationResult {
+type PropertyMutationResult implements MutationResult {
   status: MutationStatus!
   property: Property
 }

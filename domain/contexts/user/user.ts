@@ -9,9 +9,9 @@ export interface UserProps extends EntityProps {
   firstName: string;
   lastName: string;
   email: string;
-  createdAt: Date;
-  updatedAt: Date;
-  schemaVersion: string;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly schemaVersion: string;
 }
 
 export interface UserEntityReference extends Readonly<UserProps> {}

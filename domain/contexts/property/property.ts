@@ -25,12 +25,12 @@ export interface PropertyProps extends EntityProps {
   listedInDirectory: boolean;
   readonly listingDetail: ListingDetailProps;
 
-  createdAt: Date;
-  updatedAt: Date;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly schemaVersion: string;
 
   tags: string[];
-  schemaVersion: string;
-
+  
   hash: string;
   lastIndexed: Date; // success
   updateIndexFailedDate: Date; // failure

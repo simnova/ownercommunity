@@ -78,9 +78,10 @@ input ListingDetailsInput {
 }
 
 type BedroomDetails implements MongoSubdocument {
-  id: ObjectID!
   roomName: String
   bedDescriptions: [String]
+
+  id: ObjectID!
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -91,9 +92,10 @@ input BedroomDetailsInput {
 }
 
 type AdditionalAmenities implements MongoSubdocument {
-  id: ObjectID!
   category: String
   amenities: [String]
+
+  id: ObjectID!
   createdAt: DateTime
   updatedAt: DateTime
 }

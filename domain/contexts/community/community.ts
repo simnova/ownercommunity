@@ -12,9 +12,9 @@ export interface CommunityProps extends EntityProps {
   domain: string;
   whiteLabelDomain: string;
   handle: string;
-  createdAt: Date;
-  updatedAt: Date;
-  schemaVersion: string;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly schemaVersion: string;
   readonly createdBy: UserProps;
   setCreatedByRef(user: UserEntityReference): void;
 }
@@ -25,7 +25,7 @@ export interface CommunityEntityReference extends Readonly<Omit<CommunityProps,
 }
 
 export class Community<props extends CommunityProps> extends AggregateRoot<props> implements CommunityEntityReference  {
-  readonly visa : CommunityVisa;
+  private readonly visa : CommunityVisa;
   private isNew:boolean = false;
   constructor(props: props,private readonly context: DomainExecutionContext) { 
     super(props); 

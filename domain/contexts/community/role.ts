@@ -12,9 +12,9 @@ export interface RoleProps extends EntityProps {
   setCommunityRef: (community: CommunityEntityReference) => void;
   isDefault: boolean;
   permissions: PermissionsProps;
-  createdAt: Date;
-  updatedAt: Date;
-  schemaVersion: string;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly schemaVersion: string;
 }
 
 export interface RoleEntityReference extends Readonly<Omit<RoleProps,
@@ -26,7 +26,7 @@ export interface RoleEntityReference extends Readonly<Omit<RoleProps,
 
 export class Role<props extends RoleProps> extends AggregateRoot<props> implements RoleEntityReference{
   private isNew: boolean = false;
-  private visa : CommunityVisa;
+  private readonly visa : CommunityVisa;
   constructor(props: props, private context:DomainExecutionContext) { 
     super(props); 
     this.visa = context.passport.forRole(this);

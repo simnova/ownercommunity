@@ -18,9 +18,10 @@ interface FilterType {
 }
 
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
-  const [assignedToOptions, setAssignedToOptions] = useState<FilterType[]>([]);
+  const [assignedToOptions, setAssignedToOptions] = useState<FilterType>();
 
   useEffect(() => {
+    const assignedTo: FilterType = { title: 'Assigned To', options: [] };
     props.data.membersByCommunityId.forEach(
       (member: { id: string; memberName: string }) => {
         const count =
@@ -30,16 +31,15 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         assignedTo.options.push({ name: member.memberName, count: count });
       }
     );
+    setAssignedToOptions(assignedTo);
   }, []);
 
-  const assignedTo: FilterType = { title: 'Assigned To', options: [] };
-
-  let filters: any = [assignedTo];
+  // let filters: any = [assignedToOptions];
 
   console.log('props', props);
 
   const searchFilterConfig: SearchFilterConfigDefinition = {
-    filters: filters
+    filters: [assignedToOptions as FilterType]
   };
 
   // {
@@ -160,9 +160,9 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
       {searchFilterConfig.filters.map((filter: any) => {
         return (
           <ServiceTicketsSearchFilter
-            title={filter.title}
-            options={filter.options}
-            searchbar={filter.searchbar ?? false}
+            title={filter?.title}
+            options={filter?.options}
+            searchbar={filter?.searchbar ?? false}
           />
         );
       })}

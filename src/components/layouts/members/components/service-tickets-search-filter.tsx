@@ -28,7 +28,7 @@ export const ServiceTicketsSearchFilter: React.FC<any> = (
 
   const getOptions = (value: string | undefined) => {
     let uniqueNames: string[] = _.uniq(
-      props.options.map((option: any) => option.name)
+      props.options?.map((option: any) => option.name)
     );
     if (value) {
       uniqueNames = uniqueNames.filter((option) => {

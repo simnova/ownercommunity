@@ -7,8 +7,8 @@ import { SearchDocumentsResult } from '@azure/search-documents';
 import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput } from '../../generated';
 
 const ServiceTicketFilterNames = {
-  Requestor: 'requestor',
-  AssignedTo: 'assignedTo',
+  RequestorId: 'requestorId',
+  AssignedToId: 'assignedToId',
   Status: 'status',
   Priority: 'priority',
 };
@@ -18,12 +18,12 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
     filterStrings.push(`(requestorId eq '${requestorId}')`);
     if (filter) {
       // requestor
-      if (filter.requestor && filter.requestor.length > 0) {
-        filterStrings.push(`search.in(${ServiceTicketFilterNames.Requestor}, '${filter.requestor.join(',')}',',')`);
+      if (filter.requestorId && filter.requestorId.length > 0) {
+        filterStrings.push(`search.in(${ServiceTicketFilterNames.RequestorId}, '${filter.requestorId.join(',')}',',')`);
       }
       // assignedTo
-      if (filter.assignedTo && filter.assignedTo.length > 0) {
-        filterStrings.push(`search.in(${ServiceTicketFilterNames.AssignedTo}, '${filter.assignedTo.join(',')}',',')`);
+      if (filter.assignedToId && filter.assignedToId.length > 0) {
+        filterStrings.push(`search.in(${ServiceTicketFilterNames.AssignedToId}, '${filter.assignedToId.join(',')}',',')`);
       }
       // status
       if (filter.status && filter.status.length > 0) {

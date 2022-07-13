@@ -9991,7 +9991,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "assignedTo",
+            "name": "assignedToId",
             "description": null,
             "type": {
               "kind": "LIST",
@@ -10023,7 +10023,7 @@
             "deprecationReason": null
           },
           {
-            "name": "requestor",
+            "name": "requestorId",
             "description": null,
             "type": {
               "kind": "LIST",

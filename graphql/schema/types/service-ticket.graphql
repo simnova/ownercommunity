@@ -130,8 +130,8 @@ input ServiceTicketsSearchOptions {
 }
 
 input ServiceTicketsSearchFilterDetail {
-  requestor: [String]
-  assignedTo: [String]
+  requestorId: [String]
+  assignedToId: [String]
   status: [String]
   priority: [Int]
 }

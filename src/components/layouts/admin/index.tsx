@@ -17,7 +17,6 @@ import {
   ScheduleOutlined
 } from '@ant-design/icons';
 import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
-import { MasterLayout } from '../../ui/organisms/master-layout/master-layout';
 
 export interface PageLayoutProps {
   path: string;

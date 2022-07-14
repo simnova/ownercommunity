@@ -69,6 +69,7 @@ export const ServiceTicketsSearchTags: React.FC<any> = (props) => {
         SearchParams.delete('status');
       }
     }
+    setSearchParams(SearchParams);
   };
 
   return (

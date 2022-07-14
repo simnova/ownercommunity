@@ -28,7 +28,7 @@ export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
           <Option value="">Select</Option>
         </Select>
       </div>
-      <ServiceTicketsSearchTags searchParams={props.searchParams} />
+      <ServiceTicketsSearchTags />
     </>
   );
 };

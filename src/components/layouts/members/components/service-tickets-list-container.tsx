@@ -113,7 +113,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             visible={visible}
             width={445}
           >
-            <ServiceTicketsSearchToolbar searchParams={searchParams} />
+            <ServiceTicketsSearchToolbar />
             <ServiceTicketsListSearchFilterContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
           </Drawer>
           <Button type="default" onClick={() => setVisible(true)} className="ml-4">

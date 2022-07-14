@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Tag } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 
 export const ServiceTicketsSearchTags: React.FC<any> = (props) => {
   const [selectedFilterList, setSelectedFilterList] = useState<string[]>([]);
+  const [SearchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     getSelectedFilters();
@@ -11,10 +13,10 @@ export const ServiceTicketsSearchTags: React.FC<any> = (props) => {
   const getSelectedFilters = () => {
     let tempList: string[] = [];
 
-    // const qsrequestorId = props.searchParams.get('requestor');
-    const qsassignedToId = props.searchParams.get('assignedTo')?.split(',');
-    const qspriority = props.searchParams.get('priority')?.split(',');
-    const qsstatus = props.searchParams.get('status')?.split(',');
+    // const qsrequestorId = SearchParams.get('requestor');
+    const qsassignedToId = SearchParams.get('assignedTo')?.split(',');
+    const qspriority = SearchParams.get('priority')?.split(',');
+    const qsstatus = SearchParams.get('status')?.split(',');
 
     if (qsassignedToId) {
       const assignedTo = qsassignedToId.map((id: string) => 'Assigned to: ' + id);
@@ -41,30 +43,30 @@ export const ServiceTicketsSearchTags: React.FC<any> = (props) => {
     let value = filter.split(':')[1];
 
     if (section === 'Assigned to') {
-      const qsassignedToId = props.searchParams.get('assignedTo')?.split(',');
+      const qsassignedToId = SearchParams.get('assignedTo')?.split(',');
       let newAssignedToId = qsassignedToId?.filter((id: string) => id !== value);
       if (newAssignedToId && newAssignedToId.length > 0) {
-        props.searchParams.set('assignedTo', newAssignedToId.join(','));
+        SearchParams.set('assignedTo', newAssignedToId.join(','));
       } else {
-        props.searchParams.delete('assignedTo');
+        SearchParams.delete('assignedTo');
       }
     }
     if (section === 'Priority') {
-      const qspriority = props.searchParams.get('priority')?.split(',');
+      const qspriority = SearchParams.get('priority')?.split(',');
       let newPriority = qspriority?.filter((id: string) => id !== value);
       if (newPriority && newPriority.length > 0) {
-        props.searchParams.set('priority', newPriority.join(','));
+        SearchParams.set('priority', newPriority.join(','));
       } else {
-        props.searchParams.delete('priority');
+        SearchParams.delete('priority');
       }
     }
     if (section === 'Status') {
-      const qsstatus = props.searchParams.get('status')?.split(',');
+      const qsstatus = SearchParams.get('status')?.split(',');
       let newStatus = qsstatus?.filter((id: string) => id !== value);
       if (newStatus && newStatus.length > 0) {
-        props.searchParams.set('status', newStatus.join(','));
+        SearchParams.set('status', newStatus.join(','));
       } else {
-        props.searchParams.delete('status');
+        SearchParams.delete('status');
       }
     }
   };

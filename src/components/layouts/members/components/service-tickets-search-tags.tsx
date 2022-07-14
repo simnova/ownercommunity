@@ -8,7 +8,7 @@ export const ServiceTicketsSearchTags: React.FC<any> = (props) => {
 
   useEffect(() => {
     getSelectedFilters();
-  }, [props.searchParams]);
+  }, [SearchParams]);
 
   const getSelectedFilters = () => {
     let tempList: string[] = [];
@@ -40,7 +40,7 @@ export const ServiceTicketsSearchTags: React.FC<any> = (props) => {
     const tempList = selectedFilterList.filter((item) => item !== filter);
     setSelectedFilterList(tempList);
     let section = filter.split(':')[0];
-    let value = filter.split(':')[1];
+    let value = filter.split(':')[1].trim();
 
     if (section === 'Assigned to') {
       const qsassignedToId = SearchParams.get('assignedTo')?.split(',');

@@ -1,7 +1,6 @@
 import {
   AdditionalAmenities,
   additionalAmenitiesOptions,
-  AdditionalAmenitiesValues,
   FilterNames,
   SearchParamKeys
 } from '../../../../constants';
@@ -24,14 +23,17 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
   (props) => {
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
-    const [selectedAdditionalAmenities, setSelectedAdditionalAmenities] = useState<
-      AdditionalAmenities[]
-    >([]);
+    const [selectedAdditionalAmenities, setSelectedAdditionalAmenities] =
+      useState<AdditionalAmenities[]>([]);
 
-    const onAdditionalAmenitiesChange = (categoryValue: string, amenities: string[]) => {
+    const onAdditionalAmenitiesChange = (
+      categoryValue: string,
+      amenities: string[]
+    ) => {
       // get current additional amenities
       const currentAdditionalAmenities: AdditionalAmenities[] =
-        (props.selectedFilter?.listingDetail?.additionalAmenities as AdditionalAmenities[]) ?? [];
+        (props.selectedFilter?.listingDetail
+          ?.additionalAmenities as AdditionalAmenities[]) ?? [];
       // find index of updated category
       const index = currentAdditionalAmenities?.findIndex(
         (a: AdditionalAmenities) => a?.category === categoryValue
@@ -112,36 +114,9 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
       }
     }, [location]);
 
-    // const additionalAmenityAmenities = props.additionalAmenitiesAmenitiesFacets ?? [{ value: '' }];
-
-    // let additionalAmenities: any[] = [];
-
-    // additionalAmenityAmenities.forEach((additionalAmenity) => {
-    //   if (additionalAmenity.value) {
-    //     for (const [key, val] of Object.entries(AdditionalAmenitiesValues)) {
-    //       if (val.amenities.includes(additionalAmenity.value)) {
-    //         if (additionalAmenities[Number(key)]?.amenities) {
-    //           additionalAmenities[Number(key)] = {
-    //             category: val.category,
-    //             amenities: [...additionalAmenities[Number(key)].amenities, additionalAmenity.value]
-    //           };
-    //         } else {
-    //           additionalAmenities[Number(key)] = {
-    //             category: val.category,
-    //             amenities: [additionalAmenity.value]
-    //           };
-    //         }
-    //       }
-    //     }
-    //   }
-    // });
-
-    // additionalAmenities = additionalAmenities.filter((n) => n);
-
     const getOptions = () => {
-      const additionalAmenityAmenities = props.additionalAmenitiesAmenitiesFacets ?? [
-        { value: '' }
-      ];
+      const additionalAmenityAmenities =
+        props.additionalAmenitiesAmenitiesFacets ?? [{ value: '' }];
 
       const options: any = [];
 
@@ -153,7 +128,6 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
               if (additionalAmenity.count !== 0) {
                 tmp.push(additionalAmenity.value);
               }
-              // console.log(key, val);
             }
           }
         });
@@ -186,8 +160,6 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
           key={FilterNames.AdditionalAmenities}
         >
           <div style={{ paddingLeft: '20px' }}>
-            {/* {AdditionalAmenitiesValues.map((aam: AdditionalAmenities) => { */}
-            {/* {additionalAmenities.map((aam: AdditionalAmenities) => { */}
             {getOptions().map((aam: AdditionalAmenities) => {
               return (
                 <>
@@ -195,9 +167,10 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
                   <CheckboxGroup
                     key={aam.category}
                     options={aam.amenities.map((value: string) => {
-                      const count = props.additionalAmenitiesAmenitiesFacets?.find(
-                        (t: any) => t?.value === value
-                      )?.count;
+                      const count =
+                        props.additionalAmenitiesAmenitiesFacets?.find(
+                          (t: any) => t?.value === value
+                        )?.count;
                       return {
                         label: `${value} ${
                           count !== undefined && count !== null && count > 0
@@ -210,11 +183,15 @@ export const PropertiesListSearchFilterAdditionalAmenities: FC<PropertiesListSea
                       };
                     })}
                     value={
-                      selectedAdditionalAmenities?.find((a: any) => a.category === aam.category)
-                        ?.amenities
+                      selectedAdditionalAmenities?.find(
+                        (a: any) => a.category === aam.category
+                      )?.amenities
                     }
                     onChange={(checkedValues) =>
-                      onAdditionalAmenitiesChange(aam.category, checkedValues as string[])
+                      onAdditionalAmenitiesChange(
+                        aam.category,
+                        checkedValues as string[]
+                      )
                     }
                   />
                 </>

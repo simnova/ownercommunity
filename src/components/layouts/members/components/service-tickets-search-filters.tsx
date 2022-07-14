@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
 
-interface SearchFilterConfigDefinition {
-  filters: FilterType[];
-}
-
 interface FilterType {
   title: string;
   options: { name: string; count: number; id: string }[];
@@ -12,9 +8,15 @@ interface FilterType {
   searchbar?: boolean;
 }
 
-export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
-  const [priorityOptions, setPriorityOptions] = useState<FilterType>();
+const priorityValues = [1, 2, 3, 4, 5];
 
+const priority: FilterType = {
+  title: 'Priority',
+  options: [],
+  id: 'priority'
+};
+
+export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
   const [filters, setFilters] = useState<FilterType[]>([]);
 
   useEffect(() => {
@@ -25,33 +27,17 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
       searchbar: true
     };
 
-    props.memberData.membersByCommunityId.forEach(
-      (member: { id: string; memberName: string }) => {
-        const count =
-          props.searchData.facets.assignedToId.find(
-            (t: any) => t.value === member.id
-          )?.count ?? 0;
-        assignedTo.options.push({
-          name: member.memberName,
-          count: count,
-          id: member.id
-        });
-      }
-    );
-
-    const priority: FilterType = {
-      title: 'Priority',
-      options: [],
-      id: 'priority'
-    };
-
-    const priorityValues = [1, 2, 3, 4, 5];
+    props.memberData.membersByCommunityId.forEach((member: { id: string; memberName: string }) => {
+      const count = props.searchData.facets.assignedToId.find((t: any) => t.value === member.id)?.count ?? 0;
+      assignedTo.options.push({
+        name: member.memberName,
+        count: count,
+        id: member.id
+      });
+    });
 
     priorityValues.forEach((priorityValue) => {
-      const count =
-        props.searchData.facets.priority.find(
-          (t: any) => t.value === priorityValue.toString()
-        )?.count ?? 0;
+      const count = props.searchData.facets.priority.find((t: any) => t.value === priorityValue.toString())?.count ?? 0;
       priority.options.push({
         name: priorityValue.toString(),
         count: count ?? 0,
@@ -66,21 +52,10 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
       searchbar: true
     };
 
-    const statusValues = [
-      'Created',
-      'Draft',
-      'Submitted',
-      'Assigned',
-      'In Progress',
-      'Completed',
-      'Closed'
-    ];
+    const statusValues = ['Created', 'Draft', 'Submitted', 'Assigned', 'In Progress', 'Completed', 'Closed'];
 
     statusValues.forEach((statusValue) => {
-      const count =
-        props.searchData.facets.status.find(
-          (t: any) => t.value === statusValue.toUpperCase()
-        )?.count ?? 0;
+      const count = props.searchData.facets.status.find((t: any) => t.value === statusValue.toUpperCase())?.count ?? 0;
       status.options.push({
         name: statusValue,
         count: count ?? 0,

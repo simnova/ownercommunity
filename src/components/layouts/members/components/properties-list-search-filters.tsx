@@ -9,12 +9,11 @@ import { useSearchParams } from 'react-router-dom';
 import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
 import { FC, useEffect, useState } from 'react';
 import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
-import { AvailableFilters, FilterNames, SearchParamKeys } from '../../../../constants';
+import { FilterNames, SearchParamKeys } from '../../../../constants';
 import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
 import { PropertiesListSearchFilterUpdatedDate } from './properties-list-search-filter-updated-date';
 import { PropertiesListSearchFilterCreatedDate } from './properties-list-search-filter-created-date';
 import { Collapse } from 'antd';
-import { PropertiesListSearchFilterTags } from './properties-list-search-filter-tags';
 import { PropertiesListSearchFilterTagsContainer } from './properties-list-search-filter-tags-container';
 
 const { Panel } = Collapse;
@@ -78,14 +77,6 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
     return listedInfoFacets;
   };
 
-  // const onSelectTopChanged = (value: number) => {
-  //   props.setTop(value);
-  //   props.setCurrentPage(0);
-  //   props.handleSearch(0, value);
-  // };
-
-  console.log('props facet', props.facets);
-
   return (
     <div>
       {/* Type */}
@@ -118,9 +109,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
       {/* Additional Amenities */}
       <PropertiesListSearchFilterAdditionalAmenities
-        additionalAmenitiesAmenitiesFacets={
-          props.facets?.additionalAmenitiesAmenities as FacetDetail[]
-        }
+        additionalAmenitiesAmenitiesFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
       />

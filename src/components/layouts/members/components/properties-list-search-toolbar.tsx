@@ -1,16 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
-import {
-  Space,
-  AutoComplete,
-  Button,
-  Pagination,
-  Modal,
-  Select,
-  Checkbox,
-  Input,
-  message
-} from 'antd';
+import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox, Input, message } from 'antd';
 import { FilterOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
 import { SearchParamKeys, GetSearchParamsFromFilter } from '../../../../constants';
@@ -246,10 +236,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             onCancel={() => setIsSaveModalVisible(false)}
           >
             <Space size="middle">
-              <Input
-                placeholder="Filter Name"
-                onChange={(e) => setSelectedFilterName(e.target.value)}
-              />
+              <Input placeholder="Filter Name" onChange={(e) => setSelectedFilterName(e.target.value)} />
             </Space>
           </Modal>
           {savedFilter !== '' && (

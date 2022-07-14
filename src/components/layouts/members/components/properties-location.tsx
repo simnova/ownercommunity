@@ -23,36 +23,6 @@ export const PropertiesLocation = (props: any) => {
   const [formLoading, setFormLoading] = React.useState(false);
   console.log(props);
 
-  // const addressQuery = async (addressRequest: string) => {
-  //   var addresssGeocodeServiceUrlTemplate: string =
-  //     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
-  //   //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
-
-  //   var requestUrl = addresssGeocodeServiceUrlTemplate.replace(
-  //     '{query}',
-  //     encodeURIComponent(addressRequest)
-  //   );
-  //   const token = props.data.property.mapSASToken;
-  //   console.log(token);
-
-  //   const address = async () => {
-  //     const request = await fetch(requestUrl, {
-  //       method: 'GET',
-  //       mode: 'cors',
-  //       headers: {
-  //         Authorization: 'jwt-sas ' + token,
-  //         'Content-Type': 'application/json; charset=utf-8'
-  //       }
-  //     });
-
-  //     const data = await request.json();
-  //     console.log(data);
-  //     return data.results;
-  //   };
-
-  //   return address();
-  // };
-
   const onChange = (addressInput: string) => {
     setValue(addressInput);
     let tmp: AddressDataType[] = [];
@@ -85,18 +55,12 @@ export const PropertiesLocation = (props: any) => {
           streetNumber: option.address.streetNumber ? option.address.streetNumber : ' ',
           streetName: option.address.streetName ? option.address.streetName : ' ',
           postalCode: option.address.postalCode ? option.address.postalCode : ' ',
-          extendedPostalCode: option.address.extendedPostalCode
-            ? option.address.extendedPostalCode
-            : ' ',
+          extendedPostalCode: option.address.extendedPostalCode ? option.address.extendedPostalCode : ' ',
           country: option.address.country ? option.address.country : ' ',
           countryCode: option.address.countryCode ? option.address.countryCode : ' ',
           countryCodeISO3: option.address.countryCodeISO3 ? option.address.countryCodeISO3 : ' ',
-          countrySubdivisionName: option.address.countrySubdivisionName
-            ? option.address.countrySubdivisionName
-            : ' ',
-          countrySubdivision: option.address.countrySubdivision
-            ? option.address.countrySubdivision
-            : ' ',
+          countrySubdivisionName: option.address.countrySubdivisionName ? option.address.countrySubdivisionName : ' ',
+          countrySubdivision: option.address.countrySubdivision ? option.address.countrySubdivision : ' ',
           countrySecondarySubdivision: option.address.countrySecondarySubdivision
             ? option.address.countrySecondarySubdivision
             : ' ',
@@ -109,20 +73,13 @@ export const PropertiesLocation = (props: any) => {
           municipalitySubdivision: option.address.municipalitySubdivision
             ? option.address.municipalitySubdivision
             : ' ',
-          streetNameAndNumber: option.address.streetNameAndNumber
-            ? option.address.streetNameAndNumber
-            : ' ',
+          streetNameAndNumber: option.address.streetNameAndNumber ? option.address.streetNameAndNumber : ' ',
           routeNumbers: option.address.routeNumbers ? option.address.routeNumbers : ' ',
           crossStreet: option.address.crossStreet ? option.address.crossStreet : ' '
         },
         position: {
           coordinates: [option.lat, option.long]
         }
-
-        // {
-        //   lat: option.lat ? option.lat : ' ',
-        //   long: option.long ? option.long : ' ',
-        // }
       }
     });
   };
@@ -162,25 +119,25 @@ export const PropertiesLocation = (props: any) => {
           <Input disabled placeholder="Street Number" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'streetName']} label="Street Name">
-          <Input disabled placeholder="Street Name"/>
+          <Input disabled placeholder="Street Name" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'countryTertiarySubdivision']} label="Country Tertiary Subdivision">
-          <Input disabled placeholder="Country Tertiary Subdivision"/>
+          <Input disabled placeholder="Country Tertiary Subdivision" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'countrySecondarySubdivision']} label="Country Secondary Subdivision">
           <Input disabled placeholder="Country Secondary Subdivision" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'countrySubdivision']} label="Country Subdivision">
-          <Input disabled placeholder="Country Subdivision"/>
+          <Input disabled placeholder="Country Subdivision" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'countrySubdivisionName']} label="Country Subdivision Name">
           <Input disabled placeholder="Country Subdivision Name" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'municipality']} label="Municipality">
-          <Input disabled placeholder="Country Municipality"/>
+          <Input disabled placeholder="Country Municipality" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'municipalitySubdivision']} label="Municipality Subdivision">
-          <Input disabled placeholder="Country Municipality Subdivision"/>
+          <Input disabled placeholder="Country Municipality Subdivision" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'localName']} label="Local Name">
           <Input disabled placeholder="Local Name" />
@@ -189,22 +146,22 @@ export const PropertiesLocation = (props: any) => {
           <Input disabled placeholder="Zip Code" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'extendedPostalCode']} label="Extended Zip Code">
-          <Input disabled placeholder="Extended Zip Code"/>
+          <Input disabled placeholder="Extended Zip Code" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'country']} label="Country">
-          <Input disabled placeholder="Country"/>
+          <Input disabled placeholder="Country" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'countryCode']} label="Country Code">
-          <Input disabled placeholder="Country Code"/>
+          <Input disabled placeholder="Country Code" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'countryCodeISO3']} label="Country Code ISO3">
-          <Input disabled placeholder="Country Code ISO3"/>
+          <Input disabled placeholder="Country Code ISO3" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'freeformAddress']} label="Free Form Address">
-          <Input disabled placeholder="Free Form Address"/>
+          <Input disabled placeholder="Free Form Address" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'streetNameAndNumber']} label="Street Name and Number">
-          <Input disabled placeholder="Free Form Address"/>
+          <Input disabled placeholder="Free Form Address" />
         </Form.Item>
         <Form.Item name={['location', 'address', 'routeNumbers']} label="Route Numbers">
           <Input disabled placeholder="Route Numbers" />

@@ -9,9 +9,7 @@ interface PropertiesListSearchFilterPriceProps {
   selectedFilter?: FilterDetail;
 }
 
-export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPriceProps> = (
-  props
-) => {
+export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPriceProps> = (props) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [minPrice, setMinPrice] = useState(0);
@@ -77,10 +75,7 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
 
   // handle when clear all filter clicked
   useEffect(() => {
-    if (
-      !location.search.includes(SearchParamKeys.MaxPrice) &&
-      !location.search.includes(SearchParamKeys.MinPrice)
-    ) {
+    if (!location.search.includes(SearchParamKeys.MaxPrice) && !location.search.includes(SearchParamKeys.MinPrice)) {
       setMinPrice(0);
       setMaxPrice(1000000);
     }

@@ -7,14 +7,7 @@ const { Text } = Typography;
 export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '80%',
-          paddingLeft: '16px'
-        }}
-      >
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', paddingLeft: '16px' }}>
         <Select defaultValue={''} style={{ width: '175px' }}>
           <Option value="">View Name</Option>
         </Select>
@@ -31,7 +24,6 @@ export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
         }}
       >
         <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Columns to display: </Text>
-
         <Select defaultValue={''} style={{ width: '175px' }}>
           <Option value="">Select</Option>
         </Select>

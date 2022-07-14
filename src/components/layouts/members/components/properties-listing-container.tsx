@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
 import {
-  MembersPropertiesListContainerPropertiesDocument,
   MembersPropertiesListingContainerPropertyDocument,
   MembersPropertiesListingContainerPropertyUpdateDocument,
   PropertyUpdateInput
@@ -42,7 +41,7 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
   });
 
   function stripTypenames(obj: any, propToDelete: string) {
-    let tempObj = JSON.parse(JSON.stringify(obj))
+    let tempObj = JSON.parse(JSON.stringify(obj));
     for (const property in tempObj) {
       if (typeof tempObj[property] === 'object' && !(tempObj[property] instanceof File)) {
         delete tempObj.property;
@@ -63,7 +62,7 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
     for (const prop in newish) {
       if (prop === '__typename') {
         delete newish[prop];
-      } else if (newish[prop] === null) { 
+      } else if (newish[prop] === null) {
         //do nothing
       } else if (Array.isArray(newish[prop])) {
         for (const next in newish[prop]) {
@@ -80,7 +79,7 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
   const handleSave = async (values: PropertyUpdateInput) => {
     let original = values;
     let stripped = stripTypenames(values, '__typename');
-    console.log(original,stripped);
+    console.log(original, stripped);
     try {
       await updateProperty({
         variables: {
@@ -92,7 +91,6 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
       message.error(`Error updating Property Listing: ${JSON.stringify(error)}`);
     }
   };
-  
 
   const content = () => {
     if (propertyLoading) {
@@ -101,14 +99,14 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
           <Skeleton active />
         </div>
       );
-    } else if (propertyError ) {
+    } else if (propertyError) {
       return <div>{JSON.stringify(propertyError)}</div>;
     } else if (propertyData && propertyData.property) {
       var detailData = {
         property: propertyData.property,
         communityId: props.data.communityId
       };
-      return <PropertiesListing data={detailData} onSave={handleSave}  />;
+      return <PropertiesListing data={detailData} onSave={handleSave} />;
     } else {
       return <div>No data</div>;
     }

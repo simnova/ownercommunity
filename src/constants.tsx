@@ -453,7 +453,11 @@ export const GetFilterFromServiceTicketQueryString = (
     .get('priority')
     ?.split(',')
     .map((p) => parseInt(p));
-  const qsstatus = searchParams.get('status')?.split(',');
+  let qsstatus = searchParams.get('status')?.split(',');
+
+  qsstatus = qsstatus?.map((status) => {
+    return status.toUpperCase();
+  });
 
   let filters = {} as ServiceTicketsSearchFilterDetail;
 

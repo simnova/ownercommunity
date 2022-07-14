@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Select, Button, Typography, Modal, Space, Input, message } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchTags } from './service-tickets-search-tags';
 import { GetFilterFromServiceTicketQueryString, GetSearchParamsFromServiceTicketFilter, ServiceTicketSearchParamKeys } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
@@ -37,11 +38,27 @@ export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
     setIsSaveModalVisible(false);
   };
 
+  const deleteSavedFilter = (filterName: string) => {
+    if (filterName) {
+      filters.splice(
+        filters.findIndex((f: any) => f.name === filterName),
+        1
+      );
+      localStorage.setItem('service-ticket-filters', JSON.stringify(filters));
+      const currentSavedFilterName = searchParams.get(ServiceTicketSearchParamKeys.SavedFilter) ?? '';
+      if (currentSavedFilterName === filterName) {
+        clearFilter();
+      }
+      message.success(`Filter "${filterName}" deleted`);
+    }
+  };
+
   const onSelectFilterChanged = (filterName: string) => {
     if (filterName === '') {
       clearFilter();
     } else {
       const filter = filters.find((f: any) => f.name === filterName);
+      console.log("FILTER ", filter);
       setSavedFilterName(filterName);
       searchParams.set(ServiceTicketSearchParamKeys.SavedFilter, filterName);
       setSearchParams(searchParams);
@@ -57,6 +74,7 @@ export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
     searchParams.delete(ServiceTicketSearchParamKeys.Status);
     searchParams.delete(ServiceTicketSearchParamKeys.Priority);
     // searchParams.delete(ServiceTicketSearchParamKeys.Requestor);
+    setSavedFilterName('');
     setSearchParams(searchParams);
   }
 
@@ -68,7 +86,16 @@ export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
           style={{ width: '175px' }} onSelect={(e: any) => onSelectFilterChanged(e)}>
           <Option value="">View Name</Option>
           {filters.map((filter: any) => {
-              return <Option value={filter.name}>{filter.name}</Option>;
+              return (
+                    <Option value={filter.name}>
+                      <div>
+                        <Space>
+                          <DeleteOutlined onClick={() => deleteSavedFilter(filter.name)}/>
+                          {filter.name}
+                        </Space>
+                      </div>
+                    </Option>
+                  );
             })}
         </Select>
         <Button type="primary" onClick={() => setIsSaveModalVisible(true)}>Save</Button>

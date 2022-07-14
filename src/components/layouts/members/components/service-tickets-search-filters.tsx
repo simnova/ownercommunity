@@ -1,6 +1,18 @@
+import { ActionUnion } from '@craftjs/utils';
 import { useEffect, useState } from 'react';
 import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
 
+interface SearchFilterConfigDefinition {
+  filters: {
+      title: string;
+      id: string;
+      searchbar?: boolean;
+      values: any;
+      facet: string;
+      handleCount?: (t: any, value: any) => number;
+      handleBuild?: (filter: FilterType, value: any, count: number) => void;
+  }[]
+}
 interface FilterType {
   title: string;
   options: { name: string; count: number; id: string }[];
@@ -11,59 +23,87 @@ interface FilterType {
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
   const [filters, setFilters] = useState<FilterType[]>([]);
 
+  const generateFilters = (config: SearchFilterConfigDefinition) => {
+    const filters: FilterType[] = [];
+    config.filters.forEach((filter: any) => {
+
+      let newFilter: FilterType = {
+        title: filter.title,
+        options: [],
+        id: filter.id,
+        searchbar: filter.searchbar ?? false,
+      }
+
+      filter.values.forEach((value: any) => {
+        const count = props.searchData.facets[filter.facet].find((t: any) => t.value === (filter.handleCount ? filter.handleCount(value) : value))?.count ?? 0;
+        if (filter.handleBuild) {
+          filter.handleBuild(newFilter, value, count);
+        } else {
+          newFilter.options.push({
+            name: value,
+            count: count,
+            id: value,
+          });
+        }
+      })
+
+      filters.push(newFilter);
+    });
+    setFilters(filters);
+  }
+
+
   useEffect(() => {
-    const assignedTo: FilterType = {
-      title: 'Assigned To',
-      options: [],
-      id: 'assignedTo',
-      searchbar: true
+
+    const filterConfig: SearchFilterConfigDefinition = {
+      filters: [
+        // ASSIGNED TO 
+        {
+          title: 'Assigned To',
+          id: 'assignedTo',
+          searchbar: true,
+          values: props.memberData.membersByCommunityId,
+          facet: 'assignedToId',
+          handleCount: (value: any) => {
+            return value.id;
+          },
+          handleBuild: (filter: FilterType, value: any, count: number) => {
+            filter.options.push({
+              name: value.memberName,
+              count: count,
+              id: value.id,
+            });
+          }
+        },
+        // PRIORITY
+        {
+          title: 'Priority',
+          id: 'priority',
+          values: ['1', '2', '3', '4', '5'],
+          facet: 'priority',
+        },
+        // STATUS
+        {
+          title: 'Status',
+          id: 'status',
+          values: [      
+            'Created',
+            'Draft',
+            'Submitted',
+            'Assigned',
+            'In Progress',
+            'Completed',
+            'Closed'
+          ],
+          facet: 'status',
+          handleCount: (value: any) => {
+            return value.toUpperCase();
+          },
+        }
+      ]
     };
 
-    props.memberData.membersByCommunityId.forEach((member: { id: string; memberName: string }) => {
-      const count = props.searchData.facets.assignedToId.find((t: any) => t.value === member.id)?.count ?? 0;
-      assignedTo.options.push({
-        name: member.memberName,
-        count: count,
-        id: member.id
-      });
-    });
-
-    const priorityValues = [1, 2, 3, 4, 5];
-
-    const priority: FilterType = {
-      title: 'Priority',
-      options: [],
-      id: 'priority'
-    };
-
-    priorityValues.forEach((priorityValue) => {
-      const count = props.searchData.facets.priority.find((t: any) => t.value === priorityValue.toString())?.count ?? 0;
-      priority.options.push({
-        name: priorityValue.toString(),
-        count: count ?? 0,
-        id: priorityValue.toString()
-      });
-    });
-
-    const status: FilterType = {
-      title: 'Status',
-      options: [],
-      id: 'status',
-      searchbar: true
-    };
-
-    const statusValues = ['Created', 'Draft', 'Submitted', 'Assigned', 'In Progress', 'Completed', 'Closed'];
-
-    statusValues.forEach((statusValue) => {
-      const count = props.searchData.facets.status.find((t: any) => t.value === statusValue.toUpperCase())?.count ?? 0;
-      status.options.push({
-        name: statusValue,
-        count: count ?? 0,
-        id: statusValue
-      });
-    });
-
-    setFilters([assignedTo, priority, status]);
+    generateFilters(filterConfig);
   }, []);
 
   console.log('props', props);

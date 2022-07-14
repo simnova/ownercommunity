@@ -110,11 +110,11 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
 
   return (
     <>
-      {filters?.map((filter: any) => {
+      {filters?.map((filter: ServiceTicketFilterType) => {
         return (
           <ServiceTicketsSearchFilter
             title={filter?.title}
-            searchId={filter?.id}
+            searchId={filter?.searchId}
             options={filter?.options}
             searchbar={filter?.searchbar ?? false}
           />

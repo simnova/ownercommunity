@@ -5,33 +5,19 @@ import { useParams } from 'react-router-dom';
 import { MemberNameServiceTicketContainerDocument } from '../../../../generated';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 
-// interface PropertiesListSearchFilterTagsContainerProps {
-//   selectedFilter?: FilterDetail;
-//   setSelectedFilter: (selectedFilter: FilterDetail) => void;
-//   tagsFacets?: FacetDetail[];
-// }
-
 export const ServiceTicketsListSearchFilterContainer: FC<any> = (props) => {
   const params = useParams();
 
-  const { data, loading, error } = useQuery(
-    MemberNameServiceTicketContainerDocument,
-    {
-      variables: { communityId: params.communityId ?? '' }
-    }
-  );
+  const { data, loading, error } = useQuery(MemberNameServiceTicketContainerDocument, {
+    variables: { communityId: params.communityId ?? '' }
+  });
 
   if (error) {
     return <div>{JSON.stringify(error)}</div>;
   } else if (loading) {
     return <Skeleton active />;
   } else if (data) {
-    return (
-      <ServiceTicketsSearchFilters
-        memberData={data}
-        searchData={props.searchData}
-      />
-    );
+    return <ServiceTicketsSearchFilters memberData={data} searchData={props.searchData} />;
   }
   return null;
 };

@@ -1,19 +1,14 @@
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import {
   MemberServiceTicketsListContainerSearchServiceTicketsDocument,
-  MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument,
   ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { ServiceTicketsList } from './service-tickets-list';
 import { Skeleton, Input, Drawer, Button } from 'antd';
-import {
-  ServiceTicketFilterNames,
-  GetFilterFromServiceTicketQueryString
-} from '../../../../constants';
+import { ServiceTicketFilterNames, GetFilterFromServiceTicketQueryString } from '../../../../constants';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
-import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
 import { ServiceTicketsListSearchFilterContainer } from './service-tickets-search-filters-container';
 
@@ -21,16 +16,9 @@ const { Search } = Input;
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchString, setSearchString] = useState(
-    searchParams.get('searchString') ?? ''
-  );
+  const [searchString, setSearchString] = useState(searchParams.get('searchString') ?? '');
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
-  // const {
-  //   data: serviceTicketData,
-  //   loading: serviceTicketLoading,
-  //   error: serviceTicketError
-  // } = useQuery(MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument);
 
   const [
     gqlSearchServiceTickets,
@@ -40,12 +28,9 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
       data: searchServiceTicketsData,
       error: searchServiceTicketsError
     }
-  ] = useLazyQuery(
-    MemberServiceTicketsListContainerSearchServiceTicketsDocument,
-    {
-      fetchPolicy: 'network-only'
-    }
-  );
+  ] = useLazyQuery(MemberServiceTicketsListContainerSearchServiceTicketsDocument, {
+    fetchPolicy: 'network-only'
+  });
 
   useEffect(() => {
     (async () => {
@@ -64,13 +49,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
 
     const qsSearchString = searchParams.get('searchString') ?? '';
 
-    let filters: ServiceTicketsSearchFilterDetail =
-      GetFilterFromServiceTicketQueryString(searchParams);
-    // assignedTo: []
-    // priority: [5]
-    // status: [],
-
-    // let filters: ServiceTicketsSearchFilterDetail = {};
+    let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
 
     await gqlSearchServiceTickets({
       variables: {
@@ -103,10 +82,6 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
     }
   };
 
-  // if (serviceTicketError) {
-  //   return <div>{JSON.stringify(serviceTicketError)}</div>;
-  // }
-
   if (searchServiceTicketsError) {
     return <div>{JSON.stringify(searchServiceTicketsError)}</div>;
   }
@@ -119,9 +94,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   }
   if (searchServiceTicketsCalled && searchServiceTicketsData) {
     let SearchResult = null;
-    SearchResult = (
-      <pre>{JSON.stringify(searchServiceTicketsData, null, 2)}</pre>
-    );
+    SearchResult = <pre>{JSON.stringify(searchServiceTicketsData, null, 2)}</pre>;
     return (
       <>
         <div className="py-4">
@@ -141,24 +114,13 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             width={445}
           >
             <ServiceTicketsSearchToolbar />
-            <ServiceTicketsListSearchFilterContainer
-              searchData={searchServiceTicketsData?.serviceTicketsSearch}
-            />
+            <ServiceTicketsListSearchFilterContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
           </Drawer>
-          <Button
-            type="default"
-            onClick={() => setVisible(true)}
-            className="ml-4"
-          >
+          <Button type="default" onClick={() => setVisible(true)} className="ml-4">
             <FilterOutlined />
           </Button>
         </div>
-        <ServiceTicketsList
-          data={
-            searchServiceTicketsData?.serviceTicketsSearch
-              ?.serviceTicketsResults
-          }
-        />
+        <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch?.serviceTicketsResults} />
         {SearchResult}
       </>
     );

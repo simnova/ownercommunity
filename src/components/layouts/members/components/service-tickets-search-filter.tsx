@@ -69,10 +69,21 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
           }
         });
         searchParams.set(props.id, newSearchParamsArray.join(','));
+        if (searchParams.get(props.id) === '') {
+          searchParams.delete(props.id);
+        }
         setSearchParams(searchParams);
         // searchParams.get(props.key)?.split(',').forEach((value) => {});
       }
     };
+
+    const isChecked = (id: string) => {
+      const searchParamsString = searchParams.get(props.id)?.split(',');
+      if (searchParamsString) {
+        return searchParamsString.includes(id);
+      }
+      return false;
+    }
 
     return (
       <>
@@ -129,6 +140,7 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
                     >
                       <Checkbox
                         key={option.id}
+                        checked={isChecked(option.id)}
                         onChange={(e) => onSelect(e, option.id)}
                       >
                         {option.name}

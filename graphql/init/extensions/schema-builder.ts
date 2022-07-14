@@ -1,3 +1,8 @@
+/**
+ * This file merges all the schemas together to create 
+ * the overall Apollo schema
+ */
+
 import { loadSchemaSync } from '@graphql-tools/load';
 import { addResolversToSchema, mergeSchemas, makeExecutableSchema } from '@graphql-tools/schema';
 import { resolvers } from '../../schema';

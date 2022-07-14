@@ -13,7 +13,7 @@ export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
         </Select>
         <Button type="primary">Save</Button>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '85%', marginTop: '9px', paddingLeft: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '85%', marginTop: '9px', paddingLeft: '16px', marginBottom: '40px' }}>
         <Text style={{ fontWeight: '600', alignSelf: 'center'}}>Columns to display: </Text>
         <Select defaultValue={""} style={{ width: '175px' }}>
           <Option value="">Select</Option>

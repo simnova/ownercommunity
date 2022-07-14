@@ -17,9 +17,9 @@ export interface MemberProps extends EntityProps {
   readonly role: RoleProps;
   setRoleRef: (role: RoleEntityReference) => void;
   readonly profile: ProfileProps;
-  createdAt: Date;
-  updatedAt: Date;
-  schemaVersion: string;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly schemaVersion: string;
 }
 
 export interface MemberEntityReference extends Readonly<Omit<MemberProps, 
@@ -36,7 +36,7 @@ export interface MemberEntityReference extends Readonly<Omit<MemberProps,
 
 export class Member<props extends MemberProps> extends AggregateRoot<props> implements MemberEntityReference  {
   private isNew:boolean = false;
-  readonly visa: CommunityVisa;
+  private readonly visa: CommunityVisa;
   constructor(props: props,private readonly context:DomainExecutionContext) {
     super(props);
     this.visa = context.passport.forMember(this);

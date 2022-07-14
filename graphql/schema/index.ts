@@ -1,3 +1,8 @@
+/**
+ * This file is used to traverse  all the files in this directory
+ * and merge them together to create the application schema
+ */
+
 import { Resolvers } from '../generated';
 import path from 'path';
 import { mergeResolvers } from '@graphql-tools/merge';

@@ -30,9 +30,9 @@ export interface ServiceTicketProps extends EntityProps {
   readonly activityLog: PropArray<ActivityDetailProps>;
   readonly photos: PropArray<PhotoProps>;
 
-  createdAt: Date;
-  updatedAt: Date;
-  schemaVersion: string;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly schemaVersion: string;
 
   hash: string;
   lastIndexed: Date; // success
@@ -51,7 +51,7 @@ export interface ServiceTicketEntityReference
 
 export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRoot<props> implements ServiceTicketEntityReference {
   private isNew: boolean = false;
-  private visa: ServiceTicketVisa;
+  private readonly visa: ServiceTicketVisa;
   constructor(props: props, private context: DomainExecutionContext) {
     super(props);
     this.visa = context.passport.forServiceTicket(this);

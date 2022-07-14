@@ -5,32 +5,32 @@ import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
 interface SearchFilterConfigDefinition {
   filters: {
       title: string;
-      id: string;
+      searchId: string;
       searchbar?: boolean;
       values: any;
       facet: string;
       handleCount?: (t: any, value: any) => number;
-      handleBuild?: (filter: FilterType, value: any, count: number) => void;
+      handleBuild?: (filter: ServiceTicketFilterType, value: any, count: number) => void;
   }[]
 }
-interface FilterType {
+export interface ServiceTicketFilterType {
   title: string;
   options: { name: string; count: number; id: string }[];
-  id?: string;
+  searchId: string;
   searchbar?: boolean;
 }
 
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
-  const [filters, setFilters] = useState<FilterType[]>([]);
+  const [filters, setFilters] = useState<ServiceTicketFilterType[]>([]);
 
   const generateFilters = (config: SearchFilterConfigDefinition) => {
-    const filters: FilterType[] = [];
+    const filters: ServiceTicketFilterType[] = [];
     config.filters.forEach((filter: any) => {
 
-      let newFilter: FilterType = {
+      let newFilter: ServiceTicketFilterType = {
         title: filter.title,
         options: [],
-        id: filter.id,
+        searchId: filter.searchId,
         searchbar: filter.searchbar ?? false,
       }
 
@@ -60,14 +60,14 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         // ASSIGNED TO 
         {
           title: 'Assigned To',
-          id: 'assignedTo',
+          searchId: 'assignedTo',
           searchbar: true,
           values: props.memberData.membersByCommunityId,
           facet: 'assignedToId',
           handleCount: (value: any) => {
             return value.id;
           },
-          handleBuild: (filter: FilterType, value: any, count: number) => {
+          handleBuild: (filter: ServiceTicketFilterType, value: any, count: number) => {
             filter.options.push({
               name: value.memberName,
               count: count,
@@ -78,14 +78,14 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         // PRIORITY
         {
           title: 'Priority',
-          id: 'priority',
+          searchId: 'priority',
           values: ['1', '2', '3', '4', '5'],
           facet: 'priority',
         },
         // STATUS
         {
           title: 'Status',
-          id: 'status',
+          searchId: 'status',
           values: [      
             'Created',
             'Draft',
@@ -114,7 +114,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         return (
           <ServiceTicketsSearchFilter
             title={filter?.title}
-            id={filter?.id}
+            searchId={filter?.id}
             options={filter?.options}
             searchbar={filter?.searchbar ?? false}
           />

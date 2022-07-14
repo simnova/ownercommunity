@@ -3,23 +3,13 @@ import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { useSearchParams } from 'react-router-dom';
+import { ServiceTicketFilterType } from './service-tickets-search-filters';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-interface ServiceTicketSearchFilterProps {
-  title: string;
-  id: string;
-  options: [
-    {
-      name: string;
-      count: number;
-      id: string;
-    }
-  ];
-  searchbar: boolean;
-}
 
-export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps> = (props) => {
+
+export const ServiceTicketsSearchFilter: React.FC<ServiceTicketFilterType> = (props) => {
   const [options, setOptions] = useState<{ value: string }[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -48,27 +38,27 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
 
   const onSelect = (e: any, key: string) => {
     if (e.target.checked) {
-      const originalSearchParams = searchParams.get(props.id) ?? '';
-      searchParams.set(props.id, originalSearchParams.length > 0 ? searchParams.get(props.id) + ',' + key : key);
+      const originalSearchParams = searchParams.get(props.searchId) ?? '';
+      searchParams.set(props.searchId, originalSearchParams.length > 0 ? searchParams.get(props.searchId) + ',' + key : key);
       setSearchParams(searchParams);
     } else {
-      const searchParamsString = searchParams.get(props.id)?.split(',');
+      const searchParamsString = searchParams.get(props.searchId)?.split(',');
       const newSearchParamsArray: any = [];
       searchParamsString?.forEach((searchParam) => {
         if (searchParam !== key) {
           newSearchParamsArray.push(searchParam);
         }
       });
-      searchParams.set(props.id, newSearchParamsArray.join(','));
-      if (searchParams.get(props.id) === '') {
-        searchParams.delete(props.id);
+      searchParams.set(props.searchId, newSearchParamsArray.join(','));
+      if (searchParams.get(props.searchId) === '') {
+        searchParams.delete(props.searchId);
       }
       setSearchParams(searchParams);
     }
   };
 
   const isChecked = (id: string) => {
-    const searchParamsString = searchParams.get(props.id)?.split(',');
+    const searchParamsString = searchParams.get(props.searchId)?.split(',');
     if (searchParamsString) {
       return searchParamsString.includes(id);
     }
@@ -77,7 +67,7 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
 
   const onSearchSelect = (value: string) => {
     // get current ids from search params
-    const originalIds = searchParams.get(props.id)?.split(',') ?? [];
+    const originalIds = searchParams.get(props.searchId)?.split(',') ?? [];
 
     // get all ids for the selected option
     const optionsIds = props.options
@@ -95,7 +85,7 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
     });
 
     // set the new search params
-    searchParams.set(props.id, newSearchParamsArray.join(','));
+    searchParams.set(props.searchId, newSearchParamsArray.join(','));
     setSearchParams(searchParams);
   };
 

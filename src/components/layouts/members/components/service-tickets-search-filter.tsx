@@ -135,7 +135,8 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
                     <div
                       style={{
                         display: 'flex',
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        width: '25vw'
                       }}
                     >
                       <Checkbox
@@ -145,7 +146,7 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
                       >
                         {option.name}
                       </Checkbox>
-                      <span className="mr-2">({option.count})</span>
+                      <span>({option.count})</span>
                     </div>
                   );
                 })}

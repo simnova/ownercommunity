@@ -58,12 +58,12 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
 
     const qsSearchString = searchParams.get('searchString') ?? '';
 
-    // let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
+    let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
     // assignedTo: []
     // priority: [5]
     // status: [],
 
-    let filters: ServiceTicketsSearchFilterDetail = {};
+    // let filters: ServiceTicketsSearchFilterDetail = {};
 
     await gqlSearchServiceTickets({
       variables: {

@@ -8,7 +8,7 @@ interface SearchFilterConfigDefinition {
 interface FilterType {
   title: string;
   options: { name: string; count: number; id: string }[];
-  key?: string;
+  id?: string;
   searchbar?: boolean;
 }
 
@@ -19,7 +19,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
     const assignedTo: FilterType = {
       title: 'Assigned To',
       options: [],
-      key: 'assignedTo'
+      id: 'assignedTo'
     };
 
     props.memberData.membersByCommunityId.forEach(
@@ -43,10 +43,10 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
       {filters?.map((filter: any) => {
         return (
           <ServiceTicketsSearchFilter
-            title={filter.title}
-            id={filter.key}
-            options={filter.options}
-            searchbar={filter.searchbar ?? false}
+            title={filter?.title}
+            id={filter?.id}
+            options={filter?.options}
+            searchbar={filter?.searchbar ?? false}
           />
         );
       })}

@@ -448,7 +448,7 @@ export const GetFilterFromServiceTicketQueryString = (
   searchParams: URLSearchParams
 ): ServiceTicketsSearchFilterDetail => {
   // get all search params
-  const qsassignedToId = searchParams.get('assignedToId')?.split(',');
+  const qsassignedToId = searchParams.get('assignedTo')?.split(',');
   const qspriority = searchParams
     .get('priority')
     ?.split(',')
@@ -458,9 +458,9 @@ export const GetFilterFromServiceTicketQueryString = (
   let filters = {} as ServiceTicketsSearchFilterDetail;
 
   filters = {
-    priority: qspriority,
+    //priority: qspriority,
     assignedToId: qsassignedToId,
-    status: qsstatus
+    //status: qsstatus
   };
 
   return filters;

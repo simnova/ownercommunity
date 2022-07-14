@@ -21,7 +21,8 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
     const assignedTo: FilterType = {
       title: 'Assigned To',
       options: [],
-      id: 'assignedTo'
+      id: 'assignedTo',
+      searchbar: true
     };
 
     props.memberData.membersByCommunityId.forEach(
@@ -61,7 +62,8 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
     const status: FilterType = {
       title: 'Status',
       options: [],
-      id: 'status'
+      id: 'status',
+      searchbar: true
     };
 
     const statusValues = [

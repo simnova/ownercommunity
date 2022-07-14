@@ -9,7 +9,7 @@ const { Option } = AutoComplete;
 
 interface ServiceTicketSearchFilterProps {
   title: string;
-  key: string;
+  id: string;
   options: [
     {
       name: string;
@@ -51,24 +51,24 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
 
     const onSelect = (e: any, key: string) => {
       if (e.target.checked) {
-        const originalSearchParams = searchParams.get(props.key) ?? '';
+        const originalSearchParams = searchParams.get(props.id) ?? '';
         searchParams.set(
-          props.key,
+          props.id,
           originalSearchParams.length > 0
-            ? searchParams.get(props.key) + ',' + key
+            ? searchParams.get(props.id) + ',' + key
             : key
         );
         setSearchParams(searchParams);
         // console.log('onSelect', key);
       } else {
-        const searchParamsString = searchParams.get(props.key)?.split(',');
+        const searchParamsString = searchParams.get(props.id)?.split(',');
         const newSearchParamsArray: any = [];
         searchParamsString?.forEach((searchParam) => {
           if (searchParam !== key) {
             newSearchParamsArray.push(searchParam);
           }
         });
-        searchParams.set(props.key, newSearchParamsArray.join(','));
+        searchParams.set(props.id, newSearchParamsArray.join(','));
         setSearchParams(searchParams);
         // searchParams.get(props.key)?.split(',').forEach((value) => {});
       }

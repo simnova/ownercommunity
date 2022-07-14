@@ -4,7 +4,7 @@ import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
 interface SearchFilterConfigDefinition {
   filters: {
     title: string;
-    key?: string;
+    id?: string;
     searchbar?: boolean;
     options: {
       name: string;
@@ -17,7 +17,7 @@ interface SearchFilterConfigDefinition {
 interface FilterType {
   title: string;
   options: { name: string; count: number; id: string }[];
-  key?: string;
+  id?: string;
 }
 
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
@@ -28,7 +28,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
     const assignedTo: FilterType = {
       title: 'Assigned To',
       options: [],
-      key: 'assignedTo'
+      id: 'assignedTo'
     };
 
     props.memberData.membersByCommunityId.forEach(
@@ -61,7 +61,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         return (
           <ServiceTicketsSearchFilter
             title={filter?.title}
-            key={filter?.key}
+            id={filter?.id}
             options={filter?.options}
             searchbar={filter?.searchbar ?? false}
           />

@@ -1,20 +1,13 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
-import {
-  FacetDetail,
-  FilterDetail,
-  ServiceTicketsSearchFilterDetail
-} from './generated';
+import { FilterDetail, ServiceTicketsSearchFilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
   UserId: 'userId'
 };
 
-export const handleToggler = (
-  isExpanded: boolean,
-  callback: (isExpanded: boolean) => void
-) => {
+export const handleToggler = (isExpanded: boolean, callback: (isExpanded: boolean) => void) => {
   if (isExpanded) {
     callback(false);
     localStorage.setItem(LocalSettingsKeys.SidebarCollapsed, 'true');
@@ -219,9 +212,7 @@ export const additionalAmenitiesOptions: any = {
   // '':[]
 };
 
-export const AdditionalAmenitiesCategories = Object.keys(
-  additionalAmenitiesOptions
-);
+export const AdditionalAmenitiesCategories = Object.keys(additionalAmenitiesOptions);
 
 export const SelectableRoomsOptions = [
   'Master Bedroom',
@@ -243,15 +234,7 @@ export const AmentitiesOptions = [
   'Wifi'
 ];
 
-export const BedTypeOptions = [
-  'Single',
-  'Double',
-  'Triple',
-  'Quad',
-  'Queen',
-  'King',
-  'Sofa Bed'
-];
+export const BedTypeOptions = ['Single', 'Double', 'Triple', 'Quad', 'Queen', 'King', 'Sofa Bed'];
 
 export const DateOptions = [
   { label: '1 week ago', value: 7 },
@@ -266,18 +249,12 @@ export const MaxSquareFeet = 100000;
 export const MinPrice = 0;
 export const MaxPrice = 1000000;
 
-export const addressQuery = async (
-  addressInput: string,
-  mapSASToken: string
-) => {
+export const addressQuery = async (addressInput: string, mapSASToken: string) => {
   var addresssGeocodeServiceUrlTemplate: string =
     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
   //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
 
-  var requestUrl = addresssGeocodeServiceUrlTemplate.replace(
-    '{query}',
-    encodeURIComponent(addressInput)
-  );
+  var requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(addressInput));
   const token = mapSASToken;
   console.log(token);
 
@@ -299,10 +276,7 @@ export const addressQuery = async (
   return address();
 };
 
-export const GetFilterFromQueryString = (
-  searchParams: URLSearchParams,
-  selectedFilter: FilterDetail
-): FilterDetail => {
+export const GetFilterFromQueryString = (searchParams: URLSearchParams, selectedFilter: FilterDetail): FilterDetail => {
   // get all search params
   const qsproperTypes = searchParams.get('type')?.split(',');
   const qsbedrooms = searchParams.get('bedrooms');
@@ -312,9 +286,7 @@ export const GetFilterFromQueryString = (
   const qsminSquareFeet = searchParams.get('minSquareFeet');
   const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
   const qsamenities = searchParams.get('amenities')?.split(',');
-  const qsadditionalAmenities = searchParams
-    .get('additionalAmenities')
-    ?.split(';');
+  const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
   const qsdistance = searchParams.get('distance');
   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
   const qslat = searchParams.get('lat');
@@ -362,10 +334,7 @@ export const GetFilterFromQueryString = (
     ...filters,
     listingDetail: {
       ...filters?.listingDetail,
-      prices:
-        qsminPrice && qsmaxPrice
-          ? [parseInt(qsminPrice), parseInt(qsmaxPrice)]
-          : undefined
+      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : undefined
     }
   };
 
@@ -375,9 +344,7 @@ export const GetFilterFromQueryString = (
     listingDetail: {
       ...filters?.listingDetail,
       squareFeets:
-        qsminSquareFeet && qsmaxSquareFeet
-          ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
-          : undefined
+        qsminSquareFeet && qsmaxSquareFeet ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)] : undefined
     }
   };
 
@@ -470,117 +437,50 @@ export const GetFilterFromServiceTicketQueryString = (
   return filters;
 };
 
-export const GetSearchParamsFromFilter = (
-  filter: FilterDetail | undefined,
-  searchParams: URLSearchParams
-) => {
+export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, searchParams: URLSearchParams) => {
   if (filter) {
-    if (filter.propertyType)
-      searchParams.set(
-        SearchParamKeys.PropertyType,
-        filter.propertyType.join(',')
-      );
-    if (filter.listedInfo)
-      searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
+    if (filter.propertyType) searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
+    if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
     if (filter.distance && filter.distance !== 0)
       searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
     if (filter.position) {
-      if (filter.position.latitude)
-        searchParams.set(
-          SearchParamKeys.Latitude,
-          filter.position.latitude.toString()
-        );
-      if (filter.position.longitude)
-        searchParams.set(
-          SearchParamKeys.Longitude,
-          filter.position.longitude.toString()
-        );
+      if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
+      if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
     }
     if (filter.updatedAt) {
-      searchParams.set(
-        SearchParamKeys.UpdatedAt,
-        dayjs().diff(filter.updatedAt, 'day').toString()
-      );
+      searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
     }
     if (filter.createdAt) {
-      searchParams.set(
-        SearchParamKeys.CreatedAt,
-        dayjs().diff(filter.createdAt, 'day').toString()
-      );
+      searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
     }
     if (filter.listingDetail) {
       if (filter.listingDetail.bedrooms)
-        searchParams.set(
-          SearchParamKeys.Bedrooms,
-          filter.listingDetail.bedrooms.toString()
-        );
+        searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());
       if (filter.listingDetail.bathrooms)
-        searchParams.set(
-          SearchParamKeys.Bathrooms,
-          filter.listingDetail.bathrooms.toString()
-        );
+        searchParams.set(SearchParamKeys.Bathrooms, filter.listingDetail.bathrooms.toString());
       if (filter.listingDetail.amenities)
-        searchParams.set(
-          SearchParamKeys.Amenities,
-          filter.listingDetail.amenities.join(',')
-        );
+        searchParams.set(SearchParamKeys.Amenities, filter.listingDetail.amenities.join(','));
       if (filter.listingDetail.prices) {
         if (filter.listingDetail.prices[0])
-          searchParams.set(
-            SearchParamKeys.MinPrice,
-            filter.listingDetail.prices[0].toString()
-          );
+          searchParams.set(SearchParamKeys.MinPrice, filter.listingDetail.prices[0].toString());
         if (filter.listingDetail.prices[1])
-          searchParams.set(
-            SearchParamKeys.MaxPrice,
-            filter.listingDetail.prices[1].toString()
-          );
+          searchParams.set(SearchParamKeys.MaxPrice, filter.listingDetail.prices[1].toString());
       }
       if (filter.listingDetail.squareFeets) {
         if (filter.listingDetail.squareFeets[0])
-          searchParams.set(
-            SearchParamKeys.MinSquareFeet,
-            filter.listingDetail.squareFeets[0].toString()
-          );
+          searchParams.set(SearchParamKeys.MinSquareFeet, filter.listingDetail.squareFeets[0].toString());
         if (filter.listingDetail.squareFeets[1])
-          searchParams.set(
-            SearchParamKeys.MaxSquareFeet,
-            filter.listingDetail.squareFeets[1].toString()
-          );
+          searchParams.set(SearchParamKeys.MaxSquareFeet, filter.listingDetail.squareFeets[1].toString());
       }
       if (filter.listingDetail.additionalAmenities) {
         let additionalAmenities: string[] = [];
         filter.listingDetail.additionalAmenities.forEach((amenity: any) => {
-          additionalAmenities.push(
-            `${amenity?.category}:${amenity?.amenities?.join(',')}`
-          );
+          additionalAmenities.push(`${amenity?.category}:${amenity?.amenities?.join(',')}`);
         });
-        searchParams.set(
-          SearchParamKeys.AdditionalAmenities,
-          additionalAmenities.join(';')
-        );
+        searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenities.join(';'));
       }
     }
   }
 
   return searchParams;
 };
-
-// export const GetFilterOptions = (allOptions: string[], facets?: FacetDetail[]) => {
-//   const options: any = [];
-
-//   allOptions.forEach((value: string) => {
-//     const count = facets?.find((t: any) => t?.value === value)?.count;
-//     if (count === undefined) {
-//       return;
-//     }
-//     options.push({
-//       label: `${value} ${
-//         count !== undefined && count !== null && count > 0 ? `(${count})` : count === 0 ? '(0)' : ''
-//       }`,
-//       value: value
-//     });
-//   });
-//   console.log(options);
-//   return options;
-// };

@@ -1,5 +1,6 @@
 import { ActionUnion } from '@craftjs/utils';
 import { useEffect, useState } from 'react';
+import { ServiceTicketSearchParamKeys } from '../../../../constants';
 import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
 
 interface SearchFilterConfigDefinition {
@@ -60,7 +61,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         // ASSIGNED TO 
         {
           title: 'Assigned To',
-          searchId: 'assignedTo',
+          searchId: ServiceTicketSearchParamKeys.AssignedTo,
           searchbar: true,
           values: props.memberData.membersByCommunityId,
           facet: 'assignedToId',
@@ -78,14 +79,14 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         // PRIORITY
         {
           title: 'Priority',
-          searchId: 'priority',
+          searchId: ServiceTicketSearchParamKeys.Priority,
           values: ['1', '2', '3', '4', '5'],
           facet: 'priority',
         },
         // STATUS
         {
           title: 'Status',
-          searchId: 'status',
+          searchId: ServiceTicketSearchParamKeys.Status,
           values: [      
             'Created',
             'Draft',

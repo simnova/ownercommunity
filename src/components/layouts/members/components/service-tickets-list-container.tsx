@@ -5,7 +5,7 @@ import {
 } from '../../../../generated';
 import { ServiceTicketsList } from './service-tickets-list';
 import { Skeleton, Input, Drawer, Button } from 'antd';
-import { ServiceTicketFilterNames, GetFilterFromServiceTicketQueryString } from '../../../../constants';
+import { ServiceTicketFilterNames, GetFilterFromServiceTicketQueryString, ServiceTicketSearchParamKeys } from '../../../../constants';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
@@ -16,7 +16,7 @@ const { Search } = Input;
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchString, setSearchString] = useState(searchParams.get('searchString') ?? '');
+  const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const handleSearch = async () => {
     // navigate(`.?` + searchParams);
 
-    const qsSearchString = searchParams.get('searchString') ?? '';
+    const qsSearchString = searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '';
 
     let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
 
@@ -74,10 +74,10 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const onChange = (e: any) => {
     setSearchString(e.target.value);
     if (e.target.value.length > 0) {
-      searchParams.set('searchString', e.target.value);
+      searchParams.set(ServiceTicketSearchParamKeys.SearchString, e.target.value);
       setSearchParams(searchParams);
     } else {
-      searchParams.delete('searchString');
+      searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
       setSearchParams(searchParams);
     }
   };

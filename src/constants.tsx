@@ -42,6 +42,14 @@ export const SearchParamKeys = {
   Tags: 'tags'
 };
 
+export const ServiceTicketSearchParamKeys = {
+  SearchString: 'searchString',
+  AssignedTo: 'assignedTo',
+  Priority: 'priority',
+  Status: 'status',
+  SavedFilter: 'savedFilter',
+}
+
 export const FilterNames = {
   Type: 'type',
   Bedrooms: 'bedrooms',
@@ -480,6 +488,16 @@ export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, sear
         searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenities.join(';'));
       }
     }
+  }
+
+  return searchParams;
+};
+
+export const GetSearchParamsFromServiceTicketFilter = (filter: ServiceTicketsSearchFilterDetail | undefined, searchParams: URLSearchParams) => {
+  if (filter) {
+    if (filter.assignedToId) searchParams.set('assignedTo', filter.assignedToId.join(','));
+    if (filter.priority) searchParams.set('priority', filter.priority.join(','));
+    if (filter.status) searchParams.set('status', filter.status.join(','));
   }
 
   return searchParams;

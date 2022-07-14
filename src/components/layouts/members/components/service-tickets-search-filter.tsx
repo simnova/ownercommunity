@@ -119,6 +119,7 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketFilterType> = (pr
             <AutoComplete
               options={options}
               placeholder="Search"
+              className='search-filter-searchbar'
               style={{ width: '40%' }}
               onChange={onChange}
               onClear={resetOptions}

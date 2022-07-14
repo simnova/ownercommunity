@@ -20,7 +20,7 @@ interface ServiceTicketSearchFilterProps {
 }
 
 export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps> =
-  (props: ServiceTicketSearchFilterProps) => {
+  (props) => {
     const [options, setOptions] = useState<{ value: string }[]>([]);
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -83,7 +83,7 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
         return searchParamsString.includes(id);
       }
       return false;
-    }
+    };
 
     return (
       <>

@@ -2,29 +2,20 @@ import { useEffect, useState } from 'react';
 import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
 
 interface SearchFilterConfigDefinition {
-  filters: {
-    title: string;
-    id?: string;
-    searchbar?: boolean;
-    options: {
-      name: string;
-      count: number;
-      id: string;
-    }[];
-  }[];
+  filters: FilterType[];
 }
 
 interface FilterType {
   title: string;
   options: { name: string; count: number; id: string }[];
   id?: string;
+  searchbar?: boolean;
 }
 
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
-  const [assignedToOptions, setAssignedToOptions] = useState<FilterType>();
   const [priorityOptions, setPriorityOptions] = useState<FilterType>();
 
-  const [filters, setFilters] = useState();
+  const [filters, setFilters] = useState<FilterType[]>([]);
 
   useEffect(() => {
     const assignedTo: FilterType = {
@@ -46,10 +37,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         });
       }
     );
-    setAssignedToOptions(assignedTo);
-  }, []);
 
-  useEffect(() => {
     const priority: FilterType = {
       title: 'Priority',
       options: [],
@@ -69,36 +57,15 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         id: priorityValue.toString()
       });
     });
-    setPriorityOptions(priority);
 
-    // props.searchData.facets.priority.forEach(
-    //   (priorityFacet: {
-    //     value: string;
-    //     count: number;
-    //     __typename?: string;
-    //   }) => {
-    //     const count = priorityFacet.count;
-    //     priority.options.push({
-    //       name: priorityFacet.value,
-    //       count: count,
-    //       id: priorityFacet.value
-    //     });
-    //     setPriorityOptions(priority);
-    //   }
-    // );
+    setFilters([assignedTo, priority]);
   }, []);
-
-  // let filters: any = [assignedToOptions];
 
   console.log('props', props);
 
-  const searchFilterConfig: SearchFilterConfigDefinition = {
-    filters: [assignedToOptions as FilterType, priorityOptions as FilterType]
-  };
-
   return (
     <>
-      {searchFilterConfig.filters?.map((filter: any) => {
+      {filters?.map((filter: any) => {
         return (
           <ServiceTicketsSearchFilter
             title={filter?.title}

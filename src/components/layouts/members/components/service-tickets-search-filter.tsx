@@ -165,7 +165,11 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
             {props.options && (
               <div
                 className="search-filter-scrollbar"
-                style={{ maxHeight: '182px', overflowY: 'auto' }}
+                style={{
+                  maxHeight: '182px',
+                  overflowY: 'auto',
+                  width: '300px'
+                }}
               >
                 {props.options.map((option: any) => {
                   return (
@@ -173,7 +177,7 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketSearchFilterProps
                       style={{
                         display: 'flex',
                         justifyContent: 'space-between',
-                        width: '25vw'
+                        width: '250px'
                       }}
                     >
                       <Checkbox

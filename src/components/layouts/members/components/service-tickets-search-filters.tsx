@@ -2,27 +2,18 @@ import { useEffect, useState } from 'react';
 import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
 
 interface SearchFilterConfigDefinition {
-  filters: {
-    title: string;
-    key?: string;
-    searchbar?: boolean;
-    options: {
-      name: string;
-      count: number;
-      id: string;
-    }[];
-  }[];
+  filters: FilterType[];
 }
 
 interface FilterType {
   title: string;
   options: { name: string; count: number; id: string }[];
   key?: string;
+  searchbar?: boolean;
 }
 
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
-  const [assignedToOptions, setAssignedToOptions] = useState<FilterType>();
-  const [filters, setFilters] = useState();
+  const [filters, setFilters] = useState<FilterType[]>([]);
 
   useEffect(() => {
     const assignedTo: FilterType = {
@@ -44,26 +35,18 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         });
       }
     );
-    setAssignedToOptions(assignedTo);
+    setFilters([assignedTo]);
   }, []);
-
-  // let filters: any = [assignedToOptions];
-
-  console.log('props', props);
-
-  const searchFilterConfig: SearchFilterConfigDefinition = {
-    filters: [assignedToOptions as FilterType]
-  };
 
   return (
     <>
-      {searchFilterConfig.filters?.map((filter: any) => {
+      {filters?.map((filter: any) => {
         return (
           <ServiceTicketsSearchFilter
-            title={filter?.title}
-            key={filter?.key}
-            options={filter?.options}
-            searchbar={filter?.searchbar ?? false}
+            title={filter.title}
+            id={filter.key}
+            options={filter.options}
+            searchbar={filter.searchbar ?? false}
           />
         );
       })}

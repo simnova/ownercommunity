@@ -458,9 +458,9 @@ export const GetFilterFromServiceTicketQueryString = (
   let filters = {} as ServiceTicketsSearchFilterDetail;
 
   filters = {
-    //priority: qspriority,
+    priority: qspriority,
     assignedToId: qsassignedToId,
-    //status: qsstatus
+    status: qsstatus
   };
 
   return filters;

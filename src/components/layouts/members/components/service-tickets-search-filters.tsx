@@ -58,7 +58,35 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
       });
     });
 
-    setFilters([assignedTo, priority]);
+    const status: FilterType = {
+      title: 'Status',
+      options: [],
+      id: 'status'
+    };
+
+    const statusValues = [
+      'Created',
+      'Draft',
+      'Submitted',
+      'Assigned',
+      'In Progress',
+      'Completed',
+      'Closed'
+    ];
+
+    statusValues.forEach((statusValue) => {
+      const count =
+        props.searchData.facets.status.find(
+          (t: any) => t.value === statusValue.toUpperCase()
+        )?.count ?? 0;
+      status.options.push({
+        name: statusValue,
+        count: count ?? 0,
+        id: statusValue
+      });
+    });
+
+    setFilters([assignedTo, priority, status]);
   }, []);
 
   console.log('props', props);

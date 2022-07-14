@@ -140,7 +140,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             visible={visible}
             width={445}
           >
-            <ServiceTicketsSearchToolbar />
+            <ServiceTicketsSearchToolbar searchParams={searchParams} />
             <ServiceTicketsListSearchFilterContainer
               searchData={searchServiceTicketsData?.serviceTicketsSearch}
             />

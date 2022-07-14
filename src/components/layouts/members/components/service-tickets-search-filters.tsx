@@ -8,14 +8,6 @@ interface FilterType {
   searchbar?: boolean;
 }
 
-const priorityValues = [1, 2, 3, 4, 5];
-
-const priority: FilterType = {
-  title: 'Priority',
-  options: [],
-  id: 'priority'
-};
-
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
   const [filters, setFilters] = useState<FilterType[]>([]);
 
@@ -35,6 +27,14 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         id: member.id
       });
     });
+
+    const priorityValues = [1, 2, 3, 4, 5];
+
+    const priority: FilterType = {
+      title: 'Priority',
+      options: [],
+      id: 'priority'
+    };
 
     priorityValues.forEach((priorityValue) => {
       const count = props.searchData.facets.priority.find((t: any) => t.value === priorityValue.toString())?.count ?? 0;

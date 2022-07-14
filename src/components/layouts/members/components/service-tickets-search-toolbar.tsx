@@ -1,5 +1,6 @@
 import React from 'react';
 import { Select, Button, Typography } from 'antd';
+import { ServiceTicketsSearchTags } from './service-tickets-search-tags';
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -27,6 +28,7 @@ export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
           <Option value="">Select</Option>
         </Select>
       </div>
+      <ServiceTicketsSearchTags />
     </>
   );
 };

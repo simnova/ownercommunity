@@ -53,12 +53,19 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      await handleSearch();
+    })();
+  }, [searchParams]);
+
   const handleSearch = async () => {
     // navigate(`.?` + searchParams);
 
     const qsSearchString = searchParams.get('searchString') ?? '';
 
-    let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
+    let filters: ServiceTicketsSearchFilterDetail =
+      GetFilterFromServiceTicketQueryString(searchParams);
     // assignedTo: []
     // priority: [5]
     // status: [],

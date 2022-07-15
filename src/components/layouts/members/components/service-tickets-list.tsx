@@ -1,13 +1,17 @@
 import { Table, Button, Layout } from 'antd';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ServiceTicketSearchParamKeys } from '../../../../constants';
 
 const { Content } = Layout;
 
 export const ServiceTicketsList: React.FC<any> = (props) => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const columns = [
+  const columnSearchParams = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
+
+  const columnOptions = [
     {
       title: 'Action',
       dataIndex: 'id',
@@ -51,11 +55,30 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     }
   ];
 
+  let columns: any = [];
+
+  if (columnSearchParams) {
+    columns.push(columnOptions.find((option: any) => option.title === 'Action'));
+
+    columnOptions.forEach((option: any) => {
+      if (columnSearchParams.includes(option.title)) {
+        columns.push(option);
+      }
+    });
+  } else {
+    columns = columnOptions;
+  }
+
   return (
     <>
       <Layout style={{ margin: '0px' }}>
         <Content>
-          <Table columns={columns} dataSource={props.data} pagination={{position: ['topRight']}} rowKey={(record: any) => record.id} />
+          <Table
+            columns={columns}
+            dataSource={props.data}
+            pagination={{ position: ['topRight'] }}
+            rowKey={(record: any) => record.id}
+          />
         </Content>
       </Layout>
     </>

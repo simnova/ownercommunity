@@ -48,7 +48,8 @@ export const ServiceTicketSearchParamKeys = {
   Priority: 'priority',
   Status: 'status',
   SavedFilter: 'savedFilter',
-}
+  Column: 'column'
+};
 
 export const FilterNames = {
   Type: 'type',
@@ -493,7 +494,10 @@ export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, sear
   return searchParams;
 };
 
-export const GetSearchParamsFromServiceTicketFilter = (filter: ServiceTicketsSearchFilterDetail | undefined, searchParams: URLSearchParams) => {
+export const GetSearchParamsFromServiceTicketFilter = (
+  filter: ServiceTicketsSearchFilterDetail | undefined,
+  searchParams: URLSearchParams
+) => {
   if (filter) {
     if (filter.assignedToId) searchParams.set('assignedTo', filter.assignedToId.join(','));
     if (filter.priority) searchParams.set('priority', filter.priority.join(','));

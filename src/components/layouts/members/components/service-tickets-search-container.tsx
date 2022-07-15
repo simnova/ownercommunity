@@ -4,8 +4,9 @@ import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { MemberNameServiceTicketContainerDocument } from '../../../../generated';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
+import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
 
-export const ServiceTicketsListSearchFilterContainer: FC<any> = (props) => {
+export const ServiceTicketsSearchContainer: FC<any> = (props) => {
   const params = useParams();
 
   const { data, loading, error } = useQuery(MemberNameServiceTicketContainerDocument, {
@@ -17,7 +18,12 @@ export const ServiceTicketsListSearchFilterContainer: FC<any> = (props) => {
   } else if (loading) {
     return <Skeleton active />;
   } else if (data) {
-    return <ServiceTicketsSearchFilters memberData={data} searchData={props.searchData} />;
+    return (
+        <>
+          <ServiceTicketsSearchToolbar memberData={data} />
+          <ServiceTicketsSearchFilters memberData={data} searchData={props.searchData} />
+        </>
+    );
   }
   return null;
 };

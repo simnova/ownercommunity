@@ -9,8 +9,7 @@ import { ServiceTicketFilterNames, GetFilterFromServiceTicketQueryString, Servic
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
-import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
-import { ServiceTicketsListSearchFilterContainer } from './service-tickets-search-filters-container';
+import { ServiceTicketsSearchContainer } from './service-tickets-search-container';
 
 const { Search } = Input;
 
@@ -110,8 +109,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             visible={visible}
             width={445}
           >
-            <ServiceTicketsSearchToolbar />
-            <ServiceTicketsListSearchFilterContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
+            <ServiceTicketsSearchContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
           </Drawer>
           <Button type="default" onClick={() => setVisible(true)} className="ml-4">
             <FilterOutlined />

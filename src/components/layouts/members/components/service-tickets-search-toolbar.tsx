@@ -7,7 +7,11 @@ import { useSearchParams } from 'react-router-dom';
 const { Option } = Select;
 const { Text } = Typography;
 
-export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
+interface ServiceTicketsSearchToolbarProps {
+  memberData: any;
+}
+
+export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
   const [savedFilterName, setSavedFilterName] = useState('');
@@ -124,7 +128,7 @@ export const ServiceTicketsSearchToolbar: React.FC<any> = (props) => {
           <Option value="">Select</Option>
         </Select>
       </div>
-      <ServiceTicketsSearchTags />
+      <ServiceTicketsSearchTags memberData={props.memberData} />
     </>
   );
 };

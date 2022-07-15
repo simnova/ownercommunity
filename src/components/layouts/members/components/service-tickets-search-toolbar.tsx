@@ -111,7 +111,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     setSearchParams(searchParams);
   };
 
-  const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Created', 'Updated'];
+  const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Updated', 'Created'];
 
   const defaultValues = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? [];
 

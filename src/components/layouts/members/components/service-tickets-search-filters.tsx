@@ -1,4 +1,3 @@
-import { ActionUnion } from '@craftjs/utils';
 import { useEffect, useState } from 'react';
 import { ServiceTicketSearchParamKeys } from '../../../../constants';
 import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';

@@ -4,7 +4,6 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchTags } from './service-tickets-search-tags';
 import { GetFilterFromServiceTicketQueryString, GetSearchParamsFromServiceTicketFilter, ServiceTicketSearchParamKeys } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
-import { filter } from 'lodash';
 const { Option } = Select;
 const { Text } = Typography;
 

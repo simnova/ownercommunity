@@ -55,7 +55,7 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     <>
       <Layout style={{ margin: '0px' }}>
         <Content>
-          <Table columns={columns} dataSource={props.data} rowKey={(record: any) => record.id} />
+          <Table columns={columns} dataSource={props.data} pagination={{position: ['topRight']}} rowKey={(record: any) => record.id} />
         </Content>
       </Layout>
     </>

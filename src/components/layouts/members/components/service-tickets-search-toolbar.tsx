@@ -241,6 +241,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         >
           <Space size="middle">
             <Input
+              autoFocus
               value={savedFilterNameInput}
               onPressEnter={() => saveNewFilter()}
               placeholder="Filter Name"

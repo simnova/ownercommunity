@@ -7,7 +7,7 @@ import { ServiceTicketSearchParamKeys } from '../../../../constants';
 
 const { Content } = Layout;
 
-const showTotal: PaginationProps['showTotal'] = total => `Total ${total} items `;
+const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items `;
 
 interface SearchTicketsListProps {
   data: any;
@@ -22,13 +22,13 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
     searchParams.set(ServiceTicketSearchParamKeys.Page, page.toString());
     setSearchParams(searchParams);
     props.handleSearch();
-  }
+  };
 
-   const handleShowSizeChange = (_: number, size: number) => {
+  const handleShowSizeChange = (_: number, size: number) => {
     searchParams.set(ServiceTicketSearchParamKeys.Top, size.toString());
     setSearchParams(searchParams);
     props.handleSearch();
-  }
+  };
 
   const columnSearchParams = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
 
@@ -94,31 +94,34 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
     <>
       <Layout style={{ margin: '0px' }}>
         <Content>
-          <Pagination 
-            className='search-pagination'
+          <Pagination
+            className="search-pagination"
             current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
-            total={props.data.count} 
+            total={props.data.count}
             pageSize={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10')}
             pageSizeOptions={['5', '10', '25', '50']}
             onChange={(page) => handlePagination(page)}
             showTotal={showTotal}
             showSizeChanger
-            onShowSizeChange={(_: number, size: number) => handleShowSizeChange(_, size)} />
-          <Table 
-            columns={columns} 
-            dataSource={props.data.serviceTicketsResults} 
-            pagination={false} 
-            rowKey={(record: any) => record.id} />
-          <Pagination 
-            className='search-pagination'
+            onShowSizeChange={(_: number, size: number) => handleShowSizeChange(_, size)}
+          />
+          <Table
+            columns={columns}
+            dataSource={props.data.serviceTicketsResults}
+            pagination={false}
+            rowKey={(record: any) => record.id}
+          />
+          <Pagination
+            className="search-pagination"
             current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
-            total={props.data.count} 
+            total={props.data.count}
             pageSize={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10')}
             pageSizeOptions={['5', '10', '25', '50']}
             onChange={(page) => handlePagination(page)}
             showTotal={showTotal}
             showSizeChanger
-            onShowSizeChange={(_: number, size: number) => handleShowSizeChange(_, size)} />
+            onShowSizeChange={(_: number, size: number) => handleShowSizeChange(_, size)}
+          />
         </Content>
       </Layout>
     </>

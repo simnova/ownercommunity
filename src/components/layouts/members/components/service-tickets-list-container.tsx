@@ -5,11 +5,16 @@ import {
 } from '../../../../generated';
 import { ServiceTicketsList } from './service-tickets-list';
 import { Skeleton, Input, Drawer, Button } from 'antd';
-import { ServiceTicketFilterNames, GetFilterFromServiceTicketQueryString, ServiceTicketSearchParamKeys } from '../../../../constants';
+import {
+  ServiceTicketFilterNames,
+  GetFilterFromServiceTicketQueryString,
+  ServiceTicketSearchParamKeys
+} from '../../../../constants';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchContainer } from './service-tickets-search-container';
+import { orderBy } from 'lodash';
 
 const { Search } = Input;
 
@@ -53,6 +58,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
     const qsSearchString = searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '';
 
     let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
+    const orderBy = searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? '';
 
     await gqlSearchServiceTickets({
       variables: {
@@ -70,6 +76,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             filter: filters,
             top: top,
             skip: skip,
+            orderBy: [orderBy]
           }
         }
       }

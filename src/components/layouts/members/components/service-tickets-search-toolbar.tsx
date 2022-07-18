@@ -256,10 +256,10 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
           onChange={(value) => onSortChanged(value)}
         >
           <Option value="">None</Option>
-          <Option value="created old">Created Date: Oldest First</Option>
-          <Option value="created new">Created Date: Newest First</Option>
-          <Option value="updated old">Updated Date: Oldest First</Option>
-          <Option value="updated new">Updated Date: Newest First</Option>
+          <Option value="createdAt asc">Created Date: Oldest First</Option>
+          <Option value="createdAt desc">Created Date: Newest First</Option>
+          <Option value="updatedAt asc">Updated Date: Oldest First</Option>
+          <Option value="updatedAt desc">Updated Date: Newest First</Option>
         </Select>
       </div>
       <div

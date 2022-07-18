@@ -99,6 +99,16 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     setSearchParams(searchParams);
   };
 
+  const onSortChanged = (value: string) => {
+    if (value) {
+      searchParams.set(ServiceTicketSearchParamKeys.Sort, value);
+    } else {
+      searchParams.delete(ServiceTicketSearchParamKeys.Sort);
+    }
+
+    setSearchParams(searchParams);
+  };
+
   const clearFilter = () => {
     searchParams.delete(ServiceTicketSearchParamKeys.SavedFilter);
     searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
@@ -106,6 +116,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     searchParams.delete(ServiceTicketSearchParamKeys.Status);
     searchParams.delete(ServiceTicketSearchParamKeys.Priority);
     searchParams.delete(ServiceTicketSearchParamKeys.Column);
+    searchParams.delete(ServiceTicketSearchParamKeys.Sort);
     // searchParams.delete(ServiceTicketSearchParamKeys.Requestor);
     setSavedFilterName('');
     setSearchParams(searchParams);
@@ -150,6 +161,28 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
             <Input placeholder="Filter Name" onChange={(e) => setSavedFilterName(e.target.value)} />
           </Space>
         </Modal>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '85%',
+          marginTop: '9px',
+          paddingLeft: '16px'
+        }}
+      >
+        <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Sort By: </Text>
+        <Select
+          defaultValue={searchParams.get('sort') ? searchParams.get('sort') : ''}
+          style={{ width: '225px' }}
+          onChange={(value) => onSortChanged(value)}
+        >
+          <Option value="">None</Option>
+          <Option value="created old">Created Date: Oldest First</Option>
+          <Option value="created new">Created Date: Newest First</Option>
+          <Option value="updated old">Updated Date: Oldest First</Option>
+          <Option value="updated new">Updated Date: Newest First</Option>
+        </Select>
       </div>
       <div
         style={{

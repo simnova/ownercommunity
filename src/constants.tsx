@@ -51,6 +51,7 @@ export const ServiceTicketSearchParamKeys = {
   Column: 'column',
   Page: 'page',
   Top: 'top',
+  Sort: 'sort'
 };
 
 export const FilterNames = {

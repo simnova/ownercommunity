@@ -127,6 +127,8 @@ input ServiceTicketsSearchInput {
 input ServiceTicketsSearchOptions {
   filter: ServiceTicketsSearchFilterDetail
   facets: [String]
+  top: Int
+  skip: Int
 }
 
 input ServiceTicketsSearchFilterDetail {

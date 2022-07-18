@@ -1204,6 +1204,8 @@ export type ServiceTicketsSearchInput = {
 export type ServiceTicketsSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   filter?: InputMaybe<ServiceTicketsSearchFilterDetail>;
+  skip?: InputMaybe<Scalars['Int']>;
+  top?: InputMaybe<Scalars['Int']>;
 };
 
 export type ServiceTicketsSearchResult = {

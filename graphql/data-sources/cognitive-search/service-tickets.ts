@@ -57,6 +57,8 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
       includeTotalCount: true,
       filter: filterString,
       facets: input.options.facets,
+      top: input.options.top,
+      skip: input.options.skip,
     });
 
     console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);

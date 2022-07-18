@@ -82,6 +82,8 @@ const serviceTicket: Resolvers = {
         options: {
           filter: _args.input?.options?.filter ?? null,
           facets: _args.input?.options?.facets ?? [],
+          top: _args.input?.options?.top ?? 10,
+          skip: _args.input?.options?.skip ?? 0,
         },
       } as ServiceTicketsSearchInput;
 

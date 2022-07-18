@@ -61,6 +61,11 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
 
   const saveNewFilter = () => {
     const filter = GetFilterFromServiceTicketQueryString(searchParams);
+    // check if filter name is already exists
+    if (savedFilters.find((f: any) => f.name === savedFilterNameInput)) {
+      message.error(`Filter name "${savedFilterNameInput}" already exists`);
+      return;
+    }
     savedFilters.push({
       name: savedFilterNameInput,
       value: JSON.stringify(filter)
@@ -70,6 +75,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
     setIsSaveModalVisible(false);
     onSelectFilterChanged(savedFilterNameInput);
+    setSavedFilterNameInput('');
     clearFilter();
   };
 
@@ -95,6 +101,8 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
       const currentSavedFilterName = searchParams.get(ServiceTicketSearchParamKeys.SavedFilter) ?? '';
       if (currentSavedFilterName === filterName) {
+        searchParams.delete(ServiceTicketSearchParamKeys.SavedFilter);
+        setSelectedSavedFilterName(undefined);
         clearFilter();
       }
       setSavedFilters(savedFilters);
@@ -233,6 +241,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         >
           <Space size="middle">
             <Input
+              value={savedFilterNameInput}
               onPressEnter={() => saveNewFilter()}
               placeholder="Filter Name"
               onChange={(e) => setSavedFilterNameInput(e.target.value)}

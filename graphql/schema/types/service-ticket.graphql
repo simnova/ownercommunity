@@ -129,6 +129,7 @@ input ServiceTicketsSearchOptions {
   facets: [String]
   top: Int
   skip: Int
+  orderBy: [String]
 }
 
 input ServiceTicketsSearchFilterDetail {

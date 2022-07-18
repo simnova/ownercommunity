@@ -59,6 +59,7 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
       facets: input.options.facets,
       top: input.options.top,
       skip: input.options.skip,
+      orderBy: input.options.orderBy,
     });
 
     console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);

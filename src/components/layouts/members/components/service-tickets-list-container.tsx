@@ -31,6 +31,9 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   });
 
   useEffect(() => {
+    searchParams.set(ServiceTicketSearchParamKeys.Page, searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1');
+    searchParams.set(ServiceTicketSearchParamKeys.Top, searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10');
+    setSearchParams(searchParams);
     (async () => {
       await handleSearch();
     })();
@@ -43,6 +46,10 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   }, [searchParams]);
 
   const handleSearch = async () => {
+    const page = parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1') - 1;
+    const top = parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10');
+    const skip = page * top;
+
     const qsSearchString = searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '';
 
     let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
@@ -60,7 +67,9 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
               ServiceTicketFilterNames.RequestorId + ',count:1000',
               ServiceTicketFilterNames.AssignedToId + ',count:1000'
             ],
-            filter: filters
+            filter: filters,
+            top: top,
+            skip: skip,
           }
         }
       }
@@ -115,7 +124,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             <FilterOutlined />
           </Button>
         </div>
-        <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch?.serviceTicketsResults} />
+        <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} />
         {SearchResult}
       </>
     );

@@ -20,7 +20,7 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
   } else if (data) {
     return (
         <>
-          <ServiceTicketsSearchToolbar memberData={data} />
+          <ServiceTicketsSearchToolbar memberData={data}/>
           <ServiceTicketsSearchFilters memberData={data} searchData={props.searchData} />
         </>
     );

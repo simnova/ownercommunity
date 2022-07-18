@@ -47,7 +47,11 @@ export const ServiceTicketSearchParamKeys = {
   AssignedTo: 'assignedTo',
   Priority: 'priority',
   Status: 'status',
-  SavedFilter: 'savedFilter'
+  SavedFilter: 'savedFilter',
+  Column: 'column',
+  Page: 'page',
+  Top: 'top',
+  Sort: 'sort'
 };
 
 export const FilterNames = {

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Button, Typography, Modal, Space, Input, message, Empty } from 'antd';
+import { Select, Button, Typography, Modal, Space, Input, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchTags } from './service-tickets-search-tags';
 import {
   GetFilterFromServiceTicketQueryString,
   GetSearchParamsFromServiceTicketFilter,
+  SearchParamKeys,
   ServiceTicketSearchParamKeys
 } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
@@ -115,16 +116,60 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     }
   };
 
+  const onSelectColumnChanged = (columnName: string) => {
+    const originalSearchParams = searchParams.get(ServiceTicketSearchParamKeys.Column) ?? '';
+    searchParams.set(
+      ServiceTicketSearchParamKeys.Column,
+      originalSearchParams.length > 0
+        ? searchParams.get(ServiceTicketSearchParamKeys.Column) + ',' + columnName
+        : columnName
+    );
+    setSearchParams(searchParams);
+  };
+
+  const onColumnDelete = (columnName: string) => {
+    const searchParamsString = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
+    const newSearchParamsArray: any = [];
+    searchParamsString?.forEach((searchParam) => {
+      if (searchParam !== columnName) {
+        newSearchParamsArray.push(searchParam);
+      }
+    });
+
+    if (newSearchParamsArray.length > 0) {
+      searchParams.set(ServiceTicketSearchParamKeys.Column, newSearchParamsArray.join(','));
+    } else {
+      searchParams.delete(ServiceTicketSearchParamKeys.Column);
+    }
+    setSearchParams(searchParams);
+  };
+
+  const onSortChanged = (value: string) => {
+    if (value) {
+      searchParams.set(ServiceTicketSearchParamKeys.Sort, value);
+    } else {
+      searchParams.delete(ServiceTicketSearchParamKeys.Sort);
+    }
+
+    setSearchParams(searchParams);
+  };
+
   const clearFilter = () => {
     // searchParams.delete(ServiceTicketSearchParamKeys.SavedFilter);
     searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
     searchParams.delete(ServiceTicketSearchParamKeys.AssignedTo);
     searchParams.delete(ServiceTicketSearchParamKeys.Status);
     searchParams.delete(ServiceTicketSearchParamKeys.Priority);
+    searchParams.delete(ServiceTicketSearchParamKeys.Column);
+    searchParams.delete(ServiceTicketSearchParamKeys.Sort);
     // searchParams.delete(ServiceTicketSearchParamKeys.Requestor);
     setSavedFilterNameInput('');
     setSearchParams(searchParams);
   };
+
+  const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Updated', 'Created'];
+
+  const defaultValues = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? [];
 
   return (
     <>
@@ -201,13 +246,49 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
           justifyContent: 'space-between',
           width: '85%',
           marginTop: '9px',
+          paddingLeft: '16px'
+        }}
+      >
+        <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Sort By: </Text>
+        <Select
+          defaultValue={searchParams.get('sort') ? searchParams.get('sort') : ''}
+          style={{ width: '225px' }}
+          onChange={(value) => onSortChanged(value)}
+        >
+          <Option value="">None</Option>
+          <Option value="created old">Created Date: Oldest First</Option>
+          <Option value="created new">Created Date: Newest First</Option>
+          <Option value="updated old">Updated Date: Oldest First</Option>
+          <Option value="updated new">Updated Date: Newest First</Option>
+        </Select>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '85%',
+          marginTop: '9px',
           paddingLeft: '16px',
           marginBottom: '40px'
         }}
       >
         <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Columns to display: </Text>
-        <Select defaultValue={''} style={{ width: '175px' }}>
-          <Option value="">Select</Option>
+        <Select
+          onSelect={(e: any) => onSelectColumnChanged(e)}
+          style={{ width: '175px' }}
+          mode="multiple"
+          placeholder="Select"
+          value={[...defaultValues]}
+          allowClear
+          onClear={() => {
+            searchParams.delete(ServiceTicketSearchParamKeys.Column);
+            setSearchParams(searchParams);
+          }}
+          onDeselect={(value: any) => onColumnDelete(value)}
+        >
+          {columnOptions.map((option: string) => {
+            return <Option key={option}>{option}</Option>;
+          })}
         </Select>
       </div>
       <ServiceTicketsSearchTags memberData={props.memberData} />

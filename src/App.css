@@ -75,3 +75,12 @@
 .search-filter-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #aaa;
 }
+
+.search-pagination {
+  padding: 10px 20px;
+  text-align: right;
+}
+
+.search-pagination > .ant-pagination-total-text {
+  margin-right: 24px;
+}

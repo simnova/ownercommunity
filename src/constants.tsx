@@ -47,8 +47,8 @@ export const ServiceTicketSearchParamKeys = {
   AssignedTo: 'assignedTo',
   Priority: 'priority',
   Status: 'status',
-  SavedFilter: 'savedFilter',
-}
+  SavedFilter: 'savedFilter'
+};
 
 export const FilterNames = {
   Type: 'type',
@@ -493,11 +493,26 @@ export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, sear
   return searchParams;
 };
 
-export const GetSearchParamsFromServiceTicketFilter = (filter: ServiceTicketsSearchFilterDetail | undefined, searchParams: URLSearchParams) => {
+export const GetSearchParamsFromServiceTicketFilter = (
+  filter: ServiceTicketsSearchFilterDetail | undefined,
+  searchParams: URLSearchParams
+) => {
   if (filter) {
-    if (filter.assignedToId) searchParams.set('assignedTo', filter.assignedToId.join(','));
-    if (filter.priority) searchParams.set('priority', filter.priority.join(','));
-    if (filter.status) searchParams.set('status', filter.status.join(','));
+    if (filter.assignedToId) {
+      searchParams.set('assignedTo', filter.assignedToId.join(','));
+    } else {
+      searchParams.delete('assignedTo');
+    }
+    if (filter.priority) {
+      searchParams.set('priority', filter.priority.join(','));
+    } else {
+      searchParams.delete('priority');
+    }
+    if (filter.status) {
+      searchParams.set('status', filter.status.join(','));
+    } else {
+      searchParams.delete('status');
+    }
   }
 
   return searchParams;

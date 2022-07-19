@@ -2,7 +2,7 @@ import { Member as MemberDO } from '../../../domain/contexts/community/member';
 import { MemberConverter, MemberDomainAdapter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
 import { MongoMemberRepository } from '../../../domain/infrastructure/persistence/member.mongo-repository';
 import { Context } from '../../context';
-import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput, MemberCustomViewAddInput } from '../../generated';
+import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput, MemberCustomViewAddInput, MemberCustomViewUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
@@ -127,6 +127,23 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let view = member.requestNewCustomView();
+      view.requestSetName(input.customView.name);
+      view.requestSetType(input.customView.type);
+      view.requestSetFilters(new CustomViewFilters(input.customView.filters));
+      view.requestSetOrder(input.customView.sortOrder);
+
+      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+    });
+    return memberToReturn;
+  }
+
+  // custom view: update
+  async memberCustomViewUpdate(input: MemberCustomViewUpdateInput): Promise<Member> {
+    let memberToReturn: Member;
+
+    await this.withTransaction(async (repo) => {
+      let member = await repo.getById(input.memberId);
+      let view = member.customViews.find((v) => v.id === input.customView.id);
       view.requestSetName(input.customView.name);
       view.requestSetType(input.customView.type);
       view.requestSetFilters(new CustomViewFilters(input.customView.filters));

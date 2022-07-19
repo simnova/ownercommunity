@@ -70,6 +70,7 @@ extend type Mutation {
   memberProfileAvatarCreateAuthHeader(input: MemberAvatarImageInput!): MemberAvatarImageAuthHeaderResult!
   memberProfileAvatarRemove(memberId: ObjectID!): MemberMutationResult!
   memberCustomViewAdd(input: MemberCustomViewAddInput!): MemberMutationResult!
+  memberCustomViewUpdate(input: MemberCustomViewUpdateInput!): MemberMutationResult!
 }
 
 type MemberMutationResult implements MutationResult {
@@ -113,9 +114,22 @@ input MemberCustomViewAddInput {
   customView: CustomViewCreateInput!
 }
 
+input MemberCustomViewUpdateInput {
+  memberId: ObjectID!
+  customView: CustomViewUpdateInput!
+}
+
 input CustomViewCreateInput {
   name: String!
   type: String!
+  filters: [String]
+  sortOrder: String
+}
+
+input CustomViewUpdateInput {
+  id: ObjectID!
+  name: String
+  type: String
   filters: [String]
   sortOrder: String
 }

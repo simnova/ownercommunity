@@ -107,6 +107,9 @@ const member: Resolvers = {
     memberCustomViewAdd: async (_, { input }, { dataSources }) => {
       return MemberMutationResolver(dataSources.memberDomainAPI.memberCustomViewAdd(input));
     },
+    memberCustomViewUpdate: async (_, { input }, { dataSources }) => {
+      return MemberMutationResolver(dataSources.memberDomainAPI.memberCustomViewUpdate(input));
+    }
   },
 };
 

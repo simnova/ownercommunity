@@ -1,4 +1,4 @@
-import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../../generated';
+import { Resolvers, Member, Community, Role, User, MemberMutationResult, CustomView } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { Member as MemberDo } from '../../../infrastructure/data-sources/cosmos-db/models/member';
@@ -7,7 +7,7 @@ const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<Mem
   try {
     return { status: { success: true }, member: await getMember } as MemberMutationResult;
   } catch (error) {
-    console.error("Community > Mutation  : ", error, error.stack);
+    console.error('Community > Mutation  : ', error, error.stack);
     return {
       status: { success: false, errorMessage: error.message },
       member: null,
@@ -103,6 +103,9 @@ const member: Resolvers = {
       } else {
         return MemberMutationResolver(dataSources.memberDomainAPI.memberProfileUpdateAvatar(memberId, null));
       }
+    },
+    memberCustomViewAdd: async (_, { input }, { dataSources }) => {
+      return MemberMutationResolver(dataSources.memberDomainAPI.memberCustomViewAdd(input));
     },
   },
 };

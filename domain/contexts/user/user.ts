@@ -46,20 +46,20 @@ export class User<props extends UserProps> extends AggregateRoot<props> implemen
     this.addIntegrationEvent(UserCreatedEvent,{userId: this.props.id});
   }
 
-  public setFirstName(firstName:ValueObjects.FirstName): void {
-    this.props.firstName = firstName.valueOf();
+  public setFirstName(firstName:string): void {
+    this.props.firstName = (new ValueObjects.FirstName(firstName)).valueOf();
   }
 
-  public setLastName(lastName:ValueObjects.LastName): void {
-    this.props.lastName = lastName.valueOf();
+  public setLastName(lastName:string): void {
+    this.props.lastName = (new ValueObjects.LastName(lastName)).valueOf();
   }
 
-  public setEmail(email:ValueObjects.Email): void {
-    this.props.email = email.valueOf();
+  public setEmail(email:string): void {
+    this.props.email = (new ValueObjects.Email(email)).valueOf();
   }
 
-  public setExternalId(externalId:ValueObjects.ExternalId): void {
-    this.props.externalId = externalId.valueOf();
+  public setExternalId(externalId:string): void {
+    this.props.externalId = (new ValueObjects.ExternalId(externalId)).valueOf();
   }
 
 }

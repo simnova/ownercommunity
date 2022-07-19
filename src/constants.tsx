@@ -571,12 +571,12 @@ export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: M
     tempList.push(...assignedTo);
   }
 
-  if (qspriority) {
+  if (qspriority && qspriority.length > 0) {
     const priority = qspriority.map((id: string) => 'Priority: ' + id);
     tempList.push(...priority);
   }
 
-  if (qsstatus) {
+  if (qsstatus && qsstatus.length > 0) {
     const status = qsstatus.map((id: string) => 'Status: ' + id);
     tempList.push(...status);
   }

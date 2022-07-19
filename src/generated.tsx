@@ -277,6 +277,14 @@ export type CustomViewCreateInput = {
   type: Scalars['String'];
 };
 
+export type CustomViewUpdateInput = {
+  filters?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id: Scalars['ObjectID'];
+  name?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
 export type FacetDetail = {
   __typename?: 'FacetDetail';
   count?: Maybe<Scalars['Int']>;
@@ -462,6 +470,11 @@ export type MemberCustomViewAddInput = {
   memberId: Scalars['ObjectID'];
 };
 
+export type MemberCustomViewUpdateInput = {
+  customView: CustomViewUpdateInput;
+  memberId: Scalars['ObjectID'];
+};
+
 export type MemberMutationResult = MutationResult & {
   __typename?: 'MemberMutationResult';
   member?: Maybe<Member>;
@@ -539,6 +552,7 @@ export type Mutation = {
   memberAccountRemove: MemberMutationResult;
   memberCreate: MemberMutationResult;
   memberCustomViewAdd: MemberMutationResult;
+  memberCustomViewUpdate: MemberMutationResult;
   memberProfileAvatarCreateAuthHeader: MemberAvatarImageAuthHeaderResult;
   memberProfileAvatarRemove: MemberMutationResult;
   memberProfileUpdate: MemberMutationResult;
@@ -615,6 +629,11 @@ export type MutationMemberCreateArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberCustomViewAddArgs = {
   input: MemberCustomViewAddInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationMemberCustomViewUpdateArgs = {
+  input: MemberCustomViewUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -4769,6 +4788,32 @@ export type MembersServiceTicketSearchContainerCustomViewAddMutationVariables = 
 export type MembersServiceTicketSearchContainerCustomViewAddMutation = {
   __typename?: 'Mutation';
   memberCustomViewAdd: {
+    __typename?: 'MemberMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    member?: {
+      __typename?: 'Member';
+      id: any;
+      customViews?: Array<{
+        __typename?: 'CustomView';
+        id: any;
+        name?: string | null;
+        type?: string | null;
+        filters?: Array<string | null> | null;
+        sortOrder?: string | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type MembersServiceTicketSearchContainerCustomViewUpdateMutationVariables = Exact<{
+  input: MemberCustomViewUpdateInput;
+}>;
+
+export type MembersServiceTicketSearchContainerCustomViewUpdateMutation = {
+  __typename?: 'Mutation';
+  memberCustomViewUpdate: {
     __typename?: 'MemberMutationResult';
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     member?: {
@@ -11945,6 +11990,55 @@ export const MembersServiceTicketSearchContainerCustomViewAddDocument = {
 } as unknown as DocumentNode<
   MembersServiceTicketSearchContainerCustomViewAddMutation,
   MembersServiceTicketSearchContainerCustomViewAddMutationVariables
+>;
+export const MembersServiceTicketSearchContainerCustomViewUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MembersServiceTicketSearchContainerCustomViewUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberCustomViewUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberCustomViewUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketSearchContainerCustomViewAddResultFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    ...MembersServiceTicketSearchContainerCustomViewAddResultFieldsFragmentDoc.definitions
+  ]
+} as unknown as DocumentNode<
+  MembersServiceTicketSearchContainerCustomViewUpdateMutation,
+  MembersServiceTicketSearchContainerCustomViewUpdateMutationVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',

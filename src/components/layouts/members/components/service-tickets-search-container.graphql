@@ -16,6 +16,12 @@ mutation MembersServiceTicketSearchContainerCustomViewAdd($input: MemberCustomVi
   }
 }
 
+mutation MembersServiceTicketSearchContainerCustomViewUpdate($input: MemberCustomViewUpdateInput!) {
+  memberCustomViewUpdate(input: $input) {
+    ...MembersServiceTicketSearchContainerCustomViewAddResultFields
+  }
+}
+
 fragment MemberNameServiceTicketContainerFields on Member {
   id
   memberName

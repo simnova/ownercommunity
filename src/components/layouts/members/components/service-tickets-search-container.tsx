@@ -5,10 +5,11 @@ import { useParams } from 'react-router-dom';
 import {
   CustomView,
   CustomViewCreateInput,
+  CustomViewUpdateInput,
   MemberNameServiceTicketContainerDocument,
   MemberServiceTicketCustomViewsDocument,
   MembersServiceTicketSearchContainerCustomViewAddDocument,
-  MembersServiceTicketSearchContainerCustomViewAddResultFieldsFragmentDoc
+  MembersServiceTicketSearchContainerCustomViewUpdateDocument,
 } from '../../../../generated';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
 import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
@@ -51,8 +52,38 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
     }
   });
 
+  const [gqlCustomViewUpdate] = useMutation(MembersServiceTicketSearchContainerCustomViewUpdateDocument, {
+    update(cache, { data }) {
+      // update the list with the new item
+      const customViews = data?.memberCustomViewUpdate.member?.customViews;
+      if (customViews) {
+        cache.writeQuery({
+          query: MemberServiceTicketCustomViewsDocument,
+          variables: { communityId: params.communityId ?? '' },
+          data: {
+            memberForCurrentUser: {
+              id: data?.memberCustomViewUpdate.member?.id,
+              customViews: customViews
+            }
+          }
+        });
+      }
+    }
+  });
+
   const handleAddNewCustomView = async (memberId: string, customView: CustomViewCreateInput) => {
     await gqlCustomViewAdd({
+      variables: {
+        input: {
+          memberId: memberId,
+          customView: customView
+        }
+      }
+    });
+  };
+
+  const handleUpdateCustomView = async (memberId: string, customView: CustomViewUpdateInput) => {
+    await gqlCustomViewUpdate({
       variables: {
         input: {
           memberId: memberId,
@@ -78,6 +109,7 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
           memberData={membersData}
           customViewsData={customViewsData}
           addNewCustomViewCb={(memberId, customView) => handleAddNewCustomView(memberId, customView)}
+          updateCustomViewCb={(memberId, customView) => handleUpdateCustomView(memberId, customView)}
         />
         <ServiceTicketsSearchFilters memberData={membersData} searchData={props.searchData} />
       </>

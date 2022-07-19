@@ -1,6 +1,6 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
-import { FilterDetail, ServiceTicketsSearchFilterDetail } from './generated';
+import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -520,4 +520,66 @@ export const GetSearchParamsFromServiceTicketFilter = (
   }
 
   return searchParams;
+};
+
+export const ConvertMemberIdToName = (memberId: string, members: Member[]): string => {
+  if (memberId) {
+    const member = members.find((m: any) => m.id === memberId);
+    return member?.memberName ?? '';
+  }
+  return '';
+};
+
+export const ConvertMemberNameToId = (memberName: string, members: Member[]): string => {
+  if (memberName) {
+    const member = members.find((m: any) => m.memberName === memberName);
+    return member?.id ?? '';
+  }
+  return '';
+};
+
+export const IsNameDuplicate = (name: string, members: Member[]): boolean => {
+  let count = 0;
+  members.forEach((m: any) => {
+    if (m.memberName === name) {
+      count++;
+    }
+  });
+  return count > 1;
+};
+
+export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: Member[]) => {
+  let tempList: string[] = [];
+
+  //props.memberData.membersByCommunityId
+
+  // const qsrequestorId = SearchParams.get('requestor');
+  const qsassignedToId = searchParams.get('assignedTo')?.split(',');
+  const qspriority = searchParams.get('priority')?.split(',');
+  const qsstatus = searchParams.get('status')?.split(',');
+
+  if (qsassignedToId && qsassignedToId.length > 0) {
+    const assignedTo = qsassignedToId.map((id: string) => {
+      const name = ConvertMemberIdToName(id, members ?? []);
+      let tagName = name;
+      if (IsNameDuplicate(name, members ?? [])) {
+        tagName = `${name} (${id})`;
+      }
+      return 'Assigned to: ' + tagName;
+    });
+
+    tempList.push(...assignedTo);
+  }
+
+  if (qspriority) {
+    const priority = qspriority.map((id: string) => 'Priority: ' + id);
+    tempList.push(...priority);
+  }
+
+  if (qsstatus) {
+    const status = qsstatus.map((id: string) => 'Status: ' + id);
+    tempList.push(...status);
+  }
+
+  return tempList;
 };

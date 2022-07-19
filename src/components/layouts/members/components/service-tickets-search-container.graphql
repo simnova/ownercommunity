@@ -4,7 +4,43 @@ query MemberNameServiceTicketContainer($communityId: ID!) {
   }
 }
 
+query MemberServiceTicketCustomViews($communityId: ObjectID!) {
+  memberForCurrentUser(communityId: $communityId) {
+    ...MemberServiceTicketCustomViewsFields
+  }
+}
+
+mutation MembersServiceTicketSearchContainerCustomViewAdd($input: MemberCustomViewAddInput!) {
+  memberCustomViewAdd(input: $input) {
+    ...MembersServiceTicketSearchContainerCustomViewAddResultFields
+  }
+}
+
 fragment MemberNameServiceTicketContainerFields on Member {
   id
   memberName
+}
+
+fragment MemberServiceTicketCustomViewsFields on Member {
+  id
+  customViews {
+    id
+    name
+    type
+    filters
+    sortOrder
+
+    createdAt
+    updatedAt
+  }
+}
+
+fragment MembersServiceTicketSearchContainerCustomViewAddResultFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...MemberServiceTicketCustomViewsFields
+  }
 }

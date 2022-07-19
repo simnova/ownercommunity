@@ -6,20 +6,36 @@ import {
   GetFilterFromServiceTicketQueryString,
   GetSearchParamsFromServiceTicketFilter,
   SearchParamKeys,
-  ServiceTicketSearchParamKeys
+  ServiceTicketSearchParamKeys,
+  GetSelectedFilterTags,
+  ConvertMemberNameToId
 } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
-import { ServiceTicketsSearchFilterDetail } from '../../../../generated';
+import {
+  CustomView,
+  CustomViewCreateInput,
+  Member,
+  MemberNameServiceTicketContainerQuery,
+  MemberServiceTicketCustomViewsQuery,
+  ServiceTicketsSearchFilterDetail
+} from '../../../../generated';
+
 const { Option } = Select;
 const { Text } = Typography;
 
 interface ServiceTicketsSearchToolbarProps {
-  memberData: any;
+  memberData: MemberNameServiceTicketContainerQuery;
+  customViewsData?: MemberServiceTicketCustomViewsQuery;
+  addNewCustomViewCb: (memberId: string, customViews: CustomViewCreateInput) => void;
 }
 
 interface SavedFilterDetails {
   name: string;
-  value: string;
+  value: {
+    assignedTo: string[];
+    priority: string[];
+    status: string[];
+  };
 }
 
 //create your forceUpdate hook
@@ -36,11 +52,59 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
   const [savedFilterNameInput, setSavedFilterNameInput] = useState('');
   const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>(undefined);
-  // get saved filters from url
-  const [savedFilters, setSavedFilters] = useState<SavedFilterDetails[]>(
-    JSON.parse(localStorage.getItem('service-ticket-filters') ?? '[]')
-  );
 
+  const [savedFilters, setSavedFilters] = useState<SavedFilterDetails[]>([]);
+
+  // get list of saved filters (from database)
+  useEffect(() => {
+    // get all views for service tickets
+    let views = props.customViewsData?.memberForCurrentUser?.customViews?.filter((customView) => {
+      return customView?.type === 'SERVICE_TICKET';
+    });
+
+    let tempSavedFilters: SavedFilterDetails[] = [];
+
+    if (views && views.length > 0) {
+      views.forEach((view) => {
+        let priorities: string[] = [];
+        let assignedTos: string[] = [];
+        let statuses: string[] = [];
+
+        view?.filters?.forEach((filter) => {
+          if (filter?.includes('Priority')) {
+            // get list of priorities
+            let priority = filter.split(': ')[1];
+            priorities.push(priority);
+          } else if (filter?.includes('Assigned to')) {
+            // get list of assigned tos
+            let assignedTo = filter.split(': ')[1];
+            if (assignedTo?.includes('(')) {
+              assignedTo = assignedTo.split('(')[1].split(')')[0];
+            } else {
+              assignedTo = ConvertMemberNameToId(assignedTo, props.memberData?.membersByCommunityId as Member[]);
+            }
+            assignedTos.push(assignedTo);
+          } else if (filter?.includes('Status')) {
+            // get list of statuses
+            let status = filter.split(': ')[1];
+            statuses.push(status);
+          }
+        });
+
+        tempSavedFilters.push({
+          name: view?.name ?? '',
+          value: {
+            assignedTo: assignedTos,
+            priority: priorities,
+            status: statuses
+          }
+        });
+      });
+      setSavedFilters(tempSavedFilters);
+    }
+  }, [props.customViewsData?.memberForCurrentUser?.customViews]);
+
+  // get selected filters from url (after page refresh)
   useEffect(() => {
     const savedFilterName = searchParams.get(ServiceTicketSearchParamKeys.SavedFilter);
     if (savedFilterName) {
@@ -49,17 +113,17 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
   }, []);
 
   const updateSavedFilters = (filter: ServiceTicketsSearchFilterDetail) => {
-    savedFilters.splice(
-      savedFilters.findIndex((f: any) => f.name === selectedSavedFilterName),
-      1,
-      { name: selectedSavedFilterName!, value: JSON.stringify(filter) }
-    );
-    setSavedFilters(savedFilters);
-    message.success(`Filter "${selectedSavedFilterName}" updated`);
-    localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
+    // savedFilters.splice(
+    //   savedFilters.findIndex((f: any) => f.name === selectedSavedFilterName),
+    //   1,
+    //   { name: selectedSavedFilterName!, value: JSON.stringify(filter) }
+    // );
+    // setSavedFilters(savedFilters);
+    // message.success(`Filter "${selectedSavedFilterName}" updated`);
+    // localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
   };
 
-  const saveNewFilter = () => {
+  const saveNewFilter = async () => {
     const filter = GetFilterFromServiceTicketQueryString(searchParams);
     // check if filter name is already exists
     if (savedFilters.find((f: any) => f.name === savedFilterNameInput)) {
@@ -68,11 +132,23 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     }
     savedFilters.push({
       name: savedFilterNameInput,
-      value: JSON.stringify(filter)
+      value: {
+        assignedTo: filter.assignedToId as string[],
+        priority: filter.priority?.map((p: any) => p.toString()) as string[],
+        status: filter.status as string[]
+      }
     });
     setSavedFilters(savedFilters);
+    props.addNewCustomViewCb(props.customViewsData?.memberForCurrentUser?.id, {
+      name: savedFilterNameInput,
+      type: 'SERVICE_TICKET',
+      filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]), //TODO: add filters,
+      sortOrder: searchParams.get('sort') ? searchParams.get('sort') : ''
+    });
+
     message.success(`Filter "${savedFilterNameInput}" saved`);
-    localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
+    // localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
+
     setIsSaveModalVisible(false);
     onSelectFilterChanged(savedFilterNameInput);
     setSavedFilterNameInput('');
@@ -119,7 +195,14 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       console.log('FILTER ', filter);
       setSelectedSavedFilterName(filterName);
       searchParams.set(ServiceTicketSearchParamKeys.SavedFilter, filterName);
-      GetSearchParamsFromServiceTicketFilter(JSON.parse(filter?.value ?? ''), searchParams);
+      GetSearchParamsFromServiceTicketFilter(
+        {
+          assignedToId: filter?.value?.assignedTo,
+          priority: filter?.value?.priority?.map((p: any) => parseInt(p)),
+          status: filter?.value?.status
+        },
+        searchParams
+      );
       setSearchParams(searchParams);
     }
   };

@@ -4,6 +4,12 @@ module.exports = {
   preset: 'ts-jest',
 
   globalSetup: "<rootDir>/test/global-setup.ts",
+  reporters: [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Owner Community - Data Access Report"
+    }]
+  ],
 
 
   testEnvironment: 'node',

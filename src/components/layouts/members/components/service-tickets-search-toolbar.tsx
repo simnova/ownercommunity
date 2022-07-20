@@ -45,7 +45,9 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
   const [savedFilterNameInput, setSavedFilterNameInput] = useState('');
   const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>(undefined);
 
-  const [customViews, setCustomViews] = useState<CustomView[]>(props.customViewsData?.memberForCurrentUser?.customViews as CustomView[] ?? []);
+  const [customViews, setCustomViews] = useState<CustomView[]>(
+    (props.customViewsData?.memberForCurrentUser?.customViews as CustomView[]) ?? []
+  );
 
   // get selected filters from url (after page refresh)
   useEffect(() => {
@@ -60,20 +62,26 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     customViews.forEach((view) => {
       if (view.name === selectedSavedFilterName) {
         customViewInputs.push({
+          id: view.id,
           filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]),
-          sortOrder: searchParams.get(ServiceTicketSearchParamKeys.Sort),
+          sortOrder: searchParams.get(ServiceTicketSearchParamKeys.Sort)
         });
       } else {
         customViewInputs.push({
+          id: view.id,
           name: view.name,
-          type: "SERVICE_TICKET",
+          type: 'SERVICE_TICKET',
           filters: view.filters,
-          sortOrder: view.sortOrder,
+          sortOrder: view.sortOrder
         });
       }
     });
     setCustomViews(customViews);
-    props.handleUpdateCustomView(props.customViewsData?.memberForCurrentUser?.id, customViewInputs, CustomViewOperation.Update);
+    props.handleUpdateCustomView(
+      props.customViewsData?.memberForCurrentUser?.id,
+      customViewInputs,
+      CustomViewOperation.Update
+    );
   };
 
   const saveNewCustomView = async () => {
@@ -85,22 +93,26 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     let customViewInputs: CustomViewInput[] = [];
     let newCustomView: CustomViewInput = {
       name: savedFilterNameInput,
-      type: "SERVICE_TICKET",
-      filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[] ?? []),
+      type: 'SERVICE_TICKET',
+      filters: GetSelectedFilterTags(searchParams, (props.memberData.membersByCommunityId as Member[]) ?? [])
     };
     customViewInputs.push(newCustomView);
     customViews.forEach((view) => {
       customViewInputs.push({
         name: view.name,
-        type: "SERVICE_TICKET",
+        type: 'SERVICE_TICKET',
         filters: view.filters,
-        sortOrder: view.sortOrder,
+        sortOrder: view.sortOrder
       });
     });
 
     setCustomViews(customViews);
 
-    props.handleUpdateCustomView(props.customViewsData?.memberForCurrentUser?.id, customViewInputs, CustomViewOperation.Create);
+    props.handleUpdateCustomView(
+      props.customViewsData?.memberForCurrentUser?.id,
+      customViewInputs,
+      CustomViewOperation.Create
+    );
     setIsSaveModalVisible(false);
     onSelectFilterChanged(savedFilterNameInput);
     setSavedFilterNameInput('');
@@ -108,16 +120,22 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
 
   const deleteCustomView = (filterName: string) => {
     if (filterName) {
-      let customViewInputs: CustomViewInput[] = customViews.filter((view) => view.name !== filterName).map((view) => {
-        return {
-          name: view.name,
-          type: "SERVICE_TICKET",
-          filters: view.filters,
-          sortOrder: view.sortOrder,
-        }
-      });
+      let customViewInputs: CustomViewInput[] = customViews
+        .filter((view) => view.name !== filterName)
+        .map((view) => {
+          return {
+            name: view.name,
+            type: 'SERVICE_TICKET',
+            filters: view.filters,
+            sortOrder: view.sortOrder
+          };
+        });
       setCustomViews(customViews.filter((view) => view.name !== filterName));
-      props.handleUpdateCustomView(props.customViewsData?.memberForCurrentUser?.id, customViewInputs, CustomViewOperation.Delete);
+      props.handleUpdateCustomView(
+        props.customViewsData?.memberForCurrentUser?.id,
+        customViewInputs,
+        CustomViewOperation.Delete
+      );
       forceUpdate();
     }
   };
@@ -198,31 +216,30 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
           value={selectedSavedFilterName}
           style={{ width: '175px' }}
           placeholder="Select saved filter"
-          dropdownRender={
-            () =>
-              customViews && customViews.length > 0 ? (
-                <div key="savedFilters">
-                  {customViews.map((view: any) => (
-                    <Space align="baseline" style={{ width: '100%' }}>
-                      <Button type="link" onClick={() => deleteCustomView(view.id)}>
-                        <DeleteOutlined style={{ color: 'red' }} />
-                      </Button>
-                      <Typography.Link style={{ width: '150px' }} onClick={() => onSelectFilterChanged(view.name)}>
-                        {view.name}
-                      </Typography.Link>
-                    </Space>
-                  ))}
-                  <Button type="link" onClick={() => setIsSaveModalVisible(true)}>
-                    Add New
-                  </Button>
-                </div>
-              ) : (
-                <div>
-                  <Button type="link" onClick={() => setIsSaveModalVisible(true)}>
-                    Add New
-                  </Button>
-                </div>
-              )
+          dropdownRender={() =>
+            customViews && customViews.length > 0 ? (
+              <div key="savedFilters">
+                {customViews.map((view: any) => (
+                  <Space align="baseline" style={{ width: '100%' }}>
+                    <Button type="link" onClick={() => deleteCustomView(view.id)}>
+                      <DeleteOutlined style={{ color: 'red' }} />
+                    </Button>
+                    <Typography.Link style={{ width: '150px' }} onClick={() => onSelectFilterChanged(view.name)}>
+                      {view.name}
+                    </Typography.Link>
+                  </Space>
+                ))}
+                <Button type="link" onClick={() => setIsSaveModalVisible(true)}>
+                  Add New
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button type="link" onClick={() => setIsSaveModalVisible(true)}>
+                  Add New
+                </Button>
+              </div>
+            )
           }
         ></Select>
         <Button type="primary" onClick={() => updateCustomView()} disabled={selectedSavedFilterName ? false : true}>

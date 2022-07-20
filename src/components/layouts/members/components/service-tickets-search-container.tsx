@@ -14,7 +14,28 @@ import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
 
 export const ServiceTicketsSearchContainer: FC<any> = (props) => {
   const params = useParams();
-  const [updateCustomViews] = useMutation(MemberServiceTicketSearchContainerCustomViewsUpdateDocument);
+  const [updateCustomViews] = useMutation(MemberServiceTicketSearchContainerCustomViewsUpdateDocument, {
+    update(cache, { data }) {
+      // update the list with the new item
+      const newCustomViews = data?.memberUpdate.member?.customViews;
+      const memberForCurrentUser = cache.readQuery({
+        query: MemberServiceTicketCustomViewsDocument,
+        variables: { communityId: params.communityId ?? '' }
+      })?.memberForCurrentUser;
+      if (newCustomViews && memberForCurrentUser) {
+        cache.writeQuery({
+          query: MemberServiceTicketCustomViewsDocument,
+          variables: { communityId: params.communityId ?? '' },
+          data: {
+            memberForCurrentUser: {
+              id: memberForCurrentUser?.id,
+              customViews: newCustomViews
+            }
+          }
+        });
+      }
+    }
+  });
 
   const {
     data: membersData,
@@ -32,7 +53,11 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
     variables: { communityId: params.communityId ?? '' }
   });
 
-  const handleUpdateCustomView = async (memberId: string, customViews: CustomViewInput[], operation: CustomViewOperation) => {
+  const handleUpdateCustomView = async (
+    memberId: string,
+    customViews: CustomViewInput[],
+    operation: CustomViewOperation
+  ) => {
     await updateCustomViews({
       variables: {
         input: {

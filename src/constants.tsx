@@ -497,31 +497,6 @@ export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, sear
   return searchParams;
 };
 
-export const GetSearchParamsFromServiceTicketFilter = (
-  filter: ServiceTicketsSearchFilterDetail | undefined,
-  searchParams: URLSearchParams
-) => {
-  if (filter) {
-    if (filter.assignedToId) {
-      searchParams.set('assignedTo', filter.assignedToId.join(','));
-    } else {
-      searchParams.delete('assignedTo');
-    }
-    if (filter.priority) {
-      searchParams.set('priority', filter.priority.join(','));
-    } else {
-      searchParams.delete('priority');
-    }
-    if (filter.status) {
-      searchParams.set('status', filter.status.join(','));
-    } else {
-      searchParams.delete('status');
-    }
-  }
-
-  return searchParams;
-};
-
 export const ConvertMemberIdToName = (memberId: string, members: Member[]): string => {
   if (memberId) {
     const member = members.find((m: any) => m.id === memberId);
@@ -583,3 +558,32 @@ export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: M
 
   return tempList;
 };
+
+export const GetSearchParamsFromServiceTicketFilter = (filter: string[], searchParams: URLSearchParams) => {
+  // do the opposite of GetSelectedFilterTags
+  if (filter && filter.length > 0) {
+    const assignedTo = filter.filter((tag: string) => tag.startsWith('Assigned to: '));
+    if (assignedTo && assignedTo.length > 0) {
+      const assignedToId = assignedTo.map((tag: string) => tag.replace('Assigned to: ', ''));
+      searchParams.set('assignedTo', assignedToId.join(','));
+    }
+
+    const priority = filter.filter((tag: string) => tag.startsWith('Priority: '));
+    if (priority && priority.length > 0) {
+      const priorityId = priority.map((tag: string) => tag.replace('Priority: ', ''));
+      searchParams.set('priority', priorityId.join(','));
+    }
+
+    const status = filter.filter((tag: string) => tag.startsWith('Status: '));
+    if (status && status.length > 0) {
+      const statusId = status.map((tag: string) => tag.replace('Status: ', ''));
+      searchParams.set('status', statusId.join(','));
+    }
+  }
+};
+
+export enum CustomViewOperation {
+  Create,
+  Update,
+  Delete,
+}

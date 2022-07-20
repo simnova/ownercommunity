@@ -8,11 +8,13 @@ import {
   SearchParamKeys,
   ServiceTicketSearchParamKeys,
   GetSelectedFilterTags,
-  ConvertMemberNameToId
+  ConvertMemberNameToId,
+  CustomViewOperation
 } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
 import {
   CustomView,
+  CustomViewInput,
   Member,
   MemberNameServiceTicketContainerQuery,
   MemberServiceTicketCustomViewsQuery,
@@ -25,16 +27,7 @@ const { Text } = Typography;
 interface ServiceTicketsSearchToolbarProps {
   memberData: MemberNameServiceTicketContainerQuery;
   customViewsData?: MemberServiceTicketCustomViewsQuery;
-  handleUpdateCustomView: (memberId: string, customViews: CustomView[]) => void;
-}
-
-interface SavedFilterDetails {
-  name: string;
-  value: {
-    assignedTo: string[];
-    priority: string[];
-    status: string[];
-  };
+  handleUpdateCustomView: (memberId: string, customViews: CustomViewInput[], operation: CustomViewOperation) => void;
 }
 
 //create your forceUpdate hook
@@ -52,56 +45,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
   const [savedFilterNameInput, setSavedFilterNameInput] = useState('');
   const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>(undefined);
 
-  const [savedFilters, setSavedFilters] = useState<SavedFilterDetails[]>([]);
-
-  // get list of saved filters (from database)
-  useEffect(() => {
-    // get all views for service tickets
-    let views = props.customViewsData?.memberForCurrentUser?.customViews?.filter((customView) => {
-      return customView?.type === 'SERVICE_TICKET';
-    });
-
-    let tempSavedFilters: SavedFilterDetails[] = [];
-
-    if (views && views.length > 0) {
-      views.forEach((view) => {
-        let priorities: string[] = [];
-        let assignedTos: string[] = [];
-        let statuses: string[] = [];
-
-        view?.filters?.forEach((filter) => {
-          if (filter?.includes('Priority')) {
-            // get list of priorities
-            let priority = filter.split(': ')[1];
-            priorities.push(priority);
-          } else if (filter?.includes('Assigned to')) {
-            // get list of assigned tos
-            let assignedTo = filter.split(': ')[1];
-            if (assignedTo?.includes('(')) {
-              assignedTo = assignedTo.split('(')[1].split(')')[0];
-            } else {
-              assignedTo = ConvertMemberNameToId(assignedTo, props.memberData?.membersByCommunityId as Member[]);
-            }
-            assignedTos.push(assignedTo);
-          } else if (filter?.includes('Status')) {
-            // get list of statuses
-            let status = filter.split(': ')[1];
-            statuses.push(status);
-          }
-        });
-
-        tempSavedFilters.push({
-          name: view?.name ?? '',
-          value: {
-            assignedTo: assignedTos,
-            priority: priorities,
-            status: statuses
-          }
-        });
-      });
-      setSavedFilters(tempSavedFilters);
-    }
-  }, [props.customViewsData?.memberForCurrentUser?.customViews]);
+  const [customViews, setCustomViews] = useState<CustomView[]>(props.customViewsData?.memberForCurrentUser?.customViews as CustomView[] ?? []);
 
   // get selected filters from url (after page refresh)
   useEffect(() => {
@@ -111,85 +55,69 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     }
   }, []);
 
-  const updateSavedFilters = (filter: SavedFilterDetails) => {
-    let currentFilter = props.customViewsData?.memberForCurrentUser?.customViews?.find((view) => view?.name === filter.name);
-    if (currentFilter) {
-      // update existing filter
-      // let customViewUpdateInput: CustomViewUpdateInput = {
-      //   id: currentFilter?.id,
-      //   name: filter.name,
-      //   type: 'SERVICE_TICKET',
-      //   filters: GetSelectedFilterTags(searchParams, props.memberData?.membersByCommunityId as Member[]),
-      // };
-      savedFilters.splice(
-        savedFilters.findIndex((f: any) => f.name === selectedSavedFilterName),
-        1,
-        { name: selectedSavedFilterName!, 
-          value: { 
-            assignedTo: filter?.value?.assignedTo as string[], 
-            priority: filter?.value?.priority?.map((p: any) => p.toString()) as string[],
-            status: filter?.value?.status as string[]
-          } 
-        }
-      );
-      setSavedFilters(savedFilters);
-      message.success(`Filter "${selectedSavedFilterName}" updated`);
-    }
+  const updateCustomView = async () => {
+    let customViewInputs: CustomViewInput[] = [];
+    customViews.forEach((view) => {
+      if (view.name === selectedSavedFilterName) {
+        customViewInputs.push({
+          filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]),
+          sortOrder: searchParams.get(ServiceTicketSearchParamKeys.Sort),
+        });
+      } else {
+        customViewInputs.push({
+          name: view.name,
+          type: "SERVICE_TICKET",
+          filters: view.filters,
+          sortOrder: view.sortOrder,
+        });
+      }
+    });
+    setCustomViews(customViews);
+    props.handleUpdateCustomView(props.customViewsData?.memberForCurrentUser?.id, customViewInputs, CustomViewOperation.Update);
   };
 
-  const saveNewFilter = async () => {
-    const filter = GetFilterFromServiceTicketQueryString(searchParams);
+  const saveNewCustomView = async () => {
     // check if filter name is already exists
-    if (savedFilters.find((f: any) => f.name === savedFilterNameInput)) {
+    if (customViews.find((view: any) => view.name === savedFilterNameInput)) {
       message.error(`Filter name "${savedFilterNameInput}" already exists`);
       return;
     }
-    savedFilters.push({
+    let customViewInputs: CustomViewInput[] = [];
+    let newCustomView: CustomViewInput = {
       name: savedFilterNameInput,
-      value: {
-        assignedTo: filter.assignedToId as string[],
-        priority: filter.priority?.map((p: any) => p.toString()) as string[],
-        status: filter.status as string[]
-      }
+      type: "SERVICE_TICKET",
+      filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[] ?? []),
+    };
+    customViewInputs.push(newCustomView);
+    customViews.forEach((view) => {
+      customViewInputs.push({
+        name: view.name,
+        type: "SERVICE_TICKET",
+        filters: view.filters,
+        sortOrder: view.sortOrder,
+      });
     });
-    setSavedFilters(savedFilters);
-    message.success(`Filter "${savedFilterNameInput}" saved`);
-    // localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
 
+    setCustomViews(customViews);
+
+    props.handleUpdateCustomView(props.customViewsData?.memberForCurrentUser?.id, customViewInputs, CustomViewOperation.Create);
     setIsSaveModalVisible(false);
     onSelectFilterChanged(savedFilterNameInput);
     setSavedFilterNameInput('');
-    clearFilter();
   };
 
-  // create/update saved filter
-  const handleSaveFilters = () => {
-    const filter = GetFilterFromServiceTicketQueryString(searchParams);
-    console.log('FILTER ', filter);
-    // update saved filters
-    if (selectedSavedFilterName) {
-      updateSavedFilters( { name: selectedSavedFilterName, value: { assignedTo: filter.assignedToId as string[], priority: filter.priority?.map((p: any) => p.toString()) as string[], status: filter.status as string[] } } );
-    } else if (savedFilterNameInput != '') {
-      // save new saved filter
-      setIsSaveModalVisible(true);
-    }
-  };
-
-  const deleteSavedFilter = (filterName: string) => {
+  const deleteCustomView = (filterName: string) => {
     if (filterName) {
-      savedFilters.splice(
-        savedFilters.findIndex((f: any) => f.name === filterName),
-        1
-      );
-      localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
-      const currentSavedFilterName = searchParams.get(ServiceTicketSearchParamKeys.SavedFilter) ?? '';
-      if (currentSavedFilterName === filterName) {
-        searchParams.delete(ServiceTicketSearchParamKeys.SavedFilter);
-        setSelectedSavedFilterName(undefined);
-        clearFilter();
-      }
-      setSavedFilters(savedFilters);
-      message.success(`Filter "${filterName}" deleted`);
+      let customViewInputs: CustomViewInput[] = customViews.filter((view) => view.name !== filterName).map((view) => {
+        return {
+          name: view.name,
+          type: "SERVICE_TICKET",
+          filters: view.filters,
+          sortOrder: view.sortOrder,
+        }
+      });
+      setCustomViews(customViews.filter((view) => view.name !== filterName));
+      props.handleUpdateCustomView(props.customViewsData?.memberForCurrentUser?.id, customViewInputs, CustomViewOperation.Delete);
       forceUpdate();
     }
   };
@@ -198,18 +126,11 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     if (filterName === '') {
       clearFilter();
     } else {
-      const filter = savedFilters.find((f: any) => f.name === filterName);
+      const filter = customViews.find((f: any) => f.name === filterName)?.filters;
       console.log('FILTER ', filter);
       setSelectedSavedFilterName(filterName);
       searchParams.set(ServiceTicketSearchParamKeys.SavedFilter, filterName);
-      GetSearchParamsFromServiceTicketFilter(
-        {
-          assignedToId: filter?.value?.assignedTo,
-          priority: filter?.value?.priority?.map((p: any) => parseInt(p)),
-          status: filter?.value?.status
-        },
-        searchParams
-      );
+      GetSearchParamsFromServiceTicketFilter(filter as string[], searchParams);
       setSearchParams(searchParams);
     }
   };
@@ -279,15 +200,15 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
           placeholder="Select saved filter"
           dropdownRender={
             () =>
-              savedFilters && savedFilters.length > 0 ? (
+              customViews && customViews.length > 0 ? (
                 <div key="savedFilters">
-                  {savedFilters.map((f: any) => (
+                  {customViews.map((view: any) => (
                     <Space align="baseline" style={{ width: '100%' }}>
-                      <Button type="link" onClick={() => deleteSavedFilter(f.name)}>
+                      <Button type="link" onClick={() => deleteCustomView(view.id)}>
                         <DeleteOutlined style={{ color: 'red' }} />
                       </Button>
-                      <Typography.Link style={{ width: '150px' }} onClick={() => onSelectFilterChanged(f.name)}>
-                        {f.name}
+                      <Typography.Link style={{ width: '150px' }} onClick={() => onSelectFilterChanged(view.name)}>
+                        {view.name}
                       </Typography.Link>
                     </Space>
                   ))}
@@ -302,38 +223,22 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
                   </Button>
                 </div>
               )
-            // <>
-            //   {savedFilters && savedFilters.length > 0 ? (
-            // savedFilters.map((f: any) => (
-            //   <Space align="baseline" style={{ width: '100%' }}>
-            //     <Button type="link" onClick={() => deleteSavedFilter(f.name)}>
-            //       <DeleteOutlined style={{ color: 'red' }} />
-            //     </Button>
-            //     <Typography.Link style={{ width: '150px' }} onClick={() => onSelectFilterChanged(f.name)}>
-            //       {f.name}
-            //     </Typography.Link>
-            //   </Space>
-            // ))
-            //   ) : (
-            //     <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            //   )}
-            // </>
           }
         ></Select>
-        <Button type="primary" onClick={() => handleSaveFilters()} disabled={selectedSavedFilterName ? false : true}>
+        <Button type="primary" onClick={() => updateCustomView()} disabled={selectedSavedFilterName ? false : true}>
           Update
         </Button>
         <Modal
           title="Save Filter"
           visible={isSaveModalVisible}
-          onOk={() => saveNewFilter()}
+          onOk={() => saveNewCustomView()}
           onCancel={() => setIsSaveModalVisible(false)}
         >
           <Space size="middle">
             <Input
               autoFocus
               value={savedFilterNameInput}
-              onPressEnter={() => saveNewFilter()}
+              onPressEnter={() => saveNewCustomView()}
               placeholder="Filter Name"
               onChange={(e) => setSavedFilterNameInput(e.target.value)}
             />

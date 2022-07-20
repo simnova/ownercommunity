@@ -4739,6 +4739,7 @@ export type MemberServiceTicketCustomViewsQuery = {
   __typename?: 'Query';
   memberForCurrentUser?: {
     __typename?: 'Member';
+    id: any;
     customViews?: Array<{
       __typename?: 'CustomView';
       id: any;
@@ -4763,6 +4764,7 @@ export type MemberServiceTicketSearchContainerCustomViewsUpdateMutation = {
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     member?: {
       __typename?: 'Member';
+      id: any;
       customViews?: Array<{
         __typename?: 'CustomView';
         id: any;
@@ -4782,6 +4784,7 @@ export type MembersServiceTicketCustomViewsMutationResultFieldsFragment = {
   status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
   member?: {
     __typename?: 'Member';
+    id: any;
     customViews?: Array<{
       __typename?: 'CustomView';
       id: any;
@@ -4803,6 +4806,7 @@ export type MembersNameServiceTicketContainerFieldsFragment = {
 
 export type MembersServiceTicketCustomViewsFieldsFragment = {
   __typename?: 'Member';
+  id: any;
   customViews?: Array<{
     __typename?: 'CustomView';
     id: any;
@@ -7701,6 +7705,7 @@ export const MembersServiceTicketCustomViewsFieldsFragmentDoc = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'customViews' },

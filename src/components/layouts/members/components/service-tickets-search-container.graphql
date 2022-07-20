@@ -32,6 +32,7 @@ fragment MembersNameServiceTicketContainerFields on Member {
 }
 
 fragment MembersServiceTicketCustomViewsFields on Member {
+  id
   customViews {
     id
     name

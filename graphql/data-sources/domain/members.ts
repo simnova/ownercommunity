@@ -37,8 +37,8 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
   async memberUpdate(input: MemberUpdateInput): Promise<Member> {
     let memberToReturn: Member;
     let roleDo;
-    if (input.role !== undefined) { 
-      let mongoRole = await this.context.dataSources.roleCosmosdbApi.findOneById(input.role); 
+    if (input.role !== undefined) {
+      let mongoRole = await this.context.dataSources.roleCosmosdbApi.findOneById(input.role);
       roleDo = new RoleConverter().toDomain(mongoRole, { passport: ReadOnlyPassport.GetInstance() });
     }
     await this.withTransaction(async (repo) => {
@@ -57,7 +57,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
             if (customView.sortOrder !== undefined) newCustomView.requestSetOrder(customView.sortOrder);
           } else {
             let systemCustomView = systemCustomViews.find((c) => c.id === customView.id);
-            if (customView === undefined) throw new Error("Custom view not found");
+            if (customView === undefined) throw new Error('Custom view not found');
             if (customView.name !== undefined) systemCustomView.requestSetName(customView.name);
             if (customView.type !== undefined) systemCustomView.requestSetType(customView.type);
             if (customView.filters !== undefined) systemCustomView.requestSetFilters(new CustomViewFilters(customView.filters));
@@ -65,9 +65,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
           }
         });
         let customViewIds = updatedCustomViews.filter((x) => x.id !== undefined).map((x) => x.id);
-        systemCustomViews
-          .filter((customView) => !customViewIds.includes(customView.id))
-          .forEach((customView) => member.requestRemoveCustomView(customView));
+        systemCustomViews.filter((customView) => !customViewIds.includes(customView.id)).forEach((customView) => member.requestRemoveCustomView(customView));
       }
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });

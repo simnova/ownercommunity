@@ -128,6 +128,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   }
   private requestSetRequestor(requestor:MemberEntityReference):void{
     if(!this.isNew) { throw new Error('Unauthorized'); }
+    if(!requestor) { throw new Error('requestor cannot be null or undefined'); }
     this.props.setRequestorRef(requestor);
   }
   public requestDelete(): void {
@@ -142,17 +143,17 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
       !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canAssignTickets)) { throw new Error('Unauthorized2'); }
     this.props.setAssignedToRef(assignedTo);
   }
-  public requestSetTitle(title:ValueObjects.Title):void{
+  public requestSetTitle(title:string):void{
     if(
       !this.isNew &&
       !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized3'); }
-    this.props.title = title.valueOf();
+    this.props.title = (new ValueObjects.Title(title)).valueOf();
   }
-  public requestSetDescription(description:ValueObjects.Description):void{
+  public requestSetDescription(description:string):void{
     if(
       !this.isNew &&
       !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized4'); }
-    this.props.description = description.valueOf();
+    this.props.description = (new ValueObjects.Description(description)).valueOf();
   }
   public requestSetStatus(statusCode:ValueObjects.StatusCode):void{
     if(

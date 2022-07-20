@@ -121,12 +121,7 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
     }
     return new CustomView(this.props.customViews.getNewItem(), this.context, this.visa);
   }
-  public requestAddCustomView(customViewRef: CustomViewProps): void {
-    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
-      throw new Error('Cannot set custom view');
-    }
-    this.props.customViews.addItem(customViewRef);
-  }
+
   public requestRemoveCustomView(customViewRef: CustomViewProps): void {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set custom view');

@@ -2,7 +2,7 @@ import { Member as MemberDO } from '../../../domain/contexts/community/member';
 import { MemberConverter, MemberDomainAdapter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
 import { MongoMemberRepository } from '../../../domain/infrastructure/persistence/member.mongo-repository';
 import { Context } from '../../context';
-import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput, MemberCustomViewAddInput, MemberCustomViewUpdateInput } from '../../generated';
+import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
@@ -36,12 +36,39 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
 
   async memberUpdate(input: MemberUpdateInput): Promise<Member> {
     let memberToReturn: Member;
-    let mongoRole = await this.context.dataSources.roleCosmosdbApi.findOneById(input.role);
-    let roleDo = new RoleConverter().toDomain(mongoRole, { passport: ReadOnlyPassport.GetInstance() });
+    let roleDo;
+    if (input.role !== undefined) { 
+      let mongoRole = await this.context.dataSources.roleCosmosdbApi.findOneById(input.role); 
+      roleDo = new RoleConverter().toDomain(mongoRole, { passport: ReadOnlyPassport.GetInstance() });
+    }
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.id);
-      member.requestSetMemberName(input.memberName);
-      member.requestSetRole(roleDo);
+      if (input.memberName !== undefined) member.requestSetMemberName(input.memberName);
+      if (roleDo !== undefined) member.requestSetRole(roleDo);
+      if (input.customViews !== undefined) {
+        let systemCustomViews = member.customViews;
+        let updatedCustomViews = input.customViews;
+        updatedCustomViews.forEach((customView) => {
+          if (!customView.id) {
+            let newCustomView = member.requestNewCustomView();
+            newCustomView.requestSetName(customView.name);
+            newCustomView.requestSetType(customView.type);
+            if (customView.filters !== undefined) newCustomView.requestSetFilters(new CustomViewFilters(customView.filters));
+            if (customView.sortOrder !== undefined) newCustomView.requestSetOrder(customView.sortOrder);
+          } else {
+            let systemCustomView = systemCustomViews.find((c) => c.id === customView.id);
+            if (customView === undefined) throw new Error("Custom view not found");
+            if (customView.name !== undefined) systemCustomView.requestSetName(customView.name);
+            if (customView.type !== undefined) systemCustomView.requestSetType(customView.type);
+            if (customView.filters !== undefined) systemCustomView.requestSetFilters(new CustomViewFilters(customView.filters));
+            if (customView.sortOrder !== undefined) systemCustomView.requestSetOrder(customView.sortOrder);
+          }
+        });
+        let customViewIds = updatedCustomViews.filter((x) => x.id !== undefined).map((x) => x.id);
+        systemCustomViews
+          .filter((customView) => !customViewIds.includes(customView.id))
+          .forEach((customView) => member.requestRemoveCustomView(customView));
+      }
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });
     return memberToReturn;
@@ -115,40 +142,6 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
       profile.requestSetShowLocation(input.profile.showLocation);
       profile.requestSetShowProfile(input.profile.showProfile);
       profile.requestSetShowProperties(input.profile.showProperties);
-      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
-    });
-    return memberToReturn;
-  }
-
-  // custom view: add
-  async memberCustomViewAdd(input: MemberCustomViewAddInput): Promise<Member> {
-    let memberToReturn: Member;
-
-    await this.withTransaction(async (repo) => {
-      let member = await repo.getById(input.memberId);
-      let view = member.requestNewCustomView();
-      view.requestSetName(input.customView.name);
-      view.requestSetType(input.customView.type);
-      view.requestSetFilters(new CustomViewFilters(input.customView.filters));
-      view.requestSetOrder(input.customView.sortOrder);
-
-      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
-    });
-    return memberToReturn;
-  }
-
-  // custom view: update
-  async memberCustomViewUpdate(input: MemberCustomViewUpdateInput): Promise<Member> {
-    let memberToReturn: Member;
-
-    await this.withTransaction(async (repo) => {
-      let member = await repo.getById(input.memberId);
-      let view = member.customViews.find((v) => v.id === input.customView.id);
-      view.requestSetName(input.customView.name);
-      view.requestSetType(input.customView.type);
-      view.requestSetFilters(new CustomViewFilters(input.customView.filters));
-      view.requestSetOrder(input.customView.sortOrder);
-
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });
     return memberToReturn;

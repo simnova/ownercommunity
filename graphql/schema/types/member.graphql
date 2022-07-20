@@ -69,8 +69,6 @@ extend type Mutation {
   memberProfileUpdate(input: MemberProfileUpdateInput!): MemberMutationResult!
   memberProfileAvatarCreateAuthHeader(input: MemberAvatarImageInput!): MemberAvatarImageAuthHeaderResult!
   memberProfileAvatarRemove(memberId: ObjectID!): MemberMutationResult!
-  memberCustomViewAdd(input: MemberCustomViewAddInput!): MemberMutationResult!
-  memberCustomViewUpdate(input: MemberCustomViewUpdateInput!): MemberMutationResult!
 }
 
 type MemberMutationResult implements MutationResult {
@@ -83,8 +81,9 @@ input MemberCreateInput {
 }
 input MemberUpdateInput {
   id: ObjectID!
-  memberName: String!
-  role: ObjectID!
+  memberName: String
+  role: ObjectID
+  customViews: [CustomViewInput]
 }
 
 input MemberAccountAddInput {
@@ -109,25 +108,8 @@ input MemberAccountRemoveInput {
   accountId: ObjectID!
 }
 
-input MemberCustomViewAddInput {
-  memberId: ObjectID!
-  customView: CustomViewCreateInput!
-}
-
-input MemberCustomViewUpdateInput {
-  memberId: ObjectID!
-  customView: CustomViewUpdateInput!
-}
-
-input CustomViewCreateInput {
-  name: String!
-  type: String!
-  filters: [String]
-  sortOrder: String
-}
-
-input CustomViewUpdateInput {
-  id: ObjectID!
+input CustomViewInput {
+  id: ObjectID
   name: String
   type: String
   filters: [String]

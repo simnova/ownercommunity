@@ -272,16 +272,9 @@ export type CustomView = MongoSubdocument & {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type CustomViewCreateInput = {
+export type CustomViewInput = {
   filters?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  name: Scalars['String'];
-  sortOrder?: InputMaybe<Scalars['String']>;
-  type: Scalars['String'];
-};
-
-export type CustomViewUpdateInput = {
-  filters?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  id: Scalars['ObjectID'];
+  id?: InputMaybe<Scalars['ObjectID']>;
   name?: InputMaybe<Scalars['String']>;
   sortOrder?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
@@ -467,16 +460,6 @@ export type MemberCreateInput = {
   memberName: Scalars['String'];
 };
 
-export type MemberCustomViewAddInput = {
-  customView: CustomViewCreateInput;
-  memberId: Scalars['ObjectID'];
-};
-
-export type MemberCustomViewUpdateInput = {
-  customView: CustomViewUpdateInput;
-  memberId: Scalars['ObjectID'];
-};
-
 export type MemberMutationResult = MutationResult & {
   __typename?: 'MemberMutationResult';
   member?: Maybe<Member>;
@@ -515,9 +498,10 @@ export type MemberProfileUpdateInput = {
 };
 
 export type MemberUpdateInput = {
+  customViews?: InputMaybe<Array<InputMaybe<CustomViewInput>>>;
   id: Scalars['ObjectID'];
-  memberName: Scalars['String'];
-  role: Scalars['ObjectID'];
+  memberName?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Scalars['ObjectID']>;
 };
 
 /** Base type for all models in mongo. */
@@ -553,8 +537,6 @@ export type Mutation = {
   memberAccountEdit: MemberMutationResult;
   memberAccountRemove: MemberMutationResult;
   memberCreate: MemberMutationResult;
-  memberCustomViewAdd: MemberMutationResult;
-  memberCustomViewUpdate: MemberMutationResult;
   memberProfileAvatarCreateAuthHeader: MemberAvatarImageAuthHeaderResult;
   memberProfileAvatarRemove: MemberMutationResult;
   memberProfileUpdate: MemberMutationResult;
@@ -626,16 +608,6 @@ export type MutationMemberAccountRemoveArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberCreateArgs = {
   input: MemberCreateInput;
-};
-
-/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
-export type MutationMemberCustomViewAddArgs = {
-  input: MemberCustomViewAddInput;
-};
-
-/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
-export type MutationMemberCustomViewUpdateArgs = {
-  input: MemberCustomViewUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1371,8 +1343,7 @@ export type ResolversTypes = ResolversObject<{
   Currency: ResolverTypeWrapper<Scalars['Currency']>;
   CurrentUser: ResolverTypeWrapper<CurrentUser>;
   CustomView: ResolverTypeWrapper<CustomView>;
-  CustomViewCreateInput: CustomViewCreateInput;
-  CustomViewUpdateInput: CustomViewUpdateInput;
+  CustomViewInput: CustomViewInput;
   DID: ResolverTypeWrapper<Scalars['DID']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
@@ -1420,8 +1391,6 @@ export type ResolversTypes = ResolversObject<{
   MemberAvatarImageAuthHeaderResult: ResolverTypeWrapper<MemberAvatarImageAuthHeaderResult>;
   MemberAvatarImageInput: MemberAvatarImageInput;
   MemberCreateInput: MemberCreateInput;
-  MemberCustomViewAddInput: MemberCustomViewAddInput;
-  MemberCustomViewUpdateInput: MemberCustomViewUpdateInput;
   MemberMutationResult: ResolverTypeWrapper<MemberMutationResult>;
   MemberProfile: ResolverTypeWrapper<MemberProfile>;
   MemberProfileInput: MemberProfileInput;
@@ -1559,8 +1528,7 @@ export type ResolversParentTypes = ResolversObject<{
   Currency: Scalars['Currency'];
   CurrentUser: CurrentUser;
   CustomView: CustomView;
-  CustomViewCreateInput: CustomViewCreateInput;
-  CustomViewUpdateInput: CustomViewUpdateInput;
+  CustomViewInput: CustomViewInput;
   DID: Scalars['DID'];
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
@@ -1608,8 +1576,6 @@ export type ResolversParentTypes = ResolversObject<{
   MemberAvatarImageAuthHeaderResult: MemberAvatarImageAuthHeaderResult;
   MemberAvatarImageInput: MemberAvatarImageInput;
   MemberCreateInput: MemberCreateInput;
-  MemberCustomViewAddInput: MemberCustomViewAddInput;
-  MemberCustomViewUpdateInput: MemberCustomViewUpdateInput;
   MemberMutationResult: MemberMutationResult;
   MemberProfile: MemberProfile;
   MemberProfileInput: MemberProfileInput;
@@ -2112,8 +2078,6 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   memberAccountEdit?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountEditArgs, 'input'>>;
   memberAccountRemove?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountRemoveArgs, 'input'>>;
   memberCreate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberCreateArgs, 'input'>>;
-  memberCustomViewAdd?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberCustomViewAddArgs, 'input'>>;
-  memberCustomViewUpdate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberCustomViewUpdateArgs, 'input'>>;
   memberProfileAvatarCreateAuthHeader?: Resolver<ResolversTypes['MemberAvatarImageAuthHeaderResult'], ParentType, ContextType, RequireFields<MutationMemberProfileAvatarCreateAuthHeaderArgs, 'input'>>;
   memberProfileAvatarRemove?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberProfileAvatarRemoveArgs, 'memberId'>>;
   memberProfileUpdate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberProfileUpdateArgs, 'input'>>;

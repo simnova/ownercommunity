@@ -13,8 +13,6 @@ import {
 import { useSearchParams } from 'react-router-dom';
 import {
   CustomView,
-  CustomViewCreateInput,
-  CustomViewUpdateInput,
   Member,
   MemberNameServiceTicketContainerQuery,
   MemberServiceTicketCustomViewsQuery,
@@ -27,8 +25,7 @@ const { Text } = Typography;
 interface ServiceTicketsSearchToolbarProps {
   memberData: MemberNameServiceTicketContainerQuery;
   customViewsData?: MemberServiceTicketCustomViewsQuery;
-  addNewCustomViewCb: (memberId: string, customViews: CustomViewCreateInput) => void;
-  updateCustomViewCb: (memberId: string, customViews: CustomViewUpdateInput) => void;
+  handleUpdateCustomView: (memberId: string, customViews: CustomView[]) => void;
 }
 
 interface SavedFilterDetails {
@@ -118,12 +115,12 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     let currentFilter = props.customViewsData?.memberForCurrentUser?.customViews?.find((view) => view?.name === filter.name);
     if (currentFilter) {
       // update existing filter
-      let customViewUpdateInput: CustomViewUpdateInput = {
-        id: currentFilter?.id,
-        name: filter.name,
-        type: 'SERVICE_TICKET',
-        filters: GetSelectedFilterTags(searchParams, props.memberData?.membersByCommunityId as Member[]),
-      };
+      // let customViewUpdateInput: CustomViewUpdateInput = {
+      //   id: currentFilter?.id,
+      //   name: filter.name,
+      //   type: 'SERVICE_TICKET',
+      //   filters: GetSelectedFilterTags(searchParams, props.memberData?.membersByCommunityId as Member[]),
+      // };
       savedFilters.splice(
         savedFilters.findIndex((f: any) => f.name === selectedSavedFilterName),
         1,
@@ -136,7 +133,6 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         }
       );
       setSavedFilters(savedFilters);
-      props.updateCustomViewCb(props.customViewsData?.memberForCurrentUser?.id, customViewUpdateInput);
       message.success(`Filter "${selectedSavedFilterName}" updated`);
     }
   };
@@ -157,13 +153,6 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       }
     });
     setSavedFilters(savedFilters);
-    props.addNewCustomViewCb(props.customViewsData?.memberForCurrentUser?.id, {
-      name: savedFilterNameInput,
-      type: 'SERVICE_TICKET',
-      filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]), //TODO: add filters,
-      sortOrder: searchParams.get('sort') ? searchParams.get('sort') : ''
-    });
-
     message.success(`Filter "${savedFilterNameInput}" saved`);
     // localStorage.setItem('service-ticket-filters', JSON.stringify(savedFilters));
 

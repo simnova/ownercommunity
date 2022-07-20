@@ -1,34 +1,37 @@
 query MemberNameServiceTicketContainer($communityId: ID!) {
   membersByCommunityId(communityId: $communityId) {
-    ...MemberNameServiceTicketContainerFields
+    ...MembersNameServiceTicketContainerFields
   }
 }
 
 query MemberServiceTicketCustomViews($communityId: ObjectID!) {
   memberForCurrentUser(communityId: $communityId) {
-    ...MemberServiceTicketCustomViewsFields
+    ...MembersServiceTicketCustomViewsFields
   }
 }
 
-mutation MembersServiceTicketSearchContainerCustomViewAdd($input: MemberCustomViewAddInput!) {
-  memberCustomViewAdd(input: $input) {
-    ...MembersServiceTicketSearchContainerCustomViewAddResultFields
+mutation MemberServiceTicketSearchContainerCustomViewsUpdate($input: MemberUpdateInput!) {
+  memberUpdate(input: $input) {
+    ...MembersServiceTicketCustomViewsMutationResultFields
   }
 }
 
-mutation MembersServiceTicketSearchContainerCustomViewUpdate($input: MemberCustomViewUpdateInput!) {
-  memberCustomViewUpdate(input: $input) {
-    ...MembersServiceTicketSearchContainerCustomViewAddResultFields
+fragment MembersServiceTicketCustomViewsMutationResultFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...MembersServiceTicketCustomViewsFields
   }
 }
 
-fragment MemberNameServiceTicketContainerFields on Member {
+fragment MembersNameServiceTicketContainerFields on Member {
   id
   memberName
 }
 
-fragment MemberServiceTicketCustomViewsFields on Member {
-  id
+fragment MembersServiceTicketCustomViewsFields on Member {
   customViews {
     id
     name
@@ -38,15 +41,5 @@ fragment MemberServiceTicketCustomViewsFields on Member {
 
     createdAt
     updatedAt
-  }
-}
-
-fragment MembersServiceTicketSearchContainerCustomViewAddResultFields on MemberMutationResult {
-  status {
-    success
-    errorMessage
-  }
-  member {
-    ...MemberServiceTicketCustomViewsFields
   }
 }

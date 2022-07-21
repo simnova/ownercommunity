@@ -82,7 +82,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         customViewInputs.push({
           id: view.id,
           name: view.name,
-          type: 'SERVICE_TICKET',
+          type: view.type,
           filters: view.filters,
           sortOrder: view.sortOrder
         });

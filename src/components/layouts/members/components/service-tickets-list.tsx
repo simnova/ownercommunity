@@ -1,11 +1,11 @@
-import { Table, Button, Layout, Pagination, Select } from 'antd';
+import { Table, Button, Layout, Pagination } from 'antd';
 import type { PaginationProps } from 'antd';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ServiceTicketSearchParamKeys } from '../../../../constants';
 
 const { Content } = Layout;
-const { Option } = Select;
 
 const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items `;
 
@@ -20,6 +20,12 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
 
   const handlePagination = (page: number) => {
     searchParams.set(ServiceTicketSearchParamKeys.Page, page.toString());
+    setSearchParams(searchParams);
+    props.handleSearch();
+  };
+
+  const handleShowSizeChange = (_: number, size: number) => {
+    searchParams.set(ServiceTicketSearchParamKeys.Top, size.toString());
     setSearchParams(searchParams);
     props.handleSearch();
   };
@@ -93,8 +99,11 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
             current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
             total={props.data.count}
             pageSize={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10')}
+            pageSizeOptions={['5', '10', '25', '50']}
             onChange={(page) => handlePagination(page)}
             showTotal={showTotal}
+            showSizeChanger
+            onShowSizeChange={(_: number, size: number) => handleShowSizeChange(_, size)}
           />
           <Table
             columns={columns}
@@ -107,8 +116,11 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
             current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
             total={props.data.count}
             pageSize={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10')}
+            pageSizeOptions={['5', '10', '25', '50']}
             onChange={(page) => handlePagination(page)}
             showTotal={showTotal}
+            showSizeChanger
+            onShowSizeChange={(_: number, size: number) => handleShowSizeChange(_, size)}
           />
         </Content>
       </Layout>

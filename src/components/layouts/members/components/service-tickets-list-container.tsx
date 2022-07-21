@@ -4,7 +4,7 @@ import {
   ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { ServiceTicketsList } from './service-tickets-list';
-import { Skeleton, Input, Drawer, Button, Select } from 'antd';
+import { Skeleton, Input, Drawer, Button } from 'antd';
 import {
   ServiceTicketFilterNames,
   GetFilterFromServiceTicketQueryString,
@@ -17,7 +17,6 @@ import { ServiceTicketsSearchContainer } from './service-tickets-search-containe
 import { orderBy } from 'lodash';
 
 const { Search } = Input;
-const { Option } = Select;
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -102,13 +101,6 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
     // }
   };
 
-  const handleSelectTopChange = (value: string) => {
-    searchParams.set(ServiceTicketSearchParamKeys.Top, value);
-    setSearchParams(searchParams);
-    handleSearch();
-  };
-
-
   if (searchServiceTicketsError) {
     return <div>{JSON.stringify(searchServiceTicketsError)}</div>;
   }
@@ -125,43 +117,27 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
     return (
       <>
         <div className="py-4">
-          <div className="flex justify-between">
-            <div style={{ width: '100%' }}>
-              <Search
-                allowClear
-                style={{ width: '40%' }}
-                placeholder="input search text"
-                onSearch={() => handleSearch()}
-                value={searchString}
-                onChange={(e) => onChange(e)}
-                enterButton
-              />
-              <Drawer
-                title="Search Filters"
-                placement="left"
-                onClose={() => setVisible(false)}
-                visible={visible}
-                width={445}
-              >
-                <ServiceTicketsSearchContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
-              </Drawer>
-              <Button type="default" onClick={() => setVisible(true)} className="ml-4">
-                <FilterOutlined />
-              </Button>
-            </div>
-            <div style={{ width: '15%', display: 'inline-block' }} >
-              <span style={{ marginRight: '10px' }}>Records per page: </span>
-              <Select 
-                value={searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10'}
-                onChange={(value: string) => handleSelectTopChange(value)}
-              >
-                <Option value="5">5</Option>
-                <Option value="10">10</Option>
-                <Option value="20">20</Option>
-                <Option value="50">50</Option>
-              </Select>
-            </div>
-          </div>
+          <Search
+            allowClear
+            style={{ width: '40%' }}
+            placeholder="input search text"
+            onSearch={() => handleSearch()}
+            value={searchString}
+            onChange={(e) => onChange(e)}
+            enterButton
+          />
+          <Drawer
+            title="Search Filters"
+            placement="left"
+            onClose={() => setVisible(false)}
+            visible={visible}
+            width={445}
+          >
+            <ServiceTicketsSearchContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
+          </Drawer>
+          <Button type="default" onClick={() => setVisible(true)} className="ml-4">
+            <FilterOutlined />
+          </Button>
         </div>
         <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} />
         {SearchResult}

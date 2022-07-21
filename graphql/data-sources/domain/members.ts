@@ -54,18 +54,23 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
             newCustomView.requestSetName(customView.name);
             newCustomView.requestSetType(customView.type);
             if (customView.filters !== undefined) newCustomView.requestSetFilters(new CustomViewFilters(customView.filters));
-            if (customView.sortOrder !== undefined) newCustomView.requestSetOrder(customView.sortOrder);
+            newCustomView.requestSetOrder(customView.sortOrder ?? '');
           } else {
             let systemCustomView = systemCustomViews.find((c) => c.id === customView.id);
-            if (customView === undefined) throw new Error('Custom view not found');
-            if (customView.name !== undefined) systemCustomView.requestSetName(customView.name);
-            if (customView.type !== undefined) systemCustomView.requestSetType(customView.type);
-            if (customView.filters !== undefined) systemCustomView.requestSetFilters(new CustomViewFilters(customView.filters));
-            if (customView.sortOrder !== undefined) systemCustomView.requestSetOrder(customView.sortOrder);
+            if (systemCustomView === undefined) throw new Error('Custom view not found');
+            systemCustomView.requestSetName(customView.name);
+            systemCustomView.requestSetType(customView.type);
+            systemCustomView.requestSetFilters(new CustomViewFilters(customView.filters));
+            systemCustomView.requestSetOrder(customView.sortOrder ?? '');
           }
         });
         let customViewIds = updatedCustomViews.filter((x) => x.id !== undefined).map((x) => x.id);
-        systemCustomViews.filter((customView) => !customViewIds.includes(customView.id)).forEach((customView) => member.requestRemoveCustomView(customView));
+        systemCustomViews
+          .filter((customView) => {
+            console.log('customView.name', customView.name);
+            return !customViewIds.includes(customView.id);
+          })
+          .forEach((customView) => member.requestRemoveCustomView(customView));
       }
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });

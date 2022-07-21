@@ -5,7 +5,8 @@ import { Member as MemberDo } from '../../../infrastructure/data-sources/cosmos-
 
 const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<MemberMutationResult> => {
   try {
-    return { status: { success: true }, member: await getMember } as MemberMutationResult;
+    const temp = { status: { success: true }, member: await getMember } as MemberMutationResult;
+    return temp;
   } catch (error) {
     console.error('Community > Mutation  : ', error, error.stack);
     return {

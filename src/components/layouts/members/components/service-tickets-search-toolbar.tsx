@@ -88,12 +88,16 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         });
       }
     });
-    setCustomViews(currentViews);
+    message.loading({
+      content: `Updating filter "${selectedSavedFilterName}"`,
+      key: 'save-custom-view-loading'
+    });
     await props.handleUpdateCustomView(
       props.customViewsData?.memberForCurrentUser?.id,
       customViewInputs,
       CustomViewOperation.Update
     );
+    setCustomViews(currentViews);
     // forceUpdate();
   };
 

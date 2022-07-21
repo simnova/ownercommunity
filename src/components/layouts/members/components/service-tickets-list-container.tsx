@@ -51,11 +51,18 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   }, [searchParams]);
 
   const handleSearch = async () => {
+    if (searchString.length > 0) {
+      searchParams.set(ServiceTicketSearchParamKeys.SearchString, searchString);
+    } else {
+      searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
+    }
+    setSearchParams(searchParams);
+
     const page = parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1') - 1;
     const top = parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10');
     const skip = page * top;
 
-    const qsSearchString = searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '';
+    const qsSearchString = searchString;
 
     let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
     const orderBy = searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? '';
@@ -85,13 +92,13 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
 
   const onChange = (e: any) => {
     setSearchString(e.target.value);
-    if (e.target.value.length > 0) {
-      searchParams.set(ServiceTicketSearchParamKeys.SearchString, e.target.value);
-      setSearchParams(searchParams);
-    } else {
-      searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
-      setSearchParams(searchParams);
-    }
+    // if (e.target.value.length > 0) {
+    //   searchParams.set(ServiceTicketSearchParamKeys.SearchString, e.target.value);
+    //   setSearchParams(searchParams);
+    // } else {
+    //   searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
+    //   setSearchParams(searchParams);
+    // }
   };
 
   if (searchServiceTicketsError) {
@@ -111,6 +118,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
       <>
         <div className="py-4">
           <Search
+            allowClear
             style={{ width: '40%' }}
             placeholder="input search text"
             onSearch={() => handleSearch()}

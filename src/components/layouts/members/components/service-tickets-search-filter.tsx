@@ -7,8 +7,6 @@ import { ServiceTicketFilterType } from './service-tickets-search-filters';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-
-
 export const ServiceTicketsSearchFilter: React.FC<ServiceTicketFilterType> = (props) => {
   const [options, setOptions] = useState<{ value: string }[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,7 +37,10 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketFilterType> = (pr
   const onSelect = (e: any, key: string) => {
     if (e.target.checked) {
       const originalSearchParams = searchParams.get(props.searchId) ?? '';
-      searchParams.set(props.searchId, originalSearchParams.length > 0 ? searchParams.get(props.searchId) + ',' + key : key);
+      searchParams.set(
+        props.searchId,
+        originalSearchParams.length > 0 ? searchParams.get(props.searchId) + ',' + key : key
+      );
       setSearchParams(searchParams);
     } else {
       const searchParamsString = searchParams.get(props.searchId)?.split(',');
@@ -119,7 +120,7 @@ export const ServiceTicketsSearchFilter: React.FC<ServiceTicketFilterType> = (pr
             <AutoComplete
               options={options}
               placeholder="Search"
-              className='search-filter-searchbar'
+              className="search-filter-searchbar"
               style={{ width: '40%' }}
               onChange={onChange}
               onClear={resetOptions}

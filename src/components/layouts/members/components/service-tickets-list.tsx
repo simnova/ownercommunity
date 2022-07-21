@@ -115,12 +115,8 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
             className="search-pagination"
             current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
             total={props.data.count}
-            pageSize={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10')}
-            pageSizeOptions={['5', '10', '25', '50']}
             onChange={(page) => handlePagination(page)}
             showTotal={showTotal}
-            showSizeChanger
-            onShowSizeChange={(_: number, size: number) => handleShowSizeChange(_, size)}
           />
         </Content>
       </Layout>

@@ -16,7 +16,7 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
   const params = useParams();
   const [updateCustomViews] = useMutation(MemberServiceTicketSearchContainerCustomViewsUpdateDocument, {
     update(cache, { data }) {
-      // update the list with the new item
+      // update the list of custom views
       const newCustomViews = data?.memberUpdate.member?.customViews;
       const memberForCurrentUser = cache.readQuery({
         query: MemberServiceTicketCustomViewsDocument,
@@ -43,6 +43,7 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
     error
   } = useQuery(MemberNameServiceTicketContainerDocument, {
     variables: { communityId: params.communityId ?? '' }
+    // fetchPolicy: 'cache-and-network'
   });
 
   const {
@@ -51,6 +52,7 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
     error: customViewsError
   } = useQuery(MemberServiceTicketCustomViewsDocument, {
     variables: { communityId: params.communityId ?? '' }
+    // fetchPolicy: 'cache-and-network'
   });
 
   const handleUpdateCustomView = async (
@@ -65,18 +67,22 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
           customViews: customViews
         }
       }
+    }).then(() => {
+      switch (operation) {
+        case CustomViewOperation.Create:
+          message.destroy('save-custom-view-loading');
+          message.success('Custom view created');
+          break;
+        case CustomViewOperation.Update:
+          message.destroy('save-custom-view-loading');
+          message.success('Custom view updated');
+          break;
+        case CustomViewOperation.Delete:
+          message.destroy('delete-custom-view-loading');
+          message.success('Custom view deleted');
+          break;
+      }
     });
-    switch (operation) {
-      case CustomViewOperation.Create:
-        message.success('Custom view created');
-        break;
-      case CustomViewOperation.Update:
-        message.success('Custom view updated');
-        break;
-      case CustomViewOperation.Delete:
-        message.success('Custom view deleted');
-        break;
-    }
   };
 
   if (error || customViewsError) {

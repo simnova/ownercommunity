@@ -559,13 +559,27 @@ export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: M
   return tempList;
 };
 
-export const GetSearchParamsFromServiceTicketFilter = (filter: string[], searchParams: URLSearchParams) => {
+export const GetSearchParamsFromServiceTicketFilter = (
+  filter: string[],
+  searchParams: URLSearchParams,
+  members: Member[]
+) => {
   // do the opposite of GetSelectedFilterTags
   if (filter && filter.length > 0) {
     const assignedTo = filter.filter((tag: string) => tag.startsWith('Assigned to: '));
     if (assignedTo && assignedTo.length > 0) {
-      const assignedToId = assignedTo.map((tag: string) => tag.replace('Assigned to: ', ''));
-      searchParams.set('assignedTo', assignedToId.join(','));
+      let ids: string[] = [];
+      assignedTo.forEach((f: string) => {
+        const name = f.split(': ')[1];
+        let id = '';
+        if (name.includes('(')) {
+          id = name.split('(')[1].split(')')[0];
+        } else {
+          id = ConvertMemberNameToId(name, members);
+        }
+        ids.push(id);
+        searchParams.set('assignedTo', ids.join(','));
+      });
     }
 
     const priority = filter.filter((tag: string) => tag.startsWith('Priority: '));
@@ -585,5 +599,5 @@ export const GetSearchParamsFromServiceTicketFilter = (filter: string[], searchP
 export enum CustomViewOperation {
   Create,
   Update,
-  Delete,
+  Delete
 }

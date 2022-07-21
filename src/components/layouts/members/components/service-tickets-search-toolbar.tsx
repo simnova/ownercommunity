@@ -3,12 +3,9 @@ import { Select, Button, Typography, Modal, Space, Input, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchTags } from './service-tickets-search-tags';
 import {
-  GetFilterFromServiceTicketQueryString,
   GetSearchParamsFromServiceTicketFilter,
-  SearchParamKeys,
   ServiceTicketSearchParamKeys,
   GetSelectedFilterTags,
-  ConvertMemberNameToId,
   CustomViewOperation
 } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
@@ -17,8 +14,7 @@ import {
   CustomViewInput,
   Member,
   MemberNameServiceTicketContainerQuery,
-  MemberServiceTicketCustomViewsQuery,
-  ServiceTicketsSearchFilterDetail
+  MemberServiceTicketCustomViewsQuery
 } from '../../../../generated';
 
 const { Option } = Select;
@@ -27,7 +23,11 @@ const { Text } = Typography;
 interface ServiceTicketsSearchToolbarProps {
   memberData: MemberNameServiceTicketContainerQuery;
   customViewsData?: MemberServiceTicketCustomViewsQuery;
-  handleUpdateCustomView: (memberId: string, customViews: CustomViewInput[], operation: CustomViewOperation) => void;
+  handleUpdateCustomView: (
+    memberId: string,
+    customViews: CustomViewInput[],
+    operation: CustomViewOperation
+  ) => Promise<void>;
 }
 
 //create your forceUpdate hook
@@ -45,9 +45,13 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
   const [savedFilterNameInput, setSavedFilterNameInput] = useState('');
   const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>(undefined);
 
-  const [customViews, setCustomViews] = useState<CustomView[]>(
-    (props.customViewsData?.memberForCurrentUser?.customViews as CustomView[]) ?? []
-  );
+  const [customViews, setCustomViews] = useState<CustomView[]>([]);
+
+  useEffect(() => {
+    if (props.customViewsData?.memberForCurrentUser?.customViews) {
+      setCustomViews((props.customViewsData?.memberForCurrentUser?.customViews as CustomView[]) ?? []);
+    }
+  }, [props.customViewsData?.memberForCurrentUser?.customViews]);
 
   // get selected filters from url (after page refresh)
   useEffect(() => {
@@ -59,13 +63,21 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
 
   const updateCustomView = async () => {
     let customViewInputs: CustomViewInput[] = [];
-    customViews.forEach((view) => {
+    const currentViews = JSON.parse(JSON.stringify(customViews));
+    currentViews.forEach((view: CustomView) => {
       if (view.name === selectedSavedFilterName) {
+        const updatedFilters = GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]);
+        const updatedSortOrder = searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? '';
+        // update
         customViewInputs.push({
+          name: view.name,
+          type: 'SERVICE_TICKET',
           id: view.id,
           filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]),
-          sortOrder: searchParams.get(ServiceTicketSearchParamKeys.Sort)
+          sortOrder: updatedSortOrder
         });
+        view.filters = updatedFilters;
+        view.sortOrder = updatedSortOrder;
       } else {
         customViewInputs.push({
           id: view.id,
@@ -76,12 +88,13 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         });
       }
     });
-    setCustomViews(customViews);
-    props.handleUpdateCustomView(
+    setCustomViews(currentViews);
+    await props.handleUpdateCustomView(
       props.customViewsData?.memberForCurrentUser?.id,
       customViewInputs,
       CustomViewOperation.Update
     );
+    // forceUpdate();
   };
 
   const saveNewCustomView = async () => {
@@ -94,11 +107,13 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     let newCustomView: CustomViewInput = {
       name: savedFilterNameInput,
       type: 'SERVICE_TICKET',
-      filters: GetSelectedFilterTags(searchParams, (props.memberData.membersByCommunityId as Member[]) ?? [])
+      filters: GetSelectedFilterTags(searchParams, (props.memberData.membersByCommunityId as Member[]) ?? []),
+      sortOrder: searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? ''
     };
     customViewInputs.push(newCustomView);
     customViews.forEach((view) => {
       customViewInputs.push({
+        id: view.id,
         name: view.name,
         type: 'SERVICE_TICKET',
         filters: view.filters,
@@ -106,37 +121,55 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       });
     });
 
-    setCustomViews(customViews);
-
-    props.handleUpdateCustomView(
+    message.loading({
+      key: 'save-custom-view-loading',
+      content: `Saving filter "${savedFilterNameInput}"`
+    });
+    await props.handleUpdateCustomView(
       props.customViewsData?.memberForCurrentUser?.id,
       customViewInputs,
       CustomViewOperation.Create
     );
-    setIsSaveModalVisible(false);
+    setCustomViews(customViews);
     onSelectFilterChanged(savedFilterNameInput);
     setSavedFilterNameInput('');
+    setIsSaveModalVisible(false);
+    forceUpdate();
   };
 
-  const deleteCustomView = (filterName: string) => {
-    if (filterName) {
-      let customViewInputs: CustomViewInput[] = customViews
-        .filter((view) => view.name !== filterName)
-        .map((view) => {
-          return {
-            name: view.name,
-            type: 'SERVICE_TICKET',
-            filters: view.filters,
-            sortOrder: view.sortOrder
-          };
-        });
-      setCustomViews(customViews.filter((view) => view.name !== filterName));
-      props.handleUpdateCustomView(
+  const deleteCustomView = async (id: string) => {
+    if (id) {
+      const updatedViews = customViews.filter((view) => view.id !== id);
+      const deletedView = customViews.find((view) => view.id === id);
+
+      let customViewInputs: CustomViewInput[] = updatedViews.map((view) => {
+        return {
+          id: view.id,
+          name: view.name,
+          type: 'SERVICE_TICKET',
+          filters: view.filters,
+          sortOrder: view.sortOrder
+        };
+      });
+
+      message.loading({
+        key: 'delete-custom-view-loading',
+        content: `Deleting filter "${deletedView?.name}"`
+      });
+      await props.handleUpdateCustomView(
         props.customViewsData?.memberForCurrentUser?.id,
         customViewInputs,
         CustomViewOperation.Delete
       );
-      forceUpdate();
+      if (deletedView?.name === selectedSavedFilterName) {
+        setSelectedSavedFilterName(undefined);
+        searchParams.delete(ServiceTicketSearchParamKeys.SavedFilter);
+        setSearchParams(searchParams);
+        clearFilter();
+      }
+      setCustomViews(updatedViews);
+
+      // forceUpdate();
     }
   };
 
@@ -148,7 +181,11 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       console.log('FILTER ', filter);
       setSelectedSavedFilterName(filterName);
       searchParams.set(ServiceTicketSearchParamKeys.SavedFilter, filterName);
-      GetSearchParamsFromServiceTicketFilter(filter as string[], searchParams);
+      GetSearchParamsFromServiceTicketFilter(
+        filter as string[],
+        searchParams,
+        props.memberData.membersByCommunityId as Member[]
+      );
       setSearchParams(searchParams);
     }
   };

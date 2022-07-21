@@ -38,6 +38,8 @@ function useForceUpdate() {
   // is better than directly setting `value + 1`
 }
 
+const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Updated', 'Created'];
+
 export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarProps> = (props) => {
   const forceUpdate = useForceUpdate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -46,6 +48,9 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
   const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>(undefined);
 
   const [customViews, setCustomViews] = useState<CustomView[]>([]);
+  const [columnsToDisplay, setColumnsToDisplay] = useState(
+    searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
+  );
 
   useEffect(() => {
     if (props.customViewsData?.memberForCurrentUser?.customViews) {
@@ -68,13 +73,15 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       if (view.name === selectedSavedFilterName) {
         const updatedFilters = GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]);
         const updatedSortOrder = searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? '';
+        const updatedColumnsToDisplay = searchParams.get(ServiceTicketSearchParamKeys.Column);
         // update
         customViewInputs.push({
           name: view.name,
           type: 'SERVICE_TICKET',
           id: view.id,
           filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]),
-          sortOrder: updatedSortOrder
+          sortOrder: updatedSortOrder,
+          columnsToDisplay: updatedColumnsToDisplay ? updatedColumnsToDisplay.split(',') : []
         });
         view.filters = updatedFilters;
         view.sortOrder = updatedSortOrder;
@@ -84,7 +91,8 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
           name: view.name,
           type: view.type,
           filters: view.filters,
-          sortOrder: view.sortOrder
+          sortOrder: view.sortOrder,
+          columnsToDisplay: view.columnsToDisplay
         });
       }
     });
@@ -107,21 +115,24 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       message.error(`Filter name "${savedFilterNameInput}" already exists`);
       return;
     }
+    const qscolumnsToDisplay = searchParams.get(ServiceTicketSearchParamKeys.Column);
     let customViewInputs: CustomViewInput[] = [];
     let newCustomView: CustomViewInput = {
       name: savedFilterNameInput,
       type: 'SERVICE_TICKET',
       filters: GetSelectedFilterTags(searchParams, (props.memberData.membersByCommunityId as Member[]) ?? []),
-      sortOrder: searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? ''
+      sortOrder: searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? '',
+      columnsToDisplay: qscolumnsToDisplay ? qscolumnsToDisplay.split(',') : []
     };
     customViewInputs.push(newCustomView);
     customViews.forEach((view) => {
       customViewInputs.push({
         id: view.id,
         name: view.name,
-        type: 'SERVICE_TICKET',
+        type: view.type,
         filters: view.filters,
-        sortOrder: view.sortOrder
+        sortOrder: view.sortOrder,
+        columnsToDisplay: view.columnsToDisplay
       });
     });
 
@@ -150,9 +161,10 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         return {
           id: view.id,
           name: view.name,
-          type: 'SERVICE_TICKET',
+          type: view.type,
           filters: view.filters,
-          sortOrder: view.sortOrder
+          sortOrder: view.sortOrder,
+          columnsToDisplay: view.columnsToDisplay
         };
       });
 
@@ -190,6 +202,17 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         searchParams,
         props.memberData.membersByCommunityId as Member[]
       );
+      // get selected custom view
+      const savedColumnsToDisplay =
+        (customViews.find((view: any) => view.name === filterName)?.columnsToDisplay as string[]) ?? [];
+      if (savedColumnsToDisplay.length > 0) {
+        searchParams.set(ServiceTicketSearchParamKeys.Column, savedColumnsToDisplay.join(','));
+      } else {
+        searchParams.delete(ServiceTicketSearchParamKeys.Column);
+      }
+
+      setColumnsToDisplay(savedColumnsToDisplay);
+
       setSearchParams(searchParams);
     }
   };
@@ -203,6 +226,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         : columnName
     );
     setSearchParams(searchParams);
+    setColumnsToDisplay([...columnsToDisplay, columnName]);
   };
 
   const onColumnDelete = (columnName: string) => {
@@ -220,6 +244,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       searchParams.delete(ServiceTicketSearchParamKeys.Column);
     }
     setSearchParams(searchParams);
+    setColumnsToDisplay(columnsToDisplay.filter((column) => column !== columnName));
   };
 
   const onSortChanged = (value: string) => {
@@ -244,10 +269,6 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     setSavedFilterNameInput('');
     setSearchParams(searchParams);
   };
-
-  const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Updated', 'Created'];
-
-  const defaultValues = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? [];
 
   return (
     <>
@@ -341,7 +362,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
           style={{ width: '175px' }}
           mode="multiple"
           placeholder="Select"
-          value={[...defaultValues]}
+          value={columnsToDisplay}
           allowClear
           onClear={() => {
             searchParams.delete(ServiceTicketSearchParamKeys.Column);

@@ -39,6 +39,7 @@ fragment MembersServiceTicketCustomViewsFields on Member {
     type
     filters
     sortOrder
+    columnsToDisplay
 
     createdAt
     updatedAt

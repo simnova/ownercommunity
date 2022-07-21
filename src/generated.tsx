@@ -261,6 +261,7 @@ export type CurrentUser = MongoBase & {
 
 export type CustomView = MongoSubdocument & {
   __typename?: 'CustomView';
+  columnsToDisplay?: Maybe<Array<Maybe<Scalars['String']>>>;
   createdAt?: Maybe<Scalars['DateTime']>;
   filters?: Maybe<Array<Maybe<Scalars['String']>>>;
   id: Scalars['ObjectID'];
@@ -271,6 +272,7 @@ export type CustomView = MongoSubdocument & {
 };
 
 export type CustomViewInput = {
+  columnsToDisplay?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   filters?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   id?: InputMaybe<Scalars['ObjectID']>;
   name?: InputMaybe<Scalars['String']>;
@@ -4747,6 +4749,7 @@ export type MemberServiceTicketCustomViewsQuery = {
       type?: string | null;
       filters?: Array<string | null> | null;
       sortOrder?: string | null;
+      columnsToDisplay?: Array<string | null> | null;
       createdAt?: any | null;
       updatedAt?: any | null;
     } | null> | null;
@@ -4772,6 +4775,7 @@ export type MemberServiceTicketSearchContainerCustomViewsUpdateMutation = {
         type?: string | null;
         filters?: Array<string | null> | null;
         sortOrder?: string | null;
+        columnsToDisplay?: Array<string | null> | null;
         createdAt?: any | null;
         updatedAt?: any | null;
       } | null> | null;
@@ -4792,6 +4796,7 @@ export type MembersServiceTicketCustomViewsMutationResultFieldsFragment = {
       type?: string | null;
       filters?: Array<string | null> | null;
       sortOrder?: string | null;
+      columnsToDisplay?: Array<string | null> | null;
       createdAt?: any | null;
       updatedAt?: any | null;
     } | null> | null;
@@ -4814,6 +4819,7 @@ export type MembersServiceTicketCustomViewsFieldsFragment = {
     type?: string | null;
     filters?: Array<string | null> | null;
     sortOrder?: string | null;
+    columnsToDisplay?: Array<string | null> | null;
     createdAt?: any | null;
     updatedAt?: any | null;
   } | null> | null;
@@ -7717,6 +7723,7 @@ export const MembersServiceTicketCustomViewsFieldsFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'filters' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'sortOrder' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'columnsToDisplay' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
               ]

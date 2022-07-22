@@ -147,6 +147,13 @@ export class CustomViewDomainAdapter implements CustomViewProps {
   set sortOrder(sortOrder) {
     this.doc.sortOrder = sortOrder;
   }
+
+  get columnsToDisplay() {
+    return this.doc.columnsToDisplay;
+  }
+  set columnsToDisplay(columnsToDisplay) {
+    this.doc.columnsToDisplay = columnsToDisplay;
+  }
 }
 
 export class ProfileDomainAdapter implements ProfileProps {

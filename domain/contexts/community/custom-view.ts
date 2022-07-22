@@ -8,6 +8,7 @@ export interface CustomViewPropValues extends EntityProps {
   type: string;
   filters: string[];
   sortOrder: string;
+  columnsToDisplay: string[];
 }
 
 export interface CustomViewProps extends CustomViewPropValues {}
@@ -30,6 +31,9 @@ export class CustomView extends Entity<CustomViewProps> implements CustomViewEnt
   }
   get sortOrder(): string {
     return this.props.sortOrder;
+  }
+  get columnsToDisplay(): string[] {
+    return this.props.columnsToDisplay;
   }
 
   private validateVisa() {
@@ -56,5 +60,10 @@ export class CustomView extends Entity<CustomViewProps> implements CustomViewEnt
   requestSetFilters(filters: ValueObjects.CustomViewFilters) {
     this.validateVisa();
     this.props.filters = filters.valueOf();
+  }
+
+  requestSetColumnsToDisplay(columnsToDisplay: ValueObjects.CustomViewColumnsToDisplay) {
+    this.validateVisa();
+    this.props.columnsToDisplay = columnsToDisplay.valueOf();
   }
 }

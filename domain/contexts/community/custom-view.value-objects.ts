@@ -11,3 +11,4 @@ export class CustomViewType extends VOString({ trim: true, maxLength: 500 }) {}
 export class CustomViewSortOrder extends VOString({ trim: true, maxLength: 500 }) {}
 class CustomViewFilter extends VOString({ trim: true, maxLength: 500 }) {}
 export class CustomViewFilters extends VOArray(CustomViewFilter, { maxLength: 100 }) {}
+export class CustomViewColumnsToDisplay extends VOArray(CustomViewFilter, { maxLength: 30 }) {}

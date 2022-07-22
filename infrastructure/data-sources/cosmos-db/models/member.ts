@@ -17,6 +17,7 @@ export interface CustomView extends SubdocumentBase {
   type: string;
   filters: string[];
   sortOrder: string;
+  columnsToDisplay: string[];
 }
 
 const AccountSchema = new Schema<Account, Model<Account>, Account>(
@@ -40,6 +41,7 @@ const CustomViewSchema = new Schema<CustomView, Model<CustomView>, CustomView>({
   type: { type: String, required: true, maxlength: 500 },
   filters: { type: [{ type: String, maxlength: 100 }], required: false, default: [] },
   sortOrder: { type: String, required: false },
+  columnsToDisplay: { type: [{ type: String, maxlength: 30 }], required: false, default: [] },
 });
 
 export interface Profile extends NestedPath {

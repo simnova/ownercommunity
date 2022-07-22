@@ -10,7 +10,7 @@ import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { RoleConverter } from '../../../domain/infrastructure/persistence/role.domain-adapter';
 import { UserConverter } from '../../../domain/infrastructure/persistence/user.domain-adapter';
 import { Interests } from '../../../domain/contexts/community/profile.value-objects';
-import { CustomViewFilters } from '../../../domain/contexts/community/custom-view.value-objects';
+import { CustomViewColumnsToDisplay, CustomViewFilters } from '../../../domain/contexts/community/custom-view.value-objects';
 
 type PropType = MemberDomainAdapter;
 type DomainType = MemberDO<PropType>;
@@ -49,19 +49,23 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
         let systemCustomViews = member.customViews;
         let updatedCustomViews = input.customViews;
         updatedCustomViews.forEach((customView) => {
+          // add new custom view
           if (!customView.id) {
             let newCustomView = member.requestNewCustomView();
             newCustomView.requestSetName(customView.name);
             newCustomView.requestSetType(customView.type);
-            if (customView.filters !== undefined) newCustomView.requestSetFilters(new CustomViewFilters(customView.filters));
+            newCustomView.requestSetFilters(new CustomViewFilters(customView.filters ?? []));
             newCustomView.requestSetOrder(customView.sortOrder ?? '');
+            newCustomView.requestSetColumnsToDisplay(new CustomViewColumnsToDisplay(customView.columnsToDisplay ?? []));
           } else {
+            // update existing custom view
             let systemCustomView = systemCustomViews.find((c) => c.id === customView.id);
             if (systemCustomView === undefined) throw new Error('Custom view not found');
             systemCustomView.requestSetName(customView.name);
             systemCustomView.requestSetType(customView.type);
-            systemCustomView.requestSetFilters(new CustomViewFilters(customView.filters));
+            systemCustomView.requestSetFilters(new CustomViewFilters(customView.filters ?? []));
             systemCustomView.requestSetOrder(customView.sortOrder ?? '');
+            systemCustomView.requestSetColumnsToDisplay(new CustomViewColumnsToDisplay(customView.columnsToDisplay ?? []));
           }
         });
         let customViewIds = updatedCustomViews.filter((x) => x.id !== undefined).map((x) => x.id);

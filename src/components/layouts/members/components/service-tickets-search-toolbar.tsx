@@ -48,7 +48,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
   const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>(undefined);
 
   const [customViews, setCustomViews] = useState<CustomView[]>([]);
-  const [columnsToDisplay, setColumnsToDisplay] = useState(
+  const [columnsToDisplay, setColumnsToDisplay] = useState<string[] | undefined>(
     searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
   );
 
@@ -226,7 +226,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         : columnName
     );
     setSearchParams(searchParams);
-    setColumnsToDisplay([...columnsToDisplay, columnName]);
+    setColumnsToDisplay([...(columnsToDisplay ?? []), columnName]);
   };
 
   const onColumnDelete = (columnName: string) => {
@@ -244,7 +244,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       searchParams.delete(ServiceTicketSearchParamKeys.Column);
     }
     setSearchParams(searchParams);
-    setColumnsToDisplay(columnsToDisplay.filter((column) => column !== columnName));
+    setColumnsToDisplay(columnsToDisplay?.filter((column) => column !== columnName));
   };
 
   const onSortChanged = (value: string) => {
@@ -363,10 +363,13 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
           mode="multiple"
           placeholder="Select"
           value={columnsToDisplay}
+          defaultValue={columnsToDisplay}
           allowClear
           onClear={() => {
             searchParams.delete(ServiceTicketSearchParamKeys.Column);
             setSearchParams(searchParams);
+            setColumnsToDisplay(undefined);
+            forceUpdate();
           }}
           onDeselect={(value: any) => onColumnDelete(value)}
         >

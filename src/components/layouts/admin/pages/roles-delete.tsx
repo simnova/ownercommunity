@@ -1,7 +1,7 @@
 import { SubPageLayout } from '../sub-page-layout';
 import { PageHeader, Button } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import { RolesDeleteContainer } from '../components/roles-delete-container';
+import { RolesDeleteContainer } from '../components/roles-delete.container';
 
 export const RolesDelete: React.FC<any> = (props) => {
   const params = useParams();

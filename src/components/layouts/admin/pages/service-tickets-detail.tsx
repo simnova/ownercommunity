@@ -3,7 +3,7 @@ import { PageHeader, Button } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { SubPageEmptyLayout } from '../sub-page-empty-layout';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ServiceTicketsDetailContainer } from '../components/service-tickets-detail-container';
+import { ServiceTicketsDetailContainer } from '../components/service-tickets-detail.container';
 
 export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const params = useParams();

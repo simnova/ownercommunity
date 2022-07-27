@@ -1,6 +1,6 @@
 import { PageHeader, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { CommunityCreateContainer } from '../components/community-create-container';
+import { CommunityCreateContainer } from '../components/community-create.container';
 import { SubPageLayout } from '../sub-page-layout';
 
 export const CreateCommunity: React.FC<any> = (_props) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageHeader } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
-import { MembersCreateContainer } from '../components/members-create-container';
+import { MembersCreateContainer } from '../components/members-create.container';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const MembersCreate: React.FC<any> = (props) => {

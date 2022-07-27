@@ -1,4 +1,4 @@
-import { CommunityListContainer } from '../components/community-list-container';
+import { CommunityListContainer } from '../components/community-list.container';
 import { Button, PageHeader, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { SubPageLayout } from '../sub-page-layout';

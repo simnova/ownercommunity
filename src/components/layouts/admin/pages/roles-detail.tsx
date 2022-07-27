@@ -2,8 +2,8 @@ import React from 'react';
 import { PageHeader, Button } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { useNavigate, useParams } from 'react-router-dom';
-import { RolesDetailContainer } from '../components/roles-detail-container';
-import { RolesDetailAddContainer } from '../components/roles-detail-add-container';
+import { RolesDetailContainer } from '../components/roles-detail.container';
+import { RolesDetailAddContainer } from '../components/roles-detail-add.container';
 
 export const RolesDetail: React.FC<any> = (props) => {
   const params = useParams();

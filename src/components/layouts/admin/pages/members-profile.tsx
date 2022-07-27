@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { MembersProfileContainer } from "../components/members-profile-container"
-import { ProfilePhotoUploadContainer } from "../components/profile-photo-upload-container";
+import { MembersProfileContainer } from "../components/members-profile.container"
+import { ProfilePhotoUploadContainer } from "../components/profile-photo-upload.container";
 
 export const MembersProfile: React.FC<any> = (props) => {
   const params = useParams();

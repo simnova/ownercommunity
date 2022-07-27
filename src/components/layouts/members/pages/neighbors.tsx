@@ -1,6 +1,6 @@
 import {PageHeader, Typography} from 'antd'
 import { SubPageLayout } from '../sub-page-layout'
-import { NeighborsCardListContainer } from '../components/neighbors-card-list-container'
+import { NeighborsCardListContainer } from '../components/neighbors-card-list.container'
 import { useParams } from 'react-router-dom'
 
 const { Text } = Typography

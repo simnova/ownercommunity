@@ -6,8 +6,8 @@ import { FormTags } from '../../../ui/organisms/form-tags';
 
 
 import { UsernamePasswordClient } from '@azure/msal-common';
-import { MembersProfileContainer } from '../components/member-profile-container';
-import { ProfilePhotoUploadContainer } from '../components/profile-upload-container';
+import { MembersProfileContainer } from '../components/member-profile.container';
+import { ProfilePhotoUploadContainer } from '../components/profile-upload.container';
 import { useQuery } from '@apollo/client';
 import { MemberPhotoUploadContainerContainerMemberDocument } from '../../../../generated';
 

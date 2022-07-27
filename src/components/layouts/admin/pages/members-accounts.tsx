@@ -1,7 +1,7 @@
 import { Route, Routes, useParams } from "react-router-dom";
-import { MembersAccountsAddContainer } from "../components/members-accounts-add-container";
-import { MembersAccountsListContainer } from "../components/members-accounts-list-container";
-import { MembersAccountsEditContainer } from "../components/members-accounts-edit-container"
+import { MembersAccountsAddContainer } from "../components/members-accounts-add.container";
+import { MembersAccountsListContainer } from "../components/members-accounts-list.container";
+import { MembersAccountsEditContainer } from "../components/members-accounts-edit.container"
 
 export const MembersAccounts: React.FC<any> = (props) => {
   const params = useParams();

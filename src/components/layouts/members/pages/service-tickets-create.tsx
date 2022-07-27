@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageHeader } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
-import { ServiceTicketsCreateContainer } from '../components/service-tickets-create-container';
+import { ServiceTicketsCreateContainer } from '../components/service-tickets-create.container';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const ServiceTicketsCreate: React.FC<any> = (_props) => {

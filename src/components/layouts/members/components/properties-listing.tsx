@@ -8,8 +8,8 @@ import {
   MembersPropertiesListingContainerPropertyFieldsFragment
 } from '../../../../generated';
 import { FormTags } from '../../../ui/organisms/form-tags';
-import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload-container';
-import { PropertiesFloorPlanUploadContainer } from './properties-floor-plan-upload-container';
+import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload.container';
+import { PropertiesFloorPlanUploadContainer } from './properties-floor-plan-upload.container';
 import { SelectTags } from './select-tags';
 import {
   SelectableRoomsOptions,

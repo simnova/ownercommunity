@@ -2,7 +2,7 @@ import React from 'react';
 import { PageHeader, Button } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ServiceTicketsListContainer } from '../components/service-tickets-list-container'
+import { ServiceTicketsListContainer } from '../components/service-tickets-list.container'
 
 export const ServiceTicketsList: React.FC<any> = (_props) => {
   const params = useParams();

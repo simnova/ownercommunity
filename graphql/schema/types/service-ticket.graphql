@@ -3,6 +3,7 @@ type ServiceTicket implements MongoBase {
   property: Property
   requestor: Member!
   assignedTo: Member
+  service: Service
   title: String!
   description: String!
   status: String!
@@ -70,6 +71,7 @@ input ServiceTicketCreateInput {
   requestorId: ObjectID
   title: String!
   description: String!
+  serviceId: ObjectID
 }
 
 input ServiceTicketUpdateInput {
@@ -78,6 +80,7 @@ input ServiceTicketUpdateInput {
   title: String!
   description: String!
   priority: Int!
+  serviceId: ObjectID
 }
 
 input ServiceTicketAddPhotoInput {

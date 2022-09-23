@@ -530,6 +530,7 @@ export type Mutation = {
   roleAdd: RoleMutationResult;
   roleDeleteAndReassign: RoleMutationResult;
   roleUpdate: RoleMutationResult;
+  serviceCreate: ServiceMutationResult;
   serviceTicketAddPhoto: ServiceTicketPhotoAuthHeaderResult;
   serviceTicketAddUpdateActivity: ServiceTicketMutationResult;
   serviceTicketAssign: ServiceTicketMutationResult;
@@ -539,6 +540,7 @@ export type Mutation = {
   serviceTicketRemovePhoto: ServiceTicketMutationResult;
   serviceTicketSubmit: ServiceTicketMutationResult;
   serviceTicketUpdate: ServiceTicketMutationResult;
+  serviceUpdate: ServiceMutationResult;
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
@@ -660,6 +662,11 @@ export type MutationRoleUpdateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationServiceCreateArgs = {
+  input: ServiceCreateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationServiceTicketAddPhotoArgs = {
   input: ServiceTicketAddPhotoInput;
 };
@@ -702,6 +709,11 @@ export type MutationServiceTicketSubmitArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationServiceTicketUpdateArgs = {
   input: ServiceTicketUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationServiceUpdateArgs = {
+  input: ServiceUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -908,12 +920,14 @@ export type Query = {
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
   rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
+  service?: Maybe<Service>;
   serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsByCommunityId?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
+  servicesByCommunityId?: Maybe<Array<Maybe<Service>>>;
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
@@ -985,12 +999,22 @@ export type QueryRolesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryServiceArgs = {
+  id: Scalars['ObjectID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketArgs = {
   id: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsByCommunityIdArgs = {
+  communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryServicesByCommunityIdArgs = {
   communityId: Scalars['ID'];
 };
 
@@ -1040,6 +1064,29 @@ export type RoleUpdateInput = {
   roleName: Scalars['String'];
 };
 
+export type Service = MongoBase & {
+  __typename?: 'Service';
+  community: Community;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description: Scalars['String'];
+  id: Scalars['ObjectID'];
+  isActive: Scalars['Boolean'];
+  schemaVersion?: Maybe<Scalars['String']>;
+  serviceName: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ServiceCreateInput = {
+  description: Scalars['String'];
+  serviceName: Scalars['String'];
+};
+
+export type ServiceMutationResult = MutationResult & {
+  __typename?: 'ServiceMutationResult';
+  service?: Maybe<Service>;
+  status: MutationStatus;
+};
+
 export type ServiceTicket = MongoBase & {
   __typename?: 'ServiceTicket';
   activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
@@ -1053,6 +1100,7 @@ export type ServiceTicket = MongoBase & {
   property?: Maybe<Property>;
   requestor: Member;
   schemaVersion?: Maybe<Scalars['String']>;
+  service?: Maybe<Service>;
   status: Scalars['String'];
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -1095,6 +1143,7 @@ export type ServiceTicketCreateInput = {
   description: Scalars['String'];
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   requestorId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
 };
 
@@ -1152,8 +1201,16 @@ export type ServiceTicketUpdateInput = {
   description: Scalars['String'];
   priority: Scalars['Int'];
   propertyId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
   title: Scalars['String'];
+};
+
+export type ServiceUpdateInput = {
+  description?: InputMaybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  isActive?: InputMaybe<Scalars['Boolean']>;
+  serviceName?: InputMaybe<Scalars['String']>;
 };
 
 export type User = MongoBase & {
@@ -1319,6 +1376,7 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['Member']
     | ResolversTypes['Property']
     | ResolversTypes['Role']
+    | ResolversTypes['Service']
     | ResolversTypes['ServiceTicket']
     | ResolversTypes['User'];
   MongoSubdocument:
@@ -1333,6 +1391,7 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['MemberMutationResult']
     | ResolversTypes['PropertyMutationResult']
     | ResolversTypes['RoleMutationResult']
+    | ResolversTypes['ServiceMutationResult']
     | ResolversTypes['ServiceTicketMutationResult']
     | ResolversTypes['ServiceTicketPhotoAuthHeaderResult']
     | ResolversTypes['UserMutationResult'];
@@ -1380,6 +1439,9 @@ export type ResolversTypes = ResolversObject<{
   RolePermissions: ResolverTypeWrapper<RolePermissions>;
   RoleUpdateInput: RoleUpdateInput;
   SafeInt: ResolverTypeWrapper<Scalars['SafeInt']>;
+  Service: ResolverTypeWrapper<Service>;
+  ServiceCreateInput: ServiceCreateInput;
+  ServiceMutationResult: ResolverTypeWrapper<ServiceMutationResult>;
   ServiceTicket: ResolverTypeWrapper<ServiceTicket>;
   ServiceTicketActivityDetail: ResolverTypeWrapper<ServiceTicketActivityDetail>;
   ServiceTicketAddPhotoInput: ServiceTicketAddPhotoInput;
@@ -1396,6 +1458,7 @@ export type ResolversTypes = ResolversObject<{
   ServiceTicketRemovePhotoInput: ServiceTicketRemovePhotoInput;
   ServiceTicketSubmitInput: ServiceTicketSubmitInput;
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
+  ServiceUpdateInput: ServiceUpdateInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
@@ -1495,6 +1558,7 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['Member']
     | ResolversParentTypes['Property']
     | ResolversParentTypes['Role']
+    | ResolversParentTypes['Service']
     | ResolversParentTypes['ServiceTicket']
     | ResolversParentTypes['User'];
   MongoSubdocument:
@@ -1509,6 +1573,7 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['MemberMutationResult']
     | ResolversParentTypes['PropertyMutationResult']
     | ResolversParentTypes['RoleMutationResult']
+    | ResolversParentTypes['ServiceMutationResult']
     | ResolversParentTypes['ServiceTicketMutationResult']
     | ResolversParentTypes['ServiceTicketPhotoAuthHeaderResult']
     | ResolversParentTypes['UserMutationResult'];
@@ -1556,6 +1621,9 @@ export type ResolversParentTypes = ResolversObject<{
   RolePermissions: RolePermissions;
   RoleUpdateInput: RoleUpdateInput;
   SafeInt: Scalars['SafeInt'];
+  Service: Service;
+  ServiceCreateInput: ServiceCreateInput;
+  ServiceMutationResult: ServiceMutationResult;
   ServiceTicket: ServiceTicket;
   ServiceTicketActivityDetail: ServiceTicketActivityDetail;
   ServiceTicketAddPhotoInput: ServiceTicketAddPhotoInput;
@@ -1572,6 +1640,7 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceTicketRemovePhotoInput: ServiceTicketRemovePhotoInput;
   ServiceTicketSubmitInput: ServiceTicketSubmitInput;
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
+  ServiceUpdateInput: ServiceUpdateInput;
   String: Scalars['String'];
   Time: Scalars['Time'];
   Timestamp: Scalars['Timestamp'];
@@ -1932,7 +2001,7 @@ export type MemberProfileResolvers<ContextType = Context, ParentType extends Res
 }>;
 
 export type MongoBaseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MongoBase'] = ResolversParentTypes['MongoBase']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'Community' | 'CurrentUser' | 'Member' | 'Property' | 'Role' | 'ServiceTicket' | 'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Community' | 'CurrentUser' | 'Member' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'User', ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1991,6 +2060,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   roleAdd?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleAddArgs, 'input'>>;
   roleDeleteAndReassign?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleDeleteAndReassignArgs, 'input'>>;
   roleUpdate?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleUpdateArgs, 'input'>>;
+  serviceCreate?: Resolver<ResolversTypes['ServiceMutationResult'], ParentType, ContextType, RequireFields<MutationServiceCreateArgs, 'input'>>;
   serviceTicketAddPhoto?: Resolver<ResolversTypes['ServiceTicketPhotoAuthHeaderResult'], ParentType, ContextType, RequireFields<MutationServiceTicketAddPhotoArgs, 'input'>>;
   serviceTicketAddUpdateActivity?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketAddUpdateActivityArgs, 'input'>>;
   serviceTicketAssign?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketAssignArgs, 'input'>>;
@@ -2000,13 +2070,21 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   serviceTicketRemovePhoto?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketRemovePhotoArgs, 'input'>>;
   serviceTicketSubmit?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketSubmitArgs, 'input'>>;
   serviceTicketUpdate?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationServiceTicketUpdateArgs, 'input'>>;
+  serviceUpdate?: Resolver<ResolversTypes['ServiceMutationResult'], ParentType, ContextType, RequireFields<MutationServiceUpdateArgs, 'input'>>;
   userCreate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType>;
   userUpdate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType, RequireFields<MutationUserUpdateArgs, 'input'>>;
 }>;
 
 export type MutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MutationResult'] = ResolversParentTypes['MutationResult']> = ResolversObject<{
   __resolveType: TypeResolveFn<
-    'CommunityMutationResult' | 'MemberMutationResult' | 'PropertyMutationResult' | 'RoleMutationResult' | 'ServiceTicketMutationResult' | 'ServiceTicketPhotoAuthHeaderResult' | 'UserMutationResult',
+    | 'CommunityMutationResult'
+    | 'MemberMutationResult'
+    | 'PropertyMutationResult'
+    | 'RoleMutationResult'
+    | 'ServiceMutationResult'
+    | 'ServiceTicketMutationResult'
+    | 'ServiceTicketPhotoAuthHeaderResult'
+    | 'UserMutationResult',
     ParentType,
     ContextType
   >;
@@ -2197,12 +2275,14 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;
   roles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType>;
   rolesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType, RequireFields<QueryRolesByCommunityIdArgs, 'communityId'>>;
+  service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType, RequireFields<QueryServiceArgs, 'id'>>;
   serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType, RequireFields<QueryServiceTicketArgs, 'id'>>;
   serviceTicketsAssignedToCurrentUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType, RequireFields<QueryServiceTicketsByCommunityIdArgs, 'communityId'>>;
   serviceTicketsClosedByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsOpenByCommunity?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsOpenByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
+  servicesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Service']>>>, ParentType, ContextType, RequireFields<QueryServicesByCommunityIdArgs, 'communityId'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userCurrent?: Resolver<Maybe<ResolversTypes['CurrentUser']>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
@@ -2245,6 +2325,24 @@ export interface SafeIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTy
   name: 'SafeInt';
 }
 
+export type ServiceResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Service'] = ResolversParentTypes['Service']> = ResolversObject<{
+  community?: Resolver<ResolversTypes['Community'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  isActive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  serviceName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceMutationResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceMutationResult'] = ResolversParentTypes['ServiceMutationResult']> = ResolversObject<{
+  service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type ServiceTicketResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicket'] = ResolversParentTypes['ServiceTicket']> = ResolversObject<{
   activityLog?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketActivityDetail']>>>, ParentType, ContextType>;
   assignedTo?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
@@ -2257,6 +2355,7 @@ export type ServiceTicketResolvers<ContextType = Context, ParentType extends Res
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
   requestor?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -2451,6 +2550,8 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   RoleMutationResult?: RoleMutationResultResolvers<ContextType>;
   RolePermissions?: RolePermissionsResolvers<ContextType>;
   SafeInt?: GraphQLScalarType;
+  Service?: ServiceResolvers<ContextType>;
+  ServiceMutationResult?: ServiceMutationResultResolvers<ContextType>;
   ServiceTicket?: ServiceTicketResolvers<ContextType>;
   ServiceTicketActivityDetail?: ServiceTicketActivityDetailResolvers<ContextType>;
   ServiceTicketMutationResult?: ServiceTicketMutationResultResolvers<ContextType>;

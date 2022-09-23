@@ -1,4 +1,5 @@
 import { ServiceTicket as ServiceTicketDO } from '../../../domain/contexts/service-ticket/service-ticket';
+import { Service as ServiceDO } from '../../../domain/contexts/service-ticket/service';
 import { Member as MemberDO } from '../../../domain/contexts/community/member';
 import { ServiceTicketConverter, ServiceTicketDomainAdapter }from '../../../domain/infrastructure/persistence/service-ticket.domain-adapter';
 import { MongoServiceTicketRepository } from '../../../domain/infrastructure/persistence/service-ticket.mongo-repository';
@@ -10,6 +11,7 @@ import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/me
 import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
+import { ServiceConverter, ServiceDomainAdapter } from '../../../domain/infrastructure/persistence/service.domain-adapter';
 import { PropertyConverter } from '../../../domain/infrastructure/persistence/property.domain-adapter';
 
 type PropType = ServiceTicketDomainAdapter;
@@ -40,6 +42,12 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
     }
     let memberDo = new MemberConverter().toDomain(member,{passport:ReadOnlyPassport.GetInstance()});
 
+    let serviceDo : ServiceDO<ServiceDomainAdapter> | undefined = undefined;
+    if(input.serviceId) {
+      let service = await this.context.dataSources.serviceCosmosdbApi.findOneById(input.serviceId);
+      serviceDo = new ServiceConverter().toDomain(service,{passport:ReadOnlyPassport.GetInstance()});
+    }
+
     console.log(`serviceTicketCreate:memberDO`,memberDo);
     console.log(`serviceTicketCreate:requestorId`,input.requestorId);
 
@@ -50,6 +58,8 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
         communityDo,
         propertyDo,
         memberDo);
+      if(input.serviceId) { newServiceTicket.requestSetService(serviceDo); }
+      
       serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(newServiceTicket));
     });
     return serviceTicketToReturn;
@@ -57,6 +67,13 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
 
   async serviceTicketUpdate(input: ServiceTicketUpdateInput) : Promise<ServiceTicket> {
     let serviceTicketToReturn : ServiceTicket;
+
+    let serviceDo : ServiceDO<ServiceDomainAdapter> | undefined = undefined;
+    if(input.serviceId) {
+      let service = await this.context.dataSources.serviceCosmosdbApi.findOneById(input.serviceId);
+      serviceDo = new ServiceConverter().toDomain(service,{passport:ReadOnlyPassport.GetInstance()});
+    }
+
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
       if(serviceTicket.property.id !== input.propertyId) {
@@ -67,6 +84,7 @@ export class ServiceTickets extends DomainDataSource<Context,ServiceTicket,PropT
       serviceTicket.requestSetTitle(input.title);
       serviceTicket.requestSetDescription(input.description);
       serviceTicket.requestSetPriority(input.priority);
+      if(input.serviceId) { serviceTicket.requestSetService(serviceDo); }
       serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;

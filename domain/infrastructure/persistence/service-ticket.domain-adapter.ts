@@ -1,5 +1,5 @@
 import { ActivityDetail, ServiceTicket, Photo } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
-import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../contexts/service-ticket/service-ticket';
+import { ServiceTicket as ServiceTicketDO, ServiceTicketEntityReference, ServiceTicketProps } from '../../contexts/service-ticket/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../core/mongo/mongo-domain-adapter';
 import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
 import { DomainExecutionContext } from '../../contexts/context';
@@ -14,6 +14,8 @@ import { PhotoProps } from '../../contexts/service-ticket/photo';
 import { UserDomainAdapter } from './user.domain-adapter';
 import { UserProps } from '../../contexts/user/user';
 import { nanoid } from 'nanoid';
+import { ServiceDomainAdapter } from './service.domain-adapter';
+import { ServiceEntityReference } from '../../contexts/service-ticket/service';
 
 
 export class ServiceTicketConverter extends MongoTypeConverter<DomainExecutionContext,ServiceTicket,ServiceTicketDomainAdapter,ServiceTicketDO<ServiceTicketDomainAdapter>> {
@@ -52,6 +54,14 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
   public setAssignedToRef(assignedTo:MemberEntityReference) {
     this.doc.set('assignedTo',assignedTo?assignedTo['props']['doc']:null);
   }
+
+  get service() {
+    if(this.doc.service) {return this.doc.service?new ServiceDomainAdapter(this.doc.service):undefined;}
+  }
+  public setServiceRef(service:ServiceEntityReference) {
+    this.doc.set('service',service?service['props']['doc']:null);
+  }
+
 
   get title() {return this.doc.title;}
   set title(title) {this.doc.title = title;}

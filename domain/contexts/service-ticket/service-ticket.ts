@@ -2,6 +2,7 @@ import { Entity, EntityProps } from '../../shared/entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { Property, PropertyEntityReference,PropertyProps } from '../property/property';
 import { MemberEntityReference, Member, MemberProps } from '../community/member';
+import { Service, ServiceEntityReference, ServiceProps } from './service';
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { DomainExecutionContext } from '../context';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
@@ -20,6 +21,8 @@ export interface ServiceTicketProps extends EntityProps {
   setRequestorRef (requestor: MemberEntityReference) :void;
   readonly assignedTo: MemberProps; 
   setAssignedToRef(assignedTo: MemberEntityReference) : void;
+  readonly service: ServiceProps;
+  setServiceRef(service: ServiceEntityReference) : void;
   title: string;
   description: string;
   status: string;
@@ -37,12 +40,14 @@ export interface ServiceTicketEntityReference extends Readonly<Omit<ServiceTicke
   'property' | 'setPropertyRef' | 
   'requestor' | 'setRequestorRef' |
   'assignedTo' | 'setAssignedToRef' | 
+  'service' | 'setServiceRef' |
   'activityLog' |
   'photos' >>{
   readonly community: CommunityEntityReference;
   readonly property: PropertyEntityReference;
   readonly requestor: MemberEntityReference;
   readonly assignedTo: MemberEntityReference;  
+  readonly service: ServiceEntityReference;
   readonly activityLog: ReadonlyArray<ActivityDetailEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
 }
@@ -84,6 +89,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   get property() { return new Property(this.props.property, this.context); }
   get requestor() { return new Member(this.props.requestor, this.context); }
   get assignedTo() { return this.props.assignedTo?new Member(this.props.assignedTo, this.context):undefined; }
+  get service() { return this.props.service?new Service(this.props.service, this.context):undefined; }
   get title() { return this.props.title; }
   get description() { return this.props.description; }
   get status() { return this.props.status; }
@@ -143,10 +149,16 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
       !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canAssignTickets)) { throw new Error('Unauthorized2'); }
     this.props.setAssignedToRef(assignedTo);
   }
+  public requestSetService(service:ServiceEntityReference):void{
+    if(
+      !this.isNew &&
+      !this.visa.determineIf(permissions => permissions.isSystemAccount ||  permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized3a'); }
+    this.props.setServiceRef(service);
+  }
   public requestSetTitle(title:string):void{
     if(
       !this.isNew &&
-      !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized3'); }
+      !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized3b'); }
     this.props.title = (new ValueObjects.Title(title)).valueOf();
   }
   public requestSetDescription(description:string):void{

@@ -3,6 +3,7 @@ import { Base, BaseOptions, SubdocumentBase, SubdocumentBaseOptions } from './in
 import * as Community from './community';
 import * as Property from './property';
 import * as Member from './member';
+import * as Service from './service';
 
 export interface ActivityDetail extends SubdocumentBase {
   id: ObjectId;
@@ -45,6 +46,7 @@ export interface ServiceTicket extends Base {
   property?: PopulatedDoc<Property.Property>;
   requestor: PopulatedDoc<Member.Member>;
   assignedTo?: PopulatedDoc<Member.Member>;
+  service?: PopulatedDoc<Service.Service>;
   title: string;
   description: string;
   status: string;
@@ -64,6 +66,7 @@ export const ServiceTicketModel = model<ServiceTicket>('ServiceTicket', new Sche
     property: { type: Schema.Types.ObjectId, ref:Property.PropertyModel.modelName, required: false, index: true },
     requestor: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true },
     assignedTo: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: false, index: true },
+    service: { type: Schema.Types.ObjectId, ref:Service.ServiceModel.modelName, required: false, index: true },
     title: { 
       type: String, 
       required: true,

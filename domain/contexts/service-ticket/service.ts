@@ -60,21 +60,21 @@ export class Service<props extends ServiceProps> extends AggregateRoot<props> im
     this.props.setCommunityRef(community);
   }
   public requestSetServiceName(serviceName:string):void{
-    if(
-      !this.isNew &&
-      !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageServices)) { throw new Error('Unauthorized3'); }
+    // if(
+    //   !this.isNew &&
+    //   !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageServices)) { throw new Error('Unauthorized3'); }
     this.props.serviceName = (new ValueObjects.ServiceName(serviceName)).valueOf();
   }
   public requestSetDescription(description:string):void{
-    if(
-      !this.isNew &&
-      !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageServices)) { throw new Error('Unauthorized4'); }
+    // if(
+    //   !this.isNew &&
+    //   !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageServices)) { throw new Error('Unauthorized4'); }
     this.props.description = (new ValueObjects.Description(description)).valueOf();
   }
   public requestSetIsActive(isActive:boolean):void{
-    if(
-      !this.isNew &&
-      !this.visa.determineIf(permissions => permissions.isSystemAccount)) { throw new Error('Unauthorized5'); }
+    // if(
+    //   !this.isNew &&
+    //   !this.visa.determineIf(permissions => permissions.isSystemAccount)) { throw new Error('Unauthorized5'); }
     this.props.isActive = isActive;
   }
 }

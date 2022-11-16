@@ -74,6 +74,8 @@ export const ServiceTicketModel = model<ServiceTicket>(
       property: { type: Schema.Types.ObjectId, ref: Property.PropertyModel.modelName, required: false, index: true },
       requestor: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true, index: true },
       assignedTo: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
+      service: { type: Schema.Types.ObjectId, ref:Service.ServiceModel.modelName, required: false, index: true },
+
       title: {
         type: String,
         required: true,

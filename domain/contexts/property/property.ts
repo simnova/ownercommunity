@@ -2,7 +2,7 @@ import { Entity, EntityProps } from '../../shared/entity';
 import { Community, CommunityEntityReference, CommunityProps } from '../community/community';
 import { Member, MemberEntityReference, MemberProps } from '../community/member';
 import { DomainExecutionContext } from '../context';
-import * as ValueObjects from './property-value-objects';
+import * as ValueObjects from './property.value-objects';
 import { ListingDetails, ListingDetailProps, ListingDetailsEntityReference } from './listing-detail';
 import { Location, LocationEntityReference, LocationProps } from './location';
 import { AggregateRoot } from '../../shared/aggregate-root';
@@ -25,11 +25,15 @@ export interface PropertyProps extends EntityProps {
   listedInDirectory: boolean;
   readonly listingDetail: ListingDetailProps;
 
-  createdAt: Date;
-  updatedAt: Date;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly schemaVersion: string;
 
   tags: string[];
-  schemaVersion: string;
+  
+  hash: string;
+  lastIndexed: Date; // success
+  updateIndexFailedDate: Date; // failure
 }
 
 export interface PropertyEntityReference extends Readonly<Omit<PropertyProps, 'community' | 'setCommunityRef' | 'location' | 'owner' | 'setOwnerRef' | 'listingDetail'>> {
@@ -100,6 +104,18 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
 
   get schemaVersion() {
     return this.props.schemaVersion;
+  }
+
+  get hash() {
+    return this.props.hash;
+  }
+
+  get lastIndexed() {
+    return this.props.lastIndexed;
+  }
+
+  get updateIndexFailedDate() {
+    return this.props.updateIndexFailedDate;
   }
 
   private MarkAsNew(): void {
@@ -174,6 +190,27 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     this.props.tags = tags;
   }
 
+  public requestSetHash(hash: string): void {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
+      throw new Error('Unauthorized');
+    }
+    this.props.hash = hash;
+  }
+
+  public requestSetLastIndexed(lastIndexed: Date): void {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
+      throw new Error('Unauthorized');
+    }
+    this.props.lastIndexed = lastIndexed;
+  }
+
+  public requestSetUpdateIndexFailedDate(updateIndexFailedDate: Date): void {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
+      throw new Error('Unauthorized');
+    }
+    this.props.updateIndexFailedDate = updateIndexFailedDate;
+  }
+
   public override onSave(isModified: boolean): void {
     if (isModified && !super.isDeleted) {
       this.addIntegrationEvent(PropertyUpdatedEvent, { id: this.props.id });
@@ -181,9 +218,4 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   }
 }
 
-export interface PropertyPermissions {
-  canManageProperties: boolean;
-  canEditOwnProperty: boolean;
-  isEditingOwnProperty: boolean;
-  isSystemAccount: boolean;
-}
+

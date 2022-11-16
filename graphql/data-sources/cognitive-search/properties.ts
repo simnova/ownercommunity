@@ -21,6 +21,10 @@ const PropertyFilterNames = {
 export class Properties extends CognitiveSearchDataSource<Context> {
   private getFilterString(filter: FilterDetail): string {
     let filterStrings = [];
+
+    // only show properties in the current community
+    filterStrings.push(`communityId eq '${filter.communityId}'`);
+
     if (filter) {
       // property type
       if (filter.propertyType && filter.propertyType.length > 0) {
@@ -69,14 +73,14 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       }
 
       // distance, lat and long
-      if (filter.position && filter.distance) {
+      if (filter.position && filter.distance !== undefined) {
         filterStrings.push(`geo.distance(position, geography'POINT(${filter.position.longitude} ${filter.position.latitude})') le ${filter.distance}`);
       }
 
       // update at
       if (filter.updatedAt) {
         const day0 = dayjs().subtract(parseInt(filter.updatedAt), 'day').toISOString();
-        filterStrings.push(`updatedAt ge ${filter.updatedAt}`);
+        filterStrings.push(`updatedAt ge ${day0}`);
       }
 
       // created at
@@ -87,7 +91,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
 
       // tags
       if (filter.tags && filter.tags.length > 0) {
-        filterStrings.push("tags/any(a: a eq '" + filter.tags.join("') or tags/any(a: a eq '") + "')");
+        filterStrings.push("(tags/any(a: a eq '" + filter.tags.join("') or tags/any(a: a eq '") + "'))");
       }
     }
 

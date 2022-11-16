@@ -7,5 +7,3 @@ export const Blob  = {
   memberBlobAPI: new Members(),
   propertyBlobAPI: new Properties(),
 }
-
-export type BlobType = typeof Blob;

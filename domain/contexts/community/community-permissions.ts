@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../shared/entity';
 import { CommunityVisa } from '../iam/community-visa';
-import { CommunityPermissions as CommunityPermissionsSpec } from './community';
+import { CommunityPermissions as CommunityPermissionsSpec } from "./community-permissions.spec";
 
 export interface CommunityPermissionsProps extends CommunityPermissionsSpec, EntityProps {}
 

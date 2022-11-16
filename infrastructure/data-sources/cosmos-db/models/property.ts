@@ -1,11 +1,24 @@
 import { Schema, model, Model, ObjectId, PopulatedDoc, Types } from 'mongoose';
-import { Base, BaseOptions, EmbeddedBase, Patterns } from './interfaces/base';
+import { Base, BaseOptions, SubdocumentBase, SubdocumentBaseOptions, Patterns, NestedPath } from './interfaces/base';
 import * as Community from './community';
 import * as Member from './member';
 // import * as Location from './location';
-import * as Point from './point';
+// import * as Point from './point';
 
-export interface ListingDetail extends EmbeddedBase {
+/**
+ * @description
+ * Point model - used to store lat/long coordinates
+ */
+ export interface Point{
+  type: string;
+  /**
+   * @description
+   * Latitude must be the first coordinate
+   */
+  coordinates: number[];
+}
+
+export interface ListingDetail extends NestedPath {
   id: ObjectId;
   price: number;
   rentHigh: number;
@@ -35,19 +48,29 @@ export interface ListingDetail extends EmbeddedBase {
   listingAgentCompanyWebsite: string;
   listingAgentCompanyAddress: string;
 }
-export interface BedroomDetail extends EmbeddedBase {
+
+export interface BedroomDetail extends SubdocumentBase {
   id: ObjectId;
   roomName: string;
   bedDescriptions: string[];
 }
-export interface AdditionalAmenity extends EmbeddedBase {
+const BedroomDetailSchema = new Schema<BedroomDetail, Model<BedroomDetail>, BedroomDetail>({
+  roomName: { type: String, required: false, maxlength: 100 },
+  bedDescriptions: { type: [{ type: String, maxlength: 40 }], required: false },
+},{...SubdocumentBaseOptions})
+
+export interface AdditionalAmenity extends SubdocumentBase {
   id: ObjectId;
   category: string;
   amenities: string[];
 }
+const AdditionalAmenitySchema = new Schema<AdditionalAmenity, Model<AdditionalAmenity>, AdditionalAmenity>({
+  category: { type: String, required: false, maxlength: 100 },
+  amenities: { type: [{ type: String, maxlength: 40 }], required: false }
+},{...SubdocumentBaseOptions})
 
-export interface Location extends EmbeddedBase {
-  position: Point.Point;
+export interface Location extends NestedPath {
+  position: Point;
   address: {
     id: ObjectId;
     streetNumber: string;
@@ -71,6 +94,7 @@ export interface Location extends EmbeddedBase {
     crossStreet: string;
   };
 }
+
 export interface Property extends Base {
   community: PopulatedDoc<Community.Community>;
   // location?: PopulatedDoc<Location.Location>;
@@ -87,6 +111,9 @@ export interface Property extends Base {
   listingDetail: ListingDetail;
 
   tags: string[];
+  hash: string;
+  lastIndexed: Date;
+  updateIndexFailedDate: Date;
 }
 const schema = new Schema<Property, Model<Property>, Property>(
   {
@@ -100,6 +127,12 @@ const schema = new Schema<Property, Model<Property>, Property>(
     location: {
       // position: Point.PointModel.schema,
       position: {
+        type: {
+          type: String,
+          enum: ['Point'],
+          default: 'Point',
+          required: true
+        },
         coordinates: { type: [Number], required: false },
       },
       address: {
@@ -139,24 +172,14 @@ const schema = new Schema<Property, Model<Property>, Property>(
       lease: { type: Number, required: false },
       maxGuests: { type: Number, required: false },
       bedrooms: { type: Number, required: false },
-      bedroomDetails: [
-        {
-          roomName: { type: String, required: false, maxlength: 100 },
-          bedDescriptions: { type: [{ type: String, maxlength: 40 }], required: false },
-        },
-      ],
+      bedroomDetails: [BedroomDetailSchema],
       bathrooms: { type: Number, required: false },
       squareFeet: { type: Number, required: false },
       yearBuilt: { type: Number, required: false },
       lotSize: { type: Number, required: false },
       description: { type: String, required: false, maxlength: 5000 },
       amenities: { type: [{ type: String, maxlength: 100 }], required: false },
-      additionalAmenities: [
-        {
-          category: { type: String, required: false, maxlength: 100 },
-          amenities: { type: [{ type: String, maxlength: 100 }], required: false },
-        },
-      ],
+      additionalAmenities: [AdditionalAmenitySchema],
       images: { type: [String], required: false },
       video: { type: String, required: false },
       floorPlan: { type: String, required: false, maxlength: 2000 },
@@ -172,6 +195,9 @@ const schema = new Schema<Property, Model<Property>, Property>(
       listingAgentCompanyAddress: { type: String, required: false, maxlength: 1000 },
     },
     tags: { type: [{ type: String, maxlength: 100 }], required: false },
+    hash: { type: String, required: false, maxlength: 100 },
+    lastIndexed: { type: Date, required: false },
+    updateIndexFailedDate: { type: Date, required: false },
   },
   {
     ...BaseOptions,

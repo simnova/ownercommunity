@@ -1,27 +1,52 @@
 import { Schema, model, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
-import { Base, BaseOptions, EmbeddedBase } from './interfaces/base';
+import { Base, BaseOptions, SubdocumentBase, SubdocumentBaseOptions } from './interfaces/base';
 import * as Community from './community';
 import * as Property from './property';
 import * as Member from './member';
+import * as Service from './service';
 
-export interface ActivityDetail extends EmbeddedBase {
+export interface ActivityDetail extends SubdocumentBase {
   id: ObjectId;
   activityType: string;
   activityDescription: string;
   activityBy: PopulatedDoc<Member.Member>;
 }
+const ActivityDetailSchema = new Schema<ActivityDetail, Model<ActivityDetail>, ActivityDetail>({
+  activityType: { 
+    type: String, 
+    required: true,
+    enum: ['CREATED','SUBMITTED','ASSIGNED','INPROGRESS','UPDATED','COMPLETED','CLOSED'],
+  },
+  activityDescription: { 
+    type: String,
+    maxlength: 2000, 
+    required: true 
+  },
+  activityBy: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true }  
+},{...SubdocumentBaseOptions})
 
-export interface Photo extends EmbeddedBase {
+export interface Photo extends SubdocumentBase {
   id: ObjectId;
   documentId: string;
   description: string;
 }
+export const PhotoSchema = new Schema<Photo, Model<Photo>, Photo>({
+  description: { 
+    type: String, 
+    required: false,
+    maxlength: 300,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }  
+  },
+  documentId: { type: String, required: true },
+})
 
 export interface ServiceTicket extends Base {
   community: PopulatedDoc<Community.Community>;
   property?: PopulatedDoc<Property.Property>;
   requestor: PopulatedDoc<Member.Member>;
   assignedTo?: PopulatedDoc<Member.Member>;
+  service?: PopulatedDoc<Service.Service>;
   title: string;
   description: string;
   status: string;
@@ -41,6 +66,7 @@ export const ServiceTicketModel = model<ServiceTicket>('ServiceTicket', new Sche
     property: { type: Schema.Types.ObjectId, ref:Property.PropertyModel.modelName, required: false, index: true },
     requestor: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true },
     assignedTo: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: false, index: true },
+    service: { type: Schema.Types.ObjectId, ref:Service.ServiceModel.modelName, required: false, index: true },
     title: { 
       type: String, 
       required: true,
@@ -64,31 +90,8 @@ export const ServiceTicketModel = model<ServiceTicket>('ServiceTicket', new Sche
       min: 1,
       max: 5
      },
-    activityLog: [{
-      activityType: { 
-        type: String, 
-        required: true,
-        enum: ['CREATED','SUBMITTED','ASSIGNED','INPROGRESS','UPDATED','COMPLETED','CLOSED'],
-      },
-      activityDescription: { 
-        type: String,
-        maxlength: 2000, 
-        required: true 
-      },
-      activityBy: { type: Schema.Types.ObjectId, ref:Member.MemberModel.modelName, required: true, index: true },
-      createdAt: { type: Date, default: Date.now },
-      updatedAt: { type: Date, default: Date.now }  
-    }],
-    photos: [{
-      description: { 
-        type: String, 
-        required: false,
-        maxlength: 300,
-        createdAt: { type: Date, default: Date.now },
-        updatedAt: { type: Date, default: Date.now }  
-      },
-      documentId: { type: String, required: true },
-    }]
+    activityLog: [ActivityDetailSchema],
+    photos: [PhotoSchema]
   },
   {
     ...BaseOptions,

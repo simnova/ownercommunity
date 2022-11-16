@@ -1,6 +1,6 @@
 import { AggregateRoot } from '../../shared/aggregate-root';
 import { EntityProps } from '../../shared/entity';
-import * as ValueObjects from './member-value-objects';
+import * as ValueObjects from './member.value-objects';
 import { Community, CommunityProps,CommunityEntityReference } from './community';
 import { PropArray } from '../../shared/prop-array';
 import { Account, AccountEntityReference, AccountProps } from './account';
@@ -17,9 +17,9 @@ export interface MemberProps extends EntityProps {
   readonly role: RoleProps;
   setRoleRef: (role: RoleEntityReference) => void;
   readonly profile: ProfileProps;
-  createdAt: Date;
-  updatedAt: Date;
-  schemaVersion: string;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly schemaVersion: string;
 }
 
 export interface MemberEntityReference extends Readonly<Omit<MemberProps, 
@@ -36,7 +36,7 @@ export interface MemberEntityReference extends Readonly<Omit<MemberProps,
 
 export class Member<props extends MemberProps> extends AggregateRoot<props> implements MemberEntityReference  {
   private isNew:boolean = false;
-  readonly visa: CommunityVisa;
+  private readonly visa: CommunityVisa;
   constructor(props: props,private readonly context:DomainExecutionContext) {
     super(props);
     this.visa = context.passport.forMember(this);
@@ -52,7 +52,7 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   get updatedAt() {return this.props.updatedAt;}
   get schemaVersion() {return this.props.schemaVersion;}
 
-  public static async getNewInstance<props extends MemberProps> (newProps:props,name:string,community:CommunityEntityReference, context:DomainExecutionContext): Promise<Member<props>> {
+  public static getNewInstance<props extends MemberProps> (newProps:props,name:string,community:CommunityEntityReference, context:DomainExecutionContext): Member<props> {
     let member = new Member(newProps,context);
     member.isNew = true;
     member.requestSetMemberName(name);

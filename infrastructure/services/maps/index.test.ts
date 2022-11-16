@@ -16,7 +16,7 @@ test.skip('get map key', () => {
   
 });
 
-test('sas toke', async () => {
+test.skip('sas toke', async () => {
     const maps = new Maps();
 
     var sasToken = await maps.generateSharedKey();
@@ -24,7 +24,7 @@ test('sas toke', async () => {
     expect(sasToken).toBe("");
 });
 
-test("list token", async () => {
+test.skip("list token", async () => {
     const maps = new Maps();
 
     var token = await maps.listKeys();

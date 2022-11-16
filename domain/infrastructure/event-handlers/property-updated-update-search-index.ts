@@ -1,11 +1,16 @@
-import { NodeEventBus } from '../events/node-event-bus';
+import { NodeEventBus } from '../core/events/node-event-bus';
 import { PropertyListingIndexDocument, propertyListingIndexSpec } from './property-search-index-format';
 import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
-import { PropertyUnitOfWork } from '../persistance/repositories';
-import { SystemExecutionContext } from '../persistance/execution-context';
+import { PropertyUnitOfWork } from '../persistence/property.uow';
+import { SystemExecutionContext } from '../execution-context';
 import { PropertyUpdatedEvent } from '../../events/property-updated';
 import { GeographyPoint } from '@azure/search-documents';
 import dayjs from 'dayjs';
+import { PropertyDomainAdapter } from '../persistence/property.domain-adapter';
+import { Property } from '../../contexts/property/property';
+import { MongoPropertyRepository } from '../persistence/property.mongo-repository';
+import retry from 'async-retry';
+const crypto = require('crypto');
 
 export default () => {
   NodeEventBus.register(PropertyUpdatedEvent, async (payload) => {
@@ -72,11 +77,59 @@ export default () => {
         createdAt: createdDate,
         tags: property.tags,
       };
-      let cognitiveSearch = new CognitiveSearch();
-      await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
-      // await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
-      await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
-      console.log(`Property Updated - Search Completed: ${JSON.stringify(listingDoc)}`);
+
+      let listingDocCopy = JSON.parse(JSON.stringify(listingDoc));
+      delete listingDocCopy.updatedAt;
+
+      const hash = crypto.createHash('sha256').update(JSON.stringify(listingDocCopy)).digest('base64');
+
+      const maxAttempt = 3;
+      if (property.hash !== hash) {
+        await retry(
+          async (failedCB, currentAttempt) => {
+            if (currentAttempt > maxAttempt) {
+              property.requestSetUpdateIndexFailedDate(new Date());
+              property.requestSetHash(hash);
+              await repo.save(property);
+              console.log('Index update failed: ', property.updateIndexFailedDate);
+              console.log(property);
+              return;
+            }
+            await updateSearchIndex(listingDoc, property, hash, repo);
+          },
+          {
+            retries: maxAttempt,
+          }
+        );
+
+        //     let operation = retry.operation({
+        //       retries: 2,
+        //       factor: 2,
+        //       minTimeout: 1 * 1000,
+        //       maxTimeout: 2 * 1000,
+        //     });
+
+        //     operation.attempt(async function () {
+        //       await updateSearchIndex(listingDoc, property, hash, repo);
+
+        //       console.log('Retry complete.');
+        //     });
+        //   } else {
+        //     console.log('No need to update document');
+      }
     });
   });
 };
+
+async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocument>, property: Property<PropertyDomainAdapter>, hash: any, repo: MongoPropertyRepository<PropertyDomainAdapter>) {
+  let cognitiveSearch = new CognitiveSearch();
+  // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
+  await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
+  await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
+  console.log(`Property Updated - Index Updated: ${JSON.stringify(listingDoc)}`);
+
+  property.requestSetLastIndexed(new Date());
+  property.requestSetHash(hash);
+  await repo.save(property);
+  console.log('Index update successful: ', property.lastIndexed);
+}

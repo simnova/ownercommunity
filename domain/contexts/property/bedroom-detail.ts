@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../shared/entity';
 import { PropertyVisa } from '../iam/property-visa';
-import * as ValueObjects from './bedroom-detail-value-objects';
+import * as ValueObjects from './bedroom-detail.value-objects';
 
 export interface BedroomDetailProps extends EntityProps {
   roomName: string;

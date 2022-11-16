@@ -1,6 +1,6 @@
 import { PageHeader, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
-import { CommunityDetailContainer } from '../components/community-detail-container';
+import { CommunityDetailContainer } from '../components/community-detail.container';
 import { SubPageLayout } from '../sub-page-layout';
 
 const { Text } = Typography;

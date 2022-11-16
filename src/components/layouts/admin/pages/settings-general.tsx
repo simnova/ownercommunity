@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { SettingsGeneralContainer,  } from '../components/settings-general-container';
+import { SettingsGeneralContainer,  } from '../components/settings-general.container';
 
 export const SettingsGeneral: React.FC<any> = (props) => {
   const params = useParams();

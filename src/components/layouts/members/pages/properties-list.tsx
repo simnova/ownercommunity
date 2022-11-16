@@ -2,7 +2,7 @@ import React from 'react';
 import { PageHeader } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams } from 'react-router-dom';
-import { PropertiesListContainer } from '../components/properties-list-container';
+import { PropertiesListContainer } from '../components/properties-list.container';
 
 export const PropertiesList: React.FC<any> = (_props) => {
   const params = useParams();

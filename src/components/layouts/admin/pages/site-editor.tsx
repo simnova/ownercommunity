@@ -5,7 +5,7 @@ import { SiteEditorFiles } from './site-editor-files';
 import { PageTree } from "./site-editor-page-tree"
 import { PageHeader, Tabs } from 'antd';
 import { SubPageLayout } from "../sub-page-layout";
-import { SiteEditorContainer } from "../components/site-editor-container";
+import { SiteEditorContainer } from "../components/site-editor.container";
 
 const { TabPane } = Tabs;
 

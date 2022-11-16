@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { MembersDetailContainer } from '../components/members-detail-container';
+import { MembersDetailContainer } from '../components/members-detail.container';
 
 export const MembersGeneral: React.FC<any> = (props) => {
   const params = useParams();

@@ -7,3 +7,16 @@
   - Requestor (entity reference) -> Community.Member
   - AssignedTo (entity reference) -> Community.Member
   - ActivityDetails
+
+```mermaid
+classDiagram
+classA <|-- classB
+ServiceTicket *-- Community
+ServiceTicket *-- Property
+classG <-- classH
+classI -- classJ
+classK <.. classL
+classM <|.. classN
+classO .. classP
+
+```

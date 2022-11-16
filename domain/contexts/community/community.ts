@@ -57,11 +57,11 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     this.addIntegrationEvent(CommunityCreatedEvent,{communityId: this.props.id});
   }
 
-  public requestSetName(name:ValueObjects.Name): void {
+  public requestSetName(name:string): void {
     if(
       !this.isNew &&
       !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the name of this community');}
-    this.props.name = name.valueOf();
+    this.props.name = (new ValueObjects.Name(name)).valueOf();
   }
   public requestSetDomain(domain:ValueObjects.Domain): void {
     if(
@@ -89,6 +89,7 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     if(
       !this.isNew &&
       !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the created by of this community');}
+    if(createdBy === null || createdBy === undefined) {throw new Error('createdBy cannot be null or undefined');}
     this.props.setCreatedByRef(createdBy);
   }
 

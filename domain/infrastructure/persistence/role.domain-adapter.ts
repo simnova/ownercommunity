@@ -1,4 +1,4 @@
-import { Role, Permissions,CommunityPermissions, PropertyPermissions, ServiceTicketPermissions } from '../../../infrastructure/data-sources/cosmos-db/models/role';
+import { Role, Permissions,CommunityPermissions, PropertyPermissions, ServicePermissions, ServiceTicketPermissions } from '../../../infrastructure/data-sources/cosmos-db/models/role';
 import { Role as RoleDO, RoleProps } from '../../contexts/community/role';
 import { MongooseDomainAdapter } from '../core/mongo/mongo-domain-adapter';
 import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
@@ -9,6 +9,7 @@ import { PermissionsProps } from '../../contexts/community/permissions';
 import { CommunityConverter, CommunityDomainAdapter } from './community.domain-adapter';
 import { DomainExecutionContext } from '../../contexts/context';
 import { PropertyPermissionsProps } from '../../contexts/community/property-permissions';
+import { ServicePermissionsProps } from '../../contexts/community/service-permissions';
 import { ServiceTicketPermissionsProps } from '../../contexts/community/service-ticket-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext,Role,RoleDomainAdapter,RoleDO<RoleDomainAdapter>> {
@@ -54,6 +55,10 @@ class PermissionsAdapter implements PermissionsProps{
     return new PropertyPermissionsAdapter(this.props.propertyPermissions);
   }
 
+  public get servicePermissions() {
+    return new ServicePermissionsAdapter(this.props.servicePermissions);
+  }
+
   public get serviceTicketPermissions() {
     return new ServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions);
   }
@@ -97,6 +102,16 @@ class PropertyPermissionsAdapter implements PropertyPermissionsProps {
   public set canEditOwnProperty(value) { this.props.canEditOwnProperty = value; }
 
   public get isEditingOwnProperty() { return false; }
+  public get isSystemAccount() { return false; }
+}
+
+class ServicePermissionsAdapter implements ServicePermissionsProps {
+  constructor(public readonly props: ServicePermissions) { }
+  public get id() { return this.props.id.valueOf().toString(); }
+
+  public get canManageServices() { return this.props.canManageServices; }
+  public set canManageServices(value) { this.props.canManageServices = value; }
+
   public get isSystemAccount() { return false; }
 }
 

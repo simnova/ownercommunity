@@ -2,6 +2,11 @@ import { Schema, model, Model, PopulatedDoc, ObjectId } from 'mongoose';
 import { Base, BaseOptions } from './interfaces/base';
 import * as  Community from './community';
 
+export interface ServicePermissions {
+  id: ObjectId;
+  canManageServices: boolean;
+}
+
 export interface ServiceTicketPermissions {
   id: ObjectId;
   canCreateTickets: boolean;
@@ -35,6 +40,7 @@ export interface CommunityPermissions {
 
 export interface Permissions {
   id: ObjectId;
+  servicePermissions: ServicePermissions;
   serviceTicketPermissions: ServiceTicketPermissions;
   communityPermissions: CommunityPermissions;
   propertyPermissions: PropertyPermissions;
@@ -55,6 +61,9 @@ export const RoleModel = model<Role>('Role',new Schema<Role, Model<Role>, Role>(
     community: { type: Schema.Types.ObjectId, ref:Community.CommunityModel.modelName, required: true, index: true },    
     isDefault: { type: Boolean, required: true, default: false },
     permissions: {
+      servicePermissions: {
+        canManageServices: { type: Boolean, required: true, default: false }
+      },
       serviceTicketPermissions: {
         canCreateTickets: { type: Boolean, required: true, default: false },
         canManageTickets: { type: Boolean, required: true, default: false },

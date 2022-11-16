@@ -1,4 +1,4 @@
-import { Community, Member, Property, Resolvers, ServiceTicket, ServiceTicketMutationResult, ServiceTicketsSearchInput } from '../../generated';
+import { Community, Member, Property, Resolvers,Service, ServiceTicket, ServiceTicketMutationResult, ServiceTicketsSearchInput } from '../../generated';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
 import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
@@ -44,6 +44,12 @@ const serviceTicket: Resolvers = {
       }
       return parent.assignedTo;
     },
+    service: async (parent, args, context, info) => {
+      if(parent.service && isValidObjectId(parent.service.toString())){
+        return (await context.dataSources.serviceCosmosdbApi.findOneById(parent.service.toString())) as Service;
+      }
+      return parent.service;
+    }
   },
   ServiceTicketActivityDetail: {
     activityBy: async (parent, args, context, info) => {

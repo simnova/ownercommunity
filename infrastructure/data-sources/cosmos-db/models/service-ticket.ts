@@ -3,6 +3,7 @@ import { Base, BaseOptions, SubdocumentBase, SubdocumentBaseOptions } from './in
 import * as Community from './community';
 import * as Property from './property';
 import * as Member from './member';
+import * as Service from './service';
 
 export interface ActivityDetail extends SubdocumentBase {
   id: ObjectId;
@@ -48,6 +49,7 @@ export interface ServiceTicket extends Base {
   property?: PopulatedDoc<Property.Property>;
   requestor: PopulatedDoc<Member.Member>;
   assignedTo?: PopulatedDoc<Member.Member>;
+  service?: PopulatedDoc<Service.Service>;
   title: string;
   description: string;
   status: string;

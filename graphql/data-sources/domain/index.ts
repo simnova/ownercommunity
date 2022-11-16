@@ -3,6 +3,7 @@ import { CommunityUnitOfWork } from '../../../domain/infrastructure/persistence/
 import { MemberUnitOfWork } from '../../../domain/infrastructure/persistence/member.uow';
 import { RoleUnitOfWork } from '../../../domain/infrastructure/persistence/role.uow';
 import { PropertyUnitOfWork } from '../../../domain/infrastructure/persistence/property.uow';
+import { ServiceUnitOfWork } from '../../../domain/infrastructure/persistence/service.uow';
 import { ServiceTicketUnitOfWork } from '../../../domain/infrastructure/persistence/service-ticket.uow';
 
 import { Users } from './users';
@@ -10,6 +11,7 @@ import { Communities } from './communities';
 import { Members } from './members';
 import { Roles } from './roles';
 import { Properties } from './properties';
+import { Services } from './services';
 import { ServiceTickets } from './service-tickets';
 
 export const Domain  = {
@@ -18,5 +20,6 @@ export const Domain  = {
   memberDomainAPI: new Members(MemberUnitOfWork),
   roleDomainAPI: new Roles(RoleUnitOfWork),
   propertyDomainAPI: new Properties(PropertyUnitOfWork),
+  serviceDomainAPI: new Services(ServiceUnitOfWork),
   serviceTicketDomainAPI: new ServiceTickets(ServiceTicketUnitOfWork)
 }

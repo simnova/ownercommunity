@@ -1,23 +1,18 @@
 /** @format */
 
-import { MongoDataSource } from "apollo-datasource-mongodb";
-import {
-  Member,
-  MemberModel,
-} from "../../../infrastructure/data-sources/cosmos-db/models/member";
-import { RoleModel } from "../../../infrastructure/data-sources/cosmos-db/models/role";
-import { Context } from "../../context";
-import { Types } from "mongoose";
+import { MongoDataSource } from 'apollo-datasource-mongodb';
+import { Member, MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
+import { RoleModel } from '../../../infrastructure/data-sources/cosmos-db/models/role';
+import { Context } from '../../context';
+import { Types } from 'mongoose';
+import { CustomView } from '../../generated';
 
 export class Members extends MongoDataSource<Member, Context> {
-  async getMemberByCommunityIdUserId(
-    communityId: string,
-    userId: string
-  ): Promise<Member> {
+  async getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<Member> {
     return (
       await this.findByFields({
         community: communityId,
-        "accounts.user": userId,
+        'accounts.user': userId,
       })
     )?.[0];
   }
@@ -33,24 +28,24 @@ export class Members extends MongoDataSource<Member, Context> {
       {
         $match: {
           community: new Types.ObjectId(communityId),
-          "permissions.serviceTicketPermissions.canWorkOnTickets": true,
+          'permissions.serviceTicketPermissions.canWorkOnTickets': true,
         },
       },
       {
         $lookup: {
-          from: "members",
-          localField: "_id",
-          foreignField: "role",
-          as: "m",
+          from: 'members',
+          localField: '_id',
+          foreignField: 'role',
+          as: 'm',
         },
       },
       {
         $unwind: {
-          path: "$m",
+          path: '$m',
         },
       },
       {
-        $replaceWith: "$m",
+        $replaceWith: '$m',
       },
     ]).exec();
     console.log(`getMembersAssignableToTickets`, result);

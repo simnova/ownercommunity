@@ -3,16 +3,14 @@ import { ServiceTicket as ServiceTicketDO, ServiceTicketEntityReference, Service
 import { MongooseDomainAdapter, MongoosePropArray } from '../core/mongo/mongo-domain-adapter';
 import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
 import { DomainExecutionContext } from '../../contexts/context';
-import { CommunityEntityReference, CommunityProps } from '../../contexts/community/community';
+import { CommunityEntityReference } from '../../contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { PropertyDomainAdapter } from './property.domain-adapter';
-import { PropertyEntityReference, PropertyProps } from '../../contexts/property/property';
-import { MemberEntityReference, MemberProps } from '../../contexts/community/member';
+import { PropertyEntityReference } from '../../contexts/property/property';
+import { MemberEntityReference } from '../../contexts/community/member';
 import { MemberDomainAdapter } from './member.domain-adapter';
 import { ActivityDetailProps } from '../../contexts/service-ticket/activity-detail';
 import { PhotoProps } from '../../contexts/service-ticket/photo';
-import { UserDomainAdapter } from './user.domain-adapter';
-import { UserProps } from '../../contexts/user/user';
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from './service.domain-adapter';
 import { ServiceEntityReference } from '../../contexts/service-ticket/service';
@@ -78,6 +76,28 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
   get activityLog() {return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter) }
 
   get photos() {return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter) }
+
+  get hash() {
+    return this.doc.hash;
+  }
+  set hash(hash) {
+    this.doc.hash = hash;
+  }
+
+  get lastIndexed() {
+    return this.doc.lastIndexed;
+  }
+  set lastIndexed(lastIndexed) {
+    this.doc.lastIndexed = lastIndexed;
+  }
+
+  get updateIndexFailedDate() {
+    return this.doc.updateIndexFailedDate;
+  }
+
+  set updateIndexFailedDate(updateIndexFailedDate) {
+    this.doc.updateIndexFailedDate = updateIndexFailedDate;
+  }
 }
 
 

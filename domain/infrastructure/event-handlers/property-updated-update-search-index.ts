@@ -1,5 +1,5 @@
 import { NodeEventBus } from '../core/events/node-event-bus';
-import { PropertyListingIndexDocument, propertyListingIndexSpec } from './property-search-index-format';
+import { PropertyListingIndexDocument, PropertyListingIndexSpec } from './property-search-index-format';
 import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 import { PropertyUnitOfWork } from '../persistence/property.uow';
 import { SystemExecutionContext } from '../execution-context';
@@ -101,21 +101,6 @@ export default () => {
             retries: maxAttempt,
           }
         );
-
-        //     let operation = retry.operation({
-        //       retries: 2,
-        //       factor: 2,
-        //       minTimeout: 1 * 1000,
-        //       maxTimeout: 2 * 1000,
-        //     });
-
-        //     operation.attempt(async function () {
-        //       await updateSearchIndex(listingDoc, property, hash, repo);
-
-        //       console.log('Retry complete.');
-        //     });
-        //   } else {
-        //     console.log('No need to update document');
       }
     });
   });
@@ -124,8 +109,8 @@ export default () => {
 async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocument>, property: Property<PropertyDomainAdapter>, hash: any, repo: MongoPropertyRepository<PropertyDomainAdapter>) {
   let cognitiveSearch = new CognitiveSearch();
   // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
-  await cognitiveSearch.createOrUpdateIndex(propertyListingIndexSpec.name, propertyListingIndexSpec);
-  await cognitiveSearch.indexDocument(propertyListingIndexSpec.name, listingDoc);
+  await cognitiveSearch.createOrUpdateIndex(PropertyListingIndexSpec.name, PropertyListingIndexSpec);
+  await cognitiveSearch.indexDocument(PropertyListingIndexSpec.name, listingDoc);
   console.log(`Property Updated - Index Updated: ${JSON.stringify(listingDoc)}`);
 
   property.requestSetLastIndexed(new Date());
@@ -133,3 +118,5 @@ async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocumen
   await repo.save(property);
   console.log('Index update successful: ', property.lastIndexed);
 }
+
+

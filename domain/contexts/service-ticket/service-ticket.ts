@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../shared/entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
-import { Property, PropertyEntityReference,PropertyProps } from '../property/property';
+import { Property, PropertyEntityReference, PropertyProps } from '../property/property';
 import { MemberEntityReference, Member, MemberProps } from '../community/member';
 import { Service, ServiceEntityReference, ServiceProps } from './service';
 import { AggregateRoot } from '../../shared/aggregate-root';
@@ -11,12 +11,15 @@ import { PropArray } from '../../shared/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';
+import { ServiceTicketCreatedEvent } from '../../events/service-ticket-created';
+import { ServiceTicketUpdatedEvent } from '../../events/service-ticket-updated';
+import { ServiceTicketDeletedEvent } from '../../events/service-ticket-deleted';
 
 export interface ServiceTicketProps extends EntityProps {
   readonly community: CommunityProps;
-  setCommunityRef(community: CommunityEntityReference) : void;
+  setCommunityRef(community: CommunityEntityReference): void;
   readonly property: PropertyProps;
-  setPropertyRef (property: PropertyEntityReference) : void;
+  setPropertyRef(property: PropertyEntityReference): void;
   readonly requestor: MemberProps;
   setRequestorRef (requestor: MemberEntityReference) :void;
   readonly assignedTo: MemberProps; 
@@ -33,6 +36,10 @@ export interface ServiceTicketProps extends EntityProps {
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly schemaVersion: string;
+
+  hash: string;
+  lastIndexed: Date; // success
+  updateIndexFailedDate: Date; // failure
 }
 
 export interface ServiceTicketEntityReference extends Readonly<Omit<ServiceTicketProps,
@@ -52,23 +59,25 @@ export interface ServiceTicketEntityReference extends Readonly<Omit<ServiceTicke
   readonly photos: ReadonlyArray<PhotoEntityReference>;
 }
 
-export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRoot<props> implements ServiceTicketEntityReference{
+export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRoot<props> implements ServiceTicketEntityReference {
   private isNew: boolean = false;
   private readonly visa: ServiceTicketVisa;
-  constructor(props: props, private context:DomainExecutionContext) { 
-    super(props); 
+  constructor(props: props, private context: DomainExecutionContext) {
+    super(props);
     this.visa = context.passport.forServiceTicket(this);
   }
 
-  public static getNewInstance<props extends ServiceTicketProps> (
-      newProps:props,
-      title:string,
-      description:string,
-      community:CommunityEntityReference, 
-      property:PropertyEntityReference,
-      requestor:MemberEntityReference,
-      context:DomainExecutionContext): ServiceTicket<props> {
-    let serviceTicket = new ServiceTicket(newProps,context);
+  public static getNewInstance<props extends ServiceTicketProps>(
+    newProps: props,
+    title: string,
+    description: string,
+    community: CommunityEntityReference,
+    property: PropertyEntityReference,
+    requestor: MemberEntityReference,
+    context: DomainExecutionContext
+  ): ServiceTicket<props> {
+    let serviceTicket = new ServiceTicket(newProps, context);
+    serviceTicket.MarkAsNew();
     serviceTicket.isNew = true;
     serviceTicket.requestSetTitle(title);
     serviceTicket.requestSetDescription(description);
@@ -100,15 +109,27 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   get updatedAt(): Date { return this.props.updatedAt; }  
   get schemaVersion(): string {return this.props.schemaVersion; }  
 
-  private readonly validStatusTransitions = new Map<string,string[]>([ 
-    [ValueObjects.StatusCodes.Draft,[ValueObjects.StatusCodes.Submitted]],
-    [ValueObjects.StatusCodes.Submitted,[ValueObjects.StatusCodes.Draft, ValueObjects.StatusCodes.Assigned]],
-    [ValueObjects.StatusCodes.Assigned,[ValueObjects.StatusCodes.Submitted, ValueObjects.StatusCodes.InProgress]],
+  get hash() {
+    return this.props.hash;
+  }
+
+  get lastIndexed() {
+    return this.props.lastIndexed;
+  }
+
+  get updateIndexFailedDate() {
+    return this.props.updateIndexFailedDate;
+  }
+
+  private readonly validStatusTransitions = new Map<string, string[]>([
+    [ValueObjects.StatusCodes.Draft, [ValueObjects.StatusCodes.Submitted]],
+    [ValueObjects.StatusCodes.Submitted, [ValueObjects.StatusCodes.Draft, ValueObjects.StatusCodes.Assigned]],
+    [ValueObjects.StatusCodes.Assigned, [ValueObjects.StatusCodes.Submitted, ValueObjects.StatusCodes.InProgress]],
     [ValueObjects.StatusCodes.InProgress, [ValueObjects.StatusCodes.Assigned, ValueObjects.StatusCodes.Completed]],
     [ValueObjects.StatusCodes.Completed, [ValueObjects.StatusCodes.InProgress, ValueObjects.StatusCodes.Closed]],
     [ValueObjects.StatusCodes.Closed, [ValueObjects.StatusCodes.InProgress]],
   ]);
-  private readonly statusMappings = new Map<string,string>([
+  private readonly statusMappings = new Map<string, string>([
     [ValueObjects.StatusCodes.Draft, ActivityDetailValueObjects.ActivityTypeCodes.Created],
     [ValueObjects.StatusCodes.Submitted, ActivityDetailValueObjects.ActivityTypeCodes.Created],
     [ValueObjects.StatusCodes.Assigned, ActivityDetailValueObjects.ActivityTypeCodes.Assigned],
@@ -117,19 +138,21 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     [ValueObjects.StatusCodes.Closed, ActivityDetailValueObjects.ActivityTypeCodes.Closed],
   ]);
 
-  
-  private requestSetCommunity(community:CommunityEntityReference):void{
-    if(!this.isNew) { throw new Error('Unauthorized'); }
+  private MarkAsNew(): void {
+    this.isNew = true;
+    this.addIntegrationEvent(ServiceTicketCreatedEvent, { id: this.props.id });
+  }
+
+  private requestSetCommunity(community: CommunityEntityReference): void {
+    if (!this.isNew) {
+      throw new Error('Unauthorized');
+    }
     this.props.setCommunityRef(community);
   }
-  public requestSetProperty(property:PropertyEntityReference):void{
-    if(
-      !this.isNew &&
-      !this.visa.determineIf(permissions => 
-        permissions.isSystemAccount || 
-        permissions.canManageTickets || 
-        (permissions.canCreateTickets && permissions.isEditingOwnTicket)
-      )) { throw new Error('Unauthorized1'); }
+  public requestSetProperty(property: PropertyEntityReference): void {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) {
+      throw new Error('Unauthorized1');
+    }
     this.props.setPropertyRef(property);
   }
   private requestSetRequestor(requestor:MemberEntityReference):void{
@@ -138,15 +161,16 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     this.props.setRequestorRef(requestor);
   }
   public requestDelete(): void {
-    if(
-      !this.isDeleted &&
-      !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets)) { throw new Error('You do not have permission to delete this property'); }
+    if (!this.isDeleted && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets)) {
+      throw new Error('You do not have permission to delete this property');
+    }
     super.isDeleted = true;
+    this.addIntegrationEvent(ServiceTicketDeletedEvent, { id: this.props.id });
   }
-  public requestSetAssignedTo(assignedTo:MemberEntityReference):void{
-    if(
-      !this.isNew &&
-      !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canAssignTickets)) { throw new Error('Unauthorized2'); }
+  public requestSetAssignedTo(assignedTo: MemberEntityReference): void {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canAssignTickets)) {
+      throw new Error('Unauthorized2');
+    }
     this.props.setAssignedToRef(assignedTo);
   }
   public requestSetService(service:ServiceEntityReference):void{
@@ -167,58 +191,51 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
       !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))) { throw new Error('Unauthorized4'); }
     this.props.description = (new ValueObjects.Description(description)).valueOf();
   }
-  public requestSetStatus(statusCode:ValueObjects.StatusCode):void{
-    if(
-      !this.isNew &&
-      !this.visa.determineIf(permissions => permissions.isSystemAccount)) { throw new Error('Unauthorized5'); }
+  public requestSetStatus(statusCode: ValueObjects.StatusCode): void {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount)) {
+      throw new Error('Unauthorized5');
+    }
     this.props.status = statusCode.valueOf();
   }
-  public requestSetPriority(priority:ValueObjects.Priority):void{
-    if(
-      !this.isNew &&
-      !this.visa.determineIf(permissions => 
-      permissions.isSystemAccount || 
-      (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
-      permissions.canManageTickets
-      )) { throw new Error('Unauthorized6'); }
+  public requestSetPriority(priority: ValueObjects.Priority): void {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket) || permissions.canManageTickets)) {
+      throw new Error('Unauthorized6');
+    }
     this.props.priority = priority.valueOf();
   }
 
-  private requestNewActivityDetail():ActivityDetail{
+  private requestNewActivityDetail(): ActivityDetail {
     let activityDetail = this.props.activityLog.getNewItem();
-    return(new ActivityDetail(activityDetail,this.context, this.visa));
+    return new ActivityDetail(activityDetail, this.context, this.visa);
   }
 
-  public requestAddStatusUpdate(description:string, by:MemberEntityReference):void{
-    if(
+  public requestAddStatusUpdate(description: string, by: MemberEntityReference): void {
+    if (
       !this.isNew &&
-      !this.visa.determineIf(permissions => 
-      permissions.isSystemAccount || 
-      (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
-      (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||
-      permissions.canManageTickets ||
-      permissions.canAssignTickets
-    )) { throw new Error('Unauthorized7'); }
+      !this.visa.determineIf(
+        (permissions) =>
+          permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket) || (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) || permissions.canManageTickets || permissions.canAssignTickets
+      )
+    ) {
+      throw new Error('Unauthorized7');
+    }
     var activityDetail = this.requestNewActivityDetail();
     activityDetail.requestSetActivityType(ActivityDetailValueObjects.ActivityTypeCodes.Updated);
     activityDetail.requestSetActivityDescription(description);
     activityDetail.requestSetActivityBy(by);
   }
-  public requestAddStatusTransition(newStatus:ValueObjects.StatusCode,description:string, by:MemberEntityReference):void{
-    if(
-      !this.visa.determineIf(permissions => 
-      permissions.isSystemAccount || 
-      (
-        this.validStatusTransitions.get(this.status.valueOf())?.includes(newStatus.valueOf()) &&
-        (
-          permissions.canManageTickets ||
-          permissions.canAssignTickets ||
-          (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
-          (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) 
-        )
+  public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {
+    if (
+      !this.visa.determineIf(
+        (permissions) =>
+          permissions.isSystemAccount ||
+          (this.validStatusTransitions.get(this.status.valueOf())?.includes(newStatus.valueOf()) &&
+            (permissions.canManageTickets || permissions.canAssignTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket) || (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket)))
       )
-    )) { throw new Error('Unauthorized or Invalid Status Transition'); }
-    
+    ) {
+      throw new Error('Unauthorized or Invalid Status Transition');
+    }
+
     this.props.status = newStatus.valueOf();
     var activityDetail = this.requestNewActivityDetail();
     activityDetail.requestSetActivityDescription(description);
@@ -226,5 +243,48 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     activityDetail.requestSetActivityBy(by);
   }
 
-}
+  public requestSetHash(hash: string): void {
+    if (
+      !this.isNew &&
+      !this.visa.determineIf(
+        (permissions) =>
+          permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket) || (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) || permissions.canManageTickets || permissions.canAssignTickets
+      )
+    ) {
+      throw new Error('Unauthorized7');
+    }
+    this.props.hash = hash;
+  }
 
+  public requestSetLastIndexed(lastIndexed: Date): void {
+    if (
+      !this.isNew &&
+      !this.visa.determineIf(
+        (permissions) =>
+          permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket) || (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) || permissions.canManageTickets || permissions.canAssignTickets
+      )
+    ) {
+      throw new Error('Unauthorized7');
+    }
+    this.props.lastIndexed = lastIndexed;
+  }
+
+  public requestSetUpdateIndexFailedDate(updateIndexFailedDate: Date): void {
+    if (
+      !this.isNew &&
+      !this.visa.determineIf(
+        (permissions) =>
+          permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket) || (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) || permissions.canManageTickets || permissions.canAssignTickets
+      )
+    ) {
+      throw new Error('Unauthorized7');
+    }
+    this.props.updateIndexFailedDate = updateIndexFailedDate;
+  }
+
+  public override onSave(isModified: boolean): void {
+    if (isModified && !super.isDeleted) {
+      this.addIntegrationEvent(ServiceTicketUpdatedEvent, { id: this.props.id });
+    }
+  }
+}

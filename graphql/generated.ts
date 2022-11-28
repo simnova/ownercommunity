@@ -261,6 +261,27 @@ export type CurrentUser = MongoBase & {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type CustomView = MongoSubdocument & {
+  __typename?: 'CustomView';
+  columnsToDisplay?: Maybe<Array<Maybe<Scalars['String']>>>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  filters?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id: Scalars['ObjectID'];
+  name?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type CustomViewInput = {
+  columnsToDisplay?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filters?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+  name?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
 export type FacetDetail = {
   __typename?: 'FacetDetail';
   count?: Maybe<Scalars['Int']>;
@@ -380,6 +401,7 @@ export type Member = MongoBase & {
   accounts?: Maybe<Array<Maybe<MemberAccount>>>;
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  customViews?: Maybe<Array<Maybe<CustomView>>>;
   id: Scalars['ObjectID'];
   memberName?: Maybe<Scalars['String']>;
   profile?: Maybe<MemberProfile>;
@@ -478,9 +500,10 @@ export type MemberProfileUpdateInput = {
 };
 
 export type MemberUpdateInput = {
+  customViews?: InputMaybe<Array<InputMaybe<CustomViewInput>>>;
   id: Scalars['ObjectID'];
-  memberName: Scalars['String'];
-  role: Scalars['ObjectID'];
+  memberName?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Scalars['ObjectID']>;
 };
 
 /** Base type for all models in mongo. */
@@ -927,6 +950,7 @@ export type Query = {
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicketsSearch?: Maybe<ServiceTicketsSearchResult>;
   servicesByCommunityId?: Maybe<Array<Maybe<Service>>>;
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
@@ -1011,6 +1035,11 @@ export type QueryServiceTicketArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsByCommunityIdArgs = {
   communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryServiceTicketsSearchArgs = {
+  input: ServiceTicketsSearchInput;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1206,6 +1235,60 @@ export type ServiceTicketUpdateInput = {
   title: Scalars['String'];
 };
 
+export type ServiceTicketsResult = {
+  __typename?: 'ServiceTicketsResult';
+  assignedTo?: Maybe<Scalars['String']>;
+  assignedToId?: Maybe<Scalars['String']>;
+  communityId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['Int']>;
+  propertyId?: Maybe<Scalars['String']>;
+  requestor?: Maybe<Scalars['String']>;
+  requestorId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ServiceTicketsSearchFacets = {
+  __typename?: 'ServiceTicketsSearchFacets';
+  assignedTo?: Maybe<Array<Maybe<FacetDetail>>>;
+  assignedToId?: Maybe<Array<Maybe<FacetDetail>>>;
+  priority?: Maybe<Array<Maybe<FacetDetail>>>;
+  requestor?: Maybe<Array<Maybe<FacetDetail>>>;
+  requestorId?: Maybe<Array<Maybe<FacetDetail>>>;
+  status?: Maybe<Array<Maybe<FacetDetail>>>;
+};
+
+export type ServiceTicketsSearchFilterDetail = {
+  assignedToId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  priority?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  requestorId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  status?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ServiceTicketsSearchInput = {
+  options?: InputMaybe<ServiceTicketsSearchOptions>;
+  searchString?: InputMaybe<Scalars['String']>;
+};
+
+export type ServiceTicketsSearchOptions = {
+  facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  filter?: InputMaybe<ServiceTicketsSearchFilterDetail>;
+  orderBy?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  top?: InputMaybe<Scalars['Int']>;
+};
+
+export type ServiceTicketsSearchResult = {
+  __typename?: 'ServiceTicketsSearchResult';
+  count?: Maybe<Scalars['Int']>;
+  facets?: Maybe<ServiceTicketsSearchFacets>;
+  serviceTicketsResults?: Maybe<Array<Maybe<ServiceTicketsResult>>>;
+};
+
 export type ServiceUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
@@ -1318,6 +1401,8 @@ export type ResolversTypes = ResolversObject<{
   CommunityUpdateInput: CommunityUpdateInput;
   Currency: ResolverTypeWrapper<Scalars['Currency']>;
   CurrentUser: ResolverTypeWrapper<CurrentUser>;
+  CustomView: ResolverTypeWrapper<CustomView>;
+  CustomViewInput: CustomViewInput;
   DID: ResolverTypeWrapper<Scalars['DID']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
@@ -1382,6 +1467,7 @@ export type ResolversTypes = ResolversObject<{
   MongoSubdocument:
     | ResolversTypes['AdditionalAmenities']
     | ResolversTypes['BedroomDetails']
+    | ResolversTypes['CustomView']
     | ResolversTypes['MemberAccount']
     | ResolversTypes['ServiceTicketActivityDetail']
     | ResolversTypes['ServiceTicketPhoto'];
@@ -1458,6 +1544,12 @@ export type ResolversTypes = ResolversObject<{
   ServiceTicketRemovePhotoInput: ServiceTicketRemovePhotoInput;
   ServiceTicketSubmitInput: ServiceTicketSubmitInput;
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
+  ServiceTicketsResult: ResolverTypeWrapper<ServiceTicketsResult>;
+  ServiceTicketsSearchFacets: ResolverTypeWrapper<ServiceTicketsSearchFacets>;
+  ServiceTicketsSearchFilterDetail: ServiceTicketsSearchFilterDetail;
+  ServiceTicketsSearchInput: ServiceTicketsSearchInput;
+  ServiceTicketsSearchOptions: ServiceTicketsSearchOptions;
+  ServiceTicketsSearchResult: ResolverTypeWrapper<ServiceTicketsSearchResult>;
   ServiceUpdateInput: ServiceUpdateInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
@@ -1500,6 +1592,8 @@ export type ResolversParentTypes = ResolversObject<{
   CommunityUpdateInput: CommunityUpdateInput;
   Currency: Scalars['Currency'];
   CurrentUser: CurrentUser;
+  CustomView: CustomView;
+  CustomViewInput: CustomViewInput;
   DID: Scalars['DID'];
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
@@ -1564,6 +1658,7 @@ export type ResolversParentTypes = ResolversObject<{
   MongoSubdocument:
     | ResolversParentTypes['AdditionalAmenities']
     | ResolversParentTypes['BedroomDetails']
+    | ResolversParentTypes['CustomView']
     | ResolversParentTypes['MemberAccount']
     | ResolversParentTypes['ServiceTicketActivityDetail']
     | ResolversParentTypes['ServiceTicketPhoto'];
@@ -1640,6 +1735,12 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceTicketRemovePhotoInput: ServiceTicketRemovePhotoInput;
   ServiceTicketSubmitInput: ServiceTicketSubmitInput;
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
+  ServiceTicketsResult: ServiceTicketsResult;
+  ServiceTicketsSearchFacets: ServiceTicketsSearchFacets;
+  ServiceTicketsSearchFilterDetail: ServiceTicketsSearchFilterDetail;
+  ServiceTicketsSearchInput: ServiceTicketsSearchInput;
+  ServiceTicketsSearchOptions: ServiceTicketsSearchOptions;
+  ServiceTicketsSearchResult: ServiceTicketsSearchResult;
   ServiceUpdateInput: ServiceUpdateInput;
   String: Scalars['String'];
   Time: Scalars['Time'];
@@ -1786,6 +1887,18 @@ export type CurrentUserResolvers<ContextType = Context, ParentType extends Resol
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CustomViewResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CustomView'] = ResolversParentTypes['CustomView']> = ResolversObject<{
+  columnsToDisplay?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  filters?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  sortOrder?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -1949,6 +2062,7 @@ export type MemberResolvers<ContextType = Context, ParentType extends ResolversP
   accounts?: Resolver<Maybe<Array<Maybe<ResolversTypes['MemberAccount']>>>, ParentType, ContextType>;
   community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  customViews?: Resolver<Maybe<Array<Maybe<ResolversTypes['CustomView']>>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   memberName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   profile?: Resolver<Maybe<ResolversTypes['MemberProfile']>, ParentType, ContextType>;
@@ -2009,7 +2123,7 @@ export type MongoBaseResolvers<ContextType = Context, ParentType extends Resolve
 }>;
 
 export type MongoSubdocumentResolvers<ContextType = Context, ParentType extends ResolversParentTypes['MongoSubdocument'] = ResolversParentTypes['MongoSubdocument']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'AdditionalAmenities' | 'BedroomDetails' | 'MemberAccount' | 'ServiceTicketActivityDetail' | 'ServiceTicketPhoto', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'AdditionalAmenities' | 'BedroomDetails' | 'CustomView' | 'MemberAccount' | 'ServiceTicketActivityDetail' | 'ServiceTicketPhoto', ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -2282,6 +2396,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   serviceTicketsClosedByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsOpenByCommunity?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsOpenByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
+  serviceTicketsSearch?: Resolver<Maybe<ResolversTypes['ServiceTicketsSearchResult']>, ParentType, ContextType, RequireFields<QueryServiceTicketsSearchArgs, 'input'>>;
   servicesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Service']>>>, ParentType, ContextType, RequireFields<QueryServicesByCommunityIdArgs, 'communityId'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userCurrent?: Resolver<Maybe<ResolversTypes['CurrentUser']>, ParentType, ContextType>;
@@ -2414,6 +2529,46 @@ export type ServiceTicketPhotoAuthHeaderResultResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ServiceTicketsResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ServiceTicketsResult'] = ResolversParentTypes['ServiceTicketsResult']> = ResolversObject<{
+  assignedTo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  assignedToId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  communityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  priority?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  propertyId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  requestor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  requestorId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceTicketsSearchFacetsResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ServiceTicketsSearchFacets'] = ResolversParentTypes['ServiceTicketsSearchFacets']
+> = ResolversObject<{
+  assignedTo?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  assignedToId?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  priority?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  requestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  requestorId?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  status?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceTicketsSearchResultResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['ServiceTicketsSearchResult'] = ResolversParentTypes['ServiceTicketsSearchResult']
+> = ResolversObject<{
+  count?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  facets?: Resolver<Maybe<ResolversTypes['ServiceTicketsSearchFacets']>, ParentType, ContextType>;
+  serviceTicketsResults?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketsResult']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
   name: 'Time';
 }
@@ -2482,6 +2637,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   CommunityPermissions?: CommunityPermissionsResolvers<ContextType>;
   Currency?: GraphQLScalarType;
   CurrentUser?: CurrentUserResolvers<ContextType>;
+  CustomView?: CustomViewResolvers<ContextType>;
   DID?: GraphQLScalarType;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
@@ -2558,6 +2714,9 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ServiceTicketPermissions?: ServiceTicketPermissionsResolvers<ContextType>;
   ServiceTicketPhoto?: ServiceTicketPhotoResolvers<ContextType>;
   ServiceTicketPhotoAuthHeaderResult?: ServiceTicketPhotoAuthHeaderResultResolvers<ContextType>;
+  ServiceTicketsResult?: ServiceTicketsResultResolvers<ContextType>;
+  ServiceTicketsSearchFacets?: ServiceTicketsSearchFacetsResolvers<ContextType>;
+  ServiceTicketsSearchResult?: ServiceTicketsSearchResultResolvers<ContextType>;
   Time?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;
   URL?: GraphQLScalarType;

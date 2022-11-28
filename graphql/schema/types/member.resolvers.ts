@@ -1,13 +1,14 @@
-import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../../generated';
+import { Resolvers, Member, Community, Role, User, MemberMutationResult, CustomView } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { Member as MemberDo } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 
 const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<MemberMutationResult> => {
   try {
-    return { status: { success: true }, member: await getMember } as MemberMutationResult;
+    const temp = { status: { success: true }, member: await getMember } as MemberMutationResult;
+    return temp;
   } catch (error) {
-    console.error("Community > Mutation  : ", error, error.stack);
+    console.error('Community > Mutation  : ', error, error.stack);
     return {
       status: { success: false, errorMessage: error.message },
       member: null,

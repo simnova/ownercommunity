@@ -14,7 +14,7 @@ import { PropertiesListSearchFilterDistance } from './properties-list-search-fil
 import { PropertiesListSearchFilterUpdatedDate } from './properties-list-search-filter-updated-date';
 import { PropertiesListSearchFilterCreatedDate } from './properties-list-search-filter-created-date';
 import { Collapse } from 'antd';
-import { PropertiesListSearchFilterTagsContainer } from './properties-list-search-filter-tags-container';
+import { PropertiesListSearchFilterTagsContainer } from './properties-list-search-filter-tags.container';
 
 const { Panel } = Collapse;
 interface PropertiesListSearchFiltersProps {

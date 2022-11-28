@@ -3,7 +3,7 @@ import { Select, Button, Typography, Modal, Space, Input, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchTags } from './service-tickets-search-tags';
 import {
-  GetSearchParamsFromServiceTicketFilter,
+  SetSearchParamsFromServiceTicketFilter,
   ServiceTicketSearchParamKeys,
   GetSelectedFilterTags,
   CustomViewOperation
@@ -13,6 +13,7 @@ import {
   CustomView,
   CustomViewInput,
   Member,
+  MemberMutationResult,
   MemberNameServiceTicketContainerQuery,
   MemberServiceTicketCustomViewsQuery
 } from '../../../../generated';
@@ -27,7 +28,7 @@ interface ServiceTicketsSearchToolbarProps {
     memberId: string,
     customViews: CustomViewInput[],
     operation: CustomViewOperation
-  ) => Promise<void>;
+  ) => Promise<MemberMutationResult | undefined>;
 }
 
 //create your forceUpdate hook
@@ -45,7 +46,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
   const [searchParams, setSearchParams] = useSearchParams();
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
   const [savedFilterNameInput, setSavedFilterNameInput] = useState('');
-  const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>(undefined);
+  const [selectedSavedFilterName, setSelectedSavedViewName] = useState<string | undefined>(undefined);
 
   const [customViews, setCustomViews] = useState<CustomView[]>([]);
   const [columnsToDisplay, setColumnsToDisplay] = useState<string[] | undefined>(
@@ -60,9 +61,9 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
 
   // get selected filters from url (after page refresh)
   useEffect(() => {
-    const savedFilterName = searchParams.get(ServiceTicketSearchParamKeys.SavedFilter);
+    const savedFilterName = searchParams.get(ServiceTicketSearchParamKeys.SavedView);
     if (savedFilterName) {
-      setSelectedSavedFilterName(savedFilterName);
+      setSelectedSavedViewName(savedFilterName);
     }
   }, []);
 
@@ -144,12 +145,14 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       props.customViewsData?.memberForCurrentUser?.id,
       customViewInputs,
       CustomViewOperation.Create
-    );
-    setCustomViews(customViews);
-    onSelectFilterChanged(savedFilterNameInput);
-    setSavedFilterNameInput('');
-    setIsSaveModalVisible(false);
-    forceUpdate();
+    ).then(data =>{
+      setCustomViews(data?.member?.customViews as CustomView[]);
+      onSelectViewChanged(savedFilterNameInput);
+      setSavedFilterNameInput('');
+      setIsSaveModalVisible(false);
+      forceUpdate();
+    });
+   
   };
 
   const deleteCustomView = async (id: string) => {
@@ -178,8 +181,8 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         CustomViewOperation.Delete
       );
       if (deletedView?.name === selectedSavedFilterName) {
-        setSelectedSavedFilterName(undefined);
-        searchParams.delete(ServiceTicketSearchParamKeys.SavedFilter);
+        setSelectedSavedViewName(undefined);
+        searchParams.delete(ServiceTicketSearchParamKeys.SavedView);
         setSearchParams(searchParams);
         clearFilter();
       }
@@ -189,22 +192,23 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     }
   };
 
-  const onSelectFilterChanged = (filterName: string) => {
-    if (filterName === '') {
+  const onSelectViewChanged = (viewName: string) => {
+    if (viewName === '') {
       clearFilter();
     } else {
-      const filter = customViews.find((f: any) => f.name === filterName)?.filters;
-      console.log('FILTER ', filter);
-      setSelectedSavedFilterName(filterName);
-      searchParams.set(ServiceTicketSearchParamKeys.SavedFilter, filterName);
-      GetSearchParamsFromServiceTicketFilter(
-        filter as string[],
+      const selectedView = customViews.find((view) => view.name === viewName);
+      const filters = selectedView?.filters;
+      console.log('FILTER ', filters);
+      setSelectedSavedViewName(viewName);
+      searchParams.set(ServiceTicketSearchParamKeys.SavedView, viewName);
+      SetSearchParamsFromServiceTicketFilter(
+        filters as string[],
         searchParams,
         props.memberData.membersByCommunityId as Member[]
       );
-      // get selected custom view
+      
       const savedColumnsToDisplay =
-        (customViews.find((view: any) => view.name === filterName)?.columnsToDisplay as string[]) ?? [];
+        (customViews.find((view: any) => view.name === viewName)?.columnsToDisplay as string[]) ?? [];
       if (savedColumnsToDisplay.length > 0) {
         searchParams.set(ServiceTicketSearchParamKeys.Column, savedColumnsToDisplay.join(','));
       } else {
@@ -274,7 +278,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', paddingLeft: '16px' }}>
         <Select
-          onChange={onSelectFilterChanged}
+          onChange={onSelectViewChanged}
           value={selectedSavedFilterName}
           style={{ width: '175px' }}
           placeholder="Select saved filter"
@@ -286,7 +290,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
                     <Button type="link" onClick={() => deleteCustomView(view.id)}>
                       <DeleteOutlined style={{ color: 'red' }} />
                     </Button>
-                    <Typography.Link style={{ width: '150px' }} onClick={() => onSelectFilterChanged(view.name)}>
+                    <Typography.Link style={{ width: '150px' }} onClick={() => onSelectViewChanged(view.name)}>
                       {view.name}
                     </Typography.Link>
                   </Space>

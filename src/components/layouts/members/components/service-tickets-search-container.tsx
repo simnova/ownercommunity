@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { CustomViewOperation } from '../../../../constants';
 import {
   CustomViewInput,
+  MemberMutationResult,
   MemberNameServiceTicketContainerDocument,
   MemberServiceTicketCustomViewsDocument,
   MemberServiceTicketSearchContainerCustomViewsUpdateDocument
@@ -60,6 +61,8 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
     customViews: CustomViewInput[],
     operation: CustomViewOperation
   ) => {
+    
+    let data: MemberMutationResult|undefined
     await updateCustomViews({
       variables: {
         input: {
@@ -67,7 +70,7 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
           customViews: customViews
         }
       }
-    }).then(() => {
+    }).then((result) => {
       switch (operation) {
         case CustomViewOperation.Create:
           message.destroy('save-custom-view-loading');
@@ -82,7 +85,9 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
           message.success('Custom view deleted');
           break;
       }
+      data = result as MemberMutationResult;
     });
+    return data;
   };
 
   if (error || customViewsError) {

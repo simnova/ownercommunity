@@ -47,7 +47,7 @@ export const ServiceTicketSearchParamKeys = {
   AssignedTo: 'assignedTo',
   Priority: 'priority',
   Status: 'status',
-  SavedFilter: 'savedFilter',
+  SavedView: 'savedFilter',
   Column: 'column',
   Page: 'page',
   Top: 'top',
@@ -559,14 +559,14 @@ export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: M
   return tempList;
 };
 
-export const GetSearchParamsFromServiceTicketFilter = (
-  filter: string[],
+export const SetSearchParamsFromServiceTicketFilter = (
+  filters: string[],
   searchParams: URLSearchParams,
   members: Member[]
 ) => {
   // do the opposite of GetSelectedFilterTags
-  if (filter && filter.length > 0) {
-    const assignedTo = filter.filter((tag: string) => tag.startsWith('Assigned to: '));
+  if (filters && filters.length > 0) {
+    const assignedTo = filters.filter((tag: string) => tag.startsWith('Assigned to: '));
     if (assignedTo && assignedTo.length > 0) {
       let ids: string[] = [];
       assignedTo.forEach((f: string) => {
@@ -580,19 +580,29 @@ export const GetSearchParamsFromServiceTicketFilter = (
         ids.push(id);
         searchParams.set('assignedTo', ids.join(','));
       });
+    } else {
+      searchParams.delete('assignedTo');
     }
 
-    const priority = filter.filter((tag: string) => tag.startsWith('Priority: '));
+    const priority = filters.filter((tag: string) => tag.startsWith('Priority: '));
     if (priority && priority.length > 0) {
       const priorityId = priority.map((tag: string) => tag.replace('Priority: ', ''));
       searchParams.set('priority', priorityId.join(','));
+    } else {
+      searchParams.delete('priority');
     }
 
-    const status = filter.filter((tag: string) => tag.startsWith('Status: '));
+    const status = filters.filter((tag: string) => tag.startsWith('Status: '));
     if (status && status.length > 0) {
       const statusId = status.map((tag: string) => tag.replace('Status: ', ''));
       searchParams.set('status', statusId.join(','));
+    } else {
+      searchParams.delete('status');
     }
+  }else {
+    searchParams.delete('assignedTo');
+    searchParams.delete('priority');
+    searchParams.delete('status');
   }
 };
 

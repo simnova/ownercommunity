@@ -1,7 +1,11 @@
 import { Checkbox, Collapse } from 'antd';
 import { useEffect, useState, FC } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { AmentitiesOptions, FilterNames, SearchParamKeys } from '../../../../constants';
+import {
+  AmentitiesOptions,
+  FilterNames,
+  SearchParamKeys
+} from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
 
 const { Panel } = Collapse;
@@ -13,7 +17,9 @@ interface AmenitiesFilterProps {
   setSelectedFilter: (selectedFilter: FilterDetail) => void;
   amenitiesFacets?: FacetDetail[];
 }
-export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (props) => {
+export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (
+  props
+) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>();
@@ -29,7 +35,10 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
     setSearchParams(searchParams);
     props.setSelectedFilter({
       ...props.selectedFilter,
-      listingDetail: { ...props.selectedFilter?.listingDetail, amenities: checkedValues }
+      listingDetail: {
+        ...props.selectedFilter?.listingDetail,
+        amenities: checkedValues
+      }
     });
   };
 
@@ -46,32 +55,13 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
     }
   }, [location]);
 
-  // const amenitiyFacets = props.amenitiesFacets ?? [{ value: '', count: 0 }];
-
-  //May need to be changed
-  // const amenities: string[] = [];
-  // amenitiyFacets.forEach((amenityFacet) => {
-  //   if (amenityFacet.value) {
-  //     if (Amenities.includes(amenityFacet.value)) {
-  //       amenities.push(amenityFacet.value);
-  //     }
-  //   }
-  // });
-
-  // const options = amenities.map((value) => {
-  //   // const count = amenityFacet.count;
-  //   const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
-  //   return {
-  //     label: `${value} (${count})`,
-  //     value: value
-  //   };
-  // });
-
   const getOptions = () => {
     const options: any = [];
 
     AmentitiesOptions.forEach((value: string) => {
-      const count = props.amenitiesFacets?.find((t: any) => t?.value === value)?.count;
+      const count = props.amenitiesFacets?.find(
+        (t: any) => t?.value === value
+      )?.count;
       if (count === undefined) {
         return;
       }
@@ -96,13 +86,22 @@ export const PropertiesListSearchFilterAmenities: FC<AmenitiesFilterProps> = (pr
   return (
     <Collapse
       className="search-filter-collapse"
-      defaultActiveKey={searchParams.get(FilterNames.Amenities) ? FilterNames.Amenities : undefined}
+      defaultActiveKey={
+        searchParams.get(FilterNames.Amenities)
+          ? FilterNames.Amenities
+          : undefined
+      }
     >
-      <Panel header={<h2 className="font-bold">Amenities</h2>} key={FilterNames.Amenities}>
+      <Panel
+        header={<h2 className="font-bold">Amenities</h2>}
+        key={FilterNames.Amenities}
+      >
         <CheckboxGroup
           options={getOptions()}
           value={selectedAmenities}
-          onChange={(checkedValues) => onAmenitiesFilterChange(checkedValues as string[])}
+          onChange={(checkedValues) =>
+            onAmenitiesFilterChange(checkedValues as string[])
+          }
         />
       </Panel>
     </Collapse>

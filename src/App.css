@@ -48,3 +48,39 @@
   width: 80%;
   margin: 0 auto;
 }
+
+.service-ticket-search-filter-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding-bottom: 0;
+}
+
+.service-ticket-search-filter-collapse > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+  padding-top: 0;
+  margin-left: 10px;
+}
+
+.search-filter-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-filter-scrollbar::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+
+.search-filter-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #ccc; 
+}
+
+.search-filter-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+.search-pagination {
+  padding: 10px 20px;
+  text-align: right;
+}
+
+.search-pagination > .ant-pagination-total-text {
+  margin-right: 24px;
+}

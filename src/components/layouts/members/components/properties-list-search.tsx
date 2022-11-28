@@ -1,4 +1,4 @@
-import { Table, Button, Input } from 'antd';
+import { Table, Button } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
@@ -46,11 +46,7 @@ export const PropertiesListSearch: React.FC<any> = (props) => {
   return (
     <>
       <div>
-        <Table
-          columns={columns}
-          dataSource={props.data ?? []}
-          rowKey={(record: any) => record.id}
-        />
+        <Table columns={columns} dataSource={props.data ?? []} rowKey={(record: any) => record.id} />
       </div>
     </>
   );

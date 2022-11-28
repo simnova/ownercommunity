@@ -1,15 +1,38 @@
-import { Table, Button, Layout, Menu } from 'antd';
+import { Table, Button, Layout, Pagination } from 'antd';
+import type { PaginationProps } from 'antd';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ServiceTicketSearchParamKeys } from '../../../../constants';
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
-export const ServiceTicketsList: React.FC<any> = (props) => {
+const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items `;
+
+interface SearchTicketsListProps {
+  data: any;
+  handleSearch: () => void;
+}
+
+export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
-  const columns = [
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handlePagination = (page: number) => {
+    searchParams.set(ServiceTicketSearchParamKeys.Page, page.toString());
+    setSearchParams(searchParams);
+    props.handleSearch();
+  };
+
+  const handleShowSizeChange = (_: number, size: number) => {
+    searchParams.set(ServiceTicketSearchParamKeys.Top, size.toString());
+    setSearchParams(searchParams);
+    props.handleSearch();
+  };
+
+  const columnSearchParams = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
+
+  const columnOptions = [
     {
       title: 'Action',
       dataIndex: 'id',
@@ -26,12 +49,12 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     },
     {
       title: 'Requestor',
-      dataIndex: ['requestor', 'memberName'],
+      dataIndex: ['requestor'],
       key: 'requestor'
     },
     {
       title: 'Assigned To',
-      dataIndex: ['assignedTo', 'memberName'],
+      dataIndex: ['assignedTo'],
       key: 'assignedTo'
     },
     {
@@ -53,38 +76,48 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     }
   ];
 
+  let columns: any = [];
+
+  if (columnSearchParams) {
+    columns.push(columnOptions.find((option: any) => option.title === 'Action'));
+
+    columnOptions.forEach((option: any) => {
+      if (columnSearchParams.includes(option.title)) {
+        columns.push(option);
+      }
+    });
+  } else {
+    columns = columnOptions;
+  }
+
   return (
     <>
-      <Layout hasSider>
-        <Sider
-          collapsible
-          trigger={null}
-          collapsed={collapsed}
-          style={{ overflow: 'auto', border: '1px solid #ccc' }}
-          theme="light"
-          collapsedWidth={48}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center'
-              // borderBottom: '1px solid #ccc'
-            }}
-            className="py-3"
-          >
-            <Button
-              type="text"
-              icon={collapsed ? <LeftOutlined /> : <RightOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{ margin: '0 auto', color: 'black', backgroundColor: 'transparent' }}
-            />
-          </div>
-
-          {/* Component goes here */}
-          {!collapsed && <div className="p-3">Thing</div>}
-        </Sider>
-        <Content className="pl-2">
-          <Table columns={columns} dataSource={props.data} rowKey={(record: any) => record.id} />
+      <Layout style={{ margin: '0px' }}>
+        <Content>
+          <Pagination
+            className="search-pagination"
+            current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
+            total={props.data.count}
+            pageSize={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10')}
+            pageSizeOptions={['5', '10', '25', '50']}
+            onChange={(page) => handlePagination(page)}
+            showTotal={showTotal}
+            showSizeChanger
+            onShowSizeChange={(_: number, size: number) => handleShowSizeChange(_, size)}
+          />
+          <Table
+            columns={columns}
+            dataSource={props.data.serviceTicketsResults}
+            pagination={false}
+            rowKey={(record: any) => record.id}
+          />
+          <Pagination
+            className="search-pagination"
+            current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
+            total={props.data.count}
+            onChange={(page) => handlePagination(page)}
+            showTotal={showTotal}
+          />
         </Content>
       </Layout>
     </>

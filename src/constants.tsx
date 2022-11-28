@@ -1,6 +1,6 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
-import { FacetDetail, FilterDetail } from './generated';
+import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -39,7 +39,19 @@ export const SearchParamKeys = {
   CreatedAt: 'createdAt',
   HideNullResults: 'hideNullResults',
   SavedFilter: 'savedFilter',
-  Tags: 'tags',
+  Tags: 'tags'
+};
+
+export const ServiceTicketSearchParamKeys = {
+  SearchString: 'searchString',
+  AssignedTo: 'assignedTo',
+  Priority: 'priority',
+  Status: 'status',
+  SavedView: 'savedFilter',
+  Column: 'column',
+  Page: 'page',
+  Top: 'top',
+  Sort: 'sort'
 };
 
 export const FilterNames = {
@@ -59,6 +71,15 @@ export const FilterNames = {
   UpdatedAt: 'updatedAt',
   CreatedAt: 'createdAt',
   Tags: 'tags'
+};
+
+export const ServiceTicketFilterNames = {
+  Requestor: 'requestor',
+  AssignedTo: 'assignedTo',
+  Status: 'status',
+  Priority: 'priority',
+  RequestorId: 'requestorId',
+  AssignedToId: 'assignedToId'
 };
 
 export const AvailableFilters = Object.values(FilterNames);
@@ -245,10 +266,7 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
   //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
 
-  var requestUrl = addresssGeocodeServiceUrlTemplate.replace(
-    '{query}',
-    encodeURIComponent(addressInput)
-  );
+  var requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(addressInput));
   const token = mapSASToken;
   console.log(token);
 
@@ -270,10 +288,7 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
   return address();
 };
 
-export const GetFilterFromQueryString = (
-  searchParams: URLSearchParams,
-  selectedFilter: FilterDetail
-): FilterDetail => {
+export const GetFilterFromQueryString = (searchParams: URLSearchParams, selectedFilter: FilterDetail): FilterDetail => {
   // get all search params
   const qsproperTypes = searchParams.get('type')?.split(',');
   const qsbedrooms = searchParams.get('bedrooms');
@@ -341,9 +356,7 @@ export const GetFilterFromQueryString = (
     listingDetail: {
       ...filters?.listingDetail,
       squareFeets:
-        qsminSquareFeet && qsmaxSquareFeet
-          ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
-          : undefined
+        qsminSquareFeet && qsmaxSquareFeet ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)] : undefined
     }
   };
 
@@ -410,22 +423,41 @@ export const GetFilterFromQueryString = (
   return filters;
 };
 
-export const GetSearchParamsFromFilter = (
-  filter: FilterDetail | undefined,
+export const GetFilterFromServiceTicketQueryString = (
   searchParams: URLSearchParams
-) => {
+): ServiceTicketsSearchFilterDetail => {
+  // get all search params
+  const qsassignedToId = searchParams.get('assignedTo')?.split(',');
+  const qspriority = searchParams
+    .get('priority')
+    ?.split(',')
+    .map((p) => parseInt(p));
+  let qsstatus = searchParams.get('status')?.split(',');
+
+  qsstatus = qsstatus?.map((status) => {
+    return status.toUpperCase();
+  });
+
+  let filters = {} as ServiceTicketsSearchFilterDetail;
+
+  filters = {
+    priority: qspriority,
+    assignedToId: qsassignedToId,
+    status: qsstatus
+  };
+
+  return filters;
+};
+
+export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, searchParams: URLSearchParams) => {
   if (filter) {
-    if (filter.propertyType)
-      searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
-    if (filter.listedInfo)
-      searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
+    if (filter.propertyType) searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
+    if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
     if (filter.distance && filter.distance !== 0)
       searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
     if (filter.position) {
-      if (filter.position.latitude)
-        searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
-      if (filter.position.longitude)
-        searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
+      if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
+      if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
     }
     if (filter.updatedAt) {
       searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
@@ -448,15 +480,9 @@ export const GetSearchParamsFromFilter = (
       }
       if (filter.listingDetail.squareFeets) {
         if (filter.listingDetail.squareFeets[0])
-          searchParams.set(
-            SearchParamKeys.MinSquareFeet,
-            filter.listingDetail.squareFeets[0].toString()
-          );
+          searchParams.set(SearchParamKeys.MinSquareFeet, filter.listingDetail.squareFeets[0].toString());
         if (filter.listingDetail.squareFeets[1])
-          searchParams.set(
-            SearchParamKeys.MaxSquareFeet,
-            filter.listingDetail.squareFeets[1].toString()
-          );
+          searchParams.set(SearchParamKeys.MaxSquareFeet, filter.listingDetail.squareFeets[1].toString());
       }
       if (filter.listingDetail.additionalAmenities) {
         let additionalAmenities: string[] = [];
@@ -471,21 +497,117 @@ export const GetSearchParamsFromFilter = (
   return searchParams;
 };
 
-// export const GetFilterOptions = (allOptions: string[], facets?: FacetDetail[]) => {
-//   const options: any = [];
+export const ConvertMemberIdToName = (memberId: string, members: Member[]): string => {
+  if (memberId) {
+    const member = members.find((m: any) => m.id === memberId);
+    return member?.memberName ?? '';
+  }
+  return '';
+};
 
-//   allOptions.forEach((value: string) => {
-//     const count = facets?.find((t: any) => t?.value === value)?.count;
-//     if (count === undefined) {
-//       return;
-//     }
-//     options.push({
-//       label: `${value} ${
-//         count !== undefined && count !== null && count > 0 ? `(${count})` : count === 0 ? '(0)' : ''
-//       }`,
-//       value: value
-//     });
-//   });
-//   console.log(options);
-//   return options;
-// };
+export const ConvertMemberNameToId = (memberName: string, members: Member[]): string => {
+  if (memberName) {
+    const member = members.find((m: any) => m.memberName === memberName);
+    return member?.id ?? '';
+  }
+  return '';
+};
+
+export const IsNameDuplicate = (name: string, members: Member[]): boolean => {
+  let count = 0;
+  members.forEach((m: any) => {
+    if (m.memberName === name) {
+      count++;
+    }
+  });
+  return count > 1;
+};
+
+export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: Member[]) => {
+  let tempList: string[] = [];
+
+  //props.memberData.membersByCommunityId
+
+  // const qsrequestorId = SearchParams.get('requestor');
+  const qsassignedToId = searchParams.get('assignedTo')?.split(',');
+  const qspriority = searchParams.get('priority')?.split(',');
+  const qsstatus = searchParams.get('status')?.split(',');
+
+  if (qsassignedToId && qsassignedToId.length > 0) {
+    const assignedTo = qsassignedToId.map((id: string) => {
+      const name = ConvertMemberIdToName(id, members ?? []);
+      let tagName = name;
+      if (IsNameDuplicate(name, members ?? [])) {
+        tagName = `${name} (${id})`;
+      }
+      return 'Assigned to: ' + tagName;
+    });
+
+    tempList.push(...assignedTo);
+  }
+
+  if (qspriority && qspriority.length > 0) {
+    const priority = qspriority.map((id: string) => 'Priority: ' + id);
+    tempList.push(...priority);
+  }
+
+  if (qsstatus && qsstatus.length > 0) {
+    const status = qsstatus.map((id: string) => 'Status: ' + id);
+    tempList.push(...status);
+  }
+
+  return tempList;
+};
+
+export const SetSearchParamsFromServiceTicketFilter = (
+  filters: string[],
+  searchParams: URLSearchParams,
+  members: Member[]
+) => {
+  // do the opposite of GetSelectedFilterTags
+  if (filters && filters.length > 0) {
+    const assignedTo = filters.filter((tag: string) => tag.startsWith('Assigned to: '));
+    if (assignedTo && assignedTo.length > 0) {
+      let ids: string[] = [];
+      assignedTo.forEach((f: string) => {
+        const name = f.split(': ')[1];
+        let id = '';
+        if (name.includes('(')) {
+          id = name.split('(')[1].split(')')[0];
+        } else {
+          id = ConvertMemberNameToId(name, members);
+        }
+        ids.push(id);
+        searchParams.set('assignedTo', ids.join(','));
+      });
+    } else {
+      searchParams.delete('assignedTo');
+    }
+
+    const priority = filters.filter((tag: string) => tag.startsWith('Priority: '));
+    if (priority && priority.length > 0) {
+      const priorityId = priority.map((tag: string) => tag.replace('Priority: ', ''));
+      searchParams.set('priority', priorityId.join(','));
+    } else {
+      searchParams.delete('priority');
+    }
+
+    const status = filters.filter((tag: string) => tag.startsWith('Status: '));
+    if (status && status.length > 0) {
+      const statusId = status.map((tag: string) => tag.replace('Status: ', ''));
+      searchParams.set('status', statusId.join(','));
+    } else {
+      searchParams.delete('status');
+    }
+  }else {
+    searchParams.delete('assignedTo');
+    searchParams.delete('priority');
+    searchParams.delete('status');
+  }
+};
+
+export enum CustomViewOperation {
+  Create,
+  Update,
+  Delete
+}

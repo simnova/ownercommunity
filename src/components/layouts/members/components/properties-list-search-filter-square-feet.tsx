@@ -1,12 +1,7 @@
 import { Space, Select, Collapse } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import {
-  FilterNames,
-  MaxSquareFeetOptions,
-  MinSquareFeetOptions,
-  SearchParamKeys
-} from '../../../../constants';
+import { FilterNames, MaxSquareFeetOptions, MinSquareFeetOptions, SearchParamKeys } from '../../../../constants';
 import { FilterDetail } from '../../../../generated';
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -16,9 +11,7 @@ interface PropertiesListSearchFilterSquareFeetProps {
   selectedFilter?: FilterDetail;
 }
 
-export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilterSquareFeetProps> = (
-  props: any
-) => {
+export const PropertiesListSearchFilterSquareFeet: FC<PropertiesListSearchFilterSquareFeetProps> = (props: any) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [minSquareFeet, setMinSquareFeet] = useState(0);

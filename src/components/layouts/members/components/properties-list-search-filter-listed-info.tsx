@@ -1,7 +1,7 @@
 import { Checkbox, Collapse } from 'antd';
 import { useState, FC, useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { FilterNames, Listed, SearchParamKeys } from '../../../../constants';
+import { FilterNames, SearchParamKeys } from '../../../../constants';
 import { FacetDetail, FilterDetail } from '../../../../generated';
 const CheckboxGroup = Checkbox.Group;
 const { Panel } = Collapse;
@@ -12,9 +12,7 @@ interface PropertiesListSearchFilterListedInfoProps {
   listedInfoFacets?: FacetDetail[];
 }
 
-export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilterListedInfoProps> = (
-  props
-) => {
+export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilterListedInfoProps> = (props) => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedListedInfo, setSelectedListedInfo] = useState<string[]>([]);
@@ -29,7 +27,10 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
     }
     setSearchParams(searchParams);
 
-    props.setSelectedFilter({ ...props.selectedFilter, listedInfo: checkedValues });
+    props.setSelectedFilter({
+      ...props.selectedFilter,
+      listedInfo: checkedValues
+    });
   };
 
   // Update UI (selected listed info) with corresponding listed info when page is loaded
@@ -70,19 +71,14 @@ export const PropertiesListSearchFilterListedInfo: FC<PropertiesListSearchFilter
     };
   });
 
-  if (
-    props.listedInfoFacets?.filter((info) => info.count && info?.value === 'true' && info.count > 0)
-      .length === 0
-  ) {
+  if (props.listedInfoFacets?.filter((info) => info.count && info?.value === 'true' && info.count > 0).length === 0) {
     return null;
   }
 
   return (
     <Collapse
       className="search-filter-collapse"
-      defaultActiveKey={
-        searchParams.get(FilterNames.ListedInfo) ? FilterNames.ListedInfo : undefined
-      }
+      defaultActiveKey={searchParams.get(FilterNames.ListedInfo) ? FilterNames.ListedInfo : undefined}
     >
       <Panel header={<h2 className="font-bold">Listed</h2>} key={FilterNames.ListedInfo}>
         <CheckboxGroup

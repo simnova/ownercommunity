@@ -13,11 +13,14 @@ import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware'
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
+import   * as  appInsights   from "applicationinsights";
+
 
 import {
   GraphQLRequestContext,
 } from 'apollo-server-plugin-base'
 import { decorateContext } from './extensions/passport-context';
+import { env } from 'process';
 
 export class ApolloServerRequestHandler {
 
@@ -52,6 +55,8 @@ export class ApolloServerRequestHandler {
             console.error('Apollo Server encountered error:', requestContext.errors);
           },
           async serverWillStart(service: GraphQLServiceContext) {
+            if(env.APPLICATIONINSIGHTS_CONNECTION_STRING) appInsights.setup().start();
+
             console.log('Apollo Server Starting');
             await connect();
             portalTokenExtractor.Start();

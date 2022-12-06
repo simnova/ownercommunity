@@ -13,7 +13,6 @@ import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware'
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
-import   * as  appInsights   from "applicationinsights";
 
 
 import {
@@ -55,15 +54,7 @@ export class ApolloServerRequestHandler {
             console.error('Apollo Server encountered error:', requestContext.errors);
           },
           async serverWillStart(service: GraphQLServiceContext) {
-            if(!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIONINSIGHTS_CONNECTION_STRING.length === 0){
-              console.log('Application Insights not configured');
-            } else {
-              appInsights
-                .setup()
-                .setAutoCollectConsole(true, true)
-                .start();
-              
-            } 
+            
 
             console.log('Apollo Server Starting');
             await connect();

@@ -55,7 +55,9 @@ export class ApolloServerRequestHandler {
             console.error('Apollo Server encountered error:', requestContext.errors);
           },
           async serverWillStart(service: GraphQLServiceContext) {
-            if(env.APPLICATIONINSIGHTS_CONNECTION_STRING){
+            if(!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIONINSIGHTS_CONNECTION_STRING.length === 0){
+              console.log('Application Insights not configured');
+            } else {
               appInsights
                 .setup()
                 .setAutoCollectConsole(true, true)

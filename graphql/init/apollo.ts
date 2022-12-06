@@ -55,7 +55,13 @@ export class ApolloServerRequestHandler {
             console.error('Apollo Server encountered error:', requestContext.errors);
           },
           async serverWillStart(service: GraphQLServiceContext) {
-            if(env.APPLICATIONINSIGHTS_CONNECTION_STRING) appInsights.setup().start();
+            if(env.APPLICATIONINSIGHTS_CONNECTION_STRING){
+              appInsights
+                .setup()
+                .setAutoCollectConsole(true, true)
+                .start();
+              
+            } 
 
             console.log('Apollo Server Starting');
             await connect();

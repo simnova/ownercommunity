@@ -35,24 +35,28 @@ export class Maps {
     }
 
     constructor(){
-        setLogLevel("info");
-        // const {accountName, accountKey} = AccountInfo.getInstance().getSettings();
-        this._mapKey = this.tryGetEnvVar(this.mapKeyEnvVarKey);
-        this._azureSubscriptionID = this.tryGetEnvVar(this._azureSubscriptionIDEnvVar);
-        let credentials;
-        if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
+        try {
+            setLogLevel("info");
+            // const {accountName, accountKey} = AccountInfo.getInstance().getSettings();
+            this._mapKey = this.tryGetEnvVar(this.mapKeyEnvVarKey);
+            this._azureSubscriptionID = this.tryGetEnvVar(this._azureSubscriptionIDEnvVar);
+            let credentials;
+            if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
+                credentials = new DefaultAzureCredential( ); //https://learn.microsoft.com/en-us/javascript/api/overview/azure/identity-vscode-readme?view=azure-node-latest
+            }
+            else {
+                credentials = new DefaultAzureCredential( { ManangedIdentityClientId: this.tryGetEnvVar(this._appIdentityKey) } as DefaultAzureCredentialOptions);
+            } 
+            console.log(credentials);
+            this._azureMapsClient = new AzureMapsManagementClient(credentials, this._azureSubscriptionID );
+            this._resourceGroup = this.tryGetEnvVar(this._resourceGroupKey);
+            this._principalId = this.tryGetEnvVar(this._principalIdKey);
+            this._mapsAccountName = this.tryGetEnvVar("MAPS_ACCOUNT_NAME");
+        } catch (error) {
+            console.error('Error in Maps constructor: ', error);
             
-            credentials = new DefaultAzureCredential( ); //https://learn.microsoft.com/en-us/javascript/api/overview/azure/identity-vscode-readme?view=azure-node-latest
-
         }
-        else {
-            credentials = new DefaultAzureCredential( { ManangedIdentityClientId: this.tryGetEnvVar(this._appIdentityKey) } as DefaultAzureCredentialOptions);
-        } 
-        console.log(credentials);
-        this._azureMapsClient = new AzureMapsManagementClient(credentials, this._azureSubscriptionID );
-        this._resourceGroup = this.tryGetEnvVar(this._resourceGroupKey);
-        this._principalId = this.tryGetEnvVar(this._principalIdKey);
-        this._mapsAccountName = this.tryGetEnvVar("MAPS_ACCOUNT_NAME");
+
     }
 
     public get mapKey(): string {

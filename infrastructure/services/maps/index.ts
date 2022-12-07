@@ -6,7 +6,6 @@ import { AccountSasParameters } from "@azure/arm-maps";
 import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential, useIdentityPlugin, VisualStudioCodeCredential } from "@azure/identity";
 import dayjs from 'dayjs';
 import { setLogLevel } from "@azure/logger";
-import { vsCodePlugin } from "@azure/identity-vscode";
 import { env } from "process";
 
 export class Maps {
@@ -42,8 +41,8 @@ export class Maps {
         this._azureSubscriptionID = this.tryGetEnvVar(this._azureSubscriptionIDEnvVar);
         let credentials;
         if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
-            useIdentityPlugin(vsCodePlugin)
-            credentials = new DefaultAzureCredential( );
+            
+            credentials = new DefaultAzureCredential( ); //https://learn.microsoft.com/en-us/javascript/api/overview/azure/identity-vscode-readme?view=azure-node-latest
 
         }
         else {

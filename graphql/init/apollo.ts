@@ -77,33 +77,38 @@ export class ApolloServerRequestHandler {
   private readonly graphqlHandlerObj:any;
 
   constructor(portals:Map<string,string>){
-    console.log(' -=-=-=-=-=-=-=-=-= INITIALIZING APOLLO -=-=-=-=-=-=-=-=-=')
-    const scuredSchema:GraphQLSchemaWithFragmentReplacements = applyMiddleware(combinedSchema,permissions);
-    const portalTokenExtractor:PortalTokenValidation = new PortalTokenValidation(portals);
+    try {
+      console.log(' -=-=-=-=-=-=-=-=-= INITIALIZING APOLLO -=-=-=-=-=-=-=-=-=')
+      const scuredSchema:GraphQLSchemaWithFragmentReplacements = applyMiddleware(combinedSchema,permissions);
+      const portalTokenExtractor:PortalTokenValidation = new PortalTokenValidation(portals);
 
-    const server = new ApolloServer({
-      ...this.serverConfig(portalTokenExtractor,scuredSchema)
-    });
+      const server = new ApolloServer({
+        ...this.serverConfig(portalTokenExtractor,scuredSchema)
+      });
 
-    this.graphqlHandlerObj = server.createHandler({
-      cors: {
-        origin: true,
-        credentials: true,
-      },
+      this.graphqlHandlerObj = server.createHandler({
+        cors: {
+          origin: true,
+          credentials: true,
+        },
 
-      // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health
-      onHealthCheck: async (): Promise<any> => {
-        // doesn't work yet 
-        // https://github.com/apollographql/apollo-server/pull/5270
-        // https://github.com/apollographql/apollo-server/pull/5003
-        let mongoConnected = mongoose.connection.readyState === 1;
-        if(mongoConnected) {
-          return;
-        } else {
-          throw new Error('MongoDB is not connected');
-        }
-      },
-    } as CreateHandlerOptions)
+        // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health
+        onHealthCheck: async (): Promise<any> => {
+          // doesn't work yet 
+          // https://github.com/apollographql/apollo-server/pull/5270
+          // https://github.com/apollographql/apollo-server/pull/5003
+          let mongoConnected = mongoose.connection.readyState === 1;
+          if(mongoConnected) {
+            return;
+          } else {
+            throw new Error('MongoDB is not connected');
+          }
+        },
+      } as CreateHandlerOptions);
+    } catch (error) {
+      console.log('Error initializing apollo server:',error);
+    }
+    
   }
 
 }

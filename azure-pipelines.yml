@@ -15,7 +15,7 @@ pr:
 
 variables:
   # Function app name
-  functionApp1Name: 'owner-community-data-access-west2'
+  functionApp1Name: 'owner-community-data-access-west23'
   functionApp2Name: 'owner-community-data-access-east2'
 
   # Environment name

@@ -41,7 +41,7 @@ export class Maps {
             this._mapKey = this.tryGetEnvVar(this.mapKeyEnvVarKey);
             this._azureSubscriptionID = this.tryGetEnvVar(this._azureSubscriptionIDEnvVar);
             let credentials;
-            if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
+            if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test" || process.env[this._appIdentityKey] === undefined){
                 credentials = new DefaultAzureCredential( ); //https://learn.microsoft.com/en-us/javascript/api/overview/azure/identity-vscode-readme?view=azure-node-latest
             }
             else {

@@ -3,7 +3,7 @@ import { Button } from 'antd';
 
 export const Header: React.FC<any> = () => {
   const handleLogin = () => {
-    window.location.href = `${process.env.REACT_APP_AAD_REDIRECT_URI}/login`;
+    window.location.href = `${process.env.REACT_APP_AAD_REDIRECT_URI}/login/`;
   };
   return <>
     <div className={styles['top-bar']}>

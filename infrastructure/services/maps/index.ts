@@ -1,7 +1,6 @@
 import { AzureMapsManagementClient } from '@azure/arm-maps';
 import { AccountSasParameters } from '@azure/arm-maps';
-import { useIdentityPlugin,ManagedIdentityCredential, TokenCredential, DefaultAzureCredential} from '@azure/identity';
-import { vsCodePlugin } from "@azure/identity-vscode";
+import { ManagedIdentityCredential, TokenCredential, DefaultAzureCredential} from '@azure/identity';
 import dayjs from 'dayjs';
 import { setLogLevel } from '@azure/logger';
 
@@ -21,6 +20,9 @@ export class Maps {
 
     private readonly _mapsAccountNameKey:string = "MAPS_ACCOUNT_NAME";
     private readonly _mapsAccountName: string;
+
+    private readonly _mapsClientIdKey:string = "MAPS_USER_ASSIGNED_FUNCTION_IDENTITY_CLIENT_ID";
+    private readonly _mapsClientId: string;
 
     private readonly _azureMapsClient: AzureMapsManagementClient;
     
@@ -47,10 +49,13 @@ export class Maps {
         let credentials : TokenCredential;
 
         if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
-          useIdentityPlugin(vsCodePlugin)
-          credentials = new DefaultAzureCredential( );
+          credentials = new DefaultAzureCredential();
         }else{
-          credentials = new ManagedIdentityCredential();
+          if(process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined){
+            credentials = new ManagedIdentityCredential(process.env.MANAGED_IDENTITY_CLIENT_ID);
+          }else{
+            credentials = new DefaultAzureCredential();
+          }
         }
 
         console.log('mapCredentials:',credentials);

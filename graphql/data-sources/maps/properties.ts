@@ -3,12 +3,12 @@ import { Context } from '../../context';
 
 export class Properties extends MapsDataSource<Context> {
 
-	public async getSasToken(): Promise<string> {
-        let sasToken: string = "";
-        await this.withMaps(async (passport, maps) => {
-            sasToken = await maps.generateSharedKey();
-        });
-        return sasToken;
-    }
-
+  public async getSasToken(): Promise<string> {
+    let sasToken: string = '';
+    await this.withMaps(async (_passport, maps) => {
+      sasToken = await maps.generateSharedKey();
+    });
+    return sasToken;
+  }
+  
 }

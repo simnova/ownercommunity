@@ -1,4 +1,4 @@
-import { DataSource,DataSourceConfig } from 'apollo-datasource';
+import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
 import { Maps } from '../../../infrastructure/services/maps';
@@ -10,7 +10,7 @@ export class MapsDataSource<Context extends GraphQLContext> extends DataSource<C
   public get context(): Context { return this._context;}
 
   public async withMaps(func:(passport:Passport, maps:Maps) => Promise<void>): Promise<void> {
-    let passport =  this.context.passport; //await getPassport(this.context);
+    let passport =  this.context.passport; 
     await func(passport, this._maps);
   }
 

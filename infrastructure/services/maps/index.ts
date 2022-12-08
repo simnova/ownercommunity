@@ -1,83 +1,88 @@
-import { AzureKeyCredential } from "@azure/search-documents";
-import { AccountsListKeysResponse, AzureMapsManagementClient, MapsAccount } from "@azure/arm-maps";
-import { AccountInfo } from "./account-info";
-import { throws } from "assert";
-import { AccountSasParameters } from "@azure/arm-maps";
-import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential, useIdentityPlugin, VisualStudioCodeCredential } from "@azure/identity";
+import { AzureMapsManagementClient } from '@azure/arm-maps';
+import { AccountSasParameters } from '@azure/arm-maps';
+import { useIdentityPlugin,ManagedIdentityCredential, TokenCredential, DefaultAzureCredential} from '@azure/identity';
+import { vsCodePlugin } from "@azure/identity-vscode";
 import dayjs from 'dayjs';
-import { setLogLevel } from "@azure/logger";
-import { env } from "process";
+import { setLogLevel } from '@azure/logger';
 
 export class Maps {
-    private readonly mapKeyEnvVarKey =  'MAPS_KEY';
-    private readonly _mapKey: string;
-    private readonly _azureSubscriptionIDEnvVar: string =  'AZURE_SUBSCRIPTION_ID';
+
+    //There is a problem with VSCode Authentication as of 2022-12-07 
+    // https://github.com/Azure/azure-sdk-for-js/issues/22904
+
+    private readonly _azureSubscriptionIDEnvVar: string =  'MAPS_AZURE_SUBSCRIPTION_ID';
     private readonly _azureSubscriptionID: string;
-    private readonly _azureMapsClient: AzureMapsManagementClient;
-    private readonly _resourceGroupKey: string = "RESOURCE_GROUP";
+
+    private readonly _resourceGroupKey: string = "MAPS_RESOURCE_GROUP";
     private readonly _resourceGroup: string;
-    private readonly _principalIdKey: string = "OBJECT_PRINCIPAL_ID";
+
+    private readonly _principalIdKey: string = "MAPS_OBJECT_PRINCIPAL_ID";
     private readonly _principalId: string;
-    private readonly _mapsAccountNameKey: "MAPS_ACCOUNT_NAME";
+
+    private readonly _mapsAccountNameKey:string = "MAPS_ACCOUNT_NAME";
     private readonly _mapsAccountName: string;
 
-    // private readonly _accountName: string;
-
-    private readonly _appIdentityKey: string = "AZURE_FUNCTION_APP_IDENTITY";
-    // private readonly _credentials: TokenCredential; 
-
-    tryGetEnvVar(envVar: string): string {
+    private readonly _azureMapsClient: AzureMapsManagementClient;
+    
+    private tryGetEnvVar(envVar: string): string {
         const value = process.env[envVar];
         if (value === undefined) {
             throw new Error(`Environment variable ${envVar} is not set`);
         }
         return value;
     }
-
+    /**
+     * Constructor
+     * requires the following environment variables:
+     * AZURE_SUBSCRIPTION_ID
+     * RESOURCE_GROUP - the resource group that contains the Azure Maps account
+     * OBJECT_PRINCIPAL_ID - object ID of the Identity assigned to the Azure Maps account
+     * MAPS_ACCOUNT_NAME - the name of the Azure Maps account
+     */
     constructor(){
-        try {
-            setLogLevel("info");
-            // const {accountName, accountKey} = AccountInfo.getInstance().getSettings();
-            this._mapKey = this.tryGetEnvVar(this.mapKeyEnvVarKey);
-            this._azureSubscriptionID = this.tryGetEnvVar(this._azureSubscriptionIDEnvVar);
-            let credentials;
-            if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test" || process.env[this._appIdentityKey] === undefined){
-                credentials = new DefaultAzureCredential( ); //https://learn.microsoft.com/en-us/javascript/api/overview/azure/identity-vscode-readme?view=azure-node-latest
-            }
-            else {
-                credentials = new DefaultAzureCredential( { ManangedIdentityClientId: this.tryGetEnvVar(this._appIdentityKey) } as DefaultAzureCredentialOptions);
-            } 
-            console.log(credentials);
-            this._azureMapsClient = new AzureMapsManagementClient(credentials, this._azureSubscriptionID );
-            this._resourceGroup = this.tryGetEnvVar(this._resourceGroupKey);
-            this._principalId = this.tryGetEnvVar(this._principalIdKey);
-            this._mapsAccountName = this.tryGetEnvVar("MAPS_ACCOUNT_NAME");
-        } catch (error) {
-            console.error('Error in Maps constructor: ', error);
-            
+      try {
+        setLogLevel("info");
+
+        this._azureSubscriptionID = this.tryGetEnvVar(this._azureSubscriptionIDEnvVar);
+        let credentials : TokenCredential;
+
+        if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
+          useIdentityPlugin(vsCodePlugin)
+          credentials = new DefaultAzureCredential( );
+        }else{
+          credentials = new ManagedIdentityCredential();
         }
 
+        console.log('mapCredentials:',credentials);
+        
+        this._azureMapsClient = new AzureMapsManagementClient(credentials, this._azureSubscriptionID);
+        this._resourceGroup = this.tryGetEnvVar(this._resourceGroupKey);
+        this._principalId = this.tryGetEnvVar(this._principalIdKey);
+        this._mapsAccountName = this.tryGetEnvVar(this._mapsAccountNameKey);
+      } catch (error) {
+        console.error('Error in Maps constructor: ', error);
+      }
     }
-
-    public get mapKey(): string {
-        return this._mapKey;
-    }
-
-    // For AzureMapsManagementClient
-    // This is a parameter for ^
-    public get azureKeyCredential(): AzureKeyCredential {
-        return new AzureKeyCredential(this._mapKey);
-    }
-
-    public async listKeys(): Promise<AccountsListKeysResponse> {
-        return await this._azureMapsClient.accounts.listKeys(this._resourceGroup, this._mapsAccountName);
-    }
-
+    
+    /**
+     * Generate a SAS token for the Azure Maps account
+     * @returns {Promise<string>} The SAS token
+     * uses the Azure Maps SDK for JS - management client
+     **/  
     public async generateSharedKey(): Promise<string> {
         try {
-            var primaryKey = (await this.listKeys()).primaryKey??"";
-            var sasToken = await this._azureMapsClient.accounts.listSas(this._resourceGroup, this._mapsAccountName, { expiry : dayjs().add(10, 'minutes').toISOString(), maxRatePerSecond: 10, principalId: this._principalId, start: dayjs().subtract(5, 'minutes').toISOString(), signingKey: "primaryKey"} as AccountSasParameters); // ,  { expiry : dayjs().add(10, 'minutes').toISOString(), maxRatePerSecond: 10, principalId: "", start: dayjs().subtract(5, 'minutes').toISOString()} as AccountSasParameters
-            return sasToken.accountSasToken ?? "" ;
+            
+            let sasParams : AccountSasParameters = {
+              expiry : dayjs().add(10, 'minutes').toISOString(), 
+              maxRatePerSecond: 10, 
+              principalId: this._principalId, 
+              start: dayjs().subtract(5, 'minutes').toISOString(), 
+              signingKey: "primaryKey"
+            }
+            var sasToken = await this._azureMapsClient.accounts.listSas(this._resourceGroup, this._mapsAccountName, sasParams); // ,  { expiry : dayjs().add(10, 'minutes').toISOString(), maxRatePerSecond: 10, principalId: "", start: dayjs().subtract(5, 'minutes').toISOString()} as AccountSasParameters
+            var tokenString = sasToken.accountSasToken ?? "" ;
+            console.log('tokenString:',tokenString);
+            return tokenString;
         } catch (error) {
             console.log(error);
             return JSON.stringify(error);

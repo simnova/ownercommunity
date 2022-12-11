@@ -192,9 +192,9 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
           <></>
         )}
         {props.data.property.listingDetail.listingAgentWebsite ? (
-          <Link to={props.data.property.listingDetail.listingAgentWebsite}>
+          <a href={props.data.property.listingDetail.listingAgentWebsite}>
             {props.data.property.listingDetail.listingAgentWebsite}
-          </Link>
+          </a>
         ) : (
           <></>
         )}
@@ -227,9 +227,9 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                 <></>
               )}
               {props.data.property.listingDetail.listingAgentCompanyWebsite ? (
-                <Link to={props.data.property.listingDetail.listingAgentCompanyWebsite}>
+                <a href={props.data.property.listingDetail.listingAgentCompanyWebsite}>
                   {props.data.property.listingDetail.listingAgentCompanyWebsite}
-                </Link>
+                </a>
               ) : (
                 <></>
               )}

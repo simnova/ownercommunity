@@ -19,6 +19,15 @@ mutation AdminSettingsGeneralContainerCommunityUpdate($input: CommunityUpdateInp
 fragment AdminSettingsGeneralContainerCommunityFields on Community {
   name
   domain
+  domainStatus {
+    verified
+    verification {
+      type
+      domain
+      value
+      reason
+    }
+  }
   whiteLabelDomain
   handle
 

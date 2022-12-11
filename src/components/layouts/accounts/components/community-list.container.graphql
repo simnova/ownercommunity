@@ -10,7 +10,7 @@ fragment CommunityListContainerCommunitiesFields on Community {
   whiteLabelDomain
   handle
   publicContentBlobUrl
-
+  userIsAdmin
   id
   schemaVersion
   createdAt

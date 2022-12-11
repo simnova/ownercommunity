@@ -34,6 +34,7 @@ export const CommunityList: React.FC<any> = (props) => {
                 {community.name} Member Site
               </Button>
             </Col>
+            { community.userIsAdmin && (
             <Col span={8} style={{ textAlign: 'center' }}>
               <Button
                 style={{ width: '250px' }}
@@ -42,6 +43,7 @@ export const CommunityList: React.FC<any> = (props) => {
                 {community.name} Admin Site
               </Button>
             </Col>
+            )}
           </Row>
         </div>
       ))}

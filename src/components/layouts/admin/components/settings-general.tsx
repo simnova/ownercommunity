@@ -47,7 +47,7 @@ export const SettingsGeneral: React.FC<any> = (props) => {
         <div className={'m-3'}>
           The white domain is used to allow users to access your public community website.<br/>
           They will be able access it at : https://<Text strong>{data.whiteLabelDomain}</Text>.owner.community<br/>
-          <Text type={'danger'}>This is a necessary</Text> to allow users to access your community website unless you have a custom domain you own. (see below)
+          <Text type={'danger'}>This is necessary</Text> to allow users to access your community website unless you have a custom domain you own. (see below)
       </div>
 
         <Form.Item
@@ -60,7 +60,12 @@ export const SettingsGeneral: React.FC<any> = (props) => {
           The domain is used to apply a custom domain to the public facing website.<br/>
           You must have a domain name registered with us before you can use this feature.<br/>
           Assign the CNAME of "www" to "cname.vercel-dns.com" in your DNS settings.<br/>
-          Once added, you can use the domain name in the white label field above.
+          Once added, you can use the domain name in the white label field above.<br/>
+          <br/>
+          Status: {data.domainStatus.verified ? <Text type={'success'}>Verified</Text> : <Text type={'danger'}>Not Verified</Text>}<br/>
+          {data.domainStatus.verificationDetail ? <Text type={'danger'}>{JSON.stringify(data.domainStatus.verificationDetail)}</Text> : null}
+
+          
         </div>
 
 

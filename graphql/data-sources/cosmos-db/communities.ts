@@ -1,8 +1,9 @@
 import { msRestAzureVersion } from '@azure/ms-rest-azure-js';
 import { MongoDataSource } from 'apollo-datasource-mongodb';
-import { isValidObjectId } from 'mongoose';
+import { isValidObjectId, Types } from 'mongoose';
 import { resourceLimits } from 'worker_threads';
 import { Community, CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/models/community';
+import { MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { UserModel } from '../../../infrastructure/data-sources/cosmos-db/models/user';
 import { Context } from '../../context';
 
@@ -37,6 +38,89 @@ export class Communities extends MongoDataSource<Community, Context> {
       ]
       })?.[0];
   }
+  async userIsAdmin(communityId: string): Promise<boolean> {
+    var externalId = this.context.verifiedUser.verifiedJWT.sub
+    type MatchedDocsType = {
+      matchedDocs: number
+    }
+    var result =  await MemberModel.aggregate<any>(
+      [
+        {
+            $match: {
+                "community": new Types.ObjectId(communityId),
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "m": "$$ROOT"
+            }
+        },
+        {
+            "$lookup": {
+                "localField": "m.role",
+                "from": "roles",
+                "foreignField": "_id",
+                "as": "r"
+            }
+        },
+        {
+            $match: {
+
+                "$or": [
+                    {
+                        "r.permissions.serviceTicketPermissions.canManageTickets": true
+                    },
+                    {
+                        "r.permissions.serviceTicketPermissions.canAssignTickets": true
+                    },
+                    {
+                        "r.permissions.serviceTicketPermissions.canWorkOnTickets": true
+                    },
+                    {
+                        "r.permissions.communityPermissions.canManageRolesAndPermissions": true
+                    },
+                    {
+                        "r.permissions.communityPermissions.canManageCommunitySettings": true
+                    },
+                    {
+                        "r.permissions.communityPermissions.canManageSiteContent": true
+                    },
+                    {
+                        "r.permissions.communityPermissions.canManageMembers": true
+                    },
+                    {
+                        "r.permissions.propertyPermissions.canManageProperties": true
+                    }
+                ],
+            }
+        },
+        {
+            "$lookup": {
+                "localField": "m.accounts.user",
+                "from": "users",
+                "foreignField": "_id",
+                "as": "u"
+            }
+        },
+        {
+            "$match": {
+                "u.externalId": externalId,
+            }
+        },
+        {
+            "$count": "matchedDocs"
+        }
+      ],
+      {
+          "allowDiskUse": true
+      }
+    );
+    console.log(`communityId`,communityId);
+    console.log(`userIsAdmin`,result);
+    return result.reduce((acc, cur) => acc + cur.matchedDocs, 0) > 0;    
+  }
+
   async getCommunitiesForCurrentUser(): Promise<Community[]> {
     var externalId = this.context.verifiedUser.verifiedJWT.sub
     // starts from user (looking up by externalId), then find where they are a member, and then find the communities they are a member of

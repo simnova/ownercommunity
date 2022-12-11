@@ -8,6 +8,6 @@ export default () => { NodeEventBus.register(CommunityCreatedEvent, async (paylo
 
   const blobStorage = new BlobStorage();
   await blobStorage.createContainer(payload.communityId);
-  
-  
+  await blobStorage.createContainer(`${payload.communityId}-private`, false);
+    
 })};

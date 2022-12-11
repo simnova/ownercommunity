@@ -30,6 +30,12 @@ const community: Resolvers = {
     filesByType: async (rootObj: Community, { type } ) => {
       return DataSources.communityBlobAPI.communityPublicFilesListByType(rootObj.id, type);
     },
+    domainStatus: async (rootObj: Community) => {
+      return DataSources.communityVercelApi.getDomainDetails(rootObj.domain);
+    },
+    userIsAdmin: async (rootObj: Community, _args, { dataSources }) => {
+      return dataSources.communityCosmosdbApi.userIsAdmin(rootObj.id);
+    },
   },
   Query: {
     community: async (_, _args, { dataSources }) => {

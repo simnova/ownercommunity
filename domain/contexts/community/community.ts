@@ -77,13 +77,13 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     if(
       !this.isNew &&
       !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the white label domain of this community');}
-    this.props.whiteLabelDomain = whiteLabelDomain.valueOf();
+    this.props.whiteLabelDomain = whiteLabelDomain ? whiteLabelDomain.valueOf() : null;
   }
   public requestSetHandle(handle:ValueObjects.Handle): void {
     if(
       !this.isNew &&
       !this.visa.determineIf(permissions => permissions.canManageCommunitySettings)) {throw new Error('You do not have permission to change the handle of this community');}
-    this.props.handle = handle.valueOf();
+    this.props.handle = handle ? handle.valueOf() : null;
   }
   public requestSetCreatedBy(createdBy:UserEntityReference): void {
     if(
@@ -94,4 +94,3 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
   }
 
 }
-

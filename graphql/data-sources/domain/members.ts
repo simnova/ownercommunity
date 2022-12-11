@@ -124,6 +124,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
     });
     return memberToReturn;
   }
+  
   async memberProfileUpdateAvatar(memberId: string, avatarDocumentId: string): Promise<Member> {
     let memberToReturn: Member;
     await this.withTransaction(async (repo) => {

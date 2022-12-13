@@ -1,0 +1,13 @@
+query UserInfoContainerUserCurrentQuery {
+  userCurrent { 
+      ...UserInfoContainerCurrentUserFields
+  }
+}
+
+fragment UserInfoContainerCurrentUserFields on CurrentUser {
+  id
+  externalId
+  firstName
+  lastName
+  __typename
+}

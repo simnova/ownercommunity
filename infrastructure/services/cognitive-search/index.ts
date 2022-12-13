@@ -22,37 +22,38 @@ export class CognitiveSearch {
 
   async createIndexIfNotExists(indexName: string, indexDefinition: SearchIndex): Promise<void> {
     if (this.searchClients.has(indexName)) return;
-    await this.client
-      .getIndex(indexName)
-      .then((index) => {
-        console.log(`Index ${indexName} already exists`);
-
-        return index;
-      })
-      .catch((err) => {
-        console.log(`Index ${indexName} does not exist error ${JSON.stringify(err)} thrown, creating it...`);
-        return this.client.createIndex(indexDefinition);
-      });
+    let index : SearchIndex;
+    try {
+      index = await this.client.getIndex(indexName);
+      console.log(`Index ${index.name} already exists`);
+    } catch (err) {
+      console.log(`Index ${indexName} does not exist error ${JSON.stringify(err)} thrown, creating it...`);
+      index = await this.client.createIndex(indexDefinition);
+      console.log(`Index ${index.name} created`);
+    }
     this.searchClients.set(indexName, this.client.getSearchClient(indexName));
   }
 
   async createOrUpdateIndex(indexName: string, indexDefinition: SearchIndex): Promise<void> {
     if (this.searchClients.has(indexName)) return;
-    await this.client
-      .getIndex(indexName)
-      .then(() => {
-        console.log(`Index ${indexName} already exists, updating it...`);
-        return this.client.createOrUpdateIndex(indexDefinition);
-      })
-      .catch((err) => {
-        console.log(`Index ${indexName} does not exist error ${JSON.stringify(err)} thrown, creating it...`);
-        return this.client.createOrUpdateIndex(indexDefinition);
-      });
+    let index : SearchIndex;
+    try{
+      index = await this.client.getIndex(indexName);
+    } catch (err) {
+      console.log(`Index ${indexName} does not exist error ${JSON.stringify(err)} thrown, creating it...`);
+      index = await this.client.createIndex(indexDefinition);
+      console.log(`Index ${index.name} created`);
+    }
+   
+    index = await this.client.createOrUpdateIndex(indexDefinition);
+    console.log(`Index ${index.name} updated`);
+ 
+
     this.searchClients.set(indexName, this.client.getSearchClient(indexName));
   }
 
   async search(indexName: string, searchText: string, options?: any): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-    var result = await this.client.getSearchClient(indexName).search(searchText, options);
+    const result = await this.client.getSearchClient(indexName).search(searchText, options);
     console.log('search result', result);
     return result;
   }
@@ -63,7 +64,7 @@ export class CognitiveSearch {
 
   async indexDocument(indexName: string, document: any): Promise<void> {
     //return this.searchClients.get(indexName)!.indexDocuments([document]);
-    let searchClient = this.searchClients.get(indexName);
+    const searchClient = this.searchClients.get(indexName);
 
     searchClient.mergeOrUploadDocuments([document]);
   }

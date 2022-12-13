@@ -40,12 +40,10 @@ export class ContentModerator {
         autocorrect: false,
         pII: false,
         classify: true
-
       })
       .then(result => {
         console.log(`Moderation result: ${JSON.stringify(result)}`);
         return {
-          
           IsApproved: !result.classification.reviewRecommended
           }
       });

@@ -19,12 +19,12 @@ export class BlobRequest {
     webResource.headers.set(HeaderConstants.CONTENT_TYPE, mimeType);
     webResource.headers.set(HeaderConstants.CONTENT_LENGTH, fileSizeBytes);
 
-    // Canocicalized Headers
+    // Canonicalized Headers
     webResource.headers.set(HeaderConstants.X_MS_BLOB_TYPE, 'BlockBlob');
     webResource.headers.set(HeaderConstants.X_MS_DATE,requestDate);
     webResource.headers.set(HeaderConstants.X_MS_VERSION,'2021-04-10'); 
 
-    // Canocicalized Resource
+    // Canonicalized Resource
     webResource.headers.set(accountName, `/${accountName}/${containerName}/${blobName}`);
     
     return webResource;
@@ -38,12 +38,12 @@ export class BlobRequest {
     webResource.url = `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`;
     webResource.headers.set(HeaderConstants.CONTENT_TYPE, mimeType);
 
-    // Canocicalized Headers
+    // Canonicalized Headers
     webResource.headers.set(HeaderConstants.X_MS_BLOB_TYPE, 'BlockBlob');
     webResource.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
     webResource.headers.set(HeaderConstants.X_MS_VERSION,'2021-04-10'); 
 
-    // Canocicalized Resource
+    // Canonicalized Resource
     webResource.headers.set(accountName, `/${accountName}/${containerName}/${blobName}`);
 
     return webResource;

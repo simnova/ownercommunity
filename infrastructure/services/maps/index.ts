@@ -76,22 +76,21 @@ export class Maps {
      * uses the Azure Maps SDK for JS - management client
      **/  
     public async generateSharedKey(): Promise<string> {
-        try {
-            
-            let sasParams : AccountSasParameters = {
-              expiry : dayjs().add(10, 'minutes').toISOString(), 
-              maxRatePerSecond: 10, 
-              principalId: this._principalId, 
-              start: dayjs().subtract(5, 'minutes').toISOString(), 
-              signingKey: "primaryKey"
-            }
-            var sasToken = await this._azureMapsClient.accounts.listSas(this._resourceGroup, this._mapsAccountName, sasParams); // ,  { expiry : dayjs().add(10, 'minutes').toISOString(), maxRatePerSecond: 10, principalId: "", start: dayjs().subtract(5, 'minutes').toISOString()} as AccountSasParameters
-            var tokenString = sasToken.accountSasToken ?? "" ;
-            console.log('tokenString:',tokenString);
-            return tokenString;
-        } catch (error) {
-            console.log(error);
-            return JSON.stringify(error);
+      try {
+        const sasParams : AccountSasParameters = {
+          expiry : dayjs().add(10, 'minutes').toISOString(), 
+          maxRatePerSecond: 10, 
+          principalId: this._principalId, 
+          start: dayjs().subtract(5, 'minutes').toISOString(), 
+          signingKey: "primaryKey"
         }
+        const sasToken = await this._azureMapsClient.accounts.listSas(this._resourceGroup, this._mapsAccountName, sasParams); // ,  { expiry : dayjs().add(10, 'minutes').toISOString(), maxRatePerSecond: 10, principalId: "", start: dayjs().subtract(5, 'minutes').toISOString()} as AccountSasParameters
+        const tokenString = sasToken.accountSasToken ?? "" ;
+        console.log('tokenString:',tokenString);
+        return tokenString;
+      } catch (error) {
+        console.log(error);
+        return JSON.stringify(error);
+      }
     }
 }

@@ -61,7 +61,7 @@ export class Vercel {
     return results.data as DomainResponse;
   }
 
-  async removeDomainFromProject(domain:string): Promise<Boolean> {
+  async removeDomainFromProject(domain:string): Promise<boolean> {
     const results = await axios.delete(
       `https://api.vercel.com/v9/projects/${this._vercelProject}/domains/${domain}`,
      {

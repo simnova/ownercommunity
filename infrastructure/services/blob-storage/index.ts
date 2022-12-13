@@ -44,7 +44,7 @@ export class BlobStorage {
   }
 
   public generateSharedKey(blobName:string,fileSizeBytes:number,requestDate:string,mimeType:string, containerName:string):string{
-    var blobRequest = (new BlobRequest()).createRequest(
+    const blobRequest = (new BlobRequest()).createRequest(
       this.accountName,
       containerName,
       blobName,
@@ -56,7 +56,7 @@ export class BlobStorage {
   }
 
   public generateSharedKeyLite(blobName:string,mimeType:string,containerName:string):string{
-    var blobRequest = (new BlobRequest()).createRequestLite(
+    const blobRequest = (new BlobRequest()).createRequestLite(
       this.accountName,
       containerName,
       blobName,

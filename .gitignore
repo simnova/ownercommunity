@@ -44,4 +44,4 @@ __pycache__/
 graphql/data-sources/.DS_Store
 
 
-testReport.html
+test-report.html

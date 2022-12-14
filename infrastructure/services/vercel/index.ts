@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
+import { json } from 'stream/consumers';
 
 export interface DomainResponse {
   name: string;
@@ -37,6 +38,24 @@ export class Vercel implements IVercel {
   }
 
   async addDomainToProject(domain:string): Promise<DomainResponse> {
+
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${this._vercelToken}`
+      }
+    } 
+
+    const data = {
+      name : domain
+    }
+
+    const results = await axios.post(
+      `https://api.vercel.com/v9/projects/${this._vercelProject}/domains`,
+      JSON.stringify(data),
+      config
+    )
+/*
+
     const results = await axios({
       method: 'POST',
       url: `https://api.vercel.com/v9/projects/${this._vercelProject}/domains`, 
@@ -47,10 +66,14 @@ export class Vercel implements IVercel {
         "name" : '"${domain}"' 
       }
     });
+    */
+    console.log('addDomainToProject results: ', results);
     return results.data as DomainResponse;
   }
 
   async removeDomainFromProject(domain:string): Promise<boolean> {
+ 
+
     const results = await axios.delete(
       `https://api.vercel.com/v9/projects/${this._vercelProject}/domains/${domain}`,
      {

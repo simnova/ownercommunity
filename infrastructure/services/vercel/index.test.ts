@@ -15,7 +15,7 @@ beforeEach(() => {
 
 describe('Vercel', () => {
 
-  test.skip('addDomainToProject', async () => {
+  test('addDomainToProject', async () => {
     // arrange
     const givenDomain = 'test-domain';
     const expectedUrl = `https://api.vercel.com/v9/projects/${projectValue}/domains`;
@@ -26,24 +26,6 @@ describe('Vercel', () => {
 
     // actual example from vercel
     // {"apexName": "buildaperfectworld.com", "createdAt": 1670991475218, "gitBranch": null, "name": "buildaperfectworld.com", "projectId": "prj_TQYcHARH5YxnuBWoc34KfHwJDZSL", "redirect": null, "redirectStatusCode": null, "updatedAt": 1670991475218, "verified": true}
-
-
-    mockedAxios.interceptors.request.use(
-      (config) => {
-        console.log('config', config);
-        return config;
-      }
-    );
-    mockedAxios.interceptors.response.use(
-      (response) => {
-        response.data = {data: {
-          token: 'test',
-          key: 'Zm9vYmFy',
-        }};
-        console.log('response', response);
-        return response;
-      }
-    );
 
     mockedAxios.post.mockResolvedValue(
       Promise.resolve({

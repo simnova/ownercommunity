@@ -54,20 +54,6 @@ export class Vercel implements IVercel {
       JSON.stringify(data),
       config
     )
-/*
-
-    const results = await axios({
-      method: 'POST',
-      url: `https://api.vercel.com/v9/projects/${this._vercelProject}/domains`, 
-      headers: {
-        Authorization: `Bearer ${this._vercelToken}`
-      },
-      data: {
-        "name" : '"${domain}"' 
-      }
-    });
-    */
-    console.log('addDomainToProject results: ', results);
     return results.data as DomainResponse;
   }
 

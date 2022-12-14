@@ -8,13 +8,19 @@ export enum ModeratedContentType {
   XML = "text/xml",
 }
 
+export interface BatchModerationResult {
+  batchApproved: boolean;
+  failedKey: string;
+}
+
 export interface ModerationResult {
   IsApproved: boolean;
 }
+export interface IContentModerator {
+  moderateText(text: string, contentType: ModeratedContentType): Promise<ModerationResult>;
+}
 
-export class ContentModerator {
-  private readonly subscriptionKeyEnvVar = 'CONTENT_MODERATOR_SUBSCRIPTION_KEY';
-  private readonly endpointEnvVar = 'CONTENT_MODERATOR_ENDPOINT';
+export class ContentModerator implements IContentModerator {
   private client: ContentModeratorClient;
 
   tryGetEnvVar(envVar:string):string{
@@ -25,13 +31,12 @@ export class ContentModerator {
     return value;
   }
 
-  constructor(){
-    const credentials = new CognitiveServicesCredentials(this.tryGetEnvVar(this.subscriptionKeyEnvVar));
-    const endpoint = this.tryGetEnvVar(this.endpointEnvVar);
+  constructor(endpoint:string, subscriptionKey:string){
+    const credentials = new CognitiveServicesCredentials(subscriptionKey);
     this.client = new ContentModeratorClient(credentials, endpoint);
   }
-  
-  moderateText(textToModerate:string, contentType: ModeratedContentType):Promise<ModerationResult>{
+
+  public async moderateText(textToModerate:string, contentType: ModeratedContentType):Promise<ModerationResult>{
     console.log(`Moderating text: ${textToModerate}`);
     return this.client
       .textModeration
@@ -47,6 +52,20 @@ export class ContentModerator {
           IsApproved: !result.classification.reviewRecommended
           }
       });
+  }
+
+   public async moderateContentBatch(contentWithKeys: Map<string, string>): Promise<BatchModerationResult> {
+    for (let key in contentWithKeys) {
+      let textToModerate = contentWithKeys[key];
+      if (textToModerate.trim().length == 0) {
+        continue; // skip empty content
+      }
+      let result = await this.moderateText(textToModerate, ModeratedContentType.PlainText);
+      if (!result.IsApproved) {
+        return {batchApproved:false, failedKey:key} as BatchModerationResult;
+      }
+    }
+    return {batchApproved:true, failedKey:''} as BatchModerationResult;
   }
   
 }

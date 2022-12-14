@@ -1,8 +1,13 @@
 import { SearchIndexClient, SearchClient, AzureKeyCredential, SearchIndex, SearchOptions, SearchDocumentsResult } from '@azure/search-documents';
 
-export class CognitiveSearch {
-  private readonly searchKeyEnvVar = 'SEARCH_API_KEY';
-  private readonly endpointEnvVar = 'SEARCH_API_ENDPOINT';
+export interface ICognitiveSearch {
+  createIndexIfNotExists(indexName:string, indexDefinition:SearchIndex): Promise<void>;
+  createOrUpdateIndex(indexName:string, indexDefinition:SearchIndex): Promise<void>;
+  search(indexName: string, searchText: string, options?: any): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
+  deleteDocument(indexName: string, document: any): Promise<void>;
+  indexDocument(indexName: string, document: any): Promise<void>;
+}
+export class CognitiveSearch implements ICognitiveSearch {
   private client: SearchIndexClient;
   private searchClients: Map<string, SearchClient<unknown>> = new Map<string, SearchClient<unknown>>();
 
@@ -13,10 +18,8 @@ export class CognitiveSearch {
     }
     return value;
   }
-
-  constructor() {
-    const credentials = new AzureKeyCredential(this.tryGetEnvVar(this.searchKeyEnvVar));
-    const endpoint = this.tryGetEnvVar(this.endpointEnvVar);
+  constructor(searchKey: string, endpoint: string) {
+    const credentials = new AzureKeyCredential(searchKey);
     this.client = new SearchIndexClient(endpoint, credentials);
   }
 
@@ -48,7 +51,6 @@ export class CognitiveSearch {
     index = await this.client.createOrUpdateIndex(indexDefinition);
     console.log(`Index ${index.name} updated`);
  
-
     this.searchClients.set(indexName, this.client.getSearchClient(indexName));
   }
 

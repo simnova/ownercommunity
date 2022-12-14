@@ -6,4 +6,4 @@ import { UserModel } from '../../../infrastructure/data-sources/cosmos-db/models
 import { UserConverter } from './user.domain-adapter';
 import { MongoUserRepository } from './user.mongo-repository';
 
-export const UserUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, UserModel, new UserConverter(), MongoUserRepository);
+export const UserUnitOfWork = new MongoUnitOfWork(InProcEventBus, NodeEventBus, UserModel, new UserConverter(), MongoUserRepository);

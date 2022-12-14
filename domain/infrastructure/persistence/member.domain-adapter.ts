@@ -27,12 +27,8 @@ export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implement
     super(doc);
   }
 
-  get memberName() {
-    return this.doc.memberName;
-  }
-  set memberName(memberName) {
-    this.doc.memberName = memberName;
-  }
+  get memberName() { return this.doc.memberName; }
+  set memberName(memberName) { this.doc.memberName = memberName; }
 
   get community() {
     if (this.doc.community) {
@@ -74,19 +70,11 @@ export class AccountDomainAdapter implements AccountProps {
     return this.doc.id.valueOf() as string;
   }
 
-  get firstName() {
-    return this.doc.firstName;
-  }
-  set firstName(firstName) {
-    this.doc.firstName = firstName;
-  }
+  get firstName() { return this.doc.firstName;}
+  set firstName(firstName) { this.doc.firstName = firstName;}
 
-  get lastName() {
-    return this.doc.lastName;
-  }
-  set lastName(lastName) {
-    this.doc.lastName = lastName;
-  }
+  get lastName() { return this.doc.lastName;}
+  set lastName(lastName) { this.doc.lastName = lastName;}
 
   get user() {
     if (this.doc.user) {
@@ -97,12 +85,8 @@ export class AccountDomainAdapter implements AccountProps {
     this.doc.set('user', user['props']['doc']);
   }
 
-  get statusCode() {
-    return this.doc.statusCode;
-  }
-  set statusCode(statusCode) {
-    this.doc.statusCode = statusCode;
-  }
+  get statusCode() { return this.doc.statusCode; }
+  set statusCode(statusCode) { this.doc.statusCode = statusCode; }
 
   get createdBy() {
     if (this.doc.createdBy) {
@@ -120,112 +104,52 @@ export class CustomViewDomainAdapter implements CustomViewProps {
     return this.doc.id.valueOf() as string;
   }
 
-  get name() {
-    return this.doc.name;
-  }
-  set name(name) {
-    this.doc.name = name;
-  }
+  get name() {return this.doc.name;}
+  set name(name) {this.doc.name = name;}
 
-  get type() {
-    return this.doc.type;
-  }
-  set type(type) {
-    this.doc.type = type;
-  }
+  get type() {return this.doc.type;}
+  set type(type) {this.doc.type = type;}
 
-  get filters() {
-    return this.doc.filters;
-  }
-  set filters(filters) {
-    this.doc.filters = filters;
-  }
+  get filters() {return this.doc.filters;}
+  set filters(filters) {this.doc.filters = filters;}
 
-  get sortOrder() {
-    return this.doc.sortOrder;
-  }
-  set sortOrder(sortOrder) {
-    this.doc.sortOrder = sortOrder;
-  }
+  get sortOrder() {return this.doc.sortOrder;}
+  set sortOrder(sortOrder) {this.doc.sortOrder = sortOrder;}
 
-  get columnsToDisplay() {
-    return this.doc.columnsToDisplay;
-  }
-  set columnsToDisplay(columnsToDisplay) {
-    this.doc.columnsToDisplay = columnsToDisplay;
-  }
+  get columnsToDisplay() {return this.doc.columnsToDisplay;}
+  set columnsToDisplay(columnsToDisplay) {this.doc.columnsToDisplay = columnsToDisplay;}
 }
 
 export class ProfileDomainAdapter implements ProfileProps {
   constructor(public readonly props: Profile) {}
 
-  get name() {
-    return this.props.name;
-  }
-  set name(name) {
-    this.props.name = name;
-  }
+  get name() {return this.props.name;}
+  set name(name) {this.props.name = name;}
 
-  get email() {
-    return this.props.email;
-  }
-  set email(email) {
-    this.props.email = email;
-  }
+  get email() {return this.props.email;}
+  set email(email) {this.props.email = email;}
 
-  get bio() {
-    return this.props.bio;
-  }
-  set bio(bio) {
-    this.props.bio = bio;
-  }
+  get bio() {return this.props.bio;}
+  set bio(bio) {this.props.bio = bio;}
 
-  get avatarDocumentId() {
-    return this.props.avatarDocumentId;
-  }
-  set avatarDocumentId(avatarDocumentId) {
-    this.props.avatarDocumentId = avatarDocumentId;
-  }
+  get avatarDocumentId() {return this.props.avatarDocumentId;}
+  set avatarDocumentId(avatarDocumentId) {this.props.avatarDocumentId = avatarDocumentId;}
 
-  get interests() {
-    return this.props.interests;
-  }
-  set interests(interests) {
-    this.props.interests = interests;
-  }
+  get interests() {return this.props.interests;}
+  set interests(interests) {this.props.interests = interests;}
 
-  get showInterests() {
-    return this.props.showInterests;
-  }
-  set showInterests(showInterests) {
-    this.props.showInterests = showInterests;
-  }
+  get showInterests() {return this.props.showInterests;}
+  set showInterests(showInterests) {this.props.showInterests = showInterests;}
 
-  get showEmail() {
-    return this.props.showEmail;
-  }
-  set showEmail(showEmail) {
-    this.props.showEmail = showEmail;
-  }
+  get showEmail() {return this.props.showEmail;}
+  set showEmail(showEmail) {this.props.showEmail = showEmail;}
 
-  get showProfile() {
-    return this.props.showProfile;
-  }
-  set showProfile(showProfile) {
-    this.props.showProfile = showProfile;
-  }
+  get showProfile() {return this.props.showProfile;}
+  set showProfile(showProfile) {this.props.showProfile = showProfile;}
 
-  get showLocation() {
-    return this.props.showLocation;
-  }
-  set showLocation(showLocation) {
-    this.props.showLocation = showLocation;
-  }
+  get showLocation() {return this.props.showLocation;}
+  set showLocation(showLocation) {this.props.showLocation = showLocation;}
 
-  get showProperties() {
-    return this.props.showProperties;
-  }
-  set showProperties(showProperties) {
-    this.props.showProperties = showProperties;
-  }
+  get showProperties() {return this.props.showProperties;}
+  set showProperties(showProperties) {this.props.showProperties = showProperties;}
 }

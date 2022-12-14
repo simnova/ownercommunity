@@ -1,6 +1,6 @@
 import { NodeEventBus } from '../core/events/node-event-bus';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from './property-search-index-format';
-import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
+import { ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 import { PropertyUnitOfWork } from '../persistence/property.uow';
 import { SystemExecutionContext } from '../execution-context';
 import { PropertyUpdatedEvent } from '../../events/property-updated';
@@ -12,7 +12,7 @@ import { MongoPropertyRepository } from '../persistence/property.mongo-repositor
 import retry from 'async-retry';
 const crypto = require('crypto');
 
-export default () => {
+export default (cognitiveSearch:ICognitiveSearch) => {
   NodeEventBus.register(PropertyUpdatedEvent, async (payload) => {
     console.log(`Property Updated - Search Index Integration: ${JSON.stringify(payload)} and PropertyId: ${payload.id}`);
 
@@ -30,11 +30,9 @@ export default () => {
         geoGraphyPoint = new GeographyPoint({ longitude: coordinates[1], latitude: coordinates[0] });
       }
 
-      let updatedDate = property.updatedAt.toISOString();
-      updatedDate = dayjs(property.updatedAt.toISOString().split('T')[0]).toISOString();
+      const updatedDate = dayjs(property.updatedAt.toISOString().split('T')[0]).toISOString();
 
-      let createdDate = property.createdAt.toISOString();
-      createdDate = dayjs(property.createdAt.toISOString().split('T')[0]).toISOString();
+      const createdDate = dayjs(property.createdAt.toISOString().split('T')[0]).toISOString();
 
       let listingDoc: Partial<PropertyListingIndexDocument> = {
         id: property.id,
@@ -78,7 +76,7 @@ export default () => {
         tags: property.tags,
       };
 
-      let listingDocCopy = JSON.parse(JSON.stringify(listingDoc));
+      const listingDocCopy = JSON.parse(JSON.stringify(listingDoc));
       delete listingDocCopy.updatedAt;
 
       const hash = crypto.createHash('sha256').update(JSON.stringify(listingDocCopy)).digest('base64');
@@ -104,19 +102,22 @@ export default () => {
       }
     });
   });
+
+
+  async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocument>, property: Property<PropertyDomainAdapter>, hash: any, repo: MongoPropertyRepository<PropertyDomainAdapter>) {
+    //let cognitiveSearch = new CognitiveSearch();
+    // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
+    await cognitiveSearch.createOrUpdateIndex(PropertyListingIndexSpec.name, PropertyListingIndexSpec);
+    await cognitiveSearch.indexDocument(PropertyListingIndexSpec.name, listingDoc);
+    console.log(`Property Updated - Index Updated: ${JSON.stringify(listingDoc)}`);
+  
+    property.requestSetLastIndexed(new Date());
+    property.requestSetHash(hash);
+    await repo.save(property);
+    console.log('Index update successful: ', property.lastIndexed);
+  }
 };
 
-async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocument>, property: Property<PropertyDomainAdapter>, hash: any, repo: MongoPropertyRepository<PropertyDomainAdapter>) {
-  let cognitiveSearch = new CognitiveSearch();
-  // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
-  await cognitiveSearch.createOrUpdateIndex(PropertyListingIndexSpec.name, PropertyListingIndexSpec);
-  await cognitiveSearch.indexDocument(PropertyListingIndexSpec.name, listingDoc);
-  console.log(`Property Updated - Index Updated: ${JSON.stringify(listingDoc)}`);
 
-  property.requestSetLastIndexed(new Date());
-  property.requestSetHash(hash);
-  await repo.save(property);
-  console.log('Index update successful: ', property.lastIndexed);
-}
 
 

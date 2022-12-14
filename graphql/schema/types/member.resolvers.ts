@@ -46,9 +46,9 @@ const member: Resolvers = {
     },
   },
   Query: {
-    member: async (_parent, args, context) => {
-      if (args.id && isValidObjectId(args.id)) {
-        return (await context.dataSources.memberCosmosdbApi.findOneById(args.id)) as Member;
+    member: async (_parent, {id}, context) => {
+      if (id && isValidObjectId(id)) {
+        return (await context.dataSources.memberCosmosdbApi.findOneById(id)) as Member;
       }
       return null;
     },
@@ -88,14 +88,14 @@ const member: Resolvers = {
       return MemberMutationResolver(dataSources.memberDomainAPI.memberProfileUpdate(input));
     },
     memberProfileAvatarCreateAuthHeader: async (_, { input }, { dataSources }) => {
-      var result = await dataSources.memberBlobAPI.memberProfileAvatarCreateAuthHeader(input.memberId, input.contentType, input.contentLength);
+      const result = await dataSources.memberBlobAPI.memberProfileAvatarCreateAuthHeader(input.memberId, input.contentType, input.contentLength);
       if (result.status.success) {
         result.member = (await dataSources.memberDomainAPI.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
       }
       return result;
     },
     memberProfileAvatarRemove: async (_, { memberId }, { dataSources }) => {
-      let result = {
+      const result = {
         status: await dataSources.memberBlobAPI.memberProfileAvatarRemove(memberId),
       } as MemberMutationResult;
 

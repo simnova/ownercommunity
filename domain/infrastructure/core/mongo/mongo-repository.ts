@@ -48,8 +48,8 @@ export abstract class MongoRepositoryBase<ContextType extends ExecutionContext, 
   }
 
   async getIntegrationEvents(): Promise<DomainEvent[]> {
-    var integrationEventsGroup = this.itemsInTransaction.map(item => {
-      var integrationEvents = item.getIntegrationEvents();
+    const integrationEventsGroup = this.itemsInTransaction.map(item => {
+      const integrationEvents = item.getIntegrationEvents();
       item.clearIntegrationEvents(); 
       return integrationEvents});
     return integrationEventsGroup.reduce((acc,curr) => acc.concat(curr),[]);

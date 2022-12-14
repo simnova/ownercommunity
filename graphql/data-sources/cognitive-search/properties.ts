@@ -1,6 +1,3 @@
-/** @format */
-
-import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
@@ -109,7 +106,6 @@ export class Properties extends CognitiveSearchDataSource<Context> {
   }
 
   async propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-    const searchService = new CognitiveSearch();
 
     let searchString = '';
     if (!input.options.filter?.position) {
@@ -120,16 +116,19 @@ export class Properties extends CognitiveSearchDataSource<Context> {
     let filterString = this.getFilterString(input.options.filter);
     if (input.options.orderBy[0] !== '') filterString = this.toggleNullResults(input.options, filterString);
     console.log('filterString: ', filterString);
+    let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
 
-    const searchResults = await searchService.search('property-listings', searchString, {
-      queryType: 'full',
-      searchMode: 'all',
-      includeTotalCount: true,
-      filter: filterString, // `search.in(type, 'condo,townhouse',',') and bedrooms ge 2`,
-      facets: input.options.facets, // ['type'],
-      top: input.options.top, // 10, 15, 20
-      skip: input.options.skip, // 0, skip += top
-      orderBy: input.options.orderBy, // 'price', 'squareFeet', 'bedrooms', 'bathrooms'
+    await this.withSearch(async (_passport, searchService) => {
+      searchResults = await searchService.search('property-listings', searchString, {
+        queryType: 'full',
+        searchMode: 'all',
+        includeTotalCount: true,
+        filter: filterString, // `search.in(type, 'condo,townhouse',',') and bedrooms ge 2`,
+        facets: input.options.facets, // ['type'],
+        top: input.options.top, // 10, 15, 20
+        skip: input.options.skip, // 0, skip += top
+        orderBy: input.options.orderBy, // 'price', 'squareFeet', 'bedrooms', 'bathrooms'
+      });
     });
 
     console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);

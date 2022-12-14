@@ -1,17 +1,15 @@
-import { Resolvers, Community, CommunityMutationResult, Role, FileInfo } from '../../generated';
+import { Resolvers, Community, CommunityMutationResult, Role } from '../../generated';
 import { Community as CommunityDo } from '../../../infrastructure/data-sources/cosmos-db/models/community';
 import { DataSources } from '../../data-sources';
 
-const CommunityMutationResolver = async (
-  getCommunity: Promise<CommunityDo>
-): Promise<CommunityMutationResult> => {
+const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Promise<CommunityMutationResult> => {
   try {
     return {
       status: { success: true },
       community: (await getCommunity) as Community,
     } as CommunityMutationResult;
   } catch (error) {
-    console.error("Community > Mutation  : ", error);
+    console.error('Community > Mutation  : ', error);
     return {
       status: { success: false, errorMessage: error.message },
     } as CommunityMutationResult;
@@ -19,7 +17,6 @@ const CommunityMutationResolver = async (
 };
 
 const community: Resolvers = {
-
   Community: {
     roles: async (_rootObj: Community) => {
       return (await DataSources.roleCosmosdbApi.getRoles()) as Role[];
@@ -27,7 +24,7 @@ const community: Resolvers = {
     files: async (rootObj: Community) => {
       return DataSources.communityBlobAPI.communityPublicFilesList(rootObj.id);
     },
-    filesByType: async (rootObj: Community, { type } ) => {
+    filesByType: async (rootObj: Community, { type }) => {
       return DataSources.communityBlobAPI.communityPublicFilesListByType(rootObj.id, type);
     },
     domainStatus: async (rootObj: Community) => {
@@ -76,9 +73,9 @@ const community: Resolvers = {
     communityPublicFileRemove: async (_, { input }, { dataSources }) => {
       var result = await dataSources.communityBlobAPI.communityPublicFileRemove(input.communityId, input.fileName);
       console.log(`communityPublicFileRemove: ${JSON.stringify(result)}`);
-      return CommunityMutationResolver( dataSources.communityCosmosdbApi.getCommunityById(input.communityId));// as Community;
+      return CommunityMutationResolver(dataSources.communityCosmosdbApi.getCommunityById(input.communityId)); // as Community;
       //return result;
-    }
+    },
   },
 };
 

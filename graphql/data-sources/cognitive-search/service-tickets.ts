@@ -1,6 +1,3 @@
-/** @format */
-
-import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
@@ -43,7 +40,6 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
   }
 
   async serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-    const searchService = new CognitiveSearch();
 
     let searchString = input.searchString;
 
@@ -51,17 +47,20 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
     let filterString = this.getFilterString(input.options.filter, requestorId);
     console.log('filterString: ', filterString);
 
-    const searchResults = await searchService.search('service-ticket-index', searchString, {
-      queryType: 'full',
-      searchMode: 'all',
-      includeTotalCount: true,
-      filter: filterString,
-      facets: input.options.facets,
-      top: input.options.top,
-      skip: input.options.skip,
-      orderBy: input.options.orderBy,
+    let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
+    await this.withSearch(async (passport, search) => {
+      searchResults = await search.search('service-ticket-index', searchString, {
+        queryType: 'full',
+        searchMode: 'all',
+        includeTotalCount: true,
+        filter: filterString,
+        facets: input.options.facets,
+        top: input.options.top,
+        skip: input.options.skip,
+        orderBy: input.options.orderBy,
+      });
     });
-
+    
     console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);
     return searchResults;
   }

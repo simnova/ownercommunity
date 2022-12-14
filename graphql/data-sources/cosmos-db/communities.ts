@@ -1,7 +1,5 @@
-import { msRestAzureVersion } from '@azure/ms-rest-azure-js';
 import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { isValidObjectId, Types } from 'mongoose';
-import { resourceLimits } from 'worker_threads';
 import { Community, CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/models/community';
 import { MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { UserModel } from '../../../infrastructure/data-sources/cosmos-db/models/user';
@@ -26,8 +24,6 @@ export class Communities extends MongoDataSource<Community, Context> {
     if(isValidObjectId(header)) {
       console.log('valid header!objectId');
       return this.findOneById(header);
-      
-      
     }
 
     return this.collection.find({

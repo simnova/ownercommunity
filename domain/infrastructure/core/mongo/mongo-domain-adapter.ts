@@ -1,7 +1,7 @@
 import { Base } from '../../../../infrastructure/data-sources/cosmos-db/models/interfaces/base';
-import { Entity, EntityProps } from '../../../shared/entity';
+import { EntityProps } from '../../../shared/entity';
 import { PropArray } from '../../../shared/prop-array';
-import mongoose, {ObjectId} from 'mongoose';
+import mongoose from 'mongoose';
 
 export abstract class MongooseDomainAdapter<T extends Base> implements MongooseDomainAdapterType<T>{
   constructor(public readonly doc: T) { }
@@ -18,21 +18,21 @@ export interface MongooseDomainAdapterType<T extends Base> extends EntityProps {
 export class MongoosePropArray<propType extends EntityProps, docType extends mongoose.Document> implements PropArray<propType> {
   constructor( protected docArray:mongoose.Types.DocumentArray<docType> ,protected adapter:new(doc:docType)=>propType) {}
   addItem(item: propType): propType {
-    var itemId = this.docArray.push(item['doc']);
+    const itemId = this.docArray.push(item['doc']);
     return this.docArray[itemId] as any as propType;
   }
   removeItem(item: propType): void {
     this.docArray.pull({_id:item['doc']['_id'] } );
   }
   removeAll(): void {
-    var ids = this.docArray.map((doc) => doc._id);
+    const ids = this.docArray.map((doc) => doc._id);
     ids.forEach((id) => this.docArray.pull({_id: id}));
   }
   getNewItem(): propType {
     if(!this.docArray) {
       this.docArray = new mongoose.Types.DocumentArray<docType>([]);
     }
-    var item = this.docArray.create({_id: new mongoose.Types.ObjectId()});
+    const item = this.docArray.create({_id: new mongoose.Types.ObjectId()});
     this.docArray.push(item);
     return new this.adapter(item);
   }

@@ -1,7 +1,5 @@
 import { Resolvers, User, CurrentUser } from '../../generated';
 import { CacheScope } from 'apollo-server-types';
-import { BlobStorage } from '../../../infrastructure/services/blob-storage';
-import { nanoid } from 'nanoid';
 
 const user : Resolvers = {
   Query: {      

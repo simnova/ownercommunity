@@ -1,15 +1,12 @@
-/** @format */
-
 import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertySearchResult, PropertiesSearchInput, PropertyUpdateInput } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
 import { getMemberForCurrentUser } from '../resolver-helper';
-import { ContentModeratorClientContext } from '@azure/cognitiveservices-contentmoderator';
 import dayjs from 'dayjs';
 
 const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promise<PropertyMutationResult> => {
   try {
-    const temp = {
+    const temp: PropertyMutationResult = {
       status: { success: true },
       property: await getProperty,
     } as PropertyMutationResult;
@@ -26,31 +23,31 @@ const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promi
 
 const property: Resolvers = {
   Property: {
-    mapSASToken: async (parent, args, context) => {
-      return await context.dataSources.propertyMapApi.getSasToken();
+    mapSASToken: async (_parent, _args, {dataSources}, _info) => {
+      return await dataSources.propertyMapApi.getSasToken();
     },
-    community: async (parent, args, context, info) => {
+    community: async (parent, _args, {dataSources}, _info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.dataSources.communityCosmosdbApi.findOneById(parent.community.toString())) as Community;
+        return (await dataSources.communityCosmosdbApi.findOneById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
-    owner: async (parent, args, context, info) => {
+    owner: async (parent, _args, {dataSources}, _info) => {
       if (parent.owner && isValidObjectId(parent.owner.toString())) {
-        return (await context.dataSources.memberCosmosdbApi.findOneById(parent.owner.toString())) as Member;
+        return (await dataSources.memberCosmosdbApi.findOneById(parent.owner.toString())) as Member;
       }
       return parent.owner;
     },
   },
   Query: {
-    property: async (_parent, args, context, info) => {
+    property: async (_parent, args, {dataSources}, _info) => {
       if (args.id && isValidObjectId(args.id)) {
-        return (await context.dataSources.propertyCosmosdbApi.findOneById(args.id)) as Property;
+        return (await dataSources.propertyCosmosdbApi.findOneById(args.id)) as Property;
       }
       return null;
     },
-    properties: async (_, _args, context) => {
-      return (await context.dataSources.propertyCosmosdbApi.getPropertiesByCommunityId(context.community)) as Property[];
+    properties: async (_parent, _args, {dataSources,community}, _info) => {
+      return (await dataSources.propertyCosmosdbApi.getPropertiesByCommunityId(community)) as Property[];
     },
     propertiesByCommunityId: async (_, { communityId }, context) => {
       return (await context.dataSources.propertyCosmosdbApi.getPropertiesByCommunityId(communityId)) as Property[];
@@ -176,8 +173,8 @@ const property: Resolvers = {
         },
       } as PropertySearchResult;
     },
-    getMapSasToken: async (_, _args, context) => {
-      return await context.dataSources.propertyMapApi.getSasToken();
+    getMapSasToken: async (_, _args, {dataSources}) => {
+      return await dataSources.propertyMapApi.getSasToken();
     },
   },
 
@@ -199,7 +196,7 @@ const property: Resolvers = {
     },
     propertyListingImageCreateAuthHeader: async (_, { input }, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
-      var result = await context.dataSources.propertyBlobAPI.propertyListingImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
+      const result = await context.dataSources.propertyBlobAPI.propertyListingImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
         let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
         propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
@@ -210,7 +207,7 @@ const property: Resolvers = {
     },
     propertyFloorPlanImageCreateAuthHeader: async (_, { input }, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
-      var result = await context.dataSources.propertyBlobAPI.propertyFloorPlanImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
+      const result = await context.dataSources.propertyBlobAPI.propertyFloorPlanImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
         let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
         propertyDbObj.listingDetail.images.push(result.authHeader.blobName);

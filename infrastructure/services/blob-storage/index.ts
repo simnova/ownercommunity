@@ -1,16 +1,23 @@
 import { BlobRequest } from './blob-request';
 import { AuthHeader } from './auth-header';
-import { AccountInfo } from './account-info';
 import { BlobActions, FileInfo } from './blob-actions';
 
-export class BlobStorage {
+export interface IBlobStorage {
+  deleteBlob(blobName:string, containerName:string):Promise<void>;
+  createTextBlob(blobName:string,containerName:string,text:string):Promise<void>;
+  createContainer(containerName:string, allowPublicAccess?:boolean):Promise<void>
+  listBlobs(containerName:string, path:string):Promise<FileInfo[]>;
+  generateReadSasToken(blobName:string,containerName:string,minutesUntilExpiration:number):Promise<string>;
+  generateSharedKey(blobName:string,fileSizeBytes:number,requestDate:string,mimeType:string, containerName:string):string;
+  generateSharedKeyLite(blobName:string,mimeType:string,containerName:string):string;
+}
+
+export class BlobStorage implements IBlobStorage {
 
   private readonly accountName:string;
   private readonly accountKey:string;
 
-  constructor(){
-    const {accountName,accountKey} = AccountInfo.getInstance().getSettings();
-
+  constructor(accountName:string, accountKey:string){
     this.accountName = accountName;
     this.accountKey = accountKey;
   }

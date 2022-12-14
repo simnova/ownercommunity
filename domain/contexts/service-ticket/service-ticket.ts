@@ -219,7 +219,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     ) {
       throw new Error('Unauthorized7');
     }
-    var activityDetail = this.requestNewActivityDetail();
+    const activityDetail = this.requestNewActivityDetail();
     activityDetail.requestSetActivityType(ActivityDetailValueObjects.ActivityTypeCodes.Updated);
     activityDetail.requestSetActivityDescription(description);
     activityDetail.requestSetActivityBy(by);
@@ -237,7 +237,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     }
 
     this.props.status = newStatus.valueOf();
-    var activityDetail = this.requestNewActivityDetail();
+    const activityDetail = this.requestNewActivityDetail();
     activityDetail.requestSetActivityDescription(description);
     activityDetail.requestSetActivityType(this.statusMappings.get(newStatus.valueOf()));
     activityDetail.requestSetActivityBy(by);

@@ -1,6 +1,6 @@
 import { NodeEventBus } from '../core/events/node-event-bus';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from './service-ticket-search-index-format';
-import { CognitiveSearch } from '../../../infrastructure/services/cognitive-search';
+import { ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 import { SystemExecutionContext } from '../execution-context';
 import { ServiceTicketUpdatedEvent } from '../../events/service-ticket-updated';
 import retry from 'async-retry';
@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 
 const crypto = require('crypto');
 
-export default () => {
+export default (cognitiveSearch:ICognitiveSearch) => {
   NodeEventBus.register(ServiceTicketUpdatedEvent, async (payload) => {
     console.log(`Service Ticket Updated - Search Index Integration: ${JSON.stringify(payload)} and ServiceTicketId: ${payload.id}`);
 
@@ -69,17 +69,19 @@ export default () => {
       }
     });
   });
+
+  async function updateSearchIndex(serviceTicketDoc: Partial<ServiceTicketIndexDocument>, serviceTicket: ServiceTicket<ServiceTicketDomainAdapter>, hash: any, repo: MongoServiceTicketRepository<ServiceTicketDomainAdapter>) {
+
+    // await cognitiveSearch.createIndexIfNotExists(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
+    await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
+    await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, serviceTicketDoc);
+    console.log(`Service Ticket Updated - Index Updated: ${JSON.stringify(serviceTicketDoc)}`);
+  
+    serviceTicket.requestSetLastIndexed(new Date());
+    serviceTicket.requestSetHash(hash);
+    await repo.save(serviceTicket);
+    console.log('Index update successful: ', serviceTicket.lastIndexed);
+  }
 };
 
-async function updateSearchIndex(serviceTicketDoc: Partial<ServiceTicketIndexDocument>, serviceTicket: ServiceTicket<ServiceTicketDomainAdapter>, hash: any, repo: MongoServiceTicketRepository<ServiceTicketDomainAdapter>) {
-  let cognitiveSearch = new CognitiveSearch();
-  // await cognitiveSearch.createIndexIfNotExists(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
-  await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
-  await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, serviceTicketDoc);
-  console.log(`Service Ticket Updated - Index Updated: ${JSON.stringify(serviceTicketDoc)}`);
 
-  serviceTicket.requestSetLastIndexed(new Date());
-  serviceTicket.requestSetHash(hash);
-  await repo.save(serviceTicket);
-  console.log('Index update successful: ', serviceTicket.lastIndexed);
-}

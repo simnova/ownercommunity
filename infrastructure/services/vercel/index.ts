@@ -20,31 +20,20 @@ export interface DomainResponse {
   }[]
 }
 
+export interface IVercel {
+  addDomainToProject(domain:string): Promise<DomainResponse>;
+  removeDomainFromProject(domain:string): Promise<boolean>;
+  getProjectDomain(domain:string): Promise<DomainResponse>;
+}
 
 
-
-export class Vercel {
-  private readonly _vercelTokenEnvVar: string =  'VERCEL_TOKEN';
+export class Vercel implements IVercel {
   private readonly _vercelToken: string;
-
-  private readonly _vercelProjectEnvVar: string = 'VERCEL_PROJECT';
   private readonly _vercelProject: string;
 
-  private tryGetEnvVar(envVar: string): string {
-    const value = process.env[envVar];
-    if (value === undefined) {
-        throw new Error(`Environment variable ${envVar} is not set`);
-    }
-    return value;
-  }
-
-  constructor(){
-    try {
-      this._vercelToken = this.tryGetEnvVar(this._vercelTokenEnvVar);
-      this._vercelProject = this.tryGetEnvVar(this._vercelProjectEnvVar);
-    } catch (error) {
-      console.error('Error in Vercel constructor: ', error);
-    }
+  constructor(vercelToken: string, vercelProject: string) {
+    this._vercelToken = vercelToken;
+    this._vercelProject = vercelProject;
   }
 
   async addDomainToProject(domain:string): Promise<DomainResponse> {

@@ -1,11 +1,20 @@
-import { BlobGenerateSasUrlOptions, BlobSASPermissions, BlobServiceClient, BlockBlobClient, ContainerCreateOptions, ContainerListBlobsOptions, StorageSharedKeyCredential, PublicAccessType } from '@azure/storage-blob';
+import {
+  BlobGenerateSasUrlOptions,
+  BlobSASPermissions,
+  BlobServiceClient,
+  BlockBlobClient,
+  ContainerCreateOptions,
+  ContainerListBlobsOptions,
+  StorageSharedKeyCredential,
+  PublicAccessType,
+} from '@azure/storage-blob';
 
-export interface FileInfo { 
+export interface FileInfo {
   name: string;
   url: string;
   size?: number;
   type?: string;
-  tags?: Record<string,string>;
+  tags?: Record<string, string>;
 }
 
 export class BlobActions {
@@ -22,18 +31,18 @@ export class BlobActions {
     const permissions = new BlobSASPermissions();
     permissions.read = true;
 
-    const options : BlobGenerateSasUrlOptions = {
+    const options: BlobGenerateSasUrlOptions = {
       startsOn: startDate,
       expiresOn: expiryDate,
-      permissions: permissions
+      permissions: permissions,
     };
 
     return blobClient.generateSasUrl(options);
-  }
+  };
 
-  private readonly sharedKeyCredential:StorageSharedKeyCredential;
+  private readonly sharedKeyCredential: StorageSharedKeyCredential;
   public constructor(private accountName: string, private accountKey: string) {
-    this.sharedKeyCredential = new StorageSharedKeyCredential(this.accountName, this.accountKey)
+    this.sharedKeyCredential = new StorageSharedKeyCredential(this.accountName, this.accountKey);
   }
 
   public listBlobs = async (containerName: string, path: string): Promise<FileInfo[]> => {
@@ -57,29 +66,29 @@ export class BlobActions {
       });
     }
     return blobList;
-  }
+  };
 
-  public deleteBlob = async (blobName:string, container:string) =>{
+  public deleteBlob = async (blobName: string, container: string) => {
     const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
     const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
     await blobClient.delete();
-  }
+  };
 
-  public createTextBlob = async (blobName:string, container:string, text:string) =>{
+  public createTextBlob = async (blobName: string, container: string, text: string) => {
     const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
     const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
     await blobClient.upload(text, text.length);
-  }
+  };
 
-  public createContainer = async (container:string, allowPublicAccess:boolean) =>{
+  public createContainer = async (container: string, allowPublicAccess: boolean) => {
     const blobServiceClient = new BlobServiceClient(`https://${this.accountName}.blob.core.windows.net/`, this.sharedKeyCredential);
     const containerClient = blobServiceClient.getContainerClient(container);
 
-    const options:ContainerCreateOptions = {}
-    if(allowPublicAccess){
-      options.access = ('blob' as PublicAccessType);
+    const options: ContainerCreateOptions = {};
+    if (allowPublicAccess) {
+      options.access = 'blob' as PublicAccessType;
     }
 
     await containerClient.create(options);
-  }
+  };
 }

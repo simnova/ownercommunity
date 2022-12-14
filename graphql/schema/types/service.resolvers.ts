@@ -1,4 +1,4 @@
-import { Community, Member, Property, Resolvers, Service, ServiceMutationResult } from '../../generated';
+import { Community, Resolvers, Service, ServiceMutationResult } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { Service as ServiceDo } from '../../../infrastructure/data-sources/cosmos-db/models/service';
 

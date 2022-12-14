@@ -8,9 +8,7 @@ export interface PhotoPropValues extends EntityProps {
   getNewDocumentId(): string;
 }
 
-export interface PhotoProps extends PhotoPropValues {
-
-}
+export interface PhotoProps extends PhotoPropValues {}
 
 export interface PhotoEntityReference extends Readonly<PhotoPropValues> {}
 

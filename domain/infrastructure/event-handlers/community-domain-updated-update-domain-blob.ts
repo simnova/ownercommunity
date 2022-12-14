@@ -1,12 +1,11 @@
 import { NodeEventBus } from '../core/events/node-event-bus';
-import { BlobStorage } from '../../../infrastructure/services/blob-storage';
+import { IBlobStorage } from '../../../infrastructure/services/blob-storage';
 import { CommunityDomainUpdatedEvent } from '../../events/community-domain-updated';
 
-export default () => { NodeEventBus.register(CommunityDomainUpdatedEvent, async (payload) => {
+export default (blobStorage:IBlobStorage) => { NodeEventBus.register(CommunityDomainUpdatedEvent, async (payload) => {
 
   console.log(`CommunityDomainUpdatedEvent -> Create Blob Container - Called with Payload: ${JSON.stringify(payload)}`);
 
-  const blobStorage = new BlobStorage();
   try {
     await blobStorage.deleteBlob(payload.oldDomain, 'community-domains');
   } catch (error) {

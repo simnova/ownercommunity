@@ -6,7 +6,7 @@ import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
 import { CommunityProps } from '../../contexts/community/community';
 import { CommunityPermissionsProps } from '../../contexts/community/community-permissions';
 import { PermissionsProps } from '../../contexts/community/permissions';
-import { CommunityConverter, CommunityDomainAdapter } from './community.domain-adapter';
+import { CommunityDomainAdapter } from './community.domain-adapter';
 import { DomainExecutionContext } from '../../contexts/context';
 import { PropertyPermissionsProps } from '../../contexts/community/property-permissions';
 import { ServicePermissionsProps } from '../../contexts/community/service-permissions';

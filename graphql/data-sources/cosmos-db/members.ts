@@ -1,11 +1,8 @@
-/** @format */
-
 import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { Member, MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { RoleModel } from '../../../infrastructure/data-sources/cosmos-db/models/role';
 import { Context } from '../../context';
 import { Types } from 'mongoose';
-import { CustomView } from '../../generated';
 
 export class Members extends MongoDataSource<Member, Context> {
   async getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<Member> {

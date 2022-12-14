@@ -42,7 +42,7 @@ export default () => { NodeEventBus.register(CommunityCreatedEvent, async (paylo
   await MemberUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     const member = await repo.getNewInstance(fullName, communityDo);
     member.requestSetRole(role);
-    var account = member.requestNewAccount();
+    const account = member.requestNewAccount();
     account.requestSetCreatedBy(communityDo.createdBy);
     account.requestSetFirstName(communityDo.createdBy.firstName);
     account.requestSetLastName(communityDo.createdBy.lastName);

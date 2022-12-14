@@ -19,12 +19,12 @@ export class MongoRoleRepository<PropType extends RoleProps> extends MongoReposi
     super(eventBus,modelType,typeConverter,session,context);
   }
   async getById(id: string): Promise<RoleDO<PropType>> {
-    var mongoRole = await this.model.findById(id).populate('community').exec();
+    const mongoRole = await this.model.findById(id).populate('community').exec();
     return this.typeConverter.toDomain(mongoRole,this.context);
   }
   
   async getNewInstance(name:string, community:CommunityEntityReference): Promise<RoleDO<PropType>> {
-    let adapter = this.typeConverter.toAdapter(new this.model());
+    const adapter = this.typeConverter.toAdapter(new this.model());
     return RoleDO.getNewInstance(adapter, name, false, community, this.context);
   }
 }

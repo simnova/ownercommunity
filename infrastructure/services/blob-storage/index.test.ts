@@ -4,7 +4,7 @@ import { BlobStorage } from './index';
 test.skip('blob-storage: create auth header for zip file', () => {
   
   // arrange
-  const blobStorage = new BlobStorage();
+  const blobStorage = new BlobStorage("","");
   const blobName = 'MicrosoftFluentWeb_2004.zip';
   const fileSizeBytes = 15487837;
   const requestDate = new Date().toUTCString();
@@ -19,7 +19,7 @@ test.skip('blob-storage: create auth header for zip file', () => {
 test.skip('blob-storage: create auth header for text file', () => {
   
   // arrange
-  const blobStorage = new BlobStorage();
+  const blobStorage = new BlobStorage("","");
   const blobName = 'test4.txt';
   const fileSizeBytes = 14;
   const requestDate = new Date().toUTCString();
@@ -34,7 +34,7 @@ test.skip('blob-storage: create auth header for text file', () => {
 test.skip('blob-storage: create auth header lite for zip file', () => {
   
   // arrange
-  const blobStorage = new BlobStorage();
+  const blobStorage = new BlobStorage("","");
   const blobName = 'test.txt';
   // act
   const sharedKeyLite = blobStorage.generateSharedKeyLite(blobName, 'text/plain', 'test-container');

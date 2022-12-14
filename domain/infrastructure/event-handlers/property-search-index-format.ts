@@ -1,5 +1,3 @@
-/** @format */
-
 import { GeographyPoint, SearchIndex } from '@azure/search-documents';
 
 export const PropertyListingIndexSpec = {

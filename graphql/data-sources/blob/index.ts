@@ -1,9 +1,12 @@
-import { Communities } from "./communities";
-import { Members } from "./members";
-import { Properties } from "./properties";
+import { Communities } from './communities';
+import { Members } from './members';
+import { Properties } from './properties';
+import { Services } from '../../../infrastructure/services';
 
-export const Blob  = {
-  communityBlobAPI: new Communities(),
-  memberBlobAPI: new Members(),
-  propertyBlobAPI: new Properties(),
-}
+const services = new Services();
+
+export const Blob = {
+  communityBlobAPI: new Communities(services.blobStorage),
+  memberBlobAPI: new Members(services.blobStorage),
+  propertyBlobAPI: new Properties(services.blobStorage),
+};

@@ -1,5 +1,3 @@
-/** @format */
-
 import { SearchIndex } from '@azure/search-documents';
 
 export const ServiceTicketIndexSpec = {

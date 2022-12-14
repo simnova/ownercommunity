@@ -1,6 +1,5 @@
-import { AzureMapsManagementClient } from '@azure/arm-maps';
-import { AccountSasParameters } from '@azure/arm-maps';
-import { ManagedIdentityCredential, TokenCredential, DefaultAzureCredential, DefaultAzureCredentialOptions} from '@azure/identity';
+import { AccountSasParameters, AzureMapsManagementClient } from '@azure/arm-maps';
+import { TokenCredential, DefaultAzureCredential, DefaultAzureCredentialOptions} from '@azure/identity';
 import dayjs from 'dayjs';
 import { setLogLevel } from '@azure/logger';
 

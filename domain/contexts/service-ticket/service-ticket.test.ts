@@ -1,4 +1,4 @@
-import { ServiceTicket, ServiceTicketProps, ServiceTicketEntityReference } from './service-ticket';
+import { ServiceTicket, ServiceTicketProps } from './service-ticket';
 import { ActivityDetailProps } from './activity-detail';
 import { PropArray } from '../../shared/prop-array';
 import { CommunityEntityReference } from '../community/community';

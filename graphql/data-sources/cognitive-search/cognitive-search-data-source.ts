@@ -1,29 +1,27 @@
-/** @format */
-
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Context as GraphQLContext } from "../../context";
 import { Passport } from "../../../domain/contexts/iam/passport";
-import { CognitiveSearch } from "../../../infrastructure/services/cognitive-search";
+import { ICognitiveSearch } from "../../../infrastructure/services/cognitive-search";
 
-export class CognitiveSearchDataSource<
-  Context extends GraphQLContext
-> extends DataSource<Context> {
+export class CognitiveSearchDataSource< Context extends GraphQLContext> extends DataSource<Context> {
   private _context: Context;
-  private _cognitiveSearchStorage: CognitiveSearch;
+  private _cognitiveSearch: ICognitiveSearch;
+
+  constructor(cognitiveSearch: ICognitiveSearch) {
+    super();
+    this._cognitiveSearch = cognitiveSearch;
+  }
 
   public get context(): Context {
     return this._context;
   }
 
-  public async withStorage(
-    func: (passport: Passport, blobStorage: CognitiveSearch) => Promise<void>
-  ): Promise<void> {
-    let passport = this.context.passport; //await getPassport(this.context);
-    await func(passport, this._cognitiveSearchStorage);
+  public async withSearch(func: (passport: Passport, search: ICognitiveSearch) => Promise<void>): Promise<void> {
+    let passport = this._context.passport; 
+    await func(passport, this._cognitiveSearch);
   }
 
   public initialize(config: DataSourceConfig<Context>): void {
     this._context = config.context;
-    this._cognitiveSearchStorage = new CognitiveSearch();
   }
 }

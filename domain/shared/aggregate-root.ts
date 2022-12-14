@@ -1,26 +1,26 @@
-import { Entity,EntityProps } from './entity';
+import { Entity, EntityProps } from './entity';
 import { CustomDomainEvent, DomainEvent } from './domain-event';
 
 export interface RootEventRegistry {
-  addDomainEvent<EventProps,T extends CustomDomainEvent<EventProps>>(event:new (aggregateId: string) => T,props:T['payload'] );
-  addIntegrationEvent<EventProps,T extends CustomDomainEvent<EventProps>>(event:new (aggregateId: string) => T,props:T['payload'] );
+  addDomainEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
+  addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
 }
 
 export abstract class AggregateRoot<PropType extends EntityProps> extends Entity<PropType> implements RootEventRegistry {
-  private _isDeleted:boolean = false;
-  public get isDeleted():boolean {
+  private _isDeleted: boolean = false;
+  public get isDeleted(): boolean {
     return this._isDeleted;
   }
-  protected set isDeleted(value:boolean) {
+  protected set isDeleted(value: boolean) {
     this._isDeleted = value;
   }
   private domainEvents: DomainEvent[] = [];
-  public addDomainEvent<EventProps,T extends CustomDomainEvent<EventProps>>(event:new (aggregateId: string) => T,props:T['payload'] ) {
+  public addDomainEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']) {
     let eventToAdd = new event(this.props.id);
-    eventToAdd.payload = props;    
+    eventToAdd.payload = props;
     this.domainEvents.push(eventToAdd);
   }
-  public clearDomainEvents() { 
+  public clearDomainEvents() {
     this.domainEvents = [];
   }
   public getDomainEvents(): DomainEvent[] {
@@ -28,20 +28,19 @@ export abstract class AggregateRoot<PropType extends EntityProps> extends Entity
   }
 
   private integrationEvents: DomainEvent[] = [];
-  public addIntegrationEvent<EventProps,T extends CustomDomainEvent<EventProps>>(event:new (aggregateId: string) => T,props:T['payload'] ) {
+  public addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']) {
     let eventToAdd = new event(this.props.id);
-    eventToAdd.payload = props;    
+    eventToAdd.payload = props;
     this.integrationEvents.push(eventToAdd);
   }
-  public clearIntegrationEvents() { 
+  public clearIntegrationEvents() {
     this.integrationEvents = [];
   }
   public getIntegrationEvents(): DomainEvent[] {
     return this.integrationEvents;
   }
 
-  public onSave(isModified:boolean):void {
+  public onSave(isModified: boolean): void {
     //override this method to do something on save
   }
-
 }

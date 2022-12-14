@@ -1,24 +1,15 @@
-/** @format */
+import { Resolvers, Role, Community, RoleMutationResult } from '../../generated';
+import { isValidObjectId } from 'mongoose';
+import { Role as RoleDo } from '../../../infrastructure/data-sources/cosmos-db/models/role';
 
-import {
-  Resolvers,
-  Role,
-  Community,
-  RoleMutationResult,
-} from "../../generated";
-import { isValidObjectId } from "mongoose";
-import { Role as RoleDo } from "../../../infrastructure/data-sources/cosmos-db/models/role";
-
-const RoleMutationResolver = async (
-  getRole: Promise<RoleDo>
-): Promise<RoleMutationResult> => {
+const RoleMutationResolver = async (getRole: Promise<RoleDo>): Promise<RoleMutationResult> => {
   try {
     return {
       status: { success: true },
       role: await getRole,
     } as RoleMutationResult;
   } catch (error) {
-    console.error("Role > Mutation  : ", error);
+    console.error('Role > Mutation  : ', error);
     return {
       status: { success: false, errorMessage: error.message },
       role: null,
@@ -30,9 +21,7 @@ const role: Resolvers = {
   Role: {
     community: async (parent, _args, context, _info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.dataSources.communityCosmosdbApi.findOneById(
-          parent.community.toString()
-        )) as Community;
+        return (await context.dataSources.communityCosmosdbApi.findOneById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
@@ -45,9 +34,7 @@ const role: Resolvers = {
       return (await dataSources.roleCosmosdbApi.getRoles()) as Role[];
     },
     rolesByCommunityId: async (_, { communityId }, { dataSources }) => {
-      return (await dataSources.roleCosmosdbApi.getRolesByCommunityId(
-        communityId
-      )) as Role[];
+      return (await dataSources.roleCosmosdbApi.getRolesByCommunityId(communityId)) as Role[];
     },
   },
   Mutation: {
@@ -58,9 +45,7 @@ const role: Resolvers = {
       return RoleMutationResolver(dataSources.roleDomainAPI.roleUpdate(input));
     },
     roleDeleteAndReassign(_parent, { input }, { dataSources }) {
-      return RoleMutationResolver(
-        dataSources.roleDomainAPI.roleDeleteAndReassign(input)
-      );
+      return RoleMutationResolver(dataSources.roleDomainAPI.roleDeleteAndReassign(input));
     },
   },
 };

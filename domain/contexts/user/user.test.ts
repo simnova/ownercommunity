@@ -83,6 +83,4 @@ describe('domain.contexts.user', () => {
 
   });
 
-
-
 });

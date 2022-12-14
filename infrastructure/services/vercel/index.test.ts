@@ -20,7 +20,7 @@ describe('Vercel', () => {
     const givenDomain = 'test-domain';
     const expectedUrl = `https://api.vercel.com/v9/projects/${projectValue}/domains`;
     const expectedData = JSON.stringify({ name: givenDomain });
-    const expectedHeader = ({headers: {Authorization: "Bearer token-value"}});
+    const expectedHeader = ({headers: {Authorization: `Bearer ${tokenValue}`}});
     const resultObject = {key: "Zm9vYmFy", token: "test"};
 
 

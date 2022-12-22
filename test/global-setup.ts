@@ -1,6 +1,13 @@
-import localConfig from './../local.settings.json';
+import fs from 'fs'
+
 import config from './../test.settings.json';
 const globalSetup = () => {
+  let localConfig = {Values: {}};
+
+  if (!fs.existsSync('./../local.settings.json')) {
+    localConfig = require('./../local.settings.json');
+  }
+
   process.env = Object.assign({},process.env,
     {... localConfig.Values},
      {

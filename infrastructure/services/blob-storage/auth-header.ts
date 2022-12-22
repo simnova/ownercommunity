@@ -11,7 +11,6 @@ export class AuthHeader {
   }
 
   public createAuthHeaderLite(storageAccount: string, signableString: string, accountKey:string): string {
-    console.log(signableString);
     return `SharedKeyLite ${storageAccount}:${this.computeHMACSHA256(signableString, accountKey)}`;
   }
 
@@ -32,7 +31,6 @@ export class AuthHeader {
 
   public generateFromRequest(request: WebResource, storageAccount: string, accountKey: string): string {
     const signableString = this.convertToSignableString(request, storageAccount);
-    console.log(signableString);
     return this.createAuthHeader(storageAccount, signableString, accountKey);
   }
 

@@ -1,7 +1,23 @@
-import axios, {AxiosRequestConfig} from 'axios';
-import { json } from 'stream/consumers';
+import axios, {AxiosRequestConfig, AxiosResponse, AxiosError} from 'axios';
 
-export interface DomainResponse {
+
+
+
+
+
+export interface VercelResponseHeaders {
+  /** The maximum number of requests that the consumer is permitted to make.
+   * header: X-RateLimit-Limit  **/
+  RateLimitLimit: number;
+  /** The number of requests remaining in the current rate limit window.
+   * header: X-RateLimit-Remaining  **/
+  RateLimitRemaining: number;
+  /** The number of seconds left in the current rate limit window.
+   * header: X-RateLimit-Reset  **/
+  RateLimitReset: number;
+}
+
+export interface DomainResponse extends VercelResponseHeaders {
   name: string;
   apexName: string;
   projectId: string;
@@ -21,12 +37,31 @@ export interface DomainResponse {
   }[]
 }
 
+export interface AddDomainResult {
+  success?: boolean,
+  error?: {
+    code: "InvalidKey" | "AlreadyAdded" | "RateLimited" | "InvalidDomain" | "Other";
+    message: string;
+  }
+}
+
+
+
 export interface IVercel {
-  addDomainToProject(domain:string): Promise<DomainResponse>;
+  addDomainToProject(domain:string): Promise<{ result?: DomainResponse} & APIResponse> ;
   removeDomainFromProject(domain:string): Promise<boolean>;
   getProjectDomain(domain:string): Promise<DomainResponse>;
 }
 
+export interface APIError {
+  code: string
+  message: string
+}
+
+export interface APIResponse {
+  success: boolean
+  error?: APIError
+}
 
 export class Vercel implements IVercel {
   private readonly _vercelToken: string;
@@ -37,24 +72,86 @@ export class Vercel implements IVercel {
     this._vercelProject = vercelProject;
   }
 
-  async addDomainToProject(domain:string): Promise<DomainResponse> {
+  private extractResponseHeaders(response: AxiosResponse<any>): VercelResponseHeaders  {
+    const headers = response.headers;
+    return {
+      RateLimitLimit: parseInt(headers['x-RateLimit-Limit']),
+      RateLimitRemaining: parseInt(headers['x-RateLimit-Remaining']),
+      RateLimitReset: parseInt(headers['x-RateLimit-Reset'])
+    }
+  }
 
-    const config: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${this._vercelToken}`
-      }
-    } 
+  
+
+  private addAuthorizationHeader(config: AxiosRequestConfig = {}): AxiosRequestConfig {
+    config.headers =  Object.assign({},config.headers,{
+      Authorization: `Bearer ${this._vercelToken}`
+    })
+    return config;
+  }
+  
+  async addDomain(domain:string): Promise<AddDomainResult> {
+    const result = await this.addDomainToProject(domain);
+    const errorCodes = new Map<string, "InvalidKey" | "AlreadyAdded" | "RateLimited" | "InvalidDomain" | "Other">([
+      ['400', 'InvalidDomain'],
+      ['403', 'InvalidKey'],
+      ['409', 'AlreadyAdded'],
+      ['429', 'RateLimited']
+    ]);
+    if (result.success) {
+      return {success: true};
+    } else {
+      return {success: false, error: {code: errorCodes.get(result.error?.code) ?? 'Other', message: result.error?.message}};
+     // return {success: false, error: {code: result.error?.code as "AlreadyAdded" | "RateLimited" | "InvalidDomain" | "Other", message: result.error?.message}};
+    }
+  }
+
+  async addDomainToProject(domain:string): Promise<{ result?: DomainResponse} & APIResponse> {
+    //confirm domain is a valid domain
+    if (!domain.match(/^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/)) {
+      return {success:false, error: {code: '400', message: `The specified value '${domain}' is not a fully qualified domain name`}};
+    }
 
     const data = {
       name : domain
     }
+    let results: AxiosResponse<any>;
+    try {
+      results = await axios.post(
+        `https://api.vercel.com/v9/projects/${this._vercelProject}/domains`,
+        JSON.stringify(data),
+        this.addAuthorizationHeader()
+      )
+    } catch(err: any)  {
+      if ((typeof err === 'object') && (err.isAxiosError === true) )  {
+        // Access to config, request, and response
+        switch (err.response?.status) {
+          case 403:
+            //console.error('403 error: ', err.response);
+            return {success:false, error: {code: '403', message: 'Forbidden - check Vercel token and project ID'}};
+          case 409:
+            //console.log('409 error: ', err.response);
+            return {success:false, error: {code: '409', message: 'Domain already exists'}};
+          case 429:
+            //console.error('429 error: ', err.response);
+            return {success:false, error: {code: '429', message: 'Too many requests - check Vercel rate limits'}};
+          default:
+            //console.error('Unknown error: ', err.response);
+            //return {success:false, error: {code: err.response?.status.toString(), message: err.response.statusText}};
+            throw err;
+        }
+    
+      } else {
+        //console.error('Standard Unknown error: ', err);
+        // Just a stock error
+        throw err;
+      }
+    };
+    console.log('results: ', results);
+    const responseHeaders:VercelResponseHeaders = this.extractResponseHeaders(results);
+    const domainResponse:{ result?: DomainResponse} & APIResponse = { success:true, result:  Object.assign({},responseHeaders, results.data)};
 
-    const results = await axios.post(
-      `https://api.vercel.com/v9/projects/${this._vercelProject}/domains`,
-      JSON.stringify(data),
-      config
-    )
-    return results.data as DomainResponse;
+    return domainResponse;
   }
 
   async removeDomainFromProject(domain:string): Promise<boolean> {

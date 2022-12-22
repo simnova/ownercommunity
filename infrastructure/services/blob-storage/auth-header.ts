@@ -11,7 +11,6 @@ export class AuthHeader {
   }
 
   public createAuthHeaderLite(storageAccount: string, signableString: string, accountKey:string): string {
-    console.log(signableString);
     return `SharedKeyLite ${storageAccount}:${this.computeHMACSHA256(signableString, accountKey)}`;
   }
 
@@ -34,6 +33,8 @@ export class AuthHeader {
     const signableString = this.convertToSignableString(request, storageAccount);
     return this.createAuthHeader(storageAccount, signableString, accountKey);
   }
+
+
 
   public createAuthHeader(storageAccount: string, signableString: string, accountKey:string): string {
     return `SharedKey ${storageAccount}:${this.computeHMACSHA256(signableString, accountKey)}`;

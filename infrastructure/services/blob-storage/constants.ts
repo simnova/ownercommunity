@@ -22,5 +22,6 @@ export const HeaderConstants = {
   X_MS_DATE: "x-ms-date",
   X_MS_ERROR_CODE: "x-ms-error-code",
   X_MS_VERSION: "x-ms-version",
-  X_MS_BLOB_TYPE: "x-ms-blob-type"
+  X_MS_BLOB_TYPE: "x-ms-blob-type",
+  X_MS_TAGS: "x-ms-tags",
 };

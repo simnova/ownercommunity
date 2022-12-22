@@ -32,8 +32,11 @@ export class AuthHeader {
 
   public generateFromRequest(request: WebResource, storageAccount: string, accountKey: string): string {
     const signableString = this.convertToSignableString(request, storageAccount);
+    console.log(signableString);
     return this.createAuthHeader(storageAccount, signableString, accountKey);
   }
+
+
 
   public createAuthHeader(storageAccount: string, signableString: string, accountKey:string): string {
     return `SharedKey ${storageAccount}:${this.computeHMACSHA256(signableString, accountKey)}`;

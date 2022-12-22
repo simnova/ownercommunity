@@ -1,4 +1,103 @@
-import { BlobStorage } from './index';
+import { BlobStorage, BlobRequestSettings } from './index';
+
+const performIntegrationTests = true;
+
+const accountName = !performIntegrationTests ?  'account-name' : process.env['BLOB_ACCOUNT_NAME'];
+const accountKey = !performIntegrationTests ? 'account-key' : process.env['BLOB_ACCOUNT_KEY'];
+
+
+
+
+describe('When using the Blob Storage API', () => {
+  let blobStorage: BlobStorage;
+  beforeEach(() => {
+    blobStorage = new BlobStorage(accountName,accountKey);
+  });
+
+
+  test('create auth header for text file', () => {
+    console.log(accountKey)
+    // arrange
+    const blobName = 'owners2.simnova.com';
+    const containerName = 'community-domains';
+    const fileSizeBytes = 42;
+    const requestDate:Date = new Date();
+
+    const requestDateString = requestDate.toUTCString();
+    console.log(requestDateString);
+    
+    const tags:Record<string,string> = {
+      owner: 'foo',
+      community: 'bar',
+      dateCreated: requestDate.toISOString(),
+    }
+    const requestSettings: BlobRequestSettings = {
+      fileSizeBytes: fileSizeBytes,
+      mimeType: 'text/plain',
+      tags: tags,
+    }
+
+    // act
+    const sharedKey = blobStorage.generateSharedKeyWithOptions(blobName,containerName, requestDateString,requestSettings);
+    console.log(sharedKey);
+    // assert
+    expect(sharedKey).toMatch(RegExp(`^SharedKey ${accountName}:[A-Za-z0-9+/=]+$`));
+    
+  });
+
+  test('list blobs by path', async () => {
+    // arrange
+    const containerName = 'community-domains';
+    const path = '/';
+    // act
+    const blobs = await blobStorage.listBlobs(containerName,'owners2');
+    console.log('blob list:',blobs);
+    // assert
+    expect(blobs.length).toBeGreaterThan(0);
+  })
+
+
+  test('find blobs by tags', async () => {
+
+    // arrange
+    const searchCriteria = "@container = 'community-domains' AND owner = 'foo' AND community = 'bar' AND dateCreated > '2021-01-01T00:00:00.000Z'";
+    // act
+    const blobs = await blobStorage.findBlobsByTags(searchCriteria);
+    console.log('blobs:',blobs);
+    // assert
+    expect(blobs.length).toBeGreaterThan(0);
+    
+  });
+
+  test('create text blob', async () => {
+    // arrange
+    const containerName = 'community-domains';
+    const blobName = 'test.txt';
+    const content = 'Hello World!';
+    // act
+     await blobStorage.createTextBlob(blobName,containerName, content);
+    // assert
+    expect(true).toBe(true);
+  });
+
+  test('create json blob', async () => {
+    // arrange
+    const containerName = 'community-domains';
+    const blobName = 'test.json';
+    const content = JSON.stringify({foo: 'bar'});
+    // act
+     await blobStorage.createTextBlob(blobName,containerName, content,'application/json');
+    // assert
+    expect(true).toBe(true);
+  });
+
+ 
+  
+
+
+
+
+});
 
 
 test.skip('blob-storage: create auth header for zip file', () => {
@@ -8,6 +107,7 @@ test.skip('blob-storage: create auth header for zip file', () => {
   const blobName = 'MicrosoftFluentWeb_2004.zip';
   const fileSizeBytes = 15487837;
   const requestDate = new Date().toUTCString();
+
   
   // act
   const sharedKey = blobStorage.generateSharedKey(blobName, fileSizeBytes,requestDate, 'application/zip', 'test-container');

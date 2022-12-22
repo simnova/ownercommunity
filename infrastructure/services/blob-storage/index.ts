@@ -1,14 +1,17 @@
-import { BlobRequest } from './blob-request';
+import { BlobRequest, BlobRequestSettings } from './blob-request';
 import { AuthHeader } from './auth-header';
-import { BlobActions, FileInfo } from './blob-actions';
+import {  BlobActions, FileInfo } from './blob-actions';
+
+export { BlobRequestSettings, FileInfo };
 
 export interface IBlobStorage {
   deleteBlob(blobName:string, containerName:string):Promise<void>;
-  createTextBlob(blobName:string,containerName:string,text:string):Promise<void>;
+  createTextBlob(blobName:string,containerName:string,text:string,contentType?:string):Promise<void>;
   createContainer(containerName:string, allowPublicAccess?:boolean):Promise<void>
-  listBlobs(containerName:string, path:string):Promise<FileInfo[]>;
+  listBlobs(containerName:string, path?:string):Promise<FileInfo[]>;
   generateReadSasToken(blobName:string,containerName:string,minutesUntilExpiration:number):Promise<string>;
   generateSharedKey(blobName:string,fileSizeBytes:number,requestDate:string,mimeType:string, containerName:string):string;
+  generateSharedKeyWithOptions(blobName:string,containerName:string,requestDate:string,requestSettings:BlobRequestSettings):string;
   generateSharedKeyLite(blobName:string,mimeType:string,containerName:string):string;
 }
 
@@ -25,29 +28,62 @@ export class BlobStorage implements IBlobStorage {
   public deleteBlob(blobName:string, containerName:string):Promise<void>{
     return (new BlobActions(this.accountName,this.accountKey)).deleteBlob(blobName,containerName);
   }
-  public createTextBlob(blobName:string,containerName:string,text:string):Promise<void>{
-    return (new BlobActions(this.accountName,this.accountKey)).createTextBlob(blobName,containerName,text);
+
+  /**
+   * Creates a text blob in the blob storage account
+   * @param blobName The name of the blob to create
+   * @param containerName The name of the container to create the blob in
+   * @param text The text to store in the blob
+   * @param contentType (optional) The content type of the blob (default: text/plain)
+   * full details: https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob
+   * */
+  public createTextBlob(blobName:string,containerName:string,text:string,contentType?:string):Promise<void>{
+    return (new BlobActions(this.accountName,this.accountKey)).createTextBlob(blobName,containerName,text,contentType);
   }
 
   /**
    * Creates a container in the blob storage account
    * @param containerName The name of the container to create
    * @param allowPublicAccess If true, the container will be created with public access (default: true)
+   * full details: https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    * */
   public createContainer(containerName:string, allowPublicAccess:boolean = true):Promise<void>{
     return (new BlobActions(this.accountName,this.accountKey)).createContainer(containerName,allowPublicAccess);
   }
 
   /**
-   * Lists all blobs in a container
+   * Lists all blobs in a container filtered by a path
    * @param containerName The name of the container to list
-   * @param path The path to list / prefix of all the file names
+   * @param path (optional) prefix of the full blob name to filter the blobs in the container
+   * full details: https://docs.microsoft.com/en-us/rest/api/storageservices/list-blobs
    * */
-  public listBlobs(containerName:string, path:string):Promise<FileInfo[]>{
-    return (new BlobActions(this.accountName,this.accountKey)).listBlobs(containerName,path);
+  public listBlobs(containerName:string, prefix?:string):Promise<FileInfo[]>{
+    return (new BlobActions(this.accountName,this.accountKey)).listBlobs(containerName,prefix);
   }
+
+  /**
+   * Lists all blobs in a storage account filtered by a tag query
+   * @param tagQuery The tag query to filter the blobs
+   * query syntax: https://docs.microsoft.com/en-us/rest/api/storageservices/find-blobs-by-tags#query-syntax
+   * */
+  public findBlobsByTags(tagQuery:string):Promise<FileInfo[]>{
+    return (new BlobActions(this.accountName,this.accountKey)).findBlobsByTags(tagQuery);
+  }
+
+
   public generateReadSasToken(blobName:string,containerName:string,minutesUntilExpiration:number):Promise<string>{
     return (new BlobActions(this.accountName,this.accountKey)).generateReadSasToken(blobName,containerName,minutesUntilExpiration);
+  }
+
+  public generateSharedKeyWithOptions(blobName:string,containerName:string,requestDate:string,requestSettings:BlobRequestSettings):string{
+    const blobRequest = (new BlobRequest()).createRequest(
+    this.accountName,
+    containerName,
+    blobName,
+    requestDate,
+    requestSettings
+  );
+  return new AuthHeader().generateFromRequest(blobRequest,this.accountName, this.accountKey);
   }
 
   public generateSharedKey(blobName:string,fileSizeBytes:number,requestDate:string,mimeType:string, containerName:string):string{
@@ -55,9 +91,11 @@ export class BlobStorage implements IBlobStorage {
       this.accountName,
       containerName,
       blobName,
-      fileSizeBytes,
       requestDate,
-      mimeType
+      {
+        fileSizeBytes: fileSizeBytes,
+        mimeType: mimeType
+      }
     );
     return new AuthHeader().generateFromRequest(blobRequest,this.accountName, this.accountKey);
   }

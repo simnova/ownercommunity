@@ -24,4 +24,7 @@ Resources:
 Other interactions with blob storage are done through the Azure SDK for Javascript.
 
 Resources: 
-- [Microsoft Azure SDK for Javascript](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-storage-blob/12.8.0/index.html)
+- [Azure Storage Overview ](https://learn.microsoft.com/en-us/azure/storage/blobs/)
+- [Microsoft Azure Storage SDK for Javascript](https://learn.microsoft.com/en-us/javascript/api/@azure/storage-blob/blobserviceclient?view=azure-node-latest)
+- [Microsoft Azure Storage Blob Library](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-storage-blob/latest/index.html)
+- [Microsoft Rest API - Blob Storage](https://learn.microsoft.com/en-us/rest/api/storageservices)

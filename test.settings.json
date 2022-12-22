@@ -1,10 +1,10 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "BLOB_CONTAINER_NAME": "featureflags",
-    "BLOB_ACCOUNT_NAME": "test",
-    "BLOB_CONNECTION_STRING": "blob-connection-string",
-    "BLOB_ACCOUNT_KEY": "something",
+    "xBLOB_CONTAINER_NAME": "featureflags",
+    "xBLOB_ACCOUNT_NAME": "test",
+    "xBLOB_CONNECTION_STRING": "blob-connection-string",
+    "xBLOB_ACCOUNT_KEY": "something",
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsStorage": "",
     "MAPS_KEY": "map key",

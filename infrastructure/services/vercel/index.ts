@@ -139,7 +139,6 @@ export class Vercel implements IVercel {
             //console.error('Unknown error: ', err.response);
             //return {success:false, error: {code: err.response?.status.toString(), message: err.response.statusText}};
             throw err;
-            break;  
         }
     
       } else {

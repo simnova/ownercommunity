@@ -1,6 +1,8 @@
 import { BlobRequest, BlobRequestSettings } from './blob-request';
 import { AuthHeader } from './auth-header';
 import {  BlobActions, FileInfo } from './blob-actions';
+import internal from 'stream';
+import { BlobUploadCommonResponse } from '@azure/storage-blob';
 
 export { BlobRequestSettings, FileInfo };
 
@@ -13,6 +15,8 @@ export interface IBlobStorage {
   generateSharedKey(blobName:string,fileSizeBytes:number,requestDate:string,mimeType:string, containerName:string):string;
   generateSharedKeyWithOptions(blobName:string,containerName:string,requestDate:string,requestSettings:BlobRequestSettings):string;
   generateSharedKeyLite(blobName:string,mimeType:string,containerName:string):string;
+  writeStreamToBlob(blobName:string,containerName:string,stream:internal.Readable,contentType:string):Promise<BlobUploadCommonResponse>;
+  readStreamFromBlob(blobName:string,containerName:string):Promise<NodeJS.ReadableStream>;
 }
 
 export class BlobStorage implements IBlobStorage {
@@ -28,6 +32,14 @@ export class BlobStorage implements IBlobStorage {
   public deleteBlob(blobName:string, containerName:string):Promise<void>{
     return (new BlobActions(this.accountName,this.accountKey)).deleteBlob(blobName,containerName);
   }
+
+  public async writeStreamToBlob(blobName:string,containerName:string,stream:internal.Readable,contentType:string):Promise<BlobUploadCommonResponse>{
+    return (new BlobActions(this.accountName,this.accountKey)).writeStreamToBlob(blobName,containerName,stream,contentType);
+  }
+
+  public async readStreamFromBlob(blobName:string,containerName:string):Promise<NodeJS.ReadableStream>{
+    return (await(new BlobActions(this.accountName,this.accountKey)).readStreamFromBlob(blobName,containerName)).readableStreamBody;
+  } 
 
   /**
    * Creates a text blob in the blob storage account

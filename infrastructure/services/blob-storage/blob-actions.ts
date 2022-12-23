@@ -7,7 +7,9 @@ import {
   ContainerListBlobsOptions,
   StorageSharedKeyCredential,
   PublicAccessType,
+  BlobDownloadResponseParsed,
 } from '@azure/storage-blob';
+import internal from 'stream';
 
 
 export interface FileInfo {
@@ -98,6 +100,18 @@ export class BlobActions {
     const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
     const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
     await blobClient.delete();
+  };
+
+  public writeStreamToBlob = async (blobName: string, container: string, stream: internal.Readable, contentType:string='application/octet-stream') => {
+    const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
+    const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
+    return blobClient.uploadStream(stream, undefined, undefined, { blobHTTPHeaders: { blobContentType: contentType } });
+  };
+
+  public readStreamFromBlob = async (blobName: string, container: string, offset?:number, count?:number): Promise<BlobDownloadResponseParsed> => {
+    const blobUrl = 'https://' + this.accountName + '.blob.core.windows.net/' + container + '/' + blobName;
+    const blobClient = new BlockBlobClient(blobUrl, this.sharedKeyCredential);
+    return blobClient.download(0);
   };
 
   public createTextBlob = async (blobName: string, container: string, text: string, contentType:string='text/plain') => {

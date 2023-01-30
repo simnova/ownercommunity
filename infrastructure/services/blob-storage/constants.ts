@@ -24,4 +24,5 @@ export const HeaderConstants = {
   X_MS_VERSION: "x-ms-version",
   X_MS_BLOB_TYPE: "x-ms-blob-type",
   X_MS_TAGS: "x-ms-tags",
+  X_MS_META: "x-ms-meta-",
 };

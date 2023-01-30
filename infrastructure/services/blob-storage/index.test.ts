@@ -1,11 +1,11 @@
 import { BlobStorage, BlobRequestSettings } from './index';
 
-const performIntegrationTests = false;
+const performIntegrationTests = true;
 
 const accountName = !performIntegrationTests ? 'account-name' : process.env['BLOB_ACCOUNT_NAME'];
 const accountKey = !performIntegrationTests ? 'account-key' : process.env['BLOB_ACCOUNT_KEY'];
 
-describe.skip('When using the Blob Storage API', () => {
+describe('When using the Blob Storage API', () => {
   let blobStorage: BlobStorage;
   beforeEach(() => {
     blobStorage = new BlobStorage(accountName, accountKey);
@@ -25,14 +25,24 @@ describe.skip('When using the Blob Storage API', () => {
       community: 'bar',
       dateCreated: requestDate.toISOString(),
     };
+
+    const metadata: Record<string, string> = {
+      'original_file_name': 'text-file.txt',
+      'uploaded_by': 'jane doe'
+    };
+
+
     const requestSettings: BlobRequestSettings = {
       fileSizeBytes: fileSizeBytes,
       mimeType: 'text/plain',
       tags: tags,
+      metadata: metadata,
     };
 
     // act
     const sharedKey = blobStorage.generateSharedKeyWithOptions(blobName, containerName, requestDateString, requestSettings);
+    console.log(sharedKey);
+
     // assert
     expect(sharedKey).toMatch(RegExp(`^SharedKey ${accountName}:[A-Za-z0-9+/=]+$`));
   });

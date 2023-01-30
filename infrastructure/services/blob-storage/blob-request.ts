@@ -7,6 +7,7 @@ export interface BlobRequestSettings {
   fileSizeBytes?:number;
   mimeType?:string;
   tags?:Record<string,string>;
+  metadata?:Record<string,string>;
 }
 
 /*
@@ -37,6 +38,11 @@ export class BlobRequest {
     webResource.headers.set(HeaderConstants.X_MS_BLOB_TYPE, 'BlockBlob');
     webResource.headers.set(HeaderConstants.X_MS_DATE,requestDate);
     webResource.headers.set(HeaderConstants.X_MS_VERSION,'2021-04-10'); 
+    if(requestSettings.metadata) {
+      for (const [key, value] of Object.entries(requestSettings.metadata)) {
+        webResource.headers.set(HeaderConstants.X_MS_META+key, value);
+      }
+    }
     
 
     // Canonicalized Resource

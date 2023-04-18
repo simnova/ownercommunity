@@ -1,7 +1,7 @@
 
 import { useQuery } from '@apollo/client';
 import { CommunityList } from './community-list';
-import { CommunityListContainerCommunitiesQueryDocument, CommunityListContainerCommunitiesFieldsFragment} from '../../../../generated';
+import { CommunityListContainerCommunitiesQueryDocument } from '../../../../generated';
 
 export const CommunityListContainer: React.FC<any> = (props) => {
 
@@ -27,7 +27,7 @@ export const CommunityListContainer: React.FC<any> = (props) => {
 
   return (
     <div>
-      <CommunityList data={{communities:data.communities}} />
+      <CommunityList data={data} />
     </div>
   )
   

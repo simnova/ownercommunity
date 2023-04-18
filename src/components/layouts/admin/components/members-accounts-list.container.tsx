@@ -27,6 +27,8 @@ export const MembersAccountsListContainer: React.FC<MembersAccountsListContainer
     }
   });
 
+  console.log(memberData)
+
   if(memberLoading) {
     return <div><Skeleton active /></div>
   }

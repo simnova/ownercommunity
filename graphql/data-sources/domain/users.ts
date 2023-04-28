@@ -34,7 +34,7 @@ export class Users extends DomainDataSource<Context,User,PropType,DomainType,Rep
   
 
   async addUser() : Promise<User> {
-    console.log(`addUser`,this.context.verifiedUser);
+    console.log(`addUser context -> `,this.context);
     if(this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized 99');
     }

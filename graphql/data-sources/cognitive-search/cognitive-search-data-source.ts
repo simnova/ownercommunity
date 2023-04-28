@@ -1,9 +1,9 @@
-import { DataSource, DataSourceConfig } from "apollo-datasource";
+import { DataSource } from "../data-source";
 import { Context as GraphQLContext } from "../../context";
 import { Passport } from "../../../domain/contexts/iam/passport";
 import { ICognitiveSearch } from "../../../infrastructure/services/cognitive-search";
 
-export class CognitiveSearchDataSource< Context extends GraphQLContext> extends DataSource<Context> {
+export class CognitiveSearchDataSource<Context extends GraphQLContext> extends DataSource<Context> {
   private _context: Context;
   private _cognitiveSearch: ICognitiveSearch;
 
@@ -21,7 +21,7 @@ export class CognitiveSearchDataSource< Context extends GraphQLContext> extends 
     await func(passport, this._cognitiveSearch);
   }
 
-  public initialize(config: DataSourceConfig<Context>): void {
-    this._context = config.context;
+  public initialize(context: Context): void {
+    this._context = context;
   }
 }

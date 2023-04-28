@@ -20,7 +20,8 @@ export const ServiceModel = model<Service>('Service',new Schema<Service, Model<S
     updatedAt: { type: Date, default: Date.now }
   },
   {
-    ...BaseOptions,
+    timestamps: true, 
+    versionKey: 'version',
     shardKey: {community:1} 
   }
   ).index(

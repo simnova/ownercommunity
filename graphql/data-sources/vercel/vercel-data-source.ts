@@ -1,4 +1,4 @@
-import { DataSource, DataSourceConfig } from 'apollo-datasource';
+import { DataSource } from '../data-source';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
 import { IVercel } from '../../../infrastructure/services/vercel';
@@ -19,7 +19,7 @@ export class VercelDataSource<Context extends GraphQLContext> extends DataSource
     await func(passport, this._vercel);
   }
 
-  public initialize(config: DataSourceConfig<Context>): void {
-    this._context = config.context;  
+  public initialize(context: Context): void {
+    this._context = context;  
   }  
 }

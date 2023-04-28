@@ -87,7 +87,8 @@ export const RoleModel = model<Role>('Role',new Schema<Role, Model<Role>, Role>(
     updatedAt: { type: Date, default: Date.now }
   },
   {
-    ...BaseOptions,
+    timestamps: true, 
+    versionKey: 'version',
     optimisticConcurrency: true,
     shardKey: {community:1} 
   }

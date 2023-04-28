@@ -33,7 +33,10 @@ const AccountSchema = new Schema<Account, Model<Account>, Account>(
     },
     createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true },
   },
-  { ...SubdocumentBaseOptions }
+  {
+    timestamps: true, 
+    versionKey: 'version',
+  }
 );
 
 const CustomViewSchema = new Schema<CustomView, Model<CustomView>, CustomView>({
@@ -93,7 +96,8 @@ const schema = new Schema<Member, Model<Member>, Member>(
     },
   },
   {
-    ...BaseOptions,
+    timestamps: true, 
+    versionKey: 'version',
     shardKey: { community: 1 },
   }
 ).index({ community: 1, memberName: 1, 'accounts.user': 1 }, { unique: true });

@@ -1,4 +1,4 @@
-import { DataSource, DataSourceConfig } from 'apollo-datasource';
+import { DataSource } from '../data-source';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
 import { IBlobStorage } from '../../../infrastructure/services/blob-storage';
@@ -21,7 +21,7 @@ export class BlobDataSource<Context extends GraphQLContext> extends DataSource<C
     await func(passport, this._blobStorage);
   }
 
-  public initialize(config: DataSourceConfig<Context>): void {
-    this._context = config.context;
+  public initialize(context: Context): void {
+    this._context = context;
   }
 }

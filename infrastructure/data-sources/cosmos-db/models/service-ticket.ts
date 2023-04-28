@@ -25,7 +25,10 @@ const ActivityDetailSchema = new Schema<ActivityDetail, Model<ActivityDetail>, A
     },
     activityBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true, index: true },
   },
-  { ...SubdocumentBaseOptions }
+  { 
+    timestamps: true, 
+    versionKey: 'version',
+  }
 );
 
 export interface Photo extends SubdocumentBase {
@@ -106,7 +109,8 @@ export const ServiceTicketModel = model<ServiceTicket>(
       updateIndexFailedDate: { type: Date, required: false },
     },
     {
-      ...BaseOptions,
+      timestamps: true, 
+      versionKey: 'version',
       shardKey: { community: 1 },
     }
   )

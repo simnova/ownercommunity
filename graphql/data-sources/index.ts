@@ -4,6 +4,7 @@ import { Blob } from './blob';
 import { CognitiveSearch } from './cognitive-search';
 import { Maps } from './maps';
 import { Vercel } from './vercel';
+import { Context } from '../context';
 
 export const DataSources = {
   ...CosmosDB,
@@ -15,3 +16,12 @@ export const DataSources = {
 };
 
 export type DataSourcesType = typeof DataSources;
+
+export const initializeDataSources = (context: Context): DataSourcesType => {
+  Object.keys(DataSources).forEach(key => {
+    if (DataSources[key].initialize) {
+      DataSources[key].initialize(context);
+    }
+  });
+  return DataSources;
+};

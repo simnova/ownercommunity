@@ -57,7 +57,12 @@ export interface BedroomDetail extends SubdocumentBase {
 const BedroomDetailSchema = new Schema<BedroomDetail, Model<BedroomDetail>, BedroomDetail>({
   roomName: { type: String, required: false, maxlength: 100 },
   bedDescriptions: { type: [{ type: String, maxlength: 40 }], required: false },
-},{...SubdocumentBaseOptions})
+},
+{
+  timestamps: true, 
+  versionKey: 'version',
+}
+)
 
 export interface AdditionalAmenity extends SubdocumentBase {
   id: ObjectId;
@@ -67,7 +72,12 @@ export interface AdditionalAmenity extends SubdocumentBase {
 const AdditionalAmenitySchema = new Schema<AdditionalAmenity, Model<AdditionalAmenity>, AdditionalAmenity>({
   category: { type: String, required: false, maxlength: 100 },
   amenities: { type: [{ type: String, maxlength: 40 }], required: false }
-},{...SubdocumentBaseOptions})
+},
+{
+  timestamps: true, 
+  versionKey: 'version',
+}
+)
 
 export interface Location extends NestedPath {
   position: Point;
@@ -200,7 +210,8 @@ const schema = new Schema<Property, Model<Property>, Property>(
     updateIndexFailedDate: { type: Date, required: false },
   },
   {
-    ...BaseOptions,
+    timestamps: true, 
+    versionKey: 'version',
     shardKey: { community: 1 },
   }
 ).index({ community: 1, propertyName: 1 }, { unique: true });

@@ -1,4 +1,4 @@
-import { DataSource } from '../data-source';
+import { DataSource, DataSourceConfig } from '../data-source';
 import { MongoUnitOfWork } from '../../../domain/infrastructure/core/mongo/mongo-unit-of-work';
 import { MongoRepositoryBase } from '../../../domain/infrastructure/core/mongo/mongo-repository';
 import { AggregateRoot } from '../../../domain/shared/aggregate-root';
@@ -8,7 +8,6 @@ import { DomainExecutionContext } from '../../../domain/contexts/context';
 import { Context as GraphQLContext } from '../../context';
 
 export class DomainDataSource<Context extends GraphQLContext,MongoType extends Document,PropType extends EntityProps,DomainType extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType,PropType,DomainType>> extends DataSource<Context> {
-  private _context: Context;
   
   constructor(private unitOfWork: MongoUnitOfWork<DomainExecutionContext,MongoType,PropType,DomainType,RepoType>) {
     super();
@@ -25,8 +24,8 @@ export class DomainDataSource<Context extends GraphQLContext,MongoType extends D
     return this.unitOfWork.withTransaction(executionContext,(repo:RepoType) => func(repo));
   }
 
-  public initialize(context: Context): void {
-    this._context = context;    
+  public initialize(config: DataSourceConfig<Context>): void {
+    this._context = config?.context;
   }
   
 }

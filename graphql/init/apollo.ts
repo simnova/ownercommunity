@@ -1,23 +1,17 @@
 import { ApolloServer, BaseContext, GraphQLRequestContext } from '@apollo/server';
-import { HttpRequest, Context } from '@azure/functions';
-import { DataSources } from '../data-sources/';
 import { connect } from '../../infrastructure/data-sources/cosmos-db/connect';
 import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';
 import { PortalTokenValidation } from './extensions/portal-token-validation';
 import { combinedSchema } from './extensions/schema-builder';
-import * as util from './extensions/util';
 import RegisterHandlers from '../../domain/infrastructure/event-handlers/index';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
 
-import { decorateContext } from './extensions/passport-context';
-import { AzureFunctionsMiddlewareOptions, startServerAndCreateHandler } from '@as-integrations/azure-functions';
-
 export class ApolloServerRequestHandler {
-  private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation,securedSchema: GraphQLSchemaWithFragmentReplacements) => {
+  private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {
     return {
       schema: securedSchema,
       cors: {
@@ -56,10 +50,8 @@ export class ApolloServerRequestHandler {
     };
   };
 
-  getServer(): ApolloServer<BaseContext> {
+  getServer(): ApolloServer<ApolloContext> {
     if (this.graphqlHandlerObj) {
-      // req.headers['x-ms-privatelink-id'] = ''; // https://github.com/Azure/azure-functions-host/issues/6013
-      // req.headers['server'] = null; //hide microsoft server header
       return this.graphqlHandlerObj;
     }
   }
@@ -70,21 +62,8 @@ export class ApolloServerRequestHandler {
     }
   }
 
-  // public handleRequests(context: Context, req: HttpRequest) {
-  //   req.headers['x-ms-privatelink-id'] = ''; // https://github.com/Azure/azure-functions-host/issues/6013
-  //   req.headers['server'] = null; //hide microsoft server header
-  //   const options: AzureFunctionsMiddlewareOptions<BaseContext> = {
-  //     context: async ({ context, req }) => {
-  //       return {
-  //         context,
-  //         req,
-  //       };
-  //     }
-  //   }
-  //   return startServerAndCreateHandler(this.graphqlHandlerObj, options);
-  // }
 
-  private readonly graphqlHandlerObj: ApolloServer<BaseContext>;
+  private readonly graphqlHandlerObj: ApolloServer<ApolloContext>;
   private readonly portalTokenExtractor: PortalTokenValidation;
 
   constructor(portals: Map<string, string>) {
@@ -93,7 +72,7 @@ export class ApolloServerRequestHandler {
       const securedSchema: GraphQLSchemaWithFragmentReplacements = applyMiddleware(combinedSchema, permissions);
       this.portalTokenExtractor = new PortalTokenValidation(portals);
 
-      const server = new ApolloServer<BaseContext>({
+      const server = new ApolloServer<ApolloContext>({
         ...this.serverConfig(this.portalTokenExtractor, securedSchema),
       });
 

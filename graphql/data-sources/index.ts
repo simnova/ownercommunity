@@ -20,7 +20,7 @@ export type DataSourcesType = typeof DataSources;
 export const initializeDataSources = (context: Context): DataSourcesType => {
   Object.keys(DataSources).forEach(key => {
     if (DataSources[key].initialize) {
-      DataSources[key].initialize(context);
+      DataSources[key].initialize({ context });
     }
   });
   return DataSources;

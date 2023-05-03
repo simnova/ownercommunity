@@ -1,10 +1,9 @@
-import { DataSource } from '../data-source';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
 import { IVercel } from '../../../infrastructure/services/vercel';
+import { DataSource, DataSourceConfig } from '../data-source';
 
 export class VercelDataSource<Context extends GraphQLContext> extends DataSource<Context> {
-  private _context: Context;
   private _vercel: IVercel;
 
   constructor(vercel: IVercel) {
@@ -19,7 +18,7 @@ export class VercelDataSource<Context extends GraphQLContext> extends DataSource
     await func(passport, this._vercel);
   }
 
-  public initialize(context: Context): void {
-    this._context = context;  
-  }  
+  public initialize(config: DataSourceConfig<Context>): void {
+    this._context = config?.context;
+  }
 }

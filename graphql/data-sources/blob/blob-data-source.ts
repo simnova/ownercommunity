@@ -1,10 +1,9 @@
-import { DataSource } from '../data-source';
+import { DataSource, DataSourceConfig } from '../data-source';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
 import { IBlobStorage } from '../../../infrastructure/services/blob-storage';
 
 export class BlobDataSource<Context extends GraphQLContext> extends DataSource<Context> {
-  private _context: Context;
   private _blobStorage: IBlobStorage;
 
   constructor(blobStorage: IBlobStorage) {
@@ -21,7 +20,7 @@ export class BlobDataSource<Context extends GraphQLContext> extends DataSource<C
     await func(passport, this._blobStorage);
   }
 
-  public initialize(context: Context): void {
-    this._context = context;
+  public initialize(config: DataSourceConfig<Context>): void {
+    this._context = config?.context;
   }
 }

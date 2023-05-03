@@ -1,10 +1,9 @@
-import { DataSource } from "../data-source";
+import { DataSource, DataSourceConfig } from "../data-source";
 import { Context as GraphQLContext } from "../../context";
 import { Passport } from "../../../domain/contexts/iam/passport";
 import { ICognitiveSearch } from "../../../infrastructure/services/cognitive-search";
 
 export class CognitiveSearchDataSource<Context extends GraphQLContext> extends DataSource<Context> {
-  private _context: Context;
   private _cognitiveSearch: ICognitiveSearch;
 
   constructor(cognitiveSearch: ICognitiveSearch) {
@@ -21,7 +20,7 @@ export class CognitiveSearchDataSource<Context extends GraphQLContext> extends D
     await func(passport, this._cognitiveSearch);
   }
 
-  public initialize(context: Context): void {
-    this._context = context;
+  public initialize(config: DataSourceConfig<Context>): void {
+    this._context = config?.context;
   }
 }

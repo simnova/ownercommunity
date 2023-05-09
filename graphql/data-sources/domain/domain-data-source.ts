@@ -1,4 +1,4 @@
-import { DataSource,DataSourceConfig } from 'apollo-datasource';
+import { DataSource, DataSourceConfig } from '../data-source';
 import { MongoUnitOfWork } from '../../../domain/infrastructure/core/mongo/mongo-unit-of-work';
 import { MongoRepositoryBase } from '../../../domain/infrastructure/core/mongo/mongo-repository';
 import { AggregateRoot } from '../../../domain/shared/aggregate-root';
@@ -8,9 +8,12 @@ import { DomainExecutionContext } from '../../../domain/contexts/context';
 import { Context as GraphQLContext } from '../../context';
 
 export class DomainDataSource<Context extends GraphQLContext,MongoType extends Document,PropType extends EntityProps,DomainType extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType,PropType,DomainType>> extends DataSource<Context> {
-  private _context: Context;
+  private unitOfWork: MongoUnitOfWork<DomainExecutionContext,MongoType,PropType,DomainType,RepoType>;
   
-  constructor(private unitOfWork: MongoUnitOfWork<DomainExecutionContext,MongoType,PropType,DomainType,RepoType>) { super();}
+  constructor(options: { unitOfWork: MongoUnitOfWork<DomainExecutionContext,MongoType,PropType,DomainType,RepoType> } & DataSourceConfig<Context>) {
+    super(options);
+    this.unitOfWork = options.unitOfWork;
+  }
 
   public get context(): Context { return this._context;}
 
@@ -22,9 +25,4 @@ export class DomainDataSource<Context extends GraphQLContext,MongoType extends D
     console.log('withTransaction',this.context.passport);
     return this.unitOfWork.withTransaction(executionContext,(repo:RepoType) => func(repo));
   }
-
-  public initialize(config: DataSourceConfig<Context>): void {
-    this._context = config.context;    
-  }
-  
 }

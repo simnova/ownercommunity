@@ -29,7 +29,8 @@ export const CommunityModel = model<Community>('Community',new Schema<Community,
   },
 
   {
-    ...BaseOptions,
+    timestamps: true, 
+    versionKey: 'version',
   }
   ).index(
     { domain:1},

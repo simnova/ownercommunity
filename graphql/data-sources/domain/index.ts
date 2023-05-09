@@ -14,12 +14,19 @@ import { Properties } from './properties';
 import { Services } from './services';
 import { ServiceTickets } from './service-tickets';
 
-export const Domain  = {
-  userDomainAPI: new Users(UserUnitOfWork),
-  communityDomainAPI: new Communities(CommunityUnitOfWork),
-  memberDomainAPI: new Members(MemberUnitOfWork),
-  roleDomainAPI: new Roles(RoleUnitOfWork),
-  propertyDomainAPI: new Properties(PropertyUnitOfWork),
-  serviceDomainAPI: new Services(ServiceUnitOfWork),
-  serviceTicketDomainAPI: new ServiceTickets(ServiceTicketUnitOfWork)
+export {
+  Users as UserDomainAPI,
+  UserUnitOfWork,
+  Communities as CommunityDomainAPI,
+  CommunityUnitOfWork,
+  Members as MemberDomainAPI,
+  MemberUnitOfWork,
+  Roles as RoleDomainAPI,
+  RoleUnitOfWork,
+  Properties as PropertyDomainAPI,
+  PropertyUnitOfWork,
+  Services as ServiceDomainAPI,
+  ServiceUnitOfWork,
+  ServiceTickets as ServiceTicketDomainAPI,
+  ServiceTicketUnitOfWork
 }

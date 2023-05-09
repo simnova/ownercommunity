@@ -1,27 +1,27 @@
-import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { ServiceTicketConverter } from '../../../domain/infrastructure/persistence/service-ticket.domain-adapter';
 import { ServiceTicket, ServiceTicketModel } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { Context } from '../../context';
+import { CosmosDataSource } from './cosmos-data-source';
 
-export class ServiceTickets extends MongoDataSource<ServiceTicket, Context> {
+export class ServiceTickets extends CosmosDataSource<ServiceTicket, Context> {
   async getServiceTicketsByCommunityId(communityId: string): Promise<ServiceTicket[]> {
-    var dbData = await ServiceTicketModel.find({ community: communityId }).populate(['community', 'property', 'requestor', 'assignedTo']).exec();
+    let dbData = await ServiceTicketModel.find({ community: communityId }).populate(['community', 'property', 'requestor', 'assignedTo']).exec();
 
     //(await this.collection.find({community: communityId}))..  // await this.findByFields({community: communityId});
     return this.applyPermissionFilter(dbData, this.context);
   }
 
   async getServiceTicketsOpenByRequestor(memberId: string): Promise<ServiceTicket[]> {
-    var dbData = await ServiceTicketModel.find({ requestor: memberId }).populate(['community', 'property', 'requestor', 'assignedTo']).exec();
+    let dbData = await ServiceTicketModel.find({ requestor: memberId }).populate(['community', 'property', 'requestor', 'assignedTo']).exec();
     return this.applyPermissionFilter(dbData, this.context);
   }
 
   async getServiceTicketsClosedByRequestor(memberId: string): Promise<ServiceTicket[]> {
-    var dbData = (await this.findByFields({ requestor: memberId })).filter((ticket) => ticket.status === 'CLOSED');
+    let dbData = (await this.findByFields({ requestor: memberId })).filter((ticket) => ticket.status === 'CLOSED');
     return this.applyPermissionFilter(dbData, this.context);
   }
   async getServiceTicketsByAssignedTo(communityId: string, memberId: string): Promise<ServiceTicket[]> {
-    var dbData = await this.findByFields({ community: communityId, assignedTo: memberId });
+    let dbData = await this.findByFields({ community: communityId, assignedTo: memberId });
     return this.applyPermissionFilter(dbData, this.context);
   }
 

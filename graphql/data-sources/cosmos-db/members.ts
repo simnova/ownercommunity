@@ -1,10 +1,10 @@
-import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { Member, MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
 import { RoleModel } from '../../../infrastructure/data-sources/cosmos-db/models/role';
 import { Context } from '../../context';
 import { Types } from 'mongoose';
+import { CosmosDataSource } from './cosmos-data-source';
 
-export class Members extends MongoDataSource<Member, Context> {
+export class Members extends CosmosDataSource<Member, Context> {
   async getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<Member> {
     return (
       await this.findByFields({

@@ -1,6 +1,5 @@
 import { Resolvers, Community, CommunityMutationResult, Role } from '../../generated';
 import { Community as CommunityDo } from '../../../infrastructure/data-sources/cosmos-db/models/community';
-import { DataSources } from '../../data-sources';
 
 const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Promise<CommunityMutationResult> => {
   try {
@@ -18,17 +17,17 @@ const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Pr
 
 const community: Resolvers = {
   Community: {
-    roles: async (_rootObj: Community) => {
-      return (await DataSources.roleCosmosdbApi.getRoles()) as Role[];
+    roles: async (_rootObj: Community, _, { dataSources }) => {
+      return (await dataSources.roleCosmosdbApi.getRoles()) as Role[];
     },
-    files: async (rootObj: Community) => {
-      return DataSources.communityBlobAPI.communityPublicFilesList(rootObj.id);
+    files: async (rootObj: Community, _, { dataSources }) => {
+      return dataSources.communityBlobAPI.communityPublicFilesList(rootObj.id);
     },
-    filesByType: async (rootObj: Community, { type }) => {
-      return DataSources.communityBlobAPI.communityPublicFilesListByType(rootObj.id, type);
+    filesByType: async (rootObj: Community, { type }, { dataSources }) => {
+      return dataSources.communityBlobAPI.communityPublicFilesListByType(rootObj.id, type);
     },
-    domainStatus: async (rootObj: Community) => {
-      return DataSources.communityVercelApi.getDomainDetails(rootObj.domain);
+    domainStatus: async (rootObj: Community, _, { dataSources }) => {
+      return dataSources.communityVercelApi.getDomainDetails(rootObj.domain);
     },
     userIsAdmin: async (rootObj: Community, _args, { dataSources }) => {
       return dataSources.communityCosmosdbApi.userIsAdmin(rootObj.id);

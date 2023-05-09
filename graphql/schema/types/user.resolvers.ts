@@ -1,5 +1,5 @@
 import { Resolvers, User, CurrentUser } from '../../generated';
-import { CacheScope } from 'apollo-server-types';
+import { cacheControlFromInfo } from '@apollo/cache-control-types';
 
 const user : Resolvers = {
   Query: {      
@@ -12,7 +12,7 @@ const user : Resolvers = {
       return (await context.dataSources.userCosmosdbApi.getUser(args.id)) as User;
     },
     users : async (parent, args, context, info) => {
-      info.cacheControl.setCacheHint({ maxAge: 60,scope: CacheScope.Public }); //this works, but doesn't work when setting it with a directive 
+      cacheControlFromInfo(info).setCacheHint({ maxAge: 60, scope: 'PUBLIC' }); //this works, but doesn't work when setting it with a directive 
       console.log(`Resolver>Query>users`)
       console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`)
       return (await context.dataSources.userCosmosdbApi.getUsers()) as User[];

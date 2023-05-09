@@ -1,5 +1,6 @@
+import { startServerAndCreateHandler } from '@as-integrations/azure-functions';
 import { ApolloServerRequestHandler } from './init/apollo';
-import { HttpRequest, Context } from "@azure/functions";
+import { Context as ApolloContext} from './context';
 import   * as  appInsights   from "applicationinsights";
 
 if(!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIONINSIGHTS_CONNECTION_STRING.length === 0){
@@ -12,7 +13,6 @@ if(!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATION
   console.log('Application Insights configured');
 } 
 
-
 let apolloServerRequestHandler = new ApolloServerRequestHandler(
   new Map<string,string>([
     ["AccountPortal","ACCOUNT_PORTAL"]
@@ -20,6 +20,10 @@ let apolloServerRequestHandler = new ApolloServerRequestHandler(
 );
 
 // Execute the following with every http request
-export default (context: Context, req: HttpRequest) => {
-  return apolloServerRequestHandler.handleRequests(context, req);
-}
+export default startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
+  context: async ({ req }) => {
+    let context = new ApolloContext();
+    await context.init(req, apolloServerRequestHandler);
+    return context;
+  }
+});;

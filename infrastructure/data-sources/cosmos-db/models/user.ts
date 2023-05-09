@@ -44,6 +44,7 @@ export const UserModel = model<User>('User', new Schema<User, Model<User>, User>
     }
   },
   {
-    ...BaseOptions 
+    timestamps: true, 
+    versionKey: 'version',
   }
 ));

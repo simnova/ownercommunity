@@ -1,10 +1,10 @@
 /** @format */
 
-import { MongoDataSource } from "apollo-datasource-mongodb";
 import { Role } from "../../../infrastructure/data-sources/cosmos-db/models/role";
 import { Context } from "../../context";
+import { CosmosDataSource } from "./cosmos-data-source";
 
-export class Roles extends MongoDataSource<Role, Context> {
+export class Roles extends CosmosDataSource<Role, Context> {
   async getRoleById(id: string): Promise<Role> {
     return (
       await this.findByFields({ id: id, community: this.context.community })

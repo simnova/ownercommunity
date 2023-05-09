@@ -1,58 +1,48 @@
-import { ApolloServer, CreateHandlerOptions } from 'apollo-server-azure-functions';
-import { HttpRequest, Context } from '@azure/functions';
-import { DataSources } from '../data-sources/';
+import { ApolloServer, GraphQLRequestContext } from '@apollo/server';
 import { connect } from '../../infrastructure/data-sources/cosmos-db/connect';
-import { GraphQLServiceContext } from 'apollo-server-types';
-import responseCachePlugin from 'apollo-server-plugin-response-cache';
+import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';
 import { PortalTokenValidation } from './extensions/portal-token-validation';
 import { combinedSchema } from './extensions/schema-builder';
-import * as util from './extensions/util';
 import RegisterHandlers from '../../domain/infrastructure/event-handlers/index';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
 
-import { GraphQLRequestContext } from 'apollo-server-plugin-base';
-import { decorateContext } from './extensions/passport-context';
-
 export class ApolloServerRequestHandler {
   private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {
     return {
       schema: securedSchema,
-
-      context: async (req: any) => {
-        //context loads before data sources
-        let bearerToken = util.ExtractBearerToken(req.request);
-        let context: Partial<ApolloContext> = {};
-
-        if (bearerToken) {
-          let verifiedUser = await portalTokenExtractor.GetVerifiedUser(bearerToken);
-          console.log('Decorating context with verified user:', JSON.stringify(verifiedUser));
-          if (verifiedUser) {
-            context.verifiedUser = verifiedUser;
-            console.log('context value is now:', JSON.stringify(context));
-          }
-        }
-        await decorateContext(context, req.request);
-        return context;
+      cors: {
+        origin: true,
+        credentials: true,
       },
-      dataSources: () => {
-        return DataSources;
-      },
+      allowBatchedHttpRequests: true,
       //  playground: { endpoint: '/api/graphql/playground' },
       plugins: [
         {
-          async didEncounterErrors(requestContext: GraphQLRequestContext) {
+          async didEncounterErrors(requestContext: GraphQLRequestContext<ApolloContext>) {
             console.error('Apollo Server encountered error:', requestContext.errors);
           },
-          async serverWillStart(service: GraphQLServiceContext) {
+          async serverWillStart() {
             console.log('Apollo Server Starting');
             await connect();
             portalTokenExtractor.Start();
 
             RegisterHandlers();
+          },
+          async onHealthCheck(): Promise<any> {
+            // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health
+            // doesn't work yet
+            // https://github.com/apollographql/apollo-server/pull/5270
+            // https://github.com/apollographql/apollo-server/pull/5003
+            let mongoConnected = mongoose.connection.readyState === 1;
+            if (mongoConnected) {
+              return;
+            } else {
+              throw new Error('MongoDB is not connected');
+            }
           },
         },
         responseCachePlugin(),
@@ -60,43 +50,34 @@ export class ApolloServerRequestHandler {
     };
   };
 
-  public handleRequests(context: Context, req: HttpRequest) {
-    req.headers['x-ms-privatelink-id'] = ''; // https://github.com/Azure/azure-functions-host/issues/6013
-    req.headers['server'] = null; //hide microsoft server header
-    return this.graphqlHandlerObj(context, req);
+  getServer(): ApolloServer<ApolloContext> {
+    if (this.graphqlHandlerObj) {
+      return this.graphqlHandlerObj;
+    }
   }
 
-  private readonly graphqlHandlerObj: any;
+  getPortalTokenExtractor(): PortalTokenValidation {
+    if (this.portalTokenExtractor) {
+      return this.portalTokenExtractor;
+    }
+  }
+
+
+  private readonly graphqlHandlerObj: ApolloServer<ApolloContext>;
+  private readonly portalTokenExtractor: PortalTokenValidation;
 
   constructor(portals: Map<string, string>) {
     try {
       console.log(' -=-=-=-=-=-=-=-=-= INITIALIZING APOLLO -=-=-=-=-=-=-=-=-=');
       const securedSchema: GraphQLSchemaWithFragmentReplacements = applyMiddleware(combinedSchema, permissions);
-      const portalTokenExtractor: PortalTokenValidation = new PortalTokenValidation(portals);
+      this.portalTokenExtractor = new PortalTokenValidation(portals);
 
-      const server = new ApolloServer({
-        ...this.serverConfig(portalTokenExtractor, securedSchema),
+      const server = new ApolloServer<ApolloContext>({
+        ...this.serverConfig(this.portalTokenExtractor, securedSchema),
       });
 
-      this.graphqlHandlerObj = server.createHandler({
-        cors: {
-          origin: true,
-          credentials: true,
-        },
+      this.graphqlHandlerObj = server;
 
-        // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health
-        onHealthCheck: async (): Promise<any> => {
-          // doesn't work yet
-          // https://github.com/apollographql/apollo-server/pull/5270
-          // https://github.com/apollographql/apollo-server/pull/5003
-          let mongoConnected = mongoose.connection.readyState === 1;
-          if (mongoConnected) {
-            return;
-          } else {
-            throw new Error('MongoDB is not connected');
-          }
-        },
-      } as CreateHandlerOptions);
     } catch (error) {
       console.log('Error initializing apollo server:', error);
     }

@@ -47,8 +47,8 @@ export class BlobZip {
             });
         })
       )
-        .then(() => {
-          archive.finalize();
+        .then(async () => {
+          await archive.finalize();
         })
         .catch((err) => {
           console.log(err);

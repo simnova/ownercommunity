@@ -17,7 +17,7 @@ export class Properties extends BlobDataSource<Context> {
 			if (!passport.forProperty(propertyDO).determineIf((permissions) => permissions.canManageProperties || permissions.canEditOwnProperty && propertyDO.owner.id === memberId)) {
 				return;
 			}
-			blobStorage.deleteBlob(propertyId, blobName);
+			await blobStorage.deleteBlob(propertyId, blobName);
 		});
 	}
 

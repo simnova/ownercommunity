@@ -26,7 +26,7 @@ export class ServiceDomainAdapter extends MongooseDomainAdapter<Service> impleme
     if(this.doc.community && !this.doc.populated('community')) {
       console.warn('Community not populated - may want to look at repository populate',this.doc.community);
     }
-    if(this.doc.community){return new CommunityDomainAdapter(this.doc.community);}
+    return this.doc.community ? new CommunityDomainAdapter(this.doc.community) : undefined;
   }
   setCommunityRef(community: CommunityProps) {
     this.doc.set('community', community['props']['doc']);

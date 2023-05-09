@@ -63,7 +63,6 @@ const property: Resolvers = {
     },
 
     propertiesSearch: async (_, _args, context, info) => {
-      // info.cacheControl.setCacheHint({ maxAge: 60, scope: CacheScope.Public });
       const searchInput = {
         searchString: _args.input.searchString.trim(),
         options: {
@@ -78,7 +77,7 @@ const property: Resolvers = {
 
       const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(searchInput);
       let results = [];
-      for await (const result of searchResults?.results) {
+      for await (const result of searchResults?.results ?? []) {
         results.push(result.document);
       }
 

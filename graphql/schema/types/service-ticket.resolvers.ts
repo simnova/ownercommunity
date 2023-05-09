@@ -96,7 +96,7 @@ const serviceTicket: Resolvers = {
 
       const searchResults = await context.dataSources.serviceTicketsSearchApi.serviceTicketsSearch(searchInput, member.id);
       let results = [];
-      for await (const result of searchResults?.results) {
+      for await (const result of searchResults?.results ?? []) {
         results.push(result.document);
       }
 

@@ -5,7 +5,6 @@ import { Types } from 'mongoose';
 import { CosmosDataSource } from './cosmos-data-source';
 
 export class Members extends CosmosDataSource<Member, Context> {
-  
   async getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<Member> {
     return (
       await this.findByFields({

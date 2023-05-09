@@ -32,7 +32,7 @@ export function prepFields(fields) {
   const cleanedFields = {}
 
   Object.keys(fields)
-    .sort()
+    .sort((a, b) => a.localeCompare(b))
     .forEach(key => {
       if (typeof key !== 'undefined') {
         cleanedFields[key] = Array.isArray(fields[key])
@@ -102,8 +102,8 @@ export const createCachingMethods = ({ collection, model, cache }) => {
     const filterArray: any = fieldsArray.reduce((filterArray: any, fields: any) => {
       const existingFieldsFilter = filterArray.find(
         filter =>
-          [...Object.keys(filter)].sort().join() ===
-          [...Object.keys(fields)].sort().join()
+          [...Object.keys(filter)].sort((a, b) => a.localeCompare(b)).join() ===
+          [...Object.keys(fields)].sort((a, b) => a.localeCompare(b)).join()
       )
       const filter = existingFieldsFilter || {}
 

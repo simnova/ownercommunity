@@ -5,7 +5,6 @@ import { Types } from 'mongoose';
 import { CosmosDataSource } from './cosmos-data-source';
 
 export class Properties extends CosmosDataSource<Property, Context> {
-
   async getPropertiesByCommunityId(communityId: string): Promise<Property[]> {
     return this.findByFields({ community: communityId });
   }

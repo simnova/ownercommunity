@@ -1,4 +1,4 @@
-import {PageHeader} from 'antd'
+import { PageHeader } from '@ant-design/pro-layout';
 import { useParams } from 'react-router-dom'
 import { SubPageLayout } from '../sub-page-layout'
 import { CommunityPropertyListingsContainer } from '../components/community-property-listings.container';

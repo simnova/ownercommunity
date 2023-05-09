@@ -1,4 +1,5 @@
-import { PageHeader, Typography, Form, Input, Button, Checkbox } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
+import { Typography, Form, Input, Button, Checkbox } from 'antd';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { SubPageLayout } from '../sub-page-layout';

@@ -157,143 +157,141 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
     props.handleSearch(0, props.top ?? 10);
   };
 
-  return (
-    <>
-      <Space direction="vertical" size="large">
-        <Space>
-          <AutoComplete
-            allowClear
-            options={props.addresses}
-            style={{
-              width: '400px'
-            }}
-            placeholder="Enter an address or a property name"
-            filterOption={false}
-            value={props.searchString}
-            onChange={(value: string) => props.onInputAddressChanged(value)}
-            onSelect={(value: string) => props.onInputAddressSelected(value)}
-          ></AutoComplete>
+  return (<>
+    <Space direction="vertical" size="large">
+      <Space>
+        <AutoComplete
+          allowClear
+          options={props.addresses}
+          style={{
+            width: '400px'
+          }}
+          placeholder="Enter an address or a property name"
+          filterOption={false}
+          value={props.searchString}
+          onChange={(value: string) => props.onInputAddressChanged(value)}
+          onSelect={(value: string) => props.onInputAddressSelected(value)}
+        ></AutoComplete>
 
-          <Button type="primary" onClick={() => searchButtonClicked()}>
-            Search
-          </Button>
+        <Button type="primary" onClick={() => searchButtonClicked()}>
+          Search
+        </Button>
 
-          <Pagination
-            current={(props.currentPage ?? 0) + 1}
-            total={props.data?.propertiesSearch?.count ?? 10}
-            pageSize={props.top ?? 10}
-            onChange={(page) => handlePagination(page)}
-          />
-          <span>Records per page:</span>
-          <Select
-            defaultValue={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
-            onChange={(value) => onSelectTopChanged(value)}
-          >
-            <Option value={5}>5</Option>
-            <Option value={10}>10</Option>
-            <Option value={15}>15</Option>
-            <Option value={25}>25</Option>
-            <Option value={50}>50</Option>
-          </Select>
-          <Button onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
-            <Space size="small">
-              <FilterOutlined />
-              <span>Filters</span>
-            </Space>
-          </Button>
-          <Checkbox
-            disabled={!searchParams.get(SearchParamKeys.OrderBy)}
-            onChange={(e) => onHideNullResultsChanged(e)}
-            defaultChecked={searchParams.get(SearchParamKeys.HideNullResults) ? true : false}
-          >
-            Hide Null Results
-          </Checkbox>
-        </Space>
-
-        <Space>
-          <span>Saved filters: </span>
-          <Select
-            value={searchParams.get(SearchParamKeys.SavedFilter) ?? savedFilter}
-            onChange={(value) => onSelectFilterChanged(value)}
-            style={{ width: '160px' }}
-          >
-            <Option value={''}>No filter</Option>
-            {filters.map((filter: any) => {
-              return <Option value={filter.name}>{filter.name}</Option>;
-            })}
-          </Select>
-
-          <Button onClick={() => setIsSaveModalVisible(true)} style={{ borderRadius: '10px' }}>
-            <Space size="small">
-              <SaveOutlined />
-              <span>Save Filter</span>
-            </Space>
-          </Button>
-          <Modal
-            title="Save Filter"
-            visible={isSaveModalVisible}
-            onOk={() => saveFilter()}
-            onCancel={() => setIsSaveModalVisible(false)}
-          >
-            <Space size="middle">
-              <Input placeholder="Filter Name" onChange={(e) => setSelectedFilterName(e.target.value)} />
-            </Space>
-          </Modal>
-          {savedFilter !== '' && (
-            <Button onClick={() => deleteSavedFilter()} danger style={{ borderRadius: '10px' }}>
-              <Space size="small">
-                <CloseCircleOutlined />
-                <span>Delete Filter</span>
-              </Space>
-            </Button>
-          )}
-        </Space>
-
-        <Space>
-          <span>Sort by:</span>
-          <Select
-            defaultValue={searchParams.get(SearchParamKeys.OrderBy) ?? ''}
-            onChange={(value) => {
-              onSelectOrderByChanged(value);
-            }}
-            style={{ width: '160px' }}
-          >
-            <Option value={''}>None</Option>
-            <Option value={'price desc'}>Price: High to Low</Option>
-            <Option value={'price asc'}>Price: Low to High</Option>
-            <Option value={'bedrooms desc'}>Bedrooms</Option>
-            <Option value={'squareFeet desc'}>Square Feet</Option>
-          </Select>
-        </Space>
-
-        <Modal
-          title="Filters"
-          visible={isModalVisible}
-          width={1000}
-          onCancel={() => setIsModalVisible(false)}
-          footer={[
-            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-              Close
-            </Button>,
-            <Button
-              key="clear"
-              type="link"
-              onClick={() => {
-                clearFilter();
-              }}
-            >
-              Clear Filters
-            </Button>
-          ]}
+        <Pagination
+          current={(props.currentPage ?? 0) + 1}
+          total={props.data?.propertiesSearch?.count ?? 10}
+          pageSize={props.top ?? 10}
+          onChange={(page) => handlePagination(page)}
+        />
+        <span>Records per page:</span>
+        <Select
+          defaultValue={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
+          onChange={(value) => onSelectTopChanged(value)}
         >
-          <PropertiesListSearchFilters
-            facets={props.data?.propertiesSearch?.facets as PropertySearchFacets}
-            setSelectedFilter={props.setSelectedFilter}
-            selectedFilter={props.selectedFilter}
-            setTop={props.setTop}
-          />
-        </Modal>
+          <Option value={5}>5</Option>
+          <Option value={10}>10</Option>
+          <Option value={15}>15</Option>
+          <Option value={25}>25</Option>
+          <Option value={50}>50</Option>
+        </Select>
+        <Button onClick={() => setIsModalVisible(true)} style={{ borderRadius: '10px' }}>
+          <Space size="small">
+            <FilterOutlined />
+            <span>Filters</span>
+          </Space>
+        </Button>
+        <Checkbox
+          disabled={!searchParams.get(SearchParamKeys.OrderBy)}
+          onChange={(e) => onHideNullResultsChanged(e)}
+          defaultChecked={searchParams.get(SearchParamKeys.HideNullResults) ? true : false}
+        >
+          Hide Null Results
+        </Checkbox>
       </Space>
-    </>
-  );
+
+      <Space>
+        <span>Saved filters: </span>
+        <Select
+          value={searchParams.get(SearchParamKeys.SavedFilter) ?? savedFilter}
+          onChange={(value) => onSelectFilterChanged(value)}
+          style={{ width: '160px' }}
+        >
+          <Option value={''}>No filter</Option>
+          {filters.map((filter: any) => {
+            return <Option value={filter.name}>{filter.name}</Option>;
+          })}
+        </Select>
+
+        <Button onClick={() => setIsSaveModalVisible(true)} style={{ borderRadius: '10px' }}>
+          <Space size="small">
+            <SaveOutlined />
+            <span>Save Filter</span>
+          </Space>
+        </Button>
+        <Modal
+          title="Save Filter"
+          open={isSaveModalVisible}
+          onOk={() => saveFilter()}
+          onCancel={() => setIsSaveModalVisible(false)}
+        >
+          <Space size="middle">
+            <Input placeholder="Filter Name" onChange={(e) => setSelectedFilterName(e.target.value)} />
+          </Space>
+        </Modal>
+        {savedFilter !== '' && (
+          <Button onClick={() => deleteSavedFilter()} danger style={{ borderRadius: '10px' }}>
+            <Space size="small">
+              <CloseCircleOutlined />
+              <span>Delete Filter</span>
+            </Space>
+          </Button>
+        )}
+      </Space>
+
+      <Space>
+        <span>Sort by:</span>
+        <Select
+          defaultValue={searchParams.get(SearchParamKeys.OrderBy) ?? ''}
+          onChange={(value) => {
+            onSelectOrderByChanged(value);
+          }}
+          style={{ width: '160px' }}
+        >
+          <Option value={''}>None</Option>
+          <Option value={'price desc'}>Price: High to Low</Option>
+          <Option value={'price asc'}>Price: Low to High</Option>
+          <Option value={'bedrooms desc'}>Bedrooms</Option>
+          <Option value={'squareFeet desc'}>Square Feet</Option>
+        </Select>
+      </Space>
+
+      <Modal
+        title="Filters"
+        open={isModalVisible}
+        width={1000}
+        onCancel={() => setIsModalVisible(false)}
+        footer={[
+          <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+            Close
+          </Button>,
+          <Button
+            key="clear"
+            type="link"
+            onClick={() => {
+              clearFilter();
+            }}
+          >
+            Clear Filters
+          </Button>
+        ]}
+      >
+        <PropertiesListSearchFilters
+          facets={props.data?.propertiesSearch?.facets as PropertySearchFacets}
+          setSelectedFilter={props.setSelectedFilter}
+          selectedFilter={props.selectedFilter}
+          setTop={props.setTop}
+        />
+      </Modal>
+    </Space>
+  </>);
 };

@@ -81,30 +81,30 @@ export const PropertiesListSearchFilterPrice: FC<PropertiesListSearchFilterPrice
     }
   }, [location]);
 
-  return (
-    <>
-      <h2 className="font-bold">Price</h2>
-      <Slider
-        range
-        marks={PriceMarkers}
-        defaultValue={[minPrice, maxPrice]}
-        max={1000000}
-        min={0}
-        step={null}
-        onChange={(values) => onSliderPriceChanged(values)}
-        tooltipVisible={false}
-        value={[minPrice, maxPrice]}
-      />
-      <Row gutter={[16, 16]}>
-        <Col span={12}>
-          <div>Min price</div>
-          <Input value={minPrice} onChange={(e) => onPriceChanged('min', e)} />
-        </Col>
-        <Col span={12}>
-          <div>Max price</div>
-          <Input value={maxPrice} onChange={(e) => onPriceChanged('max', e)} />
-        </Col>
-      </Row>
-    </>
-  );
+  return (<>
+    <h2 className="font-bold">Price</h2>
+    <Slider
+      range
+      marks={PriceMarkers}
+      defaultValue={[minPrice, maxPrice]}
+      max={1000000}
+      min={0}
+      step={null}
+      onChange={(values) => onSliderPriceChanged(values)}
+      value={[minPrice, maxPrice]}
+      tooltip={{
+        open: false
+      }}
+    />
+    <Row gutter={[16, 16]}>
+      <Col span={12}>
+        <div>Min price</div>
+        <Input value={minPrice} onChange={(e) => onPriceChanged('min', e)} />
+      </Col>
+      <Col span={12}>
+        <div>Max price</div>
+        <Input value={maxPrice} onChange={(e) => onPriceChanged('max', e)} />
+      </Col>
+    </Row>
+  </>);
 };

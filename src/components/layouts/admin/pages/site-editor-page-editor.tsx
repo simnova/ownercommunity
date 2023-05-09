@@ -82,17 +82,17 @@ const SiteEditorPageEditor: React.FC<any> = () => {
                 closable={false}
                 
                 onClose={() => setShowToolbox(false)}
-                visible={showToolbox}
+                open={showToolbox}
                 width={200}
                 getContainer={false}
                 mask={false}
-                style={{ position: 'absolute' }}
+                rootStyle={{ position: 'absolute' }}
               >
                 <div 
                   
                   onMouseLeave={() => setShowToolbox(false)}
-                  className={'bg-neutral-800'}
-                  style={{
+                  rootClassName={'bg-neutral-800'}
+                  rootStyle={{
                     padding:'20px 15px 10px 10px',
                     minWidth:'100%',
                     minHeight:'100%',
@@ -118,6 +118,6 @@ const SiteEditorPageEditor: React.FC<any> = () => {
         </div>
       </div>
     </Editor>
-  </>
+  </>;
 }
 export default SiteEditorPageEditor;

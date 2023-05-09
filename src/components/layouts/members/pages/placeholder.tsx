@@ -1,4 +1,5 @@
-import {PageHeader, Typography, Steps} from 'antd'
+import { PageHeader } from '@ant-design/pro-layout';
+import { Typography, Steps } from 'antd';
 import { useParams } from 'react-router-dom'
 import { SubPageLayout } from '../sub-page-layout'
 import { LoadingOutlined } from "@ant-design/icons";

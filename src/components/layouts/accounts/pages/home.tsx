@@ -1,5 +1,6 @@
 import { CommunityListContainer } from '../components/community-list.container';
-import { Button, PageHeader, Typography } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
+import { Button, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { SubPageLayout } from '../sub-page-layout';
 import { UserInfoContainer } from '../components/user-info.container';

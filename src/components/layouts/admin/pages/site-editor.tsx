@@ -3,7 +3,8 @@ import { Route, Routes, useLocation, useNavigate, useParams, useResolvedPath, ma
 import SiteEditorPageEditor from "./site-editor-page-editor"
 import { SiteEditorFiles } from './site-editor-files';
 import { PageTree } from "./site-editor-page-tree"
-import { PageHeader, Tabs } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
+import { Tabs } from 'antd';
 import { SubPageLayout } from "../sub-page-layout";
 import { SiteEditorContainer } from "../components/site-editor.container";
 

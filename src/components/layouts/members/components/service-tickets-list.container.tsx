@@ -114,35 +114,33 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   if (searchServiceTicketsCalled && searchServiceTicketsData) {
     let SearchResult = null;
     SearchResult = <pre>{JSON.stringify(searchServiceTicketsData, null, 2)}</pre>;
-    return (
-      <>
-        <div className="py-4">
-          <Search
-            allowClear
-            style={{ width: '40%' }}
-            placeholder="input search text"
-            onSearch={() => handleSearch()}
-            value={searchString}
-            onChange={(e) => onChange(e)}
-            enterButton
-          />
-          <Drawer
-            title="Search Filters"
-            placement="left"
-            onClose={() => setVisible(false)}
-            visible={visible}
-            width={445}
-          >
-            <ServiceTicketsSearchContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
-          </Drawer>
-          <Button type="default" onClick={() => setVisible(true)} className="ml-4">
-            <FilterOutlined />
-          </Button>
-        </div>
-        <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} />
-        {SearchResult}
-      </>
-    );
+    return (<>
+      <div className="py-4">
+        <Search
+          allowClear
+          style={{ width: '40%' }}
+          placeholder="input search text"
+          onSearch={() => handleSearch()}
+          value={searchString}
+          onChange={(e) => onChange(e)}
+          enterButton
+        />
+        <Drawer
+          title="Search Filters"
+          placement="left"
+          onClose={() => setVisible(false)}
+          open={visible}
+          width={445}
+        >
+          <ServiceTicketsSearchContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
+        </Drawer>
+        <Button type="default" onClick={() => setVisible(true)} className="ml-4">
+          <FilterOutlined />
+        </Button>
+      </div>
+      <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} />
+      {SearchResult}
+    </>);
   }
 
   return (

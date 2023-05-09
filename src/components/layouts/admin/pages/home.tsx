@@ -1,4 +1,5 @@
-import { PageHeader, Typography } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
+import { Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 import { CommunityDetailContainer } from '../components/community-detail.container';
 import { SubPageLayout } from '../sub-page-layout';

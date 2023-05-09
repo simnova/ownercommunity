@@ -1,4 +1,5 @@
-import {PageHeader, Typography} from 'antd'
+import { PageHeader } from '@ant-design/pro-layout';
+import { Typography } from 'antd';
 import { SubPageLayout } from '../sub-page-layout'
 import { NeighborsCardListContainer } from '../components/neighbors-card-list.container'
 import { useParams } from 'react-router-dom'

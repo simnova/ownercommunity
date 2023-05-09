@@ -160,7 +160,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
   const generateAgentDetails = () => {
     return (
-      <Space direction={props.space ?? 'vertical'}>
+      (<Space direction={props.space ?? 'vertical'}>
         <Space>
           {props.data.property.listingDetail.listingAgent ? (
             props.data.property.listingDetail.listingAgent
@@ -200,7 +200,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         )}
         {props.data.property.listingDetail.listingAgentCompany ? (
           <Modal
-            visible={isModalVisible}
+            open={isModalVisible}
             onCancel={handleCancel}
             title={'Company Details'}
             footer={null}
@@ -238,7 +238,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         ) : (
           <></>
         )}
-      </Space>
+      </Space>)
     );
   };
 

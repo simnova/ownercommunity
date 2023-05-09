@@ -136,7 +136,7 @@ const SiteEditorPageTree: React.FC = (props) => {
   }
  
   return <>
-    <Modal title="Add Page" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+    <Modal title="Add Page" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
       <PageDetails
         data={newNode}
         saveData={function (data: { id: string; title: string; pageName: string; pageType: string; }): void {
@@ -265,6 +265,6 @@ const SiteEditorPageTree: React.FC = (props) => {
       </Row>
       
     </div>
-  </>
+  </>;
 }
 export { SiteEditorPageTree as PageTree };

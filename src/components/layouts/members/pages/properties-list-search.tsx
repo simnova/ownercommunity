@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageHeader } from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams } from 'react-router-dom';
 import { PropertiesListSearchContainer } from '../components/properties-list-search.container';

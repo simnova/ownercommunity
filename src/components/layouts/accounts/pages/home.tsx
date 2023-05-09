@@ -13,14 +13,11 @@ export const Home: React.FC<any> = (props) => {
       To join a community, you must provide the community manager with the following:
       <br />
       <br />
-      <UserInfoContainer /><br/><br/>
-
+      <UserInfoContainer />
+      <br />
+      <br />
       <Title level={3}>Create a New Community</Title>
-      <Button
-        type="primary"
-        style={{ width: '400px' }}
-        onClick={() => navigate('create-community')}
-      >
+      <Button type="primary" style={{ width: '400px' }} onClick={() => navigate('create-community')}>
         Create a Community...
       </Button>
       <br /> <Title level={3}>Select a Community</Title>

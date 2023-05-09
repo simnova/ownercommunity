@@ -62,7 +62,7 @@ export class Communities extends BlobDataSource<Context> {
 			if (!passport.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
 				return;
 			}
-			blobStorage.deleteBlob(communityId, blobName);
+			await blobStorage.deleteBlob(communityId, blobName);
 		});
 	}
 

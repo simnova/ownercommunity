@@ -54,7 +54,7 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
   }
 
   get service() {
-    if(this.doc.service) {return this.doc.service?new ServiceDomainAdapter(this.doc.service):undefined;}
+   return this.doc.service ? new ServiceDomainAdapter(this.doc.service) : undefined;
   }
   public setServiceRef(service:ServiceEntityReference) {
     this.doc.set('service',service?service['props']['doc']:null);

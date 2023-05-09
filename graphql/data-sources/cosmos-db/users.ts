@@ -1,8 +1,8 @@
-import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { User } from '../../../infrastructure/data-sources/cosmos-db/models/user';
 import { Context } from '../../context';
+import { CosmosDataSource } from './cosmos-data-source';
 
-export class Users extends MongoDataSource<User, Context> {
+export class Users extends CosmosDataSource<User, Context> {
   
   async getUser(userId : string): Promise<User> {
     return this.findOneById(userId);

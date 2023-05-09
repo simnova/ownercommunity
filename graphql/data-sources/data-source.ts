@@ -1,9 +1,15 @@
+import { KeyValueCache } from "@apollo/utils.keyvaluecache";
+
 export interface DataSourceConfig<TContext> {
   context: TContext;
-  cache?: any;
+  cache?: KeyValueCache;
 }
 export abstract class DataSource<TContext = any> {
   protected _context: TContext;
 
-  initialize?(config: DataSourceConfig<TContext>): void;
+  constructor({ context, cache }: DataSourceConfig<TContext>) {
+    if (context) {
+      this._context = context;
+    }
+  }
 }

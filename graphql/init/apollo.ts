@@ -1,4 +1,4 @@
-import { ApolloServer, BaseContext, GraphQLRequestContext } from '@apollo/server';
+import { ApolloServer, GraphQLRequestContext } from '@apollo/server';
 import { connect } from '../../infrastructure/data-sources/cosmos-db/connect';
 import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';

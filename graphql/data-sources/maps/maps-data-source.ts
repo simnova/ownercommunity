@@ -5,6 +5,11 @@ import { Maps } from '../../../infrastructure/services/maps';
 
 export class MapsDataSource<Context extends GraphQLContext> extends DataSource<Context> {
   private _maps: Maps;
+
+  constructor(options: DataSourceConfig<Context>) {
+    super(options);
+    this._maps = new Maps();
+  }
   
   public get context(): Context { return this._context;}
 
@@ -12,9 +17,4 @@ export class MapsDataSource<Context extends GraphQLContext> extends DataSource<C
     let passport =  this.context.passport; 
     await func(passport, this._maps);
   }
-
-  public initialize(config: DataSourceConfig<Context>): void {
-    this._context = config?.context;
-    this._maps = new Maps();
-  } 
 }

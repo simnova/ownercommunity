@@ -14,12 +14,19 @@ import { Members } from './members';
 import { Communities } from './communities';
 import { Properties } from './properties';
 
-export const CosmosDB = {
-  userCosmosdbApi: new Users(UserModel),
-  roleCosmosdbApi: new Roles(RoleModel),
-  serviceCosmosdbApi: new Services(ServiceModel),
-  serviceTicketCosmosdbApi: new ServiceTickets(ServiceTicketModel),
-  memberCosmosdbApi: new Members(MemberModel),
-  communityCosmosdbApi: new Communities(CommunityModel),
-  propertyCosmosdbApi: new Properties(PropertyModel)
+export {
+  Users as UserCosmosdbAPI,
+  UserModel,
+  Roles as RoleCosmosdbAPI,
+  RoleModel,
+  Services as ServiceCosmosdbAPI,
+  ServiceModel,
+  ServiceTickets as ServiceTicketCosmosdbAPI,
+  ServiceTicketModel,
+  Members as MemberCosmosdbAPI,
+  MemberModel,
+  Communities as CommunityCosmosdbAPI,
+  CommunityModel,
+  Properties as PropertyCosmosdbAPI,
+  PropertyModel
 }

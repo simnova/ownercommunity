@@ -1,9 +1,10 @@
-import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { ServiceTicketConverter } from '../../../domain/infrastructure/persistence/service-ticket.domain-adapter';
 import { ServiceTicket, ServiceTicketModel } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { Context } from '../../context';
+import { CosmosDataSource } from './cosmos-data-source';
 
-export class ServiceTickets extends MongoDataSource<ServiceTicket, Context> {
+export class ServiceTickets extends CosmosDataSource<ServiceTicket, Context> {
+
   async getServiceTicketsByCommunityId(communityId: string): Promise<ServiceTicket[]> {
     var dbData = await ServiceTicketModel.find({ community: communityId }).populate(['community', 'property', 'requestor', 'assignedTo']).exec();
 

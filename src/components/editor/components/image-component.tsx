@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { Form, Image, Skeleton, Select, Row, Col, Slider, InputNumber, Modal, Button } from 'antd'
 import { gql, useQuery } from '@apollo/client';
+import { graphql } from 'babel-plugin-relay/macro';
+import { useLazyLoadQuery } from 'react-relay';
 
 const { Option } = Select;
 
-const GET_IMAGES_IN_COMMUNITY = gql`
-  query GetImagesInCommunity($communityId: ID!) {
+const GET_IMAGES_IN_COMMUNITY = graphql`
+  query imageComponentGetImagesInCommunityQuery($communityId: ID!) {
     communityById(id: $communityId) {
       filesByType(type: "image") {
         name
@@ -53,9 +55,13 @@ var ImageComponentSettings = () => {
     width: node.data.props.width,
   }));
 
-  const { data, loading, error } = useQuery(GET_IMAGES_IN_COMMUNITY, {
-    variables: { communityId: params.communityId}
-  });
+  //const { data, loading, error } = useQuery(GET_IMAGES_IN_COMMUNITY, {
+    //variables: { communityId: params.communityId }
+  //});
+  const data = useLazyLoadQuery(GET_IMAGES_IN_COMMUNITY, { communityId: params.communityId })
+  console.log("data", data)
+  const loading = false;
+  const error = false
 
   if (loading) {
     return <Skeleton active />

@@ -18,6 +18,7 @@
     "@types/react-dom": "^17.0.11",
     "antd-img-crop": "^4.2.0",
     "axios": "^0.26.1",
+    "babel-plugin-relay": "^15.0.0",
     "browser-image-compression": "^1.0.17",
     "copy-to-clipboard": "^3.3.1",
     "dayjs": "^1.11.0",
@@ -27,6 +28,7 @@
     "react": "^17.0.2",
     "react-contenteditable": "^3.3.6",
     "react-dom": "^17.0.2",
+    "react-relay": "^15.0.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "typescript": "^4.5.5",
@@ -35,12 +37,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "npm run relay && craco start",
+    "build": "npm run relay && craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "relay": "relay-compiler"
   },
   "eslintConfig": {
     "extends": [
@@ -80,12 +83,35 @@
     "@storybook/preset-create-react-app": "^4.0.0",
     "@storybook/react": "^6.4.18",
     "@types/lodash": "^4.14.182",
+    "@types/react-relay": "^14.1.3",
+    "@types/relay-runtime": "^14.1.10",
     "@types/uniqid": "^5.3.2",
     "autoprefixer": "^10.4.2",
+    "babel-plugin-macros": "^3.1.0",
     "craco-less": "^2.1.0-alpha.0",
     "postcss": "^8.4.6",
+    "relay-compiler": "^15.0.0",
     "storybook-addon-customize-antd-theme": "^1.1.0",
     "tailwindcss": "^3.0.18",
     "webpack": "^5.68.0"
+  },
+  "relay": {
+    "src": "./src",
+    "language": "typescript",
+    "schema": "./data/schema.graphql",
+    "schemaExtensions": [
+      "../data-access/graphql/schema/core/",
+      "../data-access/graphql/schema/interfaces/",
+      "../data-access/graphql/schema/shared/",
+      "../data-access/graphql/schema/types/"
+    ],
+    "customScalars": {
+      "ObjectID": "string"
+    },
+    "exclude": [
+      "**/node_modules/**",
+      "**/__mocks__/**",
+      "**/__generated__/**"
+    ]
   }
 }

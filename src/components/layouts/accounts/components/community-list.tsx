@@ -1,10 +1,10 @@
 import { CommunityInfo } from './community-info';
 import { CommunityListContainerCommunitiesFieldsFragmentDoc, CommunityListContainerCommunitiesQueryQuery } from '../../../../generated';
 import { makeFragmentData } from '../../../../gql';
+import { communityListContainerCommunitiesQuery$data } from './__generated__/communityListContainerCommunitiesQuery.graphql';
 
-// type CommunityFragment = FragmentType<typeof CommunityListContainerCommunitiesFieldsFragmentDoc>
 export interface CommunityListProps {
-  data: CommunityListContainerCommunitiesQueryQuery;
+  data: communityListContainerCommunitiesQuery$data;
 }
 
 export const CommunityList: React.FC<CommunityListProps> = (props) => {
@@ -15,7 +15,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
       {console.log(props.data.communities)}
 
       {props.data.communities?.map((community,i,a) => (
-        community ? <CommunityInfo community={makeFragmentData(community, CommunityListContainerCommunitiesFieldsFragmentDoc)}></CommunityInfo> : ""
+        community ? <CommunityInfo community={props.data.communities}></CommunityInfo> : ""
       ))}
     </div>
   );

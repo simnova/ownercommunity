@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/tailwind.css';
 import './index.less';
-import './styles/ant.less';
-
+import 'antd/dist/reset.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 
 import MsalProvider from './components/shared/msal-react-lite';
 import msalProviderConfig from './config/msal-config';
 import ApolloConnection from './components/shared/apollo-connection';
-
+import { ConfigProvider, theme } from 'antd';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { StyleProvider } from '@ant-design/cssinjs';
 /*
 import {
   ApolloLink, HttpLink,
@@ -42,11 +42,25 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <MsalProvider config={msalProviderConfig}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </MsalProvider>
+    <ThemeProvider>
+      <ConfigProvider
+        theme={{
+          components: {
+            Button: {
+              controlItemBgHover: 'pink'
+            }
+          }
+        }}
+      >
+        <StyleProvider hashPriority="high">
+          <MsalProvider config={msalProviderConfig}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </MsalProvider>
+        </StyleProvider>
+      </ConfigProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

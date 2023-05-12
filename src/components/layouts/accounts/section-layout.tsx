@@ -4,10 +4,9 @@ import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-
 const { Header } = Layout;
 
 export const SectionLayout: React.FC<any> = () => {
-
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
-      <Header style={{ backgroundColor: 'black' }}>
+      <Header className="bg-white">
         <div
           style={{
             display: 'flex',

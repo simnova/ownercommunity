@@ -10,7 +10,6 @@ import { Accounts } from './components/layouts/accounts';
 import { AuthLanding } from './components/shared/auth-landing';
 
 function App() {
-
   const authSection = (
     <RequireMsal identifier="account" forceLogin={true}>
       <AuthLanding />

@@ -1,13 +1,31 @@
+import { useContext } from 'react';
 import styles from './header.module.css';
 import { Button } from 'antd';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
 
 export const Header: React.FC<any> = () => {
   const handleLogin = () => {
     window.location.href = `${process.env.REACT_APP_AAD_REDIRECT_URI}/login/`;
   };
-  return <>
-    <div className={styles['top-bar']}>
-      <Button type="primary" onClick={handleLogin}>Log In</Button>
-    </div>
-  </>
-}
+  const abc = useContext(ThemeContext);
+  console.log(abc);
+  return (
+    <>
+      <div className={`${styles['top-bar']} flex gap-2`}>
+        <Button type="primary" onClick={handleLogin}>
+          Log In
+        </Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            const root = document.getElementsByTagName('html')[0];
+            root.style.setProperty('--primary-color', '#00ff00');
+            window.location.reload();
+          }}
+        >
+          Change Theme
+        </Button>
+      </div>
+    </>
+  );
+};

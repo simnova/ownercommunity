@@ -1,21 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Tag, Input, Tooltip } from 'antd';
+import { Tag, Input, Tooltip, InputRef } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from './form-tags.module.css';
 
-
 export interface ComponentProp {
   value?: string[];
-  onChange?: (tags:string[]) => void;
+  onChange?: (tags: string[]) => void;
 }
 
-export type ComponentProps =  ComponentProp;
+export type ComponentProps = ComponentProp;
 
-export const FormTags : FC<ComponentProps> = ({
-  value,
-  onChange,
-}) =>  {
-  
+export const FormTags: FC<ComponentProps> = ({ value, onChange }) => {
   const [tags, setTags] = useState(value ?? []);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -25,19 +20,22 @@ export const FormTags : FC<ComponentProps> = ({
   useEffect(() => {
     onChange!(tags);
   }, [tags, onChange]);
-    
-  let newInput: Input | null = null;
-  let editInput: Input | null = null;
 
-  const handleClose = (removedTag:string) => {
-    const filteredTags = tags.filter(tag => tag !== removedTag);
+  // let newInput: Input | null = null;
+  // let editInput: Input | null = null;
+
+  let newInput = React.useRef<InputRef>(null);
+  let editInput = React.useRef<InputRef>(null);
+
+  const handleClose = (removedTag: string) => {
+    const filteredTags = tags.filter((tag) => tag !== removedTag);
     console.log(filteredTags);
     setTags(filteredTags);
   };
 
   useEffect(() => {
     if (inputVisible) {
-      newInput?.focus();
+      newInput?.current?.focus();
     }
   }, [inputVisible]);
 
@@ -45,12 +43,11 @@ export const FormTags : FC<ComponentProps> = ({
     setInputVisible(true);
   };
 
-  const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   const handleInputConfirm = () => {
-    
     if (inputValue && tags.indexOf(inputValue) === -1) {
       let newTags = [...tags, inputValue];
       setTags(newTags);
@@ -60,28 +57,25 @@ export const FormTags : FC<ComponentProps> = ({
     console.log(tags);
   };
 
-  const handleEditInputChange = (e:React.ChangeEvent<HTMLInputElement>): void => {
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEditInputValue(e.target.value);
   };
 
   const handleEditInputConfirm = () => {
-
     const newTags = [...tags];
     newTags[editInputIndex] = editInputValue;
     setTags(newTags);
     setEditInputIndex(-1);
     setEditInputValue('');
-
   };
 
-  const saveInputRef = (inputRef:Input) => {
+  const saveInputRef = (inputRef: any) => {
     newInput = inputRef;
   };
 
-  const saveEditInputRef = (inputRef:Input) => {
+  const saveEditInputRef = (inputRef: any) => {
     editInput = inputRef;
   };
-
 
   return (
     <>
@@ -107,18 +101,20 @@ export const FormTags : FC<ComponentProps> = ({
           <Tag
             className={styles['edit-tag']}
             key={tag}
-            closable={ true //index !== 0
+            closable={
+              true //index !== 0
             }
             onClose={() => handleClose(tag)}
           >
             <span
-              onDoubleClick={e => {
-                if ( true 
-                 // index !== 0
-                  ) {
+              onDoubleClick={(e) => {
+                if (
+                  true
+                  // index !== 0
+                ) {
                   setEditInputIndex(index);
                   setEditInputValue(tag);
-                  editInput?.focus();
+                  editInput?.current?.focus();
                   e.preventDefault();
                 }
               }}
@@ -154,5 +150,4 @@ export const FormTags : FC<ComponentProps> = ({
       )}
     </>
   );
-  
-}
+};

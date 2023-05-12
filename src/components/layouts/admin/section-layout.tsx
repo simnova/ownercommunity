@@ -16,13 +16,11 @@ interface AdminSectionLayoutProps {
 
 export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
   const params = useParams();
-  const sidebarCollapsed = localStorage.getItem(
-    LocalSettingsKeys.SidebarCollapsed
-  );
+  const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
-      <Header style={{ backgroundColor: 'black' }}>
+      <Header>
         <div
           style={{
             display: 'flex',
@@ -36,9 +34,7 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
           </div>
           <Link
             className="allowBoxShadow"
-            to={`/community/${params.communityId}/member/${localStorage.getItem(
-              LocalSettingsKeys.UserId
-            )}`}
+            to={`/community/${params.communityId}/member/${localStorage.getItem(LocalSettingsKeys.UserId)}`}
           >
             View Member Site
           </Link>
@@ -65,11 +61,7 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
         >
           <div className="logo" />
 
-          <MenuComponent
-            pageLayouts={props.pageLayouts}
-            theme="light"
-            mode="inline"
-          />
+          <MenuComponent pageLayouts={props.pageLayouts} theme="light" mode="inline" />
         </Sider>
 
         <Layout

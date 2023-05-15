@@ -1,6 +1,17 @@
 type BlobAuthHeader {
   authHeader: String
-  blobName: String
-  blobContainer: String
+  blobPath: String
   requestDate: String
+  indexTags: [BlobIndexTag]
+  metadataFields: [BlobMetadataField]
+}
+
+type BlobIndexTag {
+  name: String!
+  value: String!
+}
+
+type BlobMetadataField {
+  name: String!
+  value: String!
 }

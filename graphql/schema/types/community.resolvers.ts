@@ -58,19 +58,19 @@ const community: Resolvers = {
       return CommunityMutationResolver(dataSources.communityDomainAPI.communityUpdate(input));
     },
     communityPublicFileCreateAuthHeader: async (_, { input }, { dataSources }) => {
-      var result = await dataSources.communityBlobAPI.communityPublicFileCreateAuthHeader(input.communityId, input.fileName, input.contentType, input.contentLength);
+      let result = await dataSources.communityBlobAPI.communityPublicFileCreateAuthHeader(input.communityId, input.fileName, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
       result.community = (await dataSources.communityCosmosdbApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
     communityPublicContentCreateAuthHeader: async (_, { input }, { dataSources }) => {
-      var result = await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
+      let result = await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
       result.community = (await dataSources.communityCosmosdbApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
     communityPublicFileRemove: async (_, { input }, { dataSources }) => {
-      var result = await dataSources.communityBlobAPI.communityPublicFileRemove(input.communityId, input.fileName);
+      let result = await dataSources.communityBlobAPI.communityPublicFileRemove(input.communityId, input.fileName);
       console.log(`communityPublicFileRemove: ${JSON.stringify(result)}`);
       return CommunityMutationResolver(dataSources.communityCosmosdbApi.getCommunityById(input.communityId)); // as Community;
       //return result;

@@ -3,17 +3,25 @@ import { Context } from '../../context';
 import { PropertyConverter } from '../../../domain/infrastructure/persistence/property.domain-adapter';
 import { PropertyBlobFileAuthHeaderResult } from '../../generated';
 import { nanoid } from 'nanoid';
+import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage';
+
+interface FileInfo {
+	fileName: string;
+	contentType: string;
+	contentLength: number;
+	maxSizeBytes: number;
+}
 
 export class Properties extends BlobDataSource<Context> {
 
 	public async propertyPublicFileRemove(propertyId: string,memberId: string, fileName: string): Promise<void> {
 		const blobName = `public-files/${fileName}`;
 		await this.withStorage(async (passport, blobStorage) => {
-			var property = await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId);
+			let property = await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId);
 			if (!property) {
 				return;
 			}
-			var propertyDO = new PropertyConverter().toDomain(property, { passport: passport });
+			let propertyDO = new PropertyConverter().toDomain(property, { passport: passport });
 			if (!passport.forProperty(propertyDO).determineIf((permissions) => permissions.canManageProperties || permissions.canEditOwnProperty && propertyDO.owner.id === memberId)) {
 				return;
 			}
@@ -21,7 +29,7 @@ export class Properties extends BlobDataSource<Context> {
 		});
 	}
 
-	public async propertyListingImageCreateAuthHeader(propertyId: string, memberId:string, contentType: string, contentLength: number): Promise<PropertyBlobFileAuthHeaderResult> {
+	public async propertyListingImageCreateAuthHeader(propertyId: string, fileName: string, memberId:string, contentType: string, contentLength: number): Promise<PropertyBlobFileAuthHeaderResult> {
 		const maxSizeMb = 10;
 		const maxSizeBytes = maxSizeMb * 1024 * 1024;
 		const permittedContentTypes = [
@@ -30,10 +38,15 @@ export class Properties extends BlobDataSource<Context> {
 				'image/gif',
 		];
 		const blobName = `property/${propertyId}/listing-images/${nanoid()}`;
-		return this.getHeader(propertyId, memberId, permittedContentTypes, contentType, contentLength, maxSizeBytes, blobName);
+		return this.getHeader(propertyId, memberId, permittedContentTypes, blobName, {
+			fileName: fileName,
+			contentType: contentType,
+			contentLength: contentLength,
+			maxSizeBytes: maxSizeBytes
+		});
 	}
 
-	public async propertyFloorPlanImageCreateAuthHeader(propertyId: string, memberId:string, contentType: string, contentLength: number): Promise<PropertyBlobFileAuthHeaderResult> {
+	public async propertyFloorPlanImageCreateAuthHeader(propertyId: string, fileName: string, memberId:string, contentType: string, contentLength: number): Promise<PropertyBlobFileAuthHeaderResult> {
 		const maxSizeMb = 10;
 		const maxSizeBytes = maxSizeMb * 1024 * 1024;
 		const permittedContentTypes = [
@@ -42,19 +55,25 @@ export class Properties extends BlobDataSource<Context> {
 				'image/gif',
 		];
 		const blobName = `property/${propertyId}/listing-floor-plan-images/${nanoid()}`;
-		return this.getHeader(propertyId, memberId, permittedContentTypes, contentType, contentLength, maxSizeBytes, blobName);
+		return this.getHeader(propertyId, memberId, permittedContentTypes, blobName, {
+			fileName: fileName,
+			contentType: contentType,
+			contentLength: contentLength,
+			maxSizeBytes: maxSizeBytes
+		});
 	}
 
-	private async getHeader(propertyId: string, memberId:string, permittedContentTypes: string[], contentType: string, contentLength: number, maxSizeBytes: number, blobName: string) {
-		var headerResult: PropertyBlobFileAuthHeaderResult;
+	private async getHeader(propertyId: string, memberId:string, permittedContentTypes: string[], blobName: string, fileInfo: FileInfo) {
+		let headerResult: PropertyBlobFileAuthHeaderResult;
+		const { fileName, contentType, contentLength, maxSizeBytes } = fileInfo;
 		await this.withStorage(async (passport, blobStorage) => {
-			var property = await (await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId)).populate(['community','owner']);
+			let property = await (await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId)).populate(['community','owner']);
 			if (!property) {
 				headerResult = { status: { success: false, errorMessage: `Property not found: ${propertyId}` } } as PropertyBlobFileAuthHeaderResult;
 				return;
 			}
     
-			var propertyDO = new PropertyConverter().toDomain(property, { passport: passport });
+			let propertyDO = new PropertyConverter().toDomain(property, { passport: passport });
       
 			if (!passport.forProperty(propertyDO).determineIf(
           (permissions) => 
@@ -78,12 +97,53 @@ export class Properties extends BlobDataSource<Context> {
 				headerResult = { status: { success: false, errorMessage: 'Content length exceeds permitted limit.' } } as PropertyBlobFileAuthHeaderResult;
 				return;
 			}
-			const blobContainerName = property.community.id;
-			const requestDate = new Date().toUTCString();
-			const authHeader = blobStorage.generateSharedKey(blobName, contentLength, requestDate, contentType, blobContainerName);
-			console.log(`authHeader: ${authHeader}`);
-			headerResult = { status: { success: true }, authHeader: { authHeader: authHeader, requestDate: requestDate, blobName: blobName, blobContainer: blobContainerName } } as PropertyBlobFileAuthHeaderResult;
 
+			let name: string;
+			if (this.context.verifiedUser && this.context.verifiedUser.verifiedJWT) {
+				name = this.context.verifiedUser.verifiedJWT.name;
+			}
+
+			const indexFields: Record<string, string> = {
+				propertyId: propertyId,
+        transmissionStatus: 'pending', //always pending when uploading
+        documentVersion: 'current',
+        createdDate: new Date().toISOString(),
+				uploadedByType: this.context?.verifiedUser?.openIdConfigKey,
+      };
+
+			const metadataFields = {
+				uploaded_by_name: name,
+				document_name: fileName,
+			};
+
+      const indexKeyValues = Object.entries(indexFields).map(([name, value]) => ({
+        name,
+        value,
+      }));
+
+      const metadataKeyValues = Object.entries(metadataFields).map(([name, value]) => ({
+        name,
+        value,
+      }));
+
+			const blobContainerName = property.community.id;
+			const blobDataStorageAccountName = process.env.BLOB_ACCOUNT_NAME;
+			const blobPath = `https://${blobDataStorageAccountName}.blob.core.windows.net/${blobContainerName}/${blobName}`;
+
+			const requestDate = new Date().toUTCString();
+
+			const blobRequestSettings: BlobRequestSettings = {
+        fileSizeBytes: contentLength,
+        mimeType: contentType,
+        tags: indexFields,
+        metadata: metadataFields,
+      }
+      const authHeader = blobStorage.generateSharedKeyWithOptions(blobName, blobContainerName, requestDate, blobRequestSettings);
+      console.log(`authHeader: ${authHeader}`);
+      headerResult = {
+				status: { success: true },
+				authHeader: { authHeader: authHeader, requestDate: requestDate, indexTags: indexKeyValues, metadataFields: metadataKeyValues, blobPath: blobPath },
+			 } as PropertyBlobFileAuthHeaderResult;
 		});
 		return headerResult;
 	}

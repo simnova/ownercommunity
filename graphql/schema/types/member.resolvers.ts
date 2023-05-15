@@ -88,9 +88,9 @@ const member: Resolvers = {
       return MemberMutationResolver(dataSources.memberDomainAPI.memberProfileUpdate(input));
     },
     memberProfileAvatarCreateAuthHeader: async (_, { input }, { dataSources }) => {
-      const result = await dataSources.memberBlobAPI.memberProfileAvatarCreateAuthHeader(input.memberId, input.contentType, input.contentLength);
+      const result = await dataSources.memberBlobAPI.memberProfileAvatarCreateAuthHeader(input.memberId, input.fileName, input.contentType, input.contentLength);
       if (result.status.success) {
-        result.member = (await dataSources.memberDomainAPI.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
+        result.member = (await dataSources.memberDomainAPI.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobPath)) as any;
       }
       return result;
     },

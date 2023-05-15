@@ -1,20 +1,22 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
 import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
-import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../generated';
+import { BlobAuthHeader, CommunityBlobContentAuthHeaderResult, FileInfo } from '../../generated';
+import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage';
+import { throws } from 'assert';
 
 export class Communities extends BlobDataSource<Context> {
 
 	public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {
-		var result: FileInfo[] = [];
+		let result: FileInfo[] = [];
 		await	this.withStorage(async (passport, blobStorage) => {
-			var community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
-			var communityDO = new CommunityConverter().toDomain(community,{passport:passport});
+			let community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
+			let communityDO = new CommunityConverter().toDomain(community,{passport:passport});
 			if(!passport.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)){
 				return ;
 			}
 			try{
-				var files = await blobStorage.listBlobs(community.id,'public-files/');
+				let files = await blobStorage.listBlobs(community.id,'public-files/');
 				result = files.map((file) => {
 					return {
 						name: file.name,
@@ -31,7 +33,7 @@ export class Communities extends BlobDataSource<Context> {
 	}
 
 	public async communityPublicFilesListByType(communityId: string, type: string): Promise<FileInfo[]> {
-		var result: FileInfo[] = await this.communityPublicFilesList(communityId);
+		let result: FileInfo[] = await this.communityPublicFilesList(communityId);
 		return result.filter((file) => file.type.includes(type));
 	}
 
@@ -48,17 +50,17 @@ export class Communities extends BlobDataSource<Context> {
 				'application/pdf'
 		];
 		const blobName = `public-files/${fileName}`;
-		return this.getHeader(communityId, permittedContentTypes, contentType, contentLength, maxSizeBytes, blobName);
+		return this.getHeader(communityId, permittedContentTypes, contentType, contentLength, maxSizeBytes, blobName, fileName);
 	}
 
 	public async communityPublicFileRemove(communityId: string, fileName: string): Promise<void> {
 		const blobName = `public-files/${fileName}`;
 		await this.withStorage(async (passport, blobStorage) => {
-			var community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
+			let community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
 			if (!community) {
 				return;
 			}
-			var communityDO = new CommunityConverter().toDomain(community, { passport: passport });
+			let communityDO = new CommunityConverter().toDomain(community, { passport: passport });
 			if (!passport.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
 				return;
 			}
@@ -81,15 +83,15 @@ export class Communities extends BlobDataSource<Context> {
 		return this.getHeader(communityId, permittedContentTypes, contentType, contentLength, maxSizeBytes, blobName);
 	}
 
-	private async getHeader(communityId: string, permittedContentTypes: string[], contentType: string, contentLength: number, maxSizeBytes: number, blobName: string) {
-		var headerResult: CommunityBlobContentAuthHeaderResult;
+	private async getHeader(communityId: string, permittedContentTypes: string[], contentType: string, contentLength: number, maxSizeBytes: number, blobName: string, fileName?: string) {
+		let headerResult: CommunityBlobContentAuthHeaderResult;
 		await this.withStorage(async (passport, blobStorage) => {
-			var community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
+			let community = await this.context.dataSources.communityCosmosdbApi.findOneById(communityId);
 			if (!community) {
 				headerResult = { status: { success: false, errorMessage: `Community not found: ${communityId}` } } as CommunityBlobContentAuthHeaderResult;
 				return;
 			}
-			var communityDO = new CommunityConverter().toDomain(community, { passport: passport });
+			let communityDO = new CommunityConverter().toDomain(community, { passport: passport });
 			if (!passport.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
 				headerResult = { status: { success: false, errorMessage: `User does not have permission to create content for community: ${communityId}` } } as CommunityBlobContentAuthHeaderResult;
 				return;
@@ -102,12 +104,60 @@ export class Communities extends BlobDataSource<Context> {
 				headerResult = { status: { success: false, errorMessage: 'Content length exceeds permitted limit.' } } as CommunityBlobContentAuthHeaderResult;
 				return;
 			}
-			const blobContainerName = community.id;
-			const requestDate = new Date().toUTCString();
-			const authHeader = blobStorage.generateSharedKey(blobName, contentLength, requestDate, contentType, blobContainerName);
-			console.log(`authHeader: ${authHeader}`);
-			headerResult = { status: { success: true }, authHeader: { authHeader: authHeader, requestDate: requestDate, blobName: blobName, blobContainer: blobContainerName } } as CommunityBlobContentAuthHeaderResult;
 
+			let name: string;
+			if (this.context.verifiedUser && this.context.verifiedUser.verifiedJWT) {
+				name = this.context.verifiedUser.verifiedJWT.name;
+			}
+
+			const indexFields: Record<string, string> = {
+				communityId: communityId,
+        transmissionStatus: 'pending', //always pending when uploading
+        documentVersion: 'current',
+        createdDate: new Date().toISOString(),
+				uploadedByType: this.context?.verifiedUser?.openIdConfigKey,
+      };
+
+			let metadataFields: Record<string, string> = {
+				uploaded_by_name: name,
+			};
+
+			if (fileName) {
+				metadataFields = {
+					...metadataFields,
+					document_name: fileName,
+				};
+			}
+
+      const indexKeyValues = Object.entries(indexFields).map(([name, value]) => ({
+        name,
+        value,
+      }));
+
+      const metadataKeyValues = Object.entries(metadataFields).map(([name, value]) => ({
+        name,
+        value,
+      }));
+
+			const blobContainerName = community.id;
+			const blobDataStorageAccountName = process.env.BLOB_ACCOUNT_NAME;
+
+			const currentTime = new Date().getTime();
+			const blobPath = `https://${blobDataStorageAccountName}.blob.core.windows.net/${blobContainerName}/${blobName}`;
+      const requestDate = new Date(currentTime).toUTCString();
+
+			const blobRequestSettings: BlobRequestSettings = {
+        fileSizeBytes: contentLength,
+        mimeType: contentType,
+        tags: indexFields,
+        metadata: metadataFields,
+      }
+      const authHeader = blobStorage.generateSharedKeyWithOptions(blobName, blobContainerName, requestDate, blobRequestSettings);
+      console.log(`authHeader: ${authHeader}`);
+      headerResult = {
+				status: { success: true },
+				authHeader: { authHeader: authHeader, requestDate: requestDate, indexTags: indexKeyValues, metadataFields: metadataKeyValues, blobPath: blobPath },
+			 } as CommunityBlobContentAuthHeaderResult;
 		});
 		return headerResult;
 	}

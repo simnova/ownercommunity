@@ -108,7 +108,7 @@ export class AuthHeader {
     headersArray.forEach((header) => {
       canonicalizedHeadersStringToSign += `${header.name
         .toLowerCase()
-        .trimRight()}:${header.value.trimLeft()}\n`;
+        .trimEnd()}:${header.value.trimStart()}\n`;
     });
 
     return canonicalizedHeadersStringToSign;
@@ -137,7 +137,7 @@ export class AuthHeader {
         }
       }
 
-      queryKeys.sort();
+      queryKeys.sort((a, b) => a.localeCompare(b));
       for (const key of queryKeys) {
         canonicalizedResourceString += `\n${key}:${decodeURIComponent(lowercaseQueries[key])}`;
       }

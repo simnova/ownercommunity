@@ -2,9 +2,16 @@ mutation AdminSiteEditorContainerCommunityPublicContentCreateAuthHeader($input: 
   communityPublicContentCreateAuthHeader(input: $input) {
     authHeader {
       authHeader
-      blobName
-      blobContainer
+      blobPath
       requestDate
+      indexTags {
+        name
+        value
+      }
+      metadataFields {
+        name
+        value
+      }
     }
     status {
       success

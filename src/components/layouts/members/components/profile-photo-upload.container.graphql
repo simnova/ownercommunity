@@ -9,13 +9,16 @@ mutation MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeader($input: M
   memberProfileAvatarCreateAuthHeader(input: $input) {
     authHeader {
       authHeader
-      blobName
-      blobContainer
+      blobPath
       requestDate
-    }
-    status {
-      success
-      errorMessage
+      indexTags {
+        name
+        value
+      }
+      metadataFields {
+        name
+        value
+      }
     }   
     member {
       ...MemberPhotoUploadContainerMemberFields

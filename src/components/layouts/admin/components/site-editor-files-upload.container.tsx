@@ -24,7 +24,7 @@ export const SiteEditorFilesUploadContainer: React.FC<SiteEditorFilesUploadConta
         }
       }
     });
-    return result.data?(({...result.data.communityPublicFileCreateAuthHeader.authHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
+    return result.data ? (({...result.data.communityPublicFileCreateAuthHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
   }
 
   return (

@@ -11,12 +11,16 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  AccountNumber: any;
   BigInt: any;
   Byte: any;
+  CountryCode: any;
+  Cuid: any;
   Currency: any;
   DID: any;
   Date: any;
   DateTime: any;
+  DeweyDecimal: any;
   Duration: any;
   EmailAddress: any;
   GUID: any;
@@ -25,6 +29,8 @@ export type Scalars = {
   HexColorCode: any;
   Hexadecimal: any;
   IBAN: any;
+  IP: any;
+  IPCPatent: any;
   IPv4: any;
   IPv6: any;
   ISBN: any;
@@ -32,10 +38,12 @@ export type Scalars = {
   JSON: any;
   JSONObject: any;
   JWT: any;
+  LCCSubclass: any;
   Latitude: any;
   LocalDate: any;
   LocalEndTime: any;
   LocalTime: any;
+  Locale: any;
   Long: any;
   Longitude: any;
   MAC: any;
@@ -54,8 +62,11 @@ export type Scalars = {
   PostalCode: any;
   RGB: any;
   RGBA: any;
+  RoutingNumber: any;
   SafeInt: any;
+  SemVer: any;
   Time: any;
+  TimeZone: any;
   Timestamp: any;
   URL: any;
   USCurrency: any;
@@ -154,9 +165,22 @@ export type BedroomDetailsInput = {
 export type BlobAuthHeader = {
   __typename?: 'BlobAuthHeader';
   authHeader?: Maybe<Scalars['String']>;
-  blobContainer?: Maybe<Scalars['String']>;
-  blobName?: Maybe<Scalars['String']>;
+  blobPath?: Maybe<Scalars['String']>;
+  indexTags?: Maybe<Array<Maybe<BlobIndexTag>>>;
+  metadataFields?: Maybe<Array<Maybe<BlobMetadataField>>>;
   requestDate?: Maybe<Scalars['String']>;
+};
+
+export type BlobIndexTag = {
+  __typename?: 'BlobIndexTag';
+  name: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type BlobMetadataField = {
+  __typename?: 'BlobMetadataField';
+  name: Scalars['String'];
+  value: Scalars['String'];
 };
 
 /**  Required to enable Apollo Cache Control  */
@@ -469,6 +493,7 @@ export type MemberAvatarImageAuthHeaderResult = {
 export type MemberAvatarImageInput = {
   contentLength?: InputMaybe<Scalars['Int']>;
   contentType?: InputMaybe<Scalars['String']>;
+  fileName: Scalars['String'];
   memberId: Scalars['ObjectID'];
 };
 
@@ -838,6 +863,7 @@ export type PropertyBlobFileAuthHeaderResult = {
 export type PropertyBlobFileInput = {
   contentLength: Scalars['Int'];
   contentType: Scalars['String'];
+  fileName: Scalars['String'];
   propertyId: Scalars['ObjectID'];
 };
 
@@ -1962,9 +1988,10 @@ export type AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation
     authHeader?: {
       __typename?: 'BlobAuthHeader';
       authHeader?: string | null;
-      blobName?: string | null;
-      blobContainer?: string | null;
+      blobPath?: string | null;
       requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
     } | null;
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     member?: {
@@ -3068,9 +3095,10 @@ export type AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHead
     authHeader?: {
       __typename?: 'BlobAuthHeader';
       authHeader?: string | null;
-      blobName?: string | null;
-      blobContainer?: string | null;
+      blobPath?: string | null;
       requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
     } | null;
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     community?: {
@@ -3102,9 +3130,10 @@ export type AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutati
     authHeader?: {
       __typename?: 'BlobAuthHeader';
       authHeader?: string | null;
-      blobName?: string | null;
-      blobContainer?: string | null;
+      blobPath?: string | null;
       requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
     } | null;
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     community?: {
@@ -3477,11 +3506,11 @@ export type MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutatio
     authHeader?: {
       __typename?: 'BlobAuthHeader';
       authHeader?: string | null;
-      blobName?: string | null;
-      blobContainer?: string | null;
+      blobPath?: string | null;
       requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
     } | null;
-    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     member?: {
       __typename?: 'Member';
       id: any;
@@ -3639,9 +3668,10 @@ export type MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCr
     authHeader?: {
       __typename?: 'BlobAuthHeader';
       authHeader?: string | null;
-      blobName?: string | null;
-      blobContainer?: string | null;
+      blobPath?: string | null;
       requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
     } | null;
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     property?: {
@@ -3923,9 +3953,10 @@ export type MembersPropertiesListingImageUploadContainerPropertyListingImageCrea
     authHeader?: {
       __typename?: 'BlobAuthHeader';
       authHeader?: string | null;
-      blobName?: string | null;
-      blobContainer?: string | null;
+      blobPath?: string | null;
       requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
     } | null;
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     property?: {
@@ -5201,7 +5232,20 @@ export const AdminMembersAccountsAddContainerMemberMutationResultFieldsFragmentD
         ]
       }
     },
-    ...AdminMembersAccountsAddContainerMemberFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsAddContainerMember' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersAccountsAddContainerMemberMutationResultFieldsFragment, unknown>;
 export const AdminMembersAccountEditContainerMembersFieldsFragmentDoc = {
@@ -5283,7 +5327,43 @@ export const AdminMembersAccountsEditContainerMemberMutationResultFieldsFragment
         ]
       }
     },
-    ...AdminMembersAccountEditContainerMembersFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountEditContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersAccountsEditContainerMemberMutationResultFieldsFragment, unknown>;
 export const AdminMembersAccountsListContainerMembersFieldsFragmentDoc = {
@@ -5381,7 +5461,20 @@ export const AdminMembersCreateContainerMemberMutationResultFieldsFragmentDoc = 
         ]
       }
     },
-    ...AdminMembersCreateContainerMemberFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersCreateContainerMember' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersCreateContainerMemberMutationResultFieldsFragment, unknown>;
 export const AdminMembersDetailContainerMemberFieldsFragmentDoc = {
@@ -5448,7 +5541,31 @@ export const AdminMembersDetailContainerMutationFieldsFragmentDoc = {
         ]
       }
     },
-    ...AdminMembersDetailContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersDetailContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'roleName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersDetailContainerMutationFieldsFragment, unknown>;
 export const AdminMembersDetailContainerRolesFieldsFragmentDoc = {
@@ -5569,7 +5686,38 @@ export const AdminMembersProfileContainerMutationFieldsFragmentDoc = {
         ]
       }
     },
-    ...AdminMembersProfileContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersProfileContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showInterests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showLocation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProfile' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProperties' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersProfileContainerMutationFieldsFragment, unknown>;
 export const AdminPhotoUploadContainerMemberFieldsFragmentDoc = {
@@ -5630,7 +5778,25 @@ export const AdminPhotoUploadContainerMemberMutationResultFieldsFragmentDoc = {
         ]
       }
     },
-    ...AdminPhotoUploadContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminPhotoUploadContainerMemberMutationResultFieldsFragment, unknown>;
 export const AdminPropertiesAddContainerPropertyFieldsFragmentDoc = {
@@ -5686,7 +5852,20 @@ export const AdminPropertiesAddContainerPropertyMutationResultFieldsFragmentDoc 
         ]
       }
     },
-    ...AdminPropertiesAddContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesAddContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminPropertiesAddContainerPropertyMutationResultFieldsFragment, unknown>;
 export const AdminPropertiesDetailContainerPropertyFieldsFragmentDoc = {
@@ -5761,7 +5940,36 @@ export const AdminPropertiesDetailContainerPropertyMutationResultFieldsFragmentD
         ]
       }
     },
-    ...AdminPropertiesDetailContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminPropertiesDetailContainerPropertyMutationResultFieldsFragment, unknown>;
 export const AdminPropertiesDetailContainerMembersFieldsFragmentDoc = {
@@ -5865,7 +6073,21 @@ export const AdminRolesDeleteContainerRoleMutationResultFieldsFragmentDoc = {
         ]
       }
     },
-    ...AdminRolesDeleteContainerRolesFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDeleteContainerRolesFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminRolesDeleteContainerRoleMutationResultFieldsFragment, unknown>;
 export const AdminRolesDetailContainerRoleFieldsFragmentDoc = {
@@ -5970,7 +6192,69 @@ export const AdminRolesDetailContainerRoleMutationResultFieldsFragmentDoc = {
         ]
       }
     },
-    ...AdminRolesDetailContainerRoleFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDetailContainerRoleFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'permissions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'communityPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnMemberProfile' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnMemberAccounts' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'propertyPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminRolesDetailContainerRoleMutationResultFieldsFragment, unknown>;
 export const AdminRolesListContainerRolesFieldsFragmentDoc = {
@@ -6073,7 +6357,44 @@ export const AdminServiceTicketsCreateContainerServiceTicketMutationResultFields
         ]
       }
     },
-    ...AdminServiceTicketsCreateContainerServiceTicketFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsCreateContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragment, unknown>;
 export const AdminServiceTicketsCreateContainerMemberFieldsFragmentDoc = {
@@ -6242,7 +6563,96 @@ export const AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragment, unknown>;
 export const AdminServiceTicketsDetailContainerMemberFieldsFragmentDoc = {
@@ -6677,7 +7087,36 @@ export const MembersProfileContainerMutationFieldsFragmentDoc = {
         ]
       }
     },
-    ...CurrentMemberProfileByCommunityIdFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CurrentMemberProfileByCommunityIdFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showInterests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showLocation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProfile' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProperties' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MembersProfileContainerMutationFieldsFragment, unknown>;
 export const MemberSiteNeighborsListContainerFieldsFragmentDoc = {
@@ -6833,7 +7272,37 @@ export const MembersPropertiesDetailContainerPropertyMutationResultFieldsFragmen
         ]
       }
     },
-    ...MembersPropertiesDetailContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'tags' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MembersPropertiesDetailContainerPropertyMutationResultFieldsFragment, unknown>;
 export const MembersPropertiesDetailContainerMembersFieldsFragmentDoc = {
@@ -7130,7 +7599,82 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
         ]
       }
     },
-    ...MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListSearchContainerPropertyResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'additionalAmenities' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'position' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'address' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'tags' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MemberPropertiesListSearchContainerPropertyFieldsFragment, unknown>;
 export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
@@ -7300,7 +7844,77 @@ export const MembersPropertiesListingContainerPropertyMutationResultFieldsFragme
         ]
       }
     },
-    ...MembersPropertiesListingContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MembersPropertiesListingContainerPropertyMutationResultFieldsFragment, unknown>;
 export const MembersPropertiesListingContainerMembersFieldsFragmentDoc = {
@@ -7416,7 +8030,61 @@ export const AddressLocationContainerPropertyMutationResultFieldsFragmentDoc = {
         ]
       }
     },
-    ...AddressLocationContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'position' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AddressLocationContainerPropertyMutationResultFieldsFragment, unknown>;
 export const MembersServiceTicketsCreateContainerServiceTicketFieldsFragmentDoc = {
@@ -7499,7 +8167,44 @@ export const MembersServiceTicketsCreateContainerServiceTicketMutationResultFiel
         ]
       }
     },
-    ...MembersServiceTicketsCreateContainerServiceTicketFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MembersServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragment, unknown>;
 export const MembersServiceTicketsCreateContainerMemberFieldsFragmentDoc = {
@@ -7668,7 +8373,96 @@ export const MembersServiceTicketsDetailContainerServiceTicketMutationResultFiel
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragment, unknown>;
 export const MembersServiceTicketsDetailContainerMemberFieldsFragmentDoc = {
@@ -7871,7 +8665,29 @@ export const MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragmen
         ]
       }
     },
-    ...MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberServiceTicketsListContainerSearchServiceTicketsResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedTo' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestorId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedToId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragment, unknown>;
 export const MembersServiceTicketCustomViewsFieldsFragmentDoc = {
@@ -7941,7 +8757,34 @@ export const MembersServiceTicketCustomViewsMutationResultFieldsFragmentDoc = {
         ]
       }
     },
-    ...MembersServiceTicketCustomViewsFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketCustomViewsFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'customViews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'filters' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'sortOrder' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'columnsToDisplay' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MembersServiceTicketCustomViewsMutationResultFieldsFragment, unknown>;
 export const MembersNameServiceTicketContainerFieldsFragmentDoc = {
@@ -8046,7 +8889,45 @@ export const CommunityCreateContainerMutationCommunityCreateDocument = {
         ]
       }
     },
-    ...CommunityCreateContainerMutationCommunityCreateFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommunityCreateContainerMutationCommunityCreateFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CommunityMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'community' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   CommunityCreateContainerMutationCommunityCreateMutation,
@@ -8075,7 +8956,26 @@ export const CommunityListContainerCommunitiesQueryDocument = {
         ]
       }
     },
-    ...CommunityListContainerCommunitiesFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommunityListContainerCommunitiesFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   CommunityListContainerCommunitiesQueryQuery,
@@ -8104,7 +9004,21 @@ export const UserInfoContainerUserCurrentQueryDocument = {
         ]
       }
     },
-    ...UserInfoContainerCurrentUserFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserInfoContainerCurrentUserFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<UserInfoContainerUserCurrentQueryQuery, UserInfoContainerUserCurrentQueryQueryVariables>;
 export const AdminCommunityDetailContainerCommunityDocument = {
@@ -8147,7 +9061,23 @@ export const AdminCommunityDetailContainerCommunityDocument = {
         ]
       }
     },
-    ...AdminCommunityDetailContainerCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminCommunityDetailContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminCommunityDetailContainerCommunityQuery,
@@ -8179,7 +9109,25 @@ export const AdminCommunityMenuContainerCommunitiesQueryDocument = {
         ]
       }
     },
-    ...AdminCommunityMenuContainerCommunitiesFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminCommunityMenuContainerCommunitiesFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminCommunityMenuContainerCommunitiesQueryQuery,
@@ -8228,7 +9176,51 @@ export const AdminMembersAccountsAddContainerMemberAccountAddDocument = {
         ]
       }
     },
-    ...AdminMembersAccountsAddContainerMemberMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsAddContainerMember' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsAddContainerMemberMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminMembersAccountsAddContainerMember' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersAccountsAddContainerMemberAccountAddMutation,
@@ -8271,7 +9263,20 @@ export const AdminMembersAccountsAddContainerMemberForUserDocument = {
         ]
       }
     },
-    ...AdminMembersAccountsAddContainerMemberFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsAddContainerMember' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersAccountsAddContainerMemberForUserQuery,
@@ -8317,7 +9322,43 @@ export const AdminMembersAccountsEditContainerMemberDocument = {
         ]
       }
     },
-    ...AdminMembersAccountEditContainerMembersFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountEditContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersAccountsEditContainerMemberQuery,
@@ -8366,7 +9407,77 @@ export const AdminMembersAccountsEditContainerMemberAccountEditDocument = {
         ]
       }
     },
-    ...AdminMembersAccountsEditContainerMemberMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountEditContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsEditContainerMemberMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminMembersAccountEditContainerMembersFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersAccountsEditContainerMemberAccountEditMutation,
@@ -8415,7 +9526,77 @@ export const AdminMembersAccountsEditContainerMemberAccountRemoveDocument = {
         ]
       }
     },
-    ...AdminMembersAccountsEditContainerMemberMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountEditContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsEditContainerMemberMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminMembersAccountEditContainerMembersFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersAccountsEditContainerMemberAccountRemoveMutation,
@@ -8461,7 +9642,43 @@ export const AdminMembersAccountsListContainerMemberDocument = {
         ]
       }
     },
-    ...AdminMembersAccountsListContainerMembersFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersAccountsListContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'statusCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersAccountsListContainerMemberQuery,
@@ -8507,7 +9724,51 @@ export const AdminMembersCreateContainerMemberCreateDocument = {
         ]
       }
     },
-    ...AdminMembersCreateContainerMemberMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersCreateContainerMember' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersCreateContainerMemberMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminMembersCreateContainerMember' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersCreateContainerMemberCreateMutation,
@@ -8550,7 +9811,31 @@ export const AdminMembersDetailContainerMemberDocument = {
         ]
       }
     },
-    ...AdminMembersDetailContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersDetailContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'roleName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersDetailContainerMemberQuery, AdminMembersDetailContainerMemberQueryVariables>;
 export const AdminMembersDetailContainerRolesDocument = {
@@ -8590,7 +9875,21 @@ export const AdminMembersDetailContainerRolesDocument = {
         ]
       }
     },
-    ...AdminMembersDetailContainerRolesFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersDetailContainerRolesFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersDetailContainerRolesQuery, AdminMembersDetailContainerRolesQueryVariables>;
 export const AdminMembersDetailContainerMemberUpdateDocument = {
@@ -8630,7 +9929,62 @@ export const AdminMembersDetailContainerMemberUpdateDocument = {
         ]
       }
     },
-    ...AdminMembersDetailContainerMutationFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersDetailContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'roleName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersDetailContainerMutationFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminMembersDetailContainerMemberFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersDetailContainerMemberUpdateMutation,
@@ -8673,7 +10027,28 @@ export const AdminMembersListContainerMembersDocument = {
         ]
       }
     },
-    ...AdminMembersListContainerMembersFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersListContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'roleName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersListContainerMembersQuery, AdminMembersListContainerMembersQueryVariables>;
 export const AdminMembersProfileContainerMemberDocument = {
@@ -8713,7 +10088,38 @@ export const AdminMembersProfileContainerMemberDocument = {
         ]
       }
     },
-    ...AdminMembersProfileContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersProfileContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showInterests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showLocation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProfile' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProperties' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminMembersProfileContainerMemberQuery, AdminMembersProfileContainerMemberQueryVariables>;
 export const AdminMembersProfileContainerMemberUpdateDocument = {
@@ -8756,7 +10162,69 @@ export const AdminMembersProfileContainerMemberUpdateDocument = {
         ]
       }
     },
-    ...AdminMembersProfileContainerMutationFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersProfileContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showInterests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showLocation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProfile' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProperties' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersProfileContainerMutationFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminMembersProfileContainerMemberFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminMembersProfileContainerMemberUpdateMutation,
@@ -8799,7 +10267,25 @@ export const AdminPhotoUploadContainerContainerMemberDocument = {
         ]
       }
     },
-    ...AdminPhotoUploadContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPhotoUploadContainerContainerMemberQuery,
@@ -8845,9 +10331,30 @@ export const AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocumen
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -8878,7 +10385,25 @@ export const AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocumen
         ]
       }
     },
-    ...AdminPhotoUploadContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation,
@@ -8924,7 +10449,56 @@ export const AdminPhotoUploadContainerMemberProfileAvatarRemoveDocument = {
         ]
       }
     },
-    ...AdminPhotoUploadContainerMemberMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPhotoUploadContainerMemberProfileAvatarRemoveMutation,
@@ -8970,7 +10544,51 @@ export const AdminPropertiesAddContainerPropertyAddDocument = {
         ]
       }
     },
-    ...AdminPropertiesAddContainerPropertyMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesAddContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesAddContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminPropertiesAddContainerPropertyFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPropertiesAddContainerPropertyAddMutation,
@@ -9016,7 +10634,36 @@ export const AdminPropertiesDetailContainerPropertyDocument = {
         ]
       }
     },
-    ...AdminPropertiesDetailContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPropertiesDetailContainerPropertyQuery,
@@ -9059,7 +10706,20 @@ export const AdminPropertiesDetailContainerMembersDocument = {
         ]
       }
     },
-    ...AdminPropertiesDetailContainerMembersFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesDetailContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPropertiesDetailContainerMembersQuery,
@@ -9108,7 +10768,70 @@ export const AdminPropertiesDetailContainerPropertyUpdateDocument = {
         ]
       }
     },
-    ...AdminPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesDetailContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminPropertiesDetailContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPropertiesDetailContainerPropertyUpdateMutation,
@@ -9157,7 +10880,70 @@ export const AdminPropertiesDetailContainerPropertyDeleteDocument = {
         ]
       }
     },
-    ...AdminPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesDetailContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminPropertiesDetailContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPropertiesDetailContainerPropertyDeleteMutation,
@@ -9200,7 +10986,29 @@ export const AdminPropertiesListContainerPropertiesDocument = {
         ]
       }
     },
-    ...AdminPropertiesListContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminPropertiesListContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminPropertiesListContainerPropertiesQuery,
@@ -9229,7 +11037,21 @@ export const AdminRolesDeleteContainerRolesDocument = {
         ]
       }
     },
-    ...AdminRolesDeleteContainerRolesFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDeleteContainerRolesFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminRolesDeleteContainerRolesQuery, AdminRolesDeleteContainerRolesQueryVariables>;
 export const AdminRolesDeleteContainerRoleDeleteAndReassignDocument = {
@@ -9275,7 +11097,52 @@ export const AdminRolesDeleteContainerRoleDeleteAndReassignDocument = {
         ]
       }
     },
-    ...AdminRolesDeleteContainerRoleMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDeleteContainerRolesFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDeleteContainerRoleMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RoleMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminRolesDeleteContainerRolesFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminRolesDeleteContainerRoleDeleteAndReassignMutation,
@@ -9318,7 +11185,69 @@ export const AdminRolesDetailContainerRoleDocument = {
         ]
       }
     },
-    ...AdminRolesDetailContainerRoleFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDetailContainerRoleFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'permissions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'communityPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnMemberProfile' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnMemberAccounts' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'propertyPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminRolesDetailContainerRoleQuery, AdminRolesDetailContainerRoleQueryVariables>;
 export const AdminRolesDetailContainerRoleAddDocument = {
@@ -9361,7 +11290,100 @@ export const AdminRolesDetailContainerRoleAddDocument = {
         ]
       }
     },
-    ...AdminRolesDetailContainerRoleMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDetailContainerRoleFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'permissions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'communityPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnMemberProfile' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnMemberAccounts' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'propertyPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDetailContainerRoleMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RoleMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminRolesDetailContainerRoleFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminRolesDetailContainerRoleAddMutation,
@@ -9407,7 +11429,100 @@ export const AdminRolesDetailContainerRoleUpdateDocument = {
         ]
       }
     },
-    ...AdminRolesDetailContainerRoleMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDetailContainerRoleFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'permissions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'communityPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnMemberProfile' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnMemberAccounts' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'propertyPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesDetailContainerRoleMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RoleMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminRolesDetailContainerRoleFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminRolesDetailContainerRoleUpdateMutation,
@@ -9450,7 +11565,21 @@ export const AdminRolesListContainerRolesDocument = {
         ]
       }
     },
-    ...AdminRolesListContainerRolesFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminRolesListContainerRolesFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Role' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'roleName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AdminRolesListContainerRolesQuery, AdminRolesListContainerRolesQueryVariables>;
 export const AdminServiceTicketsCreateContainerMembersDocument = {
@@ -9493,7 +11622,18 @@ export const AdminServiceTicketsCreateContainerMembersDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsCreateContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsCreateContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsCreateContainerMembersQuery,
@@ -9539,7 +11679,18 @@ export const AdminServiceTicketsCreateContainerPropertiesDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsCreateContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsCreateContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsCreateContainerPropertiesQuery,
@@ -9588,7 +11739,78 @@ export const AdminServiceTicketsCreateContainerServiceTicketCreateDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsCreateContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsCreateContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminServiceTicketsCreateContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsCreateContainerServiceTicketCreateMutation,
@@ -9620,7 +11842,18 @@ export const AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocumen
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsDetailContainerMembersAssignableToTicketsQuery,
@@ -9652,7 +11885,18 @@ export const AdminServiceTicketsDetailContainerPropertiesDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsDetailContainerPropertiesQuery,
@@ -9698,7 +11942,96 @@ export const AdminServiceTicketsDetailContainerServiceTicketDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsDetailContainerServiceTicketQuery,
@@ -9747,7 +12080,130 @@ export const AdminServiceTicketsDetailContainerServiceTicketUpdateDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsDetailContainerServiceTicketUpdateMutation,
@@ -9796,7 +12252,130 @@ export const AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsDetailContainerServiceTicketChangeStatusMutation,
@@ -9845,7 +12424,130 @@ export const AdminServiceTicketsDetailContainerServiceAssignDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsDetailContainerServiceAssignMutation,
@@ -9894,7 +12596,130 @@ export const AdminServiceTicketsDetailContainerAddUpdateActivityDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsDetailContainerAddUpdateActivityMutation,
@@ -9943,7 +12768,130 @@ export const AdminServiceTicketDetailContainerServiceTicketDeleteDocument = {
         ]
       }
     },
-    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketDetailContainerServiceTicketDeleteMutation,
@@ -9989,7 +12937,37 @@ export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocume
         ]
       }
     },
-    ...AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery,
@@ -10035,7 +13013,46 @@ export const AdminSettingsGeneralContainerCommunityDocument = {
         ]
       }
     },
-    ...AdminSettingsGeneralContainerCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminSettingsGeneralContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'domainStatus' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'verified' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'verification' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'reason' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminSettingsGeneralContainerCommunityQuery,
@@ -10104,7 +13121,46 @@ export const AdminSettingsGeneralContainerCommunityUpdateDocument = {
         ]
       }
     },
-    ...AdminSettingsGeneralContainerCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminSettingsGeneralContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'domainStatus' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'verified' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'verification' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'reason' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminSettingsGeneralContainerCommunityUpdateMutation,
@@ -10150,7 +13206,32 @@ export const AdminSiteEditorFilesListContainerCommunityByIdDocument = {
         ]
       }
     },
-    ...AdminSiteEditorFilesListContainerCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminSiteEditorFilesListContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'files' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'size' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminSiteEditorFilesListContainerCommunityByIdQuery,
@@ -10219,7 +13300,32 @@ export const AdminSiteEditorFilesListContainerCommunityPublicFileRemoveDocument 
         ]
       }
     },
-    ...AdminSiteEditorFilesListContainerCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminSiteEditorFilesListContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'files' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'size' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminSiteEditorFilesListContainerCommunityPublicFileRemoveMutation,
@@ -10265,9 +13371,30 @@ export const AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHea
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -10301,7 +13428,32 @@ export const AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHea
         ]
       }
     },
-    ...AdminSiteEditorFilesUploadContainerCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminSiteEditorFilesUploadContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'files' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'size' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeaderMutation,
@@ -10347,9 +13499,30 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -10383,7 +13556,22 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
         ]
       }
     },
-    ...AdminSiteEditorContainerCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminSiteEditorContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
@@ -10426,7 +13614,104 @@ export const MemberPropertyByPropertyIdDocument = {
         ]
       }
     },
-    ...PropertyDetailsByPropertyIdFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PropertyDetailsByPropertyIdFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MemberPropertyByPropertyIdQuery, MemberPropertyByPropertyIdQueryVariables>;
 export const MemberPropertiesByCommunityIdDocument = {
@@ -10464,7 +13749,63 @@ export const MemberPropertiesByCommunityIdDocument = {
         ]
       }
     },
-    ...PropertyInformationFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PropertyInformationFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MemberPropertiesByCommunityIdQuery, MemberPropertiesByCommunityIdQueryVariables>;
 export const CurrentMemberProfileByCommunityIdDocument = {
@@ -10504,7 +13845,36 @@ export const CurrentMemberProfileByCommunityIdDocument = {
         ]
       }
     },
-    ...CurrentMemberProfileByCommunityIdFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CurrentMemberProfileByCommunityIdFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showInterests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showLocation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProfile' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProperties' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<CurrentMemberProfileByCommunityIdQuery, CurrentMemberProfileByCommunityIdQueryVariables>;
 export const MembersProfileContainerMemberUpdateDocument = {
@@ -10547,7 +13917,67 @@ export const MembersProfileContainerMemberUpdateDocument = {
         ]
       }
     },
-    ...MembersProfileContainerMutationFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CurrentMemberProfileByCommunityIdFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showInterests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showLocation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProfile' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProperties' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersProfileContainerMutationFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'CurrentMemberProfileByCommunityIdFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersProfileContainerMemberUpdateMutation,
@@ -10590,7 +14020,57 @@ export const MemberSiteNeighborsListContainerDocument = {
         ]
       }
     },
-    ...MemberSiteNeighborsListContainerFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberSiteNeighborsListContainerFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bio' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'interests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showInterests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProfile' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showLocation' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'showProperties' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MemberSiteNeighborsListContainerQuery, MemberSiteNeighborsListContainerQueryVariables>;
 export const MemberSiteNeighborsListCurrentMemberIdDocument = {
@@ -10667,7 +14147,25 @@ export const MemberPhotoUploadContainerContainerMemberDocument = {
         ]
       }
     },
-    ...MemberPhotoUploadContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MemberPhotoUploadContainerContainerMemberQuery,
@@ -10713,20 +14211,30 @@ export const MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocume
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'status' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -10749,7 +14257,25 @@ export const MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocume
         ]
       }
     },
-    ...MemberPhotoUploadContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation,
@@ -10795,7 +14321,37 @@ export const MembersPropertiesDetailContainerPropertyDocument = {
         ]
       }
     },
-    ...MembersPropertiesDetailContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'tags' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesDetailContainerPropertyQuery,
@@ -10841,7 +14397,20 @@ export const MembersPropertiesDetailContainerMembersDocument = {
         ]
       }
     },
-    ...MembersPropertiesDetailContainerMembersFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesDetailContainerMembersQuery,
@@ -10890,7 +14459,71 @@ export const MembersPropertiesDetailContainerPropertyUpdateDocument = {
         ]
       }
     },
-    ...MembersPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'tags' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesDetailContainerPropertyUpdateMutation,
@@ -10939,7 +14572,71 @@ export const MembersPropertiesDetailContainerPropertyDeleteDocument = {
         ]
       }
     },
-    ...MembersPropertiesDetailContainerPropertyMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedInDirectory' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'tags' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesDetailContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesDetailContainerPropertyDeleteMutation,
@@ -10988,9 +14685,30 @@ export const MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageC
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -11024,7 +14742,27 @@ export const MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageC
         ]
       }
     },
-    ...MembersPropertiesFloorPlanImageUploadContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesFloorPlanImageUploadContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation,
@@ -11087,7 +14825,247 @@ export const MemberPropertiesListSearchContainerPropertiesDocument = {
         ]
       }
     },
-    ...MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListSearchContainerPropertyResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'additionalAmenities' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'position' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'address' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForSale' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForRent' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'listedForLease' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'tags' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberPropertiesListSearchContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertySearchResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyResults' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesListSearchContainerPropertyResultFields' }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'facets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'type' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenitiesCategory' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenitiesAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'listedForSale' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'listedForRent' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'listedForLease' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedrooms' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bathrooms' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'updatedAt' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdAt' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tags' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MemberPropertiesListSearchContainerPropertiesQuery,
@@ -11150,7 +15128,29 @@ export const MembersPropertiesListContainerPropertiesDocument = {
         ]
       }
     },
-    ...MembersPropertiesListContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'owner' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesListContainerPropertiesQuery,
@@ -11196,9 +15196,30 @@ export const MembersPropertiesListingImageUploadContainerPropertyListingImageCre
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobContainer' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -11232,7 +15253,27 @@ export const MembersPropertiesListingImageUploadContainerPropertyListingImageCre
         ]
       }
     },
-    ...MembersPropertiesListingImageUploadContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListingImageUploadContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'images' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutation,
@@ -11278,7 +15319,77 @@ export const MembersPropertiesListingContainerPropertyDocument = {
         ]
       }
     },
-    ...MembersPropertiesListingContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesListingContainerPropertyQuery,
@@ -11327,7 +15438,111 @@ export const MembersPropertiesListingContainerPropertyUpdateDocument = {
         ]
       }
     },
-    ...MembersPropertiesListingContainerPropertyMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersPropertiesListingContainerPropertyUpdateMutation,
@@ -11371,7 +15586,61 @@ export const PropertiesLocationContainerPropertyDocument = {
         ]
       }
     },
-    ...AddressLocationContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'position' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   PropertiesLocationContainerPropertyQuery,
@@ -11420,7 +15689,92 @@ export const AddressLocationUpdateContainerDocument = {
         ]
       }
     },
-    ...AddressLocationContainerPropertyMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'position' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AddressLocationContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<AddressLocationUpdateContainerMutation, AddressLocationUpdateContainerMutationVariables>;
 export const MembersServiceTicketsCreateContainerMembersDocument = {
@@ -11463,7 +15817,18 @@ export const MembersServiceTicketsCreateContainerMembersDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsCreateContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsCreateContainerMembersQuery,
@@ -11509,7 +15874,18 @@ export const MembersServiceTicketsCreateContainerPropertiesDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsCreateContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsCreateContainerPropertiesQuery,
@@ -11558,7 +15934,78 @@ export const MembersServiceTicketsCreateContainerServiceTicketCreateDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsCreateContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketsCreateContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsCreateContainerServiceTicketCreateMutation,
@@ -11590,7 +16037,18 @@ export const MembersServiceTicketsDetailContainerMembersAssignableToTicketsDocum
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerMemberFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsDetailContainerMembersAssignableToTicketsQuery,
@@ -11636,7 +16094,18 @@ export const MembersServiceTicketsDetailContainerPropertiesDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerPropertyFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsDetailContainerPropertiesQuery,
@@ -11682,7 +16151,96 @@ export const MembersServiceTicketsDetailContainerServiceTicketDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerServiceTicketFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsDetailContainerServiceTicketQuery,
@@ -11731,7 +16289,130 @@ export const MembersServiceTicketsDetailContainerServiceTicketUpdateDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsDetailContainerServiceTicketUpdateMutation,
@@ -11780,7 +16461,130 @@ export const MembersServiceTicketsDetailContainerServiceTicketChangeStatusDocume
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsDetailContainerServiceTicketChangeStatusMutation,
@@ -11829,7 +16633,130 @@ export const MembersServiceTicketsDetailContainerServiceAssignDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsDetailContainerServiceAssignMutation,
@@ -11878,7 +16805,130 @@ export const MembersServiceTicketsDetailContainerAddUpdateActivityDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsDetailContainerAddUpdateActivityMutation,
@@ -11927,7 +16977,130 @@ export const MembersServiceTicketDetailContainerServiceTicketDeleteDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MembersServiceTicketsDetailContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketDetailContainerServiceTicketDeleteMutation,
@@ -11959,7 +17132,37 @@ export const MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocu
         ]
       }
     },
-    ...MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'memberName' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MembersServiceTicketsListContainerServiceTicketsOpenByRequestorQuery,
@@ -12008,7 +17211,128 @@ export const MemberServiceTicketsListContainerSearchServiceTicketsDocument = {
         ]
       }
     },
-    ...MembersServiceTicketsListContainerSearchServiceTicketsFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberServiceTicketsListContainerSearchServiceTicketsResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedTo' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestorId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedToId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketsListContainerSearchServiceTicketsFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsSearchResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketsResults' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MemberServiceTicketsListContainerSearchServiceTicketsResultFields' }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'facets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'requestor' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignedTo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'priority' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'requestorId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignedToId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MemberServiceTicketsListContainerSearchServiceTicketsQuery,
@@ -12051,7 +17375,18 @@ export const MemberNameServiceTicketContainerDocument = {
         ]
       }
     },
-    ...MembersNameServiceTicketContainerFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersNameServiceTicketContainerFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MemberNameServiceTicketContainerQuery, MemberNameServiceTicketContainerQueryVariables>;
 export const MemberServiceTicketCustomViewsDocument = {
@@ -12091,7 +17426,34 @@ export const MemberServiceTicketCustomViewsDocument = {
         ]
       }
     },
-    ...MembersServiceTicketCustomViewsFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketCustomViewsFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'customViews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'filters' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'sortOrder' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'columnsToDisplay' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<MemberServiceTicketCustomViewsQuery, MemberServiceTicketCustomViewsQueryVariables>;
 export const MemberServiceTicketSearchContainerCustomViewsUpdateDocument = {
@@ -12134,7 +17496,65 @@ export const MemberServiceTicketSearchContainerCustomViewsUpdateDocument = {
         ]
       }
     },
-    ...MembersServiceTicketCustomViewsMutationResultFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketCustomViewsFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'customViews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'filters' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'sortOrder' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'columnsToDisplay' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MembersServiceTicketCustomViewsMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MembersServiceTicketCustomViewsFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   MemberServiceTicketSearchContainerCustomViewsUpdateMutation,
@@ -12229,7 +17649,23 @@ export const AdminCommunitiesDropdownContainerCommunityDocument = {
         ]
       }
     },
-    ...AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminCommunitiesDropdownContainerCommunityFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   AdminCommunitiesDropdownContainerCommunityQuery,
@@ -12258,7 +17694,21 @@ export const LoggedInUserContainerUserCurrentQueryDocument = {
         ]
       }
     },
-    ...LoggedInUserContainerUserCurrentFieldsFragmentDoc.definitions
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
+        ]
+      }
+    }
   ]
 } as unknown as DocumentNode<
   LoggedInUserContainerUserCurrentQueryQuery,

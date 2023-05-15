@@ -1,6 +1,6 @@
-import { Button, message } from "antd";
-import { UploadOutlined } from '@ant-design/icons';
-import { AuthResult, AzureUpload } from '../../../ui/molecules/azure-upload';
+import { message } from "antd";
+import { AuthResult } from '../../../ui/molecules/azure-upload';
+import { ImageUploadButton } from "../../shared/components/image-upload-button";
 export type { AuthResult } from "../../../ui/molecules/azure-upload";
 
 export interface ComponentProp {
@@ -8,36 +8,19 @@ export interface ComponentProp {
   blobPath: string
   onChange?: (value:object) => void
   onRemoveRequested?: () => Promise<boolean>
-  defaultImage?: string
 }
 
 export const ProfilePhotoUpload:React.FC<ComponentProp> = (props) => {
   return(
-    <AzureUpload
-      data={{
-        permittedContentTypes: ['image/jpeg', 'image/png', 'image/gif'],
-        permittedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-        maxFileSizeBytes: (.1 *  1024 * 1024), // .1MB,
-        maxWidthOrHeight: 1024,
-        blobPath: props.blobPath,
-      }}
+    <ImageUploadButton
       authorizeRequest={props.authorizeRequest}
-      onInvalidContentType={() => { message.error('Only images are permitted'); }}
-      onInvalidContentLength={() => { message.error('File size is too large'); }}
+      blobPath={props.blobPath}
+      onChange={props.onChange}
       onRemoveRequested={props.onRemoveRequested}
       onSuccess={() => { message.success('File uploaded successfully'); }}
-      onError={(file:File,error:any) => { message.error(`File did not upload, error: ${JSON.stringify(error)}`); }}
-      cropperProps={{
-        shape:'round',
-        rotate:true
-      }}
-      uploadProps={{
-        onChange:props.onChange
-      }}
-    >
-      <Button>
-        <UploadOutlined /> Click to Upload
-      </Button>
-    </AzureUpload>
+      maxFileSizeBytes={.1 *  1024 * 1024} // .1MB,
+      shape="round"
+      maxWidthOrHeight={1024}
+    />
   )
 }

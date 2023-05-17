@@ -1,5 +1,5 @@
 import { Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Dropdown, Layout, Space } from 'antd';
+import { Dropdown, Layout, Space, theme } from 'antd';
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-container';
 import { MenuComponent } from '../admin/components/menu-component';
 import { DownOutlined } from '@ant-design/icons';
@@ -40,10 +40,20 @@ export const SectionLayout: React.FC<any> = (props) => {
   //   setIsExpanded(true);
   //   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
   // };
-
+  const {
+    token: { colorBgContainer }
+  } = theme.useToken();
   return (
-    <Layout className="site-layout" style={{ minHeight: '100vh' }} id="member-site-layout">
-      <Header className="site-layout-background">
+    <Layout
+      // className="site-layout"
+      style={{ minHeight: '100vh', backgroundColor: colorBgContainer }}
+      id="member-site-layout"
+    >
+      <Header
+        style={{
+          backgroundColor: colorBgContainer
+        }}
+      >
         <div
           style={{
             display: 'flex',
@@ -66,7 +76,12 @@ export const SectionLayout: React.FC<any> = (props) => {
           </div>
         </div>
       </Header>
-      <Layout hasSider>
+      <Layout
+        hasSider
+        style={{
+          backgroundColor: colorBgContainer
+        }}
+      >
         <Sider
           theme="light"
           className="site-layout-background"
@@ -79,7 +94,8 @@ export const SectionLayout: React.FC<any> = (props) => {
             position: 'relative',
             left: 0,
             top: 0,
-            bottom: 0
+            bottom: 0,
+            backgroundColor: colorBgContainer
           }}
         >
           <div className="logo" />
@@ -93,7 +109,8 @@ export const SectionLayout: React.FC<any> = (props) => {
             flexDirection: 'column',
             flex: '1 auto',
             overflowY: 'scroll',
-            height: 'calc(100vh - 64px)'
+            height: 'calc(100vh - 64px)',
+            backgroundColor: colorBgContainer
           }}
         >
           <Outlet />

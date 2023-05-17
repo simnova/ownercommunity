@@ -1,20 +1,19 @@
-import { Typography, Descriptions } from 'antd';
+import { Typography, Descriptions, theme } from 'antd';
 
 const { Text, Title } = Typography;
 
 export const CommunityDetail: React.FC<any> = (props) => {
-
   const whiteLabel = () => {
-    if (props.data.whiteLabelDomain){
+    if (props.data.whiteLabelDomain) {
       return (
-      <Descriptions.Item label="White Label Name">
-        <Text strong>{props.data.whiteLabelDomain}</Text>
-      </Descriptions.Item>
-      )
+        <Descriptions.Item label="White Label Name">
+          <Text strong>{props.data.whiteLabelDomain}</Text>
+        </Descriptions.Item>
+      );
     } else {
-      return <></>
+      return <></>;
     }
-  }
+  };
 
   const hasDomain = () => {
     if (props.data.domain) {
@@ -22,37 +21,40 @@ export const CommunityDetail: React.FC<any> = (props) => {
         <Descriptions.Item label="Domain Name">
           <Text strong>{props.data.domain}</Text>
         </Descriptions.Item>
-        )
+      );
     }
-  }
+  };
 
   const hasHandle = () => {
-    if (props.data.handle){
+    if (props.data.handle) {
       return (
-      <Descriptions.Item label="Handle Name">
-        <Text strong>{props.data.handle}</Text>
-      </Descriptions.Item>
-      )
+        <Descriptions.Item label="Handle Name">
+          <Text strong>{props.data.handle}</Text>
+        </Descriptions.Item>
+      );
     } else {
-      return <></>
+      return <></>;
     }
-  }
-
-
-
-  
-
+  };
+  const {
+    token: { colorText, colorBgContainer }
+  } = theme.useToken();
   return (
     <div>
-      <div className={'bg-white w-full p-5 mx-auto my-5 shadow-lg rounded-lg border border-1'}>
-        
+      <div
+        className={' w-full p-5 mx-auto my-5 shadow-lg rounded-lg border border-1'}
+        style={{
+          color: colorText,
+          backgroundColor: colorBgContainer
+        }}
+      >
         <Title level={3}>Community Admin</Title>
         <p>
-          You can manage different aspects of your community here. The items in menu to the left reflect the permissions you have in managing this community.
+          You can manage different aspects of your community here. The items in menu to the left reflect the permissions
+          you have in managing this community.
         </p>
-  
       </div>
-      
+
       <Descriptions column={1}>
         <Descriptions.Item label="Community ID">
           <Text strong>{props.data.id}</Text>
@@ -65,6 +67,5 @@ export const CommunityDetail: React.FC<any> = (props) => {
         {hasHandle()}
       </Descriptions>
     </div>
-
   );
 };

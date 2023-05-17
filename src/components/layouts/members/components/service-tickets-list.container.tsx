@@ -4,7 +4,7 @@ import {
   ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { ServiceTicketsList } from './service-tickets-list';
-import { Skeleton, Input, Drawer, Button } from 'antd';
+import { Skeleton, Input, Drawer, Button, theme } from 'antd';
 import {
   ServiceTicketFilterNames,
   GetFilterFromServiceTicketQueryString,
@@ -19,6 +19,9 @@ import { orderBy } from 'lodash';
 const { Search } = Input;
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
+  const {
+    token: { colorText }
+  } = theme.useToken();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
   const [visible, setVisible] = useState(false);
@@ -113,34 +116,39 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   }
   if (searchServiceTicketsCalled && searchServiceTicketsData) {
     let SearchResult = null;
-    SearchResult = <pre>{JSON.stringify(searchServiceTicketsData, null, 2)}</pre>;
-    return (<>
-      <div className="py-4">
-        <Search
-          allowClear
-          style={{ width: '40%' }}
-          placeholder="input search text"
-          onSearch={() => handleSearch()}
-          value={searchString}
-          onChange={(e) => onChange(e)}
-          enterButton
-        />
-        <Drawer
-          title="Search Filters"
-          placement="left"
-          onClose={() => setVisible(false)}
-          open={visible}
-          width={445}
-        >
-          <ServiceTicketsSearchContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
-        </Drawer>
-        <Button type="default" onClick={() => setVisible(true)} className="ml-4">
-          <FilterOutlined />
-        </Button>
-      </div>
-      <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} />
-      {SearchResult}
-    </>);
+    SearchResult = (
+      <pre
+        className=" mt-2 p-2"
+        style={{
+          color: colorText
+        }}
+      >
+        {JSON.stringify(searchServiceTicketsData, null, 2)}
+      </pre>
+    );
+    return (
+      <>
+        <div className="py-4">
+          <Search
+            allowClear
+            style={{ width: '40%' }}
+            placeholder="input search text"
+            onSearch={() => handleSearch()}
+            value={searchString}
+            onChange={(e) => onChange(e)}
+            enterButton
+          />
+          <Drawer title="Search Filters" placement="left" onClose={() => setVisible(false)} open={visible} width={445}>
+            <ServiceTicketsSearchContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
+          </Drawer>
+          <Button type="default" onClick={() => setVisible(true)} className="ml-4">
+            <FilterOutlined />
+          </Button>
+        </div>
+        <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} />
+        {SearchResult}
+      </>
+    );
   }
 
   return (

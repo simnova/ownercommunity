@@ -15,14 +15,7 @@ export const Header: React.FC<any> = () => {
         <Button type="primary" onClick={handleLogin}>
           Log In
         </Button>
-        <Button
-          type="primary"
-          onClick={() => {
-            const root = document.getElementsByTagName('html')[0];
-            root.style.setProperty('--primary-color', '#00ff00');
-            window.location.reload();
-          }}
-        >
+        <Button type="primary" onClick={() => {}}>
           Change Theme
         </Button>
       </div>

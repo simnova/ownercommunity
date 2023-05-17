@@ -4,10 +4,10 @@ import {
   MemberPropertiesListSearchContainerMapSasTokenDocument,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
-import { Skeleton, List, Tag } from 'antd';
+import { Skeleton, List, Tag, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import { ListingCard } from './listing-card';
-import { useLocation, useNavigate, useSearchParams,useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams, useParams } from 'react-router-dom';
 import {
   addressQuery,
   FilterNames,
@@ -16,8 +16,7 @@ import {
   MinSquareFeet,
   MaxSquareFeet,
   MinPrice,
-  MaxPrice,
-  
+  MaxPrice
 } from '../../../../constants';
 import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
 interface AddressDataType {
@@ -30,23 +29,20 @@ interface AddressDataType {
 }
 
 export const PropertiesListSearchContainer: React.FC<any> = (props) => {
+  const {
+    token: { colorText }
+  } = theme.useToken();
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();
   const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
   const [selectedFilterList, setSelectedFilterList] = useState<string[]>([]);
-  const [searchString, setSearchString] = useState(
-    searchParams.get(SearchParamKeys.SearchString) ?? ''
-  );
+  const [searchString, setSearchString] = useState(searchParams.get(SearchParamKeys.SearchString) ?? '');
   const [addresses, setAddresses] = useState<AddressDataType[]>([]);
   const [top, setTop] = useState<number | undefined>(
-    searchParams.get(SearchParamKeys.Top)
-      ? parseInt(searchParams.get(SearchParamKeys.Top)!)
-      : undefined
+    searchParams.get(SearchParamKeys.Top) ? parseInt(searchParams.get(SearchParamKeys.Top)!) : undefined
   );
   const [currentPage, setCurrentPage] = useState<number | undefined>(
-    searchParams.get(SearchParamKeys.Page)
-      ? parseInt(searchParams.get(SearchParamKeys.Page)!) - 1
-      : undefined
+    searchParams.get(SearchParamKeys.Page) ? parseInt(searchParams.get(SearchParamKeys.Page)!) - 1 : undefined
   );
   const [orderBy, setOrderBy] = useState<string[]>(['']);
   const [hideNullResults, setHideNullResults] = useState(false);
@@ -381,9 +377,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       //Get the category and amenity
       const deletedCategory = value.split('-')[0];
       const deletedAmenity = value.split('-')[1];
-      const qsadditionalAmenities = searchParams
-        .get(SearchParamKeys.AdditionalAmenities)
-        ?.split(';'); // [Features:Iron,Washer/Dryer (Private) , Location:Oceanfront , Outdoor:Balcony]
+      const qsadditionalAmenities = searchParams.get(SearchParamKeys.AdditionalAmenities)?.split(';'); // [Features:Iron,Washer/Dryer (Private) , Location:Oceanfront , Outdoor:Balcony]
 
       if (qsadditionalAmenities) {
         for (let i = 0; i < qsadditionalAmenities.length; i++) {
@@ -452,9 +446,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     } else if (loading || mapSasTokenLoading) {
       return <Skeleton active />;
     } else if (called && data) {
-      const generatedPropertyData = JSON.parse(
-        JSON.stringify(data.propertiesSearch?.propertyResults, null, 2)
-      );
+      const generatedPropertyData = JSON.parse(JSON.stringify(data.propertiesSearch?.propertyResults, null, 2));
       return (
         <div>
           <List
@@ -474,7 +466,14 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
               </List.Item>
             )}
           ></List>
-          <pre>{JSON.stringify(data, null, 2)}</pre>;
+          <pre
+            style={{
+              color: colorText
+            }}
+          >
+            {JSON.stringify(data, null, 2)}
+          </pre>
+          ;
         </div>
       );
     }
@@ -499,11 +498,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         })}
       </div>
 
-      <div>
-        {data?.propertiesSearch?.count
-          ? '(' + data?.propertiesSearch?.count + ' records found)'
-          : ''}
-      </div>
+      <div>{data?.propertiesSearch?.count ? '(' + data?.propertiesSearch?.count + ' records found)' : ''}</div>
       <PropertiesListSearchToolbar
         data={data}
         searchString={searchString}
@@ -522,8 +517,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
         setOrderBy={setOrderBy}
         setHideNullResults={setHideNullResults}
       />
-      <br />
-      <br />
+
       {result()}
     </>
   );

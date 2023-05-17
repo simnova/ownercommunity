@@ -67,7 +67,7 @@ export const LoggedInUser: React.FC<LoggedInUserPropTypes> = (props) => {
 
   return (
     <>
-      <div className={`${styles['container']} bg-white`}>{content()}</div>
+      <div className={` `}>{content()}</div>
     </>
   );
 };

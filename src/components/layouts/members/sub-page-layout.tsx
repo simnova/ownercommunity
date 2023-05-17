@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
-import { Layout } from 'antd';
+import { Layout, theme } from 'antd';
 import PropTypes from 'prop-types';
 
 const { Header, Content, Footer } = Layout;
@@ -15,19 +15,17 @@ interface ComponentPropInterface {
   fixedHeader?: boolean;
 }
 
-export type SubPageLayoutPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> &
-  ComponentPropInterface;
+export type SubPageLayoutPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
 
 export const SubPageLayout: React.FC<SubPageLayoutPropTypes> = (props) => {
   const overFlow = props.fixedHeader ? 'scroll' : 'unset';
+  const {
+    token: { colorBgContainer }
+  } = theme.useToken();
   return (
     <>
-      <Header className="site-layout-background" style={{ padding: 0, height: 'fit-content' }}>
-        {props.header}
-      </Header>
-      <div
-        style={{ display: 'flex', flexDirection: 'column', flex: '1 auto', overflowY: overFlow }}
-      >
+      <Header style={{ padding: 0, height: 'fit-content', backgroundColor: colorBgContainer }}>{props.header}</Header>
+      <div style={{ display: 'flex', flexDirection: 'column', flex: '1 auto', overflowY: overFlow }}>
         <Content style={{ margin: '24px 16px 0', minHeight: 'inherit' }}>
           <div className="site-layout-background" style={{ padding: 24, minHeight: '100%' }}>
             {props.children}

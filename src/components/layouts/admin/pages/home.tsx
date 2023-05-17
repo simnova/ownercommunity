@@ -10,11 +10,6 @@ export const Home: React.FC<any> = (props) => {
   const params = useParams();
   return (
     <SubPageLayout fixedHeader={false} header={<PageHeader title="Home" />}>
-      {/* <Descriptions column={1}>
-        <Descriptions.Item label="Community ID">
-          <Text strong>{params.communityId}</Text>
-        </Descriptions.Item>
-      </Descriptions> */}
       <CommunityDetailContainer data={{ id: params.communityId }} />
     </SubPageLayout>
   );

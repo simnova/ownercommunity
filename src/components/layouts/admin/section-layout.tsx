@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './section-layout.css';
+import { theme } from 'antd';
 import { PageLayoutProps } from '.';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { LocalSettingsKeys, handleToggler } from '../../../constants';
@@ -18,9 +19,17 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
   const params = useParams();
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+  const {
+    token: { colorBgContainer }
+  } = theme.useToken();
+
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
-      <Header>
+      <Header
+        style={{
+          backgroundColor: colorBgContainer
+        }}
+      >
         <div
           style={{
             display: 'flex',

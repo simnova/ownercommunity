@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.less';
-import 'antd/dist/reset.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
 import { BrowserRouter } from 'react-router-dom';
 
 import MsalProvider from './components/shared/msal-react-lite';
@@ -45,10 +43,9 @@ ReactDOM.render(
     <ThemeProvider>
       <ConfigProvider
         theme={{
+          algorithm: theme.darkAlgorithm,
           components: {
-            Button: {
-              controlItemBgHover: 'pink'
-            }
+            Button: {}
           }
         }}
       >

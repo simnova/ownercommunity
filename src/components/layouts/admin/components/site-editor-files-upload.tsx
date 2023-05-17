@@ -29,7 +29,7 @@ export const SiteEditorFilesUpload: React.FC<SiteEditorFilesUploadProps> = (prop
         'jpg', 'jpeg', 'png', 'gif',
         'txt', 'csv', 'json', 'pdf'
       ]}
-      maxFileSizeBytes={2 *  1024 * 1024} // 10MB,
+      maxFileSizeBytes={10 *  1024 * 1024} // 10MB,
       maxWidthOrHeight={2048}
     />
   )

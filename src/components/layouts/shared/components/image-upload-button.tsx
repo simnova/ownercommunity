@@ -14,19 +14,15 @@ export const ImageUploadButton: React.FC<ImageUploadButtonProps> = (props) => {
   return (
     <AzureUpload
       data={{
-        permittedContentTypes: props.permittedContentTypes ?? ['image/jpeg', 'image/png', 'image/gif'],
-        permittedExtensions: props.permittedExtensions ?? ['jpg', 'jpeg', 'png', 'gif'],
+        permittedContentTypes: props.permittedContentTypes ? props.permittedContentTypes : ['image/jpeg', 'image/png', 'image/gif'],
+        permittedExtensions: props.permittedExtensions ? props.permittedExtensions : ['jpg', 'jpeg', 'png', 'gif'],
         maxFileSizeBytes: props.maxFileSizeBytes,
         maxWidthOrHeight: props.maxWidthOrHeight,
         blobPath: props.blobPath
       }}
       authorizeRequest={props.authorizeRequest}
-      onInvalidContentType={() => {
-        message.error('Only images are permitted');
-      }}
-      onInvalidContentLength={() => {
-        message.error('File size is too large');
-      }}
+      onInvalidContentType={props.onInvalidContentType ? props.onInvalidContentType : () => message.error('Only images are permitted')}
+      onInvalidContentLength={props.onInvalidContentLength ? props.onInvalidContentLength : () => message.error('File size is too large')}
       onRemoveRequested={props.onRemoveRequested}
       onSuccess={props.onSuccess ? props.onSuccess : message.success('File uploaded successfully!')}
       onError={(file: File, error: any) => {

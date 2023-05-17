@@ -1,17 +1,19 @@
-import { Upload } from 'antd';
+import { Upload, message } from 'antd';
 import axios from 'axios';
 import ImgCrop from 'antd-img-crop';
-import imageCompression from 'browser-image-compression';
 import React, { useRef } from 'react';
 
 import { UploadFile, UploadProps, RcFile } from 'antd/lib/upload/interface';
 import { BlobIndexTag, BlobMetadataField } from '../../../../generated';
+import { FileValidator } from './file-validator';
 
 interface UploadButtonProp {
   authorizeRequest: (file:File) => Promise<AuthResult>
   blobPath: string
   onChange?: (value:any) => void
   onRemoveRequested?: () => Promise<boolean>
+  onInvalidContentType?: () => void
+  onInvalidContentLength?: () => void
   permittedContentTypes?: string[]
   permittedExtensions?: string[]
   maxFileSizeBytes?: number
@@ -41,8 +43,8 @@ interface ComponentProp {
     notificationCount?: number;
     blobPath: string;
   };
-  onInvalidContentType?: () => void;
-  onInvalidContentLength?: () => void;
+  onInvalidContentType: () => void;
+  onInvalidContentLength: () => void;
   onSuccess?: (file: UploadFile) => void;
   onError?: (file: File, error: any) => void;
   onRemoveRequested?: (file: UploadFile<unknown>) => Promise<boolean>;
@@ -57,49 +59,38 @@ export type AzureUploadProps = ComponentProp;
 
 export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
   const authResultRef = useRef<AuthResult | undefined>(undefined);
-
   const beforeUpload = async (file: RcFile) => {
-    const isValidContentType = props.data.permittedContentTypes && props.data.permittedContentTypes.includes(file.type);
 
-    if (!isValidContentType) {
-      if (props.onInvalidContentType) {
-        props.onInvalidContentType();
+    const validatorOptions = {
+      maxFileSizeBytes: props.data.maxFileSizeBytes,
+      maxWidthOrHeight: props.data.maxWidthOrHeight,
+      permittedContentTypes: props.data.permittedContentTypes
+    };
+
+    const validator = new FileValidator(file, validatorOptions);
+    const result = await validator.validate();
+
+    if (!result.success) {
+      console.error(`Error: ${result.message}`);
+
+      switch (result.code) {
+        case 'content-type':
+          props.onInvalidContentType();
+          break;
+        case 'content-length':
+          props.onInvalidContentLength();
+          break;
+        case 'default':
+          message.error(`File did not upload, error: ${JSON.stringify(result.message)}`);
+          break;
       }
+
       return Upload.LIST_IGNORE;
     }
 
-    let newFile: RcFile;
-    if (file.type.startsWith('image/') && (props.data.maxFileSizeBytes || props.data.maxWidthOrHeight)) {
-      try {
-        console.log('beforeCompression size:', file.size);
-        let options: any = {};
-        if (props.data.maxFileSizeBytes) {
-          options.maxSizeMB = props.data.maxFileSizeBytes / 1024 / 1024;
-        }
-        if (props.data.maxWidthOrHeight) {
-          options.maxWidthOrHeight = props.data.maxWidthOrHeight;
-        }
-        console.log('beforeCompression options:', options);
-        const uid = file.uid;
-        newFile = (await imageCompression(file, options)) as RcFile;
-        file.uid = uid;
-        console.log('afterCompression size:', newFile.size);
-        const isValidContentLength = props.data.maxFileSizeBytes && newFile.size <= props.data.maxFileSizeBytes;
+    const newFile = result.file;
 
-        if (!isValidContentLength) {
-          if (props.onInvalidContentLength) {
-            props.onInvalidContentLength();
-          }
-        }
-      } catch (error) {
-        console.error('cannot compress:', error);
-        return Upload.LIST_IGNORE;
-      }
-    } else {
-      newFile = file;
-    }
-
-    if (isValidContentType) {
+    if (newFile) {
       const result = await props.authorizeRequest(newFile);
       if (result.isAuthorized) {
         //@ts-ignore
@@ -120,22 +111,9 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
       try {
         option.file.url = authHeader.blobPath;
 
-        let metadataHeaders: any = {}
-        if (authHeader.metadataFields) {
-          for (const [_, value] of Object.entries(authHeader.metadataFields)) {
-            metadataHeaders['x-ms-meta-' + value.name] = value.value;
-          }
-        }
+        let metadataHeaders: any = getMetadataHeaders(authHeader.metadataFields);
 
-        let indexTagsHeaders: any = {}
-        if (authHeader.indexTags) {
-          const output = authHeader.indexTags.reduce((acc: Record<string, string>, cur: { name: string, value: string }) => {
-            acc[cur.name] = cur.value;
-            return acc;
-          }, {});
-
-          indexTagsHeaders['x-ms-tags'] = new URLSearchParams(output).toString();
-        }
+        let indexTagsHeaders: any = getIndexTagsHeaders(authHeader.indexTags);
 
         let response = await axios.request({
           method: 'put',
@@ -175,6 +153,30 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
     }
     return option;
   };
+
+  const getMetadataHeaders = (metadataFields?: BlobMetadataField[]) => {
+    let metadataHeaders: any = {};
+    if (metadataFields) {
+      for (const [_, value] of Object.entries(metadataFields)) {
+        metadataHeaders['x-ms-meta-' + value.name] = value.value;
+      }
+    }
+    return metadataHeaders;
+  };
+
+  const getIndexTagsHeaders = (indexTags?: BlobIndexTag[]) => {
+    let indexTagsHeaders: any = {};
+    if (indexTags) {
+      const output = indexTags.reduce((acc: Record<string, string>, cur: { name: string, value: string }) => {
+        acc[cur.name] = cur.value;
+        return acc;
+      }, {});
+
+      indexTagsHeaders['x-ms-tags'] = new URLSearchParams(output).toString();
+    }
+    return indexTagsHeaders;
+  };
+
   const validFileExtensions = props.data.permittedExtensions
     ? '.' + props.data.permittedExtensions.join(', .')
     : undefined;

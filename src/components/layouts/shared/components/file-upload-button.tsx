@@ -14,8 +14,8 @@ export const FileUploadButton:React.FC<UploadButtonProps> = (props) => {
         blobPath: props.blobPath,
       }}
       authorizeRequest={props.authorizeRequest}
-      onInvalidContentType={() => { message.error('Only PDF files are permitted'); }}
-      onInvalidContentLength={() => { message.error('File size is too large'); }}
+      onInvalidContentType={props.onInvalidContentType ? props.onInvalidContentType : () => { message.error('Files of that content type are not permitted'); }}
+      onInvalidContentLength={props.onInvalidContentLength ? props.onInvalidContentLength : () => { message.error('File size is too large'); }}
       onRemoveRequested={props.onRemoveRequested}
       onSuccess={props.onSuccess ? props.onSuccess : () => message.success("File uploaded successfully!")}
       onError={(file:File,error:any) => { message.error(`File did not upload, error: ${JSON.stringify(error)}`); }}

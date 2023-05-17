@@ -1,7 +1,6 @@
 import React from 'react';
 import { AuthResult } from '../../../ui/molecules/azure-upload';
 import { FileUploadButton } from '../../shared/components/file-upload-button';
-import { message } from 'antd';
 
 export interface SiteEditorFilesUploadProps {
   authorizeRequest: (file:File) => Promise<AuthResult>
@@ -30,7 +29,7 @@ export const SiteEditorFilesUpload: React.FC<SiteEditorFilesUploadProps> = (prop
         'jpg', 'jpeg', 'png', 'gif',
         'txt', 'csv', 'json', 'pdf'
       ]}
-      maxFileSizeBytes={10 *  1024 * 1024} // 10MB,
+      maxFileSizeBytes={2 *  1024 * 1024} // 10MB,
       maxWidthOrHeight={2048}
     />
   )

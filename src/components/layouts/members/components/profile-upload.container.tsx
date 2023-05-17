@@ -41,11 +41,12 @@ export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerPr
         input: {
           memberId: props.data.id,
           contentType: file.type,
-          contentLength: file.size
+          contentLength: file.size,
+          fileName: file.name
         }
       }
     });
-    return result.data?(({...result.data.memberProfileAvatarCreateAuthHeader.authHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
+    return result.data?(({...result.data.memberProfileAvatarCreateAuthHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
   }
 
   function getBase64(img:Blob, callback:any) {
@@ -83,7 +84,7 @@ export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerPr
         {memberData.memberForCurrentUser.profile.avatarDocumentId && (  
         <div>
           <Image src={imageUrl} style={{maxWidth:'200px', maxHeight:'200px'}} className='rounded-full' /><br/>
-          <Button onClick={() => {handleRemoveRequest()}}>Remove Image</Button><br/>
+          <Button onClick={async () => {await handleRemoveRequest()}}>Remove Image</Button><br/>
         </div>
         )}
 
@@ -91,7 +92,6 @@ export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerPr
         <ProfilePhotoUpload
          blobPath={`https://ownercommunity.blob.core.windows.net/${props.data.communityId}`}
          authorizeRequest={handleAuthorizeRequest}
-         defaultImage={imageUrl}
          onChange={handleChange}
          onRemoveRequested={handleRemoveRequest}
           

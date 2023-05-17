@@ -20,11 +20,12 @@ export const PropertiesFloorPlanUploadContainer: React.FC<PropertiesFloorPlanUpl
                 input: {
                   propertyId: props.propertyId,
                   contentType: file.type,
-                  contentLength: file.size
+                  contentLength: file.size,
+                  fileName: file.name
                 }
               }
             });
-            return result.data?(({...result.data.propertyFloorPlanImageCreateAuthHeader.authHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
+            return result.data?(({...result.data.propertyFloorPlanImageCreateAuthHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
           }
           const blobPath = `https://ownercommunity.blob.core.windows.net/${props.communityId}`;
           var fileList = props.value?.map((v,index) => (

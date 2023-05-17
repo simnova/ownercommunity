@@ -31,15 +31,10 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
   console.log(props.data);
 
-  const listingImages = props.data.property.listingDetail.images.map((image: any) => {
-    const link = 'https://ownercommunity.blob.core.windows.net/' + params.communityId + '/' + image;
-    return link;
-  });
+  const listingImages = props.data.property.listingDetail.images;
 
-  const floorPlans = props.data.property.listingDetail.floorPlanImages.map((floorPlan: any) => {
-    const floorPlanImages =
-      'https://ownercommunity.blob.core.windows.net/' + params.communityId + '/' + floorPlan;
-    return <Image src={floorPlanImages} alt={'floor plan'} />;
+  const floorPlanImages = props.data.property.listingDetail.floorPlanImages.map((floorPlan: any) => {
+    return <Image src={floorPlan} alt={'floor plan'} />;
   });
 
   const marketDataConfig: MarketDataConfigDefinition = {
@@ -332,12 +327,12 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
       </Divider>
       <Text italic>{props.data.property.listingDetail.description}</Text>
 
-      {floorPlans.length !== 0 ? (
+      {floorPlanImages.length !== 0 ? (
         <div>
           <Divider orientation="left" orientationMargin={'5px'}>
             <Title level={5}>Floor Plans</Title>
           </Divider>{' '}
-          <div>{floorPlans}</div>
+          <div>{floorPlanImages}</div>
         </div>
       ) : (
         <></>

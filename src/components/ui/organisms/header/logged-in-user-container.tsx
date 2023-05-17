@@ -30,7 +30,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
     return <div>Loading...</div>;
   }
   if (error) {
-    return <div>Error :( {JSON.stringify(error)}</div>;
+    return <div>Error : {JSON.stringify(error)}</div>;
   }
   if (data && data.userCurrent) {
     localStorage.setItem(LocalSettingsKeys.UserId, data.userCurrent.id);

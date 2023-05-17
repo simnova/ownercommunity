@@ -81,7 +81,7 @@ export const ProfilePhotoUploadContainer: React.FC<any> = (props) => {
         {memberData.member.profile.avatarDocumentId && (  
         <div>
           <Image src={imageUrl} style={{maxWidth:'200px', maxHeight:'200px'}} className='rounded-full' /><br/>
-          <Button onClick={() => {handleRemoveRequest()}}>Remove Image</Button><br/>
+          <Button onClick={async () => {await handleRemoveRequest()}}>Remove Image</Button><br/>
         </div>
         )}
 

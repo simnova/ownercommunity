@@ -139,6 +139,7 @@ input MemberAvatarImageInput {
   memberId: ObjectID!
   contentType: String
   contentLength: Int
+  fileName: String!
 }
 type MemberAvatarImageAuthHeaderResult {
   status: MutationStatus!

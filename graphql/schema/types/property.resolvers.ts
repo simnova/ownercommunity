@@ -195,10 +195,10 @@ const property: Resolvers = {
     },
     propertyListingImageCreateAuthHeader: async (_, { input }, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
-      const result = await context.dataSources.propertyBlobAPI.propertyListingImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
+      const result = await context.dataSources.propertyBlobAPI.propertyListingImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
         let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
-        propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
+        propertyDbObj.listingDetail.images.push(result.authHeader.blobPath);
         result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
       }
       console.log(`propertyListingImageCreateAuthHeader: ${JSON.stringify(result)}`);
@@ -206,10 +206,10 @@ const property: Resolvers = {
     },
     propertyFloorPlanImageCreateAuthHeader: async (_, { input }, context) => {
       const member = await getMemberForCurrentUser(context, context.community);
-      const result = await context.dataSources.propertyBlobAPI.propertyFloorPlanImageCreateAuthHeader(input.propertyId, member.id, input.contentType, input.contentLength);
+      const result = await context.dataSources.propertyBlobAPI.propertyFloorPlanImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
         let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
-        propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
+        propertyDbObj.listingDetail.floorPlanImages.push(result.authHeader.blobPath);
         result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
       }
       console.log(`propertyFloorPlanImageCreateAuthHeader: ${JSON.stringify(result)}`);

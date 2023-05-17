@@ -2,16 +2,18 @@ import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
 import { MemberAvatarImageAuthHeaderResult, MutationStatus } from '../../generated';
 import { MemberConverter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
+import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage/blob-request';
+import { BlobAuthHeader } from '../../generated';
 
 export class Members extends BlobDataSource<Context> {
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {
-    var mutationResult: MutationStatus;
+    let mutationResult: MutationStatus;
     await this.withStorage(async (passport, blobStorage) => {
-      var member = await (await this.context.dataSources.memberCosmosdbApi.findOneById(memberId)).populate('community');
+      let member = await (await this.context.dataSources.memberCosmosdbApi.findOneById(memberId)).populate('community');
       if (!member) {
         mutationResult = { success: false, errorMessage: `Member not found: ${memberId}` } as MutationStatus;
       }
-      var memberDo = new MemberConverter().toDomain(member, { passport: passport });
+      let memberDo = new MemberConverter().toDomain(member, { passport: passport });
       if (
         !passport
           .forMember(memberDo)
@@ -27,15 +29,18 @@ export class Members extends BlobDataSource<Context> {
     return mutationResult;
   }
 
-  async memberProfileAvatarCreateAuthHeader(memberId: string, contentType: string, contentLength: number): Promise<MemberAvatarImageAuthHeaderResult> {
-    var headerResult: MemberAvatarImageAuthHeaderResult;
+  async memberProfileAvatarCreateAuthHeader(memberId: string, fileName: string, contentType: string, contentLength: number): Promise<MemberAvatarImageAuthHeaderResult> {
+    const blobContainerName = this.context.community;
+    const blobDataStorageAccountName = process.env.BLOB_ACCOUNT_NAME;
+
+    let headerResult: MemberAvatarImageAuthHeaderResult;
     await this.withStorage(async (passport, blobStorage) => {
-      var member = await (await this.context.dataSources.memberCosmosdbApi.findOneById(memberId)).populate('community');
+      let member = await (await this.context.dataSources.memberCosmosdbApi.findOneById(memberId)).populate('community');
       if (!member) {
         headerResult = { status: { success: false, errorMessage: `Member not found: ${memberId}` } } as MemberAvatarImageAuthHeaderResult;
         return;
       }
-      var memberDo = new MemberConverter().toDomain(member, { passport: passport });
+      let memberDo = new MemberConverter().toDomain(member, { passport: passport });
       if (
         !passport
           .forMember(memberDo)
@@ -58,14 +63,52 @@ export class Members extends BlobDataSource<Context> {
         headerResult = { status: { success: false, errorMessage: 'Content length exceeds permitted limit.' } } as MemberAvatarImageAuthHeaderResult;
         return;
       }
-      var blobName = `profile/${member.id}/avatar`;
-      var requestDate = new Date().toUTCString();
-      var authHeader = blobStorage.generateSharedKey(blobName, contentLength, requestDate, contentType, member.community.id);
+
+      let name: string;
+			if (this.context.verifiedUser && this.context.verifiedUser.verifiedJWT) {
+				name = this.context.verifiedUser.verifiedJWT.name;
+			}
+
+      const indexFields: Record<string, string> = {
+        communityId: this.context?.community, 
+        transmissionStatus: 'pending', //always pending when uploading
+        documentVersion: 'current',
+        createdDate: new Date().toISOString(),
+        uploadedByType: this.context?.verifiedUser?.openIdConfigKey,
+      };
+
+      const metadataFields: Record<string, string> = {
+        uploaded_by_name: name,
+        document_name: fileName,
+      };
+
+      const indexKeyValues = Object.entries(indexFields).map(([name, value]) => ({
+        name,
+        value,
+      }));
+
+      const metadataKeyValues = Object.entries(metadataFields).map(([name, value]) => ({
+        name,
+        value,
+      }));
+
+      const blobName = `profile/${member.id}/avatar`;
+      const blobPath = `https://${blobDataStorageAccountName}.blob.core.windows.net/${blobContainerName}/${blobName}`;
+      const requestDate = new Date().toUTCString();
+
+      const blobRequestSettings: BlobRequestSettings = {
+        fileSizeBytes: contentLength,
+        mimeType: contentType,
+        tags: indexFields,
+        metadata: metadataFields,
+      }
+
+      const authHeader = blobStorage.generateSharedKeyWithOptions(blobName, blobContainerName, requestDate, blobRequestSettings);
+      console.log(`authHeader: ${authHeader}`)
       headerResult = {
         status: { success: true },
-        authHeader: { authHeader: authHeader, requestDate: requestDate, blobName: blobName, blobContainer: member.community.id },
+        authHeader: { authHeader: authHeader, requestDate: requestDate, indexTags: indexKeyValues, metadataFields: metadataKeyValues, blobPath: blobPath } as BlobAuthHeader,
       } as MemberAvatarImageAuthHeaderResult;
-      return;
     });
     return headerResult;
   }

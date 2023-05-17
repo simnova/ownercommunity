@@ -13,12 +13,16 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  AccountNumber: any;
   BigInt: any;
   Byte: any;
+  CountryCode: any;
+  Cuid: any;
   Currency: any;
   DID: any;
   Date: Date;
   DateTime: any;
+  DeweyDecimal: any;
   Duration: any;
   EmailAddress: string;
   GUID: string;
@@ -27,6 +31,8 @@ export type Scalars = {
   HexColorCode: any;
   Hexadecimal: any;
   IBAN: any;
+  IP: any;
+  IPCPatent: any;
   IPv4: any;
   IPv6: any;
   ISBN: any;
@@ -34,10 +40,12 @@ export type Scalars = {
   JSON: any;
   JSONObject: any;
   JWT: any;
+  LCCSubclass: any;
   Latitude: any;
   LocalDate: any;
   LocalEndTime: any;
   LocalTime: any;
+  Locale: any;
   Long: any;
   Longitude: any;
   MAC: any;
@@ -56,8 +64,11 @@ export type Scalars = {
   PostalCode: any;
   RGB: any;
   RGBA: any;
+  RoutingNumber: any;
   SafeInt: any;
+  SemVer: any;
   Time: any;
+  TimeZone: any;
   Timestamp: any;
   URL: any;
   USCurrency: any;
@@ -156,9 +167,22 @@ export type BedroomDetailsInput = {
 export type BlobAuthHeader = {
   __typename?: 'BlobAuthHeader';
   authHeader?: Maybe<Scalars['String']>;
-  blobContainer?: Maybe<Scalars['String']>;
-  blobName?: Maybe<Scalars['String']>;
+  blobPath?: Maybe<Scalars['String']>;
+  indexTags?: Maybe<Array<Maybe<BlobIndexTag>>>;
+  metadataFields?: Maybe<Array<Maybe<BlobMetadataField>>>;
   requestDate?: Maybe<Scalars['String']>;
+};
+
+export type BlobIndexTag = {
+  __typename?: 'BlobIndexTag';
+  name: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type BlobMetadataField = {
+  __typename?: 'BlobMetadataField';
+  name: Scalars['String'];
+  value: Scalars['String'];
 };
 
 /**  Required to enable Apollo Cache Control  */
@@ -471,6 +495,7 @@ export type MemberAvatarImageAuthHeaderResult = {
 export type MemberAvatarImageInput = {
   contentLength?: InputMaybe<Scalars['Int']>;
   contentType?: InputMaybe<Scalars['String']>;
+  fileName: Scalars['String'];
   memberId: Scalars['ObjectID'];
 };
 
@@ -840,6 +865,7 @@ export type PropertyBlobFileAuthHeaderResult = {
 export type PropertyBlobFileInput = {
   contentLength: Scalars['Int'];
   contentType: Scalars['String'];
+  fileName: Scalars['String'];
   propertyId: Scalars['ObjectID'];
 };
 
@@ -1399,6 +1425,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AccountNumber: ResolverTypeWrapper<Scalars['AccountNumber']>;
   AdditionalAmenities: ResolverTypeWrapper<AdditionalAmenities>;
   AdditionalAmenitiesFilterInput: AdditionalAmenitiesFilterInput;
   AdditionalAmenitiesInput: AdditionalAmenitiesInput;
@@ -1409,6 +1436,8 @@ export type ResolversTypes = ResolversObject<{
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
   BlobAuthHeader: ResolverTypeWrapper<BlobAuthHeader>;
+  BlobIndexTag: ResolverTypeWrapper<BlobIndexTag>;
+  BlobMetadataField: ResolverTypeWrapper<BlobMetadataField>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Byte: ResolverTypeWrapper<Scalars['Byte']>;
   CacheControlScope: CacheControlScope;
@@ -1424,6 +1453,8 @@ export type ResolversTypes = ResolversObject<{
   CommunityPermissionsInput: CommunityPermissionsInput;
   CommunityPublicFileRemoveInput: CommunityPublicFileRemoveInput;
   CommunityUpdateInput: CommunityUpdateInput;
+  CountryCode: ResolverTypeWrapper<Scalars['CountryCode']>;
+  Cuid: ResolverTypeWrapper<Scalars['Cuid']>;
   Currency: ResolverTypeWrapper<Scalars['Currency']>;
   CurrentUser: ResolverTypeWrapper<CurrentUser>;
   CustomView: ResolverTypeWrapper<CustomView>;
@@ -1431,6 +1462,7 @@ export type ResolversTypes = ResolversObject<{
   DID: ResolverTypeWrapper<Scalars['DID']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  DeweyDecimal: ResolverTypeWrapper<Scalars['DeweyDecimal']>;
   Duration: ResolverTypeWrapper<Scalars['Duration']>;
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
   FacetDetail: ResolverTypeWrapper<FacetDetail>;
@@ -1446,6 +1478,8 @@ export type ResolversTypes = ResolversObject<{
   Hexadecimal: ResolverTypeWrapper<Scalars['Hexadecimal']>;
   IBAN: ResolverTypeWrapper<Scalars['IBAN']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  IP: ResolverTypeWrapper<Scalars['IP']>;
+  IPCPatent: ResolverTypeWrapper<Scalars['IPCPatent']>;
   IPv4: ResolverTypeWrapper<Scalars['IPv4']>;
   IPv6: ResolverTypeWrapper<Scalars['IPv6']>;
   ISBN: ResolverTypeWrapper<Scalars['ISBN']>;
@@ -1454,6 +1488,7 @@ export type ResolversTypes = ResolversObject<{
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
   JWT: ResolverTypeWrapper<Scalars['JWT']>;
+  LCCSubclass: ResolverTypeWrapper<Scalars['LCCSubclass']>;
   Latitude: ResolverTypeWrapper<Scalars['Latitude']>;
   ListingDetails: ResolverTypeWrapper<ListingDetails>;
   ListingDetailsFilterInput: ListingDetailsFilterInput;
@@ -1461,6 +1496,7 @@ export type ResolversTypes = ResolversObject<{
   LocalDate: ResolverTypeWrapper<Scalars['LocalDate']>;
   LocalEndTime: ResolverTypeWrapper<Scalars['LocalEndTime']>;
   LocalTime: ResolverTypeWrapper<Scalars['LocalTime']>;
+  Locale: ResolverTypeWrapper<Scalars['Locale']>;
   Location: ResolverTypeWrapper<Location>;
   LocationInput: LocationInput;
   Long: ResolverTypeWrapper<Scalars['Long']>;
@@ -1549,7 +1585,9 @@ export type ResolversTypes = ResolversObject<{
   RoleMutationResult: ResolverTypeWrapper<RoleMutationResult>;
   RolePermissions: ResolverTypeWrapper<RolePermissions>;
   RoleUpdateInput: RoleUpdateInput;
+  RoutingNumber: ResolverTypeWrapper<Scalars['RoutingNumber']>;
   SafeInt: ResolverTypeWrapper<Scalars['SafeInt']>;
+  SemVer: ResolverTypeWrapper<Scalars['SemVer']>;
   Service: ResolverTypeWrapper<Service>;
   ServiceCreateInput: ServiceCreateInput;
   ServiceMutationResult: ResolverTypeWrapper<ServiceMutationResult>;
@@ -1578,6 +1616,7 @@ export type ResolversTypes = ResolversObject<{
   ServiceUpdateInput: ServiceUpdateInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
+  TimeZone: ResolverTypeWrapper<Scalars['TimeZone']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
   URL: ResolverTypeWrapper<Scalars['URL']>;
   USCurrency: ResolverTypeWrapper<Scalars['USCurrency']>;
@@ -1593,6 +1632,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AccountNumber: Scalars['AccountNumber'];
   AdditionalAmenities: AdditionalAmenities;
   AdditionalAmenitiesFilterInput: AdditionalAmenitiesFilterInput;
   AdditionalAmenitiesInput: AdditionalAmenitiesInput;
@@ -1603,6 +1643,8 @@ export type ResolversParentTypes = ResolversObject<{
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: Scalars['BigInt'];
   BlobAuthHeader: BlobAuthHeader;
+  BlobIndexTag: BlobIndexTag;
+  BlobMetadataField: BlobMetadataField;
   Boolean: Scalars['Boolean'];
   Byte: Scalars['Byte'];
   Community: Community;
@@ -1617,6 +1659,8 @@ export type ResolversParentTypes = ResolversObject<{
   CommunityPermissionsInput: CommunityPermissionsInput;
   CommunityPublicFileRemoveInput: CommunityPublicFileRemoveInput;
   CommunityUpdateInput: CommunityUpdateInput;
+  CountryCode: Scalars['CountryCode'];
+  Cuid: Scalars['Cuid'];
   Currency: Scalars['Currency'];
   CurrentUser: CurrentUser;
   CustomView: CustomView;
@@ -1624,6 +1668,7 @@ export type ResolversParentTypes = ResolversObject<{
   DID: Scalars['DID'];
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
+  DeweyDecimal: Scalars['DeweyDecimal'];
   Duration: Scalars['Duration'];
   EmailAddress: Scalars['EmailAddress'];
   FacetDetail: FacetDetail;
@@ -1639,6 +1684,8 @@ export type ResolversParentTypes = ResolversObject<{
   Hexadecimal: Scalars['Hexadecimal'];
   IBAN: Scalars['IBAN'];
   ID: Scalars['ID'];
+  IP: Scalars['IP'];
+  IPCPatent: Scalars['IPCPatent'];
   IPv4: Scalars['IPv4'];
   IPv6: Scalars['IPv6'];
   ISBN: Scalars['ISBN'];
@@ -1647,6 +1694,7 @@ export type ResolversParentTypes = ResolversObject<{
   JSON: Scalars['JSON'];
   JSONObject: Scalars['JSONObject'];
   JWT: Scalars['JWT'];
+  LCCSubclass: Scalars['LCCSubclass'];
   Latitude: Scalars['Latitude'];
   ListingDetails: ListingDetails;
   ListingDetailsFilterInput: ListingDetailsFilterInput;
@@ -1654,6 +1702,7 @@ export type ResolversParentTypes = ResolversObject<{
   LocalDate: Scalars['LocalDate'];
   LocalEndTime: Scalars['LocalEndTime'];
   LocalTime: Scalars['LocalTime'];
+  Locale: Scalars['Locale'];
   Location: Location;
   LocationInput: LocationInput;
   Long: Scalars['Long'];
@@ -1742,7 +1791,9 @@ export type ResolversParentTypes = ResolversObject<{
   RoleMutationResult: RoleMutationResult;
   RolePermissions: RolePermissions;
   RoleUpdateInput: RoleUpdateInput;
+  RoutingNumber: Scalars['RoutingNumber'];
   SafeInt: Scalars['SafeInt'];
+  SemVer: Scalars['SemVer'];
   Service: Service;
   ServiceCreateInput: ServiceCreateInput;
   ServiceMutationResult: ServiceMutationResult;
@@ -1771,6 +1822,7 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceUpdateInput: ServiceUpdateInput;
   String: Scalars['String'];
   Time: Scalars['Time'];
+  TimeZone: Scalars['TimeZone'];
   Timestamp: Scalars['Timestamp'];
   URL: Scalars['URL'];
   USCurrency: Scalars['USCurrency'];
@@ -1796,6 +1848,10 @@ export type CacheControl22DirectiveResolver<Result, Parent, ContextType = Contex
   ContextType,
   Args
 >;
+
+export interface AccountNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['AccountNumber'], any> {
+  name: 'AccountNumber';
+}
 
 export type AdditionalAmenitiesResolvers<
   ContextType = Context,
@@ -1861,9 +1917,25 @@ export type BlobAuthHeaderResolvers<
   ParentType extends ResolversParentTypes['BlobAuthHeader'] = ResolversParentTypes['BlobAuthHeader']
 > = ResolversObject<{
   authHeader?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  blobContainer?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  blobName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  blobPath?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  indexTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['BlobIndexTag']>>>, ParentType, ContextType>;
+  metadataFields?: Resolver<Maybe<Array<Maybe<ResolversTypes['BlobMetadataField']>>>, ParentType, ContextType>;
   requestDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type BlobIndexTagResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BlobIndexTag'] = ResolversParentTypes['BlobIndexTag']> = ResolversObject<{
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type BlobMetadataFieldResolvers<
+  ContextType = Context,
+  ParentType extends ResolversParentTypes['BlobMetadataField'] = ResolversParentTypes['BlobMetadataField']
+> = ResolversObject<{
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1941,6 +2013,14 @@ export type CommunityPermissionsResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface CountryCodeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['CountryCode'], any> {
+  name: 'CountryCode';
+}
+
+export interface CuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cuid'], any> {
+  name: 'Cuid';
+}
+
 export interface CurrencyScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Currency'], any> {
   name: 'Currency';
 }
@@ -1979,6 +2059,10 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
+}
+
+export interface DeweyDecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DeweyDecimal'], any> {
+  name: 'DeweyDecimal';
 }
 
 export interface DurationScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Duration'], any> {
@@ -2036,6 +2120,14 @@ export interface IbanScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'IBAN';
 }
 
+export interface IpScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['IP'], any> {
+  name: 'IP';
+}
+
+export interface IpcPatentScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['IPCPatent'], any> {
+  name: 'IPCPatent';
+}
+
 export interface IPv4ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['IPv4'], any> {
   name: 'IPv4';
 }
@@ -2062,6 +2154,10 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 
 export interface JwtScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JWT'], any> {
   name: 'JWT';
+}
+
+export interface LccSubclassScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LCCSubclass'], any> {
+  name: 'LCCSubclass';
 }
 
 export interface LatitudeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Latitude'], any> {
@@ -2110,6 +2206,10 @@ export interface LocalEndTimeScalarConfig extends GraphQLScalarTypeConfig<Resolv
 
 export interface LocalTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalTime'], any> {
   name: 'LocalTime';
+}
+
+export interface LocaleScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Locale'], any> {
+  name: 'Locale';
 }
 
 export type LocationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = ResolversObject<{
@@ -2557,8 +2657,16 @@ export type RolePermissionsResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface RoutingNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['RoutingNumber'], any> {
+  name: 'RoutingNumber';
+}
+
 export interface SafeIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['SafeInt'], any> {
   name: 'SafeInt';
+}
+
+export interface SemVerScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['SemVer'], any> {
+  name: 'SemVer';
 }
 
 export type ServiceResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Service'] = ResolversParentTypes['Service']> = ResolversObject<{
@@ -2703,6 +2811,10 @@ export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'Time';
 }
 
+export interface TimeZoneScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['TimeZone'], any> {
+  name: 'TimeZone';
+}
+
 export interface TimestampScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Timestamp'], any> {
   name: 'Timestamp';
 }
@@ -2757,12 +2869,15 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
+  AccountNumber?: GraphQLScalarType;
   AdditionalAmenities?: AdditionalAmenitiesResolvers<ContextType>;
   AdditionalAmenitiesSearchResult?: AdditionalAmenitiesSearchResultResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
   BedroomDetails?: BedroomDetailsResolvers<ContextType>;
   BigInt?: GraphQLScalarType;
   BlobAuthHeader?: BlobAuthHeaderResolvers<ContextType>;
+  BlobIndexTag?: BlobIndexTagResolvers<ContextType>;
+  BlobMetadataField?: BlobMetadataFieldResolvers<ContextType>;
   Byte?: GraphQLScalarType;
   Community?: CommunityResolvers<ContextType>;
   CommunityBlobContentAuthHeaderResult?: CommunityBlobContentAuthHeaderResultResolvers<ContextType>;
@@ -2770,12 +2885,15 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   CommunityDomainVerificationDetail?: CommunityDomainVerificationDetailResolvers<ContextType>;
   CommunityMutationResult?: CommunityMutationResultResolvers<ContextType>;
   CommunityPermissions?: CommunityPermissionsResolvers<ContextType>;
+  CountryCode?: GraphQLScalarType;
+  Cuid?: GraphQLScalarType;
   Currency?: GraphQLScalarType;
   CurrentUser?: CurrentUserResolvers<ContextType>;
   CustomView?: CustomViewResolvers<ContextType>;
   DID?: GraphQLScalarType;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
+  DeweyDecimal?: GraphQLScalarType;
   Duration?: GraphQLScalarType;
   EmailAddress?: GraphQLScalarType;
   FacetDetail?: FacetDetailResolvers<ContextType>;
@@ -2787,6 +2905,8 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   HexColorCode?: GraphQLScalarType;
   Hexadecimal?: GraphQLScalarType;
   IBAN?: GraphQLScalarType;
+  IP?: GraphQLScalarType;
+  IPCPatent?: GraphQLScalarType;
   IPv4?: GraphQLScalarType;
   IPv6?: GraphQLScalarType;
   ISBN?: GraphQLScalarType;
@@ -2794,11 +2914,13 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
   JWT?: GraphQLScalarType;
+  LCCSubclass?: GraphQLScalarType;
   Latitude?: GraphQLScalarType;
   ListingDetails?: ListingDetailsResolvers<ContextType>;
   LocalDate?: GraphQLScalarType;
   LocalEndTime?: GraphQLScalarType;
   LocalTime?: GraphQLScalarType;
+  Locale?: GraphQLScalarType;
   Location?: LocationResolvers<ContextType>;
   Long?: GraphQLScalarType;
   Longitude?: GraphQLScalarType;
@@ -2840,7 +2962,9 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Role?: RoleResolvers<ContextType>;
   RoleMutationResult?: RoleMutationResultResolvers<ContextType>;
   RolePermissions?: RolePermissionsResolvers<ContextType>;
+  RoutingNumber?: GraphQLScalarType;
   SafeInt?: GraphQLScalarType;
+  SemVer?: GraphQLScalarType;
   Service?: ServiceResolvers<ContextType>;
   ServiceMutationResult?: ServiceMutationResultResolvers<ContextType>;
   ServiceTicket?: ServiceTicketResolvers<ContextType>;
@@ -2853,6 +2977,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   ServiceTicketsSearchFacets?: ServiceTicketsSearchFacetsResolvers<ContextType>;
   ServiceTicketsSearchResult?: ServiceTicketsSearchResultResolvers<ContextType>;
   Time?: GraphQLScalarType;
+  TimeZone?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;
   URL?: GraphQLScalarType;
   USCurrency?: GraphQLScalarType;

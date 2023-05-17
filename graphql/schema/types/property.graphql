@@ -325,6 +325,7 @@ input PropertyBlobFileInput {
   propertyId: ObjectID!
   contentType: String!
   contentLength: Int!
+  fileName: String!
 }
 type PropertyBlobFileAuthHeaderResult {
   status: MutationStatus!

@@ -14,16 +14,6 @@ import { Properties } from './properties';
 import { Services } from './services';
 import { ServiceTickets } from './service-tickets';
 
-// export const Domain = {
-//   userDomainAPI: new Users({ unitOfWork: UserUnitOfWork, context: {} as any }),
-//   communityDomainAPI: new Communities({ unitOfWork: CommunityUnitOfWork, context: {} as any }),
-//   memberDomainAPI: new Members({ unitOfWork: MemberUnitOfWork, context: {} as any }),
-//   roleDomainAPI: new Roles({ unitOfWork: RoleUnitOfWork, context: {} as any }),
-//   propertyDomainAPI: new Properties({ unitOfWork: PropertyUnitOfWork, context: {} as any }),
-//   serviceDomainAPI: new Services({ unitOfWork: ServiceUnitOfWork, context: {} as any }),
-//   serviceTicketDomainAPI: new ServiceTickets({ unitOfWork: ServiceTicketUnitOfWork, context: {} as any }),
-// };
-
 export {
   Users as UserDomainAPI,
   UserUnitOfWork,

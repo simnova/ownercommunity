@@ -1,10 +1,10 @@
 import React from 'react';
-import { AuthResult } from './profile-photo-upload';
 import { MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument } from '../../../../generated';
 import { useMutation } from '@apollo/client';
 import { PropertiesListingImageUpload } from './properties-listing-image-upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { blob } from 'node:stream/consumers';
+import { AuthResult } from '../../../ui/molecules/azure-upload';
 
 export interface PropertiesListingImageUploadContainerProps {
   propertyId: string;

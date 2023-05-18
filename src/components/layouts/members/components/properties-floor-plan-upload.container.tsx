@@ -1,8 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument } from "../../../../generated";
-import { AuthResult } from './profile-photo-upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { PropertiesListingImageUpload } from "./properties-listing-image-upload";
+import { AuthResult } from "../../../ui/molecules/azure-upload";
 
 
 export interface PropertiesFloorPlanUploadContainerProps {

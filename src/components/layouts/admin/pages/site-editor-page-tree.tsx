@@ -2,7 +2,7 @@ import React, {useState,useEffect} from "react";
 import SortableTree, {getFlatDataFromTree, getTreeFromFlatData, getNodeAtPath, changeNodeAtPath, removeNodeAtPath,addNodeUnderParent} from '@nosferatu500/react-sortable-tree';
 import '@nosferatu500/react-sortable-tree/style.css'; // This only needs to be imported once in your app
 import {usePageLayouts} from "../../../editor/local-data";
-import { Modal, Button ,Row, Col, Collapse,Typography } from 'antd';
+import { Modal, Button ,Row, Col, Collapse,Typography, theme } from 'antd';
 import { useEditor } from '@craftjs/core';
 
 import { PageDetails, PageDetailsPropTypes } from "../../../editor/tree/page-details";
@@ -13,6 +13,12 @@ const { Title } = Typography;
 const { Panel } = Collapse;
 
 const SiteEditorPageTree: React.FC = (props) => {
+  const {
+    token:{
+      colorTextBase,
+      colorBgContainer
+    }
+  }=theme.useToken()
   const [pageLayouts, setPageLayouts] = usePageLayouts();
   const keyFromTreeIndex = ({ treeIndex }:any) => treeIndex;
   const keyFromTreeId = ({ node }:any) => node.id;
@@ -163,7 +169,9 @@ const SiteEditorPageTree: React.FC = (props) => {
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow:1 }}>
       <Row>
         <Col span={24} style={{marginBottom:'24px'}}>
-          <div className='inline-block'>
+          <div className='inline-block' style={{
+            color:colorTextBase
+          }}>
             <Title level={5}>Pages</Title>
             Organize the pages on your site
           </div>
@@ -178,7 +186,7 @@ const SiteEditorPageTree: React.FC = (props) => {
         </Col>
       </Row>    
       <Row style={{ display:'flex', flexGrow:1,  }}>
-        <Col span={18} style={{border:'1px solid lightgrey'}}>
+        <Col span={18} style={{border:'1px solid lightgrey', minHeight:"50vh"}}>
           <SortableTree
             treeData={treeData}
             onChange={setTreeData}

@@ -2,8 +2,13 @@ import { PageHeader } from '@ant-design/pro-layout';
 import { useNavigate } from 'react-router-dom';
 import { CommunityCreateContainer } from '../components/community-create.container';
 import { SubPageLayout } from '../sub-page-layout';
-import { Typography } from 'antd';
+import { Typography, theme } from 'antd';
 export const CreateCommunity: React.FC<any> = (_props) => {
+const {
+  token:{
+    colorTextBase, colorBgContainer
+  }
+}=theme.useToken()
   const { Title } = Typography;
   const navigate = useNavigate();
   return (
@@ -11,7 +16,10 @@ export const CreateCommunity: React.FC<any> = (_props) => {
       fixedHeader={false}
       header={<PageHeader title="Create a Community" onBack={() => navigate('../')} />}
     >
-      <div className={'bg-white w-full p-5 mx-auto my-5 shadow-lg rounded-lg border border-1'}>
+      <div className={' w-full p-5 mx-auto my-5 shadow-lg rounded-lg border border-1'} style={{
+        backgroundColor:colorBgContainer,
+        color:colorTextBase
+      }}>
         <Title level={3}>Creating your Community</Title>
         <p>
           Getting started with your community is only a few clicks away.

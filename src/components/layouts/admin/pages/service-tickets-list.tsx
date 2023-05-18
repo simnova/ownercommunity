@@ -1,11 +1,17 @@
 import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
-import { Button } from 'antd';
+import { Button, theme } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ServiceTicketsListContainer } from '../components/service-tickets-list.container';
 
 export const ServiceTicketsList: React.FC<any> = (props) => {
+  const {
+    token:{
+      colorTextBase,
+      colorBgContainer
+    }
+  }=theme.useToken()
   const params = useParams();
   const navigate = useNavigate();
   return (
@@ -13,7 +19,11 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
       fixedHeader={false}
       header={
         <PageHeader
-          title="Service Tickets"
+        title={
+          <span style={{
+            color: colorTextBase
+          }}>Service Tickets</span>
+        }
           extra={[
             <Button type="primary" onClick={() => navigate('new')}>
               Add New

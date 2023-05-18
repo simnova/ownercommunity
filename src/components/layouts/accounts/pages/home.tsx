@@ -1,15 +1,29 @@
 import { CommunityListContainer } from '../components/community-list.container';
 import { PageHeader } from '@ant-design/pro-layout';
-import { Button, Typography } from 'antd';
+import { Button, Typography, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { SubPageLayout } from '../sub-page-layout';
 import { UserInfoContainer } from '../components/user-info.container';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../../contexts/ThemeContext';
 
 export const Home: React.FC<any> = (props) => {
   const { Title } = Typography;
+ const {
+  token:{
+    colorTextBase
+  }
+ }=theme.useToken()
   const navigate = useNavigate();
+  
   return (
-    <SubPageLayout fixedHeader={false} header={<PageHeader title="Your Communities" />}>
+    <SubPageLayout fixedHeader={false} header={<Title level={3} style={{
+      color:colorTextBase,
+      marginLeft: '35px',
+    }
+    }>
+      Your Community
+    </Title>}>
       <Title level={3}>Welcome ot Owner Community</Title>
       To join a community, you must provide the community manager with the following:
       <br />

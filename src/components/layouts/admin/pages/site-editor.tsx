@@ -4,13 +4,19 @@ import SiteEditorPageEditor from "./site-editor-page-editor"
 import { SiteEditorFiles } from './site-editor-files';
 import { PageTree } from "./site-editor-page-tree"
 import { PageHeader } from '@ant-design/pro-layout';
-import { Tabs } from 'antd';
+import { Tabs, theme } from 'antd';
 import { SubPageLayout } from "../sub-page-layout";
 import { SiteEditorContainer } from "../components/site-editor.container";
 
 const { TabPane } = Tabs;
 
 export const SiteEditor: React.FC<any> = () => {
+  const {
+    token:{
+      colorTextBase,
+      colorBgContainer
+    }
+  }=theme.useToken()
   const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,9 +35,17 @@ export const SiteEditor: React.FC<any> = () => {
       fixedHeader={true}
       header={    
         <PageHeader
-            className="site-page-header-responsive"
-            title="Site Editor"
-            subTitle="Edit your site"          
+            className="site-page-header-responsive "
+            title={
+              <span style={{
+                color: colorTextBase
+              }}>Site Editor</span>
+            }
+            subTitle={
+              <span style={{
+                color: colorTextBase
+              }}>Edit Your Site</span>
+            }         
             footer={
               <Tabs activeKey={selectedPage} onChange={(key:string) => {navigate(`./${key}`) }}>
                 {pages.map((x:any) => <TabPane key={x.id} tab={x.title}></TabPane>)}

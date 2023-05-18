@@ -20,14 +20,14 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
   const {
-    token: { colorBgContainer }
+    token: { colorBgContainer, colorTextBase }
   } = theme.useToken();
 
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
       <Header
         style={{
-          backgroundColor: colorBgContainer
+          backgroundColor: colorBgContainer,
         }}
       >
         <div
@@ -65,7 +65,8 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
             position: 'relative',
             left: 0,
             top: 0,
-            bottom: 0
+            bottom: 0,
+            backgroundColor: colorBgContainer
           }}
         >
           <div className="logo" />
@@ -79,7 +80,7 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
             flexDirection: 'column',
             flex: '1 auto',
             overflowY: 'scroll',
-            height: 'calc(100vh - 64px)'
+            height: 'calc(100vh - 64px)',
           }}
         >
           <Outlet />

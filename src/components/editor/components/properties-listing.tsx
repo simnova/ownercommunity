@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { useNode } from '@craftjs/core';
-import { Typography, Card, Space, Badge, Skeleton, Button } from 'antd';
+import { Typography, Card, Space, Badge, Skeleton, Button, theme } from 'antd';
 
 const { Text, Title } = Typography;
 
@@ -35,6 +35,9 @@ const GET_PROPERTIES_BY_COMMUNITY = gql`
 let PropertiesListing: any;
 
 PropertiesListing = () => {
+  const {
+    token: { colorTextBase, colorBgContainer }
+  }=theme.useToken();
   const path = window.location.href.slice(window.location.href.lastIndexOf('/'));
   const navigate = useNavigate();
 
@@ -79,8 +82,8 @@ PropertiesListing = () => {
     return (
       <div className="px-4 py-2" ref={(ref) => connect(drag(ref as HTMLDivElement))}>
         <div
-          className="bg-white shadow overflow-hidden sm:rounded"
-          style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}
+          className="shadow overflow-hidden sm:rounded"
+          style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', backgroundColor:colorBgContainer }}
         >
           {data &&
             data.propertiesByCommunityId &&

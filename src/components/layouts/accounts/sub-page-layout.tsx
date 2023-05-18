@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, theme } from 'antd';
 import PropTypes from 'prop-types';
 
 const { Header, Content, Footer } = Layout;
@@ -18,14 +18,18 @@ export type SubPageLayoutPropTypes = PropTypes.InferProps<typeof ComponentPropTy
 
 export const SubPageLayout: React.FC<SubPageLayoutPropTypes> = (props) => {
   const overFlow = props.fixedHeader ? 'scroll' : 'unset';
+  const {
+    token: {colorTextBase,  colorBgContainer }
+  }=theme.useToken();
   return (
     <>
-      <Header className="site-layout-background" style={{ padding: 0, height: 'fit-content' }}>
+      <Header style={{ padding: 0, height: 'fit-content', backgroundColor:colorBgContainer, color:colorTextBase  }} >
+        
         {props.header}
       </Header>
-      <div style={{ display: 'flex', flexDirection: 'column', flex: '1 auto', overflowY: overFlow }}>
+      <div style={{ display: 'flex', flexDirection: 'column', flex: '1 auto', overflowY: overFlow, backgroundColor:colorBgContainer, color:colorTextBase }}>
         <Content style={{ margin: '24px 16px 0', minHeight: 'inherit' }}>
-          <div className="site-layout-background" style={{ padding: 24, minHeight: '100%' }}>
+          <div className="" style={{ padding: 24, minHeight: '100%' }}>
             {props.children}
           </div>
         </Content>

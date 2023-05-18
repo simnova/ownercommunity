@@ -22,7 +22,7 @@ export const CommunityList: React.FC<any> = (props) => {
           <Row justify="center">
             <Col span={8} style={{ textAlign: 'center', borderRight: 'solid 1px' }}>
               <Button
-                style={{ width: '250px' }}
+                style={{ width: '250px', marginBottom: '10px' }}
                 onClick={() =>
                   navigate(
                     `/community/${community.id}/member/${localStorage.getItem(

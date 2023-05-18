@@ -8,7 +8,7 @@ import * as CmsComponents from '../../../editor/components';
 // ui elements
 import { ComponentWrapper } from '../../../editor/page/component-wrapper';
 import { Download } from '../../../editor/page/download';
-import { Row, Col, Typography, Drawer } from 'antd';
+import { Row, Col, Typography, Drawer, theme } from 'antd';
 import { SettingsPanel } from '../../../editor/page/settings-panel';
 import { Toolbox } from '../../../editor/page/toolbox';
 import { EditorDetail } from '../../../editor/page/editor-detail';
@@ -16,6 +16,12 @@ import { EditorDetail } from '../../../editor/page/editor-detail';
 const { Title } = Typography;
 
 const SiteEditorPageEditor: React.FC<any> = () => {
+  const {
+    token:{
+      colorTextBase,
+      colorBgContainer
+    }
+  }=theme.useToken()
   const [showToolbox, setShowToolbox] = useState(false);
 
   return (
@@ -23,7 +29,9 @@ const SiteEditorPageEditor: React.FC<any> = () => {
       <Editor resolver={{ ...CmsComponents }} onRender={ComponentWrapper}>
         <Row>
           <Col span={24} style={{ marginBottom: '24px' }}>
-            <div className="inline-block">
+            <div className="inline-block" style={{
+              color: colorTextBase
+            }}>
               <Title level={5}>Editor</Title>
               Design each page of your site
             </div>
@@ -33,14 +41,7 @@ const SiteEditorPageEditor: React.FC<any> = () => {
           </Col>
         </Row>
         <div style={{ display: 'flex', flexDirection: 'row', flex: '1', alignItems: 'stretch', overflowY: 'scroll' }}>
-          {/*}
-        <div style={{display:'flex', flex:'0 0 170px', flexDirection:'column', border:'1px solid lightgrey'}}>
-          <div style={{flex:'1 1 auto', overflow:'auto', height:'100px', padding:'0 10px 0 5px'}}>
-            <Toolbox />
-          </div>
-        </div>
-        <div style={{display:'flex', flex:'1 0 300px', flexDirection:'column',border:'1px solid lightgrey'}}>
-        */}
+          
 
           <div
             className={'bg-neutral-500 border-b-2 border-neutral-600'}
@@ -79,7 +80,7 @@ const SiteEditorPageEditor: React.FC<any> = () => {
             <div
               className={'site-drawer-render-in-current-wrapper'}
               style={{
-                minHeight: '100%',
+                minHeight: '50vh',
                 display: 'flex',
                 zIndex: '1'
               }}

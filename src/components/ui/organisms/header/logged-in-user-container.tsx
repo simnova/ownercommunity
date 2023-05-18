@@ -20,13 +20,9 @@ export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & Comp
 
 export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   const { getIsLoggedIn, login, logout, registerCallback, getSilentAuthResult } = useMsal();
-  const { communityId } = useParams();
+  const params = useParams();
 
-  const { loading, error, data } = useQuery(LoggedInUserContainerUserCurrentQueryDocument, {
-    variables: {
-      communityId: communityId,
-    }
-  });
+  const { loading, error, data } = useQuery(LoggedInUserContainerUserCurrentQueryDocument);
 
   const handleLogout = async () => {
     await logout('account');
@@ -45,7 +41,7 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
         firstName: data.userCurrent.firstName ?? '',
         lastName: data.userCurrent.lastName ?? '',
         notificationCount: 0,
-        profileImage: data.memberForCurrentUser?.profile?.avatarDocumentId ?? undefined,
+        profileImage: `https://ownercommunity.blob.core.windows.net/${params.communityId}/profile/${params.userId}/avatar`,
       }
     };
     return (

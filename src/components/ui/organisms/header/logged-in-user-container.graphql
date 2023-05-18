@@ -1,9 +1,6 @@
-query LoggedInUserContainerUserCurrentQuery($communityId: ObjectID!) {
+query LoggedInUserContainerUserCurrentQuery {
   userCurrent { 
     ...LoggedInUserContainerUserCurrentFields
-  }
-  memberForCurrentUser(communityId: $communityId) {
-    ...LoggedInUserContainerMemberForCurrentUserFields
   }
 }
 
@@ -12,12 +9,5 @@ fragment LoggedInUserContainerUserCurrentFields on CurrentUser {
   externalId
   firstName
   lastName
-  __typename
-}
-
-fragment LoggedInUserContainerMemberForCurrentUserFields on Member {
-  profile {
-    avatarDocumentId
-  }
   __typename
 }

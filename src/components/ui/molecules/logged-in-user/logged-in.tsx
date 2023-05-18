@@ -27,7 +27,7 @@ export type LoggedInPropTypes = PropTypes.InferProps<typeof ComponentProps> & Co
 
 export const LoggedIn: FC<any> = (props) => {
   let initials = (props.data.firstName.charAt(0) + props.data.lastName.charAt(0)).toUpperCase();
-  let profileImage = props.data.profileImage ? <Image src={props.data.profileImage} fallback="https://joeschmoe.io/api/v1/random"/> : <></>
+  let profileImage = props.data.profileImage ? <Image src={props.data.profileImage} fallback={`https://ui-avatars.com/api/?name=${props.data.firstName}+${props.data.lastName}`}/> : <></>
   return <>
     <div className='ml-3'>
     <Avatar src={profileImage} style={{ backgroundColor: '#87d068' }}>{initials}</Avatar><span className='mr-3'> {props.data.firstName} {props.data.lastName} </span>

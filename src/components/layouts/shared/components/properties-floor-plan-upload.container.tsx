@@ -1,9 +1,8 @@
 import { useMutation } from "@apollo/client";
-import { MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument } from "../../../../generated";
-import { AuthResult } from './profile-photo-upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { PropertiesListingImageUpload } from "./properties-listing-image-upload";
-
+import { AuthResult } from "../../../ui/molecules/azure-upload";
+import { SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument } from "../../../../generated";
 
 export interface PropertiesFloorPlanUploadContainerProps {
     propertyId: string;
@@ -13,7 +12,7 @@ export interface PropertiesFloorPlanUploadContainerProps {
   }
 
 export const PropertiesFloorPlanUploadContainer: React.FC<PropertiesFloorPlanUploadContainerProps> = (props) => {
-    const [membersPropertyFloorPlanCreateAuthHeader] = useMutation(MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument);
+    const [membersPropertyFloorPlanCreateAuthHeader] = useMutation(SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument);
     const handleAuthorizeRequest = async (file:File): Promise<AuthResult>  => {
         const result = await membersPropertyFloorPlanCreateAuthHeader({
             variables: {

@@ -36,6 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
 .ant-layout-sider-trigger {
   border-top: solid 1px darkgrey;
 }
@@ -69,7 +70,7 @@
 
 .search-filter-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background: #ccc; 
+  background: #ccc;
 }
 
 .search-filter-scrollbar::-webkit-scrollbar-thumb:hover {

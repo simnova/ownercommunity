@@ -65,7 +65,7 @@ var ImageComponentSettings = () => {
   }
   if (data) {
     return (
-      <div>
+      (<div>
         <Form layout="vertical">
           <Form.Item>
             <Button type='primary' onClick={() => {
@@ -76,7 +76,7 @@ var ImageComponentSettings = () => {
             </Button>
             <Modal 
               title="Select an image" 
-              visible={isModalVisible} 
+              open={isModalVisible} 
               onOk={() => { 
                 setProp((props: any) => props.src = imageUrl); 
                 setModalVisible(false)
@@ -117,8 +117,8 @@ var ImageComponentSettings = () => {
             </Row>
           </Form.Item>
         </Form>
-      </div>
-    )
+      </div>)
+    );
   }
   return <div>Upload images to your community using the Files tab above</div>
 }

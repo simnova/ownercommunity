@@ -1,52 +1,60 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
-import './styles/tailwind.css';
 import './index.less';
-import './styles/ant.less';
-
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 
 import MsalProvider from './components/shared/msal-react-lite';
 import msalProviderConfig from './config/msal-config';
 import ApolloConnection from './components/shared/apollo-connection';
+import { ConfigProvider, theme } from 'antd';
+import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
+import { StyleProvider } from '@ant-design/cssinjs';
+import { Button } from 'antd';
+import { set } from 'lodash';
 
-/*
-import {
-  ApolloLink, HttpLink,
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider
-} from "@apollo/client";
+function ConfigProviderWrapper() {
+// generate number rither 1 2 or 3
+  // const {
+  //   themeType,
+  
+  // }=useContext(ThemeContext)
+  // const themeToShow=themeType
+  const {
+    themeType,
+    changeThemeType
+  }=useContext(ThemeContext)
+  
+  // setThemeToShow(themeType)
+  const configProviderTheme = {
+    ...theme,
+    // token: {
+    //   colorPrimary: themeType==="light"?"#1890ff":"#f5222d",
+    // },
+    algorithm: themeType==="light"?theme.defaultAlgorithm:theme.darkAlgorithm
+  };
 
-
-
-const countryLink = new HttpLink({
-  uri: "https://countries.trevorblades.com/",
-})
-const serviceLink = new HttpLink({
-  uri: "http://localhost:7071/api/graphql",
-})
-
-const client = new ApolloClient({
-  link: ApolloLink.split(
-    (operation) => operation.getContext().clientName === 'country',
-    countryLink,
-    serviceLink
-  ),
-  cache: new InMemoryCache()
-});
-*/
+  return (
+    <ConfigProvider theme={configProviderTheme}>
+      
+      {/* <StyleProvider hashPriority="high"> */}
+      
+        <MsalProvider config={msalProviderConfig}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </MsalProvider>
+      {/* </StyleProvider> */}
+    </ConfigProvider>
+  );
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <MsalProvider config={msalProviderConfig}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </MsalProvider>
+    <ThemeProvider>
+      <ConfigProviderWrapper />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

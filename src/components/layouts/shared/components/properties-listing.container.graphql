@@ -1,26 +1,26 @@
-query MembersPropertiesListingContainerProperty($id: ObjectID!) {
+query SharedPropertiesListingContainerProperty($id: ObjectID!) {
   property(id: $id) {
-    ...MembersPropertiesListingContainerPropertyFields
+    ...SharedPropertiesListingContainerPropertyFields
   }
 }
 
-mutation MembersPropertiesListingContainerPropertyUpdate($input: PropertyUpdateInput!) {
+mutation SharedPropertiesListingContainerPropertyUpdate($input: PropertyUpdateInput!) {
   propertyUpdate(input: $input) {
-    ...MembersPropertiesListingContainerPropertyMutationResultFields
+    ...SharedPropertiesListingContainerPropertyMutationResultFields
   }
 }
 
-fragment MembersPropertiesListingContainerPropertyMutationResultFields on PropertyMutationResult {
+fragment SharedPropertiesListingContainerPropertyMutationResultFields on PropertyMutationResult {
   status {
     success
     errorMessage
   }
   property {
-    ...MembersPropertiesListingContainerPropertyFields
+    ...SharedPropertiesListingContainerPropertyFields
   }
 }
 
-fragment MembersPropertiesListingContainerPropertyFields on Property {
+fragment SharedPropertiesListingContainerPropertyFields on Property {
   propertyName
   propertyType
 
@@ -65,7 +65,7 @@ fragment MembersPropertiesListingContainerPropertyFields on Property {
   updatedAt
 }
 
-fragment MembersPropertiesListingContainerMembersFields on Member {
+fragment SharedPropertiesListingContainerMembersFields on Member {
   id
   memberName
   createdAt

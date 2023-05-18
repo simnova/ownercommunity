@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { MembersPropertiesListContainerPropertiesDocument } from '../../../../generated';
-import { PropertiesList } from './properties-list';
+import { PropertiesList } from '../../shared/components/properties-list';
 import { Skeleton } from 'antd';
 
 export const PropertiesListContainer: React.FC<any> = (props) => {

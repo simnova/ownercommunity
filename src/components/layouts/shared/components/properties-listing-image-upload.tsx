@@ -4,7 +4,7 @@ import { AuthResult, AzureUpload } from '../../../ui/molecules/azure-upload';
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd/es/upload/interface';
 import type { RcFile, UploadProps } from 'antd/es/upload';
-import { ImageUploadButton } from '../../shared/components/image-upload-button';
+import { ImageUploadButton } from './image-upload-button';
 
 export interface PropertiesListingImageUploadProps {
   authorizeRequest: (file:File) => Promise<AuthResult>

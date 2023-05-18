@@ -42,12 +42,8 @@ export const LoggedInUserRootContainer: React.FC<HeaderPropTypes> = (props) => {
       }
     };
     return (
-      <div className="text-right text-sky-400" style={{ flexGrow: '1' }}>
-        <LoggedInUser
-          key={data.userCurrent.id}
-          data={userData.data}
-          onLogoutClicked={handleLogout}
-        />
+      <div className="text-right text-sky-400  flex-grow">
+        <LoggedInUser key={data.userCurrent.id} data={userData.data} onLogoutClicked={handleLogout} />
       </div>
     );
   }

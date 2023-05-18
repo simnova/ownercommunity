@@ -274,115 +274,113 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     setSearchParams(searchParams);
   };
 
-  return (
-    <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', paddingLeft: '16px' }}>
-        <Select
-          onChange={onSelectViewChanged}
-          value={selectedSavedFilterName}
-          style={{ width: '175px' }}
-          placeholder="Select saved filter"
-          dropdownRender={() =>
-            customViews && customViews.length > 0 ? (
-              <div key="savedFilters">
-                {customViews.map((view: any) => (
-                  <Space align="baseline" style={{ width: '100%' }}>
-                    <Button type="link" onClick={() => deleteCustomView(view.id)}>
-                      <DeleteOutlined style={{ color: 'red' }} />
-                    </Button>
-                    <Typography.Link style={{ width: '150px' }} onClick={() => onSelectViewChanged(view.name)}>
-                      {view.name}
-                    </Typography.Link>
-                  </Space>
-                ))}
-                <Button type="link" onClick={() => setIsSaveModalVisible(true)}>
-                  Add New
-                </Button>
-              </div>
-            ) : (
-              <div>
-                <Button type="link" onClick={() => setIsSaveModalVisible(true)}>
-                  Add New
-                </Button>
-              </div>
-            )
-          }
-        ></Select>
-        <Button type="primary" onClick={() => updateCustomView()} disabled={selectedSavedFilterName ? false : true}>
-          Update
-        </Button>
-        <Modal
-          title="Save Filter"
-          visible={isSaveModalVisible}
-          onOk={() => saveNewCustomView()}
-          onCancel={() => setIsSaveModalVisible(false)}
-        >
-          <Space size="middle">
-            <Input
-              autoFocus
-              value={savedFilterNameInput}
-              onPressEnter={() => saveNewCustomView()}
-              placeholder="Filter Name"
-              onChange={(e) => setSavedFilterNameInput(e.target.value)}
-            />
-          </Space>
-        </Modal>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '85%',
-          marginTop: '9px',
-          paddingLeft: '16px'
-        }}
+  return (<>
+    <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', paddingLeft: '16px' }}>
+      <Select
+        onChange={onSelectViewChanged}
+        value={selectedSavedFilterName}
+        style={{ width: '175px' }}
+        placeholder="Select saved filter"
+        dropdownRender={() =>
+          customViews && customViews.length > 0 ? (
+            <div key="savedFilters">
+              {customViews.map((view: any) => (
+                <Space align="baseline" style={{ width: '100%' }}>
+                  <Button type="link" onClick={() => deleteCustomView(view.id)}>
+                    <DeleteOutlined style={{ color: 'red' }} />
+                  </Button>
+                  <Typography.Link style={{ width: '150px' }} onClick={() => onSelectViewChanged(view.name)}>
+                    {view.name}
+                  </Typography.Link>
+                </Space>
+              ))}
+              <Button type="link" onClick={() => setIsSaveModalVisible(true)}>
+                Add New
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Button type="link" onClick={() => setIsSaveModalVisible(true)}>
+                Add New
+              </Button>
+            </div>
+          )
+        }
+      ></Select>
+      <Button type="primary" onClick={() => updateCustomView()} disabled={selectedSavedFilterName ? false : true}>
+        Update
+      </Button>
+      <Modal
+        title="Save Filter"
+        open={isSaveModalVisible}
+        onOk={() => saveNewCustomView()}
+        onCancel={() => setIsSaveModalVisible(false)}
       >
-        <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Sort By: </Text>
-        <Select
-          defaultValue={searchParams.get('sort') ? searchParams.get('sort') : ''}
-          style={{ width: '225px' }}
-          onChange={(value) => onSortChanged(value)}
-        >
-          <Option value="">None</Option>
-          <Option value="createdAt asc">Created Date: Oldest First</Option>
-          <Option value="createdAt desc">Created Date: Newest First</Option>
-          <Option value="updatedAt asc">Updated Date: Oldest First</Option>
-          <Option value="updatedAt desc">Updated Date: Newest First</Option>
-        </Select>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '85%',
-          marginTop: '9px',
-          paddingLeft: '16px',
-          marginBottom: '40px'
-        }}
+        <Space size="middle">
+          <Input
+            autoFocus
+            value={savedFilterNameInput}
+            onPressEnter={() => saveNewCustomView()}
+            placeholder="Filter Name"
+            onChange={(e) => setSavedFilterNameInput(e.target.value)}
+          />
+        </Space>
+      </Modal>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '85%',
+        marginTop: '9px',
+        paddingLeft: '16px'
+      }}
+    >
+      <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Sort By: </Text>
+      <Select
+        defaultValue={searchParams.get('sort') ? searchParams.get('sort') : ''}
+        style={{ width: '225px' }}
+        onChange={(value) => onSortChanged(value)}
       >
-        <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Columns to display: </Text>
-        <Select
-          onSelect={(e: any) => onSelectColumnChanged(e)}
-          style={{ width: '175px' }}
-          mode="multiple"
-          placeholder="Select"
-          value={columnsToDisplay}
-          defaultValue={columnsToDisplay}
-          allowClear
-          onClear={() => {
-            searchParams.delete(ServiceTicketSearchParamKeys.Column);
-            setSearchParams(searchParams);
-            setColumnsToDisplay(undefined);
-            forceUpdate();
-          }}
-          onDeselect={(value: any) => onColumnDelete(value)}
-        >
-          {columnOptions.map((option: string) => {
-            return <Option key={option}>{option}</Option>;
-          })}
-        </Select>
-      </div>
-      <ServiceTicketsSearchTags memberData={props.memberData} />
-    </>
-  );
+        <Option value="">None</Option>
+        <Option value="createdAt asc">Created Date: Oldest First</Option>
+        <Option value="createdAt desc">Created Date: Newest First</Option>
+        <Option value="updatedAt asc">Updated Date: Oldest First</Option>
+        <Option value="updatedAt desc">Updated Date: Newest First</Option>
+      </Select>
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '85%',
+        marginTop: '9px',
+        paddingLeft: '16px',
+        marginBottom: '40px'
+      }}
+    >
+      <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Columns to display: </Text>
+      <Select
+        onSelect={(e: any) => onSelectColumnChanged(e)}
+        style={{ width: '175px' }}
+        mode="multiple"
+        placeholder="Select"
+        value={columnsToDisplay}
+        defaultValue={columnsToDisplay}
+        allowClear
+        onClear={() => {
+          searchParams.delete(ServiceTicketSearchParamKeys.Column);
+          setSearchParams(searchParams);
+          setColumnsToDisplay(undefined);
+          forceUpdate();
+        }}
+        onDeselect={(value: any) => onColumnDelete(value)}
+      >
+        {columnOptions.map((option: string) => {
+          return <Option key={option}>{option}</Option>;
+        })}
+      </Select>
+    </div>
+    <ServiceTicketsSearchTags memberData={props.memberData} />
+  </>);
 };

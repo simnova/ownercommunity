@@ -13,9 +13,9 @@ interface CommunitiesDropdownProps {
 export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   return (
-    <Dropdown
+    (<Dropdown
       overlay={<CommunityMenu onItemSelectedCallback={() => setDropdownVisible(false)} />}
-      visible={dropdownVisible}
+      open={dropdownVisible}
       onVisibleChange={(visible) => setDropdownVisible(visible)}
     >
       <a
@@ -25,6 +25,6 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
       >
         {props.data.community?.name} <DownOutlined />
       </a>
-    </Dropdown>
+    </Dropdown>)
   );
 };

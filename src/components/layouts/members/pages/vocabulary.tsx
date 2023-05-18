@@ -1,4 +1,5 @@
-import { PageHeader, Typography } from "antd";
+import { PageHeader } from '@ant-design/pro-layout';
+import { Typography } from "antd";
 import { SubPageLayout } from "../sub-page-layout";
 
 const { Text } = Typography;

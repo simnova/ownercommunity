@@ -4,9 +4,10 @@ import { Col, Menu, Row,  Layout, PageHeader } from 'antd';
 import { TeamOutlined, ProfileOutlined, IdcardOutlined, CompassOutlined, FileOutlined } from '@ant-design/icons';
 
 import { PropertiesGeneral } from './properties-general';
-import { PropertiesListing } from './properties-listing';
+
 import { PropertiesLocation } from './properties-location';
 import { SubPageLayout } from '../sub-page-layout';
+import { PropertiesListing } from '../../shared/pages/properties-listing';
 
 const { Header, Content } = Layout;
 

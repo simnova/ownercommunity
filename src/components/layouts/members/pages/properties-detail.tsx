@@ -4,9 +4,10 @@ import { Col, Menu, Row, PageHeader } from 'antd';
 import { ProfileOutlined, CompassOutlined, FileOutlined } from '@ant-design/icons';
 
 import { PropertiesGeneral } from './properties-general';
-import { PropertiesListing } from './properties-listing';
+
 import { PropertiesLocation } from './properties-location';
 import { SubPageLayout } from '../sub-page-layout';
+import { PropertiesListing } from '../../shared/pages/properties-listing';
 
 
 export const PropertiesDetail: React.FC<any> = (_props) => {

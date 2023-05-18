@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Form, Input, InputNumber, Button, Descriptions, Typography, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-
 import dayjs from 'dayjs';
 import {
   PropertyUpdateInput,

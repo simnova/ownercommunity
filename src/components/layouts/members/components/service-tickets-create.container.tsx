@@ -7,8 +7,8 @@ import {
   ServiceTicketCreateInput
 } from '../../../../generated';
 import { message, Skeleton } from 'antd';
-import { ServiceTicketsCreate } from './service-tickets-create';
 import { useNavigate } from 'react-router-dom';
+import { ServiceTicketsCreate } from '../../shared/components/service-tickets-create';
 
 interface ServiceTicketsCreateContainerProps {
   data: {

@@ -10,22 +10,16 @@ export interface ServiceTicketsCreateProps {
     properties: any[];
   };
   onSave: (member: ServiceTicketCreateInput) => void;
+  isAdmin?: boolean;
 }
 
 export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
-  return (
-    <div>
-      <Form
-        layout="vertical"
-        form={form}
-        onFinish={(values) => {
-          setFormLoading(true);
-          props.onSave(values);
-          setFormLoading(false);
-        }}
-      >
+
+  const formItems = () => {
+    return (
+      <>
         <Form.Item name={['title']} label="Title" rules={[{ required: true, message: 'Title is required.' }]}>
           <Input placeholder="Short title of the request" maxLength={200} />
         </Form.Item>
@@ -46,6 +40,37 @@ export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props)
             fieldNames={{ label: 'propertyName', value: 'id' }}
           />
         </Form.Item>
+      </>
+    );
+  };
+
+  return (
+    <div>
+      <Form
+        layout="vertical"
+        form={form}
+        onFinish={(values) => {
+          setFormLoading(true);
+          props.onSave(values);
+          setFormLoading(false);
+        }}
+      >
+        {formItems()}
+
+        {props.isAdmin ? (
+          <Form.Item
+            name={['requestorId']}
+            label="Requestor"
+            rules={[{ required: true, message: 'Requestor is required.' }]}
+          >
+            <Select
+              allowClear={true}
+              placeholder="Select an Owner"
+              options={props.data.members}
+              fieldNames={{ label: 'memberName', value: 'id' }}
+            />
+          </Form.Item>
+        ) : null}
 
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Create Service Ticket

@@ -2,12 +2,10 @@ import React from 'react';
 import { Routes, Route, Link, useLocation, matchRoutes, useNavigate } from 'react-router-dom';
 import { Col, Menu, Row,  Layout, PageHeader } from 'antd';
 import { TeamOutlined, ProfileOutlined, IdcardOutlined, CompassOutlined, FileOutlined } from '@ant-design/icons';
-
 import { PropertiesGeneral } from './properties-general';
-
-import { PropertiesLocation } from './properties-location';
 import { SubPageLayout } from '../sub-page-layout';
 import { PropertiesListing } from '../../shared/pages/properties-listing';
+import { PropertiesLocation } from '../../shared/pages/properties-location';
 
 const { Header, Content } = Layout;
 

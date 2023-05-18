@@ -5,9 +5,10 @@ import { ProfileOutlined, CompassOutlined, FileOutlined } from '@ant-design/icon
 
 import { PropertiesGeneral } from './properties-general';
 
-import { PropertiesLocation } from './properties-location';
+
 import { SubPageLayout } from '../sub-page-layout';
 import { PropertiesListing } from '../../shared/pages/properties-listing';
+import { PropertiesLocation } from '../../shared/pages/properties-location';
 
 
 export const PropertiesDetail: React.FC<any> = (_props) => {

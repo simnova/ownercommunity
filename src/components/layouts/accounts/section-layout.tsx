@@ -1,6 +1,6 @@
 import { Layout } from 'antd';
 import { Outlet } from 'react-router-dom';
-import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-container';
+import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
 const { Header } = Layout;
 
 export const SectionLayout: React.FC<any> = () => {

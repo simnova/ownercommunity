@@ -1,22 +1,29 @@
-import {PageHeader} from 'antd'
-import { useParams } from 'react-router-dom'
-import { SubPageLayout } from '../sub-page-layout'
+import { PageHeader } from '@ant-design/pro-layout';
+import { useParams } from 'react-router-dom';
+import { SubPageLayout } from '../sub-page-layout';
 import { CommunityPropertyListingsContainer } from '../components/community-property-listings.container';
-
-
+import {
+  theme
+} from "antd"
 export const CommunityPropertyListings: React.FC<any> = (props) => {
-    const params = useParams();
-    return (
-      <SubPageLayout
-      fixedHeader={false}
-      header={
-        <PageHeader 
-          title="Property Listings"
-        />}
-      >
-        <CommunityPropertyListingsContainer data={{ communityId: params.communityId ?? ''}}></CommunityPropertyListingsContainer>
-        
-      </SubPageLayout>
-      
-    )
-  }
+  const params = useParams();
+  const {
+    token:{
+      colorTextBase,
+      colorBgContainer
+    }
+  }=theme.useToken()
+  return (
+    <SubPageLayout fixedHeader={false} header={<PageHeader 
+      title= {
+        <span style={{
+          color: colorTextBase
+        }}>Property Listings</span>
+      }
+    />}>
+      <CommunityPropertyListingsContainer
+        data={{ communityId: params.communityId ?? '' }}
+      ></CommunityPropertyListingsContainer>
+    </SubPageLayout>
+  );
+};

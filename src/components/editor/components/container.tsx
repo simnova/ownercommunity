@@ -1,6 +1,8 @@
 import PropTypes from "prop-types"
 import { useNode } from "@craftjs/core";
-import { Form, Input } from "antd";
+import { Form, Input, theme } from "antd";
+import { useContext } from "react";
+import { ThemeContext } from "../../../contexts/ThemeContext";
 
 const ContainerProps = {
   children: PropTypes.node,
@@ -22,12 +24,22 @@ Container = ({bgColor, children }: ContainerProp) => {
         selected: state.events.selected,
     }
   ));
-
+  const {
+    token: { colorTextBase, colorBgContainer }
+  }=theme.useToken();
+  const {
+    themeType
+  }=useContext(ThemeContext)
   return (
     <div
       className="px-4 py-2"
       ref={ref => connect(drag(ref as HTMLDivElement))}
-      style={{ backgroundColor: bgColor }}
+      style={themeType==="dark"?{
+         backgroundColor: "#000"
+      }:{
+        backgroundColor: "#fff"
+
+      }}
     >
       {children}
     </div>

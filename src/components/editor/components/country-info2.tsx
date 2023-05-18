@@ -1,5 +1,5 @@
 import { useNode, useEditor } from "@craftjs/core";
-import { Button, Input } from 'antd';
+import { Button, Input, theme } from 'antd';
 import { gql, useQuery } from '@apollo/client';
 import { useState } from "react";
 
@@ -26,6 +26,9 @@ const GET_COUNTRY_DETAILS = gql`
 
 let CountryInfo2:any;
 CountryInfo2 = ({country, ...props} : CountryInfo2Prop ) => {
+  const {
+    token: { colorTextBase, colorBgContainer }
+  }=theme.useToken();
   const { connectors: { connect, drag }, selected } = useNode((state) =>(
     {
     selected: state.events.selected
@@ -52,26 +55,60 @@ CountryInfo2 = ({country, ...props} : CountryInfo2Prop ) => {
       {...props}
       >
       { data && data.country && (
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="bg-white px-4 py-5 border-b border-gray-200">
-            <div className="text-sm text-gray-500">Details for Country:</div>
-            <div className="text-lg text-gray-900 col-psan-2">{data.country.name}</div>
+        <div className=" shadow overflow-hidden sm:rounded-lg" style={{
+          backgroundColor: colorBgContainer,
+        }}>
+          <div className=" px-4 py-5 border-b border-gray-200" style={{
+            backgroundColor: colorBgContainer,
+          }}>
+            <div className="text-sm" style={{
+              color: colorTextBase,
+            }}>Details for Country:</div>
+            <div className="text-lg  col-psan-2" style={{
+              color: colorTextBase,
+            }}>{data.country.name}</div>
           </div>
-          <div className="grid grid-cols-3 bg-gray-50 px-4 py-2">
-            <div className="text-sm text-gray-500">Capital</div>
-            <div className="text-sm text-gray-900 col-psan-2">{data.country.capital}</div>
+          <div className="grid grid-cols-3 px-4 py-2" style={{
+            backgroundColor: colorBgContainer,
+          }}>
+            <div className="text-sm " style={{
+              color: colorTextBase,
+            }}>Capital</div>
+            <div className="text-sm col-psan-2" style={{
+              color: colorTextBase,
+            }} >{data.country.capital}</div>
           </div>
-          <div className="grid grid-cols-3 bg-white px-4 py-2">
-            <div className="text-sm text-gray-500">Emoji</div>
-            <div className="text-sm text-gray-900 col-psan-2">{data.country.emoji}</div>
+          <div className="grid grid-cols-3 bg-white px-4 py-2" style={{
+            backgroundColor: colorBgContainer,
+          }}>
+            <div className="text-sm "  style={{
+              color: colorTextBase,
+            }}>Emoji</div>
+            <div className="text-sm col-psan-2"  style={{
+              color: colorTextBase,
+            }}>{data.country.emoji}</div>
           </div>
-          <div className="grid grid-cols-3 bg-gray-50 px-4 py-2">
-            <div className="text-sm text-gray-500">Currency</div>
-            <div className="text-sm text-gray-900 col-psan-2">{data.country.currency}</div>
+          <div className="grid grid-cols-3  px-4 py-2" 
+          style={{
+            backgroundColor: colorBgContainer,
+          }}
+          >
+            <div className="text-sm "  style={{
+              color: colorTextBase,
+            }}>Currency</div>
+            <div className="text-sm col-psan-2"  style={{
+              color: colorTextBase,
+            }}>{data.country.currency}</div>
           </div>
-          <div className="grid grid-cols-3 bg-gray-50 px-4 py-2">
-            <div className="text-sm text-gray-500">Languages</div>
-            <div className="text-sm text-gray-900 col-psan-2">{data.country.languages.map((l:any) => l.name).join(', ')}</div>
+          <div className="grid grid-cols-3  px-4 py-2" style={{
+            backgroundColor: colorBgContainer,
+          }} >
+            <div className="text-sm "  style={{
+              color: colorTextBase,
+            }}>Languages</div>
+            <div className="text-sm col-psan-2"  style={{
+              color: colorTextBase,
+            }}>{data.country.languages.map((l:any) => l.name).join(', ')}</div>
           </div>
         </div>
       )}

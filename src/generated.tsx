@@ -5022,9 +5022,9 @@ export type AdminCommunitiesDropdownContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
-export type LoggedInUserContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
+export type LoggedInUserRootContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
 
-export type LoggedInUserContainerUserCurrentQueryQuery = {
+export type LoggedInUserRootContainerUserCurrentQueryQuery = {
   __typename?: 'Query';
   userCurrent?: {
     __typename: 'CurrentUser';
@@ -5032,6 +5032,25 @@ export type LoggedInUserContainerUserCurrentQueryQuery = {
     externalId?: string | null;
     firstName?: string | null;
     lastName?: string | null;
+  } | null;
+};
+
+export type LoggedInUserCommunityContainerUserCurrentQueryQueryVariables = Exact<{
+  communityId: Scalars['ObjectID'];
+}>;
+
+export type LoggedInUserCommunityContainerUserCurrentQueryQuery = {
+  __typename?: 'Query';
+  userCurrent?: {
+    __typename: 'CurrentUser';
+    id: any;
+    externalId?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+  } | null;
+  memberForCurrentUser?: {
+    __typename: 'Member';
+    profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
   } | null;
 };
 
@@ -17682,13 +17701,13 @@ export const AdminCommunitiesDropdownContainerCommunityDocument = {
   AdminCommunitiesDropdownContainerCommunityQuery,
   AdminCommunitiesDropdownContainerCommunityQueryVariables
 >;
-export const LoggedInUserContainerUserCurrentQueryDocument = {
+export const LoggedInUserRootContainerUserCurrentQueryDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentQuery' },
+      name: { kind: 'Name', value: 'LoggedInUserRootContainerUserCurrentQuery' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -17722,6 +17741,81 @@ export const LoggedInUserContainerUserCurrentQueryDocument = {
     }
   ]
 } as unknown as DocumentNode<
-  LoggedInUserContainerUserCurrentQueryQuery,
-  LoggedInUserContainerUserCurrentQueryQueryVariables
+  LoggedInUserRootContainerUserCurrentQueryQuery,
+  LoggedInUserRootContainerUserCurrentQueryQueryVariables
+>;
+export const LoggedInUserCommunityContainerUserCurrentQueryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'LoggedInUserCommunityContainerUserCurrentQuery' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'userCurrent' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberForCurrentUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profile' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  LoggedInUserCommunityContainerUserCurrentQueryQuery,
+  LoggedInUserCommunityContainerUserCurrentQueryQueryVariables
 >;

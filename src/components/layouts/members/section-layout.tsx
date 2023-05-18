@@ -1,6 +1,6 @@
 import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Dropdown, Layout, Space, theme } from 'antd';
-import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-container';
+import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
 import { MenuComponent } from '../shared/components/menu-component'
 import { DownOutlined } from '@ant-design/icons';
 import { useState } from 'react';

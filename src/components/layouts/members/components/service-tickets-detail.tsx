@@ -107,8 +107,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
     </Menu>
   );
 
-  return ( 
-    <div>
+  return (
+    (<div>
       <div style={{ margin:'0', padding: 24, backgroundColor:'white' }} >
         <div style={{marginBottom:'20px'}}>
           <div className='inline-block'>
@@ -128,7 +128,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
         </div>
         <Modal
           title="Change Status"
-          visible={modalVisible}
+          open={modalVisible}
             onCancel={()=>{setModalVisible(false)}}
             onOk={()=>{setModalVisible(false); }}
             footer={null}
@@ -192,7 +192,6 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Updated At">{dayjs(props.data.serviceTicket.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
         </Descriptions>
       </div>
-      
       {props.data.serviceTicket.status === 'DRAFT' && <>
       <div style={{padding: 24 , minHeight:'100%', backgroundColor:'white' }}>
         <Button
@@ -275,7 +274,6 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
         </Form>
       </div>
       </>}
-
       <div style={{ marginTop:20, padding: 24, minHeight:'100%', backgroundColor:'white' }} >
         <Title level={5}>
           Activity Log
@@ -311,6 +309,6 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           </Button>
         </Form>
       </div>
-    </div>
-  )
+    </div>)
+  );
 }

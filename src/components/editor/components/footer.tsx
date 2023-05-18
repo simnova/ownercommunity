@@ -1,5 +1,5 @@
 import { useNode, useEditor } from "@craftjs/core";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, theme } from "antd";
 
 interface FooterProp {
   socialLinks:{
@@ -17,6 +17,9 @@ interface FooterProp {
 let Footer:any;
 
 Footer = ({ socialLinks, legalLinks, copyright, ...props } : FooterProp) => {
+  const {
+    token: { colorTextBase, colorBgContainer }
+  }=theme.useToken();
   const { connectors: {connect,drag}, selected, actions } = useNode((state) =>(
     {
       selected: state.events.selected,
@@ -29,35 +32,45 @@ Footer = ({ socialLinks, legalLinks, copyright, ...props } : FooterProp) => {
 
   return (
     <footer 
-      className="px-4 py-2"
+      className="px-4 py-2 "
       ref={ref => connect(drag(ref as HTMLDivElement))} 
       {...props}
       >
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ">
         <div className="flex items-center">
           {socialLinks.map((socialLink, index) => (
             <a
               key={index}
               href={socialLink.url}
-              className="ml-4 text-gray-600 hover:text-gray-900"
+              style={{
+                color: colorTextBase,
+              }}
+              className="ml-4 "
             >
               {socialLink.name}
             </a>  
           ))}
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center"  style={{
+                color: colorTextBase,
+              }}>
           {legalLinks.map((legalLink, index) => (
             <a
               key={index}
               href={legalLink.url}
-              className="ml-4 text-gray-600 hover:text-gray-900"
+              style={{
+                color: colorTextBase,
+              }}
+              className="ml-4  "
             >
               {legalLink.name}
             </a>
           ))}
         </div>
       </div>
-      <div className="text-gray-600 text-sm">{copyright}</div>
+      <div className="text-sm ml-4 mt-4 text-center"  style={{
+                color: colorTextBase,
+              }}>{copyright}</div>
     </footer>
   );
 

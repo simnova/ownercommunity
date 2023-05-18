@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link, useLocation, matchRoutes } from 'react-router-dom';
-import { Col, Menu, Row,  Layout, PageHeader } from 'antd';
+import { PageHeader, } from '@ant-design/pro-layout';
+import { Col, Menu, Row, Layout, Typography, theme } from 'antd';
 import { BookOutlined, SettingOutlined, SafetyOutlined, ProfileOutlined } from '@ant-design/icons';
 
 import { SettingsGeneral } from './settings-general';
@@ -8,8 +9,16 @@ import { SettingsRoles } from './settings-roles';
 import { SubPageLayout } from '../sub-page-layout';
 
 const { Header, Content } = Layout;
-
+const {
+  Title,
+}=Typography
 export const Settings: React.FC<any> = (props) => {
+  const {
+    token:{
+      colorTextBase,
+      colorBgContainer
+    }
+  }=theme.useToken()
   const location = useLocation();
 
   const pages = [
@@ -24,11 +33,17 @@ export const Settings: React.FC<any> = (props) => {
     <SubPageLayout
       fixedHeader={false}
       header={
-        <PageHeader 
-          title="Account Settings"
+        <PageHeader
+          title={
+            <span style={{
+              color: colorTextBase
+            }}>Account Settings</span>
+          }
         />}
       >
-        <Row>
+        <Row style={{
+          color:colorTextBase
+        }}>
           <Col span={6}>
           <Menu mode="inline" selectedKeys={matchedIds}>
             <Menu.Item key="1" icon={<ProfileOutlined />}>

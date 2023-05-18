@@ -3,7 +3,7 @@ import { Button, Input, Form} from "antd";
 import ListBody from "antd/lib/transfer/ListBody";
 import ContentEditable from 'react-contenteditable'
 import { HashRouter, Route, Routes, Link, useLocation } from 'react-router-dom';
-import { Breadcrumb, Alert } from 'antd';
+import { Breadcrumb, Alert, theme as antdTheme } from 'antd';
 import {usePageLayouts} from "../local-data";
 
 import { Menu } from 'antd';
@@ -18,6 +18,9 @@ interface TextProp {
 let MenuComponent:any;
 
 MenuComponent = ({ theme, ...props } : TextProp) => {
+  const {
+    token: { colorTextBase, colorBgContainer }
+  }=antdTheme.useToken();
   const [pageLayouts, setPageLayouts] = usePageLayouts();
   const { connectors: {connect,drag}, selected, actions } = useNode((state) =>(
     {
@@ -70,7 +73,9 @@ MenuComponent = ({ theme, ...props } : TextProp) => {
       ref={ref => connect(drag(ref as HTMLDivElement))} 
       {...props}
       >
-        <div role="listitem" className="bg-white cursor-pointer shadow rounded-lg p-8 relative z-30">
+        <div role="listitem" className="cursor-pointer shadow rounded-lg p-8 relative z-30" style={{
+          backgroundColor: colorBgContainer,
+        }}>
         {topMenu()}
 
         </div>

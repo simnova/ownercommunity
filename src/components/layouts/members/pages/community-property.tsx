@@ -8,5 +8,5 @@ export const CommunityProperty: React.FC<any> = (_props) => {
       <Route path="" element={<CommunityPropertyListings />} />
       <Route path="/:propertyId/*" element={<CommunityPropertyDetail />} />
     </Routes>
-  )
-}
+  );
+};

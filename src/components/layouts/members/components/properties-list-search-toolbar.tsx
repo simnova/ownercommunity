@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { FilterDetail, PropertySearchFacets } from '../../../../generated';
-import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox, Input, message } from 'antd';
+import { Space, AutoComplete, Button, Pagination, Modal, Select, Checkbox, Input, message, theme } from 'antd';
 import { FilterOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
 import { SearchParamKeys, GetSearchParamsFromFilter } from '../../../../constants';
@@ -37,6 +37,9 @@ interface AddressDataType {
 }
 
 export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> = (props) => {
+  const {
+    token: { colorText }
+  } = theme.useToken();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
   const [selectedFilterName, setSelectedFilterName] = useState('');
@@ -165,7 +168,9 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             allowClear
             options={props.addresses}
             style={{
-              width: '400px'
+              width: '400px',
+              // placeholder text color to white
+              color: colorText
             }}
             placeholder="Enter an address or a property name"
             filterOption={false}
@@ -184,7 +189,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             pageSize={props.top ?? 10}
             onChange={(page) => handlePagination(page)}
           />
-          <span>Records per page:</span>
+          <span
+            style={{
+              color: colorText
+            }}
+          >
+            Records per page:
+          </span>
           <Select
             defaultValue={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
             onChange={(value) => onSelectTopChanged(value)}
@@ -206,12 +217,18 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             onChange={(e) => onHideNullResultsChanged(e)}
             defaultChecked={searchParams.get(SearchParamKeys.HideNullResults) ? true : false}
           >
-            Hide Null Results
+            <span style={{ color: colorText }}>Hide Null Results</span>
           </Checkbox>
         </Space>
 
         <Space>
-          <span>Saved filters: </span>
+          <span
+            style={{
+              color: colorText
+            }}
+          >
+            Saved filters:{' '}
+          </span>
           <Select
             value={searchParams.get(SearchParamKeys.SavedFilter) ?? savedFilter}
             onChange={(value) => onSelectFilterChanged(value)}
@@ -231,7 +248,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           </Button>
           <Modal
             title="Save Filter"
-            visible={isSaveModalVisible}
+            open={isSaveModalVisible}
             onOk={() => saveFilter()}
             onCancel={() => setIsSaveModalVisible(false)}
           >
@@ -250,7 +267,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         </Space>
 
         <Space>
-          <span>Sort by:</span>
+          <span
+            style={{
+              color: colorText
+            }}
+          >
+            Sort by:
+          </span>
           <Select
             defaultValue={searchParams.get(SearchParamKeys.OrderBy) ?? ''}
             onChange={(value) => {
@@ -268,7 +291,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
         <Modal
           title="Filters"
-          visible={isModalVisible}
+          open={isModalVisible}
           width={1000}
           onCancel={() => setIsModalVisible(false)}
           footer={[

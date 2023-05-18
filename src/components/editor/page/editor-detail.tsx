@@ -3,7 +3,7 @@ import { Element, Frame,useEditor, SerializedNodes } from '@craftjs/core';
 import { usePageLayouts } from '../local-data';
 import { Container } from '../components/container';
 
-import { Button, Input, TreeSelect,notification, Empty, Space } from 'antd';
+import { Button, Input, TreeSelect,notification, Empty, Space, theme } from 'antd';
 
 
 // icons
@@ -22,6 +22,12 @@ const { TreeNode } = TreeSelect;
 
 
 export const EditorDetail = (props:any) => {
+  const {
+    token:{
+      colorTextBase,
+      colorBgContainer
+    }
+  }=theme.useToken()
   const [selectedPage, setSelectedPage] = useState<string|undefined>();
   const [selectedPageIsListing, setSelectedPageIsListing] = useState<boolean>(false);
   const [selectedPageIsDetails, setSelectedPageIsDetails] = useState<boolean>(false);
@@ -79,7 +85,7 @@ export const EditorDetail = (props:any) => {
           }}
         />
         <Button size="small" onClick={() => save()}>Save</Button>
-        <MobileOutlined onClick={() => setMobileView(true)} style={{fontSize: '20px', border: mobileView?'black solid 3px':'none', padding:'5px'}} /><DesktopOutlined onClick={() => setMobileView(false)} style={{fontSize: '20px', border: !mobileView?'black solid 3px':'none', padding:'5px'}} />
+        <MobileOutlined onClick={() => setMobileView(true)} style={{fontSize: '20px', color:colorTextBase, border: mobileView?`${colorTextBase} solid 3px`:'none', padding:'5px'}} /><DesktopOutlined onClick={() => setMobileView(false)} style={{fontSize: '20px', color:colorTextBase, border: !mobileView?`${colorTextBase} solid 3px`:'none', padding:'5px'}} />
         <Button size='small' onClick={() => setMobileView(!mobileView)}>Toggle Mobile View</Button>
       </div>
       <div style={{display:'flex',flexGrow:1, height:0}}>

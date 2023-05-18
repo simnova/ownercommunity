@@ -3656,42 +3656,6 @@ export type MembersPropertiesDetailContainerMembersFieldsFragment = {
   updatedAt?: any | null;
 };
 
-export type MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables =
-  Exact<{
-    input: PropertyBlobFileInput;
-  }>;
-
-export type MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation = {
-  __typename?: 'Mutation';
-  propertyFloorPlanImageCreateAuthHeader: {
-    __typename?: 'PropertyBlobFileAuthHeaderResult';
-    authHeader?: {
-      __typename?: 'BlobAuthHeader';
-      authHeader?: string | null;
-      blobPath?: string | null;
-      requestDate?: string | null;
-      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
-      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
-    } | null;
-    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-    property?: {
-      __typename?: 'Property';
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-      listingDetail?: { __typename?: 'ListingDetails'; floorPlanImages?: Array<string | null> | null } | null;
-    } | null;
-  };
-};
-
-export type MembersPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment = {
-  __typename?: 'Property';
-  id: any;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-  listingDetail?: { __typename?: 'ListingDetails'; floorPlanImages?: Array<string | null> | null } | null;
-};
-
 export type MemberPropertiesGetAllTagsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MemberPropertiesGetAllTagsQuery = {
@@ -3940,402 +3904,6 @@ export type MembersPropertiesListContainerPropertyFieldsFragment = {
   createdAt?: any | null;
   updatedAt?: any | null;
   owner?: { __typename?: 'Member'; memberName?: string | null } | null;
-};
-
-export type MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutationVariables = Exact<{
-  input: PropertyBlobFileInput;
-}>;
-
-export type MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutation = {
-  __typename?: 'Mutation';
-  propertyListingImageCreateAuthHeader: {
-    __typename?: 'PropertyBlobFileAuthHeaderResult';
-    authHeader?: {
-      __typename?: 'BlobAuthHeader';
-      authHeader?: string | null;
-      blobPath?: string | null;
-      requestDate?: string | null;
-      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
-      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
-    } | null;
-    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-    property?: {
-      __typename?: 'Property';
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-      listingDetail?: { __typename?: 'ListingDetails'; images?: Array<string | null> | null } | null;
-    } | null;
-  };
-};
-
-export type MembersPropertiesListingImageUploadContainerPropertyFieldsFragment = {
-  __typename?: 'Property';
-  id: any;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-  listingDetail?: { __typename?: 'ListingDetails'; images?: Array<string | null> | null } | null;
-};
-
-export type MembersPropertiesListingContainerPropertyQueryVariables = Exact<{
-  id: Scalars['ObjectID'];
-}>;
-
-export type MembersPropertiesListingContainerPropertyQuery = {
-  __typename?: 'Query';
-  property?: {
-    __typename?: 'Property';
-    propertyName: string;
-    propertyType?: string | null;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    listingDetail?: {
-      __typename?: 'ListingDetails';
-      price?: number | null;
-      rentHigh?: number | null;
-      rentLow?: number | null;
-      lease?: number | null;
-      maxGuests?: number | null;
-      bedrooms?: number | null;
-      bathrooms?: number | null;
-      squareFeet?: number | null;
-      description?: string | null;
-      amenities?: Array<string | null> | null;
-      images?: Array<string | null> | null;
-      video?: string | null;
-      floorPlan?: string | null;
-      floorPlanImages?: Array<string | null> | null;
-      listingAgent?: string | null;
-      listingAgentPhone?: string | null;
-      listingAgentEmail?: string | null;
-      listingAgentWebsite?: string | null;
-      listingAgentCompany?: string | null;
-      listingAgentCompanyPhone?: string | null;
-      listingAgentCompanyEmail?: string | null;
-      listingAgentCompanyWebsite?: string | null;
-      listingAgentCompanyAddress?: string | null;
-      bedroomDetails?: Array<{
-        __typename?: 'BedroomDetails';
-        id: any;
-        bedDescriptions?: Array<string | null> | null;
-        roomName?: string | null;
-      } | null> | null;
-      additionalAmenities?: Array<{
-        __typename?: 'AdditionalAmenities';
-        id: any;
-        category?: string | null;
-        amenities?: Array<string | null> | null;
-      } | null> | null;
-    } | null;
-  } | null;
-};
-
-export type MembersPropertiesListingContainerPropertyUpdateMutationVariables = Exact<{
-  input: PropertyUpdateInput;
-}>;
-
-export type MembersPropertiesListingContainerPropertyUpdateMutation = {
-  __typename?: 'Mutation';
-  propertyUpdate: {
-    __typename?: 'PropertyMutationResult';
-    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-    property?: {
-      __typename?: 'Property';
-      propertyName: string;
-      propertyType?: string | null;
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-      listingDetail?: {
-        __typename?: 'ListingDetails';
-        price?: number | null;
-        rentHigh?: number | null;
-        rentLow?: number | null;
-        lease?: number | null;
-        maxGuests?: number | null;
-        bedrooms?: number | null;
-        bathrooms?: number | null;
-        squareFeet?: number | null;
-        description?: string | null;
-        amenities?: Array<string | null> | null;
-        images?: Array<string | null> | null;
-        video?: string | null;
-        floorPlan?: string | null;
-        floorPlanImages?: Array<string | null> | null;
-        listingAgent?: string | null;
-        listingAgentPhone?: string | null;
-        listingAgentEmail?: string | null;
-        listingAgentWebsite?: string | null;
-        listingAgentCompany?: string | null;
-        listingAgentCompanyPhone?: string | null;
-        listingAgentCompanyEmail?: string | null;
-        listingAgentCompanyWebsite?: string | null;
-        listingAgentCompanyAddress?: string | null;
-        bedroomDetails?: Array<{
-          __typename?: 'BedroomDetails';
-          id: any;
-          bedDescriptions?: Array<string | null> | null;
-          roomName?: string | null;
-        } | null> | null;
-        additionalAmenities?: Array<{
-          __typename?: 'AdditionalAmenities';
-          id: any;
-          category?: string | null;
-          amenities?: Array<string | null> | null;
-        } | null> | null;
-      } | null;
-    } | null;
-  };
-};
-
-export type MembersPropertiesListingContainerPropertyMutationResultFieldsFragment = {
-  __typename?: 'PropertyMutationResult';
-  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-  property?: {
-    __typename?: 'Property';
-    propertyName: string;
-    propertyType?: string | null;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    listingDetail?: {
-      __typename?: 'ListingDetails';
-      price?: number | null;
-      rentHigh?: number | null;
-      rentLow?: number | null;
-      lease?: number | null;
-      maxGuests?: number | null;
-      bedrooms?: number | null;
-      bathrooms?: number | null;
-      squareFeet?: number | null;
-      description?: string | null;
-      amenities?: Array<string | null> | null;
-      images?: Array<string | null> | null;
-      video?: string | null;
-      floorPlan?: string | null;
-      floorPlanImages?: Array<string | null> | null;
-      listingAgent?: string | null;
-      listingAgentPhone?: string | null;
-      listingAgentEmail?: string | null;
-      listingAgentWebsite?: string | null;
-      listingAgentCompany?: string | null;
-      listingAgentCompanyPhone?: string | null;
-      listingAgentCompanyEmail?: string | null;
-      listingAgentCompanyWebsite?: string | null;
-      listingAgentCompanyAddress?: string | null;
-      bedroomDetails?: Array<{
-        __typename?: 'BedroomDetails';
-        id: any;
-        bedDescriptions?: Array<string | null> | null;
-        roomName?: string | null;
-      } | null> | null;
-      additionalAmenities?: Array<{
-        __typename?: 'AdditionalAmenities';
-        id: any;
-        category?: string | null;
-        amenities?: Array<string | null> | null;
-      } | null> | null;
-    } | null;
-  } | null;
-};
-
-export type MembersPropertiesListingContainerPropertyFieldsFragment = {
-  __typename?: 'Property';
-  propertyName: string;
-  propertyType?: string | null;
-  id: any;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-  listingDetail?: {
-    __typename?: 'ListingDetails';
-    price?: number | null;
-    rentHigh?: number | null;
-    rentLow?: number | null;
-    lease?: number | null;
-    maxGuests?: number | null;
-    bedrooms?: number | null;
-    bathrooms?: number | null;
-    squareFeet?: number | null;
-    description?: string | null;
-    amenities?: Array<string | null> | null;
-    images?: Array<string | null> | null;
-    video?: string | null;
-    floorPlan?: string | null;
-    floorPlanImages?: Array<string | null> | null;
-    listingAgent?: string | null;
-    listingAgentPhone?: string | null;
-    listingAgentEmail?: string | null;
-    listingAgentWebsite?: string | null;
-    listingAgentCompany?: string | null;
-    listingAgentCompanyPhone?: string | null;
-    listingAgentCompanyEmail?: string | null;
-    listingAgentCompanyWebsite?: string | null;
-    listingAgentCompanyAddress?: string | null;
-    bedroomDetails?: Array<{
-      __typename?: 'BedroomDetails';
-      id: any;
-      bedDescriptions?: Array<string | null> | null;
-      roomName?: string | null;
-    } | null> | null;
-    additionalAmenities?: Array<{
-      __typename?: 'AdditionalAmenities';
-      id: any;
-      category?: string | null;
-      amenities?: Array<string | null> | null;
-    } | null> | null;
-  } | null;
-};
-
-export type MembersPropertiesListingContainerMembersFieldsFragment = {
-  __typename?: 'Member';
-  id: any;
-  memberName?: string | null;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-};
-
-export type PropertiesLocationContainerPropertyQueryVariables = Exact<{
-  propertyId: Scalars['ObjectID'];
-}>;
-
-export type PropertiesLocationContainerPropertyQuery = {
-  __typename?: 'Query';
-  property?: {
-    __typename?: 'Property';
-    mapSASToken?: string | null;
-    id: any;
-    location?: {
-      __typename?: 'Location';
-      address?: {
-        __typename?: 'Address';
-        country?: string | null;
-        countryCode?: string | null;
-        countryCodeISO3?: string | null;
-        countrySecondarySubdivision?: string | null;
-        countrySubdivision?: string | null;
-        countrySubdivisionName?: string | null;
-        countryTertiarySubdivision?: string | null;
-        extendedPostalCode?: string | null;
-        freeformAddress?: string | null;
-        municipality?: string | null;
-        municipalitySubdivision?: string | null;
-        crossStreet?: string | null;
-        localName?: string | null;
-        postalCode?: string | null;
-        streetName?: string | null;
-        streetNumber?: string | null;
-        routeNumbers?: string | null;
-        streetNameAndNumber?: string | null;
-      } | null;
-      position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
-    } | null;
-  } | null;
-};
-
-export type AddressLocationUpdateContainerMutationVariables = Exact<{
-  input: PropertyUpdateInput;
-}>;
-
-export type AddressLocationUpdateContainerMutation = {
-  __typename?: 'Mutation';
-  propertyUpdate: {
-    __typename?: 'PropertyMutationResult';
-    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-    property?: {
-      __typename?: 'Property';
-      id: any;
-      location?: {
-        __typename?: 'Location';
-        address?: {
-          __typename?: 'Address';
-          country?: string | null;
-          countryCode?: string | null;
-          countryCodeISO3?: string | null;
-          countrySecondarySubdivision?: string | null;
-          countrySubdivision?: string | null;
-          countrySubdivisionName?: string | null;
-          countryTertiarySubdivision?: string | null;
-          extendedPostalCode?: string | null;
-          freeformAddress?: string | null;
-          municipality?: string | null;
-          municipalitySubdivision?: string | null;
-          crossStreet?: string | null;
-          localName?: string | null;
-          postalCode?: string | null;
-          streetName?: string | null;
-          streetNumber?: string | null;
-          routeNumbers?: string | null;
-          streetNameAndNumber?: string | null;
-        } | null;
-        position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
-      } | null;
-    } | null;
-  };
-};
-
-export type AddressLocationContainerPropertyMutationResultFieldsFragment = {
-  __typename?: 'PropertyMutationResult';
-  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-  property?: {
-    __typename?: 'Property';
-    id: any;
-    location?: {
-      __typename?: 'Location';
-      address?: {
-        __typename?: 'Address';
-        country?: string | null;
-        countryCode?: string | null;
-        countryCodeISO3?: string | null;
-        countrySecondarySubdivision?: string | null;
-        countrySubdivision?: string | null;
-        countrySubdivisionName?: string | null;
-        countryTertiarySubdivision?: string | null;
-        extendedPostalCode?: string | null;
-        freeformAddress?: string | null;
-        municipality?: string | null;
-        municipalitySubdivision?: string | null;
-        crossStreet?: string | null;
-        localName?: string | null;
-        postalCode?: string | null;
-        streetName?: string | null;
-        streetNumber?: string | null;
-        routeNumbers?: string | null;
-        streetNameAndNumber?: string | null;
-      } | null;
-      position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
-    } | null;
-  } | null;
-};
-
-export type AddressLocationContainerPropertyFieldsFragment = {
-  __typename?: 'Property';
-  id: any;
-  location?: {
-    __typename?: 'Location';
-    address?: {
-      __typename?: 'Address';
-      country?: string | null;
-      countryCode?: string | null;
-      countryCodeISO3?: string | null;
-      countrySecondarySubdivision?: string | null;
-      countrySubdivision?: string | null;
-      countrySubdivisionName?: string | null;
-      countryTertiarySubdivision?: string | null;
-      extendedPostalCode?: string | null;
-      freeformAddress?: string | null;
-      municipality?: string | null;
-      municipalitySubdivision?: string | null;
-      crossStreet?: string | null;
-      localName?: string | null;
-      postalCode?: string | null;
-      streetName?: string | null;
-      streetNumber?: string | null;
-      routeNumbers?: string | null;
-      streetNameAndNumber?: string | null;
-    } | null;
-    position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
-  } | null;
 };
 
 export type MembersServiceTicketsCreateContainerMembersQueryVariables = Exact<{
@@ -4992,6 +4560,437 @@ export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
 export type MemberSiteCurrentMemberHasAdminRoleQuery = {
   __typename?: 'Query';
   memberForCurrentUser?: { __typename?: 'Member'; role?: { __typename?: 'Role'; roleName: string } | null } | null;
+};
+
+export type SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables = Exact<{
+  input: PropertyBlobFileInput;
+}>;
+
+export type SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation = {
+  __typename?: 'Mutation';
+  propertyFloorPlanImageCreateAuthHeader: {
+    __typename?: 'PropertyBlobFileAuthHeaderResult';
+    authHeader?: {
+      __typename?: 'BlobAuthHeader';
+      authHeader?: string | null;
+      blobPath?: string | null;
+      requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
+    } | null;
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    property?: {
+      __typename?: 'Property';
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      listingDetail?: { __typename?: 'ListingDetails'; floorPlanImages?: Array<string | null> | null } | null;
+    } | null;
+  };
+};
+
+export type SharedPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  listingDetail?: { __typename?: 'ListingDetails'; floorPlanImages?: Array<string | null> | null } | null;
+};
+
+export type SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutationVariables = Exact<{
+  input: PropertyBlobFileInput;
+}>;
+
+export type SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutation = {
+  __typename?: 'Mutation';
+  propertyListingImageCreateAuthHeader: {
+    __typename?: 'PropertyBlobFileAuthHeaderResult';
+    authHeader?: {
+      __typename?: 'BlobAuthHeader';
+      authHeader?: string | null;
+      blobPath?: string | null;
+      requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
+    } | null;
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    property?: {
+      __typename?: 'Property';
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      listingDetail?: { __typename?: 'ListingDetails'; images?: Array<string | null> | null } | null;
+    } | null;
+  };
+};
+
+export type SharedPropertiesListingImageUploadContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  listingDetail?: { __typename?: 'ListingDetails'; images?: Array<string | null> | null } | null;
+};
+
+export type SharedPropertiesListingContainerPropertyQueryVariables = Exact<{
+  id: Scalars['ObjectID'];
+}>;
+
+export type SharedPropertiesListingContainerPropertyQuery = {
+  __typename?: 'Query';
+  property?: {
+    __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      price?: number | null;
+      rentHigh?: number | null;
+      rentLow?: number | null;
+      lease?: number | null;
+      maxGuests?: number | null;
+      bedrooms?: number | null;
+      bathrooms?: number | null;
+      squareFeet?: number | null;
+      description?: string | null;
+      amenities?: Array<string | null> | null;
+      images?: Array<string | null> | null;
+      video?: string | null;
+      floorPlan?: string | null;
+      floorPlanImages?: Array<string | null> | null;
+      listingAgent?: string | null;
+      listingAgentPhone?: string | null;
+      listingAgentEmail?: string | null;
+      listingAgentWebsite?: string | null;
+      listingAgentCompany?: string | null;
+      listingAgentCompanyPhone?: string | null;
+      listingAgentCompanyEmail?: string | null;
+      listingAgentCompanyWebsite?: string | null;
+      listingAgentCompanyAddress?: string | null;
+      bedroomDetails?: Array<{
+        __typename?: 'BedroomDetails';
+        id: any;
+        bedDescriptions?: Array<string | null> | null;
+        roomName?: string | null;
+      } | null> | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenities';
+        id: any;
+        category?: string | null;
+        amenities?: Array<string | null> | null;
+      } | null> | null;
+    } | null;
+  } | null;
+};
+
+export type SharedPropertiesListingContainerPropertyUpdateMutationVariables = Exact<{
+  input: PropertyUpdateInput;
+}>;
+
+export type SharedPropertiesListingContainerPropertyUpdateMutation = {
+  __typename?: 'Mutation';
+  propertyUpdate: {
+    __typename?: 'PropertyMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    property?: {
+      __typename?: 'Property';
+      propertyName: string;
+      propertyType?: string | null;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      listingDetail?: {
+        __typename?: 'ListingDetails';
+        price?: number | null;
+        rentHigh?: number | null;
+        rentLow?: number | null;
+        lease?: number | null;
+        maxGuests?: number | null;
+        bedrooms?: number | null;
+        bathrooms?: number | null;
+        squareFeet?: number | null;
+        description?: string | null;
+        amenities?: Array<string | null> | null;
+        images?: Array<string | null> | null;
+        video?: string | null;
+        floorPlan?: string | null;
+        floorPlanImages?: Array<string | null> | null;
+        listingAgent?: string | null;
+        listingAgentPhone?: string | null;
+        listingAgentEmail?: string | null;
+        listingAgentWebsite?: string | null;
+        listingAgentCompany?: string | null;
+        listingAgentCompanyPhone?: string | null;
+        listingAgentCompanyEmail?: string | null;
+        listingAgentCompanyWebsite?: string | null;
+        listingAgentCompanyAddress?: string | null;
+        bedroomDetails?: Array<{
+          __typename?: 'BedroomDetails';
+          id: any;
+          bedDescriptions?: Array<string | null> | null;
+          roomName?: string | null;
+        } | null> | null;
+        additionalAmenities?: Array<{
+          __typename?: 'AdditionalAmenities';
+          id: any;
+          category?: string | null;
+          amenities?: Array<string | null> | null;
+        } | null> | null;
+      } | null;
+    } | null;
+  };
+};
+
+export type SharedPropertiesListingContainerPropertyMutationResultFieldsFragment = {
+  __typename?: 'PropertyMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  property?: {
+    __typename?: 'Property';
+    propertyName: string;
+    propertyType?: string | null;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    listingDetail?: {
+      __typename?: 'ListingDetails';
+      price?: number | null;
+      rentHigh?: number | null;
+      rentLow?: number | null;
+      lease?: number | null;
+      maxGuests?: number | null;
+      bedrooms?: number | null;
+      bathrooms?: number | null;
+      squareFeet?: number | null;
+      description?: string | null;
+      amenities?: Array<string | null> | null;
+      images?: Array<string | null> | null;
+      video?: string | null;
+      floorPlan?: string | null;
+      floorPlanImages?: Array<string | null> | null;
+      listingAgent?: string | null;
+      listingAgentPhone?: string | null;
+      listingAgentEmail?: string | null;
+      listingAgentWebsite?: string | null;
+      listingAgentCompany?: string | null;
+      listingAgentCompanyPhone?: string | null;
+      listingAgentCompanyEmail?: string | null;
+      listingAgentCompanyWebsite?: string | null;
+      listingAgentCompanyAddress?: string | null;
+      bedroomDetails?: Array<{
+        __typename?: 'BedroomDetails';
+        id: any;
+        bedDescriptions?: Array<string | null> | null;
+        roomName?: string | null;
+      } | null> | null;
+      additionalAmenities?: Array<{
+        __typename?: 'AdditionalAmenities';
+        id: any;
+        category?: string | null;
+        amenities?: Array<string | null> | null;
+      } | null> | null;
+    } | null;
+  } | null;
+};
+
+export type SharedPropertiesListingContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  propertyName: string;
+  propertyType?: string | null;
+  id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  listingDetail?: {
+    __typename?: 'ListingDetails';
+    price?: number | null;
+    rentHigh?: number | null;
+    rentLow?: number | null;
+    lease?: number | null;
+    maxGuests?: number | null;
+    bedrooms?: number | null;
+    bathrooms?: number | null;
+    squareFeet?: number | null;
+    description?: string | null;
+    amenities?: Array<string | null> | null;
+    images?: Array<string | null> | null;
+    video?: string | null;
+    floorPlan?: string | null;
+    floorPlanImages?: Array<string | null> | null;
+    listingAgent?: string | null;
+    listingAgentPhone?: string | null;
+    listingAgentEmail?: string | null;
+    listingAgentWebsite?: string | null;
+    listingAgentCompany?: string | null;
+    listingAgentCompanyPhone?: string | null;
+    listingAgentCompanyEmail?: string | null;
+    listingAgentCompanyWebsite?: string | null;
+    listingAgentCompanyAddress?: string | null;
+    bedroomDetails?: Array<{
+      __typename?: 'BedroomDetails';
+      id: any;
+      bedDescriptions?: Array<string | null> | null;
+      roomName?: string | null;
+    } | null> | null;
+    additionalAmenities?: Array<{
+      __typename?: 'AdditionalAmenities';
+      id: any;
+      category?: string | null;
+      amenities?: Array<string | null> | null;
+    } | null> | null;
+  } | null;
+};
+
+export type SharedPropertiesListingContainerMembersFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
+export type SharedPropertiesLocationContainerPropertyQueryVariables = Exact<{
+  propertyId: Scalars['ObjectID'];
+}>;
+
+export type SharedPropertiesLocationContainerPropertyQuery = {
+  __typename?: 'Query';
+  property?: {
+    __typename?: 'Property';
+    mapSASToken?: string | null;
+    id: any;
+    location?: {
+      __typename?: 'Location';
+      address?: {
+        __typename?: 'Address';
+        country?: string | null;
+        countryCode?: string | null;
+        countryCodeISO3?: string | null;
+        countrySecondarySubdivision?: string | null;
+        countrySubdivision?: string | null;
+        countrySubdivisionName?: string | null;
+        countryTertiarySubdivision?: string | null;
+        extendedPostalCode?: string | null;
+        freeformAddress?: string | null;
+        municipality?: string | null;
+        municipalitySubdivision?: string | null;
+        crossStreet?: string | null;
+        localName?: string | null;
+        postalCode?: string | null;
+        streetName?: string | null;
+        streetNumber?: string | null;
+        routeNumbers?: string | null;
+        streetNameAndNumber?: string | null;
+      } | null;
+      position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
+    } | null;
+  } | null;
+};
+
+export type SharedAddressLocationUpdateContainerMutationVariables = Exact<{
+  input: PropertyUpdateInput;
+}>;
+
+export type SharedAddressLocationUpdateContainerMutation = {
+  __typename?: 'Mutation';
+  propertyUpdate: {
+    __typename?: 'PropertyMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    property?: {
+      __typename?: 'Property';
+      id: any;
+      location?: {
+        __typename?: 'Location';
+        address?: {
+          __typename?: 'Address';
+          country?: string | null;
+          countryCode?: string | null;
+          countryCodeISO3?: string | null;
+          countrySecondarySubdivision?: string | null;
+          countrySubdivision?: string | null;
+          countrySubdivisionName?: string | null;
+          countryTertiarySubdivision?: string | null;
+          extendedPostalCode?: string | null;
+          freeformAddress?: string | null;
+          municipality?: string | null;
+          municipalitySubdivision?: string | null;
+          crossStreet?: string | null;
+          localName?: string | null;
+          postalCode?: string | null;
+          streetName?: string | null;
+          streetNumber?: string | null;
+          routeNumbers?: string | null;
+          streetNameAndNumber?: string | null;
+        } | null;
+        position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
+      } | null;
+    } | null;
+  };
+};
+
+export type SharedAddressLocationContainerPropertyMutationResultFieldsFragment = {
+  __typename?: 'PropertyMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  property?: {
+    __typename?: 'Property';
+    id: any;
+    location?: {
+      __typename?: 'Location';
+      address?: {
+        __typename?: 'Address';
+        country?: string | null;
+        countryCode?: string | null;
+        countryCodeISO3?: string | null;
+        countrySecondarySubdivision?: string | null;
+        countrySubdivision?: string | null;
+        countrySubdivisionName?: string | null;
+        countryTertiarySubdivision?: string | null;
+        extendedPostalCode?: string | null;
+        freeformAddress?: string | null;
+        municipality?: string | null;
+        municipalitySubdivision?: string | null;
+        crossStreet?: string | null;
+        localName?: string | null;
+        postalCode?: string | null;
+        streetName?: string | null;
+        streetNumber?: string | null;
+        routeNumbers?: string | null;
+        streetNameAndNumber?: string | null;
+      } | null;
+      position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
+    } | null;
+  } | null;
+};
+
+export type SharedAddressLocationContainerPropertyFieldsFragment = {
+  __typename?: 'Property';
+  id: any;
+  location?: {
+    __typename?: 'Location';
+    address?: {
+      __typename?: 'Address';
+      country?: string | null;
+      countryCode?: string | null;
+      countryCodeISO3?: string | null;
+      countrySecondarySubdivision?: string | null;
+      countrySubdivision?: string | null;
+      countrySubdivisionName?: string | null;
+      countryTertiarySubdivision?: string | null;
+      extendedPostalCode?: string | null;
+      freeformAddress?: string | null;
+      municipality?: string | null;
+      municipalitySubdivision?: string | null;
+      crossStreet?: string | null;
+      localName?: string | null;
+      postalCode?: string | null;
+      streetName?: string | null;
+      streetNumber?: string | null;
+      routeNumbers?: string | null;
+      streetNameAndNumber?: string | null;
+    } | null;
+    position?: { __typename?: 'Point'; coordinates?: Array<number | null> | null } | null;
+  } | null;
 };
 
 export type AdminCommunitiesDropdownContainerCommunityQueryVariables = Exact<{
@@ -7324,32 +7323,6 @@ export const MembersPropertiesDetailContainerMembersFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersPropertiesDetailContainerMembersFieldsFragment, unknown>;
-export const MembersPropertiesFloorPlanImageUploadContainerPropertyFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesFloorPlanImageUploadContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<MembersPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment, unknown>;
 export const MembersPropertiesListSearchContainerPropertyResultFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7705,388 +7678,6 @@ export const MembersPropertiesListContainerPropertyFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersPropertiesListContainerPropertyFieldsFragment, unknown>;
-export const MembersPropertiesListingImageUploadContainerPropertyFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingImageUploadContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'images' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<MembersPropertiesListingImageUploadContainerPropertyFieldsFragment, unknown>;
-export const MembersPropertiesListingContainerPropertyFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bedroomDetails' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'additionalAmenities' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
-              ]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<MembersPropertiesListingContainerPropertyFieldsFragment, unknown>;
-export const MembersPropertiesListingContainerPropertyMutationResultFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyMutationResultFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'status' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bedroomDetails' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'additionalAmenities' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
-              ]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<MembersPropertiesListingContainerPropertyMutationResultFieldsFragment, unknown>;
-export const MembersPropertiesListingContainerMembersFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerMembersFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<MembersPropertiesListingContainerMembersFieldsFragment, unknown>;
-export const AddressLocationContainerPropertyFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'location' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'position' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<AddressLocationContainerPropertyFieldsFragment, unknown>;
-export const AddressLocationContainerPropertyMutationResultFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AddressLocationContainerPropertyMutationResultFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'status' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' } }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'location' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'position' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<AddressLocationContainerPropertyMutationResultFieldsFragment, unknown>;
 export const MembersServiceTicketsCreateContainerServiceTicketFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -8804,6 +8395,417 @@ export const MembersNameServiceTicketContainerFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersNameServiceTicketContainerFieldsFragment, unknown>;
+export const SharedPropertiesFloorPlanImageUploadContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesFloorPlanImageUploadContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment, unknown>;
+export const SharedPropertiesListingImageUploadContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingImageUploadContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'images' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedPropertiesListingImageUploadContainerPropertyFieldsFragment, unknown>;
+export const SharedPropertiesListingContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedPropertiesListingContainerPropertyFieldsFragment, unknown>;
+export const SharedPropertiesListingContainerPropertyMutationResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedPropertiesListingContainerPropertyMutationResultFieldsFragment, unknown>;
+export const SharedPropertiesListingContainerMembersFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedPropertiesListingContainerMembersFieldsFragment, unknown>;
+export const SharedAddressLocationContainerPropertyFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'position' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedAddressLocationContainerPropertyFieldsFragment, unknown>;
+export const SharedAddressLocationContainerPropertyMutationResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'position' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedAddressLocationContainerPropertyMutationResultFieldsFragment, unknown>;
 export const AdminCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -14642,132 +14644,6 @@ export const MembersPropertiesDetailContainerPropertyDeleteDocument = {
   MembersPropertiesDetailContainerPropertyDeleteMutation,
   MembersPropertiesDetailContainerPropertyDeleteMutationVariables
 >;
-export const MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: {
-        kind: 'Name',
-        value: 'MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeader'
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyBlobFileInput' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'propertyFloorPlanImageCreateAuthHeader' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'authHeader' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'indexTags' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
-                          ]
-                        }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'metadataFields' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'status' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'property' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'MembersPropertiesFloorPlanImageUploadContainerPropertyFields' }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesFloorPlanImageUploadContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation,
-  MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables
->;
 export const MemberPropertiesGetAllTagsDocument = {
   kind: 'Document',
   definitions: [
@@ -15156,627 +15032,6 @@ export const MembersPropertiesListContainerPropertiesDocument = {
   MembersPropertiesListContainerPropertiesQuery,
   MembersPropertiesListContainerPropertiesQueryVariables
 >;
-export const MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeader' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyBlobFileInput' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'propertyListingImageCreateAuthHeader' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'authHeader' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'indexTags' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
-                          ]
-                        }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'metadataFields' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'status' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'property' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'MembersPropertiesListingImageUploadContainerPropertyFields' }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingImageUploadContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'images' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutation,
-  MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutationVariables
->;
-export const MembersPropertiesListingContainerPropertyDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerProperty' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bedroomDetails' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'additionalAmenities' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
-              ]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  MembersPropertiesListingContainerPropertyQuery,
-  MembersPropertiesListingContainerPropertyQueryVariables
->;
-export const MembersPropertiesListingContainerPropertyUpdateDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyUpdate' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyUpdateInput' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'propertyUpdate' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyMutationResultFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'listingDetail' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'bedroomDetails' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'additionalAmenities' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
-                    ]
-                  }
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
-              ]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyMutationResultFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'status' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'MembersPropertiesListingContainerPropertyFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  MembersPropertiesListingContainerPropertyUpdateMutation,
-  MembersPropertiesListingContainerPropertyUpdateMutationVariables
->;
-export const PropertiesLocationContainerPropertyDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'PropertiesLocationContainerProperty' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'propertyId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'propertyId' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'mapSASToken' } },
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' } }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'location' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'position' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  PropertiesLocationContainerPropertyQuery,
-  PropertiesLocationContainerPropertyQueryVariables
->;
-export const AddressLocationUpdateContainerDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AddressLocationUpdateContainer' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyUpdateInput' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'propertyUpdate' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AddressLocationContainerPropertyMutationResultFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'location' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'position' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AddressLocationContainerPropertyMutationResultFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'status' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'property' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AddressLocationContainerPropertyFields' } }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<AddressLocationUpdateContainerMutation, AddressLocationUpdateContainerMutationVariables>;
 export const MembersServiceTicketsCreateContainerMembersDocument = {
   kind: 'Document',
   definitions: [
@@ -17608,6 +16863,762 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
 } as unknown as DocumentNode<
   MemberSiteCurrentMemberHasAdminRoleQuery,
   MemberSiteCurrentMemberHasAdminRoleQueryVariables
+>;
+export const SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeader'
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyBlobFileInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyFloorPlanImageCreateAuthHeader' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'authHeader' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'property' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'SharedPropertiesFloorPlanImageUploadContainerPropertyFields' }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesFloorPlanImageUploadContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation,
+  SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables
+>;
+export const SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeader' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyBlobFileInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyListingImageCreateAuthHeader' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'authHeader' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'property' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'SharedPropertiesListingImageUploadContainerPropertyFields' }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingImageUploadContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'images' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutation,
+  SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutationVariables
+>;
+export const SharedPropertiesListingContainerPropertyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerProperty' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPropertiesListingContainerPropertyQuery,
+  SharedPropertiesListingContainerPropertyQueryVariables
+>;
+export const SharedPropertiesListingContainerPropertyUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyMutationResultFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyType' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'listingDetail' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentHigh' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rentLow' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lease' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'maxGuests' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bedrooms' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bedroomDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'bedDescriptions' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'roomName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'bathrooms' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'squareFeet' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amenities' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'additionalAmenities' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'amenities' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'video' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlan' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'floorPlanImages' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgent' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompany' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyPhone' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyEmail' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyWebsite' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'listingAgentCompanyAddress' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedPropertiesListingContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPropertiesListingContainerPropertyUpdateMutation,
+  SharedPropertiesListingContainerPropertyUpdateMutationVariables
+>;
+export const SharedPropertiesLocationContainerPropertyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SharedPropertiesLocationContainerProperty' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'propertyId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'propertyId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'mapSASToken' } },
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'position' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPropertiesLocationContainerPropertyQuery,
+  SharedPropertiesLocationContainerPropertyQueryVariables
+>;
+export const SharedAddressLocationUpdateContainerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SharedAddressLocationUpdateContainer' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyMutationResultFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Property' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO3' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySecondarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countrySubdivisionName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryTertiarySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'extendedPostalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'freeformAddress' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipality' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'municipalitySubdivision' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'crossStreet' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'localName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'routeNumbers' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'streetNameAndNumber' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'position' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'coordinates' } }]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedAddressLocationContainerPropertyFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedAddressLocationUpdateContainerMutation,
+  SharedAddressLocationUpdateContainerMutationVariables
 >;
 export const AdminCommunitiesDropdownContainerCommunityDocument = {
   kind: 'Document',

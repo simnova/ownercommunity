@@ -1,27 +1,27 @@
-query PropertiesLocationContainerProperty($propertyId: ObjectID!){
+query SharedPropertiesLocationContainerProperty($propertyId: ObjectID!){
   property(id: $propertyId) {
       mapSASToken
-      ...AddressLocationContainerPropertyFields
+      ...SharedAddressLocationContainerPropertyFields
     }
 }
 
-mutation AddressLocationUpdateContainer($input: PropertyUpdateInput!){
+mutation SharedAddressLocationUpdateContainer($input: PropertyUpdateInput!){
   propertyUpdate(input: $input) {
-    ...AddressLocationContainerPropertyMutationResultFields
+    ...SharedAddressLocationContainerPropertyMutationResultFields
   }
 }
 
-fragment AddressLocationContainerPropertyMutationResultFields on PropertyMutationResult {
+fragment SharedAddressLocationContainerPropertyMutationResultFields on PropertyMutationResult {
   status {
     success
     errorMessage
   }
   property {
-    ...AddressLocationContainerPropertyFields
+    ...SharedAddressLocationContainerPropertyFields
   }
 }
 
-fragment AddressLocationContainerPropertyFields on Property {
+fragment SharedAddressLocationContainerPropertyFields on Property {
   id
   location {
     address {

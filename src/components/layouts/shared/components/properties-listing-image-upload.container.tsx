@@ -1,10 +1,9 @@
 import React from 'react';
-import { MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument } from '../../../../generated';
 import { useMutation } from '@apollo/client';
 import { PropertiesListingImageUpload } from './properties-listing-image-upload';
 import type { UploadFile } from 'antd/es/upload/interface';
-import { blob } from 'node:stream/consumers';
 import { AuthResult } from '../../../ui/molecules/azure-upload';
+import { SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument } from '../../../../generated';
 
 export interface PropertiesListingImageUploadContainerProps {
   propertyId: string;
@@ -14,7 +13,7 @@ export interface PropertiesListingImageUploadContainerProps {
 }
 
 export const PropertiesListingImageUploadContainer: React.FC<PropertiesListingImageUploadContainerProps> = (props) => {
-  const [membersPropertyListingCreateAuthHeader] = useMutation(MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument);
+  const [membersPropertyListingCreateAuthHeader] = useMutation(SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument);
 
   const blobPath = `https://ownercommunity.blob.core.windows.net/${props.communityId}`;
   let fileList = props.value?.map((v,index) => (

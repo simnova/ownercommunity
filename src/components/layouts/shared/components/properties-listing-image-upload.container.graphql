@@ -1,4 +1,4 @@
-mutation MembersPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeader($input: PropertyBlobFileInput!) {
+mutation SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeader($input: PropertyBlobFileInput!) {
   propertyListingImageCreateAuthHeader(input: $input) {
     authHeader {
       authHeader
@@ -18,12 +18,12 @@ mutation MembersPropertiesListingImageUploadContainerPropertyListingImageCreateA
       errorMessage
     }   
     property {
-      ...MembersPropertiesListingImageUploadContainerPropertyFields
+      ...SharedPropertiesListingImageUploadContainerPropertyFields
     } 
   }
 }
 
-fragment MembersPropertiesListingImageUploadContainerPropertyFields on Property {
+fragment SharedPropertiesListingImageUploadContainerPropertyFields on Property {
   listingDetail {
     images
   }

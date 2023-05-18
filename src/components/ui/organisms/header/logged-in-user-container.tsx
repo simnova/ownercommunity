@@ -6,6 +6,7 @@ import { LoggedInUserContainerUserCurrentQueryDocument } from '../../../../gener
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useMsal } from '../../../shared/msal-react-lite';
 import { LocalSettingsKeys } from '../../../../constants';
+import { useParams } from 'react-router-dom';
 
 const ComponentProps = {
   autoLogin: PropTypes.bool
@@ -19,8 +20,13 @@ export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & Comp
 
 export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
   const { getIsLoggedIn, login, logout, registerCallback, getSilentAuthResult } = useMsal();
+  const { communityId } = useParams();
 
-  const { loading, error, data } = useQuery(LoggedInUserContainerUserCurrentQueryDocument);
+  const { loading, error, data } = useQuery(LoggedInUserContainerUserCurrentQueryDocument, {
+    variables: {
+      communityId: communityId,
+    }
+  });
 
   const handleLogout = async () => {
     await logout('account');
@@ -33,14 +39,13 @@ export const LoggedInUserContainer: React.FC<HeaderPropTypes> = (props) => {
     return <div>Error : {JSON.stringify(error)}</div>;
   }
   if (data && data.userCurrent) {
-    localStorage.setItem(LocalSettingsKeys.UserId, data.userCurrent.id);
     const userData: LoggedInUserPropTypes = {
       data: {
         isLoggedIn: true,
         firstName: data.userCurrent.firstName ?? '',
         lastName: data.userCurrent.lastName ?? '',
         notificationCount: 0,
-        profileImage: `https://sharethrift.blob.core.windows.net/public/${data.userCurrent.id}`
+        profileImage: data.memberForCurrentUser?.profile?.avatarDocumentId ?? undefined,
       }
     };
     return (

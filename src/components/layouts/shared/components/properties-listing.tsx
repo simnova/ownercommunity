@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { Form, Input, InputNumber, Button, Descriptions, Typography, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-
 import dayjs from 'dayjs';
 import {
-  PropertyUpdateInput,
-  MembersPropertiesListingContainerPropertyFieldsFragment
+  PropertyUpdateInput, SharedPropertiesListingContainerPropertyFieldsFragment,
 } from '../../../../generated';
 import { FormTags } from '../../../ui/organisms/form-tags';
 import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload.container';
@@ -23,7 +21,7 @@ const { Title } = Typography;
 
 export interface PropertiesListingProps {
   data: {
-    property: MembersPropertiesListingContainerPropertyFieldsFragment;
+    property: SharedPropertiesListingContainerPropertyFieldsFragment;
     communityId: string;
   };
   onSave: (property: PropertyUpdateInput) => void;

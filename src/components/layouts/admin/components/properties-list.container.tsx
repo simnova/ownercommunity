@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { AdminPropertiesListContainerPropertiesDocument } from "../../../../generated";
-import { PropertiesList} from "./properties-list";
 import { Skeleton } from "antd";
+import { PropertiesList } from "../../shared/components/properties-list";
 
 export const PropertiesListContainer: React.FC<any> = (props) => {
   const { data: propertyData, loading: propertyLoading, error: propertyError } = useQuery(AdminPropertiesListContainerPropertiesDocument,

@@ -23,11 +23,11 @@ export const PropertiesLocation = (props: any) => {
   const [formLoading, setFormLoading] = React.useState(false);
   console.log(props);
 
-  const onChange = (addressInput: string) => {
+  const onChange = async (addressInput: string) => {
     setValue(addressInput);
     let tmp: AddressDataType[] = [];
     if (addressInput.length >= 4) {
-      addressQuery(addressInput, props.data.property.mapSASToken).then((addressData) => {
+      await addressQuery(addressInput, props.data.property.mapSASToken).then((addressData) => {
         addressData.filter((address: any) => {
           if (address.address.streetNumber && address.address.streetName) {
             tmp.push({

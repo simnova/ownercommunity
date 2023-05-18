@@ -1,4 +1,4 @@
-mutation MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeader($input: PropertyBlobFileInput!) {
+mutation SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeader($input: PropertyBlobFileInput!) {
   propertyFloorPlanImageCreateAuthHeader(input: $input) {
     authHeader {
       authHeader
@@ -18,12 +18,12 @@ mutation MembersPropertiesListingImageUploadContainerPropertyFloorPlanImageCreat
       errorMessage
     }   
     property {
-      ...MembersPropertiesFloorPlanImageUploadContainerPropertyFields
+      ...SharedPropertiesFloorPlanImageUploadContainerPropertyFields
     } 
   }
 }
 
-fragment MembersPropertiesFloorPlanImageUploadContainerPropertyFields on Property {
+fragment SharedPropertiesFloorPlanImageUploadContainerPropertyFields on Property {
   listingDetail {
     floorPlanImages
   }

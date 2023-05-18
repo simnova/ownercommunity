@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { AdminMembersProfileContainerMemberDocument, AdminMembersProfileContainerMemberUpdateDocument, CurrentMemberProfileByCommunityIdDocument, MemberProfileInput, MemberProfileUpdateInput, MembersProfileContainerMemberUpdateDocument } from '../../../../generated';
-import { MemberProfile } from './member-profile';
 import PropTypes  from 'prop-types';
 import { message,Skeleton } from 'antd';
+import { MembersProfile } from '../../shared/components/members-profile';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -54,7 +54,7 @@ export const MembersProfileContainer: React.FC<MembersProfileContainerPropTypes>
     } else if( memberError ) {
       return <div>{JSON.stringify(memberError  )}</div>
     } else if(memberData && memberData.memberForCurrentUser ) {
-      return <MemberProfile data={memberData.memberForCurrentUser.profile} onSave={handleSave} />
+      return <MembersProfile data={memberData.memberForCurrentUser.profile} onSave={handleSave} />
     } else {
       return <div>No data</div>
     }

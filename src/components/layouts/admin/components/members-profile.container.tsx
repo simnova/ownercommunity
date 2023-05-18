@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { AdminMembersProfileContainerMemberDocument, AdminMembersProfileContainerMemberUpdateDocument, MemberProfileInput, MemberProfileUpdateInput } from '../../../../generated';
-import { MembersProfile} from './members-profile';
 import PropTypes  from 'prop-types';
 import { message,Skeleton } from 'antd';
+import { MembersProfile } from '../../shared/components/members-profile';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({

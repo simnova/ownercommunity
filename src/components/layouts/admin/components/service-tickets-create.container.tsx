@@ -7,8 +7,8 @@ import {
   ServiceTicketCreateInput
 } from '../../../../generated';
 import { message, Skeleton } from 'antd';
-import { ServiceTicketsCreate } from './service-tickets-create';
 import { useNavigate } from 'react-router-dom';
+import { ServiceTicketsCreate } from '../../shared/components/service-tickets-create';
 
 interface ServiceTicketsCreateContainerProps {
   data: {
@@ -89,7 +89,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
       properties: propertyData.propertiesByCommunityId
     };
 
-    return <ServiceTicketsCreate data={data as any} onSave={handleCreate} />;
+    return <ServiceTicketsCreate data={data as any} onSave={handleCreate} isAdmin />;
   } else {
     return <div>No Data...</div>;
   }

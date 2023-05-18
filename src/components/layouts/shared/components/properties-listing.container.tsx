@@ -1,8 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import {
-  MembersPropertiesListingContainerPropertyDocument,
-  MembersPropertiesListingContainerPropertyUpdateDocument,
-  PropertyUpdateInput
+  PropertyUpdateInput, SharedPropertiesListingContainerPropertyDocument, SharedPropertiesListingContainerPropertyUpdateDocument
 } from '../../../../generated';
 import { PropertiesListing } from './properties-listing';
 import PropTypes from 'prop-types';
@@ -28,13 +26,13 @@ export type PropertiesListingContainerPropTypes = PropTypes.InferProps<typeof Co
 
 export const PropertiesListingContainer: React.FC<PropertiesListingContainerPropTypes> = (props) => {
   const navigate = useNavigate();
-  const [updateProperty] = useMutation(MembersPropertiesListingContainerPropertyUpdateDocument);
+  const [updateProperty] = useMutation(SharedPropertiesListingContainerPropertyUpdateDocument);
 
   const {
     data: propertyData,
     loading: propertyLoading,
     error: propertyError
-  } = useQuery(MembersPropertiesListingContainerPropertyDocument, {
+  } = useQuery(SharedPropertiesListingContainerPropertyDocument, {
     variables: {
       id: props.data.id
     }

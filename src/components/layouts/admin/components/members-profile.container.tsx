@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { AdminMembersProfileContainerMemberDocument, AdminMembersProfileContainerMemberUpdateDocument, MemberProfileInput, MemberProfileUpdateInput } from '../../../../generated';
 import PropTypes  from 'prop-types';
-import { message,Skeleton } from 'antd';
+import { message } from 'antd';
 import { MembersProfile } from '../../shared/components/members-profile';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -47,20 +48,13 @@ export const MembersProfileContainer: React.FC<MembersProfileContainerPropTypes>
     }
   }
 
-  const content = () => {
-    if(memberLoading ) {
-      return <div><Skeleton active /></div>
-    } else if( memberError ) {
-      return <div>{JSON.stringify(memberError  )}</div>
-    } else if(memberData && memberData.member ) {
-      return <MembersProfile data={memberData.member.profile} onSave={handleSave} />
-    } else {
-      return <div>No data</div>
-    }
-  }
-
-  return <>
-    {content()}
-  </>
+  return (
+    <ComponentQueryLoader
+      loading={memberLoading}
+      hasData={memberData && memberData.member}
+      hasDataComponent={<MembersProfile data={memberData?.member?.profile} onSave={handleSave} />}
+      error={memberError}
+    />
+  );
   
 }

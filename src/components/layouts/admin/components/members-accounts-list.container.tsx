@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
 import { AdminMembersAccountsListContainerMemberDocument } from "../../../../generated";
 import { MembersAccountsList} from "./members-accounts-list";
-import { Skeleton } from "antd";
 import PropTypes  from 'prop-types';
+import { ComponentQueryLoader } from "../../../ui/molecules/component-query-loader";
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -18,8 +18,6 @@ interface ComponentPropInterface {
 
 export type MembersAccountsListContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
 
-
-
 export const MembersAccountsListContainer: React.FC<MembersAccountsListContainerPropTypes> = (props) => {
   const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminMembersAccountsListContainerMemberDocument,{
     variables: {
@@ -27,15 +25,13 @@ export const MembersAccountsListContainer: React.FC<MembersAccountsListContainer
     }
   });
 
-  if(memberLoading) {
-    return <div><Skeleton active /></div>
-  }
-  if(memberError) {
-    return <div>{JSON.stringify(memberError)}</div>
-  }
-  if(memberData && memberData.member ) {    
-    return <MembersAccountsList data={memberData.member.accounts} />
-  } else {
-    return <div>No Data...</div>
-  }
-}
+  return (
+    <ComponentQueryLoader
+      loading={memberLoading}
+      hasData={memberData && memberData.member}
+      hasDataComponent={<MembersAccountsList data={memberData?.member?.accounts} />}
+      error={memberError}
+    />
+  );  
+
+};

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { AdminRolesListContainerRolesDocument, Role } from '../../../../generated';
 import { RolesList } from './roles-list';
-import { Skeleton } from 'antd';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 interface RolesListContainerProps {
   data: {
@@ -18,19 +18,12 @@ export const RolesListContainer: React.FC<RolesListContainerProps> = (props) => 
     variables: { communityId: props.data.communityId }
   });
 
-  if (rolesLoading) {
-    return (
-      <div>
-        <Skeleton active />
-      </div>
-    );
-  }
-  if (rolesError) {
-    return <div>{JSON.stringify(rolesError)}</div>;
-  }
-  if (rolesData && rolesData.rolesByCommunityId) {
-    return <RolesList data={rolesData.rolesByCommunityId as Role[]} />;
-  } else {
-    return <div>No Data...</div>;
-  }
+  return (
+    <ComponentQueryLoader
+      loading={rolesLoading}
+      hasData={rolesData && rolesData.rolesByCommunityId}
+      hasDataComponent={<RolesList data={rolesData?.rolesByCommunityId as Role[]} />}
+      error={rolesError}
+    />
+  );
 };

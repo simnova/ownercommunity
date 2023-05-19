@@ -1,5 +1,4 @@
 import { useQuery, useMutation } from '@apollo/client';
-import { Skeleton } from 'antd';
 import {
   AdminSiteEditorFilesListContainerCommunityByIdDocument,
   FileInfo,

@@ -68,7 +68,7 @@ input ServiceTicketDeleteInput {
 }
 
 input ServiceTicketCreateInput {
-  propertyId: ObjectID
+  propertyId: ObjectID!
   requestorId: ObjectID
   title: String!
   description: String!

@@ -10120,9 +10120,13 @@
             "name": "propertyId",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "ObjectID",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ObjectID",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,

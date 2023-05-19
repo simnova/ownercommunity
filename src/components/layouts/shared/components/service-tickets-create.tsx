@@ -32,7 +32,11 @@ export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props)
           <TextArea placeholder="Description of the request" maxLength={2000} />
         </Form.Item>
 
-        <Form.Item name={['propertyId']} label="Property">
+        <Form.Item
+          name={['propertyId']}
+          label="Property"
+          rules={[{ required: true, message: 'Property is required.' }]}
+        >
           <Select
             allowClear={true}
             placeholder="Select a Property"

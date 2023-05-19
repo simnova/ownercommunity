@@ -25,5 +25,5 @@ export const ComponentQueryLoader: FC<ComponentQueryLoaderProps> = (props) => {
   if (props.hasData) {
     return props.hasDataComponent;
   }
-  return props.noDataComponent;
+  return props.noDataComponent ?? <div>No Data...</div>;
 };

@@ -1,8 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { AdminMembersListContainerMembersDocument } from '../../../../generated';
 import { MembersList } from './members-list';
-import { Skeleton } from 'antd';
-import { useParams } from 'react-router-dom';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 interface MembersListContainerProps {
   data: {
@@ -19,19 +18,13 @@ export const MembersListContainer: React.FC<MembersListContainerProps> = (props)
     variables: { communityId: props.data.communityId }
   });
 
-  if (memberLoading) {
-    return (
-      <div>
-        <Skeleton active />
-      </div>
-    );
-  }
-  if (memberError) {
-    return <div>{JSON.stringify(memberError)}</div>;
-  }
-  if (memberData) {
-    return <MembersList data={memberData.membersByCommunityId} />;
-  } else {
-    return <div>No Data...</div>;
-  }
+  return (
+    <ComponentQueryLoader
+      loading={memberLoading}
+      hasData={memberData && memberData.membersByCommunityId}
+      hasDataComponent={<MembersList data={memberData?.membersByCommunityId} />}
+      error={memberError}
+    />
+  );
+
 };

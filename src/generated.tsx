@@ -1210,7 +1210,7 @@ export type ServiceTicketChangeStatusInput = {
 
 export type ServiceTicketCreateInput = {
   description: Scalars['String'];
-  propertyId?: InputMaybe<Scalars['ObjectID']>;
+  propertyId: Scalars['ObjectID'];
   requestorId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];

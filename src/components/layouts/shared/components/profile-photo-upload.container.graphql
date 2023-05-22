@@ -1,0 +1,53 @@
+query SharedPhotoUploadContainerContainerMember($id: ID!) {
+  member(id: $id) {
+    ...SharedPhotoUploadContainerMemberFields
+  }
+}
+
+mutation SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeader($input: MemberAvatarImageInput!) {
+  memberProfileAvatarCreateAuthHeader(input: $input) {
+    authHeader {
+      authHeader
+      blobPath
+      requestDate
+      indexTags {
+        name
+        value
+      }
+      metadataFields {
+        name
+        value
+      }
+    }
+    status {
+      success
+      errorMessage
+    }   
+    member {
+      ...SharedPhotoUploadContainerMemberFields
+    } 
+  }
+}
+
+mutation SharedPhotoUploadContainerMemberProfileAvatarRemove($memberId: ObjectID!) {
+  memberProfileAvatarRemove(memberId: $memberId) {
+    ...SharedPhotoUploadContainerMemberMutationResultFields
+  }
+}
+
+fragment SharedPhotoUploadContainerMemberMutationResultFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...SharedPhotoUploadContainerMemberFields
+  }
+}
+
+fragment SharedPhotoUploadContainerMemberFields on Member {
+  profile {
+    avatarDocumentId
+  }
+  id
+}

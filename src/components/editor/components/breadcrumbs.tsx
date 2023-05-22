@@ -62,7 +62,7 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
       ref={ref => connect(drag(ref as HTMLDivElement))} 
       {...props}
       >
-        <div role="listitem" className="cursor-pointer shadow rounded-lg p-8 relative z-30" style={{
+        <div role="listitem" className="cursor-pointer shadow rounded-lg p-8 relative" style={{
           backgroundColor: colorBgContainer,
         }}>
           <Breadcrumb>{breadcrumbItems}</Breadcrumb>

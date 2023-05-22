@@ -33,15 +33,7 @@ export const SectionLayout: React.FC<any> = (props) => {
     }
   };
 
-  // const handleToggler = () => {
-  //   if (isExpanded) {
-  //     setIsExpanded(false);
-  //     localStorage.setItem(LocalSettingsKeys.SidebarCollapsed, 'true');
-  //     return;
-  //   }
-  //   setIsExpanded(true);
-  //   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
-  // };
+ 
   const {
     token: { colorBgContainer }
   } = theme.useToken();

@@ -39,7 +39,7 @@ Grid = ({ numOfCols, bgColor, ...props }: GridProp) => {
     >
       <div
         role="listitem"
-        className="bg-white cursor-pointer shadow rounded-lg p-8 relative z-30"
+        className="bg-white cursor-pointer shadow rounded-lg p-8 relative "
         style={{ backgroundColor: bgColor }}
       >
         <Row>{buildColumns(numOfCols)}</Row>

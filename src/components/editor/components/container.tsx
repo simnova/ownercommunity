@@ -1,6 +1,6 @@
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 import { useNode } from "@craftjs/core";
-import { Form, Input, theme } from "antd";
+import { Form, Input } from "antd";
 import { useContext } from "react";
 import { ThemeContext } from "../../../contexts/ThemeContext";
 
@@ -24,21 +24,17 @@ Container = ({bgColor, children }: ContainerProp) => {
         selected: state.events.selected,
     }
   ));
+  
   const {
-    token: { colorTextBase, colorBgContainer }
-  }=theme.useToken();
-  const {
-    themeType
+    currentTokens
   }=useContext(ThemeContext)
+  const backGColor = currentTokens.hardCodedTokens.backgroundColor
   return (
     <div
       className="px-4 py-2"
       ref={ref => connect(drag(ref as HTMLDivElement))}
-      style={themeType==="dark"?{
-         backgroundColor: "#000"
-      }:{
-        backgroundColor: "#fff"
-
+      style={{
+        backgroundColor: backGColor,
       }}
     >
       {children}

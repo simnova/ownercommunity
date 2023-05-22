@@ -165,6 +165,7 @@ export type BedroomDetailsInput = {
 export type BlobAuthHeader = {
   __typename?: 'BlobAuthHeader';
   authHeader?: Maybe<Scalars['String']>;
+  blobName?: Maybe<Scalars['String']>;
   blobPath?: Maybe<Scalars['String']>;
   indexTags?: Maybe<Array<Maybe<BlobIndexTag>>>;
   metadataFields?: Maybe<Array<Maybe<BlobMetadataField>>>;

@@ -38,9 +38,10 @@ export const MemberProfileContainer: React.FC<MemberProfileContainerProps> = (pr
     <>
       <ProfilePhotoUploadContainer data={{ id: memberId ?? '', communityId: props.data.communityId ?? '' }} />
       {props.isAdmin ? (
-        <MembersProfileContainer data={{ communityId: props.data.communityId ?? '' }} />
-      ) : (
         <AdminMembersProfileContainer data={{ id: memberId ?? '' }} />
+      ):
+      (
+        <MembersProfileContainer data={{ communityId: props.data.communityId ?? '' }} />
       )}
     </>
   );

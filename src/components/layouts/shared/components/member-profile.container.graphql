@@ -1,0 +1,12 @@
+query MemberProfileContainerMemberForCurrentUser($communityId: ObjectID!) {
+  memberForCurrentUser(communityId: $communityId) {
+    ...MemberProfileContainerMemberForCurrentUserFields
+  }
+}
+
+fragment MemberProfileContainerMemberForCurrentUserFields on Member {
+  profile {
+    avatarDocumentId
+  }
+  id
+}

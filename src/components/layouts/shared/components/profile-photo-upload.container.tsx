@@ -1,30 +1,32 @@
-import React from "react";
-import { AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument, AdminPhotoUploadContainerMemberProfileAvatarRemoveDocument, AdminPhotoUploadContainerContainerMemberDocument, MemberPhotoUploadContainerContainerMemberDocument, MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument } from "../../../../generated";
+import React, { useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Image, Skeleton, Button } from "antd";
 import { AuthResult, ProfilePhotoUpload } from "../../shared/components/profile-photo-upload";
+import { SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument, SharedPhotoUploadContainerMemberProfileAvatarRemoveDocument, SharedPhotoUploadContainerContainerMemberDocument } from "../../../../generated";
 
 export interface ProfilePhotoUploadContainerProps {
-  data:{
+  data :{
     id: string;
     communityId: string;
   }
 }
 
 export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerProps> = (props) => {
-  const [memberProfileAvatarCreateAuthHeader] = useMutation(MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument);
-  const [memberProfileAvatarRemove] = useMutation(AdminPhotoUploadContainerMemberProfileAvatarRemoveDocument);
-
-  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(MemberPhotoUploadContainerContainerMemberDocument,{
+  const [memberProfileAvatarCreateAuthHeader] = useMutation(SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument);
+  const [memberProfileAvatarRemove] = useMutation(SharedPhotoUploadContainerMemberProfileAvatarRemoveDocument);
+  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(SharedPhotoUploadContainerContainerMemberDocument,{
     variables: {
-      communityId: props.data.communityId
+      id: props.data.id
     }
   });
 
-  //const memberId = memberData?.memberForCurrentUser?.id;
-
   const blobPath = `https://ownercommunity.blob.core.windows.net/${props.data.communityId}/profile/${props.data.id}/avatar`;
   const [imageUrl,setImageUrl] = React.useState<string|undefined>(blobPath);
+
+  useEffect(() => {
+    const blobPath = `https://ownercommunity.blob.core.windows.net/${props.data.communityId}/profile/${props.data.id}/avatar`;
+    setImageUrl(blobPath);
+  }, [props.data.id])
 
   const handleRemoveRequest = async () => { 
     const result = await memberProfileAvatarRemove({variables:{memberId:props.data.id}});
@@ -74,16 +76,16 @@ export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerPr
       return <div><Skeleton active /></div>
     } else if( memberError ) {
       return <div>{JSON.stringify(memberError  )}</div>
-    } else if(memberData && memberData.memberForCurrentUser && memberData.memberForCurrentUser.profile ) {
-      if(memberData.memberForCurrentUser.profile.avatarDocumentId && memberData.memberForCurrentUser.profile.avatarDocumentId !== imageUrl){
+    } else if(memberData && memberData.member && memberData.member.profile ) {
+      if(memberData.member.profile.avatarDocumentId && memberData.member.profile.avatarDocumentId !== imageUrl){
      //   setImageUrl(`https://ownercommunity.blob.core.windows.net/${props.data.communityId}/${memberData.member.profile.avatarDocumentId}`);
       }
 
       return (
         <div>
-        {memberData.memberForCurrentUser.profile.avatarDocumentId && (  
+        {memberData.member.profile.avatarDocumentId && (  
         <div>
-          <Image src={imageUrl} style={{maxWidth:'200px', maxHeight:'200px'}} className='rounded-full' /><br/>
+          <Image src={imageUrl} style={{maxWidth:'140px', maxHeight:'140px'}} className='rounded-full' /><br/>
           <Button onClick={async () => {await handleRemoveRequest()}}>Remove Image</Button><br/>
         </div>
         )}

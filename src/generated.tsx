@@ -1964,77 +1964,6 @@ export type AdminMembersProfileContainerMemberFieldsFragment = {
   } | null;
 };
 
-export type AdminPhotoUploadContainerContainerMemberQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-export type AdminPhotoUploadContainerContainerMemberQuery = {
-  __typename?: 'Query';
-  member?: {
-    __typename?: 'Member';
-    id: any;
-    profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
-  } | null;
-};
-
-export type AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables = Exact<{
-  input: MemberAvatarImageInput;
-}>;
-
-export type AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation = {
-  __typename?: 'Mutation';
-  memberProfileAvatarCreateAuthHeader: {
-    __typename?: 'MemberAvatarImageAuthHeaderResult';
-    authHeader?: {
-      __typename?: 'BlobAuthHeader';
-      authHeader?: string | null;
-      blobPath?: string | null;
-      requestDate?: string | null;
-      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
-      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
-    } | null;
-    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-    member?: {
-      __typename?: 'Member';
-      id: any;
-      profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
-    } | null;
-  };
-};
-
-export type AdminPhotoUploadContainerMemberProfileAvatarRemoveMutationVariables = Exact<{
-  memberId: Scalars['ObjectID'];
-}>;
-
-export type AdminPhotoUploadContainerMemberProfileAvatarRemoveMutation = {
-  __typename?: 'Mutation';
-  memberProfileAvatarRemove: {
-    __typename?: 'MemberMutationResult';
-    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-    member?: {
-      __typename?: 'Member';
-      id: any;
-      profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
-    } | null;
-  };
-};
-
-export type AdminPhotoUploadContainerMemberMutationResultFieldsFragment = {
-  __typename?: 'MemberMutationResult';
-  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-  member?: {
-    __typename?: 'Member';
-    id: any;
-    profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
-  } | null;
-};
-
-export type AdminPhotoUploadContainerMemberFieldsFragment = {
-  __typename?: 'Member';
-  id: any;
-  profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
-};
-
 export type AdminPropertiesAddContainerPropertyAddMutationVariables = Exact<{
   input: PropertyAddInput;
 }>;
@@ -3482,49 +3411,6 @@ export type MemberSiteNeighborsListCurrentMemberIdQuery = {
   memberForCurrentUser?: { __typename?: 'Member'; id: any } | null;
 };
 
-export type MemberPhotoUploadContainerContainerMemberQueryVariables = Exact<{
-  communityId: Scalars['ObjectID'];
-}>;
-
-export type MemberPhotoUploadContainerContainerMemberQuery = {
-  __typename?: 'Query';
-  memberForCurrentUser?: {
-    __typename?: 'Member';
-    id: any;
-    profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
-  } | null;
-};
-
-export type MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables = Exact<{
-  input: MemberAvatarImageInput;
-}>;
-
-export type MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation = {
-  __typename?: 'Mutation';
-  memberProfileAvatarCreateAuthHeader: {
-    __typename?: 'MemberAvatarImageAuthHeaderResult';
-    authHeader?: {
-      __typename?: 'BlobAuthHeader';
-      authHeader?: string | null;
-      blobPath?: string | null;
-      requestDate?: string | null;
-      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
-      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
-    } | null;
-    member?: {
-      __typename?: 'Member';
-      id: any;
-      profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
-    } | null;
-  };
-};
-
-export type MemberPhotoUploadContainerMemberFieldsFragment = {
-  __typename?: 'Member';
-  id: any;
-  profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
-};
-
 export type MembersPropertiesDetailContainerPropertyQueryVariables = Exact<{
   id: Scalars['ObjectID'];
 }>;
@@ -4560,6 +4446,96 @@ export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
 export type MemberSiteCurrentMemberHasAdminRoleQuery = {
   __typename?: 'Query';
   memberForCurrentUser?: { __typename?: 'Member'; role?: { __typename?: 'Role'; roleName: string } | null } | null;
+};
+
+export type MemberProfileContainerMemberForCurrentUserQueryVariables = Exact<{
+  communityId: Scalars['ObjectID'];
+}>;
+
+export type MemberProfileContainerMemberForCurrentUserQuery = {
+  __typename?: 'Query';
+  memberForCurrentUser?: {
+    __typename?: 'Member';
+    id: any;
+    profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+  } | null;
+};
+
+export type MemberProfileContainerMemberForCurrentUserFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+};
+
+export type SharedPhotoUploadContainerContainerMemberQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type SharedPhotoUploadContainerContainerMemberQuery = {
+  __typename?: 'Query';
+  member?: {
+    __typename?: 'Member';
+    id: any;
+    profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+  } | null;
+};
+
+export type SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables = Exact<{
+  input: MemberAvatarImageInput;
+}>;
+
+export type SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation = {
+  __typename?: 'Mutation';
+  memberProfileAvatarCreateAuthHeader: {
+    __typename?: 'MemberAvatarImageAuthHeaderResult';
+    authHeader?: {
+      __typename?: 'BlobAuthHeader';
+      authHeader?: string | null;
+      blobPath?: string | null;
+      requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
+    } | null;
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    member?: {
+      __typename?: 'Member';
+      id: any;
+      profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+    } | null;
+  };
+};
+
+export type SharedPhotoUploadContainerMemberProfileAvatarRemoveMutationVariables = Exact<{
+  memberId: Scalars['ObjectID'];
+}>;
+
+export type SharedPhotoUploadContainerMemberProfileAvatarRemoveMutation = {
+  __typename?: 'Mutation';
+  memberProfileAvatarRemove: {
+    __typename?: 'MemberMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    member?: {
+      __typename?: 'Member';
+      id: any;
+      profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+    } | null;
+  };
+};
+
+export type SharedPhotoUploadContainerMemberMutationResultFieldsFragment = {
+  __typename?: 'MemberMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  member?: {
+    __typename?: 'Member';
+    id: any;
+    profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
+  } | null;
+};
+
+export type SharedPhotoUploadContainerMemberFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
 };
 
 export type SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables = Exact<{
@@ -5738,85 +5714,6 @@ export const AdminMembersProfileContainerMutationFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<AdminMembersProfileContainerMutationFieldsFragment, unknown>;
-export const AdminPhotoUploadContainerMemberFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<AdminPhotoUploadContainerMemberFieldsFragment, unknown>;
-export const AdminPhotoUploadContainerMemberMutationResultFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberMutationResultFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'status' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'member' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' } }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<AdminPhotoUploadContainerMemberMutationResultFieldsFragment, unknown>;
 export const AdminPropertiesAddContainerPropertyFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7193,30 +7090,6 @@ export const MemberSiteNeighborsListContainerFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MemberSiteNeighborsListContainerFieldsFragment, unknown>;
-export const MemberPhotoUploadContainerMemberFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<MemberPhotoUploadContainerMemberFieldsFragment, unknown>;
 export const MembersPropertiesDetailContainerPropertyFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -8414,6 +8287,109 @@ export const MembersNameServiceTicketContainerFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersNameServiceTicketContainerFieldsFragment, unknown>;
+export const MemberProfileContainerMemberForCurrentUserFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberProfileContainerMemberForCurrentUserFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberProfileContainerMemberForCurrentUserFieldsFragment, unknown>;
+export const SharedPhotoUploadContainerMemberFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedPhotoUploadContainerMemberFieldsFragment, unknown>;
+export const SharedPhotoUploadContainerMemberMutationResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedPhotoUploadContainerMemberMutationResultFieldsFragment, unknown>;
 export const SharedPropertiesFloorPlanImageUploadContainerPropertyFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -10250,280 +10226,6 @@ export const AdminMembersProfileContainerMemberUpdateDocument = {
 } as unknown as DocumentNode<
   AdminMembersProfileContainerMemberUpdateMutation,
   AdminMembersProfileContainerMemberUpdateMutationVariables
->;
-export const AdminPhotoUploadContainerContainerMemberDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerContainerMember' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'member' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' } }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  AdminPhotoUploadContainerContainerMemberQuery,
-  AdminPhotoUploadContainerContainerMemberQueryVariables
->;
-export const AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeader' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberAvatarImageInput' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'memberProfileAvatarCreateAuthHeader' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'authHeader' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'indexTags' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
-                          ]
-                        }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'metadataFields' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'status' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'member' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' } }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation,
-  AdminPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables
->;
-export const AdminPhotoUploadContainerMemberProfileAvatarRemoveDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberProfileAvatarRemove' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'memberProfileAvatarRemove' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'memberId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'memberId' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberMutationResultFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberMutationResultFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'status' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'member' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminPhotoUploadContainerMemberFields' } }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  AdminPhotoUploadContainerMemberProfileAvatarRemoveMutation,
-  AdminPhotoUploadContainerMemberProfileAvatarRemoveMutationVariables
 >;
 export const AdminPropertiesAddContainerPropertyAddDocument = {
   kind: 'Document',
@@ -14131,177 +13833,6 @@ export const MemberSiteNeighborsListCurrentMemberIdDocument = {
   MemberSiteNeighborsListCurrentMemberIdQuery,
   MemberSiteNeighborsListCurrentMemberIdQueryVariables
 >;
-export const MemberPhotoUploadContainerContainerMemberDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'MemberPhotoUploadContainerContainerMember' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'memberForCurrentUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' } }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  MemberPhotoUploadContainerContainerMemberQuery,
-  MemberPhotoUploadContainerContainerMemberQueryVariables
->;
-export const MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeader' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberAvatarImageInput' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'memberProfileAvatarCreateAuthHeader' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'authHeader' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'indexTags' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
-                          ]
-                        }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'metadataFields' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'member' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'MemberPhotoUploadContainerMemberFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profile' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
-            }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation,
-  MemberPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables
->;
 export const MembersPropertiesDetailContainerPropertyDocument = {
   kind: 'Document',
   definitions: [
@@ -16882,6 +16413,347 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
 } as unknown as DocumentNode<
   MemberSiteCurrentMemberHasAdminRoleQuery,
   MemberSiteCurrentMemberHasAdminRoleQueryVariables
+>;
+export const MemberProfileContainerMemberForCurrentUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberProfileContainerMemberForCurrentUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberForCurrentUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'MemberProfileContainerMemberForCurrentUserFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberProfileContainerMemberForCurrentUserFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberProfileContainerMemberForCurrentUserQuery,
+  MemberProfileContainerMemberForCurrentUserQueryVariables
+>;
+export const SharedPhotoUploadContainerContainerMemberDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerContainerMember' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPhotoUploadContainerContainerMemberQuery,
+  SharedPhotoUploadContainerContainerMemberQueryVariables
+>;
+export const SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeader' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberAvatarImageInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberProfileAvatarCreateAuthHeader' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'authHeader' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'member' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutation,
+  SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderMutationVariables
+>;
+export const SharedPhotoUploadContainerMemberProfileAvatarRemoveDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberProfileAvatarRemove' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberProfileAvatarRemove' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'memberId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'memberId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberMutationResultFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'profile' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MemberMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'SharedPhotoUploadContainerMemberFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPhotoUploadContainerMemberProfileAvatarRemoveMutation,
+  SharedPhotoUploadContainerMemberProfileAvatarRemoveMutationVariables
 >;
 export const SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderDocument = {
   kind: 'Document',

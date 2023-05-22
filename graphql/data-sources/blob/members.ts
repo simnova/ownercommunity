@@ -107,7 +107,7 @@ export class Members extends BlobDataSource<Context> {
       console.log(`authHeader: ${authHeader}`)
       headerResult = {
         status: { success: true },
-        authHeader: { authHeader: authHeader, requestDate: requestDate, indexTags: indexKeyValues, metadataFields: metadataKeyValues, blobPath: blobPath } as BlobAuthHeader,
+        authHeader: { authHeader: authHeader, requestDate: requestDate, indexTags: indexKeyValues, metadataFields: metadataKeyValues, blobPath, blobName } as BlobAuthHeader,
       } as MemberAvatarImageAuthHeaderResult;
     });
     return headerResult;

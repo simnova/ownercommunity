@@ -39,7 +39,7 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = (props)
         firstName: data.userCurrent.firstName ?? '',
         lastName: data.userCurrent.lastName ?? '',
         notificationCount: 0,
-        profileImage: data.memberForCurrentUser?.profile?.avatarDocumentId ?? undefined,
+        profileImage: `https://ownercommunity.blob.core.windows.net/${params.communityId}/${data.memberForCurrentUser?.profile?.avatarDocumentId}` ?? undefined,
       }
     };
     return (

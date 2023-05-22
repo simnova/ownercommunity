@@ -32,6 +32,7 @@ export interface AuthResult {
     indexTags?: BlobIndexTag[];
     metadataFields?: BlobMetadataField[];
     blobPath?: string;
+    blobName?: string;
   };
 }
 interface ComponentProp {

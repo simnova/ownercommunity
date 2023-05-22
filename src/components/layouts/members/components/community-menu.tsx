@@ -5,7 +5,7 @@ import PropTypes, { InferProps } from 'prop-types';
 
 
 import { Menu, Spin } from 'antd';
-import { useLocation, matchRoutes} from 'react-router-dom';
+import { useLocation, matchRoutes, useNavigate} from 'react-router-dom';
 
 const ComponentPropTypes = {
   itemSelected: PropTypes.func
@@ -19,7 +19,8 @@ export type ComponentProps = InferProps<typeof ComponentPropTypes> & ComponentPr
 
 export const CommunityMenu: FC<any> = ({itemSelected}) => {
   const location =  useLocation();
-
+  const navigate = useNavigate();
+  
   const { loading, error, data} = useQuery(AdminCommunityMenuContainerCommunitiesQueryDocument,{
     variables: {
     }
@@ -42,29 +43,35 @@ export const CommunityMenu: FC<any> = ({itemSelected}) => {
       <div>No Data...</div>
     </>
   }
-  
-  var menuPages = data.communities.map((community) => {
+
+  const id = localStorage.getItem('userId') 
+
+  let menuPages = data.communities.map((community) => {
     return {
       key: community?.id,
       name: community?.name,
-      path: `/community/${community?.id}/members`,
+      path: `/community/${community?.id}/member/${id}/*`,
     }
   });
   const matchedPages =  matchRoutes(menuPages,location);
   const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.key.toString()) : [];
 
+  const onMenuItemClicked = (e: any) => {
+    navigate(`/community/${e.key}/member/${id}`);
+  };
 
   return <>
     <Menu
         defaultSelectedKeys={matchedIds}
         theme="light"
+        onClick={onMenuItemClicked}
       >
     {
       data.communities.map((community) => {
         if (community !== null) {
           return <>
           <Menu.Item key={community.id}>
-            <div onClick={ () => window.location.href = `/community/${community.id}/members`}>{community.name}</div>
+           {community.name}
           </Menu.Item>
         </>
         }

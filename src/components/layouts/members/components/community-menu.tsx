@@ -12,12 +12,12 @@ const ComponentPropTypes = {
 }
 
 export interface ComponentProp {
-  itemSelected: (id:string) => void
+  onItemSelectedCallback: () => void;
 }
 
 export type ComponentProps = InferProps<typeof ComponentPropTypes> & ComponentProp;
 
-export const CommunityMenu: FC<any> = ({itemSelected}) => {
+export const CommunityMenu: FC<ComponentProp> = ({onItemSelectedCallback}) => {
   const location =  useLocation();
   const navigate = useNavigate();
   

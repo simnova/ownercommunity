@@ -9,6 +9,7 @@ interface CommunitiesDropdownContainerProps {
   data: {
     id?: string;
   };
+  isAdmin?: boolean;
 }
 
 export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainerProps> = (
@@ -34,7 +35,7 @@ export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainer
     return <div>{JSON.stringify(communityError)}</div>;
   }
   if (communityData) {
-    return <CommunitiesDropdown data={{ community: communityData.communityById as Community }} />;
+    return <CommunitiesDropdown data={{ community: communityData.communityById as Community }} isAdmin={props.isAdmin} />;
   } else {
     return <div>No Data...</div>;
   }

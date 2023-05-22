@@ -8,6 +8,7 @@ import { CommunityMenu } from '../members/components/community-menu';
 import { LocalSettingsKeys, handleToggler } from '../../../constants';
 import { useQuery } from '@apollo/client';
 import { MemberSiteCurrentMemberHasAdminRoleDocument } from '../../../generated';
+import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
 
 const { Footer, Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {
@@ -15,6 +16,7 @@ export const SectionLayout: React.FC<any> = (props) => {
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
   const { communityId } = useParams();
   const navigate = useNavigate();
+  const params = useParams();
   const { data, loading, error } = useQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
     variables: {
       communityId: communityId
@@ -62,12 +64,8 @@ export const SectionLayout: React.FC<any> = (props) => {
             gap: '10px'
           }}
         >
-          <div style={{ display: 'flex' }} className="allowBoxShadow">
-            <Dropdown overlay={<CommunityMenu />} placement="bottomLeft">
-              <a className="ant-dropdown-link" style={{ minHeight: '50px' }} href="#">
-                Communities <DownOutlined />
-              </a>
-            </Dropdown>
+         <div style={{ display: 'flex' }} className="allowBoxShadow">
+            <CommunitiesDropdownContainer data={{ id: params.communityId }} />
           </div>
           {adminLink()}
 

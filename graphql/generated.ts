@@ -167,6 +167,7 @@ export type BedroomDetailsInput = {
 export type BlobAuthHeader = {
   __typename?: 'BlobAuthHeader';
   authHeader?: Maybe<Scalars['String']>;
+  blobName?: Maybe<Scalars['String']>;
   blobPath?: Maybe<Scalars['String']>;
   indexTags?: Maybe<Array<Maybe<BlobIndexTag>>>;
   metadataFields?: Maybe<Array<Maybe<BlobMetadataField>>>;
@@ -1917,6 +1918,7 @@ export type BlobAuthHeaderResolvers<
   ParentType extends ResolversParentTypes['BlobAuthHeader'] = ResolversParentTypes['BlobAuthHeader']
 > = ResolversObject<{
   authHeader?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  blobName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   blobPath?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   indexTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['BlobIndexTag']>>>, ParentType, ContextType>;
   metadataFields?: Resolver<Maybe<Array<Maybe<ResolversTypes['BlobMetadataField']>>>, ParentType, ContextType>;

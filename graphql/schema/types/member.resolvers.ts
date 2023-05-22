@@ -90,7 +90,7 @@ const member: Resolvers = {
     memberProfileAvatarCreateAuthHeader: async (_, { input }, { dataSources }) => {
       const result = await dataSources.memberBlobAPI.memberProfileAvatarCreateAuthHeader(input.memberId, input.fileName, input.contentType, input.contentLength);
       if (result.status.success) {
-        result.member = (await dataSources.memberDomainAPI.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobPath)) as any;
+        result.member = (await dataSources.memberDomainAPI.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
       }
       return result;
     },

@@ -13,30 +13,23 @@ import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { Button } from 'antd';
 import { set } from 'lodash';
-
 function ConfigProviderWrapper() {
-// generate number rither 1 2 or 3
-  // const {
-  //   themeType,
   
-  // }=useContext(ThemeContext)
-  // const themeToShow=themeType
+
   const {
-    themeType,
-    changeThemeType
+    currentTokens
   }=useContext(ThemeContext)
   
-  // setThemeToShow(themeType)
-  const configProviderTheme = {
-    ...theme,
-    // token: {
-    //   colorPrimary: themeType==="light"?"#1890ff":"#f5222d",
-    // },
-    algorithm: themeType==="light"?theme.defaultAlgorithm:theme.darkAlgorithm
-  };
+console.log("Current token has this things", currentTokens)
 
   return (
-    <ConfigProvider theme={configProviderTheme}>
+    <ConfigProvider theme={{
+      token: {
+        ...currentTokens.token,
+        colorBgBase: currentTokens.hardCodedTokens.backgroundColor,
+        colorTextBase: currentTokens.hardCodedTokens.textColor
+      }
+    }}>
       
       {/* <StyleProvider hashPriority="high"> */}
       

@@ -1,11 +1,8 @@
 import { CommunityListContainer } from '../components/community-list.container';
-import { PageHeader } from '@ant-design/pro-layout';
 import { Button, Typography, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { SubPageLayout } from '../sub-page-layout';
 import { UserInfoContainer } from '../components/user-info.container';
-import { useContext } from 'react';
-import { ThemeContext } from '../../../../contexts/ThemeContext';
 
 export const Home: React.FC<any> = (props) => {
   const { Title } = Typography;

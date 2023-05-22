@@ -40,7 +40,7 @@ Card = ({ bgColor, padding, ...props }: CardGrop) => {
       ));
     return (
         <Container background={colorBgContainer} >
-            <div role="listitem" className=" cursor-pointer shadow rounded-lg p-8 relative z-30" style={{
+            <div role="listitem" className=" cursor-pointer shadow rounded-lg p-8 relative " style={{
                 backgroundColor: colorBgContainer,
             }}>
                 <Element is={CardTop} id="drop" canvas>

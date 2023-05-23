@@ -1,16 +1,16 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { SharedMembersProfileContainerMemberUpdateDocument, MemberProfileInput, SharedMembersProfileContainerMemberDocument } from '../../../../generated';
 import { message } from 'antd';
-import { MembersProfile } from './members-profile';
+import { MemberProfileDetails } from './member-profile-details';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
-interface MembersProfileContainerProps {
+interface MemberProfileDetailsContainerProps {
   data: {
     id: string;
   }
 }
 
-export const MembersProfileContainer: React.FC<MembersProfileContainerProps> = (props) => {
+export const MemberProfileDetailsContainer: React.FC<MemberProfileDetailsContainerProps> = (props) => {
   const [updateMember] = useMutation(SharedMembersProfileContainerMemberUpdateDocument);  
   const { data: memberData, loading: memberLoading, error: memberError } = useQuery(SharedMembersProfileContainerMemberDocument,{
     variables: {
@@ -43,7 +43,7 @@ export const MembersProfileContainer: React.FC<MembersProfileContainerProps> = (
     <ComponentQueryLoader
       loading={memberLoading}
       hasData={memberData && memberData.member}
-      hasDataComponent={<MembersProfile data={memberData?.member?.profile} onSave={handleSave} />}
+      hasDataComponent={<MemberProfileDetails data={memberData?.member?.profile} onSave={handleSave} />}
       error={memberError}
     />
   );

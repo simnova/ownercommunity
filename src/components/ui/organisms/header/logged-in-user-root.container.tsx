@@ -5,7 +5,7 @@ import { LoggedInUserRootContainerUserCurrentQueryDocument } from '../../../../g
 
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useMsal } from '../../../shared/msal-react-lite';
-import { useParams } from 'react-router-dom';
+import { LocalSettingsKeys } from '../../../../constants';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 
 const ComponentProps = {
@@ -28,6 +28,7 @@ export const LoggedInUserRootContainer: React.FC<HeaderPropTypes> = (props) => {
   };
 
   const LoggedInRootContainer = () => { 
+    localStorage.setItem(LocalSettingsKeys.UserId, data?.userCurrent?.id);
     const userData: LoggedInUserPropTypes = {
       data: {
         isLoggedIn: true,

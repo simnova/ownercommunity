@@ -16,7 +16,7 @@ fragment SharedMembersProfileContainerMutationFields on MemberMutationResult {
     errorMessage
   }
   member {
-    ...AdminMembersProfileContainerMemberFields
+    ...SharedMembersProfileContainerMemberFields
   }
 }
 

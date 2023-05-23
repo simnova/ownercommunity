@@ -3,7 +3,7 @@ import { Form, Input, Button, Descriptions, Select, Checkbox } from 'antd';
 import dayjs from 'dayjs';
 import { PropertyUpdateInput } from '../../../../generated';
 import { UserDeleteOutlined } from '@ant-design/icons';
-import { FormTags } from '../../../ui/organisms/form-tags';
+import { PropertyTypeOptions } from '../../../../constants';
 
 export interface PropertiesDetailProps {
   data: {
@@ -12,6 +12,7 @@ export interface PropertiesDetailProps {
   };
   onSave: (property: PropertyUpdateInput) => void;
   onDelete: () => void;
+  isAdmin?: boolean;
 }
 
 export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
@@ -28,8 +29,12 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
           {dayjs(props.data.property.updatedAt).format('DD/MM/YYYY')}
         </Descriptions.Item>
 
-        <Descriptions.Item label="Name">{props.data.property.propertyName}</Descriptions.Item>
-        <Descriptions.Item label="Type">{props.data.property.propertyType}</Descriptions.Item>
+        {!props.isAdmin && (
+          <>
+            <Descriptions.Item label="Name">{props.data.property.propertyName}</Descriptions.Item>
+            <Descriptions.Item label="Type">{props.data.property.propertyType}</Descriptions.Item>
+          </>
+        )}
       </Descriptions>
       <Form
         layout="vertical"
@@ -45,6 +50,31 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
           setFormLoading(false);
         }}
       >
+        {props.isAdmin && (
+          <>
+            <Form.Item
+              name={['propertyName']}
+              label="Property Name"
+              rules={[{ required: true, message: 'Property Name is required.' }]}
+            >
+              <Input placeholder="Name" maxLength={200} />
+            </Form.Item>
+            <Form.Item name={['propertyType']} label="Property Type">
+              <Select placeholder="Property Type" options={PropertyTypeOptions} />
+              {/* <Input placeholder='Name' maxLength={200} /> */}
+            </Form.Item>
+
+            <Form.Item name={['owner', 'id']} label="Owner">
+              <Select
+                allowClear={true}
+                placeholder="Select an Owner"
+                options={props.data.members}
+                fieldNames={{ label: 'memberName', value: 'id' }}
+              />
+            </Form.Item>
+          </>
+        )}
+
         <Form.Item name={['listedForSale']} valuePropName="checked">
           <Checkbox style={{ lineHeight: '32px' }}>Listed for Sale</Checkbox>
         </Form.Item>
@@ -57,13 +87,22 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
         <Form.Item name={['listedInDirectory']} valuePropName="checked">
           <Checkbox style={{ lineHeight: '32px' }}>Listed in Directory</Checkbox>
         </Form.Item>
-        <Form.Item name={['tags']} label="Tags">
-          <FormTags />
-        </Form.Item>
 
         <Button type="primary" htmlType="submit" value={'save'}>
           Save
         </Button>
+        {props.isAdmin && (
+          <Button
+            type="primary"
+            danger
+            icon={<UserDeleteOutlined />}
+            onClick={props.onDelete}
+            className={'float-right'}
+            loading={formLoading}
+          >
+            Delete Property
+          </Button>
+        )}
       </Form>
     </div>
   );

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Community } from '../../../../generated';
 import { CommunityMenu } from '../../../layouts/shared/components/community-menu';
+import { LocalSettingsKeys } from '../../../../constants';
 
 
 interface CommunitiesDropdownProps {
@@ -16,7 +17,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const CommunityMenuList = () => {
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem(LocalSettingsKeys.UserId);
     const path = props.isAdmin ? `/admin` : `/member/${userId}`;
     return <CommunityMenu onItemSelectedCallback={() => setDropdownVisible(false)} path={path} />;
   }

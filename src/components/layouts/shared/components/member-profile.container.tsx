@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MemberProfileContainerMemberForCurrentUserDocument } from '../../../../generated';
 import { useQuery } from '@apollo/client';
-import { MembersProfileContainer } from '../../members/components/member-profile.container';
-import { MembersProfileContainer as AdminMembersProfileContainer } from '../../admin/components/members-profile.container';
+import { MembersProfileContainer } from './members-profile.container';
 import { ProfilePhotoUploadContainer } from './profile-photo-upload.container';
 
 export interface MemberProfileContainerProps {
@@ -37,12 +36,7 @@ export const MemberProfileContainer: React.FC<MemberProfileContainerProps> = (pr
   return (
     <>
       <ProfilePhotoUploadContainer data={{ id: memberId ?? '', communityId: props.data.communityId ?? '' }} />
-      {props.isAdmin ? (
-        <AdminMembersProfileContainer data={{ id: memberId ?? '' }} />
-      ):
-      (
-        <MembersProfileContainer data={{ communityId: props.data.communityId ?? '' }} />
-      )}
+      <MembersProfileContainer data={{ id: memberId ?? ''}} />
     </>
   );
 };

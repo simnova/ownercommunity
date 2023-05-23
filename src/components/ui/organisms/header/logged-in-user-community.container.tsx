@@ -6,7 +6,7 @@ import { LoggedInUserCommunityContainerUserCurrentQueryDocument } from '../../..
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useMsal } from '../../../shared/msal-react-lite';
 import { useParams } from 'react-router-dom';
-
+import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 
 interface HeaderPropTypes {
   autoLogin: boolean;
@@ -26,36 +26,33 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = (props)
     await logout('account');
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (error) {
-    return <div>Error : {JSON.stringify(error)}</div>;
-  }
-  if (data && data.userCurrent && data.memberForCurrentUser) {
+
+  const LoggedInCommunityContainer = () => {
     const userData: LoggedInUserPropTypes = {
       data: {
         isLoggedIn: true,
-        firstName: data.userCurrent.firstName ?? '',
-        lastName: data.userCurrent.lastName ?? '',
+        firstName: data?.userCurrent?.firstName ?? '',
+        lastName: data?.userCurrent?.lastName ?? '',
         notificationCount: 0,
-        profileImage: `https://ownercommunity.blob.core.windows.net/${params.communityId}/${data.memberForCurrentUser?.profile?.avatarDocumentId}` ?? undefined,
+        profileImage:
+          `https://ownercommunity.blob.core.windows.net/${params.communityId}/${data?.memberForCurrentUser?.profile?.avatarDocumentId}` ??
+          undefined
       }
     };
     return (
       <div className="text-right text-sky-400" style={{ flexGrow: '1' }}>
-        <LoggedInUser
-          key={data.userCurrent.id}
-          data={userData.data}
-          onLogoutClicked={handleLogout}
-        />
+        <LoggedInUser key={data?.userCurrent?.id} data={userData.data} onLogoutClicked={handleLogout} />
       </div>
     );
-  }
-  //catch-all return
+  };
+
   return (
-    <>
-      <div>Nothing</div>
-    </>
+    <ComponentQueryLoader
+      loading={loading}
+      hasData={data && data.userCurrent && data.memberForCurrentUser}
+      hasDataComponent={<LoggedInCommunityContainer />}
+      error={error}
+      noDataComponent={<div>Nothing</div>}
+    />
   );
 };

@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import {
-  AdminCommunitiesDropdownContainerCommunityDocument,
+  SharedCommunitiesDropdownContainerCommunityDocument,
   Community
 } from '../../../../generated';
 import { CommunitiesDropdown } from './communities-dropdown';
@@ -19,7 +19,7 @@ export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainer
     data: communityData,
     loading: communityLoading,
     error: communityError
-  } = useQuery(AdminCommunitiesDropdownContainerCommunityDocument, {
+  } = useQuery(SharedCommunitiesDropdownContainerCommunityDocument, {
     variables: { id: props.data.id ?? '' }
   });
 
@@ -35,7 +35,7 @@ export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainer
     return <div>{JSON.stringify(communityError)}</div>;
   }
   if (communityData) {
-    return <CommunitiesDropdown data={{ community: communityData.communityById as Community }} isAdmin={props.isAdmin} />;
+    return <CommunitiesDropdown data={{ community: communityData.communityById as Community, communities: communityData.communities as Community[] }} isAdmin={props.isAdmin} />;
   } else {
     return <div>No Data...</div>;
   }

@@ -1,37 +1,26 @@
-import React, { FC, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import {
-  AdminCommunityMenuContainerCommunitiesQueryDocument,
-  CommunityListContainerCommunitiesQueryDocument
+  SharedCommunityMenuContainerCommunitiesQueryDocument
 } from '../../../../generated';
-import PropTypes, { InferProps } from 'prop-types';
 
 import { Menu, Spin } from 'antd';
-import { Link, useLocation, matchRoutes, useNavigate } from 'react-router-dom';
-import path from 'path';
+import { useLocation, matchRoutes, useNavigate } from 'react-router-dom';
 
-const ComponentPropTypes = {
-  onItemSelectedCallback: PropTypes.func
-};
-
-export interface ComponentProp {
+export interface CommunityMenuProps {
   onItemSelectedCallback: () => void;
+  path: string;
 }
 
-export type ComponentProps = InferProps<typeof ComponentPropTypes> & ComponentProp;
-
-export const CommunityMenu: FC<any> = ({ onItemSelectedCallback }) => {
+export const CommunityMenu: React.FC<CommunityMenuProps> = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { loading, error, data } = useQuery(CommunityListContainerCommunitiesQueryDocument, {
-    variables: {}
-  });
+  const { loading, error, data } = useQuery(SharedCommunityMenuContainerCommunitiesQueryDocument);
 
   if (error) {
     return (
       <>
-        <div>Error :( {JSON.stringify(error)}</div>
+        <div>Error : {JSON.stringify(error)}</div>
       </>
     );
   }
@@ -63,15 +52,15 @@ export const CommunityMenu: FC<any> = ({ onItemSelectedCallback }) => {
     return {
       key: community?.id,
       name: community?.name,
-      path: `/community/${community?.id}/admin/*`
+      path: `/community/${community?.id}/` + props.path,
     };
   });
   const matchedPages = matchRoutes(menuPages, location);
 
   const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.key.toString()) : [];
   const onMenuItemClicked = (e: any) => {
-    onItemSelectedCallback();
-    navigate(`/community/${e.key}/admin`);
+    props.onItemSelectedCallback();
+    navigate(`/community/${e.key}` + props.path);
   };
 
   return (

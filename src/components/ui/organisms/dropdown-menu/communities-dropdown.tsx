@@ -2,8 +2,8 @@ import { Dropdown } from 'antd';
 import { useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Community } from '../../../../generated';
-import { CommunityMenu as AdminCommunityMenu } from '../../../layouts/admin/components/community-menu';
-import { CommunityMenu } from '../../../layouts/members/components/community-menu';
+import { CommunityMenu } from '../../../layouts/shared/components/community-menu';
+
 
 interface CommunitiesDropdownProps {
   data: {
@@ -14,11 +14,18 @@ interface CommunitiesDropdownProps {
 
 export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const CommunityMenuList = () => {
+    const userId = localStorage.getItem('userId');
+    const path = props.isAdmin ? `/admin` : `/member/${userId}`;
+    return <CommunityMenu onItemSelectedCallback={() => setDropdownVisible(false)} path={path} />;
+  }
+
   return (
     (<Dropdown
-      overlay={ props.isAdmin ? <AdminCommunityMenu onItemSelectedCallback={() => setDropdownVisible(false)}/> : <CommunityMenu onItemSelectedCallback={() => setDropdownVisible(false)} />}
+      overlay={<CommunityMenuList />}
       open={dropdownVisible}
-      onVisibleChange={(visible) => setDropdownVisible(visible)}
+      onOpenChange={(visible) => setDropdownVisible(visible)}
     >
       <a
         onClick={(e) => e.preventDefault()}

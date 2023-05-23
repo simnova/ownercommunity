@@ -1,0 +1,18 @@
+query SharedCommunityMenuContainerCommunitiesQuery {
+  communities {
+    ...SharedCommunityMenuContainerCommunitiesFields
+  }
+}
+
+fragment SharedCommunityMenuContainerCommunitiesFields on Community {
+  name
+  domain
+  whiteLabelDomain
+  handle
+  publicContentBlobUrl
+
+  id
+  schemaVersion
+  createdAt
+  updatedAt
+}

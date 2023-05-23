@@ -4,7 +4,7 @@ import { FormTags } from '../../../ui/organisms/form-tags';
 
 const { TextArea } = Input;
 
-export const MembersProfile: React.FC<any> = (props) => {
+export const MemberProfileDetails: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
   return (

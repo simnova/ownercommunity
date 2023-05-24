@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from '@apollo/client';
 import {
   AdminPropertiesListContainerPropertiesDocument,
-  AdminPropertiesDetailContainerPropertyDeleteDocument,
-  AdminPropertiesDetailContainerMembersDocument,
-  AdminPropertiesDetailContainerPropertyDocument,
-  AdminPropertiesDetailContainerPropertyUpdateDocument,
+  SharedPropertiesDetailContainerPropertyDeleteDocument,
+  SharedPropertiesDetailContainerMembersDocument,
+  SharedPropertiesDetailContainerPropertyDocument,
+  SharedPropertiesDetailContainerPropertyUpdateDocument,
   PropertyUpdateInput
 } from '../../../../generated';
 import { PropertiesDetail } from './properties-detail';
@@ -24,6 +24,7 @@ interface ComponentPropInterface {
     id: string;
     communityId: string;
   };
+  isAdmin?: boolean;
 }
 
 export type PropertiesDetailContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> &
@@ -31,8 +32,8 @@ export type PropertiesDetailContainerPropTypes = PropTypes.InferProps<typeof Com
 
 export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTypes> = (props) => {
   const navigate = useNavigate();
-  const [updateProperty] = useMutation(AdminPropertiesDetailContainerPropertyUpdateDocument);
-  const [deleteProperty] = useMutation(AdminPropertiesDetailContainerPropertyDeleteDocument, {
+  const [updateProperty] = useMutation(SharedPropertiesDetailContainerPropertyUpdateDocument);
+  const [deleteProperty] = useMutation(SharedPropertiesDetailContainerPropertyDeleteDocument, {
     update(cache, { data }) {
       // update the list by removing the deleted item - necessary for root objects
       const deletedProperty = data?.propertyDelete.property;
@@ -58,7 +59,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
     data: memberData,
     loading: memberLoading,
     error: memberError
-  } = useQuery(AdminPropertiesDetailContainerMembersDocument, {
+  } = useQuery(SharedPropertiesDetailContainerMembersDocument, {
     variables: { communityId: props.data.communityId }
   });
 
@@ -66,7 +67,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
     data: propertyData,
     loading: propertyLoading,
     error: propertyError
-  } = useQuery(AdminPropertiesDetailContainerPropertyDocument, {
+  } = useQuery(SharedPropertiesDetailContainerPropertyDocument, {
     variables: {
       id: props.data.id
     }
@@ -114,7 +115,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
         property: propertyData.property,
         members: memberData.membersByCommunityId
       };
-      return <PropertiesDetail data={detailData} onSave={handleSave} onDelete={handleDelete} />;
+      return <PropertiesDetail data={detailData} onSave={handleSave} onDelete={handleDelete} isAdmin={props.isAdmin} />;
     } else {
       return <div>No data</div>;
     }

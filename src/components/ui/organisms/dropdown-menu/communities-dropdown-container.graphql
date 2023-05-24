@@ -1,16 +1,32 @@
-query AdminCommunitiesDropdownContainerCommunity($id: ID!) {
+query SharedCommunitiesDropdownContainerCommunity($id: ID!) {
   communityById(id: $id) {
-    ...AdminCommunitiesDropdownContainerCommunityFields
+    ...SharedCommunitiesDropdownContainerCommunityFields
+  }
+  communities {
+    ...SharedCommunityMenuContainerCommunitiesFields
   }
 }
 
-fragment AdminCommunitiesDropdownContainerCommunityFields on Community {
+fragment SharedCommunitiesDropdownContainerCommunityFields on Community {
   name
   domain
   whiteLabelDomain
   handle
 
   id
+  createdAt
+  updatedAt
+}
+
+fragment SharedCommunityMenuContainerCommunitiesFields on Community {
+  name
+  domain
+  whiteLabelDomain
+  handle
+  publicContentBlobUrl
+
+  id
+  schemaVersion
   createdAt
   updatedAt
 }

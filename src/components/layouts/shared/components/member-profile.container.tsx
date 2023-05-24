@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MemberProfileContainerMemberForCurrentUserDocument } from '../../../../generated';
 import { useQuery } from '@apollo/client';
-import { MembersProfileContainer } from '../../members/components/member-profile.container';
-import { MembersProfileContainer as AdminMembersProfileContainer } from '../../admin/components/members-profile.container';
-import { ProfilePhotoUploadContainer } from './profile-photo-upload.container';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
+import { MemberProfile } from './member-profile';
 
 export interface MemberProfileContainerProps {
   data: {
@@ -35,14 +34,11 @@ export const MemberProfileContainer: React.FC<MemberProfileContainerProps> = (pr
   }, [memberData]);
 
   return (
-    <>
-      <ProfilePhotoUploadContainer data={{ id: memberId ?? '', communityId: props.data.communityId ?? '' }} />
-      {props.isAdmin ? (
-        <AdminMembersProfileContainer data={{ id: memberId ?? '' }} />
-      ):
-      (
-        <MembersProfileContainer data={{ communityId: props.data.communityId ?? '' }} />
-      )}
-    </>
-  );
+    <ComponentQueryLoader
+      loading={memberLoading}
+      hasData={(memberData && memberData.memberForCurrentUser) || props.isAdmin}
+      hasDataComponent={<MemberProfile data={{ id: memberId ?? '', communityId: props.data.communityId }} />}
+      error={memberError}
+    />
+  )
 };

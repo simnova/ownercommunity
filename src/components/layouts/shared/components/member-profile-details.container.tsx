@@ -1,27 +1,18 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { AdminMembersProfileContainerMemberDocument, AdminMembersProfileContainerMemberUpdateDocument, MemberProfileInput, MemberProfileUpdateInput } from '../../../../generated';
-import PropTypes  from 'prop-types';
+import { SharedMembersProfileContainerMemberUpdateDocument, MemberProfileInput, SharedMembersProfileContainerMemberDocument } from '../../../../generated';
 import { message } from 'antd';
-import { MembersProfile } from '../../shared/components/members-profile';
+import { MemberProfileDetails } from './member-profile-details';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
-const ComponentPropTypes = {
-  data: PropTypes.shape({
-    id: PropTypes.string.isRequired
-  }),
-}
-
-interface ComponentPropInterface {
+interface MemberProfileDetailsContainerProps {
   data: {
     id: string;
   }
 }
 
-export type MembersProfileContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
-
-export const MembersProfileContainer: React.FC<MembersProfileContainerPropTypes> = (props) => {
-  const [updateMember] = useMutation(AdminMembersProfileContainerMemberUpdateDocument);  
-  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminMembersProfileContainerMemberDocument,{
+export const MemberProfileDetailsContainer: React.FC<MemberProfileDetailsContainerProps> = (props) => {
+  const [updateMember] = useMutation(SharedMembersProfileContainerMemberUpdateDocument);  
+  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(SharedMembersProfileContainerMemberDocument,{
     variables: {
       id: props.data.id
     }
@@ -52,7 +43,7 @@ export const MembersProfileContainer: React.FC<MembersProfileContainerPropTypes>
     <ComponentQueryLoader
       loading={memberLoading}
       hasData={memberData && memberData.member}
-      hasDataComponent={<MembersProfile data={memberData?.member?.profile} onSave={handleSave} />}
+      hasDataComponent={<MemberProfileDetails data={memberData?.member?.profile} onSave={handleSave} />}
       error={memberError}
     />
   );

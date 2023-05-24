@@ -588,6 +588,7 @@ export type Mutation = {
   propertyDelete: PropertyMutationResult;
   propertyFloorPlanImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyListingImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
+  propertyListingImageRemove: PropertyMutationResult;
   propertyRemoveOwner: PropertyMutationResult;
   propertyUpdate: PropertyMutationResult;
   roleAdd: RoleMutationResult;
@@ -697,6 +698,11 @@ export type MutationPropertyFloorPlanImageCreateAuthHeaderArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationPropertyListingImageCreateAuthHeaderArgs = {
   input: PropertyBlobFileInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyListingImageRemoveArgs = {
+  input: PropertyRemoveImageInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -891,6 +897,12 @@ export type PropertyPermissions = {
 export type PropertyPermissionsInput = {
   canEditOwnProperty: Scalars['Boolean'];
   canManageProperties: Scalars['Boolean'];
+};
+
+export type PropertyRemoveImageInput = {
+  blobName: Scalars['String'];
+  memberId: Scalars['ObjectID'];
+  propertyId: Scalars['ObjectID'];
 };
 
 export type PropertyRemoveOwnerInput = {
@@ -3965,37 +3977,6 @@ export type MemberSiteCurrentMemberHasAdminRoleQuery = {
   memberForCurrentUser?: { __typename?: 'Member'; role?: { __typename?: 'Role'; roleName: string } | null } | null;
 };
 
-export type SharedCommunityMenuContainerCommunitiesQueryQueryVariables = Exact<{ [key: string]: never }>;
-
-export type SharedCommunityMenuContainerCommunitiesQueryQuery = {
-  __typename?: 'Query';
-  communities?: Array<{
-    __typename?: 'Community';
-    name?: string | null;
-    domain?: string | null;
-    whiteLabelDomain?: string | null;
-    handle?: string | null;
-    publicContentBlobUrl?: string | null;
-    id: any;
-    schemaVersion?: string | null;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  } | null> | null;
-};
-
-export type SharedCommunityMenuContainerCommunitiesFieldsFragment = {
-  __typename?: 'Community';
-  name?: string | null;
-  domain?: string | null;
-  whiteLabelDomain?: string | null;
-  handle?: string | null;
-  publicContentBlobUrl?: string | null;
-  id: any;
-  schemaVersion?: string | null;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-};
-
 export type SharedMembersProfileContainerMemberQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -4782,6 +4763,19 @@ export type SharedCommunitiesDropdownContainerCommunityFieldsFragment = {
   whiteLabelDomain?: string | null;
   handle?: string | null;
   id: any;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
+export type SharedCommunityMenuContainerCommunitiesFieldsFragment = {
+  __typename?: 'Community';
+  name?: string | null;
+  domain?: string | null;
+  whiteLabelDomain?: string | null;
+  handle?: string | null;
+  publicContentBlobUrl?: string | null;
+  id: any;
+  schemaVersion?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
 };
@@ -7597,30 +7591,6 @@ export const MembersNameServiceTicketContainerFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<MembersNameServiceTicketContainerFieldsFragment, unknown>;
-export const SharedCommunityMenuContainerCommunitiesFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'SharedCommunityMenuContainerCommunitiesFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<SharedCommunityMenuContainerCommunitiesFieldsFragment, unknown>;
 export const SharedMembersProfileContainerMemberFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -8385,6 +8355,30 @@ export const SharedCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<SharedCommunitiesDropdownContainerCommunityFieldsFragment, unknown>;
+export const SharedCommunityMenuContainerCommunitiesFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SharedCommunityMenuContainerCommunitiesFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedCommunityMenuContainerCommunitiesFieldsFragment, unknown>;
 export const LoggedInUserContainerUserCurrentFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -14855,56 +14849,6 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
 } as unknown as DocumentNode<
   MemberSiteCurrentMemberHasAdminRoleQuery,
   MemberSiteCurrentMemberHasAdminRoleQueryVariables
->;
-export const SharedCommunityMenuContainerCommunitiesQueryDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SharedCommunityMenuContainerCommunitiesQuery' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'communities' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'SharedCommunityMenuContainerCommunitiesFields' }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'SharedCommunityMenuContainerCommunitiesFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  SharedCommunityMenuContainerCommunitiesQueryQuery,
-  SharedCommunityMenuContainerCommunitiesQueryQueryVariables
 >;
 export const SharedMembersProfileContainerMemberDocument = {
   kind: 'Document',

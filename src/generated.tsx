@@ -4330,6 +4330,34 @@ export type SharedPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment 
   listingDetail?: { __typename?: 'ListingDetails'; floorPlanImages?: Array<string | null> | null } | null;
 };
 
+export type SharedPropertiesListingImageListContainerMemberForUserQueryVariables = Exact<{
+  userId: Scalars['ObjectID'];
+}>;
+
+export type SharedPropertiesListingImageListContainerMemberForUserQuery = {
+  __typename?: 'Query';
+  memberForUser?: { __typename?: 'Member'; id: any } | null;
+};
+
+export type SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationMutationVariables = Exact<{
+  input: PropertyRemoveImageInput;
+}>;
+
+export type SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationMutation = {
+  __typename?: 'Mutation';
+  propertyListingImageRemove: {
+    __typename?: 'PropertyMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    property?: { __typename?: 'Property'; id: any } | null;
+  };
+};
+
+export type SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsFieldFragment = {
+  __typename?: 'PropertyMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  property?: { __typename?: 'Property'; id: any } | null;
+};
+
 export type SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderMutationVariables = Exact<{
   input: PropertyBlobFileInput;
 }>;
@@ -7948,6 +7976,43 @@ export const SharedPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment
     }
   ]
 } as unknown as DocumentNode<SharedPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment, unknown>;
+export const SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsFieldFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: {
+        kind: 'Name',
+        value: 'SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsField'
+      },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsFieldFragment,
+  unknown
+>;
 export const SharedPropertiesListingImageUploadContainerPropertyFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -15856,6 +15921,123 @@ export const SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCr
 } as unknown as DocumentNode<
   SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation,
   SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables
+>;
+export const SharedPropertiesListingImageListContainerMemberForUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SharedPropertiesListingImageListContainerMemberForUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberForUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } }
+              }
+            ],
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPropertiesListingImageListContainerMemberForUserQuery,
+  SharedPropertiesListingImageListContainerMemberForUserQueryVariables
+>;
+export const SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyRemoveImageInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'propertyListingImageRemove' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: {
+                    kind: 'Name',
+                    value: 'SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsField'
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: {
+        kind: 'Name',
+        value: 'SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsField'
+      },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PropertyMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationMutation,
+  SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationMutationVariables
 >;
 export const SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument = {
   kind: 'Document',

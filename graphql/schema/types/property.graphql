@@ -182,6 +182,7 @@ extend type Mutation {
   propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!
   propertyListingImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
   propertyFloorPlanImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
+  propertyListingImageRemove(input: PropertyRemoveImageInput!): PropertyMutationResult!
 }
 
 type PropertyMutationResult implements MutationResult {
@@ -331,4 +332,10 @@ type PropertyBlobFileAuthHeaderResult {
   status: MutationStatus!
   authHeader: BlobAuthHeader
   property: Property
+}
+
+input PropertyRemoveImageInput {
+  propertyId: ObjectID!
+  memberId: ObjectID!
+  blobName: String!
 }

@@ -5,6 +5,7 @@ import { AdditionalAmenity, AdditionalAmenityProps, AdditionalAmenityReference }
 import * as ValueObjects from './listing-detail.value-objects';
 import { PropertyVisa } from '../iam/property-visa';
 import { isNull } from '@lucaspaganini/value-objects/dist/utils';
+import { Images } from './listing-detail.value-objects';
 
 export interface ListingDetailProps extends ValueObjectProps {
   price: number;
@@ -226,6 +227,17 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
     this.validateVisa();
     this.props.floorPlanImages = floorPlanImages?.valueOf();
   }
+
+  requestRemoveImage(blobName: string) {
+    if (blobName.includes("/listing-floor-plan-images/")) {
+      const newFloorPlanImages = this.props.floorPlanImages.filter((image) => image !== blobName);
+      this.requestSetFloorPlanImages(new Images(newFloorPlanImages));
+    } else {
+      const newImages = this.props.images.filter((image) => image !== blobName);
+      this.requestSetImages(new Images(newImages));
+    }
+  }
+
   requestSetListingAgent(listingAgent: ValueObjects.ListingAgent | null): void {
     this.validateVisa();
     this.props.listingAgent = listingAgent?.valueOf();

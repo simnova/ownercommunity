@@ -1,7 +1,7 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
 import { PropertyConverter } from '../../../domain/infrastructure/persistence/property.domain-adapter';
-import { PropertyBlobFileAuthHeaderResult } from '../../generated';
+import { MutationStatus, PropertyBlobFileAuthHeaderResult } from '../../generated';
 import { nanoid } from 'nanoid';
 import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage';
 
@@ -17,7 +17,7 @@ export class Properties extends BlobDataSource<Context> {
 	public async propertyPublicFileRemove(propertyId: string,memberId: string, fileName: string): Promise<void> {
 		const blobName = `public-files/${fileName}`;
 		await this.withStorage(async (passport, blobStorage) => {
-			let property = await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId);
+			let property = await(await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId)).populate(['community', 'owner']);
 			if (!property) {
 				return;
 			}
@@ -63,6 +63,29 @@ export class Properties extends BlobDataSource<Context> {
 		});
 	}
 
+	public async propertyListingImageRemove(propertyId: string, memberId: string, blobName: string): Promise<MutationStatus> {
+		let mutationResult: MutationStatus;
+		await this.withStorage(async (passport, blobStorage) => {
+			let property = await (await this.context.dataSources.propertyCosmosdbApi.findOneById(propertyId)).populate(['community', 'owner']);
+			if (!property) {
+				mutationResult = { success: false, errorMessage: `Property not found: ${propertyId}` } as MutationStatus;
+				return;
+			}
+			let propertyDO = new PropertyConverter().toDomain(property, { passport: passport });
+			if (
+				!passport
+					.forProperty(propertyDO)
+					.determineIf((permissions) => permissions.canManageProperties || (permissions.canEditOwnProperty && propertyDO.owner.id === memberId))
+			) {
+				mutationResult = { success: false, errorMessage: `User does not have permission to remove images from property: ${propertyId}` } as MutationStatus;
+				return;
+			}
+			await blobStorage.deleteBlob(blobName, property.community.id);
+			mutationResult = { success: true } as MutationStatus;
+		});
+		return mutationResult;
+	}
+
 	private async getHeader(propertyId: string, memberId:string, permittedContentTypes: string[], blobName: string, fileInfo: FileInfo) {
 		let headerResult: PropertyBlobFileAuthHeaderResult;
 		const { fileName, contentType, contentLength, maxSizeBytes } = fileInfo;
@@ -98,10 +121,7 @@ export class Properties extends BlobDataSource<Context> {
 				return;
 			}
 
-			let name: string;
-			if (this.context.verifiedUser && this.context.verifiedUser.verifiedJWT) {
-				name = this.context.verifiedUser.verifiedJWT.name;
-			}
+			let name: string = this.context.verifiedUser?.verifiedJWT?.name;
 
 			const indexFields: Record<string, string> = {
 				propertyId: propertyId,

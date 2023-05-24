@@ -215,6 +215,17 @@ const property: Resolvers = {
       console.log(`propertyFloorPlanImageCreateAuthHeader: ${JSON.stringify(result)}`);
       return result;
     },
+    propertyListingImageRemove: async (_, { input }, { dataSources }) => {
+      const result = {
+        status: await dataSources.propertyBlobAPI.propertyListingImageRemove(input.propertyId, input.memberId, input.blobName),
+      } as PropertyMutationResult;
+
+      if (!result.status.success) {
+        return result;
+      } else {
+        return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyImageRemove(input.propertyId, input.blobName));
+      }
+    }
   },
 };
 

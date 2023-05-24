@@ -62,8 +62,7 @@ export const connect = async () => {
     connectionString =`${process.env.COSMOSDB}/?ssl=true&replicaSet=globaldb&retrywrites=false&appName=@sharethrift@`;
     console.log("Connecting to CosmosDB in Dev / Prod Mode");
   }
-  
-  console.log(`Connecting to CosmosDB: ${connectionString}`);
+
   try {
     await mongoose.connect(connectionString, {
       //  useNewUrlParser: true, 

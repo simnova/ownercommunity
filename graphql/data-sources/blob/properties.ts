@@ -142,7 +142,7 @@ export class Properties extends BlobDataSource<Context> {
       console.log(`authHeader: ${authHeader}`);
       headerResult = {
 				status: { success: true },
-				authHeader: { authHeader: authHeader, requestDate: requestDate, indexTags: indexKeyValues, metadataFields: metadataKeyValues, blobPath: blobPath },
+				authHeader: { authHeader: authHeader, requestDate: requestDate, indexTags: indexKeyValues, metadataFields: metadataKeyValues, blobPath, blobName },
 			 } as PropertyBlobFileAuthHeaderResult;
 		});
 		return headerResult;

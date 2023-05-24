@@ -85,3 +85,8 @@
 .search-pagination > .ant-pagination-total-text {
   margin-right: 24px;
 }
+
+.property-listing-image:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}

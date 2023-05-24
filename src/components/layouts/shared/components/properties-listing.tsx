@@ -17,6 +17,7 @@ import {
   additionalAmenitiesOptions
 } from '../../../../constants';
 import { PropertiesListingImageList } from './properties-listing-image-list';
+import { PropertiesListingImageListContainer } from './properties-listing-image-list.container';
 
 const { Title } = Typography;
 
@@ -373,7 +374,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
             </Form.Item>
           </Col>
           <Col span={21}>
-            <PropertiesListingImageList data={{images: props?.data?.property?.listingDetail?.images ?? []}} />
+            <PropertiesListingImageListContainer data={{images: props?.data?.property?.listingDetail?.images ?? [], propertyId: props?.data?.property?.id}} />
           </Col>
         </Row>
 
@@ -391,7 +392,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
             </Form.Item>
           </Col>
           <Col span={21}>
-            <PropertiesListingImageList data={{images: props?.data?.property?.listingDetail?.floorPlanImages ?? []}}  />
+            <PropertiesListingImageListContainer data={{images: props?.data?.property?.listingDetail?.floorPlanImages ?? [], propertyId: props?.data?.property?.id }}  />
           </Col>
         </Row>
 

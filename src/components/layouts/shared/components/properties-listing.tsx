@@ -372,7 +372,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
               />
             </Form.Item>
           </Col>
-          <Col span={9}>
+          <Col span={21}>
             <PropertiesListingImageList data={{images: props?.data?.property?.listingDetail?.images ?? []}} />
           </Col>
         </Row>
@@ -390,7 +390,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
               />
             </Form.Item>
           </Col>
-          <Col span={9}>
+          <Col span={21}>
             <PropertiesListingImageList data={{images: props?.data?.property?.listingDetail?.floorPlanImages ?? []}}  />
           </Col>
         </Row>

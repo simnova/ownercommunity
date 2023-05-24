@@ -1,9 +1,8 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
-import { MemberAvatarImageAuthHeaderResult, MutationStatus } from '../../generated';
+import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } from '../../generated';
 import { MemberConverter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
 import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage/blob-request';
-import { BlobAuthHeader } from '../../generated';
 
 export class Members extends BlobDataSource<Context> {
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {
@@ -24,7 +23,6 @@ export class Members extends BlobDataSource<Context> {
       }
       await blobStorage.deleteBlob(member.profile.avatarDocumentId, member.community.id);
       mutationResult = { success: true } as MutationStatus;
-      return;
     });
     return mutationResult;
   }
@@ -64,10 +62,7 @@ export class Members extends BlobDataSource<Context> {
         return;
       }
 
-      let name: string;
-			if (this.context.verifiedUser && this.context.verifiedUser.verifiedJWT) {
-				name = this.context.verifiedUser.verifiedJWT.name;
-			}
+      let name: string = this.context.verifiedUser?.verifiedJWT?.name;
 
       const indexFields: Record<string, string> = {
         communityId: this.context?.community, 

@@ -1,7 +1,7 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
-import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput } from '../../generated';
+import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../generated';
 
 const ServiceTicketFilterNames = {
   RequestorId: 'requestorId',
@@ -63,5 +63,25 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
     
     console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);
     return searchResults;
+  }
+
+  async getServiceTicketsSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>): Promise<ServiceTicketsSearchResult> {
+    let results = [];
+    for await (const result of searchResults?.results ?? []) {
+      results.push(result.document);
+    }
+
+    return {
+      serviceTicketsResults: results,
+      count: searchResults?.count,
+      facets: {
+        requestor: searchResults?.facets?.requestor,
+        assignedTo: searchResults?.facets?.assignedTo,
+        priority: searchResults?.facets?.priority,
+        status: searchResults?.facets?.status,
+        requestorId: searchResults?.facets?.requestorId,
+        assignedToId: searchResults?.facets?.assignedToId,
+      },
+    };
   }
 }

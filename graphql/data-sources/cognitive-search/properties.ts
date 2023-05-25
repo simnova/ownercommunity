@@ -1,7 +1,7 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
-import { FilterDetail, PropertiesSearchInput } from '../../generated';
+import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../generated';
 import dayjs from 'dayjs';
 
 const PropertyFilterNames = {
@@ -74,18 +74,6 @@ export class Properties extends CognitiveSearchDataSource<Context> {
         filterStrings.push(`geo.distance(position, geography'POINT(${filter.position.longitude} ${filter.position.latitude})') le ${filter.distance}`);
       }
 
-      // update at
-      if (filter.updatedAt) {
-        const day0 = dayjs().subtract(parseInt(filter.updatedAt), 'day').toISOString();
-        filterStrings.push(`updatedAt ge ${day0}`);
-      }
-
-      // created at
-      if (filter.createdAt) {
-        const day0 = dayjs().subtract(parseInt(filter.createdAt), 'day').toISOString();
-        filterStrings.push(`createdAt ge ${day0}`);
-      }
-
       // tags
       if (filter.tags && filter.tags.length > 0) {
         filterStrings.push("(tags/any(a: a eq '" + filter.tags.join("') or tags/any(a: a eq '") + "'))");
@@ -133,5 +121,57 @@ export class Properties extends CognitiveSearchDataSource<Context> {
 
     console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);
     return searchResults;
+  }
+
+  async getPropertiesSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>): Promise<PropertySearchResult> {
+    let results = [];
+    for await (const result of searchResults?.results ?? []) {
+      results.push(result.document);
+    }
+
+    // calculate bedrooms facets
+    const bedroomsOptions = [1, 2, 3, 4, 5];
+    let bedroomsFacet = bedroomsOptions.map((option) => {
+      const found = searchResults?.facets?.bedrooms?.filter((facet) => facet.value >= option);
+      let count = 0;
+      found.forEach((f) => {
+        count += f.count;
+      });
+      return {
+        value: option + '+',
+        count: count,
+      };
+    });
+
+    // calculate bathrooms facets
+    const bathroomsOptions = [1, 1.5, 2, 3, 4, 5];
+    let bathroomsFacet = bathroomsOptions.map((option) => {
+      const found = searchResults?.facets?.bathrooms?.filter((facet) => facet.value >= option);
+      let count = 0;
+      found.forEach((f) => {
+        count += f.count;
+      });
+      return {
+        value: option + '+',
+        count: count,
+      };
+    });
+
+    return {
+      propertyResults: results,
+      count: searchResults.count,
+      facets: {
+        type: searchResults.facets?.type,
+        amenities: searchResults.facets?.amenities,
+        additionalAmenitiesCategory: searchResults.facets?.['additionalAmenities/category'],
+        additionalAmenitiesAmenities: searchResults.facets?.['additionalAmenities/amenities'],
+        listedForSale: searchResults.facets?.listedForSale,
+        listedForRent: searchResults.facets?.listedForRent,
+        listedForLease: searchResults.facets?.listedForLease,
+        bedrooms: bedroomsFacet,
+        bathrooms: bathroomsFacet,
+        tags: searchResults.facets?.tags,
+      },
+    } as PropertySearchResult;
   }
 }

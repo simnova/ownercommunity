@@ -41,14 +41,14 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
 
   async serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
 
-    let searchString = input.searchString;
+    let searchString = input.searchString.trim();
 
     console.log(`Resolver>Query>serviceTicketsSearch: ${searchString}`);
     let filterString = this.getFilterString(input.options.filter, requestorId);
     console.log('filterString: ', filterString);
 
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
-    await this.withSearch(async (passport, search) => {
+    await this.withSearch(async (_passport, search) => {
       searchResults = await search.search('service-ticket-index', searchString, {
         queryType: 'full',
         searchMode: 'all',

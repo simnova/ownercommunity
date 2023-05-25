@@ -97,15 +97,14 @@ export class Properties extends CognitiveSearchDataSource<Context> {
 
     let searchString = '';
     if (!input.options.filter?.position) {
-      searchString = input.searchString;
+      searchString = input.searchString.trim();
     }
 
     console.log(`Resolver>Query>propertiesSearch: ${searchString}`);
     let filterString = this.getFilterString(input.options.filter);
-    if (input.options.orderBy[0] !== '') filterString = this.toggleNullResults(input.options, filterString);
     console.log('filterString: ', filterString);
+    
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
-
     await this.withSearch(async (_passport, searchService) => {
       searchResults = await searchService.search('property-listings', searchString, {
         queryType: 'full',

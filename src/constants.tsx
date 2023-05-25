@@ -1,6 +1,7 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
+import { useParams } from 'react-router-dom';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -288,7 +289,8 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
   return address();
 };
 
-export const GetFilterFromQueryString = (searchParams: URLSearchParams, selectedFilter: FilterDetail): FilterDetail => {
+export const GetFilterFromQueryString = (searchParams: URLSearchParams): FilterDetail => {
+  const params = useParams();
   // get all search params
   const qsproperTypes = searchParams.get('type')?.split(',');
   const qsbedrooms = searchParams.get('bedrooms');
@@ -303,14 +305,11 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
   const qslat = searchParams.get('lat');
   const qslong = searchParams.get('long');
-  const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
-  const qscreatedAt = searchParams.get(SearchParamKeys.CreatedAt); // in days
 
   let filters = {} as FilterDetail;
 
   // proper type
   filters = {
-    ...selectedFilter,
     propertyType: qsproperTypes
   };
 
@@ -419,6 +418,11 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
     ...filters,
     tags: qstags
   };
+
+  filters = {
+    ...filters,
+    communityId: params.communityId,
+  }
 
   return filters;
 };

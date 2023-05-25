@@ -33,21 +33,10 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     token: { colorText }
   } = theme.useToken();
   const [searchParams, setSearchParams] = useSearchParams();
-  const params = useParams();
-  const [selectedFilter, setSelectedFilter] = useState<FilterDetail>();
-  const [selectedFilterList, setSelectedFilterList] = useState<string[]>([]);
   const [searchString, setSearchString] = useState(searchParams.get(SearchParamKeys.SearchString) ?? '');
   const [addresses, setAddresses] = useState<AddressDataType[]>([]);
-  const [top, setTop] = useState<number | undefined>(
-    searchParams.get(SearchParamKeys.Top) ? parseInt(searchParams.get(SearchParamKeys.Top)!) : undefined
-  );
-  const [currentPage, setCurrentPage] = useState<number | undefined>(
-    searchParams.get(SearchParamKeys.Page) ? parseInt(searchParams.get(SearchParamKeys.Page)!) - 1 : undefined
-  );
-  const [orderBy, setOrderBy] = useState<string[]>(['']);
-  const [hideNullResults, setHideNullResults] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [visible, setVisible] = useState<boolean>(false);
+
   const {
     data: mapSasTokenData,
     loading: mapSasTokenLoading,
@@ -60,68 +49,60 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   );
 
   useEffect(() => {
-    getSelectedFilters();
-  }, [searchParams]);
-
-  useEffect(() => {
-    // get current page
-    const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
-
-    // get top
-    const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
-
-    // get order by
-    const orderBy = searchParams.get(SearchParamKeys.OrderBy) ?? '';
-    if (orderBy !== '') setOrderBy([orderBy]);
-
-    // get hide null results
-    if (searchParams.get(SearchParamKeys.HideNullResults)) setHideNullResults(true);
-
-    handleSearch(page, top);
+    searchParams.set(SearchParamKeys.Page, searchParams.get(SearchParamKeys.Page) ?? '1');
+    searchParams.set(SearchParamKeys.Top, searchParams.get(SearchParamKeys.Top) ?? '10');
+    setSearchParams(searchParams);
+    (async () => {
+      await handleSearch();
+    })();
   }, []);
 
   useEffect(() => {
-    if (!location.search) {
-      setSearchString('');
-      searchParams.set(SearchParamKeys.Page, '1');
-      setSearchParams(searchParams);
-    }
-  }, [location]);
+    (async () => {
+      await handleSearch();
+    })();
+  }, [searchParams]);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (!location.search) {
+  //     setSearchString('');
+  //     searchParams.set(SearchParamKeys.Page, '1');
+  //     setSearchParams(searchParams);
+  //   }
+  // }, [location]);
+
+  // useEffect(() => {
+  //   if (data && data.propertiesSearch?.count) {
+  //     const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
+  //     const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
+  //     if (data.propertiesSearch?.count < top * page) {
+  //       setCurrentPage(0);
+  //       (async () => {
+  //         await handleSearch();
+  //       })();
+  //     }
+  //   }
+  // }, [data]);
+
+  const handleSearch = async () => {
+    if (searchString.length > 0) {
+      searchParams.set(SearchParamKeys.SearchString, searchString);
+    } else {
+      searchParams.delete(SearchParamKeys.SearchString);
+    }
+    setSearchParams(searchParams);
+    
+    // set top here to fix the issue of top/current page not being set in the url
     const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
     const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
-    handleSearch(page, top);
-  }, [orderBy, hideNullResults]);
-
-  useEffect(() => {
-    if (data && data.propertiesSearch?.count) {
-      const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
-      const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
-      if (data.propertiesSearch?.count < top * page) {
-        setCurrentPage(0);
-        handleSearch(0, top);
-      }
-    }
-  }, [data]);
-
-  const handleSearch = async (page: number, top: number) => {
-    // set top here to fix the issue of top/current page not being set in the url
-    searchParams.set(SearchParamKeys.Top, top.toString());
-    searchParams.set(SearchParamKeys.Page, (page + 1).toString());
-    setSearchParams(searchParams);
-    navigate(`.?` + searchParams);
+    const skip = page * top;
 
     // get search string
-    const qsSearchString = searchParams.get(SearchParamKeys.SearchString) ?? '';
+    const qsSearchString = searchString;
 
     // get filter
-    let filter = GetFilterFromQueryString(searchParams, selectedFilter ?? {});
-    filter = {
-      ...filter,
-      communityId: params.communityId
-    };
-    let tempSkip = page * top;
+    let filter: FilterDetail = GetFilterFromQueryString(searchParams);
+    const orderBy = searchParams.get(SearchParamKeys.OrderBy) ?? '';
 
     await gqlSearchProperties({
       variables: {
@@ -144,8 +125,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             ],
             filter: filter,
             top: top,
-            skip: tempSkip,
-            orderBy: orderBy,
+            skip: skip,
+            orderBy: [orderBy],
           }
         }
       }
@@ -163,10 +144,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     searchParams.delete('long');
     // setSearchParams(searchParams);
     setSearchString(value);
-    setSelectedFilter({
-      ...selectedFilter,
-      position: undefined
-    });
 
     let tmp: AddressDataType[] = [];
     if (mapSasTokenData?.getMapSasToken) {
@@ -203,237 +180,230 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       searchParams.set(SearchParamKeys.Latitude, lat.toString());
       searchParams.set(SearchParamKeys.Longitude, long.toString());
       setSearchParams(searchParams);
-      setSelectedFilter({
-        ...selectedFilter,
-        position: {
-          latitude: lat,
-          longitude: long
-        }
-      });
     }
   };
 
-  const getSelectedFilters = () => {
-    let tempList: string[] = [];
-    const qsproperTypes = searchParams.get('type')?.split(',');
-    const qsbedrooms = searchParams.get('bedrooms');
-    const qsbathrooms = searchParams.get('bathrooms');
-    const qsminPrice = searchParams.get('minPrice');
-    const qsmaxPrice = searchParams.get('maxPrice');
-    const qsminSquareFeet = searchParams.get('minSquareFeet');
-    const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
-    const qsamenities = searchParams.get('amenities')?.split(',');
-    const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
-    const qsdistance = searchParams.get('distance');
-    const qsListedInfo = searchParams.get('listedInfo')?.split(',');
-    const qslat = searchParams.get('lat');
-    const qslong = searchParams.get('long');
-    const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
-    const qscreatedAt = searchParams.get(SearchParamKeys.CreatedAt); // in days
-    const qsTags = searchParams.get(SearchParamKeys.Tags)?.split(',');
+  // const getSelectedFilters = () => {
+  //   let tempList: string[] = [];
+  //   const qsproperTypes = searchParams.get('type')?.split(',');
+  //   const qsbedrooms = searchParams.get('bedrooms');
+  //   const qsbathrooms = searchParams.get('bathrooms');
+  //   const qsminPrice = searchParams.get('minPrice');
+  //   const qsmaxPrice = searchParams.get('maxPrice');
+  //   const qsminSquareFeet = searchParams.get('minSquareFeet');
+  //   const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
+  //   const qsamenities = searchParams.get('amenities')?.split(',');
+  //   const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
+  //   const qsdistance = searchParams.get('distance');
+  //   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
+  //   const qslat = searchParams.get('lat');
+  //   const qslong = searchParams.get('long');
+  //   const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
+  //   const qscreatedAt = searchParams.get(SearchParamKeys.CreatedAt); // in days
+  //   const qsTags = searchParams.get(SearchParamKeys.Tags)?.split(',');
 
-    if (qsproperTypes) {
-      const propTypes = qsproperTypes.map((type) => 'Type:' + type);
-      tempList.push(...propTypes);
-    }
+  //   if (qsproperTypes) {
+  //     const propTypes = qsproperTypes.map((type) => 'Type:' + type);
+  //     tempList.push(...propTypes);
+  //   }
 
-    if (qsbedrooms) {
-      const bedrooms = 'Bedrooms:' + qsbedrooms;
-      tempList.push(bedrooms);
-    }
+  //   if (qsbedrooms) {
+  //     const bedrooms = 'Bedrooms:' + qsbedrooms;
+  //     tempList.push(bedrooms);
+  //   }
 
-    if (qsbathrooms) {
-      const bathrooms = 'Bathrooms:' + qsbathrooms;
-      tempList.push(bathrooms);
-    }
+  //   if (qsbathrooms) {
+  //     const bathrooms = 'Bathrooms:' + qsbathrooms;
+  //     tempList.push(bathrooms);
+  //   }
 
-    if (qsminPrice) {
-      if (qsminPrice !== MinPrice.toString()) {
-        const minPrice = 'MinPrice:' + qsminPrice;
-        tempList.push(minPrice);
-      }
-    }
+  //   if (qsminPrice) {
+  //     if (qsminPrice !== MinPrice.toString()) {
+  //       const minPrice = 'MinPrice:' + qsminPrice;
+  //       tempList.push(minPrice);
+  //     }
+  //   }
 
-    if (qsmaxPrice) {
-      if (qsmaxPrice !== MaxPrice.toString()) {
-        const maxPrice = 'MaxPrice:' + qsmaxPrice;
-        tempList.push(maxPrice);
-      }
-    }
+  //   if (qsmaxPrice) {
+  //     if (qsmaxPrice !== MaxPrice.toString()) {
+  //       const maxPrice = 'MaxPrice:' + qsmaxPrice;
+  //       tempList.push(maxPrice);
+  //     }
+  //   }
 
-    if (qsminSquareFeet) {
-      if (qsminSquareFeet !== MinSquareFeet.toString()) {
-        const minSquareFeet = 'MinSquareFeet:' + qsminSquareFeet;
-        tempList.push(minSquareFeet);
-      }
-    }
+  //   if (qsminSquareFeet) {
+  //     if (qsminSquareFeet !== MinSquareFeet.toString()) {
+  //       const minSquareFeet = 'MinSquareFeet:' + qsminSquareFeet;
+  //       tempList.push(minSquareFeet);
+  //     }
+  //   }
 
-    if (qsmaxSquareFeet) {
-      if (qsmaxSquareFeet !== MaxSquareFeet.toString()) {
-        const maxSquareFeet = 'MaxSquareFeet:' + qsmaxSquareFeet;
-        tempList.push(maxSquareFeet);
-      }
-    }
+  //   if (qsmaxSquareFeet) {
+  //     if (qsmaxSquareFeet !== MaxSquareFeet.toString()) {
+  //       const maxSquareFeet = 'MaxSquareFeet:' + qsmaxSquareFeet;
+  //       tempList.push(maxSquareFeet);
+  //     }
+  //   }
 
-    if (qsamenities) {
-      const amenities = qsamenities.map((amenity) => 'Amenities:' + amenity);
-      tempList.push(...amenities);
-    }
+  //   if (qsamenities) {
+  //     const amenities = qsamenities.map((amenity) => 'Amenities:' + amenity);
+  //     tempList.push(...amenities);
+  //   }
 
-    if (qsadditionalAmenities) {
-      console.log(qsadditionalAmenities);
+  //   if (qsadditionalAmenities) {
+  //     console.log(qsadditionalAmenities);
 
-      const additionalAmenities: string[] = [];
-      qsadditionalAmenities.forEach((amenity) => {
-        let category = amenity.split(':')[0];
-        let amenities = amenity.split(':')[1].split(',');
-        amenities.forEach((amenity) => {
-          additionalAmenities.push('AdditionalAmenities:' + category + '-' + amenity);
-        });
-      });
-      tempList.push(...additionalAmenities);
-    }
+  //     const additionalAmenities: string[] = [];
+  //     qsadditionalAmenities.forEach((amenity) => {
+  //       let category = amenity.split(':')[0];
+  //       let amenities = amenity.split(':')[1].split(',');
+  //       amenities.forEach((amenity) => {
+  //         additionalAmenities.push('AdditionalAmenities:' + category + '-' + amenity);
+  //       });
+  //     });
+  //     tempList.push(...additionalAmenities);
+  //   }
 
-    if (qsListedInfo) {
-      const listedInfo = qsListedInfo.map((listedInfo) => 'ListedInfo:' + listedInfo);
-      tempList.push(...listedInfo);
-    }
+  //   if (qsListedInfo) {
+  //     const listedInfo = qsListedInfo.map((listedInfo) => 'ListedInfo:' + listedInfo);
+  //     tempList.push(...listedInfo);
+  //   }
 
-    if (qsupdatedAt) {
-      const updatedAt = 'UpdatedAt:' + qsupdatedAt;
-      tempList.push(updatedAt);
-    }
+  //   if (qsupdatedAt) {
+  //     const updatedAt = 'UpdatedAt:' + qsupdatedAt;
+  //     tempList.push(updatedAt);
+  //   }
 
-    if (qscreatedAt) {
-      const createdAt = 'CreatedAt:' + qscreatedAt;
-      tempList.push(createdAt);
-    }
+  //   if (qscreatedAt) {
+  //     const createdAt = 'CreatedAt:' + qscreatedAt;
+  //     tempList.push(createdAt);
+  //   }
 
-    if (qsdistance) {
-      const distance = 'Distance:' + qsdistance;
-      tempList.push(distance);
-    }
+  //   if (qsdistance) {
+  //     const distance = 'Distance:' + qsdistance;
+  //     tempList.push(distance);
+  //   }
 
-    if (qsTags) {
-      const tags = qsTags.map((tag) => 'Tags:' + tag);
-      tempList.push(...tags);
-    }
+  //   if (qsTags) {
+  //     const tags = qsTags.map((tag) => 'Tags:' + tag);
+  //     tempList.push(...tags);
+  //   }
 
-    return setSelectedFilterList(tempList);
-  };
+  //   return setSelectedFilterList(tempList);
+  // };
 
-  const handleRemoveFilter = (filter: string) => {
-    const tempList = selectedFilterList.filter((item) => item !== filter);
-    setSelectedFilterList(tempList);
-    let section = filter.split(':')[0];
-    let value = filter.split(':')[1];
+  // const handleRemoveFilter = (filter: string) => {
+  //   const tempList = selectedFilterList.filter((item) => item !== filter);
+  //   setSelectedFilterList(tempList);
+  //   let section = filter.split(':')[0];
+  //   let value = filter.split(':')[1];
 
-    if (section === 'Type') {
-      const qsproperTypes = searchParams.get(SearchParamKeys.PropertyType)?.split(',');
-      let newPropertyTypes = qsproperTypes?.filter((type) => type !== value);
-      if (newPropertyTypes && newPropertyTypes.length > 0) {
-        searchParams.set(SearchParamKeys.PropertyType, newPropertyTypes.join(','));
-      } else {
-        searchParams.delete(SearchParamKeys.PropertyType);
-      }
-    }
+  //   if (section === 'Type') {
+  //     const qsproperTypes = searchParams.get(SearchParamKeys.PropertyType)?.split(',');
+  //     let newPropertyTypes = qsproperTypes?.filter((type) => type !== value);
+  //     if (newPropertyTypes && newPropertyTypes.length > 0) {
+  //       searchParams.set(SearchParamKeys.PropertyType, newPropertyTypes.join(','));
+  //     } else {
+  //       searchParams.delete(SearchParamKeys.PropertyType);
+  //     }
+  //   }
 
-    if (section === 'Bedrooms') {
-      searchParams.delete(SearchParamKeys.Bedrooms);
-    }
+  //   if (section === 'Bedrooms') {
+  //     searchParams.delete(SearchParamKeys.Bedrooms);
+  //   }
 
-    if (section === 'Bathrooms') {
-      searchParams.delete(SearchParamKeys.Bathrooms);
-    }
+  //   if (section === 'Bathrooms') {
+  //     searchParams.delete(SearchParamKeys.Bathrooms);
+  //   }
 
-    if (section === 'MinPrice') {
-      searchParams.set(SearchParamKeys.MinPrice, '0');
-    }
+  //   if (section === 'MinPrice') {
+  //     searchParams.set(SearchParamKeys.MinPrice, '0');
+  //   }
 
-    if (section === 'MaxPrice') {
-      searchParams.set(SearchParamKeys.MaxPrice, '1000000');
-    }
+  //   if (section === 'MaxPrice') {
+  //     searchParams.set(SearchParamKeys.MaxPrice, '1000000');
+  //   }
 
-    if (section === 'MinSquareFeet') {
-      searchParams.set(SearchParamKeys.MinSquareFeet, '0');
-    }
+  //   if (section === 'MinSquareFeet') {
+  //     searchParams.set(SearchParamKeys.MinSquareFeet, '0');
+  //   }
 
-    if (section === 'MaxSquareFeet') {
-      searchParams.set(SearchParamKeys.MaxSquareFeet, '100000');
-    }
+  //   if (section === 'MaxSquareFeet') {
+  //     searchParams.set(SearchParamKeys.MaxSquareFeet, '100000');
+  //   }
 
-    if (section === 'Amenities') {
-      const qsamenities = searchParams.get(SearchParamKeys.Amenities)?.split(',');
-      let newAmenities = qsamenities?.filter((amenity) => amenity !== value);
-      if (newAmenities && newAmenities.length > 0) {
-        searchParams.set(SearchParamKeys.Amenities, newAmenities.join(','));
-      } else {
-        searchParams.delete(SearchParamKeys.Amenities);
-      }
-    }
+  //   if (section === 'Amenities') {
+  //     const qsamenities = searchParams.get(SearchParamKeys.Amenities)?.split(',');
+  //     let newAmenities = qsamenities?.filter((amenity) => amenity !== value);
+  //     if (newAmenities && newAmenities.length > 0) {
+  //       searchParams.set(SearchParamKeys.Amenities, newAmenities.join(','));
+  //     } else {
+  //       searchParams.delete(SearchParamKeys.Amenities);
+  //     }
+  //   }
 
-    if (section === 'AdditionalAmenities') {
-      //Get the category and amenity
-      const deletedCategory = value.split('-')[0];
-      const deletedAmenity = value.split('-')[1];
-      const qsadditionalAmenities = searchParams.get(SearchParamKeys.AdditionalAmenities)?.split(';'); // [Features:Iron,Washer/Dryer (Private) , Location:Oceanfront , Outdoor:Balcony]
+  //   if (section === 'AdditionalAmenities') {
+  //     //Get the category and amenity
+  //     const deletedCategory = value.split('-')[0];
+  //     const deletedAmenity = value.split('-')[1];
+  //     const qsadditionalAmenities = searchParams.get(SearchParamKeys.AdditionalAmenities)?.split(';'); // [Features:Iron,Washer/Dryer (Private) , Location:Oceanfront , Outdoor:Balcony]
 
-      if (qsadditionalAmenities) {
-        for (let i = 0; i < qsadditionalAmenities.length; i++) {
-          let category = qsadditionalAmenities[i].split(':')[0];
-          let amenities = qsadditionalAmenities[i].split(':')[1].split(',');
-          if (category === deletedCategory) {
-            amenities = amenities.filter((amenity) => amenity !== deletedAmenity);
-            if (amenities.length > 0) {
-              qsadditionalAmenities[i] = category + ':' + amenities.join(',');
-            } else {
-              qsadditionalAmenities.splice(i, 1);
-            }
-          }
-        }
-      }
-      if (qsadditionalAmenities && qsadditionalAmenities.length > 0) {
-        searchParams.set(SearchParamKeys.AdditionalAmenities, qsadditionalAmenities.join(';'));
-      } else {
-        searchParams.delete(SearchParamKeys.AdditionalAmenities);
-      }
-    }
+  //     if (qsadditionalAmenities) {
+  //       for (let i = 0; i < qsadditionalAmenities.length; i++) {
+  //         let category = qsadditionalAmenities[i].split(':')[0];
+  //         let amenities = qsadditionalAmenities[i].split(':')[1].split(',');
+  //         if (category === deletedCategory) {
+  //           amenities = amenities.filter((amenity) => amenity !== deletedAmenity);
+  //           if (amenities.length > 0) {
+  //             qsadditionalAmenities[i] = category + ':' + amenities.join(',');
+  //           } else {
+  //             qsadditionalAmenities.splice(i, 1);
+  //           }
+  //         }
+  //       }
+  //     }
+  //     if (qsadditionalAmenities && qsadditionalAmenities.length > 0) {
+  //       searchParams.set(SearchParamKeys.AdditionalAmenities, qsadditionalAmenities.join(';'));
+  //     } else {
+  //       searchParams.delete(SearchParamKeys.AdditionalAmenities);
+  //     }
+  //   }
 
-    if (section === 'ListedInfo') {
-      const qsListedInfo = searchParams.get(SearchParamKeys.ListedInfo)?.split(',');
-      let newListedInfo = qsListedInfo?.filter((listedInfo) => listedInfo !== value);
-      if (newListedInfo && newListedInfo.length > 0) {
-        searchParams.set(SearchParamKeys.ListedInfo, newListedInfo.join(','));
-      } else {
-        searchParams.delete(SearchParamKeys.ListedInfo);
-      }
-    }
+  //   if (section === 'ListedInfo') {
+  //     const qsListedInfo = searchParams.get(SearchParamKeys.ListedInfo)?.split(',');
+  //     let newListedInfo = qsListedInfo?.filter((listedInfo) => listedInfo !== value);
+  //     if (newListedInfo && newListedInfo.length > 0) {
+  //       searchParams.set(SearchParamKeys.ListedInfo, newListedInfo.join(','));
+  //     } else {
+  //       searchParams.delete(SearchParamKeys.ListedInfo);
+  //     }
+  //   }
 
-    if (section === 'UpdatedAt') {
-      searchParams.delete(SearchParamKeys.UpdatedAt);
-    }
+  //   if (section === 'UpdatedAt') {
+  //     searchParams.delete(SearchParamKeys.UpdatedAt);
+  //   }
 
-    if (section === 'CreatedAt') {
-      searchParams.delete(SearchParamKeys.CreatedAt);
-    }
+  //   if (section === 'CreatedAt') {
+  //     searchParams.delete(SearchParamKeys.CreatedAt);
+  //   }
 
-    if (section === 'Distance') {
-      searchParams.delete(SearchParamKeys.Distance);
-    }
+  //   if (section === 'Distance') {
+  //     searchParams.delete(SearchParamKeys.Distance);
+  //   }
 
-    if (section === 'Tags') {
-      const qsTags = searchParams.get(SearchParamKeys.Tags)?.split(',');
-      let newTags = qsTags?.filter((tag) => tag !== value);
-      if (newTags && newTags.length > 0) {
-        searchParams.set(SearchParamKeys.Tags, newTags.join(','));
-      } else {
-        searchParams.delete(SearchParamKeys.Tags);
-      }
-    }
+  //   if (section === 'Tags') {
+  //     const qsTags = searchParams.get(SearchParamKeys.Tags)?.split(',');
+  //     let newTags = qsTags?.filter((tag) => tag !== value);
+  //     if (newTags && newTags.length > 0) {
+  //       searchParams.set(SearchParamKeys.Tags, newTags.join(','));
+  //     } else {
+  //       searchParams.delete(SearchParamKeys.Tags);
+  //     }
+  //   }
 
-    // searchParams.delete(filter);
-    setSearchParams(searchParams);
-  };
+  //   // searchParams.delete(filter);
+  //   setSearchParams(searchParams);
+  // };
 
   const result = () => {
     if (error || mapSasTokenError) {
@@ -481,8 +451,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
   return (
     <>
-      <div>
-        {selectedFilterList.map((filter: string) => {
+      {/* <div>
+        {se.map((filter: string) => {
           return (
             <Tag
               closable
@@ -495,26 +465,17 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             </Tag>
           );
         })}
-      </div>
+      </div> */}
 
       <div>{data?.propertiesSearch?.count ? '(' + data?.propertiesSearch?.count + ' records found)' : ''}</div>
       <PropertiesListSearchToolbar
         data={data}
         searchString={searchString}
         setSearchString={setSearchString}
-        selectedFilter={selectedFilter}
-        setSelectedFilter={setSelectedFilter}
         handleSearch={handleSearch}
         onInputAddressChanged={onInputAddressChanged}
         onInputAddressSelected={onInputAddressSelected}
-        top={top}
-        setTop={setTop}
         addresses={addresses}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        orderBy={orderBy}
-        setOrderBy={setOrderBy}
-        setHideNullResults={setHideNullResults}
       />
 
       {result()}

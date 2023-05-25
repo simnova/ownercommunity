@@ -19,21 +19,11 @@ import { PropertiesListSearchFilterTagsContainer } from './properties-list-searc
 const { Panel } = Collapse;
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
-  selectedFilter?: FilterDetail;
-  setSelectedFilter: (filter: FilterDetail | undefined) => void;
-  setTop: (top: number) => void;
 }
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [displayedFilters, setDisplayedFilters] = useState<string[]>([]);
-
-  useEffect(() => {
-    const qsTop = searchParams.get(SearchParamKeys.Top);
-    if (qsTop) {
-      props.setTop(Number(qsTop));
-    }
-  }, []);
 
   useEffect(() => {
     const filters = [];

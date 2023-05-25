@@ -12,19 +12,10 @@ interface PropertiesListSearchToolbarProps {
   data: any;
   searchString: string;
   setSearchString: (searchString: string) => void;
-  selectedFilter: FilterDetail | undefined;
-  setSelectedFilter: (filter: FilterDetail | undefined) => void;
-  handleSearch: (page: number, top: number) => void;
+  handleSearch: () => void;
   onInputAddressChanged: (value: string) => void;
   onInputAddressSelected: (value: string) => void;
-  top: number | undefined;
-  setTop: (top: number) => void;
   addresses: AddressDataType[];
-  currentPage: number | undefined;
-  setCurrentPage: (page: number) => void;
-  orderBy: string[];
-  setOrderBy: (orderBy: string[]) => void;
-  setHideNullResults: (hideNullResults: boolean) => void;
 }
 
 interface AddressDataType {
@@ -49,67 +40,50 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   const filters = JSON.parse(localStorage.getItem('filters') ?? '[]');
 
   useEffect(() => {
-    props.handleSearch(props.currentPage ?? 0, props.top ?? 10);
+    props.handleSearch();
   }, [searchParams]);
 
-  useEffect(() => {
-    const page = parseInt(searchParams.get(SearchParamKeys.Page) ?? '1') - 1;
-    const top = parseInt(searchParams.get(SearchParamKeys.Top) ?? '10');
-    props.handleSearch(page, top);
-  }, [props.selectedFilter]);
-
-  const onSelectTopChanged = (value: number) => {
-    props.setTop(value);
-    props.setCurrentPage(0);
-    props.handleSearch(0, value);
+  const handleShowSizeChange = (value: number) => {
+    searchParams.set(SearchParamKeys.Top, value.toString());
+    setSearchParams(searchParams);
+    props.handleSearch();
   };
 
   const onSelectOrderByChanged = (value: string) => {
-    props.setOrderBy([value]);
     if (value === '') searchParams.delete(SearchParamKeys.OrderBy);
     else searchParams.set(SearchParamKeys.OrderBy, value);
     setSearchParams(searchParams);
+    props.handleSearch();
   };
 
   const onSelectFilterChanged = (value: string) => {
-    if (value === '') clearFilter();
-    else {
       const filter = filters.find((f: any) => f.name === value);
-      setSavedFilter(value);
+      // setSavedFilter(value);
       searchParams.set(SearchParamKeys.SavedFilter, value);
       setSearchParams(searchParams);
-      props.setSelectedFilter(filter.value);
       setSearchParams(GetSearchParamsFromFilter(filter.value, searchParams));
-    }
   };
 
-  const onHideNullResultsChanged = (e: any) => {
-    props.setHideNullResults(e.target.checked);
-    if (e.target.checked) searchParams.set(SearchParamKeys.HideNullResults, 'true');
-    else searchParams.delete(SearchParamKeys.HideNullResults);
-    setSearchParams(searchParams);
-  };
-
-  const saveFilter = () => {
-    if (props.selectedFilter && selectedFilterName != '') {
-      if (filters.find((f: any) => f.name === selectedFilterName)) {
-        filters.splice(
-          filters.findIndex((f: any) => f.name === selectedFilterName),
-          1,
-          { name: selectedFilterName, value: props.selectedFilter }
-        );
-        message.success(`Filter "${selectedFilterName}" updated`);
-      } else {
-        filters.push({
-          name: selectedFilterName,
-          value: props.selectedFilter
-        });
-        message.success(`Filter "${selectedFilterName}" saved`);
-      }
-      localStorage.setItem('filters', JSON.stringify(filters));
-    }
-    setIsSaveModalVisible(false);
-  };
+  // const saveFilter = () => {
+  //   if (props.selectedFilter && selectedFilterName != '') {
+  //     if (filters.find((f: any) => f.name === selectedFilterName)) {
+  //       filters.splice(
+  //         filters.findIndex((f: any) => f.name === selectedFilterName),
+  //         1,
+  //         { name: selectedFilterName, value: props.selectedFilter }
+  //       );
+  //       message.success(`Filter "${selectedFilterName}" updated`);
+  //     } else {
+  //       filters.push({
+  //         name: selectedFilterName,
+  //         value: props.selectedFilter
+  //       });
+  //       message.success(`Filter "${selectedFilterName}" saved`);
+  //     }
+  //     localStorage.setItem('filters', JSON.stringify(filters));
+  //   }
+  //   setIsSaveModalVisible(false);
+  // };
 
   const deleteSavedFilter = () => {
     if (savedFilter) {
@@ -118,46 +92,44 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         1
       );
       localStorage.setItem('filters', JSON.stringify(filters));
-      clearFilter();
       message.success(`Filter "${savedFilter}" deleted`);
     }
   };
 
   const handlePagination = (newPage: number) => {
     const current = newPage - 1;
-    props.setCurrentPage(current);
-    props.handleSearch(current, props.top ?? 10);
+    searchParams.set(SearchParamKeys.Page, current.toString());
+    props.handleSearch();
   };
 
-  const clearFilter = () => {
-    props.setSelectedFilter(undefined);
-    searchParams.delete(SearchParamKeys.AdditionalAmenities);
-    searchParams.delete(SearchParamKeys.Amenities);
-    searchParams.delete(SearchParamKeys.Bathrooms);
-    searchParams.delete(SearchParamKeys.Bedrooms);
-    searchParams.delete(SearchParamKeys.ListedInfo);
-    searchParams.delete(SearchParamKeys.MaxPrice);
-    searchParams.delete(SearchParamKeys.MinPrice);
-    searchParams.delete(SearchParamKeys.PropertyType);
-    searchParams.delete(SearchParamKeys.MaxSquareFeet);
-    searchParams.delete(SearchParamKeys.MinSquareFeet);
-    searchParams.delete(SearchParamKeys.Distance);
-    searchParams.delete(SearchParamKeys.UpdatedAt);
-    searchParams.delete(SearchParamKeys.CreatedAt);
-    searchParams.delete(SearchParamKeys.SearchString);
-    searchParams.delete(SearchParamKeys.Latitude);
-    searchParams.delete(SearchParamKeys.Longitude);
-    searchParams.delete(SearchParamKeys.SavedFilter);
-    searchParams.delete(SearchParamKeys.Tags);
-    props.setSearchString('');
-    searchParams.set(SearchParamKeys.Page, '1');
-    setSearchParams(searchParams);
-    setSavedFilter('');
-  };
+  // const clearFilter = () => {
+  //   props.setSelectedFilter(undefined);
+  //   searchParams.delete(SearchParamKeys.AdditionalAmenities);
+  //   searchParams.delete(SearchParamKeys.Amenities);
+  //   searchParams.delete(SearchParamKeys.Bathrooms);
+  //   searchParams.delete(SearchParamKeys.Bedrooms);
+  //   searchParams.delete(SearchParamKeys.ListedInfo);
+  //   searchParams.delete(SearchParamKeys.MaxPrice);
+  //   searchParams.delete(SearchParamKeys.MinPrice);
+  //   searchParams.delete(SearchParamKeys.PropertyType);
+  //   searchParams.delete(SearchParamKeys.MaxSquareFeet);
+  //   searchParams.delete(SearchParamKeys.MinSquareFeet);
+  //   searchParams.delete(SearchParamKeys.Distance);
+  //   searchParams.delete(SearchParamKeys.UpdatedAt);
+  //   searchParams.delete(SearchParamKeys.CreatedAt);
+  //   searchParams.delete(SearchParamKeys.SearchString);
+  //   searchParams.delete(SearchParamKeys.Latitude);
+  //   searchParams.delete(SearchParamKeys.Longitude);
+  //   searchParams.delete(SearchParamKeys.SavedFilter);
+  //   searchParams.delete(SearchParamKeys.Tags);
+  //   props.setSearchString('');
+  //   searchParams.set(SearchParamKeys.Page, '1');
+  //   setSearchParams(searchParams);
+  //   setSavedFilter('');
+  // };
 
   const searchButtonClicked = () => {
-    props.setCurrentPage(0);
-    props.handleSearch(0, props.top ?? 10);
+    props.handleSearch();
   };
 
   return (
@@ -184,9 +156,11 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           </Button>
 
           <Pagination
-            current={(props.currentPage ?? 0) + 1}
+            className='search-pagination'
+            current={parseInt(searchParams.get(SearchParamKeys.Page) ?? '1')}
             total={props.data?.propertiesSearch?.count ?? 10}
-            pageSize={props.top ?? 10}
+            pageSize={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
+            pageSizeOptions={['5', '10', '25', '50']}
             onChange={(page) => handlePagination(page)}
           />
           <span
@@ -198,7 +172,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           </span>
           <Select
             defaultValue={parseInt(searchParams.get(SearchParamKeys.Top) ?? '10')}
-            onChange={(value) => onSelectTopChanged(value)}
+            onChange={(value) => handleShowSizeChange(value)}
           >
             <Option value={5}>5</Option>
             <Option value={10}>10</Option>
@@ -212,13 +186,6 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
               <span>Filters</span>
             </Space>
           </Button>
-          <Checkbox
-            disabled={!searchParams.get(SearchParamKeys.OrderBy)}
-            onChange={(e) => onHideNullResultsChanged(e)}
-            defaultChecked={searchParams.get(SearchParamKeys.HideNullResults) ? true : false}
-          >
-            <span style={{ color: colorText }}>Hide Null Results</span>
-          </Checkbox>
         </Space>
 
         <Space>
@@ -249,7 +216,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           <Modal
             title="Save Filter"
             open={isSaveModalVisible}
-            onOk={() => saveFilter()}
+            // onOk={() => saveFilter()}
             onCancel={() => setIsSaveModalVisible(false)}
           >
             <Space size="middle">
@@ -301,9 +268,9 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             <Button
               key="clear"
               type="link"
-              onClick={() => {
-                clearFilter();
-              }}
+              // onClick={() => {
+              //   clearFilter();
+              // }}
             >
               Clear Filters
             </Button>
@@ -311,9 +278,6 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         >
           <PropertiesListSearchFilters
             facets={props.data?.propertiesSearch?.facets as PropertySearchFacets}
-            setSelectedFilter={props.setSelectedFilter}
-            selectedFilter={props.selectedFilter}
-            setTop={props.setTop}
           />
         </Modal>
       </Space>

@@ -144,7 +144,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             <FilterOutlined />
           </Button>
         </div>
-        <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} />
+        <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} searchParams={searchParams} setSearchParams={setSearchParams} />
         {SearchResult}
       </>
     );

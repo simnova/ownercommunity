@@ -203,7 +203,6 @@ input PropertiesSearchOptions {
   top: Int
   skip: Int
   orderBy: [String]
-  hideNullResults: Boolean
 }
 input FilterDetail {
   communityId: String
@@ -212,8 +211,6 @@ input FilterDetail {
   listedInfo: [String]
   distance: Float
   position: GeographyPointInput
-  updatedAt: String
-  createdAt: String
   tags: [String]
 }
 
@@ -312,8 +309,6 @@ type PropertySearchFacets {
   listedForSale: [FacetDetail]
   bedrooms: [FacetDetail]
   bathrooms: [FacetDetail]
-  updatedAt: [FacetDetail]
-  createdAt: [FacetDetail]
   tags: [FacetDetail]
 }
 

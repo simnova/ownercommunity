@@ -339,14 +339,12 @@ export type FileInfo = {
 
 export type FilterDetail = {
   communityId?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['String']>;
   distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
   position?: InputMaybe<GeographyPointInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  updatedAt?: InputMaybe<Scalars['String']>;
 };
 
 export type GeographyPoint = {
@@ -827,7 +825,6 @@ export type PropertiesSearchInput = {
 export type PropertiesSearchOptions = {
   facets?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   filter?: InputMaybe<FilterDetail>;
-  hideNullResults?: InputMaybe<Scalars['Boolean']>;
   orderBy?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skip?: InputMaybe<Scalars['Int']>;
   top?: InputMaybe<Scalars['Int']>;
@@ -942,13 +939,11 @@ export type PropertySearchFacets = {
   amenities?: Maybe<Array<Maybe<FacetDetail>>>;
   bathrooms?: Maybe<Array<Maybe<FacetDetail>>>;
   bedrooms?: Maybe<Array<Maybe<FacetDetail>>>;
-  createdAt?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForLease?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
   tags?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
-  updatedAt?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -2568,13 +2563,11 @@ export type PropertySearchFacetsResolvers<
   amenities?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   bathrooms?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   bedrooms?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   listedForLease?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   listedForRent?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   listedForSale?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   type?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<Array<Maybe<ResolversTypes['FacetDetail']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

@@ -138,18 +138,18 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
       </Collapse>
 
       {/* Date (updatedAt) */}
-      <PropertiesListSearchFilterUpdatedDate
+      {/* <PropertiesListSearchFilterUpdatedDate
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
         updatedDateFacet={props.facets?.updatedAt as FacetDetail[]}
-      />
+      /> */}
 
       {/* Date (createdAt) */}
-      <PropertiesListSearchFilterCreatedDate
+      {/* <PropertiesListSearchFilterCreatedDate
         selectedFilter={props.selectedFilter}
         setSelectedFilter={props.setSelectedFilter}
         createdDateFacet={props.facets?.createdAt as FacetDetail[]}
-      />
+      /> */}
 
       {/* Tags */}
       <PropertiesListSearchFilterTagsContainer

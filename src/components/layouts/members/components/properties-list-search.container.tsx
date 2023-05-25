@@ -146,7 +146,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             top: top,
             skip: tempSkip,
             orderBy: orderBy,
-            hideNullResults: hideNullResults
           }
         }
       }

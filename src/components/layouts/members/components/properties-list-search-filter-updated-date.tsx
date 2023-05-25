@@ -26,7 +26,7 @@ export const PropertiesListSearchFilterUpdatedDate: React.FC<PropertiesListSearc
     setSearchParams(searchParams);
     props.setSelectedFilter({
       ...props.selectedFilter,
-      updatedAt: date
+      // updatedAt: date
     });
   };
 

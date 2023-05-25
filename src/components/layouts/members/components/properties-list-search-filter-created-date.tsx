@@ -26,7 +26,7 @@ export const PropertiesListSearchFilterCreatedDate: React.FC<PropertiesListSearc
     setSearchParams(searchParams);
     props.setSelectedFilter({
       ...props.selectedFilter,
-      createdAt: date
+      // createdAt: date
     });
   };
 

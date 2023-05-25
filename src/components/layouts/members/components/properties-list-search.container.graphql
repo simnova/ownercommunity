@@ -50,14 +50,6 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       value
       count
     }
-    updatedAt {
-      value
-      count
-    }
-    createdAt {
-      value
-      count
-    }
     tags {
       value
       count

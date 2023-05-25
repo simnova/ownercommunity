@@ -401,17 +401,17 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
         : undefined
   };
 
-  // updated date
-  filters = {
-    ...filters,
-    updatedAt: qsupdatedAt
-  };
+  // // updated date
+  // filters = {
+  //   ...filters,
+  //   updatedAt: qsupdatedAt
+  // };
 
-  // created date
-  filters = {
-    ...filters,
-    createdAt: qscreatedAt
-  };
+  // // created date
+  // filters = {
+  //   ...filters,
+  //   createdAt: qscreatedAt
+  // };
 
   // tags
   const qstags = searchParams.get('tags')?.split(',');
@@ -459,12 +459,12 @@ export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, sear
       if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
       if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
     }
-    if (filter.updatedAt) {
-      searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
-    }
-    if (filter.createdAt) {
-      searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
-    }
+    // if (filter.updatedAt) {
+    //   searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
+    // }
+    // if (filter.createdAt) {
+    //   searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
+    // }
     if (filter.listingDetail) {
       if (filter.listingDetail.bedrooms)
         searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());

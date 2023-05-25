@@ -14,7 +14,6 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
 import { ServiceTicketsSearchContainer } from './service-tickets-search-container';
-import { orderBy } from 'lodash';
 
 const { Search } = Input;
 

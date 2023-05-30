@@ -38,7 +38,7 @@ export default (cognitiveSearch:ICognitiveSearch) => {
         id: property.id,
         communityId: property.community.id,
         name: property.propertyName,
-        type: property.propertyType,
+        type: property.propertyType.toLowerCase(),
         bedrooms: property.listingDetail?.bedrooms,
         amenities: property.listingDetail?.amenities,
         additionalAmenities: updatedAdditionalAmenities,
@@ -105,8 +105,6 @@ export default (cognitiveSearch:ICognitiveSearch) => {
 
 
   async function updateSearchIndex(listingDoc: Partial<PropertyListingIndexDocument>, property: Property<PropertyDomainAdapter>, hash: any, repo: MongoPropertyRepository<PropertyDomainAdapter>) {
-    //let cognitiveSearch = new CognitiveSearch();
-    // await cognitiveSearch.createIndexIfNotExists(propertyListingIndexSpec.name, propertyListingIndexSpec);
     await cognitiveSearch.createOrUpdateIndex(PropertyListingIndexSpec.name, PropertyListingIndexSpec);
     await cognitiveSearch.indexDocument(PropertyListingIndexSpec.name, listingDoc);
     console.log(`Property Updated - Index Updated: ${JSON.stringify(listingDoc)}`);

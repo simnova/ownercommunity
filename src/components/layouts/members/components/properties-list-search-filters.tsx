@@ -1,158 +1,190 @@
-import { PropertiesListSearchFilterAdditionalAmenities } from './properties-list-search-filter-additional-amenities';
-import { PropertiesListSearchFilterAmenities } from './properties-list-search-filter-amenities';
-import { PropertiesListSearchFilterBathrooms } from './properties-list-search-filter-bathrooms';
-import { PropertiesListSearchFilterBedrooms } from './properties-list-search-filter-bedrooms';
-import { PropertiesListSearchFilterPrice } from './properties-list-search-filter-price';
-import { PropertiesListSearchFilterPropertyType } from './properties-list-search-filter-property-type';
-import { PropertiesListSearchFilterSquareFeet } from './properties-list-search-filter-square-feet';
-import { useSearchParams } from 'react-router-dom';
-import { FacetDetail, FilterDetail, PropertySearchFacets } from '../../../../generated';
+import { FacetDetail, PropertySearchFacets } from '../../../../generated';
 import { FC, useEffect, useState } from 'react';
-import { PropertiesListSearchFilterListedInfo } from './properties-list-search-filter-listed-info';
 import { FilterNames, SearchParamKeys } from '../../../../constants';
-import { PropertiesListSearchFilterDistance } from './properties-list-search-filter-distance';
-import { PropertiesListSearchFilterUpdatedDate } from './properties-list-search-filter-updated-date';
-import { PropertiesListSearchFilterCreatedDate } from './properties-list-search-filter-created-date';
-import { Collapse } from 'antd';
-import { PropertiesListSearchFilterTagsContainer } from './properties-list-search-filter-tags.container';
-
-const { Panel } = Collapse;
+import { SearchFilter, SearchFilterConfigDefinition, SearchFilterProps } from '../../shared/components/search-filter';
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
+  searchData: any;
 }
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [displayedFilters, setDisplayedFilters] = useState<string[]>([]);
+  const [filters, setFilters] = useState<SearchFilterProps[]>([]);
+
+  const generateFilters = (config: SearchFilterConfigDefinition) => {
+    const filters: SearchFilterProps[] = [];
+    config.filters.forEach((filter: any) => {
+
+      let newFilter: SearchFilterProps = {
+        title: filter.title,
+        options: [],
+        searchId: filter.searchId,
+        searchbar: filter.searchbar ?? false,
+        type: filter.type ?? 'checkbox',
+      }
+
+      filter.values.forEach((value: any) => {
+        let count: number;
+        if (filter.facet.length > 1) {
+          const facetName = filter.facet.find((facet: any) => facet === filter.handleFilter(value));
+          count = props.searchData.facets[facetName].find((facet: any) => filter.handleCount(facet))?.count ?? 0;
+        } else {
+          if (props.searchData.facets[filter.facet[0]]) {
+            count = props.searchData.facets[filter.facet[0]].find((facet: any) => (filter.handleCount ? filter.handleCount(facet, value) : facet.value === value))?.count ?? 0;
+          } else {
+            count = 0;
+          }
+        }
+        if (filter.handleBuild) {
+          filter.handleBuild(newFilter, value, count);
+        } else {
+          newFilter.options.push({
+            name: value,
+            count: count,
+            id: value,
+          });
+        }
+      })
+
+      filters.push(newFilter);
+    });
+    setFilters(filters);
+  }
 
   useEffect(() => {
-    const filters = [];
-    // type
-    if (props?.facets?.type && props.facets.type.length > 0) {
-      filters.push(FilterNames.Type);
-    }
 
-    // bedrooms
-    if (props?.facets?.bedrooms && props.facets.bedrooms.length > 0) {
-      filters.push(FilterNames.Bedrooms);
-    }
-    setDisplayedFilters(filters);
-  }, [props.facets]);
+    const filterConfig: SearchFilterConfigDefinition = {
+      filters: [
+        // Listed Info
+        {
+          title: "Listed Info",
+          searchId: [SearchParamKeys.ListedInfo],
+          values: ['For Sale', 'For Rent', 'For Lease'],
+          facet: ['listedForSale', 'listedForRent', 'listedForLease'],
+          handleFilter: (value: any) => {
+            switch(value) {
+              case 'For Sale':
+                return 'listedForSale';
+              case 'For Rent':
+                return 'listedForRent';
+              case 'For Lease':
+                return 'listedForLease';
+              default:
+                return '';
+            }
+          },
+          handleCount: (facet: FacetDetail) => {
+            return facet.value === 'true';
+          },
+          handleBuild: (filter: SearchFilterProps, value: any, count: number) => {
+            const id = value === 'For Sale' ? 'listedForSale' : value === 'For Rent' ? 'listedForRent' : 'listedForLease';
+            filter.options.push({
+              name: value,
+              count: count,
+              id: id,
+            });
+          }
+        },
+        // Property Type
+        {
+          title: "Property Type",
+          searchId: [SearchParamKeys.Type],
+          values: [
+            'Townhouse',
+            'Condo',
+            'Single Family',
+            'Apartment',
+            'Land',
+            'Studio',
+            'Multi-Family',
+            'Storefront'
+          ],
+          facet: ['type'],
+          handleCount: (facet: FacetDetail, value: any) => {
+            return facet?.value?.toLowerCase() === value.toLowerCase();
+          },
+          handleBuild: (filter: SearchFilterProps, value: any, count: number) => {
+            filter.options.push({
+              name: value,
+              count: count,
+              id: value.toLowerCase(),
+            });
+          }
+        },
+        // Bedrooms
+        {
+          title: "Bedrooms",
+          searchId: [SearchParamKeys.Bedrooms],
+          values: ['1+', '2+', '3+', '4+', '5+'],
+          facet: ['bedrooms'],
+          type: 'radio',
+        },
+        // Bathrooms
+        {
+          title: "Bathrooms",
+          searchId: [SearchParamKeys.Bathrooms],
+          values: ['1+', '1.5+', '2+', '3+', '4+', '5+'],
+          facet: ['bathrooms'],
+          type: 'radio',
+        },
+        // Price
+        {
+          title: "Price",
+          searchId: [SearchParamKeys.MinPrice, SearchParamKeys.MaxPrice],
+          values: ['Min Price', 'Max Price'],
+          facet: ['price'],
+          type: 'inputNumber',
+          handleBuild: (filter: SearchFilterProps, value: any, count: number) => {
+            const id = value === 'Min Price' ? SearchParamKeys.MinPrice : SearchParamKeys.MaxPrice;
+            filter.options.push({
+              name: value,
+              count: count,
+              id: id,
+            });
+          }
+        },
+        // Square Feet
+        {
+          title: "Square Feet",
+          searchId: [SearchParamKeys.MinSquareFeet, SearchParamKeys.MaxSquareFeet],
+          values: ['Min Square Feet', 'Max Square Feet'],
+          facet: ['squareFeet'],
+          type: 'inputNumber',
+          handleBuild: (filter: SearchFilterProps, value: any, count: number) => {
+            const id = value === 'Min Square Feet' ? SearchParamKeys.MinSquareFeet : SearchParamKeys.MaxSquareFeet;
+            filter.options.push({
+              name: value,
+              count: count,
+              id: id,
+            });
+          }
+        },
+        // Amenities
+        {
+          title: "Amenities",
+          searchId: [SearchParamKeys.Amenities],
+          values: props.searchData.facets['amenities']?.map((amenity: any) => amenity.value) ?? [],
+          facet: ['amenities'],
+        }
+      ]
+    };
 
-  const getListedInfoFacets = (facets?: PropertySearchFacets) => {
-    const listedInfoFacets: FacetDetail[] = [];
-    if (facets) {
-      if (facets.listedForLease) {
-        const temp = facets.listedForLease.find((l) => l?.value === 'true');
-        listedInfoFacets.push({
-          value: FilterNames.ListedForLease,
-          count: temp?.count
-        } as FacetDetail);
-      }
-      if (facets.listedForSale) {
-        const temp = facets.listedForSale.find((l) => l?.value === 'true');
-        listedInfoFacets.push({
-          value: FilterNames.ListedForSale,
-          count: temp?.count
-        } as FacetDetail);
-      }
-      if (facets.listedForRent) {
-        const temp = facets.listedForRent.find((l) => l?.value === 'true');
-        listedInfoFacets.push({
-          value: FilterNames.ListedForRent,
-          count: temp?.count
-        } as FacetDetail);
-      }
-    }
-    return listedInfoFacets;
-  };
+    generateFilters(filterConfig);
+  }, []);
 
   return (
-    <div>
-      {/* Type */}
-      <PropertiesListSearchFilterPropertyType
-        propertyTypeFacets={props.facets?.type as FacetDetail[]}
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-
-      {/* Bedrooms */}
-      <PropertiesListSearchFilterBedrooms
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        bedroomsFacets={props.facets?.bedrooms as FacetDetail[]}
-      />
-
-      {/* Bathrooms */}
-      <PropertiesListSearchFilterBathrooms
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        bathroomsFacets={props.facets?.bathrooms as FacetDetail[]}
-      />
-
-      {/* Amenities */}
-      <PropertiesListSearchFilterAmenities
-        amenitiesFacets={props.facets?.amenities as FacetDetail[]}
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-
-      {/* Additional Amenities */}
-      <PropertiesListSearchFilterAdditionalAmenities
-        additionalAmenitiesAmenitiesFacets={props.facets?.additionalAmenitiesAmenities as FacetDetail[]}
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-
-      {/* squareFeet */}
-      <PropertiesListSearchFilterSquareFeet
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-
-      {/* Listed Info: listedForSale, listedForLease, listedForRent */}
-      <PropertiesListSearchFilterListedInfo
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        listedInfoFacets={getListedInfoFacets(props.facets)}
-      />
-
-      <Collapse className="search-filter-collapse">
-        {/* Distance */}
-        <Panel header={<h2 className="font-bold">Distance</h2>} key={FilterNames.Distance}>
-          <PropertiesListSearchFilterDistance
-            selectedFilter={props.selectedFilter}
-            setSelectedFilter={props.setSelectedFilter}
-          />
-        </Panel>
-      </Collapse>
-
-      {/* Date (updatedAt) */}
-      {/* <PropertiesListSearchFilterUpdatedDate
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        updatedDateFacet={props.facets?.updatedAt as FacetDetail[]}
-      /> */}
-
-      {/* Date (createdAt) */}
-      {/* <PropertiesListSearchFilterCreatedDate
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        createdDateFacet={props.facets?.createdAt as FacetDetail[]}
-      /> */}
-
-      {/* Tags */}
-      <PropertiesListSearchFilterTagsContainer
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-        tagsFacets={props.facets?.tags as FacetDetail[]}
-      />
-
-      {/* Price */}
-      <PropertiesListSearchFilterPrice
-        selectedFilter={props.selectedFilter}
-        setSelectedFilter={props.setSelectedFilter}
-      />
-    </div>
+    <>
+    {filters?.map((filter: SearchFilterProps) => {
+      return (
+        <SearchFilter
+          title={filter?.title}
+          key={filter?.searchId[0]}
+          searchId={filter?.searchId}
+          options={filter?.options}
+          searchbar={filter?.searchbar ?? false}
+          type={filter?.type}
+        />
+      );
+    })}
+  </>
   );
 };

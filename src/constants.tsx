@@ -21,7 +21,7 @@ export const handleToggler = (isExpanded: boolean, callback: (isExpanded: boolea
 export const SearchParamKeys = {
   SearchString: 'search',
   ListedInfo: 'listedInfo',
-  PropertyType: 'type',
+  Type: 'type',
   Amenities: 'amenities',
   AdditionalAmenities: 'additionalAmenities',
   MinPrice: 'minPrice',
@@ -289,8 +289,7 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
   return address();
 };
 
-export const GetFilterFromQueryString = (searchParams: URLSearchParams): FilterDetail => {
-  const params = useParams();
+export const GetFilterFromQueryString = (searchParams: URLSearchParams, communityId: string): FilterDetail => {
   // get all search params
   const qsproperTypes = searchParams.get('type')?.split(',');
   const qsbedrooms = searchParams.get('bedrooms');
@@ -345,7 +344,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams): FilterD
     ...filters,
     listingDetail: {
       ...filters?.listingDetail,
-      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : undefined
+      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : qsminPrice ? [parseInt(qsminPrice), 1000000000] : qsmaxPrice ? [0, parseInt(qsmaxPrice)] : undefined
     }
   };
 
@@ -355,7 +354,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams): FilterD
     listingDetail: {
       ...filters?.listingDetail,
       squareFeets:
-        qsminSquareFeet && qsmaxSquareFeet ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)] : undefined
+        qsminSquareFeet && qsmaxSquareFeet ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)] : qsminSquareFeet ? [parseInt(qsminSquareFeet), 1000000000] : qsmaxSquareFeet ? [0, parseInt(qsmaxSquareFeet)] : undefined
     }
   };
 
@@ -421,7 +420,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams): FilterD
 
   filters = {
     ...filters,
-    communityId: params.communityId,
+    communityId: communityId,
   }
 
   return filters;
@@ -455,7 +454,7 @@ export const GetFilterFromServiceTicketQueryString = (
 
 export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, searchParams: URLSearchParams) => {
   if (filter) {
-    if (filter.propertyType) searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
+    if (filter.propertyType) searchParams.set(SearchParamKeys.Type, filter.propertyType.join(','));
     if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
     if (filter.distance && filter.distance !== 0)
       searchParams.set(SearchParamKeys.Distance, filter.distance.toString());

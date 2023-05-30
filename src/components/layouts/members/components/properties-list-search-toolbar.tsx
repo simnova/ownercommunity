@@ -278,6 +278,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
         >
           <PropertiesListSearchFilters
             facets={props.data?.propertiesSearch?.facets as PropertySearchFacets}
+            searchData={props.data?.propertiesSearch}
           />
         </Modal>
       </Space>

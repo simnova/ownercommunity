@@ -36,6 +36,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [searchString, setSearchString] = useState(searchParams.get(SearchParamKeys.SearchString) ?? '');
   const [addresses, setAddresses] = useState<AddressDataType[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
+  const params = useParams();
 
   const {
     data: mapSasTokenData,
@@ -101,7 +102,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     const qsSearchString = searchString;
 
     // get filter
-    let filter: FilterDetail = GetFilterFromQueryString(searchParams);
+    let filter: FilterDetail = GetFilterFromQueryString(searchParams, params.communityId ?? '');
     const orderBy = searchParams.get(SearchParamKeys.OrderBy) ?? '';
 
     await gqlSearchProperties({

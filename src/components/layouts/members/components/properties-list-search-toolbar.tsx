@@ -10,6 +10,7 @@ const { Option } = Select;
 
 interface PropertiesListSearchToolbarProps {
   data: any;
+  tagData: string[];
   searchString: string;
   setSearchString: (searchString: string) => void;
   handleSearch: () => void;
@@ -279,6 +280,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
           <PropertiesListSearchFilters
             facets={props.data?.propertiesSearch?.facets as PropertySearchFacets}
             searchData={props.data?.propertiesSearch}
+            tagData={props.tagData}
           />
         </Modal>
       </Space>

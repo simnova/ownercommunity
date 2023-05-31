@@ -337,12 +337,14 @@ export type FileInfo = {
 
 export type FilterDetail = {
   communityId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
   distance?: InputMaybe<Scalars['Float']>;
   listedInfo?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   listingDetail?: InputMaybe<ListingDetailsFilterInput>;
   position?: InputMaybe<GeographyPointInput>;
   propertyType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type GeographyPoint = {
@@ -914,7 +916,7 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
+  createdAt?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -927,7 +929,7 @@ export type PropertyResult = {
   squareFeet?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   type?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['String']>;
 };
 
 export type PropertySearchFacets = {
@@ -937,11 +939,13 @@ export type PropertySearchFacets = {
   amenities?: Maybe<Array<Maybe<FacetDetail>>>;
   bathrooms?: Maybe<Array<Maybe<FacetDetail>>>;
   bedrooms?: Maybe<Array<Maybe<FacetDetail>>>;
+  createdAt?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForLease?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForRent?: Maybe<Array<Maybe<FacetDetail>>>;
   listedForSale?: Maybe<Array<Maybe<FacetDetail>>>;
   tags?: Maybe<Array<Maybe<FacetDetail>>>;
   type?: Maybe<Array<Maybe<FacetDetail>>>;
+  updatedAt?: Maybe<Array<Maybe<FacetDetail>>>;
 };
 
 export type PropertySearchResult = {
@@ -3066,13 +3070,6 @@ export type MemberSiteNeighborsListCurrentMemberIdQuery = {
   memberForCurrentUser?: { __typename?: 'Member'; id: any } | null;
 };
 
-export type MemberPropertiesGetAllTagsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type MemberPropertiesGetAllTagsQuery = {
-  __typename?: 'Query';
-  getAllPropertyTags?: Array<string | null> | null;
-};
-
 export type MemberPropertiesListSearchContainerPropertiesQueryVariables = Exact<{
   input: PropertiesSearchInput;
 }>;
@@ -3098,8 +3095,8 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       listedForSale?: boolean | null;
       listedForRent?: boolean | null;
       listedForLease?: boolean | null;
-      updatedAt?: any | null;
-      createdAt?: any | null;
+      updatedAt?: string | null;
+      createdAt?: string | null;
       tags?: Array<string | null> | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenitiesSearchResult';
@@ -3152,9 +3149,18 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       } | null> | null;
       bedrooms?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
       bathrooms?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+      updatedAt?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+      createdAt?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
       tags?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
     } | null;
   } | null;
+};
+
+export type MemberPropertiesGetAllTagsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MemberPropertiesGetAllTagsQuery = {
+  __typename?: 'Query';
+  getAllPropertyTags?: Array<string | null> | null;
 };
 
 export type MemberPropertiesListSearchContainerMapSasTokenQueryVariables = Exact<{ [key: string]: never }>;
@@ -3183,8 +3189,8 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     listedForSale?: boolean | null;
     listedForRent?: boolean | null;
     listedForLease?: boolean | null;
-    updatedAt?: any | null;
-    createdAt?: any | null;
+    updatedAt?: string | null;
+    createdAt?: string | null;
     tags?: Array<string | null> | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenitiesSearchResult';
@@ -3233,6 +3239,8 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     listedForLease?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
     bedrooms?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
     bathrooms?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+    updatedAt?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+    createdAt?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
     tags?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
   } | null;
 };
@@ -3253,8 +3261,8 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   listedForSale?: boolean | null;
   listedForRent?: boolean | null;
   listedForLease?: boolean | null;
-  updatedAt?: any | null;
-  createdAt?: any | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
   tags?: Array<string | null> | null;
   additionalAmenities?: Array<{
     __typename?: 'AdditionalAmenitiesSearchResult';
@@ -6740,6 +6748,28 @@ export const MemberPropertiesListSearchContainerPropertyFieldsFragmentDoc = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'bathrooms' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'updatedAt' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdAt' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -12664,20 +12694,6 @@ export const MemberSiteNeighborsListCurrentMemberIdDocument = {
   MemberSiteNeighborsListCurrentMemberIdQuery,
   MemberSiteNeighborsListCurrentMemberIdQueryVariables
 >;
-export const MemberPropertiesGetAllTagsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'MemberPropertiesGetAllTags' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'getAllPropertyTags' } }]
-      }
-    }
-  ]
-} as unknown as DocumentNode<MemberPropertiesGetAllTagsQuery, MemberPropertiesGetAllTagsQueryVariables>;
 export const MemberPropertiesListSearchContainerPropertiesDocument = {
   kind: 'Document',
   definitions: [
@@ -12925,6 +12941,28 @@ export const MemberPropertiesListSearchContainerPropertiesDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'updatedAt' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdAt' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'tags' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -12945,6 +12983,20 @@ export const MemberPropertiesListSearchContainerPropertiesDocument = {
   MemberPropertiesListSearchContainerPropertiesQuery,
   MemberPropertiesListSearchContainerPropertiesQueryVariables
 >;
+export const MemberPropertiesGetAllTagsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberPropertiesGetAllTags' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'getAllPropertyTags' } }]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberPropertiesGetAllTagsQuery, MemberPropertiesGetAllTagsQueryVariables>;
 export const MemberPropertiesListSearchContainerMapSasTokenDocument = {
   kind: 'Document',
   definitions: [

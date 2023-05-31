@@ -4,6 +4,10 @@ query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInpu
   }
 }
 
+query MemberPropertiesGetAllTags {
+  getAllPropertyTags
+}
+
 query MemberPropertiesListSearchContainerMapSasToken {
   getMapSasToken
 }
@@ -47,6 +51,14 @@ fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResu
       count
     }
     bathrooms {
+      value
+      count
+    }
+    updatedAt {
+      value
+      count
+    }
+    createdAt {
       value
       count
     }

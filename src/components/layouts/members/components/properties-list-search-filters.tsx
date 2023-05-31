@@ -1,10 +1,11 @@
 import { FacetDetail, PropertySearchFacets } from '../../../../generated';
 import { FC, useEffect, useState } from 'react';
-import { FilterNames, SearchParamKeys } from '../../../../constants';
+import { SearchParamKeys } from '../../../../constants';
 import { SearchFilter, SearchFilterConfigDefinition, SearchFilterProps } from '../../shared/components/search-filter';
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   searchData: any;
+  tagData: string[];
 }
 
 export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> = (props) => {
@@ -164,6 +165,13 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           searchId: [SearchParamKeys.Amenities],
           values: props.searchData.facets['amenities']?.map((amenity: any) => amenity.value) ?? [],
           facet: ['amenities'],
+        },
+        // Tags
+        {
+          title: "Tags",
+          searchId: [SearchParamKeys.Tags],
+          values: props.tagData,
+          facet: ['tags'],
         }
       ]
     };

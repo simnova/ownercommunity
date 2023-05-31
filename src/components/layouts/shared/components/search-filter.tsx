@@ -162,11 +162,12 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
         );
       case 'radio':
         return (
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '300px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '300px'}}>
             <Radio.Group
+              value={searchParams.get(props.searchId[0])}
               onChange={(e: any) => onChangeRadio(e)}
               optionType="button"
-              options={options.map((option: any) => option.name)}
+              options={options.map((option: any) => `${option.name} (${option.count})`)}
             />
           </div>
         );

@@ -304,6 +304,8 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, communit
   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
   const qslat = searchParams.get('lat');
   const qslong = searchParams.get('long');
+  const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
+  const qscreatedAt = searchParams.get(SearchParamKeys.CreatedAt); // in days
 
   let filters = {} as FilterDetail;
 
@@ -399,17 +401,17 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, communit
         : undefined
   };
 
-  // // updated date
-  // filters = {
-  //   ...filters,
-  //   updatedAt: qsupdatedAt
-  // };
+  // updated date
+  filters = {
+    ...filters,
+    updatedAt: qsupdatedAt
+  };
 
-  // // created date
-  // filters = {
-  //   ...filters,
-  //   createdAt: qscreatedAt
-  // };
+  // created date
+  filters = {
+    ...filters,
+    createdAt: qscreatedAt
+  };
 
   // tags
   const qstags = searchParams.get('tags')?.split(',');

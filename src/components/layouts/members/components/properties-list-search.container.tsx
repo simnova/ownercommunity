@@ -1,6 +1,7 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import {
   FilterDetail,
+  MemberPropertiesGetAllTagsDocument,
   MemberPropertiesListSearchContainerMapSasTokenDocument,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
@@ -43,6 +44,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     loading: mapSasTokenLoading,
     error: mapSasTokenError
   } = useQuery(MemberPropertiesListSearchContainerMapSasTokenDocument);
+
+  const {
+    data: tagData,
+    loading: tagLoading,
+    error: tagError
+  } = useQuery(MemberPropertiesGetAllTagsDocument);
 
   const [gqlSearchProperties, { called, loading, data, error }] = useLazyQuery(
     MemberPropertiesListSearchContainerPropertiesDocument,
@@ -407,15 +414,17 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   // };
 
   const result = () => {
-    if (error || mapSasTokenError) {
+    if (error || mapSasTokenError || tagError) {
       if (error) {
         return <div>{JSON.stringify(error)}</div>;
+      } else if (tagError) {
+        return <div>{JSON.stringify(tagError)}</div>;
       } else {
         return <div>{JSON.stringify(mapSasTokenError)}</div>;
       }
-    } else if (loading || mapSasTokenLoading) {
+    } else if (loading || mapSasTokenLoading || tagLoading) {
       return <Skeleton active />;
-    } else if (called && data) {
+    } else if (called && data && tagData) {
       const generatedPropertyData = JSON.parse(JSON.stringify(data.propertiesSearch?.propertyResults, null, 2));
       return (
         <div>
@@ -471,6 +480,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       <div>{data?.propertiesSearch?.count ? '(' + data?.propertiesSearch?.count + ' records found)' : ''}</div>
       <PropertiesListSearchToolbar
         data={data}
+        tagData={tagData?.getAllPropertyTags as string[]}
         searchString={searchString}
         setSearchString={setSearchString}
         handleSearch={handleSearch}

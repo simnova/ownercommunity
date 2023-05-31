@@ -996,6 +996,7 @@ export type Query = {
   role?: Maybe<Role>;
   roles?: Maybe<Array<Maybe<Role>>>;
   rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
+  serverDate?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;

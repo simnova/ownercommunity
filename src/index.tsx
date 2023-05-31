@@ -13,6 +13,9 @@ import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
 import { StyleProvider } from '@ant-design/cssinjs';
 import { Button } from 'antd';
 import { set } from 'lodash';
+import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
+import featureFlagConfig from './config/feature-flag-config';
+import MaintenanceMessageProvider from './components/shared/maintenance-message';
 function ConfigProviderWrapper() {
   
 
@@ -45,9 +48,15 @@ console.log("Current token has this things", currentTokens)
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider>
+   <FeatureFlagProvider config={
+    featureFlagConfig
+   }>
+   <MaintenanceMessageProvider>
+   <ThemeProvider>
       <ConfigProviderWrapper />
     </ThemeProvider>
+   </MaintenanceMessageProvider>
+   </FeatureFlagProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -916,7 +916,7 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -929,7 +929,7 @@ export type PropertyResult = {
   squareFeet?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   type?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type PropertySearchFacets = {
@@ -3095,8 +3095,8 @@ export type MemberPropertiesListSearchContainerPropertiesQuery = {
       listedForSale?: boolean | null;
       listedForRent?: boolean | null;
       listedForLease?: boolean | null;
-      updatedAt?: string | null;
-      createdAt?: string | null;
+      updatedAt?: any | null;
+      createdAt?: any | null;
       tags?: Array<string | null> | null;
       additionalAmenities?: Array<{
         __typename?: 'AdditionalAmenitiesSearchResult';
@@ -3189,8 +3189,8 @@ export type MemberPropertiesListSearchContainerPropertyFieldsFragment = {
     listedForSale?: boolean | null;
     listedForRent?: boolean | null;
     listedForLease?: boolean | null;
-    updatedAt?: string | null;
-    createdAt?: string | null;
+    updatedAt?: any | null;
+    createdAt?: any | null;
     tags?: Array<string | null> | null;
     additionalAmenities?: Array<{
       __typename?: 'AdditionalAmenitiesSearchResult';
@@ -3261,8 +3261,8 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
   listedForSale?: boolean | null;
   listedForRent?: boolean | null;
   listedForLease?: boolean | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
+  updatedAt?: any | null;
+  createdAt?: any | null;
   tags?: Array<string | null> | null;
   additionalAmenities?: Array<{
     __typename?: 'AdditionalAmenitiesSearchResult';

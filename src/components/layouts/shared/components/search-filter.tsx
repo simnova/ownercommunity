@@ -20,7 +20,7 @@ export interface SearchFilterConfigDefinition {
     searchId: string[];
     searchbar?: boolean;
     values: any[];
-    facet: string[];
+    facet?: string[];
     type?: 'checkbox' | 'slider' | 'inputNumber' | 'radio';
     handleCount?: (facet: FacetDetail, value?: any) => boolean;
     handleFilter?: (value: any) => string;
@@ -167,7 +167,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
               value={searchParams.get(props.searchId[0])}
               onChange={(e: any) => onChangeRadio(e)}
               optionType="button"
-              options={options.map((option: any) => `${option.name} (${option.count})`)}
+              options={options.map((option: any) => option.count > -1 ? `${option.name} (${option.count})` : option.name)}
             />
           </div>
         );

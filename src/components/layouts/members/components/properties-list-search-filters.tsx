@@ -1,6 +1,6 @@
 import { FacetDetail, PropertySearchFacets } from '../../../../generated';
 import { FC, useEffect, useState } from 'react';
-import { SearchParamKeys } from '../../../../constants';
+import { DistanceOptions, SearchParamKeys } from '../../../../constants';
 import { SearchFilter, SearchFilterConfigDefinition, SearchFilterProps } from '../../shared/components/search-filter';
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
@@ -25,16 +25,18 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
 
       filter.values.forEach((value: any) => {
         let count: number;
-        if (filter.facet.length > 1) {
-          const facetName = filter.facet.find((facet: any) => facet === filter.handleFilter(value));
-          count = props.searchData.facets[facetName].find((facet: any) => filter.handleCount(facet))?.count ?? 0;
-        } else {
-          if (props.searchData.facets[filter.facet[0]]) {
-            count = props.searchData.facets[filter.facet[0]].find((facet: any) => (filter.handleCount ? filter.handleCount(facet, value) : facet.value === value))?.count ?? 0;
+        if (filter.facet) {
+          if (filter.facet.length > 1) {
+            const facetName = filter.facet.find((facet: any) => facet === filter.handleFilter(value));
+            count = props.searchData.facets[facetName].find((facet: any) => filter.handleCount(facet))?.count ?? 0;
           } else {
-            count = 0;
+            if (props.searchData.facets[filter.facet[0]]) {
+              count = props.searchData.facets[filter.facet[0]].find((facet: any) => (filter.handleCount ? filter.handleCount(facet, value) : facet.value === value))?.count ?? 0;
+            } else {
+              count = 0;
+            }
           }
-        }
+        } else count = -1;
         if (filter.handleBuild) {
           filter.handleBuild(newFilter, value, count);
         } else {
@@ -172,6 +174,29 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           searchId: [SearchParamKeys.Tags],
           values: props.tagData,
           facet: ['tags'],
+        },
+        // Created At
+        {
+          title: "Created At",
+          searchId: [SearchParamKeys.CreatedAt],
+          values: props.searchData.facets['createdAt']?.map((createdAt: any) => createdAt.value) ?? [],
+          facet: ['createdAt'],
+          type: 'radio',
+        },
+        // Updated At
+        {
+          title: "Updated At",
+          searchId: [SearchParamKeys.UpdatedAt],
+          values: props.searchData.facets['updatedAt']?.map((updatedAt: any) => updatedAt.value) ?? [],
+          facet: ['updatedAt'],
+          type: 'radio',
+        },
+        // Distance
+        {
+          title: "Distance",
+          searchId: [SearchParamKeys.Distance],
+          values: DistanceOptions,
+          type: 'radio',
         }
       ]
     };

@@ -8,7 +8,7 @@ import { render } from '@headlessui/react/dist/utils/render';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-interface SearchFilterOption {
+export interface SearchFilterOption {
   name: string;
   count: number;
   id: string;
@@ -21,7 +21,8 @@ export interface SearchFilterConfigDefinition {
     searchbar?: boolean;
     values: any[];
     facet?: string[];
-    type?: 'checkbox' | 'slider' | 'inputNumber' | 'radio';
+    type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom' ;
+    customComponent?: JSX.Element;
     handleCount?: (facet: FacetDetail, value?: any) => boolean;
     handleFilter?: (value: any) => string;
     handleBuild?: (filter: SearchFilterProps, value: any, count: number) => void;
@@ -33,7 +34,8 @@ export interface SearchFilterProps {
   options: SearchFilterOption[];
   searchId: string[];
   searchbar?: boolean;
-  type?: 'checkbox' | 'slider' | 'inputNumber' | 'radio';
+  type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom';
+  customComponent?: JSX.Element;
 }
 
 export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
@@ -95,12 +97,6 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
     setSearchParams(searchParams);
   };
 
-  const onChangeSlider = (value: [number, number]) => {
-    const searchId = props.searchId[0];
-    searchParams.set(searchId, `${value[0]},${value[1]}`);
-    setSearchParams(searchParams);
-  };
-
   const onChangeRadio = (e: any) => {
     const searchId = props.searchId[0];
     searchParams.set(searchId, e.target.value);
@@ -154,12 +150,8 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
             ))}
           </>
         );
-      case 'slider':
-        return (
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '250px' }}>
-            <Slider min={0} max={100} onChange={(e) => onChangeSlider([e, 100])} />
-          </div>
-        );
+      case 'custom':
+            return props.customComponent ?? <>Nothing</>
       case 'radio':
         return (
           <div style={{ display: 'flex', justifyContent: 'space-between', width: '300px'}}>

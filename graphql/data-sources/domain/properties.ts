@@ -165,4 +165,14 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
     });
     return propertyToReturn;
   }
+
+  async propertyImageRemove(propertyId: string, blobName: string): Promise<Property> {
+    let propertyToReturn: Property;
+    await this.withTransaction(async (repo) => {
+      let property = await repo.getById(propertyId);
+      property.listingDetail.requestRemoveImage(blobName);
+      propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
+    });
+    return propertyToReturn;
+  }
 }

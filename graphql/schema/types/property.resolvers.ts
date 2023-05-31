@@ -198,7 +198,7 @@ const property: Resolvers = {
       const result = await context.dataSources.propertyBlobAPI.propertyListingImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
         let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
-        propertyDbObj.listingDetail.images.push(result.authHeader.blobPath);
+        propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
         result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
       }
       console.log(`propertyListingImageCreateAuthHeader: ${JSON.stringify(result)}`);
@@ -209,12 +209,23 @@ const property: Resolvers = {
       const result = await context.dataSources.propertyBlobAPI.propertyFloorPlanImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
         let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
-        propertyDbObj.listingDetail.floorPlanImages.push(result.authHeader.blobPath);
+        propertyDbObj.listingDetail.floorPlanImages.push(result.authHeader.blobName);
         result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
       }
       console.log(`propertyFloorPlanImageCreateAuthHeader: ${JSON.stringify(result)}`);
       return result;
     },
+    propertyListingImageRemove: async (_, { input }, { dataSources }) => {
+      const result = {
+        status: await dataSources.propertyBlobAPI.propertyListingImageRemove(input.propertyId, input.memberId, input.blobName),
+      } as PropertyMutationResult;
+
+      if (!result.status.success) {
+        return result;
+      } else {
+        return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyImageRemove(input.propertyId, input.blobName));
+      }
+    }
   },
 };
 

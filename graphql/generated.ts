@@ -590,6 +590,7 @@ export type Mutation = {
   propertyDelete: PropertyMutationResult;
   propertyFloorPlanImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
   propertyListingImageCreateAuthHeader: PropertyBlobFileAuthHeaderResult;
+  propertyListingImageRemove: PropertyMutationResult;
   propertyRemoveOwner: PropertyMutationResult;
   propertyUpdate: PropertyMutationResult;
   roleAdd: RoleMutationResult;
@@ -699,6 +700,11 @@ export type MutationPropertyFloorPlanImageCreateAuthHeaderArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationPropertyListingImageCreateAuthHeaderArgs = {
   input: PropertyBlobFileInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationPropertyListingImageRemoveArgs = {
+  input: PropertyRemoveImageInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -893,6 +899,12 @@ export type PropertyPermissions = {
 export type PropertyPermissionsInput = {
   canEditOwnProperty: Scalars['Boolean'];
   canManageProperties: Scalars['Boolean'];
+};
+
+export type PropertyRemoveImageInput = {
+  blobName: Scalars['String'];
+  memberId: Scalars['ObjectID'];
+  propertyId: Scalars['ObjectID'];
 };
 
 export type PropertyRemoveOwnerInput = {
@@ -1573,6 +1585,7 @@ export type ResolversTypes = ResolversObject<{
   PropertyOwnerInput: PropertyOwnerInput;
   PropertyPermissions: ResolverTypeWrapper<PropertyPermissions>;
   PropertyPermissionsInput: PropertyPermissionsInput;
+  PropertyRemoveImageInput: PropertyRemoveImageInput;
   PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
   PropertyResult: ResolverTypeWrapper<PropertyResult>;
   PropertySearchFacets: ResolverTypeWrapper<PropertySearchFacets>;
@@ -1779,6 +1792,7 @@ export type ResolversParentTypes = ResolversObject<{
   PropertyOwnerInput: PropertyOwnerInput;
   PropertyPermissions: PropertyPermissions;
   PropertyPermissionsInput: PropertyPermissionsInput;
+  PropertyRemoveImageInput: PropertyRemoveImageInput;
   PropertyRemoveOwnerInput: PropertyRemoveOwnerInput;
   PropertyResult: PropertyResult;
   PropertySearchFacets: PropertySearchFacets;
@@ -2359,6 +2373,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
     ContextType,
     RequireFields<MutationPropertyListingImageCreateAuthHeaderArgs, 'input'>
   >;
+  propertyListingImageRemove?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyListingImageRemoveArgs, 'input'>>;
   propertyRemoveOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyRemoveOwnerArgs, 'input'>>;
   propertyUpdate?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyUpdateArgs, 'input'>>;
   roleAdd?: Resolver<ResolversTypes['RoleMutationResult'], ParentType, ContextType, RequireFields<MutationRoleAddArgs, 'input'>>;

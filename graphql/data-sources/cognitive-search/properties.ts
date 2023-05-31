@@ -137,7 +137,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
     return searchResults;
   }
 
-  async getPropertiesSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>): Promise<PropertySearchResult> {
+  async getPropertiesSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>, input: PropertiesSearchInput): Promise<PropertySearchResult> {
     let results = [];
     for await (const result of searchResults?.results ?? []) {
       results.push(result.document);
@@ -171,6 +171,50 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       };
     });
 
+          // calculate update date facets
+          const periods = [7, 14, 30, 90];
+          const periodTextMaps = {
+            7: '1 week ago',
+            14: '2 weeks ago',
+            30: '1 month ago',
+            90: '3 months ago',
+          };
+    
+          let periodInput = parseInt(input?.options?.filter?.updatedAt); // in days
+          let updatedAtFacet = periods.map((option) => {
+            const day0 = option === periodInput ? dayjs().subtract(periodInput, 'day') : dayjs().subtract(option, 'day');
+            const found = searchResults?.facets?.updatedAt?.filter((facet) => {
+              let temp = dayjs(facet.value).diff(day0, 'day', true);
+              return temp >= 0;
+            });
+            let count = 0;
+            found.forEach((f) => {
+              count += f.count;
+            });
+            return {
+              value: periodTextMaps[option],
+              count: count,
+            };
+          });
+    
+          periodInput = parseInt(input.options?.filter?.createdAt); // in days
+          let createdAtFacet = periods.map((option) => {
+            const day0 = option === periodInput ? dayjs().subtract(periodInput, 'day') : dayjs().subtract(option, 'day');
+            const found = searchResults?.facets?.createdAt?.filter((facet) => {
+              let temp = dayjs(facet.value).diff(day0, 'day', true);
+              return temp >= 0;
+            });
+            let count = 0;
+            found.forEach((f) => {
+              count += f.count;
+            });
+    
+            return {
+              value: periodTextMaps[option],
+              count: count,
+            };
+          });
+
     return {
       propertyResults: results,
       count: searchResults.count,
@@ -184,6 +228,8 @@ export class Properties extends CognitiveSearchDataSource<Context> {
         listedForLease: searchResults.facets?.listedForLease,
         bedrooms: bedroomsFacet,
         bathrooms: bathroomsFacet,
+        updatedAt: updatedAtFacet,
+        createdAt: createdAtFacet,
         tags: searchResults.facets?.tags,
       },
     } as PropertySearchResult;

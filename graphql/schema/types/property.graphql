@@ -281,8 +281,8 @@ type PropertyResult {
   listedForLease: Boolean
   listedForRent: Boolean
   listedForSale: Boolean
-  updatedAt: String
-  createdAt: String
+  updatedAt: DateTime
+  createdAt: DateTime
   tags: [String]
 }
 

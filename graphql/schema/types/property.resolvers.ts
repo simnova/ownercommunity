@@ -64,7 +64,7 @@ const property: Resolvers = {
 
     propertiesSearch: async (_, { input }, context, info) => {
       const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(input);
-      return await context.dataSources.propertySearchApi.getPropertiesSearchResults(searchResults);
+      return await context.dataSources.propertySearchApi.getPropertiesSearchResults(searchResults, input);
     },
     getMapSasToken: async (_, _args, {dataSources}) => {
       return await dataSources.propertyMapApi.getSasToken();

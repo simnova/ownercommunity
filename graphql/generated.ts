@@ -918,7 +918,7 @@ export type PropertyResult = {
   bathrooms?: Maybe<Scalars['Float']>;
   bedrooms?: Maybe<Scalars['Int']>;
   communityId?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<Scalars['String']>>>;
   listedForLease?: Maybe<Scalars['Boolean']>;
@@ -931,7 +931,7 @@ export type PropertyResult = {
   squareFeet?: Maybe<Scalars['Int']>;
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   type?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type PropertySearchFacets = {
@@ -2541,7 +2541,7 @@ export type PropertyResultResolvers<
   bathrooms?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   bedrooms?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   communityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   images?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   listedForLease?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -2554,7 +2554,7 @@ export type PropertyResultResolvers<
   squareFeet?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

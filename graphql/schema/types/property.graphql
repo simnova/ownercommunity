@@ -211,8 +211,8 @@ input FilterDetail {
   listedInfo: [String]
   distance: Float
   position: GeographyPointInput
-  updatedAt: DateTime
-  createdAt: DateTime
+  updatedAt: String
+  createdAt: String
   tags: [String]
 }
 

@@ -211,6 +211,8 @@ input FilterDetail {
   listedInfo: [String]
   distance: Float
   position: GeographyPointInput
+  updatedAt: DateTime
+  createdAt: DateTime
   tags: [String]
 }
 
@@ -279,8 +281,8 @@ type PropertyResult {
   listedForLease: Boolean
   listedForRent: Boolean
   listedForSale: Boolean
-  updatedAt: DateTime
-  createdAt: DateTime
+  updatedAt: String
+  createdAt: String
   tags: [String]
 }
 
@@ -309,6 +311,8 @@ type PropertySearchFacets {
   listedForSale: [FacetDetail]
   bedrooms: [FacetDetail]
   bathrooms: [FacetDetail]
+  updatedAt: [FacetDetail]
+  createdAt: [FacetDetail]
   tags: [FacetDetail]
 }
 

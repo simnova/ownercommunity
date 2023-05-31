@@ -42,7 +42,9 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       // additional amenities
       if (filter.listingDetail?.additionalAmenities && filter.listingDetail.additionalAmenities.length > 0) {
         const additionalAmenitiesFilterStrings = filter.listingDetail.additionalAmenities.map((additionalAmenity) => {
-          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join("') and ad/amenities/any(am: am eq '")}'))`;
+          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join(
+            "') and ad/amenities/any(am: am eq '"
+          )}'))`;
         });
         filterStrings.push(additionalAmenitiesFilterStrings.join(' and '));
       }
@@ -52,7 +54,9 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       }
       // squareFeet
       if (filter.listingDetail?.squareFeets && filter.listingDetail.squareFeets.length > 0) {
-        filterStrings.push(`${PropertyFilterNames.SquareFeet} ge ${filter.listingDetail.squareFeets[0]} and ${PropertyFilterNames.SquareFeet} le ${filter.listingDetail.squareFeets[1]}`);
+        filterStrings.push(
+          `${PropertyFilterNames.SquareFeet} ge ${filter.listingDetail.squareFeets[0]} and ${PropertyFilterNames.SquareFeet} le ${filter.listingDetail.squareFeets[1]}`
+        );
       }
       // listed info (listedForSale, listedForRent, listedForLease)
       if (filter.listedInfo && filter.listedInfo.length > 0) {
@@ -72,6 +76,18 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       // distance, lat and long
       if (filter.position && filter.distance !== undefined) {
         filterStrings.push(`geo.distance(position, geography'POINT(${filter.position.longitude} ${filter.position.latitude})') le ${filter.distance}`);
+      }
+
+      // update at
+      if (filter.updatedAt) {
+        const day0 = dayjs().subtract(parseInt(filter.updatedAt), 'day').toISOString();
+        filterStrings.push(`updatedAt ge ${day0}`);
+      }
+
+      // created at
+      if (filter.createdAt) {
+        const day0 = dayjs().subtract(parseInt(filter.createdAt), 'day').toISOString();
+        filterStrings.push(`createdAt ge ${day0}`);
       }
 
       // tags
@@ -94,7 +110,6 @@ export class Properties extends CognitiveSearchDataSource<Context> {
   }
 
   async propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-
     let searchString = '';
     if (!input.options.filter?.position) {
       searchString = input.searchString.trim();
@@ -103,7 +118,7 @@ export class Properties extends CognitiveSearchDataSource<Context> {
     console.log(`Resolver>Query>propertiesSearch: ${searchString}`);
     let filterString = this.getFilterString(input.options.filter);
     console.log('filterString: ', filterString);
-    
+
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
     await this.withSearch(async (_passport, searchService) => {
       searchResults = await searchService.search('property-listings', searchString, {

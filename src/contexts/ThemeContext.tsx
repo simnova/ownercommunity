@@ -2,6 +2,8 @@ import React, { ReactNode, createContext, useEffect, useState, Fragment } from '
 import { Button, theme } from 'antd';
 import { Dialog, Transition } from '@headlessui/react';
 import ModalPopUp from './components/ModalPopUp';
+import { useFeatureFlags } from '../components/shared/feature-flag-react-lite';
+import { useMaintenanceMessage } from '../components/shared/maintenance-message';
 
 interface ThemeContextType {
   currentTokens: {
@@ -25,6 +27,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+  const { isImpending, isMaintenance, maintainanceMessage, maintainanceMessageImpending } = useMaintenanceMessage();
   const [currentTokens, setCurrentTokens] = useState({
     token: theme.defaultSeed,
     hardCodedTokens: {
@@ -77,8 +80,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const extractFromLocal = JSON.parse(localStorage.getItem('themeProp')!);
-    console.log("Printing extractFromLocal")
-  console.log(extractFromLocal)
+    console.log('Printing extractFromLocal');
+    console.log(extractFromLocal);
     if (extractFromLocal && extractFromLocal.type === 'dark') {
       setTheme(
         {
@@ -98,12 +101,15 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       );
       return;
     } else if (extractFromLocal && extractFromLocal.type === 'custom') {
-      console.log("I am inside useeffect")
-      console.log(extractFromLocal)
-      setTheme({
-        colorTextBase: extractFromLocal.hardCodedTokens.textColor,
-        colorBgBase: extractFromLocal.hardCodedTokens.backgroundColor
-      }, 'custom');
+      console.log('I am inside useeffect');
+      console.log(extractFromLocal);
+      setTheme(
+        {
+          colorTextBase: extractFromLocal.hardCodedTokens.textColor,
+          colorBgBase: extractFromLocal.hardCodedTokens.backgroundColor
+        },
+        'custom'
+      );
       return;
     } else {
       const valueToSet = {
@@ -133,35 +139,53 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-
   return (
     <ThemeContext.Provider value={{ currentTokens, setTheme }}>
-      <div>
-        <div className={isHidden ? 'hidden' : 'text-center'}>
-          <div className="py-2 flex gap-4 justify-center">
-            <Button
-              type="primary"
-              onClick={() => {
-                
-          
-                if (currentTokens.type==="custom" ||  currentTokens.type === 'light') {
-                  setTheme(theme.darkAlgorithm(theme.defaultSeed), 'dark');
-                } else if (currentTokens.type === 'dark') {
-                  setTheme(theme.defaultSeed, 'light');
-                }
+      {isMaintenance ? (
+        <div>
+          <div className="h-screen flex justify-center items-center text-center px-8">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: maintainanceMessage as string
               }}
-            >
-              Toggle Dark/Light
-            </Button>
-           
-            <ModalPopUp />
+            ></div>
           </div>
-          <p>
-            Hit <strong>Cmd+Shift+K</strong> to hide
-          </p>
         </div>
-        {children}
-      </div>
+      ) : (
+        <div>
+          <div className={isHidden ? 'hidden' : 'text-center'}>
+            {isImpending  && (
+              <div className="w-screen bg-red-500 text-left px-8 py-4">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: maintainanceMessageImpending as string
+                  }}
+                ></div>
+              </div>
+            )}
+            <div className="py-2 flex gap-4 justify-center">
+              <Button
+                type="primary"
+                onClick={() => {
+                  if (currentTokens.type === 'custom' || currentTokens.type === 'light') {
+                    setTheme(theme.darkAlgorithm(theme.defaultSeed), 'dark');
+                  } else if (currentTokens.type === 'dark') {
+                    setTheme(theme.defaultSeed, 'light');
+                  }
+                }}
+              >
+                Toggle Dark/Light
+              </Button>
+
+              <ModalPopUp />
+            </div>
+            <p>
+              Hit <strong>Cmd+Shift+K</strong> to hide
+            </p>
+          </div>
+          {children}
+        </div>
+      )}
     </ThemeContext.Provider>
   );
 };

@@ -14,8 +14,8 @@ let axiosHeaders = async (config: AxiosRequestConfig) => {
 
 let featureFlagConfig: FeatureFlagConfig = {
   cache: 30 * 1000,
-  // url: process.env.REACT_APP_FEATURE_FLAG_URL ?? "",
-  url: 'https://efmdevstcfgavaqbizf2s7le.blob.core.windows.net/public/EFM_Feature_Flag_DEV.json',
+  url: process.env.REACT_APP_FEATURE_FLAG_URL ?? "",
+ 
 
   fallbackFlagValues: defaultValues,
   axiosRequestConfig: axiosHeaders

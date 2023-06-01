@@ -37,6 +37,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     type: 'light'
   });
   const [isHidden, setIsHidden] = useState(false);
+
   const toggleHidden = () => setIsHidden((prevHidden) => !prevHidden);
 
   // setTheme functions that take tokens as argument
@@ -154,7 +155,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       ) : (
         <div>
           <div className={isHidden ? 'hidden' : 'text-center'}>
-            {isImpending  && (
+            {isImpending && (
               <div className="w-screen bg-red-500 text-left px-8 py-4">
                 <div
                   dangerouslySetInnerHTML={{

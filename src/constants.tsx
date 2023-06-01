@@ -291,7 +291,7 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
 
 export const GetFilterFromQueryString = (searchParams: URLSearchParams, communityId: string): FilterDetail => {
   // get all search params
-  const qsproperTypes = searchParams.get('type')?.split(',');
+  const qspropertyTypes = searchParams.get('type')?.split(',');
   const qsbedrooms = searchParams.get('bedrooms');
   const qsbathrooms = searchParams.get('bathrooms');
   const qsminPrice = searchParams.get('minPrice');
@@ -311,7 +311,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, communit
 
   // proper type
   filters = {
-    propertyType: qsproperTypes
+    propertyType: qspropertyTypes
   };
 
   // bedrooms
@@ -616,3 +616,110 @@ export enum CustomViewOperation {
   Update,
   Delete
 }
+
+export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => {
+  let tempList: string[] = [];
+
+  // get all search params
+  const qspropertyTypes = searchParams.get('type')?.split(',');
+  const qsbedrooms = searchParams.get('bedrooms');
+  const qsbathrooms = searchParams.get('bathrooms');
+  const qsminPrice = searchParams.get('minPrice');
+  const qsmaxPrice = searchParams.get('maxPrice');
+  const qsminSquareFeet = searchParams.get('minSquareFeet');
+  const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
+  const qsamenities = searchParams.get('amenities')?.split(',');
+  const qsadditionalAmenities = searchParams.get(SearchParamKeys.AdditionalAmenities)?.split(";");
+  const qsdistance = searchParams.get('distance');
+  const qsListedInfo = searchParams.get('listedInfo')?.split(',');
+  const qslat = searchParams.get('lat');
+  const qslong = searchParams.get('long');
+  const qsupdatedAt = searchParams.get(SearchParamKeys.UpdatedAt); // in days
+  const qscreatedAt = searchParams.get(SearchParamKeys.CreatedAt); // in days
+  const qstags = searchParams.get('tags')?.split(',');
+
+  if (qspropertyTypes && qspropertyTypes.length > 0) {
+    const propertyTypes = qspropertyTypes.map((id: string) => 'Type: ' + id);
+    tempList.push(...propertyTypes);
+  }
+
+  if (qsbedrooms && qsbedrooms.length > 0) {
+    const bedrooms = 'Bedrooms: ' + qsbedrooms;
+    tempList.push(bedrooms);
+  }
+
+  if (qsbathrooms && qsbathrooms.length > 0) {
+    const bathrooms = 'Bathrooms: ' + qsbathrooms;
+    tempList.push(bathrooms);
+  }
+
+  if (qsminPrice && qsminPrice.length > 0) {
+    const minPrice = 'Min Price: ' + qsminPrice;
+    tempList.push(minPrice);
+  }
+
+  if (qsmaxPrice && qsmaxPrice.length > 0) {
+    const maxPrice = 'Max Price: ' + qsmaxPrice;
+    tempList.push(maxPrice);
+  }
+
+  if (qsminSquareFeet && qsminSquareFeet.length > 0) {
+    const minSquareFeet = 'Min Square Feet: ' + qsminSquareFeet;
+    tempList.push(minSquareFeet);
+  }
+
+  if (qsmaxSquareFeet && qsmaxSquareFeet.length > 0) {
+    const maxSquareFeet = 'Max Square Feet: ' + qsmaxSquareFeet;
+    tempList.push(maxSquareFeet);
+  }
+
+  if (qsamenities && qsamenities.length > 0) {
+    const amenities = qsamenities.map((id: string) => 'Amenities: ' + id);
+    tempList.push(...amenities);
+  }
+
+  if (qsadditionalAmenities && qsadditionalAmenities.length > 0) {
+    const additionalAmenities = qsadditionalAmenities.map((id: string) => 'Additional Amenities: ' + id);
+    tempList.push(...additionalAmenities);
+  }
+
+  if (qsdistance && qsdistance.length > 0) {
+    const distance = 'Distance: ' + qsdistance;
+    tempList.push(distance);
+  }
+
+  if (qsListedInfo && qsListedInfo.length > 0) {
+    const listedInfo = qsListedInfo.map((id: string) => {
+      const value = id === 'listedForSale' ? 'For Sale' : id === 'listedForRent' ? 'For Rent' : 'For Lease';
+      return 'Listed Info: ' + value;
+    });
+    tempList.push(...listedInfo);
+  }
+
+  if (qslat && qslat.length > 0) {
+    const lat = 'Latitude: ' + qslat;
+    tempList.push(lat);
+  }
+
+  if (qslong && qslong.length > 0) {
+    const long = 'Longitude: ' + qslong;
+    tempList.push(long);
+  }
+
+  if (qsupdatedAt && qsupdatedAt.length > 0) {
+    const updatedAt = 'Updated At: ' + qsupdatedAt;
+    tempList.push(updatedAt);
+  }
+
+  if (qscreatedAt && qscreatedAt.length > 0) {
+    const createdAt = 'Created At: ' + qscreatedAt;
+    tempList.push(createdAt);
+  }
+
+  if (qstags && qstags.length > 0) {
+    const tags = qstags.map((id: string) => 'Tags: ' + id);
+    tempList.push(...tags);
+  }
+
+  return tempList;
+};

@@ -297,7 +297,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         {
           title: 'Distance',
           searchId: [SearchParamKeys.Distance],
-          values: DistanceOptions,
+          values: DistanceOptions.map((distance: { label: string, value: number}) => distance.label),
           type: 'radio'
         }
       ]

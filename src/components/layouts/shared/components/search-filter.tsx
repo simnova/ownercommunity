@@ -1,4 +1,4 @@
-import { Collapse, Checkbox, Typography, AutoComplete, InputNumber, Slider, Radio } from 'antd';
+import { Collapse, Checkbox, Typography, AutoComplete, InputNumber, Slider, Radio, Space } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
@@ -88,6 +88,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   };
 
   const onChangeInputNumber = (value: any, optionId: string) => {
+    console.log("VALUE ", value);
     const searchId = props.searchId.find((id: any) => id === optionId) ?? props.searchId[0];
     if (value === null) {
       searchParams.delete(searchId);
@@ -99,7 +100,11 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
 
   const onChangeRadio = (e: any) => {
     const searchId = props.searchId[0];
-    searchParams.set(searchId, e.target.value);
+    let radioValue = e.target.value;
+    if (radioValue.includes('(')) {
+      radioValue = e.target.value.split('(')[0].trim();
+    }
+    searchParams.set(searchId, radioValue);
     setSearchParams(searchParams);
   };
 
@@ -137,14 +142,25 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
     setSearchParams(searchParams);
   };
 
+  const getRadioValue = (options: SearchFilterOption[]) => {
+    const qsValue = searchParams.get(props.searchId[0]);
+    if (qsValue === null) return undefined;
+    const count = options.find((option: SearchFilterOption) => option.name.includes(qsValue))?.count;
+    if (count && count > -1) {
+      return `${qsValue} (${count})`
+    } else {
+      return qsValue;
+    }
+  }
+
   const renderOptions = (options: SearchFilterOption[]) => {
     switch (props.type) {
       case 'inputNumber':
         return (
           <>
-            {options.map((option: any) => (
-              <div style={{ display: 'flex', padding: '5px', width: '250px' }}>
-                  <InputNumber id={option.id} onChange={(value: any) => onChangeInputNumber(value, option.id)} value={searchParams.get(option.id)} />
+            {options.map((option: SearchFilterOption) => (
+              <div key={option.name} style={{ display: 'flex', padding: '5px', width: '250px' }}>
+                  <InputNumber id={option.id} onPressEnter={(e: any) => onChangeInputNumber(e.target.value, option.id)} value={searchParams.get(option.id)} />
                   <label style={{ padding: "0px 10px"}}>{option.name}</label>
               </div>
             ))}
@@ -154,20 +170,20 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
             return props.customComponent ?? <>Nothing</>
       case 'radio':
         return (
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '300px'}}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '290px'}}>
             <Radio.Group
-              value={searchParams.get(props.searchId[0])}
+              style={{ overflowY: 'hidden' }}
+              value={getRadioValue(options)}
               onChange={(e: any) => onChangeRadio(e)}
-              optionType="button"
-              options={options.map((option: any) => option.count > -1 ? `${option.name} (${option.count})` : option.name)}
+              options={options.map((option: SearchFilterOption) => option.count > -1 ? `${option.name} (${option.count})` : option.name)}
             />
           </div>
         );
       default:
         return (
           <>
-            {options.map((option: any) => (
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '250px' }}>
+            {options.map((option: SearchFilterOption) => (
+              <div style={{ display: 'flex', justifyContent: 'space-between', width: '250px' }} key={option.name} >
                 <Checkbox
                   key={option.id}
                   checked={isChecked(option.id)}

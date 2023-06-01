@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import ModalPopUp from './components/ModalPopUp';
 import { useFeatureFlags } from '../components/shared/feature-flag-react-lite';
 import { useMaintenanceMessage } from '../components/shared/maintenance-message';
-
+import { useCacheBuster } from 'react-cache-buster';
 interface ThemeContextType {
   currentTokens: {
     token: typeof theme.defaultSeed;
@@ -37,6 +37,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     type: 'light'
   });
   const [isHidden, setIsHidden] = useState(false);
+  const { checkCacheStatus } = useCacheBuster();
+
   const toggleHidden = () => setIsHidden((prevHidden) => !prevHidden);
 
   // setTheme functions that take tokens as argument
@@ -129,7 +131,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.metaKey && event.shiftKey && event.key === 'k') {
-        toggleHidden();
+        // toggleHidden();
+        console.log("Checking status")
+        checkCacheStatus()
       }
     };
 

@@ -16,6 +16,7 @@ import { set } from 'lodash';
 import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
 import featureFlagConfig from './config/feature-flag-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
+import { CacheBuster } from 'react-cache-buster/dist/CacheBuster';
 function ConfigProviderWrapper() {
   
 
@@ -51,11 +52,19 @@ ReactDOM.render(
    <FeatureFlagProvider config={
     featureFlagConfig
    }>
+   <CacheBuster isEnabled={true} reloadOnDowngrade={true} 
+   onCacheClear={
+    () => {
+      console.log("Cache cleared nishan thapa")
+    }
+   }
+   >
    <MaintenanceMessageProvider>
    <ThemeProvider>
       <ConfigProviderWrapper />
     </ThemeProvider>
    </MaintenanceMessageProvider>
+   </CacheBuster>
    </FeatureFlagProvider>
   </React.StrictMode>,
   document.getElementById('root')

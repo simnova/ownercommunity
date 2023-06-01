@@ -49,7 +49,7 @@
   "scripts": {
     "start": "craco start",
     "generate-meta-tag": "node ./node_modules/react-cache-buster/dist/generate-meta-tag.js",
-    "build": "npm run generate-meta-tag && craco build",
+    "build": "npm version patch && npm run generate-meta-tag && craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",

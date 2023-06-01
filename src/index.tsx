@@ -26,8 +26,7 @@ function ConfigProviderWrapper() {
   const {
     currentTokens
   }=useContext(ThemeContext)
-  
-console.log("Current token has this things", currentTokens)
+  console.log("Current version",version)
   return (
     <ConfigProvider theme={{
       token: {
@@ -59,7 +58,10 @@ ReactDOM.render(
       isEnabled={true} //If false, the library is disabled.
       isVerboseMode={false} //If true, the library writes verbose logs to console.
       loadingComponent={<h1>Busting Cache</h1>} //If not pass, nothing appears at the time of new version check.
-      // metaFileDirectory={'.'} //If public assets are hosted somewhere other than root on your server.
+      metaFileDirectory={'.'} //If public assets are hosted somewhere other than root on your server.
+      onCacheClear={()=>{
+        console.log("Cache cleared")
+      }}
     >
    <MaintenanceMessageProvider>
    <ThemeProvider>

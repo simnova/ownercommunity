@@ -1,8 +1,13 @@
 import { FC, useEffect, useState } from 'react';
-import { CustomView, CustomViewInput, Member } from '../../../../generated';
+import {
+  CustomView,
+  CustomViewInput,
+  MemberPropertiesListSearchCustomViewsQuery,
+  MemberMutationResult
+} from '../../../../generated';
 import { Select, Button, Typography, Modal, Space, Input, message, theme } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import { SearchParamKeys, GetSearchParamsFromFilter } from '../../../../constants';
+import { SearchParamKeys, CustomViewOperation, GetPropertySelectedFilterTags, SetSearchParamsFromPropertyFilter } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
 import { PropertiesListSearchTags } from './properties-list-search-tags';
 
@@ -12,33 +17,41 @@ const { Text } = Typography;
 interface PropertiesListSearchToolbarProps {
   searchData: any;
   tagData: string[];
+  customViewsData: MemberPropertiesListSearchCustomViewsQuery;
+  handleUpdateCustomView: (
+    memberId: string,
+    customViews: CustomViewInput[],
+    operation: CustomViewOperation
+  ) => Promise<MemberMutationResult | undefined>;
 }
 
-interface AddressDataType {
-  value: string;
-  label: string;
-  key: string;
-  address: any;
-  lat: number;
-  long: number;
+//create your forceUpdate hook
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update state to force render
+  // An function that increment 👆🏻 the previous state like here
+  // is better than directly setting `value + 1`
 }
 
 export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> = (props) => {
   const {
     token: { colorText }
   } = theme.useToken();
-  const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
+  const forceUpdate = useForceUpdate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
   const [savedFilterNameInput, setSavedFilterNameInput] = useState('');
   const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>('');
 
   const [customViews, setCustomViews] = useState<CustomView[]>([]);
 
-  // useEffect(() => {
-  //   if (props.customViewsData?.memberForCurrentUser?.customViews) {
-  //     setCustomViews((props.customViewsData?.memberForCurrentUser?.customViews as CustomView[]) ?? []);
-  //   }
-  // }, [props.customViewsData?.memberForCurrentUser?.customViews]);
+  useEffect(() => {
+    if (props.customViewsData?.memberForCurrentUser?.customViews) {
+      const customViews = props.customViewsData?.memberForCurrentUser?.customViews as CustomView[] ?? [];
+      const propertyCustomViews = customViews.filter((view) => view.type === 'PROPERTY');
+      setCustomViews(propertyCustomViews);
+    }
+  }, [props.customViewsData?.memberForCurrentUser?.customViews]);
 
   // get selected filters from url (after page refresh)
   useEffect(() => {
@@ -51,31 +64,117 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   const updateCustomView = async () => {
     let customViewInputs: CustomViewInput[] = [];
     const currentViews = JSON.parse(JSON.stringify(customViews));
-    console.log('currentViews ', currentViews);
-  };
-
-  const saveNewCustomView = async () => {
-    // check if filter name is already exists
-    if (customViews.find((view: any) => view.name === savedFilterNameInput)) {
-      await message.error(`Filter name "${savedFilterNameInput}" already exists`);
-      // return;
-    }
-  };
-
-  const deleteCustomView = async (id: string) => {
-    if (id) {
-      const updatedViews = customViews.filter((view) => view.id !== id);
-      const _deletedViews = customViews.filter((view) => view.id === id);
-
-      let _customViewInputs: CustomViewInput[] = updatedViews.map((view) => {
-        return {
+    currentViews.forEach((view: CustomView) => {
+      if (view.name === selectedSavedFilterName) {
+        const updatedFilters = GetPropertySelectedFilterTags(searchParams);
+        const updatedSortOrder = searchParams.get(SearchParamKeys.OrderBy) ?? '';
+        // update
+        customViewInputs.push({
+          name: view.name,
+          type: 'PROPERTY',
+          id: view.id,
+          filters: GetPropertySelectedFilterTags(searchParams),
+          sortOrder: updatedSortOrder
+        });
+        view.filters = updatedFilters;
+        view.sortOrder = updatedSortOrder;
+      } else {
+        customViewInputs.push({
           id: view.id,
           name: view.name,
           type: view.type,
           filters: view.filters,
           sortOrder: view.sortOrder
+        });
+      }
+    });
+    message.loading({
+      content: `Updating filter "${selectedSavedFilterName}"`,
+      key: 'save-custom-view-loading'
+    });
+    await props.handleUpdateCustomView(
+      props.customViewsData?.memberForCurrentUser?.id,
+      customViewInputs,
+      CustomViewOperation.Update
+    );
+    setCustomViews(currentViews);
+    // forceUpdate();
+  };
+
+  const saveNewCustomView = async () => {
+    // check if filter name is already exists
+    if (customViews.find((view: any) => view.name === savedFilterNameInput)) {
+      message.error(`Filter name "${savedFilterNameInput}" already exists`);
+      return;
+    }
+    let customViewInputs: CustomViewInput[] = [];
+    let newCustomView: CustomViewInput = {
+      name: savedFilterNameInput,
+      type: 'PROPERTY',
+      filters: GetPropertySelectedFilterTags(searchParams),
+      sortOrder: searchParams.get(SearchParamKeys.OrderBy) ?? '',
+    };
+    customViewInputs.push(newCustomView);
+    customViews.forEach((view) => {
+      customViewInputs.push({
+        id: view.id,
+        name: view.name,
+        type: view.type,
+        filters: view.filters,
+        sortOrder: view.sortOrder,
+      });
+    });
+
+    message.loading({
+      key: 'save-custom-view-loading',
+      content: `Saving filter "${savedFilterNameInput}"`
+    });
+    await props.handleUpdateCustomView(
+      props.customViewsData?.memberForCurrentUser?.id,
+      customViewInputs,
+      CustomViewOperation.Create
+    ).then(data =>{
+      setCustomViews(data?.member?.customViews as CustomView[]);
+      onSelectViewChanged(savedFilterNameInput);
+      setSavedFilterNameInput('');
+      setIsSaveModalVisible(false);
+      forceUpdate();
+    });
+   
+  };
+
+  const deleteCustomView = async (id: string) => {
+    if (id) {
+      const updatedViews = customViews.filter((view) => view.id !== id);
+      const deletedView = customViews.find((view) => view.id === id);
+
+      let customViewInputs: CustomViewInput[] = updatedViews.map((view) => {
+        return {
+          id: view.id,
+          name: view.name,
+          type: view.type,
+          filters: view.filters,
+          sortOrder: view.sortOrder,
         };
       });
+
+      message.loading({
+        key: 'delete-custom-view-loading',
+        content: `Deleting filter "${deletedView?.name}"`
+      });
+      await props.handleUpdateCustomView(
+        props.customViewsData?.memberForCurrentUser?.id,
+        customViewInputs,
+        CustomViewOperation.Delete
+      );
+      if (deletedView?.name === selectedSavedFilterName) {
+        setSelectedSavedFilterName(undefined);
+        searchParams.delete(SearchParamKeys.SavedFilter);
+        setSearchParams(searchParams);
+        clearFilter();
+      }
+      setCustomViews(updatedViews);
+      // forceUpdate();
     }
   };
 
@@ -88,11 +187,9 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
       console.log('FILTER ', filters);
       setSelectedSavedFilterName(viewName);
       searchParams.set(SearchParamKeys.SavedFilter, viewName);
-
       // SetSearchParamsFromPropertyFilter(
       //   filters as string[],
-      //   searchParams,
-      //   props.memberData.membersByCommunityId as Member[]
+      //   searchParams
       // );
 
       setSearchParams(searchParams);
@@ -108,7 +205,6 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
 
     setSearchParams(searchParams);
   };
-
 
   const clearFilter = () => {
     searchParams.delete(SearchParamKeys.AdditionalAmenities);

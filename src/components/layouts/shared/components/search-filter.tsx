@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail } from '../../../../generated';
-import { render } from '@headlessui/react/dist/utils/render';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
@@ -88,7 +87,6 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   };
 
   const onChangeInputNumber = (value: any, optionId: string) => {
-    console.log("VALUE ", value);
     const searchId = props.searchId.find((id: any) => id === optionId) ?? props.searchId[0];
     if (value === null) {
       searchParams.delete(searchId);

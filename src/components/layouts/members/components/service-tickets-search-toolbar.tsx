@@ -55,7 +55,9 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
 
   useEffect(() => {
     if (props.customViewsData?.memberForCurrentUser?.customViews) {
-      setCustomViews((props.customViewsData?.memberForCurrentUser?.customViews as CustomView[]) ?? []);
+      const customViews = props.customViewsData?.memberForCurrentUser?.customViews as CustomView[] ?? [];
+      const systemCustomViews = customViews.filter((view) => view.type === 'SERVICE_TICKET');
+      setCustomViews(systemCustomViews);
     }
   }, [props.customViewsData?.memberForCurrentUser?.customViews]);
 

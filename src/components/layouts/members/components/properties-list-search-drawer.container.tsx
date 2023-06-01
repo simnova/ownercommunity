@@ -1,27 +1,18 @@
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import {
-  FilterDetail,
+  CustomViewInput,
+  MemberMutationResult,
   MemberPropertiesGetAllTagsDocument,
-  MemberPropertiesListSearchContainerMapSasTokenDocument,
-  MemberPropertiesListSearchContainerPropertiesDocument,
+  MemberPropertiesListSearchContainerCustomViewsUpdateDocument,
+  MemberPropertiesListSearchCustomViewsDocument,
   PropertySearchFacets
 } from '../../../../generated';
-import { Skeleton, List, Tag, theme } from 'antd';
-import { useEffect, useState } from 'react';
-import { ListingCard } from './listing-card';
-import { useLocation, useNavigate, useSearchParams, useParams } from 'react-router-dom';
-import {
-  addressQuery,
-  FilterNames,
-  SearchParamKeys,
-  GetFilterFromQueryString,
-  MinSquareFeet,
-  MaxSquareFeet,
-  MinPrice,
-  MaxPrice
-} from '../../../../constants';
+import { Skeleton, message, theme } from 'antd';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
+import { CustomViewOperation } from '../../../../constants';
 interface AddressDataType {
   value: string;
   label: string;
@@ -42,7 +33,72 @@ export const PropertiesListSearchDrawerContainer: React.FC<PropertiesListSearchD
   const [addresses, setAddresses] = useState<AddressDataType[]>([]);
   const params = useParams();
 
+  const [updateCustomViews] = useMutation(MemberPropertiesListSearchContainerCustomViewsUpdateDocument, {
+    update(cache, { data }) {
+      // update the list of custom views
+      const newCustomViews = data?.memberUpdate.member?.customViews;
+      const memberForCurrentUser = cache.readQuery({
+        query: MemberPropertiesListSearchCustomViewsDocument,
+        variables: { communityId: params.communityId ?? '' }
+      })?.memberForCurrentUser;
+      if (newCustomViews && memberForCurrentUser) {
+        cache.writeQuery({
+          query: MemberPropertiesListSearchCustomViewsDocument,
+          variables: { communityId: params.communityId ?? '' },
+          data: {
+            memberForCurrentUser: {
+              id: memberForCurrentUser?.id,
+              customViews: newCustomViews
+            }
+          }
+        });
+      }
+    }
+  });
+
   const { data: tagData, loading: tagLoading, error: tagError } = useQuery(MemberPropertiesGetAllTagsDocument);
+
+  const {
+    data: customViewsData,
+    loading: customViewsLoading,
+    error: customViewsError
+  } = useQuery(MemberPropertiesListSearchCustomViewsDocument, {
+    variables: { communityId: params.communityId ?? '' }
+    // fetchPolicy: 'cache-and-network'
+  });
+
+  const handleUpdateCustomView = async (
+    memberId: string,
+    customViews: CustomViewInput[],
+    operation: CustomViewOperation
+  ) => {
+    let data: MemberMutationResult | undefined;
+    await updateCustomViews({
+      variables: {
+        input: {
+          id: memberId,
+          customViews: customViews
+        }
+      }
+    }).then((result) => {
+      switch (operation) {
+        case CustomViewOperation.Create:
+          message.destroy('save-custom-view-loading');
+          message.success('Custom view created');
+          break;
+        case CustomViewOperation.Update:
+          message.destroy('save-custom-view-loading');
+          message.success('Custom view updated');
+          break;
+        case CustomViewOperation.Delete:
+          message.destroy('delete-custom-view-loading');
+          message.success('Custom view deleted');
+          break;
+      }
+      data = result as MemberMutationResult;
+    });
+    return data;
+  };
 
   // const onInputAddressChanged = (value: string) => {
   //   if (!value) {
@@ -94,17 +150,27 @@ export const PropertiesListSearchDrawerContainer: React.FC<PropertiesListSearchD
   //   }
   // };
 
-  if (tagError) {
-    return <div>{JSON.stringify(tagError)}</div>;
+  if (tagError || customViewsError) {
+    return (
+      <div>
+        <div>{JSON.stringify(tagError)}</div>
+        <div>{JSON.stringify(customViewsError)}</div>
+      </div>
+    );
   }
-  if (tagLoading) {
+  if (tagLoading || customViewsLoading) {
     return <Skeleton active />;
   }
-  if (tagData) {
+  if (tagData && customViewsData) {
     return (
       <>
         <div style={{ marginBottom: '1rem' }}>
-          <PropertiesListSearchToolbar searchData={props.searchData} tagData={tagData.getAllPropertyTags as string[]} />
+          <PropertiesListSearchToolbar
+            searchData={props.searchData}
+            tagData={tagData.getAllPropertyTags as string[]}
+            customViewsData={customViewsData}
+            handleUpdateCustomView={handleUpdateCustomView}
+          />
         </div>
         <PropertiesListSearchFilters
           facets={props.searchData?.facets as PropertySearchFacets}

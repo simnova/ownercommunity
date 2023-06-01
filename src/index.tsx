@@ -17,7 +17,9 @@ import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
 import featureFlagConfig from './config/feature-flag-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import { CacheBuster } from 'react-cache-buster/dist/CacheBuster';
-import { version } from '../package.json';
+import packageJson from '../package.json';
+const {version}=packageJson
+
 function ConfigProviderWrapper() {
   
 
@@ -26,7 +28,6 @@ function ConfigProviderWrapper() {
   }=useContext(ThemeContext)
   
 console.log("Current token has this things", currentTokens)
-
   return (
     <ConfigProvider theme={{
       token: {

@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import ModalPopUp from './components/ModalPopUp';
 import { useFeatureFlags } from '../components/shared/feature-flag-react-lite';
 import { useMaintenanceMessage } from '../components/shared/maintenance-message';
-import { useCacheBuster } from 'react-cache-buster';
+
 interface ThemeContextType {
   currentTokens: {
     token: typeof theme.defaultSeed;
@@ -37,7 +37,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     type: 'light'
   });
   const [isHidden, setIsHidden] = useState(false);
-  const { checkCacheStatus } = useCacheBuster();
 
   const toggleHidden = () => setIsHidden((prevHidden) => !prevHidden);
 
@@ -131,9 +130,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.metaKey && event.shiftKey && event.key === 'k') {
-        // toggleHidden();
-        console.log("Checking status")
-        checkCacheStatus()
+        toggleHidden();
       }
     };
 
@@ -158,7 +155,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       ) : (
         <div>
           <div className={isHidden ? 'hidden' : 'text-center'}>
-            {isImpending  && (
+            {isImpending && (
               <div className="w-screen bg-red-500 text-left px-8 py-4">
                 <div
                   dangerouslySetInnerHTML={{

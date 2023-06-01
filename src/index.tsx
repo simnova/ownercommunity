@@ -17,6 +17,7 @@ import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
 import featureFlagConfig from './config/feature-flag-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import { CacheBuster } from 'react-cache-buster/dist/CacheBuster';
+import { version } from '../package.json';
 function ConfigProviderWrapper() {
   
 
@@ -52,13 +53,13 @@ ReactDOM.render(
    <FeatureFlagProvider config={
     featureFlagConfig
    }>
-   <CacheBuster isEnabled={true} reloadOnDowngrade={true} 
-   onCacheClear={
-    () => {
-      console.log("Cache cleared nishan thapa")
-    }
-   }
-   >
+     <CacheBuster
+      currentVersion={version}
+      isEnabled={true} //If false, the library is disabled.
+      isVerboseMode={false} //If true, the library writes verbose logs to console.
+      loadingComponent={<h1>Busting Cache</h1>} //If not pass, nothing appears at the time of new version check.
+      // metaFileDirectory={'.'} //If public assets are hosted somewhere other than root on your server.
+    >
    <MaintenanceMessageProvider>
    <ThemeProvider>
       <ConfigProviderWrapper />

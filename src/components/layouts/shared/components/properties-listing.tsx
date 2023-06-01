@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Input, InputNumber, Button, Descriptions, Typography, Select } from 'antd';
+import { Form, Input, InputNumber, Button, Descriptions, Typography, Select, Col, Row } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import {
@@ -16,6 +16,8 @@ import {
   AmentitiesOptions,
   additionalAmenitiesOptions
 } from '../../../../constants';
+import { PropertiesListingImageList } from './properties-listing-image-list';
+import { PropertiesListingImageListContainer } from './properties-listing-image-list.container';
 
 const { Title } = Typography;
 
@@ -362,23 +364,37 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           }}
         </Form.List>
 
-        <Form.Item name={['listingDetail', 'images']} label="Images">
-          <PropertiesListingImageUploadContainer
-            propertyId={props.data.property.id}
-            communityId={props.data.communityId}
-          />
-        </Form.Item>
+        <Row>
+          <Col span={3}>
+            <Form.Item name={['listingDetail', 'images']} label="Images">
+              <PropertiesListingImageUploadContainer
+                propertyId={props.data.property.id}
+                communityId={props.data.communityId}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={21}>
+            <PropertiesListingImageListContainer data={{images: props?.data?.property?.listingDetail?.images ?? [], propertyId: props?.data?.property?.id}} />
+          </Col>
+        </Row>
 
         <Form.Item name={['listingDetail', 'floorPlan']} label="Floor Plan">
           <Input placeholder="Floor Plan" />
         </Form.Item>
 
-        <Form.Item name={['listingDetail', 'floorPlanImages']} label="Floor Plan Images">
-          <PropertiesFloorPlanUploadContainer
-            propertyId={props.data.property.id}
-            communityId={props.data.communityId}
-          />
-        </Form.Item>
+        <Row>
+          <Col span={3}>
+            <Form.Item name={['listingDetail', 'floorPlanImages']} label="Floor Plan Images">
+              <PropertiesFloorPlanUploadContainer
+                propertyId={props.data.property.id}
+                communityId={props.data.communityId}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={21}>
+            <PropertiesListingImageListContainer data={{images: props?.data?.property?.listingDetail?.floorPlanImages ?? [], propertyId: props?.data?.property?.id }}  />
+          </Col>
+        </Row>
 
         <Form.Item name={['listingDetail', 'listingAgent']} label="Listing Agent">
           <Input placeholder="Listing Agent" />

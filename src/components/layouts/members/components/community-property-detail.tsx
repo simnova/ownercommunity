@@ -31,10 +31,13 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
   console.log(props.data);
 
-  const listingImages = props.data.property.listingDetail.images;
+  const listingImages = props.data.property.listingDetail.images.map((image: any) => {
+    return `https://ownercommunity.blob.core.windows.net/${params.communityId}/${image}`;
+  })
 
   const floorPlanImages = props.data.property.listingDetail.floorPlanImages.map((floorPlan: any) => {
-    return <Image src={floorPlan} alt={'floor plan'} />;
+    const url = `https://ownercommunity.blob.core.windows.net/${params.communityId}/${floorPlan}`;
+    return <Image src={url} alt={'floor plan'} />;
   });
 
   const marketDataConfig: MarketDataConfigDefinition = {

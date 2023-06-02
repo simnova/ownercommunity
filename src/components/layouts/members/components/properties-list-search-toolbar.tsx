@@ -233,6 +233,7 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', paddingLeft: '16px' }}>
+      <Space size="middle">
         <Select
           onChange={onSelectViewChanged}
           value={selectedSavedFilterName}
@@ -264,9 +265,13 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
             )
           }
         ></Select>
-        <Button type="primary" onClick={() => updateCustomView()} disabled={selectedSavedFilterName ? false : true}>
-          Update
-        </Button>
+          <Button type="primary" onClick={() => updateCustomView()} disabled={selectedSavedFilterName ? false : true}>
+            Update
+          </Button>
+          <Button type="default" danger onClick={() => clearFilter()}>
+            Clear
+          </Button>
+        </Space>
         <Modal
           title="Save Filter"
           open={isSaveModalVisible}

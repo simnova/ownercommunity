@@ -29,7 +29,7 @@ export const PropertiesListSearchTags: React.FC<any> = (props) => {
       },
       'Type': {
         searchId: SearchParamKeys.Type,
-        compare: (id: string, value: string) => id.toLowerCase() !== value.toLowerCase()
+        compare: (id: string, value: string) => id.toLowerCase() === value.toLowerCase()
       },
       'Bedrooms': {
         searchId: SearchParamKeys.Bedrooms,

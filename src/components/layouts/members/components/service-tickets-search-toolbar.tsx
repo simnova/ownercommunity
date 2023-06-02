@@ -5,7 +5,7 @@ import { ServiceTicketsSearchTags } from './service-tickets-search-tags';
 import {
   SetSearchParamsFromServiceTicketFilter,
   ServiceTicketSearchParamKeys,
-  GetSelectedFilterTags,
+  GetServiceTicketSelectedFilterTags,
   CustomViewOperation
 } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
@@ -74,7 +74,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     const currentViews = JSON.parse(JSON.stringify(customViews));
     currentViews.forEach((view: CustomView) => {
       if (view.name === selectedSavedFilterName) {
-        const updatedFilters = GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]);
+        const updatedFilters = GetServiceTicketSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]);
         const updatedSortOrder = searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? '';
         const updatedColumnsToDisplay = searchParams.get(ServiceTicketSearchParamKeys.Column);
         // update
@@ -82,7 +82,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
           name: view.name,
           type: 'SERVICE_TICKET',
           id: view.id,
-          filters: GetSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]),
+          filters: GetServiceTicketSelectedFilterTags(searchParams, props.memberData.membersByCommunityId as Member[]),
           sortOrder: updatedSortOrder,
           columnsToDisplay: updatedColumnsToDisplay ? updatedColumnsToDisplay.split(',') : []
         });
@@ -123,7 +123,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
     let newCustomView: CustomViewInput = {
       name: savedFilterNameInput,
       type: 'SERVICE_TICKET',
-      filters: GetSelectedFilterTags(searchParams, (props.memberData.membersByCommunityId as Member[]) ?? []),
+      filters: GetServiceTicketSelectedFilterTags(searchParams, (props.memberData.membersByCommunityId as Member[]) ?? []),
       sortOrder: searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? '',
       columnsToDisplay: qscolumnsToDisplay ? qscolumnsToDisplay.split(',') : []
     };

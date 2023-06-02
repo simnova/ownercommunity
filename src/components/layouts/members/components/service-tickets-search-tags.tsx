@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Tag } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { Member, MemberNameServiceTicketContainerQuery } from '../../../../generated';
-import { ConvertMemberNameToId, GetSelectedFilterTags } from '../../../../constants';
+import { ConvertMemberNameToId, GetServiceTicketSelectedFilterTags } from '../../../../constants';
 
 interface ServiceTicketsSearchTagsProps {
   memberData: MemberNameServiceTicketContainerQuery;
@@ -13,7 +13,7 @@ export const ServiceTicketsSearchTags: React.FC<ServiceTicketsSearchTagsProps> =
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    const tags = GetSelectedFilterTags(searchParams, props.memberData?.membersByCommunityId as Member[]);
+    const tags = GetServiceTicketSelectedFilterTags(searchParams, props.memberData?.membersByCommunityId as Member[]);
     setSelectedFilterList(tags);
   }, [searchParams]);
 

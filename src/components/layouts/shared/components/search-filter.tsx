@@ -87,6 +87,8 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   };
 
   const onChangeInputNumber = (value: any, optionId: string) => {
+    if (value.trim() === '') return; 
+    if (!Number.isInteger(Number(value))) return;
     const searchId = props.searchId.find((id: any) => id === optionId) ?? props.searchId[0];
     if (value === null) {
       searchParams.delete(searchId);

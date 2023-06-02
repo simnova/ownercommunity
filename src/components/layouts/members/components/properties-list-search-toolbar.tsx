@@ -187,10 +187,10 @@ export const PropertiesListSearchToolbar: FC<PropertiesListSearchToolbarProps> =
       console.log('FILTER ', filters);
       setSelectedSavedFilterName(viewName);
       searchParams.set(SearchParamKeys.SavedFilter, viewName);
-      // SetSearchParamsFromPropertyFilter(
-      //   filters as string[],
-      //   searchParams
-      // );
+      SetSearchParamsFromPropertyFilter(
+        filters as string[],
+        searchParams
+      );
 
       setSearchParams(searchParams);
     }

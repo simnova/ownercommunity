@@ -530,7 +530,7 @@ export const IsNameDuplicate = (name: string, members: Member[]): boolean => {
   return count > 1;
 };
 
-export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: Member[]) => {
+export const GetServiceTicketSelectedFilterTags = (searchParams: URLSearchParams, members?: Member[]) => {
   let tempList: string[] = [];
 
   //props.memberData.membersByCommunityId
@@ -610,6 +610,7 @@ type SearchParam = {
   key: string;
   label: string;
   formatValue?: (value: string) => string;
+  separator?: string;
 };
 
 const searchParamsArray: SearchParam[] = [
@@ -621,25 +622,32 @@ const searchParamsArray: SearchParam[] = [
   { key: SearchParamKeys.MinSquareFeet, label: 'Min Square Feet: ' },
   { key: SearchParamKeys.MaxSquareFeet, label: 'Max Square Feet: ' },
   { key: SearchParamKeys.Amenities, label: 'Amenities: ' },
-  { key: SearchParamKeys.AdditionalAmenities, label: 'Additional Amenities: ' },
+  { key: SearchParamKeys.AdditionalAmenities, label: 'Additional Amenities: ', separator: ';' },
   { key: SearchParamKeys.Distance, label: 'Distance: ' },
   { key: SearchParamKeys.ListedInfo, label: 'Listed Info: ', formatValue: (value) => (value === 'listedForSale' ? 'For Sale' : value === 'listedForRent' ? 'For Rent' : 'For Lease') },
   { key: SearchParamKeys.Latitude, label: 'Latitude: ' },
   { key: SearchParamKeys.Longitude, label: 'Longitude: ' },
-  { key: SearchParamKeys.UpdatedAt, label: 'Updated At: ', formatValue: (value) => `${value} days` },
-  { key: SearchParamKeys.CreatedAt, label: 'Created At: ', formatValue: (value) => `${value} days` },
+  { key: SearchParamKeys.UpdatedAt, label: 'Updated At: ' },
+  { key: SearchParamKeys.CreatedAt, label: 'Created At: ' },
   { key: SearchParamKeys.Tags, label: 'Tags: ' },
 ];
 
 export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => {
   const tempList: string[] = [];
 
-  Array.from(searchParams.entries()).forEach(([key, value]) => {
-    const searchParam = searchParamsArray.find((param: any) => param.key === key);
+  searchParams.forEach((value, key) => {
+    if (key === 'page' || key ==='top') return;
+    const searchParam = searchParamsArray.find((sp) => sp.key === key);
     if (searchParam) {
-      const label = searchParam.label;
-      const formattedValue = searchParam.formatValue ? searchParam.formatValue(value) : value;
-      tempList.push(label + formattedValue);
+      const separator = searchParam.separator || ',';
+      if (value.includes(separator)) {
+        const values = value.split(separator);
+        const formattedValues = values.map((v) => searchParam.formatValue ? searchParam.formatValue(v) : v);
+        formattedValues.forEach((v) => tempList.push(searchParam.label + v));
+      } else {
+        const formattedValue = searchParam.formatValue ? searchParam.formatValue(value) : value;
+        tempList.push(searchParam.label + formattedValue);
+      }
     }
   });
 
@@ -712,122 +720,120 @@ export const SetSearchParamsFromPropertyFilter = (
   const createdAt = filters.filter((tag) => tag.startsWith('Created At: '));
   const tags = filters.filter((tag) => tag.startsWith('Tags: '));
 
-  searchParamsArray.forEach((param) => {
-    switch (param.key) {
-      case SearchParamKeys.Type:
-        if (type.length > 0) {
-          searchParams.set(param.key, type[0].replace('Type: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.Bedrooms:
-        if (bedrooms.length > 0) {
-          searchParams.set(param.key, bedrooms[0].replace('Bedrooms: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.Bathrooms:
-        if (bathrooms.length > 0) {
-          searchParams.set(param.key, bathrooms[0].replace('Bathrooms: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.MinPrice:
-        if (minPrice.length > 0) {
-          searchParams.set(param.key, minPrice[0].replace('Min Price: $', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.MaxPrice:
-        if (maxPrice.length > 0) {
-          searchParams.set(param.key, maxPrice[0].replace('Max Price: $', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.MinSquareFeet:
-        if (minSquareFeet.length > 0) {
-          searchParams.set(param.key, minSquareFeet[0].replace('Min Square Feet: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.MaxSquareFeet:
-        if (maxSquareFeet.length > 0) {
-          searchParams.set(param.key, maxSquareFeet[0].replace('Max Square Feet: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.Amenities:
-        if (amenities.length > 0) {
-          searchParams.set(param.key, amenities[0].replace('Amenities: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.AdditionalAmenities:
-        if (additionalAmenities.length > 0) {
-          searchParams.set(param.key, additionalAmenities[0].replace('Additional Amenities: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.Distance:
-        if (distance.length > 0) {
-          searchParams.set(param.key, distance[0].replace('Distance: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.ListedInfo:
-        if (listedInfo.length > 0) {
-          searchParams.set(param.key, listedInfo[0].replace('Listed Info: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.Latitude:
-        if (latitude.length > 0) {
-          searchParams.set(param.key, latitude[0].replace('Latitude: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.Longitude:
-        if (longitude.length > 0) {
-          searchParams.set(param.key, longitude[0].replace('Longitude: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.UpdatedAt:
-        if (updatedAt.length > 0) {
-          searchParams.set(param.key, updatedAt[0].replace('Updated At: ', '').replace(' days', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.CreatedAt:
-        if (createdAt.length > 0) {
-          searchParams.set(param.key, createdAt[0].replace('Created At: ', '').replace(' days', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      case SearchParamKeys.Tags:
-        if (tags.length > 0) {
-          searchParams.set(param.key, tags[0].replace('Tags: ', ''));
-        } else {
-          searchParams.delete(param.key);
-        }
-        break;
-      default:
-        break;
-    }
-  });
+  // can you do what it says above for all of these?
+  if (type.length > 0) {
+    console.log("type ", type);
+    const typeId = type.map((tag) => tag.replace('Type: ', ''));
+    console.log("typeId ", typeId);
+    searchParams.set(SearchParamKeys.Type, typeId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Type);
+  }
+
+  if (bedrooms.length > 0) {
+    const bedroomsId = bedrooms.map((tag) => tag.replace('Bedrooms: ', ''));
+    searchParams.set(SearchParamKeys.Bedrooms, bedroomsId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Bedrooms);
+  }
+
+  if (bathrooms.length > 0) {
+    const bathroomsId = bathrooms.map((tag) => tag.replace('Bathrooms: ', ''));
+    searchParams.set(SearchParamKeys.Bathrooms, bathroomsId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Bathrooms);
+  }
+
+  if (minPrice.length > 0) {
+    const minPriceId = minPrice.map((tag) => tag.replace('Min Price: $', ''));
+    searchParams.set(SearchParamKeys.MinPrice, minPriceId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.MinPrice);
+  }
+
+  if (maxPrice.length > 0) {
+    const maxPriceId = maxPrice.map((tag) => tag.replace('Max Price: $', ''));
+    searchParams.set(SearchParamKeys.MaxPrice, maxPriceId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.MaxPrice);
+  }
+
+  if (minSquareFeet.length > 0) {
+    const minSquareFeetId = minSquareFeet.map((tag) => tag.replace('Min Square Feet: ', ''));
+    searchParams.set(SearchParamKeys.MinSquareFeet, minSquareFeetId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.MinSquareFeet);
+  }
+
+  if (maxSquareFeet.length > 0) {
+    const maxSquareFeetId = maxSquareFeet.map((tag) => tag.replace('Max Square Feet: ', ''));
+    searchParams.set(SearchParamKeys.MaxSquareFeet, maxSquareFeetId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.MaxSquareFeet);
+  }
+
+  if (amenities.length > 0) {
+    const amenitiesId = amenities.map((tag) => tag.replace('Amenities: ', ''));
+    searchParams.set(SearchParamKeys.Amenities, amenitiesId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Amenities);
+  }
+
+  if (additionalAmenities.length > 0) {
+    const additionalAmenitiesId = additionalAmenities.map((tag) => tag.replace('Additional Amenities: ', ''));
+    searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenitiesId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.AdditionalAmenities);
+  }
+
+  if (distance.length > 0) {
+    const distanceId = distance.map((tag) => tag.replace('Distance: ', ''));
+    searchParams.set(SearchParamKeys.Distance, distanceId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Distance);
+  }
+
+  if (listedInfo.length > 0) {
+    const listedInfoId = listedInfo.map((tag) => tag.replace('Listed Info: ', ''));
+    const formattedListedInfo = listedInfoId.map((tag) => tag === 'For Sale' ? 'listedForSale' : tag === 'For Rent' ? 'listedForRent': 'listedForLease');
+    searchParams.set(SearchParamKeys.ListedInfo, formattedListedInfo.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.ListedInfo);
+  }
+
+  if (latitude.length > 0) {
+    const latitudeId = latitude.map((tag) => tag.replace('Latitude: ', ''));
+    searchParams.set(SearchParamKeys.Latitude, latitudeId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Latitude);
+  }
+
+  if (longitude.length > 0) {
+    const longitudeId = longitude.map((tag) => tag.replace('Longitude: ', ''));
+    searchParams.set(SearchParamKeys.Longitude, longitudeId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Longitude);
+  }
+
+  if (updatedAt.length > 0) {
+    const updatedAtId = updatedAt.map((tag) => tag.replace('Updated At: ', ''));
+    searchParams.set(SearchParamKeys.UpdatedAt, updatedAtId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.UpdatedAt);
+  }
+
+  if (createdAt.length > 0) {
+    const createdAtId = createdAt.map((tag) => tag.replace('Created At: ', ''));
+    searchParams.set(SearchParamKeys.CreatedAt, createdAtId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.CreatedAt);
+  }
+
+  if (tags.length > 0) {
+    const tagsId = tags.map((tag) => tag.replace('Tags: ', ''));
+    searchParams.set(SearchParamKeys.Tags, tagsId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Tags);
+  }
+
 };

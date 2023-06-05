@@ -49,7 +49,8 @@
   "scripts": {
     "start": "craco start",
     "generate-meta-tag": "node ./node_modules/react-cache-buster/dist/generate-meta-tag.js",
-    "build": "npm version patch && npm run generate-meta-tag && craco build",
+    "make-repo-git-clean": "export VERSION=$(node -p \"require('./package.json').version\") && git add . && git commit -m \"Version $VERSION commit\"",
+    "build": "npm run make-repo-git-clean && npm version patch && npm run generate-meta-tag && craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",

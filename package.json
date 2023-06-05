@@ -48,13 +48,12 @@
   },
   "scripts": {
     "start": "craco start",
-    "generate-meta-tag": "node ./node_modules/react-cache-buster/dist/generate-meta-tag.js",
-    "make-repo-git-clean": "export VERSION=$(node -p \"require('./package.json').version\") && git add . && git commit -m \"Version $VERSION commit\"",
-    "build": "npm run make-repo-git-clean && npm version patch && npm run generate-meta-tag && craco build",
+    "build": "npm run generate-meta-tag && craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "generate-meta-tag": "node -e \"const fs = require('fs'); const version = new Date().getTime(); fs.writeFileSync('./public/meta.json', JSON.stringify({ version }));\""
   },
   "eslintConfig": {
     "extends": [

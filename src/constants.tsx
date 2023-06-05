@@ -18,6 +18,65 @@ export const handleToggler = (isExpanded: boolean, callback: (isExpanded: boolea
   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
 };
 
+export const ServiceTicketSortOptions = [
+  {
+    value: 'createdAt asc',
+    label: 'Created (Oldest)'
+  },
+  {
+    value: 'createdAt desc',
+    label: 'Created (Newest)'
+  },
+  {
+    value: 'updatedAt asc',
+    label: 'Updated (Oldest)'
+  },
+  {
+    value: 'updatedAt desc',
+    label: 'Updated (Newest)'
+  }
+]
+
+export const PropertySortOptions = [
+  {
+    value: 'createdAt asc',
+    label: 'Created (Oldest)'
+  },
+  {
+    value: 'createdAt desc',
+    label: 'Created (Newest)'
+  },
+  {
+    value: 'updatedAt asc',
+    label: 'Updated (Oldest)'
+  },
+  {
+    value: 'updatedAt desc',
+    label: 'Updated (Newest)'
+  },
+  {
+    value: 'price asc',
+    label: 'Price (Lowest)'
+  },
+  {
+    value: 'price desc',
+    label: 'Price (Highest)'
+  }, 
+  {
+    value: 'bedrooms desc',
+    label: 'Bedrooms (Largest)'
+  },
+  {
+    value: 'squareFeet desc',
+    label: 'Square Feet (Largest)'
+  }
+]
+
+export enum SearchType {
+  Property = 'PROPERTY',
+  ServiceTicket = 'SERVICE_TICKET'
+}
+
 export const SearchParamKeys = {
   SearchString: 'search',
   ListedInfo: 'listedInfo',
@@ -35,7 +94,7 @@ export const SearchParamKeys = {
   Page: 'page',
   Top: 'top',
   Distance: 'distance',
-  OrderBy: 'orderBy',
+  Sort: 'sort',
   UpdatedAt: 'updatedAt',
   CreatedAt: 'createdAt',
   HideNullResults: 'hideNullResults',
@@ -43,14 +102,12 @@ export const SearchParamKeys = {
   Tags: 'tags'
 };
 
-type SearchParamKeysType = typeof SearchParamKeys;
-
 export const ServiceTicketSearchParamKeys = {
   SearchString: 'searchString',
   AssignedTo: 'assignedTo',
   Priority: 'priority',
   Status: 'status',
-  SavedView: 'savedFilter',
+  SavedFilter: 'savedFilter',
   Column: 'column',
   Page: 'page',
   Top: 'top',

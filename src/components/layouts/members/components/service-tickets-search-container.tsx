@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import { FC } from 'react';
-import { useParams } from 'react-router-dom';
-import { CustomViewOperation } from '../../../../constants';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { CustomViewOperation, SearchType, ServiceTicketSearchParamKeys } from '../../../../constants';
 import {
   CustomViewInput,
   MemberMutationResult,
@@ -11,10 +11,11 @@ import {
   MemberServiceTicketSearchContainerCustomViewsUpdateDocument
 } from '../../../../generated';
 import { ServiceTicketsSearchFilters } from './service-tickets-search-filters';
-import { ServiceTicketsSearchToolbar } from './service-tickets-search-toolbar';
+import { SearchToolbar } from '../../shared/components/search-toolbar';
 
 export const ServiceTicketsSearchContainer: FC<any> = (props) => {
   const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [updateCustomViews] = useMutation(MemberServiceTicketSearchContainerCustomViewsUpdateDocument, {
     update(cache, { data }) {
       // update the list of custom views
@@ -90,6 +91,17 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
     return data;
   };
 
+  const clearFilter = () => {
+    searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
+    searchParams.delete(ServiceTicketSearchParamKeys.AssignedTo);
+    searchParams.delete(ServiceTicketSearchParamKeys.Status);
+    searchParams.delete(ServiceTicketSearchParamKeys.Priority);
+    searchParams.delete(ServiceTicketSearchParamKeys.Column);
+    searchParams.delete(ServiceTicketSearchParamKeys.Sort);
+
+    setSearchParams(searchParams);
+  }
+
   if (error || customViewsError) {
     return (
       <div>
@@ -102,10 +114,12 @@ export const ServiceTicketsSearchContainer: FC<any> = (props) => {
   } else if (membersData && customViewsData) {
     return (
       <>
-        <ServiceTicketsSearchToolbar
+        <SearchToolbar
+          type={SearchType.ServiceTicket}
           memberData={membersData}
-          customViewsData={customViewsData}
+          customViewData={customViewsData}
           handleUpdateCustomView={handleUpdateCustomView}
+          clearFilter={clearFilter}
         />
         <ServiceTicketsSearchFilters memberData={membersData} searchData={props.searchData} />
       </>

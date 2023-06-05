@@ -4,12 +4,6 @@ query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInpu
   }
 }
 
-query MemberPropertiesListSearchCustomViews($communityId: ObjectID!) {
-  memberForCurrentUser(communityId: $communityId) {
-    ...MembersPropertiesListSearchCustomViewsFields
-  }
-}
-
 query MemberPropertiesGetAllTags {
   getAllPropertyTags
 }
@@ -17,23 +11,6 @@ query MemberPropertiesGetAllTags {
 query MemberPropertiesListSearchContainerMapSasToken {
   getMapSasToken
 }
-
-mutation MemberPropertiesListSearchContainerCustomViewsUpdate($input: MemberUpdateInput!) {
-  memberUpdate(input: $input) {
-    ...MembersPropertiesListSearchCustomViewsMutationResultFields
-  }
-}
-
-fragment MembersPropertiesListSearchCustomViewsMutationResultFields on MemberMutationResult {
-  status {
-    success
-    errorMessage
-  }
-  member {
-    ...MembersPropertiesListSearchCustomViewsFields
-  }
-}
-
 
 fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResult {
   propertyResults {
@@ -138,18 +115,4 @@ fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyRes
   updatedAt
   createdAt
   tags
-}
-
-fragment MembersPropertiesListSearchCustomViewsFields on Member {
-  id
-  customViews {
-    id
-    name
-    type
-    filters
-    sortOrder
-
-    createdAt
-    updatedAt
-  }
 }

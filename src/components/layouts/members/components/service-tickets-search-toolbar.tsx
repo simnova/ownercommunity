@@ -6,7 +6,8 @@ import {
   SetSearchParamsFromServiceTicketFilter,
   ServiceTicketSearchParamKeys,
   GetServiceTicketSelectedFilterTags,
-  CustomViewOperation
+  CustomViewOperation,
+  ServiceTicketSortOptions
 } from '../../../../constants';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -63,7 +64,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
 
   // get selected filters from url (after page refresh)
   useEffect(() => {
-    const savedFilterName = searchParams.get(ServiceTicketSearchParamKeys.SavedView);
+    const savedFilterName = searchParams.get(ServiceTicketSearchParamKeys.SavedFilter);
     if (savedFilterName) {
       setSelectedSavedViewName(savedFilterName);
     }
@@ -184,7 +185,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       );
       if (deletedView?.name === selectedSavedFilterName) {
         setSelectedSavedViewName(undefined);
-        searchParams.delete(ServiceTicketSearchParamKeys.SavedView);
+        searchParams.delete(ServiceTicketSearchParamKeys.SavedFilter);
         setSearchParams(searchParams);
         clearFilter();
       }
@@ -202,7 +203,7 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
       const filters = selectedView?.filters;
       console.log('FILTER ', filters);
       setSelectedSavedViewName(viewName);
-      searchParams.set(ServiceTicketSearchParamKeys.SavedView, viewName);
+      searchParams.set(ServiceTicketSearchParamKeys.SavedFilter, viewName);
       SetSearchParamsFromServiceTicketFilter(
         filters as string[],
         searchParams,
@@ -345,10 +346,13 @@ export const ServiceTicketsSearchToolbar: React.FC<ServiceTicketsSearchToolbarPr
         onChange={(value) => onSortChanged(value)}
       >
         <Option value="">None</Option>
-        <Option value="createdAt asc">Created Date: Oldest First</Option>
-        <Option value="createdAt desc">Created Date: Newest First</Option>
-        <Option value="updatedAt asc">Updated Date: Oldest First</Option>
-        <Option value="updatedAt desc">Updated Date: Newest First</Option>
+        {ServiceTicketSortOptions.map((option) => {
+          return (
+            <Option key={option.value} value={option.value}>
+              {option.label}
+            </Option>
+          );
+        })}
       </Select>
     </div>
     <div

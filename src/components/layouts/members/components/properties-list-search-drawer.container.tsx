@@ -8,11 +8,10 @@ import {
   PropertySearchFacets
 } from '../../../../generated';
 import { Skeleton, message, theme } from 'antd';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { PropertiesListSearchToolbar } from './properties-list-search-toolbar';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { PropertiesListSearchFilters } from './properties-list-search-filters';
-import { CustomViewOperation } from '../../../../constants';
+import { CustomViewOperation, SearchParamKeys, SearchType } from '../../../../constants';
+import { SearchToolbar } from '../../shared/components/search-toolbar';
 interface AddressDataType {
   value: string;
   label: string;
@@ -30,8 +29,8 @@ export const PropertiesListSearchDrawerContainer: React.FC<PropertiesListSearchD
   const {
     token: { colorText }
   } = theme.useToken();
-  const [addresses, setAddresses] = useState<AddressDataType[]>([]);
   const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [updateCustomViews] = useMutation(MemberPropertiesListSearchContainerCustomViewsUpdateDocument, {
     update(cache, { data }) {
@@ -100,55 +99,27 @@ export const PropertiesListSearchDrawerContainer: React.FC<PropertiesListSearchD
     return data;
   };
 
-  // const onInputAddressChanged = (value: string) => {
-  //   if (!value) {
-  //     searchParams.delete('search');
-  //   } else {
-  //     searchParams.set('search', value);
-  //   }
-
-  //   searchParams.delete('lat');
-  //   searchParams.delete('long');
-  //   // setSearchParams(searchParams);
-  //   setSearchString(value);
-
-  //   let tmp: AddressDataType[] = [];
-  //   if (mapSasTokenData?.getMapSasToken) {
-  //     if (value.length >= 3) {
-  //       addressQuery(value, mapSasTokenData?.getMapSasToken).then((addressData) => {
-  //         addressData.filter((address: any) => {
-  //           if (address.address.streetNumber && address.address.streetName) {
-  //             tmp.push({
-  //               label: address.address.freeformAddress,
-  //               value: address.address.freeformAddress,
-  //               key: address.id,
-  //               address: address.address,
-  //               lat: address.position.lat,
-  //               long: address.position.lon
-  //             });
-  //           }
-  //         });
-  //         setAddresses(tmp);
-  //       });
-  //     }
-  //   }
-  // };
-
-  // const onInputAddressSelected = (value: string) => {
-  //   setSearchString(value);
-  //   // find selected address in addresses
-  //   const selectedAddress = addresses.find((address: any) => {
-  //     return address.label === value;
-  //   });
-  //   if (selectedAddress) {
-  //     const lat = selectedAddress.lat;
-  //     const long = selectedAddress.long;
-  //     searchParams.set(SearchParamKeys.SearchString, selectedAddress.value);
-  //     searchParams.set(SearchParamKeys.Latitude, lat.toString());
-  //     searchParams.set(SearchParamKeys.Longitude, long.toString());
-  //     setSearchParams(searchParams);
-  //   }
-  // };
+  const clearFilter = () => {
+    searchParams.delete(SearchParamKeys.AdditionalAmenities);
+    searchParams.delete(SearchParamKeys.Amenities);
+    searchParams.delete(SearchParamKeys.Bathrooms);
+    searchParams.delete(SearchParamKeys.Bedrooms);
+    searchParams.delete(SearchParamKeys.ListedInfo);
+    searchParams.delete(SearchParamKeys.MaxPrice);
+    searchParams.delete(SearchParamKeys.MinPrice);
+    searchParams.delete(SearchParamKeys.Type);
+    searchParams.delete(SearchParamKeys.MaxSquareFeet);
+    searchParams.delete(SearchParamKeys.MinSquareFeet);
+    searchParams.delete(SearchParamKeys.Distance);
+    searchParams.delete(SearchParamKeys.UpdatedAt);
+    searchParams.delete(SearchParamKeys.CreatedAt);
+    searchParams.delete(SearchParamKeys.SearchString);
+    searchParams.delete(SearchParamKeys.Latitude);
+    searchParams.delete(SearchParamKeys.Longitude);
+    searchParams.delete(SearchParamKeys.SavedFilter);
+    searchParams.delete(SearchParamKeys.Tags);
+    setSearchParams(searchParams);
+  };
 
   if (tagError || customViewsError) {
     return (
@@ -165,11 +136,12 @@ export const PropertiesListSearchDrawerContainer: React.FC<PropertiesListSearchD
     return (
       <>
         <div style={{ marginBottom: '1rem' }}>
-          <PropertiesListSearchToolbar
-            searchData={props.searchData}
+          <SearchToolbar
+            type={SearchType.Property}
             tagData={tagData.getAllPropertyTags as string[]}
-            customViewsData={customViewsData}
+            customViewData={customViewsData}
             handleUpdateCustomView={handleUpdateCustomView}
+            clearFilter={clearFilter}
           />
         </div>
         <PropertiesListSearchFilters

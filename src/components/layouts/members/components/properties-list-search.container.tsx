@@ -1,16 +1,23 @@
 import { useParams, useSearchParams } from 'react-router-dom';
-import { FilterNames, GetFilterFromQueryString, SearchParamKeys, addressQuery } from '../../../../constants';
+import {
+  FilterNames,
+  GetFilterFromQueryString,
+  SearchParamKeys,
+  SearchType,
+  addressQuery
+} from '../../../../constants';
 import { useEffect, useState } from 'react';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import {
   FilterDetail,
+  MemberPropertiesGetAllTagsDocument,
   MemberPropertiesListSearchContainerMapSasTokenDocument,
   MemberPropertiesListSearchContainerPropertiesDocument
 } from '../../../../generated';
 import { Skeleton, Input, Drawer, Button, List, Pagination, Select, theme } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
 import { ListingCard } from './listing-card';
-import { PropertiesListSearchDrawerContainer } from './properties-list-search-drawer.container';
+import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -34,6 +41,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [visible, setVisible] = useState(false);
 
   const params = useParams();
+
+  const { data: tagData, loading: tagLoading, error: tagError } = useQuery(MemberPropertiesGetAllTagsDocument);
 
   const [gqlSearchProperties, { called: searchCalled, loading: searchLoading, data: searchData, error: searchError }] =
     useLazyQuery(MemberPropertiesListSearchContainerPropertiesDocument, { fetchPolicy: 'network-only' });
@@ -77,7 +86,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
     // get filter
     let filter: FilterDetail = GetFilterFromQueryString(searchParams, params.communityId ?? '');
-    const orderBy = searchParams.get(SearchParamKeys.OrderBy) ?? '';
+    const orderBy = searchParams.get(SearchParamKeys.Sort) ?? '';
 
     await gqlSearchProperties({
       variables: {
@@ -109,7 +118,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   };
 
   const handlePagination = (newPage: number) => {
-    const current = newPage - 1;
+    const current = newPage;
     searchParams.set(SearchParamKeys.Page, current.toString());
     setSearchParams(searchParams);
   };
@@ -128,7 +137,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
 
     searchParams.delete('lat');
     searchParams.delete('long');
-    // setSearchParams(searchParams);
     setSearchString(value);
 
     let tmp: AddressDataType[] = [];
@@ -167,6 +175,29 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
       searchParams.set(SearchParamKeys.Longitude, long.toString());
       setSearchParams(searchParams);
     }
+  };
+
+  const clearFilter = () => {
+    searchParams.delete(SearchParamKeys.AdditionalAmenities);
+    searchParams.delete(SearchParamKeys.Amenities);
+    searchParams.delete(SearchParamKeys.Bathrooms);
+    searchParams.delete(SearchParamKeys.Bedrooms);
+    searchParams.delete(SearchParamKeys.ListedInfo);
+    searchParams.delete(SearchParamKeys.MaxPrice);
+    searchParams.delete(SearchParamKeys.MinPrice);
+    searchParams.delete(SearchParamKeys.Type);
+    searchParams.delete(SearchParamKeys.MaxSquareFeet);
+    searchParams.delete(SearchParamKeys.MinSquareFeet);
+    searchParams.delete(SearchParamKeys.Distance);
+    searchParams.delete(SearchParamKeys.UpdatedAt);
+    searchParams.delete(SearchParamKeys.CreatedAt);
+    searchParams.delete(SearchParamKeys.SearchString);
+    searchParams.delete(SearchParamKeys.Sort);
+    searchParams.delete(SearchParamKeys.Latitude);
+    searchParams.delete(SearchParamKeys.Longitude);
+    searchParams.delete(SearchParamKeys.SavedFilter);
+    searchParams.delete(SearchParamKeys.Tags);
+    setSearchParams(searchParams);
   };
 
   const onSearchChange = (e: any) => {
@@ -224,7 +255,12 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             enterButton
           />
           <Drawer title="Search Filters" placement="left" onClose={() => setVisible(false)} open={visible} width={445}>
-            <PropertiesListSearchDrawerContainer searchData={searchData?.propertiesSearch} />
+            <SearchDrawerContainer
+              searchData={searchData?.propertiesSearch}
+              customData={{ data: tagData, loading: tagLoading, error: tagError }}
+              type={SearchType.Property}
+              clearFilter={clearFilter}
+            />
           </Drawer>
           <Button type="default" onClick={() => setVisible(true)} className="ml-4">
             <FilterOutlined />
@@ -241,7 +277,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             style={{
               color: colorText,
               padding: '8px 5px',
-              marginLeft: '10px',
+              marginLeft: '10px'
             }}
           >
             Records per page:

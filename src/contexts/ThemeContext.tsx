@@ -1,9 +1,10 @@
-import React, { ReactNode, createContext, useEffect, useState, Fragment } from 'react';
+import React, { ReactNode, createContext, useEffect, useState, Fragment, useContext } from 'react';
 import { Button, theme } from 'antd';
 import { Dialog, Transition } from '@headlessui/react';
 import ModalPopUp from './components/ModalPopUp';
 import { useFeatureFlags } from '../components/shared/feature-flag-react-lite';
 import { useMaintenanceMessage } from '../components/shared/maintenance-message';
+import CachePurgeContext from './CachePurgeContext';
 
 interface ThemeContextType {
   currentTokens: {
@@ -13,6 +14,8 @@ interface ThemeContextType {
   };
   setTheme: (tokens: any, types: string) => void;
 }
+
+
 
 export const ThemeContext = createContext<ThemeContextType>({
   currentTokens: {
@@ -37,7 +40,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     type: 'light'
   });
   const [isHidden, setIsHidden] = useState(false);
-const{GetFeatureFlagByName} =useFeatureFlags()
+
+
   const toggleHidden = () => setIsHidden((prevHidden) => !prevHidden);
 
   // setTheme functions that take tokens as argument
@@ -185,9 +189,7 @@ const{GetFeatureFlagByName} =useFeatureFlags()
             <p>
               Hit <strong>Cmd+Shift+K</strong> to hide
             </p>
-            {  <p>
-              {GetFeatureFlagByName('FEATURE_FLAG_TEST')}
-            </p>}
+            
           </div>
           {children}
         </div>

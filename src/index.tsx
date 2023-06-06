@@ -16,6 +16,7 @@ import { set } from 'lodash';
 import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
 import featureFlagConfig from './config/feature-flag-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
+import { CachePurgeProvider } from './contexts/CachePurgeContext';
 
 function ConfigProviderWrapper() {
   
@@ -51,9 +52,11 @@ ReactDOM.render(
    }>
   
    <MaintenanceMessageProvider>
-   <ThemeProvider>
+  <CachePurgeProvider>
+  <ThemeProvider>
       <ConfigProviderWrapper />
     </ThemeProvider>
+  </CachePurgeProvider>
    </MaintenanceMessageProvider>
    </FeatureFlagProvider>
   </React.StrictMode>,

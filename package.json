@@ -46,13 +46,14 @@
     "webpack": "^5.75.0"
   },
   "scripts": {
+    "generate-build-version": "node generate-build-version",
+    "prebuild": "npm run generate-build-version",
     "start": "craco start",
-    "build": "npm run generate-meta-tag && craco build",
+    "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "generate-meta-tag": "node -e \"const fs = require('fs'); const version = new Date().getTime(); fs.writeFileSync('./public/meta.json', JSON.stringify({ version }));\""
+    "build-storybook": "build-storybook"
   },
   "eslintConfig": {
     "extends": [

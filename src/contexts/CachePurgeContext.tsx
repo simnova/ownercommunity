@@ -33,22 +33,25 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const retrieveMetadata = async () => {
       try {
-        const {data}=await axios('/meta.json')
-        setActualVersion(data.version)
-        console.log("Versions are",data.version,version)
-
-        // compare the version in the meta.json file with the version in the package.json file
-        if(data.version!==version){
-          // if the versions are different, then force the browser to purge the cache
-          window.location.reload()
+        const { data } = await axios('/meta.json');
+        setActualVersion(data.version);
+        console.log("Versions are", data.version, version);
+        
+        // Compare the version in the meta.json file with the version in the package.json file
+        if (data.version !== version) {
+          // If the versions are different, then force the browser to purge the cache
+          window.location.reload();
+        } else {
+          // If the versions are the same, set purging status to false
+          setPurgingStatus(false);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-    retrieveMetadata()
-    setPurgingStatus(false)
-    }, []);
+    };
+  
+    retrieveMetadata();
+  }, []);
 
   
   return (

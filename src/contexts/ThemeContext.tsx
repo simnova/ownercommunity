@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import ModalPopUp from './components/ModalPopUp';
 import { useFeatureFlags } from '../components/shared/feature-flag-react-lite';
 import { useMaintenanceMessage } from '../components/shared/maintenance-message';
-import CachePurgeContext from './CachePurgeContext';
+import {CachePurgeContext} from './CachePurgeContext';
 
 interface ThemeContextType {
   currentTokens: {

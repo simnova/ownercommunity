@@ -31,11 +31,11 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
   const featureFalgVersion=GetFeatureFlagByName('UI_CONFIG_VERSION')
   const [actualVersion, setActualVersion] = useState('');
   useEffect(() => {
-    const retrieveMetadata = async () => {
+    (async () => {
       try {
         const { data } = await axios('/meta.json');
         setActualVersion(data.version);
-        console.log("Versions are", data.version, version);
+        
         
         // Compare the version in the meta.json file with the version in the package.json file
         if (data.version !== version) {
@@ -48,9 +48,8 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.log(error);
       }
-    };
+    })()
   
-    retrieveMetadata();
   }, []);
 
   

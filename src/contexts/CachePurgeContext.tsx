@@ -52,6 +52,29 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
   
   }, []);
 
+  // check version on server
+  const checkVersion=async ()=>{
+    const { data } = await axios('/meta.json');
+    setActualVersion(data.version);
+    return data.version
+  }
+
+  // force cache if the versions are different
+  const purgeCache=()=>{
+    if (checkVersion !== version) {
+      // If the versions are different, then force the browser to purge the cache
+      window.location.reload();
+    }
+  }
+
+  // run the purge cache function every 5 seconds using setInterval
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      purgeCache()
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [purgingStatus]);
   
   return (
     <CachePurgeContext.Provider value={{

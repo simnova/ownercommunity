@@ -1,7 +1,7 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
-import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput } from '../../generated';
+import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../generated';
 
 const ServiceTicketFilterNames = {
   RequestorId: 'requestorId',
@@ -41,14 +41,14 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
 
   async serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
 
-    let searchString = input.searchString;
+    let searchString = input.searchString.trim();
 
     console.log(`Resolver>Query>serviceTicketsSearch: ${searchString}`);
     let filterString = this.getFilterString(input.options.filter, requestorId);
     console.log('filterString: ', filterString);
 
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
-    await this.withSearch(async (passport, search) => {
+    await this.withSearch(async (_passport, search) => {
       searchResults = await search.search('service-ticket-index', searchString, {
         queryType: 'full',
         searchMode: 'all',
@@ -63,5 +63,25 @@ export class ServiceTickets extends CognitiveSearchDataSource<Context> {
     
     console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);
     return searchResults;
+  }
+
+  async getServiceTicketsSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>): Promise<ServiceTicketsSearchResult> {
+    let results = [];
+    for await (const result of searchResults?.results ?? []) {
+      results.push(result.document);
+    }
+
+    return {
+      serviceTicketsResults: results,
+      count: searchResults?.count,
+      facets: {
+        requestor: searchResults?.facets?.requestor,
+        assignedTo: searchResults?.facets?.assignedTo,
+        priority: searchResults?.facets?.priority,
+        status: searchResults?.facets?.status,
+        requestorId: searchResults?.facets?.requestorId,
+        assignedToId: searchResults?.facets?.assignedToId,
+      },
+    };
   }
 }

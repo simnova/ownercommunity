@@ -81,37 +81,10 @@ const serviceTicket: Resolvers = {
     serviceTicketsByCommunityId: async (_parent, { communityId }, context, _info) => {
       return (await context.dataSources.serviceTicketCosmosdbApi.getServiceTicketsByCommunityId(communityId)) as ServiceTicket[];
     },
-    serviceTicketsSearch: async (_, _args, context, info) => {
+    serviceTicketsSearch: async (_, { input }, context, info) => {
       const member = await getMemberForCurrentUser(context, context.community);
-      const searchInput = {
-        searchString: _args.input.searchString.trim(),
-        options: {
-          filter: _args.input?.options?.filter ?? null,
-          facets: _args.input?.options?.facets ?? [],
-          top: _args.input?.options?.top ?? 10,
-          skip: _args.input?.options?.skip ?? 0,
-          orderBy: _args.input?.options?.orderBy ?? [],
-        },
-      } as ServiceTicketsSearchInput;
-
-      const searchResults = await context.dataSources.serviceTicketsSearchApi.serviceTicketsSearch(searchInput, member.id);
-      let results = [];
-      for await (const result of searchResults?.results ?? []) {
-        results.push(result.document);
-      }
-
-      return {
-        serviceTicketsResults: results,
-        count: searchResults?.count,
-        facets: {
-          requestor: searchResults?.facets?.requestor,
-          assignedTo: searchResults?.facets?.assignedTo,
-          priority: searchResults?.facets?.priority,
-          status: searchResults?.facets?.status,
-          requestorId: searchResults?.facets?.requestorId,
-          assignedToId: searchResults?.facets?.assignedToId,
-        },
-      };
+      const searchResults = await context.dataSources.serviceTicketsSearchApi.serviceTicketsSearch(input, member.id);
+      return await context.dataSources.serviceTicketsSearchApi.getServiceTicketsSearchResults(searchResults);
     },
   },
   Mutation: {

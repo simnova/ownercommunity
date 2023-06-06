@@ -203,7 +203,6 @@ input PropertiesSearchOptions {
   top: Int
   skip: Int
   orderBy: [String]
-  hideNullResults: Boolean
 }
 input FilterDetail {
   communityId: String

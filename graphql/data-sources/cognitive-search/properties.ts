@@ -1,7 +1,7 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
-import { FilterDetail, PropertiesSearchInput } from '../../generated';
+import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../generated';
 import dayjs from 'dayjs';
 
 const PropertyFilterNames = {
@@ -42,7 +42,9 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       // additional amenities
       if (filter.listingDetail?.additionalAmenities && filter.listingDetail.additionalAmenities.length > 0) {
         const additionalAmenitiesFilterStrings = filter.listingDetail.additionalAmenities.map((additionalAmenity) => {
-          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join("') and ad/amenities/any(am: am eq '")}'))`;
+          return `additionalAmenities/any(ad: ad/category eq '${additionalAmenity.category}' and ad/amenities/any(am: am eq '${additionalAmenity.amenities.join(
+            "') and ad/amenities/any(am: am eq '"
+          )}'))`;
         });
         filterStrings.push(additionalAmenitiesFilterStrings.join(' and '));
       }
@@ -52,7 +54,9 @@ export class Properties extends CognitiveSearchDataSource<Context> {
       }
       // squareFeet
       if (filter.listingDetail?.squareFeets && filter.listingDetail.squareFeets.length > 0) {
-        filterStrings.push(`${PropertyFilterNames.SquareFeet} ge ${filter.listingDetail.squareFeets[0]} and ${PropertyFilterNames.SquareFeet} le ${filter.listingDetail.squareFeets[1]}`);
+        filterStrings.push(
+          `${PropertyFilterNames.SquareFeet} ge ${filter.listingDetail.squareFeets[0]} and ${PropertyFilterNames.SquareFeet} le ${filter.listingDetail.squareFeets[1]}`
+        );
       }
       // listed info (listedForSale, listedForRent, listedForLease)
       if (filter.listedInfo && filter.listedInfo.length > 0) {
@@ -106,18 +110,16 @@ export class Properties extends CognitiveSearchDataSource<Context> {
   }
 
   async propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-
     let searchString = '';
     if (!input.options.filter?.position) {
-      searchString = input.searchString;
+      searchString = input.searchString.trim();
     }
 
     console.log(`Resolver>Query>propertiesSearch: ${searchString}`);
     let filterString = this.getFilterString(input.options.filter);
-    if (input.options.orderBy[0] !== '') filterString = this.toggleNullResults(input.options, filterString);
     console.log('filterString: ', filterString);
-    let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
 
+    let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
     await this.withSearch(async (_passport, searchService) => {
       searchResults = await searchService.search('property-listings', searchString, {
         queryType: 'full',
@@ -133,5 +135,103 @@ export class Properties extends CognitiveSearchDataSource<Context> {
 
     console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);
     return searchResults;
+  }
+
+  async getPropertiesSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>, input: PropertiesSearchInput): Promise<PropertySearchResult> {
+    let results = [];
+    for await (const result of searchResults?.results ?? []) {
+      results.push(result.document);
+    }
+
+    // calculate bedrooms facets
+    const bedroomsOptions = [1, 2, 3, 4, 5];
+    let bedroomsFacet = bedroomsOptions.map((option) => {
+      const found = searchResults?.facets?.bedrooms?.filter((facet) => facet.value >= option);
+      let count = 0;
+      found.forEach((f) => {
+        count += f.count;
+      });
+      return {
+        value: option + '+',
+        count: count,
+      };
+    });
+
+    // calculate bathrooms facets
+    const bathroomsOptions = [1, 1.5, 2, 3, 4, 5];
+    let bathroomsFacet = bathroomsOptions.map((option) => {
+      const found = searchResults?.facets?.bathrooms?.filter((facet) => facet.value >= option);
+      let count = 0;
+      found.forEach((f) => {
+        count += f.count;
+      });
+      return {
+        value: option + '+',
+        count: count,
+      };
+    });
+
+          // calculate update date facets
+          const periods = [7, 14, 30, 90];
+          const periodTextMaps = {
+            7: '1 week ago',
+            14: '2 weeks ago',
+            30: '1 month ago',
+            90: '3 months ago',
+          };
+    
+          let periodInput = parseInt(input?.options?.filter?.updatedAt); // in days
+          let updatedAtFacet = periods.map((option) => {
+            const day0 = option === periodInput ? dayjs().subtract(periodInput, 'day') : dayjs().subtract(option, 'day');
+            const found = searchResults?.facets?.updatedAt?.filter((facet) => {
+              let temp = dayjs(facet.value).diff(day0, 'day', true);
+              return temp >= 0;
+            });
+            let count = 0;
+            found.forEach((f) => {
+              count += f.count;
+            });
+            return {
+              value: periodTextMaps[option],
+              count: count,
+            };
+          });
+    
+          periodInput = parseInt(input.options?.filter?.createdAt); // in days
+          let createdAtFacet = periods.map((option) => {
+            const day0 = option === periodInput ? dayjs().subtract(periodInput, 'day') : dayjs().subtract(option, 'day');
+            const found = searchResults?.facets?.createdAt?.filter((facet) => {
+              let temp = dayjs(facet.value).diff(day0, 'day', true);
+              return temp >= 0;
+            });
+            let count = 0;
+            found.forEach((f) => {
+              count += f.count;
+            });
+    
+            return {
+              value: periodTextMaps[option],
+              count: count,
+            };
+          });
+
+    return {
+      propertyResults: results,
+      count: searchResults.count,
+      facets: {
+        type: searchResults.facets?.type,
+        amenities: searchResults.facets?.amenities,
+        additionalAmenitiesCategory: searchResults.facets?.['additionalAmenities/category'],
+        additionalAmenitiesAmenities: searchResults.facets?.['additionalAmenities/amenities'],
+        listedForSale: searchResults.facets?.listedForSale,
+        listedForRent: searchResults.facets?.listedForRent,
+        listedForLease: searchResults.facets?.listedForLease,
+        bedrooms: bedroomsFacet,
+        bathrooms: bathroomsFacet,
+        updatedAt: updatedAtFacet,
+        createdAt: createdAtFacet,
+        tags: searchResults.facets?.tags,
+      },
+    } as PropertySearchResult;
   }
 }

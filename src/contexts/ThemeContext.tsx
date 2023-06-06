@@ -37,7 +37,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     type: 'light'
   });
   const [isHidden, setIsHidden] = useState(false);
-
+const{GetFeatureFlagByName} =useFeatureFlags()
   const toggleHidden = () => setIsHidden((prevHidden) => !prevHidden);
 
   // setTheme functions that take tokens as argument
@@ -140,6 +140,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  
   return (
     <ThemeContext.Provider value={{ currentTokens, setTheme }}>
       {isMaintenance ? (
@@ -183,6 +185,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
             <p>
               Hit <strong>Cmd+Shift+K</strong> to hide
             </p>
+            {  <p>
+              {GetFeatureFlagByName('FEATURE_FLAG_TEST')}
+            </p>}
           </div>
           {children}
         </div>

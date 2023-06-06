@@ -1,4 +1,4 @@
-import { Collapse, Checkbox, Typography, AutoComplete, InputNumber, Slider, Radio, Space } from 'antd';
+import { Collapse, Checkbox, Typography, AutoComplete, InputNumber, Radio } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
@@ -167,7 +167,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
           </>
         );
       case 'custom':
-            return props.customComponent ?? <>Nothing</>
+            return props.customComponent ?? <></>
       case 'radio':
         return (
           <div style={{ display: 'flex', justifyContent: 'space-between', width: '290px'}}>

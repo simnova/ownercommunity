@@ -1,8 +1,7 @@
 import { Table, Button, Layout, Pagination } from 'antd';
 import type { PaginationProps } from 'antd';
-import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ServiceTicketSearchParamKeys } from '../../../../constants';
 
 const { Content } = Layout;

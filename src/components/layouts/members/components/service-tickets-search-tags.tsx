@@ -30,7 +30,6 @@ export const ServiceTicketsSearchTags: React.FC<ServiceTicketsSearchTagsProps> =
       } else {
         value = ConvertMemberNameToId(value, props.memberData.membersByCommunityId as Member[]);
       }
-      console.log('VALUE ', value);
       let newAssignedToId = qsassignedToId?.filter((id: string) => id !== value);
       if (newAssignedToId && newAssignedToId.length > 0) {
         searchParams.set('assignedTo', newAssignedToId.join(','));
@@ -64,6 +63,7 @@ export const ServiceTicketsSearchTags: React.FC<ServiceTicketsSearchTagsProps> =
       {selectedFilterList.map((filter: string) => {
         return (
           <Tag
+            key={filter}
             closable
             onClose={(e: any) => {
               e.preventDefault();

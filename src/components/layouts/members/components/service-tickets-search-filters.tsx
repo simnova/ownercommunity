@@ -97,6 +97,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
       {filters?.map((filter: SearchFilterProps) => {
         return (
           <SearchFilter
+            key={filter?.searchId[0]}
             title={filter?.title}
             searchId={filter?.searchId}
             options={filter?.options}

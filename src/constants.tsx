@@ -513,54 +513,6 @@ export const GetFilterFromServiceTicketQueryString = (
   return filters;
 };
 
-export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, searchParams: URLSearchParams) => {
-  if (filter) {
-    if (filter.propertyType) searchParams.set(SearchParamKeys.Type, filter.propertyType.join(','));
-    if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
-    if (filter.distance && filter.distance !== 0)
-      searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
-    if (filter.position) {
-      if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
-      if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
-    }
-    // if (filter.updatedAt) {
-    //   searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
-    // }
-    // if (filter.createdAt) {
-    //   searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
-    // }
-    if (filter.listingDetail) {
-      if (filter.listingDetail.bedrooms)
-        searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());
-      if (filter.listingDetail.bathrooms)
-        searchParams.set(SearchParamKeys.Bathrooms, filter.listingDetail.bathrooms.toString());
-      if (filter.listingDetail.amenities)
-        searchParams.set(SearchParamKeys.Amenities, filter.listingDetail.amenities.join(','));
-      if (filter.listingDetail.prices) {
-        if (filter.listingDetail.prices[0])
-          searchParams.set(SearchParamKeys.MinPrice, filter.listingDetail.prices[0].toString());
-        if (filter.listingDetail.prices[1])
-          searchParams.set(SearchParamKeys.MaxPrice, filter.listingDetail.prices[1].toString());
-      }
-      if (filter.listingDetail.squareFeets) {
-        if (filter.listingDetail.squareFeets[0])
-          searchParams.set(SearchParamKeys.MinSquareFeet, filter.listingDetail.squareFeets[0].toString());
-        if (filter.listingDetail.squareFeets[1])
-          searchParams.set(SearchParamKeys.MaxSquareFeet, filter.listingDetail.squareFeets[1].toString());
-      }
-      if (filter.listingDetail.additionalAmenities) {
-        let additionalAmenities: string[] = [];
-        filter.listingDetail.additionalAmenities.forEach((amenity: any) => {
-          additionalAmenities.push(`${amenity?.category}:${amenity?.amenities?.join(',')}`);
-        });
-        searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenities.join(';'));
-      }
-    }
-  }
-
-  return searchParams;
-};
-
 export const ConvertMemberIdToName = (memberId: string, members: Member[]): string => {
   if (memberId) {
     const member = members.find((m: any) => m.id === memberId);
@@ -710,51 +662,6 @@ export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => 
 
   return tempList;
 };
-// export const SetSearchParamsFromPropertyFilter = (
-//   filters: string[],
-//   searchParams: URLSearchParams
-// ) => {
-//   // do the opposite of GetPropertySelectedFilterTags
-//   // if (filters && filters.length > 0) {
-//   //   const assignedTo = filters.filter((tag: string) => tag.startsWith('Assigned to: '));
-//   //   if (assignedTo && assignedTo.length > 0) {
-//   //     let ids: string[] = [];
-//   //     assignedTo.forEach((f: string) => {
-//   //       const name = f.split(': ')[1];
-//   //       let id = '';
-//   //       if (name.includes('(')) {
-//   //         id = name.split('(')[1].split(')')[0];
-//   //       } else {
-//   //         id = ConvertMemberNameToId(name, members);
-//   //       }
-//   //       ids.push(id);
-//   //       searchParams.set('assignedTo', ids.join(','));
-//   //     });
-//   //   } else {
-//   //     searchParams.delete('assignedTo');
-//   //   }
-
-//   //   const priority = filters.filter((tag: string) => tag.startsWith('Priority: '));
-//   //   if (priority && priority.length > 0) {
-//   //     const priorityId = priority.map((tag: string) => tag.replace('Priority: ', ''));
-//   //     searchParams.set('priority', priorityId.join(','));
-//   //   } else {
-//   //     searchParams.delete('priority');
-//   //   }
-
-//   //   const status = filters.filter((tag: string) => tag.startsWith('Status: '));
-//   //   if (status && status.length > 0) {
-//   //     const statusId = status.map((tag: string) => tag.replace('Status: ', ''));
-//   //     searchParams.set('status', statusId.join(','));
-//   //   } else {
-//   //     searchParams.delete('status');
-//   //   }
-//   // }else {
-//   //   searchParams.delete('assignedTo');
-//   //   searchParams.delete('priority');
-//   //   searchParams.delete('status');
-//   // }
-// };
 
 export const SetSearchParamsFromPropertyFilter = (
   filters: string[],

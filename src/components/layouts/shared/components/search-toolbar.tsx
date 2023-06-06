@@ -24,7 +24,6 @@ import { ServiceTicketsSearchTags } from '../../members/components/service-ticke
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PropertiesListSearchTags } from '../../members/components/properties-list-search-tags';
-import { set } from 'lodash';
 
 const { Option } = Select;
 const { Text } = Typography;

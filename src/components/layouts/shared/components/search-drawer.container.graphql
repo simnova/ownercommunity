@@ -1,0 +1,37 @@
+
+query SearchDrawerContainerCustomViews($communityId: ObjectID!) {
+  memberForCurrentUser(communityId: $communityId) {
+    ...SearchDrawerContainerCustomViewsFields
+  }
+}
+
+mutation SearchDrawerContainerCustomViewsUpdate($input: MemberUpdateInput!) {
+  memberUpdate(input: $input) {
+    ...SearchDrawerContainerCustomViewsMutationResultFields
+  }
+}
+
+fragment SearchDrawerContainerCustomViewsMutationResultFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...SearchDrawerContainerCustomViewsFields
+  }
+}
+
+fragment SearchDrawerContainerCustomViewsFields on Member {
+  id
+  customViews {
+    id
+    name
+    type
+    filters
+    sortOrder
+    columnsToDisplay
+
+    createdAt
+    updatedAt
+  }
+}

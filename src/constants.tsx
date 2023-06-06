@@ -1,6 +1,7 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
+import { useParams } from 'react-router-dom';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -17,10 +18,69 @@ export const handleToggler = (isExpanded: boolean, callback: (isExpanded: boolea
   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
 };
 
+export const ServiceTicketSortOptions = [
+  {
+    value: 'createdAt asc',
+    label: 'Created (Oldest)'
+  },
+  {
+    value: 'createdAt desc',
+    label: 'Created (Newest)'
+  },
+  {
+    value: 'updatedAt asc',
+    label: 'Updated (Oldest)'
+  },
+  {
+    value: 'updatedAt desc',
+    label: 'Updated (Newest)'
+  }
+]
+
+export const PropertySortOptions = [
+  {
+    value: 'createdAt asc',
+    label: 'Created (Oldest)'
+  },
+  {
+    value: 'createdAt desc',
+    label: 'Created (Newest)'
+  },
+  {
+    value: 'updatedAt asc',
+    label: 'Updated (Oldest)'
+  },
+  {
+    value: 'updatedAt desc',
+    label: 'Updated (Newest)'
+  },
+  {
+    value: 'price asc',
+    label: 'Price (Lowest)'
+  },
+  {
+    value: 'price desc',
+    label: 'Price (Highest)'
+  }, 
+  {
+    value: 'bedrooms desc',
+    label: 'Bedrooms (Largest)'
+  },
+  {
+    value: 'squareFeet desc',
+    label: 'Square Feet (Largest)'
+  }
+]
+
+export enum SearchType {
+  Property = 'PROPERTY',
+  ServiceTicket = 'SERVICE_TICKET'
+}
+
 export const SearchParamKeys = {
   SearchString: 'search',
   ListedInfo: 'listedInfo',
-  PropertyType: 'type',
+  Type: 'type',
   Amenities: 'amenities',
   AdditionalAmenities: 'additionalAmenities',
   MinPrice: 'minPrice',
@@ -34,7 +94,7 @@ export const SearchParamKeys = {
   Page: 'page',
   Top: 'top',
   Distance: 'distance',
-  OrderBy: 'orderBy',
+  Sort: 'sort',
   UpdatedAt: 'updatedAt',
   CreatedAt: 'createdAt',
   HideNullResults: 'hideNullResults',
@@ -47,7 +107,7 @@ export const ServiceTicketSearchParamKeys = {
   AssignedTo: 'assignedTo',
   Priority: 'priority',
   Status: 'status',
-  SavedView: 'savedFilter',
+  SavedFilter: 'savedFilter',
   Column: 'column',
   Page: 'page',
   Top: 'top',
@@ -288,9 +348,9 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
   return address();
 };
 
-export const GetFilterFromQueryString = (searchParams: URLSearchParams, selectedFilter: FilterDetail): FilterDetail => {
+export const GetFilterFromQueryString = (searchParams: URLSearchParams, communityId: string): FilterDetail => {
   // get all search params
-  const qsproperTypes = searchParams.get('type')?.split(',');
+  const qspropertyTypes = searchParams.get('type')?.split(',');
   const qsbedrooms = searchParams.get('bedrooms');
   const qsbathrooms = searchParams.get('bathrooms');
   const qsminPrice = searchParams.get('minPrice');
@@ -298,7 +358,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
   const qsminSquareFeet = searchParams.get('minSquareFeet');
   const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
   const qsamenities = searchParams.get('amenities')?.split(',');
-  const qsadditionalAmenities = searchParams.get('additionalAmenities')?.split(';');
+  const qsadditionalAmenities = searchParams.get(SearchParamKeys.AdditionalAmenities)?.split(";");
   const qsdistance = searchParams.get('distance');
   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
   const qslat = searchParams.get('lat');
@@ -310,8 +370,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
 
   // proper type
   filters = {
-    ...selectedFilter,
-    propertyType: qsproperTypes
+    propertyType: qspropertyTypes
   };
 
   // bedrooms
@@ -346,7 +405,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
     ...filters,
     listingDetail: {
       ...filters?.listingDetail,
-      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : undefined
+      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : qsminPrice ? [parseInt(qsminPrice), 1000000000] : qsmaxPrice ? [0, parseInt(qsmaxPrice)] : undefined
     }
   };
 
@@ -356,7 +415,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
     listingDetail: {
       ...filters?.listingDetail,
       squareFeets:
-        qsminSquareFeet && qsmaxSquareFeet ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)] : undefined
+        qsminSquareFeet && qsmaxSquareFeet ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)] : qsminSquareFeet ? [parseInt(qsminSquareFeet), 1000000000] : qsmaxSquareFeet ? [0, parseInt(qsmaxSquareFeet)] : undefined
     }
   };
 
@@ -420,6 +479,11 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, selected
     tags: qstags
   };
 
+  filters = {
+    ...filters,
+    communityId: communityId,
+  }
+
   return filters;
 };
 
@@ -449,54 +513,6 @@ export const GetFilterFromServiceTicketQueryString = (
   return filters;
 };
 
-export const GetSearchParamsFromFilter = (filter: FilterDetail | undefined, searchParams: URLSearchParams) => {
-  if (filter) {
-    if (filter.propertyType) searchParams.set(SearchParamKeys.PropertyType, filter.propertyType.join(','));
-    if (filter.listedInfo) searchParams.set(SearchParamKeys.ListedInfo, filter.listedInfo.join(','));
-    if (filter.distance && filter.distance !== 0)
-      searchParams.set(SearchParamKeys.Distance, filter.distance.toString());
-    if (filter.position) {
-      if (filter.position.latitude) searchParams.set(SearchParamKeys.Latitude, filter.position.latitude.toString());
-      if (filter.position.longitude) searchParams.set(SearchParamKeys.Longitude, filter.position.longitude.toString());
-    }
-    if (filter.updatedAt) {
-      searchParams.set(SearchParamKeys.UpdatedAt, dayjs().diff(filter.updatedAt, 'day').toString());
-    }
-    if (filter.createdAt) {
-      searchParams.set(SearchParamKeys.CreatedAt, dayjs().diff(filter.createdAt, 'day').toString());
-    }
-    if (filter.listingDetail) {
-      if (filter.listingDetail.bedrooms)
-        searchParams.set(SearchParamKeys.Bedrooms, filter.listingDetail.bedrooms.toString());
-      if (filter.listingDetail.bathrooms)
-        searchParams.set(SearchParamKeys.Bathrooms, filter.listingDetail.bathrooms.toString());
-      if (filter.listingDetail.amenities)
-        searchParams.set(SearchParamKeys.Amenities, filter.listingDetail.amenities.join(','));
-      if (filter.listingDetail.prices) {
-        if (filter.listingDetail.prices[0])
-          searchParams.set(SearchParamKeys.MinPrice, filter.listingDetail.prices[0].toString());
-        if (filter.listingDetail.prices[1])
-          searchParams.set(SearchParamKeys.MaxPrice, filter.listingDetail.prices[1].toString());
-      }
-      if (filter.listingDetail.squareFeets) {
-        if (filter.listingDetail.squareFeets[0])
-          searchParams.set(SearchParamKeys.MinSquareFeet, filter.listingDetail.squareFeets[0].toString());
-        if (filter.listingDetail.squareFeets[1])
-          searchParams.set(SearchParamKeys.MaxSquareFeet, filter.listingDetail.squareFeets[1].toString());
-      }
-      if (filter.listingDetail.additionalAmenities) {
-        let additionalAmenities: string[] = [];
-        filter.listingDetail.additionalAmenities.forEach((amenity: any) => {
-          additionalAmenities.push(`${amenity?.category}:${amenity?.amenities?.join(',')}`);
-        });
-        searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenities.join(';'));
-      }
-    }
-  }
-
-  return searchParams;
-};
-
 export const ConvertMemberIdToName = (memberId: string, members: Member[]): string => {
   if (memberId) {
     const member = members.find((m: any) => m.id === memberId);
@@ -523,7 +539,7 @@ export const IsNameDuplicate = (name: string, members: Member[]): boolean => {
   return count > 1;
 };
 
-export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: Member[]) => {
+export const GetServiceTicketSelectedFilterTags = (searchParams: URLSearchParams, members?: Member[]) => {
   let tempList: string[] = [];
 
   //props.memberData.membersByCommunityId
@@ -562,46 +578,33 @@ export const GetSelectedFilterTags = (searchParams: URLSearchParams, members?: M
 export const SetSearchParamsFromServiceTicketFilter = (
   filters: string[],
   searchParams: URLSearchParams,
-  members: Member[]
+  members: Member[],
 ) => {
-  // do the opposite of GetSelectedFilterTags
-  if (filters && filters.length > 0) {
-    const assignedTo = filters.filter((tag: string) => tag.startsWith('Assigned to: '));
-    if (assignedTo && assignedTo.length > 0) {
-      let ids: string[] = [];
-      assignedTo.forEach((f: string) => {
-        const name = f.split(': ')[1];
-        let id = '';
-        if (name.includes('(')) {
-          id = name.split('(')[1].split(')')[0];
-        } else {
-          id = ConvertMemberNameToId(name, members);
-        }
-        ids.push(id);
-        searchParams.set('assignedTo', ids.join(','));
-      });
-    } else {
-      searchParams.delete('assignedTo');
-    }
+  const assignedTo = filters.filter((tag) => tag.startsWith('Assigned to: '));
+  const priority = filters.filter((tag) => tag.startsWith('Priority: '));
+  const status = filters.filter((tag) => tag.startsWith('Status: '));
 
-    const priority = filters.filter((tag: string) => tag.startsWith('Priority: '));
-    if (priority && priority.length > 0) {
-      const priorityId = priority.map((tag: string) => tag.replace('Priority: ', ''));
-      searchParams.set('priority', priorityId.join(','));
-    } else {
-      searchParams.delete('priority');
-    }
-
-    const status = filters.filter((tag: string) => tag.startsWith('Status: '));
-    if (status && status.length > 0) {
-      const statusId = status.map((tag: string) => tag.replace('Status: ', ''));
-      searchParams.set('status', statusId.join(','));
-    } else {
-      searchParams.delete('status');
-    }
-  }else {
+  if (assignedTo.length > 0) {
+    const ids = assignedTo.map((tag) => {
+      const name = tag.split(': ')[1];
+      return name.includes('(') ? name.split('(')[1].split(')')[0] : ConvertMemberNameToId(name, members);
+    });
+    searchParams.set('assignedTo', ids.join(','));
+  } else {
     searchParams.delete('assignedTo');
+  }
+
+  if (priority.length > 0) {
+    const priorityId = priority.map((tag) => tag.replace('Priority: ', ''));
+    searchParams.set('priority', priorityId.join(','));
+  } else {
     searchParams.delete('priority');
+  }
+
+  if (status.length > 0) {
+    const statusId = status.map((tag) => tag.replace('Status: ', ''));
+    searchParams.set('status', statusId.join(','));
+  } else {
     searchParams.delete('status');
   }
 };
@@ -611,3 +614,189 @@ export enum CustomViewOperation {
   Update,
   Delete
 }
+
+type SearchParam = {
+  key: string;
+  label: string;
+  formatValue?: (value: string) => string;
+  separator?: string;
+};
+
+const searchParamsArray: SearchParam[] = [
+  { key: SearchParamKeys.Type, label: 'Type: ' },
+  { key: SearchParamKeys.Bedrooms, label: 'Bedrooms: ' },
+  { key: SearchParamKeys.Bathrooms, label: 'Bathrooms: ' },
+  { key: SearchParamKeys.MinPrice, label: 'Min Price: $' },
+  { key: SearchParamKeys.MaxPrice, label: 'Max Price: $' },
+  { key: SearchParamKeys.MinSquareFeet, label: 'Min Square Feet: ' },
+  { key: SearchParamKeys.MaxSquareFeet, label: 'Max Square Feet: ' },
+  { key: SearchParamKeys.Amenities, label: 'Amenities: ' },
+  { key: SearchParamKeys.AdditionalAmenities, label: 'Additional Amenities: ', separator: ';' },
+  { key: SearchParamKeys.Distance, label: 'Distance: ' },
+  { key: SearchParamKeys.ListedInfo, label: 'Listed Info: ', formatValue: (value) => (value === 'listedForSale' ? 'For Sale' : value === 'listedForRent' ? 'For Rent' : 'For Lease') },
+  { key: SearchParamKeys.Latitude, label: 'Latitude: ' },
+  { key: SearchParamKeys.Longitude, label: 'Longitude: ' },
+  { key: SearchParamKeys.UpdatedAt, label: 'Updated At: ' },
+  { key: SearchParamKeys.CreatedAt, label: 'Created At: ' },
+  { key: SearchParamKeys.Tags, label: 'Tags: ' },
+];
+
+export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => {
+  const tempList: string[] = [];
+
+  searchParams.forEach((value, key) => {
+    if (key === 'page' || key ==='top') return;
+    const searchParam = searchParamsArray.find((sp) => sp.key === key);
+    if (searchParam) {
+      const separator = searchParam.separator || ',';
+      if (value.includes(separator)) {
+        const values = value.split(separator);
+        const formattedValues = values.map((v) => searchParam.formatValue ? searchParam.formatValue(v) : v);
+        formattedValues.forEach((v) => tempList.push(searchParam.label + v));
+      } else {
+        const formattedValue = searchParam.formatValue ? searchParam.formatValue(value) : value;
+        tempList.push(searchParam.label + formattedValue);
+      }
+    }
+  });
+
+  return tempList;
+};
+
+export const SetSearchParamsFromPropertyFilter = (
+  filters: string[],
+  searchParams: URLSearchParams,
+) => {
+  const type = filters.filter((tag) => tag.startsWith('Type: '));
+  const bedrooms = filters.filter((tag) => tag.startsWith('Bedrooms: '));
+  const bathrooms = filters.filter((tag) => tag.startsWith('Bathrooms: '));
+  const minPrice = filters.filter((tag) => tag.startsWith('Min Price: $'));
+  const maxPrice = filters.filter((tag) => tag.startsWith('Max Price: $'));
+  const minSquareFeet = filters.filter((tag) => tag.startsWith('Min Square Feet: '));
+  const maxSquareFeet = filters.filter((tag) => tag.startsWith('Max Square Feet: '));
+  const amenities = filters.filter((tag) => tag.startsWith('Amenities: '));
+  const additionalAmenities = filters.filter((tag) => tag.startsWith('Additional Amenities: '));
+  const distance = filters.filter((tag) => tag.startsWith('Distance: '));
+  const listedInfo = filters.filter((tag) => tag.startsWith('Listed Info: '));
+  const latitude = filters.filter((tag) => tag.startsWith('Latitude: '));
+  const longitude = filters.filter((tag) => tag.startsWith('Longitude: '));
+  const updatedAt = filters.filter((tag) => tag.startsWith('Updated At: '));
+  const createdAt = filters.filter((tag) => tag.startsWith('Created At: '));
+  const tags = filters.filter((tag) => tag.startsWith('Tags: '));
+
+  if (type.length > 0) {
+    console.log("type ", type);
+    const typeId = type.map((tag) => tag.replace('Type: ', ''));
+    console.log("typeId ", typeId);
+    searchParams.set(SearchParamKeys.Type, typeId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Type);
+  }
+
+  if (bedrooms.length > 0) {
+    const bedroomsId = bedrooms.map((tag) => tag.replace('Bedrooms: ', ''));
+    searchParams.set(SearchParamKeys.Bedrooms, bedroomsId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Bedrooms);
+  }
+
+  if (bathrooms.length > 0) {
+    const bathroomsId = bathrooms.map((tag) => tag.replace('Bathrooms: ', ''));
+    searchParams.set(SearchParamKeys.Bathrooms, bathroomsId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Bathrooms);
+  }
+
+  if (minPrice.length > 0) {
+    const minPriceId = minPrice.map((tag) => tag.replace('Min Price: $', ''));
+    searchParams.set(SearchParamKeys.MinPrice, minPriceId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.MinPrice);
+  }
+
+  if (maxPrice.length > 0) {
+    const maxPriceId = maxPrice.map((tag) => tag.replace('Max Price: $', ''));
+    searchParams.set(SearchParamKeys.MaxPrice, maxPriceId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.MaxPrice);
+  }
+
+  if (minSquareFeet.length > 0) {
+    const minSquareFeetId = minSquareFeet.map((tag) => tag.replace('Min Square Feet: ', ''));
+    searchParams.set(SearchParamKeys.MinSquareFeet, minSquareFeetId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.MinSquareFeet);
+  }
+
+  if (maxSquareFeet.length > 0) {
+    const maxSquareFeetId = maxSquareFeet.map((tag) => tag.replace('Max Square Feet: ', ''));
+    searchParams.set(SearchParamKeys.MaxSquareFeet, maxSquareFeetId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.MaxSquareFeet);
+  }
+
+  if (amenities.length > 0) {
+    const amenitiesId = amenities.map((tag) => tag.replace('Amenities: ', ''));
+    searchParams.set(SearchParamKeys.Amenities, amenitiesId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Amenities);
+  }
+
+  if (additionalAmenities.length > 0) {
+    const additionalAmenitiesId = additionalAmenities.map((tag) => tag.replace('Additional Amenities: ', ''));
+    searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenitiesId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.AdditionalAmenities);
+  }
+
+  if (distance.length > 0) {
+    const distanceId = distance.map((tag) => tag.replace('Distance: ', ''));
+    searchParams.set(SearchParamKeys.Distance, distanceId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Distance);
+  }
+
+  if (listedInfo.length > 0) {
+    const listedInfoId = listedInfo.map((tag) => tag.replace('Listed Info: ', ''));
+    const formattedListedInfo = listedInfoId.map((tag) => tag === 'For Sale' ? 'listedForSale' : tag === 'For Rent' ? 'listedForRent': 'listedForLease');
+    searchParams.set(SearchParamKeys.ListedInfo, formattedListedInfo.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.ListedInfo);
+  }
+
+  if (latitude.length > 0) {
+    const latitudeId = latitude.map((tag) => tag.replace('Latitude: ', ''));
+    searchParams.set(SearchParamKeys.Latitude, latitudeId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Latitude);
+  }
+
+  if (longitude.length > 0) {
+    const longitudeId = longitude.map((tag) => tag.replace('Longitude: ', ''));
+    searchParams.set(SearchParamKeys.Longitude, longitudeId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Longitude);
+  }
+
+  if (updatedAt.length > 0) {
+    const updatedAtId = updatedAt.map((tag) => tag.replace('Updated At: ', ''));
+    searchParams.set(SearchParamKeys.UpdatedAt, updatedAtId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.UpdatedAt);
+  }
+
+  if (createdAt.length > 0) {
+    const createdAtId = createdAt.map((tag) => tag.replace('Created At: ', ''));
+    searchParams.set(SearchParamKeys.CreatedAt, createdAtId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.CreatedAt);
+  }
+
+  if (tags.length > 0) {
+    const tagsId = tags.map((tag) => tag.replace('Tags: ', ''));
+    searchParams.set(SearchParamKeys.Tags, tagsId.join(','));
+  } else {
+    searchParams.delete(SearchParamKeys.Tags);
+  }
+
+};

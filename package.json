@@ -47,7 +47,7 @@
   },
   "scripts": {
     "generate-build-version": "node generate-build-version",
-    "prebuild": "npm run generate-build-version",
+    "prebuild": "npm version patch && npm run generate-build-version",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",

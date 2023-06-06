@@ -15,7 +15,6 @@ import {
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
-import { ServiceTicketsSearchContainer } from './service-tickets-search-container';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 
 const { Search } = Input;

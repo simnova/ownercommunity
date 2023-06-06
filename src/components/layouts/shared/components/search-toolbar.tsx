@@ -18,12 +18,13 @@ import {
   Member,
   MemberMutationResult,
   MemberNameServiceTicketContainerQuery,
-  MemberServiceTicketCustomViewsQuery
+  SearchDrawerContainerCustomViewsQuery
 } from '../../../../generated';
 import { ServiceTicketsSearchTags } from '../../members/components/service-tickets-search-tags';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PropertiesListSearchTags } from '../../members/components/properties-list-search-tags';
+import { set } from 'lodash';
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -33,7 +34,7 @@ interface SearchToolbarProps {
   searchData?: any;
   tagData?: string[];
   memberData?: MemberNameServiceTicketContainerQuery;
-  customViewData: MemberServiceTicketCustomViewsQuery;
+  customViewData: SearchDrawerContainerCustomViewsQuery;
   handleUpdateCustomView: (
     memberId: string,
     customViews: CustomViewInput[],
@@ -80,7 +81,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
     let customViewInputs: CustomViewInput[] = [];
     const currentViews = JSON.parse(JSON.stringify(customViews));
     currentViews.forEach((view: CustomView) => {
-      if (view.name === selectedSavedFilterName) {
+      if (view.name === selectedSavedFilterName && view.type === props.type) {
         const updatedFilters =
           props.type === SearchType.Property
             ? GetPropertySelectedFilterTags(searchParams)
@@ -125,7 +126,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
   };
 
   const saveNewCustomView = async () => {
-    // check if filter name is already exists
+    // check if filter name already exists
     if (filteredCustomViews.find((view: any) => view.name === savedFilterNameInput)) {
       await message.error(`Filter name "${savedFilterNameInput}" already exists`);
       return;
@@ -169,6 +170,8 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
       )
       .then((data) => {
         setCustomViews(data?.member?.customViews as CustomView[]);
+        searchParams.set(SearchParamKeys.SavedFilter, savedFilterNameInput);
+        setSearchParams(searchParams);
         onSelectViewChanged(savedFilterNameInput);
         setSavedFilterNameInput('');
         setIsSaveModalVisible(false);
@@ -216,6 +219,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
   const clearFilter = () => {
     props.clearFilter();
     setSavedFilterNameInput('');
+    setSelectedSavedFilterName(undefined);
   };
 
   const onSortChanged = (value: string) => {
@@ -232,11 +236,10 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
     if (viewName === '') {
       clearFilter();
     } else {
-      const selectedView = customViews.find((view) => view.name === viewName);
+      const selectedView = filteredCustomViews.find((view) => view.name === viewName);
       const filters = selectedView?.filters;
+      if (selectedView?.sortOrder) searchParams.set(SearchParamKeys.Sort, selectedView?.sortOrder);
       setSelectedSavedFilterName(viewName);
-      searchParams.set(SearchParamKeys.SavedFilter, viewName);
-      setSearchParams(searchParams);
       if (props.type === SearchType.Property) {
         SetSearchParamsFromPropertyFilter(filters as string[], searchParams);
       } else {
@@ -245,9 +248,9 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
           searchParams,
           props.memberData?.membersByCommunityId as Member[]
         );
-        searchParams.set(ServiceTicketSearchParamKeys.Column, selectedView?.columnsToDisplay?.join(',') ?? '');
+        if (selectedView?.columnsToDisplay && selectedView?.columnsToDisplay?.length > 0) searchParams.set(ServiceTicketSearchParamKeys.Column, selectedView.columnsToDisplay?.join(','));
       }
-      searchParams.set(SearchParamKeys.Sort, selectedView?.sortOrder ?? '')
+      searchParams.set(SearchParamKeys.SavedFilter, viewName);
       setSearchParams(searchParams);
     }
   };

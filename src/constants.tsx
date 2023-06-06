@@ -626,7 +626,7 @@ export const GetServiceTicketSelectedFilterTags = (searchParams: URLSearchParams
 export const SetSearchParamsFromServiceTicketFilter = (
   filters: string[],
   searchParams: URLSearchParams,
-  members: Member[]
+  members: Member[],
 ) => {
   const assignedTo = filters.filter((tag) => tag.startsWith('Assigned to: '));
   const priority = filters.filter((tag) => tag.startsWith('Priority: '));
@@ -758,7 +758,7 @@ export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => 
 
 export const SetSearchParamsFromPropertyFilter = (
   filters: string[],
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
 ) => {
   const type = filters.filter((tag) => tag.startsWith('Type: '));
   const bedrooms = filters.filter((tag) => tag.startsWith('Bedrooms: '));
@@ -777,7 +777,6 @@ export const SetSearchParamsFromPropertyFilter = (
   const createdAt = filters.filter((tag) => tag.startsWith('Created At: '));
   const tags = filters.filter((tag) => tag.startsWith('Tags: '));
 
-  // can you do what it says above for all of these?
   if (type.length > 0) {
     console.log("type ", type);
     const typeId = type.map((tag) => tag.replace('Type: ', ''));

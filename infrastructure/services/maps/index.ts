@@ -1,5 +1,5 @@
 import { AccountSasParameters, AzureMapsManagementClient } from '@azure/arm-maps';
-import { TokenCredential, DefaultAzureCredential, DefaultAzureCredentialOptions} from '@azure/identity';
+import { TokenCredential, DefaultAzureCredential, DefaultAzureCredentialOptions, AzureCliCredential} from '@azure/identity';
 import dayjs from 'dayjs';
 import { setLogLevel } from '@azure/logger';
 
@@ -48,7 +48,7 @@ export class Maps {
         let credentials : TokenCredential;
 
         if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
-          credentials = new DefaultAzureCredential();
+          credentials = new AzureCliCredential();
         }else{
           if(process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined){
             credentials = new DefaultAzureCredential( { ManangedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID } as DefaultAzureCredentialOptions);

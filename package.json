@@ -8,6 +8,7 @@
     "@ant-design/pro-layout": "^7.13.3",
     "@apollo/client": "^3.5.8",
     "@azure/msal-browser": "^2.22.1",
+    "@azure/storage-blob": "^12.14.0",
     "@craco/craco": "^7.0.0-alpha.3",
     "@craftjs/core": "^0.2.0-beta.5",
     "@headlessui/react": "^1.7.14",

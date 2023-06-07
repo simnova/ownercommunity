@@ -57,8 +57,6 @@ export class Maps {
             credentials = new DefaultAzureCredential();
           }
         }
-
-        console.log('mapCredentials:',credentials);
         
         this._azureMapsClient = new AzureMapsManagementClient(credentials, this._azureSubscriptionID);
         this._resourceGroup = this.tryGetEnvVar(this._resourceGroupKey);

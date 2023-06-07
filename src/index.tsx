@@ -52,11 +52,11 @@ ReactDOM.render(
    }>
   
    <MaintenanceMessageProvider>
-  <CachePurgeProvider>
+  {/* <CachePurgeProvider> */}
   <ThemeProvider>
       <ConfigProviderWrapper />
     </ThemeProvider>
-  </CachePurgeProvider>
+  {/* </CachePurgeProvider> */}
    </MaintenanceMessageProvider>
    </FeatureFlagProvider>
   </React.StrictMode>,

@@ -4,6 +4,10 @@ query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInpu
   }
 }
 
+query MemberPropertiesGetAllTags {
+  getAllPropertyTags
+}
+
 query MemberPropertiesListSearchContainerMapSasToken {
   getMapSasToken
 }

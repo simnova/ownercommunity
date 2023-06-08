@@ -12,6 +12,17 @@ query MemberServiceTicketsListContainerSearchServiceTickets(
   }
 }
 
+query MemberNameServiceTicketContainer($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...MembersNameServiceTicketContainerFields
+  }
+}
+
+fragment MembersNameServiceTicketContainerFields on Member {
+  id
+  memberName
+}
+
 fragment MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields on ServiceTicket {
   title
   requestor {

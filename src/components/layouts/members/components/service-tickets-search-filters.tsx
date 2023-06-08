@@ -1,33 +1,17 @@
 import { useEffect, useState } from 'react';
 import { ServiceTicketSearchParamKeys } from '../../../../constants';
-import { ServiceTicketsSearchFilter } from './service-tickets-search-filter';
+import { SearchFilter, SearchFilterConfigDefinition, SearchFilterProps } from '../../shared/components/search-filter';
+import { FacetDetail } from '../../../../generated';
 
-interface SearchFilterConfigDefinition {
-  filters: {
-      title: string;
-      searchId: string;
-      searchbar?: boolean;
-      values: any;
-      facet: string;
-      handleCount?: (t: any, value: any) => number;
-      handleBuild?: (filter: ServiceTicketFilterType, value: any, count: number) => void;
-  }[]
-}
-export interface ServiceTicketFilterType {
-  title: string;
-  options: { name: string; count: number; id: string }[];
-  searchId: string;
-  searchbar?: boolean;
-}
 
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
-  const [filters, setFilters] = useState<ServiceTicketFilterType[]>([]);
+  const [filters, setFilters] = useState<SearchFilterProps[]>([]);
 
   const generateFilters = (config: SearchFilterConfigDefinition) => {
-    const filters: ServiceTicketFilterType[] = [];
+    const filters: SearchFilterProps[] = [];
     config.filters.forEach((filter: any) => {
 
-      let newFilter: ServiceTicketFilterType = {
+      let newFilter: SearchFilterProps = {
         title: filter.title,
         options: [],
         searchId: filter.searchId,
@@ -35,7 +19,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
       }
 
       filter.values.forEach((value: any) => {
-        const count = props.searchData.facets[filter.facet].find((t: any) => t.value === (filter.handleCount ? filter.handleCount(value) : value))?.count ?? 0;
+        const count = props.searchData.facets[filter.facet[0]].find((facet: FacetDetail) => (filter.handleCount ? filter.handleCount(facet, value) : facet.value === value))?.count ?? 0;
         if (filter.handleBuild) {
           filter.handleBuild(newFilter, value, count);
         } else {
@@ -60,14 +44,14 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         // ASSIGNED TO 
         {
           title: 'Assigned To',
-          searchId: ServiceTicketSearchParamKeys.AssignedTo,
+          searchId: [ServiceTicketSearchParamKeys.AssignedTo],
           searchbar: true,
           values: props.memberData.membersByCommunityId,
-          facet: 'assignedToId',
-          handleCount: (value: any) => {
-            return value.id;
+          facet: ['assignedToId'],
+          handleCount: (facet: FacetDetail, value: any) => {
+            return facet.value === value.id;
           },
-          handleBuild: (filter: ServiceTicketFilterType, value: any, count: number) => {
+          handleBuild: (filter: SearchFilterProps, value: any, count: number) => {
             filter.options.push({
               name: value.memberName,
               count: count,
@@ -78,14 +62,14 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         // PRIORITY
         {
           title: 'Priority',
-          searchId: ServiceTicketSearchParamKeys.Priority,
+          searchId: [ServiceTicketSearchParamKeys.Priority],
           values: ['1', '2', '3', '4', '5'],
-          facet: 'priority',
+          facet: ['priority'],
         },
         // STATUS
         {
           title: 'Status',
-          searchId: ServiceTicketSearchParamKeys.Status,
+          searchId: [ServiceTicketSearchParamKeys.Status],
           values: [      
             'Created',
             'Draft',
@@ -95,9 +79,9 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
             'Completed',
             'Closed'
           ],
-          facet: 'status',
-          handleCount: (value: any) => {
-            return value.toUpperCase();
+          facet: ['status'],
+          handleCount: (facet: FacetDetail, value: any) => {
+            return facet.value === value.toUpperCase();
           },
         }
       ]
@@ -110,9 +94,10 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
 
   return (
     <>
-      {filters?.map((filter: ServiceTicketFilterType) => {
+      {filters?.map((filter: SearchFilterProps) => {
         return (
-          <ServiceTicketsSearchFilter
+          <SearchFilter
+            key={filter?.searchId[0]}
             title={filter?.title}
             searchId={filter?.searchId}
             options={filter?.options}

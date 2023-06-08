@@ -1,7 +1,7 @@
 import { Typography, Space, Divider, Modal, Button, Card, Image } from 'antd';
 import Icon from '@ant-design/icons';
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Listing } from './listing';
 const { Title, Text } = Typography;
 

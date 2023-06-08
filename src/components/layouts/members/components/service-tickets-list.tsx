@@ -1,8 +1,7 @@
 import { Table, Button, Layout, Pagination } from 'antd';
 import type { PaginationProps } from 'antd';
-import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ServiceTicketSearchParamKeys } from '../../../../constants';
 
 const { Content } = Layout;
@@ -12,25 +11,26 @@ const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items
 interface SearchTicketsListProps {
   data: any;
   handleSearch: () => void;
+  searchParams: URLSearchParams;
+  setSearchParams: (searchParams: URLSearchParams) => void;
 }
 
 export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const handlePagination = (page: number) => {
-    searchParams.set(ServiceTicketSearchParamKeys.Page, page.toString());
-    setSearchParams(searchParams);
+    props.searchParams.set(ServiceTicketSearchParamKeys.Page, page.toString());
+    props.setSearchParams(props.searchParams);
     props.handleSearch();
   };
 
   const handleShowSizeChange = (_: number, size: number) => {
-    searchParams.set(ServiceTicketSearchParamKeys.Top, size.toString());
-    setSearchParams(searchParams);
+    props.searchParams.set(ServiceTicketSearchParamKeys.Top, size.toString());
+    props.setSearchParams(props.searchParams);
     props.handleSearch();
   };
 
-  const columnSearchParams = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
+  const columnSearchParams = props.searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
 
   const columnOptions = [
     {
@@ -96,9 +96,9 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
         <Content>
           <Pagination
             className="search-pagination"
-            current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
+            current={parseInt(props.searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
             total={props.data.count}
-            pageSize={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10')}
+            pageSize={parseInt(props.searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10')}
             pageSizeOptions={['5', '10', '25', '50']}
             onChange={(page) => handlePagination(page)}
             showTotal={showTotal}
@@ -113,7 +113,7 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
           />
           <Pagination
             className="search-pagination"
-            current={parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
+            current={parseInt(props.searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1')}
             total={props.data.count}
             onChange={(page) => handlePagination(page)}
             showTotal={showTotal}

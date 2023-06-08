@@ -34,6 +34,7 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
+   try {
     const response = await axios.get(url, config);
     const data = response.data;
     console.log('Checking version', data.version, cachedVersion);
@@ -41,14 +42,20 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('cachedVersion', data.version);
       window.location.reload();
     }
+   } catch (error) {
+    console.error('Error fetching version:', error);
+   }
   };
 // we check for possible cache purgin every 20 seconds
 
   useEffect(() => {
-    fethcVersion();
-    setInterval(() => {
-      fethcVersion();
-    }, 20 * 1000);
+    const setIntervalImmediately = (func: any, interval: number) => {
+      func();
+      return setInterval(func, interval);
+    }
+    (async()=>{
+      setIntervalImmediately(fethcVersion, 20000);
+    })()
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   FilterNames,
   GetFilterFromQueryString,
@@ -12,11 +12,12 @@ import {
   FilterDetail,
   MemberPropertiesGetAllTagsDocument,
   MemberPropertiesListSearchContainerMapSasTokenDocument,
-  MemberPropertiesListSearchContainerPropertiesDocument
+  MemberPropertiesListSearchContainerPropertiesDocument,
+  PropertyResult
 } from '../../../../generated';
-import { Skeleton, Input, Drawer, Button, List, Pagination, Select, theme } from 'antd';
+import { Skeleton, Input, Drawer, Button, Pagination, Select, theme } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
-import { ListingCard } from './listing-card';
+import { ListingCardV2 } from './listing-card';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 
 const { Search } = Input;
@@ -41,6 +42,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [visible, setVisible] = useState(false);
 
   const params = useParams();
+  const navigate = useNavigate();
 
   const { data: tagData, loading: tagLoading, error: tagError } = useQuery(MemberPropertiesGetAllTagsDocument);
 
@@ -205,26 +207,8 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   };
 
   const PropertiesListSearch = () => {
-    const generatedPropertyData = JSON.parse(JSON.stringify(searchData?.propertiesSearch?.propertyResults, null, 2));
-    return (
-      <List
-        grid={{
-          gutter: 16,
-          xs: 1,
-          sm: 1,
-          md: 3,
-          lg: 3,
-          xl: 4,
-          xxl: 4
-        }}
-        dataSource={generatedPropertyData}
-        renderItem={(item) => (
-          <List.Item>
-            <ListingCard data={item}></ListingCard>
-          </List.Item>
-        )}
-      ></List>
-    );
+    const generatedPropertyData = JSON.parse(JSON.stringify(searchData?.propertiesSearch?.propertyResults, null, 2)) as PropertyResult[];
+    return <ListingCardV2 properties={generatedPropertyData} />;
   };
 
   if (searchError || mapSasTokenError) {

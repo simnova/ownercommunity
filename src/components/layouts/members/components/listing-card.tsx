@@ -1,4 +1,6 @@
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { HomeOutlined } from '@ant-design/icons';
+import { PropertyResult } from '../../../../generated';
 
 export const ListingCard: React.FC<any> = (props) => {
   const params = useParams();
@@ -27,7 +29,7 @@ export const ListingCard: React.FC<any> = (props) => {
           {/* <p className="text-sm leading-4 font-medium text-white dark:sm:text-slate-400">Entire house</p> */}
         </div>
         <div className="grid gap-4 col-start-1 col-end-3 row-start-1">
-          <img
+          {props.data.images[0] && <img
             src={
               'https://ownercommunity.blob.core.windows.net/' +
               props.data.communityId +
@@ -37,29 +39,57 @@ export const ListingCard: React.FC<any> = (props) => {
             className="w-full h-60 object-cover rounded-lg col-span-2 h-52"
             alt="Property Image"
             // style={{width: "400px"}}
-          />
+          />}
         </div>
 
-        <div className="px-2" style={{ height: '150px' }}>
-          <p className="mt-4 mb-0 text-sm leading-6 col-start-1 dark:text-slate-400">
-            {props.data.bedrooms ? props.data.bedrooms : '-'} Bds,{' '}
-            {props.data.bathrooms ? props.data.bathrooms : '-'} Ba,{' '}
-            {props.data.squareFeet ? props.data.squareFeet : '-'} sqft
-          </p>
-          <p className="mb-0 text-sm leading-6 col-start-1 dark:text-slate-400">
-            <em> {props.data.address.freeformAddress}</em>
-          </p>
-          <p className="text-xs leading-6 col-start-1 dark:text-slate-400">
-            <em>
-              {' '}
-              A {props.data.type} in {props.data.address.localName}
-            </em>
-          </p>
-          <p className="mt-4 text-xs leading-6 col-start-1 dark:text-slate-400">
-            {props.data.listingAgentCompany}
-          </p>
-        </div>
+´
       </div>
     </div>
   );
 };
+
+interface ListingCardProps {
+  properties: PropertyResult[];
+}
+
+export const ListingCardV2: React.FC<ListingCardProps> = (props) => {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  return (
+    <div className="bg-white">
+    <div className="mx-auto max-w-10xl px-4 py-8 sm:px-6 sm:py-18 lg:max-w-8xl lg:px-8">
+      <div className="mt-2 flex grid grid-col-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        {props.properties.map((property: PropertyResult) => (
+          <div key={property.id} className="group relative">
+            <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
+              {property.images?.[0] ? <img
+                src={`https://ownercommunity.blob.core.windows.net/${params.communityId}/${property?.images?.[0]}` ?? ''}
+                placeholder='blur'
+                alt={property?.name ?? 'Property image not found'}
+                className="rounded-md object-cover object-center lg:h-full lg:w-full"
+              /> : <div className="object-center object-cover h-full w-full bg-gray-200 text-center bg-cover bg-center flex justify-center">
+                  <HomeOutlined 
+                    className='text-6xl text-gray-400'
+                  />
+                </div>}
+            </div>
+            <div className="mt-4 flex justify-between">
+              <div>
+                <h3 className="text-sm my-0 text-gray-700">
+                  <a onClick={() => navigate(`../../listings/${property.id}`)}>
+                    <span aria-hidden="true" className="absolute inset-0" />
+                    {property.name}
+                  </a>
+                </h3>
+                {property?.type && <p className="text-sm text-gray-500">{property.type}</p>}
+              </div>
+              {property.price && <p className="text-sm font-medium bold text-gray-900">${property?.price}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+  );
+}

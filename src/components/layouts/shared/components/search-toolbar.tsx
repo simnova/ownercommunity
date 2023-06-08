@@ -18,6 +18,7 @@ import {
   Member,
   MemberMutationResult,
   MemberNameServiceTicketContainerQuery,
+  MemberPropertiesGetAllTagsQuery,
   SearchDrawerContainerCustomViewsQuery
 } from '../../../../generated';
 import { ServiceTicketsSearchTags } from '../../members/components/service-tickets-search-tags';
@@ -30,9 +31,7 @@ const { Text } = Typography;
 
 interface SearchToolbarProps {
   type: SearchType;
-  searchData?: any;
-  tagData?: string[];
-  memberData?: MemberNameServiceTicketContainerQuery;
+  customData: MemberPropertiesGetAllTagsQuery | MemberNameServiceTicketContainerQuery;
   customViewData: SearchDrawerContainerCustomViewsQuery;
   handleUpdateCustomView: (
     memberId: string,
@@ -67,6 +66,9 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
     searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
   );
 
+  const memberData = props.customData as MemberNameServiceTicketContainerQuery;
+  const tagData = props.customData as MemberPropertiesGetAllTagsQuery;
+
   useEffect(() => {
     if (props.customViewData?.memberForCurrentUser?.customViews) {
       const customViews = (props.customViewData?.memberForCurrentUser?.customViews as CustomView[]) ?? [];
@@ -84,7 +86,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
         const updatedFilters =
           props.type === SearchType.Property
             ? GetPropertySelectedFilterTags(searchParams)
-            : GetServiceTicketSelectedFilterTags(searchParams, props.memberData?.membersByCommunityId as Member[]);
+            : GetServiceTicketSelectedFilterTags(searchParams, memberData?.membersByCommunityId as Member[]);
         const updatedSortOrder = searchParams.get(SearchParamKeys.Sort) ?? '';
         const updatedColumnsToDisplay = searchParams.get(ServiceTicketSearchParamKeys.Column);
         // update
@@ -131,9 +133,10 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
       return;
     }
     const filters =
-      props.type === SearchType.Property
-        ? GetPropertySelectedFilterTags(searchParams)
-        : GetServiceTicketSelectedFilterTags(searchParams, props.memberData?.membersByCommunityId as Member[]);
+      props.type === SearchType.ServiceTicket
+        ? GetServiceTicketSelectedFilterTags(searchParams, memberData?.membersByCommunityId as Member[])
+        : GetPropertySelectedFilterTags(searchParams);
+
     const qscolumnsToDisplay = searchParams.get(ServiceTicketSearchParamKeys.Column);
 
     let customViewInputs: CustomViewInput[] = [];
@@ -242,12 +245,14 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
       if (props.type === SearchType.Property) {
         SetSearchParamsFromPropertyFilter(filters as string[], searchParams);
       } else {
+        const memberData = props.customData as MemberNameServiceTicketContainerQuery;
         SetSearchParamsFromServiceTicketFilter(
           filters as string[],
           searchParams,
-          props.memberData?.membersByCommunityId as Member[]
+          memberData?.membersByCommunityId as Member[]
         );
-        if (selectedView?.columnsToDisplay && selectedView?.columnsToDisplay?.length > 0) searchParams.set(ServiceTicketSearchParamKeys.Column, selectedView.columnsToDisplay?.join(','));
+        if (selectedView?.columnsToDisplay && selectedView?.columnsToDisplay?.length > 0)
+          searchParams.set(ServiceTicketSearchParamKeys.Column, selectedView.columnsToDisplay?.join(','));
       }
       searchParams.set(SearchParamKeys.SavedFilter, viewName);
       setSearchParams(searchParams);
@@ -410,10 +415,10 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
           </Select>
         </div>
       )}
-      {props.type === SearchType.ServiceTicket && props.memberData ? (
-        <ServiceTicketsSearchTags memberData={props.memberData} />
+      {props.type === SearchType.ServiceTicket && memberData ? (
+        <ServiceTicketsSearchTags memberData={memberData} />
       ) : (
-        <PropertiesListSearchTags tagData={props.tagData} />
+        <PropertiesListSearchTags tagData={tagData} />
       )}
     </>
   );

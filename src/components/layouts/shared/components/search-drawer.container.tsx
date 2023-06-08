@@ -1,5 +1,13 @@
 import { useParams } from 'react-router-dom';
-import { CustomViewInput, MemberMutationResult, PropertySearchFacets, SearchDrawerContainerCustomViewsDocument, SearchDrawerContainerCustomViewsUpdateDocument } from '../../../../generated';
+import {
+  CustomViewInput,
+  MemberMutationResult,
+  MemberNameServiceTicketContainerQuery,
+  MemberPropertiesGetAllTagsQuery,
+  PropertySearchFacets,
+  SearchDrawerContainerCustomViewsDocument,
+  SearchDrawerContainerCustomViewsUpdateDocument
+} from '../../../../generated';
 import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import { SearchToolbar } from './search-toolbar';
@@ -57,8 +65,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
     customViews: CustomViewInput[],
     operation: CustomViewOperation
   ) => {
-    
-    let data: MemberMutationResult|undefined
+    let data: MemberMutationResult | undefined;
     await updateCustomViews({
       variables: {
         input: {
@@ -101,23 +108,13 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
     return (
       <>
         <div style={{ marginBottom: '1rem' }}>
-          {props.type === SearchType.Property ? (
-            <SearchToolbar
-              type={props.type}
-              tagData={props.customData.data.getAllPropertyTags as string[]}
-              customViewData={customViewsData}
-              handleUpdateCustomView={handleUpdateCustomView}
-              clearFilter={props.clearFilter}
-            />
-          ) : (
-            <SearchToolbar
-              type={props.type}
-              customViewData={customViewsData}
-              memberData={props.customData.data}
-              handleUpdateCustomView={handleUpdateCustomView}
-              clearFilter={props.clearFilter}
-            />
-          )}
+          <SearchToolbar
+            type={props.type}
+            customViewData={customViewsData}
+            customData={props.customData.data}
+            handleUpdateCustomView={handleUpdateCustomView}
+            clearFilter={props.clearFilter}
+          />
         </div>
         {props.type === SearchType.Property ? (
           <PropertiesListSearchFilters
@@ -126,7 +123,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
             tagData={props.customData.data.getAllPropertyTags as string[]}
           />
         ) : (
-          <ServiceTicketsSearchFilters searchData={props.searchData} memberData={props.customData.data} />
+          <ServiceTicketsSearchFilters searchData={props.searchData} memberData={props.customData.data as MemberNameServiceTicketContainerQuery | MemberPropertiesGetAllTagsQuery} />
         )}
       </>
     );

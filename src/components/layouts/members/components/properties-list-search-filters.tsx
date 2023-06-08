@@ -104,7 +104,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         let count: number;
         if (filter.facet) {
           if (filter.facet.length > 1) {
-            const facetName = filter.facet.find((facet: any) => facet === filter.handleFilter(value));
+            const facetName = filter.facet.find((facet: any) => facet === filter.transform(value));
             count = props.searchData.facets[facetName].find((facet: any) => filter.handleCount(facet))?.count ?? 0;
           } else {
             if (props.searchData.facets[filter.facet[0]]) {
@@ -142,18 +142,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           searchId: [SearchParamKeys.ListedInfo],
           values: ['For Sale', 'For Rent', 'For Lease'],
           facet: ['listedForSale', 'listedForRent', 'listedForLease'],
-          handleFilter: (value: any) => {
-            switch (value) {
-              case 'For Sale':
-                return 'listedForSale';
-              case 'For Rent':
-                return 'listedForRent';
-              case 'For Lease':
-                return 'listedForLease';
-              default:
-                return '';
-            }
-          },
+          transform: (value: any) => value === 'For Sale' ? 'listedForSale' : value === 'For Rent' ? 'listedForRent' : 'listedForLease',
           handleCount: (facet: FacetDetail) => {
             return facet.value === 'true';
           },

@@ -2,6 +2,7 @@ import type { SliderMarks } from 'antd/lib/slider';
 import dayjs from 'dayjs';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
 import { useParams } from 'react-router-dom';
+import { sep } from 'path';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -744,7 +745,7 @@ export const SetSearchParamsFromPropertyFilter = (
 
   if (additionalAmenities.length > 0) {
     const additionalAmenitiesId = additionalAmenities.map((tag) => tag.replace('Additional Amenities: ', ''));
-    searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenitiesId.join(','));
+    searchParams.set(SearchParamKeys.AdditionalAmenities, additionalAmenitiesId.join(';'));
   } else {
     searchParams.delete(SearchParamKeys.AdditionalAmenities);
   }

@@ -24,6 +24,15 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
   let upcomingMaintenance = GetFeatureFlagByName('MAINTENANCE_UPCOMING_UIPORTAL');
   let maintenanceMessage = GetFeatureFlagByName('MAINTENANCE_MSG_SYSTEM_UIPORTAL');
   let maintenanceMessageImpending = GetFeatureFlagByName('MAINTENANCE_MSG_IMPENDING_UIPORTAL');
+  let try_val=GetFeatureFlagByName('TRY')
+  console.log("Checking feature falg")
+  console.log(impendingMaintenanceStartTimestamp)
+  console.log(maintenanceStartTimestamp)
+  console.log(maintenanceEndTimestamp)
+  console.log(upcomingMaintenance)
+  console.log(maintenanceMessage)
+  console.log(maintenanceMessageImpending)
+  console.log("Printing try value",try_val)
   useEffect(() => {
     const setIntervalImmediately = async (func: any, interval: number, params: any) => {
       await func(params);

@@ -42,12 +42,13 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
       window.location.reload();
     }
   };
+// we check for possible cache purgin every 20 seconds
 
   useEffect(() => {
     fethcVersion();
     setInterval(() => {
       fethcVersion();
-    }, 1 * 1000);
+    }, 20 * 1000);
   }, []);
 
   return (

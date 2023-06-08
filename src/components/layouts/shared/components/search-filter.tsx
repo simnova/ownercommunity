@@ -23,7 +23,7 @@ export interface SearchFilterConfigDefinition {
     type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom' ;
     customComponent?: JSX.Element;
     handleCount?: (facet: FacetDetail, value?: any) => boolean;
-    handleFilter?: (value: any) => string;
+    transform?: (value: any) => string;
     handleBuild?: (filter: SearchFilterProps, value: any, count: number) => void;
   }[];
 }

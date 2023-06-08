@@ -1,46 +1,62 @@
 import React, { ReactNode, createContext, useEffect, useState } from 'react';
-import axios from "axios"
-import PackageVersion from "../../package.json"
-const version=PackageVersion.version
+import axios from 'axios';
+import PackageVersion from '../../package.json';
+const appVersion = PackageVersion.version;
 interface CachePurgeContextType {
-  actualVersion: string;
-  cachedVersion: string;
-  purgeCache: () => void;
+  currentVersion: string;
 }
 
 export const CachePurgeContext = createContext<CachePurgeContextType>({
-  actualVersion: '',
-  cachedVersion: '',
-  purgeCache: () => {
-  },
+  currentVersion: appVersion
 });
 
 export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
-  const [actualVersion, setActualVersion] = useState('');
-  const [cachedVersion, setCachedVersion] = useState(version);
-  
-  
+  let cachedVersion = localStorage.getItem('cachedVersion');
   useEffect(() => {
-    
-  }, [
-    cachedVersion,actualVersion
-  ]);
- 
+    // check if there is cachedVersion in localstorage
+    cachedVersion = localStorage.getItem('cachedVersion');
+    if (!cachedVersion) {
+      localStorage.setItem('cachedVersion', appVersion);
+    }
+  }, []);
 
+  const fethcVersion = async () => {
+    const url = '/meta.json';
+    // it will make sure no cache is used
+    const config = {
+      params: {
+        timestamp: Date.now()
+      },
+      headers: {
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+        Expires: '0'
+      }
+    };
+
+    const response = await axios.get(url, config);
+    const data = response.data;
+    console.log('Checking version', data.version, cachedVersion);
+    if (cachedVersion && data.version !== cachedVersion) {
+      localStorage.setItem('cachedVersion', data.version);
+      window.location.reload();
+    }
+  };
+
+  useEffect(() => {
+    fethcVersion();
+    setInterval(() => {
+      fethcVersion();
+    }, 1 * 1000);
+  }, []);
 
   return (
     <CachePurgeContext.Provider
       value={{
-        actualVersion,
-        cachedVersion,
-        purgeCache: () => {
-          window.location.reload();
-          console.log("Done purging cache");
-        }
+        currentVersion: cachedVersion || appVersion
       }}
     >
       {children}
     </CachePurgeContext.Provider>
   );
 };
-

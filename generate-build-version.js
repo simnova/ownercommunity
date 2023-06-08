@@ -1,19 +1,35 @@
 const fs = require('fs');
-const packageJson = require('./package.json');
+const path = require('path');
 
-const appVersion = packageJson.version;
+// Read the current version from meta.json
+const metaPath = path.join(__dirname, 'public', 'meta.json');
+const metaData = require(metaPath);
+const currentVersion = metaData.version;
 
-const jsonData = {
-  version: appVersion
-};
+// Determine the desired version update type (default: patch)
+const updateType = process.argv[2] || 'patch';
+const versionParts = currentVersion.split('.');
+let [major, minor, patch] = versionParts.map(Number);
 
-let jsonContent = JSON.stringify(jsonData);
+// Update the version based on the specified update type
+switch (updateType) {
+  case 'major':
+    major++;
+    minor = 0;
+    patch = 0;
+    break;
+  case 'minor':
+    minor++;
+    patch = 0;
+    break;
+  case 'patch':
+  default:
+    patch++;
+}
 
-fs.writeFile('./public/meta.json', jsonContent, 'utf8', function(err) {
-  if (err) {
-    console.log('An error occured while writing JSON Object to meta.json');
-    return console.log(err);
-  }
+// Update the version in meta.json
+const newVersion = `${major}.${minor}.${patch}`;
+metaData.version = newVersion;
+fs.writeFileSync(metaPath, JSON.stringify(metaData, null, 2));
 
-  console.log('meta.json file has been saved with latest version number');
-});
+console.log(`Version updated from ${currentVersion} to ${newVersion}`);

@@ -54,7 +54,8 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prod": "npm run build && http-server -p 3000 build",
+    "prod:build": "npm run build && http-server -p 3000 build",
+    "prod": "http-server -p 3000 build",
     "build:major": "node generate-build-version major && craco build",
     "build:minor": "node generate-build-version minor && craco build"
   },

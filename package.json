@@ -49,7 +49,7 @@
   "scripts": {
     "prebuild": "node generate-build-version",
     "start": "craco start",
-    "build": "node generate-build-version && craco build",
+    "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",

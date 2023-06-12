@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { HomeOutlined } from '@ant-design/icons';
 import { PropertyResult } from '../../../../generated';
+import PropertyFallbackImage from '../../../../assets/property-fallback.png';
 
 export const ListingCard: React.FC<any> = (props) => {
   const params = useParams();
@@ -63,16 +63,11 @@ export const ListingCardV2: React.FC<ListingCardProps> = (props) => {
         {props.properties.map((property: PropertyResult) => (
           <div key={property.id} className="group relative">
             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
-              {property.images?.[0] ? <img
-                src={`https://ownercommunity.blob.core.windows.net/${params.communityId}/${property?.images?.[0]}` ?? ''}
-                placeholder='blur'
-                alt={property?.name ?? 'Property image not found'}
-                className="rounded-md object-cover object-center lg:h-full lg:w-full"
-              /> : <div className="object-center object-cover h-full w-full bg-gray-200 text-center bg-cover bg-center flex justify-center">
-                  <HomeOutlined 
-                    className='text-6xl text-gray-400'
-                  />
-                </div>}
+                <img
+                  src={property.images?.[0] ? `https://ownercommunity.blob.core.windows.net/${params.communityId}/${property?.images?.[0]}` : PropertyFallbackImage}
+                  alt={property?.name ?? 'Property image not found'}
+                  className="rounded-md object-cover object-center lg:h-full sm:h-72 xs:h-64 w-full"
+                />
             </div>
             <div className="mt-4 flex justify-between">
               <div>

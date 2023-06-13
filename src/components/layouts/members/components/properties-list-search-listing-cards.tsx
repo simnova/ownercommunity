@@ -3,55 +3,11 @@ import { PropertyResult } from '../../../../generated';
 import PropertyFallbackImage from '../../../../assets/property-fallback.png';
 import { Badge } from 'antd';
 
-export const ListingCard: React.FC<any> = (props) => {
-  const params = useParams();
-  const navigate = useNavigate();
-  // const imageGallery = props.images.map((image: any) => {
-  //     return image;
-  // })
-  // console.log(props.data);
-
-  return (
-    <div
-      onClick={() => navigate(`../../listings/${props.data.id}`)}
-      style={{ cursor: 'pointer', width: '100%', height: '100%' }}
-    >
-      <div
-        className="max-w-xs grid grid-cols-1 pr-0"
-        style={{ border: '1px solid gray', borderRadius: '9px' }}
-      >
-        <div className="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t from-black/75 via-black/0">
-          <h1 className="m-0 text-sm font-semibold text-white dark:sm:text-white">
-            {props.data.name}
-          </h1>
-          <h2 className="m-0 text-lg font-semibold text-white dark:sm:text-white">
-            ${props.data.price}
-          </h2>
-          {/* <p className="text-sm leading-4 font-medium text-white dark:sm:text-slate-400">Entire house</p> */}
-        </div>
-        <div className="grid gap-4 col-start-1 col-end-3 row-start-1">
-          {props.data.images[0] && <img
-            src={
-              'https://ownercommunity.blob.core.windows.net/' +
-              props.data.communityId +
-              '/' +
-              props.data.images[0]
-            }
-            className="w-full h-60 object-cover rounded-lg col-span-2 h-52"
-            alt="Property Image"
-            // style={{width: "400px"}}
-          />}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-interface ListingCardProps {
+interface ListingCardsProps {
   properties: PropertyResult[];
 }
 
-export const ListingCardV2: React.FC<ListingCardProps> = (props) => {
+export const PropertiesListSearchListingCards: React.FC<ListingCardsProps> = (props) => {
   const params = useParams();
   const navigate = useNavigate();
 

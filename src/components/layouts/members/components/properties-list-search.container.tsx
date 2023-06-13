@@ -17,7 +17,7 @@ import {
 } from '../../../../generated';
 import { Skeleton, Input, Drawer, Button, Pagination, Select, theme } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
-import { ListingCardV2 } from './listing-card';
+import { PropertiesListSearchListingCards } from './properties-list-search-listing-cards';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 
 const { Search } = Input;
@@ -206,11 +206,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     setSearchString(e.target.value);
   };
 
-  const PropertiesListSearch = () => {
-    const generatedPropertyData = JSON.parse(JSON.stringify(searchData?.propertiesSearch?.propertyResults, null, 2)) as PropertyResult[];
-    return <ListingCardV2 properties={generatedPropertyData} />;
-  };
-
   if (searchError || mapSasTokenError) {
     return (
       <div>
@@ -226,6 +221,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     );
   }
   if (searchCalled && searchData && mapSasTokenData) {
+    const generatedPropertyData = JSON.parse(JSON.stringify(searchData?.propertiesSearch?.propertyResults, null, 2)) as PropertyResult[];
     return (
       <>
         <div className="py-4" style={{ display: 'flex' }}>
@@ -277,7 +273,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             <Option value={50}>50</Option>
           </Select>
         </div>
-        <PropertiesListSearch />
+        <PropertiesListSearchListingCards properties={generatedPropertyData} />;
       </>
     );
   }

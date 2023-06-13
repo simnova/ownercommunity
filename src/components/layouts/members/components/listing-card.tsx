@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { PropertyResult } from '../../../../generated';
 import PropertyFallbackImage from '../../../../assets/property-fallback.png';
+import { Badge } from 'antd';
 
 export const ListingCard: React.FC<any> = (props) => {
   const params = useParams();
@@ -41,8 +42,6 @@ export const ListingCard: React.FC<any> = (props) => {
             // style={{width: "400px"}}
           />}
         </div>
-
-´
       </div>
     </div>
   );
@@ -56,6 +55,24 @@ export const ListingCardV2: React.FC<ListingCardProps> = (props) => {
   const params = useParams();
   const navigate = useNavigate();
 
+  const generatePropertyBadges = (property: PropertyResult) => {
+    let propertyInfo: any[] = [];
+    property.listedForSale && propertyInfo.push({text: 'Sale', color: 'green'});
+    property.listedForRent && propertyInfo.push({text: 'Rent', color: 'blue'});
+    property.listedForLease && propertyInfo.push({text: 'Lease', color: 'purple'});
+
+    return (
+      <div className='absolute right-0 top-2 flex flex-col'>
+        {propertyInfo.map((info, index) => {
+          return (
+            <Badge.Ribbon key={info.text} text={info.text} color={info.color} className={`top-${index*5}`} />
+          )
+        })}
+      </div>
+    )
+  }
+
+
   return (
     <div className="bg-white">
     <div className="mx-auto max-w-10xl px-4 py-8 sm:px-6 sm:py-18 lg:max-w-8xl lg:px-8">
@@ -63,6 +80,7 @@ export const ListingCardV2: React.FC<ListingCardProps> = (props) => {
         {props.properties.map((property: PropertyResult) => (
           <div key={property.id} className="group relative">
             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
+                {generatePropertyBadges(property)}
                 <img
                   src={property.images?.[0] ? `https://ownercommunity.blob.core.windows.net/${params.communityId}/${property?.images?.[0]}` : PropertyFallbackImage}
                   alt={property?.name ?? 'Property image not found'}

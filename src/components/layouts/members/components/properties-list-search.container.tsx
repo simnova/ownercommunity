@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   FilterNames,
   GetFilterFromQueryString,
@@ -12,11 +12,12 @@ import {
   FilterDetail,
   MemberPropertiesGetAllTagsDocument,
   MemberPropertiesListSearchContainerMapSasTokenDocument,
-  MemberPropertiesListSearchContainerPropertiesDocument
+  MemberPropertiesListSearchContainerPropertiesDocument,
+  PropertyResult
 } from '../../../../generated';
-import { Skeleton, Input, Drawer, Button, List, Pagination, Select, theme } from 'antd';
+import { Skeleton, Input, Drawer, Button, Pagination, Select, theme } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
-import { ListingCard } from './listing-card';
+import { PropertiesListSearchListingCards } from './properties-list-search-listing-cards';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 
 const { Search } = Input;
@@ -41,6 +42,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const [visible, setVisible] = useState(false);
 
   const params = useParams();
+  const navigate = useNavigate();
 
   const { data: tagData, loading: tagLoading, error: tagError } = useQuery(MemberPropertiesGetAllTagsDocument);
 
@@ -204,29 +206,6 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     setSearchString(e.target.value);
   };
 
-  const PropertiesListSearch = () => {
-    const generatedPropertyData = JSON.parse(JSON.stringify(searchData?.propertiesSearch?.propertyResults, null, 2));
-    return (
-      <List
-        grid={{
-          gutter: 16,
-          xs: 1,
-          sm: 1,
-          md: 3,
-          lg: 3,
-          xl: 4,
-          xxl: 4
-        }}
-        dataSource={generatedPropertyData}
-        renderItem={(item) => (
-          <List.Item>
-            <ListingCard data={item}></ListingCard>
-          </List.Item>
-        )}
-      ></List>
-    );
-  };
-
   if (searchError || mapSasTokenError) {
     return (
       <div>
@@ -242,6 +221,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
     );
   }
   if (searchCalled && searchData && mapSasTokenData) {
+    const generatedPropertyData = JSON.parse(JSON.stringify(searchData?.propertiesSearch?.propertyResults, null, 2)) as PropertyResult[];
     return (
       <>
         <div className="py-4" style={{ display: 'flex' }}>
@@ -293,7 +273,7 @@ export const PropertiesListSearchContainer: React.FC<any> = (props) => {
             <Option value={50}>50</Option>
           </Select>
         </div>
-        <PropertiesListSearch />
+        <PropertiesListSearchListingCards properties={generatedPropertyData} />;
       </>
     );
   }

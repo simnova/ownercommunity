@@ -18,13 +18,15 @@ export const PropertiesListSearchListingCards: React.FC<ListingCardsProps> = (pr
     property.listedForLease && propertyInfo.push({text: 'Lease', color: 'purple'});
 
     return (
-      <div className='absolute right-0 top-2 flex flex-col'>
-        {propertyInfo.map((info, index) => {
-          return (
-            <Badge.Ribbon key={info.text} text={info.text} color={info.color} className={`top-${index*5}`} />
-          )
-        })}
-      </div>
+        <div className='absolute right-0 -top-5'>
+          <div className='flex flex-col'>
+            {propertyInfo.map((info, _) => {
+              return (
+                  <div className='mt-5'><Badge.Ribbon key={info.text} text={info.text} color={info.color}/></div>
+              )
+            })}
+          </div>
+        </div>
     )
   }
 
@@ -40,7 +42,7 @@ export const PropertiesListSearchListingCards: React.FC<ListingCardsProps> = (pr
                 <img
                   src={property.images?.[0] ? `https://ownercommunity.blob.core.windows.net/${params.communityId}/${property?.images?.[0]}` : PropertyFallbackImage}
                   alt={property?.name ?? 'Property image not found'}
-                  className="rounded-md object-cover object-center lg:h-full sm:h-72 xs:h-64 w-full"
+                  className="rounded-md object-cover object-center lg:h-full sm:h-72 xs:h-64 w-full z-1"
                 />
             </div>
             <div className="mt-4 flex justify-between">

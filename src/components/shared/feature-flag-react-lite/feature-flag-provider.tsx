@@ -89,7 +89,7 @@ const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): JSX
     (async () => {
       // IIFE to make async code work in a non-async Functional Component
       if (!isRendered.current) {
-        setFeatureFlagList(props.config.fallbackFlagValues);
+        //setFeatureFlagList(props.config.fallbackFlagValues);
         setIntervalImmediately(async () => await GetFeatureFlags(), cacheTimeout / 2);
       }
     })();

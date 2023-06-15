@@ -26,9 +26,7 @@
     "jest-html-reporter": "^3.6.0",
     "mongodb-memory-server": "^8.3.0",
     "npm-run-all": "^4.1.5",
-    "ts-jest": "^27.1.3",
-    "typescript": "^5.1.3",
-    "@types/lodash": "^4.14.195"
+    "typescript": "^5.1.3"
   },
   "dependencies": {
     "@apollo/cache-control-types": "^1.0.2",
@@ -67,7 +65,6 @@
     "mongoose": "^6.2.1",
     "nanoid": "^3.3.2",
     "openid-client": "^5.1.3",
-    "retry": "^0.13.1",
-    "lodash": "^4.17.21"
+    "retry": "^0.13.1"
   }
 }

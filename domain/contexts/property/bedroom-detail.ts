@@ -22,13 +22,16 @@ export class BedroomDetail extends Entity<BedroomDetailProps> implements Bedroom
       throw new Error('You do not have permission to update this listing');
     }
   }
-
-  requestSetRoomName(roomName: ValueObjects.RoomName) {
+  // using set from TS 5.1
+  set RoomName(roomName: ValueObjects.RoomName) {
     this.validateVisa();
     this.props.roomName = roomName.valueOf();
   }
-  requestSetBedDescriptions(bedDescriptions: ValueObjects.BedDescriptions) {
+
+  set BedDescriptions(bedDescriptions: ValueObjects.BedDescriptions) {
     this.validateVisa();
     this.props.bedDescriptions = bedDescriptions.valueOf();
   }
+
+  
 }

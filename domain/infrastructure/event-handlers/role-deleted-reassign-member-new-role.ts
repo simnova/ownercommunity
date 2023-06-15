@@ -15,7 +15,7 @@ export default () => { NodeEventBus.register(RoleDeletedReassignEvent, async (pa
   await MemberUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     const members = await repo.getAssignedToRole(payload.deletedRoleId);
     members.forEach(async (member) => {
-      member.requestSetRole(roleDo);
+      member.Role=(roleDo);
       await repo.save(member);
     });
   });

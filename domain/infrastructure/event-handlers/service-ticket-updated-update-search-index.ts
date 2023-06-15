@@ -53,8 +53,8 @@ export default (cognitiveSearch:ICognitiveSearch) => {
         await retry(
           async (failedCB, currentAttempt) => {
             if (currentAttempt > maxAttempt) {
-              serviceTicket.requestSetUpdateIndexFailedDate(new Date());
-              serviceTicket.requestSetHash(hash);
+              serviceTicket.UpdateIndexFailedDate=(new Date());
+              serviceTicket.Hash=(hash);
               await repo.save(serviceTicket);
               console.log('Index update failed: ', serviceTicket.updateIndexFailedDate);
               console.log(serviceTicket);
@@ -77,8 +77,8 @@ export default (cognitiveSearch:ICognitiveSearch) => {
     await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, serviceTicketDoc);
     console.log(`Service Ticket Updated - Index Updated: ${JSON.stringify(serviceTicketDoc)}`);
   
-    serviceTicket.requestSetLastIndexed(new Date());
-    serviceTicket.requestSetHash(hash);
+    serviceTicket.LastIndexed=(new Date());
+    serviceTicket.Hash=(hash);
     await repo.save(serviceTicket);
     console.log('Index update successful: ', serviceTicket.lastIndexed);
   }

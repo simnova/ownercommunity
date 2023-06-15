@@ -22,10 +22,14 @@ export class Photo extends Entity<PhotoProps> implements PhotoEntityReference {
   get description() {return this.props.description;}
   getNewDocumentId(): string {return this.props.getNewDocumentId();}
 
-  requestSetDocumentId(documentId: string) {
+  // using set from TS 5.1
+
+  set DocumentId(documentId: string) {
     this.props.documentId = documentId;
   }
-  requestSetDescription(description: string) {
+
+  set Description(description: string) {
     this.props.description = description;
   }
+ 
 }

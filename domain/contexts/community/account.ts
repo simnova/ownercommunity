@@ -16,51 +16,67 @@ export interface AccountPropValues extends EntityProps {
 
 export interface AccountProps extends AccountPropValues {}
 
-export interface AccountEntityReference extends Readonly<Omit<AccountPropValues,
-  'user' | 'setUserRef' | 
-  'createdBy' | 'setCreatedByRef' >> {
+export interface AccountEntityReference extends Readonly<Omit<AccountPropValues, 'user' | 'setUserRef' | 'createdBy' | 'setCreatedByRef'>> {
   readonly user: UserEntityReference;
   readonly createdBy: UserEntityReference;
 }
 
 export class Account extends Entity<AccountProps> implements AccountEntityReference {
-  constructor(props: AccountProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) { super(props); }
+  constructor(props: AccountProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) {
+    super(props);
+  }
 
-  get firstName(): string {return this.props.firstName;}
-  get lastName(): string {return this.props.lastName;}
-  get user(): UserEntityReference {return new User(this.props.user,this.context);}
-  get statusCode(): string {return this.props.statusCode;}
-  get createdBy(): UserEntityReference {return new User(this.props.createdBy, this.context);}
+  get firstName(): string {
+    return this.props.firstName;
+  }
+  get lastName(): string {
+    return this.props.lastName;
+  }
+  get user(): UserEntityReference {
+    return new User(this.props.user, this.context);
+  }
+  get statusCode(): string {
+    return this.props.statusCode;
+  }
+  get createdBy(): UserEntityReference {
+    return new User(this.props.createdBy, this.context);
+  }
 
-
-  private validateVisa(){
-    if(!this.visa.determineIf((permissions) => 
-      permissions.isSystemAccount || 
-      permissions.canManageMembers ||
-      (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount))) {
+  private validateVisa() {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageMembers || (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount)
+      )
+    ) {
       throw new Error('You do not have permission to update this account');
     }
   }
 
-  requestSetFirstName(firstName: ValueObjects.FirstName) {
+  // using ts 5.1 setters
+  set firstName(firstName: ValueObjects.FirstName) {
     this.validateVisa();
     this.props.firstName = firstName.valueOf();
   }
-  requestSetLastName(lastName: ValueObjects.LastName) {
+
+  set lastName(lastName: ValueObjects.LastName) {
     this.validateVisa();
     this.props.lastName = lastName.valueOf();
   }
-  requestSetUser(user: UserProps) {
+
+  set user(user: UserProps) {
     this.validateVisa();
     this.props.setUserRef(user);
   }
-  requestSetStatusCode(statusCode: ValueObjects.AccountStatusCode) { 
-    if(!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageMembers)) { throw new Error('You do not have permission to update this account'); }
+
+  set statusCode(statusCode: ValueObjects.AccountStatusCode) {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageMembers)) {
+      throw new Error('You do not have permission to update this account');
+    }
     this.props.statusCode = statusCode.valueOf();
   }
-  requestSetCreatedBy(createdBy: UserProps) {
+
+  set createdBy(createdBy: UserProps) {
     this.validateVisa();
     this.props.setCreatedByRef(createdBy);
   }
-
 }

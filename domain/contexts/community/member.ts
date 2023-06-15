@@ -75,27 +75,31 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   public static getNewInstance<props extends MemberProps>(newProps: props, name: string, community: CommunityEntityReference, context: DomainExecutionContext): Member<props> {
     let member = new Member(newProps, context);
     member.isNew = true;
-    member.requestSetMemberName(name);
-    member.requestSetCommunity(community);
+    member.MemberName = name;
+    member.Community = community;
     member.isNew = false;
     return member;
   }
+  // using SET from TS 5.1
 
-  public requestSetMemberName(memberName: ValueObjects.MemberName): void {
+  set MemberName(memberName: ValueObjects.MemberName) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set member name');
     }
     this.props.memberName = memberName.valueOf();
   }
-  private requestSetCommunity(community: CommunityEntityReference): void {
+
+  set Community(community: CommunityEntityReference) {
     this.props.setCommunityRef(community);
   }
-  public requestSetRole(role: RoleEntityReference): void {
+
+  set Role(role: RoleEntityReference) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set role');
     }
     this.props.setRoleRef(role);
   }
+
   public requestNewAccount(): Account {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set role');

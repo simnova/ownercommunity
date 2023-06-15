@@ -135,33 +135,135 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
     }
   }
 
-  requestSetPrice(price: ValueObjects.Price | null): void {
+  // using set from TS 5.1
+
+  set Price(price: ValueObjects.Price | null) {
     this.validateVisa();
     this.props.price = price?.valueOf();
   }
-  requestSetRentHigh(rentHigh: ValueObjects.RentHigh | null): void {
+
+  set RentHigh(rentHigh: ValueObjects.RentHigh | null) {
     this.validateVisa();
     this.props.rentHigh = rentHigh?.valueOf();
   }
-  requestSetRentLow(rentLow: ValueObjects.RentLow | null): void {
+
+  set RentLow(rentLow: ValueObjects.RentLow | null) {
     this.validateVisa();
     this.props.rentLow = rentLow?.valueOf();
   }
-  requestSetLease(lease: ValueObjects.Lease | null): void {
+
+  set Lease(lease: ValueObjects.Lease | null) {
     this.validateVisa();
     this.props.lease = lease?.valueOf();
   }
-  requestSetMaxGuests(maxGuests: ValueObjects.MaxGuests | null): void {
+
+  set MaxGuests(maxGuests: ValueObjects.MaxGuests | null) {
     this.validateVisa();
     this.props.maxGuests = maxGuests?.valueOf();
   }
-  requestSetBedrooms(bedrooms: ValueObjects.Bedrooms | null): void {
+
+  set Bedrooms(bedrooms: ValueObjects.Bedrooms | null) {
     this.validateVisa();
     this.props.bedrooms = bedrooms?.valueOf();
   }
-  // requestSetBedroomDetails(bedroomDetails: BedroomDetail[]):void{
-  //  this.props.bedroomDetails.items = bedroomDetails.map(bedroomDetail => bedroomDetail.props);
-  // }
+
+  set Bathrooms(bathrooms: ValueObjects.Bathrooms | null) {
+    this.validateVisa();
+    this.props.bathrooms = bathrooms?.valueOf();
+  }
+
+  set SquareFeet(squareFeet: ValueObjects.SquareFeet | null) {
+    this.validateVisa();
+    this.props.squareFeet = squareFeet?.valueOf();
+  }
+
+  set YearBuilt(yearBuilt: ValueObjects.YearBuilt | null) {
+    this.validateVisa();
+    this.props.yearBuilt = yearBuilt?.valueOf();
+  }
+
+  set LotSize(lotSize: ValueObjects.LotSize | null) {
+    this.validateVisa();
+    this.props.lotSize = lotSize?.valueOf();
+  }
+
+  set Description(description: ValueObjects.Description | null) {
+    this.validateVisa();
+    this.props.description = description?.valueOf();
+  }
+
+  set Amenities(amenities: ValueObjects.Amenities | null) {
+    this.validateVisa();
+    this.props.amenities = amenities?.valueOf();
+  }
+
+  set Images(images: ValueObjects.Images | null) {
+    this.validateVisa();
+    //TODO: if any images are removed, remove them from blob storage as well as part of events.
+    this.props.images = images?.valueOf();
+  }
+
+  set Video(video: ValueObjects.Video | null) {
+    this.validateVisa();
+    this.props.video = video?.valueOf();
+  }
+
+  set FloorPlan(floorPlan: ValueObjects.FloorPlan | null) {
+    this.validateVisa();
+    this.props.floorPlan = floorPlan?.valueOf();
+  }
+
+  set FloorPlanImages(floorPlanImages: ValueObjects.FloorPlanImages | null) {
+    this.validateVisa();
+    this.props.floorPlanImages = floorPlanImages?.valueOf();
+  }
+
+  set ListingAgent(listingAgent: ValueObjects.ListingAgent | null) {
+    this.validateVisa();
+    this.props.listingAgent = listingAgent?.valueOf();
+  }
+
+  set ListingAgentPhone(listingAgentPhone: ValueObjects.ListingAgentPhone | null) {
+    this.validateVisa();
+    this.props.listingAgentPhone = listingAgentPhone?.valueOf();
+  }
+
+  set ListingAgentEmail(listingAgentEmail: ValueObjects.Email | null) {
+    this.validateVisa();
+    this.props.listingAgentEmail = listingAgentEmail?.valueOf();
+  }
+
+  set ListingAgentWebsite(listingAgentWebsite: ValueObjects.ListingAgentWebsite | null) {
+    this.validateVisa();
+    this.props.listingAgentWebsite = listingAgentWebsite?.valueOf();
+  }
+
+  set ListingAgentCompany(listingAgentCompany: ValueObjects.ListingAgentCompany | null) {
+    this.validateVisa();
+    this.props.listingAgentCompany = listingAgentCompany?.valueOf();
+  }
+
+  set ListingAgentCompanyPhone(listingAgentCompanyPhone: ValueObjects.ListingAgentCompanyPhone | null) {
+    this.validateVisa();
+    this.props.listingAgentCompanyPhone = listingAgentCompanyPhone?.valueOf();
+  }
+
+  set ListingAgentCompanyEmail(listingAgentCompanyEmail: ValueObjects.Email | null) {
+    this.validateVisa();
+    this.props.listingAgentCompanyEmail = listingAgentCompanyEmail?.valueOf();
+  }
+
+  set ListingAgentCompanyWebsite(listingAgentCompanyWebsite: ValueObjects.ListingAgentCompanyWebsite | null) {
+    this.validateVisa();
+    this.props.listingAgentCompanyWebsite = listingAgentCompanyWebsite?.valueOf();
+  }
+
+  set ListingAgentCompanyAddress(listingAgentCompanyAddress: ValueObjects.ListingAgentCompanyAddress | null) {
+    this.validateVisa();
+    this.props.listingAgentCompanyAddress = listingAgentCompanyAddress?.valueOf();
+  }
+  //
+
   requestRemoveBedroomDetails(bedroomDetails: BedroomDetail): void {
     this.validateVisa();
     this.props.bedroomDetails.removeItem(bedroomDetails.props);
@@ -170,34 +272,7 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
     this.validateVisa();
     return new BedroomDetail(this.props.bedroomDetails.getNewItem(), this.visa);
   }
-  // requestNewAmenity(): AdditionalAmenity {
-  //   this.validateVisa();
-  //   return new AdditionalAmenity(this.props.additionalAmenities.getNewItem(), this.visa);
-  // }
-  requestSetBathrooms(bathrooms: ValueObjects.Bathrooms | null): void {
-    this.validateVisa();
-    this.props.bathrooms = bathrooms?.valueOf();
-  }
-  requestSetSquareFeet(squareFeet: ValueObjects.SquareFeet | null): void {
-    this.validateVisa();
-    this.props.squareFeet = squareFeet?.valueOf();
-  }
-  requestSetYearBuilt(yearBuilt: ValueObjects.YearBuilt | null): void {
-    this.validateVisa();
-    this.props.yearBuilt = yearBuilt?.valueOf();
-  }
-  requestSetLotSize(lotSize: ValueObjects.LotSize | null): void {
-    this.validateVisa();
-    this.props.lotSize = lotSize?.valueOf();
-  }
-  requestSetDescription(description: ValueObjects.Description | null): void {
-    this.validateVisa();
-    this.props.description = description?.valueOf();
-  }
-  requestSetAmenities(amenities: ValueObjects.Amenities | null): void {
-    this.validateVisa();
-    this.props.amenities = amenities?.valueOf();
-  }
+
   requestNewAmenity(): AdditionalAmenity {
     this.validateVisa();
     return new AdditionalAmenity(this.props.additionalAmenities.getNewItem(), this.visa);
@@ -210,68 +285,14 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
     this.validateVisa();
     this.props.additionalAmenities.addItem(additionalAmenity.props);
   }
-  requestSetImages(images: ValueObjects.Images | null): void {
-    this.validateVisa();
-    //TODO: if any images are removed, remove them from blob storage as well as part of events.
-    this.props.images = images?.valueOf();
-  }
-  requestSetVideo(video: ValueObjects.Video | null): void {
-    this.validateVisa();
-    this.props.video = video?.valueOf();
-  }
-  requestSetFloorPlan(floorPlan: ValueObjects.FloorPlan | null): void {
-    this.validateVisa();
-    this.props.floorPlan = floorPlan?.valueOf();
-  }
-  requestSetFloorPlanImages(floorPlanImages: ValueObjects.FloorPlanImages | null): void {
-    this.validateVisa();
-    this.props.floorPlanImages = floorPlanImages?.valueOf();
-  }
 
   requestRemoveImage(blobName: string) {
-    if (blobName.includes("/listing-floor-plan-images/")) {
+    if (blobName.includes('/listing-floor-plan-images/')) {
       const newFloorPlanImages = this.props.floorPlanImages.filter((image) => image !== blobName);
-      this.requestSetFloorPlanImages(new Images(newFloorPlanImages));
+      this.FloorPlanImages = new Images(newFloorPlanImages);
     } else {
       const newImages = this.props.images.filter((image) => image !== blobName);
-      this.requestSetImages(new Images(newImages));
+      this.Images = new Images(newImages);
     }
-  }
-
-  requestSetListingAgent(listingAgent: ValueObjects.ListingAgent | null): void {
-    this.validateVisa();
-    this.props.listingAgent = listingAgent?.valueOf();
-  }
-  requestSetListingAgentPhone(listingAgentPhone: ValueObjects.ListingAgentPhone | null): void {
-    this.validateVisa();
-    this.props.listingAgentPhone = listingAgentPhone?.valueOf();
-  }
-  requestSetListingAgentEmail(listingAgentEmail: ValueObjects.Email | null): void {
-    this.validateVisa();
-    this.props.listingAgentEmail = listingAgentEmail?.valueOf();
-  }
-  requestSetListingAgentWebsite(listingAgentWebsite: ValueObjects.ListingAgentWebsite | null): void {
-    this.validateVisa();
-    this.props.listingAgentWebsite = listingAgentWebsite?.valueOf();
-  }
-  requestSetListingAgentCompany(listingAgentCompany: ValueObjects.ListingAgentCompany | null): void {
-    this.validateVisa();
-    this.props.listingAgentCompany = listingAgentCompany?.valueOf();
-  }
-  requestSetListingAgentCompanyPhone(listingAgentCompanyPhone: ValueObjects.ListingAgentCompanyPhone | null): void {
-    this.validateVisa();
-    this.props.listingAgentCompanyPhone = listingAgentCompanyPhone?.valueOf();
-  }
-  requestSetListingAgentCompanyEmail(listingAgentCompanyEmail: ValueObjects.Email | null): void {
-    this.validateVisa();
-    this.props.listingAgentCompanyEmail = listingAgentCompanyEmail?.valueOf();
-  }
-  requestSetListingAgentCompanyWebsite(listingAgentCompanyWebsite: ValueObjects.ListingAgentCompanyWebsite | null): void {
-    this.validateVisa();
-    this.props.listingAgentCompanyWebsite = listingAgentCompanyWebsite?.valueOf();
-  }
-  requestSetListingAgentCompanyAddress(listingAgentCompanyAddress: ValueObjects.ListingAgentCompanyAddress | null): void {
-    this.validateVisa();
-    this.props.listingAgentCompanyAddress = listingAgentCompanyAddress?.valueOf();
   }
 }

@@ -42,33 +42,33 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
 
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
-      if (input.propertyName !== undefined) property.requestSetPropertyName(input.propertyName);
-      if (input.propertyType !== undefined) property.requestSetPropertyType(input.propertyType);
-      if (input.listedForSale !== undefined) property.requestSetListedForSale(input.listedForSale);
-      if (input.listedForRent !== undefined) property.requestSetListedForRent(input.listedForRent);
-      if (input.listedForLease !== undefined) property.requestSetListedForLease(input.listedForLease);
-      if (input.listedInDirectory !== undefined) property.requestSetListedInDirectory(input.listedInDirectory);
-      if (input.owner !== undefined) property.requestSetOwner(input.owner ? memberDo : undefined);
+      if (input.propertyName !== undefined) property.PropertyName=(input.propertyName);
+      if (input.propertyType !== undefined) property.PropertyType=(input.propertyType);
+      if (input.listedForSale !== undefined) property.ListedForSale=(input.listedForSale);
+      if (input.listedForRent !== undefined) property.ListedForRent=(input.listedForRent);
+      if (input.listedForLease !== undefined) property.ListedForLease=(input.listedForLease);
+      if (input.listedInDirectory !== undefined) property.ListedInDirectory=(input.listedInDirectory);
+      if (input.owner !== undefined) property.Owner=(input.owner ? memberDo : undefined);
       if (input.listingDetail !== undefined) {
-        if (input.listingDetail.price !== undefined) property.listingDetail.requestSetPrice(input.listingDetail.price);
-        if (input.listingDetail.rentHigh !== undefined) property.listingDetail.requestSetRentHigh(input.listingDetail.rentHigh);
-        if (input.listingDetail.rentLow !== undefined) property.listingDetail.requestSetRentLow(input.listingDetail.rentLow);
-        if (input.listingDetail.lease !== undefined) property.listingDetail.requestSetLease(input.listingDetail.lease);
-        if (input.listingDetail.maxGuests !== undefined) property.listingDetail.requestSetMaxGuests(input.listingDetail.maxGuests);
-        if (input.listingDetail.bedrooms !== undefined) property.listingDetail.requestSetBedrooms(input.listingDetail.bedrooms);
+        if (input.listingDetail.price !== undefined) property.listingDetail.Price=(input.listingDetail.price);
+        if (input.listingDetail.rentHigh !== undefined) property.listingDetail.RentHigh=(input.listingDetail.rentHigh);
+        if (input.listingDetail.rentLow !== undefined) property.listingDetail.RentLow=(input.listingDetail.rentLow);
+        if (input.listingDetail.lease !== undefined) property.listingDetail.Lease=(input.listingDetail.lease);
+        if (input.listingDetail.maxGuests !== undefined) property.listingDetail.MaxGuests=(input.listingDetail.maxGuests);
+        if (input.listingDetail.bedrooms !== undefined) property.listingDetail.Bedrooms=(input.listingDetail.bedrooms);
         if (input.listingDetail.bedroomDetails !== undefined) {
           let systemBedroomDetails = property.listingDetail.bedroomDetails;
           let updatedBedroomDetails = input.listingDetail.bedroomDetails;
           updatedBedroomDetails.forEach((updatedBedroom) => {
             if (!updatedBedroom.id) {
               let newBedroom = property.listingDetail.requestNewBedroom();
-              newBedroom.requestSetRoomName(updatedBedroom.roomName);
-              newBedroom.requestSetBedDescriptions(new BedDescriptions(updatedBedroom.bedDescriptions));
+              newBedroom.RoomName=(updatedBedroom.roomName);
+              newBedroom.BedDescriptions=(new BedDescriptions(updatedBedroom.bedDescriptions));
             } else {
               let systemBedroom = systemBedroomDetails.find((bedroom) => bedroom.id === updatedBedroom.id);
               if (systemBedroom === undefined) throw new Error('Bedroom not found');
-              systemBedroom.requestSetRoomName(updatedBedroom.roomName);
-              systemBedroom.requestSetBedDescriptions(new BedDescriptions(updatedBedroom.bedDescriptions));
+              systemBedroom.RoomName=(updatedBedroom.roomName);
+              systemBedroom.BedDescriptions=(new BedDescriptions(updatedBedroom.bedDescriptions));
             }
           });
           let updatedIds = updatedBedroomDetails.filter((x) => x.id !== undefined).map((x) => x.id);
@@ -79,23 +79,23 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
             });
         }
 
-        if (input.listingDetail.bathrooms !== undefined) property.listingDetail.requestSetBathrooms(input.listingDetail.bathrooms);
-        if (input.listingDetail.squareFeet !== undefined) property.listingDetail.requestSetSquareFeet(input.listingDetail.squareFeet);
-        if (input.listingDetail.description !== undefined) property.listingDetail.requestSetDescription(input.listingDetail.description);
-        if (input.listingDetail.amenities !== undefined) property.listingDetail.requestSetAmenities(new Amenities(input.listingDetail.amenities));
+        if (input.listingDetail.bathrooms !== undefined) property.listingDetail.Bathrooms=(input.listingDetail.bathrooms);
+        if (input.listingDetail.squareFeet !== undefined) property.listingDetail.SquareFeet=(input.listingDetail.squareFeet);
+        if (input.listingDetail.description !== undefined) property.listingDetail.Description=(input.listingDetail.description);
+        if (input.listingDetail.amenities !== undefined) property.listingDetail.Amenities=(new Amenities(input.listingDetail.amenities));
         if (input.listingDetail.additionalAmenities !== undefined) {
           let systemAdditionalAmenities = property.listingDetail.additionalAmenities;
           let updatedAdditionalAmenities = input.listingDetail.additionalAmenities;
           updatedAdditionalAmenities.forEach((updatedAmenity) => {
             if (!updatedAmenity.id) {
               let newAmenity = property.listingDetail.requestNewAmenity();
-              newAmenity.requestSetCategory(updatedAmenity.category);
-              newAmenity.requestSetAmenities(new Amenities(updatedAmenity.amenities));
+              newAmenity.Category=(updatedAmenity.category);
+              newAmenity.Amenities=(new Amenities(updatedAmenity.amenities));
             } else {
               let systemAmenity = systemAdditionalAmenities.find((amenity) => amenity.id === updatedAmenity.id);
               if (systemAmenity === undefined) throw new Error('Amenity not found');
-              systemAmenity.requestSetCategory(updatedAmenity.category);
-              systemAmenity.requestSetAmenities(new Amenities(updatedAmenity.amenities));
+              systemAmenity.Category=(updatedAmenity.category);
+              systemAmenity.Amenities=(new Amenities(updatedAmenity.amenities));
             }
           });
           let updatedIds = updatedAdditionalAmenities.filter((x) => x.id !== undefined).map((x) => x.id);
@@ -105,30 +105,30 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
               property.listingDetail.requestRemoveAdditionalAmenity(systemAmenity);
             });
         }
-        if (input.listingDetail.images !== undefined) property.listingDetail.requestSetImages(new Images(input.listingDetail.images));
+        if (input.listingDetail.images !== undefined) property.listingDetail.Images=(new Images(input.listingDetail.images));
         //todo video
-        if (input.listingDetail.floorPlan !== undefined) property.listingDetail.requestSetFloorPlan(input.listingDetail.floorPlan);
-        if (input.listingDetail.floorPlanImages !== undefined) property.listingDetail.requestSetFloorPlanImages(new Images(input.listingDetail.floorPlanImages));
-        if (input.listingDetail.listingAgent !== undefined) property.listingDetail.requestSetListingAgent(input.listingDetail.listingAgent);
-        if (input.listingDetail.listingAgentPhone !== undefined) property.listingDetail.requestSetListingAgentPhone(input.listingDetail.listingAgentPhone);
-        if (input.listingDetail.listingAgentEmail !== undefined) property.listingDetail.requestSetListingAgentEmail(input.listingDetail.listingAgentEmail);
-        if (input.listingDetail.listingAgentWebsite !== undefined) property.listingDetail.requestSetListingAgentWebsite(input.listingDetail.listingAgentWebsite);
-        if (input.listingDetail.listingAgentCompany !== undefined) property.listingDetail.requestSetListingAgentCompany(input.listingDetail.listingAgentCompany);
-        if (input.listingDetail.listingAgentCompanyPhone !== undefined) property.listingDetail.requestSetListingAgentCompanyPhone(input.listingDetail.listingAgentCompanyPhone);
-        if (input.listingDetail.listingAgentCompanyEmail !== undefined) property.listingDetail.requestSetListingAgentCompanyEmail(input.listingDetail.listingAgentCompanyEmail);
-        if (input.listingDetail.listingAgentCompanyWebsite !== undefined) property.listingDetail.requestSetListingAgentCompanyWebsite(input.listingDetail.listingAgentCompanyWebsite);
-        if (input.listingDetail.listingAgentCompanyAddress !== undefined) property.listingDetail.requestSetListingAgentCompanyAddress(input.listingDetail.listingAgentCompanyAddress);
+        if (input.listingDetail.floorPlan !== undefined) property.listingDetail.FloorPlan=(input.listingDetail.floorPlan);
+        if (input.listingDetail.floorPlanImages !== undefined) property.listingDetail.FloorPlanImages=(new Images(input.listingDetail.floorPlanImages));
+        if (input.listingDetail.listingAgent !== undefined) property.listingDetail.ListingAgent=(input.listingDetail.listingAgent);
+        if (input.listingDetail.listingAgentPhone !== undefined) property.listingDetail.ListingAgentCompanyPhone=(input.listingDetail.listingAgentPhone);
+        if (input.listingDetail.listingAgentEmail !== undefined) property.listingDetail.ListingAgentEmail=(input.listingDetail.listingAgentEmail);
+        if (input.listingDetail.listingAgentWebsite !== undefined) property.listingDetail.ListingAgentWebsite=(input.listingDetail.listingAgentWebsite);
+        if (input.listingDetail.listingAgentCompany !== undefined) property.listingDetail.ListingAgentCompany=(input.listingDetail.listingAgentCompany);
+        if (input.listingDetail.listingAgentCompanyPhone !== undefined) property.listingDetail.ListingAgentCompanyPhone=(input.listingDetail.listingAgentCompanyPhone);
+        if (input.listingDetail.listingAgentCompanyEmail !== undefined) property.listingDetail.ListingAgentCompanyEmail=(input.listingDetail.listingAgentCompanyEmail);
+        if (input.listingDetail.listingAgentCompanyWebsite !== undefined) property.listingDetail.ListingAgentCompanyWebsite=(input.listingDetail.listingAgentCompanyWebsite);
+        if (input.listingDetail.listingAgentCompanyAddress !== undefined) property.listingDetail.ListingAgentCompanyAddress=(input.listingDetail.listingAgentCompanyAddress);
       }
 
       if (input.location !== undefined) {
         if (input.location.address !== undefined) {
-          property.location.requestSetAddress(input.location.address);
+          property.location.Address=(input.location.address);
         }
         if (input.location.position !== undefined) {
-          property.location.requestSetPosition(input.location.position);
+          property.location.Position=(input.location.position);
         }
       }
-      if (input.tags !== undefined) property.requestSetTags(input.tags);
+      if (input.tags !== undefined) property.Tags=(input.tags);
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
     return propertyToReturn;
@@ -150,7 +150,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
     let memberDo = new MemberConverter().toDomain(mongoMember, { passport: ReadOnlyPassport.GetInstance() });
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
-      property.requestSetOwner(memberDo);
+      property.Owner=(memberDo);
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
     return propertyToReturn;
@@ -160,7 +160,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
     let propertyToReturn: Property;
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
-      property.requestSetOwner(undefined);
+      property.Owner=(undefined);
       propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
     });
     return propertyToReturn;

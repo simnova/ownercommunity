@@ -43,8 +43,8 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
     }
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.id);
-      if (input.memberName !== undefined) member.requestSetMemberName(input.memberName);
-      if (roleDo !== undefined) member.requestSetRole(roleDo);
+      if (input.memberName !== undefined) member.MemberName=(input.memberName);
+      if (roleDo !== undefined) member.Role=(roleDo);
       if (input.customViews !== undefined) {
         let systemCustomViews = member.customViews;
         let updatedCustomViews = input.customViews;
@@ -52,20 +52,20 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
           // add new custom view
           if (!customView.id) {
             let newCustomView = member.requestNewCustomView();
-            newCustomView.requestSetName(customView.name);
-            newCustomView.requestSetType(customView.type);
-            newCustomView.requestSetFilters(new CustomViewFilters(customView.filters ?? []));
-            newCustomView.requestSetOrder(customView.sortOrder ?? '');
-            newCustomView.requestSetColumnsToDisplay(new CustomViewColumnsToDisplay(customView.columnsToDisplay ?? []));
+            newCustomView.name=(customView.name);
+            newCustomView.type=(customView.type);
+            newCustomView.filters=(new CustomViewFilters(customView.filters ?? []));
+            newCustomView.order=(customView.sortOrder ?? '');
+            newCustomView.columnsToDisplay=(new CustomViewColumnsToDisplay(customView.columnsToDisplay ?? []));
           } else {
             // update existing custom view
             let systemCustomView = systemCustomViews.find((c) => c.id === customView.id);
             if (systemCustomView === undefined) throw new Error('Custom view not found');
-            systemCustomView.requestSetName(customView.name);
-            systemCustomView.requestSetType(customView.type);
-            systemCustomView.requestSetFilters(new CustomViewFilters(customView.filters ?? []));
-            systemCustomView.requestSetOrder(customView.sortOrder ?? '');
-            systemCustomView.requestSetColumnsToDisplay(new CustomViewColumnsToDisplay(customView.columnsToDisplay ?? []));
+            systemCustomView.name=(customView.name);
+            systemCustomView.type=(customView.type);
+            systemCustomView.filters=(new CustomViewFilters(customView.filters ?? []));
+            systemCustomView.order=(customView.sortOrder ?? '');
+            systemCustomView.columnsToDisplay=(new CustomViewColumnsToDisplay(customView.columnsToDisplay ?? []));
           }
         });
         let customViewIds = updatedCustomViews.filter((x) => x.id !== undefined).map((x) => x.id);
@@ -93,10 +93,10 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let account = member.requestNewAccount();
-      account.requestSetUser(userDo);
-      account.requestSetFirstName(input.account.firstName);
-      account.requestSetLastName(input.account.lastName);
-      account.requestSetCreatedBy(currentUserDo);
+      account.user=(userDo);
+      account.firstName=input.account.firstName;
+      account.lastName=(input.account.lastName);
+      account.createdBy=(currentUserDo);
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });
     return memberToReturn;
@@ -107,8 +107,8 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let account = member.accounts.find((a) => a.id === input.accountId);
-      account.requestSetFirstName(input.firstName);
-      account.requestSetLastName(input.lastName);
+      account.firstName=input.firstName;
+      account.lastName=input.lastName;
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });
     return memberToReturn;
@@ -130,7 +130,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(memberId);
       let profile = member.profile;
-      profile.requestSetAvatarDocumentId(avatarDocumentId);
+      profile.AvatarDocumentId=(avatarDocumentId);
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });
     return memberToReturn;
@@ -141,15 +141,15 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let profile = member.profile;
-      profile.requestSetName(input.profile.name);
-      profile.requestSetEmail(input.profile.email);
-      profile.requestSetBio(input.profile.bio);
-      profile.requestSetInterests(new Interests(input.profile.interests));
-      profile.requestSetShowInterests(input.profile.showInterests);
-      profile.requestSetShowEmail(input.profile.showEmail);
-      profile.requestSetShowLocation(input.profile.showLocation);
-      profile.requestSetShowProfile(input.profile.showProfile);
-      profile.requestSetShowProperties(input.profile.showProperties);
+      profile.Name=(input.profile.name);
+      profile.Email=(input.profile.email);
+      profile.Bio=(input.profile.bio);
+      profile.Interests=(new Interests(input.profile.interests));
+      profile.ShowInterests=(input.profile.showInterests);
+      profile.ShowEmail=(input.profile.showEmail);
+      profile.ShowLocation=(input.profile.showLocation);
+      profile.ShowProfile=(input.profile.showProfile);
+      profile.ShowProperties=(input.profile.showProperties);
       memberToReturn = new MemberConverter().toMongo(await repo.save(member));
     });
     return memberToReturn;

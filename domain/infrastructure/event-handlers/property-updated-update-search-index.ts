@@ -86,8 +86,8 @@ export default (cognitiveSearch:ICognitiveSearch) => {
         await retry(
           async (failedCB, currentAttempt) => {
             if (currentAttempt > maxAttempt) {
-              property.requestSetUpdateIndexFailedDate(new Date());
-              property.requestSetHash(hash);
+              property.UpdateIndexFailedDate=(new Date());
+              property.Hash=(hash);
               await repo.save(property);
               console.log('Index update failed: ', property.updateIndexFailedDate);
               console.log(property);
@@ -109,8 +109,8 @@ export default (cognitiveSearch:ICognitiveSearch) => {
     await cognitiveSearch.indexDocument(PropertyListingIndexSpec.name, listingDoc);
     console.log(`Property Updated - Index Updated: ${JSON.stringify(listingDoc)}`);
   
-    property.requestSetLastIndexed(new Date());
-    property.requestSetHash(hash);
+    property.LastIndexed=(new Date());
+    property.Hash=(hash);
     await repo.save(property);
     console.log('Index update successful: ', property.lastIndexed);
   }

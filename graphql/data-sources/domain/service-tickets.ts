@@ -59,7 +59,7 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
         communityDo,
         propertyDo,
         memberDo);
-      if(input.serviceId) { newServiceTicket.requestSetService(serviceDo); }
+      if(input.serviceId) { newServiceTicket.Service=(serviceDo); }
       
       serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(newServiceTicket));
     });
@@ -80,12 +80,12 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
       if (serviceTicket.property.id !== input.propertyId) {
         let property = await this.context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId);
         let propertyDo = new PropertyConverter().toDomain(property, { passport: ReadOnlyPassport.GetInstance() });
-        serviceTicket.requestSetProperty(propertyDo);
+        serviceTicket.Property=(propertyDo);
       }
-      serviceTicket.requestSetTitle(input.title);
-      serviceTicket.requestSetDescription(input.description);
-      serviceTicket.requestSetPriority(input.priority);
-      if(input.serviceId) { serviceTicket.requestSetService(serviceDo); }
+      serviceTicket.Title=(input.title);
+      serviceTicket.Description=(input.description);
+      serviceTicket.Priority=(input.priority);
+      if(input.serviceId) { serviceTicket.Service=(serviceDo); }
       serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;
@@ -115,7 +115,7 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
     }
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
-      serviceTicket.requestSetAssignedTo(memberDo);
+      serviceTicket.AssignedTo=(memberDo);
       serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;

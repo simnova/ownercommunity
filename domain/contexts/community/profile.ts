@@ -19,66 +19,98 @@ export interface ProfileProps extends ValueObjectProps {
 export interface ProfileEntityReference extends Readonly<ProfileProps> {}
 
 export class Profile extends ValueObject<ProfileProps> implements ProfileEntityReference {
-  constructor(props: ProfileProps, private readonly visa: CommunityVisa) { super(props); }
+  constructor(props: ProfileProps, private readonly visa: CommunityVisa) {
+    super(props);
+  }
 
-  get name() {return this.props.name;}
-  get email() {return this.props.email;}
-  get bio() {return this.props.bio;}
-  get avatarDocumentId() {return this.props.avatarDocumentId;}
-  get interests() {return this.props.interests;}
-  get showInterests() {return this.props.showInterests;}
-  get showEmail() {return this.props.showEmail;}
-  get showProfile() {return this.props.showProfile;}
-  get showLocation() {return this.props.showLocation;}
-  get showProperties() {return this.props.showProperties;}
+  get name() {
+    return this.props.name;
+  }
+  get email() {
+    return this.props.email;
+  }
+  get bio() {
+    return this.props.bio;
+  }
+  get avatarDocumentId() {
+    return this.props.avatarDocumentId;
+  }
+  get interests() {
+    return this.props.interests;
+  }
+  get showInterests() {
+    return this.props.showInterests;
+  }
+  get showEmail() {
+    return this.props.showEmail;
+  }
+  get showProfile() {
+    return this.props.showProfile;
+  }
+  get showLocation() {
+    return this.props.showLocation;
+  }
+  get showProperties() {
+    return this.props.showProperties;
+  }
 
-  private validateVisa(){
-    if(!this.visa.determineIf((permissions) => 
-      permissions.canManageMembers ||
-      (permissions.canEditOwnMemberProfile && permissions.isEditingOwnMemberAccount))) {
+  private validateVisa() {
+    if (!this.visa.determineIf((permissions) => permissions.canManageMembers || (permissions.canEditOwnMemberProfile && permissions.isEditingOwnMemberAccount))) {
       throw new Error('You do not have permission to update this profile');
     }
   }
 
-  requestSetName(name: ValueObjects.Name) {
+  // setters using TS 5.1
+
+  // it can't be called "name" as there is already name
+  // property of this class so am calling is Name instead
+  set Name(name: ValueObjects.Name) {
     this.validateVisa();
     this.props.name = name.valueOf();
   }
-  requestSetEmail(email: ValueObjects.Email) {
+
+  set Email(email: ValueObjects.Email) {
     this.validateVisa();
     this.props.email = email.valueOf();
   }
-  requestSetBio(bio: ValueObjects.Bio) {
+
+  set Bio(bio: ValueObjects.Bio) {
     this.validateVisa();
     this.props.bio = bio.valueOf();
   }
-  requestSetAvatarDocumentId(avatarDocumentId: string) {
+
+  set AvatarDocumentId(avatarDocumentId: string) {
     this.validateVisa();
     this.props.avatarDocumentId = avatarDocumentId;
   }
-  requestSetInterests(interests: ValueObjects.Interests) {
+
+  set Interests(interests: ValueObjects.Interests) {
     this.validateVisa();
     this.props.interests = interests.valueOf();
   }
-  requestSetShowInterests(showInterests: boolean) {
+
+  set ShowInterests(showInterests: boolean) {
     this.validateVisa();
     this.props.showInterests = showInterests;
   }
-  requestSetShowEmail(showEmail: boolean) {
+
+  set ShowEmail(showEmail: boolean) {
     this.validateVisa();
     this.props.showEmail = showEmail;
   }
-  requestSetShowProfile(showProfile: boolean) {
+
+  set ShowProfile(showProfile: boolean) {
     this.validateVisa();
     this.props.showProfile = showProfile;
   }
-  requestSetShowLocation(showLocation: boolean) {
+
+  set ShowLocation(showLocation: boolean) {
     this.validateVisa();
     this.props.showLocation = showLocation;
   }
-  requestSetShowProperties(showProperties: boolean) {
+
+  set ShowProperties(showProperties: boolean) {
     this.validateVisa();
     this.props.showProperties = showProperties;
   }
-  
 }

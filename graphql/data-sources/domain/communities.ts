@@ -43,10 +43,10 @@ export class Communities extends DomainDataSource<Context,Community,PropType,Dom
       if(!domainObject) {
         throw new Error('invalid id');
       }
-      domainObject.requestSetName(community.name);
-      domainObject.requestSetDomain(community.domain);
-      domainObject.requestSetWhiteLabelDomain(community.whiteLabelDomain);
-      domainObject.requestSetHandle(community.handle);
+      domainObject.Name=(community.name);
+      domainObject.Domain=(community.domain);
+      domainObject.WhiteLabelDomain=(community.whiteLabelDomain);
+      domainObject.Handle=(community.handle);
       result = (new CommunityConverter()).toMongo(await repo.save(domainObject));
     });
     return result;

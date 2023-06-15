@@ -38,9 +38,9 @@ export class Services extends DomainDataSource<Context,Service,PropType,DomainTy
     let serviceToReturn : Service;
     await this.withTransaction(async (repo) => {
       let service = await repo.getById(input.id);
-      if (input.serviceName !== undefined) service.requestSetServiceName(input.serviceName);
-      if (input.description !== undefined) service.requestSetDescription(input.description);
-      if (input.isActive !== undefined) service.requestSetIsActive(input.isActive);
+      if (input.serviceName !== undefined) service.ServiceName=(input.serviceName);
+      if (input.description !== undefined) service.Description=(input.description);
+      if (input.isActive !== undefined) service.IsActive=(input.isActive);
       serviceToReturn = new ServiceConverter().toMongo(await repo.save(service));
     });
     return serviceToReturn;

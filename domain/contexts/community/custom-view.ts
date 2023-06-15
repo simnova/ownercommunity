@@ -37,32 +37,37 @@ export class CustomView extends Entity<CustomViewProps> implements CustomViewEnt
   }
 
   private validateVisa() {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageMembers || (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount))) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageMembers || (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount)
+      )
+    ) {
       throw new Error('You do not have permission to update this account');
     }
   }
 
-  requestSetName(name: ValueObjects.CustomViewName) {
+  // implementing setters  from TS 5.1
+  set name(name: ValueObjects.CustomViewName) {
     this.validateVisa();
     this.props.name = name.valueOf();
   }
 
-  requestSetType(type: ValueObjects.CustomViewType) {
+  set type(type: ValueObjects.CustomViewType) {
     this.validateVisa();
     this.props.type = type.valueOf();
   }
 
-  requestSetOrder(sortOrder: ValueObjects.CustomViewSortOrder) {
+  set order(sortOrder: ValueObjects.CustomViewSortOrder) {
     this.validateVisa();
     this.props.sortOrder = sortOrder.valueOf();
   }
 
-  requestSetFilters(filters: ValueObjects.CustomViewFilters) {
+  set filters(filters: ValueObjects.CustomViewFilters) {
     this.validateVisa();
     this.props.filters = filters.valueOf();
   }
 
-  requestSetColumnsToDisplay(columnsToDisplay: ValueObjects.CustomViewColumnsToDisplay) {
+  set columnsToDisplay(columnsToDisplay: ValueObjects.CustomViewColumnsToDisplay) {
     this.validateVisa();
     this.props.columnsToDisplay = columnsToDisplay.valueOf();
   }

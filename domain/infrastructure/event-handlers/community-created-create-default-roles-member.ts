@@ -17,22 +17,22 @@ export default () => { NodeEventBus.register(CommunityCreatedEvent, async (paylo
   let role: Role<any>;
   await RoleUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     role = await repo.getNewInstance('admin', communityDo);
-    role.requestSetIsDefault(true);
+    role.isDefault=(true);
 
-    role.permissions.communityPermissions.setCanManageRolesAndPermissions(true);
-    role.permissions.communityPermissions.setCanManageCommunitySettings(true);
-    role.permissions.communityPermissions.setCanManageSiteContent(true);
-    role.permissions.communityPermissions.setCanManageMembers(true);
-    role.permissions.communityPermissions.setCanEditOwnMemberProfile(true);
-    role.permissions.communityPermissions.setCanEditOwnMemberAccounts(true);
+    role.permissions.communityPermissions.CanManageRolesAndPermissions=(true);
+    role.permissions.communityPermissions.CanManageCommunitySettings=(true);
+    role.permissions.communityPermissions.CanManageSiteContent=(true);
+    role.permissions.communityPermissions.CanManageMembers=(true);
+    role.permissions.communityPermissions.CanEditOwnMemberProfile=(true);
+    role.permissions.communityPermissions.CanEditOwnMemberAccounts=(true);
 
-    role.permissions.propertyPermissions.setCanManageProperties(true);
-    role.permissions.propertyPermissions.setCanEditOwnProperty(true);
+    role.permissions.propertyPermissions.canManageProperties=(true);
+    role.permissions.propertyPermissions.canEditOwnProperty=(true);
 
-    role.permissions.serviceTicketPermissions.setCanCreateTickets(true);
-    role.permissions.serviceTicketPermissions.setCanManageTickets(true);
-    role.permissions.serviceTicketPermissions.setCanAssignTickets(true);
-    role.permissions.serviceTicketPermissions.setCanWorkOnTickets(true);
+    role.permissions.serviceTicketPermissions.canCreateTickets=(true);
+    role.permissions.serviceTicketPermissions.canManageTickets=(true);
+    role.permissions.serviceTicketPermissions.canAssignTickets=(true);
+    role.permissions.serviceTicketPermissions.canWorkOnTickets=(true);
 
     role = await repo.save(role);
   });
@@ -41,14 +41,13 @@ export default () => { NodeEventBus.register(CommunityCreatedEvent, async (paylo
 
   await MemberUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     const member = await repo.getNewInstance(fullName, communityDo);
-    member.requestSetRole(role);
+    member.Role=(role);
     const account = member.requestNewAccount();
-    account.requestSetCreatedBy(communityDo.createdBy);
-    account.requestSetFirstName(communityDo.createdBy.firstName);
-    account.requestSetLastName(communityDo.createdBy.lastName);
-    account.requestSetStatusCode(AccountStatusCodes.Accepted);
-    account.requestSetUser(communityDo.createdBy);
-  
+    account.createdBy=communityDo.createdBy
+    account.firstName=communityDo.createdBy.firstName
+    account.lastName=communityDo.createdBy.lastName
+    account.statusCode=AccountStatusCodes.Accepted
+    account.user=communityDo.createdBy
     await repo.save(member);
   });
   

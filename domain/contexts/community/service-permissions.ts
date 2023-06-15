@@ -11,6 +11,15 @@ export class ServicePermissions extends Entity<ServicePermissionsProps> implemen
   get canManageServices(): boolean {return this.props.canManageServices;}
   get isSystemAccount(): boolean {return false;}
 
+  // using setters from TS 5.1
+
+  set canManageServices(value:boolean) {
+    if(! this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
+      throw new Error('Cannot set permission');
+    }
+    this.props.canManageServices = value;
+  }
+  // remove this | use set method directly
   public setCanManageServices(value:boolean): void {
     if(! this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');

@@ -4,19 +4,24 @@ import { Address, AddressEntityReference, AddressProps } from './address';
 import { Position, PositionProps } from './position';
 
 export interface LocationProps extends ValueObjectProps {
-  position:  PositionProps;
+  position: PositionProps;
   address: AddressProps;
 }
 
 export interface LocationEntityReference extends Readonly<LocationProps> {}
 
 export class Location extends ValueObject<LocationProps> implements LocationEntityReference {
-  
-  constructor(props: LocationProps, private readonly visa: PropertyVisa) { super(props); }
+  constructor(props: LocationProps, private readonly visa: PropertyVisa) {
+    super(props);
+  }
 
-  get position() { return new Position(this.props.position, this.visa); }
+  get position() {
+    return new Position(this.props.position, this.visa);
+  }
 
-  get address() { return new Address(this.props.address, this.visa); }
+  get address() {
+    return new Address(this.props.address, this.visa);
+  }
 
   private validateVisa() {
     if (!this.visa.determineIf((permissions) => permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
@@ -24,7 +29,9 @@ export class Location extends ValueObject<LocationProps> implements LocationEnti
     }
   }
 
-  public requestSetAddress(address: AddressProps) {
+  // using set from TS 5.1
+
+  set Address(address: AddressProps) {
     this.validateVisa();
 
     this.props.address.country = address.country;
@@ -47,10 +54,8 @@ export class Location extends ValueObject<LocationProps> implements LocationEnti
     this.props.address.crossStreet = address.crossStreet;
   }
 
-  requestSetPosition(position: PositionProps) {
+  set Position(position: PositionProps) {
     this.validateVisa();
     this.props.position.coordinates = position.coordinates;
   }
 }
-
-

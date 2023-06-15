@@ -30,7 +30,7 @@ export interface PropertyProps extends EntityProps {
   readonly schemaVersion: string;
 
   tags: string[];
-  
+
   hash: string;
   lastIndexed: Date; // success
   updateIndexFailedDate: Date; // failure
@@ -51,11 +51,16 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     this.visa = context.passport.forProperty(this);
   }
 
-  public static getNewInstance<props extends PropertyProps>(newProps: props, propertyName: string, community: CommunityEntityReference, context: DomainExecutionContext): Property<props> {
+  public static getNewInstance<props extends PropertyProps>(
+    newProps: props,
+    propertyName: string,
+    community: CommunityEntityReference,
+    context: DomainExecutionContext
+  ): Property<props> {
     var property = new Property(newProps, context);
     property.MarkAsNew();
-    property.requestSetPropertyName(propertyName);
-    property.requestSetCommunity(community);
+    property.PropertyName = propertyName;
+    property.Community = community;
     property.isNew = false;
     return property;
   }
@@ -123,92 +128,132 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     this.addIntegrationEvent(PropertyCreatedEvent, { id: this.props.id });
   }
 
-  public requestSetCommunity(community: CommunityEntityReference): void {
+  // using setters from typeScript 5.1
+
+  set Community(community: CommunityEntityReference) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
       throw new Error('Unauthorized');
     }
     this.props.setCommunityRef(community);
   }
-  // public requestSetLocation(location: LocationEntityReference): void {
-  //   if(!this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageProperties)) { throw new Error('Unauthorized'); }
-  //   this.props.setLocationRef(location);
-  // }
-  public requestSetOwner(owner: MemberEntityReference): void {
+
+  set Owner(owner: MemberEntityReference) {
     if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
       throw new Error('Unauthorized');
     }
     this.props.setOwnerRef(owner);
   }
+
+  set PropertyName(propertyName: ValueObjects.PropertyName) {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
+      throw new Error('Unauthorized');
+    }
+    this.props.propertyName = propertyName.valueOf();
+  }
+
+  set PropertyType(propertyType: ValueObjects.PropertyType) {
+    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
+      throw new Error('Unauthorized');
+    }
+    this.props.propertyType = propertyType?.valueOf();
+  }
+
+  set ListedForSale(listedForSale: boolean) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty)
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    this.props.listedForSale = listedForSale;
+  }
+
+  set ListedForRent(listedForRent: boolean) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty)
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    this.props.listedForRent = listedForRent;
+  }
+
+  set ListedForLease(listedForLease: boolean) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty)
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    this.props.listedForLease = listedForLease;
+  }
+
+  set ListedInDirectory(listedInDirectory: boolean) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty)
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    this.props.listedInDirectory = listedInDirectory;
+  }
+
+  set Tags(tags: string[]) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty)
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    this.props.tags = tags;
+  }
+
+  set Hash(hash: string) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty)
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    this.props.hash = hash;
+  }
+
+  set LastIndexed(lastIndexed: Date) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty)
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    this.props.lastIndexed = lastIndexed;
+  }
+
+  set UpdateIndexFailedDate(updateIndexFailedDate: Date) {
+    if (
+      !this.visa.determineIf(
+        (permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty)
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    this.props.updateIndexFailedDate = updateIndexFailedDate;
+  }
+
+  //
+
   public requestDelete(): void {
     if (!this.isDeleted && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
       throw new Error('You do not have permission to delete this property');
     }
     super.isDeleted = true;
     this.addIntegrationEvent(PropertyDeletedEvent, { id: this.props.id });
-  }
-  public requestSetPropertyName(propertyName: ValueObjects.PropertyName): void {
-    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
-      throw new Error('Unauthorized');
-    }
-    this.props.propertyName = propertyName.valueOf();
-  }
-  public requestSetPropertyType(propertyType: ValueObjects.PropertyType): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
-      throw new Error('Unauthorized');
-    }
-    this.props.propertyType = propertyType?.valueOf();
-  }
-  public requestSetListedForSale(listedForSale: boolean): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-      throw new Error('Unauthorized');
-    }
-    this.props.listedForSale = listedForSale;
-  }
-  public requestSetListedForRent(listedForRent: boolean): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-      throw new Error('Unauthorized');
-    }
-    this.props.listedForRent = listedForRent;
-  }
-  public requestSetListedForLease(listedForLease: boolean): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-      throw new Error('Unauthorized');
-    }
-    this.props.listedForLease = listedForLease;
-  }
-  public requestSetListedInDirectory(listedInDirectory: boolean): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-      throw new Error('Unauthorized');
-    }
-    this.props.listedInDirectory = listedInDirectory;
-  }
-
-  public requestSetTags(tags: string[]): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-      throw new Error('Unauthorized');
-    }
-    this.props.tags = tags;
-  }
-
-  public requestSetHash(hash: string): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-      throw new Error('Unauthorized');
-    }
-    this.props.hash = hash;
-  }
-
-  public requestSetLastIndexed(lastIndexed: Date): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-      throw new Error('Unauthorized');
-    }
-    this.props.lastIndexed = lastIndexed;
-  }
-
-  public requestSetUpdateIndexFailedDate(updateIndexFailedDate: Date): void {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties || (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-      throw new Error('Unauthorized');
-    }
-    this.props.updateIndexFailedDate = updateIndexFailedDate;
   }
 
   public override onSave(isModified: boolean): void {
@@ -217,5 +262,3 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     }
   }
 }
-
-

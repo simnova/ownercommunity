@@ -98,7 +98,7 @@
   "relay": {
     "src": "./src",
     "language": "typescript",
-    "schema": "./data/schema.graphql",
+    "schema": "./schema.graphql",
     "schemaExtensions": [
       "../data-access/graphql/schema/core/",
       "../data-access/graphql/schema/interfaces/",

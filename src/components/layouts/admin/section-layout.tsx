@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './section-layout.css';
+import { theme } from 'antd';
 import { PageLayoutProps } from '.';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { LocalSettingsKeys, handleToggler } from '../../../constants';
 import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
-import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-container';
-import { MenuComponent } from './components/menu-component';
+import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
+import { MenuComponent } from '../shared/components/menu-component';
 import { Layout } from 'antd';
 
 const { Sider, Header } = Layout;
@@ -16,13 +17,19 @@ interface AdminSectionLayoutProps {
 
 export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
   const params = useParams();
-  const sidebarCollapsed = localStorage.getItem(
-    LocalSettingsKeys.SidebarCollapsed
-  );
+  const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+  const {
+    token: { colorBgContainer, colorTextBase }
+  } = theme.useToken();
+
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
-      <Header style={{ backgroundColor: 'black' }}>
+      <Header
+        style={{
+          backgroundColor: colorBgContainer,
+        }}
+      >
         <div
           style={{
             display: 'flex',
@@ -32,13 +39,11 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
           }}
         >
           <div style={{ display: 'flex' }} className="allowBoxShadow">
-            <CommunitiesDropdownContainer data={{ id: params.communityId }} />
+            <CommunitiesDropdownContainer data={{ id: params.communityId }} isAdmin />
           </div>
           <Link
             className="allowBoxShadow"
-            to={`/community/${params.communityId}/member/${localStorage.getItem(
-              LocalSettingsKeys.UserId
-            )}`}
+            to={`/community/${params.communityId}/member/${localStorage.getItem(LocalSettingsKeys.UserId)}`}
           >
             View Member Site
           </Link>
@@ -60,16 +65,13 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
             position: 'relative',
             left: 0,
             top: 0,
-            bottom: 0
+            bottom: 0,
+            backgroundColor: colorBgContainer
           }}
         >
           <div className="logo" />
 
-          <MenuComponent
-            pageLayouts={props.pageLayouts}
-            theme="light"
-            mode="inline"
-          />
+          <MenuComponent pageLayouts={props.pageLayouts} theme="light" mode="inline" />
         </Sider>
 
         <Layout
@@ -78,7 +80,7 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
             flexDirection: 'column',
             flex: '1 auto',
             overflowY: 'scroll',
-            height: 'calc(100vh - 64px)'
+            height: 'calc(100vh - 64px)',
           }}
         >
           <Outlet />

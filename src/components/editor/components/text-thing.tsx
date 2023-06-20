@@ -1,5 +1,5 @@
 import {useNode,useEditor} from "@craftjs/core";
-import { Button, Input, Form} from "antd";
+import { Button, Input, Form, theme} from "antd";
 import ListBody from "antd/lib/transfer/ListBody";
 import ContentEditable from 'react-contenteditable'
 
@@ -20,17 +20,24 @@ const TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
   const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled
   }));
-
+  const {
+    token: { colorTextBase, colorBgContainer }
+  }=theme.useToken();
 
   return (
+    
     <div 
       className="px-4 py-2"
       ref={ref => connect(drag(ref as HTMLDivElement))} 
       {...props}
       >
-        <div role="listitem" className="bg-white cursor-pointer shadow rounded-lg p-8 relative z-30">
+        <div role="listitem" className=" cursor-pointer shadow rounded-lg p-8 relative " style={{
+            backgroundColor: colorBgContainer,
+        }}>
             <div className="md:flex items-center justify-between">
-                <h2 className="text-2xl font-semibold leading-6 text-gray-800">{title}</h2>
+                <h2 className="text-2xl font-semibold leading-6 " style={{
+                  color: colorTextBase
+                }}>{title}</h2>
             </div>
             <div className="md:w-80 text-base leading-6 mt-4 text-gray-600">
               <ContentEditable

@@ -1,7 +1,13 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { AdminRolesDetailContainerRoleUpdateDocument ,AdminRolesDetailContainerRoleAddDocument, AdminRolesDetailContainerRoleDocument, RoleUpdateInput, RoleAddInput } from "../../../../generated";
-import { message, Skeleton } from "antd";
-import { RolesDetail } from "./roles-detail";
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  AdminRolesDetailContainerRoleUpdateDocument,
+  AdminRolesDetailContainerRoleDocument,
+  RoleUpdateInput,
+
+} from '../../../../generated';
+import { message } from 'antd';
+import { RolesDetail } from './roles-detail';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 export interface RolesDetailContainerProps {
   data: {
@@ -10,8 +16,14 @@ export interface RolesDetailContainerProps {
 }
 
 export const RolesDetailContainer: React.FC<any> = (props) => {
-  const [roleUpdate, { data:updateData, loading:updateLoading, error:updateError }] = useMutation(AdminRolesDetailContainerRoleUpdateDocument);  
-  const { data: roleData, loading: roleLoading, error: roleError } = useQuery(AdminRolesDetailContainerRoleDocument,{
+  const [roleUpdate, { data: updateData, loading: updateLoading, error: updateError }] = useMutation(
+    AdminRolesDetailContainerRoleUpdateDocument
+  );
+  const {
+    data: roleData,
+    loading: roleLoading,
+    error: roleError
+  } = useQuery(AdminRolesDetailContainerRoleDocument, {
     variables: {
       Id: props.data.id
     }
@@ -22,24 +34,20 @@ export const RolesDetailContainer: React.FC<any> = (props) => {
       await roleUpdate({
         variables: {
           input: values
-        },
-       
+        }
       });
-      message.success("Role Updated");
-
+      message.success('Role Updated');
     } catch (error) {
       message.error(`Error updating role: ${JSON.stringify(error)}`);
     }
-  } 
+  };
 
-  if(roleLoading ) {
-    return <Skeleton active />
-  }else if(roleError) {
-    return <div>{JSON.stringify(roleError || updateError )}</div>
-  }else if(roleData && roleData.role) {
-  return <RolesDetail onAdd={{}} onUpdate={handleUpdate} data={roleData?.role} />
-  } else {
-    return <div>No Data...</div>
-  }
-  
-}
+  return (
+    <ComponentQueryLoader
+      loading={roleLoading}
+      hasData={roleData && roleData.role}
+      hasDataComponent={<RolesDetail onAdd={{}} onUpdate={handleUpdate} data={roleData?.role} />}
+      error={roleError || updateError}
+    />
+  );
+};

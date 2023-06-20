@@ -1,40 +1,30 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
-import { Skeleton } from "antd";
-import { MemberSiteNeighborsListContainerDocument } from "../../../../generated";
-import { NeighborsCardList } from "./neighbors-card-list";
+import React from 'react';
+import { useQuery } from '@apollo/client';
+import { MemberSiteNeighborsListContainerDocument } from '../../../../generated';
+import { NeighborsCardList } from './neighbors-card-list';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 interface NeighborsCardListContainerProps {
-    data: {
-        communityId: string;
-    }
+  data: {
+    communityId: string;
+  };
 }
 
 export const NeighborsCardListContainer: React.FC<NeighborsCardListContainerProps> = (props) => {
-    const { data: memberData, loading: memberLoading, error: memberError} = useQuery(MemberSiteNeighborsListContainerDocument, {
-      variables: { communityId: props.data.communityId }
-    });
+  const {
+    data: memberData,
+    loading: memberLoading,
+    error: memberError
+  } = useQuery(MemberSiteNeighborsListContainerDocument, {
+    variables: { communityId: props.data.communityId }
+  });
 
-    const content = () => {
-      if (memberLoading) {
-        return (
-          <div>
-            <Skeleton active />
-          </div>
-        );
-      }
-      if (memberError) {
-        return <div>{JSON.stringify(memberError)}</div>;
-      }
-      if (memberData) {
-        console.log("MemberData: ", memberData);
-        return <NeighborsCardList data={memberData.membersByCommunityId} />;
-      } else {
-        return <div>No Data...</div>;
-      }
-    }
-
-    return <>
-      {content()}
-    </>
-}
+  return (
+    <ComponentQueryLoader
+      loading={memberLoading}
+      hasData={memberData}
+      hasDataComponent={<NeighborsCardList data={memberData?.membersByCommunityId} />}
+      error={memberError}
+    />
+  );
+};

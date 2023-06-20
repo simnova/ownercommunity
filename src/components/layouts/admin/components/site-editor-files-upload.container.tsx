@@ -1,8 +1,8 @@
 import React from 'react';
-import { AuthResult } from './profile-photo-upload';
 import { AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeaderDocument } from '../../../../generated';
 import { useMutation } from '@apollo/client';
 import { SiteEditorFilesUpload } from './site-editor-files-upload';
+import { AuthResult } from '../../../ui/molecules/azure-upload';
 
 export interface SiteEditorFilesUploadContainerProps {
   data : {
@@ -24,7 +24,7 @@ export const SiteEditorFilesUploadContainer: React.FC<SiteEditorFilesUploadConta
         }
       }
     });
-    return result.data?(({...result.data.communityPublicFileCreateAuthHeader.authHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
+    return result.data ? (({...result.data.communityPublicFileCreateAuthHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
   }
 
   return (

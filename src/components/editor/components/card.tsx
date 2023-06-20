@@ -1,7 +1,7 @@
 import { Element, useNode } from "@craftjs/core";
 import { Container } from "./container";
 import { TextComponent } from "./text-component";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, theme } from "antd";
 import { TextThing } from "./text-thing";
 
 interface CardGrop {
@@ -10,6 +10,7 @@ interface CardGrop {
 }
 
 const CardTop = (props: any) => {
+    
     const { connectors: {connect} } = useNode();
     return (
       <div ref={ref => connect(ref as HTMLDivElement)}>
@@ -29,17 +30,22 @@ CardTop.craft = {
 let Card: any;
 
 Card = ({ bgColor, padding, ...props }: CardGrop) => {
+    const {
+        token: { colorTextBase, colorBgContainer }
+      }=theme.useToken();
     const { selected } = useNode((state) =>(
         {
             selected: state.events.selected,
         }
       ));
     return (
-        <Container background={bgColor} >
-            <div role="listitem" className="bg-white cursor-pointer shadow rounded-lg p-8 relative z-30">
+        <Container background={colorBgContainer} >
+            <div role="listitem" className=" cursor-pointer shadow rounded-lg p-8 relative " style={{
+                backgroundColor: colorBgContainer,
+            }}>
                 <Element is={CardTop} id="drop" canvas>
-                    <TextComponent text="Card Title" fontSize={24} fontWeight={800} />
-                    <TextComponent text="Card body goes here" />
+                    <TextComponent text="Card Title" fontSize={24} fontWeight={800} color={colorTextBase}/>
+                    <TextComponent text="Card body goes here" color={colorTextBase}/>
                 </Element>
             </div>
         </Container>

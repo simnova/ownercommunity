@@ -1,27 +1,41 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import {
+  MemberNameServiceTicketContainerDocument,
   MemberServiceTicketsListContainerSearchServiceTicketsDocument,
   ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { ServiceTicketsList } from './service-tickets-list';
-import { Skeleton, Input, Drawer, Button } from 'antd';
+import { Skeleton, Input, Drawer, Button, theme } from 'antd';
 import {
   ServiceTicketFilterNames,
   GetFilterFromServiceTicketQueryString,
-  ServiceTicketSearchParamKeys
+  ServiceTicketSearchParamKeys,
+  SearchType
 } from '../../../../constants';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { FilterOutlined } from '@ant-design/icons';
-import { ServiceTicketsSearchContainer } from './service-tickets-search-container';
-import { orderBy } from 'lodash';
+import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 
 const { Search } = Input;
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
+  const {
+    token: { colorText }
+  } = theme.useToken();
+  const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
   const [visible, setVisible] = useState(false);
+
+  const {
+    data: membersData,
+    loading: memberLoading,
+    error: memberError
+  } = useQuery(MemberNameServiceTicketContainerDocument, {
+    variables: { communityId: params.communityId ?? '' }
+    // fetchPolicy: 'cache-and-network'
+  });
 
   const [
     gqlSearchServiceTickets,
@@ -90,15 +104,20 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
     });
   };
 
+  const clearFilter = () => {
+    searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
+    searchParams.delete(ServiceTicketSearchParamKeys.AssignedTo);
+    searchParams.delete(ServiceTicketSearchParamKeys.Status);
+    searchParams.delete(ServiceTicketSearchParamKeys.Priority);
+    searchParams.delete(ServiceTicketSearchParamKeys.Column);
+    searchParams.delete(ServiceTicketSearchParamKeys.Sort);
+    searchParams.delete(ServiceTicketSearchParamKeys.SavedFilter);
+
+    setSearchParams(searchParams);
+  };
+
   const onChange = (e: any) => {
     setSearchString(e.target.value);
-    // if (e.target.value.length > 0) {
-    //   searchParams.set(ServiceTicketSearchParamKeys.SearchString, e.target.value);
-    //   setSearchParams(searchParams);
-    // } else {
-    //   searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
-    //   setSearchParams(searchParams);
-    // }
   };
 
   if (searchServiceTicketsError) {
@@ -113,7 +132,16 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   }
   if (searchServiceTicketsCalled && searchServiceTicketsData) {
     let SearchResult = null;
-    SearchResult = <pre>{JSON.stringify(searchServiceTicketsData, null, 2)}</pre>;
+    SearchResult = (
+      <pre
+        className=" mt-2 p-2"
+        style={{
+          color: colorText
+        }}
+      >
+        {JSON.stringify(searchServiceTicketsData, null, 2)}
+      </pre>
+    );
     return (
       <>
         <div className="py-4">
@@ -126,20 +154,24 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
             onChange={(e) => onChange(e)}
             enterButton
           />
-          <Drawer
-            title="Search Filters"
-            placement="left"
-            onClose={() => setVisible(false)}
-            visible={visible}
-            width={445}
-          >
-            <ServiceTicketsSearchContainer searchData={searchServiceTicketsData?.serviceTicketsSearch} />
+          <Drawer title="Search Filters" placement="left" onClose={() => setVisible(false)} open={visible} width={445}>
+            <SearchDrawerContainer
+              searchData={searchServiceTicketsData?.serviceTicketsSearch}
+              customData={{ data: membersData, loading: memberLoading, error: memberError }}
+              type={SearchType.ServiceTicket}
+              clearFilter={clearFilter}
+            />
           </Drawer>
           <Button type="default" onClick={() => setVisible(true)} className="ml-4">
             <FilterOutlined />
           </Button>
         </div>
-        <ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearch} handleSearch={handleSearch} />
+        <ServiceTicketsList
+          data={searchServiceTicketsData?.serviceTicketsSearch}
+          handleSearch={handleSearch}
+          searchParams={searchParams}
+          setSearchParams={setSearchParams}
+        />
         {SearchResult}
       </>
     );

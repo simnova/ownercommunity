@@ -1,0 +1,25 @@
+query LoggedInUserRootContainerUserCurrentQuery {
+  userCurrent { 
+    ...LoggedInUserContainerUserCurrentFields
+  }
+}
+
+query LoggedInUserCommunityContainerUserCurrentQuery($communityId: ObjectID!) {
+  userCurrent {
+    ...LoggedInUserContainerUserCurrentFields
+  }
+  memberForCurrentUser(communityId: $communityId) {
+    profile {
+      avatarDocumentId
+    }
+    __typename
+  }
+}
+
+fragment LoggedInUserContainerUserCurrentFields on CurrentUser {
+  id
+  externalId
+  firstName
+  lastName
+  __typename
+}

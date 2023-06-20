@@ -1,13 +1,21 @@
 import { Layout } from 'antd';
 import { Outlet } from 'react-router-dom';
-import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user-container';
+import { theme } from 'antd';
+import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
 const { Header } = Layout;
 
 export const SectionLayout: React.FC<any> = () => {
-
+  const {
+    token: { colorBgContainer }
+  } = theme.useToken();
+  console.log('Nishan', colorBgContainer);
   return (
     <Layout className="site-layout" style={{ minHeight: '100vh' }}>
-      <Header style={{ backgroundColor: 'black' }}>
+      <Header
+        style={{
+          backgroundColor: colorBgContainer
+        }}
+      >
         <div
           style={{
             display: 'flex',

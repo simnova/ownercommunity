@@ -131,18 +131,18 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
 
 
   return (<>
-      <Modal
-        title="File Preview"
-        visible={showModal}
-        onCancel={() => setShowModal(false)}
-        onOk={() => setShowModal(false)}
-        >
-          <div>
-          {selectedFile && 
-            preview(selectedFile)
-          }
-          </div>
-      </Modal>
+    <Modal
+      title="File Preview"
+      open={showModal}
+      onCancel={() => setShowModal(false)}
+      onOk={() => setShowModal(false)}
+      >
+        <div>
+        {selectedFile && 
+          preview(selectedFile)
+        }
+        </div>
+    </Modal>
     <div className="site-editor-files-list">
 
       <div className="site-editor-files-list-header">

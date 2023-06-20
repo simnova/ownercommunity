@@ -1,0 +1,22 @@
+
+query SharedPropertiesListingImageListContainerMemberForUser($userId: ObjectID!) {
+  memberForUser(userId: $userId) {
+    id
+  }
+}
+
+mutation SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutation($input: PropertyRemoveImageInput!) {
+  propertyListingImageRemove(input: $input) {
+    ...SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsField
+  }
+}
+
+fragment SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsField on PropertyMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  property {
+    id
+  }
+}

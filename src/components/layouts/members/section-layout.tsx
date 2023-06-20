@@ -1,21 +1,20 @@
-import { Outlet, useParams, useNavigate } from "react-router-dom";
-import { Dropdown, Layout, Space } from "antd";
-import { LoggedInUserContainer } from "../../ui/organisms/header/logged-in-user-container";
-import { MenuComponent } from "../admin/components/menu-component";
-import { DownOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import { CommunityMenu } from "../members/components/community-menu";
-import { LocalSettingsKeys, handleToggler } from "../../../constants";
-import { useQuery } from "@apollo/client";
-import { MemberSiteCurrentMemberHasAdminRoleDocument } from "../../../generated";
+import { Outlet, useParams, useNavigate } from 'react-router-dom';
+import { Layout, theme } from 'antd';
+import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
+import { MenuComponent } from '../shared/components/menu-component'
+import { useState } from 'react';
+import { LocalSettingsKeys, handleToggler } from '../../../constants';
+import { useQuery } from '@apollo/client';
+import { MemberSiteCurrentMemberHasAdminRoleDocument } from '../../../generated';
+import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
 
 const { Footer, Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {
-
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
   const { communityId } = useParams();
   const navigate = useNavigate();
+  const params = useParams();
   const { data, loading, error } = useQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
     variables: {
       communityId: communityId
@@ -25,63 +24,52 @@ export const SectionLayout: React.FC<any> = (props) => {
   const adminLink = () => {
     if (data && data.memberForCurrentUser && data.memberForCurrentUser.role?.roleName.toLowerCase() === 'admin') {
       return (
-        <a
-          className="allowBoxShadow"
-          onClick={() => navigate(`/community/${communityId}/admin`)}
-        >
+        <a className="allowBoxShadow" onClick={() => navigate(`/community/${communityId}/admin`)}>
           View Admin Site
         </a>
-      )
+      );
     }
-  }
+  };
 
-  // const handleToggler = () => {
-  //   if (isExpanded) {
-  //     setIsExpanded(false);
-  //     localStorage.setItem(LocalSettingsKeys.SidebarCollapsed, 'true');
-  //     return;
-  //   }
-  //   setIsExpanded(true);
-  //   localStorage.removeItem(LocalSettingsKeys.SidebarCollapsed);
-  // };
-
+ 
+  const {
+    token: { colorBgContainer }
+  } = theme.useToken();
   return (
     <Layout
-      className="site-layout"
-      style={{ minHeight: "100vh" }}
+      // className="site-layout"
+      style={{ minHeight: '100vh', backgroundColor: colorBgContainer }}
       id="member-site-layout"
     >
-      <Header>
+      <Header
+        style={{
+          backgroundColor: colorBgContainer
+        }}
+      >
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            gap: "10px",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            gap: '10px'
           }}
         >
-          <div style={{ display: "flex" }} className="allowBoxShadow">
-            <Dropdown overlay={<CommunityMenu />} placement="bottomLeft">
-              <a
-                className="ant-dropdown-link"
-                style={{ minHeight: "50px" }}
-                href="#"
-              >
-                Communities <DownOutlined />
-              </a>
-            </Dropdown>
+         <div style={{ display: 'flex' }} className="allowBoxShadow">
+            <CommunitiesDropdownContainer data={{ id: params.communityId }} />
           </div>
           {adminLink()}
 
-          <div
-            className="text-right bg-black text-sky-400"
-            style={{ flexGrow: "1" }}
-          >
+          <div className="text-right  text-sky-400" style={{ flexGrow: '1' }}>
             <LoggedInUserContainer autoLogin={true} />
           </div>
         </div>
       </Header>
-      <Layout hasSider>
+      <Layout
+        hasSider
+        style={{
+          backgroundColor: colorBgContainer
+        }}
+      >
         <Sider
           theme="light"
           className="site-layout-background"
@@ -89,30 +77,28 @@ export const SectionLayout: React.FC<any> = (props) => {
           collapsed={!isExpanded}
           onCollapse={() => handleToggler(isExpanded, setIsExpanded)}
           style={{
-            overflow: "auto",
-            height: "calc(100vh - 64px)",
-            position: "relative",
+            overflow: 'auto',
+            height: 'calc(100vh - 64px)',
+            position: 'relative',
             left: 0,
             top: 0,
             bottom: 0,
+            backgroundColor: colorBgContainer
           }}
         >
           <div className="logo" />
 
-          <MenuComponent
-            pageLayouts={props.pageLayouts}
-            theme="light"
-            mode="inline"
-          />
+          <MenuComponent pageLayouts={props.pageLayouts} theme="light" mode="inline" />
         </Sider>
 
         <Layout
           style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: "1 auto",
-            overflowY: "scroll",
-            height: "calc(100vh - 64px)",
+            display: 'flex',
+            flexDirection: 'column',
+            flex: '1 auto',
+            overflowY: 'scroll',
+            height: 'calc(100vh - 64px)',
+            backgroundColor: colorBgContainer
           }}
         >
           <Outlet />

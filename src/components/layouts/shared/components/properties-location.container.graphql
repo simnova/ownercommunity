@@ -1,0 +1,51 @@
+query SharedPropertiesLocationContainerProperty($propertyId: ObjectID!){
+  property(id: $propertyId) {
+      mapSASToken
+      ...SharedAddressLocationContainerPropertyFields
+    }
+}
+
+mutation SharedAddressLocationUpdateContainer($input: PropertyUpdateInput!){
+  propertyUpdate(input: $input) {
+    ...SharedAddressLocationContainerPropertyMutationResultFields
+  }
+}
+
+fragment SharedAddressLocationContainerPropertyMutationResultFields on PropertyMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  property {
+    ...SharedAddressLocationContainerPropertyFields
+  }
+}
+
+fragment SharedAddressLocationContainerPropertyFields on Property {
+  id
+  location {
+    address {
+      country
+      countryCode
+      countryCodeISO3
+      countrySecondarySubdivision
+      countrySubdivision
+      countrySubdivisionName
+      countryTertiarySubdivision
+      extendedPostalCode
+      freeformAddress
+      municipality
+      municipalitySubdivision
+      crossStreet
+      localName
+      postalCode
+      streetName
+      streetNumber
+      routeNumbers
+      streetNameAndNumber
+    }
+    position {
+      coordinates
+    }
+  }
+}

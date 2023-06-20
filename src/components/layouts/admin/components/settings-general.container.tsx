@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   AdminSettingsGeneralContainerCommunityDocument,
   AdminSettingsGeneralContainerCommunityUpdateDocument,
@@ -6,9 +6,8 @@ import {
 } from '../../../../generated';
 import { SettingsGeneral } from './settings-general';
 import PropTypes from 'prop-types';
-import { message, Skeleton } from 'antd';
-import { useLocation, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { message } from 'antd';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -26,9 +25,7 @@ export type SettingsGeneralContainerPropTypes = PropTypes.InferProps<typeof Comp
   ComponentPropInterface;
 
 export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropTypes> = (props) => {
-  const [communityUpdate, { error }] = useMutation(
-    AdminSettingsGeneralContainerCommunityUpdateDocument
-  );
+  const [communityUpdate, { error }] = useMutation(AdminSettingsGeneralContainerCommunityUpdateDocument);
   const {
     data: communityData,
     loading: accountLoading,
@@ -70,27 +67,12 @@ export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropType
     }
   };
 
-  const content = () => {
-    if (accountLoading) {
-      return (
-        <div>
-          <Skeleton active />
-        </div>
-      );
-    } else if (error || accountError) {
-      return (
-        <div>
-          {error}
-          {accountError}
-        </div>
-      );
-    } else if (communityData && communityData.communityById) {
-      console.log(communityData.communityById);
-      return <SettingsGeneral onSave={handleSave} data={communityData.communityById} />;
-    } else {
-      return <div>No Data...</div>;
-    }
-  };
-
-  return <>{content()}</>;
+  return (
+    <ComponentQueryLoader
+      loading={accountLoading}
+      hasData={communityData && communityData.communityById}
+      hasDataComponent={<SettingsGeneral onSave={handleSave} data={communityData?.communityById} />}
+      error={accountError || error}
+    />
+  );
 };

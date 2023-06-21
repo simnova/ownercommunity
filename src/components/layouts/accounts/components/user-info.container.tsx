@@ -2,6 +2,7 @@ import { UserInfo } from './user-info';
 import { graphql } from 'babel-plugin-relay/macro';
 import { loadQuery, useLazyLoadQuery, usePreloadedQuery, useRelayEnvironment } from 'react-relay';
 import { userInfoContainerUserCurrentQuery } from './__generated__/userInfoContainerUserCurrentQuery.graphql';
+import React from 'react';
 
 const q = graphql`
   query userInfoContainerUserCurrentQuery {

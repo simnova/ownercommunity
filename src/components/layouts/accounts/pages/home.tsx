@@ -3,6 +3,7 @@ import { Button, Typography, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { SubPageLayout } from '../sub-page-layout';
 import { UserInfoContainer } from '../components/user-info.container';
+import React from 'react';
 
 export const Home: React.FC<any> = (props) => {
   const { Title } = Typography;

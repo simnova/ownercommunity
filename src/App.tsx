@@ -11,6 +11,7 @@ import { Accounts } from './components/layouts/accounts';
 import { AuthLanding } from './components/shared/auth-landing';
 import { RelayEnvironmentProvider } from "react-relay";
 import { RelayEnvironment } from './components/shared/relay/environment';
+import React from 'react';
 function App() {
   const authSection = (
     <RequireMsal identifier="account" forceLogin={true}>

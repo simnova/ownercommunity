@@ -7,9 +7,10 @@ import {
 } from "relay-runtime";
 import type { FetchFunction, IEnvironment } from "relay-runtime";
 
-const HTTP_ENDPOINT = process.env.REACT_APP_FUNCTION_ENDPOINT ?? "/api/graphql"
+const HTTP_ENDPOINT = import.meta.env.VITE_FUNCTION_ENDPOINT ?? "/api/graphql"
 
 const fetchFn: FetchFunction = (params, variables) => {
+  console.log("fetching")
   const response = fetch(HTTP_ENDPOINT, {
     method: "POST",
     headers: [

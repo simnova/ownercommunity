@@ -14,7 +14,7 @@ let axiosHeaders = async (config: AxiosRequestConfig) => {
 
 let featureFlagConfig: FeatureFlagConfig = {
   cache: 30 * 1000,
-  url: process.env.REACT_APP_FEATURE_FLAG_URL ?? "",
+  url: import.meta.env.VITE_FEATURE_FLAG_URL ?? "",
  
 
   fallbackFlagValues: defaultValues,

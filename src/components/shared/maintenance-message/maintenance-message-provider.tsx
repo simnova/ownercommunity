@@ -50,7 +50,7 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
       }
 
       axios({
-        url: process.env.REACT_APP_FUNCTION_ENDPOINT,
+        url: import.meta.env.VITE_FUNCTION_ENDPOINT,
         method: 'post',
         data: {
           query: `

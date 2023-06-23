@@ -27,7 +27,7 @@ export const UserInfoContainer: React.FC<any> = (props) => {
 
   return (
     <div>
-      <UserInfo userCurrent={{userCurrent: data.userCurrent}} />
+      <UserInfo data={{userCurrent: data.userCurrent}} />
     </div>
   )
   

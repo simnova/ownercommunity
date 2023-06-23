@@ -1,30 +1,11 @@
+import { useQuery } from '@apollo/client';
 import { UserInfo } from './user-info';
-import { graphql } from 'babel-plugin-relay/macro';
-import { loadQuery, useLazyLoadQuery, usePreloadedQuery, useRelayEnvironment } from 'react-relay';
-import { userInfoContainerUserCurrentQuery } from './__generated__/userInfoContainerUserCurrentQuery.graphql';
+import { LoggedInUserRootContainerUserCurrentQueryDocument} from '../../../../generated';
 import React from 'react';
 
-const q = graphql`
-  query userInfoContainerUserCurrentQuery {
-    userCurrent {
-      ...userInfoCurrentUserFields
-    }
-  }
-`
-
-
 export const UserInfoContainer: React.FC<any> = (props) => {
-  const qref = loadQuery<userInfoContainerUserCurrentQuery>(
-    useRelayEnvironment(),
-    q,
-    {}
-  )
 
-  // const { loading, error, data} = useQuery(LoggedInUserContainerUserCurrentQueryDocument);
-  const data = usePreloadedQuery<userInfoContainerUserCurrentQuery>(q, qref)
-  console.log("user info", data)
-  const loading = false
-  const error = false
+  const { loading, error, data} = useQuery(LoggedInUserRootContainerUserCurrentQueryDocument);
   
   if(error){
     return <>
@@ -46,7 +27,7 @@ export const UserInfoContainer: React.FC<any> = (props) => {
 
   return (
     <div>
-      <UserInfo userCurrent={data.userCurrent} />
+      <UserInfo userCurrent={{userCurrent: data.userCurrent}} />
     </div>
   )
   

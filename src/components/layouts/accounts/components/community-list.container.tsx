@@ -1,28 +1,11 @@
 
 import { useQuery } from '@apollo/client';
 import { CommunityList } from './community-list';
-import { CommunityListContainerCommunitiesQueryDocument } from '../../../../generated';
-import { graphql } from 'babel-plugin-relay/macro';
-import { loadQuery, useLazyLoadQuery, usePreloadedQuery, useRelayEnvironment } from 'react-relay';
-import { communityListContainerCommunitiesQuery } from './__generated__/communityListContainerCommunitiesQuery.graphql';
-
-// type CommunityFragment = FragmentType<typeof CommunityListContainerCommunitiesFieldsFragmentDoc>
-const q = graphql`
-  query communityListContainerCommunitiesQuery {
-    communities {
-      ...communityInfoCommunityFields
-    }
-  }
-`
+import { CommunityListContainerCommunitiesQueryDocument, CommunityListContainerCommunitiesFieldsFragment } from '../../../../generated';
 
 export const CommunityListContainer: React.FC<any> = (props) => {
-  const qref = loadQuery<communityListContainerCommunitiesQuery>( useRelayEnvironment(), q, {} )
 
-  // const { loading, error, data} = useQuery(CommunityListContainerCommunitiesQueryDocument);
-  const data =  usePreloadedQuery<communityListContainerCommunitiesQuery>(q, qref)
-  console.log(data)
-  const error = false
-  const loading = false
+  const { loading, error, data} = useQuery(CommunityListContainerCommunitiesQueryDocument);
   
   if(error){
     return <>
@@ -36,7 +19,6 @@ export const CommunityListContainer: React.FC<any> = (props) => {
     </>
   } 
 
-  console.log(data)
   if (typeof data === 'undefined' || typeof data.communities === 'undefined' || data.communities === null ) {
     return <>
       <div>No Data...</div>
@@ -45,7 +27,7 @@ export const CommunityListContainer: React.FC<any> = (props) => {
 
   return (
     <div>
-      <CommunityList data={data} />
+      <CommunityList data={{communities: data.communities}} />
     </div>
   )
   

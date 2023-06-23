@@ -53,9 +53,6 @@ var ImageComponentSettings = () => {
     width: node.data.props.width,
   }));
 
-  //const { data, loading, error } = useQuery(GET_IMAGES_IN_COMMUNITY, {
-    //variables: { communityId: params.communityId }
-  //});
   const { data, loading, error } = useQuery(GET_IMAGES_IN_COMMUNITY, {
     variables: { communityId: params.communityId}
   });

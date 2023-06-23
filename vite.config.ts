@@ -13,4 +13,7 @@ export default defineConfig({
     buffer: require("buffer"),
     asset: require("assert"),
   },
+  server: {
+    port: 3000
+  }
 })

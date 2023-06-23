@@ -18,8 +18,6 @@ import featureFlagConfig from './config/feature-flag-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import { CachePurgeProvider } from './contexts/CachePurgeContext';
 
-console.log("env", import.meta.env)
-
 function ConfigProviderWrapper() {
   
 

@@ -4,7 +4,7 @@ import { Button, theme } from 'antd';
 
 export const Header: React.FC<any> = () => {
   const handleLogin = () => {
-    window.location.href = `${process.env.REACT_APP_AAD_REDIRECT_URI}/login/`;
+    window.location.href = `${import.meta.env.VITE_AAD_REDIRECT_URI}/login/`;
   };
   const {
     token: { colorBgContainer }

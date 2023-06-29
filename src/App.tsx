@@ -8,6 +8,7 @@ import { Admin } from './components/layouts/admin';
 import { Members } from './components/layouts/members';
 import { Accounts } from './components/layouts/accounts';
 import { AuthLanding } from './components/shared/auth-landing';
+
 function App() {
   const authSection = (
     <RequireMsal identifier="account" forceLogin={true}>

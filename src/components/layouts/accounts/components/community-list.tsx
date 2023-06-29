@@ -13,6 +13,7 @@ export interface CommunityListProps {
 
 export const CommunityList: React.FC<any> = (props) => {
   const navigate = useNavigate();
+  
   return (
     <div>
       <h1>Navigate to a Community</h1>

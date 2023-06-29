@@ -55,7 +55,7 @@ const ApolloConnection: FC<any> = (props) => {
 
 
   const httpLink = new BatchHttpLink({ 
-    uri: `${process.env.REACT_APP_FUNCTION_ENDPOINT}`,
+    uri: `${import.meta.env.VITE_FUNCTION_ENDPOINT}`,
     batchMax: 15, // No more than 15 operations per batch
     batchInterval: 50 // Wait no more than 50ms after first batched operation
   });
@@ -72,7 +72,7 @@ const ApolloConnection: FC<any> = (props) => {
       from([withToken, httpLink])
     ),
     cache: new InMemoryCache(),
-    connectToDevTools: process.env.NODE_ENV !== 'production',
+    connectToDevTools: import.meta.env.NODE_ENV !== 'production',
   });
 
   useEffect(() => {

@@ -1,7 +1,7 @@
-
 import { useQuery } from '@apollo/client';
 import { UserInfo } from './user-info';
 import { LoggedInUserRootContainerUserCurrentQueryDocument} from '../../../../generated';
+import React from 'react';
 
 export const UserInfoContainer: React.FC<any> = (props) => {
 
@@ -27,7 +27,7 @@ export const UserInfoContainer: React.FC<any> = (props) => {
 
   return (
     <div>
-      <UserInfo data={{userCurrent:data.userCurrent}} />
+      <UserInfo data={{userCurrent: data.userCurrent}} />
     </div>
   )
   

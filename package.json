@@ -48,16 +48,16 @@
   },
   "scripts": {
     "prebuild": "node generate-build-version",
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prod:build": "npm run build && http-server -p 3000 build",
     "prod": "http-server -p 3000 build",
-    "build:major": "node generate-build-version major && craco build",
-    "build:minor": "node generate-build-version minor && craco build"
+    "build:major": "node generate-build-version major && npm run build",
+    "build:minor": "node generate-build-version minor && npm run build"
   },
   "eslintConfig": {
     "extends": [
@@ -97,12 +97,22 @@
     "@storybook/preset-create-react-app": "^4.0.0",
     "@storybook/react": "^6.4.18",
     "@types/lodash": "^4.14.182",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2",
     "@types/uniqid": "^5.3.2",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.2",
     "craco-less": "^2.1.0-alpha.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
     "http-server": "^14.1.1",
     "postcss": "^8.4.6",
     "storybook-addon-customize-antd-theme": "^1.1.0",
-    "tailwindcss": "^3.0.18"
+    "tailwindcss": "^3.0.18",
+    "vite": "^4.3.9",
+    "webpack": "^5.68.0"
   }
 }

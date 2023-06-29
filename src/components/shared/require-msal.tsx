@@ -17,7 +17,7 @@ const RequireMsal: React.FC<RequireMsalProps> = (params) => {
     const determineIfUserHasActiveSession = async () => {
       const authResult = await getSilentAuthResult(params.identifier);
       if (authResult !== undefined) {
-       //if((authResult.account?.idTokenClaims as any).externalAppKey === process.env.REACT_APP_PORTAL_IDENTIFIER) {
+       //if((authResult.account?.idTokenClaims as any).externalAppKey === import.meta.env.VITE_PORTAL_IDENTIFIER) {
         setIsAuthenticated(true);
        //}
        // setIsAuthenticated(false);

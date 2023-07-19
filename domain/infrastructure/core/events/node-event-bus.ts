@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import { CustomDomainEvent, DomainEvent } from '../../../shared/domain-event';
 import { EventBus } from '../../../shared/event-bus';
-import api, { trace,TimeInput, SpanStatusCode, SpanKind } from '@opentelemetry/api';
+import api, { trace,TimeInput, SpanStatusCode, SpanKind, SpanOptions } from '@opentelemetry/api';
 import { W3CTraceContextPropagator } from '@opentelemetry/core';
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 
@@ -37,14 +37,12 @@ class NodeEventBusImpl implements EventBus {
     console.log(`Trace context: ${JSON.stringify(contextObject)}`);
     const tracer = trace.getTracer("PG:data-access");
     tracer.startActiveSpan("node-event-bus.publish", async (span) => {
-      try {
-        
-        span.setAttribute('name', 'node-event-bus => publish');
-        span.setAttribute('message.system', 'node-event-bus');
-        span.setAttribute('messaging.operation', 'publish');
-        span.setAttribute('messaging.destination.name', event.constructor.name);
-        span.addEvent('dispatching node event', {name: event.constructor.name, data: JSON.stringify(data)}, new Date());
+      span.setAttribute('message.system', 'node-event-bus');
+      span.setAttribute('messaging.operation', 'publish');
+      span.setAttribute('messaging.destination.name', event.constructor.name);
+      span.addEvent('dispatching node event', {name: event.constructor.name, data: JSON.stringify(data)}, new Date());
 
+      try {
         this.broadcaster.broadcast(event.constructor.name, {data: JSON.stringify(data), context: contextObject});
         span.setStatus({code: SpanStatusCode.OK, message: `NodeEventBus: Executed ${event.name}`});
       }catch(err) {
@@ -75,9 +73,9 @@ class NodeEventBusImpl implements EventBus {
 
           // hack to create dependency title in App Insights to show up nicely in trace details
           // see : https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/src/utils/spanUtils.ts#L191
-          span.setAttribute(SemanticAttributes.DB_SYSTEM, 'node-event-bus'); // hack
+          span.setAttribute(SemanticAttributes.DB_SYSTEM, 'node-event-bus'); // hack (becomes upper case)
           span.setAttribute(SemanticAttributes.DB_NAME, event.name); // hack
-          span.setAttribute(SemanticAttributes.DB_STATEMENT, `handling event: ${event.name} with payload: ${rawPayload['data']}`);
+          span.setAttribute(SemanticAttributes.DB_STATEMENT, `handling event: ${event.name} with payload: ${rawPayload['data']}`); // hack - dumps payload in command 
 
 
           span.addEvent(`NodeEventBus: Executing ${event.name}`,{data: rawPayload['data']}, performance.now() as TimeInput);
@@ -86,6 +84,7 @@ class NodeEventBusImpl implements EventBus {
             span.setStatus({code: SpanStatusCode.OK, message: `NodeEventBus: Executed ${event.name}`});
           } catch(e) {
             span.recordException(e);
+            span.setStatus({code: SpanStatusCode.ERROR, message: `NodeEventBus: Error executing ${event.name}`});
             console.error(`Error handling node event ${event.name} with data ${rawPayload}`);
             console.error(e);
           } finally {

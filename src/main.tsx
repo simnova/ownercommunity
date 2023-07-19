@@ -1,5 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
+
+import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin } from './components/shared/azure-monitor';
+
 import './index.less';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -7,12 +11,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 import MsalProvider from './components/shared/msal-react-lite';
 import msalProviderConfig from './config/msal-config';
-import ApolloConnection from './components/shared/apollo-connection';
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider } from 'antd';
 import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
-import { StyleProvider } from '@ant-design/cssinjs';
-import { Button } from 'antd';
-import { set } from 'lodash';
 import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
 import featureFlagConfig from './config/feature-flag-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
@@ -45,20 +45,21 @@ function ConfigProviderWrapper() {
   );
 }
 
+
+
 ReactDOM.render(
   <React.StrictMode>
-   <FeatureFlagProvider config={
-    featureFlagConfig
-   }>
-  
-   <MaintenanceMessageProvider>
-  <CachePurgeProvider>
-  <ThemeProvider>
-      <ConfigProviderWrapper />
-    </ThemeProvider>
-  </CachePurgeProvider>
-   </MaintenanceMessageProvider>
-   </FeatureFlagProvider>
+    <AppInsightsContext.Provider value={reactPlugin}>
+      <FeatureFlagProvider config={featureFlagConfig}>
+        <MaintenanceMessageProvider>
+          <CachePurgeProvider>
+            <ThemeProvider>
+              <ConfigProviderWrapper />
+            </ThemeProvider>
+          </CachePurgeProvider>
+        </MaintenanceMessageProvider>
+      </FeatureFlagProvider>
+    </AppInsightsContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -15,6 +15,7 @@ export const wrapFunctionHandler = ( originalFunctionHandler: AzureFunction) => 
     const wc3Propagator = new W3CTraceContextPropagator();
     
 
+
     const headerInfo = {
       traceparent: context.req.headers['traceparent'],
       tracestate: context.req.headers['tracestate']

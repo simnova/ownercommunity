@@ -39,13 +39,13 @@ if(!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATION
 
 
   appInsights = new ApplicationInsightsClient(aiConfig);
-
+  
   
   const traceHandler = appInsights.getTraceHandler();
   traceHandler.addInstrumentation(new GraphQLInstrumentation({ allowValues: true })); 
   traceHandler.addInstrumentation(new DataloaderInstrumentation()); 
 
-
+  
  
 
   console.log('Application Insights configured');

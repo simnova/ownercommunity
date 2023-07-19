@@ -12,14 +12,28 @@ import { MongoPropertyRepository } from '../persistence/property.mongo-repositor
 import retry from 'async-retry';
 import crypto from 'crypto';
 import api, { trace,TimeInput, SpanStatusCode } from '@opentelemetry/api';
+import  { logs, SeverityNumber }  from "@opentelemetry/api-logs";
 import { Content } from '@azure/cognitiveservices-contentmoderator/esm/models/mappers';
 
 export default (cognitiveSearch:ICognitiveSearch) => {
   NodeEventBus.register(PropertyUpdatedEvent, async (payload) => {
     const tracer = trace.getTracer("PG:data-access")
     tracer.startActiveSpan("updateSearchIndex", async (span) => {
+
+      //TODO : add logging: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples-dev/logSample.ts
+      
       try {
-        ;
+        const logger = logs.getLogger('default');
+        logger.emit({
+          body: `xxyyxxLOGxxyyxx - Property Updated - Search Index Integration: ${JSON.stringify(payload)} and PropertyId: ${payload.id}`,
+          severityNumber: SeverityNumber.INFO,
+          severityText: "INFO",
+          attributes: { 
+            "log.type": "LogRecord"
+          },
+        });
+
+
         console.log(`Property Updated - Search Index Integration: ${JSON.stringify(payload)} and PropertyId: ${payload.id}`);
 
 

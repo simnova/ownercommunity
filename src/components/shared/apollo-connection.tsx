@@ -14,6 +14,7 @@ import { useMsal } from './msal-react-lite';
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { mergeDeep } from '@apollo/client/utilities';
 
+
 export interface AuthProps {
   AuthenticationIdentifier?: string
 }

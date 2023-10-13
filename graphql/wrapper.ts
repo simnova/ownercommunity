@@ -31,11 +31,12 @@ export const wrapFunctionHandler = ( originalFunctionHandler: AzureFunction) => 
     //const tracer = api.context..getTraceHandler().getTracer();
 
 
-    const span = tracer.startSpan("PGFunctionHandler",{attributes:{}}, activeContext);
+    const span = tracer.startSpan("PGFunctionHandler",{attributes:{}}, activeContext); //TODO - need to see why this isn't showing up.
     trace.setSpan(activeContext, span);
 
 
     try {
+    
       span.setAttribute("http.method", context.req.method);
       span.setAttribute("http.url", context.req.url);
       span.setAttribute("http.target", context.req.url);

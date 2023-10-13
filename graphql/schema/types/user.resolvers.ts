@@ -18,6 +18,7 @@ const user : Resolvers = {
       return (await context.dataSources.userCosmosdbApi.getUsers()) as User[];
     },
     userCurrent: async (parent, args, context, info) => {
+      console.log(`Resolver>Query>userCurrent`);
       return await context.dataSources.userDomainAPI.addUser()   as CurrentUser;
     }
 

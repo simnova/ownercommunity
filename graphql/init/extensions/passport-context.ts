@@ -22,13 +22,20 @@ export class PassportContext {
   ) { this.context = context; }
 
   static async decorateContext(context: Partial<Context>, req: HttpRequest, portalTokenValidator: PortalTokenValidation): Promise<void> {
-    const passportContext = new PassportContext(
-      req,
-      context,
-      portalTokenValidator
-    );
-    await passportContext.setContextVerifiedJwt();
-    await passportContext.setContextPassport();
+    try{
+      const passportContext = new PassportContext(
+        req,
+        context,
+        portalTokenValidator
+      );
+      await passportContext.setContextVerifiedJwt();
+      await passportContext.setContextPassport();
+    }catch(error){
+      console.log(' == ERROR 2== ', error);
+      context.passport = ReadOnlyPassport.GetInstance();
+      context.community = null;
+    }
+
   }
 
   private async setContextVerifiedJwt(): Promise<void> {

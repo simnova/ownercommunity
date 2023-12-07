@@ -13,7 +13,7 @@ let axiosHeaders = async (config: AxiosRequestConfig) => {
 };
 
 let featureFlagConfig: FeatureFlagConfig = {
-  cache: 30 * 1000,
+  cache: 1 * 60 * 1000, //1 minute
   url: import.meta.env.VITE_FEATURE_FLAG_URL ?? "",
  
 

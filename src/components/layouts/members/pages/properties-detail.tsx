@@ -3,7 +3,7 @@ import { Routes, Route, Link, useLocation, matchRoutes, useNavigate } from 'reac
 import { PageHeader } from '@ant-design/pro-layout';
 import { Col, Menu, Row } from 'antd';
 import { ProfileOutlined, CompassOutlined, FileOutlined } from '@ant-design/icons';
-
+import React from 'react';
 import { PropertiesGeneral } from './properties-general';
 
 
@@ -22,7 +22,7 @@ export const PropertiesDetail: React.FC<any> = (_props) => {
     {id:3, path:'community/:communityId/member/:userId/properties/:id/location/*', title:'Location', icon:<CompassOutlined />},
   ]
 
-  var matchedPages = matchRoutes(pages,location)
+  const matchedPages = matchRoutes(pages,location)
   const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : [];
 
   return (

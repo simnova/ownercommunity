@@ -1,5 +1,4 @@
-import { ComponentStory } from '@storybook/react';
-import { Meta } from '@storybook/react/types-6-0';
+import { StoryFn, Meta } from '@storybook/react';
 
 import { LoggedInUser } from './';
 
@@ -7,7 +6,7 @@ export default {
   title: 'UI/Molecules/LoggedInUser',
 } as Meta;
 
-const Template: ComponentStory<typeof LoggedInUser> = (args) => <LoggedInUser {...args} />;
+const Template: StoryFn<typeof LoggedInUser> = (args) => <LoggedInUser {...args} />;
 
 export const LoggedOut = Template.bind({});
 LoggedOut.args = {

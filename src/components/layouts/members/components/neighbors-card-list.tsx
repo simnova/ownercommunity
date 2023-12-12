@@ -14,7 +14,7 @@ export const NeighborsCardList: React.FC<CardListProps> = (props) => {
         variables: { communityId: communityId }
     })
 
-    const generateCards = (data: any, currentMemberId: string) => {
+    const generateCards = (data: any, _currentMemberId: string) => {
         return data.map((member: any) => {
             if (member.profile.showProfile) {
                 return (

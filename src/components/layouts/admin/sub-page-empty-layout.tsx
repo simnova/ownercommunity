@@ -1,5 +1,6 @@
 import { Layout } from 'antd';
 import PropTypes from 'prop-types';
+import React from "react";
 
 
 const { Header, Content, Footer } = Layout;
@@ -10,7 +11,7 @@ const ComponentPropTypes = {
 };
 
 interface ComponentPropInterface {
-  header: JSX.Element;
+  header: React.JSX.Element;
   fixedHeader?: boolean;
 }
 

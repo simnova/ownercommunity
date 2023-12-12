@@ -2,13 +2,14 @@
 import { useEditor } from '@craftjs/core';
 
 import * as CmsComponents from "../components/";
+import React from "react";
 
 interface EditorConfigDefinition {
   categories: {
     categoryName: string;
     components: {
       name: string;
-      component: JSX.Element;
+      component: React.JSX.Element;
     }[]
   }[]
 }

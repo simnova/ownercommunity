@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react/types-6-0";
+import { Meta } from '@storybook/react';
 import App from "./App";
 
 export default {

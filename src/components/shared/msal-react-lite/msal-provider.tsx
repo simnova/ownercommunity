@@ -43,7 +43,7 @@ export type MsalProps = {
   children: ReactNode;
 };
 
-const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
+const MsalProvider: FC<MsalProps> =  (props: MsalProps): React.JSX.Element => {
   const [loading, setLoading] = React.useState(true);
   const msalInstances = React.useRef<Map<string,MsalApp>>();
   

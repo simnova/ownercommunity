@@ -119,7 +119,7 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
   }, 0));
 
 
-  let preview = (file: FileInfo) : JSX.Element => {
+  let preview = (file: FileInfo) : React.JSX.Element => {
     if(file.type.startsWith('image/')) {
       return <img src={file.url} alt="File Preview" />
     } else if (file.type.startsWith('application/pdf')) {

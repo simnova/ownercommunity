@@ -21,7 +21,7 @@ import { SectionLayout } from './section-layout';
 export interface PageLayoutProps {
   path: string;
   title: string;
-  icon: JSX.Element;
+  icon: React.JSX.Element;
   id: string | number;
   parent?: string;
 }

@@ -9,7 +9,7 @@ export type MaintenanceMessageProps = {
   children: ReactNode;
 };
 
-const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: MaintenanceMessageProps): JSX.Element => {
+const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: MaintenanceMessageProps): React.JSX.Element => {
   const [isImpending, setIsImpending] = useState<boolean | undefined>(undefined);
   const [isMaintenance, setIsMaintenance] = useState<boolean | undefined>(undefined);
   const [maintainanceMessage, setMaintainanceMessage] = useState<string | undefined>(undefined);

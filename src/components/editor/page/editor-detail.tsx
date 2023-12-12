@@ -26,7 +26,7 @@ export const EditorDetail = () => {
   const [selectedPageIsListing, setSelectedPageIsListing] = useState<boolean>(false);
   const [selectedPageIsDetails, setSelectedPageIsDetails] = useState<boolean>(false);
   const [editorJson, setEditorJson] = useState<string | SerializedNodes | undefined>(undefined);
-  const [json, setJson] = useState("");
+  const [, setJson] = useState("");
   const [mobileView, setMobileView] = useState(false);
   const [pageLayouts, setPageLayouts] = usePageLayouts();
   const { query } = useEditor();

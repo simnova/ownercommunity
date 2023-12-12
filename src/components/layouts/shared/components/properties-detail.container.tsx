@@ -99,7 +99,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
       appInsights.getAppInsights().stopTrackPage('PropertiesDetail-SavePageView', window.location.href + "/save-property");
     } catch (error) {
       message.error(`Error updating Property: ${JSON.stringify(error)}`);
-      appInsights.trackException({error:error} as IExceptionTelemetry,{propertyId: values.id});
+      appInsights.trackException({exception:error} as IExceptionTelemetry,{propertyId: values.id});
     }
   };
   const handleDelete = async () => {

@@ -23,7 +23,7 @@ export type FeatureFlagProps = {
   children: ReactNode;
 };
 
-const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): JSX.Element => {
+const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): React.JSX.Element => {
   var tempFeatureFlagList: FeatureFlags | undefined;
   const [featureFlagList, setFeatureFlagListVal] = useState<FeatureFlags | undefined>();
   const cacheTimeout = !props.config.cache ? 30 * 1000 : props.config.cache;

@@ -50,7 +50,7 @@
   },
   "scripts": {
     "prebuild": "node generate-build-version",
-    "dev": "vite",
+    "start": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
@@ -59,7 +59,9 @@
     "prod:build": "npm run build && http-server -p 3000 build",
     "prod": "http-server -p 3000 build",
     "build:major": "node generate-build-version major && npm run build",
-    "build:minor": "node generate-build-version minor && npm run build"
+    "build:minor": "node generate-build-version minor && npm run build",
+    "tscheck": "tsc --noEmit --watch"
+
   },
   "eslintConfig": {
     "extends": [

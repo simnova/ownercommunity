@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ServiceTicketSearchParamKeys } from '../../../../constants';
-import { SearchFilter, SearchFilterConfigDefinition, SearchFilterProps } from '../../shared/components/search-filter';
 import { FacetDetail } from '../../../../generated';
+import { SearchFilter, SearchFilterConfigDefinition, SearchFilterProps } from '../../shared/components/search-filter';
 
 
 export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {

@@ -1,4 +1,3 @@
-import { Member } from "../../../../generated";
 import { MemberProfileDetailsContainer } from "./member-profile-details.container";
 import { ProfilePhotoUploadContainer } from "./profile-photo-upload.container";
 

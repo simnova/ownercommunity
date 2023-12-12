@@ -1,16 +1,15 @@
-import React from 'react';
-import { Routes, Route, Link, useLocation, matchRoutes, useNavigate } from 'react-router-dom';
+import { CompassOutlined, FileOutlined, ProfileOutlined } from '@ant-design/icons';
 import { PageHeader } from '@ant-design/pro-layout';
-import { Col, Menu, Row, Layout } from 'antd';
-import { TeamOutlined, ProfileOutlined, IdcardOutlined, CompassOutlined, FileOutlined } from '@ant-design/icons';
-import { PropertiesGeneral } from './properties-general';
-import { SubPageLayout } from '../sub-page-layout';
+import { Col, Menu, Row } from 'antd';
+
+import { Link, Route, Routes, matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 import { PropertiesListing } from '../../shared/pages/properties-listing';
 import { PropertiesLocation } from '../../shared/pages/properties-location';
+import { SubPageLayout } from '../sub-page-layout';
+import { PropertiesGeneral } from './properties-general';
 
-const { Header, Content } = Layout;
 
-export const PropertiesDetail: React.FC<any> = (props) => {
+export const PropertiesDetail: React.FC<any> = () => {
   const location = useLocation();
   const navigate = useNavigate();
 

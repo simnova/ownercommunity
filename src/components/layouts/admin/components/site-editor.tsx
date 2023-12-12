@@ -1,5 +1,5 @@
-import { Button, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
+import { Button, message } from "antd";
 import axios from 'axios';
 
 export interface AuthResult {
@@ -33,7 +33,7 @@ export const SiteEditor:React.FC<SiteEditorProp> = (props) => {
             "x-ms-date": requestDate,
             "Content-Type": file.type, 
           },
-          onUploadProgress: (progressEvent) => {
+          onUploadProgress: () => {
            // const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
            // option.onProgress({percent:percentCompleted},option.file);
           }

@@ -1,6 +1,8 @@
 import React from 'react';
-import { Form, Input, Button, Descriptions, Select } from 'antd';
+
+import { Button, Descriptions, Form, Input, Select } from 'antd';
 import dayjs from 'dayjs';
+
 import { MemberUpdateInput } from '../../../../generated';
 
 export interface MembersDetailProps {

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Layout, theme } from 'antd';
 import PropTypes from 'prop-types';
 

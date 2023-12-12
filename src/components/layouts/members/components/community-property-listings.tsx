@@ -1,4 +1,4 @@
-import { Typography, Card, Space, Button } from 'antd';
+import { Button, Card, Space, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 const { Text, Title } = Typography;

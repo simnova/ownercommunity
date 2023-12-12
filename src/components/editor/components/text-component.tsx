@@ -1,6 +1,5 @@
-import {useNode} from "@craftjs/core";
-import {Form, Input, Typography } from "antd";
-import ContentEditable from "react-contenteditable";
+import { useNode } from "@craftjs/core";
+import { Form, Input, Typography } from "antd";
 
 const { Text } = Typography;
 
@@ -13,8 +12,8 @@ interface TextComponentProp {
 
 let TextComponent: any;
 
-TextComponent = ({text, fontSize, fontWeight, ...props }:TextComponentProp) => {
-  const { actions, connectors: {connect, drag} } = useNode();
+TextComponent = ({text, fontSize, fontWeight }:TextComponentProp) => {
+  const { connectors: {connect, drag} } = useNode();
 
   return (
     <div
@@ -75,4 +74,4 @@ TextComponent.craft = {
 
 export {
   TextComponent
-}
+};

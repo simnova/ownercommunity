@@ -1,7 +1,7 @@
+import { Button, Form, Input } from 'antd';
 import React from 'react';
-import { Form,Input,Button }  from 'antd';
+
 import { MemberAccountAddInput } from '../../../../generated';
-import { RuleObject } from 'antd/lib/form';
 
 export interface MembersAccountsAddProps {
   data: MemberAccountAddInput;
@@ -15,7 +15,7 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
 
-  const userIdNotAlreadyAssigned = async  (rule:RuleObject,value:any) : Promise<void> => {
+  const userIdNotAlreadyAssigned = async  (value:any) : Promise<void> => {
     var result = await props.onCheckUserId(value);
     if (!result.success) {
       return Promise.reject(result.errorMessage);

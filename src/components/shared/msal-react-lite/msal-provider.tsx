@@ -1,8 +1,7 @@
-import React, { FC, ReactNode, useEffect } from 'react';
-import MsalContext from './msal-context';
 import * as msal from '@azure/msal-browser';
+import React, { FC, ReactNode, useEffect } from 'react';
 import { MsalApp } from './msal-app';
-import { useRef } from '@storybook/addons';
+import MsalContext from './msal-context';
 
 export enum ConfigType {
   Popup = "popup",

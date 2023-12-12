@@ -3,7 +3,7 @@ import { PropertiesList } from './properties-list';
 import { PropertiesAdd } from './properties-add';
 import { PropertiesDetail } from './properties-detail';
 
-export const Properties: React.FC<any> = (props) => {
+export const Properties: React.FC<any> = () => {
   return (
     <Routes>
       <Route path="" element={<PropertiesList />} />

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { AdminRolesListContainerRolesDocument, Role } from '../../../../generated';
-import { RolesList } from './roles-list';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
+import { RolesList } from './roles-list';
 
 interface RolesListContainerProps {
   data: {

@@ -1,10 +1,8 @@
-import React from 'react';
-import { matchRoutes,useLocation } from 'react-router-dom';
-import { usePageLayouts } from '../../editor/local-data';
-import { Editor, Frame } from '@craftjs/core';
 
+import { Editor, Frame } from '@craftjs/core';
+import { matchRoutes, useLocation } from 'react-router-dom';
 import * as CmsComponents from "../../editor/components/";
-import { CmsPageFrame } from "../../editor/cms-page-frame";
+import { usePageLayouts } from '../../editor/local-data';
 
 
 const CmsPage: React.FC<any> = () => {

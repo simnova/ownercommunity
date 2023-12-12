@@ -1,8 +1,8 @@
+import * as msal from '@azure/msal-browser';
 import {
   MsalProviderPopupConfig,
   MsalProviderRedirectConfig,
 } from '../components/shared/msal-react-lite';
-import * as msal from '@azure/msal-browser';
 import {
   ConfigType,
   MsalProviderConfigMap,
@@ -10,15 +10,12 @@ import {
 
 
 // confirmed Azure AD B2C > Identity Experience Framework > [App Registration] > Application (client) ID
-const admin_clientId = import.meta.env.VITE_AAD_APP_ADMIN_CLIENTID ?? 'missing-client-id';
 const account_clientId = import.meta.env.VITE_AAD_ACCOUNT_CLIENTID ?? 'missing-client-id';
 
 // B2C -> https://${tenantId}.b2clogin.com/${tenantId}.onmicrosoft.com/${customPolicyName}
-const admin_authority =import.meta.env.VITE_ADMIN_AUTHORITY ?? 'missing-redirect-authority';
 const account_authority = import.meta.env.VITE_AAD_ACCOUNT_AUTHORITY ?? 'missing-passwordless-authority';
 
 // "openid" is the default scope for B2C
-const admin_scopes = import.meta.env.VITE_AAD_ADMIN_SCOPES?.split('|') ?? ['missing-scopes'];
 const account_scopes = import.meta.env.VITE_AAD_ACCOUNT_SCOPES?.split('|') ?? ['missing-scopes'];
 
 // B2C -> https://${tenantId}.b2clogin.com/${tenantId}.onmicrosoft.com/oauth2/v2.0/authorize?p=${customPolicyName}
@@ -33,9 +30,6 @@ const redirectUri = import.meta.env.VITE_AAD_REDIRECT_URI ?? 'missing-redirect-u
 
 //login.windows-ppe.net
 //login.windows.net/
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const commonAuthority = `https://login.microsoftonline.com/common`; //allows for anyone to register not just AAD accounts
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 //const tenantAuthority = `https://login.microsoftonline.com/${tenantId}`; // allows ONLY for Other AAD accounts to register
@@ -90,49 +84,8 @@ var accountConfig: MsalProviderRedirectConfig = {
   },
 };
 
-var adminConfig: MsalProviderPopupConfig = {
-  type: ConfigType.Popup,
-  msalConfig: {
-    auth: {
-      clientId: admin_clientId,
-      authority: admin_authority,
-      knownAuthorities: [knownAuthorities],
-      redirectUri: redirectUri,
-    },
-    system: {
-      loggerOptions: loggerOptions
-    },
-  },
-  silentRequestConfig: {
-    scopes: admin_scopes,
-  },
-  endSessionRequestConfig: {},
-  loginRequestConfig: {
-    scopes: admin_scopes,
-  },
-};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-var adminConfigRedirect: MsalProviderRedirectConfig = {
-  type: ConfigType.Redirect,
-  msalConfig: {
-    auth: {
-      clientId: admin_clientId,
-      authority: admin_authority,
-      redirectUri: redirectUri,
-    },
-    system: {
-      loggerOptions: loggerOptions
-    },
-  },
-  silentRequestConfig: {
-    scopes: admin_scopes,
-  },
-  endSessionRequestConfig: {},
-  redirectRequestConfig: {
-    scopes: admin_scopes,
-  },
-};
 
 var msalProviderConfig: MsalProviderConfigMap = {
   type: ConfigType.Map,

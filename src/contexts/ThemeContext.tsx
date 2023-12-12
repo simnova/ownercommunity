@@ -1,10 +1,7 @@
-import React, { ReactNode, createContext, useEffect, useState, Fragment, useContext } from 'react';
 import { Button, theme } from 'antd';
-import { Dialog, Transition } from '@headlessui/react';
-import ModalPopUp from './components/ModalPopUp';
-import { useFeatureFlags } from '../components/shared/feature-flag-react-lite';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 import { useMaintenanceMessage } from '../components/shared/maintenance-message';
-import {CachePurgeContext} from './CachePurgeContext';
+import ModalPopUp from './components/ModalPopUp';
 
 interface ThemeContextType {
   currentTokens: {

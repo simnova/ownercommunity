@@ -18,8 +18,8 @@ export type ContainerPropTypes = PropTypes.InferProps<typeof ContainerProps> & C
 
 let Container: any;
 
-Container = ({bgColor, children }: ContainerProp) => {
-  const { connectors: { connect, drag }, selected, actions } = useNode((state) =>(
+Container = ({ children }: ContainerProp) => {
+  const { connectors: { connect, drag } } = useNode((state) =>(
     {
         selected: state.events.selected,
     }

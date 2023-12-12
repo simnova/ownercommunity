@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form,Input,Button }  from 'antd';
+
+import { Button, Form, Input } from 'antd';
 import { PropertyAddInput } from '../../../../generated';
 
 export interface PropertiesAddProps {

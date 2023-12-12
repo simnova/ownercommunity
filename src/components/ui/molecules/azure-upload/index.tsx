@@ -1,9 +1,9 @@
 import { Upload, message } from 'antd';
-import axios from 'axios';
 import ImgCrop from 'antd-img-crop';
+import axios from 'axios';
 import React, { useRef } from 'react';
 
-import { UploadFile, UploadProps, RcFile } from 'antd/lib/upload/interface';
+import { RcFile, UploadFile, UploadProps } from 'antd/lib/upload/interface';
 import { BlobIndexTag, BlobMetadataField } from '../../../../generated';
 import { FileValidator } from './file-validator';
 

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Table, TableColumnsType, Row, message, Button, notification, Modal } from 'antd';
-import { FileInfo } from '../../../../generated';
-import ResizeObserver from 'rc-resize-observer';
-import './site-editor-files-list.css';
-import copy from "copy-to-clipboard";
 import { LinkOutlined } from '@ant-design/icons';
+import { Button, Modal, Table, TableColumnsType, notification } from 'antd';
+import copy from "copy-to-clipboard";
+import ResizeObserver from 'rc-resize-observer';
+import React, { useState } from 'react';
+import { FileInfo } from '../../../../generated';
+import './site-editor-files-list.css';
 
 export interface SiteEditorFilesListProps {
   data: FileInfo[];

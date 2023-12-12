@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
 import { Frame, useEditor } from '@craftjs/core';
+import React, { useEffect, useState } from 'react';
 
 export interface IProps {
   layout: string;

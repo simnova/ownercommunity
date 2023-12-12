@@ -1,13 +1,12 @@
+import { Layout, theme } from 'antd';
 import React, { useState } from 'react';
-import './section-layout.css';
-import { theme } from 'antd';
-import { PageLayoutProps } from '.';
 import { Link, Outlet, useParams } from 'react-router-dom';
+import { PageLayoutProps } from '.';
 import { LocalSettingsKeys, handleToggler } from '../../../constants';
 import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
 import { MenuComponent } from '../shared/components/menu-component';
-import { Layout } from 'antd';
+import './section-layout.css';
 
 const { Sider, Header } = Layout;
 
@@ -20,7 +19,7 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
   const {
-    token: { colorBgContainer, colorTextBase }
+    token: { colorBgContainer }
   } = theme.useToken();
 
   return (

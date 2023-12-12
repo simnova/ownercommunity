@@ -1,8 +1,5 @@
 import type { SliderMarks } from 'antd/lib/slider';
-import dayjs from 'dayjs';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
-import { useParams } from 'react-router-dom';
-import { sep } from 'path';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',

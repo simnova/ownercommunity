@@ -12,9 +12,7 @@ let Grid: any;
 
 Grid = ({ numOfCols, bgColor, ...props }: GridProp) => {
   const {
-    connectors: { connect, drag },
-    selected,
-    actions,
+    connectors: { connect, drag }
   } = useNode((state) => ({
     selected: state.events.selected,
   }));
@@ -57,20 +55,6 @@ var GridSettings = () => {
     numOfCols: node.data.props.numOfCols,
     bgColor: node.data.props.bgColor,
   }));
-
-  const buildOptions = (start: number, end: number) => {
-    let options = [];
-    for (let i = start; i <= end; i++) {
-      if (i % 2 == 0 || i % 3 == 0) {
-        options.push(
-          <Option key={i} value={i}>
-            {i}
-          </Option>
-        );
-      }
-    }
-    return options;
-  };
 
   return (
     <div>

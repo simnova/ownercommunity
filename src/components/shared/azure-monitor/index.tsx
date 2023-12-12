@@ -1,5 +1,5 @@
-import {ApplicationInsights, ITelemetryItem, DistributedTracingModes} from '@microsoft/applicationinsights-web';
-import {ReactPlugin} from '@microsoft/applicationinsights-react-js';
+import { ReactPlugin } from '@microsoft/applicationinsights-react-js';
+import { ApplicationInsights, DistributedTracingModes, ITelemetryItem } from '@microsoft/applicationinsights-web';
 
 const reactPlugin = new ReactPlugin();
 const appInsights = new ApplicationInsights({
@@ -27,4 +27,4 @@ appInsights.addTelemetryInitializer((env:ITelemetryItem) => {
     env.tags["ai.cloud.role"] = "OwnerCommunity-UI";
 });
 
-export { reactPlugin, appInsights };
+export { appInsights, reactPlugin };

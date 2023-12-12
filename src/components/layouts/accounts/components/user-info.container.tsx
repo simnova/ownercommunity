@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client';
-import { UserInfo } from './user-info';
-import { LoggedInUserRootContainerUserCurrentQueryDocument} from '../../../../generated';
-import React from 'react';
 
-export const UserInfoContainer: React.FC<any> = (props) => {
+import { LoggedInUserRootContainerUserCurrentQueryDocument } from '../../../../generated';
+import { UserInfo } from './user-info';
+
+export const UserInfoContainer: React.FC<any> = () => {
 
   const { loading, error, data} = useQuery(LoggedInUserRootContainerUserCurrentQueryDocument);
   

@@ -3,7 +3,7 @@ import CmsPage from './cms-page';
 import { Header } from './components/header';
 
 export const SectionLayout: React.FC<any> = (_props) => {
-  const [pageLayouts, setPageLayouts] = usePageLayouts();
+  const [pageLayouts] = usePageLayouts();
   return (
     <>
       {pageLayouts[0]['loaded'] !== false ? (

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { AdminMembersListContainerMembersDocument } from '../../../../generated';
-import { MembersList } from './members-list';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
+import { MembersList } from './members-list';
 
 interface MembersListContainerProps {
   data: {

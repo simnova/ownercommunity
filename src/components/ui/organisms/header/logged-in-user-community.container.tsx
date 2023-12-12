@@ -1,19 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
 import { LoggedInUserCommunityContainerUserCurrentQueryDocument } from '../../../../generated';
 
-import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
-import { useMsal } from '../../../shared/msal-react-lite';
 import { useParams } from 'react-router-dom';
+import { useMsal } from '../../../shared/msal-react-lite';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
+import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 
 interface HeaderPropTypes {
   autoLogin: boolean;
 }
 
-export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = (props) => {
-  const { getIsLoggedIn, login, logout, registerCallback, getSilentAuthResult } = useMsal();
+export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
+  const { logout } = useMsal();
   const params = useParams();
 
   const { loading, error, data } = useQuery(LoggedInUserCommunityContainerUserCurrentQueryDocument, {

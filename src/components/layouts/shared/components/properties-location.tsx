@@ -1,7 +1,7 @@
+import { AutoComplete, Button, Form, Input, Typography } from 'antd';
 import React, { useState } from 'react';
-import { AutoComplete, Form, Input, Typography, Button } from 'antd';
-import { PropertyUpdateInput } from '../../../../generated';
 import { addressQuery } from '../../../../constants';
+import { PropertyUpdateInput } from '../../../../generated';
 
 const { Paragraph } = Typography;
 
@@ -45,7 +45,7 @@ export const PropertiesLocation = (props: any) => {
     }
   };
 
-  const onSelect = (value: any, option: any) => {
+  const onSelect = (option: any) => {
     console.log('options', option);
     setCurrentAddress(option.address);
     setCurrentPoint([option.lat, option.long]);

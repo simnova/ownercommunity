@@ -1,6 +1,6 @@
-import React from 'react';
 import { Layout, theme } from 'antd';
 import PropTypes from 'prop-types';
+
 
 const { Header, Content, Footer } = Layout;
 

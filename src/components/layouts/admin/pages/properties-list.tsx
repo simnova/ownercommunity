@@ -1,17 +1,16 @@
-import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
 import { Button, theme } from 'antd';
-import { SubPageLayout } from '../sub-page-layout';
-import { useParams, useNavigate } from 'react-router-dom';
-import { PropertiesListContainer } from '../components/properties-list.container'
 
-export const PropertiesList: React.FC<any> = (props) => {
+import { useNavigate, useParams } from 'react-router-dom';
+import { PropertiesListContainer } from '../components/properties-list.container';
+import { SubPageLayout } from '../sub-page-layout';
+
+export const PropertiesList: React.FC<any> = () => {
   const params = useParams();
   const navigate = useNavigate();
   const {
-    token:{
-      colorTextBase,
-      colorBgContainer
+    token: {
+      colorTextBase
     }
   }=theme.useToken()
   return (

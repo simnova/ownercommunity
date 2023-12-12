@@ -1,5 +1,5 @@
+import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
 import { FormTags } from '../../../ui/organisms/form-tags';
 
 const { TextArea } = Input;

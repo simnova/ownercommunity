@@ -1,15 +1,15 @@
-import { CommunityCreate } from './community-create';
+import { useMutation } from '@apollo/client';
+import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import {
   CommunityCreateContainerMutationCommunityCreateDocument,
   CommunityCreateInput,
   CommunityListContainerCommunitiesQueryDocument,
 } from '../../../../generated';
-import { useMutation } from '@apollo/client';
-import { message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { CommunityCreate } from './community-create';
 
-export const CommunityCreateContainer: React.FC<any> = (props) => {
-  const [createCommunity, { data, loading, error }] = useMutation(
+export const CommunityCreateContainer: React.FC<any> = () => {
+  const [createCommunity, { loading, error }] = useMutation(
     CommunityCreateContainerMutationCommunityCreateDocument,
     {
       update(cache, { data }) {
@@ -32,7 +32,7 @@ export const CommunityCreateContainer: React.FC<any> = (props) => {
   const navigate = useNavigate();
 
   const handleSave = async (values: any) => {
-    var newCommunity: CommunityCreateInput = {
+    const newCommunity: CommunityCreateInput = {
       ...values,
     };
     try {

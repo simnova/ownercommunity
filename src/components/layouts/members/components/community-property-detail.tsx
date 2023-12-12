@@ -1,5 +1,5 @@
-import { Typography, Space, Divider, Modal, Button, Card, Image } from 'antd';
 import Icon from '@ant-design/icons';
+import { Button, Card, Divider, Image, Modal, Space, Typography } from 'antd';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Listing } from './listing';

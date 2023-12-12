@@ -4,19 +4,19 @@ import ReactDOM from 'react-dom';
 import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
 import { reactPlugin } from './components/shared/azure-monitor';
 
-import './index.less';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './index.less';
+import reportWebVitals from './reportWebVitals';
 
-import MsalProvider from './components/shared/msal-react-lite';
-import msalProviderConfig from './config/msal-config';
 import { ConfigProvider } from 'antd';
-import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
 import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
-import featureFlagConfig from './config/feature-flag-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
+import MsalProvider from './components/shared/msal-react-lite';
+import featureFlagConfig from './config/feature-flag-config';
+import msalProviderConfig from './config/msal-config';
 import { CachePurgeProvider } from './contexts/CachePurgeContext';
+import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
 function ConfigProviderWrapper() {
   

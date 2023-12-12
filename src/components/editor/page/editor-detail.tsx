@@ -1,31 +1,25 @@
+import { Element, Frame, SerializedNodes, useEditor } from '@craftjs/core';
 import { useState } from 'react';
-import { Element, Frame,useEditor, SerializedNodes } from '@craftjs/core';
-import { usePageLayouts } from '../local-data';
 import { Container } from '../components/container';
+import { usePageLayouts } from '../local-data';
 
-import { Button, Input, TreeSelect,notification, Empty, Space, theme } from 'antd';
+import { Button, Empty, TreeSelect, notification, theme } from 'antd';
 
 
 // icons
 import {
-  MobileOutlined,
-  DesktopOutlined
+  DesktopOutlined,
+  MobileOutlined
 } from '@ant-design/icons';
-import { TextThing } from '../components/text-thing';
 import { PropertiesListing } from '../components/properties-listing';
 import { PropertyDetails } from '../components/property-details';
-
-const { TextArea } = Input;
-const { TreeNode } = TreeSelect;
+import { TextThing } from '../components/text-thing';
 
 
-
-
-export const EditorDetail = (props:any) => {
+export const EditorDetail = () => {
   const {
-    token:{
-      colorTextBase,
-      colorBgContainer
+    token: {
+      colorTextBase
     }
   }=theme.useToken()
   const [selectedPage, setSelectedPage] = useState<string|undefined>();
@@ -35,7 +29,7 @@ export const EditorDetail = (props:any) => {
   const [json, setJson] = useState("");
   const [mobileView, setMobileView] = useState(false);
   const [pageLayouts, setPageLayouts] = usePageLayouts();
-  const { query, actions } = useEditor();
+  const { query } = useEditor();
 
   const save = () => {
     const json = query.serialize();

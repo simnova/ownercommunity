@@ -1,7 +1,7 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { MemberSiteNeighborsListCurrentMemberIdDocument } from '../../../../generated'
+import { MemberSiteNeighborsListCurrentMemberIdDocument } from '../../../../generated';
 import { NeighborsCard } from "./neighbors-card";
 
 interface CardListProps {

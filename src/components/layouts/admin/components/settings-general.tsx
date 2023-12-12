@@ -1,13 +1,12 @@
-import React from 'react';
-import { Form, Input, Button, Descriptions, Checkbox, Typography } from 'antd';
+import { Button, Descriptions, Form, Input, Typography } from 'antd';
 import dayjs from 'dayjs';
-import { AdminSettingsGeneralContainerCommunityDocument } from '../../../../generated';
-import { useQuery } from '@apollo/client';
+import React from 'react';
+
 
 export const SettingsGeneral: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
-  const { Text, Title } = Typography;
+  const { Text } = Typography;
 
   const data = props.data;
 

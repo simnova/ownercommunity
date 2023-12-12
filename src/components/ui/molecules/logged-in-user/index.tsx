@@ -1,10 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './index.module.css';
 
-import { NotLoggedIn } from './not-logged-in';
 import { LoggedIn, LoggedInPropTypes } from './logged-in';
+import { NotLoggedIn } from './not-logged-in';
 const ComponentProps = {
   data: PropTypes.shape({
     isLoggedIn: PropTypes.bool.isRequired,

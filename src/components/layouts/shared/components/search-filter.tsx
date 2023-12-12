@@ -1,7 +1,7 @@
-import { Collapse, Checkbox, Typography, AutoComplete, InputNumber, Radio } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { AutoComplete, Checkbox, Collapse, InputNumber, Radio, Typography } from 'antd';
 import _ from 'lodash';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail } from '../../../../generated';
 const { Title } = Typography;

@@ -1,6 +1,6 @@
+import { AxiosRequestConfig } from 'axios';
 import { FeatureFlagConfig } from '../components/shared/feature-flag-react-lite';
 import defaultValues from './feature-flag-default-values.json';
-import { AxiosRequestConfig } from 'axios';
 
 let axiosHeaders = async (config: AxiosRequestConfig) => {
   //if config is not null

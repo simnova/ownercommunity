@@ -1,12 +1,12 @@
 import { useMutation } from '@apollo/client';
-import {
-  AdminPropertiesAddContainerPropertyAddDocument,
-  AdminPropertiesListContainerPropertiesDocument,
-  PropertyAddInput
-} from '../../../../generated';
 import { message } from 'antd';
-import { PropertiesAdd } from './properties-add';
 import { useNavigate } from 'react-router-dom';
+import {
+    AdminPropertiesAddContainerPropertyAddDocument,
+    AdminPropertiesListContainerPropertiesDocument,
+    PropertyAddInput
+} from '../../../../generated';
+import { PropertiesAdd } from './properties-add';
 
 interface PropertiesAddContainerProps {
   data: { communityId: string };

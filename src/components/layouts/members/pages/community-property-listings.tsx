@@ -5,12 +5,11 @@ import { CommunityPropertyListingsContainer } from '../components/community-prop
 import {
   theme
 } from "antd"
-export const CommunityPropertyListings: React.FC<any> = (props) => {
+export const CommunityPropertyListings: React.FC<any> = () => {
   const params = useParams();
   const {
-    token:{
-      colorTextBase,
-      colorBgContainer
+    token: {
+      colorTextBase
     }
   }=theme.useToken()
   return (

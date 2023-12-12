@@ -1,8 +1,8 @@
-import React from 'react';
-import { Row, Col, Typography } from 'antd';
+import { Col, Row, Typography } from 'antd';
+
+import { useParams } from 'react-router-dom';
 import { SiteEditorFilesListContainer } from '../components/site-editor-files-list.container';
 import { SiteEditorFilesUploadContainer } from '../components/site-editor-files-upload.container';
-import { useParams } from 'react-router-dom';
 
 const { Title } = Typography;
 

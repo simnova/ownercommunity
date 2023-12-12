@@ -1,6 +1,5 @@
-import React from "react";
-import App from "./App";
 import { Meta } from "@storybook/react/types-6-0";
+import App from "./App";
 
 export default {
     title: 'Documentation/Core/Typography/Body',

@@ -1,8 +1,8 @@
-import React from 'react';
+
 import { useParams } from 'react-router-dom';
 import { MembersDetailContainer } from '../components/members-detail.container';
 
-export const MembersGeneral: React.FC<any> = (props) => {
+export const MembersGeneral: React.FC<any> = () => {
   const params = useParams();
 
   return (

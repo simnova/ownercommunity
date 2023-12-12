@@ -1,6 +1,6 @@
-import React, { useState, Fragment, useContext } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Button } from 'antd';
+import { Fragment, useContext, useState } from 'react';
 import { ThemeContext } from '../ThemeContext';
 const ModalPopUp = () => {
   const { currentTokens, setTheme } = useContext(ThemeContext);

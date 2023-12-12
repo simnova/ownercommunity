@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useParams } from 'react-router-dom';
 import { PropertiesListingContainer } from '../components/properties-listing.container';
 

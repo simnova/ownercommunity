@@ -1,9 +1,9 @@
 
 import { useQuery } from '@apollo/client';
+import { CommunityListContainerCommunitiesQueryDocument } from '../../../../generated';
 import { CommunityList } from './community-list';
-import { CommunityListContainerCommunitiesQueryDocument, CommunityListContainerCommunitiesFieldsFragment } from '../../../../generated';
 
-export const CommunityListContainer: React.FC<any> = (props) => {
+export const CommunityListContainer: React.FC<any> = () => {
 
   const { loading, error, data} = useQuery(CommunityListContainerCommunitiesQueryDocument);
   

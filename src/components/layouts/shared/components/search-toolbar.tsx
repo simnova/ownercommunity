@@ -1,5 +1,7 @@
-import { Button, Input, Modal, Select, Space, Typography, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
+import { Button, Input, Modal, Select, Space, Typography, message } from 'antd';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   CustomViewOperation,
   GetPropertySelectedFilterTags,
@@ -21,10 +23,8 @@ import {
   MemberPropertiesGetAllTagsQuery,
   SearchDrawerContainerCustomViewsQuery
 } from '../../../../generated';
-import { ServiceTicketsSearchTags } from '../../members/components/service-tickets-search-tags';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { PropertiesListSearchTags } from '../../members/components/properties-list-search-tags';
+import { ServiceTicketsSearchTags } from '../../members/components/service-tickets-search-tags';
 
 const { Option } = Select;
 const { Text } = Typography;

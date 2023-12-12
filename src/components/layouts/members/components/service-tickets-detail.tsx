@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Form,Input,Button,Descriptions, Select, Steps, Table, Dropdown,Menu, Modal, Typography} from 'antd';
-import dayjs from 'dayjs';
-import { ServiceTicket, ServiceTicketUpdateInput, ServiceTicketChangeStatusInput, ServiceTicketAddUpdateActivityInput, ServiceTicketActivityDetail } from '../../../../generated';
-import { DownOutlined, UserOutlined, FileOutlined, FileTextOutlined, SolutionOutlined, FileSyncOutlined, FileDoneOutlined, FileProtectOutlined } from '@ant-design/icons';
+import { DownOutlined, FileDoneOutlined, FileOutlined, FileProtectOutlined, FileSyncOutlined, FileTextOutlined, SolutionOutlined } from '@ant-design/icons';
+import { Button, Descriptions, Dropdown, Form, Input, Menu, Modal, Select, Steps, Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import { useNavigate } from "react-router-dom"
+import dayjs from 'dayjs';
+import React, { useState } from 'react';
+import { ServiceTicket, ServiceTicketActivityDetail, ServiceTicketAddUpdateActivityInput, ServiceTicketChangeStatusInput, ServiceTicketUpdateInput } from '../../../../generated';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -26,9 +25,6 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const [changeStatusForm] = Form.useForm();
   const [changeStatusFormLoading, setChangeStatusFormLoading] = useState(false);
 
-  const [assignForm] = Form.useForm();
-  const [assignFormLoading, setAssignFormLoading] = useState(false);
-
   const [editDraftForm] = Form.useForm();
   const [editDraftFormLoading, setEditDraftFormLoading] = useState(false);
 
@@ -39,8 +35,6 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const currentStep = stepArray.findIndex((value) => value === props.data.serviceTicket.status) ;
   const [modalVisible,setModalVisible] = useState(false);
   const [nextState,setNextState] = useState('');
-
-  const navigate = useNavigate();
 
   const columns:ColumnsType<ServiceTicketActivityDetail> = [
     {

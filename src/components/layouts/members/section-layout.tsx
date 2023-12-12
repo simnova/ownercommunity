@@ -8,14 +8,14 @@ import { useQuery } from '@apollo/client';
 import { MemberSiteCurrentMemberHasAdminRoleDocument } from '../../../generated';
 import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
 
-const { Footer, Sider, Header } = Layout;
+const { Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
   const { communityId } = useParams();
   const navigate = useNavigate();
   const params = useParams();
-  const { data, loading, error } = useQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
+  const { data } = useQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
     variables: {
       communityId: communityId
     }

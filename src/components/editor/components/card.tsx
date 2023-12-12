@@ -1,7 +1,7 @@
 import { Element, useNode } from "@craftjs/core";
+import { Form, Input, theme } from "antd";
 import { Container } from "./container";
 import { TextComponent } from "./text-component";
-import { Form, Input, Button, theme } from "antd";
 import { TextThing } from "./text-thing";
 
 interface CardGrop {
@@ -33,11 +33,11 @@ Card = ({ bgColor, padding, ...props }: CardGrop) => {
     const {
         token: { colorTextBase, colorBgContainer }
       }=theme.useToken();
-    const { selected } = useNode((state) =>(
+    useNode((state) => (
         {
             selected: state.events.selected,
         }
-      ));
+    ));
     return (
         <Container background={colorBgContainer} >
             <div role="listitem" className=" cursor-pointer shadow rounded-lg p-8 relative " style={{
@@ -91,5 +91,4 @@ Card.craft = {
 export {
     Card,
     CardTop
-
-}
+};

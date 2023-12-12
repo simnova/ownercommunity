@@ -1,7 +1,6 @@
-import { useNode, useEditor } from "@craftjs/core";
-import { Button, Input, theme } from 'antd';
 import { gql, useQuery } from '@apollo/client';
-import { useState } from "react";
+import { useEditor, useNode } from "@craftjs/core";
+import { Input, theme } from 'antd';
 
 
 interface CountryInfo2Prop {
@@ -29,7 +28,7 @@ CountryInfo2 = ({country, ...props} : CountryInfo2Prop ) => {
   const {
     token: { colorTextBase, colorBgContainer }
   }=theme.useToken();
-  const { connectors: { connect, drag }, selected } = useNode((state) =>(
+  const { connectors: { connect, drag } } = useNode((state) =>(
     {
     selected: state.events.selected
   }));
@@ -40,7 +39,7 @@ CountryInfo2 = ({country, ...props} : CountryInfo2Prop ) => {
     { variables: { country: country}, context: { clientName: 'country' } }
   );
 
-  const { enabled } = useEditor((state) => ({
+  useEditor((state) => ({
     enabled: state.options.enabled
   }));
 
@@ -139,6 +138,7 @@ CountryInfo2.craft = {
 
 }
 
-export  {
+export {
   CountryInfo2
-}
+};
+

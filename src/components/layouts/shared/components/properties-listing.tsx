@@ -1,23 +1,21 @@
-import React, { useEffect } from 'react';
-import { Form, Input, InputNumber, Button, Descriptions, Typography, Select, Col, Row } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Col, Descriptions, Form, Input, InputNumber, Row, Select, Typography } from 'antd';
 import dayjs from 'dayjs';
+import React, { useEffect } from 'react';
 import {
-  PropertyUpdateInput, SharedPropertiesListingContainerPropertyFieldsFragment,
-} from '../../../../generated';
-import { FormTags } from '../../../ui/organisms/form-tags';
-import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload.container';
-import { PropertiesFloorPlanUploadContainer } from './properties-floor-plan-upload.container';
-import { SelectTags } from './select-tags';
-import {
-  SelectableRoomsOptions,
-  AdditionalAmenitiesCategories,
-  BedTypeOptions,
-  AmentitiesOptions,
-  additionalAmenitiesOptions
+    AdditionalAmenitiesCategories,
+    AmentitiesOptions,
+    BedTypeOptions,
+    SelectableRoomsOptions,
+    additionalAmenitiesOptions
 } from '../../../../constants';
-import { PropertiesListingImageList } from './properties-listing-image-list';
+import {
+    PropertyUpdateInput, SharedPropertiesListingContainerPropertyFieldsFragment,
+} from '../../../../generated';
+import { PropertiesFloorPlanUploadContainer } from './properties-floor-plan-upload.container';
 import { PropertiesListingImageListContainer } from './properties-listing-image-list.container';
+import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload.container';
+import { SelectTags } from './select-tags';
 
 const { Title } = Typography;
 

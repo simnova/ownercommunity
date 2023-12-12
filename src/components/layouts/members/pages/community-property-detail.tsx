@@ -1,10 +1,9 @@
-import { useNavigate, useNavigationType, useParams } from "react-router-dom";
 import { PageHeader } from '@ant-design/pro-layout';
-import { Typography } from 'antd';
-import { SubPageLayout } from '../sub-page-layout';
+import { useNavigate, useParams } from "react-router-dom";
 import { CommunityPropertyDetailContainer } from "../components/community-property-detail.container";
+import { SubPageLayout } from '../sub-page-layout';
 
-export const CommunityPropertyDetail: React.FC<any> = (props) => {
+export const CommunityPropertyDetail: React.FC<any> = () => {
     const params = useParams();
     const navigate = useNavigate();
     return (

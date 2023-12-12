@@ -1,19 +1,18 @@
-import { useMutation, useQuery } from '@apollo/client';
-import {
-  AdminRolesDetailContainerRoleUpdateDocument,
-  AdminRolesDetailContainerRoleAddDocument,
-  AdminRolesDetailContainerRoleDocument,
-  RoleUpdateInput,
-  RoleAddInput,
-  AdminRolesListContainerRolesDocument
-} from '../../../../generated';
-import { message, Skeleton } from 'antd';
-import { RolesDetail } from './roles-detail';
+import React from 'react';
+
+import { useMutation } from '@apollo/client';
+import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import {
+  AdminRolesDetailContainerRoleAddDocument,
+  AdminRolesListContainerRolesDocument,
+  RoleAddInput
+} from '../../../../generated';
+import { RolesDetail } from './roles-detail';
 
 export const RolesDetailAddContainer: React.FC<any> = (props) => {
   const navigate = useNavigate();
-  const [roleAdd, { data: addData, loading: addLoading, error: addError }] = useMutation(
+  const [roleAdd] = useMutation(
     AdminRolesDetailContainerRoleAddDocument,
     {
       update(cache, { data }) {

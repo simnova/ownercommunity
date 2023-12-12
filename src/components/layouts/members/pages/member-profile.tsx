@@ -1,18 +1,16 @@
 import { PageHeader } from '@ant-design/pro-layout';
-import { Typography, Input, theme } from 'antd';
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { SubPageLayout } from '../sub-page-layout';
-import { MemberProfileContainer } from '../../shared/components/member-profile.container';
+import { Typography, theme } from 'antd';
 
-const { TextArea } = Input;
+import { useParams } from 'react-router-dom';
+import { MemberProfileContainer } from '../../shared/components/member-profile.container';
+import { SubPageLayout } from '../sub-page-layout';
+
 const { Text } = Typography;
 
-export const MemberProfile: React.FC<any> = (props) => {
+export const MemberProfile: React.FC<any> = () => {
   const {
-    token:{
-      colorTextBase,
-      colorBgContainer
+    token: {
+      colorTextBase
     }
   }=theme.useToken()
   const params = useParams();

@@ -11,7 +11,7 @@ export interface BlobToLocalStorageProps {
 
 export const BlobToLocalStorage: React.FC<BlobToLocalStorageProps> = (props) => {
   const [loading, setLoading] = useState(true);
-  const [pageLayouts, setPageLayouts] = usePageLayouts();
+  const [, setPageLayouts] = usePageLayouts();
 
 
   useEffect(() => {

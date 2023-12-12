@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { SharedMembersProfileContainerMemberUpdateDocument, MemberProfileInput, SharedMembersProfileContainerMemberDocument } from '../../../../generated';
 import { message } from 'antd';
-import { MemberProfileDetails } from './member-profile-details';
+import { MemberProfileInput, SharedMembersProfileContainerMemberDocument, SharedMembersProfileContainerMemberUpdateDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
+import { MemberProfileDetails } from './member-profile-details';
 
 interface MemberProfileDetailsContainerProps {
   data: {

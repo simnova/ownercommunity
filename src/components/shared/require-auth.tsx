@@ -1,12 +1,13 @@
 
 import { Navigate } from 'react-router-dom'
+import React from "react";
 
 const RequireAuth:any = (params:any) => {
   if(typeof params.isAuthenticated === 'undefined'){
     //still loading
     return <div>Checking auth...</div>
   }
-  var result:JSX.Element;
+  var result:React.JSX.Element;
   if(params.isAuthenticated === true) {
     result = params.children;
   } else {

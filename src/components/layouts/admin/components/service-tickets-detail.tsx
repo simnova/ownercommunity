@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Form,Input,Button,Descriptions, Select, Steps, Table, Dropdown,Menu, Modal, Typography} from 'antd';
-import dayjs from 'dayjs';
-import { ServiceTicket, ServiceTicketUpdateInput, ServiceTicketChangeStatusInput, ServiceTicketAddUpdateActivityInput, ServiceTicketActivityDetail } from '../../../../generated';
-import { DownOutlined, UserOutlined, FileOutlined, FileTextOutlined, SolutionOutlined, FileSyncOutlined, FileDoneOutlined, FileProtectOutlined } from '@ant-design/icons';
+import { DownOutlined, FileDoneOutlined, FileOutlined, FileProtectOutlined, FileSyncOutlined, FileTextOutlined, SolutionOutlined } from '@ant-design/icons';
+import { Button, Descriptions, Dropdown, Form, Input, Menu, Modal, Select, Steps, Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
+import dayjs from 'dayjs';
+import React, { useState } from 'react';
+import { ServiceTicket, ServiceTicketActivityDetail, ServiceTicketAddUpdateActivityInput, ServiceTicketChangeStatusInput, ServiceTicketUpdateInput } from '../../../../generated';
 
 const { Title } = Typography;
 const { TextArea } = Input;

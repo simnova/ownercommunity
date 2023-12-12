@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Table, TableColumnsType, Row, message, Button, notification, Modal } from 'antd';
-import { FileInfo } from '../../../../generated';
-import ResizeObserver from 'rc-resize-observer';
-import './site-editor-files-list.css';
-import copy from "copy-to-clipboard";
 import { LinkOutlined } from '@ant-design/icons';
+import { Button, Modal, Table, TableColumnsType, notification } from 'antd';
+import copy from "copy-to-clipboard";
+import ResizeObserver from 'rc-resize-observer';
+import React, { useState } from 'react';
+import { FileInfo } from '../../../../generated';
+import './site-editor-files-list.css';
 
 export interface SiteEditorFilesListProps {
   data: FileInfo[];
@@ -119,7 +119,7 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
   }, 0));
 
 
-  let preview = (file: FileInfo) : JSX.Element => {
+  let preview = (file: FileInfo) : React.JSX.Element => {
     if(file.type.startsWith('image/')) {
       return <img src={file.url} alt="File Preview" />
     } else if (file.type.startsWith('application/pdf')) {

@@ -7,7 +7,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 const { Text } = Typography;
 const { Step } = Steps;
 
-export const Placeholder: React.FC<any> = (props) => {
+export const Placeholder: React.FC<any> = () => {
   const params = useParams();
   return (
     <SubPageLayout fixedHeader={false} header={<PageHeader title="Placeholder" />}>

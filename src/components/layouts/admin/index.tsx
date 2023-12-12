@@ -1,27 +1,27 @@
-import { Routes, Route, useParams } from 'react-router-dom';
-import { SectionLayout } from './section-layout';
+import {
+    BarsOutlined,
+    ContactsOutlined,
+    HomeOutlined,
+    LayoutOutlined,
+    SafetyOutlined,
+    ScheduleOutlined,
+    SettingOutlined
+} from '@ant-design/icons';
+import { Route, Routes, useParams } from 'react-router-dom';
+import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
 import { Home } from './pages/home';
-import { Settings } from './pages/settings';
-import { SiteEditor } from './pages/site-editor';
-import { Roles } from './pages/roles';
 import { Members } from './pages/members';
 import { Properties } from './pages/properties';
+import { Roles } from './pages/roles';
 import { ServiceTickets } from './pages/service-tickets';
-import {
-  HomeOutlined,
-  ContactsOutlined,
-  SettingOutlined,
-  LayoutOutlined,
-  SafetyOutlined,
-  BarsOutlined,
-  ScheduleOutlined
-} from '@ant-design/icons';
-import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
+import { Settings } from './pages/settings';
+import { SiteEditor } from './pages/site-editor';
+import { SectionLayout } from './section-layout';
 
 export interface PageLayoutProps {
   path: string;
   title: string;
-  icon: JSX.Element;
+  icon: React.JSX.Element;
   id: string | number;
   parent?: string;
 }

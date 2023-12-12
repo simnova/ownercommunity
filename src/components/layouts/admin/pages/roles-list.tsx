@@ -1,17 +1,16 @@
-import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
-import { Button , theme} from 'antd';
-import { SubPageLayout } from '../sub-page-layout';
-import { useParams, useNavigate } from 'react-router-dom';
-import { RolesListContainer } from '../components/roles-list.container';
+import { Button, theme } from 'antd';
 
-export const RolesList: React.FC<any> = (props) => {
+import { useNavigate, useParams } from 'react-router-dom';
+import { RolesListContainer } from '../components/roles-list.container';
+import { SubPageLayout } from '../sub-page-layout';
+
+export const RolesList: React.FC<any> = () => {
   const params = useParams();
   const navigate = useNavigate();
   const {
-    token:{
-      colorTextBase,
-      colorBgContainer
+    token: {
+      colorTextBase
     }
   }=theme.useToken()
   return (

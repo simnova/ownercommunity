@@ -1,9 +1,9 @@
-import React from 'react';
 import { useMutation } from '@apollo/client';
-import { PropertiesListingImageUpload } from './properties-listing-image-upload';
 import type { UploadFile } from 'antd/es/upload/interface';
-import { AuthResult } from '../../../ui/molecules/azure-upload';
+
 import { SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeaderDocument } from '../../../../generated';
+import { AuthResult } from '../../../ui/molecules/azure-upload';
+import { PropertiesListingImageUpload } from './properties-listing-image-upload';
 
 export interface PropertiesListingImageUploadContainerProps {
   propertyId: string;

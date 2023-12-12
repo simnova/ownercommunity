@@ -1,19 +1,19 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { generateW3CId } from "@microsoft/applicationinsights-core-js";
+import { useAppInsightsContext } from "@microsoft/applicationinsights-react-js";
+import { IExceptionTelemetry } from '@microsoft/applicationinsights-web';
+import { Skeleton, message } from 'antd';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import {
   AdminPropertiesListContainerPropertiesDocument,
-  SharedPropertiesDetailContainerPropertyDeleteDocument,
+  PropertyUpdateInput,
   SharedPropertiesDetailContainerMembersDocument,
+  SharedPropertiesDetailContainerPropertyDeleteDocument,
   SharedPropertiesDetailContainerPropertyDocument,
-  SharedPropertiesDetailContainerPropertyUpdateDocument,
-  PropertyUpdateInput
+  SharedPropertiesDetailContainerPropertyUpdateDocument
 } from '../../../../generated';
 import { PropertiesDetail } from './properties-detail';
-import PropTypes from 'prop-types';
-import { message, Skeleton } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { useAppInsightsContext } from "@microsoft/applicationinsights-react-js";
-import { IDiagnosticLogger, generateW3CId, getLocation } from "@microsoft/applicationinsights-core-js";
-import { IExceptionTelemetry, ApplicationInsights as AIObject, AppInsightsCore, ApplicationInsights, ApplicationInsightsContainer} from '@microsoft/applicationinsights-web';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -99,7 +99,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
       appInsights.getAppInsights().stopTrackPage('PropertiesDetail-SavePageView', window.location.href + "/save-property");
     } catch (error) {
       message.error(`Error updating Property: ${JSON.stringify(error)}`);
-      appInsights.trackException({error:error} as IExceptionTelemetry,{propertyId: values.id});
+      appInsights.trackException({exception:error} as IExceptionTelemetry,{propertyId: values.id});
     }
   };
   const handleDelete = async () => {

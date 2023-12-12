@@ -1,8 +1,8 @@
-import { Table , Button, TableColumnsType} from "antd"
-import dayjs from "dayjs"
-import { useNavigate } from "react-router-dom"
-import { Member } from "../../../../generated";
 import { UsergroupAddOutlined } from '@ant-design/icons';
+import { Button, Table, TableColumnsType } from "antd";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
+import { Member } from "../../../../generated";
 
 
 export const MembersAccountsList: React.FC<any> = (props) => {

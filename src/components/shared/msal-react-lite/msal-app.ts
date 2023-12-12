@@ -1,7 +1,7 @@
-import {  MsalProviderPopupConfig, MsalProviderRedirectConfig } from '.';
 import * as msal from '@azure/msal-browser';
-import { ConfigType } from './msal-provider';
 import { StringDict } from '@azure/msal-common';
+import { MsalProviderPopupConfig, MsalProviderRedirectConfig } from '.';
+import { ConfigType } from './msal-provider';
 
 
 export class MsalApp {

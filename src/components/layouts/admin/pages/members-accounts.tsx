@@ -1,9 +1,9 @@
 import { Route, Routes, useParams } from "react-router-dom";
 import { MembersAccountsAddContainer } from "../components/members-accounts-add.container";
+import { MembersAccountsEditContainer } from "../components/members-accounts-edit.container";
 import { MembersAccountsListContainer } from "../components/members-accounts-list.container";
-import { MembersAccountsEditContainer } from "../components/members-accounts-edit.container"
 
-export const MembersAccounts: React.FC<any> = (props) => {
+export const MembersAccounts: React.FC<any> = () => {
   const params = useParams();
   return (
     <div>

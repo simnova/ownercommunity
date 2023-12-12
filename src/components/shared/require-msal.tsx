@@ -1,6 +1,6 @@
-import RequireAuth from './require-auth';
 import React, { useEffect, useState } from 'react';
 import { useMsal } from './msal-react-lite';
+import RequireAuth from './require-auth';
 export interface RequireMsalProps {
   identifier: string;
   forceLogin?: boolean;

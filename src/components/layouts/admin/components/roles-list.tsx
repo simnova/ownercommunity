@@ -1,7 +1,7 @@
-import { Table , Button, TableColumnsType} from "antd"
-import dayjs from "dayjs"
+import { Button, Table, TableColumnsType } from "antd";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { Role } from "../../../../generated"
+import { Role } from "../../../../generated";
 
 export interface RolesListProps {
   data: Role[];

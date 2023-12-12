@@ -1,21 +1,22 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { message, Skeleton } from "antd";
-import { ServiceTicketsDetail } from "./service-tickets-detail";
-import { 
-  AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
-  AdminServiceTicketsDetailContainerPropertiesDocument, 
-  AdminServiceTicketsDetailContainerServiceTicketUpdateDocument, 
-  AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument, 
-  AdminServiceTicketsDetailContainerServiceTicketDocument, 
-  ServiceTicketUpdateInput, 
-  ServiceTicketChangeStatusInput,
-  AdminServiceTicketsDetailContainerServiceAssignDocument,
-  AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
-  ServiceTicketAssignInput,
-  ServiceTicketAddUpdateActivityInput,
-  AdminServiceTicketDetailContainerServiceTicketDeleteDocument,
-  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument} from "../../../../generated";
+import { Skeleton, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import {
+    AdminServiceTicketDetailContainerServiceTicketDeleteDocument,
+    AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
+    AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
+    AdminServiceTicketsDetailContainerPropertiesDocument,
+    AdminServiceTicketsDetailContainerServiceAssignDocument,
+    AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
+    AdminServiceTicketsDetailContainerServiceTicketDocument,
+    AdminServiceTicketsDetailContainerServiceTicketUpdateDocument,
+    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+    ServiceTicketAddUpdateActivityInput,
+    ServiceTicketAssignInput,
+    ServiceTicketChangeStatusInput,
+    ServiceTicketUpdateInput
+} from "../../../../generated";
+import { ServiceTicketsDetail } from "./service-tickets-detail";
 
 export interface ServiceTicketsDetailContainerProps {
   data: {

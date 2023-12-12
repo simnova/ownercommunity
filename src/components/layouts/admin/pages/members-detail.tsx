@@ -1,27 +1,26 @@
-import React from 'react';
-import { Routes, Route, Link, useLocation, matchRoutes, useNavigate } from 'react-router-dom';
+import { IdcardOutlined, ProfileOutlined, TeamOutlined } from '@ant-design/icons';
 import { PageHeader } from '@ant-design/pro-layout';
-import { Col, Menu, Row, Layout } from 'antd';
-import { TeamOutlined, ProfileOutlined, IdcardOutlined } from '@ant-design/icons';
+import { Col, Menu, Row } from 'antd';
 
+import { Link, Route, Routes, matchRoutes, useLocation, useNavigate } from 'react-router-dom';
+
+import { SubPageLayout } from '../sub-page-layout';
+import { MembersAccounts } from './members-accounts';
 import { MembersGeneral } from './members-general';
 import { MembersProfile } from './members-profile';
-import { MembersAccounts } from './members-accounts';
-import { SubPageLayout } from '../sub-page-layout';
 
-const { Header, Content } = Layout;
 
-export const MembersDetail: React.FC<any> = (props) => {
+export const MembersDetail: React.FC<any> = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const pages = [
-    {id:1, path:'community/:communityId/admin/members/:id/', title:'General', icon:<ProfileOutlined />},
-    {id:2, path:'community/:communityId/admin/members/:id/profile/*', title:'Profile', icon:<IdcardOutlined />},
-    {id:3, path:'community/:communityId/admin/members/:id/accounts/*', title:'Accounts', icon:<TeamOutlined />},
+    {id: "1", path:'community/:communityId/admin/members/:id/', title:'General', icon:<ProfileOutlined />},
+    {id: "2", path:'community/:communityId/admin/members/:id/profile/*', title:'Profile', icon:<IdcardOutlined />},
+    {id: "3", path:'community/:communityId/admin/members/:id/accounts/*', title:'Accounts', icon:<TeamOutlined />},
   ]
 
-  var matchedPages = matchRoutes(pages,location)
+  const matchedPages = matchRoutes(pages,location)
   const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : [];
 
   return (

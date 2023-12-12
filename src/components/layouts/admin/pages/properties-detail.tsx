@@ -14,12 +14,12 @@ export const PropertiesDetail: React.FC<any> = () => {
   const navigate = useNavigate();
 
   const pages = [
-    {id:1, path:'community/:communityId/admin/properties/:id/', title:'General', icon:<ProfileOutlined />},
-    {id:2, path:'community/:communityId/admin/properties/:id/listing/*', title:'Listing', icon:<FileOutlined />},
-    {id:3, path:'community/:communityId/admin/properties/:id/location/*', title:'Location', icon:<CompassOutlined />},
+    {id: "1", path:'community/:communityId/admin/properties/:id/', title:'General', icon:<ProfileOutlined />},
+    {id: "2", path:'community/:communityId/admin/properties/:id/listing/*', title:'Listing', icon:<FileOutlined />},
+    {id: "3", path:'community/:communityId/admin/properties/:id/location/*', title:'Location', icon:<CompassOutlined />},
   ]
 
-  var matchedPages = matchRoutes(pages,location)
+  const matchedPages = matchRoutes(pages,location)
   const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : [];
 
   return (

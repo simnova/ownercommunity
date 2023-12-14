@@ -5,12 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   define: {
-    process: require("process/browser"),
-    zlib: require("browserify-zlib"),
-    stream: require("stream-browserify"),
-    util: require("util"),
-    buffer: require("buffer"),
-    asset: require("assert"),
+    process: import("process/browser"),
+    zlib: import("browserify-zlib"),
+    stream: import("stream-browserify"),
+    util: import("util"),
+    buffer: import("buffer"),
+    asset: import("assert"),
   },
   server: {
     port: 3000

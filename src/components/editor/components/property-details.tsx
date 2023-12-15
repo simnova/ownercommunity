@@ -22,8 +22,8 @@ PropertyDetails = () => {
         {
             variables: { 
                 propertyId: propertyId,
-                skip: () => propertyId === 'page-editor'
-            }
+                
+            }, skip: propertyId === 'page-editor'
         },
     );
 

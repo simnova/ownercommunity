@@ -51,7 +51,7 @@
     "webpack": "^5.75.0"
   },
   "scripts": {
-    "prebuild": "node generate-build-version.cjs",
+    "prebuild": "node generate-build-version",
     "start": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

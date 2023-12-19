@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require('path');
+const fs = import('fs');
+const path = import('path');
 
 // Read the current version from meta.json
 const metaPath = path.join(__dirname, 'public', 'meta.json');
-const metaData = require(metaPath);
+const metaData = import(metaPath);
 const currentVersion = metaData.version;
 
 // Determine the desired version update type (default: patch)

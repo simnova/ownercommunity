@@ -1,38 +1,43 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { message } from "antd";
-import { useNavigate } from "react-router-dom";
-import { AdminMembersAccountsAddContainerMemberAccountAddDocument, AdminMembersAccountsAddContainerMemberForUserDocument, MemberAccountAddInput } from "../../../../generated";
-import { MembersAccountsAdd } from "./members-accounts-add";
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import {
+  AdminMembersAccountsAddContainerMemberAccountAddDocument,
+  AdminMembersAccountsAddContainerMemberForUserDocument,
+  MemberAccountAddInput
+} from '../../../../generated';
+import { MembersAccountsAdd } from './members-accounts-add';
 
-
-export interface MembersAccountsAddContainerProps  {
+export interface MembersAccountsAddContainerProps {
   data: {
-    id:string
-  }
+    id: string;
+  };
 }
 
 export const MembersAccountsAddContainer: React.FC<MembersAccountsAddContainerProps> = (props) => {
   const navigate = useNavigate();
-  const [memberAccountAdd] = useMutation(AdminMembersAccountsAddContainerMemberAccountAddDocument); 
+  const [memberAccountAdd] = useMutation(AdminMembersAccountsAddContainerMemberAccountAddDocument);
   const [loadUser] = useLazyQuery(AdminMembersAccountsAddContainerMemberForUserDocument);
 
   const defaultValues: MemberAccountAddInput = {
     memberId: props.data.id,
     account: {
-      firstName: "",
-      lastName: "",
-      user:""
+      firstName: '',
+      lastName: '',
+      user: ''
     }
-  }
+  };
 
-  const handleCheckUserId = async (userId: string) : Promise<{success:boolean, errorMessage:string}> => {
-    var user = await loadUser({variables: {userId}});
-    if(user.data && user.data.memberForUser){
-      return {success:false, errorMessage:`User already exists as a Member as ${user.data.memberForUser.memberName} `}
+  const handleCheckUserId = async (userId: string): Promise<{ success: boolean; errorMessage: string }> => {
+    const user = await loadUser({ variables: { userId } });
+    if (user?.data?.memberForUser) {
+      return {
+        success: false,
+        errorMessage: `User already exists as a Member as ${user.data.memberForUser.memberName} `
+      };
     }
-    return {success:true, errorMessage:""}
-  }
-    
+    return { success: true, errorMessage: '' };
+  };
 
   const handleSave = async (values: MemberAccountAddInput) => {
     try {
@@ -40,14 +45,14 @@ export const MembersAccountsAddContainer: React.FC<MembersAccountsAddContainerPr
       await memberAccountAdd({
         variables: {
           input: values
-        }      
+        }
       });
-      message.success("Member Account Added");
-      navigate(`../`); 
+      message.success('Member Account Added');
+      navigate(`../`);
     } catch (error) {
       message.error(`Error Adding Member Account: ${JSON.stringify(error)}`);
     }
-  }
+  };
 
-  return <MembersAccountsAdd onSave={handleSave} onCheckUserId={handleCheckUserId} data={defaultValues} />
-}
+  return <MembersAccountsAdd onSave={handleSave} onCheckUserId={handleCheckUserId} data={defaultValues} />;
+};

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ReactNode, createContext, useEffect } from 'react';
+import { ReactNode, createContext, useEffect, useMemo } from 'react';
 import PackageVersion from '../../package.json';
 const appVersion = PackageVersion.version;
 interface CachePurgeContextType {
@@ -34,34 +34,34 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-   try {
-    const response = await axios.get(url, config);
-    const data = response.data;
-    console.log('Checking version', data.version, cachedVersion);
-    if (cachedVersion && data.version !== cachedVersion) {
-      localStorage.setItem('cachedVersion', data.version);
-      window.location.reload();
+    try {
+      const response = await axios.get(url, config);
+      const data = response.data;
+      console.log('Checking version', data.version, cachedVersion);
+      if (cachedVersion && data.version !== cachedVersion) {
+        localStorage.setItem('cachedVersion', data.version);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error fetching version:', error);
     }
-   } catch (error) {
-    console.error('Error fetching version:', error);
-   }
   };
-// we check for possible cache purgin every 20 seconds
+  // we check for possible cache purgin every 20 seconds
 
   useEffect(() => {
     const setIntervalImmediately = (func: any, interval: number) => {
       func();
       return setInterval(func, interval);
-    }
-    (async()=>{
+    };
+    (async () => {
       setIntervalImmediately(fethcVersion, 20000);
-    })()
+    })();
   }, []);
 
   return (
     <CachePurgeContext.Provider
       value={{
-        currentVersion: cachedVersion || appVersion
+        currentVersion: useMemo(() => cachedVersion ?? appVersion, [cachedVersion, appVersion])
       }}
     >
       {children}

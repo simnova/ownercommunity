@@ -3,15 +3,13 @@ import { Button, Col, Descriptions, Form, Input, InputNumber, Row, Select, Typog
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import {
-    AdditionalAmenitiesCategories,
-    AmentitiesOptions,
-    BedTypeOptions,
-    SelectableRoomsOptions,
-    additionalAmenitiesOptions
+  AdditionalAmenitiesCategories,
+  AmentitiesOptions,
+  BedTypeOptions,
+  SelectableRoomsOptions,
+  additionalAmenitiesOptions
 } from '../../../../constants';
-import {
-    PropertyUpdateInput, SharedPropertiesListingContainerPropertyFieldsFragment,
-} from '../../../../generated';
+import { PropertyUpdateInput, SharedPropertiesListingContainerPropertyFieldsFragment } from '../../../../generated';
 import { PropertiesFloorPlanUploadContainer } from './properties-floor-plan-upload.container';
 import { PropertiesListingImageListContainer } from './properties-listing-image-list.container';
 import { PropertiesListingImageUploadContainer } from './properties-listing-image-upload.container';
@@ -34,9 +32,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
   const [additionalAmenities, setAdditionalAmenities] = React.useState<any[]>([]);
   const [bedroomDetails, setBedroomDetails] = React.useState<any[]>([]);
 
-  const [selectableCategories, setSelectableCategories] = React.useState<string[]>(
-    AdditionalAmenitiesCategories
-  );
+  const [selectableCategories, setSelectableCategories] = React.useState<string[]>(AdditionalAmenitiesCategories);
 
   const [selectableRooms, setSelectableRooms] = React.useState<string[]>(SelectableRoomsOptions);
 
@@ -60,12 +56,8 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
       }
     });
 
-    const remainingBeds = SelectableRoomsOptions.filter(
-      (room: any) => !selectedBedrooms.includes(room)
-    );
-    const remainingCategories = selectableCategories.filter(
-      (category: any) => !selectedCategories.includes(category)
-    );
+    const remainingBeds = SelectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
+    const remainingCategories = selectableCategories.filter((category: any) => !selectedCategories.includes(category));
 
     setSelectableRooms(remainingBeds);
     setSelectableCategories(remainingCategories);
@@ -82,14 +74,10 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
       }
     });
 
-    const remainingBeds = SelectableRoomsOptions.filter(
-      (room: any) => !selectedBedrooms.includes(room)
-    );
+    const remainingBeds = SelectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
     setSelectableRooms(remainingBeds);
     setBedroomDetails(newBedroomDetails);
-    form.setFields([
-      { name: ['listingDetail', 'bedroomDetails', index, 'bedDescriptions'], value: [] }
-    ]);
+    form.setFields([{ name: ['listingDetail', 'bedroomDetails', index, 'bedDescriptions'], value: [] }]);
   };
 
   const onSelectChanged = (value: string, index: number) => {
@@ -110,9 +98,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     );
     setSelectableCategories(remainingCategories);
     setAdditionalAmenities(newAdditionalAmenities);
-    form.setFields([
-      { name: ['listingDetail', 'additionalAmenities', index, 'amenities'], value: [] }
-    ]);
+    form.setFields([{ name: ['listingDetail', 'additionalAmenities', index, 'amenities'], value: [] }]);
   };
 
   return (
@@ -135,7 +121,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         initialValues={props.data.property}
         onFinish={(values) => {
           setFormLoading(true);
-          var property: PropertyUpdateInput = {
+          const property: PropertyUpdateInput = {
             id: props.data.property.id,
             ...values
           };
@@ -176,10 +162,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                         paddingRight: '10px'
                       }}
                     >
-                      <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        onClick={() => remove(field.name)}
-                      />
+                      <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
                     </div>
                     <div
                       style={{
@@ -216,9 +199,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                 ))}
                 <Form.Item>
                   {fields.length <
-                  (props.data.property.listingDetail?.bedrooms
-                    ? props.data.property.listingDetail?.bedrooms
-                    : 0) ? (
+                  (props.data.property.listingDetail?.bedrooms ? props.data.property.listingDetail?.bedrooms : 0) ? (
                     <Button
                       type="dashed"
                       onClick={() => {
@@ -273,15 +254,11 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                           className="dynamic-delete-button"
                           onClick={() => {
                             if (additionalAmenities[index].category) {
-                              setSelectableCategories([
-                                ...selectableCategories,
-                                additionalAmenities[index].category
-                              ]);
+                              setSelectableCategories([...selectableCategories, additionalAmenities[index].category]);
 
                               setAdditionalAmenities(
                                 additionalAmenities.filter(
-                                  (amenity) =>
-                                    amenity.category !== additionalAmenities[index].category
+                                  (amenity) => amenity.category !== additionalAmenities[index].category
                                 )
                               );
                             }
@@ -321,12 +298,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                             // options={additionalAmenitiesOptions[form.getFieldsValue().listingDetail.additionalAmenities[index]?.category ?? '' ]}
                             options={
                               additionalAmenitiesOptions[
-                                form.getFieldValue([
-                                  'listingDetail',
-                                  'additionalAmenities',
-                                  index,
-                                  'category'
-                                ])
+                                form.getFieldValue(['listingDetail', 'additionalAmenities', index, 'category'])
                               ]
                             }
                             //value={form.getFieldValue(['listingDetail','additionalAmenities',index,'amenities'])}
@@ -343,10 +315,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
                     <Button
                       type="dashed"
                       onClick={() => {
-                        setAdditionalAmenities([
-                          ...additionalAmenities,
-                          { category: '', amenities: [] }
-                        ]);
+                        setAdditionalAmenities([...additionalAmenities, { category: '', amenities: [] }]);
                         add();
                       }}
                       block
@@ -372,7 +341,12 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
             </Form.Item>
           </Col>
           <Col span={21}>
-            <PropertiesListingImageListContainer data={{images: props?.data?.property?.listingDetail?.images ?? [], propertyId: props?.data?.property?.id}} />
+            <PropertiesListingImageListContainer
+              data={{
+                images: props?.data?.property?.listingDetail?.images ?? [],
+                propertyId: props?.data?.property?.id
+              }}
+            />
           </Col>
         </Row>
 
@@ -390,7 +364,12 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
             </Form.Item>
           </Col>
           <Col span={21}>
-            <PropertiesListingImageListContainer data={{images: props?.data?.property?.listingDetail?.floorPlanImages ?? [], propertyId: props?.data?.property?.id }}  />
+            <PropertiesListingImageListContainer
+              data={{
+                images: props?.data?.property?.listingDetail?.floorPlanImages ?? [],
+                propertyId: props?.data?.property?.id
+              }}
+            />
           </Col>
         </Row>
 
@@ -409,28 +388,16 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         <Form.Item name={['listingDetail', 'listingAgentCompany']} label="Listing Agent Company">
           <Input placeholder="Listing Agent Company" />
         </Form.Item>
-        <Form.Item
-          name={['listingDetail', 'listingAgentCompanyPhone']}
-          label="Listing Agent Company Phone"
-        >
+        <Form.Item name={['listingDetail', 'listingAgentCompanyPhone']} label="Listing Agent Company Phone">
           <Input placeholder="Listing Agent Company Phone" />
         </Form.Item>
-        <Form.Item
-          name={['listingDetail', 'listingAgentCompanyEmail']}
-          label="Listing Agent Company Email"
-        >
+        <Form.Item name={['listingDetail', 'listingAgentCompanyEmail']} label="Listing Agent Company Email">
           <Input placeholder="Listing Agent Company Email" />
         </Form.Item>
-        <Form.Item
-          name={['listingDetail', 'listingAgentCompanyWebsite']}
-          label="Listing Agent Company Website"
-        >
+        <Form.Item name={['listingDetail', 'listingAgentCompanyWebsite']} label="Listing Agent Company Website">
           <Input placeholder="Listing Agent Company Website" />
         </Form.Item>
-        <Form.Item
-          name={['listingDetail', 'listingAgentCompanyAddress']}
-          label="Listing Agent Company Address"
-        >
+        <Form.Item name={['listingDetail', 'listingAgentCompanyAddress']} label="Listing Agent Company Address">
           <Input placeholder="Listing Agent Company Address" />
         </Form.Item>
 

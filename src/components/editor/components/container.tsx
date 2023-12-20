@@ -1,13 +1,13 @@
-import PropTypes from "prop-types";
-import { useNode } from "@craftjs/core";
-import { Form, Input } from "antd";
-import { useContext } from "react";
-import { ThemeContext } from "../../../contexts/ThemeContext";
+import PropTypes from 'prop-types';
+import { useNode } from '@craftjs/core';
+import { Form, Input } from 'antd';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../contexts/ThemeContext';
 
 const ContainerProps = {
   children: PropTypes.node,
-  bgColor: PropTypes.string,
-}
+  bgColor: PropTypes.string
+};
 
 interface ContainerProp {
   children: any;
@@ -19,31 +19,32 @@ export type ContainerPropTypes = PropTypes.InferProps<typeof ContainerProps> & C
 let Container: any;
 
 Container = ({ children }: ContainerProp) => {
-  const { connectors: { connect, drag } } = useNode((state) =>(
-    {
-        selected: state.events.selected,
-    }
-  ));
-  
   const {
-    currentTokens
-  }=useContext(ThemeContext)
-  const backGColor = currentTokens.hardCodedTokens.backgroundColor
+    connectors: { connect, drag }
+  } = useNode((state) => ({
+    selected: state.events.selected
+  }));
+
+  const { currentTokens } = useContext(ThemeContext);
+  const backGColor = currentTokens.hardCodedTokens.backgroundColor;
   return (
     <div
       className="px-4 py-2"
-      ref={ref => connect(drag(ref as HTMLDivElement))}
+      ref={(ref) => connect(drag(ref as HTMLDivElement))}
       style={{
-        backgroundColor: backGColor,
+        backgroundColor: backGColor
       }}
     >
       {children}
     </div>
-  )
-}
+  );
+};
 
-var ContainerSettings = () => {
-  const { actions: { setProp }, bgColor } = useNode((node) => ({  
+const ContainerSettings = () => {
+  const {
+    actions: { setProp },
+    bgColor
+  } = useNode((node) => ({
     bgColor: node.data.props.bgColor
   }));
 
@@ -54,23 +55,21 @@ var ContainerSettings = () => {
           <Input
             placeholder={bgColor}
             value={bgColor}
-            onChange={(inputElement) => setProp((props: any) => props.bgColor = inputElement.target.value)}
+            onChange={(inputElement) => setProp((props: any) => (props.bgColor = inputElement.target.value))}
           />
         </Form.Item>
       </Form>
     </div>
-  )
-}
+  );
+};
 
 Container.craft = {
   props: {
-    bgColor: '#ffffff',
+    bgColor: '#ffffff'
   },
   related: {
-    settings: ContainerSettings,
+    settings: ContainerSettings
   }
-}
+};
 
-export {
-  Container
-}
+export { Container };

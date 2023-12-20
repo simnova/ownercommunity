@@ -43,7 +43,7 @@ interface SearchToolbarProps {
 
 //create your forceUpdate hook
 function useForceUpdate() {
-  const [, setValue] = useState(0); // integer state
+  const [value, setValue] = useState(0); // integer state
   return () => setValue((value) => value + 1); // update state to force render
   // An function that increment 👆🏻 the previous state like here
   // is better than directly setting `value + 1`
@@ -324,7 +324,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
               )
             }
           ></Select>
-          <Button type="primary" onClick={() => updateCustomView()} disabled={selectedSavedFilterName ? false : true}>
+          <Button type="primary" onClick={() => updateCustomView()} disabled={!selectedSavedFilterName}>
             Update
           </Button>
           <Button type="default" danger onClick={() => clearFilter()}>

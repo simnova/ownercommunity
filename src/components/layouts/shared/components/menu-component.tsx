@@ -24,7 +24,7 @@ export const MenuComponent = ({ pageLayouts, ...props }: TextProp) => {
       return;
     }
     return children.map((x: any) => {
-      let child = pageLayouts.find((y: any) => y.id === x.id) as any;
+      let child = pageLayouts.find((y: any) => y.id === x.id);
       let grandChildren = pageLayouts.filter((x: any) => x.parent === child.id);
       return grandChildren && grandChildren.length > 0 ? (
         <SubMenu key={child.id} title={child.title}>
@@ -42,16 +42,11 @@ export const MenuComponent = ({ pageLayouts, ...props }: TextProp) => {
   };
 
   const topMenu = () => {
-    const root = pageLayouts.find((x: any) => x.id === 'ROOT') as any;
+    const root = pageLayouts.find((x: any) => x.id === 'ROOT');
     const matchedPages = matchRoutes(pageLayouts, location);
     const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.id.toString()) : [];
     return (
-      <Menu
-        theme={props.theme}
-        mode={props.mode}
-        defaultSelectedKeys={matchedIds}
-        selectedKeys={matchedIds}
-      >
+      <Menu theme={props.theme} mode={props.mode} defaultSelectedKeys={matchedIds} selectedKeys={matchedIds}>
         <Menu.Item key="ROOT" icon={root.icon}>
           <Link to={createPath(root.path)}>{root.title}</Link>
         </Menu.Item>

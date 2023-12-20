@@ -24,7 +24,6 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
     await logout('account');
   };
 
-
   const LoggedInCommunityContainer = () => {
     const userData: LoggedInUserPropTypes = {
       data: {

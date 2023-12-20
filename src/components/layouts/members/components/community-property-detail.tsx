@@ -33,7 +33,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
   const listingImages = props.data.property.listingDetail.images.map((image: any) => {
     return `https://ownercommunity.blob.core.windows.net/${params.communityId}/${image}`;
-  })
+  });
 
   const floorPlanImages = props.data.property.listingDetail.floorPlanImages.map((floorPlan: any) => {
     const url = `https://ownercommunity.blob.core.windows.net/${params.communityId}/${floorPlan}`;
@@ -55,10 +55,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         listedFlag: props.data.property.listedForRent,
         name: 'rental',
         location: props.data.property.location.address.freeformAddress,
-        price: [
-          props.data.property.listingDetail.rentLow,
-          props.data.property.listingDetail.rentHigh
-        ],
+        price: [props.data.property.listingDetail.rentLow, props.data.property.listingDetail.rentHigh],
         listingImages: listingImages
       },
       {
@@ -136,7 +133,6 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
-                    role="img"
                     width="1em"
                     height="1em"
                     preserveAspectRatio="xMidYMid meet"
@@ -158,13 +154,9 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
   const generateAgentDetails = () => {
     return (
-      (<Space direction={props.space ?? 'vertical'}>
+      <Space direction={props.space ?? 'vertical'}>
         <Space>
-          {props.data.property.listingDetail.listingAgent ? (
-            props.data.property.listingDetail.listingAgent
-          ) : (
-            <></>
-          )}
+          {props.data.property.listingDetail.listingAgent ? props.data.property.listingDetail.listingAgent : <></>}
           {props.data.property.listingDetail.listingAgentCompany ? (
             <Button type="link" onClick={showModal}>
               <Text italic style={{ color: 'gray' }}>
@@ -197,12 +189,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
           <></>
         )}
         {props.data.property.listingDetail.listingAgentCompany ? (
-          <Modal
-            open={isModalVisible}
-            onCancel={handleCancel}
-            title={'Company Details'}
-            footer={null}
-          >
+          <Modal open={isModalVisible} onCancel={handleCancel} title={'Company Details'} footer={null}>
             <Space direction="vertical">
               <Title level={3}>{props.data.property.listingDetail.listingAgentCompany}</Title>
               {props.data.property.listingDetail.listingAgentCompanyAddress ? (
@@ -236,7 +223,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         ) : (
           <></>
         )}
-      </Space>)
+      </Space>
     );
   };
 
@@ -266,34 +253,22 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
           {props.data.property.propertyName}
         </Title>
         <Text italic style={{ color: 'gray' }}>
-          Owned By:{' '}
-          {props.data.property.owner?.memberName ? props.data.property.owner.memberName : ''}
+          Owned By: {props.data.property.owner?.memberName ? props.data.property.owner.memberName : ''}
         </Text>
       </Space>
 
       <Space direction="horizontal" size={50}>
         <Title level={3} style={{ marginTop: '0px' }}>
-          {props.data.property.location.address.streetNumber +
-            ' ' +
-            props.data.property.location.address.streetName}
+          {props.data.property.location.address.streetNumber + ' ' + props.data.property.location.address.streetName}
         </Title>
         <Title level={4}>
-          {props.data.property.listingDetail.bedrooms
-            ? props.data.property.listingDetail.bedrooms
-            : '-'}{' '}
-          Bds
+          {props.data.property.listingDetail.bedrooms ? props.data.property.listingDetail.bedrooms : '-'} Bds
         </Title>
         <Title level={4}>
-          {props.data.property.listingDetail.bathrooms
-            ? props.data.property.listingDetail.bathrooms
-            : '-'}{' '}
-          Ba
+          {props.data.property.listingDetail.bathrooms ? props.data.property.listingDetail.bathrooms : '-'} Ba
         </Title>
         <Title level={4}>
-          {props.data.property.listingDetail.squareFeet
-            ? props.data.property.listingDetail.squareFeet
-            : '-'}{' '}
-          Sqft
+          {props.data.property.listingDetail.squareFeet ? props.data.property.listingDetail.squareFeet : '-'} Sqft
         </Title>
       </Space>
 
@@ -323,9 +298,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
       <Divider orientation="left" orientationMargin={'5px'}>
         <Title level={5}>
           About{' '}
-          {props.data.property.location.address.streetNumber +
-            ' ' +
-            props.data.property.location.address.streetName}
+          {props.data.property.location.address.streetNumber + ' ' + props.data.property.location.address.streetName}
         </Title>
       </Divider>
       <Text italic>{props.data.property.listingDetail.description}</Text>

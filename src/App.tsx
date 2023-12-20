@@ -35,13 +35,11 @@ function App() {
   );
 
   return (
-    <>
-      <Routes>
-        <Route path="*" element={rootSection}></Route>
-        <Route path="/community/*" element={communitySection} />
-        <Route path="/login" element={authSection} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="*" element={rootSection}></Route>
+      <Route path="/community/*" element={communitySection} />
+      <Route path="/login" element={authSection} />
+    </Routes>
   );
 }
 

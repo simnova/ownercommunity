@@ -2,8 +2,8 @@ import { useMutation, useQuery } from '@apollo/client';
 import { FC, useState } from 'react';
 import { LocalSettingsKeys } from '../../../../constants';
 import {
-    SharedPropertiesListingImageListContainerMemberForUserDocument,
-    SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument
+  SharedPropertiesListingImageListContainerMemberForUserDocument,
+  SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument
 } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { PropertiesListingImageList } from './properties-listing-image-list';
@@ -34,7 +34,7 @@ export const PropertiesListingImageListContainer: FC<PropertiesListingImageListC
           return imageBlobName;
         }
       }) ?? '';
-      console.log('blobName', blobName)
+    console.log('blobName', blobName);
     const result = await propertyListingImageRemove({
       variables: {
         input: {
@@ -54,7 +54,7 @@ export const PropertiesListingImageListContainer: FC<PropertiesListingImageListC
   return (
     <ComponentQueryLoader
       loading={loading}
-      hasData={data && data?.memberForUser}
+      hasData={data?.memberForUser}
       hasDataComponent={
         <PropertiesListingImageList
           data={{ images: props?.data?.images ?? [], memberId: data?.memberForUser?.id }}

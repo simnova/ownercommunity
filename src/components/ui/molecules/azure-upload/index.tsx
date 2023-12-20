@@ -8,18 +8,18 @@ import { BlobIndexTag, BlobMetadataField } from '../../../../generated';
 import { FileValidator } from './file-validator';
 
 interface UploadButtonProp {
-  authorizeRequest: (file:File) => Promise<AuthResult>
-  blobPath: string
-  onChange?: (value:any) => void
-  onRemoveRequested?: () => Promise<boolean>
-  onInvalidContentType?: () => void
-  onInvalidContentLength?: () => void
-  permittedContentTypes?: string[]
-  permittedExtensions?: string[]
-  maxFileSizeBytes?: number
-  maxWidthOrHeight?: number
-  onSuccess?: (file: UploadFile) => void
-  button?: React.ReactNode
+  authorizeRequest: (file: File) => Promise<AuthResult>;
+  blobPath: string;
+  onChange?: (value: any) => void;
+  onRemoveRequested?: () => Promise<boolean>;
+  onInvalidContentType?: () => void;
+  onInvalidContentLength?: () => void;
+  permittedContentTypes?: string[];
+  permittedExtensions?: string[];
+  maxFileSizeBytes?: number;
+  maxWidthOrHeight?: number;
+  onSuccess?: (file: UploadFile) => void;
+  button?: React.ReactNode;
 }
 
 export type UploadButtonProps = UploadButtonProp;
@@ -61,7 +61,6 @@ export type AzureUploadProps = ComponentProp;
 export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
   const authResultRef = useRef<AuthResult | undefined>(undefined);
   const beforeUpload = async (file: RcFile) => {
-
     const validatorOptions = {
       maxFileSizeBytes: props.data.maxFileSizeBytes,
       maxWidthOrHeight: props.data.maxWidthOrHeight,
@@ -106,7 +105,7 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
 
   const customizeUpload = async (option: any) => {
     //   const result =  await props.authorizeRequest(option.file) as AuthResult;
-    if (authResultRef.current && authResultRef.current.isAuthorized) {
+    if (authResultRef?.current?.isAuthorized) {
       const { authHeader } = authResultRef.current;
 
       try {
@@ -131,7 +130,7 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
             'Content-Type': option.file.type
           },
           onUploadProgress: (progressEvent) => {
-            if (progressEvent !== undefined && progressEvent.total !== undefined && progressEvent.loaded !== undefined) {
+            if (progressEvent?.total && progressEvent?.loaded) {
               const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
               option.onProgress({ percent: percentCompleted }, option.file);
             }
@@ -168,7 +167,7 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
   const getIndexTagsHeaders = (indexTags?: BlobIndexTag[]) => {
     let indexTagsHeaders: any = {};
     if (indexTags) {
-      const output = indexTags.reduce((acc: Record<string, string>, cur: { name: string, value: string }) => {
+      const output = indexTags.reduce((acc: Record<string, string>, cur: { name: string; value: string }) => {
         acc[cur.name] = cur.value;
         return acc;
       }, {});

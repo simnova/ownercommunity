@@ -28,12 +28,15 @@ export const BlobToLocalStorage: React.FC<BlobToLocalStorageProps> = (props) => 
     const tryGetCommunityId = async() : Promise<string|undefined> => {
       try {
         // temp fix for owner.community blob
-        let hostName = window.location.hostname;
-        if (hostName === "owner.community") {
-          hostName = "owners.atlantisocmd.com"
-        }
+        // let hostName = window.location.hostname;
+        // if (hostName === "owner.community" || hostName === "ownercommunity-ui.pages.dev") {
+        //   hostName = "owners.atlantisocmd.com"
+        // }
 
+        // temp fix for the above temp fix - there are more urls we have to rewrite than just owner.community
+        const hostName = "owners.atlantisocmd.com"
         const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/community-domains/${ hostName + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '') }`);
+
         const data = await api_call.json();
         if(data && data.communityId ){
           console.log('community-id:',data.communityId);

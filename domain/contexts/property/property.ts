@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../shared/entity';
+import { EntityProps } from '../../shared/entity';
 import { Community, CommunityEntityReference, CommunityProps } from '../community/community';
 import { Member, MemberEntityReference, MemberProps } from '../community/member';
 import { DomainExecutionContext } from '../context';
@@ -57,7 +57,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     community: CommunityEntityReference,
     context: DomainExecutionContext
   ): Property<props> {
-    var property = new Property(newProps, context);
+    const property = new Property(newProps, context);
     property.MarkAsNew();
     property.PropertyName = propertyName;
     property.Community = community;

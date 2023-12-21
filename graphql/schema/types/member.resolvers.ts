@@ -1,4 +1,4 @@
-import { Resolvers, Member, Community, Role, User, MemberMutationResult, CustomView } from '../../generated';
+import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { Member as MemberDo } from '../../../infrastructure/data-sources/cosmos-db/models/member';

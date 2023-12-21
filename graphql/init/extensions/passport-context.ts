@@ -54,7 +54,7 @@ export class PassportContext {
     let communityHeader = this.req.headers['community'];
     if (communityHeader) {
       let mongoCommunity = await this.getCommunityByHeader(communityHeader);
-      if (this.context.verifiedUser && this.context.verifiedUser.verifiedJWT && this.context.verifiedUser.verifiedJWT.sub && mongoCommunity) {
+      if (this.context.verifiedUser?.verifiedJWT?.sub && mongoCommunity) {
         this.context.passport = await this.getPassport(this.context, mongoCommunity);
         this.context.community = mongoCommunity.id;
         console.log(' == CONTEXT DECORATED SUCCESSFULLY == ');

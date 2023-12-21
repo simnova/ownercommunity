@@ -1,9 +1,8 @@
-import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertySearchResult, PropertiesSearchInput, PropertyUpdateInput } from '../../generated';
+import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertyUpdateInput } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { trace } from "@opentelemetry/api";
-import dayjs from 'dayjs';
 
 const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promise<PropertyMutationResult> => {
   try {

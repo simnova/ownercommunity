@@ -16,15 +16,13 @@ export default (cognitiveSearch:ICognitiveSearch) => {
   NodeEventBus.register(ServiceTicketUpdatedEvent, async (payload) => {
     console.log(`Service Ticket Updated - Search Index Integration: ${JSON.stringify(payload)} and ServiceTicketId: ${payload.id}`);
 
-    const context = await SystemExecutionContext();
+    const context = SystemExecutionContext();
     await ServiceTicketUnitOfWork.withTransaction(context, async (repo) => {
       let serviceTicket = await repo.getById(payload.id);
 
-      let updatedDate = serviceTicket.updatedAt.toISOString();
-      updatedDate = dayjs(serviceTicket.updatedAt.toISOString().split('T')[0]).toISOString();
+      const updatedDate = dayjs(serviceTicket.updatedAt.toISOString().split('T')[0]).toISOString();
 
-      let createdDate = serviceTicket.createdAt.toISOString();
-      createdDate = dayjs(serviceTicket.createdAt.toISOString().split('T')[0]).toISOString();
+      const createdDate = dayjs(serviceTicket.createdAt.toISOString().split('T')[0]).toISOString();
 
 
       let serviceTicketDoc: Partial<ServiceTicketIndexDocument> = {

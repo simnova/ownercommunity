@@ -18,7 +18,7 @@ export class MemberVisaImpl<root extends MemberEntityReference> implements Commu
       console.log("Member Visa: no community permissions");
       return false;}
 
-    var updatedPermissions = Object.create(communityPermissions, { 
+    const updatedPermissions = Object.create(communityPermissions, {
        isEditingOwnMemberAccount : {value: (this.member.id === this.root.id)} // override isEditingOwnMemberAccount
     }) as CommunityPermissions;
       

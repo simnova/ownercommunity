@@ -31,11 +31,11 @@ export class Communities extends CosmosDataSource<Community, Context> {
     })?.[0];
   }
   async userIsAdmin(communityId: string): Promise<boolean> {
-    var externalId = this.context.verifiedUser.verifiedJWT.sub;
+    const externalId = this.context.verifiedUser.verifiedJWT.sub;
     type MatchedDocsType = {
       matchedDocs: number;
     };
-    var result = await MemberModel.aggregate<any>(
+    const result = await MemberModel.aggregate<any>(
       [
         {
           $match: {
@@ -115,7 +115,7 @@ export class Communities extends CosmosDataSource<Community, Context> {
   async getCommunitiesForCurrentUser(): Promise<Community[]> {
     var externalId = this.context.verifiedUser.verifiedJWT.sub;
     // starts from user (looking up by externalId), then find where they are a member, and then find the communities they are a member of
-    var result = await UserModel.aggregate<Community>([
+    const result = await UserModel.aggregate<Community>([
       {
         $match: {
           externalId: externalId,

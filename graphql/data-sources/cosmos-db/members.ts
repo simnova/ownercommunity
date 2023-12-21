@@ -21,7 +21,7 @@ export class Members extends CosmosDataSource<Member, Context> {
   }
   async getMembersAssignableToTickets(): Promise<Member[]> {
     const communityId = this.context.community;
-    var result = await RoleModel.aggregate<Member>([
+    const result = await RoleModel.aggregate<Member>([
       {
         $match: {
           community: new Types.ObjectId(communityId),

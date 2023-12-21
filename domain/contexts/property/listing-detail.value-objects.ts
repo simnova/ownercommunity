@@ -1,4 +1,4 @@
-import { VOString, VOArray, VOFloat, VOInteger, VOOptional } from '@lucaspaganini/value-objects';
+import { VOString, VOArray, VOFloat, VOInteger } from '@lucaspaganini/value-objects';
 
 export { Email } from '../value-objects';
 

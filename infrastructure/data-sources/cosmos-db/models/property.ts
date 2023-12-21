@@ -1,9 +1,7 @@
 import { Schema, model, Model, ObjectId, PopulatedDoc, Types } from 'mongoose';
-import { Base, BaseOptions, SubdocumentBase, SubdocumentBaseOptions, Patterns, NestedPath } from './interfaces/base';
+import { Base, SubdocumentBase, Patterns, NestedPath } from './interfaces/base';
 import * as Community from './community';
 import * as Member from './member';
-// import * as Location from './location';
-// import * as Point from './point';
 
 /**
  * @description

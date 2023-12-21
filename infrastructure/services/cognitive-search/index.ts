@@ -1,4 +1,4 @@
-import { SearchIndexClient, SearchClient, AzureKeyCredential, SearchIndex, SearchOptions, SearchDocumentsResult } from '@azure/search-documents';
+import { SearchIndexClient, SearchClient, AzureKeyCredential, SearchIndex, SearchDocumentsResult } from '@azure/search-documents';
 
 export interface ICognitiveSearch {
   createIndexIfNotExists(indexName:string, indexDefinition:SearchIndex): Promise<void>;

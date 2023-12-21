@@ -1,7 +1,6 @@
 import { Entity, EntityProps } from '../../shared/entity';
 import { DomainExecutionContext } from '../context';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';
-import { User, UserEntityReference, UserProps } from '../user/user';
 import { Member, MemberEntityReference, MemberProps } from '../community/member';
 import * as ValueObjects from './activity-detail.value-objects';
 

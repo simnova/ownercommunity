@@ -5,16 +5,14 @@ import { MongooseDomainAdapter, MongoosePropArray } from '../core/mongo/mongo-do
 import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
 import { AccountProps } from '../../contexts/community/account';
 import { UserDomainAdapter } from './user.domain-adapter';
-import { CommunityEntityReference, CommunityProps } from '../../contexts/community/community';
+import { CommunityEntityReference } from '../../contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { RoleDomainAdapter } from './role.domain-adapter';
 import { DomainExecutionContext } from '../../contexts/context';
-import { RoleEntityReference, RoleProps } from '../../contexts/community/role';
+import { RoleEntityReference } from '../../contexts/community/role';
 import { ProfileProps } from '../../contexts/community/profile';
 import { UserEntityReference } from '../../contexts/user/user';
-import { AccountsListBySubscriptionNextResponse } from '@azure/arm-maps';
 import { CustomViewProps } from '../../contexts/community/custom-view';
-import { PropArray } from '../../shared/prop-array';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {
   constructor() {

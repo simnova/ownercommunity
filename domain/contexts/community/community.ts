@@ -91,7 +91,7 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageCommunitySettings)) {
       throw new Error('You do not have permission to change the domain of this community');
     }
-    var oldDomain = this.props.domain;
+    const oldDomain = this.props.domain;
     if (oldDomain !== domain.valueOf()) {
       this.props.domain = domain.valueOf();
       this.addIntegrationEvent(CommunityDomainUpdatedEvent, { communityId: this.props.id, domain: domain.valueOf(), oldDomain: oldDomain });

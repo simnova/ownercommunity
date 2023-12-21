@@ -11,9 +11,8 @@ import { Property } from '../../contexts/property/property';
 import { MongoPropertyRepository } from '../persistence/property.mongo-repository';
 import retry from 'async-retry';
 import crypto from 'crypto';
-import api, { trace,TimeInput, SpanStatusCode } from '@opentelemetry/api';
+import { trace, SpanStatusCode } from '@opentelemetry/api';
 import  { logs, SeverityNumber }  from "@opentelemetry/api-logs";
-import { Content } from '@azure/cognitiveservices-contentmoderator/esm/models/mappers';
 
 export default (cognitiveSearch:ICognitiveSearch) => {
   NodeEventBus.register(PropertyUpdatedEvent, async (payload) => {
@@ -38,7 +37,7 @@ export default (cognitiveSearch:ICognitiveSearch) => {
 
 
 
-        const context = await SystemExecutionContext();
+        const context = SystemExecutionContext();
         await PropertyUnitOfWork.withTransaction(context, async (repo) => {
           let property = await repo.getById(payload.id);
           const propertyHash = property.hash;

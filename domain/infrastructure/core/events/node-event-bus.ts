@@ -1,8 +1,7 @@
 import EventEmitter from 'events';
 import { CustomDomainEvent, DomainEvent } from '../../../shared/domain-event';
 import { EventBus } from '../../../shared/event-bus';
-import api, { trace,TimeInput, SpanStatusCode, SpanKind, SpanOptions } from '@opentelemetry/api';
-import { W3CTraceContextPropagator } from '@opentelemetry/core';
+import api, { trace,TimeInput, SpanStatusCode } from '@opentelemetry/api';
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 
 class BroadCaster {

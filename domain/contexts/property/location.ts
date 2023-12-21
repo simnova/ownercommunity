@@ -1,6 +1,6 @@
 import { ValueObject, ValueObjectProps } from '../../shared/value-object';
 import { PropertyVisa } from '../iam/property-visa';
-import { Address, AddressEntityReference, AddressProps } from './address';
+import { Address, AddressProps } from './address';
 import { Position, PositionProps } from './position';
 
 export interface LocationProps extends ValueObjectProps {

@@ -1,8 +1,4 @@
-import axios, {AxiosRequestConfig, AxiosResponse, AxiosError} from 'axios';
-
-
-
-
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 
 export interface VercelResponseHeaders {
@@ -84,9 +80,7 @@ export class Vercel implements IVercel {
   
 
   private addAuthorizationHeader(config: AxiosRequestConfig = {}): AxiosRequestConfig {
-    config.headers =  Object.assign({},config.headers,{
-      Authorization: `Bearer ${this._vercelToken}`
-    })
+    config.headers = { ...config.headers, Authorization: `Bearer ${this._vercelToken}` }
     return config;
   }
   
@@ -108,7 +102,7 @@ export class Vercel implements IVercel {
 
   async addDomainToProject(domain:string): Promise<{ result?: DomainResponse} & APIResponse> {
     //confirm domain is a valid domain
-    if (!domain.match(/^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/)) {
+    if (!RegExp(/^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/).exec(domain)) {
       return {success:false, error: {code: '400', message: `The specified value '${domain}' is not a fully qualified domain name`}};
     }
 
@@ -149,9 +143,7 @@ export class Vercel implements IVercel {
     };
     console.log('results: ', results);
     const responseHeaders:VercelResponseHeaders = this.extractResponseHeaders(results);
-    const domainResponse:{ result?: DomainResponse} & APIResponse = { success:true, result:  Object.assign({},responseHeaders, results.data)};
-
-    return domainResponse;
+    return { success: true, result: { ...responseHeaders, ...results.data } };
   }
 
   async removeDomainFromProject(domain:string): Promise<boolean> {

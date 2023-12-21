@@ -24,11 +24,12 @@ export type FeatureFlagProps = {
 };
 
 const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): React.JSX.Element => {
-  var tempFeatureFlagList: FeatureFlags | undefined;
+  let tempFeatureFlagList: FeatureFlags | undefined;
   const [featureFlagList, setFeatureFlagListVal] = useState<FeatureFlags | undefined>();
   const cacheTimeout = !props.config.cache ? 30 * 1000 : props.config.cache;
   const isRendered = React.useRef(false); // Used to make Async code not get called on every render.
 
+  // TODO - See if we can simplify this - refer to pathwyas / efdo -- Luka
   const setFeatureFlagList = (newVal: FeatureFlags | undefined) => {
     // prevents re-rendering each time feature flags are set.
     if (JSON.stringify(tempFeatureFlagList) === JSON.stringify(newVal)) return;
@@ -59,12 +60,12 @@ const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): Rea
           async () => {
             // if anything throws, we retry
             const res = await fetch(props.config.url);
-            const result = await res.json() as FeatureFlags;
+            const result = (await res.json()) as FeatureFlags;
             console.log(result);
             return result;
           },
           {
-            retries: 3,
+            retries: 3
           }
         );
       }
@@ -74,12 +75,11 @@ const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): Rea
 
     const GetFeatureFlags = async () => {
       try {
-        var result = await cachedFetch.fetch('featureFlagsKey');
+        let result = await cachedFetch.fetch('featureFlagsKey');
 
         if (result instanceof Object) {
           setFeatureFlagList(result);
         }
-
       } catch (ex) {
         console.error('Fallback to local feature flags', ex);
         setFeatureFlagList(props.config.fallbackFlagValues);
@@ -98,10 +98,11 @@ const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): Rea
     };
   }, [cacheTimeout, props.config, setFeatureFlagList]);
 
+  // TODO - This seems overly complex - check what pathways / efdo uses --Luka
   const getFeatureFlagByName = (name: string) => {
-    var temp = !featureFlagList ? undefined : featureFlagList.FeatureFlags;
+    const temp = !featureFlagList ? undefined : featureFlagList.FeatureFlags;
     if (!temp) return '';
-    var result = temp.find((i) => i.Name === name)?.Value;
+    const result = temp.find((i) => i.Name === name)?.Value;
     return !result ? '' : result;
   };
 

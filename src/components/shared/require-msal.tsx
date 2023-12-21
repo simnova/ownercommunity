@@ -7,20 +7,19 @@ export interface RequireMsalProps {
 }
 
 const RequireMsal: React.FC<RequireMsalProps> = (params) => {
-  const { getIsLoggedIn, registerCallback, getSilentAuthResult, login } =
-    useMsal();
+  const { getIsLoggedIn, registerCallback, getSilentAuthResult, login } = useMsal();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(
-    getIsLoggedIn(params.identifier) === false ? false : undefined
+    !getIsLoggedIn(params.identifier) ? false : undefined
   );
 
   useEffect(() => {
     const determineIfUserHasActiveSession = async () => {
       const authResult = await getSilentAuthResult(params.identifier);
       if (authResult !== undefined) {
-       //if((authResult.account?.idTokenClaims as any).externalAppKey === import.meta.env.VITE_PORTAL_IDENTIFIER) {
+        //if((authResult.account?.idTokenClaims as any).externalAppKey === import.meta.env.VITE_PORTAL_IDENTIFIER) {
         setIsAuthenticated(true);
-       //}
-       // setIsAuthenticated(false);
+        //}
+        // setIsAuthenticated(false);
       }
     };
     console.log('lala', isAuthenticated);
@@ -29,11 +28,7 @@ const RequireMsal: React.FC<RequireMsalProps> = (params) => {
       console.log('lala');
       determineIfUserHasActiveSession().catch((e) => console.error(e));
     }
-    if (
-      params.forceLogin &&
-      params.forceLogin === true &&
-      isAuthenticated === false
-    ) {
+    if (params.forceLogin && params.forceLogin === true && isAuthenticated === false) {
       login(params.identifier);
     }
   }, [isAuthenticated]);
@@ -47,18 +42,13 @@ const RequireMsal: React.FC<RequireMsalProps> = (params) => {
         setIsAuthenticated(result);
       }
     };
-    registerCallback(params.identifier, (isLoggedIn) =>
-      processLoginResult(isLoggedIn).catch((e) => console.error(e))
-    );
+    registerCallback(params.identifier, (isLoggedIn) => processLoginResult(isLoggedIn).catch((e) => console.error(e)));
   }, [params, registerCallback, login, setIsAuthenticated]);
 
   return params.forceLogin &&
     params.forceLogin === true &&
-    (typeof isAuthenticated === 'undefined' ||
-      isAuthenticated === false) ? null : (
-    <RequireAuth isAuthenticated={isAuthenticated}>
-      {params.children}
-    </RequireAuth>
+    (typeof isAuthenticated === 'undefined' || isAuthenticated === false) ? null : (
+    <RequireAuth isAuthenticated={isAuthenticated}>{params.children}</RequireAuth>
   );
 };
 export default RequireMsal;

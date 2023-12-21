@@ -17,29 +17,24 @@ export interface RolesDeleteContainerProps {
 
 export const RolesDeleteContainer: React.FC<any> = (props) => {
   const navigate = useNavigate();
-  const [roleDelete, { error: deleteError }] =
-    useMutation(AdminRolesDeleteContainerRoleDeleteAndReassignDocument, {
-      update(cache, { data }) {
-        // update the list by removing the deleted item
-        const deletedRole = data?.roleDeleteAndReassign.role;
-        const roles = cache.readQuery({
-          query: AdminRolesListContainerRolesDocument
-        })?.rolesByCommunityId;
-        if (deletedRole && roles) {
-          cache.writeQuery({
-            query: AdminRolesListContainerRolesDocument,
-            data: {
-              rolesByCommunityId: roles?.filter((role) => role?.id !== deletedRole.id)
-            }
-          });
-        }
+  const [roleDelete, { error: deleteError }] = useMutation(AdminRolesDeleteContainerRoleDeleteAndReassignDocument, {
+    update(cache, { data }) {
+      // update the list by removing the deleted item
+      const deletedRole = data?.roleDeleteAndReassign.role;
+      const roles = cache.readQuery({
+        query: AdminRolesListContainerRolesDocument
+      })?.rolesByCommunityId;
+      if (deletedRole && roles) {
+        cache.writeQuery({
+          query: AdminRolesListContainerRolesDocument,
+          data: {
+            rolesByCommunityId: roles?.filter((role) => role?.id !== deletedRole.id)
+          }
+        });
       }
-    });
-  const {
-    data: roleData,
-    loading: roleLoading,
-    error: roleError
-  } = useQuery(AdminRolesDeleteContainerRolesDocument);
+    }
+  });
+  const { data: roleData, loading: roleLoading, error: roleError } = useQuery(AdminRolesDeleteContainerRolesDocument);
 
   const handleReassignment = async (values: RoleDeleteAndReassignInput) => {
     try {
@@ -61,9 +56,9 @@ export const RolesDeleteContainer: React.FC<any> = (props) => {
   if (roleLoading) {
     return <Skeleton active />;
   } else if (roleError || deleteError) {
-    return <div>{JSON.stringify(roleError || deleteError)}</div>;
-  } else if (roleData && roleData.roles) {
-    var reassignmentOptions = {
+    return <div>{JSON.stringify(roleError ?? deleteError)}</div>;
+  } else if (roleData?.roles) {
+    const reassignmentOptions = {
       roleToDelete: roleData.roles.find((x) => x?.id === props.data.id),
       roles: roleData.roles.filter((x) => x?.id !== props.data.id)
     };

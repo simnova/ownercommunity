@@ -6,27 +6,24 @@ import { MemberAccountAddInput } from '../../../../generated';
 export interface MembersAccountsAddProps {
   data: MemberAccountAddInput;
   onSave: (member: MemberAccountAddInput) => void;
-  onCheckUserId: (userId: string) => Promise<{success:boolean, errorMessage:string}>;
+  onCheckUserId: (userId: string) => Promise<{ success: boolean; errorMessage: string }>;
 }
-
-
 
 export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => {
   const [form] = Form.useForm();
-  const [formLoading,setFormLoading] = React.useState(false);
+  const [formLoading, setFormLoading] = React.useState(false);
 
-  const userIdNotAlreadyAssigned = async  (value:any) : Promise<void> => {
-    var result = await props.onCheckUserId(value);
+  const userIdNotAlreadyAssigned = async (value: any): Promise<void> => {
+    const result = await props.onCheckUserId(value);
     if (!result.success) {
       return Promise.reject(result.errorMessage);
     } else {
       return Promise.resolve();
     }
-  }
+  };
 
   return (
     <div>
-
       <Form
         layout="vertical"
         form={form}
@@ -36,33 +33,23 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
           props.onSave(values);
           setFormLoading(false);
         }}
-        >
+      >
         <Form.Item
-          name={["account", "firstName"]}
+          name={['account', 'firstName']}
           label="First Name"
-          rules={[
-            { required: true, message: 'First name is required.' },
-          ]}
+          rules={[{ required: true, message: 'First name is required.' }]}
         >
-          <Input placeholder='First Name' maxLength={200}  />
+          <Input placeholder="First Name" maxLength={200} />
+        </Form.Item>
+        <Form.Item name={['account', 'lastName']} label="Last Name">
+          <Input placeholder="Last Name" maxLength={200} />
         </Form.Item>
         <Form.Item
-          name={["account", "lastName"]}
-          label="Last Name"
-
-        >
-          <Input placeholder='Last Name' maxLength={200}  />
-        </Form.Item>
-        <Form.Item
-          name={["account", "user"]}
+          name={['account', 'user']}
           label="User ID"
-          rules={[
-            { required: true, message: 'User ID is required.' },
-            { validator: userIdNotAlreadyAssigned },
-            
-          ]}
+          rules={[{ required: true, message: 'User ID is required.' }, { validator: userIdNotAlreadyAssigned }]}
         >
-          <Input placeholder='User ID Name' maxLength={200}  />
+          <Input placeholder="User ID Name" maxLength={200} />
         </Form.Item>
 
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
@@ -70,5 +57,5 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
         </Button>
       </Form>
     </div>
-  )
-}
+  );
+};

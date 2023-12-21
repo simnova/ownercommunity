@@ -2,9 +2,9 @@ import { useMutation } from '@apollo/client';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
-    AdminPropertiesAddContainerPropertyAddDocument,
-    AdminPropertiesListContainerPropertiesDocument,
-    PropertyAddInput
+  AdminPropertiesAddContainerPropertyAddDocument,
+  AdminPropertiesListContainerPropertiesDocument,
+  PropertyAddInput
 } from '../../../../generated';
 import { PropertiesAdd } from './properties-add';
 
@@ -36,7 +36,7 @@ export const PropertiesAddContainer: React.FC<PropertiesAddContainerProps> = (pr
 
   const handleSave = async (values: PropertyAddInput) => {
     try {
-      var newProperty = await propertyAdd({
+      const newProperty = await propertyAdd({
         variables: {
           input: values
         }
@@ -45,9 +45,7 @@ export const PropertiesAddContainer: React.FC<PropertiesAddContainerProps> = (pr
         message.success('Property Added');
         navigate(`../${newProperty.data?.propertyAdd.property?.id}`, { replace: true });
       } else {
-        message.error(
-          `Error adding Property: ${newProperty.data?.propertyAdd.status.errorMessage}`
-        );
+        message.error(`Error adding Property: ${newProperty.data?.propertyAdd.status.errorMessage}`);
       }
     } catch (error) {
       message.error(`Error adding Property: ${JSON.stringify(error)}`);

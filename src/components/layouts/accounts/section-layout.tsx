@@ -1,6 +1,5 @@
-import { Layout } from 'antd';
+import { Layout, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
-import { theme } from 'antd';
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
 const { Header } = Layout;
 

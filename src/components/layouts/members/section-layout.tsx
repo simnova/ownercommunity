@@ -1,17 +1,17 @@
-import { Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Layout, theme } from 'antd';
-import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
-import { MenuComponent } from '../shared/components/menu-component'
-import { useState } from 'react';
-import { LocalSettingsKeys, handleToggler } from '../../../constants';
 import { useQuery } from '@apollo/client';
+import { Layout, theme } from 'antd';
+import { useState } from 'react';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { LocalSettingsKeys, handleToggler } from '../../../constants';
 import { MemberSiteCurrentMemberHasAdminRoleDocument } from '../../../generated';
 import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
+import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
+import { MenuComponent } from '../shared/components/menu-component';
 
 const { Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
-  const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+  const [isExpanded, setIsExpanded] = useState(!sidebarCollapsed);
   const { communityId } = useParams();
   const navigate = useNavigate();
   const params = useParams();
@@ -22,7 +22,7 @@ export const SectionLayout: React.FC<any> = (props) => {
   });
 
   const adminLink = () => {
-    if (data && data.memberForCurrentUser && data.memberForCurrentUser.role?.roleName.toLowerCase() === 'admin') {
+    if (data?.memberForCurrentUser?.role?.roleName?.toLowerCase() === 'admin') {
       return (
         <a className="allowBoxShadow" onClick={() => navigate(`/community/${communityId}/admin`)}>
           View Admin Site
@@ -31,7 +31,6 @@ export const SectionLayout: React.FC<any> = (props) => {
     }
   };
 
- 
   const {
     token: { colorBgContainer }
   } = theme.useToken();
@@ -54,7 +53,7 @@ export const SectionLayout: React.FC<any> = (props) => {
             gap: '10px'
           }}
         >
-         <div style={{ display: 'flex' }} className="allowBoxShadow">
+          <div style={{ display: 'flex' }} className="allowBoxShadow">
             <CommunitiesDropdownContainer data={{ id: params.communityId }} />
           </div>
           {adminLink()}

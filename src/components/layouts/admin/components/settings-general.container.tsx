@@ -2,9 +2,9 @@ import { useMutation, useQuery } from '@apollo/client';
 import { message } from 'antd';
 import PropTypes from 'prop-types';
 import {
-    AdminSettingsGeneralContainerCommunityDocument,
-    AdminSettingsGeneralContainerCommunityUpdateDocument,
-    CommunityUpdateInput
+  AdminSettingsGeneralContainerCommunityDocument,
+  AdminSettingsGeneralContainerCommunityUpdateDocument,
+  CommunityUpdateInput
 } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { SettingsGeneral } from './settings-general';
@@ -70,9 +70,9 @@ export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropType
   return (
     <ComponentQueryLoader
       loading={accountLoading}
-      hasData={communityData && communityData.communityById}
+      hasData={communityData?.communityById}
       hasDataComponent={<SettingsGeneral onSave={handleSave} data={communityData?.communityById} />}
-      error={accountError || error}
+      error={accountError ?? error}
     />
   );
 };

@@ -12,25 +12,28 @@ import { RolesDetail } from './roles-detail';
 
 export const RolesDetailAddContainer: React.FC<any> = (props) => {
   const navigate = useNavigate();
-  const [roleAdd] = useMutation(AdminRolesDetailContainerRoleAddDocument, {
-    update(cache, { data }) {
-      // update the list with the new item
-      const newRole = data?.roleAdd.role;
-      const roles = cache.readQuery({
-        query: AdminRolesListContainerRolesDocument,
-        variables: { communityId: props.data.communityId }
-      })?.rolesByCommunityId;
-      if (newRole && roles) {
-        cache.writeQuery({
+  const [roleAdd] = useMutation(
+    AdminRolesDetailContainerRoleAddDocument,
+    {
+      update(cache, { data }) {
+        // update the list with the new item
+        const newRole = data?.roleAdd.role;
+        const roles = cache.readQuery({
           query: AdminRolesListContainerRolesDocument,
-          variables: { communityId: props.data.communityId },
-          data: {
-            rolesByCommunityId: [...roles, newRole]
-          }
-        });
+          variables: { communityId: props.data.communityId }
+        })?.rolesByCommunityId;
+        if (newRole && roles) {
+          cache.writeQuery({
+            query: AdminRolesListContainerRolesDocument,
+            variables: { communityId: props.data.communityId },
+            data: {
+              rolesByCommunityId: [...roles, newRole]
+            }
+          });
+        }
       }
     }
-  });
+  );
 
   const defaultValues: RoleAddInput = {
     roleName: '',
@@ -58,7 +61,7 @@ export const RolesDetailAddContainer: React.FC<any> = (props) => {
 
   const handleAdd = async (values: RoleAddInput) => {
     try {
-      const newRole = await roleAdd({
+      var newRole = await roleAdd({
         variables: {
           input: values
         }

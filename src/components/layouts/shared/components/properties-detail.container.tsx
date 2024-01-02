@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { generateW3CId } from '@microsoft/applicationinsights-core-js';
-import { useAppInsightsContext } from '@microsoft/applicationinsights-react-js';
+import { generateW3CId } from "@microsoft/applicationinsights-core-js";
+import { useAppInsightsContext } from "@microsoft/applicationinsights-react-js";
 import { IExceptionTelemetry } from '@microsoft/applicationinsights-web';
 import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
@@ -50,7 +50,9 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
           query: AdminPropertiesListContainerPropertiesDocument,
           variables: { communityId: props.data.communityId },
           data: {
-            propertiesByCommunityId: properties?.filter((property) => property?.id !== deletedProperty.id)
+            propertiesByCommunityId: properties?.filter(
+              (property) => property?.id !== deletedProperty.id
+            )
           }
         });
       }
@@ -78,28 +80,26 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
   const handleSave = async (values: PropertyUpdateInput) => {
     try {
       // hack : https://learn.microsoft.com/en-us/azure/azure-monitor/app/transaction-diagnostics#is-there-a-way-to-see-fewer-events-per-transaction-when-i-use-the-application-insights-javascript-sdk
-
-      (appInsights.getAppInsights() as any).core.getTraceCtx().setTraceId(generateW3CId());
+      
+      (appInsights.getAppInsights() as any ).core.getTraceCtx().setTraceId(generateW3CId())
       //(appInsights.getAppInsights() as AIObject).context.telemetryTrace.traceID = generateW3CId();
       appInsights.getAppInsights().startTrackPage('PropertiesDetail-SavePageView');
-
+     
       //.properties.context.telemetryTrace.traceID = ApplicationInsights.Telemetry.Util.generateW3CId().
       //appInsights.trackPageView({name: 'PropertiesDetail-SavePageView', uri: window.location.href + "/save-property"});
-
-      appInsights.trackTrace({ message: 'PropertiesDetail-SaveTrace' });
+   
+      appInsights.trackTrace({message: 'PropertiesDetail-SaveTrace'});
       await updateProperty({
         variables: {
           input: values
         }
       });
-      appInsights.trackEvent({ name: 'PropertiesDetail-SaveEvent', properties: { success: true } });
+      appInsights.trackEvent({name: 'PropertiesDetail-SaveEvent', properties: {success: true}});
       message.success('Saved');
-      appInsights
-        .getAppInsights()
-        .stopTrackPage('PropertiesDetail-SavePageView', window.location.href + '/save-property');
+      appInsights.getAppInsights().stopTrackPage('PropertiesDetail-SavePageView', window.location.href + "/save-property");
     } catch (error) {
       message.error(`Error updating Property: ${JSON.stringify(error)}`);
-      appInsights.trackException({ exception: error } as IExceptionTelemetry, { propertyId: values.id });
+      appInsights.trackException({exception:error} as IExceptionTelemetry,{propertyId: values.id});
     }
   };
   const handleDelete = async () => {
@@ -126,9 +126,9 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
         </div>
       );
     } else if (propertyError || memberError) {
-      return <div>{JSON.stringify(propertyError ?? memberError)}</div>;
-    } else if (propertyData?.property && memberData?.membersByCommunityId) {
-      const detailData = {
+      return <div>{JSON.stringify(propertyError || memberError)}</div>;
+    } else if (propertyData && propertyData.property && memberData?.membersByCommunityId) {
+      var detailData = {
         property: propertyData.property,
         members: memberData.membersByCommunityId
       };

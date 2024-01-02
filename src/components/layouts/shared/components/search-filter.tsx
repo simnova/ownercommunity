@@ -20,7 +20,7 @@ export interface SearchFilterConfigDefinition {
     searchbar?: boolean;
     values: any[];
     facet?: string[];
-    type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom';
+    type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom' ;
     customComponent?: React.JSX.Element;
     handleCount?: (facet: FacetDetail, value?: any) => boolean;
     transform?: (value: any) => string;
@@ -87,7 +87,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   };
 
   const onChangeInputNumber = (value: any, optionId: string) => {
-    if (value.trim() === '') return;
+    if (value.trim() === '') return; 
     if (!Number.isInteger(Number(value))) return;
     const searchId = props.searchId.find((id: any) => id === optionId) ?? props.searchId[0];
     if (value === null) {
@@ -147,11 +147,11 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
     if (qsValue === null) return undefined;
     const count = options.find((option: SearchFilterOption) => option.name.includes(qsValue))?.count;
     if (count && count > -1) {
-      return `${qsValue} (${count})`;
+      return `${qsValue} (${count})`
     } else {
       return qsValue;
     }
-  };
+  }
 
   const renderOptions = (options: SearchFilterOption[]) => {
     switch (props.type) {
@@ -160,28 +160,22 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
           <>
             {options.map((option: SearchFilterOption) => (
               <div key={option.name} style={{ display: 'flex', padding: '5px', width: '250px' }}>
-                <InputNumber
-                  id={option.id}
-                  onPressEnter={(e: any) => onChangeInputNumber(e.target.value, option.id)}
-                  value={searchParams.get(option.id)}
-                />
-                <label style={{ padding: '0px 10px' }}>{option.name}</label>
+                  <InputNumber id={option.id} onPressEnter={(e: any) => onChangeInputNumber(e.target.value, option.id)} value={searchParams.get(option.id)} />
+                  <label style={{ padding: "0px 10px"}}>{option.name}</label>
               </div>
             ))}
           </>
         );
       case 'custom':
-        return props.customComponent ?? <></>;
+            return props.customComponent ?? <></>
       case 'radio':
         return (
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '290px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '290px'}}>
             <Radio.Group
               style={{ overflowY: 'hidden' }}
               value={getRadioValue(options)}
               onChange={(e: any) => onChangeRadio(e)}
-              options={options.map((option: SearchFilterOption) =>
-                option.count > -1 ? `${option.name} (${option.count})` : option.name
-              )}
+              options={options.map((option: SearchFilterOption) => option.count > -1 ? `${option.name} (${option.count})` : option.name)}
             />
           </div>
         );
@@ -189,7 +183,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
         return (
           <>
             {options.map((option: SearchFilterOption) => (
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '250px' }} key={option.name}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', width: '250px' }} key={option.name} >
                 <Checkbox
                   key={option.id}
                   checked={isChecked(option.id)}
@@ -206,55 +200,57 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   };
 
   return (
-    <Collapse
-      className="service-ticket-search-filter-collapse"
-      defaultActiveKey={['1']}
-      ghost
-      style={{ width: '80%' }}
-      expandIcon={({ isActive }) =>
-        isActive ? <MinusOutlined style={{ fontSize: '30px' }} /> : <PlusOutlined style={{ fontSize: '30px' }} />
-      }
-    >
-      <Panel
-        header={
-          <Title
-            level={5}
-            style={{
-              fontWeight: 700,
-              marginBottom: 0,
-              alignSelf: 'center'
-            }}
-          >
-            {props.title}
-          </Title>
+    <>
+      <Collapse
+        className="service-ticket-search-filter-collapse"
+        defaultActiveKey={['1']}
+        ghost
+        style={{ width: '80%' }}
+        expandIcon={({ isActive }) =>
+          isActive ? <MinusOutlined style={{ fontSize: '30px' }} /> : <PlusOutlined style={{ fontSize: '30px' }} />
         }
-        key="1"
       >
-        {props.searchbar && (
-          <AutoComplete
-            options={options}
-            placeholder="Search"
-            className="search-filter-searchbar"
-            style={{ width: '40%' }}
-            onChange={onChange}
-            onClear={resetOptions}
-            onSelect={onSearchSelect}
-            allowClear
-          />
-        )}
-        {props.options && (
-          <div
-            className="search-filter-scrollbar"
-            style={{
-              maxHeight: '182px',
-              overflowY: 'auto',
-              width: '300px'
-            }}
-          >
-            {renderOptions(props.options)}
-          </div>
-        )}
-      </Panel>
-    </Collapse>
+        <Panel
+          header={
+            <Title
+              level={5}
+              style={{
+                fontWeight: 700,
+                marginBottom: 0,
+                alignSelf: 'center'
+              }}
+            >
+              {props.title}
+            </Title>
+          }
+          key="1"
+        >
+          {props.searchbar && (
+            <AutoComplete
+              options={options}
+              placeholder="Search"
+              className="search-filter-searchbar"
+              style={{ width: '40%' }}
+              onChange={onChange}
+              onClear={resetOptions}
+              onSelect={onSearchSelect}
+              allowClear
+            />
+          )}
+          {props.options && (
+            <div
+              className="search-filter-scrollbar"
+              style={{
+                maxHeight: '182px',
+                overflowY: 'auto',
+                width: '300px'
+              }}
+            >
+              {renderOptions(props.options)}
+            </div>
+          )}
+        </Panel>
+      </Collapse>
+    </>
   );
 };

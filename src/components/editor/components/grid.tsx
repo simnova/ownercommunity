@@ -1,5 +1,5 @@
-import { Element, useNode } from '@craftjs/core';
-import { Col, Form, Input, Row, Select } from 'antd';
+import { useNode, Element } from '@craftjs/core';
+import { Row, Col, Input, Form, Select } from 'antd';
 import { Container } from './container';
 
 const { Option } = Select;
@@ -14,7 +14,7 @@ Grid = ({ numOfCols, bgColor, ...props }: GridProp) => {
   const {
     connectors: { connect, drag }
   } = useNode((state) => ({
-    selected: state.events.selected
+    selected: state.events.selected,
   }));
 
   const buildColumns = (numOfCols: number) => {
@@ -30,29 +30,42 @@ Grid = ({ numOfCols, bgColor, ...props }: GridProp) => {
   };
 
   return (
-    <div className="px-4 py-2" ref={(ref) => connect(drag(ref as HTMLDivElement))} {...props}>
-      <li className="bg-white cursor-pointer shadow rounded-lg p-8 relative " style={{ backgroundColor: bgColor }}>
+    <div
+      className="px-4 py-2"
+      ref={(ref) => connect(drag(ref as HTMLDivElement))}
+      {...props}
+    >
+      <div
+        role="listitem"
+        className="bg-white cursor-pointer shadow rounded-lg p-8 relative "
+        style={{ backgroundColor: bgColor }}
+      >
         <Row>{buildColumns(numOfCols)}</Row>
-      </li>
+      </div>
     </div>
   );
 };
 
-const GridSettings = () => {
+var GridSettings = () => {
   const {
     actions: { setProp },
     numOfCols,
-    bgColor
+    bgColor,
   } = useNode((node) => ({
     numOfCols: node.data.props.numOfCols,
-    bgColor: node.data.props.bgColor
+    bgColor: node.data.props.bgColor,
   }));
 
   return (
     <div>
       <Form layout="vertical">
         <Form.Item label="Number of Columns">
-          <Select placeholder={numOfCols} onChange={(value) => setProp((props: any) => (props.numOfCols = value))}>
+          <Select
+            placeholder={numOfCols}
+            onChange={(value) =>
+              setProp((props: any) => (props.numOfCols = value))
+            }
+          >
             <Option key={1}>1</Option>
             <Option key={2}>2</Option>
             <Option key={3}>3</Option>
@@ -67,7 +80,11 @@ const GridSettings = () => {
           <Input
             placeholder="#ffffff"
             value={bgColor}
-            onChange={(inputElement) => setProp((props: any) => (props.bgColor = inputElement.target.value))}
+            onChange={(inputElement) =>
+              setProp(
+                (props: any) => (props.bgColor = inputElement.target.value)
+              )
+            }
           />
         </Form.Item>
       </Form>
@@ -78,11 +95,11 @@ const GridSettings = () => {
 Grid.craft = {
   props: {
     numOfCols: 1,
-    bgColor: '#ffffff'
+    bgColor: '#ffffff',
   },
   related: {
-    settings: GridSettings
-  }
+    settings: GridSettings,
+  },
 };
 
 export { Grid };

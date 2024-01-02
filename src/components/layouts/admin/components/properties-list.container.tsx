@@ -15,7 +15,7 @@ export const PropertiesListContainer: React.FC<any> = (props) => {
   return (
     <ComponentQueryLoader
       loading={propertyLoading}
-      hasData={propertyData?.propertiesByCommunityId}
+      hasData={propertyData && propertyData.propertiesByCommunityId}
       hasDataComponent={<PropertiesList data={propertyData?.propertiesByCommunityId} />}
       error={propertyError}
     />

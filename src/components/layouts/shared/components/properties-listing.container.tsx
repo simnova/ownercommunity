@@ -2,9 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
 import {
-  PropertyUpdateInput,
-  SharedPropertiesListingContainerPropertyDocument,
-  SharedPropertiesListingContainerPropertyUpdateDocument
+  PropertyUpdateInput, SharedPropertiesListingContainerPropertyDocument, SharedPropertiesListingContainerPropertyUpdateDocument
 } from '../../../../generated';
 import { PropertiesListing } from './properties-listing';
 
@@ -45,12 +43,15 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
         delete tempObj.property;
         const newData = stripTypenames(tempObj[property], propToDelete);
         tempObj[property] = newData;
-      } else if (property === propToDelete) {
-        delete tempObj[property];
+      } else {
+        if (property === propToDelete) {
+          delete tempObj[property];
+        }
       }
     }
     return tempObj;
   }
+
 
   const handleSave = async (values: PropertyUpdateInput) => {
     let original = values;
@@ -77,8 +78,8 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
       );
     } else if (propertyError) {
       return <div>{JSON.stringify(propertyError)}</div>;
-    } else if (propertyData?.property) {
-      const detailData = {
+    } else if (propertyData && propertyData.property) {
+      var detailData = {
         property: propertyData.property,
         communityId: props.data.communityId
       };

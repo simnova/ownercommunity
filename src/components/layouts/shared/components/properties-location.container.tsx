@@ -3,9 +3,7 @@ import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import {
-  PropertyUpdateInput,
-  SharedAddressLocationUpdateContainerDocument,
-  SharedPropertiesLocationContainerPropertyDocument
+    PropertyUpdateInput, SharedAddressLocationUpdateContainerDocument, SharedPropertiesLocationContainerPropertyDocument,
 } from '../../../../generated';
 import { PropertiesLocation } from './properties-location';
 
@@ -42,7 +40,7 @@ export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPr
 
   const handleSave = async (values: PropertyUpdateInput) => {
     try {
-      const result = await updateAddress({
+      var result = await updateAddress({
         variables: {
           input: values
         }
@@ -67,7 +65,7 @@ export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPr
       );
     } else if (propertyError) {
       return <div>{JSON.stringify(propertyError)}</div>;
-    } else if (propertyData?.property) {
+    } else if (propertyData && propertyData.property) {
       console.log(propertyData);
       return <PropertiesLocation data={propertyData} onSave={handleSave} />;
     } else {

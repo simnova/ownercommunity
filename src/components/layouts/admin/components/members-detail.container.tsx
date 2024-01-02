@@ -2,10 +2,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
 import {
-  AdminMembersDetailContainerMemberDocument,
-  AdminMembersDetailContainerMemberUpdateDocument,
-  AdminMembersDetailContainerRolesDocument,
-  MemberUpdateInput
+    AdminMembersDetailContainerMemberDocument,
+    AdminMembersDetailContainerMemberUpdateDocument,
+    AdminMembersDetailContainerRolesDocument,
+    MemberUpdateInput
 } from '../../../../generated';
 import { MembersDetail } from './members-detail';
 
@@ -23,7 +23,8 @@ interface ComponentPropInterface {
   };
 }
 
-export type MembersDetailContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
+export type MembersDetailContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> &
+  ComponentPropInterface;
 
 export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> = (props) => {
   const {
@@ -70,9 +71,9 @@ export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> =
         </div>
       );
     } else if (memberError || roleError) {
-      return <div>{JSON.stringify(memberError ?? roleError)}</div>;
-    } else if (memberData?.member && roleData?.rolesByCommunityId) {
-      const detailData = {
+      return <div>{JSON.stringify(memberError || roleError)}</div>;
+    } else if (memberData && memberData.member && roleData && roleData.rolesByCommunityId) {
+      var detailData = {
         member: memberData.member,
         roles: roleData.rolesByCommunityId
       };

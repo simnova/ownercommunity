@@ -21,6 +21,9 @@ export const FormTags: FC<ComponentProps> = ({ value, onChange }) => {
     onChange!(tags);
   }, [tags, onChange]);
 
+  // let newInput: Input | null = null;
+  // let editInput: Input | null = null;
+
   let newInput = React.useRef<InputRef>(null);
   let editInput = React.useRef<InputRef>(null);
 
@@ -105,10 +108,15 @@ export const FormTags: FC<ComponentProps> = ({ value, onChange }) => {
           >
             <span
               onDoubleClick={(e) => {
-                setEditInputIndex(index);
-                setEditInputValue(tag);
-                editInput?.current?.focus();
-                e.preventDefault();
+                if (
+                  true
+                  // index !== 0
+                ) {
+                  setEditInputIndex(index);
+                  setEditInputValue(tag);
+                  editInput?.current?.focus();
+                  e.preventDefault();
+                }
               }}
             >
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}

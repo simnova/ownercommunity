@@ -16,7 +16,9 @@ interface ServiceTicketsCreateContainerProps {
   };
 }
 
-export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (props) => {
+export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (
+  props
+) => {
   const navigate = useNavigate();
   const {
     data: memberData,
@@ -32,27 +34,30 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
   } = useQuery(MembersServiceTicketsCreateContainerPropertiesDocument, {
     variables: { communityId: props.data.communityId }
   });
-  const [serviceTicketCreate] = useMutation(MembersServiceTicketsCreateContainerServiceTicketCreateDocument, {
-    update(cache, { data }) {
-      // update the list with the new item
-      const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
-      const serviceTickets = cache.readQuery({
-        query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument
-      })?.serviceTicketsOpenByRequestor;
-      if (newServiceTicket && serviceTickets) {
-        cache.writeQuery({
+  const [serviceTicketCreate] = useMutation(
+    MembersServiceTicketsCreateContainerServiceTicketCreateDocument,
+    {
+      update(cache, { data }) {
+        // update the list with the new item
+        const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
+        const serviceTickets = cache.readQuery({
           query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument,
-          data: {
-            serviceTicketsOpenByRequestor: [...serviceTickets, newServiceTicket]
-          }
-        });
+        })?.serviceTicketsOpenByRequestor;
+        if (newServiceTicket && serviceTickets) {
+          cache.writeQuery({
+            query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument,
+            data: {
+              serviceTicketsOpenByRequestor: [...serviceTickets, newServiceTicket]
+            }
+          });
+        }
       }
     }
-  });
+  );
 
   const handleCreate = async (values: ServiceTicketCreateInput) => {
     try {
-      const newServiceTicket = await serviceTicketCreate({
+      var newServiceTicket = await serviceTicketCreate({
         variables: {
           input: values
         }
@@ -74,7 +79,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
     );
   }
   if (memberError || propertyError) {
-    return <div>{JSON.stringify(memberError ?? propertyError)}</div>;
+    return <div>{JSON.stringify(memberError || propertyError)}</div>;
   }
   if (memberData && propertyData) {
     const data = {

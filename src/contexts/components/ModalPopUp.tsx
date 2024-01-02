@@ -20,6 +20,8 @@ const ModalPopUp = () => {
         <Button
           type="primary"
           onClick={() => {
+           
+            
             openModal();
           }}
         >
@@ -58,43 +60,30 @@ const ModalPopUp = () => {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">Customize Background Color, Text Color and much more</p>
-                    <label htmlFor="bgcolor" className="block text-sm font-medium text-gray-700 mt-4">
-                      Background Color
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mt-4">Background Color</label>
                     <input
                       type="color"
-                      id="bgcolor"
-                      name="bgcolor"
+                      id="favcolor"
+                      name="favcolor"
                       value={currentTokens.hardCodedTokens.backgroundColor}
-                      onChange={(e) => {
-                        setTheme(
-                          {
-                            colorBgBase: e.target.value,
-                            colorTextBase: currentTokens.hardCodedTokens.textColor
-                          },
-                          'custom'
-                        );
+                      onChange={(e)=>{
+                        
+                      setTheme({
+                        colorBgBase: e.target.value,
+                        colorTextBase: currentTokens.hardCodedTokens.textColor
+                      },"custom")
                       }}
                     />
                     {/* now text color */}
-                    <label htmlFor="textcolor" className="block text-sm font-medium text-gray-700 mt-4">
-                      Text Color
-                    </label>
-                    <input
-                      type="color"
-                      id="textcolor"
-                      name="textcolor"
-                      value={currentTokens.hardCodedTokens.textColor}
-                      onChange={(e) => {
-                        setTheme(
-                          {
-                            colorBgBase: currentTokens.hardCodedTokens.backgroundColor,
-                            colorTextBase: e.target.value
-                          },
-                          'custom'
-                        );
-                      }}
-                    />
+                    <label className="block text-sm font-medium text-gray-700 mt-4">Text Color</label>
+                    <input type="color" id="favcolor" name="favcolor" value={currentTokens.hardCodedTokens.textColor} onChange={
+                      (e)=>{
+                        setTheme({
+                          colorBgBase: currentTokens.hardCodedTokens.backgroundColor,
+                          colorTextBase: e.target.value
+                        }, "custom")
+                      }
+                    }/>
                   </div>
 
                   <div className="mt-4">

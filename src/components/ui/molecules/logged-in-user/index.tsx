@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+
 import { LoggedIn, LoggedInPropTypes } from './logged-in';
 import { NotLoggedIn } from './not-logged-in';
 const ComponentProps = {
@@ -45,16 +46,26 @@ export const LoggedInUser: React.FC<LoggedInUserPropTypes> = (props) => {
         }
       };
 
-      return <LoggedIn data={loggedInProps.data!} onLogoutClicked={props.onLogoutClicked} />;
+      return (
+        <>
+          <LoggedIn data={loggedInProps.data!} onLogoutClicked={props.onLogoutClicked} />
+        </>
+      );
     } else {
       return (
-        <NotLoggedIn
-          onLoginClicked={props.onLoginClicked ?? dummyFunction}
-          onSignupClicked={props.onSignupClicked ?? dummyFunction}
-        />
+        <>
+          <NotLoggedIn
+            onLoginClicked={props.onLoginClicked ?? dummyFunction}
+            onSignupClicked={props.onSignupClicked ?? dummyFunction}
+          />
+        </>
       );
     }
   };
 
-  return <div className={` `}>{content()}</div>;
+  return (
+    <>
+      <div className={` `}>{content()}</div>
+    </>
+  );
 };

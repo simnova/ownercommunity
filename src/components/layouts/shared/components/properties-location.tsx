@@ -17,8 +17,8 @@ interface AddressDataType {
 export const PropertiesLocation = (props: any) => {
   const [value, setValue] = useState('');
   const [addresses, setAddresses] = useState<AddressDataType[]>([]);
-  const [currentAddress, setCurrentAddress] = useState<any>('');
-  const [currentPoint, setCurrentPoint] = useState<number[]>([0, 0]);
+  const [, setCurrentAddress] = useState<any>('');
+  const [, setCurrentPoint] = useState<number[]>([0, 0]);
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
   console.log(props);
@@ -104,7 +104,7 @@ export const PropertiesLocation = (props: any) => {
         initialValues={props.data.property}
         onFinish={(values) => {
           setFormLoading(true);
-          const property: PropertyUpdateInput = {
+          var property: PropertyUpdateInput = {
             id: props.data.property.id,
             ...values
           };

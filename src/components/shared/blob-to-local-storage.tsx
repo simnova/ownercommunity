@@ -29,11 +29,16 @@ export const BlobToLocalStorage: React.FC<BlobToLocalStorageProps> = (props) => 
 
         // temp fix for the above temp fix - there are more urls we have to rewrite than just owner.community
         const hostName = 'owners.atlantisocmd.com';
+        const special_ports = ['80', '3000']; // Not sure why we append ports to the blob storage, but adding this just in case it's needed
+
         const api_call = await fetch(
           `https://ownercommunity.blob.core.windows.net/community-domains/${
-            hostName + (window.location.port && window.location.port !== '80' ? ':' + window.location.port : '')
+            hostName +
+            (window.location.port && (!special_ports.includes(window.location.port) ? ':' + window.location.port : ''))
           }`
         );
+
+        console.log('Blob Storage fetch call: ', api_call)
 
         const data = await api_call.json();
         if (data?.communityId) {

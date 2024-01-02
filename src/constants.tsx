@@ -334,7 +334,8 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
       mode: 'cors',
       headers: {
         Authorization: 'jwt-sas ' + token,
-        'Content-Type': 'application/json; charset=utf-8'
+        'Content-Type': 'application/json; charset=utf-8',
+        // 'Access-Control-Allow-Origin': '*'
       }
     });
 

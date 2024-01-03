@@ -10,7 +10,6 @@ const CmsPage: React.FC<any> = () => {
   const location = useLocation();
   
   const matchedLayout:any = matchRoutes(pageLayouts,location);
-  console.log("Printing now")
   console.log('matchedLayout:',matchedLayout);
 
   return <>

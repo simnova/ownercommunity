@@ -44,7 +44,7 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
         initialValues={props.data.property}
         onFinish={(values) => {
           setFormLoading(true);
-          const property: PropertyUpdateInput = {
+          var property: PropertyUpdateInput = {
             id: props.data.property.id,
             ...values
           };

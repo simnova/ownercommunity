@@ -4,10 +4,10 @@ import { useSearchParams } from 'react-router-dom';
 import { DistanceOptions, SearchParamKeys, additionalAmenitiesOptions } from '../../../../constants';
 import { FacetDetail, PropertySearchFacets } from '../../../../generated';
 import {
-  SearchFilter,
-  SearchFilterConfigDefinition,
-  SearchFilterOption,
-  SearchFilterProps
+    SearchFilter,
+    SearchFilterConfigDefinition,
+    SearchFilterOption,
+    SearchFilterProps
 } from '../../shared/components/search-filter';
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
@@ -28,10 +28,7 @@ export const AdditionalAmenitiesFilter: FC<AdditionalAmenitiesFilterProps> = (pr
 
   const isChecked = (id: string) => {
     const searchId = props.searchId[0];
-    const searchParamsString = searchParams
-      .get(searchId)
-      ?.split(';')
-      .map((searchParam) => searchParam.split(':')[1]);
+    const searchParamsString = searchParams.get(searchId)?.split(';').map((searchParam) => searchParam.split(':')[1]);
     if (searchParamsString) {
       return searchParamsString.includes(id);
     }
@@ -63,9 +60,9 @@ export const AdditionalAmenitiesFilter: FC<AdditionalAmenitiesFilterProps> = (pr
 
   return (
     <div style={{ paddingLeft: '20px' }}>
-      {props.additionalAmenities.map((aam: { category: string; amenities: SearchFilterOption[] }) => {
+      {props.additionalAmenities.map((aam: { category: string, amenities: SearchFilterOption[] }) => {
         return (
-          <div key={aam.category}>
+          <div key={aam.category} >
             {aam.amenities.length > 0 && <h2 className="font-bold">{aam.category}</h2>}
             {aam.amenities.map((option: SearchFilterOption) => {
               return (
@@ -109,13 +106,15 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           if (filter.facet.length > 1) {
             const facetName = filter.facet.find((facet: any) => facet === filter.transform(value));
             count = props.searchData.facets[facetName].find((facet: any) => filter.handleCount(facet))?.count ?? 0;
-          } else if (props.searchData.facets[filter.facet[0]]) {
-            count =
-              props.searchData.facets[filter.facet[0]].find((facet: any) =>
-                filter.handleCount ? filter.handleCount(facet, value) : facet.value === value
-              )?.count ?? 0;
           } else {
-            count = 0;
+            if (props.searchData.facets[filter.facet[0]]) {
+              count =
+                props.searchData.facets[filter.facet[0]].find((facet: any) =>
+                  filter.handleCount ? filter.handleCount(facet, value) : facet.value === value
+                )?.count ?? 0;
+            } else {
+              count = 0;
+            }
           }
         } else count = -1;
         if (filter.handleBuild) {
@@ -143,8 +142,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
           searchId: [SearchParamKeys.ListedInfo],
           values: ['For Sale', 'For Rent', 'For Lease'],
           facet: ['listedForSale', 'listedForRent', 'listedForLease'],
-          transform: (value: any) =>
-            value === 'For Sale' ? 'listedForSale' : value === 'For Rent' ? 'listedForRent' : 'listedForLease',
+          transform: (value: any) => value === 'For Sale' ? 'listedForSale' : value === 'For Rent' ? 'listedForRent' : 'listedForLease',
           handleCount: (facet: FacetDetail) => {
             return facet.value === 'true';
           },
@@ -242,17 +240,15 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
               searchId={[SearchParamKeys.AdditionalAmenities]}
               additionalAmenities={props.searchData.facets['additionalAmenitiesCategory']?.map((facet: FacetDetail) => {
                 const category = facet.value ?? '';
-                const amenities: SearchFilterOption[] = props.searchData.facets['additionalAmenitiesAmenities']
-                  ?.map((facet: FacetDetail) => {
-                    if (additionalAmenitiesOptions[category]?.includes(facet.value)) {
-                      return {
-                        name: facet.value,
-                        count: facet.count,
-                        id: facet.value
-                      };
-                    }
-                  })
-                  .filter((amenity: SearchFilterOption | undefined) => amenity !== undefined);
+                const amenities: SearchFilterOption[] = props.searchData.facets['additionalAmenitiesAmenities']?.map((facet: FacetDetail) => {
+                  if (additionalAmenitiesOptions[category]?.includes(facet.value)) {
+                    return {
+                      name: facet.value,
+                      count: facet.count,
+                      id: facet.value
+                    };
+                  }
+                }).filter((amenity: SearchFilterOption | undefined) => amenity !== undefined);
 
                 return {
                   category: category,
@@ -290,7 +286,7 @@ export const PropertiesListSearchFilters: FC<PropertiesListSearchFiltersProps> =
         {
           title: 'Distance',
           searchId: [SearchParamKeys.Distance],
-          values: DistanceOptions.map((distance: { label: string; value: number }) => distance.label),
+          values: DistanceOptions.map((distance: { label: string, value: number}) => distance.label),
           type: 'radio'
         }
       ]

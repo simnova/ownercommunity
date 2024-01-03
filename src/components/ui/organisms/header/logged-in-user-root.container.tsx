@@ -47,7 +47,7 @@ export const LoggedInUserRootContainer: React.FC<HeaderPropTypes> = () => {
   return (
     <ComponentQueryLoader
       loading={loading}
-      hasData={data?.userCurrent}
+      hasData={data && data.userCurrent}
       hasDataComponent={<LoggedInRootContainer />}
       error={error}
       noDataComponent={<div>Nothing</div>}

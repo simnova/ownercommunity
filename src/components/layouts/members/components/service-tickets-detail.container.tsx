@@ -2,19 +2,19 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
-  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-  MembersServiceTicketDetailContainerServiceTicketDeleteDocument,
-  MembersServiceTicketsDetailContainerAddUpdateActivityDocument,
-  MembersServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
-  MembersServiceTicketsDetailContainerPropertiesDocument,
-  MembersServiceTicketsDetailContainerServiceAssignDocument,
-  MembersServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
-  MembersServiceTicketsDetailContainerServiceTicketDocument,
-  MembersServiceTicketsDetailContainerServiceTicketUpdateDocument,
-  ServiceTicketAddUpdateActivityInput,
-  ServiceTicketAssignInput,
-  ServiceTicketChangeStatusInput,
-  ServiceTicketUpdateInput
+    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+    MembersServiceTicketDetailContainerServiceTicketDeleteDocument,
+    MembersServiceTicketsDetailContainerAddUpdateActivityDocument,
+    MembersServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
+    MembersServiceTicketsDetailContainerPropertiesDocument,
+    MembersServiceTicketsDetailContainerServiceAssignDocument,
+    MembersServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
+    MembersServiceTicketsDetailContainerServiceTicketDocument,
+    MembersServiceTicketsDetailContainerServiceTicketUpdateDocument,
+    ServiceTicketAddUpdateActivityInput,
+    ServiceTicketAssignInput,
+    ServiceTicketChangeStatusInput,
+    ServiceTicketUpdateInput
 } from '../../../../generated';
 import { ServiceTicketsDetail } from './service-tickets-detail';
 
@@ -107,7 +107,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
 
   const handleChangeStatus = async (values: ServiceTicketChangeStatusInput) => {
     try {
-      const result = await serviceTicketChangeStatus({
+      var result = await serviceTicketChangeStatus({
         variables: {
           input: values
         }
@@ -158,11 +158,14 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
   if (serviceTicketLoading || memberLoading || propertyLoading) {
     return <Skeleton active />;
   } else if (serviceTicketError || memberError || propertyError) {
-    return <div>{JSON.stringify(serviceTicketError ?? memberError ?? propertyError)}</div>;
+    return <div>{JSON.stringify(serviceTicketError || memberError || propertyError)}</div>;
   } else if (
-    serviceTicketData?.serviceTicket &&
-    memberData?.membersAssignableToTickets &&
-    propertyData?.propertiesForCurrentUserByCommunityId
+    serviceTicketData &&
+    serviceTicketData.serviceTicket &&
+    memberData &&
+    memberData.membersAssignableToTickets &&
+    propertyData &&
+    propertyData.propertiesForCurrentUserByCommunityId
   ) {
     const data = {
       serviceTicket: serviceTicketData.serviceTicket,

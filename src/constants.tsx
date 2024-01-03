@@ -33,7 +33,7 @@ export const ServiceTicketSortOptions = [
     value: 'updatedAt desc',
     label: 'Updated (Newest)'
   }
-];
+]
 
 export const PropertySortOptions = [
   {
@@ -59,7 +59,7 @@ export const PropertySortOptions = [
   {
     value: 'price desc',
     label: 'Price (Highest)'
-  },
+  }, 
   {
     value: 'bedrooms desc',
     label: 'Bedrooms (Largest)'
@@ -68,7 +68,7 @@ export const PropertySortOptions = [
     value: 'squareFeet desc',
     label: 'Square Feet (Largest)'
   }
-];
+]
 
 export enum SearchType {
   Property = 'PROPERTY',
@@ -320,11 +320,11 @@ export const MinPrice = 0;
 export const MaxPrice = 1000000;
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
-  const addresssGeocodeServiceUrlTemplate: string =
+  var addresssGeocodeServiceUrlTemplate: string =
     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
   //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
 
-  const requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(addressInput));
+  var requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(addressInput));
   const token = mapSASToken;
   console.log(token);
 
@@ -357,7 +357,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, communit
   const qsminSquareFeet = searchParams.get('minSquareFeet');
   const qsmaxSquareFeet = searchParams.get('maxSquareFeet');
   const qsamenities = searchParams.get('amenities')?.split(',');
-  const qsadditionalAmenities = searchParams.get(SearchParamKeys.AdditionalAmenities)?.split(';');
+  const qsadditionalAmenities = searchParams.get(SearchParamKeys.AdditionalAmenities)?.split(";");
   const qsdistance = searchParams.get('distance');
   const qsListedInfo = searchParams.get('listedInfo')?.split(',');
   const qslat = searchParams.get('lat');
@@ -404,14 +404,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, communit
     ...filters,
     listingDetail: {
       ...filters?.listingDetail,
-      prices:
-        qsminPrice && qsmaxPrice
-          ? [parseInt(qsminPrice), parseInt(qsmaxPrice)]
-          : qsminPrice
-          ? [parseInt(qsminPrice), 1000000000]
-          : qsmaxPrice
-          ? [0, parseInt(qsmaxPrice)]
-          : undefined
+      prices: qsminPrice && qsmaxPrice ? [parseInt(qsminPrice), parseInt(qsmaxPrice)] : qsminPrice ? [parseInt(qsminPrice), 1000000000] : qsmaxPrice ? [0, parseInt(qsmaxPrice)] : undefined
     }
   };
 
@@ -421,13 +414,7 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, communit
     listingDetail: {
       ...filters?.listingDetail,
       squareFeets:
-        qsminSquareFeet && qsmaxSquareFeet
-          ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)]
-          : qsminSquareFeet
-          ? [parseInt(qsminSquareFeet), 1000000000]
-          : qsmaxSquareFeet
-          ? [0, parseInt(qsmaxSquareFeet)]
-          : undefined
+        qsminSquareFeet && qsmaxSquareFeet ? [parseInt(qsminSquareFeet), parseInt(qsmaxSquareFeet)] : qsminSquareFeet ? [parseInt(qsminSquareFeet), 1000000000] : qsmaxSquareFeet ? [0, parseInt(qsmaxSquareFeet)] : undefined
     }
   };
 
@@ -493,8 +480,8 @@ export const GetFilterFromQueryString = (searchParams: URLSearchParams, communit
 
   filters = {
     ...filters,
-    communityId: communityId
-  };
+    communityId: communityId,
+  }
 
   return filters;
 };
@@ -514,11 +501,15 @@ export const GetFilterFromServiceTicketQueryString = (
     return status.toUpperCase();
   });
 
-  return {
+  let filters = {} as ServiceTicketsSearchFilterDetail;
+
+  filters = {
     priority: qspriority,
     assignedToId: qsassignedToId,
     status: qsstatus
-  } as ServiceTicketsSearchFilterDetail;
+  };
+
+  return filters;
 };
 
 export const ConvertMemberIdToName = (memberId: string, members: Member[]): string => {
@@ -550,6 +541,9 @@ export const IsNameDuplicate = (name: string, members: Member[]): boolean => {
 export const GetServiceTicketSelectedFilterTags = (searchParams: URLSearchParams, members?: Member[]) => {
   let tempList: string[] = [];
 
+  //props.memberData.membersByCommunityId
+
+  // const qsrequestorId = SearchParams.get('requestor');
   const qsassignedToId = searchParams.get('assignedTo')?.split(',');
   const qspriority = searchParams.get('priority')?.split(',');
   const qsstatus = searchParams.get('status')?.split(',');
@@ -583,7 +577,7 @@ export const GetServiceTicketSelectedFilterTags = (searchParams: URLSearchParams
 export const SetSearchParamsFromServiceTicketFilter = (
   filters: string[],
   searchParams: URLSearchParams,
-  members: Member[]
+  members: Member[],
 ) => {
   const assignedTo = filters.filter((tag) => tag.startsWith('Assigned to: '));
   const priority = filters.filter((tag) => tag.startsWith('Priority: '));
@@ -638,30 +632,25 @@ const searchParamsArray: SearchParam[] = [
   { key: SearchParamKeys.Amenities, label: 'Amenities: ' },
   { key: SearchParamKeys.AdditionalAmenities, label: 'Additional Amenities: ', separator: ';' },
   { key: SearchParamKeys.Distance, label: 'Distance: ' },
-  {
-    key: SearchParamKeys.ListedInfo,
-    label: 'Listed Info: ',
-    formatValue: (value) =>
-      value === 'listedForSale' ? 'For Sale' : value === 'listedForRent' ? 'For Rent' : 'For Lease'
-  },
+  { key: SearchParamKeys.ListedInfo, label: 'Listed Info: ', formatValue: (value) => (value === 'listedForSale' ? 'For Sale' : value === 'listedForRent' ? 'For Rent' : 'For Lease') },
   { key: SearchParamKeys.Latitude, label: 'Latitude: ' },
   { key: SearchParamKeys.Longitude, label: 'Longitude: ' },
   { key: SearchParamKeys.UpdatedAt, label: 'Updated At: ' },
   { key: SearchParamKeys.CreatedAt, label: 'Created At: ' },
-  { key: SearchParamKeys.Tags, label: 'Tags: ' }
+  { key: SearchParamKeys.Tags, label: 'Tags: ' },
 ];
 
 export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => {
   const tempList: string[] = [];
 
   searchParams.forEach((value, key) => {
-    if (key === 'page' || key === 'top') return;
+    if (key === 'page' || key ==='top') return;
     const searchParam = searchParamsArray.find((sp) => sp.key === key);
     if (searchParam) {
-      const separator = searchParam.separator ?? ',';
+      const separator = searchParam.separator || ',';
       if (value.includes(separator)) {
         const values = value.split(separator);
-        const formattedValues = values.map((v) => (searchParam.formatValue ? searchParam.formatValue(v) : v));
+        const formattedValues = values.map((v) => searchParam.formatValue ? searchParam.formatValue(v) : v);
         formattedValues.forEach((v) => tempList.push(searchParam.label + v));
       } else {
         const formattedValue = searchParam.formatValue ? searchParam.formatValue(value) : value;
@@ -673,7 +662,10 @@ export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => 
   return tempList;
 };
 
-export const SetSearchParamsFromPropertyFilter = (filters: string[], searchParams: URLSearchParams) => {
+export const SetSearchParamsFromPropertyFilter = (
+  filters: string[],
+  searchParams: URLSearchParams,
+) => {
   const type = filters.filter((tag) => tag.startsWith('Type: '));
   const bedrooms = filters.filter((tag) => tag.startsWith('Bedrooms: '));
   const bathrooms = filters.filter((tag) => tag.startsWith('Bathrooms: '));
@@ -692,9 +684,9 @@ export const SetSearchParamsFromPropertyFilter = (filters: string[], searchParam
   const tags = filters.filter((tag) => tag.startsWith('Tags: '));
 
   if (type.length > 0) {
-    console.log('type ', type);
+    console.log("type ", type);
     const typeId = type.map((tag) => tag.replace('Type: ', ''));
-    console.log('typeId ', typeId);
+    console.log("typeId ", typeId);
     searchParams.set(SearchParamKeys.Type, typeId.join(','));
   } else {
     searchParams.delete(SearchParamKeys.Type);
@@ -765,9 +757,7 @@ export const SetSearchParamsFromPropertyFilter = (filters: string[], searchParam
 
   if (listedInfo.length > 0) {
     const listedInfoId = listedInfo.map((tag) => tag.replace('Listed Info: ', ''));
-    const formattedListedInfo = listedInfoId.map((tag) =>
-      tag === 'For Sale' ? 'listedForSale' : tag === 'For Rent' ? 'listedForRent' : 'listedForLease'
-    );
+    const formattedListedInfo = listedInfoId.map((tag) => tag === 'For Sale' ? 'listedForSale' : tag === 'For Rent' ? 'listedForRent': 'listedForLease');
     searchParams.set(SearchParamKeys.ListedInfo, formattedListedInfo.join(','));
   } else {
     searchParams.delete(SearchParamKeys.ListedInfo);
@@ -807,4 +797,5 @@ export const SetSearchParamsFromPropertyFilter = (filters: string[], searchParam
   } else {
     searchParams.delete(SearchParamKeys.Tags);
   }
+
 };

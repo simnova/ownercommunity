@@ -2,11 +2,11 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
-  AdminServiceTicketsCreateContainerMembersDocument,
-  AdminServiceTicketsCreateContainerPropertiesDocument,
-  AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
-  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-  ServiceTicketCreateInput
+    AdminServiceTicketsCreateContainerMembersDocument,
+    AdminServiceTicketsCreateContainerPropertiesDocument,
+    AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
+    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+    ServiceTicketCreateInput
 } from '../../../../generated';
 import { ServiceTicketsCreate } from '../../shared/components/service-tickets-create';
 
@@ -16,7 +16,9 @@ interface ServiceTicketsCreateContainerProps {
   };
 }
 
-export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (props) => {
+export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (
+  props
+) => {
   const navigate = useNavigate();
   const {
     data: memberData,
@@ -32,29 +34,32 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
   } = useQuery(AdminServiceTicketsCreateContainerPropertiesDocument, {
     variables: { communityId: props.data.communityId }
   });
-  const [serviceTicketCreate] = useMutation(AdminServiceTicketsCreateContainerServiceTicketCreateDocument, {
-    update(cache, { data }) {
-      // update the list with the new item
-      const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
-      const serviceTickets = cache.readQuery({
-        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-        variables: { communityId: props.data.communityId }
-      })?.serviceTicketsByCommunityId;
-      if (newServiceTicket && serviceTickets) {
-        cache.writeQuery({
+  const [serviceTicketCreate] = useMutation(
+    AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
+    {
+      update(cache, { data }) {
+        // update the list with the new item
+        const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
+        const serviceTickets = cache.readQuery({
           query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-          variables: { communityId: props.data.communityId },
-          data: {
-            serviceTicketsByCommunityId: [...serviceTickets, newServiceTicket]
-          }
-        });
+          variables: { communityId: props.data.communityId }
+        })?.serviceTicketsByCommunityId;
+        if (newServiceTicket && serviceTickets) {
+          cache.writeQuery({
+            query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+            variables: { communityId: props.data.communityId },
+            data: {
+              serviceTicketsByCommunityId: [...serviceTickets, newServiceTicket]
+            }
+          });
+        }
       }
     }
-  });
+  );
 
   const handleCreate = async (values: ServiceTicketCreateInput) => {
     try {
-      const newServiceTicket = await serviceTicketCreate({
+      var newServiceTicket = await serviceTicketCreate({
         variables: {
           input: values
         }
@@ -76,7 +81,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
     );
   }
   if (memberError || propertyError) {
-    return <div>{JSON.stringify(memberError ?? propertyError)}</div>;
+    return <div>{JSON.stringify(memberError || propertyError)}</div>;
   }
   if (memberData && propertyData) {
     const data = {

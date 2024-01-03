@@ -24,19 +24,19 @@ export class FileValidator {
 
   constructor(file: RcFile, options?: FileValidatorOptions) {
     this.file = file;
-    this.maxFileSizeBytes = options?.maxFileSizeBytes ?? DEFAULT_MAX_FILE_SIZE;
+    this.maxFileSizeBytes = options?.maxFileSizeBytes || DEFAULT_MAX_FILE_SIZE;
     this.maxWidthOrHeight = options?.maxWidthOrHeight;
-    this.permittedContentTypes = options?.permittedContentTypes ?? [];
+    this.permittedContentTypes = options?.permittedContentTypes || [];
   }
 
   public async validate(): Promise<FileValidatorResult> {
     let newFile: RcFile = this.file;
-
+    
     if (!this.validateContentType()) {
       return {
         success: false,
         message: `Invalid content type: ${this.file.type}`,
-        code: 'content-type'
+        code: "content-type"
       };
     }
 
@@ -53,7 +53,7 @@ export class FileValidator {
     return {
       success: true,
       file: newFile
-    };
+    }
   }
 
   private validateContentType(): boolean {
@@ -64,7 +64,7 @@ export class FileValidator {
     return this.permittedContentTypes.includes(this.file.type);
   }
 
-  private async validateContentLength(newFile: RcFile): Promise<{ success: boolean; message?: string; code?: string }> {
+  private async validateContentLength(newFile: RcFile): Promise<{ success: boolean, message?: string, code?: string }> {
     if (this.file.type.startsWith('image/') && (this.maxWidthOrHeight || this.maxFileSizeBytes)) {
       try {
         console.log('beforeCompression size:', this.file.size);
@@ -85,7 +85,7 @@ export class FileValidator {
         return {
           success: false,
           message: `Cannot compress file: ${error}`,
-          code: 'compress'
+          code: "compress"
         };
       }
     }
@@ -93,12 +93,12 @@ export class FileValidator {
     if (newFile.size <= this.maxFileSizeBytes) {
       return {
         success: true
-      };
+      }
     } else {
       return {
         success: false,
         message: `Invalid content length: ${this.file.size}. Max size permitted: ${this.maxFileSizeBytes}`,
-        code: 'content-length'
+        code: "content-length"
       };
     }
   }

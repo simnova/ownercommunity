@@ -1,5 +1,5 @@
 import { Button, Col, Image, Modal, Row, message } from 'antd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 interface PropertiesListingImageListProps {
@@ -7,8 +7,8 @@ interface PropertiesListingImageListProps {
     images?: (string | null)[];
     memberId: string;
   };
-  setImage: (image: string | undefined) => void;
-  image: string | undefined;
+  setImage: (image: string|undefined) => void;
+  image: string|undefined;
   handleRemoveImage: () => Promise<boolean>;
 }
 
@@ -26,7 +26,7 @@ export const PropertiesListingImageList: React.FC<PropertiesListingImageListProp
     setOpen(false);
     if (success) await message.success('Image removed successfully');
     else await message.error('Error occurred removing image');
-  };
+  }
 
   const handleOk = () => {
     setOpen(false);
@@ -47,7 +47,7 @@ export const PropertiesListingImageList: React.FC<PropertiesListingImageListProp
                       className="property-listing-image"
                       style={{ padding: '0px 10px', width: '200px' }}
                       src={url}
-                      key={props.data.memberId}
+                      key={index}
                       alt={`listing-image${index + 1}`}
                       preview={false}
                       onClick={handleImageClick}
@@ -57,21 +57,15 @@ export const PropertiesListingImageList: React.FC<PropertiesListingImageListProp
               })}
             </Col>
           </Row>
-          <Modal
-            open={open}
-            onOk={handleOk}
+          <Modal 
+            open={open} 
+            onOk={handleOk} 
             style={{
-              minWidth: '800px',
-              textAlign: 'center'
+              minWidth: "800px",
+              textAlign: "center"
             }}
             footer={[
-              <Button
-                style={{ float: 'left' }}
-                key="delete"
-                danger
-                type="primary"
-                onClick={async () => await handleRemove()}
-              >
+              <Button style={{ float: "left" }} key="delete" danger type="primary" onClick={async () => await handleRemove()}>
                 Delete
               </Button>,
               <Button key="ok" type="primary" onClick={handleOk}>

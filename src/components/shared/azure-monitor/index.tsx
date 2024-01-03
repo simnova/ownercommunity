@@ -14,15 +14,17 @@ const appInsights = new ApplicationInsights({
     enableRequestHeaderTracking: true,
     enableResponseHeaderTracking: true,
     distributedTracingMode: DistributedTracingModes.W3C
+
+    
   }
 });
 appInsights.loadAppInsights();
 
 // Creating Telemetry Initializer
 // https://github.com/microsoft/ApplicationInsights-JS#telemetry-initializers
-appInsights.addTelemetryInitializer((env: ITelemetryItem) => {
-  env.tags = env.tags ?? [];
-  env.tags['ai.cloud.role'] = 'OwnerCommunity-UI';
+appInsights.addTelemetryInitializer((env:ITelemetryItem) => {
+    env.tags = env.tags || [];
+    env.tags["ai.cloud.role"] = "OwnerCommunity-UI";
 });
 
 export { appInsights, reactPlugin };

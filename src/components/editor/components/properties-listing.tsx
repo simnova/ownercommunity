@@ -37,13 +37,12 @@ let PropertiesListing: any;
 PropertiesListing = () => {
   const {
     token: { colorBgContainer }
-  } = theme.useToken();
+  }=theme.useToken();
   const path = window.location.href.slice(window.location.href.lastIndexOf('/'));
   const navigate = useNavigate();
 
   const {
-    connectors: { connect, drag }
-  } = useNode((state) => ({
+    connectors: { connect, drag }  } = useNode((state) => ({
     selected: state.events.selected
   }));
 
@@ -82,15 +81,11 @@ PropertiesListing = () => {
       <div className="px-4 py-2" ref={(ref) => connect(drag(ref as HTMLDivElement))}>
         <div
           className="shadow overflow-hidden sm:rounded"
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            flexWrap: 'wrap',
-            backgroundColor: colorBgContainer
-          }}
+          style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', backgroundColor:colorBgContainer }}
         >
-          {data?.propertiesByCommunityId &&
-            data?.propertiesByCommunityId.map((property: any) => (
+          {data &&
+            data.propertiesByCommunityId &&
+            data.propertiesByCommunityId.map((property: any) => (
               <>
                 {property.listedForSale ? (
                   <Badge.Ribbon text="For Sale" color="green">

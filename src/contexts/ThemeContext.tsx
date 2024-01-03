@@ -1,5 +1,5 @@
 import { Button, theme } from 'antd';
-import { ReactNode, createContext, useEffect, useState, useMemo } from 'react';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 import { useMaintenanceMessage } from '../components/shared/maintenance-message';
 import ModalPopUp from './components/ModalPopUp';
 
@@ -11,6 +11,8 @@ interface ThemeContextType {
   };
   setTheme: (tokens: any, types: string) => void;
 }
+
+
 
 export const ThemeContext = createContext<ThemeContextType>({
   currentTokens: {
@@ -35,6 +37,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     type: 'light'
   });
   const [isHidden, setIsHidden] = useState(false);
+
 
   const toggleHidden = () => setIsHidden((prevHidden) => !prevHidden);
 
@@ -121,8 +124,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       };
       localStorage.setItem('themeProp', JSON.stringify(valueToSet));
       setTheme(theme.defaultSeed, 'light');
+      return;
     }
-  }, []); // TODO see if this should be updated to setTheme --Luka
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -138,10 +142,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const themeProps = useMemo(() => ({ currentTokens, setTheme }), [currentTokens, setTheme]);
-
+  
   return (
-    <ThemeContext.Provider value={themeProps}>
+    <ThemeContext.Provider value={{ currentTokens, setTheme }}>
       {isMaintenance ? (
         <div>
           <div className="h-screen flex justify-center items-center text-center px-8">
@@ -183,6 +186,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
             <p>
               Hit <strong>Cmd+Shift+K</strong> to hide
             </p>
+            
           </div>
           {children}
         </div>

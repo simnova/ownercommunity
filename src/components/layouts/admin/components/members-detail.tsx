@@ -33,7 +33,7 @@ export const MembersDetail: React.FC<any> = (props) => {
         initialValues={props.data.member}
         onFinish={(values) => {
           setFormLoading(true);
-          const member: MemberUpdateInput = {
+          var member: MemberUpdateInput = {
             id: props.data.member.id,
             memberName: values.memberName,
             role: values.role.id

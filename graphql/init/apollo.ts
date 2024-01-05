@@ -15,7 +15,7 @@ export class ApolloServerRequestHandler {
     return {
       schema: securedSchema,
       cors: {
-        origin: "*",
+        origin: true,
         credentials: true,
       },
 

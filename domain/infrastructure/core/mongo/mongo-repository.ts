@@ -1,11 +1,11 @@
-import { ClientSession, Document, Model } from 'mongoose';
+import { Repository } from '../../../shared/repository';
 import { AggregateRoot } from '../../../shared/aggregate-root';
-import { DomainEvent } from '../../../shared/domain-event';
+import { Model, ClientSession,Document } from 'mongoose';
+import { TypeConverter } from '../../../shared/type-converter';
 import { EntityProps } from '../../../shared/entity';
 import { EventBus } from '../../../shared/event-bus';
+import { DomainEvent } from '../../../shared/domain-event';
 import { ExecutionContext } from '../../../shared/execution-context';
-import { Repository } from '../../../shared/repository';
-import { TypeConverter } from '../../../shared/type-converter';
 
 export abstract class MongoRepositoryBase<ContextType extends ExecutionContext, MongoType extends Document,PropType extends EntityProps,DomainType extends AggregateRoot<PropType>> implements Repository<DomainType> {
   protected itemsInTransaction:DomainType[] = [];
@@ -38,9 +38,7 @@ export abstract class MongoRepositoryBase<ContextType extends ExecutionContext, 
         await this.model.deleteOne({_id:item.id},{session:this.session}).exec();
         return item;
       }else {
-        console.log('saving item id',item.id);
-        const mongoObj = this.typeConverter.toMongo(item)
-        return this.typeConverter.toDomain(await mongoObj.save({session:this.session}),this.context);
+        return this.typeConverter.toDomain(await this.typeConverter.toMongo(item).save({session:this.session}),this.context);
       }
       
     } catch (error) {

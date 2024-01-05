@@ -1,5 +1,5 @@
 import { Schema, model, Model, ObjectId, PopulatedDoc } from 'mongoose';
-import { Base } from './interfaces/base';
+import { Base, BaseOptions } from './interfaces/base';
 import * as User from './user';
 
 export interface Community extends Base {

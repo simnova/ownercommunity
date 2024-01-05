@@ -104,7 +104,10 @@ export class Communities extends BlobDataSource<Context> {
         return;
       }
 
-      let name = this.context.verifiedUser?.verifiedJWT?.name;
+      let name: string;
+      if (this.context.verifiedUser && this.context.verifiedUser.verifiedJWT) {
+        name = this.context.verifiedUser.verifiedJWT.name;
+      }
 
       const indexFields: Record<string, string> = {
         communityId: communityId,

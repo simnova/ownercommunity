@@ -1,4 +1,4 @@
-import { EntityProps } from '../../shared/entity';
+import { Entity, EntityProps } from '../../shared/entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { Property, PropertyEntityReference, PropertyProps } from '../property/property';
 import { MemberEntityReference, Member, MemberProps } from '../community/member';

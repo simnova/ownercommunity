@@ -1,4 +1,4 @@
-import { Community, Member, Property, Resolvers,Service, ServiceTicket, ServiceTicketMutationResult } from '../../generated';
+import { Community, Member, Property, Resolvers,Service, ServiceTicket, ServiceTicketMutationResult, ServiceTicketsSearchInput } from '../../generated';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
 import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';

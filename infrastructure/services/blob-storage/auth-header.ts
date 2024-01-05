@@ -196,7 +196,7 @@ export class AuthHeader {
     }
 
     queryString = queryString.trim();
-    queryString = queryString.startsWith("?") ? queryString.substring(1) : queryString;
+    queryString = queryString.startsWith("?") ? queryString.substr(1) : queryString;
 
     let querySubStrings: string[] = queryString.split("&");
     querySubStrings = querySubStrings.filter((value: string) => {

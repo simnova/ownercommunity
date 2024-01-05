@@ -18,7 +18,6 @@ export class ApolloServerRequestHandler {
         origin: true,
         credentials: true,
       },
-
       allowBatchedHttpRequests: true,
       //  playground: { endpoint: '/api/graphql/playground' },
       plugins: [
@@ -63,6 +62,7 @@ export class ApolloServerRequestHandler {
     }
   }
 
+
   private readonly graphqlHandlerObj: ApolloServer<ApolloContext>;
   private readonly portalTokenExtractor: PortalTokenValidation;
 
@@ -77,6 +77,7 @@ export class ApolloServerRequestHandler {
       });
 
       this.graphqlHandlerObj = server;
+
     } catch (error) {
       console.log('Error initializing apollo server:', error);
     }

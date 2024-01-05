@@ -221,7 +221,7 @@ export class LocationDomainAdapter implements LocationProps {
   constructor(public readonly props: Location) {}
 
   get position() {
-    if (!this.props?.position) {
+    if (!this.props || !this.props.position) {
       this.props.set('position', {});
       return null;
     }

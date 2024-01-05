@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql';
-import { shield, allow } from 'graphql-shield';
+import { shield, deny, allow } from 'graphql-shield';
 import { Context } from '../../context';
 import { Resolvers } from '../../generated';
 

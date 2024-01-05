@@ -49,10 +49,13 @@ export class Maps {
 
         if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
           credentials = new AzureCliCredential();
-        } else if (process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined) {
-          credentials = new DefaultAzureCredential({ ManangedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID } as DefaultAzureCredentialOptions);
-        } else {
-          credentials = new DefaultAzureCredential();
+        }else{
+          if(process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined){
+            credentials = new DefaultAzureCredential( { ManangedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID } as DefaultAzureCredentialOptions);
+            //credentials = new ManagedIdentityCredential(process.env.MANAGED_IDENTITY_CLIENT_ID);
+          }else{
+            credentials = new DefaultAzureCredential();
+          }
         }
         
         this._azureMapsClient = new AzureMapsManagementClient(credentials, this._azureSubscriptionID);

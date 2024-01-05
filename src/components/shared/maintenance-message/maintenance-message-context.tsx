@@ -11,6 +11,9 @@ export interface MaintenanceMessageInterface {
   maintainanceMessageImpending: string|undefined,
 }
 
+const stub = (): never => {
+  throw new Error('You forgot to wrap your component in <MaintenanceMessageProvider>.')
+}
 
 const initialContext = {
   isMaintenance: undefined,

@@ -1,6 +1,6 @@
-import { Button } from 'antd';
+import React, { FC } from 'react';
 import PropTypes from 'prop-types';
-import { FC } from 'react';
+import { Button } from 'antd';
 
 const ComponentProps = {
   onLoginClicked: PropTypes.func,

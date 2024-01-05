@@ -1,7 +1,7 @@
-import { useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MemberProfileContainerMemberForCurrentUserDocument } from '../../../../generated';
+import { useQuery } from '@apollo/client';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { MemberProfile } from './member-profile';
 

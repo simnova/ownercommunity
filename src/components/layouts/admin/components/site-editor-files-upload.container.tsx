@@ -1,8 +1,8 @@
-import { useMutation } from '@apollo/client';
-
+import React from 'react';
 import { AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeaderDocument } from '../../../../generated';
-import { AuthResult } from '../../../ui/molecules/azure-upload';
+import { useMutation } from '@apollo/client';
 import { SiteEditorFilesUpload } from './site-editor-files-upload';
+import { AuthResult } from '../../../ui/molecules/azure-upload';
 
 export interface SiteEditorFilesUploadContainerProps {
   data : {

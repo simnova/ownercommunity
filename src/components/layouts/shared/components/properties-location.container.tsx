@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import {
-    PropertyUpdateInput, SharedAddressLocationUpdateContainerDocument, SharedPropertiesLocationContainerPropertyDocument,
+  PropertyUpdateInput, SharedAddressLocationUpdateContainerDocument, SharedPropertiesLocationContainerPropertyDocument,
 } from '../../../../generated';
 import { PropertiesLocation } from './properties-location';
+import { Skeleton, message } from 'antd';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -24,7 +24,7 @@ interface ComponentPropInterface {
 export type PropertiesLocationContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> &
   ComponentPropInterface;
 
-export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPropTypes> = () => {
+export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPropTypes> = (props) => {
   const params = useParams();
   const [updateAddress] = useMutation(SharedAddressLocationUpdateContainerDocument);
 

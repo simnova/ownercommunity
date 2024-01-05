@@ -1,5 +1,5 @@
-import * as msal from "@azure/msal-browser";
 import { createContext } from 'react';
+import * as msal from "@azure/msal-browser";
 
 export interface MsalContextInterface {
   getAuthToken:  (identifier:string|undefined) => Promise<string|undefined>, 

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { MemberProfileContainer } from "../../shared/components/member-profile.container";
 
-export const MembersProfile: React.FC<any> = () => {
+export const MembersProfile: React.FC<any> = (props) => {
   const params = useParams();
   return (
     <div>

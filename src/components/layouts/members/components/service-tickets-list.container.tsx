@@ -1,25 +1,25 @@
-import { FilterOutlined } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Drawer, Input, Skeleton, theme } from 'antd';
+import {
+  MemberNameServiceTicketContainerDocument,
+  MemberServiceTicketsListContainerSearchServiceTicketsDocument,
+  ServiceTicketsSearchFilterDetail
+} from '../../../../generated';
+import { ServiceTicketsList } from './service-tickets-list';
+import { Skeleton, Input, Drawer, Button, theme } from 'antd';
+import {
+  ServiceTicketFilterNames,
+  GetFilterFromServiceTicketQueryString,
+  ServiceTicketSearchParamKeys,
+  SearchType
+} from '../../../../constants';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import {
-    GetFilterFromServiceTicketQueryString,
-    SearchType,
-    ServiceTicketFilterNames,
-    ServiceTicketSearchParamKeys
-} from '../../../../constants';
-import {
-    MemberNameServiceTicketContainerDocument,
-    MemberServiceTicketsListContainerSearchServiceTicketsDocument,
-    ServiceTicketsSearchFilterDetail
-} from '../../../../generated';
+import { FilterOutlined } from '@ant-design/icons';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
-import { ServiceTicketsList } from './service-tickets-list';
 
 const { Search } = Input;
 
-export const ServiceTicketsListContainer: React.FC<any> = () => {
+export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const {
     token: { colorText }
   } = theme.useToken();

@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { message } from 'antd';
-import PropTypes from 'prop-types';
 import {
-    AdminSettingsGeneralContainerCommunityDocument,
-    AdminSettingsGeneralContainerCommunityUpdateDocument,
-    CommunityUpdateInput
+  AdminSettingsGeneralContainerCommunityDocument,
+  AdminSettingsGeneralContainerCommunityUpdateDocument,
+  CommunityUpdateInput
 } from '../../../../generated';
-import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { SettingsGeneral } from './settings-general';
+import PropTypes from 'prop-types';
+import { message } from 'antd';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({

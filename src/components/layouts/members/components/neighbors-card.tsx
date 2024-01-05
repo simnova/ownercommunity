@@ -1,6 +1,6 @@
-
+import React from 'react';
+import { Avatar, Card, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Card } from 'antd';
 import { useParams } from 'react-router-dom';
 
 interface CardProps {

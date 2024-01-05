@@ -5,10 +5,11 @@ import { SubPageLayout } from '../sub-page-layout';
 
 const { Text } = Typography;
 
-export const Home: React.FC<any> = () => {
+export const Home: React.FC<any> = (props) => {
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   const params = useParams();

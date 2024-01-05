@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { AuthResult } from '../../../ui/molecules/azure-upload';
 import { FileUploadButton } from '../../shared/components/file-upload-button';
 

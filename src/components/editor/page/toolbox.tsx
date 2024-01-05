@@ -1,21 +1,23 @@
-
+import React from 'react';
+import { Button } from 'antd';
 import { useEditor } from '@craftjs/core';
 
 import * as CmsComponents from "../components/";
-import React from "react";
+import { useParams } from 'react-router-dom';
 
 interface EditorConfigDefinition {
   categories: {
     categoryName: string;
     components: {
       name: string;
-      component: React.JSX.Element;
+      component: JSX.Element;
     }[]
   }[]
 }
 
-export const Toolbox: React.FC<any> = () => {
-  const { connectors } = useEditor();
+export const Toolbox: React.FC<any> = (props) => {
+  const { connectors, query } = useEditor();
+  const params = useParams();
 
   const editorConfig:EditorConfigDefinition = {
     categories: [

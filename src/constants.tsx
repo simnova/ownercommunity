@@ -1,5 +1,8 @@
 import type { SliderMarks } from 'antd/lib/slider';
+import dayjs from 'dayjs';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
+import { useParams } from 'react-router-dom';
+import { sep } from 'path';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -334,8 +337,7 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
       mode: 'cors',
       headers: {
         Authorization: 'jwt-sas ' + token,
-        'Content-Type': 'application/json; charset=utf-8',
-        // 'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json; charset=utf-8'
       }
     });
 

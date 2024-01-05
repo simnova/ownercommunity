@@ -1,7 +1,7 @@
-import { useQuery } from "@apollo/client";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { MemberSiteNeighborsListCurrentMemberIdDocument } from '../../../../generated';
+import { useQuery } from "@apollo/client";
+import { MemberSiteNeighborsListCurrentMemberIdDocument } from '../../../../generated'
 import { NeighborsCard } from "./neighbors-card";
 
 interface CardListProps {
@@ -14,7 +14,7 @@ export const NeighborsCardList: React.FC<CardListProps> = (props) => {
         variables: { communityId: communityId }
     })
 
-    const generateCards = (data: any, _currentMemberId: string) => {
+    const generateCards = (data: any, currentMemberId: string) => {
         return data.map((member: any) => {
             if (member.profile.showProfile) {
                 return (

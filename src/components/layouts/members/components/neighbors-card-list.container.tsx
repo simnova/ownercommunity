@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { useQuery } from '@apollo/client';
 import { MemberSiteNeighborsListContainerDocument } from '../../../../generated';
 import { NeighborsCardList } from './neighbors-card-list';

@@ -1,6 +1,6 @@
-import { Avatar, Button, Image } from 'antd';
+import React, { FC } from 'react';
 import PropTypes from 'prop-types';
-import { FC } from 'react';
+import { Avatar, Button, Image, Space } from 'antd';
 import { Link } from 'react-router-dom';
 
 const ComponentProps = {

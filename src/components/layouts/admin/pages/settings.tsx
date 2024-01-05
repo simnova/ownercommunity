@@ -1,26 +1,33 @@
-import { BookOutlined, ProfileOutlined, SafetyOutlined, SettingOutlined } from '@ant-design/icons';
-import { PageHeader } from '@ant-design/pro-layout';
-import { Col, Menu, Row, theme } from 'antd';
+import React from 'react';
+import { Routes, Route, Link, useLocation, matchRoutes } from 'react-router-dom';
+import { PageHeader, } from '@ant-design/pro-layout';
+import { Col, Menu, Row, Layout, Typography, theme } from 'antd';
+import { BookOutlined, SettingOutlined, SafetyOutlined, ProfileOutlined } from '@ant-design/icons';
 
-import { Link, Route, Routes, matchRoutes, useLocation } from 'react-router-dom';
-
-import { SubPageLayout } from '../sub-page-layout';
 import { SettingsGeneral } from './settings-general';
 import { SettingsRoles } from './settings-roles';
+import { SubPageLayout } from '../sub-page-layout';
 
-export const Settings: React.FC<any> = () => {
+const { Header, Content } = Layout;
+const {
+  Title,
+}=Typography
+export const Settings: React.FC<any> = (props) => {
   const {
-    token: { colorTextBase }
-  } = theme.useToken();
+    token:{
+      colorTextBase,
+      colorBgContainer
+    }
+  }=theme.useToken()
   const location = useLocation();
 
   const pages = [
-    { id: "1", path: 'community/:communityId/admin/settings/', title: 'General', icon: <BookOutlined /> },
-    { id: "2", path: 'community/:communityId/admin/settings/saml', title: 'Saml', icon: <SettingOutlined /> }
-  ];
+    {id:1, path:'community/:communityId/admin/settings/', title:'General', icon:<BookOutlined />},
+    {id:2, path:'community/:communityId/admin/settings/saml', title:'Saml', icon:<SettingOutlined />},
+  ]
 
-  const matchedPages = matchRoutes(pages, location);
-  const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.id.toString()) : [];
+  var matchedPages = matchRoutes(pages,location)
+  const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : [];
 
   return (
     <SubPageLayout
@@ -28,23 +35,16 @@ export const Settings: React.FC<any> = () => {
       header={
         <PageHeader
           title={
-            <span
-              style={{
-                color: colorTextBase
-              }}
-            >
-              Account Settings
-            </span>
+            <span style={{
+              color: colorTextBase
+            }}>Account Settings</span>
           }
-        />
-      }
-    >
-      <Row
-        style={{
-          color: colorTextBase
-        }}
+        />}
       >
-        <Col span={6}>
+        <Row style={{
+          color:colorTextBase
+        }}>
+          <Col span={6}>
           <Menu mode="inline" selectedKeys={matchedIds}>
             <Menu.Item key="1" icon={<ProfileOutlined />}>
               <Link to="">General</Link>
@@ -53,14 +53,14 @@ export const Settings: React.FC<any> = () => {
               <Link to="saml">SAML</Link>
             </Menu.Item>
           </Menu>
-        </Col>
-        <Col span={18} style={{ paddingLeft: '24px' }}>
-          <Routes>
-            <Route path="" element={<SettingsGeneral />} />
-            <Route path="/Saml" element={<SettingsRoles />} />
-          </Routes>
-        </Col>
-      </Row>
+          </Col>
+          <Col span={18} style={{paddingLeft:'24px'}}>
+            <Routes>
+              <Route path="" element={<SettingsGeneral />} />
+              <Route path="/Saml" element={<SettingsRoles />} />
+            </Routes>
+          </Col>
+        </Row>
     </SubPageLayout>
-  );
-};
+  )
+}

@@ -1,19 +1,19 @@
+import { useParams } from 'react-router-dom';
+import {
+  CustomViewInput,
+  MemberMutationResult,
+  MemberNameServiceTicketContainerQuery,
+  MemberPropertiesGetAllTagsQuery,
+  PropertySearchFacets,
+  SearchDrawerContainerCustomViewsDocument,
+  SearchDrawerContainerCustomViewsUpdateDocument
+} from '../../../../generated';
 import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
-import { useParams } from 'react-router-dom';
+import { SearchToolbar } from './search-toolbar';
 import { CustomViewOperation, SearchType } from '../../../../constants';
-import {
-    CustomViewInput,
-    MemberMutationResult,
-    MemberNameServiceTicketContainerQuery,
-    MemberPropertiesGetAllTagsQuery,
-    PropertySearchFacets,
-    SearchDrawerContainerCustomViewsDocument,
-    SearchDrawerContainerCustomViewsUpdateDocument
-} from '../../../../generated';
 import { PropertiesListSearchFilters } from '../../members/components/properties-list-search-filters';
 import { ServiceTicketsSearchFilters } from '../../members/components/service-tickets-search-filters';
-import { SearchToolbar } from './search-toolbar';
 
 interface SearchDrawerContainerProps {
   type: SearchType;

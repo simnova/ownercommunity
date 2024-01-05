@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Skeleton, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
 import {
   AdminRolesDeleteContainerRoleDeleteAndReassignDocument,
   AdminRolesDeleteContainerRolesDocument,
-  AdminRolesListContainerRolesDocument,
-  RoleDeleteAndReassignInput
+  RoleDeleteAndReassignInput,
+  AdminRolesListContainerRolesDocument
 } from '../../../../generated';
+import { message, Skeleton } from 'antd';
 import { RolesDelete } from './roles-delete';
+import { useNavigate } from 'react-router-dom';
 
 export interface RolesDeleteContainerProps {
   data: {
@@ -17,7 +17,7 @@ export interface RolesDeleteContainerProps {
 
 export const RolesDeleteContainer: React.FC<any> = (props) => {
   const navigate = useNavigate();
-  const [roleDelete, { error: deleteError }] =
+  const [roleDelete, { data: deleteData, loading: deleteLoading, error: deleteError }] =
     useMutation(AdminRolesDeleteContainerRoleDeleteAndReassignDocument, {
       update(cache, { data }) {
         // update the list by removing the deleted item

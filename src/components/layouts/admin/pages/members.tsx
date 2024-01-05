@@ -4,7 +4,7 @@ import { MembersCreate } from './members-create';
 
 import { MembersList } from './members-list';
 
-export const Members: React.FC<any> = () => {
+export const Members: React.FC<any> = (props) => {
   return (
     <Routes>
       <Route path="" element={<MembersList />} />

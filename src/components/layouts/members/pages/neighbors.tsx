@@ -1,14 +1,17 @@
 import { PageHeader } from '@ant-design/pro-layout';
-import { theme } from 'antd';
-import { useParams } from 'react-router-dom';
-import { NeighborsCardListContainer } from '../components/neighbors-card-list.container';
-import { SubPageLayout } from '../sub-page-layout';
+import { Typography,theme } from 'antd';
+import { SubPageLayout } from '../sub-page-layout'
+import { NeighborsCardListContainer } from '../components/neighbors-card-list.container'
+import { useParams } from 'react-router-dom'
+
+const { Text } = Typography
 
 
-export const Neighbors: React.FC<any> = () => {
+export const Neighbors: React.FC<any> = (props) => {
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   const { communityId } = useParams();

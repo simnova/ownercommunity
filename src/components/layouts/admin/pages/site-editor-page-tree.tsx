@@ -1,20 +1,22 @@
-import SortableTree, { addNodeUnderParent, changeNodeAtPath, getFlatDataFromTree, getNodeAtPath, getTreeFromFlatData, removeNodeAtPath } from '@nosferatu500/react-sortable-tree';
+import React, {useState,useEffect} from "react";
+import SortableTree, {getFlatDataFromTree, getTreeFromFlatData, getNodeAtPath, changeNodeAtPath, removeNodeAtPath,addNodeUnderParent} from '@nosferatu500/react-sortable-tree';
 import '@nosferatu500/react-sortable-tree/style.css'; // This only needs to be imported once in your app
-import { Button, Col, Collapse, Modal, Row, Typography, theme } from 'antd';
-import React, { useState } from "react";
-import { usePageLayouts } from "../../../editor/local-data";
+import {usePageLayouts} from "../../../editor/local-data";
+import { Modal, Button ,Row, Col, Collapse,Typography, theme } from 'antd';
+import { useEditor } from '@craftjs/core';
 
-import uniqid from 'uniqid';
+import { PageDetails, PageDetailsPropTypes } from "../../../editor/tree/page-details";
 import { DetailsPageDetails } from "../../../editor/tree/details-page-details";
-import { PageDetails } from "../../../editor/tree/page-details";
+import uniqid from 'uniqid';
 
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-const SiteEditorPageTree: React.FC = () => {
+const SiteEditorPageTree: React.FC = (props) => {
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   const [pageLayouts, setPageLayouts] = usePageLayouts();
@@ -109,7 +111,7 @@ const SiteEditorPageTree: React.FC = () => {
     setSelectedNodePath(path);
   }
 
-  const canDrop = ({ nextParent, nextPath }:any) => {
+  const canDrop = ({ node, nextParent, prevPath, nextPath }:any) => {
     // ensure only one root node or if targeted node is a listing/details page
     if (nextPath.length === 1 || nextParent.pageType === 'Listing' || nextParent.pageType === 'Details') { 
       return false;

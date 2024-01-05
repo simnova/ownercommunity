@@ -1,9 +1,10 @@
+import { SubPageLayout } from '../sub-page-layout';
 import { PageHeader } from '@ant-design/pro-layout';
+import { Button } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RolesDeleteContainer } from '../components/roles-delete.container';
-import { SubPageLayout } from '../sub-page-layout';
 
-export const RolesDelete: React.FC<any> = () => {
+export const RolesDelete: React.FC<any> = (props) => {
   const params = useParams();
   const navigate = useNavigate();
   return (

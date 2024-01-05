@@ -1,8 +1,6 @@
 import React from 'react';
-
-import { Button, Descriptions, Form, Select } from 'antd';
+import { Form, Button, Descriptions, Select } from 'antd';
 import dayjs from 'dayjs';
-
 
 export interface RolesDeleteProps {
   data: {

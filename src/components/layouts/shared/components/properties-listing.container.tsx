@@ -1,10 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Skeleton, message } from 'antd';
-import PropTypes from 'prop-types';
 import {
   PropertyUpdateInput, SharedPropertiesListingContainerPropertyDocument, SharedPropertiesListingContainerPropertyUpdateDocument
 } from '../../../../generated';
 import { PropertiesListing } from './properties-listing';
+import PropTypes from 'prop-types';
+import { message, Skeleton } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -24,6 +25,7 @@ export type PropertiesListingContainerPropTypes = PropTypes.InferProps<typeof Co
   ComponentPropInterface;
 
 export const PropertiesListingContainer: React.FC<PropertiesListingContainerPropTypes> = (props) => {
+  const navigate = useNavigate();
   const [updateProperty] = useMutation(SharedPropertiesListingContainerPropertyUpdateDocument);
 
   const {
@@ -52,6 +54,25 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
     return tempObj;
   }
 
+  function stripTypename<T>(input: T) {
+    const newish = { ...input };
+
+    for (const prop in newish) {
+      if (prop === '__typename') {
+        delete newish[prop];
+      } else if (newish[prop] === null) {
+        //do nothing
+      } else if (Array.isArray(newish[prop])) {
+        for (const next in newish[prop]) {
+          newish[prop][next] = stripTypename(newish[prop][next]);
+        }
+      } else if (typeof newish[prop] === 'object') {
+        newish[prop] = stripTypename(newish[prop]);
+      }
+    }
+
+    return newish;
+  }
 
   const handleSave = async (values: PropertyUpdateInput) => {
     let original = values;

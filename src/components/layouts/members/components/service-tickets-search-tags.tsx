@@ -1,8 +1,8 @@
-import { Tag } from 'antd';
 import { useEffect, useState } from 'react';
+import { Tag } from 'antd';
 import { useSearchParams } from 'react-router-dom';
-import { ConvertMemberNameToId, GetServiceTicketSelectedFilterTags } from '../../../../constants';
 import { Member, MemberNameServiceTicketContainerQuery } from '../../../../generated';
+import { ConvertMemberNameToId, GetServiceTicketSelectedFilterTags } from '../../../../constants';
 
 interface ServiceTicketsSearchTagsProps {
   memberData: MemberNameServiceTicketContainerQuery;

@@ -1,6 +1,6 @@
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, UploadProps, message } from 'antd';
 import { AzureUpload, UploadButtonProps } from '../../../ui/molecules/azure-upload';
+import { Button, message, UploadProps } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 export type { AuthResult } from '../../../ui/molecules/azure-upload';
 
 interface ComponentProp {
@@ -25,7 +25,7 @@ export const ImageUploadButton: React.FC<ImageUploadButtonProps> = (props) => {
       onInvalidContentLength={props.onInvalidContentLength ? props.onInvalidContentLength : () => message.error('File size is too large')}
       onRemoveRequested={props.onRemoveRequested}
       onSuccess={props.onSuccess ? props.onSuccess : message.success('File uploaded successfully!')}
-      onError={(error: any) => {
+      onError={(file: File, error: any) => {
         message.error(`File did not upload, error: ${JSON.stringify(error)}`);
       }}
       cropperProps={{

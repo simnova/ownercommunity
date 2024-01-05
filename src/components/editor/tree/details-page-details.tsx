@@ -1,7 +1,6 @@
 import React from 'react';
-
-import { Button, Form, Input } from 'antd';
 import PropTypes from 'prop-types';
+import {Button, Form, Input } from 'antd';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({

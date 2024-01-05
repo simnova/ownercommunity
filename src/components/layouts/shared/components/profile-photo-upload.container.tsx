@@ -1,8 +1,8 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { Button, Image, Skeleton } from "antd";
 import React, { useEffect } from "react";
-import { SharedPhotoUploadContainerContainerMemberDocument, SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument, SharedPhotoUploadContainerMemberProfileAvatarRemoveDocument } from "../../../../generated";
+import { useQuery, useMutation } from "@apollo/client";
+import { Image, Skeleton, Button } from "antd";
 import { AuthResult, ProfilePhotoUpload } from "../../shared/components/profile-photo-upload";
+import { SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument, SharedPhotoUploadContainerMemberProfileAvatarRemoveDocument, SharedPhotoUploadContainerContainerMemberDocument } from "../../../../generated";
 
 export interface ProfilePhotoUploadContainerProps {
   data :{

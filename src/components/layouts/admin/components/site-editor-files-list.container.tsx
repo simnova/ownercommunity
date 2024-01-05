@@ -1,11 +1,11 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import {
-    AdminSiteEditorFilesListContainerCommunityByIdDocument,
-    AdminSiteEditorFilesListContainerCommunityPublicFileRemoveDocument,
-    FileInfo
+  AdminSiteEditorFilesListContainerCommunityByIdDocument,
+  FileInfo,
+  AdminSiteEditorFilesListContainerCommunityPublicFileRemoveDocument
 } from '../../../../generated';
-import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { SiteEditorFilesList } from './site-editor-files-list';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 export const SiteEditorFilesListContainer: React.FC<any> = (props) => {
   const {

@@ -1,14 +1,16 @@
 import { PageHeader } from '@ant-design/pro-layout';
-import { theme } from 'antd';
+import { Typography, theme } from 'antd';
 import { useParams } from 'react-router-dom';
 import { CommunityDetailContainer } from '../components/community-detail.container';
 import { SubPageLayout } from '../sub-page-layout';
 
+const { Text } = Typography;
 
-export const Home: React.FC<any> = () => {
+export const Home: React.FC<any> = (props) => {
   const {
-    token: {
-      colorTextBase    
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   const params = useParams();

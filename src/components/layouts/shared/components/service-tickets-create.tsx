@@ -1,6 +1,5 @@
-import { Button, Form, Input, Select } from 'antd';
 import React from 'react';
-
+import { Form, Input, Button, Select } from 'antd';
 import { ServiceTicketCreateInput } from '../../../../generated';
 
 const { TextArea } = Input;

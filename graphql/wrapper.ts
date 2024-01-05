@@ -1,10 +1,13 @@
+import appInsights from 'applicationinsights'; // Must be FIRST import
+
 import { AzureFunction, Context } from '@azure/functions';
 import api, { propagation, trace } from '@opentelemetry/api';
-import appInsights from 'applicationinsights'; //must be FIRST import
+import { W3CTraceContextPropagator } from '@opentelemetry/core';
 
 export const wrapFunctionHandler = (originalFunctionHandler: AzureFunction) => {
   return async function (context: Context, args: any) {
     // api.context.with(api.context.active(), async () => {
+    const wc3Propagator = new W3CTraceContextPropagator();
 
     const headerInfo = {
       traceparent: context.req.headers['traceparent'],
@@ -18,7 +21,7 @@ export const wrapFunctionHandler = (originalFunctionHandler: AzureFunction) => {
 
     //const tracer = api.context..getTraceHandler().getTracer();
 
-    const span = tracer.startSpan('PGFunctionHandler', { attributes: {} }, activeContext); // Need to see why this isn't showing up.
+    const span = tracer.startSpan('PGFunctionHandler', { attributes: {} }, activeContext); //TODO - need to see why this isn't showing up.
     trace.setSpan(activeContext, span);
 
     try {
@@ -41,6 +44,14 @@ export const wrapFunctionHandler = (originalFunctionHandler: AzureFunction) => {
       span.end();
       throw err;
     }
+
+    console.log(`Context With Parent:`, activeContext);
+
+    //output headers
+    console.log('Headers: ', context.req.headers);
+    console.log('HeaderInfo: ', headerInfo);
+
+    //wc3Propagator.inject(api.context.active(),context.res.headers,defaultTextMapSetter);
   };
 };
 

@@ -1,8 +1,8 @@
-import { useLocation, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { useNode } from '@craftjs/core';
+import { Skeleton } from 'antd';
+import { useParams } from 'react-router-dom';
 import { MemberPropertyByPropertyIdDocument } from '../../../generated';
-import { Typography, Card, Space, Badge, Skeleton } from 'antd';
 import { CommunityPropertyDetail } from '../../layouts/members/components/community-property-detail';
 import { mockPropertyData } from '../local-data';
 
@@ -12,7 +12,7 @@ PropertyDetails = () => {
     const params = useParams();
     const propertyId = params['*']?.slice(params['*'].lastIndexOf('/') + 1);
 
-    const { connectors: { connect, drag }, selected } = useNode((state) =>(
+    const { connectors: { connect, drag } } = useNode((state) =>(
         {
             selected: state.events.selected,
         }
@@ -22,8 +22,8 @@ PropertyDetails = () => {
         {
             variables: { 
                 propertyId: propertyId,
-                skip: () => propertyId === 'page-editor'
-            }
+                
+            }, skip: propertyId === 'page-editor'
         },
     );
 
@@ -69,4 +69,4 @@ PropertyDetails.craft = {
 
 export {
     PropertyDetails
-}
+};

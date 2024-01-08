@@ -1,10 +1,9 @@
-import { useNode } from '@craftjs/core'
-import { useParams } from 'react-router-dom';
-import { useState } from 'react';
-import { Form, Image, Skeleton, Select, Row, Col, Slider, InputNumber, Modal, Button } from 'antd'
 import { gql, useQuery } from '@apollo/client';
+import { useNode } from '@craftjs/core';
+import { Button, Col, Form, Image, InputNumber, Modal, Row, Skeleton, Slider } from 'antd';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-const { Option } = Select;
 
 const GET_IMAGES_IN_COMMUNITY = gql`
   query GetImagesInCommunity($communityId: ID!) {
@@ -135,4 +134,4 @@ ImageComponent.craft = {
 
 export {
   ImageComponent
-}
+};

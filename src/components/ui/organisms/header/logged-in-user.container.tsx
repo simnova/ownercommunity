@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { LoggedInUserRootContainer } from './logged-in-user-root.container';
 import { LoggedInUserCommunityContainer } from './logged-in-user-community.container';
+import { LoggedInUserRootContainer } from './logged-in-user-root.container';
 
 interface ComponentPropInterface {
   autoLogin: boolean;

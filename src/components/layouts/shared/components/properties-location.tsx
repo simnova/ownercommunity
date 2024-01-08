@@ -1,7 +1,7 @@
+import { AutoComplete, Button, Form, Input, Typography } from 'antd';
 import React, { useState } from 'react';
-import { AutoComplete, Form, Input, Typography, Button } from 'antd';
-import { PropertyUpdateInput } from '../../../../generated';
 import { addressQuery } from '../../../../constants';
+import { PropertyUpdateInput } from '../../../../generated';
 
 const { Paragraph } = Typography;
 
@@ -17,8 +17,8 @@ interface AddressDataType {
 export const PropertiesLocation = (props: any) => {
   const [value, setValue] = useState('');
   const [addresses, setAddresses] = useState<AddressDataType[]>([]);
-  const [currentAddress, setCurrentAddress] = useState<any>('');
-  const [currentPoint, setCurrentPoint] = useState<number[]>([0, 0]);
+  const [, setCurrentAddress] = useState<any>('');
+  const [, setCurrentPoint] = useState<number[]>([0, 0]);
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
   console.log(props);
@@ -45,7 +45,7 @@ export const PropertiesLocation = (props: any) => {
     }
   };
 
-  const onSelect = (value: any, option: any) => {
+  const onSelect = (option: any) => {
     console.log('options', option);
     setCurrentAddress(option.address);
     setCurrentPoint([option.lat, option.long]);

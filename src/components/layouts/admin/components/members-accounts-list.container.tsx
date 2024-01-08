@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
+import PropTypes from 'prop-types';
 import { AdminMembersAccountsListContainerMemberDocument } from "../../../../generated";
-import { MembersAccountsList} from "./members-accounts-list";
-import PropTypes  from 'prop-types';
 import { ComponentQueryLoader } from "../../../ui/molecules/component-query-loader";
+import { MembersAccountsList } from "./members-accounts-list";
 
 const ComponentPropTypes = {
   data: PropTypes.shape({

@@ -1,10 +1,10 @@
-import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
-import { SubPageLayout } from '../sub-page-layout';
-import { PropertiesAddContainer } from '../components/properties-add.container';
-import { useNavigate, useParams } from 'react-router-dom';
 
-export const PropertiesAdd: React.FC<any> = (props) => {
+import { useNavigate, useParams } from 'react-router-dom';
+import { PropertiesAddContainer } from '../components/properties-add.container';
+import { SubPageLayout } from '../sub-page-layout';
+
+export const PropertiesAdd: React.FC<any> = () => {
   const navigate = useNavigate();
   const params = useParams();
   return (

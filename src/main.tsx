@@ -1,22 +1,22 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
-import './index.less';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
 
-import MsalProvider from './components/shared/msal-react-lite';
-import msalProviderConfig from './config/msal-config';
-import ApolloConnection from './components/shared/apollo-connection';
-import { ConfigProvider, theme } from 'antd';
-import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
-import { StyleProvider } from '@ant-design/cssinjs';
-import { Button } from 'antd';
-import { set } from 'lodash';
+import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin } from './components/shared/azure-monitor';
+
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './index.less';
+import reportWebVitals from './reportWebVitals';
+
+import { ConfigProvider } from 'antd';
 import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
-import featureFlagConfig from './config/feature-flag-config';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
+import MsalProvider from './components/shared/msal-react-lite';
+import featureFlagConfig from './config/feature-flag-config';
+import msalProviderConfig from './config/msal-config';
 import { CachePurgeProvider } from './contexts/CachePurgeContext';
+import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
 function ConfigProviderWrapper() {
   
@@ -45,20 +45,21 @@ function ConfigProviderWrapper() {
   );
 }
 
+
+
 ReactDOM.render(
   <React.StrictMode>
-   <FeatureFlagProvider config={
-    featureFlagConfig
-   }>
-  
-   <MaintenanceMessageProvider>
-  <CachePurgeProvider>
-  <ThemeProvider>
-      <ConfigProviderWrapper />
-    </ThemeProvider>
-  </CachePurgeProvider>
-   </MaintenanceMessageProvider>
-   </FeatureFlagProvider>
+    <AppInsightsContext.Provider value={reactPlugin}>
+      <FeatureFlagProvider config={featureFlagConfig}>
+        <MaintenanceMessageProvider>
+          <CachePurgeProvider>
+            <ThemeProvider>
+              <ConfigProviderWrapper />
+            </ThemeProvider>
+          </CachePurgeProvider>
+        </MaintenanceMessageProvider>
+      </FeatureFlagProvider>
+    </AppInsightsContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

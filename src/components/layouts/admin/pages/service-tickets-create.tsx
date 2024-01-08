@@ -1,10 +1,10 @@
-import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
-import { SubPageLayout } from '../sub-page-layout';
-import { ServiceTicketsCreateContainer } from '../components/service-tickets-create.container';
-import { useNavigate, useParams } from 'react-router-dom';
 
-export const ServiceTicketsCreate: React.FC<any> = (props) => {
+import { useNavigate, useParams } from 'react-router-dom';
+import { ServiceTicketsCreateContainer } from '../components/service-tickets-create.container';
+import { SubPageLayout } from '../sub-page-layout';
+
+export const ServiceTicketsCreate: React.FC<any> = () => {
   const navigate = useNavigate();
   const params = useParams();
   return (

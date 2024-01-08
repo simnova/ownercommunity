@@ -1,5 +1,5 @@
-import React, { ReactNode, createContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { ReactNode, createContext, useEffect } from 'react';
 import PackageVersion from '../../package.json';
 const appVersion = PackageVersion.version;
 interface CachePurgeContextType {

@@ -1,14 +1,14 @@
-import { Checkbox } from 'antd';
-import { FC, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { DistanceOptions, SearchParamKeys, additionalAmenitiesOptions } from '../../../../constants';
 import { FacetDetail, PropertySearchFacets } from '../../../../generated';
+import { FC, useEffect, useState } from 'react';
+import { DistanceOptions, SearchParamKeys, additionalAmenitiesOptions } from '../../../../constants';
 import {
-    SearchFilter,
-    SearchFilterConfigDefinition,
-    SearchFilterOption,
-    SearchFilterProps
+  SearchFilter,
+  SearchFilterConfigDefinition,
+  SearchFilterOption,
+  SearchFilterProps
 } from '../../shared/components/search-filter';
+import { Checkbox } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 interface PropertiesListSearchFiltersProps {
   facets?: PropertySearchFacets;
   searchData: any;

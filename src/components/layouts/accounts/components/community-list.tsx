@@ -1,5 +1,5 @@
-import { Button, Col, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { Button, Row, Col } from 'antd';
 import { LocalSettingsKeys } from '../../../../constants';
 
 export interface CommunityListProps {

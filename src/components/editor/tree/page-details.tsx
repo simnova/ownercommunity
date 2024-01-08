@@ -1,7 +1,7 @@
 import React from 'react';
-
-import { Button, Form, Input, Select } from 'antd';
 import PropTypes from 'prop-types';
+import {Button, Form, Input, FormInstance, Select } from 'antd';
+import { RuleObject } from 'antd/lib/form';
 
 const { Option } = Select;
 
@@ -48,7 +48,7 @@ export const PageDetails: React.FC<PageDetailsPropTypes> = (props) => {
   }, [props.data]);
 
 
-  const pageNameIsNotDuplicate = (value:any) => {
+  const pageNameIsNotDuplicate = (rule:RuleObject,value:any) => {
     return new Promise<void>((resolve,reject) => {
       if (props.data.invalidPageNames.indexOf(value) !== -1) {
         reject(`already in use by another page at this level.`);

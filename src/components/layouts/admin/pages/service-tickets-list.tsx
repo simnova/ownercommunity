@@ -1,14 +1,15 @@
+import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
 import { Button, theme } from 'antd';
-
-import { useNavigate, useParams } from 'react-router-dom';
-import { ServiceTicketsListContainer } from '../components/service-tickets-list.container';
 import { SubPageLayout } from '../sub-page-layout';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ServiceTicketsListContainer } from '../components/service-tickets-list.container';
 
-export const ServiceTicketsList: React.FC<any> = () => {
+export const ServiceTicketsList: React.FC<any> = (props) => {
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   const params = useParams();

@@ -1,4 +1,4 @@
-import { Button, Col, Image, Modal, Row, message } from 'antd';
+import { Col, Row, Image, Modal, Button, message } from 'antd';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 

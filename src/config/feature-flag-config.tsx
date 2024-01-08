@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from 'axios';
 import { FeatureFlagConfig } from '../components/shared/feature-flag-react-lite';
 import defaultValues from './feature-flag-default-values.json';
+import { AxiosRequestConfig } from 'axios';
 
 let axiosHeaders = async (config: AxiosRequestConfig) => {
   //if config is not null
@@ -13,7 +13,7 @@ let axiosHeaders = async (config: AxiosRequestConfig) => {
 };
 
 let featureFlagConfig: FeatureFlagConfig = {
-  cache: 1 * 60 * 1000, //1 minute
+  cache: 30 * 1000,
   url: import.meta.env.VITE_FEATURE_FLAG_URL ?? "",
  
 

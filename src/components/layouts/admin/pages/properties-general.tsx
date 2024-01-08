@@ -1,8 +1,8 @@
-
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { PropertiesDetailContainer } from '../../shared/components/properties-detail.container';
 
-export const PropertiesGeneral: React.FC<any> = () => {
+export const PropertiesGeneral: React.FC<any> = (props) => {
   const params = useParams();
 
   return (

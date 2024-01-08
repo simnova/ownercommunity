@@ -1,7 +1,8 @@
-import * as msal from '@azure/msal-browser';
 import React, { FC, ReactNode, useEffect } from 'react';
-import { MsalApp } from './msal-app';
 import MsalContext from './msal-context';
+import * as msal from '@azure/msal-browser';
+import { MsalApp } from './msal-app';
+import { useRef } from '@storybook/addons';
 
 export enum ConfigType {
   Popup = "popup",
@@ -43,7 +44,7 @@ export type MsalProps = {
   children: ReactNode;
 };
 
-const MsalProvider: FC<MsalProps> =  (props: MsalProps): React.JSX.Element => {
+const MsalProvider: FC<MsalProps> =  (props: MsalProps): JSX.Element => {
   const [loading, setLoading] = React.useState(true);
   const msalInstances = React.useRef<Map<string,MsalApp>>();
   

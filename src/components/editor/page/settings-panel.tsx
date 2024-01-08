@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEditor } from '@craftjs/core';
-import { Button, Collapse } from 'antd';
+import { Collapse, Button } from 'antd';
 
 const { Panel } = Collapse;
 

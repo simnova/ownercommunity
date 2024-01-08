@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
-
-import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin } from './components/shared/azure-monitor';
-
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
 import './index.less';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
 
-import { ConfigProvider } from 'antd';
-import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
-import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import MsalProvider from './components/shared/msal-react-lite';
-import featureFlagConfig from './config/feature-flag-config';
 import msalProviderConfig from './config/msal-config';
+import ApolloConnection from './components/shared/apollo-connection';
+import { ConfigProvider, theme } from 'antd';
+import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
+import { StyleProvider } from '@ant-design/cssinjs';
+import { Button } from 'antd';
+import { set } from 'lodash';
+import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
+import featureFlagConfig from './config/feature-flag-config';
+import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import { CachePurgeProvider } from './contexts/CachePurgeContext';
-import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
 function ConfigProviderWrapper() {
   
@@ -45,21 +45,20 @@ function ConfigProviderWrapper() {
   );
 }
 
-
-
 ReactDOM.render(
   <React.StrictMode>
-    <AppInsightsContext.Provider value={reactPlugin}>
-      <FeatureFlagProvider config={featureFlagConfig}>
-        <MaintenanceMessageProvider>
-          <CachePurgeProvider>
-            <ThemeProvider>
-              <ConfigProviderWrapper />
-            </ThemeProvider>
-          </CachePurgeProvider>
-        </MaintenanceMessageProvider>
-      </FeatureFlagProvider>
-    </AppInsightsContext.Provider>
+   <FeatureFlagProvider config={
+    featureFlagConfig
+   }>
+  
+   <MaintenanceMessageProvider>
+  <CachePurgeProvider>
+  <ThemeProvider>
+      <ConfigProviderWrapper />
+    </ThemeProvider>
+  </CachePurgeProvider>
+   </MaintenanceMessageProvider>
+   </FeatureFlagProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

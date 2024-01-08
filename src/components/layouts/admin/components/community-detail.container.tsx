@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { AdminCommunityDetailContainerCommunityDocument } from '../../../../generated';
-import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { CommunityDetail } from './community-detail';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 // add community name on home screen
 export const CommunityDetailContainer: React.FC<any> = (props) => {

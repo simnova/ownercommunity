@@ -1,7 +1,7 @@
-
+import React from 'react';
+import { PageHeader } from '@ant-design/pro-layout';
 import { Layout, theme } from 'antd';
 import PropTypes from 'prop-types';
-import React from "react";
 
 const { Header, Content, Footer } = Layout;
 
@@ -11,7 +11,7 @@ const ComponentPropTypes = {
 };
 
 interface ComponentPropInterface {
-  header: React.JSX.Element;
+  header: JSX.Element;
   fixedHeader?: boolean;
 }
 

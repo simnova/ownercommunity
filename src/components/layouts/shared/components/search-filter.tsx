@@ -1,7 +1,7 @@
+import { Collapse, Checkbox, Typography, AutoComplete, InputNumber, Radio } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { AutoComplete, Checkbox, Collapse, InputNumber, Radio, Typography } from 'antd';
+import { useEffect, useState } from 'react';
 import _ from 'lodash';
-import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail } from '../../../../generated';
 const { Title } = Typography;
@@ -21,7 +21,7 @@ export interface SearchFilterConfigDefinition {
     values: any[];
     facet?: string[];
     type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom' ;
-    customComponent?: React.JSX.Element;
+    customComponent?: JSX.Element;
     handleCount?: (facet: FacetDetail, value?: any) => boolean;
     transform?: (value: any) => string;
     handleBuild?: (filter: SearchFilterProps, value: any, count: number) => void;
@@ -34,7 +34,7 @@ export interface SearchFilterProps {
   searchId: string[];
   searchbar?: boolean;
   type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom';
-  customComponent?: React.JSX.Element;
+  customComponent?: JSX.Element;
 }
 
 export const SearchFilter: React.FC<SearchFilterProps> = (props) => {

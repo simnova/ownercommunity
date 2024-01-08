@@ -11,7 +11,7 @@ export interface BlobToLocalStorageProps {
 
 export const BlobToLocalStorage: React.FC<BlobToLocalStorageProps> = (props) => {
   const [loading, setLoading] = useState(true);
-  const [, setPageLayouts] = usePageLayouts();
+  const [pageLayouts, setPageLayouts] = usePageLayouts();
 
 
   useEffect(() => {
@@ -27,25 +27,7 @@ export const BlobToLocalStorage: React.FC<BlobToLocalStorageProps> = (props) => 
 
     const tryGetCommunityId = async() : Promise<string|undefined> => {
       try {
-        // temp fix for owner.community blob
-        // let hostName = window.location.hostname;
-        // if (hostName === "owner.community" || hostName === "ownercommunity-ui.pages.dev") {
-        //   hostName = "owners.atlantisocmd.com"
-        // }
-
-        // temp fix for the above temp fix - there are more urls we have to rewrite than just owner.community
-        const hostName = 'owners.atlantisocmd.com';
-        const special_ports = ['80', '3000']; // Not sure why we append ports to the blob storage, but adding this just in case it's needed
-
-        const api_call = await fetch(
-          `https://ownercommunity.blob.core.windows.net/community-domains/${
-            hostName +
-            (window.location.port && (!special_ports.includes(window.location.port) ? ':' + window.location.port : ''))
-          }`
-        );
-
-        console.log('Blob Storage fetch call: ', api_call)
-
+        const api_call = await fetch(`https://ownercommunity.blob.core.windows.net/community-domains/${ window.location.hostname + (window.location.port && window.location.port !== '80' ? ':' + window.location.port: '') }`);
         const data = await api_call.json();
         if(data && data.communityId ){
           console.log('community-id:',data.communityId);

@@ -1,9 +1,13 @@
-import { useNode } from "@craftjs/core";
-import { Form, Input, theme as antdTheme } from "antd";
-import { Link } from 'react-router-dom';
-import { usePageLayouts } from "../local-data";
+import {useNode,useEditor} from "@craftjs/core";
+import { Button, Input, Form} from "antd";
+import ListBody from "antd/lib/transfer/ListBody";
+import ContentEditable from 'react-contenteditable'
+import { HashRouter, Route, Routes, Link, useLocation } from 'react-router-dom';
+import { Breadcrumb, Alert, theme as antdTheme } from 'antd';
+import {usePageLayouts} from "../local-data";
 
 import { Menu } from 'antd';
+import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 
 const { SubMenu } = Menu;
 
@@ -15,10 +19,10 @@ let MenuComponent:any;
 
 MenuComponent = ({ theme, ...props } : TextProp) => {
   const {
-    token: { colorBgContainer }
+    token: { colorTextBase, colorBgContainer }
   }=antdTheme.useToken();
-  const [pageLayouts] = usePageLayouts();
-  const { connectors: {connect,drag} } = useNode((state) =>(
+  const [pageLayouts, setPageLayouts] = usePageLayouts();
+  const { connectors: {connect,drag}, selected, actions } = useNode((state) =>(
     {
       selected: state.events.selected,
     
@@ -106,7 +110,6 @@ MenuComponent.craft = {
 
 }
 
-export {
+export  {
   MenuComponent
-};
-
+}

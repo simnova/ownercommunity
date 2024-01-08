@@ -18,15 +18,15 @@ let Footer:any;
 
 Footer = ({ socialLinks, legalLinks, copyright, ...props } : FooterProp) => {
   const {
-    token: { colorTextBase }
+    token: { colorTextBase, colorBgContainer }
   }=theme.useToken();
-  const { connectors: {connect, drag} } = useNode((state) =>(
+  const { connectors: {connect,drag}, selected, actions } = useNode((state) =>(
     {
       selected: state.events.selected,
     }
   ));
 
-  useEditor((state) => ({
+  const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled
   }));
 

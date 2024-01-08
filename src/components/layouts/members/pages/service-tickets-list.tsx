@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
 import { Button, theme } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
@@ -7,8 +7,9 @@ import { ServiceTicketsListContainer } from '../components/service-tickets-list.
 
 export const ServiceTicketsList: React.FC<any> = (_props) => {
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   const params = useParams();

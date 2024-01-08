@@ -1,7 +1,10 @@
-import { useEditor, useNode } from "@craftjs/core";
-import { Breadcrumb, Form, Input, theme } from "antd";
-import { Link, useLocation } from 'react-router-dom';
-import { usePageLayouts } from "../local-data";
+import {useNode,useEditor} from "@craftjs/core";
+import { Button, Input, Form} from "antd";
+import ListBody from "antd/lib/transfer/ListBody";
+import ContentEditable from 'react-contenteditable'
+import { HashRouter, Route, Routes, Link, useLocation } from 'react-router-dom';
+import { Breadcrumb, Alert, theme } from 'antd';
+import {usePageLayouts} from "../local-data";
 
 interface TextProp {
   separator: string;
@@ -13,14 +16,14 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
   const {
     token: { colorTextBase, colorBgContainer }
   }=theme.useToken();
-  const [pageLayouts] = usePageLayouts();
-  const { connectors: {connect,drag} } = useNode((state) =>(
+  const [pageLayouts, setPageLayouts] = usePageLayouts();
+  const { connectors: {connect,drag}, selected, actions } = useNode((state) =>(
     {
       selected: state.events.selected,
     }
   ));
 
-  useEditor((state) => ({
+  const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled
   }));
   console.log('xxx',pageLayouts);
@@ -94,6 +97,6 @@ Breadcrumbs.craft = {
 
 }
 
-export {
+export  {
   Breadcrumbs
-};
+}

@@ -1,11 +1,9 @@
 import React from 'react';
-
-import { UserDeleteOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Descriptions, Form, Input, Select } from 'antd';
+import { Form, Input, Button, Descriptions, Select, Checkbox } from 'antd';
 import dayjs from 'dayjs';
-
-import { PropertyTypeOptions } from '../../../../constants';
 import { PropertyUpdateInput } from '../../../../generated';
+import { UserDeleteOutlined } from '@ant-design/icons';
+import { PropertyTypeOptions } from '../../../../constants';
 
 export interface PropertiesDetailProps {
   data: {

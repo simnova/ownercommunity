@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { AdminPropertiesListContainerPropertiesDocument } from '../../../../generated';
-import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { PropertiesList } from '../../shared/components/properties-list';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 export const PropertiesListContainer: React.FC<any> = (props) => {
   const {

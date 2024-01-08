@@ -1,12 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { message } from 'antd';
 import {
-  AdminRolesDetailContainerRoleDocument,
   AdminRolesDetailContainerRoleUpdateDocument,
+  AdminRolesDetailContainerRoleDocument,
   RoleUpdateInput,
+
 } from '../../../../generated';
-import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
+import { message } from 'antd';
 import { RolesDetail } from './roles-detail';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 export interface RolesDetailContainerProps {
   data: {
@@ -15,7 +16,7 @@ export interface RolesDetailContainerProps {
 }
 
 export const RolesDetailContainer: React.FC<any> = (props) => {
-  const [roleUpdate, { error: updateError }] = useMutation(
+  const [roleUpdate, { data: updateData, loading: updateLoading, error: updateError }] = useMutation(
     AdminRolesDetailContainerRoleUpdateDocument
   );
   const {

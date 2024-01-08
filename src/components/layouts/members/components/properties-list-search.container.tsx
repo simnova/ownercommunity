@@ -1,14 +1,13 @@
-import { FilterOutlined } from '@ant-design/icons';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Drawer, Input, Pagination, Select, Skeleton, theme } from 'antd';
-import { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   FilterNames,
   GetFilterFromQueryString,
   SearchParamKeys,
-  SearchType
+  SearchType,
+  addressQuery
 } from '../../../../constants';
+import { useEffect, useState } from 'react';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import {
   FilterDetail,
   MemberPropertiesGetAllTagsDocument,
@@ -16,21 +15,34 @@ import {
   MemberPropertiesListSearchContainerPropertiesDocument,
   PropertyResult
 } from '../../../../generated';
-import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
+import { Skeleton, Input, Drawer, Button, Pagination, Select, theme } from 'antd';
+import { FilterOutlined } from '@ant-design/icons';
 import { PropertiesListSearchListingCards } from './properties-list-search-listing-cards';
+import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 
 const { Search } = Input;
 const { Option } = Select;
 
-export const PropertiesListSearchContainer: React.FC<any> = () => {
+interface AddressDataType {
+  value: string;
+  label: string;
+  key: string;
+  address: any;
+  lat: number;
+  long: number;
+}
+
+export const PropertiesListSearchContainer: React.FC<any> = (props) => {
   const {
     token: { colorText }
   } = theme.useToken();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState(searchParams.get(SearchParamKeys.SearchString) ?? '');
+  const [addresses, setAddresses] = useState<AddressDataType[]>([]);
   const [visible, setVisible] = useState(false);
 
   const params = useParams();
+  const navigate = useNavigate();
 
   const { data: tagData, loading: tagLoading, error: tagError } = useQuery(MemberPropertiesGetAllTagsDocument);
 
@@ -116,6 +128,55 @@ export const PropertiesListSearchContainer: React.FC<any> = () => {
   const handleShowSizeChange = (value: number) => {
     searchParams.set(SearchParamKeys.Top, value.toString());
     setSearchParams(searchParams);
+  };
+
+  const onInputAddressChanged = async (value: string) => {
+    if (!value) {
+      searchParams.delete('search');
+    } else {
+      searchParams.set('search', value);
+    }
+
+    searchParams.delete('lat');
+    searchParams.delete('long');
+    setSearchString(value);
+
+    let tmp: AddressDataType[] = [];
+    if (mapSasTokenData?.getMapSasToken) {
+      if (value.length >= 3) {
+        await addressQuery(value, mapSasTokenData?.getMapSasToken).then((addressData) => {
+          addressData.filter((address: any) => {
+            if (address.address.streetNumber && address.address.streetName) {
+              tmp.push({
+                label: address.address.freeformAddress,
+                value: address.address.freeformAddress,
+                key: address.id,
+                address: address.address,
+                lat: address.position.lat,
+                long: address.position.lon
+              });
+            }
+          });
+          setAddresses(tmp);
+        });
+      }
+    }
+  };
+
+  const onInputAddressSelected = (value: string) => {
+    setSearchString(value);
+    // find selected address in addresses
+    const selectedAddress = addresses.find((address: any) => {
+      return address.label === value;
+    });
+    if (selectedAddress) {
+      const lat = selectedAddress.lat;
+      const long = selectedAddress.long;
+      searchParams.set(SearchParamKeys.SearchString, selectedAddress.value);
+      searchParams.set(SearchParamKeys.Latitude, lat.toString());
+      searchParams.set(SearchParamKeys.Longitude, long.toString());
+      setSearchParams(searchParams);
+    }
   };
 
   const clearFilter = () => {

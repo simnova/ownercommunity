@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Skeleton, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
 import {
-    AdminServiceTicketsCreateContainerMembersDocument,
-    AdminServiceTicketsCreateContainerPropertiesDocument,
-    AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
-    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-    ServiceTicketCreateInput
+  AdminServiceTicketsCreateContainerMembersDocument,
+  AdminServiceTicketsCreateContainerPropertiesDocument,
+  AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
+  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+  ServiceTicketCreateInput
 } from '../../../../generated';
+import { message, Skeleton } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { ServiceTicketsCreate } from '../../shared/components/service-tickets-create';
 
 interface ServiceTicketsCreateContainerProps {

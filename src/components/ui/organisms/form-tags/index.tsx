@@ -1,6 +1,6 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Input, InputRef, Tag, Tooltip } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
+import { Tag, Input, Tooltip, InputRef } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import styles from './form-tags.module.css';
 
 export interface ComponentProp {

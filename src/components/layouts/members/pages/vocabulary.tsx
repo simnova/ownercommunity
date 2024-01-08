@@ -4,7 +4,7 @@ import { SubPageLayout } from "../sub-page-layout";
 
 const { Text } = Typography;
 
-export const Vocabulary: React.FC<any> = () => {
+export const Vocabulary: React.FC<any> = (props) => {
   return (
     <SubPageLayout
       fixedHeader={false}

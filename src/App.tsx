@@ -1,12 +1,12 @@
-import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import ApolloConnection from './components/shared/apollo-connection';
+import { Routes, Route } from 'react-router-dom';
 import RequireMsal from './components/shared/require-msal';
+import ApolloConnection from './components/shared/apollo-connection';
 
-import { Accounts } from './components/layouts/accounts';
+import { Root } from './components/layouts/root';
 import { Admin } from './components/layouts/admin';
 import { Members } from './components/layouts/members';
-import { Root } from './components/layouts/root';
+import { Accounts } from './components/layouts/accounts';
 import { AuthLanding } from './components/shared/auth-landing';
 
 function App() {

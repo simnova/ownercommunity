@@ -1,12 +1,12 @@
-import { useMutation, useQuery } from '@apollo/client';
 import { FC, useState } from 'react';
-import { LocalSettingsKeys } from '../../../../constants';
-import {
-    SharedPropertiesListingImageListContainerMemberForUserDocument,
-    SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument
-} from '../../../../generated';
-import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { PropertiesListingImageList } from './properties-listing-image-list';
+import {
+  SharedPropertiesListingImageListContainerMemberForUserDocument,
+  SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument
+} from '../../../../generated';
+import { LocalSettingsKeys } from '../../../../constants';
+import { useMutation, useQuery } from '@apollo/client';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 
 interface PropertiesListingImageListContainerProps {
   data: {

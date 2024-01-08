@@ -1,9 +1,9 @@
-import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, MenuProps } from 'antd';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { LocalSettingsKeys } from '../../../../constants';
+import { DownOutlined } from '@ant-design/icons';
 import { Community } from '../../../../generated';
+import { LocalSettingsKeys } from '../../../../constants';
+import { useNavigate } from 'react-router-dom';
 
 
 interface CommunitiesDropdownProps {

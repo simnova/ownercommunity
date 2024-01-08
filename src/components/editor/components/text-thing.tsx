@@ -1,6 +1,7 @@
-import { useEditor, useNode } from "@craftjs/core";
-import { Form, Input, theme } from "antd";
-import ContentEditable from 'react-contenteditable';
+import {useNode,useEditor} from "@craftjs/core";
+import { Button, Input, Form, theme} from "antd";
+import ListBody from "antd/lib/transfer/ListBody";
+import ContentEditable from 'react-contenteditable'
 
 interface TextProp {
   title: string;
@@ -10,7 +11,7 @@ interface TextProp {
 
 
 const TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
-  const { connectors: {connect,drag}, actions } = useNode((state) =>(
+  const { connectors: {connect,drag}, selected, actions } = useNode((state) =>(
     {
       selected: state.events.selected,    
     }
@@ -93,6 +94,6 @@ TextThing.craft = {
 
 }
 
-export {
+export  {
   TextThing
-};
+}

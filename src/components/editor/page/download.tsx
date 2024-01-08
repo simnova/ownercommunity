@@ -1,10 +1,10 @@
 import { useEditor } from "@craftjs/core";
-import { Button, notification } from "antd";
 import copy from "copy-to-clipboard";
-import { usePageLayouts } from "../local-data";
+import { notification, Button } from "antd";
+import {usePageLayouts} from "../local-data";
 
 export const Download = () => {
-  const [pageLayouts] = usePageLayouts();
+  const [pageLayouts, setPageLayouts] = usePageLayouts();
   const { query } = useEditor();
 
   const download = () => {

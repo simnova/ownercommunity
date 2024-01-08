@@ -1,4 +1,4 @@
-
+import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams } from 'react-router-dom';
@@ -7,8 +7,9 @@ import {theme} from "antd"
 export const PropertiesListSearch: React.FC<any> = (_props) => {
   const params = useParams();
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   return (

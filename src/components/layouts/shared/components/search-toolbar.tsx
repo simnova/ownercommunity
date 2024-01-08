@@ -1,7 +1,5 @@
-import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, Select, Space, Typography, message } from 'antd';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { DeleteOutlined } from '@ant-design/icons';
 import {
   CustomViewOperation,
   GetPropertySelectedFilterTags,
@@ -23,8 +21,10 @@ import {
   MemberPropertiesGetAllTagsQuery,
   SearchDrawerContainerCustomViewsQuery
 } from '../../../../generated';
-import { PropertiesListSearchTags } from '../../members/components/properties-list-search-tags';
 import { ServiceTicketsSearchTags } from '../../members/components/service-tickets-search-tags';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { PropertiesListSearchTags } from '../../members/components/properties-list-search-tags';
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -43,7 +43,7 @@ interface SearchToolbarProps {
 
 //create your forceUpdate hook
 function useForceUpdate() {
-  const [, setValue] = useState(0); // integer state
+  const [value, setValue] = useState(0); // integer state
   return () => setValue((value) => value + 1); // update state to force render
   // An function that increment 👆🏻 the previous state like here
   // is better than directly setting `value + 1`

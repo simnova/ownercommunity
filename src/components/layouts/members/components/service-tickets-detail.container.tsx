@@ -1,22 +1,22 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Skeleton, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import {
-    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-    MembersServiceTicketDetailContainerServiceTicketDeleteDocument,
-    MembersServiceTicketsDetailContainerAddUpdateActivityDocument,
-    MembersServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
-    MembersServiceTicketsDetailContainerPropertiesDocument,
-    MembersServiceTicketsDetailContainerServiceAssignDocument,
-    MembersServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
-    MembersServiceTicketsDetailContainerServiceTicketDocument,
-    MembersServiceTicketsDetailContainerServiceTicketUpdateDocument,
-    ServiceTicketAddUpdateActivityInput,
-    ServiceTicketAssignInput,
-    ServiceTicketChangeStatusInput,
-    ServiceTicketUpdateInput
-} from '../../../../generated';
+import { message, Skeleton } from 'antd';
 import { ServiceTicketsDetail } from './service-tickets-detail';
+import {
+  MembersServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
+  MembersServiceTicketsDetailContainerPropertiesDocument,
+  MembersServiceTicketsDetailContainerServiceTicketUpdateDocument,
+  MembersServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
+  MembersServiceTicketsDetailContainerServiceTicketDocument,
+  ServiceTicketUpdateInput,
+  ServiceTicketChangeStatusInput,
+  MembersServiceTicketsDetailContainerServiceAssignDocument,
+  MembersServiceTicketsDetailContainerAddUpdateActivityDocument,
+  ServiceTicketAssignInput,
+  ServiceTicketAddUpdateActivityInput,
+  MembersServiceTicketDetailContainerServiceTicketDeleteDocument,
+  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument
+} from '../../../../generated';
+import { useNavigate } from 'react-router-dom';
 
 export interface ServiceTicketsDetailContainerProps {
   data: {

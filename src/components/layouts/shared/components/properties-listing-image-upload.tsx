@@ -1,9 +1,9 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { message } from 'antd';
-import type { UploadProps } from 'antd/es/upload';
+import React from 'react';
+import { message, Button,  } from 'antd';
+import { AuthResult, AzureUpload } from '../../../ui/molecules/azure-upload';
+import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd/es/upload/interface';
-
-import { AuthResult } from '../../../ui/molecules/azure-upload';
+import type { RcFile, UploadProps } from 'antd/es/upload';
 import { ImageUploadButton } from './image-upload-button';
 
 export interface PropertiesListingImageUploadProps {

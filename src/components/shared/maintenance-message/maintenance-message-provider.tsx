@@ -1,15 +1,16 @@
+import React, { FC, ReactNode, useEffect, useState } from 'react'; // useState
+import MaintenanceMessageContext from './maintenance-message-context';
+import { useFeatureFlags } from '../feature-flag-react-lite';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import React, { FC, ReactNode, useEffect, useState } from 'react'; // useState
-import { useFeatureFlags } from '../feature-flag-react-lite';
-import MaintenanceMessageContext from './maintenance-message-context';
+import { set } from 'lodash';
 
 export interface MaintenanceMessageConfig {}
 export type MaintenanceMessageProps = {
   children: ReactNode;
 };
 
-const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: MaintenanceMessageProps): React.JSX.Element => {
+const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: MaintenanceMessageProps): JSX.Element => {
   const [isImpending, setIsImpending] = useState<boolean | undefined>(undefined);
   const [isMaintenance, setIsMaintenance] = useState<boolean | undefined>(undefined);
   const [maintainanceMessage, setMaintainanceMessage] = useState<string | undefined>(undefined);
@@ -99,7 +100,7 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
       //cancel timer
       clearInterval(timerInstance.current);
     }
-    setIntervalImmediately(getMaintenanceMessageStatus, 1 * 60 * 1000, intervalParams) // 1 minute
+    setIntervalImmediately(getMaintenanceMessageStatus, 5000, intervalParams)
       .then((interval: any) => {
         timerInstance.current = interval;
       })

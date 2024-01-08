@@ -1,8 +1,8 @@
-import retry from 'async-retry';
-import { AxiosRequestConfig } from 'axios';
-import { LRUCache } from 'lru-cache';
-import React, { FC, ReactNode, useEffect, useState } from 'react'; // useState
+import React, { FC, useState, ReactNode, useEffect } from 'react'; // useState
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosStatic } from 'axios';
 import FeatureFlagContext, { FeatureFlags } from './feature-flag-context';
+import retry from 'async-retry';
+import { LRUCache } from 'lru-cache';
 
 /**
  * FeatureFlagConfig
@@ -23,7 +23,7 @@ export type FeatureFlagProps = {
   children: ReactNode;
 };
 
-const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): React.JSX.Element => {
+const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): JSX.Element => {
   var tempFeatureFlagList: FeatureFlags | undefined;
   const [featureFlagList, setFeatureFlagListVal] = useState<FeatureFlags | undefined>();
   const cacheTimeout = !props.config.cache ? 30 * 1000 : props.config.cache;
@@ -49,10 +49,10 @@ const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): Rea
       ttl: cacheTimeout,
       ignoreFetchAbort: true,
       allowStaleOnFetchAbort: true,
-      sizeCalculation: () => {
+      sizeCalculation: (value, key) => {
         return 1;
       },
-      fetchMethod: async (): Promise<FeatureFlags | undefined> => {
+      fetchMethod: async (key: string, oldValue: FeatureFlags | undefined): Promise<FeatureFlags | undefined> => {
         // note: do NOT pass the signal to fetch()!
         // let's say this fetch can take a long time.
         return await retry(

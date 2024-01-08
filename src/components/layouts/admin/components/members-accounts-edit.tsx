@@ -1,9 +1,7 @@
 import React from 'react';
-
-import { UserDeleteOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
-
+import { Form,Input,Button }  from 'antd';
 import { MemberAccountEditInput } from '../../../../generated';
+import { UserDeleteOutlined } from '@ant-design/icons';
 
 export interface MembersAccountsEditProps {
   data: MemberAccountEditInput;

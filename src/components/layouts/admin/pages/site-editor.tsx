@@ -1,19 +1,20 @@
+import React from 'react';
+import { Route, Routes, useLocation, useNavigate, useParams, useResolvedPath, matchRoutes } from "react-router-dom"
+import SiteEditorPageEditor from "./site-editor-page-editor"
+import { SiteEditorFiles } from './site-editor-files';
+import { PageTree } from "./site-editor-page-tree"
 import { PageHeader } from '@ant-design/pro-layout';
 import { Tabs, theme } from 'antd';
-
-import { Route, Routes, matchRoutes, useLocation, useNavigate, useParams, useResolvedPath } from "react-router-dom";
-import { SiteEditorContainer } from "../components/site-editor.container";
 import { SubPageLayout } from "../sub-page-layout";
-import { SiteEditorFiles } from './site-editor-files';
-import SiteEditorPageEditor from "./site-editor-page-editor";
-import { PageTree } from "./site-editor-page-tree";
+import { SiteEditorContainer } from "../components/site-editor.container";
 
 const { TabPane } = Tabs;
 
 export const SiteEditor: React.FC<any> = () => {
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   const params = useParams();

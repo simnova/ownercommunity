@@ -1,8 +1,6 @@
 import React from 'react';
-
-import { Button, Checkbox, Descriptions, Form, Input } from 'antd';
+import { Form,Input,Button,Descriptions, Checkbox } from 'antd';
 import dayjs from 'dayjs';
-
 import { Role, RoleAddInput, RoleUpdateInput } from '../../../../generated';
 
 export interface RolesDetailProps {

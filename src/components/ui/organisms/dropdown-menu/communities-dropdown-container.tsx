@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client';
-import { Community, SharedCommunitiesDropdownContainerCommunityDocument } from '../../../../generated';
-import { ComponentQueryLoader } from '../../molecules/component-query-loader';
+import { SharedCommunitiesDropdownContainerCommunityDocument, Community } from '../../../../generated';
 import { CommunitiesDropdown } from './communities-dropdown';
+import { ComponentQueryLoader } from '../../molecules/component-query-loader';
+import { Skeleton } from 'antd';
 
 interface CommunitiesDropdownContainerProps {
   data: {

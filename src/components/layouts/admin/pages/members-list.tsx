@@ -1,17 +1,18 @@
-import { UsergroupAddOutlined } from '@ant-design/icons';
+import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
 import { Button, theme } from 'antd';
-
-import { useNavigate, useParams } from 'react-router-dom';
-import { MembersListContainer } from '../components/members-list.container';
 import { SubPageLayout } from '../sub-page-layout';
+import { useParams, useNavigate } from 'react-router-dom';
+import { MembersListContainer } from '../components/members-list.container';
+import { UsergroupAddOutlined } from '@ant-design/icons';
 
-export const MembersList: React.FC<any> = () => {
+export const MembersList: React.FC<any> = (props) => {
   const params = useParams();
   const navigate = useNavigate();
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   return (

@@ -1,35 +1,41 @@
-import { Element, Frame, SerializedNodes, useEditor } from '@craftjs/core';
 import { useState } from 'react';
-import { Container } from '../components/container';
+import { Element, Frame,useEditor, SerializedNodes } from '@craftjs/core';
 import { usePageLayouts } from '../local-data';
+import { Container } from '../components/container';
 
-import { Button, Empty, TreeSelect, notification, theme } from 'antd';
+import { Button, Input, TreeSelect,notification, Empty, Space, theme } from 'antd';
 
 
 // icons
 import {
-  DesktopOutlined,
-  MobileOutlined
+  MobileOutlined,
+  DesktopOutlined
 } from '@ant-design/icons';
+import { TextThing } from '../components/text-thing';
 import { PropertiesListing } from '../components/properties-listing';
 import { PropertyDetails } from '../components/property-details';
-import { TextThing } from '../components/text-thing';
+
+const { TextArea } = Input;
+const { TreeNode } = TreeSelect;
 
 
-export const EditorDetail = () => {
+
+
+export const EditorDetail = (props:any) => {
   const {
-    token: {
-      colorTextBase
+    token:{
+      colorTextBase,
+      colorBgContainer
     }
   }=theme.useToken()
   const [selectedPage, setSelectedPage] = useState<string|undefined>();
   const [selectedPageIsListing, setSelectedPageIsListing] = useState<boolean>(false);
   const [selectedPageIsDetails, setSelectedPageIsDetails] = useState<boolean>(false);
   const [editorJson, setEditorJson] = useState<string | SerializedNodes | undefined>(undefined);
-  const [, setJson] = useState("");
+  const [json, setJson] = useState("");
   const [mobileView, setMobileView] = useState(false);
   const [pageLayouts, setPageLayouts] = usePageLayouts();
-  const { query } = useEditor();
+  const { query, actions } = useEditor();
 
   const save = () => {
     const json = query.serialize();

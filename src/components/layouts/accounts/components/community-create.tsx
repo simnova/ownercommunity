@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
-
+import {Form, Input, Button} from 'antd';
 
 export const CommunityCreate: React.FC<any> = (props) => {
   const [form] = Form.useForm();

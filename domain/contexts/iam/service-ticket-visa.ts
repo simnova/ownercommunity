@@ -20,13 +20,13 @@ export class ServiceTicketVisaImpl<root extends ServiceTicketEntityReference> im
       return false;
     }
 
-    var updatedPermissions = Object.create(serviceTicketPermissions, { 
+    const updatedPermissions = Object.create(serviceTicketPermissions, {
       isEditingOwnTicket : {
         value: (this.member.id === this.root.requestor.id)
       },
       isEditingAssignedTickets : {
         value: (
-          this.root.assignedTo && this.root.assignedTo.id &&
+          this.root.assignedTo?.id &&
           this.member.id === this.root.assignedTo.id)} //overwrite isEditingOwnProperty based on user ownership
     }) as ServiceTicketPermissions;
     console.log("Service Ticket Visa : updated permissions", updatedPermissions);

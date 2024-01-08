@@ -1,5 +1,4 @@
 import { ValueObject, ValueObjectProps } from '../../shared/value-object';
-import { DomainExecutionContext } from '../context';
 import { CommunityVisa } from '../iam/community-visa';
 import * as ValueObjects from './profile.value-objects';
 

@@ -5,12 +5,13 @@ import { logs } from '@opentelemetry/api-logs';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { DataloaderInstrumentation } from '@opentelemetry/instrumentation-dataloader';
 import { GraphQLInstrumentation } from '@opentelemetry/instrumentation-graphql';
-
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { MongoDBInstrumentation } from '@opentelemetry/instrumentation-mongodb';
 import { Resource } from '@opentelemetry/resources';
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
+import { NodeTracerProvider } from '@opentelemetry/sdk-trace-node';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { SpanFilterSampler, SpanEnrichingProcessor } from './otelFilter';
 
 if (!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIONINSIGHTS_CONNECTION_STRING.length === 0) {
   console.log('Application Insights not configured');
@@ -28,21 +29,7 @@ if (!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIO
     samplingRatio: 1,
     enableAutoCollectExceptions: true,
     enableAutoCollectPerformance: true,
-    // instrumentationOptions: {
-    //   http: { enabled: true } as HttpInstrumentationConfig,
-    //   mongoDb: { enabled: true, enhancedDatabaseReporting: true } as MongoDBInstrumentationConfig,
-    // },
-    // resource: customResource,
-    // logInstrumentationOptions: {
-    //   console: { enabled: true },
-    //   bunyan: { enabled: true },
-    //   winston: { enabled: true },
-    // },
-    // extendedMetrics: {
-    //   gc: true,
-    //   heap: true,
-    //   loop: true,
-    // },
+    // resource: customResource,  // Not required, but would be nice to get working again. Same as resource in LoggerProvider?
   };
   useAzureMonitor(config);
 
@@ -50,10 +37,24 @@ if (!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIO
     instrumentations: [
       new HttpInstrumentation(),
       new MongoDBInstrumentation({ enhancedDatabaseReporting: true }),
-      new GraphQLInstrumentation({ allowValues: true, ignoreTrivialResolveSpans: true}),
-      new DataloaderInstrumentation(),
-    ],
+      new DataloaderInstrumentation()],
   });
+
+  registerInstrumentations({
+    instrumentations: [new GraphQLInstrumentation({ allowValues: true, ignoreTrivialResolveSpans: true })],
+    tracerProvider: new NodeTracerProvider({
+      sampler: new SpanFilterSampler(),
+    }),
+  });
+
+  ////////// Use this if the traceProvider in registerInstrumentations doesn't work //////////
+  // const traceProvider = new NodeTracerProvider({
+  //   sampler: new SpanFilterSampler(),
+  //   resource: customResource,
+  // });
+  // traceProvider.addSpanProcessor(new SpanEnrichingProcessor());
+  // traceProvider.register();
+  ////////////////////////////////////////////////////////////////////////////////////////////
 
   // Setup Logger
   const loggerProvider = new LoggerProvider({
@@ -67,4 +68,3 @@ if (!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIO
 
   console.log('Application Insights configured');
 } // End of the App Insights setup
-

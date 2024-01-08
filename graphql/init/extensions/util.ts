@@ -7,11 +7,11 @@ import { HttpRequest } from '@azure/functions';
  */
 export const ExtractBearerToken = (request: HttpRequest): string => {
   let token = request.headers['authorization'];
-  if (!token || !(token.startsWith('Bearer '))) {
+  if (!(token?.startsWith('Bearer '))) {
     return null;
   }
 
   // Remove Bearer from string
-  token = token.slice(7, token.length).trimLeft();
+  token = token.slice(7, token.length).trimStart();
   return token;
 }

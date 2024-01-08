@@ -1,6 +1,5 @@
 import { jwtVerify, createRemoteJWKSet,  JWSHeaderParameters, FlattenedJWSInput } from 'jose';
 import { GetKeyFunction, JWTVerifyResult, ResolvedKey } from 'jose/dist/types/types';
-import { Issuer } from 'openid-client';
 
 export type OpenIdConfig = {
   issuerUrl:string;

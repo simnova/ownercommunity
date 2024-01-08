@@ -1,8 +1,8 @@
-import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertySearchResult, PropertiesSearchInput, PropertyUpdateInput } from '../../generated';
+import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertyUpdateInput } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
 import { getMemberForCurrentUser } from '../resolver-helper';
-import dayjs from 'dayjs';
+import { trace } from "@opentelemetry/api";
 
 const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promise<PropertyMutationResult> => {
   try {
@@ -76,6 +76,22 @@ const property: Resolvers = {
       return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyAdd(input));
     },
     propertyUpdate: async (_, { input }, { dataSources }) => {
+
+
+      let spanId = trace.getActiveSpan().spanContext().spanId;
+      let traceId = trace.getActiveSpan().spanContext().traceId;
+      let traceFlags = trace.getActiveSpan().spanContext().traceFlags;
+      let traceState = trace.getActiveSpan().spanContext().traceState;
+      
+      let isRemote = trace.getActiveSpan().spanContext().isRemote;
+      
+      console.log(`spanId: ${spanId}`);
+      console.log(`traceId: ${traceId}`);
+      console.log(`traceFlags: ${traceFlags}`);
+      console.log(`traceState: ${traceState}`);
+      console.log(`isRemote: ${isRemote}`);
+
+
       return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyUpdate(input));
     },
     propertyDelete: async (_, { input }, { dataSources }) => {

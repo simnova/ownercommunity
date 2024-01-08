@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../shared/entity';
+import { EntityProps } from '../../shared/entity';
 import { Permissions, PermissionsEntityReference, PermissionsProps } from './permissions';
 import { Community, CommunityProps, CommunityEntityReference } from './community';
 import { CommunityVisa } from '../iam/community-visa';
@@ -59,7 +59,7 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
     community: CommunityEntityReference,
     context: DomainExecutionContext
   ): Role<props> {
-    var role = new Role(newProps, context);
+    const role = new Role(newProps, context);
     role.isNew = true;
     role.roleName = roleName;
     role.setCommunity = community;

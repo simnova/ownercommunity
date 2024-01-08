@@ -1,6 +1,8 @@
 import EventEmitter from 'events';
 import { CustomDomainEvent, DomainEvent } from '../../../shared/domain-event';
 import { EventBus } from '../../../shared/event-bus';
+import api, { trace,TimeInput, SpanStatusCode } from '@opentelemetry/api';
+import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 
 class BroadCaster {
   private eventEmitter: EventEmitter;
@@ -28,19 +30,67 @@ class NodeEventBusImpl implements EventBus {
 
   async dispatch<T extends DomainEvent>(event: new(...args:any) => T, data: any): Promise<void> {
     console.log(`Dispatching node event ${event.constructor.name} with data ${JSON.stringify(data)}`);
-    this.broadcaster.broadcast(event.constructor.name, JSON.stringify(data));
+
+    let contextObject = {};
+    api.propagation.inject(api.context.active(),contextObject);
+    console.log(`Trace context: ${JSON.stringify(contextObject)}`);
+    const tracer = trace.getTracer("PG:data-access");
+    tracer.startActiveSpan("node-event-bus.publish", async (span) => {
+      span.setAttribute('message.system', 'node-event-bus');
+      span.setAttribute('messaging.operation', 'publish');
+      span.setAttribute('messaging.destination.name', event.constructor.name);
+      span.addEvent('dispatching node event', {name: event.constructor.name, data: JSON.stringify(data)}, new Date());
+
+      try {
+        this.broadcaster.broadcast(event.constructor.name, {data: JSON.stringify(data), context: contextObject});
+        span.setStatus({code: SpanStatusCode.OK, message: `NodeEventBus: Executed ${event.name}`});
+      }catch(err) {
+        span.setStatus({ code: SpanStatusCode.ERROR });
+        span.recordException(err);
+      }finally {
+        span.end();
+      }
+    });
   }
  
   register<EventProps,T extends CustomDomainEvent<EventProps>>(event:new(...args:any) => T, func:(payload:T['payload']) => Promise<void>): void {
     console.log(`Registering node event handler for: ${event.name}`);
+
     this.broadcaster.on(event.name, async (rawPayload:string) => {
-      console.log(`Received node event ${event.name} with data ${rawPayload}`);
-      try{
-        await func(JSON.parse(rawPayload));
-      } catch(e) {
-        console.error(`Error handling node event ${event.name} with data ${rawPayload}`);
-        console.error(e);
-      }
+      console.log(`Received node event ${event.name} with data ${JSON.stringify(rawPayload)}`);
+      const activeContext = api.propagation.extract(api.context.active(),rawPayload['context']);
+      api.context.with(activeContext, async () => {  // all descendants of this context will have the active context set
+        const tracer = trace.getTracer("PG:data-access");
+        tracer.startActiveSpan(`node-event-bus.process`, async (span) => {
+          span.setAttribute('message.system', 'node-event-bus');
+          span.setAttribute('messaging.operation', 'process');
+          span.setAttribute('messaging.destination.name', event.name);
+
+          span.setStatus({code: SpanStatusCode.UNSET, message: `NodeEventBus: Executing ${event.name}`});
+          span.setAttribute('data', rawPayload['data']);
+
+
+          // hack to create dependency title in App Insights to show up nicely in trace details
+          // see : https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/src/utils/spanUtils.ts#L191
+          span.setAttribute(SemanticAttributes.DB_SYSTEM, 'node-event-bus'); // hack (becomes upper case)
+          span.setAttribute(SemanticAttributes.DB_NAME, event.name); // hack
+          span.setAttribute(SemanticAttributes.DB_STATEMENT, `handling event: ${event.name} with payload: ${rawPayload['data']}`); // hack - dumps payload in command 
+
+
+          span.addEvent(`NodeEventBus: Executing ${event.name}`,{data: rawPayload['data']}, performance.now() as TimeInput);
+          try {
+            await func(JSON.parse(rawPayload['data']));
+            span.setStatus({code: SpanStatusCode.OK, message: `NodeEventBus: Executed ${event.name}`});
+          } catch(e) {
+            span.recordException(e);
+            span.setStatus({code: SpanStatusCode.ERROR, message: `NodeEventBus: Error executing ${event.name}`});
+            console.error(`Error handling node event ${event.name} with data ${rawPayload}`);
+            console.error(e);
+          } finally {
+            span.end();
+          }
+        });
+      });
     });
   }
 

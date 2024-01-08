@@ -12,6 +12,7 @@
         "maxlength"
     ],
     "sonarlint.connectedMode.project": {
-        "projectKey": "simnova_ownercommuntiy-data-access"
+        "projectKey": "simnova_ownercommuntiy-data-access",
+        "connectionId": "simnova",
     }
 }

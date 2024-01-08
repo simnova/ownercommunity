@@ -42,7 +42,7 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
         console.log('permissions', permissions);
         console.log('permissions.isSystemAccount', permissions.isSystemAccount);
         console.log('permissions.canManageRolesAndPermissions', permissions.canManageRolesAndPermissions);
-        var value = permissions.canManageRolesAndPermissions || permissions.isSystemAccount;
+        const value = permissions.canManageRolesAndPermissions || permissions.isSystemAccount;
         console.log('canManageRolesAndPermissions', value);
         return value;
       })

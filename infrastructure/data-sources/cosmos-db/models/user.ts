@@ -1,5 +1,5 @@
 import { Schema, model, Model } from 'mongoose';
-import { Base, Patterns } from './interfaces/base';
+import { Base, BaseOptions, Patterns } from './interfaces/base';
 
 export interface User extends Base {
   externalId: string;

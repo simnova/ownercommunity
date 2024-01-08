@@ -1,5 +1,6 @@
 import {
   VOString,
+  VOArray
 } from '@lucaspaganini/value-objects';
 
 

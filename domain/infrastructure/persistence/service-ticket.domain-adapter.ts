@@ -1,5 +1,5 @@
 import { ActivityDetail, ServiceTicket, Photo } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
-import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../contexts/service-ticket/service-ticket';
+import { ServiceTicket as ServiceTicketDO, ServiceTicketEntityReference, ServiceTicketProps } from '../../contexts/service-ticket/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../core/mongo/mongo-domain-adapter';
 import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
 import { DomainExecutionContext } from '../../contexts/context';

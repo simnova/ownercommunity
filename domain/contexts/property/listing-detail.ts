@@ -4,6 +4,7 @@ import { BedroomDetail, BedroomDetailProps, BedroomDetailReference } from './bed
 import { AdditionalAmenity, AdditionalAmenityProps, AdditionalAmenityReference } from './additional-amenity';
 import * as ValueObjects from './listing-detail.value-objects';
 import { PropertyVisa } from '../iam/property-visa';
+import { isNull } from '@lucaspaganini/value-objects/dist/utils';
 import { Images } from './listing-detail.value-objects';
 
 export interface ListingDetailProps extends ValueObjectProps {

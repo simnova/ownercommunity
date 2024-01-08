@@ -1,10 +1,10 @@
 import {jwtVerify,createRemoteJWKSet} from 'jose';
 
-const verifyAccessToken = async (context) : Promise<[object, boolean]>  => {
+var verifyAccessToken = async (context) : Promise<[object, boolean]>  => {
   let token = context.request.headers["authorization"];
-  if (!token?.startsWith("Bearer ")) return [{}, false];
+  if (!token || !token.startsWith("Bearer ")) return [{}, false];
 
-  token = token.slice(7, token.length).trimStart(); // Remove 'Bearer ' characters from start of Auth header value
+  token = token.slice(7, token.length).trimLeft(); // Remove 'Bearer ' characters from start of Auth header value
 
   const settings = {
     audience: process.env.AAD_TOKEN_APPLICATION_ID,

@@ -8,10 +8,10 @@ const globalSetup = () => {
     localConfig = require('./../local.settings.json');
   }
 
-  process.env = {
-    ...process.env,
-    ...localConfig.Values,
-    ...config.Values,
-  };
+  process.env = Object.assign({},process.env,
+    {... localConfig.Values},
+     {
+      ...config.Values
+  });
 };
 export default globalSetup;

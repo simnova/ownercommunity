@@ -1,14 +1,14 @@
 import { PassportImpl, ReadOnlyPassport } from "../../../domain/contexts/iam/passport";
 import { Context } from "../../context";
 
-import { HttpRequest } from "@azure/functions";
-import { isValidObjectId } from "mongoose";
-import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
-import { MemberConverter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
 import { UserConverter } from '../../../domain/infrastructure/persistence/user.domain-adapter';
+import { MemberConverter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
+import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
+import { HttpRequest } from "@azure/functions";
 import { Community, CommunityModel } from "../../../infrastructure/data-sources/cosmos-db/models/community";
-import { MemberModel } from "../../../infrastructure/data-sources/cosmos-db/models/member";
+import { isValidObjectId } from "mongoose";
 import { UserModel } from "../../../infrastructure/data-sources/cosmos-db/models/user";
+import { MemberModel } from "../../../infrastructure/data-sources/cosmos-db/models/member";
 import { PortalTokenValidation } from "./portal-token-validation";
 import * as util from './util';
 
@@ -22,20 +22,13 @@ export class PassportContext {
   ) { this.context = context; }
 
   static async decorateContext(context: Partial<Context>, req: HttpRequest, portalTokenValidator: PortalTokenValidation): Promise<void> {
-    try{
-      const passportContext = new PassportContext(
-        req,
-        context,
-        portalTokenValidator
-      );
-      await passportContext.setContextVerifiedJwt();
-      await passportContext.setContextPassport();
-    }catch(error){
-      console.log(' == ERROR 2== ', error);
-      context.passport = ReadOnlyPassport.GetInstance();
-      context.community = null;
-    }
-
+    const passportContext = new PassportContext(
+      req,
+      context,
+      portalTokenValidator
+    );
+    await passportContext.setContextVerifiedJwt();
+    await passportContext.setContextPassport();
   }
 
   private async setContextVerifiedJwt(): Promise<void> {
@@ -54,7 +47,7 @@ export class PassportContext {
     let communityHeader = this.req.headers['community'];
     if (communityHeader) {
       let mongoCommunity = await this.getCommunityByHeader(communityHeader);
-      if (this.context.verifiedUser?.verifiedJWT?.sub && mongoCommunity) {
+      if (this.context.verifiedUser && this.context.verifiedUser.verifiedJWT && this.context.verifiedUser.verifiedJWT.sub && mongoCommunity) {
         this.context.passport = await this.getPassport(this.context, mongoCommunity);
         this.context.community = mongoCommunity.id;
         console.log(' == CONTEXT DECORATED SUCCESSFULLY == ');
@@ -85,7 +78,7 @@ export class PassportContext {
     let mongoUser = await UserModel.findOne({externalId:userExternalId}).exec();
     let mongoMember = (
         await (MemberModel
-          .findOne({community: mongoCommunity.id, 'accounts.user': mongoUser?.id})
+          .findOne({community: mongoCommunity.id, 'accounts.user': mongoUser.id})
           .populate('community')
           .populate('accounts.user')
           .populate('role')

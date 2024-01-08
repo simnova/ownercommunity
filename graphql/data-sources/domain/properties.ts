@@ -9,6 +9,7 @@ import { CommunityConverter } from '../../../domain/infrastructure/persistence/c
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 import { MemberConverter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
 import { Amenities, Images } from '../../../domain/contexts/property/listing-detail.value-objects';
+import { AdditionalAmenity, AdditionalAmenityProps } from '../../../domain/contexts/property/additional-amenity';
 import { BedDescriptions } from '../../../domain/contexts/property/bedroom-detail.value-objects';
 
 type PropType = PropertyDomainAdapter;

@@ -40,7 +40,7 @@ export class MongoUnitOfWork<ContextType extends ExecutionContext, MongoType ext
       private integrationEventBus: EventBus,
       private model : Model<MongoType>, 
       private typeConverter : TypeConverter<MongoType,DomainType,PropType, ContextType>,
-      private repoClass : new(bus: EventBus, model: Model<MongoType>, typeConverter: TypeConverter<MongoType, DomainType, PropType, ContextType>, session: ClientSession, context: ContextType) => RepoType
+      private repoClass : {new(bus:EventBus, model:Model<MongoType>,typeConverter:TypeConverter<MongoType,DomainType,PropType,ContextType>,session:ClientSession,context:ContextType) : RepoType}
     ){
       super();
     }

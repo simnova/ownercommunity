@@ -1,6 +1,6 @@
 import { IBlobStorage } from '../blob-storage';
 import archiver from 'archiver';
-import internal from 'stream';
+import internal, { Stream } from 'stream';
 
 
 export class BlobZip {
@@ -11,6 +11,7 @@ export class BlobZip {
 
   public async zipBlobs(containerName: string, blobNames: string[], zipName: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
+      var isComplete = false;
       const archive = archiver('zip', {
         zlib: { level: 9 }, // Sets the compression level.
       });
@@ -23,10 +24,12 @@ export class BlobZip {
         .writeStreamToBlob(zipName, containerName, output, 'application/zip')
         .then(() => {
           console.log('writeStreamToBlob completed');
+          isComplete = true;
           resolve();
         })
         .catch((err) => {
           console.log('writeStreamToBlob failed', err);
+          isComplete = true;
           reject(err);
         });
 

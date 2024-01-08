@@ -1,4 +1,5 @@
 import { VOString, VOArray } from '@lucaspaganini/value-objects';
+import { kMaxLength } from 'buffer';
 
 export const CustomViewTypes = {
   Property: 'PROPERTY',

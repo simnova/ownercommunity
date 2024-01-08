@@ -1,5 +1,5 @@
 import { Schema, model, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
-import { Base, SubdocumentBase } from './interfaces/base';
+import { Base, BaseOptions, SubdocumentBase, SubdocumentBaseOptions } from './interfaces/base';
 import * as Community from './community';
 import * as Property from './property';
 import * as Member from './member';

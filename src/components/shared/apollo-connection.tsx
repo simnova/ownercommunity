@@ -1,18 +1,18 @@
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import {
-  HttpLink,
   ApolloClient,
   ApolloLink,
   ApolloProvider,
+  HttpLink,
   InMemoryCache,
   from,
 } from '@apollo/client';
 
+import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from '@apollo/client/link/context';
 import { useMsal } from './msal-react-lite';
-import { BatchHttpLink } from "@apollo/client/link/batch-http";
-import { mergeDeep } from '@apollo/client/utilities';
+
 
 export interface AuthProps {
   AuthenticationIdentifier?: string
@@ -20,7 +20,7 @@ export interface AuthProps {
 
 const ApolloConnection: FC<any> = (props) => {
 
-  const { getAuthToken,getSilentAuthResult, getIsLoggedIn } = useMsal();
+  const { getSilentAuthResult, getIsLoggedIn } = useMsal();
 
   const hasAuth = props.AuthenticationIdentifier !== null && typeof props.AuthenticationIdentifier !== "undefined";
   

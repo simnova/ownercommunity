@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { useNode } from '@craftjs/core';
-import { Typography, Card, Space, Badge, Skeleton, Button, theme } from 'antd';
+import { Badge, Button, Card, Skeleton, Space, Typography, theme } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const { Text, Title } = Typography;
 
@@ -36,15 +36,13 @@ let PropertiesListing: any;
 
 PropertiesListing = () => {
   const {
-    token: { colorTextBase, colorBgContainer }
+    token: { colorBgContainer }
   }=theme.useToken();
   const path = window.location.href.slice(window.location.href.lastIndexOf('/'));
   const navigate = useNavigate();
 
   const {
-    connectors: { connect, drag },
-    selected
-  } = useNode((state) => ({
+    connectors: { connect, drag }  } = useNode((state) => ({
     selected: state.events.selected
   }));
 

@@ -1,6 +1,6 @@
+import { useMutation } from "@apollo/client";
 import React from "react";
 import { AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocument } from "../../../../generated";
-import { useMutation } from "@apollo/client";
 import { AuthResult, SiteEditor } from "./site-editor";
 
 export interface SiteEditorContainerProps {

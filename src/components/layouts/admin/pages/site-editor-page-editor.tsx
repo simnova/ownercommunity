@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
 import { Editor } from '@craftjs/core';
+import React, { useState } from 'react';
 import './site-editor-page-editor.css';
 
 // CMS components
 import * as CmsComponents from '../../../editor/components';
 
 // ui elements
+import { Col, Drawer, Row, Typography, theme } from 'antd';
 import { ComponentWrapper } from '../../../editor/page/component-wrapper';
 import { Download } from '../../../editor/page/download';
-import { Row, Col, Typography, Drawer, theme } from 'antd';
+import { EditorDetail } from '../../../editor/page/editor-detail';
 import { SettingsPanel } from '../../../editor/page/settings-panel';
 import { Toolbox } from '../../../editor/page/toolbox';
-import { EditorDetail } from '../../../editor/page/editor-detail';
 
 const { Title } = Typography;
 
 const SiteEditorPageEditor: React.FC<any> = () => {
   const {
-    token:{
-      colorTextBase,
-      colorBgContainer
+    token: {
+      colorTextBase
     }
   }=theme.useToken()
   const [showToolbox, setShowToolbox] = useState(false);

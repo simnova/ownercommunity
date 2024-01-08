@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { Skeleton, message } from 'antd';
+import PropTypes from 'prop-types';
 import {
-  AdminMembersDetailContainerMemberDocument,
-  AdminMembersDetailContainerRolesDocument,
-  AdminMembersDetailContainerMemberUpdateDocument,
-  MemberUpdateInput
+    AdminMembersDetailContainerMemberDocument,
+    AdminMembersDetailContainerMemberUpdateDocument,
+    AdminMembersDetailContainerRolesDocument,
+    MemberUpdateInput
 } from '../../../../generated';
 import { MembersDetail } from './members-detail';
-import PropTypes from 'prop-types';
-import { message, Skeleton } from 'antd';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({

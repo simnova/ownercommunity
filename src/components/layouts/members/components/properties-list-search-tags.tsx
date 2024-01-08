@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
 import { Tag } from 'antd';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { GetPropertySelectedFilterTags, SearchParamKeys } from '../../../../constants';
 
-export const PropertiesListSearchTags: React.FC<any> = (props) => {
+export const PropertiesListSearchTags: React.FC<any> = () => {
   const [selectedFilterList, setSelectedFilterList] = useState<string[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 

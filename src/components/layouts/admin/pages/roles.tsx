@@ -3,7 +3,7 @@ import { RolesDelete } from './roles-delete';
 import { RolesDetail } from './roles-detail';
 import { RolesList } from './roles-list';
 
-export const Roles: React.FC<any> = (props) => {
+export const Roles: React.FC<any> = () => {
   return (
     <Routes>
       <Route path="" element={<RolesList />} />

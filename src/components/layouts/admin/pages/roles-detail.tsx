@@ -1,12 +1,12 @@
-import React from 'react';
 import { PageHeader } from '@ant-design/pro-layout';
 import { Button } from 'antd';
-import { SubPageLayout } from '../sub-page-layout';
-import { useNavigate, useParams } from 'react-router-dom';
-import { RolesDetailContainer } from '../components/roles-detail.container';
-import { RolesDetailAddContainer } from '../components/roles-detail-add.container';
 
-export const RolesDetail: React.FC<any> = (props) => {
+import { useNavigate, useParams } from 'react-router-dom';
+import { RolesDetailAddContainer } from '../components/roles-detail-add.container';
+import { RolesDetailContainer } from '../components/roles-detail.container';
+import { SubPageLayout } from '../sub-page-layout';
+
+export const RolesDetail: React.FC<any> = () => {
   const params = useParams();
   const navigate = useNavigate();
 

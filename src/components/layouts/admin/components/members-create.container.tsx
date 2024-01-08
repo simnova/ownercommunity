@@ -1,12 +1,12 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import {
   AdminMembersCreateContainerMemberCreateDocument,
   AdminMembersListContainerMembersDocument,
   MemberCreateInput
 } from '../../../../generated';
-import { message, Skeleton } from 'antd';
 import { MembersCreate } from './members-create';
-import { useNavigate } from 'react-router-dom';
 
 interface MembersCreateContainerProps {
   data: {
@@ -16,26 +16,25 @@ interface MembersCreateContainerProps {
 
 export const MembersCreateContainer: React.FC<MembersCreateContainerProps> = (props) => {
   const navigate = useNavigate();
-  const [memberCreate, { data: createData, loading: createLoading, error: createError }] =
-    useMutation(AdminMembersCreateContainerMemberCreateDocument, {
-      update(cache, { data }) {
-        // update the list with the new item
-        const newMember = data?.memberCreate.member;
-        const members = cache.readQuery({
+  const [memberCreate] = useMutation(AdminMembersCreateContainerMemberCreateDocument, {
+    update(cache, { data }) {
+      // update the list with the new item
+      const newMember = data?.memberCreate.member;
+      const members = cache.readQuery({
+        query: AdminMembersListContainerMembersDocument,
+        variables: { communityId: props.data.communityId ?? '' }
+      })?.membersByCommunityId;
+      if (newMember && members) {
+        cache.writeQuery({
           query: AdminMembersListContainerMembersDocument,
-          variables: { communityId: props.data.communityId ?? '' }
-        })?.membersByCommunityId;
-        if (newMember && members) {
-          cache.writeQuery({
-            query: AdminMembersListContainerMembersDocument,
-            variables: { communityId: props.data.communityId ?? '' },
-            data: {
-              membersByCommunityId: [...members, newMember]
-            }
-          });
-        }
+          variables: { communityId: props.data.communityId ?? '' },
+          data: {
+            membersByCommunityId: [...members, newMember]
+          }
+        });
       }
-    });
+    }
+  });
 
   const defaultValues: MemberCreateInput = {
     memberName: ''

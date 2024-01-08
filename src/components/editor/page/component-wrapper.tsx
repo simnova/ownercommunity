@@ -1,20 +1,14 @@
-import { useNode, useEditor } from '@craftjs/core';
+import { useEditor, useNode } from '@craftjs/core';
 import { useEffect } from 'react';
-import { ROOT_NODE } from '@craftjs/utils';
 
 export const ComponentWrapper = ({render}:any) => {
   const { id } = useNode();
-  const { actions, query, isActive } = useEditor((_, query) => ({
+  const { query, isActive } = useEditor((_, query) => ({
     isActive: query.getEvent('selected').contains(id),
   }));
   const {
     isHover,
     dom,
-    name,
-    moveable,
-    deletable,
-    connectors: { drag },
-    parent,
   } = useNode((node) => ({
     isHover: node.events.hovered,
     dom: node.dom,

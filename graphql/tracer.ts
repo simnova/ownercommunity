@@ -34,13 +34,6 @@ if(!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATION
   }
 
   // Shows the Role Name: <<SERVICE_NAMESPACE>>.<<SERVICE_NAME>> and  Role Instance : <<SERVICE_INSTANCE_ID>> in Application Insights
-  /*
-  const customResource = Resource.EMPTY;
-  customResource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE] = "OwnerCommunity";
-  customResource.attributes[SemanticResourceAttributes.SERVICE_NAME] = "DataAccess";
-  customResource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "Local";
-  */
-
   const customResource = new Resource({
     [SemanticResourceAttributes.SERVICE_NAMESPACE] : "OwnerCommunity",
     [SemanticResourceAttributes.SERVICE_NAME] : "DataAccess",

@@ -19,7 +19,7 @@ export default (cognitiveSearch:ICognitiveSearch) => {
     const tracer = trace.getTracer("PG:data-access")
     tracer.startActiveSpan("updateSearchIndex", async (span) => {
 
-      //TODO : add logging: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples-dev/logSample.ts
+      // add logging: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples-dev/logSample.ts
       
       try {
         const logger = logs.getLogger('default');
@@ -64,7 +64,6 @@ export default (cognitiveSearch:ICognitiveSearch) => {
                   await repo.save(property);
                   console.log('Index update failed: ', property.updateIndexFailedDate);
                   console.log(property);
-                  return;
                 }
                 else{
                   span.addEvent('Index update attempt: ' + currentAttempt);

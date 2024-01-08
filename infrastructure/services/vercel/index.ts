@@ -102,7 +102,7 @@ export class Vercel implements IVercel {
 
   async addDomainToProject(domain:string): Promise<{ result?: DomainResponse} & APIResponse> {
     //confirm domain is a valid domain
-    if (!RegExp(/^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/).exec(domain)) {
+    if (!RegExp(/^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]?\.(xn--)?([a-z0-9-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/).exec(domain)) {
       return {success:false, error: {code: '400', message: `The specified value '${domain}' is not a fully qualified domain name`}};
     }
 
@@ -134,7 +134,7 @@ export class Vercel implements IVercel {
             //return {success:false, error: {code: err.response?.status.toString(), message: err.response.statusText}};
             throw err;
         }
-    
+
       } else {
         //console.error('Standard Unknown error: ', err);
         // Just a stock error

@@ -4,6 +4,4 @@ export interface PropertyDeletedEventProps {
   id: string;
 }
 
-export class PropertyDeletedEvent extends CustomDomainEventImpl<PropertyDeletedEventProps>  {
-  constructor(aggregateRootId: string) {super(aggregateRootId);}
-}
+export class PropertyDeletedEvent extends CustomDomainEventImpl<PropertyDeletedEventProps> {}

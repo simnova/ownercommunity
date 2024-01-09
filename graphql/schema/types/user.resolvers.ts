@@ -1,27 +1,25 @@
 import { Resolvers, User, CurrentUser } from '../../generated';
 import { cacheControlFromInfo } from '@apollo/cache-control-types';
 
-const user : Resolvers = {
-  Query: {      
-    user : async (parent, args, context, info)  => {
-      if(context.verifiedUser){
-        console.log(`user found in context with JWT: ${JSON.stringify(context.verifiedUser.verifiedJWT)}`)
+const user: Resolvers = {
+  Query: {
+    user: async (parent, args, context, info) => {
+      if (context.verifiedUser) {
+        console.log(`user found in context with JWT: ${JSON.stringify(context.verifiedUser.verifiedJWT)}`);
       }
-    //  info.cacheControl.setCacheHint({ maxAge: 60,scope: CacheScope.Public });
-      console.log(`Resolver>Query>user ${args.id}`)
+      console.log(`Resolver>Query>user ${args.id}`);
       return (await context.dataSources.userCosmosdbApi.getUser(args.id)) as User;
     },
-    users : async (parent, args, context, info) => {
-      cacheControlFromInfo(info).setCacheHint({ maxAge: 60, scope: 'PUBLIC' }); //this works, but doesn't work when setting it with a directive 
-      console.log(`Resolver>Query>users`)
-      console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`)
+    users: async (parent, args, context, info) => {
+      cacheControlFromInfo(info).setCacheHint({ maxAge: 60, scope: 'PUBLIC' }); //this works, but doesn't work when setting it with a directive
+      console.log(`Resolver>Query>users`);
+      console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`);
       return (await context.dataSources.userCosmosdbApi.getUsers()) as User[];
     },
     userCurrent: async (parent, args, context, info) => {
       console.log(`Resolver>Query>userCurrent`);
-      return await context.dataSources.userDomainAPI.addUser()   as CurrentUser;
-    }
-
+      return (await context.dataSources.userDomainAPI.addUser()) as CurrentUser;
+    },
   },
   Mutation: {
     userCreate: async (parent, args, context, info) => {
@@ -30,7 +28,7 @@ const user : Resolvers = {
     },
     userUpdate: async (parent, args, context, info) => {
       return null;
-     // return (await context.dataSources.userDomainAPI.updateUser(args.input)) as User;
+      // return (await context.dataSources.userDomainAPI.updateUser(args.input)) as User;
     },
     /*
     createAuthHeaderForProfilePhoto: async (parent, args, context, info) => {
@@ -53,8 +51,7 @@ const user : Resolvers = {
       return {success:true, authHeader:authHeader, requestDate:requestDate, blobName:blobName} as CreateAuthHeaderForProfilePhotoOutput;
     }
     */
-  }
-}
-
+  },
+};
 
 export default user;

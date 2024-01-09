@@ -4,6 +4,4 @@ export interface UserCreatedProps {
   userId: string;
 }
 
-export class UserCreatedEvent extends CustomDomainEventImpl<UserCreatedProps>  {
-  constructor(aggregateRootId: string) {super(aggregateRootId);}
-}
+export class UserCreatedEvent extends CustomDomainEventImpl<UserCreatedProps> {}

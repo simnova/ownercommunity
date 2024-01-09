@@ -78,23 +78,14 @@ export class Service<props extends ServiceProps> extends AggregateRoot<props> im
   }
 
   set ServiceName(serviceName: string) {
-    // if(
-    //   !this.isNew &&
-    //   !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageServices)) { throw new Error('Unauthorized3'); }
     this.props.serviceName = new ValueObjects.ServiceName(serviceName).valueOf();
   }
 
   set Description(description: string) {
-    // if(
-    //   !this.isNew &&
-    //   !this.visa.determineIf(permissions => permissions.isSystemAccount || permissions.canManageServices)) { throw new Error('Unauthorized4'); }
     this.props.description = new ValueObjects.Description(description).valueOf();
   }
 
   set IsActive(isActive: boolean) {
-    // if(
-    //   !this.isNew &&
-    //   !this.visa.determineIf(permissions => permissions.isSystemAccount)) { throw new Error('Unauthorized5'); }
     this.props.isActive = isActive;
   }
 

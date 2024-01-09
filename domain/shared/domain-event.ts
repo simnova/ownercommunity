@@ -16,9 +16,6 @@ export abstract class DomainEventBase implements DomainEvent {
 
 export abstract class CustomDomainEventImpl<T> extends DomainEventBase implements CustomDomainEvent<T> {
   private _payload: T;
-  constructor(aggregateId: string) {
-    super(aggregateId);
-  }
   get payload(): T {
     return this._payload;
   }

@@ -4,6 +4,4 @@ export interface PropertyUpdatedProps {
   id: string;
 }
 
-export class PropertyUpdatedEvent extends CustomDomainEventImpl<PropertyUpdatedProps>  {
-  constructor(aggregateRootId: string) {super(aggregateRootId);}
-}
+export class PropertyUpdatedEvent extends CustomDomainEventImpl<PropertyUpdatedProps> {}

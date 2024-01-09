@@ -5,6 +5,4 @@ export interface RoleDeletedReassignProps {
   newRoleId: string;
 }
 
-export class RoleDeletedReassignEvent extends CustomDomainEventImpl<RoleDeletedReassignProps>  {
-  constructor(aggregateRootId: string) {super(aggregateRootId);}
-}
+export class RoleDeletedReassignEvent extends CustomDomainEventImpl<RoleDeletedReassignProps> {}

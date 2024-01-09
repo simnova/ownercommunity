@@ -7,24 +7,30 @@ import { CommunityProps } from '../../contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { DomainExecutionContext } from '../../contexts/context';
 
-export class ServiceConverter extends MongoTypeConverter<DomainExecutionContext,Service,ServiceDomainAdapter,ServiceDO<ServiceDomainAdapter>> {
+export class ServiceConverter extends MongoTypeConverter<DomainExecutionContext, Service, ServiceDomainAdapter, ServiceDO<ServiceDomainAdapter>> {
   constructor() {
     super(ServiceDomainAdapter, ServiceDO);
   }
 }
 
 export class ServiceDomainAdapter extends MongooseDomainAdapter<Service> implements ServiceProps {
-  constructor(doc: Service) { super(doc); }
+  get serviceName() {
+    return this.doc.serviceName;
+  }
+  set serviceName(serviceName) {
+    this.doc.serviceName = serviceName;
+  }
 
-  get serviceName() {return this.doc.serviceName;}
-  set serviceName(serviceName) {this.doc.serviceName = serviceName;}
-
-  get description() {return this.doc.description;}
-  set description(description) {this.doc.description = description;}
+  get description() {
+    return this.doc.description;
+  }
+  set description(description) {
+    this.doc.description = description;
+  }
 
   get community() {
-    if(this.doc.community && !this.doc.populated('community')) {
-      console.warn('Community not populated - may want to look at repository populate',this.doc.community);
+    if (this.doc.community && !this.doc.populated('community')) {
+      console.warn('Community not populated - may want to look at repository populate', this.doc.community);
     }
     return this.doc.community ? new CommunityDomainAdapter(this.doc.community) : undefined;
   }
@@ -32,6 +38,10 @@ export class ServiceDomainAdapter extends MongooseDomainAdapter<Service> impleme
     this.doc.set('community', community['props']['doc']);
   }
 
-  get isActive() {return this.doc.isActive;}
-  set isActive(isActive) {this.doc.isActive = isActive;}
+  get isActive() {
+    return this.doc.isActive;
+  }
+  set isActive(isActive) {
+    this.doc.isActive = isActive;
+  }
 }

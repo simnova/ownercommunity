@@ -4,8 +4,4 @@ export interface ServiceTicketCreatedProps {
   id: string;
 }
 
-export class ServiceTicketCreatedEvent extends CustomDomainEventImpl<ServiceTicketCreatedProps> {
-  constructor(aggregateRootId: string) {
-    super(aggregateRootId);
-  }
-}
+export class ServiceTicketCreatedEvent extends CustomDomainEventImpl<ServiceTicketCreatedProps> {}

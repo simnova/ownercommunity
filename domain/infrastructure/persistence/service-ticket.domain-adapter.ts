@@ -15,67 +15,96 @@ import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from './service.domain-adapter';
 import { ServiceEntityReference } from '../../contexts/service-ticket/service';
 
-
-export class ServiceTicketConverter extends MongoTypeConverter<DomainExecutionContext,ServiceTicket,ServiceTicketDomainAdapter,ServiceTicketDO<ServiceTicketDomainAdapter>> {
+export class ServiceTicketConverter extends MongoTypeConverter<
+  DomainExecutionContext,
+  ServiceTicket,
+  ServiceTicketDomainAdapter,
+  ServiceTicketDO<ServiceTicketDomainAdapter>
+> {
   constructor() {
     super(ServiceTicketDomainAdapter, ServiceTicketDO);
   }
 }
 
 export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTicket> implements ServiceTicketProps {
-  constructor(doc: ServiceTicket) { super(doc); }
-
   get community() {
-    if(this.doc.community) {return new CommunityDomainAdapter(this.doc.community);}
+    if (this.doc.community) {
+      return new CommunityDomainAdapter(this.doc.community);
+    }
   }
-  public setCommunityRef(community:CommunityEntityReference) {
-    this.doc.set('community',community.id);
+  public setCommunityRef(community: CommunityEntityReference) {
+    this.doc.set('community', community.id);
   }
 
   get property() {
-    if(this.doc.property) {return new PropertyDomainAdapter(this.doc.property);}
+    if (this.doc.property) {
+      return new PropertyDomainAdapter(this.doc.property);
+    }
   }
-  public setPropertyRef(property:PropertyEntityReference) {
-    this.doc.set('property',property.id);
+  public setPropertyRef(property: PropertyEntityReference) {
+    this.doc.set('property', property.id);
   }
 
   get requestor() {
-    if(this.doc.requestor) {return new MemberDomainAdapter(this.doc.requestor);}
+    if (this.doc.requestor) {
+      return new MemberDomainAdapter(this.doc.requestor);
+    }
   }
-  public setRequestorRef(requestor:MemberEntityReference) {
-    this.doc.set('requestor',requestor?requestor['props']['doc']:null);
+  public setRequestorRef(requestor: MemberEntityReference) {
+    this.doc.set('requestor', requestor ? requestor['props']['doc'] : null);
   }
 
   get assignedTo() {
-    if(this.doc.assignedTo) {return this.doc.assignedTo?new MemberDomainAdapter(this.doc.assignedTo):undefined;}
+    if (this.doc.assignedTo) {
+      return this.doc.assignedTo ? new MemberDomainAdapter(this.doc.assignedTo) : undefined;
+    }
   }
-  public setAssignedToRef(assignedTo:MemberEntityReference) {
-    this.doc.set('assignedTo',assignedTo?assignedTo['props']['doc']:null);
+  public setAssignedToRef(assignedTo: MemberEntityReference) {
+    this.doc.set('assignedTo', assignedTo ? assignedTo['props']['doc'] : null);
   }
 
   get service() {
-   return this.doc.service ? new ServiceDomainAdapter(this.doc.service) : undefined;
+    return this.doc.service ? new ServiceDomainAdapter(this.doc.service) : undefined;
   }
-  public setServiceRef(service:ServiceEntityReference) {
-    this.doc.set('service',service?service['props']['doc']:null);
+  public setServiceRef(service: ServiceEntityReference) {
+    this.doc.set('service', service ? service['props']['doc'] : null);
   }
 
+  get title() {
+    return this.doc.title;
+  }
+  set title(title) {
+    this.doc.title = title;
+  }
 
-  get title() {return this.doc.title;}
-  set title(title) {this.doc.title = title;}
+  get description() {
+    return this.doc.description;
+  }
+  set description(description) {
+    this.doc.description = description;
+  }
 
-  get description() {return this.doc.description;}
-  set description(description) {this.doc.description = description;}
+  get status() {
+    return this.doc.status;
+  }
+  set status(status) {
+    this.doc.status = status;
+  }
 
-  get status() {return this.doc.status;}
-  set status(status) {this.doc.status = status;}
+  get priority() {
+    return this.doc.priority;
+  }
+  set priority(priority) {
+    this.doc.priority = priority;
+  }
 
-  get priority() {return this.doc.priority;}
-  set priority(priority) {this.doc.priority = priority;}
+  get activityLog() {
+    return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter);
+  }
 
-  get activityLog() {return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter) }
-
-  get photos() {return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter) }
+  get photos() {
+    return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter);
+  }
 
   get hash() {
     return this.doc.hash;
@@ -100,34 +129,55 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
   }
 }
 
-
 export class ActivityDetailDomainAdapter implements ActivityDetailProps {
   constructor(public readonly props: ActivityDetail) {}
-  public get id(): string { return this.props.id.valueOf() as string; }
-
-  get activityType() {return this.props.activityType;}
-  set activityType(activityType) {this.props.activityType = activityType;}
-
-  get activityDescription() {return this.props.activityDescription;}
-  set activityDescription(description) {this.props.activityDescription = description;}
-
-  get activityBy(){
-    if(this.props.activityBy) { return new MemberDomainAdapter(this.props.activityBy);}
+  public get id(): string {
+    return this.props.id.valueOf() as string;
   }
-  public setActivityByRef (activityBy: MemberEntityReference) {
+
+  get activityType() {
+    return this.props.activityType;
+  }
+  set activityType(activityType) {
+    this.props.activityType = activityType;
+  }
+
+  get activityDescription() {
+    return this.props.activityDescription;
+  }
+  set activityDescription(description) {
+    this.props.activityDescription = description;
+  }
+
+  get activityBy() {
+    if (this.props.activityBy) {
+      return new MemberDomainAdapter(this.props.activityBy);
+    }
+  }
+  public setActivityByRef(activityBy: MemberEntityReference) {
     this.props.set('activityBy', activityBy['props']['doc']);
   }
 }
 
 export class PhotoDomainAdapter implements PhotoProps {
   constructor(public readonly props: Photo) {}
-  public get id(): string { return this.props.id.valueOf() as string; }
+  public get id(): string {
+    return this.props.id.valueOf() as string;
+  }
 
-  get documentId() {return this.props.documentId;}
-  set documentId(documentId) {this.props.documentId = documentId;}
+  get documentId() {
+    return this.props.documentId;
+  }
+  set documentId(documentId) {
+    this.props.documentId = documentId;
+  }
 
-  get description() {return this.props.description;}
-  set description(description) {this.props.description = description;}
+  get description() {
+    return this.props.description;
+  }
+  set description(description) {
+    this.props.description = description;
+  }
 
   getNewDocumentId(): string {
     return nanoid();

@@ -1,22 +1,25 @@
 function EmbedReactBuild() {
-    this.url;
-    this.dependencies;
+    this.url = '';
+    this.dependencies = [];
 
     this.setURL = function(url) {
         this.url = url;
     }
 
     this.setDependencies = function(dep) {
-        this.dependencies = dep;
-
+        this.dependencies.push(...dep);
         return dep;
     }
 
     this._fetchDependencies = function() {
         return fetch(this.url + '.vite/manifest.json')
             .then(res => res.json())
-            .then(res => res.entrypoints.map(e => Object.values(res.files).find(f => f.search(e) > 0)))
-            .then(dep => this.setDependencies(dep))
+            .then(res => {
+                this.setDependencies([res['index.html'].file]);
+                this.setDependencies(res['index.html'].css);
+                }
+            )
+
     }
 
     this._injectDependencies = function() {
@@ -25,17 +28,20 @@ function EmbedReactBuild() {
             const ext = dep.split(".").slice(-1)[0];
 
             switch(ext) {
-                case 'css':
+                case 'css': {
                     let link = document.createElement('link');
                     link.rel = "stylesheet";
-                    link.href =  dep;
+                    link.href =  url + dep;
                     document.head.appendChild(link);
-                break;
-                case 'js':
+                    break;
+                }
+                case 'js': {
                     let script = document.createElement('script');
-                    script.src =  dep;
+                    script.src =  url + dep;
+                    script.type = "module";
                     document.body.appendChild(script);
-                break;
+                    break;
+                }
                 default:
             }
         })

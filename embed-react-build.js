@@ -13,7 +13,7 @@ function EmbedReactBuild() {
     }
 
     this._fetchDependencies = function() {
-        return fetch(this.url + 'asset-manifest.json')
+        return fetch(this.url + '.vite/manifest.json')
             .then(res => res.json())
             .then(res => res.entrypoints.map(e => Object.values(res.files).find(f => f.search(e) > 0)))
             .then(dep => this.setDependencies(dep))

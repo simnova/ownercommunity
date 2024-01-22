@@ -48,7 +48,7 @@ export const PropertiesListSearchListingCards: React.FC<ListingCardsProps> = (pr
             <div className="mt-4 flex justify-between">
               <div>
                 <h3 className="text-sm my-0 text-gray-700">
-                  <a onClick={() => navigate(`../../listings/${property.id}`)}>
+                  <a onClick={() => navigate(`../listings/${property.id}`)}>
                     <span aria-hidden="true" className="absolute inset-0" />
                     {property.name}
                   </a>

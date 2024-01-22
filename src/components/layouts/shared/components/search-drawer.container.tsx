@@ -11,9 +11,9 @@ import {
     SearchDrawerContainerCustomViewsDocument,
     SearchDrawerContainerCustomViewsUpdateDocument
 } from '../../../../generated';
-import { PropertiesListSearchFilters } from '../../members/components/properties-list-search-filters';
 import { ServiceTicketsSearchFilters } from '../../members/components/service-tickets-search-filters';
 import { SearchToolbar } from './search-toolbar';
+import PropertiesListSearchFilters from '../../members/components/properties-list-search-filters';
 
 interface SearchDrawerContainerProps {
   type: SearchType;

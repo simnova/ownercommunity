@@ -32,7 +32,6 @@ export type PropertiesDetailContainerPropTypes = PropTypes.InferProps<typeof Com
 
 export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTypes> = (props) => {
   const navigate = useNavigate();
-  // const appInsights = useAppInsightsContext();
   const [updateProperty] = useMutation(SharedPropertiesDetailContainerPropertyUpdateDocument);
   const [deleteProperty] = useMutation(SharedPropertiesDetailContainerPropertyDeleteDocument, {
     update(cache, { data }) {
@@ -83,18 +82,14 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
       //.properties.context.telemetryTrace.traceID = ApplicationInsights.Telemetry.Util.generateW3CId().
       //appInsights.trackPageView({name: 'PropertiesDetail-SavePageView', uri: window.location.href + "/save-property"});
 
-      // appInsights.trackTrace({message: 'PropertiesDetail-SaveTrace'});
       await updateProperty({
         variables: {
           input: values
         }
       });
-      // appInsights.trackEvent({name: 'PropertiesDetail-SaveEvent', properties: {success: true}});
       message.success('Saved');
-      // appInsights.getAppInsights().stopTrackPage('PropertiesDetail-SavePageView', window.location.href + "/save-property");
     } catch (error) {
       message.error(`Error updating Property: ${JSON.stringify(error)}`);
-      // appInsights.trackException({exception:error} as IExceptionTelemetry,{propertyId: values.id});
     }
   };
   const handleDelete = async () => {

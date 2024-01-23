@@ -1,9 +1,6 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 
-import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin } from './components/shared/azure-monitor';
-
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.less';
@@ -19,47 +16,42 @@ import { CachePurgeProvider } from './contexts/CachePurgeContext';
 import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
 function ConfigProviderWrapper() {
-  
-
-  const {
-    currentTokens
-  }=useContext(ThemeContext)
+  const { currentTokens } = useContext(ThemeContext);
   return (
-    <ConfigProvider theme={{
-      token: {
-        ...currentTokens.token,
-        colorBgBase: currentTokens.hardCodedTokens.backgroundColor,
-        colorTextBase: currentTokens.hardCodedTokens.textColor
-      }
-    }}>
-      
+    <ConfigProvider
+      theme={{
+        token: {
+          ...currentTokens.token,
+          colorBgBase: currentTokens.hardCodedTokens.backgroundColor,
+          colorTextBase: currentTokens.hardCodedTokens.textColor
+        }
+      }}
+    >
       {/* <StyleProvider hashPriority="high"> */}
-      
-        <MsalProvider config={msalProviderConfig}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </MsalProvider>
+
+      <MsalProvider config={msalProviderConfig}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </MsalProvider>
       {/* </StyleProvider> */}
     </ConfigProvider>
   );
 }
 
-
-
 ReactDOM.render(
   <React.StrictMode>
-    <AppInsightsContext.Provider value={reactPlugin}>
-      <FeatureFlagProvider config={featureFlagConfig}>
-        <MaintenanceMessageProvider>
-          <CachePurgeProvider>
-            <ThemeProvider>
-              <ConfigProviderWrapper />
-            </ThemeProvider>
-          </CachePurgeProvider>
-        </MaintenanceMessageProvider>
-      </FeatureFlagProvider>
-    </AppInsightsContext.Provider>
+    {/* <AppInsightsContext.Provider value={reactPlugin}> */}
+    <FeatureFlagProvider config={featureFlagConfig}>
+      <MaintenanceMessageProvider>
+        <CachePurgeProvider>
+          <ThemeProvider>
+            <ConfigProviderWrapper />
+          </ThemeProvider>
+        </CachePurgeProvider>
+      </MaintenanceMessageProvider>
+    </FeatureFlagProvider>
+    {/* </AppInsightsContext.Provider> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

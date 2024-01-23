@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 
+import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin } from './components/shared/azure-monitor';
+
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.less';
@@ -41,17 +44,17 @@ function ConfigProviderWrapper() {
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <AppInsightsContext.Provider value={reactPlugin}> */}
-    <FeatureFlagProvider config={featureFlagConfig}>
-      <MaintenanceMessageProvider>
-        <CachePurgeProvider>
-          <ThemeProvider>
-            <ConfigProviderWrapper />
-          </ThemeProvider>
-        </CachePurgeProvider>
-      </MaintenanceMessageProvider>
-    </FeatureFlagProvider>
-    {/* </AppInsightsContext.Provider> */}
+    <AppInsightsContext.Provider value={reactPlugin}>
+      <FeatureFlagProvider config={featureFlagConfig}>
+        <MaintenanceMessageProvider>
+          <CachePurgeProvider>
+            <ThemeProvider>
+              <ConfigProviderWrapper />
+            </ThemeProvider>
+          </CachePurgeProvider>
+        </MaintenanceMessageProvider>
+      </FeatureFlagProvider>
+    </AppInsightsContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -38,7 +38,9 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
     const response = await axios.get(url, config);
     const data = response.data;
     console.log('Checking version', data.version, cachedVersion);
-    if (cachedVersion && data.version !== cachedVersion) {
+    //check to see if both cached version and data.version are defined and not null
+
+    if (   (cachedVersion && data.version) && (data.version !== cachedVersion)) {
       localStorage.setItem('cachedVersion', data.version);
       window.location.reload();
     }

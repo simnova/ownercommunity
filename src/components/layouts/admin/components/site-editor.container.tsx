@@ -1,7 +1,8 @@
 import { useMutation } from "@apollo/client";
 import React from "react";
 import { AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocument } from "../../../../generated";
-import { AuthResult, SiteEditor } from "./site-editor";
+import { SiteEditor } from "./site-editor";
+import { AuthResult } from "../../../ui/molecules/azure-upload";
 
 export interface SiteEditorContainerProps {
   data :{
@@ -22,7 +23,7 @@ export const SiteEditorContainer: React.FC<SiteEditorContainerProps> = (props) =
         }
       }
     });
-    return result.data?(({...result.data.communityPublicContentCreateAuthHeader.authHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
+    return result.data?(({authHeader: result.data.communityPublicContentCreateAuthHeader.authHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
   }
 
   return (

@@ -105,6 +105,7 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
   };
 
   const customizeUpload = async (option: any) => {
+    console.log('AzureUpload customizeUpload');
     //   const result =  await props.authorizeRequest(option.file) as AuthResult;
     if (authResultRef.current && authResultRef.current.isAuthorized) {
       const { authHeader } = authResultRef.current;
@@ -116,20 +117,23 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
 
         let indexTagsHeaders: any = getIndexTagsHeaders(authHeader.indexTags);
 
+        const headers = {
+          ...option.headers,
+          ...metadataHeaders,
+          ...indexTagsHeaders,
+          Authorization: authHeader.authHeader,
+          'x-ms-blob-type': 'BlockBlob',
+          'x-ms-version': '2021-04-10',
+          'x-ms-date': authHeader.requestDate,
+          'Content-Type': option.file.type
+        }
+        console.log('headers',JSON.stringify(headers));
+
         let response = await axios.request({
           method: 'put',
           url: authHeader.blobPath,
           data: new Blob([option.file], { type: option.file.type }),
-          headers: {
-            ...option.headers,
-            ...metadataHeaders,
-            ...indexTagsHeaders,
-            Authorization: authHeader.authHeader,
-            'x-ms-blob-type': 'BlockBlob',
-            'x-ms-version': '2021-04-10',
-            'x-ms-date': authHeader.requestDate,
-            'Content-Type': option.file.type
-          },
+          headers: headers,
           onUploadProgress: (progressEvent) => {
             if (progressEvent !== undefined && progressEvent.total !== undefined && progressEvent.loaded !== undefined) {
               const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);

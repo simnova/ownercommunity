@@ -22,7 +22,7 @@ export const Home: React.FC<any> = () => {
     }>
       Your Community
     </Title>}>
-      <Title level={3}>Welcome ot Owner Community</Title>
+      <Title level={3}>Welcome to Owner Community</Title>
       To join a community, you must provide the community manager with the following:
       <br />
       <br />

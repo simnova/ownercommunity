@@ -52,14 +52,14 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (text: any, record: FileInfo) =>
         text ? (
-          <a
+          <Button type="link"
             onClick={() => {
               setSelectedFile(record);
               setShowModal(true);
             }}
           >
             {text.substring(text.indexOf('/') + 1)}
-          </a>
+          </Button>
         ) : (
           <span>n/a</span>
         )

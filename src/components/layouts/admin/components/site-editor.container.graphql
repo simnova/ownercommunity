@@ -3,6 +3,7 @@ mutation AdminSiteEditorContainerCommunityPublicContentCreateAuthHeader($input: 
     authHeader {
       authHeader
       blobPath
+      blobName
       requestDate
       indexTags {
         name

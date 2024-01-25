@@ -147,9 +147,8 @@ const SiteEditorPageTree: React.FC = () => {
   };
 
   const addNewTree = () => {
-    setTreeData([
-      { title: 'Home', children: [] },
-    ])
+
+    setTreeData([{parent: "ROOT", id: 10, title: 'Home', path: '/', expanded: true, pageType:"Blank", children: [] }]);
   };
 
   return (
@@ -192,7 +191,7 @@ const SiteEditorPageTree: React.FC = () => {
               <Title level={5}>Pages</Title>
               Organize the pages on your site
             </div>
-            <div className="float-right">
+            <div style={{width:"100%", textAlign:"center"}}>
               <Button
                 type="primary"
                 onClick={() => {
@@ -205,6 +204,9 @@ const SiteEditorPageTree: React.FC = () => {
                 Save
               </Button>
             </div>
+            {/* <div className="float-right">
+              
+            </div> */}
           </Col>
         </Row>
         <Row style={{ display: 'flex', flexGrow: 1 }}>

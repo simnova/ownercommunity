@@ -22,7 +22,7 @@ const SiteEditorPageEditor: React.FC<any> = () => {
     }
   }=theme.useToken()
   const [showToolbox, setShowToolbox] = useState(false);
-
+  
   return (
     <>
       <Editor resolver={{ ...CmsComponents }} onRender={ComponentWrapper}>

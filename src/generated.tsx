@@ -2814,6 +2814,7 @@ export type AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutati
       __typename?: 'BlobAuthHeader';
       authHeader?: string | null;
       blobPath?: string | null;
+      blobName?: string | null;
       requestDate?: string | null;
       indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
       metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
@@ -12260,6 +12261,7 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobName' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
                       {
                         kind: 'Field',

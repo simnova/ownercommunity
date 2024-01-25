@@ -32,6 +32,7 @@ export const EditorDetail = () => {
   const { query } = useEditor();
 
   const save = () => {
+    console.log("save editor detail");
     const json = query.serialize();
     pageLayouts.find((item: any) => item.id === selectedPage)!.layout = json;
     setPageLayouts(pageLayouts);
@@ -42,7 +43,8 @@ export const EditorDetail = () => {
   }
 
   const formatAntTreeData = (data: any) => {  
-    return data.map((item: any) => ({
+    if (!data) return undefined;
+    return data?.map((item: any) => ({
         title: item.title,
         value: item.id,
         id: item.id,
@@ -50,6 +52,7 @@ export const EditorDetail = () => {
     );
   } 
 
+  console.log(pageLayouts)
   return (
     <div style={{display:"flex",flex:'1', flexDirection:'column', alignItems:'stretch'}}>
       <div style={{overflow:'scroll'}}>
@@ -58,6 +61,7 @@ export const EditorDetail = () => {
           treeData={formatAntTreeData(pageLayouts)}
           treeDataSimpleMode={true}
           onChange={(value: any) => {
+            console.log(value);
             var node = pageLayouts.find((item: any) => item.id === value);
             let pageLayout = undefined;
             let parsedJson = "";

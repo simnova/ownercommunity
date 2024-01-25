@@ -8,6 +8,7 @@ const { Title } = Typography;
 
 const SiteEditorFiles: React.FC = (_props) => {
   const params = useParams();
+  
   return <>
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow:1 }}>
       <Row>

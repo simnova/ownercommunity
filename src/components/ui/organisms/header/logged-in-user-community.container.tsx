@@ -2,16 +2,16 @@ import { useQuery } from '@apollo/client';
 import { LoggedInUserCommunityContainerUserCurrentQueryDocument } from '../../../../generated';
 
 import { useParams } from 'react-router-dom';
-import { useMsal } from '../../../shared/msal-react-lite';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
+import { useAuth } from 'react-oidc-context';
 
 interface HeaderPropTypes {
   autoLogin: boolean;
 }
 
 export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
-  const { logout } = useMsal();
+  const auth = useAuth();
   const params = useParams();
 
   const { loading, error, data } = useQuery(LoggedInUserCommunityContainerUserCurrentQueryDocument, {
@@ -21,9 +21,9 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   });
 
   const handleLogout = async () => {
-    await logout('account');
+    auth.removeUser()
+    auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
   };
-
 
   const LoggedInCommunityContainer = () => {
     const userData: LoggedInUserPropTypes = {

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { LoggedInUserRootContainerUserCurrentQueryDocument } from '../../../../generated';
 
 import { LocalSettingsKeys } from '../../../../constants';
-import { useMsal } from '../../../shared/msal-react-lite';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
+import { useAuth } from 'react-oidc-context';
 
 const ComponentProps = {
   autoLogin: PropTypes.bool
@@ -19,12 +19,13 @@ interface ComponentPropInterface {
 export type HeaderPropTypes = PropTypes.InferProps<typeof ComponentProps> & ComponentPropInterface;
 
 export const LoggedInUserRootContainer: React.FC<HeaderPropTypes> = () => {
-  const { logout } = useMsal();
+  const auth = useAuth();
 
   const { loading, error, data } = useQuery(LoggedInUserRootContainerUserCurrentQueryDocument);
 
   const handleLogout = async () => {
-    await logout('account');
+    auth.removeUser();
+    auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
   };
 
   const LoggedInRootContainer = () => {

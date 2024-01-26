@@ -6,7 +6,7 @@ export const SectionLayout: React.FC<any> = (_props) => {
   const [pageLayouts] = usePageLayouts();
   return (
     <>
-      {pageLayouts?.[0]['loaded'] !== false ? (
+      {pageLayouts && pageLayouts[0]['loaded'] !== false ? (
         <div>
           <Header />
           <CmsPage />

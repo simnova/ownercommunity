@@ -11,7 +11,7 @@ import {
 
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from '@apollo/client/link/context';
-import { useMsal } from './msal-react-lite';
+import { useAuth } from 'react-oidc-context';
 
 
 export interface AuthProps {
@@ -19,17 +19,16 @@ export interface AuthProps {
 }
 
 const ApolloConnection: FC<any> = (props) => {
-
-  const { getSilentAuthResult, getIsLoggedIn } = useMsal();
+  const auth = useAuth()
 
   const hasAuth = props.AuthenticationIdentifier !== null && typeof props.AuthenticationIdentifier !== "undefined";
   
   const withToken = setContext(async (_, { headers }) => {
     if(hasAuth){
-      const token = await getSilentAuthResult(props.AuthenticationIdentifier);
-      console.log('auth-token',token);
+      const access_token = auth.user?.access_token;
+      console.log('auth-token',access_token);
       var returnHeaders = {...headers};
-      if(token && token.accessToken){ returnHeaders['Authorization'] = `Bearer ${token.accessToken}`; }
+      if(access_token){ returnHeaders['Authorization'] = `Bearer ${access_token}`; }
       if(localStorage.getItem('community') !== null){ returnHeaders['community'] = localStorage.getItem('community')?.replaceAll('"',''); }
       console.log('returnHeaders',returnHeaders);
       return {headers: returnHeaders};
@@ -77,7 +76,7 @@ const ApolloConnection: FC<any> = (props) => {
 
   useEffect(() => {
     const updateCache = async():Promise<void> => {
-      if(hasAuth && client && !getIsLoggedIn(props.AuthenticationIdentifier)){ 
+      if(hasAuth && client && !auth.isAuthenticated){ 
         try{  // will throw exception if not connected
           await client.resetStore(); //clear Apollo cache when user logs off
         } catch(err){
@@ -88,7 +87,7 @@ const ApolloConnection: FC<any> = (props) => {
       }
     }
     updateCache().catch(e => console.error(e));
-  }, [getIsLoggedIn,hasAuth, props.AuthenticationIdentifier,client]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [auth.isAuthenticated,hasAuth, props.AuthenticationIdentifier,client]); // eslint-disable-line react-hooks/exhaustive-deps
   
   return <ApolloProvider client={client}>{props.children}</ApolloProvider>;
 };

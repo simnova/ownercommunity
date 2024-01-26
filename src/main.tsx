@@ -10,11 +10,11 @@ import './index.less';
 import reportWebVitals from './reportWebVitals';
 
 import { ConfigProvider } from 'antd';
+import { AuthProvider } from 'react-oidc-context';
 import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
-import MsalProvider from './components/shared/msal-react-lite';
 import featureFlagConfig from './config/feature-flag-config';
-import msalProviderConfig from './config/msal-config';
+import { oidcConfig } from './config/odic-config';
 import { CachePurgeProvider } from './contexts/CachePurgeContext';
 import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
@@ -30,14 +30,11 @@ function ConfigProviderWrapper() {
         }
       }}
     >
-      {/* <StyleProvider hashPriority="high"> */}
-
-      <MsalProvider config={msalProviderConfig}>
+      <AuthProvider {...oidcConfig}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </MsalProvider>
-      {/* </StyleProvider> */}
+      </AuthProvider>
     </ConfigProvider>
   );
 }

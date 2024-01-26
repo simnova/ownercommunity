@@ -1,19 +1,18 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ApolloConnection from './components/shared/apollo-connection';
-import RequireMsal from './components/shared/require-msal';
-
 import { Accounts } from './components/layouts/accounts';
 import { Admin } from './components/layouts/admin';
 import { Members } from './components/layouts/members';
 import { Root } from './components/layouts/root';
 import { AuthLanding } from './components/shared/auth-landing';
+import RequireAuth from './components/shared/require-auth';
 
 function App() {
   const authSection = (
-    <RequireMsal identifier="account" forceLogin={true}>
+    <RequireAuth redirectPath="/" forceLogin={true}>
       <AuthLanding />
-    </RequireMsal>
+    </RequireAuth>
   );
 
   const rootSection = (
@@ -23,7 +22,7 @@ function App() {
   );
 
   const communitySection = (
-    <RequireMsal identifier="account">
+    <RequireAuth redirectPath="/" forceLogin={false}>
       <ApolloConnection AuthenticationIdentifier="account">
         <Routes>
           <Route path="/accounts/*" element={<Accounts />} />
@@ -31,17 +30,15 @@ function App() {
           <Route path="/:communityId/member/:userId/*" element={<Members />} />
         </Routes>
       </ApolloConnection>
-    </RequireMsal>
+    </RequireAuth>
   );
 
   return (
-    <>
-      <Routes>
-        <Route path="*" element={rootSection}></Route>
-        <Route path="/community/*" element={communitySection} />
-        <Route path="/login" element={authSection} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="*" element={rootSection}></Route>
+      <Route path="/community/*" element={communitySection} />
+      <Route path="/login" element={authSection} />
+    </Routes>
   );
 }
 

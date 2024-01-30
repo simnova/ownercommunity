@@ -13,8 +13,27 @@ export const usePages = createLocalStorageStateHook('pages',
   ]
 )
 
+ export interface LoadedPageLayout {
+  id: string;
+  title: string;
+  pageType: string;
+  path: string;
+  expanded: boolean;
+  children: LoadedPageLayout[];
+  layout: any;
+}
+interface UnloadedPageLayout {
+  loaded: boolean;
+}
+export type PageLayouts = [LoadedPageLayout]|[UnloadedPageLayout];
 
-export const usePageLayouts = createLocalStorageStateHook<[any]>('pageLayouts',[{loaded:false}]);
+export const arePageLayoutsLoaded = (pageLayouts: PageLayouts): pageLayouts is [LoadedPageLayout] => {
+  return pageLayouts !== undefined && pageLayouts.length > 0 && (pageLayouts[0] as LoadedPageLayout).id !== undefined;
+}
+
+
+
+export const usePageLayouts = createLocalStorageStateHook<PageLayouts>('pageLayouts',[{loaded:false}]);
 
 export const mockPropertyData = {
   property: {

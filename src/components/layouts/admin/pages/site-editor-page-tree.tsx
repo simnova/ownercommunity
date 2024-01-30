@@ -1,4 +1,4 @@
-import SortableTree, {
+import {
   addNodeUnderParent,
   changeNodeAtPath,
   getFlatDataFromTree,
@@ -116,7 +116,7 @@ const SiteEditorPageTree: React.FC = () => {
     }
   };
 
-  const onClickPage = (page2: any, path: any) => {
+  const onClickPage = ( path: any) => {
     const page = getNodeAtPath({ treeData: treeData, path: path, getNodeKey: keyFromTreeIndex })?.node;
     if (page) {
       page.invalidPageNames = getSiblingPageNames(page, path);

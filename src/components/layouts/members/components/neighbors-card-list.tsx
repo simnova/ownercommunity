@@ -28,7 +28,7 @@ export const NeighborsCardList: React.FC<CardListProps> = (props) => {
         if (loading) {
             return <div>Loading...</div>;
         } else if (error) {
-            return <div>Error! {error}</div>;
+            return <div>Error! {JSON.stringify(error)}</div>;
         } else {
             return (
                 <div style={{ display: 'flex' }}>

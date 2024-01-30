@@ -75,7 +75,7 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
         { text: '2 MB - 5 MB', value: '3' },
         { text: '>  5 MB', value: '4' }
       ],
-      onFilter: (value: string | number | boolean, record: FileInfo) => {
+      onFilter: (value: boolean | React.Key, record: FileInfo) => {
         switch (value) {
           case '1':
             return record.size < 1 * 1024 * 1024;
@@ -102,7 +102,7 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
         { text: 'PDFs', value: 'PDF' },
         { text: 'Files', value: 'FILE' }
       ],
-      onFilter: (value: string | number | boolean, record: FileInfo) => {
+      onFilter: (value: boolean | React.Key, record: FileInfo) => {
         switch (value) {
           case 'IMAGE':
             return record.type.startsWith('image/');

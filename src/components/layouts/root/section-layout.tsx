@@ -1,19 +1,18 @@
-import { usePageLayouts } from '../../editor/local-data';
+import { arePageLayoutsLoaded, usePageLayouts } from '../../editor/local-data';
 import CmsPage from './cms-page';
 import { Header } from './components/header';
 
-export const SectionLayout: React.FC<any> = (_props) => {
+export const SectionLayout: React.FC<any> = () => {
   const [pageLayouts] = usePageLayouts();
+
+  if(!arePageLayoutsLoaded(pageLayouts)) {
+    return <div>Site not found</div>
+  }
+
   return (
-    <>
-      {pageLayouts && pageLayouts[0]['loaded'] !== false ? (
-        <div>
-          <Header />
-          <CmsPage />
-        </div>
-      ) : (
-        <div>Site not found</div>
-      )}
-    </>
+    <div>
+      <Header />
+      <CmsPage />
+    </div>
   );
 };

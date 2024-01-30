@@ -117,5 +117,8 @@
     "vite": "^5.0.8",
     "vitest": "^1.2.2",
     "webpack": "^5.89.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.9.6"
   }
 }

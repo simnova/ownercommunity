@@ -10,7 +10,7 @@ import RequireAuth from './components/shared/require-auth';
 
 function App() {
   const authSection = (
-    <RequireAuth redirectPath="/" forceLogin={true}>
+    <RequireAuth  forceLogin={true}>
       <AuthLanding />
     </RequireAuth>
   );
@@ -22,7 +22,7 @@ function App() {
   );
 
   const communitySection = (
-    <RequireAuth redirectPath="/" forceLogin={false}>
+    <RequireAuth forceLogin={false}>
       <ApolloConnection AuthenticationIdentifier="account">
         <Routes>
           <Route path="/accounts/*" element={<Accounts />} />

@@ -7,12 +7,14 @@ const { Header, Content, Footer } = Layout;
 
 const ComponentPropTypes = {
   header: PropTypes.object.isRequired,
-  fixedHeader: PropTypes.bool
+  fixedHeader: PropTypes.bool,
+  children: PropTypes.node
 };
 
 interface ComponentPropInterface {
   header: React.JSX.Element;
   fixedHeader?: boolean;
+  children?: React.ReactNode;
 }
 
 export type SubPageLayoutPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;

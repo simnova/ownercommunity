@@ -1,7 +1,7 @@
 import { useEditor, useNode } from "@craftjs/core";
 import { Breadcrumb, Form, Input, theme } from "antd";
 import { Link, useLocation } from 'react-router-dom';
-import { usePageLayouts } from "../local-data";
+import { arePageLayoutsLoaded, usePageLayouts } from "../local-data";
 
 interface TextProp {
   separator: string;
@@ -25,13 +25,16 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
   }));
   console.log('xxx',pageLayouts);
   const location = useLocation();
-  if(!pageLayouts || typeof pageLayouts === 'undefined') return <div>Loading...</div>
+  if(!arePageLayoutsLoaded(pageLayouts)){
+    return <div>Loading...</div>
+  }
+
   const pathSnippets = location.pathname.split('/').filter(i => i);
   const parentPage = pathSnippets.length > 1 ? pageLayouts.find((x:any) => x.path === '/' + pathSnippets[pathSnippets.length-2]) as any : '';
   const listingPagePath = parentPage?.pageType === 'Listing' ? pageLayouts.find((x:any) => x.id === parentPage?.id)?.path : '';
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-    if (listingPagePath !== '' && url.slice(listingPagePath.length).length > 0) {
+    if (listingPagePath && listingPagePath !== '' && url.slice(listingPagePath.length).length > 0) {
       const pageTitle = pageLayouts.find((x:any) => x.parent === parentPage.id)?.title as any;
       return (
         <Breadcrumb.Item key={url}>

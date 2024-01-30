@@ -4,10 +4,7 @@ import { Container } from "./container";
 import { TextComponent } from "./text-component";
 import { TextThing } from "./text-thing";
 
-interface CardGrop {
-    bgColor: string;
-    padding: number;
-}
+
 
 const CardTop = (props: any) => {
     
@@ -29,7 +26,7 @@ CardTop.craft = {
 
 let Card: any;
 
-Card = ({ bgColor, padding, ...props }: CardGrop) => {
+Card = () => {
     const {
         token: { colorTextBase, colorBgContainer }
       }=theme.useToken();

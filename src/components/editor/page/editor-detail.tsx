@@ -1,7 +1,7 @@
 import { Element, Frame, SerializedNodes, useEditor } from '@craftjs/core';
 import { useState } from 'react';
 import { Container } from '../components/container';
-import { usePageLayouts } from '../local-data';
+import { arePageLayoutsLoaded, usePageLayouts } from '../local-data';
 
 import { Button, Empty, TreeSelect, notification, theme } from 'antd';
 
@@ -17,6 +17,7 @@ import { TextThing } from '../components/text-thing';
 
 
 export const EditorDetail = () => {
+  const [pageLayouts, setPageLayouts] = usePageLayouts();
   const {
     token: {
       colorTextBase
@@ -26,10 +27,13 @@ export const EditorDetail = () => {
   const [selectedPageIsListing, setSelectedPageIsListing] = useState<boolean>(false);
   const [selectedPageIsDetails, setSelectedPageIsDetails] = useState<boolean>(false);
   const [editorJson, setEditorJson] = useState<string | SerializedNodes | undefined>(undefined);
-  const [, setJson] = useState("");
+ // const [json, setJson] = useState<string>("");
   const [mobileView, setMobileView] = useState(false);
-  const [pageLayouts, setPageLayouts] = usePageLayouts();
   const { query } = useEditor();
+
+  if(!arePageLayoutsLoaded(pageLayouts)) {
+    return(<div>Loading...</div>);
+  }
 
   const save = () => {
     console.log("save editor detail");
@@ -53,7 +57,10 @@ export const EditorDetail = () => {
   } 
 
   console.log(pageLayouts)
-  return (
+  
+
+
+    return(
     <div style={{display:"flex",flex:'1', flexDirection:'column', alignItems:'stretch'}}>
       <div style={{overflow:'scroll'}}>
         <TreeSelect 
@@ -62,11 +69,11 @@ export const EditorDetail = () => {
           treeDataSimpleMode={true}
           onChange={(value: any) => {
             console.log(value);
-            var node = pageLayouts.find((item: any) => item.id === value);
+            const node = pageLayouts.find((item: any) => item.id === value);
             let pageLayout = undefined;
             let parsedJson = "";
 
-            if(node && node.layout) {
+            if (node?.layout) {
               pageLayout =  JSON.parse(JSON.stringify(pageLayouts.find((item: any) => item.id === value)?.layout)) ?? undefined;
               // console.log(pageLayout);
               parsedJson = JSON.stringify(pageLayout);
@@ -79,7 +86,7 @@ export const EditorDetail = () => {
             setSelectedPage(value);
             console.log(selectedPage)
             setEditorJson(pageLayout);
-            setJson(parsedJson);
+        //    setJson(parsedJson);
           }}
         />
         <Button size="small" onClick={() => save()}>Save</Button>
@@ -137,5 +144,6 @@ export const EditorDetail = () => {
         }
       </div>
     </div>
-  )
+    );
+  
 }

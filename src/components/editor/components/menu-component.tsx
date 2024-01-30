@@ -1,9 +1,8 @@
-import { useNode } from "@craftjs/core";
-import { Form, Input, theme as antdTheme } from "antd";
+import { useNode } from '@craftjs/core';
+import { Form, Input, theme as antdTheme, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { usePageLayouts } from "../local-data";
+import { arePageLayoutsLoaded, usePageLayouts } from "../local-data";
 
-import { Menu } from 'antd';
 
 const { SubMenu } = Menu;
 
@@ -25,8 +24,11 @@ MenuComponent = ({ theme, ...props } : TextProp) => {
     }
   ));
 
+  if(!arePageLayoutsLoaded(pageLayouts)) { return; }
+
 
   const buildMenu = (parentId:string) => {
+   
     const children = pageLayouts.filter((x:any) => x.parent === parentId);
     if(!children) { return; }
     return children.map((x:any) => {
@@ -81,7 +83,7 @@ MenuComponent = ({ theme, ...props } : TextProp) => {
 }
 
 
-var MenuComponentSettings = () => {
+const MenuComponentSettings = () => {
   const { actions: { setProp}, separator  } = useNode((node) => ({  
     separator: node.data.props.separator
   }));

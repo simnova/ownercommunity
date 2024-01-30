@@ -3,6 +3,7 @@ import { usePageLayouts } from '../editor/local-data';
 
 export interface BlobToLocalStorageProps {
   communityId?: string;
+  children: React.ReactNode;
 }
 
 export const BlobToLocalStorage: React.FC<BlobToLocalStorageProps> = (props) => {

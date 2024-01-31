@@ -1,5 +1,3 @@
-import appInsights from 'applicationinsights'; // Must be FIRST import
-
 import { AzureFunction, Context } from '@azure/functions';
 import api, { propagation, trace } from '@opentelemetry/api';
 import { W3CTraceContextPropagator } from '@opentelemetry/core';
@@ -44,15 +42,5 @@ export const wrapFunctionHandler = (originalFunctionHandler: AzureFunction) => {
       span.end();
       throw err;
     }
-
-    console.log(`Context With Parent:`, activeContext);
-
-    //output headers
-    console.log('Headers: ', context.req.headers);
-    console.log('HeaderInfo: ', headerInfo);
-
-    //wc3Propagator.inject(api.context.active(),context.res.headers,defaultTextMapSetter);
   };
 };
-
-export const startup = () => appInsights;

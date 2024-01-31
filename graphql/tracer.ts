@@ -1,6 +1,7 @@
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from 'applicationinsights'; // Must be FIRST import
+import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from '@azure/monitor-opentelemetry'; // Must be FIRST import
 
 import { AzureMonitorLogExporter } from '@azure/monitor-opentelemetry-exporter';
+import { ProxyTracerProvider, trace } from '@opentelemetry/api';
 import { logs } from '@opentelemetry/api-logs';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { DataloaderInstrumentation } from '@opentelemetry/instrumentation-dataloader';
@@ -11,7 +12,7 @@ import { Resource } from '@opentelemetry/resources';
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { NodeTracerProvider } from '@opentelemetry/sdk-trace-node';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
-import { SpanFilterSampler, SpanEnrichingProcessor } from './otelFilter';
+import { SpanFilteringProcessor } from './otelFilter';
 
 if (!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIONINSIGHTS_CONNECTION_STRING.length === 0) {
   console.log('Application Insights not configured');
@@ -27,34 +28,21 @@ if (!process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || process.env.APPLICATIO
       connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
     },
     samplingRatio: 1,
-    enableAutoCollectExceptions: true,
-    enableAutoCollectPerformance: true,
-    // resource: customResource,  // Not required, but would be nice to get working again. Same as resource in LoggerProvider?
+    // resource: customResource,
   };
+
   useAzureMonitor(config);
 
   registerInstrumentations({
     instrumentations: [
       new HttpInstrumentation(),
       new MongoDBInstrumentation({ enhancedDatabaseReporting: true }),
-      new DataloaderInstrumentation()],
+      new DataloaderInstrumentation(),
+      new GraphQLInstrumentation({ allowValues: true, ignoreTrivialResolveSpans: true }),
+    ],
   });
 
-  registerInstrumentations({
-    instrumentations: [new GraphQLInstrumentation({ allowValues: true, ignoreTrivialResolveSpans: true })],
-    tracerProvider: new NodeTracerProvider({
-      sampler: new SpanFilterSampler(),
-    }),
-  });
-
-  ////////// Use this if the traceProvider in registerInstrumentations doesn't work //////////
-  // const traceProvider = new NodeTracerProvider({
-  //   sampler: new SpanFilterSampler(),
-  //   resource: customResource,
-  // });
-  // traceProvider.addSpanProcessor(new SpanEnrichingProcessor());
-  // traceProvider.register();
-  ////////////////////////////////////////////////////////////////////////////////////////////
+  ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider).addSpanProcessor(new SpanFilteringProcessor());
 
   // Setup Logger
   const loggerProvider = new LoggerProvider({

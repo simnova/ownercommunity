@@ -1,11 +1,15 @@
-import { useEditor } from "@craftjs/core";
-import { Button, notification } from "antd";
-import copy from "copy-to-clipboard";
-import { usePageLayouts } from "../local-data";
+import { useEditor } from '@craftjs/core';
+import { Button, notification } from 'antd';
+import copy from 'copy-to-clipboard';
+import { arePageLayoutsLoaded, usePageLayouts } from '../local-data';
 
 export const Download = () => {
   const [pageLayouts] = usePageLayouts();
   const { query } = useEditor();
+
+  if(!arePageLayoutsLoaded(pageLayouts)){
+    return null; //JSON.stringify(pageLayouts);
+  }
 
   const download = () => {
     const json = query.serialize();

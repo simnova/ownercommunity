@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, getByTestId, waitFor, getByText } from '@testing-library/react';
+import { render, getByTestId, waitFor } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { Download } from './download';

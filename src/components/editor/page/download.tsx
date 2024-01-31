@@ -1,6 +1,5 @@
 import { useEditor } from '@craftjs/core';
 import { Button, notification } from 'antd';
-import copy from 'copy-to-clipboard';
 import { arePageLayoutsLoaded, usePageLayouts } from '../local-data';
 
 export const Download = () => {

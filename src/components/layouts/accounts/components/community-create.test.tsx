@@ -1,7 +1,7 @@
 import { userEvent } from '@storybook/test';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
-import { CommunityCreate } from './community-create';
+import { render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import { CommunityCreate } from './community-create';
 
 describe('initially,', () => {
   it('should have Name input empty', () => {
@@ -36,7 +36,6 @@ describe('when input Name, then clear the input', () => {
     await act(async () => {
       await userEvent.type(nameInput, 'test');
       await userEvent.clear(nameInput);
-      
     });
 
     // need to put in await waitFor() to wait for the error to appear

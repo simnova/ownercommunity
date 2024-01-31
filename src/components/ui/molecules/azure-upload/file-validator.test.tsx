@@ -1,4 +1,3 @@
-import { render, screen } from '@testing-library/react';
 import { FileValidator } from './file-validator';
 import { RcFile } from 'antd/es/upload';
 

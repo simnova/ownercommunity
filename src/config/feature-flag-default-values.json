@@ -53,14 +53,14 @@
     {
       "Name": "MAINTENANCE_UPCOMING_UIPORTAL",
       "Description": "Flag to indicate if a maintenance activity is coming up on Applicant Portal",
-      "Value": "true",
+      "Value": "false",
       "AllowedValues": ["true", "false"],
       "RetirementDate": "12-05-2024"
     },
     {
       "Name": "TRY",
       "Description": "Flag to indicate if a maintenance activity is coming up on Applicant Portal",
-      "Value": "true",
+      "Value": "false",
       "AllowedValues": ["true", "false"],
       "RetirementDate": "12-05-2024"
     }

@@ -1,15 +1,8 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, getByTestId } from '@testing-library/react';
 import { Download } from './download';
 import { Editor } from '@craftjs/core';
 import * as LocalData from '../local-data';
-
-const getUnloadedPageLayouts:() => LocalData.PageLayouts = () =>  {
-  return [{loaded:false} as LocalData.UnloadedPageLayout] ; 
-} ;
-const getLoadedPageLayouts:() => LocalData.PageLayouts = () => {
-  return [{id:'123123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'xxx' } as LocalData.LoadedPageLayout];
-}
 
 describe('Given the Download component', () => {
 

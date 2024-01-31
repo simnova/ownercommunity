@@ -18,7 +18,10 @@ describe('initially, when the Name input is empty, click Create Community', () =
     const errorElement = screen.queryByText(/please input name!/i) as HTMLElement;
     expect(errorElement).not.toBeInTheDocument();
     const createButton = screen.getByText('Create Community');
-    await userEvent.click(createButton);
+    await act(async () => {
+      await userEvent.click(createButton);
+    });
+
     await waitFor(() => {
       const errorElement = screen.queryByText(/please input name!/i) as HTMLElement;
       expect(errorElement).toBeInTheDocument();

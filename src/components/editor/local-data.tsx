@@ -22,7 +22,7 @@ export const usePages = createLocalStorageStateHook('pages',
   children: LoadedPageLayout[];
   layout: any;
 }
-interface UnloadedPageLayout {
+export interface UnloadedPageLayout {
   loaded: boolean;
 }
 export type PageLayouts = [LoadedPageLayout]|[UnloadedPageLayout];

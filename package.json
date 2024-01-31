@@ -34,7 +34,7 @@
     "react-contenteditable": "^3.3.6",
     "react-dom": "^18.2.0",
     "react-oidc-context": "^2.3.1",
-    "react-router-dom": "^6.2.1",
+    "react-router-dom": "^6.21.3",
     "stream-browserify": "^3.0.0",
     "uniqid": "^5.4.0",
     "use-local-storage-state": "^13.0.0"

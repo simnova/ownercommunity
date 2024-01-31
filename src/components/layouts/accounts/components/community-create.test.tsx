@@ -26,8 +26,8 @@ describe('initially, when the Name input is empty, click Create Community', () =
   });
 });
 
-describe('when input Name, then clear the input', () => {
-  it('should have error Please input Name!', async () => {
+describe('when input some name, then clear the input', () => {
+  it("should have error 'Please input Name!'", async () => {
     render(<CommunityCreate />);
     // const user = userEvent.setup();
     const nameInput = screen.getByLabelText('Name') as HTMLInputElement;

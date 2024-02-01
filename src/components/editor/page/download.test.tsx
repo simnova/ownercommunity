@@ -1,59 +1,22 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, getByTestId } from '@testing-library/react';
+import { render, getByTestId, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import { Download } from './download';
 import { Editor } from '@craftjs/core';
 import * as LocalData from '../local-data';
 
 describe('Given the Download component', () => {
-
-
-/*
-  vi.mock('../local-data', async (importOriginal) => {
-    const usePageLayouts = () => { 
-      return getLoadedPageLayouts();
-    }
-    return { 
-      ...await importOriginal() as any,
-      usePageLayouts 
-    };
-  });
-
-
-  afterEach(() => {
-    vi.resetAllMocks()
-  })
-  */
-
   describe('when page layouts are not loaded', () => {
-
     it('then the component should not be rendered.', () => {
-      /*
-      vi.resetAllMocks();
-      //vi.mock('usePageLayouts', () => {
-      vi.mock('../local-data', async (importOriginal) => {
-        const usePageLayouts = () => { 
-          //const givenPageLayouts:LocalData.PageLayouts = [{id:'123123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'xxx' } as LocalData.LoadedPageLayout];
-  
-          return [{loaded:false}]; 
-        }
-        return { 
-          ...await importOriginal() as any,
-          usePageLayouts 
-        };
-      });
-      */
-
+      //Arrange
       const usePageLayoutsSpy = vi.spyOn(LocalData, 'usePageLayouts');
       usePageLayoutsSpy.mockReturnValue([
-        [{id:'123123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'xxx' } as LocalData.LoadedPageLayout] as LocalData.PageLayouts,
+        [{loaded:false } as LocalData.UnloadedPageLayout] as LocalData.PageLayouts,
         {} as any,
         {} as any
       ]);
-
-
-          //PageLayouts: getUnloadedPageLayouts(), 
-          //UpdateState: () => { },
-         // LocalStorageProperties: () => { }
+      //Act
       const {container} = render(
         <div data-testid="testHarness">
           <Editor>
@@ -61,14 +24,43 @@ describe('Given the Download component', () => {
           </Editor>
         </div>
       );
+      //Assert
+      (expect(getByTestId(container,'testHarness')) as any).toBeEmptyDOMElement();
+    });
+  });
+
+  describe('when page layouts are loaded', () => {
+    it('then the component should be rendered.', () => {
+      //Arrange
+      const usePageLayoutsSpy = vi.spyOn(LocalData, 'usePageLayouts');
+      const givenPageLayouts  = [{id:'123123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'xxx' } as LocalData.LoadedPageLayout] as LocalData.PageLayouts;
+      usePageLayoutsSpy.mockReturnValue([
+        givenPageLayouts,
+        {} as any,
+        {} as any
+      ]);
+      //Act
+      const {container} = render(
+        <div data-testid="testHarness">
+          <Editor>
+            <Download />
+          </Editor>
+        </div>
+      );
+      //Assert
       (expect(getByTestId(container,'testHarness')) as any).not.toBeEmptyDOMElement();
     });
   });
 
-  it('then the component should not be rendered.', () => {
+  describe('when Get Site JSON button is clicked', async () => {
+    
+    //Arrange
+    const user = userEvent.setup();
+    let clipboardSpy = vi.spyOn(navigator.clipboard, "writeText");  
     const usePageLayoutsSpy = vi.spyOn(LocalData, 'usePageLayouts');
+    const givenPageLayouts  = [{id:'123123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'xxx' } as LocalData.LoadedPageLayout] as LocalData.PageLayouts;
     usePageLayoutsSpy.mockReturnValue([
-      [{loaded:false } as LocalData.UnloadedPageLayout] as LocalData.PageLayouts,
+      givenPageLayouts,
       {} as any,
       {} as any
     ]);
@@ -79,93 +71,22 @@ describe('Given the Download component', () => {
         </Editor>
       </div>
     );
-    (expect(getByTestId(container,'testHarness')) as any).toBeEmptyDOMElement();
-  });
-/*
-  describe('when page layouts are loaded', () => {
-    it('then the component should be rendered', () => {
-      //arrange
-      const givenPageLayouts:LocalData.PageLayouts = [{id:'123123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'xxx' } as LocalData.LoadedPageLayout];
 
-      const mock = vi.fn().mockImplementation(() => {return getLoadedPageLayouts()});
-      mock.mockImplementation(getLoadedPageLayouts)
-      /*
-      vi.mock('../local-data', async (importOriginal) => {
-        const usePageLayouts = () => { 
-  
-          return givenPageLayouts; 
-        }
-        return { 
-          ...await importOriginal() as any,
-          usePageLayouts 
-        };
-      });
-      */
-     /*
-      //act
-     // const pageLayouts = LocalData.usePageLayouts();
-      const result = render(
-        <Editor enabled={true}>
-          <Download />
-        </Editor>
-      )
-      //assert
-     // expect(pageLayouts).toEqual(givenPageLayouts);
-      expect(result.container).not.toBeEmptyDOMElement();
-
-
-
-
-    });
-
-  });
-
-  */
-
-  /*
-
-
-  describe('when page layouts are loaded', () => {
-  it('then the component should be rendered', () => {
-    //Arrange
-   // const usePageLayoutsSpy  = vi.spyOn(LocalData, 'usePageLayouts');
-
-    //usePageLayoutsSpy.mockReturnValue(givenPageLayouts);
-    
-    vi.mock('../local-data', async (importOriginal) => {
-      const usePageLayouts = () => { 
-        const givenPageLayouts:LocalData.PageLayouts = [{id:'123123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'xxx' } as LocalData.LoadedPageLayout];
-
-        return givenPageLayouts; 
-      }
-      return { 
-        ...await importOriginal() as any,
-        usePageLayouts 
-      };
-    });
-    
     //Act
-    const {container} = render(
-      <div data-testid="testHarness">
-      <Editor enabled={true}>
-        <div>test</div>
-        <Download />
-      </Editor>
-      </div>
-    );
+    await user.click(getByTestId(container,'get-site-json'));
 
-    //Assert
-    //console.log('container:', JSON.stringify(container));
-    (expect(getByTestId(container,'testHarness')) as any).not.toBeEmptyDOMElement();
-   
-    //expect(result.container).not.toBeEmptyDOMElement();
-  });
-  });
-  */
+    it('then the clipboard should contain the JSON of given pagelayouts.',async  () => {
+      //Assert
+      await waitFor(() => 
+       expect(clipboardSpy).toHaveBeenCalledWith(JSON.stringify(givenPageLayouts))
+      );
+    });
+    it('then a message should be shown to the user.',async  () => {
+      //Assert
+      await waitFor(() => 
+        expect(screen.getByText('The JSON has been copied to your clipboard')).toBeInTheDocument()
+      );
 
+    });
+  });
 });
-
-
-
-
-

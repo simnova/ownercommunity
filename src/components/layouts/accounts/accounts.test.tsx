@@ -4,7 +4,6 @@ import { oidcConfig } from '../../../config/odic-config';
 import { render, waitFor, screen } from '@testing-library/react';
 import App from '../../../App';
 import * as Auth from 'react-oidc-context';
-import { before } from 'lodash';
 
 // unauthorized user
 describe('given not authorized, when navigating to community/accounts', () => {

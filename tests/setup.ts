@@ -10,7 +10,6 @@ expect.extend(matchers);
 afterEach(() => {
   console.log("cleanup");
   cleanup();
-  vi.clearAllMocks()
 });
 
 Object.defineProperty(window, "matchMedia", {

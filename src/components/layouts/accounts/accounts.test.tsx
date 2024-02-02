@@ -4,10 +4,10 @@ import { oidcConfig } from '../../../config/odic-config';
 import { render, waitFor, screen } from '@testing-library/react';
 import App from '../../../App';
 import * as Auth from 'react-oidc-context';
+import * as ApolloClient from '@apollo/client';
 
 // unauthorized user
 describe('given not authorized, when navigating to community/accounts', () => {
-
   it('should display Not Authorized', async () => {
     render(
       <AuthProvider {...oidcConfig}>
@@ -25,17 +25,29 @@ describe('given not authorized, when navigating to community/accounts', () => {
 });
 
 // authorized user
-describe('given authorized, when navigating to community/accounts', () => {
-  const useAuthSpy = vi.spyOn(Auth, 'useAuth');
+describe('given authorized user named Duy Nguyen, when navigating to community/accounts', () => {
+  it('should display /community/accounts screen, and display Duy Nguyen', async () => {
+    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
+    const useQuerySpy = vi.spyOn(ApolloClient, 'useQuery');
 
-  beforeAll(() => {
     const mockResolveValue = {
       isAuthenticated: true
     };
     useAuthSpy.mockReturnValue(mockResolveValue as any);
-  });
 
-  it('should display Accounts', async () => {
+    const mockQueryValue = {
+      loading: false,
+      error: undefined,
+      data: {
+        userCurrent: {
+          externalId: '123',
+          firstName: 'Duy',
+          lastName: 'Nguyen'
+        }
+      }
+    };
+    useQuerySpy.mockReturnValue(mockQueryValue as any);
+
     render(
       <AuthProvider {...oidcConfig}>
         <MemoryRouter initialEntries={['/community/accounts']}>
@@ -45,8 +57,11 @@ describe('given authorized, when navigating to community/accounts', () => {
     );
 
     await waitFor(() => {
-      const element = screen.queryByText('Your Community');
-      expect(element).toBeInTheDocument();
+      const welcomeTextOnAccountsScreen = screen.queryByText('Your Community');
+      expect(welcomeTextOnAccountsScreen).toBeInTheDocument();
+      
+      const userFirstLastName = screen.queryByText('Duy Nguyen');
+      expect(userFirstLastName).toBeInTheDocument();
     });
   });
 });

@@ -1,6 +1,5 @@
 import { userEvent } from '@storybook/test';
-import { render, screen, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { CommunityCreate } from './community-create';
 
 describe('initially,', () => {

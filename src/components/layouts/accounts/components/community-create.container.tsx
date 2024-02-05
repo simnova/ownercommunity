@@ -54,9 +54,6 @@ export const CommunityCreateContainer: React.FC<any> = () => {
     } else if (error) {
       return <div>Error {JSON.stringify(error)}</div>;
     }
-    // else if(data){
-    //   return <div>Data {JSON.stringify(data)}</div>
-    // }
     else {
       return <CommunityCreate onSave={handleSave} />;
     }

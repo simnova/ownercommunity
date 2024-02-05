@@ -1,4 +1,5 @@
 import { createLocalStorageStateHook } from 'use-local-storage-state';
+import { matchRoutes } from 'react-router-dom';
 
 // Todos.tsx
 export const usePages = createLocalStorageStateHook('pages',
@@ -19,7 +20,8 @@ export const usePages = createLocalStorageStateHook('pages',
   pageType: string;
   path: string;
   expanded: boolean;
-  children: LoadedPageLayout[];
+  parent: string;
+ // children: LoadedPageLayout[];
   layout: any;
 }
 export interface UnloadedPageLayout {
@@ -31,6 +33,32 @@ export const arePageLayoutsLoaded = (pageLayouts: PageLayouts): pageLayouts is [
   return pageLayouts !== undefined && pageLayouts.length > 0 && (pageLayouts[0] as LoadedPageLayout).id !== undefined;
 }
 
+export const getAncestors = (pageLayouts: LoadedPageLayout[], currentPath: string): LoadedPageLayout[] => {
+  const pathSegments = currentPath.split('/').filter(i => i);
+  const ancestors = pathSegments.map((_, index) => {
+    const url = `/${pathSegments.slice(0, index + 1).join('/')}`;
+    const matchedLayout = matchRoutes(pageLayouts, url)?.[0].route;
+    if(matchedLayout){ 
+      return {...matchedLayout, path:url}; 
+    }
+  });
+  ancestors.unshift(matchRoutes(pageLayouts, '/')?.[0].route);
+  //look for items from ancestors that have same id and only keep the the one with the most segments
+  ancestors.forEach((ancestor, index) => {
+    const sameIdAncestors = ancestors.filter(x => x?.id === ancestor?.id);
+    if(sameIdAncestors.length > 1){
+      const longest = sameIdAncestors.reduce((prev, current) => (prev?.path.split('/').length ?? 0) > (current?.path.split('/').length ?? 0) ? prev : current) as LoadedPageLayout;
+      ancestors[index] = longest; //replace the current ancestor with the longest one
+      //make all the other sameIdAncestors undefined
+      sameIdAncestors.forEach((x, i) => {
+        if(i !== sameIdAncestors.indexOf(longest)){
+          ancestors[ancestors.indexOf(x)] = undefined;
+        }
+      });
+    }
+  });
+  return ancestors.filter((x): x is LoadedPageLayout => x !== undefined); //exclude undefined ancestors
+};
 
 
 export const usePageLayouts = createLocalStorageStateHook<PageLayouts>('pageLayouts',[{loaded:false}]);

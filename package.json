@@ -48,7 +48,7 @@
     "preview": "vite preview",
     "prod:build": "npm run build && http-server -p 3000 build",
     "prod": "http-server -p 3000 build",
-    "test": "vitest",
+    "test": "vitest --typecheck",
     "coverage": "vitest run --coverage",
     "build:major": "node generate-build-version major && npm run build",
     "build:minor": "node generate-build-version minor && npm run build",

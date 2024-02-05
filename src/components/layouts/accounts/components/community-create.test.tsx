@@ -1,8 +1,18 @@
-import { userEvent } from '@storybook/test';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { CommunityCreate } from './community-create';
+import userEvent from '@testing-library/user-event';
 
+// test if the page is initially loaded
 describe('initially,', () => {
+  it('should have the component rendered successfully', () => {
+    render(<CommunityCreate />);
+    const element = screen.getByText("Creating your Community");
+    expect(element).toBeInTheDocument();
+  });
+});
+
+// test if the Name input is empty
+describe('initially, when page is first loaded', () => {
   it('should have Name input empty', () => {
     render(<CommunityCreate />);
     const element = screen.getByLabelText('Name') as HTMLInputElement;
@@ -11,17 +21,19 @@ describe('initially,', () => {
 });
 
 describe('initially, when the Name input is empty, click Create Community', () => {
-  it('should have error Please input Name!', async () => {
+  it('should have error "Please input Name!"', async () => {
+    const user = userEvent.setup();
     render(<CommunityCreate />);
-    const user = userEvent.setup() as typeof userEvent;
-    const errorElement = screen.queryByText(/please input name!/i) as HTMLElement;
+    let errorElement = screen.queryByText(/please input name!/i) as HTMLElement;
     expect(errorElement).not.toBeInTheDocument();
     const createButton = screen.getByText('Create Community');
+
     await act(async () => {
       await user.click(createButton);
     });
+
     await waitFor(() => {
-      const errorElement = screen.queryByText(/please input name!/i) as HTMLElement;
+      errorElement = screen.queryByText(/please input name!/i) as HTMLElement;
       expect(errorElement).toBeInTheDocument();
     });
   });
@@ -29,8 +41,8 @@ describe('initially, when the Name input is empty, click Create Community', () =
 
 describe('when input some name, then clear the input', () => {
   it("should have error 'Please input Name!'", async () => {
+    const user = userEvent.setup();
     render(<CommunityCreate />);
-    const user = userEvent.setup() as typeof userEvent;
     const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
 
     // user interacts with the input
@@ -47,31 +59,23 @@ describe('when input some name, then clear the input', () => {
   });
 });
 
-// test navigation
-// describe('given Name is provided, click Create Community', () => {
-//   it('should show loading indication, then redirect users to community/accounts', async () => {
-//     render(
-//       <MemoryRouter initialEntries={['community/accounts']}>
-//         <App />
-//       </MemoryRouter>
-//     );
-//     const user = userEvent.setup() as typeof userEvent;
-//     const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
+// test if onSave() handler is called when Name input has some value
+describe('given Name have some value, click Create Community button', () => {
+  it('should call onSave handler', async () => {
+    const user = userEvent.setup();
+    const onSave = vi.fn();
+    render(<CommunityCreate onSave={onSave} />);
 
-//     // user interacts with the input
-//     await act(async () => {
-//       await user.type(nameInput, 'community 5');
-//     });
+    const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
+    await act(async () => {
+      await user.type(nameInput, 'test');
+    });
 
-//     const createButton = screen.getByText('Create Community');
-//     await act(async () => {
-//       await user.click(createButton);
-//     });
+    const createButton = screen.getByText('Create Community');
+    await act(async () => {
+      await user.click(createButton);
+    });
 
-//     await waitFor(() => {
-//       const welcomeTextOnAccountsScreen = screen.queryByText(/Welcome to Owner Community/i) as HTMLElement;
-//       expect(welcomeTextOnAccountsScreen).toBeInTheDocument();
-//     });
-//   });
-// });
-
+    expect(onSave).toHaveBeenCalledWith({ name: 'test' });
+  });
+});

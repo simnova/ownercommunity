@@ -26,6 +26,7 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   };
 
   const LoggedInCommunityContainer = () => {
+    
     const userData: LoggedInUserPropTypes = {
       data: {
         isLoggedIn: true,
@@ -33,10 +34,11 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
         lastName: data?.userCurrent?.lastName ?? '',
         notificationCount: 0,
         profileImage:
-          `https://ownercommunity.blob.core.windows.net/${params.communityId}/${data?.memberForCurrentUser?.profile?.avatarDocumentId}` ??
+        data?.memberForCurrentUser?.profile?.avatarDocumentId ? `https://ownercommunity.blob.core.windows.net/${params.communityId}/${data.memberForCurrentUser.profile.avatarDocumentId}` :
           undefined
       }
     };
+    console.log('LoggedInCommunityContainer', userData);
     return (
       <div className="text-right text-sky-400" style={{ flexGrow: '1' }}>
         <LoggedInUser key={data?.userCurrent?.id} data={userData.data} onLogoutClicked={handleLogout} />

@@ -10,7 +10,7 @@ describe('Given the download component', async () => {
   const user = userEvent.setup();
   const clipboardSpy = vi.spyOn(navigator.clipboard, "writeText");  
   const usePageLayoutsSpy = vi.spyOn(LocalData, 'usePageLayouts');
-  const givenLoadedPageLayouts  = [{id:'123123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'{hello:world}' } as LocalData.LoadedPageLayout] as LocalData.PageLayouts;
+  const givenLoadedPageLayouts  = [{id:'123123', parent:'123', title:'title',pageType:'pageType',path:'yyy',expanded:false, children:[],layout:'{hello:world}' } as LocalData.LoadedPageLayout] as LocalData.PageLayouts;
 
   usePageLayoutsSpy.mockReturnValue([
     givenLoadedPageLayouts,

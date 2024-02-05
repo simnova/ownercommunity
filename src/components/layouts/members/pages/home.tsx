@@ -3,7 +3,7 @@ import { Typography,theme } from 'antd';
 import { useParams } from 'react-router-dom';
 import { SubPageLayout } from '../sub-page-layout';
 
-const { Text } = Typography;
+const { Paragraph } = Typography;
 
 export const Home: React.FC<any> = () => {
   const {
@@ -18,8 +18,8 @@ export const Home: React.FC<any> = () => {
         color: colorTextBase
       }}>Home</span>
     } />}>
-      <Text> Community ID: {params.communityId}</Text>
-      <Text> User ID: {params.userId}</Text>
+      <Paragraph> Community ID: {params.communityId}</Paragraph>
+      <Paragraph> User ID: {params.userId}</Paragraph>
     </SubPageLayout>
   );
 };

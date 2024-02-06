@@ -10,7 +10,7 @@ describe('file-validator', () => {
     it('should fail validation for wrong file type', async () => {
       //Arrange
       const mockedFile = new File(['test file'], 'filename1.png', { type: 'image/png' }) as RcFile;
-      const getMockedFile = async (file: File, options: any): Promise<File> => {
+      const getMockedFile = async (): Promise<File> => {
         console.log('filename = ', mockedFile.name);
         return mockedFile;
       };
@@ -48,7 +48,7 @@ describe('file-validator', () => {
     it('should pass validation for correct file type of image/png', async () => {
       //Arrange
       const mockedFile = new File(['test file'], 'filename2.png', { type: 'image/png' }) as RcFile;
-      const getMockedFile = async (file: File, options: any): Promise<File> => {
+      const getMockedFile = async (): Promise<File> => {
         console.log('filename = ', mockedFile.name);
         return mockedFile;
       };

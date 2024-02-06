@@ -4,7 +4,7 @@ import { Skeleton } from 'antd';
 import { useParams } from 'react-router-dom';
 import { MemberPropertyByPropertyIdDocument } from '../../../generated';
 import { CommunityPropertyDetail } from '../../layouts/members/components/community-property-detail';
-import { mockPropertyData } from '../local-data';
+import { mockPropertyData } from './property-details.mock-data';
 
 let PropertyDetails: any;
 

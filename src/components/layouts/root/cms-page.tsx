@@ -1,7 +1,7 @@
 import { Editor, Frame } from '@craftjs/core';
 import { matchRoutes, useLocation } from 'react-router-dom';
 import * as CmsComponents from "../../editor/components/";
-import { arePageLayoutsLoaded, usePageLayouts } from '../../editor/local-data';
+import { arePageLayoutsLoaded, usePageLayouts } from '../../editor/page-layout';
 
 const CmsPage: React.FC<any> = () => {
   const [pageLayouts] = usePageLayouts();

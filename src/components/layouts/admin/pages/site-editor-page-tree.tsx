@@ -9,7 +9,7 @@ import {
 import '@nosferatu500/react-sortable-tree/style.css'; // This only needs to be imported once in your app
 import { Button, Col, Collapse, Modal, Row, Typography, theme } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { usePageLayouts } from '../../../editor/local-data';
+import { usePageLayouts } from '../../../editor/page-layout';
 
 import uniqid from 'uniqid';
 import { DetailsPageDetails } from '../../../editor/tree/details-page-details';

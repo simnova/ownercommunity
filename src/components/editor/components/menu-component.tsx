@@ -1,7 +1,7 @@
 import { useNode } from '@craftjs/core';
 import { Form, Input, theme as antdTheme, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { arePageLayoutsLoaded, usePageLayouts } from "../local-data";
+import { arePageLayoutsLoaded, usePageLayouts } from "../page-layout";
 
 
 const { SubMenu } = Menu;

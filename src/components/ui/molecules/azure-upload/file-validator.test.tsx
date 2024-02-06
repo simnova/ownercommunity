@@ -4,7 +4,7 @@ import * as ImageCompression from 'browser-image-compression';
 
 const mockedFile = new File(['()()'], 'filename.jpeg', { type: 'image/png' }) as RcFile;
 
-const getMockedFile = async (file: File, options: any): Promise<File> => {
+const getMockedFile = async (file: File): Promise<File> => {
   console.log("filename = ", file.name);
   return mockedFile;
 };

@@ -1,4 +1,4 @@
-import { arePageLayoutsLoaded, usePageLayouts } from '../../editor/local-data';
+import { arePageLayoutsLoaded, usePageLayouts } from '../../editor/page-layout';
 import CmsPage from './cms-page';
 import { Header } from './components/header';
 

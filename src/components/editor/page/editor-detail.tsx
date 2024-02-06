@@ -1,7 +1,7 @@
 import { Element, Frame, SerializedNodes, useEditor } from '@craftjs/core';
 import { useState } from 'react';
 import { Container } from '../components/container';
-import { arePageLayoutsLoaded, usePageLayouts } from '../local-data';
+import { arePageLayoutsLoaded, usePageLayouts } from '../page-layout';
 
 import { Button, Empty, TreeSelect, notification, theme } from 'antd';
 

@@ -1,7 +1,7 @@
 import { useEditor, useNode } from '@craftjs/core';
 import { Breadcrumb, Form, Input, theme } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
-import { arePageLayoutsLoaded, usePageLayouts, getAncestors } from '../local-data';
+import { arePageLayoutsLoaded, usePageLayouts, getAncestors } from '../page-layout';
 
 interface TextProp {
   separator: string;

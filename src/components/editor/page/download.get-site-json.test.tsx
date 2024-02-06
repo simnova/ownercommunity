@@ -3,7 +3,7 @@ import { render} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Download } from './download';
 import { Editor } from '@craftjs/core';
-import * as LocalData from '../local-data';
+import * as LocalData from '../page-layout';
 
 describe('Given the download component', async () => {
   //Arrange

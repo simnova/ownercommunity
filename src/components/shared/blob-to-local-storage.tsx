@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { usePageLayouts } from '../editor/local-data';
+import { usePageLayouts } from '../editor/page-layout';
 
 export interface BlobToLocalStorageProps {
   communityId?: string;

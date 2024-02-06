@@ -9,7 +9,7 @@ describe('file-validator', () => {
 
     it('should fail validation for wrong file type', async () => {
       //Arrange
-      const mockedFile = new File(['test file'], 'filename1.png', { type: 'image/png' }) as RcFile;
+      const mockedFile = new File([''], 'filename1.png', { type: 'image/png' }) as RcFile;
       const getMockedFile = async (): Promise<File> => {
         console.log('filename = ', mockedFile.name);
         return mockedFile;
@@ -21,7 +21,6 @@ describe('file-validator', () => {
         };
       });
 
-      // await import('browser-image-compression');
       const { FileValidator } = await import('./file-validator');
 
       const validatorOptions = {
@@ -59,21 +58,12 @@ describe('file-validator', () => {
         };
       });
 
-      // await import('browser-image-compression');
       const { FileValidator } = await import('./file-validator');
 
       const validatorOptions = {
-        maxFileSizeBytes: 10 * 1024 * 1024,
+        maxFileSizeBytes: 10 * 1024,
         maxWidthOrHeight: 2048,
-        permittedContentTypes: [
-          'image/jpeg',
-          'image/png',
-          'image/gif',
-          'text/plain',
-          'text/csv',
-          'application/json',
-          'application/pdf'
-        ]
+        permittedContentTypes: ['image/jpeg', 'image/png', 'image/gif', 'text/plain', 'text/csv']
       };
       //Act
       const validator = new FileValidator(mockedFile, validatorOptions);

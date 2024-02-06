@@ -31,12 +31,12 @@ export class FileValidator {
 
   public async validate(): Promise<FileValidatorResult> {
     let newFile: RcFile = this.file;
-    
+
     if (!this.validateContentType()) {
       return {
         success: false,
         message: `Invalid content type: ${this.file.type}`,
-        code: "content-type"
+        code: 'content-type'
       };
     }
 
@@ -53,7 +53,7 @@ export class FileValidator {
     return {
       success: true,
       file: newFile
-    }
+    };
   }
 
   private validateContentType(): boolean {
@@ -64,28 +64,16 @@ export class FileValidator {
     return this.permittedContentTypes.includes(this.file.type);
   }
 
-  private async validateContentLength(newFile: RcFile): Promise<{ success: boolean, message?: string, code?: string }> {
+  private async validateContentLength(newFile: RcFile): Promise<{ success: boolean; message?: string; code?: string }> {
     if (this.file.type.startsWith('image/') && (this.maxWidthOrHeight || this.maxFileSizeBytes)) {
       try {
-        console.log('beforeCompression size:', this.file.size);
-        let options: any = {};
-        if (this.maxFileSizeBytes) {
-          options.maxSizeMB = this.maxFileSizeBytes / 1024 / 1024;
-        }
-        if (this.maxWidthOrHeight) {
-          options.maxWidthOrHeight = this.maxWidthOrHeight;
-        }
-        console.log('beforeCompression options:', options);
-        const uid = this.file.uid;
-        newFile = (await imageCompression(this.file, options)) as RcFile;
-        this.file.uid = uid;
-        console.log('afterCompression size:', newFile.size);
+        this.compressImage(this.file);
       } catch (error) {
         console.error('cannot compress:', error);
         return {
           success: false,
           message: `Cannot compress file: ${error}`,
-          code: "compress"
+          code: 'compress'
         };
       }
     }
@@ -93,13 +81,30 @@ export class FileValidator {
     if (newFile.size <= this.maxFileSizeBytes) {
       return {
         success: true
-      }
+      };
     } else {
       return {
         success: false,
         message: `Invalid content length: ${this.file.size}. Max size permitted: ${this.maxFileSizeBytes}`,
-        code: "content-length"
+        code: 'content-length'
       };
     }
+  }
+
+  private async compressImage(file: RcFile): Promise<File> {
+    console.log('beforeCompression size:', this.file.size);
+    let options: any = {};
+    if (this.maxFileSizeBytes) {
+      options.maxSizeMB = this.maxFileSizeBytes / 1024 / 1024;
+    }
+    if (this.maxWidthOrHeight) {
+      options.maxWidthOrHeight = this.maxWidthOrHeight;
+    }
+    console.log('beforeCompression options:', options);
+    const uid = this.file.uid;
+    const newFile = (await imageCompression(this.file, options)) as RcFile;
+    console.log('afterCompression size:', newFile.size);
+    this.file.uid = uid;
+    return newFile;
   }
 }

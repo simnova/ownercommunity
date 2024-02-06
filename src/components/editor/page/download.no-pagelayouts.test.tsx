@@ -17,7 +17,7 @@ describe('Given the download component', async () => {
       {} as any
     ]);
 
-    const { getByTestId} = render(
+    const { getByTestId } = render(
       <div data-testid="testHarness">
         <Editor >
           <Download />

@@ -3,16 +3,21 @@ import { FC } from 'react';
 
 interface ComponentQueryLoaderProps {
   error?: Error;
+  errorComponent?: any;
   loading: boolean;
   hasData: any;
   hasDataComponent: any;
   noDataComponent?: any;
   loadingRows?: number;
   loadingComponent?: any;
+  
 }
 
 export const ComponentQueryLoader: FC<ComponentQueryLoaderProps> = (props) => {
   if (props.error) {
+    if (props.errorComponent) {
+      return props.errorComponent;
+    }
     message.error(props.error.message);
     return <Skeleton/>;
   }

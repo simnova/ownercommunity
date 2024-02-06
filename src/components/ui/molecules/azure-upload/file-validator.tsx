@@ -67,7 +67,7 @@ export class FileValidator {
   private async validateContentLength(newFile: RcFile): Promise<{ success: boolean; message?: string; code?: string }> {
     if (this.file.type.startsWith('image/') && (this.maxWidthOrHeight || this.maxFileSizeBytes)) {
       try {
-        await this.compressImage(this.file);
+        await this.compressImage;
       } catch (error) {
         console.error('cannot compress:', error);
         return {
@@ -91,7 +91,7 @@ export class FileValidator {
     }
   }
 
-  private async compressImage(file: RcFile): Promise<File> {
+  private async compressImage(): Promise<File> {
     console.log('beforeCompression size:', this.file.size);
     let options: any = {};
     if (this.maxFileSizeBytes) {

@@ -14,19 +14,23 @@ Breadcrumbs = ({ separator, ...props } : TextProp) => {
     token: { colorTextBase, colorBgContainer }
   }=theme.useToken();
   const [pageLayouts] = usePageLayouts();
+
+
+  useEditor((state) => ({
+    enabled: state.options.enabled
+  }));
+
+  const location = useLocation();
+
+  if(!arePageLayoutsLoaded(pageLayouts)){
+    return <div>Loading...</div>
+  }
+
   const { connectors: {connect,drag} } = useNode((state) =>(
     {
       selected: state.events.selected,
     }
   ));
-
-  useEditor((state) => ({
-    enabled: state.options.enabled
-  }));
-  const location = useLocation();
-  if(!arePageLayoutsLoaded(pageLayouts)){
-    return <div>Loading...</div>
-  }
 
   const ancestors = getAncestors(pageLayouts, location.pathname);
 

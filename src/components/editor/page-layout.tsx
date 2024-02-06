@@ -13,11 +13,11 @@ import { matchRoutes } from 'react-router-dom';
 export interface UnloadedPageLayout {
   loaded: boolean;
 }
-export type PageLayouts = [LoadedPageLayout]|[UnloadedPageLayout];
+export type PageLayouts = LoadedPageLayout[]|UnloadedPageLayout[];
 
 export const usePageLayouts = createLocalStorageStateHook<PageLayouts>('pageLayouts',[{loaded:false}]);
 
-export const arePageLayoutsLoaded = (pageLayouts: PageLayouts): pageLayouts is [LoadedPageLayout] => {
+export const arePageLayoutsLoaded = (pageLayouts: PageLayouts): pageLayouts is LoadedPageLayout[] => {
   return pageLayouts !== undefined && pageLayouts.length > 0 && (pageLayouts[0] as LoadedPageLayout).id !== undefined;
 }
 /**

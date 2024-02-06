@@ -1,5 +1,22 @@
 import { FileValidator } from './file-validator';
 import { RcFile } from 'antd/es/upload';
+import * as ImageCompression from 'browser-image-compression';
+
+const mockedFile = new File(['()()'], 'filename.jpeg', { type: 'image/png' }) as RcFile;
+
+const getMockedFile = async (file: File, options: any): Promise<File> => {
+  console.log("filename = ", file.name);
+  return mockedFile;
+};
+
+vi.mock('browser-image-compression', async (importOriginal) => {
+  return {
+    ...importOriginal,
+    default: vi.fn()
+  };
+});
+
+vi.mocked(ImageCompression).default.mockImplementation(getMockedFile);
 
 describe('file-validator', () => {
   describe('validate', () => {
@@ -27,39 +44,38 @@ describe('file-validator', () => {
       expect(result.success).toBe(false);
     });
 
-    it(
-      'should pass validation for correct file type',
-      async () => {
-        //Arrange
-        const file = new File(['test file'], 'filename.jpeg', { type: 'text/csv' }) as RcFile;
-        const validatorOptions = {
-          maxFileSizeBytes: 10 * 1024 * 1024,
-          maxWidthOrHeight: 2048,
-          permittedContentTypes: [
-            'image/jpeg',
-            'image/png',
-            'image/gif',
-            'text/plain',
-            'text/csv',
-            'application/json',
-            'application/pdf'
-          ]
-        };
+    it('should pass validation for correct file type of image/png', async () => {
+      //Arrange
 
-        //Act
-        const validator = new FileValidator(file, validatorOptions);
-        const result = await validator.validate();
-        //Assert
-        expect(result.success).toBe(true);
-      },
-      { timeout: 10000 }
-    );
+      const file = new File(['test file'], 'filename.png', { type: 'image/png' }) as RcFile;
+
+      const validatorOptions = {
+        maxFileSizeBytes: 10 * 1024 * 1024,
+        maxWidthOrHeight: 2048,
+        permittedContentTypes: [
+          'image/jpeg',
+          'image/png',
+          'image/gif',
+          'text/plain',
+          'text/csv',
+          'application/json',
+          'application/pdf'
+        ]
+      };
+
+      //Act
+      const validator = new FileValidator(file, validatorOptions);
+      const result = await validator.validate();
+
+      //Assert
+      expect(result.success).toBe(true);
+    });
 
     it(
       'should pass validation for meeting size limitations',
       async () => {
         //Arrange
-        const file = new File(['test file'], 'filename.jpeg', { type: 'text/csv' }) as RcFile;
+        const file = new File(['test file'], 'filename.csv', { type: 'text/csv' }) as RcFile;
         const validatorOptions = {
           maxFileSizeBytes: 10,
           maxWidthOrHeight: 2048,
@@ -87,7 +103,7 @@ describe('file-validator', () => {
       'should fail validation for not meeting size limitations',
       async () => {
         //Arrange
-        const file = new File(['test file test'], 'filename.jpeg', { type: 'text/csv' }) as RcFile;
+        const file = new File(['test file test'], 'filename2.csv', { type: 'text/csv' }) as RcFile;
         const validatorOptions = {
           maxFileSizeBytes: 10,
           maxWidthOrHeight: 2048,

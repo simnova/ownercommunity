@@ -23,14 +23,14 @@ export class BedroomDetail extends Entity<BedroomDetailProps> implements Bedroom
     }
   }
   // using set from TS 5.1
-  set RoomName(roomName: ValueObjects.RoomName) {
+  set RoomName(roomName: string) {
     this.validateVisa();
-    this.props.roomName = roomName.valueOf();
+    this.props.roomName = new ValueObjects.RoomName(roomName).valueOf();
   }
 
-  set BedDescriptions(bedDescriptions: ValueObjects.BedDescriptions) {
+  set BedDescriptions(bedDescriptions: string[]) {
     this.validateVisa();
-    this.props.bedDescriptions = bedDescriptions.valueOf();
+    this.props.bedDescriptions = new ValueObjects.BedDescriptions(bedDescriptions).valueOf();
   }
 
   

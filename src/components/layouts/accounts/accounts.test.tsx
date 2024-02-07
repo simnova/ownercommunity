@@ -91,7 +91,7 @@ describe('given authorized user, when navigating to community/accounts/create-co
       }
     };
     useQuerySpy.mockReturnValue(mockQueryValue as any);
-
+    
     render(
       <AuthProvider {...oidcConfig}>
         <MemoryRouter initialEntries={['/community/accounts']}>

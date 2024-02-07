@@ -1,15 +1,47 @@
-import { render, screen } from '@testing-library/react';
-import { CommunityList } from './community-list';
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import { Community } from '../../../../generated';
+import { CommunityList } from './community-list';
+import * as RRD from 'react-router-dom';
+
+vi.mock('react-router-dom', async () => {
+  const nav = vi.fn();
+  const rrd = await vi.importActual<typeof import('react-router-dom')>('react-router-dom'); // from documentation
+  return {
+    ...rrd,
+    useNavigate: vi.fn(() => {
+      console.log('useNavigate called');
+      return nav;
+    })
+  };
+});
+
+const communityMockProps = [
+  {
+    id: '1',
+    name: 'hello world',
+    userIsAdmin: true
+  },
+  {
+    id: '2',
+    name: 'hello world 2',
+    userIsAdmin: false
+  },
+  {
+    id: '3',
+    name: 'hello world 3',
+    userIsAdmin: true
+  }
+] as Community[];
 
 describe('given an empty array of communities', () => {
   it('should have the component rendered successfully', () => {
     const communityMockProps = [] as Community[];
     render(
-      <MemoryRouter>
+      <RRD.MemoryRouter>
         <CommunityList data={{ communities: communityMockProps }} />
-      </MemoryRouter>
+      </RRD.MemoryRouter>
     );
     const header = screen.getByText('Navigate to a Community');
     expect(header).toBeInTheDocument();
@@ -17,35 +49,25 @@ describe('given an empty array of communities', () => {
 });
 
 describe('given an array of communities', () => {
-  it('should display the list of communites for Member Site and Admin Site', async () => {
-    const communityMockProps = [
-      {
-        id: '1',
-        name: 'hello world',
-        userIsAdmin: true
-      },
-      {
-        id: '2',
-        name: 'hello world 2',
-        userIsAdmin: false
-      },
-      {
-        id: '3',
-        name: 'hello world 3',
-        userIsAdmin: true
-      }
-    ] as Community[];
+  beforeEach(() => {
+     // Clears all information about every call. 
+     // After calling it, all properties on .mock will return empty state. 
+     // This method does not reset implementations. 
+     // It is useful if you need to clean up mock between different assertions.
+    vi.clearAllMocks();
+  });
 
+  it('should display the list of communities for Member Site and Admin Site', async () => {
     render(
-      <MemoryRouter>
+      <RRD.MemoryRouter>
         <CommunityList
           data={{
             communities: communityMockProps
           }}
         />
-      </MemoryRouter>
+      </RRD.MemoryRouter>
     );
-    const header = screen.getByText("Navigate to a Community");
+    const header = screen.getByText('Navigate to a Community');
     expect(header).toBeInTheDocument();
 
     const communityListButtons = screen.getAllByTestId('community-list-button');
@@ -53,6 +75,30 @@ describe('given an array of communities', () => {
 
     const communityListAdminButtons = screen.getAllByTestId('community-list-admin-button');
     expect(communityListAdminButtons).toHaveLength(communityMockProps.filter((comm) => comm.userIsAdmin).length);
+  });
 
+  // test if navigation is called when clicking on a community
+  describe('when clicking on a community', () => {
+    it('should call useNavigate once', async () => {
+      const user = userEvent.setup();
+      render(
+        <RRD.MemoryRouter>
+          <CommunityList
+            data={{
+              communities: communityMockProps
+            }}
+          />
+        </RRD.MemoryRouter>
+      );
+
+      const communityListButtons = screen.getAllByTestId('community-list-button');
+
+      await act(async () => {
+        await user.click(communityListButtons[0]);
+      });
+      await waitFor(() => {
+        expect(RRD.useNavigate).toHaveBeenCalledOnce();
+      });
+    });
   });
 });

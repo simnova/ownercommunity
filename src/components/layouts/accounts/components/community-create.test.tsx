@@ -5,6 +5,7 @@ import { CommunityCreate } from './community-create';
 
 
 
+
 // test if the page is initially loaded
 describe('given initial state,', () => {
   interface RenderContext {

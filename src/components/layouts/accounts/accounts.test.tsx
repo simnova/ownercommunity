@@ -9,10 +9,7 @@ import App from '../../../App';
 import { oidcConfig } from '../../../config/odic-config';
 import { Community } from '../../../generated';
 import RequireAuth from '../../shared/require-auth';
-
-beforeEach(() => {
-  vi.clearAllMocks();
-});
+import { Members } from '../members';
 
 // to be tested scenarios:
 // - not authorized user, render Not Authorized screen
@@ -41,6 +38,8 @@ describe('given not authorized, when navigating to community/accounts', () => {
 // authorized user
 describe('given authorized user with name Duy Nguyen and user id 123,', () => {
   beforeEach(async () => {
+    // cleanup();
+    // vi.clearAllMocks();
     const useAuthSpy = vi.spyOn(Auth, 'useAuth');
     const mockResolveValue = {
       isAuthenticated: true
@@ -114,6 +113,8 @@ describe('given authorized user with name Duy Nguyen and user id 123,', () => {
                     <MockedProvider>
                       <Routes>
                         <Route path="/accounts/*" element={<Accounts />} />
+                        {/* <Route path="/:communityId/admin/*" element={<Admin />} /> */}
+                        <Route path="/:communityId/member/:userId/*" element={<Members />} />
                       </Routes>
                     </MockedProvider>
                   </RequireAuth>
@@ -124,7 +125,6 @@ describe('given authorized user with name Duy Nguyen and user id 123,', () => {
         </AuthProvider>
       );
     });
-    screen.debug();
   });
 
   it('should render /community/accounts/create-community screen successfully with name Duy Nguyen and user ID 123', async () => {
@@ -151,10 +151,21 @@ describe('given authorized user with name Duy Nguyen and user id 123,', () => {
     });
   });
 
-  describe('when click on a community', () => {
+  describe('when click on a member community', () => {
     it('should be navigate the users to community detail screen', async () => {
-      const element = screen.getAllByText(/hello world 3/i);
-      expect(element.length).toBeGreaterThan(0);
+      const communityDetailBtns = screen.getAllByText(/hello world 3/i);
+      expect(communityDetailBtns.length).toBeGreaterThan(0);
+      localStorage.setItem('userId', '123');
+
+      await act(async () => {
+        await communityDetailBtns[0].click();
+      });
+
+
+      // await waitFor(() => {
+        const communityDetailText = screen.getByText(/User ID: 123/i); // keyword on community detail screen
+        expect(communityDetailText).toBeInTheDocument();
+      // });
     });
   });
 });

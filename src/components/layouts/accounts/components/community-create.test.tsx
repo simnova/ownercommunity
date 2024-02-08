@@ -2,11 +2,12 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { CommunityCreate } from './community-create';
 import userEvent from '@testing-library/user-event';
 
+
 // test if the page is initially loaded
 describe('initially,', () => {
   it('should have the component rendered successfully', () => {
     render(<CommunityCreate />);
-    const element = screen.getByText("Creating your Community");
+    const element = screen.getByText('Creating your Community');
     expect(element).toBeInTheDocument();
   });
 });

@@ -9,7 +9,7 @@ export const UserInfoContainer: React.FC<any> = () => {
   
   if(error){
     return <>
-      <div>Error :( {JSON.stringify(error)}</div>
+      <div>Error : {JSON.stringify(error)}</div>
     </>
   } 
 

@@ -5,11 +5,13 @@ import { Community } from '../../../../generated';
 import { CommunityList } from './community-list';
 import * as RRD from 'react-router-dom';
 
-vi.mock('react-router-dom', async () => {
+vi.mock('react-router-dom', async (importOriginal) => {
   const nav = vi.fn();
-  const rrd = await vi.importActual<typeof import('react-router-dom')>('react-router-dom'); // from documentation
+  const mod = await importOriginal<typeof import('react-router-dom')>() // from documentation https://vitest.dev/api/vi.html#mock-modules
+
+  // const rrd = await vi.importActual<typeof import('react-router-dom')>('react-router-dom'); // from documentation intellisense
   return {
-    ...rrd,
+    ...mod,
     useNavigate: vi.fn(() => {
       console.log('useNavigate called');
       return nav;
@@ -47,6 +49,7 @@ describe('given an empty array of communities', () => {
     expect(header).toBeInTheDocument();
   });
 });
+
 
 describe('given an array of communities', () => {
   beforeEach(() => {

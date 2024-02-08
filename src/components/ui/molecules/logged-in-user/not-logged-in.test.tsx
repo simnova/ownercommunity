@@ -16,7 +16,7 @@ describe('not-logged-in.notLoggedInComponentRendered', () => {
       // Act
       const loginButton = screen.getByRole('button', { name: loginButtonText });
       const signupButton = screen.getByRole('button', { name: signupButtonText });
-      it('then I expect the Login and Sign up buttons to appear on screen', () => {
+      it('then I expect the Login and Sign up buttons to be in the document', () => {
         // Assert
         expect(loginButton).toBeInTheDocument();
         expect(signupButton).toBeInTheDocument();

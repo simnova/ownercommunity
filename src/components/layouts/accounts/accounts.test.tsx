@@ -1,91 +1,14 @@
 import * as ApolloClient from '@apollo/client';
-import { render, screen, waitFor, act, cleanup } from '@testing-library/react';
+import { MockedProvider } from '@apollo/client/testing';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import * as Auth from 'react-oidc-context';
 import { AuthProvider } from 'react-oidc-context';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { Accounts } from '.';
 import App from '../../../App';
 import { oidcConfig } from '../../../config/odic-config';
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import {
-  Community,
-  CommunityListContainerCommunitiesQueryDocument,
-  LoggedInUserRootContainerUserCurrentQueryDocument,
-  UserInfoContainerUserCurrentQueryDocument
-} from '../../../generated';
+import { Community } from '../../../generated';
 import RequireAuth from '../../shared/require-auth';
-import ApolloConnection from '../../shared/apollo-connection';
-import { Accounts } from '.';
-
-const CommunityListContainerCommunitiesQueryMock = {
-  request: {
-    query: CommunityListContainerCommunitiesQueryDocument,
-    variables: {}
-  },
-  result: {
-    data: {
-      communities: [
-        {
-          name: 'hello world 1',
-          domain: 'hello-world-1',
-          whiteLabelDomain: 'hello-world-1',
-          handle: 'hello-world-1',
-          publicContentBlobUrl: 'https://hello-world-1.blob.core.windows.net/public',
-          userIsAdmin: true,
-          id: 1,
-          schemaVersion: '1',
-          createdAt: '2021-08-25T00:00:00.000Z',
-          updatedAt: '2021-08-25T00:00:00.000Z',
-          __typename: 'Community'
-        },
-        {
-          name: 'hello world 2',
-          domain: 'hello-world-2',
-          whiteLabelDomain: 'hello-world-2',
-          handle: 'hello-world-2',
-          publicContentBlobUrl: 'https://hello-world-1.blob.core.windows.net/public',
-          userIsAdmin: true,
-          id: 2,
-          schemaVersion: '1',
-          createdAt: '2021-08-25T00:00:00.000Z',
-          updatedAt: '2021-08-25T00:00:00.000Z',
-          __typename: 'Community'
-        },
-        {
-          name: 'hello world 3',
-          domain: 'hello-world-3',
-          whiteLabelDomain: 'hello-world-3',
-          handle: 'hello-world-3',
-          publicContentBlobUrl: 'https://hello-world-1.blob.core.windows.net/public',
-          userIsAdmin: true,
-          id: 3,
-          schemaVersion: '1',
-          createdAt: '2021-08-25T00:00:00.000Z',
-          updatedAt: '2021-08-25T00:00:00.000Z',
-          __typename: 'Community'
-        }
-      ] as Community[]
-    }
-  }
-};
-
-const LoggedInUserRootContainerUserCurrentQueryMock = {
-  request: {
-    query: LoggedInUserRootContainerUserCurrentQueryDocument,
-    variables: {}
-  },
-  result: {
-    data: {
-      userCurrent: {
-        id: '1234',
-        externalId: '1234',
-        firstName: 'Duy',
-        lastName: 'Nguyen',
-        __typename: 'User'
-      }
-    }
-  },
-  maxUsageCount: 5
-};
 
 beforeEach(() => {
   vi.clearAllMocks();

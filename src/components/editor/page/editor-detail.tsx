@@ -2,7 +2,6 @@ import { Element, Frame, SerializedNodes, useEditor } from '@craftjs/core';
 import { useState } from 'react';
 import { Container } from '../components/container';
 import { arePageLayoutsLoaded, usePageLayouts } from '../page-layout';
-
 import { Button, Empty, TreeSelect, notification, theme } from 'antd';
 
 
@@ -57,9 +56,6 @@ export const EditorDetail = () => {
   } 
 
   console.log(pageLayouts)
-  
-
-
     return(
     <div style={{display:"flex",flex:'1', flexDirection:'column', alignItems:'stretch'}}>
       <div style={{overflow:'scroll'}}>
@@ -71,6 +67,7 @@ export const EditorDetail = () => {
             console.log(value);
             const node = pageLayouts.find((item: any) => item.id === value);
             let pageLayout = undefined;
+            
             let parsedJson = "";
 
             if (node?.layout) {

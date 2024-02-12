@@ -1,6 +1,4 @@
 import PropTypes from 'prop-types';
-
-
 import { LoggedIn, LoggedInPropTypes } from './logged-in';
 import { NotLoggedIn } from './not-logged-in';
 const ComponentProps = {

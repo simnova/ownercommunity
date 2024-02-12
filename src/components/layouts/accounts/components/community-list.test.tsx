@@ -5,16 +5,31 @@ import { Community } from '../../../../generated';
 import { CommunityList } from './community-list';
 import * as RRD from 'react-router-dom';
 
-vi.mock('react-router-dom', async () => {
+vi.mock('react-router-dom', async (importOriginal) => {
   const nav = vi.fn();
-  const rrd = await vi.importActual<typeof import('react-router-dom')>('react-router-dom'); // from documentation
+  const mod = await importOriginal<typeof import('react-router-dom')>(); // from documentation https://vitest.dev/api/vi.html#mock-modules
+
+  // const rrd = await vi.importActual<typeof import('react-router-dom')>('react-router-dom'); // from documentation intellisense
   return {
-    ...rrd,
+    ...mod,
     useNavigate: vi.fn(() => {
       console.log('useNavigate called');
       return nav;
     })
   };
+});
+
+describe('given an empty array of communities', () => {
+  it('should have the component rendered successfully', () => {
+    const communityMockProps = [] as Community[];
+    render(
+      <RRD.MemoryRouter>
+        <CommunityList data={{ communities: communityMockProps }} />
+      </RRD.MemoryRouter>
+    );
+    const header = screen.getByText('Navigate to a Community');
+    expect(header).toBeInTheDocument();
+  });
 });
 
 const communityMockProps = [
@@ -35,29 +50,14 @@ const communityMockProps = [
   }
 ] as Community[];
 
-describe('given an empty array of communities', () => {
-  it('should have the component rendered successfully', () => {
-    const communityMockProps = [] as Community[];
-    render(
-      <RRD.MemoryRouter>
-        <CommunityList data={{ communities: communityMockProps }} />
-      </RRD.MemoryRouter>
-    );
-    const header = screen.getByText('Navigate to a Community');
-    expect(header).toBeInTheDocument();
-  });
-});
-
 describe('given an array of communities', () => {
   beforeEach(() => {
-     // Clears all information about every call. 
-     // After calling it, all properties on .mock will return empty state. 
-     // This method does not reset implementations. 
-     // It is useful if you need to clean up mock between different assertions.
+    // // Clears all information about every call.
+    // // After calling it, all properties on .mock will return empty state.
+    // // This method does not reset implementations.
+    // // It is useful if you need to clean up mock between different assertions.
     vi.clearAllMocks();
-  });
 
-  it('should display the list of communities for Member Site and Admin Site', async () => {
     render(
       <RRD.MemoryRouter>
         <CommunityList
@@ -67,6 +67,9 @@ describe('given an array of communities', () => {
         />
       </RRD.MemoryRouter>
     );
+  });
+
+  it('should render the component successfully and display the list of communities for Member Site and Admin Site', async () => {
     const header = screen.getByText('Navigate to a Community');
     expect(header).toBeInTheDocument();
 
@@ -81,18 +84,7 @@ describe('given an array of communities', () => {
   describe('when clicking on a community', () => {
     it('should call useNavigate once', async () => {
       const user = userEvent.setup();
-      render(
-        <RRD.MemoryRouter>
-          <CommunityList
-            data={{
-              communities: communityMockProps
-            }}
-          />
-        </RRD.MemoryRouter>
-      );
-
       const communityListButtons = screen.getAllByTestId('community-list-button');
-
       await act(async () => {
         await user.click(communityListButtons[0]);
       });

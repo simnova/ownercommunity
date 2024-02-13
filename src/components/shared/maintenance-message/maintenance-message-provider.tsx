@@ -109,6 +109,10 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
   };
 
   const calculateStatus = async () => {
+    if (upcomingMaintenance == '') {
+      return;
+    }
+
     if (upcomingMaintenance !== 'true') {
       setIsMaintenance(false);
       setIsImpending(false);
@@ -131,7 +135,11 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
       const impendingTime = dayjs(impendingMaintenanceStartTimestamp);
       const maintenanceStartTime = dayjs(maintenanceStartTimestamp);
       const maintenanceEndTime = dayjs(maintenanceEndTimestamp);
-      if (serverTime > impendingTime && serverTime < maintenanceStartTime) {
+      if (serverTime < impendingTime) {
+        setIsMaintenance(false);
+        setIsImpending(false);
+        setIsApproachingMaintenance(false);
+      } else if (serverTime > impendingTime && serverTime < maintenanceStartTime) {
         setIsMaintenance(false);
         setIsImpending(true);
 
@@ -164,7 +172,7 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
     }),
     [isImpending, isMaintenance]
   );
-
+  console.log(contextValues);
   return (
     <MaintenanceMessageContext.Provider value={contextValues}>
       {isApproachingMaintenance && auth.isAuthenticated && (

@@ -200,57 +200,55 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   };
 
   return (
-    <>
-      <Collapse
-        className="service-ticket-search-filter-collapse"
-        defaultActiveKey={['1']}
-        ghost
-        style={{ width: '80%' }}
-        expandIcon={({ isActive }) =>
-          isActive ? <MinusOutlined style={{ fontSize: '30px' }} /> : <PlusOutlined style={{ fontSize: '30px' }} />
+    <Collapse
+      className="service-ticket-search-filter-collapse"
+      defaultActiveKey={['1']}
+      ghost
+      style={{width: '80%'}}
+      expandIcon={({isActive}) =>
+        isActive ? <MinusOutlined style={{fontSize: '30px'}}/> : <PlusOutlined style={{fontSize: '30px'}}/>
+      }
+    >
+      <Panel
+        header={
+          <Title
+            level={5}
+            style={{
+              fontWeight: 700,
+              marginBottom: 0,
+              alignSelf: 'center'
+            }}
+          >
+            {props.title}
+          </Title>
         }
+        key="1"
       >
-        <Panel
-          header={
-            <Title
-              level={5}
-              style={{
-                fontWeight: 700,
-                marginBottom: 0,
-                alignSelf: 'center'
-              }}
-            >
-              {props.title}
-            </Title>
-          }
-          key="1"
-        >
-          {props.searchbar && (
-            <AutoComplete
-              options={options}
-              placeholder="Search"
-              className="search-filter-searchbar"
-              style={{ width: '40%' }}
-              onChange={onChange}
-              onClear={resetOptions}
-              onSelect={onSearchSelect}
-              allowClear
-            />
-          )}
-          {props.options && (
-            <div
-              className="search-filter-scrollbar"
-              style={{
-                maxHeight: '182px',
-                overflowY: 'auto',
-                width: '300px'
-              }}
-            >
-              {renderOptions(props.options)}
-            </div>
-          )}
-        </Panel>
-      </Collapse>
-    </>
+        {props.searchbar && (
+          <AutoComplete
+            options={options}
+            placeholder="Search"
+            className="search-filter-searchbar"
+            style={{width: '40%'}}
+            onChange={onChange}
+            onClear={resetOptions}
+            onSelect={onSearchSelect}
+            allowClear
+          />
+        )}
+        {props.options && (
+          <div
+            className="search-filter-scrollbar"
+            style={{
+              maxHeight: '182px',
+              overflowY: 'auto',
+              width: '300px'
+            }}
+          >
+            {renderOptions(props.options)}
+          </div>
+        )}
+      </Panel>
+    </Collapse>
   );
 };

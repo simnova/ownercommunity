@@ -26,22 +26,20 @@ export const SelectTags: React.FC<SelectTagsProps> = (props) => {
   };
 
   return (
-    <>
-      <Select
-        mode="multiple"
-        placeholder={props.label}
-        value={selectedItems}
-        onChange={(values) => {
-          onSelectChanged(values);
-        }}
-        style={{ width: '100%' }}
-      >
-        {filteredOptions?.map((item: any) => (
-          <Select.Option key={item} value={item}>
-            {item}
-          </Select.Option>
-        ))}
-      </Select>
-    </>
+    <Select
+      mode="multiple"
+      placeholder={props.label}
+      value={selectedItems}
+      onChange={(values) => {
+        onSelectChanged(values);
+      }}
+      style={{width: '100%'}}
+    >
+      {filteredOptions?.map((item: any) => (
+        <Select.Option key={item} value={item}>
+          {item}
+        </Select.Option>
+      ))}
+    </Select>
   );
 };

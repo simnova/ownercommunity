@@ -71,9 +71,9 @@ export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> =
         </div>
       );
     } else if (memberError || roleError) {
-      return <div>{JSON.stringify(memberError || roleError)}</div>;
-    } else if (memberData && memberData.member && roleData && roleData.rolesByCommunityId) {
-      var detailData = {
+      return <div>{JSON.stringify(memberError ?? roleError)}</div>;
+    } else if (memberData?.member && roleData?.rolesByCommunityId) {
+      const detailData = {
         member: memberData.member,
         roles: roleData.rolesByCommunityId
       };

@@ -200,111 +200,111 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           Delete Ticket
         </Button>
       </div>
-      {props.data.serviceTicket.status === 'SUBMITTED' && <>      
-      <div  style={{ marginTop:20, padding: 24, minHeight:'100%', backgroundColor:'white' }} >
-        <Title level={5}>
-          Ticket Assignment
-        </Title>
-        <br/>
-        <Form
-          layout="vertical"
-          form={assignForm}
-          initialValues={props.data.serviceTicket}
-          onFinish={(values) => {
-            setAssignFormLoading(true);
-            console.log('values', values);
-            props.onAssign({
-              serviceTicketId: props.data.serviceTicket.id,
-              assignedToId: values.assignedTo.id,
-            });
-            setAssignFormLoading(false);
-          }}
-          >
-          <Form.Item
-            name={["assignedTo","id"]}
-            label="Assigned To"
-          >
-            <Select allowClear={true}  placeholder="Select a Member" options={props.data.members} fieldNames={{label:'memberName', value:'id'}} />
-          </Form.Item>
-          <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
-            Save Assignment
-          </Button>
-        </Form>
-      </div>
-      </>}
-      {props.data.serviceTicket.status === 'DRAFT' && <>
-      <div  style={{ marginTop:20, padding: 24, minHeight:'100%', backgroundColor:'white' }} >
-        <Title level={5}>
-          Edit Draft Ticket
-        </Title>
-        <br/>
-        <Form
-          layout="vertical"
-          form={editDraftForm}
-          initialValues={props.data.serviceTicket}
-          onFinish={(values) => {
-            setEditDraftFormLoading(true);
-            console.log('values', values);
-            props.onUpdate({
-              serviceTicketId: props.data.serviceTicket.id,
-              propertyId: values.property.id,
-              title: values.title,
-              description: values.description,
-              priority: values.priority,
-            });
-            setEditDraftFormLoading(false);
-          }}
-          >
+      {props.data.serviceTicket.status === 'SUBMITTED' &&
+          <div style={{marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white'}}>
+              <Title level={5}>
+                  Ticket Assignment
+              </Title>
+              <br/>
+              <Form
+                  layout="vertical"
+                  form={assignForm}
+                  initialValues={props.data.serviceTicket}
+                  onFinish={(values) => {
+                    setAssignFormLoading(true);
+                    console.log('values', values);
+                    props.onAssign({
+                      serviceTicketId: props.data.serviceTicket.id,
+                      assignedToId: values.assignedTo.id,
+                    });
+                    setAssignFormLoading(false);
+                  }}
+              >
+                  <Form.Item
+                      name={["assignedTo", "id"]}
+                      label="Assigned To"
+                  >
+                      <Select allowClear={true} placeholder="Select a Member" options={props.data.members}
+                              fieldNames={{label: 'memberName', value: 'id'}}/>
+                  </Form.Item>
+                  <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
+                      Save Assignment
+                  </Button>
+              </Form>
+          </div>}
+      {props.data.serviceTicket.status === 'DRAFT' &&
+          <div style={{marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white'}}>
+              <Title level={5}>
+                  Edit Draft Ticket
+              </Title>
+              <br/>
+              <Form
+                  layout="vertical"
+                  form={editDraftForm}
+                  initialValues={props.data.serviceTicket}
+                  onFinish={(values) => {
+                    setEditDraftFormLoading(true);
+                    console.log('values', values);
+                    props.onUpdate({
+                      serviceTicketId: props.data.serviceTicket.id,
+                      propertyId: values.property.id,
+                      title: values.title,
+                      description: values.description,
+                      priority: values.priority,
+                    });
+                    setEditDraftFormLoading(false);
+                  }}
+              >
 
-          <Form.Item
-            name={["title"]}
-            label="Title"
-            rules={[
-              { required: true, message: 'Title is required.' },
-            ]}
-          >
-            <Input placeholder='Short title of the request' maxLength={200}  />
-          </Form.Item>
+                  <Form.Item
+                      name={["title"]}
+                      label="Title"
+                      rules={[
+                        {required: true, message: 'Title is required.'},
+                      ]}
+                  >
+                      <Input placeholder='Short title of the request' maxLength={200}/>
+                  </Form.Item>
 
-          <Form.Item
-            name={["description"]}
-            label="Description"
-            rules={[
-              { required: true, message: 'Description is required.' },
-            ]}
-          >
-            <TextArea placeholder='Description of the request' maxLength={2000}  />
-          </Form.Item>
+                  <Form.Item
+                      name={["description"]}
+                      label="Description"
+                      rules={[
+                        {required: true, message: 'Description is required.'},
+                      ]}
+                  >
+                      <TextArea placeholder='Description of the request' maxLength={2000}/>
+                  </Form.Item>
 
-          <Form.Item
-            name={['property','id']}
-            label="Property"
-          >
-            <Select allowClear={true}  placeholder="Select a Property" options={props.data.properties} fieldNames={{label:'propertyName', value:'id'}} />
-          </Form.Item>
+                  <Form.Item
+                      name={['property', 'id']}
+                      label="Property"
+                  >
+                      <Select allowClear={true} placeholder="Select a Property" options={props.data.properties}
+                              fieldNames={{label: 'propertyName', value: 'id'}}/>
+                  </Form.Item>
 
-          <Form.Item
-            name={['priority']}
-            label="Priority"         
-            rules={[
-              { required: true, message: 'Priority is required.' },
-            ]}
-          >
-            <Select allowClear={false}  placeholder="Select a Priority">
-              <Select.Option value={1}>1-Critical</Select.Option>
-              <Select.Option value={2}>2-High</Select.Option>
-              <Select.Option value={3}>3-Normal</Select.Option>
-              <Select.Option value={4}>4-Low</Select.Option>
-              <Select.Option value={5}>5-No Rush</Select.Option>
-            </Select>
-          </Form.Item>
+                  <Form.Item
+                      name={['priority']}
+                      label="Priority"
+                      rules={[
+                        {required: true, message: 'Priority is required.'},
+                      ]}
+                  >
+                      <Select allowClear={false} placeholder="Select a Priority">
+                          <Select.Option value={1}>1-Critical</Select.Option>
+                          <Select.Option value={2}>2-High</Select.Option>
+                          <Select.Option value={3}>3-Normal</Select.Option>
+                          <Select.Option value={4}>4-Low</Select.Option>
+                          <Select.Option value={5}>5-No Rush</Select.Option>
+                      </Select>
+                  </Form.Item>
 
-          <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
-            Save Draft
-          </Button>
-        </Form>
-      </div>
-      </>}
+                  <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
+                      Save Draft
+                  </Button>
+              </Form>
+          </div>}
       <div style={{ marginTop:20, padding: 24, minHeight:'100%', backgroundColor:'white' }} >
         <Title level={5}>
           Activity Log

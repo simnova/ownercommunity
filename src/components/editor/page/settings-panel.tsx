@@ -12,7 +12,7 @@ export const SettingsPanel = () => {
       selectedNode = {
         id: currentNodeId,
         name: state.nodes[currentNodeId].data.name,
-        settings: state.nodes[currentNodeId].related && state.nodes[currentNodeId].related.settings,
+        settings: state.nodes[currentNodeId].related?.settings,
         isDeletable: state.nodes[currentNodeId].data.custom.isDeletable ?? query.node(currentNodeId).isDeletable()
       };
     }
@@ -29,7 +29,7 @@ export const SettingsPanel = () => {
         </Panel>
       ) : (
         <Panel header={selected.name} key="1">
-          {(selected && selected.settings && React.createElement(selected.settings)) || <>No settings</>}
+          {(selected?.settings && React.createElement(selected.settings)) || <>No settings</>}
           {(selected.isDeletable && (
             <Button
               style={{ color: '#fff', backgroundColor: '#ff0000', borderRadius: '5px' }}

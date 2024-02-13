@@ -8,7 +8,6 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.less';
 
-
 import { ConfigProvider } from 'antd';
 import { AuthProvider } from 'react-oidc-context';
 import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
@@ -31,9 +30,13 @@ function ConfigProviderWrapper() {
       }}
     >
       <AuthProvider {...oidcConfig}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <MaintenanceMessageProvider>
+          <ThemeProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ThemeProvider>
+        </MaintenanceMessageProvider>
       </AuthProvider>
     </ConfigProvider>
   );
@@ -43,13 +46,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AppInsightsContext.Provider value={reactPlugin}>
       <FeatureFlagProvider config={featureFlagConfig}>
-        <MaintenanceMessageProvider>
-          <CachePurgeProvider>
-            <ThemeProvider>
-              <ConfigProviderWrapper />
-            </ThemeProvider>
-          </CachePurgeProvider>
-        </MaintenanceMessageProvider>
+        <CachePurgeProvider>
+          <ConfigProviderWrapper />
+        </CachePurgeProvider>
       </FeatureFlagProvider>
     </AppInsightsContext.Provider>
   </React.StrictMode>

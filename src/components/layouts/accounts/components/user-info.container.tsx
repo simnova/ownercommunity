@@ -8,21 +8,15 @@ export const UserInfoContainer: React.FC<any> = () => {
   const { loading, error, data} = useQuery(LoggedInUserRootContainerUserCurrentQueryDocument);
   
   if(error){
-    return <>
-      <div>Error :( {JSON.stringify(error)}</div>
-    </>
+    return <div>Error : {JSON.stringify(error)}</div>
   } 
 
   if(loading){
-    return <>
-      <div>Loading...</div>
-    </>
+    return <div>Loading...</div>
   } 
 
   if (typeof data === 'undefined' || typeof data.userCurrent === 'undefined' || data.userCurrent === null ) {
-    return <>
-      <div>No Data...</div>
-    </>
+    return <div>No Data...</div>
   }
 
   return (

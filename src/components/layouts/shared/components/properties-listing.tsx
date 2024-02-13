@@ -135,7 +135,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         initialValues={props.data.property}
         onFinish={(values) => {
           setFormLoading(true);
-          var property: PropertyUpdateInput = {
+          const property: PropertyUpdateInput = {
             id: props.data.property.id,
             ...values
           };

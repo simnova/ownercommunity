@@ -1,5 +1,6 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
+import { AuthContextProps } from 'react-oidc-context';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -320,11 +321,11 @@ export const MinPrice = 0;
 export const MaxPrice = 1000000;
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
-  var addresssGeocodeServiceUrlTemplate: string =
+  const addresssGeocodeServiceUrlTemplate: string =
     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
   //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
 
-  var requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(addressInput));
+  const requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(addressInput));
   const token = mapSASToken;
   console.log(token);
 
@@ -647,7 +648,7 @@ export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => 
     if (key === 'page' || key ==='top') return;
     const searchParam = searchParamsArray.find((sp) => sp.key === key);
     if (searchParam) {
-      const separator = searchParam.separator || ',';
+      const separator = searchParam.separator ?? ',';
       if (value.includes(separator)) {
         const values = value.split(separator);
         const formattedValues = values.map((v) => searchParam.formatValue ? searchParam.formatValue(v) : v);
@@ -798,4 +799,28 @@ export const SetSearchParamsFromPropertyFilter = (
     searchParams.delete(SearchParamKeys.Tags);
   }
 
+};
+
+
+// check if the current environment is storybook
+export const IsInStorybookEnv = () => {
+  console.log(window.location.hostname);
+  const result = (window.location.hostname === "localhost" && window.location.port === "6006") || window.location.hostname.includes("chromatic.com");
+  return result;
+};
+
+export const FormatTimeCounter = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return minutes + ":" + (secs < 10 ? "0" + secs : secs);
+};
+
+export const HandleLogout = (auth: AuthContextProps, post_logout_redirect_uri?: string) => {
+  // Please do not put await before these two functions it will break the logout
+  auth.removeUser();
+  if (post_logout_redirect_uri) {
+    auth.signoutRedirect({ post_logout_redirect_uri });
+    return;
+  }
+  auth.signoutRedirect();
 };

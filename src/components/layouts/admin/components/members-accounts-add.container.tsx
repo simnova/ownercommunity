@@ -26,8 +26,8 @@ export const MembersAccountsAddContainer: React.FC<MembersAccountsAddContainerPr
   }
 
   const handleCheckUserId = async (userId: string) : Promise<{success:boolean, errorMessage:string}> => {
-    var user = await loadUser({variables: {userId}});
-    if(user.data && user.data.memberForUser){
+    const user = await loadUser({variables: {userId}});
+    if(user.data?.memberForUser){
       return {success:false, errorMessage:`User already exists as a Member as ${user.data.memberForUser.memberName} `}
     }
     return {success:true, errorMessage:""}

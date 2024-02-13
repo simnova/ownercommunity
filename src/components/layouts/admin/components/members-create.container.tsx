@@ -42,7 +42,7 @@ export const MembersCreateContainer: React.FC<MembersCreateContainerProps> = (pr
 
   const handleSave = async (values: MemberCreateInput) => {
     try {
-      var newMember = await memberCreate({
+      const newMember = await memberCreate({
         variables: {
           input: values
         }

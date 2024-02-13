@@ -44,7 +44,7 @@ const SiteEditorPageTree: React.FC = () => {
   useEffect(() => {
     if (pageLayouts) {
       const treeDataTemp = buildTree(pageLayouts);
-      setTreeData(treeDataTemp as any);
+      setTreeData(treeDataTemp);
     } else {
       setTreeData([]);
     }
@@ -67,7 +67,7 @@ const SiteEditorPageTree: React.FC = () => {
 
   const showModal = (parentNode: any) => {
     console.log('showModal', parentNode);
-    var invalidPageNames: string[] = [];
+    let invalidPageNames: string[] = [];
     if (parentNode.children) {
       invalidPageNames = parentNode.children.map((child: any) => child.pageName as string);
     }
@@ -108,7 +108,7 @@ const SiteEditorPageTree: React.FC = () => {
   const updatePathOnChildren = (node: any, currentPath: string) => {
     if (node.children) {
       node.children.forEach((child: any) => {
-        var childPath = currentPath + '/';
+        let childPath = currentPath + '/';
         child.pageType === 'Details' ? (childPath += ':propertyId/*') : (childPath += child.pageName);
         child.path = childPath;
         updatePathOnChildren(child, childPath);
@@ -161,7 +161,7 @@ const SiteEditorPageTree: React.FC = () => {
             newNode.pageType = data.pageType ?? 'Blank';
             newNode.pageName = data.pageName;
             console.log('saveData', data, newNode);
-            var updatedTree = addNodeUnderParent({
+            let updatedTree = addNodeUnderParent({
               treeData: treeData,
               newNode: newNode,
               parentKey: newNode.parent,
@@ -232,13 +232,13 @@ const SiteEditorPageTree: React.FC = () => {
                     <DetailsPageDetails
                       data={selectedNode}
                       saveData={function (data: { id: string; title: string }): void {
-                        var node = getNodeAtPath({
+                        const node = getNodeAtPath({
                           treeData: treeData,
                           path: selectedNodePath,
                           getNodeKey: keyFromTreeIndex
                         })?.node as any;
                         node.title = data.title;
-                        var updatedTree = changeNodeAtPath({
+                        const updatedTree = changeNodeAtPath({
                           treeData: treeData,
                           path: selectedNodePath,
                           newNode: node,
@@ -259,7 +259,7 @@ const SiteEditorPageTree: React.FC = () => {
                         pageName: string;
                         pageType: string;
                       }): void {
-                        var node = getNodeAtPath({
+                        const node = getNodeAtPath({
                           treeData: treeData,
                           path: selectedNodePath,
                           getNodeKey: keyFromTreeIndex
@@ -267,7 +267,7 @@ const SiteEditorPageTree: React.FC = () => {
                         node.title = data.title;
                         node.pageType = data.pageType;
                         node.pageName = data.pageName;
-                        var updatedTree = changeNodeAtPath({
+                        const updatedTree = changeNodeAtPath({
                           treeData: treeData,
                           path: selectedNodePath,
                           newNode: node,

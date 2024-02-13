@@ -23,7 +23,7 @@ appInsights.loadAppInsights();
 // Creating Telemetry Initializer
 // https://github.com/microsoft/ApplicationInsights-JS#telemetry-initializers
 appInsights.addTelemetryInitializer((env:ITelemetryItem) => {
-    env.tags = env.tags || [];
+    env.tags = env.tags ?? [];
     env.tags["ai.cloud.role"] = "OwnerCommunity-UI";
 });
 

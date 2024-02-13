@@ -23,9 +23,7 @@ interface ImageProp {
   width: number;
 }
 
-let ImageComponent: any;
-
-ImageComponent = ({ src, width }: ImageProp) => {
+const ImageComponent: any = ({ src, width }: ImageProp) => {
   const { connectors: {connect, drag} } = useNode();
 
   return (
@@ -42,7 +40,7 @@ ImageComponent = ({ src, width }: ImageProp) => {
   )
 }
 
-var ImageComponentSettings = () => {
+const ImageComponentSettings = () => {
   const params = useParams();
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");

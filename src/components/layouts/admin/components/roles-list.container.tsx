@@ -21,7 +21,7 @@ export const RolesListContainer: React.FC<RolesListContainerProps> = (props) => 
   return (
     <ComponentQueryLoader
       loading={rolesLoading}
-      hasData={rolesData && rolesData.rolesByCommunityId}
+      hasData={rolesData?.rolesByCommunityId}
       hasDataComponent={<RolesList data={rolesData?.rolesByCommunityId as Role[]} />}
       error={rolesError}
     />

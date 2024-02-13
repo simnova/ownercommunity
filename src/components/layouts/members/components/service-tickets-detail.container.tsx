@@ -107,7 +107,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
 
   const handleChangeStatus = async (values: ServiceTicketChangeStatusInput) => {
     try {
-      var result = await serviceTicketChangeStatus({
+      const result = await serviceTicketChangeStatus({
         variables: {
           input: values
         }
@@ -158,14 +158,11 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
   if (serviceTicketLoading || memberLoading || propertyLoading) {
     return <Skeleton active />;
   } else if (serviceTicketError || memberError || propertyError) {
-    return <div>{JSON.stringify(serviceTicketError || memberError || propertyError)}</div>;
+    return <div>{JSON.stringify(serviceTicketError ?? memberError ?? propertyError)}</div>;
   } else if (
-    serviceTicketData &&
-    serviceTicketData.serviceTicket &&
-    memberData &&
-    memberData.membersAssignableToTickets &&
-    propertyData &&
-    propertyData.propertiesForCurrentUserByCommunityId
+    serviceTicketData?.serviceTicket &&
+    memberData?.membersAssignableToTickets &&
+    propertyData?.propertiesForCurrentUserByCommunityId
   ) {
     const data = {
       serviceTicket: serviceTicketData.serviceTicket,

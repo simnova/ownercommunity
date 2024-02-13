@@ -35,30 +35,28 @@ export const DetailsPageDetails: React.FC<PageDetailsPropTypes> = (props) => {
     });
   }, [props.data]);
 
-  return <>
-      <Form
-        form={form}
-        initialValues={{
-          title: props.data.title,
-        }}
-        onFinish={(values) => {
-          props.saveData(values);
-        }}
-      >
-      <Form.Item 
-        name="title" 
-        label="Title"
-        rules={[
-          { required: true, message: 'Please input the title of the page' },
-        ]}  
-        >
-        <Input />
-      </Form.Item> 
-      <Button type="primary" htmlType="submit" value={'save'}>
-        Save Page Changes
-      </Button>
-    </Form> 
-  </>
+  return <Form
+    form={form}
+    initialValues={{
+      title: props.data.title,
+    }}
+    onFinish={(values) => {
+      props.saveData(values);
+    }}
+  >
+    <Form.Item
+      name="title"
+      label="Title"
+      rules={[
+        {required: true, message: 'Please input the title of the page'},
+      ]}
+    >
+      <Input/>
+    </Form.Item>
+    <Button type="primary" htmlType="submit" value={'save'}>
+      Save Page Changes
+    </Button>
+  </Form>
 }
 
 

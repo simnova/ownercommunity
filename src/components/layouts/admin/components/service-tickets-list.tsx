@@ -44,13 +44,11 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     },
   ]
 
-  return (<>
-    <div>
-      <Table 
-        columns={columns} 
-        dataSource={props.data}
-        rowKey={(record: any) => record.id}
-      />
-    </div>
-  </>)
+  return <div>
+    <Table
+      columns={columns}
+      dataSource={props.data}
+      rowKey={(record: any) => record.id}
+    />
+  </div>
 }

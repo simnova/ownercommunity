@@ -321,11 +321,11 @@ export const MinPrice = 0;
 export const MaxPrice = 1000000;
 
 export const addressQuery = async (addressInput: string, mapSASToken: string) => {
-  var addresssGeocodeServiceUrlTemplate: string =
+  const addresssGeocodeServiceUrlTemplate: string =
     'https://atlas.microsoft.com/search/address/json?typeahead=true&api-version=1&query={query}';
   //var addresssGeocodeServiceUrlTemplate: string = 'https://atlas.microsoft.com/geocode?api-version=2022-02-01-preview&addressLine={query}&top=10';
 
-  var requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(addressInput));
+  const requestUrl = addresssGeocodeServiceUrlTemplate.replace('{query}', encodeURIComponent(addressInput));
   const token = mapSASToken;
   console.log(token);
 
@@ -648,7 +648,7 @@ export const GetPropertySelectedFilterTags = (searchParams: URLSearchParams) => 
     if (key === 'page' || key ==='top') return;
     const searchParam = searchParamsArray.find((sp) => sp.key === key);
     if (searchParam) {
-      const separator = searchParam.separator || ',';
+      const separator = searchParam.separator ?? ',';
       if (value.includes(separator)) {
         const values = value.split(separator);
         const formattedValues = values.map((v) => searchParam.formatValue ? searchParam.formatValue(v) : v);

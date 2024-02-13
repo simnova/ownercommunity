@@ -104,7 +104,7 @@ export const PropertiesLocation = (props: any) => {
         initialValues={props.data.property}
         onFinish={(values) => {
           setFormLoading(true);
-          var property: PropertyUpdateInput = {
+          const property: PropertyUpdateInput = {
             id: props.data.property.id,
             ...values
           };

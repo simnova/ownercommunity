@@ -36,7 +36,7 @@ export const MemberProfileContainer: React.FC<MemberProfileContainerProps> = (pr
   return (
     <ComponentQueryLoader
       loading={memberLoading}
-      hasData={(memberData && memberData.memberForCurrentUser) || props.isAdmin}
+      hasData={(memberData?.memberForCurrentUser) ?? props.isAdmin}
       hasDataComponent={<MemberProfile data={{ id: memberId ?? '', communityId: props.data.communityId }} />}
       error={memberError}
     />

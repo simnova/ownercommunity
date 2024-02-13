@@ -76,8 +76,8 @@ export const SiteEditor: React.FC<SiteEditorProp> = (props) => {
   const handleUpload = async () => {
     let pageLayouts = localStorage.getItem('pageLayouts');
     if (pageLayouts) {
-      var blob = new Blob([pageLayouts], { type: 'text/json' });
-      var file = new File([blob], 'pageLayouts.json', { type: 'text/json' });
+      const blob = new Blob([pageLayouts], { type: 'text/json' });
+      const file = new File([blob], 'pageLayouts.json', {type: 'text/json'});
       await customizeUpload(file);
     }
   };

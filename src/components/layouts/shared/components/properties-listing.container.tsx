@@ -43,10 +43,8 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
         delete tempObj.property;
         const newData = stripTypenames(tempObj[property], propToDelete);
         tempObj[property] = newData;
-      } else {
-        if (property === propToDelete) {
-          delete tempObj[property];
-        }
+      } else if (property === propToDelete) {
+        delete tempObj[property];
       }
     }
     return tempObj;
@@ -78,8 +76,8 @@ export const PropertiesListingContainer: React.FC<PropertiesListingContainerProp
       );
     } else if (propertyError) {
       return <div>{JSON.stringify(propertyError)}</div>;
-    } else if (propertyData && propertyData.property) {
-      var detailData = {
+    } else if (propertyData?.property) {
+      const detailData = {
         property: propertyData.property,
         communityId: props.data.communityId
       };

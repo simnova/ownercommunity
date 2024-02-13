@@ -22,8 +22,8 @@ export const CommunityPropertyListingsContainer: React.FC<any> = (props) => {
         );
         } else if (propertyError ) {
         return <div>{JSON.stringify(propertyError)}</div>;
-        } else if (propertyData && propertyData.propertiesByCommunityId) {
-        var detailData = {
+        } else if (propertyData?.propertiesByCommunityId) {
+        const detailData = {
             property: propertyData.propertiesByCommunityId
         };
         return <CommunityPropertyListings data={detailData}/>;

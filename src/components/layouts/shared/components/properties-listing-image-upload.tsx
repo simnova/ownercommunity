@@ -41,7 +41,7 @@ export const PropertiesListingImageUpload: React.FC<PropertiesListingImageUpload
       permittedExtensions={[
         'jpg', 'jpeg', 'png', 'gif',
       ]}
-      maxFileSizeBytes={1 *  1024 * 1024} // 1MB,
+      maxFileSizeBytes={1024 * 1024} // 1MB,
       maxWidthOrHeight={2048}
       onSuccess={handleSuccess}
       uploadProps={{

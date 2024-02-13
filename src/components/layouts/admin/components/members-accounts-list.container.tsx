@@ -28,7 +28,7 @@ export const MembersAccountsListContainer: React.FC<MembersAccountsListContainer
   return (
     <ComponentQueryLoader
       loading={memberLoading}
-      hasData={memberData && memberData.member}
+      hasData={memberData?.member}
       hasDataComponent={<MembersAccountsList data={memberData?.member?.accounts} />}
       error={memberError}
     />

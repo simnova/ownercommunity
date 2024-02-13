@@ -44,26 +44,16 @@ export const LoggedInUser: React.FC<LoggedInUserPropTypes> = (props) => {
         }
       };
 
-      return (
-        <>
-          <LoggedIn data={loggedInProps.data!} onLogoutClicked={props.onLogoutClicked} />
-        </>
-      );
+      return <LoggedIn data={loggedInProps.data!} onLogoutClicked={props.onLogoutClicked}/>
     } else {
       return (
-        <>
-          <NotLoggedIn
-            onLoginClicked={props.onLoginClicked ?? dummyFunction}
-            onSignupClicked={props.onSignupClicked ?? dummyFunction}
-          />
-        </>
+        <NotLoggedIn
+          onLoginClicked={props.onLoginClicked ?? dummyFunction}
+          onSignupClicked={props.onSignupClicked ?? dummyFunction}
+        />
       );
     }
   };
 
-  return (
-    <>
-      <div className={` `}>{content()}</div>
-    </>
-  );
+  return <div className={` `}>{content()}</div>
 };

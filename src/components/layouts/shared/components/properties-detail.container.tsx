@@ -126,9 +126,9 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
         </div>
       );
     } else if (propertyError || memberError) {
-      return <div>{JSON.stringify(propertyError || memberError)}</div>;
-    } else if (propertyData && propertyData.property && memberData?.membersByCommunityId) {
-      var detailData = {
+      return <div>{JSON.stringify(propertyError ?? memberError)}</div>;
+    } else if (propertyData?.property && memberData?.membersByCommunityId) {
+      const detailData = {
         property: propertyData.property,
         members: memberData.membersByCommunityId
       };

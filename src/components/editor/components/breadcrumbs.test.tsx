@@ -15,7 +15,7 @@ beforeEach(() => {
 describe('Given a nested path and page layouts are not loaded', async () => {
   //Arrange
   const givenPath = '/about/learn-more';
-  const givenPageLayouts:LocalData.PageLayouts = [{loaded:false} as UnloadedPageLayout];;
+  const givenPageLayouts:LocalData.PageLayouts = [{loaded:false} as UnloadedPageLayout];
 
   describe('when rendering the breadcrumb component', async () => {  
     //Act

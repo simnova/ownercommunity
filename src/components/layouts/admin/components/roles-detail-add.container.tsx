@@ -61,7 +61,7 @@ export const RolesDetailAddContainer: React.FC<any> = (props) => {
 
   const handleAdd = async (values: RoleAddInput) => {
     try {
-      var newRole = await roleAdd({
+      const newRole = await roleAdd({
         variables: {
           input: values
         }

@@ -43,7 +43,7 @@ export const PropertiesListingImageUploadContainer: React.FC<PropertiesListingIm
         url = url.substring(blobPath.length+1);
       }
 
-      updatedList.push(url as string);
+      updatedList.push(url);
       props.onChange(updatedList);
     }
   }
@@ -51,21 +51,19 @@ export const PropertiesListingImageUploadContainer: React.FC<PropertiesListingIm
   const handleChange = (newFileList:UploadFile[]) => {
     if(props.onChange) {
       console.log('newFileList:',newFileList);
-      if(!newFileList || !newFileList.length || newFileList.length === 0) {
+      if(!newFileList?.length || newFileList.length === 0) {
         props.onChange([]);
+      } else if (newFileList.find(f => f.status === 'uploading')) {
+        // do nothing
       } else {
-        if(newFileList.find(f => f.status === 'uploading')) {
-          // do nothing
-        } else {
-          let results = newFileList.map(f => {
-            if(f.url?.startsWith(blobPath)){
-              return f.url.substring(blobPath.length+1);
-            }
-            return f.url;
-          }) as string[];
-          console.log('results:',results);
-          props.onChange(results);
-        }
+        let results = newFileList.map(f => {
+          if (f.url?.startsWith(blobPath)) {
+            return f.url.substring(blobPath.length + 1);
+          }
+          return f.url;
+        }) as string[];
+        console.log('results:', results);
+        props.onChange(results);
       }
     }
   }

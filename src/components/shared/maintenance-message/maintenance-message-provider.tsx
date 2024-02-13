@@ -83,7 +83,6 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
     if (serverTime > dayjs(maintenanceEndTimestamp)) {
       setIsMaintenance(false);
       setIsImpending(false);
-      return;
     }
   };
 

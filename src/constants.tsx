@@ -1,5 +1,6 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
+import { AuthContextProps } from 'react-oidc-context';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -798,4 +799,28 @@ export const SetSearchParamsFromPropertyFilter = (
     searchParams.delete(SearchParamKeys.Tags);
   }
 
+};
+
+
+// check if the current environment is storybook
+export const IsInStorybookEnv = () => {
+  console.log(window.location.hostname);
+  const result = (window.location.hostname === "localhost" && window.location.port === "6006") || window.location.hostname.includes("chromatic.com");
+  return result;
+};
+
+export const FormatTimeCounter = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return minutes + ":" + (secs < 10 ? "0" + secs : secs);
+};
+
+export const HandleLogout = (auth: AuthContextProps, post_logout_redirect_uri?: string) => {
+  // Please do not put await before these two functions it will break the logout
+  auth.removeUser();
+  if (post_logout_redirect_uri) {
+    auth.signoutRedirect({ post_logout_redirect_uri });
+    return;
+  }
+  auth.signoutRedirect();
 };

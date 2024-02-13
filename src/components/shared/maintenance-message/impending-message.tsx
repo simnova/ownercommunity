@@ -9,7 +9,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 export interface MaintenanceMessageProps {}
 
-const ImpendingMessage: FC<MaintenanceMessageProps> = (props) => {
+const ImpendingMessage: FC<MaintenanceMessageProps> = (_) => {
   const { GetFeatureFlagByName } = useFeatureFlags();
 
   const replaceTokens = (str: string, mapObj: any) => {

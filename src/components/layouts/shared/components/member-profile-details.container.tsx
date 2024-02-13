@@ -21,7 +21,7 @@ export const MemberProfileDetailsContainer: React.FC<MemberProfileDetailsContain
   const handleSave = async (values: MemberProfileInput) => {
     try {
       
-      var result = await updateMember({
+      const result = await updateMember({
         variables: {
           input: {
             memberId: props.data.id,
@@ -42,7 +42,7 @@ export const MemberProfileDetailsContainer: React.FC<MemberProfileDetailsContain
   return (
     <ComponentQueryLoader
       loading={memberLoading}
-      hasData={memberData && memberData.member}
+      hasData={memberData?.member}
       hasDataComponent={<MemberProfileDetails data={memberData?.member?.profile} onSave={handleSave} />}
       error={memberError}
     />

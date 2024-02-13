@@ -28,13 +28,8 @@ const GET_PROPERTIES_BY_COMMUNITY = gql`
   }
 `;
 
-// interface PropertiesListingProps {
-//     path: string;
-// }
 
-let PropertiesListing: any;
-
-PropertiesListing = () => {
+const PropertiesListing: any = () => {
   const {
     token: { colorBgContainer }
   }=theme.useToken();
@@ -83,8 +78,7 @@ PropertiesListing = () => {
           className="shadow overflow-hidden sm:rounded"
           style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', backgroundColor:colorBgContainer }}
         >
-          {data &&
-            data.propertiesByCommunityId &&
+          {data?.propertiesByCommunityId &&
             data.propertiesByCommunityId.map((property: any) => (
               <>
                 {property.listedForSale ? (

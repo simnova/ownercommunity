@@ -26,7 +26,7 @@ export const SiteEditor: React.FC<any> = () => {
     {id:'files', path:useResolvedPath('files').pathname, title:'Files'}
   ]
 
-  var matchedPages = matchRoutes(pages,location)
+  const matchedPages = matchRoutes(pages, location);
   const selectedPage = (matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : ['page-tree'])[0];
 
   return (

@@ -15,7 +15,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   return (
     <ComponentQueryLoader
       loading={serviceTicketLoading}
-      hasData={serviceTicketData && serviceTicketData.serviceTicketsByCommunityId}
+      hasData={serviceTicketData?.serviceTicketsByCommunityId}
       hasDataComponent={<ServiceTicketsList data={serviceTicketData?.serviceTicketsByCommunityId} />}
       error={serviceTicketError}
     />

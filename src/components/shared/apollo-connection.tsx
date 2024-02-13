@@ -27,22 +27,12 @@ const ApolloConnection: FC<any> = (props) => {
     if(hasAuth){
       const access_token = auth.user?.access_token;
       console.log('auth-token',access_token);
-      var returnHeaders = {...headers};
+      const returnHeaders = {...headers};
       if(access_token){ returnHeaders['Authorization'] = `Bearer ${access_token}`; }
       if(localStorage.getItem('community') !== null){ returnHeaders['community'] = localStorage.getItem('community')?.replaceAll('"',''); }
       console.log('returnHeaders',returnHeaders);
       return {headers: returnHeaders};
-      /*
-      return {
-        
-        headers: {
-          ...headers,
-          Authorization: token ? `Bearer ${token.accessToken}` : null,
-          community: localStorage.getItem('community')?.replaceAll('"','') || null
-        },
-      };
-      */
-    }else {
+    } else {
       return {
         headers: {
           ...headers

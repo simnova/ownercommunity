@@ -44,9 +44,9 @@ export const RolesDetailContainer: React.FC<any> = (props) => {
   return (
     <ComponentQueryLoader
       loading={roleLoading}
-      hasData={roleData && roleData.role}
+      hasData={roleData?.role}
       hasDataComponent={<RolesDetail onAdd={{}} onUpdate={handleUpdate} data={roleData?.role} />}
-      error={roleError || updateError}
+      error={roleError ?? updateError}
     />
   );
 };

@@ -16,11 +16,7 @@ interface SiteEditorPageTreeBuilderProps {
 
 const canDrop = ({ nextParent, nextPath }: any) => {
   // ensure only one root node or if targeted node is a listing/details page
-  if (nextPath.length === 1 || nextParent.pageType === 'Listing' || nextParent.pageType === 'Details') {
-    return false;
-  }
-
-  return true;
+  return !(nextPath.length === 1 || nextParent.pageType === 'Listing' || nextParent.pageType === 'Details');
 };
 
 const canDrag = ({ node }: any) => {
@@ -53,7 +49,7 @@ export const SiteEditorPageTreeBuilder: FC<SiteEditorPageTreeBuilderProps> = (pr
               </Button>,
               <Button
                 onClick={() => {
-                  var newTreeData = props.removeNodeAtPath({
+                  const newTreeData = props.removeNodeAtPath({
                     treeData: props.treeData,
                     path: path,
                     getNodeKey: props.keyFromTreeIndex

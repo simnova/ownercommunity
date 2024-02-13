@@ -17,7 +17,7 @@ interface AdminSectionLayoutProps {
 export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
   const params = useParams();
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
-  const [isExpanded, setIsExpanded] = useState(sidebarCollapsed ? false : true);
+  const [isExpanded, setIsExpanded] = useState(!sidebarCollapsed);
   const {
     token: { colorBgContainer }
   } = theme.useToken();

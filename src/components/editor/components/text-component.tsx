@@ -10,9 +10,7 @@ interface TextComponentProp {
     color?: string;
   }
 
-let TextComponent: any;
-
-TextComponent = ({text, fontSize, fontWeight }:TextComponentProp) => {
+const TextComponent: any = ({text, fontSize, fontWeight }:TextComponentProp) => {
   const { connectors: {connect, drag} } = useNode();
 
   return (
@@ -25,8 +23,8 @@ TextComponent = ({text, fontSize, fontWeight }:TextComponentProp) => {
   )
 }
 
-var TextComponentSettings = () => {
-  const { actions: { setProp}, text, fontSize, fontWeight } = useNode((node) => ({
+const TextComponentSettings = () => {
+  const {actions: {setProp}, text, fontSize, fontWeight} = useNode((node) => ({
     text: node.data.props.text,
     fontSize: node.data.props.fontSize,
     fontWeight: node.data.props.fontWeight,
@@ -37,9 +35,9 @@ var TextComponentSettings = () => {
       <Form layout="vertical">
         <Form.Item label="Text">
           <Input
-          placeholder="Text"
-          value={text}
-          onChange={(inputElement) => setProp((props: any) => props.text = inputElement.target.value)}
+            placeholder="Text"
+            value={text}
+            onChange={(inputElement) => setProp((props: any) => props.text = inputElement.target.value)}
           />
         </Form.Item>
         <Form.Item label="Font Size">
@@ -59,7 +57,7 @@ var TextComponentSettings = () => {
       </Form>
     </div>
   )
-}
+};
 
 TextComponent.craft = {
   props: {

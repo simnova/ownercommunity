@@ -11,14 +11,12 @@ const ContainerProps = {
 
 interface ContainerProp {
   children: any;
-  bgColor: string;
 }
 
 export type ContainerPropTypes = PropTypes.InferProps<typeof ContainerProps> & ContainerProp;
 
-let Container: any;
 
-Container = ({ children }: ContainerProp) => {
+const Container: any = ({ children }: ContainerProp) => {
   const { connectors: { connect, drag } } = useNode((state) =>(
     {
         selected: state.events.selected,
@@ -42,7 +40,7 @@ Container = ({ children }: ContainerProp) => {
   )
 }
 
-var ContainerSettings = () => {
+const ContainerSettings = () => {
   const { actions: { setProp }, bgColor } = useNode((node) => ({  
     bgColor: node.data.props.bgColor
   }));

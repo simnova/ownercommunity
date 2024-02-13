@@ -43,7 +43,7 @@ const AdditionalAmenitiesFilter: FC<AdditionalAmenitiesFilterProps> = (props) =>
     } else {
       const searchParamsString = searchParams.get(searchId)?.split(';');
       const newSearchParamsArray = searchParamsString?.filter((searchParam) => searchParam !== value);
-      searchParams.set(searchId, newSearchParamsArray?.join(';') || '');
+      searchParams.set(searchId, newSearchParamsArray?.join(';') ?? '');
       if (searchParams.get(searchId) === '') {
         searchParams.delete(searchId);
       }

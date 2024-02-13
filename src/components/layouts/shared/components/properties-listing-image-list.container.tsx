@@ -54,7 +54,7 @@ export const PropertiesListingImageListContainer: FC<PropertiesListingImageListC
   return (
     <ComponentQueryLoader
       loading={loading}
-      hasData={data && data?.memberForUser}
+      hasData={data?.memberForUser}
       hasDataComponent={
         <PropertiesListingImageList
           data={{ images: props?.data?.images ?? [], memberId: data?.memberForUser?.id }}

@@ -4,7 +4,7 @@ import defaultValues from './feature-flag-default-values.json';
 
 let axiosHeaders = async (config: AxiosRequestConfig) => {
   //if config is not null
-  if (config && config.headers) {
+  if (config?.headers) {
     config.headers['Cache-Control'] = `no-cache`;
     config.headers['Pragma'] = `no-cache`;
     config.headers['Expires'] = `0`;
@@ -12,8 +12,8 @@ let axiosHeaders = async (config: AxiosRequestConfig) => {
   return config;
 };
 
-let featureFlagConfig: FeatureFlagConfig = {
-  cache: 1 * 60 * 1000, //1 minute
+const featureFlagConfig: FeatureFlagConfig = {
+  cache: 60 * 1000, //1 minute
   url: import.meta.env.VITE_FEATURE_FLAG_URL ?? "",
  
 

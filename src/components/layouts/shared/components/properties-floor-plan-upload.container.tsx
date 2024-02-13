@@ -27,7 +27,7 @@ export const PropertiesFloorPlanUploadContainer: React.FC<PropertiesFloorPlanUpl
             return result.data?(({...result.data.propertyFloorPlanImageCreateAuthHeader, ...{isAuthorized:true}})as AuthResult):{isAuthorized:false} as AuthResult;
           }
           const blobPath = `https://ownercommunity.blob.core.windows.net/${props.communityId}`;
-          var fileList = props.value?.map((v,index) => (
+          const fileList = props.value?.map((v,index) => (
             {uid:`-${index}`,name:v,status:'done',url: `${blobPath}/${v}`})) as UploadFile[];
 
             return (
@@ -38,9 +38,9 @@ export const PropertiesFloorPlanUploadContainer: React.FC<PropertiesFloorPlanUpl
                   onFileAdded={(file) => {
                     if(props.onChange && file.url){
                       
-                      var updatedList = [...props.value??[]];
+                      const updatedList = [...props.value??[]];
                       //@ts-ignore
-                      var url = file.url;
+                      let url = file.url;
                       if(url.startsWith(blobPath)){
                         url = url.substring(blobPath.length+1);
                       }
@@ -53,22 +53,20 @@ export const PropertiesFloorPlanUploadContainer: React.FC<PropertiesFloorPlanUpl
                   onChange={(newFileList) => {
                     if(props.onChange) {
                       console.log('newFileList:',newFileList);
-                      if(!newFileList || !newFileList.length || newFileList.length === 0) {
+                      if(!newFileList?.length || newFileList.length === 0) {
                         props.onChange([]);
+                      } else if (newFileList.find(f => f.status === 'uploading')) {
+                        // do nothing
                       } else {
-                        if(newFileList.find(f => f.status === 'uploading')) {
-                          // do nothing
-                        } else {
-                          var results = newFileList.map(f => {
-            
-                            if(f.url?.startsWith(blobPath)){
-                              return f.url.substring(blobPath.length+1);
-                            }
-                            return f.url;
-                          }) as string[];
-                          console.log('results:',results);
-                          props.onChange(results);
-                        }
+                        const results = newFileList.map(f => {
+
+                          if (f.url?.startsWith(blobPath)) {
+                            return f.url.substring(blobPath.length + 1);
+                          }
+                          return f.url;
+                        }) as string[];
+                        console.log('results:', results);
+                        props.onChange(results);
                       }
                     }
                   }}

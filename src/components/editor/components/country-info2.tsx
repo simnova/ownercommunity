@@ -23,8 +23,7 @@ const GET_COUNTRY_DETAILS = gql`
     }
 `;
 
-let CountryInfo2:any;
-CountryInfo2 = ({country, ...props} : CountryInfo2Prop ) => {
+const CountryInfo2: any = ({country, ...props} : CountryInfo2Prop ) => {
   const {
     token: { colorTextBase, colorBgContainer }
   }=theme.useToken();
@@ -53,7 +52,7 @@ CountryInfo2 = ({country, ...props} : CountryInfo2Prop ) => {
       ref={ref => connect(drag(ref as HTMLDivElement))} 
       {...props}
       >
-      { data && data.country && (
+      { data?.country && (
         <div className=" shadow overflow-hidden sm:rounded-lg" style={{
           backgroundColor: colorBgContainer,
         }}>

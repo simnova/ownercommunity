@@ -8,9 +8,7 @@ interface GridProp {
   bgColor: string;
 }
 
-let Grid: any;
-
-Grid = ({ numOfCols, bgColor, ...props }: GridProp) => {
+const Grid: any = ({ numOfCols, bgColor, ...props }: GridProp) => {
   const {
     connectors: { connect, drag }
   } = useNode((state) => ({
@@ -46,7 +44,7 @@ Grid = ({ numOfCols, bgColor, ...props }: GridProp) => {
   );
 };
 
-var GridSettings = () => {
+const GridSettings = () => {
   const {
     actions: { setProp },
     numOfCols,

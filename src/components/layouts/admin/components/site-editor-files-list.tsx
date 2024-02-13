@@ -78,9 +78,9 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
       onFilter: (value: boolean | React.Key, record: FileInfo) => {
         switch (value) {
           case '1':
-            return record.size < 1 * 1024 * 1024;
+            return record.size < 1024 * 1024;
           case '2':
-            return record.size >= 1 * 1024 * 1024 && record.size < 2 * 1024 * 1024;
+            return record.size >= 1024 * 1024 && record.size < 2 * 1024 * 1024;
           case '3':
             return record.size >= 2 * 1024 * 1024 && record.size < 5 * 1024 * 1024;
           case '4':

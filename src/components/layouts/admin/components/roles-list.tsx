@@ -41,14 +41,14 @@ export const RolesList: React.FC<RolesListProps> = (props) => {
     },
   ]
 
-  return (<>
+  return (
     <div>
-      <Table 
-        columns={columns} 
+      <Table
+        columns={columns}
         dataSource={props.data}
         rowKey={(record: Role) => record.id}
       />
     </div>
-  </>)
+  )
 
 }

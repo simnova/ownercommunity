@@ -324,7 +324,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
               )
             }
           ></Select>
-          <Button type="primary" onClick={() => updateCustomView()} disabled={selectedSavedFilterName ? false : true}>
+          <Button type="primary" onClick={() => updateCustomView()} disabled={!selectedSavedFilterName}>
             Update
           </Button>
           <Button type="default" danger onClick={() => clearFilter()}>

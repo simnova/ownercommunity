@@ -63,7 +63,7 @@ export const CachePurgeProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CachePurgeContext.Provider
       value={{
-        currentVersion: cachedVersion || appVersion
+        currentVersion: cachedVersion ?? appVersion
       }}
     >
       {children}

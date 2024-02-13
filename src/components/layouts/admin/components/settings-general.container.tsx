@@ -70,9 +70,9 @@ export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropType
   return (
     <ComponentQueryLoader
       loading={accountLoading}
-      hasData={communityData && communityData.communityById}
+      hasData={communityData?.communityById}
       hasDataComponent={<SettingsGeneral onSave={handleSave} data={communityData?.communityById} />}
-      error={accountError || error}
+      error={accountError ?? error}
     />
   );
 };

@@ -24,8 +24,8 @@ export const LoggedInUserRootContainer: React.FC<HeaderPropTypes> = () => {
   const { loading, error, data } = useQuery(LoggedInUserRootContainerUserCurrentQueryDocument);
 
   const handleLogout = async () => {
-    auth.removeUser();
-    auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
+    await auth.removeUser();
+    await auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
   };
 
   const LoggedInRootContainer = () => {
@@ -48,7 +48,7 @@ export const LoggedInUserRootContainer: React.FC<HeaderPropTypes> = () => {
   return (
     <ComponentQueryLoader
       loading={loading}
-      hasData={data && data.userCurrent}
+      hasData={data?.userCurrent}
       hasDataComponent={<LoggedInRootContainer />}
       error={error}
       noDataComponent={<div>Nothing</div>}

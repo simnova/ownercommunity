@@ -21,8 +21,8 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   });
 
   const handleLogout = async () => {
-    auth.removeUser()
-    auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
+    await auth.removeUser()
+    await auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
   };
 
   const LoggedInCommunityContainer = () => {
@@ -49,7 +49,7 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   return (
     <ComponentQueryLoader
       loading={loading}
-      hasData={data && data.userCurrent && data.memberForCurrentUser}
+      hasData={data?.userCurrent && data.memberForCurrentUser}
       hasDataComponent={<LoggedInCommunityContainer />}
       error={error}
       noDataComponent={<div>Nothing</div>}

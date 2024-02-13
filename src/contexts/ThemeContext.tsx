@@ -1,7 +1,9 @@
 import { Button, theme } from 'antd';
 import { ReactNode, createContext, useEffect, useState } from 'react';
-import { useMaintenanceMessage } from '../components/shared/maintenance-message';
 import ModalPopUp from './components/ModalPopUp';
+import MaintenanceMessage from '../components/shared/maintenance-message/maintenance-message';
+import ImpendingMessage from '../components/shared/maintenance-message/impending-message';
+import { useMaintenanceMessage } from '../components/shared/maintenance-message';
 
 interface ThemeContextType {
   currentTokens: {
@@ -11,8 +13,6 @@ interface ThemeContextType {
   };
   setTheme: (tokens: any, types: string) => void;
 }
-
-
 
 export const ThemeContext = createContext<ThemeContextType>({
   currentTokens: {
@@ -27,7 +27,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const { isImpending, isMaintenance, maintainanceMessage, maintainanceMessageImpending } = useMaintenanceMessage();
+  const { isImpending, isMaintenance } = useMaintenanceMessage();
   const [currentTokens, setCurrentTokens] = useState({
     token: theme.defaultSeed,
     hardCodedTokens: {
@@ -37,7 +37,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     type: 'light'
   });
   const [isHidden, setIsHidden] = useState(false);
-
 
   const toggleHidden = () => setIsHidden((prevHidden) => !prevHidden);
 
@@ -146,27 +145,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ThemeContext.Provider value={{ currentTokens, setTheme }}>
       {isMaintenance ? (
-        <div>
-          <div className="h-screen flex justify-center items-center text-center px-8">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: maintainanceMessage as string
-              }}
-            ></div>
-          </div>
-        </div>
+        <MaintenanceMessage />
       ) : (
         <div>
           <div className={isHidden ? 'hidden' : 'text-center'}>
-            {isImpending && (
-              <div className="w-screen bg-red-500 text-left px-8 py-4">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: maintainanceMessageImpending as string
-                  }}
-                ></div>
-              </div>
-            )}
+            {isImpending && <ImpendingMessage />}
             <div className="py-2 flex gap-4 justify-center">
               <Button
                 type="primary"
@@ -186,7 +169,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
             <p>
               Hit <strong>Cmd+Shift+K</strong> to hide
             </p>
-            
           </div>
           {children}
         </div>

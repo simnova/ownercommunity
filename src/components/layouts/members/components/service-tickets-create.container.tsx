@@ -57,7 +57,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
 
   const handleCreate = async (values: ServiceTicketCreateInput) => {
     try {
-      var newServiceTicket = await serviceTicketCreate({
+      const newServiceTicket = await serviceTicketCreate({
         variables: {
           input: values
         }
@@ -79,7 +79,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
     );
   }
   if (memberError || propertyError) {
-    return <div>{JSON.stringify(memberError || propertyError)}</div>;
+    return <div>{JSON.stringify(memberError ?? propertyError)}</div>;
   }
   if (memberData && propertyData) {
     const data = {

@@ -57,8 +57,8 @@ const TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
 }
 
 
-var TextThingSettings = () => {
-  const { actions: { setProp}, title, body, fontSize  } = useNode((node) => ({  
+const TextThingSettings = () => {
+  const {actions: {setProp}, title, body, fontSize} = useNode((node) => ({
     title: node.data.props.title,
     body: node.data.props.body,
     fontSize: node.data.props.fontSize
@@ -68,18 +68,21 @@ var TextThingSettings = () => {
     <div>
       <Form layout="vertical">
         <Form.Item label="Title">
-          <Input placeholder="Title" value={title} onChange={(inputElement) => setProp((props:any) => props.title = inputElement.target.value)}  />
-        </Form.Item>  
+          <Input placeholder="Title" value={title}
+                 onChange={(inputElement) => setProp((props: any) => props.title = inputElement.target.value)}/>
+        </Form.Item>
         <Form.Item label="Body">
-          <Input placeholder="Body" value={body} onChange={(inputElement) => setProp((props:any) => props.body = inputElement.target.value)}  />
-        </Form.Item>  
+          <Input placeholder="Body" value={body}
+                 onChange={(inputElement) => setProp((props: any) => props.body = inputElement.target.value)}/>
+        </Form.Item>
         <Form.Item label="Font Size">
-          <Input placeholder="Font Size" value={fontSize} onChange={(inputElement) => setProp((props:any) => props.fontSize = parseInt(inputElement.target.value))}  />
+          <Input placeholder="Font Size" value={fontSize}
+                 onChange={(inputElement) => setProp((props: any) => props.fontSize = parseInt(inputElement.target.value))}/>
         </Form.Item>
       </Form>
     </div>
   )
-}
+};
 
 TextThing.craft = {
   props: {

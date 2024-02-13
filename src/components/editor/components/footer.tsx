@@ -14,9 +14,7 @@ interface FooterProp {
 
 }
 
-let Footer:any;
-
-Footer = ({ socialLinks, legalLinks, copyright, ...props } : FooterProp) => {
+const Footer: any = ({ socialLinks, legalLinks, copyright, ...props } : FooterProp) => {
   const {
     token: { colorTextBase }
   }=theme.useToken();

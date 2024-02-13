@@ -39,7 +39,7 @@ const RequireAuth: React.FC<RequireAuthProps> = (props) => {
       </Row>
     );
   }
-  var result: React.JSX.Element;
+  let result: React.JSX.Element;
   if (auth.isAuthenticated) {
     result = props.children;
   } else if (auth.error) {

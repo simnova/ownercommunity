@@ -40,7 +40,7 @@ export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPr
 
   const handleSave = async (values: PropertyUpdateInput) => {
     try {
-      var result = await updateAddress({
+      const result = await updateAddress({
         variables: {
           input: values
         }
@@ -65,7 +65,7 @@ export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPr
       );
     } else if (propertyError) {
       return <div>{JSON.stringify(propertyError)}</div>;
-    } else if (propertyData && propertyData.property) {
+    } else if (propertyData?.property) {
       console.log(propertyData);
       return <PropertiesLocation data={propertyData} onSave={handleSave} />;
     } else {

@@ -24,7 +24,7 @@ export type FeatureFlagProps = {
 };
 
 const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): React.JSX.Element => {
-  var tempFeatureFlagList: FeatureFlags | undefined;
+  let tempFeatureFlagList: FeatureFlags | undefined;
   const [featureFlagList, setFeatureFlagListVal] = useState<FeatureFlags | undefined>();
   const cacheTimeout = !props.config.cache ? 30 * 1000 : props.config.cache;
   const isRendered = React.useRef(false); // Used to make Async code not get called on every render.
@@ -74,7 +74,7 @@ const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): Rea
 
     const GetFeatureFlags = async () => {
       try {
-        var result = await cachedFetch.fetch('featureFlagsKey');
+        const result = await cachedFetch.fetch('featureFlagsKey');
 
         if (result instanceof Object) {
           setFeatureFlagList(result);
@@ -99,9 +99,9 @@ const FeatureFlagProvider: FC<FeatureFlagProps> = (props: FeatureFlagProps): Rea
   }, [cacheTimeout, props.config, setFeatureFlagList]);
 
   const getFeatureFlagByName = (name: string) => {
-    var temp = !featureFlagList ? undefined : featureFlagList.FeatureFlags;
+    const temp = !featureFlagList ? undefined : featureFlagList.FeatureFlags;
     if (!temp) return '';
-    var result = temp.find((i) => i.Name === name)?.Value;
+    const result = temp.find((i) => i.Name === name)?.Value;
     return !result ? '' : result;
   };
 

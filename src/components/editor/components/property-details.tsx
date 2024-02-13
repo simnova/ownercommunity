@@ -6,9 +6,8 @@ import { MemberPropertyByPropertyIdDocument } from '../../../generated';
 import { CommunityPropertyDetail } from '../../layouts/members/components/community-property-detail';
 import { mockPropertyData } from './property-details.mock-data';
 
-let PropertyDetails: any;
 
-PropertyDetails = () => {
+const PropertyDetails: any = () => {
     const params = useParams();
     const propertyId = params['*']?.slice(params['*'].lastIndexOf('/') + 1);
 

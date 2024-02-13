@@ -77,7 +77,7 @@ export const PropertiesListSearchTags: React.FC<any> = () => {
   
     const qsValue = searchParams.get(searchParamKey.searchId);
 
-    const separator = searchParamKey.separator || ',';
+    const separator = searchParamKey.separator ?? ',';
     if (qsValue?.includes(separator)) {
       const qsValues = qsValue.split(separator);
       const newValue = qsValues?.filter((id: string) => searchParamKey.compare ? !searchParamKey.compare(id, value) : id !== value);

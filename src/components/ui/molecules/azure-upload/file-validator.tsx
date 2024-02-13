@@ -24,9 +24,9 @@ export class FileValidator {
 
   constructor(file: RcFile, options?: FileValidatorOptions) {
     this.file = file;
-    this.maxFileSizeBytes = options?.maxFileSizeBytes || DEFAULT_MAX_FILE_SIZE;
+    this.maxFileSizeBytes = options?.maxFileSizeBytes ?? DEFAULT_MAX_FILE_SIZE;
     this.maxWidthOrHeight = options?.maxWidthOrHeight;
-    this.permittedContentTypes = options?.permittedContentTypes || [];
+    this.permittedContentTypes = options?.permittedContentTypes ?? [];
   }
 
   public async validate(): Promise<FileValidatorResult> {

@@ -61,9 +61,9 @@ export const RolesDeleteContainer: React.FC<any> = (props) => {
   if (roleLoading) {
     return <Skeleton active />;
   } else if (roleError || deleteError) {
-    return <div>{JSON.stringify(roleError || deleteError)}</div>;
-  } else if (roleData && roleData.roles) {
-    var reassignmentOptions = {
+    return <div>{JSON.stringify(roleError ?? deleteError)}</div>;
+  } else if (roleData?.roles) {
+    const reassignmentOptions = {
       roleToDelete: roleData.roles.find((x) => x?.id === props.data.id),
       roles: roleData.roles.filter((x) => x?.id !== props.data.id)
     };

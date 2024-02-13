@@ -64,8 +64,8 @@ export const MembersAccountsEditContainer: React.FC<MembersAccountsEditContainer
   if(memberError) {
     return <div>{JSON.stringify(memberError)}</div>
   }
-  if(memberData && memberData.member && memberData.member.accounts && memberData.member.accounts.length > 0 ) { 
-    var accountToEdit = memberData.member.accounts.find(x => x?.id === params.accountId);
+  if(memberData?.member?.accounts && memberData?.member?.accounts.length > 0 ) {
+    const accountToEdit = memberData.member.accounts.find(x => x?.id === params.accountId);
 
     if(accountToEdit) {
       const defaultValues: MemberAccountEditInput = {

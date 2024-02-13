@@ -36,7 +36,7 @@ export const PropertiesAddContainer: React.FC<PropertiesAddContainerProps> = (pr
 
   const handleSave = async (values: PropertyAddInput) => {
     try {
-      var newProperty = await propertyAdd({
+      const newProperty = await propertyAdd({
         variables: {
           input: values
         }

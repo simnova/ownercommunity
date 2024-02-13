@@ -99,7 +99,7 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
       //cancel timer
       clearInterval(timerInstance.current);
     }
-    setIntervalImmediately(getMaintenanceMessageStatus, 1 * 60 * 1000, intervalParams) // 1 minute
+    setIntervalImmediately(getMaintenanceMessageStatus, 60 * 1000, intervalParams) // 1 minute
       .then((interval: any) => {
         timerInstance.current = interval;
       })

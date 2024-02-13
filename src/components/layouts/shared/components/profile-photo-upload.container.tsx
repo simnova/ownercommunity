@@ -76,7 +76,7 @@ export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerPr
       return <div><Skeleton active /></div>
     } else if( memberError ) {
       return <div>{JSON.stringify(memberError  )}</div>
-    } else if(memberData && memberData.member && memberData.member.profile ) {
+    } else if(memberData?.member?.profile ) {
       if(memberData.member.profile.avatarDocumentId && memberData.member.profile.avatarDocumentId !== imageUrl){
      //   setImageUrl(`https://ownercommunity.blob.core.windows.net/${props.data.communityId}/${memberData.member.profile.avatarDocumentId}`);
       }

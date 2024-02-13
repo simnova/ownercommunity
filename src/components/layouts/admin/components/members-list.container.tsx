@@ -21,7 +21,7 @@ export const MembersListContainer: React.FC<MembersListContainerProps> = (props)
   return (
     <ComponentQueryLoader
       loading={memberLoading}
-      hasData={memberData && memberData.membersByCommunityId}
+      hasData={memberData?.membersByCommunityId}
       hasDataComponent={<MembersList data={memberData?.membersByCommunityId} />}
       error={memberError}
     />

@@ -108,15 +108,10 @@ export const FormTags: FC<ComponentProps> = ({ value, onChange }) => {
           >
             <span
               onDoubleClick={(e) => {
-                if (
-                  true
-                  // index !== 0
-                ) {
                   setEditInputIndex(index);
                   setEditInputValue(tag);
                   editInput?.current?.focus();
                   e.preventDefault();
-                }
               }}
             >
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}

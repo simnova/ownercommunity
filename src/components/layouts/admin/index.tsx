@@ -82,7 +82,7 @@ export const Admin: React.FC<any> = (_props) => {
           <Route path="/" element={<Home />} />
           <Route path="/settings/*" element={<Settings />} />
           <Route path="/site-editor/*" element={<SiteEditor />} />
-          <Route path="/roles/*" element={<Roles />} />
+          <Route path="/roles/*" element={<Roles />}  />
           <Route path="/members/*" element={<Members />} />
           <Route path="/properties/*" element={<Properties />} />
           <Route path="/service-tickets/*" element={<ServiceTickets />} />

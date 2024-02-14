@@ -1,4 +1,4 @@
-import { Col, Collapse, Result, Row } from 'antd';
+import { Col, Result, Row } from 'antd';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';

@@ -1,5 +1,5 @@
 import * as ApolloClient from '@apollo/client';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, waitFor} from '@testing-library/react';
 import * as Auth from 'react-oidc-context';
 import { AuthProvider } from 'react-oidc-context';
 import { MemoryRouter } from 'react-router-dom';
@@ -241,7 +241,7 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
 
     useQuerySpy.mockReturnValue(communityMockQueryValue as any);
 
-    
+
     await act(async () => {
       render(
         <AuthProvider {...oidcConfig}>

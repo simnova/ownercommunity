@@ -21,7 +21,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
   const userId = localStorage.getItem(LocalSettingsKeys.UserId);
   const path = props.isAdmin ? `/admin` : `/member/${userId}`;
 
-  const items: MenuProps["items"] = props.data.communities.map((community) => {
+  const items: MenuProps["items"] = props.data.communities?.map((community) => {
     return {
       key: community?.id,
       label: community?.name,

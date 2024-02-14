@@ -6,7 +6,7 @@ import { RolesList } from './roles-list';
 export const Roles: React.FC<any> = () => {
   return (
     <Routes>
-      <Route path="" element={<RolesList />} />
+      <Route path="" element={<RolesList />}  />
       <Route path="/:id" element={<RolesDetail />} />
       <Route path="/:id/delete" element={<RolesDelete />} />
     </Routes>

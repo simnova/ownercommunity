@@ -21,11 +21,11 @@ export const RolesList: React.FC<any> = () => {
         title={
           <span style={{
             color: colorTextBase
-          }}>Roles</span>
+          }} data-testid="roles-span">Roles</span>
         }
           extra={[
             <Button type="primary" onClick={() => navigate('new')}>
-              Add New
+              Add New Role
             </Button>
           ]}
         />

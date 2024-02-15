@@ -148,9 +148,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
-  console.log('impdending', isImpending);
-  console.log('maintenance', isMaintenance);
-
+  console.log('isImpending', isImpending);
+  console.log('isMaintenance', isMaintenance);
   return (
     <ThemeContext.Provider value={{ currentTokens, setTheme }}>
       {isMaintenance ? (

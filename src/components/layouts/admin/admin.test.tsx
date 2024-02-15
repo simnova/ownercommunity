@@ -1,5 +1,5 @@
 import * as ApolloClient from '@apollo/client';
-import { render, screen, waitFor} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import * as Auth from 'react-oidc-context';
 import { AuthProvider } from 'react-oidc-context';
 import { MemoryRouter } from 'react-router-dom';
@@ -25,16 +25,14 @@ const communityMockQueryValue = {
         __typename: 'Role'
       }
     ],
-    role: 
-      {
+    role: {
       roleName: 'Admin',
       isDefault: 'true',
       createdAt: '03/01/2024',
       updatedAt: '03/01/2024',
       id: '12345abcd',
       __typename: 'Role',
-      permissions: 
-      {
+      permissions: {
         serviceTicketPermissions: {
           canCreateTickets: 'true',
           canManageTickets: 'true',
@@ -61,6 +59,13 @@ const communityMockQueryValue = {
   }
 };
 
+const useAuthSpy = vi.spyOn(Auth, 'useAuth');
+const mockResolveValue = {
+  isAuthenticated: true
+};
+
+const useQuerySpy = vi.spyOn(ApolloClient, 'useQuery');
+
 // unauthorized user
 describe('given not authorized, when navigating to /community/admin', () => {
   it('should display Not Authorized', async () => {
@@ -79,20 +84,14 @@ describe('given not authorized, when navigating to /community/admin', () => {
   });
 });
 
-
-
 //authorized user admin homePage
 describe('given a community named Reggie Main Test Complex when navigating to /community/admin', () => {
   it('should display the community name Reggie Main Test Complex and correct community ID', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
+
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery
-    const useQuerySpy = vi.spyOn(ApolloClient, 'useQuery');
 
     useQuerySpy.mockReturnValue(communityMockQueryValue as any);
 
@@ -111,23 +110,15 @@ describe('given a community named Reggie Main Test Complex when navigating to /c
   });
 });
 
-
-
 //authorized user clicking roles tab and navigating to roles page
 describe('given a community named Reggie Main Test Complex when navigating to /community/admin/roles', () => {
   it('should display the roles page', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery
-    const useQuerySpy = vi.spyOn(ApolloClient, 'useQuery');
 
     useQuerySpy.mockReturnValue(communityMockQueryValue as any);
-
 
     render(
       <AuthProvider {...oidcConfig}>
@@ -137,9 +128,7 @@ describe('given a community named Reggie Main Test Complex when navigating to /c
       </AuthProvider>
     );
 
-
     const rolesLink = screen.getByRole('link', { name: /roles/i });
-
 
     await act(async () => {
       rolesLink.click();
@@ -154,14 +143,9 @@ describe('given a community named Reggie Main Test Complex when navigating to /c
 describe('given a community named Reggie Main Test Complex when on /community/admin/roles', () => {
   it('should display the roles page and correct roles list', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery
-    const useQuerySpy = vi.spyOn(ApolloClient, 'useQuery');
 
     useQuerySpy.mockReturnValue(communityMockQueryValue as any);
 
@@ -182,24 +166,15 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
   });
 });
 
-
-
 //authorized user on roles page and clicking on a role to edit
 describe('given a community named Reggie Main Test Complex when on /community/admin/roles', () => {
   it('should display the roles edit page after clicking the edit button', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
-
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery
-    const useQuerySpy = vi.spyOn(ApolloClient, 'useQuery');
 
     useQuerySpy.mockReturnValue(communityMockQueryValue as any);
-
 
     await act(async () => {
       render(
@@ -210,18 +185,16 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
         </AuthProvider>
       );
     });
-    
 
     const editButton = screen.getByRole('button', {
       name: /edit/i
     });
 
-
     await act(async () => {
       editButton.click();
     });
-    
-    const editRoleText = screen.getByText(/role detail/i)
+
+    const editRoleText = screen.getByText(/role detail/i);
     expect(editRoleText).toBeInTheDocument();
   });
 });
@@ -230,17 +203,12 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
 describe('given a community named Reggie Main Test Complex when on /community/admin/roles/12345abcd', () => {
   it('should display the roles edit page and correct role details with all checkboxes checked', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
+
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery
-    const useQuerySpy = vi.spyOn(ApolloClient, 'useQuery');
 
     useQuerySpy.mockReturnValue(communityMockQueryValue as any);
-
 
     await act(async () => {
       render(

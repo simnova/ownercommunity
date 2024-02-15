@@ -27,7 +27,15 @@ export const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const { isImpending, isMaintenance } = useMaintenanceMessage();
+  const {
+    isImpending,
+    isMaintenance,
+    impendingMessage,
+    maintenanceMessage,
+    impendingStartTimestamp,
+    maintenanceStartTimestamp,
+    maintenanceEndTimestamp
+  } = useMaintenanceMessage();
   const [currentTokens, setCurrentTokens] = useState({
     token: theme.defaultSeed,
     hardCodedTokens: {
@@ -139,19 +147,27 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-
   }, []);
-  console.log("impdending", isImpending)
-  console.log("maintenance", isMaintenance)
-  
+  console.log('isImpending', isImpending);
+  console.log('isMaintenance', isMaintenance);
   return (
     <ThemeContext.Provider value={{ currentTokens, setTheme }}>
       {isMaintenance ? (
-        <MaintenanceMessage />
+        <MaintenanceMessage
+          maintenanceStartTimestamp={maintenanceStartTimestamp}
+          maintenanceEndTimestamp={maintenanceEndTimestamp}
+          maintenanceMessage={maintenanceMessage ?? ''}
+        />
       ) : (
         <div>
           <div className={isHidden ? 'hidden' : 'text-center'}>
-            {isImpending && <ImpendingMessage />}
+            {isImpending && (
+              <ImpendingMessage
+                impendingMessage={impendingMessage ?? ''}
+                impendingStartTimestamp={impendingStartTimestamp}
+                maintenanceEndTimestamp={maintenanceEndTimestamp}
+              />
+            )}
             <div className="py-2 flex gap-4 justify-center">
               <Button
                 type="primary"

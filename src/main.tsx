@@ -9,8 +9,8 @@ import App from './App';
 import './index.less';
 
 import { ConfigProvider } from 'antd';
-import { AuthProvider } from 'react-oidc-context';
-import FeatureFlagProvider from './components/shared/feature-flag-react-lite';
+import { AuthProvider, useAuth } from 'react-oidc-context';
+import FeatureFlagProvider, { useFeatureFlags } from './components/shared/feature-flag-react-lite';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import featureFlagConfig from './config/feature-flag-config';
 import { oidcConfig } from './config/odic-config';
@@ -19,25 +19,36 @@ import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
 function ConfigProviderWrapper() {
   const { currentTokens } = useContext(ThemeContext);
+  const { GetFeatureFlagByName } = useFeatureFlags();
+  const auth = useAuth();
+
+  let maintenanceInfo = {
+    impendingMaintenanceStartTimestamp: GetFeatureFlagByName('MAINTENANCE_TIMESTAMP_IMPENDING_UIPORTAL'),
+    maintenanceStartTimestamp: GetFeatureFlagByName('MAINTENANCE_START_TIMESTAMP_UIPORTAL'),
+    maintenanceEndTimestamp: GetFeatureFlagByName('MAINTENANCE_END_TIMESTAMP_UIPORTAL'),
+    upcomingMaintenance: GetFeatureFlagByName('MAINTENANCE_UPCOMING_UIPORTAL'),
+    impendingMessage: GetFeatureFlagByName('MAINTENANCE_MSG_IMPENDING_UIPORTAL'),
+    maintenanceMessage: GetFeatureFlagByName('MAINTENANCE_MSG_SYSTEM_UIPORTAL'),
+    timeoutBeforeMaintenance: import.meta.env.VITE_TIMEOUT_BEFORE_MAINTENANCE ?? 120
+  };
+
   return (
     <ConfigProvider
       theme={{
         token: {
           ...currentTokens.token,
           colorBgBase: currentTokens.hardCodedTokens.backgroundColor,
-          colorTextBase: currentTokens.hardCodedTokens.textColor
+          colorPrimaryText: currentTokens.hardCodedTokens.textColor
         }
       }}
     >
-      <AuthProvider {...oidcConfig}>
-        <MaintenanceMessageProvider>
-          <ThemeProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </ThemeProvider>
-        </MaintenanceMessageProvider>
-      </AuthProvider>
+      <MaintenanceMessageProvider maintenanceInfo={maintenanceInfo} auth={auth}>
+        <ThemeProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ThemeProvider>
+      </MaintenanceMessageProvider>
     </ConfigProvider>
   );
 }
@@ -47,7 +58,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <AppInsightsContext.Provider value={reactPlugin}>
       <FeatureFlagProvider config={featureFlagConfig}>
         <CachePurgeProvider>
-          <ConfigProviderWrapper />
+          <AuthProvider {...oidcConfig}>
+            <ConfigProviderWrapper />
+          </AuthProvider>
         </CachePurgeProvider>
       </FeatureFlagProvider>
     </AppInsightsContext.Provider>

@@ -3,15 +3,16 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { FC } from 'react';
-import { useFeatureFlags } from '../feature-flag-react-lite';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-export interface MaintenanceMessageProps {}
+export interface MaintenanceMessageProps {
+  impendingStartTimestamp: string;
+  maintenanceEndTimestamp: string;
+  impendingMessage: string;
+}
 
-const ImpendingMessage: FC<MaintenanceMessageProps> = (_) => {
-  const { GetFeatureFlagByName } = useFeatureFlags();
-
+const ImpendingMessage: FC<MaintenanceMessageProps> = (props) => {
   const replaceTokens = (str: string, mapObj: any) => {
     let re = new RegExp(Object.keys(mapObj).join('|'), 'g');
 
@@ -20,28 +21,28 @@ const ImpendingMessage: FC<MaintenanceMessageProps> = (_) => {
     });
   };
 
-  const getMessage = () => {
-    const startTimestamp = GetFeatureFlagByName('MAINTENANCE_TIMESTAMP_IMPENDING_UIPORTAL');
-    const endTimestamp = GetFeatureFlagByName('MAINTENANCE_START_TIMESTAMP_UIPORTAL');
-    const systemMsg = GetFeatureFlagByName('MAINTENANCE_MSG_IMPENDING_UIPORTAL');
-
-    let startTimestampStr = dayjs(startTimestamp).tz('America/New_York').format('h:mm a on dddd, MMMM DD, YYYY');
-    let endTimestampStr = dayjs(endTimestamp).tz('America/New_York').format('h:mm a on dddd, MMMM DD, YYYY');
-    let startDateStr = dayjs(startTimestamp).tz('America/New_York').format('MMMM DD');
-    let endDateStr = dayjs(endTimestamp).tz('America/New_York').format('MMMM DD');
+  const formatMessage = () => {
+    let startTimestampStr = dayjs(props.impendingStartTimestamp)
+      .tz('America/New_York')
+      .format('h:mm a on dddd, MMMM DD, YYYY');
+    let endTimestampStr = dayjs(props.maintenanceEndTimestamp)
+      .tz('America/New_York')
+      .format('h:mm a on dddd, MMMM DD, YYYY');
+    let startDateStr = dayjs(props.impendingStartTimestamp).tz('America/New_York').format('MMMM DD');
+    let endDateStr = dayjs(props.maintenanceEndTimestamp).tz('America/New_York').format('MMMM DD');
     let timeRangeStr = startDateStr === endDateStr ? startDateStr : `${startDateStr} - ${endDateStr}`;
     let mapObj = {
       '##startTimestampStr##': startTimestampStr,
       '##endTimestampStr##': endTimestampStr,
       '##timeRangeStr##': timeRangeStr
     };
-    return replaceTokens(systemMsg, mapObj);
+    return replaceTokens(props.impendingMessage, mapObj);
   };
 
   return (
     <>
-      <div style={{ textAlign: 'center' }}>
-        <Alert message={<div dangerouslySetInnerHTML={{ __html: getMessage() }}></div>} />
+      <div style={{ textAlign: 'center' }} data-testid="impending-message">
+        <Alert message={<div dangerouslySetInnerHTML={{ __html: formatMessage() }}></div>} />
       </div>
     </>
   );

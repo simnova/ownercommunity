@@ -1,37 +1,44 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
 import React, { FC, ReactNode, useEffect, useMemo, useState } from 'react'; // useState
-import { useAuth } from 'react-oidc-context';
+import { AuthContextProps } from 'react-oidc-context';
 import { FormatTimeCounter, HandleLogout, IsInStorybookEnv } from '../../../constants';
-import { useFeatureFlags } from '../feature-flag-react-lite';
 import { MaintenanceKickoutMessage } from './maintenance-kickout-message';
 import MaintenanceMessageContext from './maintenance-message-context';
 
-export interface MaintenanceMessageConfig {}
+export interface MaintenanceMessageInfo {
+  impendingMaintenanceStartTimestamp: string;
+  maintenanceStartTimestamp: string;
+  maintenanceEndTimestamp: string;
+  upcomingMaintenance: string;
+  impendingMessage: string;
+  maintenanceMessage: string;
+  timeoutBeforeMaintenance: number;
+}
 export type MaintenanceMessageProps = {
   children: ReactNode;
+  maintenanceInfo: MaintenanceMessageInfo;
+  auth?: AuthContextProps;
 };
 
 const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: MaintenanceMessageProps): React.JSX.Element => {
-  const timeoutBeforeMaintenance = import.meta.env.VITE_TIMEOUT_BEFORE_MAINTENANCE ?? 120; //in seconds
+  // const timeoutBeforeMaintenance = import.meta.env.VITE_TIMEOUT_BEFORE_MAINTENANCE ?? 120; //in seconds
   const [isImpending, setIsImpending] = useState<boolean | undefined>(undefined);
   const [isMaintenance, setIsMaintenance] = useState<boolean | undefined>(undefined);
   const [isApproachingMaintenance, setIsApproachingMaintenance] = useState(false);
-  const [maintenanceCountdown, setMaintenanceCountdown] = useState<number>(timeoutBeforeMaintenance); //in seconds
-  const auth = useAuth();
-  const timerInstance = React.useRef(undefined);
-  const { GetFeatureFlagByName } = useFeatureFlags();
+  const [maintenanceCountdown, setMaintenanceCountdown] = useState<number>(props.maintenanceInfo.timeoutBeforeMaintenance); //in seconds
 
-  let impendingMaintenanceStartTimestamp = GetFeatureFlagByName('MAINTENANCE_TIMESTAMP_IMPENDING_UIPORTAL');
-  let maintenanceStartTimestamp = GetFeatureFlagByName('MAINTENANCE_START_TIMESTAMP_UIPORTAL');
-  let maintenanceEndTimestamp = GetFeatureFlagByName('MAINTENANCE_END_TIMESTAMP_UIPORTAL');
-  let upcomingMaintenance = GetFeatureFlagByName('MAINTENANCE_UPCOMING_UIPORTAL');
+  const timerInstance = React.useRef(undefined);
 
   useEffect(() => {
     // auto logout when maintenance countdown reaches 0
     if (maintenanceCountdown === 0) {
-      setIsApproachingMaintenance(false);
-      HandleLogout(auth, window.location.origin);
+      if (props.auth) {
+        setIsApproachingMaintenance(false);
+        console.log('Maintenance countdown reached 0, logging out');
+        HandleLogout(props.auth, window.location.origin);
+      }
+
       return;
     }
 
@@ -53,7 +60,12 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
     } else {
       handleMaintenanceStatus();
     }
-  }, [impendingMaintenanceStartTimestamp, maintenanceEndTimestamp, maintenanceStartTimestamp, upcomingMaintenance]);
+  }, [
+    props.maintenanceInfo.impendingMaintenanceStartTimestamp,
+    props.maintenanceInfo.maintenanceEndTimestamp,
+    props.maintenanceInfo.maintenanceStartTimestamp,
+    props.maintenanceInfo.upcomingMaintenance
+  ]);
 
   const setIntervalImmediately = async (func: any, interval: number, params: any) => {
     await func(params);
@@ -62,7 +74,7 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
 
   const handleStorybookEnv = () => {
     // do not get serverDate from server and use local feature flag when in storybook
-    if (upcomingMaintenance !== 'true') {
+    if (props.maintenanceInfo.upcomingMaintenance !== 'true') {
       setIsMaintenance(false);
       setIsImpending(false);
       setIsApproachingMaintenance(false);
@@ -70,29 +82,34 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
     }
     const serverDate = new Date();
     const serverTime = dayjs(serverDate);
-    if (serverTime > dayjs(impendingMaintenanceStartTimestamp) && serverTime < dayjs(maintenanceStartTimestamp)) {
+    if (
+      serverTime > dayjs(props.maintenanceInfo.impendingMaintenanceStartTimestamp) &&
+      serverTime < dayjs(props.maintenanceInfo.maintenanceStartTimestamp)
+    ) {
       setIsMaintenance(false);
       setIsImpending(true);
       return;
     }
-    if (serverTime > dayjs(maintenanceStartTimestamp) && serverTime < dayjs(maintenanceEndTimestamp)) {
+    if (
+      serverTime > dayjs(props.maintenanceInfo.maintenanceStartTimestamp) &&
+      serverTime < dayjs(props.maintenanceInfo.maintenanceEndTimestamp)
+    ) {
       setIsMaintenance(true);
       setIsImpending(false);
       return;
     }
-    if (serverTime > dayjs(maintenanceEndTimestamp)) {
+    if (serverTime > dayjs(props.maintenanceInfo.maintenanceEndTimestamp)) {
       setIsMaintenance(false);
       setIsImpending(false);
-      return;
     }
   };
 
   const handleMaintenanceStatus = () => {
     const intervalParams = {
-      maintenanceStartTimestamp: maintenanceStartTimestamp,
-      maintenanceEndTimestamp: maintenanceEndTimestamp,
-      impendingMaintenanceStartTimestamp: impendingMaintenanceStartTimestamp,
-      upcomingMaintenance: upcomingMaintenance
+      maintenanceStartTimestamp: props.maintenanceInfo.maintenanceStartTimestamp,
+      maintenanceEndTimestamp: props.maintenanceInfo.maintenanceEndTimestamp,
+      impendingMaintenanceStartTimestamp: props.maintenanceInfo.impendingMaintenanceStartTimestamp,
+      upcomingMaintenance: props.maintenanceInfo.upcomingMaintenance
     };
 
     if (timerInstance.current) {
@@ -109,11 +126,11 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
   };
 
   const calculateStatus = async () => {
-    if (upcomingMaintenance == '') {
+    if (props.maintenanceInfo.upcomingMaintenance == '') {
       return;
     }
 
-    if (upcomingMaintenance !== 'true') {
+    if (props.maintenanceInfo.upcomingMaintenance !== 'true') {
       setIsMaintenance(false);
       setIsImpending(false);
       setIsApproachingMaintenance(false);
@@ -132,9 +149,9 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
 
       const serverDate = data?.data?.data?.serverDate;
       const serverTime = dayjs(serverDate);
-      const impendingTime = dayjs(impendingMaintenanceStartTimestamp);
-      const maintenanceStartTime = dayjs(maintenanceStartTimestamp);
-      const maintenanceEndTime = dayjs(maintenanceEndTimestamp);
+      const impendingTime = dayjs(props.maintenanceInfo.impendingMaintenanceStartTimestamp);
+      const maintenanceStartTime = dayjs(props.maintenanceInfo.maintenanceStartTimestamp);
+      const maintenanceEndTime = dayjs(props.maintenanceInfo.maintenanceEndTimestamp);
       if (serverTime < impendingTime) {
         setIsMaintenance(false);
         setIsImpending(false);
@@ -144,7 +161,7 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
         setIsImpending(true);
 
         // within 1 minute before maintenance start
-        if (maintenanceStartTime.diff(serverTime, 'seconds') <= timeoutBeforeMaintenance) {
+        if (maintenanceStartTime.diff(serverTime, 'seconds') <= props.maintenanceInfo.timeoutBeforeMaintenance) {
           setIsApproachingMaintenance(true);
           setMaintenanceCountdown(maintenanceStartTime.diff(serverTime, 'seconds'));
         }
@@ -168,14 +185,19 @@ const MaintenanceMessageProvider: FC<MaintenanceMessageProps> = (props: Maintena
   const contextValues = useMemo(
     () => ({
       isImpending: isImpending,
-      isMaintenance: isMaintenance
+      isMaintenance: isMaintenance,
+      impendingMessage: props.maintenanceInfo.impendingMessage,
+      maintenanceMessage: props.maintenanceInfo.maintenanceMessage,
+      impendingStartTimestamp: props.maintenanceInfo.impendingMaintenanceStartTimestamp,
+      maintenanceStartTimestamp: props.maintenanceInfo.maintenanceStartTimestamp,
+      maintenanceEndTimestamp: props.maintenanceInfo.maintenanceEndTimestamp
     }),
     [isImpending, isMaintenance]
   );
   console.log(contextValues);
   return (
     <MaintenanceMessageContext.Provider value={contextValues}>
-      {isApproachingMaintenance && auth.isAuthenticated && (
+      {isApproachingMaintenance && props.auth?.isAuthenticated && (
         <MaintenanceKickoutMessage timer={FormatTimeCounter(maintenanceCountdown)} />
       )}
       {props.children}

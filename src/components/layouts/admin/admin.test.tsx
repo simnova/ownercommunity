@@ -170,11 +170,6 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
 describe('given a community named Reggie Main Test Complex when on /community/admin/roles', () => {
   it('should display the roles edit page after clicking the edit button', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
-
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery
@@ -208,10 +203,7 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
 describe('given a community named Reggie Main Test Complex when on /community/admin/roles/12345abcd', () => {
   it('should display the roles edit page and correct role details with all checkboxes checked', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
+
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery

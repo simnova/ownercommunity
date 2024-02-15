@@ -61,6 +61,11 @@ const communityMockQueryValue = {
   }
 };
 
+const useAuthSpy = vi.spyOn(Auth, 'useAuth');
+    const mockResolveValue = {
+      isAuthenticated: true
+    };
+
 // unauthorized user
 describe('given not authorized, when navigating to /community/admin', () => {
   it('should display Not Authorized', async () => {
@@ -85,10 +90,7 @@ describe('given not authorized, when navigating to /community/admin', () => {
 describe('given a community named Reggie Main Test Complex when navigating to /community/admin', () => {
   it('should display the community name Reggie Main Test Complex and correct community ID', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
+    
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery
@@ -117,10 +119,6 @@ describe('given a community named Reggie Main Test Complex when navigating to /c
 describe('given a community named Reggie Main Test Complex when navigating to /community/admin/roles', () => {
   it('should display the roles page', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery
@@ -154,10 +152,6 @@ describe('given a community named Reggie Main Test Complex when navigating to /c
 describe('given a community named Reggie Main Test Complex when on /community/admin/roles', () => {
   it('should display the roles page and correct roles list', async () => {
     // set up authenticated environment
-    const useAuthSpy = vi.spyOn(Auth, 'useAuth');
-    const mockResolveValue = {
-      isAuthenticated: true
-    };
     useAuthSpy.mockReturnValue(mockResolveValue as any);
 
     // set up user data from useQuery

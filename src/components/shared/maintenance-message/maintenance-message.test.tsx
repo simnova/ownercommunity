@@ -4,20 +4,20 @@
 // 3. in maintenance mode, show maintenance message
 
 import { render, screen } from '@testing-library/react';
-import { AuthProvider } from 'react-oidc-context';
-import { MemoryRouter } from 'react-router-dom';
-import { oidcConfig } from '../../../config/odic-config';
-import { act } from 'react-dom/test-utils';
-import App from '../../../App';
-import MaintenanceMessageProvider from '.';
-import { ThemeProvider } from '../../../contexts/ThemeContext';
-import * as LocalData from '../../../components/editor/page-layout';
-import featureFlagConfig from '../../../config/feature-flag-config';
-import FeatureFlagProvider from '../feature-flag-react-lite';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import { act } from 'react-dom/test-utils';
+import { AuthProvider } from 'react-oidc-context';
+import { MemoryRouter } from 'react-router-dom';
+import MaintenanceMessageProvider from '.';
+import App from '../../../App';
+import * as LocalData from '../../../components/editor/page-layout';
+import featureFlagConfig from '../../../config/feature-flag-config';
+import { oidcConfig } from '../../../config/odic-config';
+import { ThemeProvider } from '../../../contexts/ThemeContext';
+import FeatureFlagProvider from '../feature-flag-react-lite';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -69,7 +69,7 @@ vi.mock('axios');
 
 afterAll(() => {
   vi.resetAllMocks();
-})
+});
 
 describe('given not in maintenance mode', () => {
   const usePageLayoutsSpy = vi.spyOn(LocalData, 'usePageLayouts');
@@ -96,6 +96,10 @@ describe('given not in maintenance mode', () => {
     const maintenanceMessage = screen.queryByTestId('maintenance-message');
     expect(impendingMessage).toBeNull();
     expect(maintenanceMessage).toBeNull();
+
+    // show main content only
+    const mainContent = screen.getByText(/log in v6/i);
+    expect(mainContent).not.toBeNull();
   });
 });
 
@@ -128,18 +132,19 @@ describe('given in impending mode', () => {
     const maintenanceMessage = screen.queryByTestId('maintenance-message');
     expect(impendingMessage).not.toBeNull();
     expect(maintenanceMessage).toBeNull();
-    // vi.resetAllMocks();
+    // show correct message
+    expect(impendingMessage?.textContent).toContain(inMaintenanceModeInfo.impendingMessage);
   });
 });
 
 describe('given in maintenance mode', () => {
   vi.mock('axios');
   it('should show maintenance message', async () => {
-    vi.mocked(axios, true).post.mockResolvedValueOnce({
-      data: { data: { serverDate: dayjs().utc().toISOString() } }
-    });
-    const usePageLayoutsSpy = vi.spyOn(LocalData, 'usePageLayouts');
-    usePageLayoutsSpy.mockReturnValue([givenLoadedPageLayouts, {} as any, {} as any]);
+    // vi.mocked(axios, true).post.mockResolvedValueOnce({
+    //   data: { data: { serverDate: dayjs().utc().toISOString() } }
+    // });
+    // const usePageLayoutsSpy = vi.spyOn(LocalData, 'usePageLayouts');
+    // usePageLayoutsSpy.mockReturnValue([givenLoadedPageLayouts, {} as any, {} as any]);
     await act(async () => {
       render(
         <FeatureFlagProvider config={featureFlagConfig}>
@@ -160,5 +165,11 @@ describe('given in maintenance mode', () => {
     const maintenanceMessage = screen.queryByTestId('maintenance-message');
     expect(impendingMessage).toBeNull();
     expect(maintenanceMessage).not.toBeNull();
+
+    // show correct message
+    expect(maintenanceMessage?.textContent).toContain(inMaintenanceModeInfo.maintenanceMessage);
+    // show maintenance message only (no main content)
+    const mainContent = screen.queryByText(/log in v6/i);
+    expect(mainContent).toBeNull();
   });
 });

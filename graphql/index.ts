@@ -1,7 +1,7 @@
 import './tracer';
 import { wrapFunctionHandler } from './wrapper';
 
-import { startServerAndCreateHandler } from './init/func-v4';
+import { startServerAndCreateHandler } from './init/func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { ApolloServerRequestHandler } from './init/apollo';
 import { Context as ApolloContext} from './context';
 import { app } from '@azure/functions';

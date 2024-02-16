@@ -8,8 +8,8 @@ export const wrapFunctionHandler = (originalFunctionHandler: HttpHandler) => {
     const wc3Propagator = new W3CTraceContextPropagator();
 
     const headerInfo = {
-      traceparent: request.headers.get('traceparent'),
-      tracestate: request.headers.get('tracestate'),
+      traceparent: context.traceContext.traceParent,
+      tracestate: context.traceContext.traceState,
     };
 
     //const contextWithParent = wc3Propagator.extract(api.context.active(),request.headers,defaultTextMapGetter);

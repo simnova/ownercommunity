@@ -21,7 +21,6 @@ app.http("graphql", {
       context: async ({ req }) => {
         let context = new ApolloContext();
         await context.init(req, apolloServerRequestHandler);
-        console.log(' == CONTEXT == ', context);
         return context;
       }
     })),

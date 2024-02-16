@@ -6,7 +6,7 @@ import { HttpRequest } from '@azure/functions';
  * @returns The token or null if it could not be extracted
  */
 export const ExtractBearerToken = (request: HttpRequest): string => {
-  let token = request.headers['authorization'];
+  let token = request.headers.get('authorization');
   if (!(token?.startsWith('Bearer '))) {
     return null;
   }

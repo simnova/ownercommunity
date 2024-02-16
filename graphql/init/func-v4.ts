@@ -1,3 +1,7 @@
+// https://github.com/apollo-server-integrations/apollo-server-integration-azure-functions/pull/66
+// To be removed when pull request is merged into package @as-integrations/azure-functions
+
+
 import {
   ApolloServer,
   BaseContext,

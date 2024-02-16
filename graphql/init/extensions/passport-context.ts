@@ -51,7 +51,7 @@ export class PassportContext {
   }
 
   private async setContextPassport(): Promise<void> {
-    let communityHeader = this.req.headers['community'];
+    let communityHeader = this.req.headers.get('community');
     if (communityHeader) {
       let mongoCommunity = await this.getCommunityByHeader(communityHeader);
       if (this.context.verifiedUser?.verifiedJWT?.sub && mongoCommunity) {

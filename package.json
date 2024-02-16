@@ -1,7 +1,7 @@
 {
   "name": "",
   "version": "",
-  "main": "dist/graphql/**/*.js",
+  "main": "dist/graphql/index.js",
   "scripts": {
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",

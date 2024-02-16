@@ -58,6 +58,7 @@ export const connect = async () => {
   }
 
   try {
+    mongoose.set('strictQuery', false);
     await mongoose
       .connect(connectionString, {
         //  useNewUrlParser: true,

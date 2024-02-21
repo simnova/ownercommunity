@@ -6,7 +6,6 @@ const serverDate: Resolvers = {
   Query: {
     serverDate: async (_parent, args, context) => {
 
-
 let spanId = trace.getActiveSpan().spanContext().spanId;
 let traceId = trace.getActiveSpan().spanContext().traceId;
 let traceFlags = trace.getActiveSpan().spanContext().traceFlags;

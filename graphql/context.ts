@@ -22,7 +22,7 @@ export class Context {
 
     await PassportContext.decorateContext(this, req, serverRequestHandler.getPortalTokenExtractor());
 
-    req.headers['x-ms-privatelink-id'] = ''; // https://github.com/Azure/azure-functions-host/issues/6013
-    req.headers['server'] = null; //hide microsoft server header
+    req.headers.set('x-ms-privatelink-id', ''); // https://github.com/Azure/azure-functions-host/issues/6013
+    req.headers.set('server', null); //hide microsoft server header
   }
 }

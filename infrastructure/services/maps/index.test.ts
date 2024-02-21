@@ -1,7 +1,18 @@
 import { Maps } from './index';
 
-test.skip('sas toke', async () => {
-    const maps = new Maps();
-    const sasToken = await maps.generateSharedKey();
-    expect(sasToken).toBe("");
+// Common setup for all tests
+let maps;
+
+beforeEach(() => {
+  maps = new Maps();
+});
+
+test.skip('sas token', async () => {
+  const sasToken = await maps.generateSharedKey();
+  expect(sasToken).toBe('');
+});
+
+test('sas token', async () => {
+  const sasToken = await maps.generateSharedKey();
+  expect(sasToken.length).toBe(544);
 });

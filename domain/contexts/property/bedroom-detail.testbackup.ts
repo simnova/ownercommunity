@@ -1,4 +1,4 @@
-/*
+
 import { PropertyPermissions } from "./property-permissions.spec";
 import { DomainExecutionContext } from "../context";
 import { Passport } from "../iam/passport";
@@ -307,9 +307,3 @@ function generateCombinationsForNullProperties(obj) {
 }
 
 
-*/
-describe('Feature::domain.contexts.property.bedroom-detail', () => {
-    test('test', () => {
-        expect(1).toBe(1);
-    });
-});

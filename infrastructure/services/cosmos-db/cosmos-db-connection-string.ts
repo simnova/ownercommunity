@@ -36,7 +36,7 @@ export class CosmosDbConnectionString {
   }
 
   private getConnectionStrings = async (): Promise<{connectionString: string, description: string}[]> => {
-    const accessToken = this.getAccessToken();
+    const accessToken = await this.getAccessToken();
     const config = {
       method: 'post',
       url: this._cosmosDbListConnectionStringUrl,

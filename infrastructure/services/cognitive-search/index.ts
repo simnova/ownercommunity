@@ -1,3 +1,4 @@
+import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential } from '@azure/identity';
 import { SearchIndexClient, SearchClient, AzureKeyCredential, SearchIndex, SearchDocumentsResult } from '@azure/search-documents';
 
 export interface ICognitiveSearch {
@@ -19,7 +20,16 @@ export class CognitiveSearch implements ICognitiveSearch {
     return value;
   }
   constructor(searchKey: string, endpoint: string) {
-    const credentials = new AzureKeyCredential(searchKey);
+    let credentials : TokenCredential;
+    
+    if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
+      credentials = new DefaultAzureCredential();
+    } else if (process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined) {
+      credentials = new DefaultAzureCredential({ ManangedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID } as DefaultAzureCredentialOptions);
+    } else {
+      credentials = new DefaultAzureCredential();
+    }
+
     this.client = new SearchIndexClient(endpoint, credentials);
   }
 

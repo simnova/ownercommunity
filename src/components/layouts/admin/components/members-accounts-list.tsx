@@ -29,6 +29,11 @@ export const MembersAccountsList: React.FC<any> = (props) => {
       key: "statusCode"
     },
     {
+      title: "User",
+      dataIndex: ['user', 'id'],
+      key: "userId"
+    },
+    {
       title: "Email",
       dataIndex: ['user', 'email'],
       key: "email"

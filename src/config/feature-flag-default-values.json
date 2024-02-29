@@ -32,14 +32,14 @@
     {
       "Name": "MAINTENANCE_TIMESTAMP_IMPENDING_UIPORTAL",
       "Description": "DateTime in UTC when the impending message should begin to be displayed on Applicant Portal",
-      "Value": "2024-05-25T00:00:00.000Z",
+      "Value": "2024-02-11T00:00:00.000Z",
       "AllowedValues": ["timestamp"],
       "RetirementDate": "12-05-2024"
     },
     {
       "Name": "MAINTENANCE_START_TIMESTAMP_UIPORTAL",
       "Description": "DateTime in UTC when the maintenance is going to begin on Applicant Portal",
-      "Value": "2024-06-02T00:00:00.000Z",
+      "Value": "2024-06-12T00:00:00.000Z",
       "AllowedValues": ["timestamp"],
       "RetirementDate": "12-05-2024"
     },
@@ -53,7 +53,7 @@
     {
       "Name": "MAINTENANCE_UPCOMING_UIPORTAL",
       "Description": "Flag to indicate if a maintenance activity is coming up on Applicant Portal",
-      "Value": "false",
+      "Value": "true",
       "AllowedValues": ["true", "false"],
       "RetirementDate": "12-05-2024"
     },

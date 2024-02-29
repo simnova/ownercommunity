@@ -15,7 +15,7 @@ export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => 
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
 
-  const userIdNotAlreadyAssigned = async  (rule: any, value:any) : Promise<void> => {
+  const userIdNotAlreadyAssigned = async  (_: any, value:any) : Promise<void> => {
 console.log('value: ', value );
     const result = await props.onCheckUserId(value);
     if (!result.success) {

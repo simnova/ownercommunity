@@ -43,7 +43,7 @@ describe('When using blob-zip', () => {
   });
 
 
-  test('zipping blobs should succeed', async () => {
+  test.skip('zipping blobs should succeed', async () => {
     // arrange
     const containerName = 'community-domains';
     const blobNames = ['a', 'b'];

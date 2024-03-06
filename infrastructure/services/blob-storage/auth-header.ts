@@ -31,7 +31,7 @@ export class AuthHeader {
 
   public generateFromRequest(request: WebResource, storageAccount: string, accountKey: string): string {
     const signableString = this.convertToSignableString(request, storageAccount);
-    console.log(signableString);
+    // console.log(signableString);
     return this.createAuthHeader(storageAccount, signableString, accountKey);
   }
 

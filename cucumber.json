@@ -1,0 +1,5 @@
+{
+  "default": {
+    "paths": ["domain/**/*.feature","dist/**/*.steps.js"]
+  }
+}

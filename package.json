@@ -11,10 +11,12 @@
     "start": "npm-run-all --parallel start:host watch",
     "test": "npx jest --watchAll=true",
     "gen": "graphql-codegen --config codegen.yml",
-    "gen:watch": "graphql-codegen --config codegen.yml --watch  --silent=false"
+    "gen:watch": "graphql-codegen --config codegen.yml --watch  --silent=false",
+    "bdd": "cucumber-js --config ./cucumber.json"
   },
   "description": "",
   "devDependencies": {
+    "@cucumber/cucumber": "^10.3.1",
     "@graphql-codegen/cli": "^3.3.0",
     "@graphql-codegen/introspection": "^3.0.1",
     "@graphql-codegen/typed-document-node": "^4.0.0",

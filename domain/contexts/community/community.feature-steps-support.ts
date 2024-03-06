@@ -5,18 +5,15 @@ import { DomainExecutionContext } from "../context";
 import { CommunityVisa } from "../iam/community-visa";
 import { Passport } from "../iam/passport";
 import { UserEntityReference, UserProps } from "../user/user";
-// import { createUser } from "../user/user.feature-steps-support";
-// import { createMember } from "./member.feature-steps-support";
-// import { addAccount } from "./account.feature-steps-support";
 
-const communityContext = (permissions: CommunityPermissions) => {
+const domainExecutionContext = (communityPermissions: CommunityPermissions) => {
   return ({
     passport: <Passport>(
       ({
         forCommunity:() => {
           return {
               determineIf: (func:((permissions:CommunityPermissions) => boolean)) => {
-                  return func(permissions);
+                  return func(communityPermissions);
               }
           } as CommunityVisa;
         }
@@ -37,36 +34,27 @@ const communityProps = <CommunityProps>(
   } as Partial<CommunityProps>) as any
 );
 const userEntityReference = {} as UserEntityReference;
-const createCommunity = (name: string): Community<CommunityProps> => {
+const createCommunity = (name: string, communityPermissions: CommunityPermissions): Community<CommunityProps> => {
   return Community.getNewInstance(
     communityProps,
     name,
     userEntityReference,
-    communityContext({
-      isSystemAccount: true,
-      canManageRolesAndPermissions: false,
-      canManageCommunitySettings: false,
-      canManageSiteContent: false,
-      canManageMembers: false,
-      canEditOwnMemberProfile: false,
-      canEditOwnMemberAccounts: false,
-      isEditingOwnMemberAccount: false
-    })
+    domainExecutionContext(communityPermissions)
   );
 }
+const defaultCommunityPermissions =  <CommunityPermissions>{
+  isSystemAccount: true,
+  canManageRolesAndPermissions: false,
+  canManageCommunitySettings: false,
+  canManageSiteContent: false,
+  canManageMembers: false,
+  canEditOwnMemberProfile: false,
+  canEditOwnMemberAccounts: false,
+  isEditingOwnMemberAccount: false
+};
 defineParameterType({
   name: 'communityType',
   regexp: /.*/,
-  transformer: name => createCommunity(name)
+  transformer: name => createCommunity(name, defaultCommunityPermissions)
 });
-
-// export const addMemberToCommunity = (
-//   communityName: string,
-//   userName: string,
-// ) => {
-//   const community = createCommunity(communityName);
-//   const user = createUser(userName);
-//   const member = createMember('owner-member', community);
-//   addAccount(member,user);
-// }
 

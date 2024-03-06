@@ -5,14 +5,14 @@ import { DomainExecutionContext } from "../context";
 import { CommunityVisa } from "../iam/community-visa";
 import { Passport } from "../iam/passport";
 
-const memberContext = (mockPermissions: CommunityPermissions) => {
+const domainExecutionContext = (communityPermissions: CommunityPermissions) => {
   return ({
     passport: <Passport>(
       ({
         forMember: () => {
           return {
               determineIf: (func:((permissions:CommunityPermissions) => boolean)) => {
-                  return func(mockPermissions);
+                  return func(communityPermissions);
               }
           } as CommunityVisa;
         }
@@ -29,21 +29,22 @@ const memberProps = <MemberProps>(
     setCreatedByRef: () => {}
   } as Partial<MemberProps>) as any
 );
+const defaultCommunityPermissions =  <CommunityPermissions>{
+  isSystemAccount: true,
+  canManageRolesAndPermissions: false,
+  canManageCommunitySettings: false,
+  canManageSiteContent: false,
+  canManageMembers: false,
+  canEditOwnMemberProfile: false,
+  canEditOwnMemberAccounts: false,
+  isEditingOwnMemberAccount: false
+};
 
 export const createMemberInCommunity = (name: string, community: CommunityEntityReference): Member<MemberProps> => {
   return Member.getNewInstance(
     memberProps,
     name,
     community,
-    memberContext({
-      isSystemAccount: true,
-      canManageRolesAndPermissions: false,
-      canManageCommunitySettings: false,
-      canManageSiteContent: false,
-      canManageMembers: false,
-      canEditOwnMemberProfile: false,
-      canEditOwnMemberAccounts: false,
-      isEditingOwnMemberAccount: false
-    })
+    domainExecutionContext(defaultCommunityPermissions)
   );
 }

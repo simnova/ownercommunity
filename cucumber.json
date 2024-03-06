@@ -1,5 +1,6 @@
 {
   "default": {
-    "paths": ["domain/**/*.feature","dist/**/*.steps.js"]
+    "paths": ["domain/**/*.feature"],
+    "import": ["**/*.feature-steps.js","**/*.feature-steps-support.js"] 
   }
 }

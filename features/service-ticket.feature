@@ -1,7 +1,7 @@
 Feature: Create a service ticket
 
 Scenario: Setup
-  Given Atlantis is a community
+  Given SamTheSystem creates community Atlantis
   # Given Cottage is a property in Atlantis
   # Given Villa is a property in Atlantis 
   # Given Palms is a community

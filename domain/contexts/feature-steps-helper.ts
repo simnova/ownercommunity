@@ -1,3 +1,6 @@
+import { DomainExecutionContext } from "./context";
+import { SystemPassport } from "./iam/passport";
+
 export const generateEnumRegexFromInterface = (interfaceObj: Record<string, boolean>): RegExp => {
   const enumValues = Object.keys(interfaceObj);
   const enumPattern = enumValues.join('|');
@@ -14,3 +17,11 @@ export const generatePermissions = <PermissionsType extends Object>(permissionLi
   });
   return defaultPermissions;
 }
+
+
+export const SystemExecutionContext = (): DomainExecutionContext => {
+  const context: DomainExecutionContext = {
+    passport: SystemPassport.GetInstance(),
+  };
+  return context;
+};

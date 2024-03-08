@@ -1,60 +1,35 @@
 import { defineParameterType } from '@cucumber/cucumber';
+import { SystemExecutionContext } from '../feature-steps-helper';
 import { Community, CommunityProps } from "./community";
-import { CommunityPermissions } from "./community-permissions.spec";
-import { DomainExecutionContext } from "../context";
-import { CommunityVisa } from "../iam/community-visa";
-import { Passport } from "../iam/passport";
-import { UserEntityReference, UserProps } from "../user/user";
+import { UserEntityReference } from "../user/user";
 
-const domainExecutionContext = (communityPermissions: CommunityPermissions) => {
-  return ({
-    passport: <Passport>(
-      ({
-        forCommunity:() => {
-          return {
-              determineIf: (func:((permissions:CommunityPermissions) => boolean)) => {
-                  return func(communityPermissions);
-              }
-          } as CommunityVisa;
-        }
-    } as Partial<Passport>) as any)
-  } as DomainExecutionContext);
-};
-const communityProps = <CommunityProps>(
-  ({
-    name: 'valid-name',
-    domain: 'valid-domain',
-    whiteLabelDomain: 'valid-white-label-domain',
-    handle: 'valid-handle',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    schemaVersion: 'valid-schema-version',
-    createdBy: <UserProps>({id: 'valid-id'} as any),
-    setCreatedByRef: () => {}
-  } as Partial<CommunityProps>) as any
-);
+// const communityProps1 = <CommunityProps>(
+//   ({
+//     name: 'valid-name',
+//     domain: 'valid-domain',
+//     whiteLabelDomain: 'valid-white-label-domain',
+//     handle: 'valid-handle',
+//     createdAt: new Date(),
+//     updatedAt: new Date(),
+//     schemaVersion: 'valid-schema-version',
+//     createdBy: <UserProps>({id: 'valid-id'} as any),
+//     setCreatedByRef: () => {}
+//   } as Partial<CommunityProps>) as any
+// );
+const communityProps = {} as CommunityProps;
 const userEntityReference = {} as UserEntityReference;
-const createCommunity = (name: string, communityPermissions: CommunityPermissions): Community<CommunityProps> => {
+const createCommunity = (name: string): Community<CommunityProps> => {
   return Community.getNewInstance(
     communityProps,
     name,
     userEntityReference,
-    domainExecutionContext(communityPermissions)
+    SystemExecutionContext(),
   );
 }
-const defaultCommunityPermissions =  <CommunityPermissions>{
-  isSystemAccount: true,
-  canManageRolesAndPermissions: false,
-  canManageCommunitySettings: false,
-  canManageSiteContent: false,
-  canManageMembers: false,
-  canEditOwnMemberProfile: false,
-  canEditOwnMemberAccounts: false,
-  isEditingOwnMemberAccount: false
-};
+
 defineParameterType({
   name: 'communityType',
   regexp: /.*/,
-  transformer: name => createCommunity(name, defaultCommunityPermissions)
+  transformer: name => createCommunity(name)
 });
 

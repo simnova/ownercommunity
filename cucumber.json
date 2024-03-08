@@ -1,6 +1,6 @@
 {
   "default": {
     "paths": ["features/**/*.feature"],
-    "import": ["dist/**/*.js"] 
+    "import": ["dist/features/**/*.js"] 
   }
 }

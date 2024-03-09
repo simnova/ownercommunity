@@ -28,7 +28,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
 
     await this.withTransaction(async (repo) => {
       let newProperty = await repo.getNewInstance(input.propertyName, communityDo);
-      propertyToReturn = new PropertyConverter().toMongo(await repo.save(newProperty));
+      propertyToReturn = new PropertyConverter().toPersistence(await repo.save(newProperty));
     });
     return propertyToReturn;
   }
@@ -128,7 +128,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
         }
       }
       if (input.tags !== undefined) property.Tags=(input.tags);
-      propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
+      propertyToReturn = new PropertyConverter().toPersistence(await repo.save(property));
     });
     return propertyToReturn;
   }
@@ -138,7 +138,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
       property.requestDelete();
-      propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
+      propertyToReturn = new PropertyConverter().toPersistence(await repo.save(property));
     });
     return propertyToReturn;
   }
@@ -150,7 +150,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
       property.Owner=(memberDo);
-      propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
+      propertyToReturn = new PropertyConverter().toPersistence(await repo.save(property));
     });
     return propertyToReturn;
   }
@@ -160,7 +160,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
       property.Owner=(undefined);
-      propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
+      propertyToReturn = new PropertyConverter().toPersistence(await repo.save(property));
     });
     return propertyToReturn;
   }
@@ -170,7 +170,7 @@ export class Properties extends DomainDataSource<Context, Property, PropType, Do
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(propertyId);
       property.listingDetail.requestRemoveImage(blobName);
-      propertyToReturn = new PropertyConverter().toMongo(await repo.save(property));
+      propertyToReturn = new PropertyConverter().toPersistence(await repo.save(property));
     });
     return propertyToReturn;
   }

@@ -32,7 +32,8 @@ export class MongoUnitOfWork<ContextType extends ExecutionContext, MongoType ext
       //Send integration events after transaction is completed
       for await(let event of repoEvents){
         await this.integrationEventBus.dispatch(event as any,event['payload'])
-      }  
+      }
+      
   }
   
   constructor(

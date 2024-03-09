@@ -6,7 +6,7 @@ export interface RootEventRegistry {
   addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
 }
 
-export abstract class AggregateRoot<PropType extends EntityProps> extends Entity<PropType> implements RootEventRegistry {
+export  class AggregateRoot<PropType extends EntityProps> extends Entity<PropType> implements RootEventRegistry {
   private _isDeleted: boolean = false;
   public get isDeleted(): boolean {
     return this._isDeleted;

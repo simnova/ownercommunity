@@ -29,7 +29,7 @@ export class Services extends DomainDataSource<Context,Service,PropType,DomainTy
         input.serviceName,
         input.description,
         communityDo);
-      serviceToReturn = new ServiceConverter().toMongo(await repo.save(newService));
+      serviceToReturn = new ServiceConverter().toPersistence(await repo.save(newService));
     });
     return serviceToReturn;
   }
@@ -41,7 +41,7 @@ export class Services extends DomainDataSource<Context,Service,PropType,DomainTy
       if (input.serviceName !== undefined) service.ServiceName=(input.serviceName);
       if (input.description !== undefined) service.Description=(input.description);
       if (input.isActive !== undefined) service.IsActive=(input.isActive);
-      serviceToReturn = new ServiceConverter().toMongo(await repo.save(service));
+      serviceToReturn = new ServiceConverter().toPersistence(await repo.save(service));
     });
     return serviceToReturn;
   }

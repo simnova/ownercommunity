@@ -25,7 +25,7 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
   }
 
   const givenUserData = {
-    externalId: uuidV4(),
+    externalId:  uuidV4(),
     firstName: 'John',
     lastName: 'Doe'
   }

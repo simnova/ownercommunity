@@ -44,7 +44,7 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
       roleDo.permissions.serviceTicketPermissions.canAssignTickets=(input.permissions.serviceTicketPermissions.canAssignTickets);
       roleDo.permissions.serviceTicketPermissions.canWorkOnTickets=(input.permissions.serviceTicketPermissions.canWorkOnTickets);
 
-      roleToReturn = new RoleConverter().toMongo(await repo.save(roleDo));
+      roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo));
     });
     return roleToReturn;
   }
@@ -76,7 +76,7 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
       roleDo.permissions.serviceTicketPermissions.canAssignTickets=(input.permissions.serviceTicketPermissions.canAssignTickets);
       roleDo.permissions.serviceTicketPermissions.canWorkOnTickets=(input.permissions.serviceTicketPermissions.canWorkOnTickets);
 
-      roleToReturn = new RoleConverter().toMongo(await repo.save(roleDo));
+      roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo));
     });
     return roleToReturn;
   }
@@ -93,7 +93,7 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getById(input.roleToDelete);
       roleDo.deleteAndReassignTo=(newROleDo);
-      roleToReturn = new RoleConverter().toMongo(await repo.save(roleDo))
+      roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo))
     });
     return roleToReturn;
   }

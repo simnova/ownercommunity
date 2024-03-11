@@ -1,7 +1,7 @@
 import { ExecutionContext } from './execution-context';
 
-export interface TypeConverter<MongoType, DomainType, DomainPropType, ContextType extends ExecutionContext> {
-  toDomain(mongoType: MongoType, context: ContextType): DomainType;
-  toMongo(domainType: DomainType): MongoType; //TODO - change to PersistanceType
-  toAdapter(mongoType: MongoType | DomainType): DomainPropType;
+export interface TypeConverter<PersistenceType, DomainType, DomainPropType, ContextType extends ExecutionContext> {
+  toDomain(persistenceType: PersistenceType, context: ContextType): DomainType;
+  toPersistence(domainType: DomainType): PersistenceType; 
+  toAdapter(persistenceType: PersistenceType | DomainType): DomainPropType;
 }

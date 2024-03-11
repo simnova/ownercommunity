@@ -41,7 +41,7 @@ describe('When using the Blob Storage API', () => {
 
     // act
     const sharedKey = blobStorage.generateSharedKeyWithOptions(blobName, containerName, requestDateString, requestSettings);
-    console.log(sharedKey);
+    // console.log(sharedKey);
 
     // assert
     expect(sharedKey).toMatch(RegExp(`^SharedKey ${accountName}:[A-Za-z0-9+/=]+$`));

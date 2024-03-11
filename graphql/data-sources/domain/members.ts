@@ -29,7 +29,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
 
     await this.withTransaction(async (repo) => {
       let newMember = await repo.getNewInstance(input.memberName, communityDo);
-      memberToReturn = new MemberConverter().toMongo(await repo.save(newMember));
+      memberToReturn = new MemberConverter().toPersistence(await repo.save(newMember));
     });
     return memberToReturn;
   }
@@ -76,7 +76,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
           })
           .forEach((customView) => member.requestRemoveCustomView(customView));
       }
-      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+      memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;
   }
@@ -97,7 +97,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
       account.firstName=input.account.firstName;
       account.lastName=(input.account.lastName);
       account.createdBy=(currentUserDo);
-      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+      memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;
   }
@@ -109,7 +109,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
       let account = member.accounts.find((a) => a.id === input.accountId);
       account.firstName=input.firstName;
       account.lastName=input.lastName;
-      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+      memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;
   }
@@ -120,7 +120,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
       let member = await repo.getById(input.memberId);
       let accountRef = member.accounts.find((a) => a.id === input.accountId);
       member.requestRemoveAccount(accountRef.props);
-      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+      memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;
   }
@@ -131,7 +131,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
       let member = await repo.getById(memberId);
       let profile = member.profile;
       profile.AvatarDocumentId=(avatarDocumentId);
-      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+      memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;
   }
@@ -150,7 +150,7 @@ export class Members extends DomainDataSource<Context, Member, PropType, DomainT
       profile.ShowLocation=(input.profile.showLocation);
       profile.ShowProfile=(input.profile.showProfile);
       profile.ShowProperties=(input.profile.showProperties);
-      memberToReturn = new MemberConverter().toMongo(await repo.save(member));
+      memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;
   }

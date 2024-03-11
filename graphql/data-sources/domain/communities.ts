@@ -27,7 +27,7 @@ export class Communities extends DomainDataSource<Context,Community,PropType,Dom
       let newCommunity = await repo.getNewInstance(
         input.name,
         userDo);
-      communityToReturn = new CommunityConverter().toMongo(await repo.save(newCommunity));
+      communityToReturn = new CommunityConverter().toPersistence(await repo.save(newCommunity));
     });
     return communityToReturn;
   }
@@ -47,7 +47,7 @@ export class Communities extends DomainDataSource<Context,Community,PropType,Dom
       domainObject.Domain=(community.domain);
       domainObject.WhiteLabelDomain=(community.whiteLabelDomain);
       domainObject.Handle=(community.handle);
-      result = (new CommunityConverter()).toMongo(await repo.save(domainObject));
+      result = (new CommunityConverter()).toPersistence(await repo.save(domainObject));
     });
     return result;
   }

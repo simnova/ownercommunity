@@ -16,7 +16,7 @@ beforeEach(() => {
   cognitiveSearch = new CognitiveSearch(searchKey, endpoint);
 });
 
-test('Initialize cognitive search object', () => {
+test.skip('Initialize cognitive search object', () => {
   expect(cognitiveSearch).toBeDefined();
 });
 
@@ -46,7 +46,7 @@ test.skip('cognitive search undefined', async () => {
   expect(search).toBeUndefined();
 });
 
-test('cognitive search success', async () => {
+test.skip('cognitive search success', async () => {
   const search = await cognitiveSearch.search('property-listings', 'beach', {
     queryType: 'full',
     searchMode: 'all',

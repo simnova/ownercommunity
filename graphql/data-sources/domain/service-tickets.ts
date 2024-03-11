@@ -61,7 +61,7 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
         memberDo);
       if(input.serviceId) { newServiceTicket.Service=(serviceDo); }
       
-      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(newServiceTicket));
+      serviceTicketToReturn = new ServiceTicketConverter().toPersistence(await repo.save(newServiceTicket));
     });
     return serviceTicketToReturn;
   }
@@ -86,7 +86,7 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
       serviceTicket.Description=(input.description);
       serviceTicket.Priority=(input.priority);
       if(input.serviceId) { serviceTicket.Service=(serviceDo); }
-      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+      serviceTicketToReturn = new ServiceTicketConverter().toPersistence(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;
   }
@@ -96,7 +96,7 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
       serviceTicket.requestDelete();
-      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+      serviceTicketToReturn = new ServiceTicketConverter().toPersistence(await repo.save(serviceTicket));
     });
 
     return serviceTicketToReturn;
@@ -116,7 +116,7 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
       serviceTicket.AssignedTo=(memberDo);
-      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+      serviceTicketToReturn = new ServiceTicketConverter().toPersistence(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;
   }
@@ -129,7 +129,7 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
       serviceTicket.requestAddStatusUpdate(input.activityDescription, memberDo);
-      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+      serviceTicketToReturn = new ServiceTicketConverter().toPersistence(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;
   }
@@ -142,7 +142,7 @@ export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, Pro
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
       serviceTicket.requestAddStatusTransition(input.status, input.activityDescription, memberDo);
-      serviceTicketToReturn = new ServiceTicketConverter().toMongo(await repo.save(serviceTicket));
+      serviceTicketToReturn = new ServiceTicketConverter().toPersistence(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;
   }

@@ -41,6 +41,6 @@ export class ServiceTickets extends CosmosDataSource<ServiceTicket, Context> {
               (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket)
           )
       )
-      .map((ticket) => converter.toMongo(ticket));
+      .map((ticket) => converter.toPersistence(ticket));
   }
 }

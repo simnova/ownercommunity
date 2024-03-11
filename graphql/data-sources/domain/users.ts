@@ -27,7 +27,7 @@ export class Users extends DomainDataSource<Context,User,PropType,DomainType,Rep
       }
       domainObject.setFirstName(user.firstName);
       domainObject.setLastName(user.lastName);
-      result = (new UserConverter()).toMongo(await repo.save(domainObject));
+      result = (new UserConverter()).toPersistence(await repo.save(domainObject));
     });
     return result;
   }
@@ -49,7 +49,7 @@ export class Users extends DomainDataSource<Context,User,PropType,DomainType,Rep
       let userConverter = new UserConverter();
       let userExists = await repo.getByExternalId(userExternalId);
       if(userExists) {
-        userToReturn = userConverter.toMongo(userExists);
+        userToReturn = userConverter.toPersistence(userExists);
       }else{
         let newUser = await repo.getNewInstance(
           userExternalId,
@@ -58,7 +58,7 @@ export class Users extends DomainDataSource<Context,User,PropType,DomainType,Rep
         if(userEmail) {
           newUser.setEmail(userEmail);
         }
-        userToReturn = userConverter.toMongo(await repo.save(newUser));
+        userToReturn = userConverter.toPersistence(await repo.save(newUser));
       }
     });
     return userToReturn;

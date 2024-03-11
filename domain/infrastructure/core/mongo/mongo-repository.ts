@@ -28,7 +28,7 @@ export abstract class MongoRepositoryBase<
   }
 
   async save(item: DomainType): Promise<DomainType> {
-    item.onSave(this.typeConverter.toMongo(item).isModified());
+    item.onSave(this.typeConverter.toPersistence(item).isModified());
 
     console.log('saving item');
     for await (let event of item.getDomainEvents()) {
@@ -43,7 +43,7 @@ export abstract class MongoRepositoryBase<
         return item;
       } else {
         console.log('saving item id', item.id);
-        const mongoObj = this.typeConverter.toMongo(item);
+        const mongoObj = this.typeConverter.toPersistence(item);
         return this.typeConverter.toDomain(await mongoObj.save({ session: this.session }), this.context);
       }
     } catch (error) {

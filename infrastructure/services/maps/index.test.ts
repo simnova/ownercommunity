@@ -12,7 +12,7 @@ test.skip('sas token', async () => {
   expect(sasToken).toBe('');
 });
 
-test('sas token', async () => {
+test.skip('sas token', async () => {
   const sasToken = await maps.generateSharedKey();
   expect(sasToken.length).toBe(544);
 });

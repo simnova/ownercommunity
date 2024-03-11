@@ -11,16 +11,24 @@
     "start": "npm-run-all --parallel start:host watch",
     "test": "npx jest --watchAll=true",
     "gen": "graphql-codegen --config codegen.yml",
-    "gen:watch": "graphql-codegen --config codegen.yml --watch  --silent=false"
+    "gen:watch": "graphql-codegen --config codegen.yml --watch  --silent=false",
+    "bdd": "npm run build && cucumber-js --config ./cucumber.json"
   },
   "description": "",
   "devDependencies": {
+    "@cucumber/cucumber": "^10.3.1",
     "@graphql-codegen/cli": "^3.3.0",
     "@graphql-codegen/introspection": "^3.0.1",
     "@graphql-codegen/typed-document-node": "^4.0.0",
     "@graphql-codegen/typescript": "^3.0.3",
     "@graphql-codegen/typescript-operations": "^3.0.3",
     "@graphql-codegen/typescript-resolvers": "^3.2.0",
+    "@serenity-js/assertions": "^3.21.0",
+    "@serenity-js/console-reporter": "^3.21.0",
+    "@serenity-js/core": "^3.21.0",
+    "@serenity-js/cucumber": "^3.21.0",
+    "@serenity-js/rest": "^3.21.0",
+    "@serenity-js/serenity-bdd": "^3.21.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^18.16.0",
     "jest": "^29.7.0",
@@ -79,6 +87,7 @@
     "nanoid": "^3.3.2",
     "openid-client": "^5.1.3",
     "retry": "^0.13.1",
-    "underscore": "^1.13.6"
+    "underscore": "^1.13.6",
+    "uuid": "^9.0.1"
   }
 }

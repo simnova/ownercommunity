@@ -1,5 +1,5 @@
 import { Before, Given, When, Then, DataTable } from '@cucumber/cucumber';
-import { Actor, actorInTheSpotlight, Check, notes, Question, List, TakeNotes, QuestionAdapter, AnswerQuestions } from '@serenity-js/core';
+import { Actor, actorInTheSpotlight, Check, notes, Question, List, TakeNotes, QuestionAdapter, AnswerQuestions, engage } from '@serenity-js/core';
 import { actorCalled, Interaction } from '@serenity-js/core'
 import { InteractWithTheDomain } from '../support/domain/abilities/interactWithTheDomain';
 import { SystemExecutionContext } from '../../domain/infrastructure/execution-context';
@@ -11,9 +11,11 @@ import { ReadOnlyPassport } from '../../domain/contexts/iam/passport';
 
 
 Before(function () {
+ 
   this.community = {}
   this.user = {}
 })
+
 
 Given('{actor} creates community {word}', async function(actor: Actor, community: string){
 
@@ -27,16 +29,16 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
     firstName: 'John',
     lastName: 'Doe'
   }
-
+  
   const UserListContainsUser = (externalId:string) =>
     Question.about('User list contains user', actor => {
       return LastResponse.repoContents().answeredBy(actor).then(async (response) => {
         console.log('===>response: ', response)
         const newUser = (response as User<UserProps>[]).find((user) => user.externalId === externalId);
-        console.log('===>newUser: ', newUser) 
-        notes<CreateCommunityNotes>().set('newUser', newUser);
-        const notesUser = await notes<CreateCommunityNotes>().get('newUser');
-        console.log('===>notesUser: ', notesUser)
+       // console.log('===>newUser: ', newUser) 
+       // notes<CreateCommunityNotes>().set('newUser', newUser);
+       // const notesUser = await notes<CreateCommunityNotes>().get('newUser');
+       // console.log('===>notesUser: ', notesUser)
         return newUser !== undefined;
       });
     });
@@ -50,6 +52,7 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
         return newUser 
       });
     });
+
 
    
 
@@ -66,6 +69,8 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
       
       createCommunity(community,givenUserData.externalId, notes<CreateCommunityNotes>().get('allUsers')),
     )
+
+      
 });
 
 export const createUser = (externalId:string, firstName:string, lastName:string) => {
@@ -77,10 +82,11 @@ export const createUser = (externalId:string, firstName:string, lastName:string)
   });
 }
 
-export const createCommunity = (communityName: string, externalId:string, user: QuestionAdapter<User<UserProps>[]>) => {
+export const createCommunity = (communityName: string, externalId:string, users: QuestionAdapter<User<UserProps>[]>) => {
   return Interaction.where(`#actor creates community`, async (actor:Actor) => {
     await InteractWithTheDomain.as(actor).actOnCommunity(async (repo) => {
-      var userResult = await user.answeredBy(actor);
+      var userResult = await users.answeredBy(actor);
+    
       var matchedUser = userResult.find((user) => user.externalId === externalId);
       console.log('===>communityUser: ', userResult);
       let community = await repo.getNewInstance(communityName, matchedUser);

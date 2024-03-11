@@ -10,6 +10,7 @@ import { User, UserProps } from '../../../../domain/contexts/user/user';
 
 export class InteractWithTheDomain extends Ability {
   private lastResponse: any;
+  
 
   // A static method is typically used to inject a client of a given interface
   // and instantiate the ability, for example:

@@ -73,7 +73,7 @@ export const RolesDetail: React.FC<any> = (props) => {
           <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Edit Own Property</Checkbox>
         </Form.Item>
 
-        <h3>Community Permissions</h3>
+        <h3>Community Permissions (Administrative Permissions)</h3>
         <Form.Item 
           name={["permissions","communityPermissions","canManageRolesAndPermissions"]}
           valuePropName="checked"        
@@ -99,7 +99,7 @@ export const RolesDetail: React.FC<any> = (props) => {
           <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Manage Members</Checkbox>
         </Form.Item>
 
-        <h3>Service Ticket Permissions</h3>
+        <h3>Service Ticket Permissions (Administrative Permissions)</h3>
         <Form.Item 
           name={["permissions","serviceTicketPermissions","canManageTickets"]}
           valuePropName="checked"        
@@ -119,7 +119,7 @@ export const RolesDetail: React.FC<any> = (props) => {
           <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Work On Tickets</Checkbox>
         </Form.Item>
 
-        <h3>Property Permissions</h3>
+        <h3>Property Permissions (Administrative Permissions)</h3>
         <Form.Item 
           name={["permissions","propertyPermissions","canManageProperties"]}
           valuePropName="checked"        

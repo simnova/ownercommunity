@@ -1,10 +1,10 @@
-import { AggregateRoot } from "../../../../../domain/shared/aggregate-root";
-import { EntityProps } from "../../../../../domain/shared/entity";
-import { Repository } from "../../../../../domain/shared/repository";
+import { AggregateRoot } from "../../../../../../../domain/shared/aggregate-root";
+import { EntityProps } from "../../../../../../../domain/shared/entity";
+import { Repository } from "../../../../../../../domain/shared/repository";
 import { nanoid } from "nanoid";
-import { ExecutionContext } from "../../../../../domain/shared/execution-context";
-import { EventBus } from "../../../../../domain/shared/event-bus";
-import { DomainEvent } from "../../../../../domain/shared/domain-event";
+import { ExecutionContext } from "../../../../../../../domain/shared/execution-context";
+import { EventBus } from "../../../../../../../domain/shared/event-bus";
+import { DomainEvent } from "../../../../../../../domain/shared/domain-event";
 
 export class MemoryRepositoryBase<
   ContextType extends ExecutionContext,
@@ -30,7 +30,10 @@ export class MemoryRepositoryBase<
       return Promise.reject(new Error("Item not found."));
     }
   }
-
+  getAll(): Promise<DomainType[]> {
+    const items = this.memoryStore.getAll();
+    return Promise.resolve(items.map((item) => new this.domainClass(item, this.context)));
+  }
   save(item: DomainType): Promise<DomainType> {
     this.dispatchDomainEvents(item);
     this.itemsInTransaction.push(item);

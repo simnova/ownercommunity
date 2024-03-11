@@ -1,6 +1,6 @@
-import { DomainExecutionContext } from "../../../../domain/contexts/context";
-import { UserProps, User } from "../../../../domain/contexts/user/user";
-import { UserRepository } from "../../../../domain/contexts/user/user.repository";
+import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
+import { UserProps, User } from "../../../../../../domain/contexts/user/user";
+import { UserRepository } from "../../../../../../domain/contexts/user/user.repository";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
 
 export class MemoryUserRepository<

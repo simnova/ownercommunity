@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { ExecutionContext } from "../../../../../../../domain/shared/execution-context";
 import { EventBus } from "../../../../../../../domain/shared/event-bus";
 import { DomainEvent } from "../../../../../../../domain/shared/domain-event";
+import { MemoryStore } from "./memory-store";
 
 export class MemoryRepositoryBase<
   ContextType extends ExecutionContext,
@@ -13,11 +14,12 @@ export class MemoryRepositoryBase<
   > implements Repository<DomainType> {
 
   private itemsInTransaction: DomainType[] = [];
-  protected memoryStore = new MemoryStore<PropType>();
+  // protected memoryStore = new MemoryStore<PropType>();
   constructor(
     protected eventBus: EventBus,
     protected domainClass: new (args: PropType, context: ContextType) => DomainType,
-    protected context: ContextType
+    protected context: ContextType,
+    protected memoryStore: MemoryStore<PropType>
   ) {
   }
 
@@ -76,33 +78,11 @@ export class MemoryRepositoryBase<
     eventBus: EventBus,
     domainClass: new (args: PropType, context: ContextType) => DomainType,
     context: ContextType,
-    repoClass: new (eventBus: EventBus, domainClass:new (args: PropType, context: ContextType) => DomainType, context: ContextType) => RepoType
+    memoryStore: MemoryStore<PropType>,
+    repoClass: new (eventBus: EventBus, domainClass:new (args: PropType, context: ContextType) => DomainType, context: ContextType, databaseAggregateRoot: MemoryStore<PropType>) => RepoType,
   ): RepoType {
-    return new repoClass(eventBus, domainClass, context);
+    return new repoClass(eventBus, domainClass, context, memoryStore);
   }
 
 }
 
-class MemoryStore<PropType extends EntityProps> {
-  private memoryStore: PropType[] = [];
-
-  get(id: string): PropType { 
-    return this.memoryStore.find((item) => item.id === id);
-  }
-  save(item: PropType): PropType {
-    const existingItem = this.memoryStore.find((i) => i.id === item.id);
-    if (existingItem) {
-      const index = this.memoryStore.indexOf(existingItem);
-      this.memoryStore[index] = item;
-    } else {
-      this.memoryStore.push(item);
-    }
-    return item;
-  }
-  delete(id: string): void {
-    this.memoryStore = this.memoryStore.filter((i) => i.id !== id);
-  }
-  getAll(): PropType[] {
-    return this.memoryStore;
-  }
-}

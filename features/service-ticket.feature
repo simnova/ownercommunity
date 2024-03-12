@@ -36,8 +36,8 @@ Feature: Create a service ticket
 
 Scenario: Setup
   Given SamTheSystem creates community Atlantis
-  And SamTheSystem creates property Cottage in Atlantis
-  And he creates property Villa in Atlantis
+  # And SamTheSystem creates property Cottage in Atlantis
+  # And he creates property Villa in Atlantis
 
   # Given Cottage is a property in Atlantis
   # Given Villa is a property in Atlantis 

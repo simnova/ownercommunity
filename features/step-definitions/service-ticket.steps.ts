@@ -5,9 +5,9 @@ import { InteractWithTheDomain } from '../support/domain/abilities/interactWithT
 import { SystemExecutionContext } from '../../domain/infrastructure/execution-context';
 import { v4 as uuidV4 } from 'uuid';
 import { User, UserEntityReference, UserProps } from '../../domain/contexts/user/user';
-import { LastResponse } from '../support/domain/questions/lastResponse';
 import { Ensure, isTrue } from '@serenity-js/assertions';
 import { ReadOnlyPassport } from '../../domain/contexts/iam/passport';
+import { MemoryDatabase } from '../support/domain/adapter/infrastructure/persistance/memory-database';
 
 
 Before(function () {
@@ -21,7 +21,7 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
 
   interface CreateCommunityNotes{
     newUser: User<UserProps>;
-    allUsers: User<UserProps>[];
+    allUsers: UserProps[];
   }
 
   const givenUserData = {
@@ -31,41 +31,47 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
   }
   
   const UserListContainsUser = (externalId:string) =>
-    Question.about('User list contains user', actor => {
-      return LastResponse.repoContents().answeredBy(actor).then(async (response) => {
-        console.log('===>response: ', response)
-        const newUser = (response as User<UserProps>[]).find((user) => user.externalId === externalId);
-       // console.log('===>newUser: ', newUser) 
-       // notes<CreateCommunityNotes>().set('newUser', newUser);
-       // const notesUser = await notes<CreateCommunityNotes>().get('newUser');
-       // console.log('===>notesUser: ', notesUser)
-        return newUser !== undefined;
+    Question.about('User list contains user', async (actor) => {
+      let userResult: UserProps;
+      await InteractWithTheDomain.as(actor).readUserDb(async (db) => {
+        const users = db.getAll();
+        userResult = users.find((user) => user.externalId === externalId);
       });
+       return userResult !== undefined;
     });
 
     const CreatedUser = (externalId:string) =>
-    Question.about('User list contains user', actor => {
-      return LastResponse.repoContents().answeredBy(actor).then((response) => {
-        console.log('===>response2: ', response)
-        const newUser = (response as User<UserProps>[]).find((user) => user.externalId === externalId);
-        console.log('===>newUser2: ', newUser)
-        return newUser 
+    Question.about('User list contains user', async (actor) => {
+      let userResult: UserProps;
+      await InteractWithTheDomain.as(actor).readUserDb(async (db) => {
+        const users = db.getAll();
+        userResult = users.find((user) => user.externalId === externalId);
       });
+       return userResult;
     });
 
+    const AllUsers = () =>
+    Question.about('User list contains user', async (actor) => {
+      let userResult: UserProps[];
+      await InteractWithTheDomain.as(actor).readUserDb(async (db) => {
+        userResult = db.getAll();
+      });
+       return userResult;
+    });
 
+    const database = new MemoryDatabase();
    
 
   await actorCalled(actor.name)
     .whoCan(
       TakeNotes.usingAnEmptyNotepad(),
-      InteractWithTheDomain.using(SystemExecutionContext())
+      InteractWithTheDomain.using(SystemExecutionContext(), database)
       )
     .attemptsTo(
       createUser(givenUserData.externalId, givenUserData.firstName, givenUserData.lastName),
       Ensure.that(UserListContainsUser(givenUserData.externalId), isTrue()),
    
-      notes<CreateCommunityNotes>().set('allUsers',LastResponse.repoContents()),
+      notes<CreateCommunityNotes>().set('allUsers', AllUsers()),
       
       createCommunity(community,givenUserData.externalId, notes<CreateCommunityNotes>().get('allUsers')),
     )
@@ -82,7 +88,7 @@ export const createUser = (externalId:string, firstName:string, lastName:string)
   });
 }
 
-export const createCommunity = (communityName: string, externalId:string, users: QuestionAdapter<User<UserProps>[]>) => {
+export const createCommunity = (communityName: string, externalId:string, users: QuestionAdapter<UserProps[]>) => {
   return Interaction.where(`#actor creates community`, async (actor:Actor) => {
     await InteractWithTheDomain.as(actor).actOnCommunity(async (repo) => {
       var userResult = await users.answeredBy(actor);

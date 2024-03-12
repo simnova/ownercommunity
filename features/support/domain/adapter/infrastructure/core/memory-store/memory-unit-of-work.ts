@@ -5,6 +5,7 @@ import { EventBus } from "../../../../../../../domain/shared/event-bus";
 import { ExecutionContext } from "../../../../../../../domain/shared/execution-context";
 import { PersistanceUnitOfWork } from "../../../../../../../domain/shared/unit-of-work";
 import { MemoryRepositoryBase } from "./memory-repository";
+import { MemoryStore } from "./memory-store";
 
 export class MemoryUnitOfWork<
   ContextType extends ExecutionContext,
@@ -15,7 +16,7 @@ export class MemoryUnitOfWork<
   
   async withTransaction(context:ContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {
     let repoEvents: DomainEvent[] = [];
-    let repo = MemoryRepositoryBase.create(this.bus, this.domainClass, context, this.repoClass);
+    let repo = MemoryRepositoryBase.create(this.bus, this.domainClass, context, this.memoryStore, this.repoClass);
     try {
       await func(repo);
       console.log('func done');
@@ -33,7 +34,8 @@ export class MemoryUnitOfWork<
     private bus : EventBus, 
     private integrationEventBus: EventBus,
     private domainClass : new (args: PropType, context: ContextType) => DomainType,
-    private repoClass : new(bus: EventBus, domainClass: new (args: PropType, context: ContextType) => DomainType, context: ContextType) => RepoType
+    private memoryStore: MemoryStore<PropType>,
+    private repoClass : new(bus: EventBus, domainClass: new (args: PropType, context: ContextType) => DomainType, context: ContextType, databaseAggregateRoot: MemoryStore<PropType>) => RepoType,
   ){
     super();
   }

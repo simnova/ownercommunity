@@ -1,7 +1,7 @@
 import { Community, CommunityProps } from "../../../../../../domain/contexts/community/community";
 import { CommunityRepository } from "../../../../../../domain/contexts/community/community.repository";
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
-import { UserEntityReference } from "../../../../../../domain/contexts/user/user";
+import { UserEntityReference, UserProps } from "../../../../../../domain/contexts/user/user";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
 
 
@@ -14,7 +14,7 @@ export class MemoryCommunity implements CommunityProps {
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
-  createdBy: UserEntityReference;
+  createdBy: UserProps;
   setCreatedByRef(user: UserEntityReference): void {
     this.createdBy = user
   }

@@ -6,4 +6,4 @@ import { CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/m
 import { CommunityConverter } from './community.domain-adapter';
 import { MongoCommunityRepository } from './community.mongo-repository';
 
-export const CommunityUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, CommunityModel, new CommunityConverter(), MongoCommunityRepository);
+export const MongoCommunityUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, CommunityModel, new CommunityConverter(), MongoCommunityRepository);

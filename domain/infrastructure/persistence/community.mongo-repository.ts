@@ -13,4 +13,9 @@ export class MongoCommunityRepository<PropType extends CommunityProps>
     let adapter = this.typeConverter.toAdapter(new this.model());
     return CommunityDO.getNewInstance(adapter, name, user, this.context);
   }
+
+  async getByIdWithCreatedBy(id: string): Promise<CommunityDO<PropType>> {
+    const mongoCommunity = await this.model.findById(id).populate('createdBy').exec();
+    return this.typeConverter.toDomain(mongoCommunity,this.context);
+  }
 }

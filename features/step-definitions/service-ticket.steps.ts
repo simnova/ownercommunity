@@ -30,6 +30,12 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
     lastName: 'Doe'
   }
   
+  const givenUserData2 = {
+    externalId:  uuidV4(),
+    firstName: 'Billy',
+    lastName: 'Bob'
+  }
+
   const UserListContainsUser = (externalId:string) =>
     Question.about('User list contains user', async (actor) => {
       let userResult: UserProps;
@@ -76,6 +82,20 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
       createCommunity(community,givenUserData.externalId, notes<CreateCommunityNotes>().get('allUsers')),
     )
 
+    await actorCalled(actor.name)
+    .whoCan(
+      TakeNotes.usingAnEmptyNotepad(),
+      InteractWithTheDomain.using(SystemExecutionContext(), database)
+      )
+    .attemptsTo(
+      createUser(givenUserData2.externalId, givenUserData2.firstName, givenUserData2.lastName),
+      Ensure.that(UserListContainsUser(givenUserData2.externalId), isTrue()),
+   
+      notes<CreateCommunityNotes>().set('allUsers', AllUsers()),
+      
+      createCommunity(community,givenUserData2.externalId, notes<CreateCommunityNotes>().get('allUsers')),
+    )
+
       
 });
 
@@ -96,6 +116,9 @@ export const createCommunity = (communityName: string, externalId:string, users:
       var matchedUser = userResult.find((user) => user.externalId === externalId);
       console.log('===>communityUser: ', userResult);
       let community = await repo.getNewInstance(communityName, matchedUser);
+      console.log('===>community: ', community);
+      // community.Domain = 'test.com';
+      // console.log('===>updated community: ', community);
       await repo.save(community);
     });
 

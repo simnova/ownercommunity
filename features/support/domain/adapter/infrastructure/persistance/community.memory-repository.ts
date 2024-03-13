@@ -1,11 +1,11 @@
 import { Community, CommunityProps } from "../../../../../../domain/contexts/community/community";
 import { CommunityRepository } from "../../../../../../domain/contexts/community/community.repository";
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
-import { UserEntityReference } from "../../../../../../domain/contexts/user/user";
+import { UserEntityReference, UserProps } from "../../../../../../domain/contexts/user/user";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
 
 
-class MemoryCommunity implements CommunityProps {
+export class MemoryCommunity implements CommunityProps {
   id: string;
   name: string;
   domain: string;
@@ -14,7 +14,7 @@ class MemoryCommunity implements CommunityProps {
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
-  createdBy: UserEntityReference;
+  createdBy: UserProps;
   setCreatedByRef(user: UserEntityReference): void {
     this.createdBy = user
   }
@@ -28,5 +28,10 @@ export class MemoryCommunityRepository<
   {
   async getNewInstance(name: string, user: UserEntityReference): Promise<Community<PropType>> {
     return Community.getNewInstance(new MemoryCommunity as PropType, name, user, this.context);
+  }
+
+  async getByIdWithCreatedBy(id: string): Promise<Community<PropType>> {
+    const community = await this.get(id);
+    return community;
   }
 }

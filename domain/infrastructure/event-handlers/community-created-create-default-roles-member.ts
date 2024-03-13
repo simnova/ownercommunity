@@ -1,21 +1,27 @@
 import { NodeEventBus } from '../core/events/node-event-bus';
 import { CommunityCreatedEvent } from '../../events/community-created';
-import { RoleUnitOfWork } from '../persistence/role.uow';
-import { MemberUnitOfWork } from '../persistence/member.uow';
-import { SystemExecutionContext, ReadOnlyContext } from '../execution-context';
-import { CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/models/community';
-import { CommunityConverter } from '../persistence/community.domain-adapter';
+import { ReadOnlyContext, SystemExecutionContext } from '../execution-context';
 import { Role } from '../../contexts/community/role';
 import { AccountStatusCodes } from '../../contexts/community/account.value-objects';
+import { Community, CommunityProps } from '../../contexts/community/community';
+import { CommunityUnitOfWork } from '../../contexts/community/community.uow';
+import { RoleUnitOfWork } from '../../contexts/community/role.uow';
+import { MemberUnitOfWork } from '../../contexts/community/member.uow';
 
-export default () => { NodeEventBus.register(CommunityCreatedEvent, async (payload) => {
+export default (
+  communityUnitOfWork: CommunityUnitOfWork,
+  roleUnitOfWork: RoleUnitOfWork,
+  memberUnitOfWork: MemberUnitOfWork
+) => { NodeEventBus.register(CommunityCreatedEvent, async (payload) => {
 
   console.log(`CommunityCreatedEvent -> Default Roles/Member Handler - Called with Payload: ${JSON.stringify(payload)}`);
 
-  const mongoCommunity = await CommunityModel.findById(payload.communityId).populate('createdBy').exec();
-  const communityDo = new CommunityConverter().toDomain(mongoCommunity,ReadOnlyContext());
+  let communityDo: Community<CommunityProps>;
+  await communityUnitOfWork.withTransaction(ReadOnlyContext(), async (repo) => {
+    communityDo = await repo.getByIdWithCreatedBy(payload.communityId);
+  });
   let role: Role<any>;
-  await RoleUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
+  await roleUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     role = await repo.getNewInstance('admin', communityDo);
     role.isDefault=(true);
 
@@ -39,7 +45,7 @@ export default () => { NodeEventBus.register(CommunityCreatedEvent, async (paylo
 
   const fullName = `${communityDo.createdBy.firstName?? ''} ${communityDo.createdBy.lastName?? ''}`;
 
-  await MemberUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
+  await memberUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     const member = await repo.getNewInstance(fullName, communityDo);
     member.Role=(role);
     const account = member.requestNewAccount();

@@ -6,4 +6,4 @@ import { RoleModel } from '../../../infrastructure/data-sources/cosmos-db/models
 import { RoleConverter } from './role.domain-adapter';
 import { MongoRoleRepository } from './role.mongo-repository';
 
-export const RoleUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, RoleModel, new RoleConverter(), MongoRoleRepository);
+export const MongoRoleUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, RoleModel, new RoleConverter(), MongoRoleRepository);

@@ -117,8 +117,8 @@ export const createCommunity = (communityName: string, externalId:string, users:
       console.log('===>communityUser: ', userResult);
       let community = await repo.getNewInstance(communityName, matchedUser);
       console.log('===>community: ', community);
-      community.Domain = 'test.com';
-      console.log('===>updated community: ', community);
+      // community.Domain = 'test.com';
+      // console.log('===>updated community: ', community);
       await repo.save(community);
     });
 

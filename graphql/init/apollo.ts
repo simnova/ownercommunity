@@ -9,6 +9,7 @@ import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
+import { Services } from '../../infrastructure/services';
 
 export class ApolloServerRequestHandler {
   private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {
@@ -30,8 +31,8 @@ export class ApolloServerRequestHandler {
             console.log('Apollo Server Starting');
             await connect();
             portalTokenExtractor.Start();
-
-            RegisterHandlers();
+            const services = new Services();
+            RegisterHandlers(services);
           },
           async onHealthCheck(): Promise<any> {
             // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health

@@ -1,23 +1,31 @@
-import { Community, CommunityProps } from "../../../../../../domain/contexts/community/community";
+import { AccountProps } from "../../../../../../domain/contexts/community/account";
+import { Community, CommunityEntityReference, CommunityProps } from "../../../../../../domain/contexts/community/community";
 import { CommunityRepository } from "../../../../../../domain/contexts/community/community.repository";
+import { MemberProps } from "../../../../../../domain/contexts/community/member";
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
 import { UserEntityReference } from "../../../../../../domain/contexts/user/user";
+import { PropArray } from "../../../../../../domain/shared/prop-array";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
+import { MemoryCommunity } from "./community.memory-repository";
 
 
-export class MemoryCommunity implements CommunityProps {
+class MemoryMember implements MemberProps {
   id: string;
-  name: string;
-  domain: string;
-  whiteLabelDomain: string;
-  handle: string;
+  memberName: string;
+  community: MemoryCommunity;
+  setCommunityRef(community: MemoryCommunity) : void {
+    this.community = community;
+  };
+  profile: any;
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
-  createdBy: UserEntityReference;
-  setCreatedByRef(user: UserEntityReference): void {
-    this.createdBy = user
+  accounts: PropArray<AccountProps>;
+  role: any;
+  setRoleRef(role: any): void {
+    this.role = role;
   }
+  customViews: PropArray<any>;
 } 
 
 export class MemoryCommunityRepository<

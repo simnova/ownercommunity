@@ -12,6 +12,7 @@ export class Actors implements Cast {
         private readonly domainExecutionContext: DomainExecutionContext
     ) {
         this.database = new MemoryDatabase();
+        
     }
 
   prepare(actor: Actor): Actor {

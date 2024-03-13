@@ -1,7 +1,7 @@
 import { UserUnitOfWork } from '../../../domain/infrastructure/persistence/user.uow';
-import { CommunityUnitOfWork } from '../../../domain/infrastructure/persistence/community.uow';
-import { MemberUnitOfWork } from '../../../domain/infrastructure/persistence/member.uow';
-import { RoleUnitOfWork } from '../../../domain/infrastructure/persistence/role.uow';
+import { MongoCommunityUnitOfWork } from '../../../domain/infrastructure/persistence/community.mongo-uow';
+import { MongoMemberUnitOfWork } from '../../../domain/infrastructure/persistence/member.mongo-uow';
+import { MongoRoleUnitOfWork } from '../../../domain/infrastructure/persistence/role.mongo-uow';
 import { PropertyUnitOfWork } from '../../../domain/infrastructure/persistence/property.uow';
 import { ServiceUnitOfWork } from '../../../domain/infrastructure/persistence/service.uow';
 import { ServiceTicketUnitOfWork } from '../../../domain/infrastructure/persistence/service-ticket.uow';
@@ -18,11 +18,11 @@ export {
   Users as UserDomainAPI,
   UserUnitOfWork,
   Communities as CommunityDomainAPI,
-  CommunityUnitOfWork,
+  MongoCommunityUnitOfWork as CommunityUnitOfWork,
   Members as MemberDomainAPI,
-  MemberUnitOfWork,
+  MongoMemberUnitOfWork as MemberUnitOfWork,
   Roles as RoleDomainAPI,
-  RoleUnitOfWork,
+  MongoRoleUnitOfWork as RoleUnitOfWork,
   Properties as PropertyDomainAPI,
   PropertyUnitOfWork,
   Services as ServiceDomainAPI,

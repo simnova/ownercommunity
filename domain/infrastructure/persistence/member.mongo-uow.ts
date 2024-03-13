@@ -6,4 +6,4 @@ import { MemberModel } from '../../../infrastructure/data-sources/cosmos-db/mode
 import { MemberConverter } from './member.domain-adapter';
 import { MongoMemberRepository } from './member.mongo-repository';
 
-export const MemberUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, MemberModel, new MemberConverter(), MongoMemberRepository);
+export const MongoMemberUnitOfWork = new MongoUnitOfWork(InProcEventBus,NodeEventBus, MemberModel, new MemberConverter(), MongoMemberRepository);

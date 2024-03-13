@@ -1,3 +1,4 @@
+import { IServices } from './IServices';
 import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from './community-created-create-default-roles-member';
 import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from './role-deleted-reassign-member-new-role';
 import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from './community-created-create-blob-container';
@@ -9,13 +10,13 @@ import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './pr
 import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from './service-ticket-updated-update-search-index';
 import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from './service-ticket-deleted-update-search-index';
 
-import { Services } from '../../../infrastructure/services';
-
-const services = new Services();
-
-const RegisterHandlers = () => {
+const RegisterHandlers = (services: IServices) => {
   // Register all event handlers
-  RegisterCommunityCreatedCreateDefaultRolesMemberHandler();
+  RegisterCommunityCreatedCreateDefaultRolesMemberHandler(
+    services.communityUnitOfWork,
+    services.roleUnitOfWork,
+    services.memberUnitOfWork
+  );
   RegisterRoleDeletedReassignMemberNewRoleHandler();
   RegisterCommunityCreatedCreateBlobContainerHandler(services.blobStorage);
   RegisterCommunityDomainUpdatedUpdateDomainBlobHandler(services.blobStorage);

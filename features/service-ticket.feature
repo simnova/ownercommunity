@@ -1,8 +1,16 @@
 Feature: Create a service ticket
 
 # Background: 
-#   Given SamTheSystem creates community Atlantis
-#   And SamTheSystem creates property Cottage in Atlantis
+#   Given OwenTheOwner creates Atlantis community
+#   And he creates CommunityManager role in Atlantis community with following permissions:
+#     | communityPermissions      | canManageRolesAndPermissions, canManageSiteContent, canManageMembers |
+#     | serviceTicketPermissions  | canManageTickets |
+#     | servicePermissions        | canManageServices |
+#   And he assigns CommunityManager role to OwenTheOwner in Atlantis community
+
+
+
+
 #   And he creates property Villa in Atlantis
 #   And SamTheSystem creates user Lucy
 #   And SamTheSystem creates user Sean

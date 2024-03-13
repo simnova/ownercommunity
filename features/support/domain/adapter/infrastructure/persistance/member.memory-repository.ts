@@ -74,7 +74,7 @@ export class MemoryMemberRepository<
         return member;
       }
       async getAssignedToRole(roleId: string): Promise<Member<PropType>[]>{
-        const members = (await this.getAll()).filter((member) => member.role.id === roleId);
+        const members = (await this.getAll())?.filter((member) => member.role.id === roleId);
         return members;
       }
   }

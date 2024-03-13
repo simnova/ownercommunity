@@ -64,14 +64,12 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
       });
        return userResult;
     });
-
-    const database = new MemoryDatabase();
    
 
   await actorCalled(actor.name)
     .whoCan(
       TakeNotes.usingAnEmptyNotepad(),
-      InteractWithTheDomain.using(SystemExecutionContext(), database)
+      InteractWithTheDomain.using(SystemExecutionContext())
       )
     .attemptsTo(
       createUser(givenUserData.externalId, givenUserData.firstName, givenUserData.lastName),
@@ -85,7 +83,7 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
     await actorCalled(actor.name)
     .whoCan(
       TakeNotes.usingAnEmptyNotepad(),
-      InteractWithTheDomain.using(SystemExecutionContext(), database)
+      InteractWithTheDomain.using(SystemExecutionContext())
       )
     .attemptsTo(
       createUser(givenUserData2.externalId, givenUserData2.firstName, givenUserData2.lastName),

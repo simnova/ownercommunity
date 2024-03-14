@@ -18,6 +18,15 @@ export const CreateRole = ({
             withPermissions: (permissions: string[]) => Task.where(`#actor creates ${roleName} role in ${communityName} community`,
                 notes().set('community', GetCommunityInfo(communityName)),
                 //     CreateRole(roleName, communityName),
+                /*
+                 Interaction.where(`#actor creates user`, async (actor:Actor) => {
+                    await InteractWithTheDomain.as(actor).actOnRole(async (repo) => {
+                    const role = await repo.getNewInstance(name, community);
+                    console.log('===>role in db: ', role);
+                    await repo.save(role);
+                    });
+                })
+                 */
             ),
         }),
     }),

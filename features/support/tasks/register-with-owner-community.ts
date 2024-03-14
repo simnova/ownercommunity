@@ -1,9 +1,11 @@
-import { Task } from '@serenity-js/core/lib/screenplay';
-import { CreateUserInDb } from '../interactions/create-user-in-db';
+import { Actor, Interaction, Task } from '@serenity-js/core/lib/screenplay';
+import { getOrCreateUserForActor } from '../helpers/get-or-create-user-for-actor';
 
 export const RegisterWithOwnerCommunity = ({
     asNewUser: () => Task.where(`#actor registers as new user`,
-      CreateUserInDb(),
+      Interaction.where(`#actor creates user`, async (actor:Actor) => {
+          await getOrCreateUserForActor(actor);
+      })
     ),
 });
 

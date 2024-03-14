@@ -47,7 +47,7 @@ export class MemoryRepositoryBase<
         this.memoryStore.save(item.props);
       }
     } else {
-      (item.props as any).id = nanoid(); 
+      (item.props as any).id = (item.props as any).id || nanoid(); 
       this.memoryStore.save(item.props);
     }
     return Promise.resolve(item);

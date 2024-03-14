@@ -1,12 +1,11 @@
+import { MemoryDomainAdapter } from "../core/memory-store/memory-domain-adapter";
+import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
+import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
 import { Community, CommunityProps } from "../../../../../../domain/contexts/community/community";
 import { CommunityRepository } from "../../../../../../domain/contexts/community/community.repository";
-import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
 import { UserEntityReference, UserProps } from "../../../../../../domain/contexts/user/user";
-import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
 
-
-export class MemoryCommunity implements CommunityProps {
-  id: string;
+export class MemoryCommunity extends MemoryDomainAdapter implements CommunityProps {
   name: string;
   domain: string;
   whiteLabelDomain: string;
@@ -27,7 +26,7 @@ export class MemoryCommunityRepository<
     implements CommunityRepository<PropType> 
   {
   async getNewInstance(name: string, user: UserEntityReference): Promise<Community<PropType>> {
-    return Community.getNewInstance(new MemoryCommunity as PropType, name, user, this.context);
+    return Community.getNewInstance(new MemoryCommunity as unknown as PropType, name, user, this.context);
   }
 
   async getByIdWithCreatedBy(id: string): Promise<Community<PropType>> {

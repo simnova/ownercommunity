@@ -19,7 +19,7 @@ export class MemoryUnitOfWork<
     let repo = MemoryRepositoryBase.create(this.bus, this.domainClass, context, this.memoryStore, this.repoClass);
     try {
       await func(repo);
-      console.log('func done');
+      // console.log('func done');
     }catch(e){
       console.log('func failed'); 
       throw e;

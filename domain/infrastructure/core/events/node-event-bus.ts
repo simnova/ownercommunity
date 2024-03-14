@@ -33,7 +33,7 @@ class NodeEventBusImpl implements EventBus {
 
     let contextObject = {};
     api.propagation.inject(api.context.active(),contextObject);
-    console.log(`Trace context: ${JSON.stringify(contextObject)}`);
+    // console.log(`Trace context: ${JSON.stringify(contextObject)}`);
     const tracer = trace.getTracer("PG:data-access");
     tracer.startActiveSpan("node-event-bus.publish", async (span) => {
       span.setAttribute('message.system', 'node-event-bus');

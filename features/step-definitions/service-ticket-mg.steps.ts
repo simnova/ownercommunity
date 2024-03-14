@@ -7,6 +7,8 @@ import { CreateRole } from '../support/tasks/create-role';
 import { CreateCommunity } from '../support/tasks/create-community';
 
 
+Given('test setup', async function(){});
+
 Given('{actor} creates {word} community', async function(actor: Actor, communityName: string){
   await actor
     .whoCan(

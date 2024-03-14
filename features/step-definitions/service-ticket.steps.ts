@@ -92,6 +92,7 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
       notes<CreateCommunityNotes>().set('allUsers', AllUsers()),
       
       createCommunity(community,givenUserData2.externalId, notes<CreateCommunityNotes>().get('allUsers')),
+      
     )
 
       
@@ -112,9 +113,9 @@ export const createCommunity = (communityName: string, externalId:string, users:
       var userResult = await users.answeredBy(actor);
     
       var matchedUser = userResult.find((user) => user.externalId === externalId);
-      console.log('===>communityUser: ', userResult);
+      // console.log('===>communityUser: ', userResult);
       let community = await repo.getNewInstance(communityName, matchedUser);
-      console.log('===>community: ', community);
+      // console.log('===>community: ', community);
       // community.Domain = 'test.com';
       // console.log('===>updated community: ', community);
       await repo.save(community);
@@ -123,6 +124,6 @@ export const createCommunity = (communityName: string, externalId:string, users:
     // Interaction to ClearLocalStorage directly uses Actor's ability to BrowseTheWeb
     // const page: Page = await BrowseTheWeb.as(actor).currentPage()
     // await page.executeScript(() => window.localStorage.clear())
-    console.log('===>createCommunity: ', communityName)
+    // console.log('===>createCommunity: ', communityName)
   });
 }

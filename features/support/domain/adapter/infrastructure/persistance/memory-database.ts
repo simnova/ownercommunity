@@ -16,6 +16,11 @@ import { Role, RoleProps } from "../../../../../../domain/contexts/community/rol
 import { MemoryRoleRepository } from "./role.memory-repository";
 import { buildMemoryRoleUnitOfWork } from "./role.memory-uow";
 
+// member
+import { Member, MemberProps } from "../../../../../../domain/contexts/community/member";
+import { MemoryMemberRepository } from "./member.memory-repository";
+import { buildMemoryMemberUnitOfWork } from "./member.memory-uow";
+
 
 export interface IMemoryDatabase {
   CommunityUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
@@ -24,8 +29,8 @@ export interface IMemoryDatabase {
   UserMemoryStore: ReadOnlyMemoryStore<UserProps>;
   RoleUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>>;
   RoleMemoryStore: ReadOnlyMemoryStore<RoleProps>;
-  MemberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
-  MemberMemoryStore: ReadOnlyMemoryStore<UserProps>;
+  MemberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
+  MemberMemoryStore: ReadOnlyMemoryStore<MemberProps>;
 }
 
 
@@ -75,16 +80,16 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
 
   // member
-  private memberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
-  private memberMemoryStore: MemoryStore<UserProps>;
-  public get MemberUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>> {
+  private memberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
+  private memberMemoryStore: MemoryStore<MemberProps>;
+  public get MemberUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>> {
     if(!this.memberUnitOfWork) {
-      this.memberMemoryStore = new MemoryStore<UserProps>();
-      this.memberUnitOfWork = buildMemoryUserUnitOfWork(this.memberMemoryStore);
+      this.memberMemoryStore = new MemoryStore<MemberProps>();
+      this.memberUnitOfWork = buildMemoryMemberUnitOfWork(this.memberMemoryStore);
     }
     return this.memberUnitOfWork;
   }
-  public get MemberMemoryStore(): ReadOnlyMemoryStore<UserProps> {
+  public get MemberMemoryStore(): ReadOnlyMemoryStore<MemberProps> {
     return this.memberMemoryStore;
   }
 }

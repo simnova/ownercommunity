@@ -1,11 +1,16 @@
 import { Ability} from '@serenity-js/core'
-import { CommunityRepository } from '../../../../domain/contexts/community/community.repository';
-import { ExecutionContext } from '../../../../domain/shared/execution-context';
-import { CommunityProps } from '../../../../domain/contexts/community/community';
-import { UserRepository } from '../../../../domain/contexts/user/user.repository';
-import { User, UserProps } from '../../../../domain/contexts/user/user';
 import { IMemoryDatabase, MemoryDatabase } from '../adapter/infrastructure/persistance/memory-database';
 import { ReadOnlyMemoryStore } from '../adapter/infrastructure/core/memory-store/memory-store';
+import { ExecutionContext } from '../../../../domain/shared/execution-context';
+import { CommunityRepository } from '../../../../domain/contexts/community/community.repository';
+import { CommunityProps } from '../../../../domain/contexts/community/community';
+import { UserRepository } from '../../../../domain/contexts/user/user.repository';
+import { UserProps } from '../../../../domain/contexts/user/user';
+import { RoleRepository } from '../../../../domain/contexts/community/role.repository';
+import { RoleProps } from '../../../../domain/contexts/community/role';
+import { MemberRepository } from '../../../../domain/contexts/community/member.repository';
+import { MemberProps } from '../../../../domain/contexts/community/member';
+import { DomainExecutionContext } from '../../../../domain/contexts/context';
 
 
 export class InteractWithTheDomain extends Ability {
@@ -14,7 +19,7 @@ export class InteractWithTheDomain extends Ability {
   // A static method is typically used to inject a client of a given interface
   // and instantiate the ability, for example:
   //   actorCalled('Phil').whoCan(MakePhoneCalls.using(phone))
-  public static using(context: ExecutionContext) {
+  public static using(context: DomainExecutionContext) {
     if(!InteractWithTheDomain.database) {
       this.startWithEmptyDatabase();
     }
@@ -31,8 +36,7 @@ export class InteractWithTheDomain extends Ability {
   // additional configuration, or the result of the last interaction with a given interface.
   public constructor(
     private readonly context: ExecutionContext,
-    // private database: IMemoryDatabase
-    ) {
+  ) {
     super();
   }
 
@@ -61,18 +65,18 @@ export class InteractWithTheDomain extends Ability {
   }
 
   // role
-  public async actOnRole(func:(repo:CommunityRepository<CommunityProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain.database.CommunityUnitOfWork.withTransaction(this.context, async (repo) => {
+  public async actOnRole(func:(repo:RoleRepository<RoleProps>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain.database.RoleUnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
-  public async readRoleDb(func:(db: ReadOnlyMemoryStore<CommunityProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain.database.CommunityMemoryStore);
+  public async readRoleDb(func:(db: ReadOnlyMemoryStore<RoleProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain.database.RoleMemoryStore);
   }
 
   // member
-  public async actOnMember(func:(repo:UserRepository<UserProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain.database.UserUnitOfWork.withTransaction(this.context, async (repo) => {
+  public async actOnMember(func:(repo:MemberRepository<MemberProps>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain.database.MemberUnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }

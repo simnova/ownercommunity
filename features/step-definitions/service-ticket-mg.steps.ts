@@ -1,43 +1,48 @@
 import { Before, Given, When, Then, DataTable, BeforeAll } from '@cucumber/cucumber';
-import { Actor } from '@serenity-js/core';
+import { Actor, Notepad, TakeNotes } from '@serenity-js/core';
 import { InteractWithTheDomain } from '../support/domain/abilities/interactWithTheDomain';
-import { SystemExecutionContext } from '../../domain/infrastructure/execution-context';
-import { RegisterWithOwnerCommunity } from '../support/tasks/register-with-owner-community';
 import { CreateRole } from '../support/tasks/create-role';
 import { CreateCommunity } from '../support/tasks/create-community';
-import { UpdateCommunity } from '../support/tasks/update-community';
+import { v4 as uuidV4 } from 'uuid';
+import { NotepadType } from '../support/actors';
 
 
 Given('test setup', async function(){});
 
 Given('{actor} creates {word} community', async function(actor: Actor, communityName: string){
-  await actor
-    .whoCan(
-      InteractWithTheDomain.asSystem(),
-    )
-    .attemptsTo(
-      RegisterWithOwnerCommunity.asNewUser(),
-      CreateCommunity
-        .asNew(communityName),
-      CreateRole
-          .inCommunity(communityName)
-            .asNewRole('manager')
-              .withPermissions(['read', 'write']),
-    );
 
-    InteractWithTheDomain.asSystem().readCommunityDb(async (db) => {
+  // const [firstName, lastName] = actor.name.split("The");
+  // const externalId = uuidV4();
+
+  await actor
+    // .whoCan([
+    //   TakeNotes,
+    //   TakeNotes.using(Notepad.with<NotepadType>({user: {firstName, lastName, externalId}})),
+    //   InteractWithTheDomain.asActor(actor)
+    // ])
+    .attemptsTo(
+      // RegisterWithOwnerCommunity.asNewUser(),
+      // CreateCommunity
+      //   .asNew(communityName),
+      // CreateRole
+      //     .inCommunity(communityName)
+      //       .asNewRole('manager')
+      //         .withPermissions(['read', 'write']),
+    );
+    /*
+    (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.asSystem().readUserDb(async (db) => {
+    (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readUserDb(async (db) => {
       console.log('===> database > user : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.asSystem().readRoleDb(async (db) => {
+    (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readRoleDb(async (db) => {
       console.log('===> database > role : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
+    (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readMemberDb(async (db) => {
       console.log('===> database > member : ', JSON.stringify(db));
     });
     /*

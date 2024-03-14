@@ -85,8 +85,8 @@ export class InteractWithTheDomain extends Ability {
       await func(repo);
     });
   }
-  public async readMemberDb(func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain.database.UserMemoryStore);
+  public async readMemberDb(func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain.database.MemberMemoryStore);
   }
 
 }

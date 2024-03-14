@@ -35,6 +35,10 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
     InteractWithTheDomain.using(SystemExecutionContext()).readRoleDb(async (db) => {
       console.log('===> database > role : ', JSON.stringify(db));
     });
+
+    InteractWithTheDomain.using(SystemExecutionContext()).readMemberDb(async (db) => {
+      console.log('===> database > member : ', JSON.stringify(db));
+    });
     
   });
 

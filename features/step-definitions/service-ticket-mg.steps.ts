@@ -5,6 +5,7 @@ import { CreateRole } from '../support/tasks/create-role';
 import { CreateCommunity } from '../support/tasks/create-community';
 import { v4 as uuidV4 } from 'uuid';
 import { NotepadType } from '../support/actors';
+import { Register } from '../support/tasks/register';
 
 
 Given('test setup', async function(){});
@@ -21,28 +22,27 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
     //   InteractWithTheDomain.asActor(actor)
     // ])
     .attemptsTo(
-      // RegisterWithOwnerCommunity.asNewUser(),
-      // CreateCommunity
-      //   .asNew(communityName),
+        Register.asUser(),
+        CreateCommunity.named(communityName),
       // CreateRole
       //     .inCommunity(communityName)
       //       .asNewRole('manager')
       //         .withPermissions(['read', 'write']),
     );
-    /*
-    (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
+    
+    (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
     });
 
-    (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readUserDb(async (db) => {
+    (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readUserDb(async (db) => {
       console.log('===> database > user : ', JSON.stringify(db));
     });
 
-    (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readRoleDb(async (db) => {
+    (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readRoleDb(async (db) => {
       console.log('===> database > role : ', JSON.stringify(db));
     });
 
-    (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readMemberDb(async (db) => {
+    (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readMemberDb(async (db) => {
       console.log('===> database > member : ', JSON.stringify(db));
     });
     /*

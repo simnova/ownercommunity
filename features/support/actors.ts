@@ -19,7 +19,6 @@ export class Actors implements Cast {
     const [firstName, lastName] = actor.name.split("The");
     const externalId = uuidV4();
 
-    console.log('===> actor : ', actor.name);
     return actor.whoCan(
       TakeNotes.using(Notepad.with<NotepadType>({user: {firstName, lastName, externalId}})),
       InteractWithTheDomain.asActor(actor)

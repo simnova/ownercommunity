@@ -46,7 +46,7 @@ export class InteractWithTheDomain extends Ability
   InteractWithTheDomainAsCommunityMember,
   InteractWithTheDomainAsUnregisteredUser
 {
-  private static _initialized: boolean = false;
+  // private static _initialized: boolean = false;
   private static _database: IMemoryDatabase;
   // private _user: UserEntityReference;
 
@@ -54,16 +54,16 @@ export class InteractWithTheDomain extends Ability
   // and instantiate the ability, for example:
   //   actorCalled('Phil').whoCan(MakePhoneCalls.using(phone))
   public static init() {
-    if(this._initialized === false) {
+    // if(this._initialized === false) {
       this.startWithEmptyDatabase();
       const services = new Services(InteractWithTheDomain._database);
       RegisterHandlers(services);
-      this._initialized = true;
-    }
+      // this._initialized = true;
+    // }
   }
 
   private static using(context: DomainExecutionContext) {
-    this.init();
+    // this.init();
     return new InteractWithTheDomain(context);
   }
 
@@ -92,15 +92,18 @@ export class InteractWithTheDomain extends Ability
   }
 
   // [MG-TBD] - make it as no-context
-  public static asSystem(): InteractWithTheDomain{
+  public static asSystem(): InteractWithTheDomainAsCommunityMember{
     return this.using(SystemExecutionContext());
   }
 
 
   private async getOrCreateUserForActor(actor: Actor): Promise<UserEntityReference> {
-    const externalId = await notes<NotepadType>().get('user').externalId.answeredBy(actor);
-    const firstName = await notes<NotepadType>().get('user').firstName.answeredBy(actor);
-    const lastName = await notes<NotepadType>().get('user').lastName.answeredBy(actor);
+    const externalId = await notes<NotepadType>().get('user').externalId.answeredBy(actorInTheSpotlight());
+    const firstName = await notes<NotepadType>().get('user').firstName.answeredBy(actorInTheSpotlight());
+    const lastName = await notes<NotepadType>().get('user').lastName.answeredBy(actorInTheSpotlight());
+    console.log('===> externalId : ', externalId);
+    console.log('===> firstName : ', firstName);
+    console.log('===> lastName : ', lastName);
   
     let user: UserEntityReference;
     await InteractWithTheDomain.asSystem().readUserDb(async (db) => {

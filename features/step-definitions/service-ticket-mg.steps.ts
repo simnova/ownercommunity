@@ -7,6 +7,10 @@ import { v4 as uuidV4 } from 'uuid';
 import { NotepadType } from '../support/actors';
 import { Register } from '../support/tasks/register';
 
+// Before(function () {
+//   InteractWithTheDomain.init();
+// })
+
 
 Given('test setup', async function(){});
 
@@ -29,7 +33,7 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
       //       .asNewRole('manager')
       //         .withPermissions(['read', 'write']),
     );
-    
+    /*
     (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
     });

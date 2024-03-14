@@ -7,6 +7,7 @@ import { resolve } from 'path';
 // import * as playwright from 'playwright';
 
 import { Actors } from './actors';
+import { InteractWithTheDomain } from './domain/abilities/interactWithTheDomain';
 
 const projectRoot   = resolve(__dirname, '../..');
 
@@ -28,6 +29,7 @@ const timeouts = {
 // let browser: playwright.Browser;
 
 BeforeAll(async () => {
+    InteractWithTheDomain.init();
     // Launch the browser once before all the tests
     // Serenity/JS will take care of managing Playwright browser context and browser tabs.
     // browser = await playwright.chromium.launch({

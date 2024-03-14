@@ -1,12 +1,11 @@
 import { Question, Task, notes } from '@serenity-js/core/lib/screenplay';
 import { CommunityProps } from '../../../domain/contexts/community/community';
 import { InteractWithTheDomain } from '../domain/abilities/interactWithTheDomain';
-import { SystemExecutionContext } from '../../../domain/infrastructure/execution-context';
 
 const GetCommunityInfo = (communityName: string) =>
     Question.about('User list contains user', async (actor) => {
       let community: CommunityProps;
-      await InteractWithTheDomain.using(SystemExecutionContext()).readCommunityDb(async (db) => {
+      await InteractWithTheDomain.asSystem().readCommunityDb(async (db) => {
         community = (await db?.getAll())?.find(c => c.name === communityName);
       });
        return community;

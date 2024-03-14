@@ -3,11 +3,11 @@ import { PermissionsProps } from "../../../../../../domain/contexts/community/pe
 import { Role, RoleProps } from "../../../../../../domain/contexts/community/role";
 import { RoleRepository } from "../../../../../../domain/contexts/community/role.repository";
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
-import { MemoryDomainAdapter } from "../core/memory-store/memory-domain-adapter";
+import { MemoryBaseAdapter } from "../core/memory-store/memory-base-adapter";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
 
 
-export class MemoryCommunityPermissions extends MemoryDomainAdapter {
+export class MemoryCommunityPermissions extends MemoryBaseAdapter {
   canManageRolesAndPermissions: boolean;
   canManageCommunitySettings: boolean;
   canManageSiteContent: boolean;
@@ -18,19 +18,19 @@ export class MemoryCommunityPermissions extends MemoryDomainAdapter {
   isSystemAccount: boolean;
 }
 
-export class MemoryPropertyPermissions extends MemoryDomainAdapter {
+export class MemoryPropertyPermissions extends MemoryBaseAdapter {
   canManageProperties: boolean;
   canEditOwnProperty: boolean;
   isEditingOwnProperty: boolean;
   isSystemAccount: boolean;
 }
 
-export class MemoryServicePermissions extends MemoryDomainAdapter {
+export class MemoryServicePermissions extends MemoryBaseAdapter {
   canManageServices: boolean;
   isSystemAccount: boolean;
 }
 
-export class MemoryServiceTicketPermissions extends MemoryDomainAdapter {
+export class MemoryServiceTicketPermissions extends MemoryBaseAdapter {
   canCreateTickets: boolean;
   canManageTickets: boolean;
   canAssignTickets: boolean;
@@ -39,7 +39,7 @@ export class MemoryServiceTicketPermissions extends MemoryDomainAdapter {
   isEditingAssignedTicket: boolean;
   isSystemAccount: boolean;
 }
-export class MemoryPermissions extends MemoryDomainAdapter implements PermissionsProps {
+export class MemoryPermissions extends MemoryBaseAdapter implements PermissionsProps {
   private _communityPermissions: MemoryCommunityPermissions;
   get communityPermissions(): MemoryCommunityPermissions {
     if(!this._communityPermissions){
@@ -73,7 +73,7 @@ export class MemoryPermissions extends MemoryDomainAdapter implements Permission
   }
 }
 
-export class MemoryRole extends MemoryDomainAdapter implements RoleProps {
+export class MemoryRole extends MemoryBaseAdapter implements RoleProps {
   // id: string;
   roleName: string;
   community: CommunityProps;

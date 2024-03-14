@@ -1,11 +1,11 @@
-import { MemoryDomainAdapter } from "../core/memory-store/memory-domain-adapter";
+import { MemoryBaseAdapter } from "../core/memory-store/memory-base-adapter";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
 import { Community, CommunityProps } from "../../../../../../domain/contexts/community/community";
 import { CommunityRepository } from "../../../../../../domain/contexts/community/community.repository";
 import { UserEntityReference, UserProps } from "../../../../../../domain/contexts/user/user";
 
-export class MemoryCommunity extends MemoryDomainAdapter implements CommunityProps {
+export class MemoryCommunity extends MemoryBaseAdapter implements CommunityProps {
   name: string;
   domain: string;
   whiteLabelDomain: string;

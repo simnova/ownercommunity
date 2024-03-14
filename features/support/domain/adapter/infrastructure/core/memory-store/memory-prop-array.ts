@@ -2,26 +2,27 @@ import { EntityProps } from "../../../../../../../domain/shared/entity";
 import { PropArray } from "../../../../../../../domain/shared/prop-array";
 
 export class MemoryPropArray<propType extends EntityProps> implements PropArray<propType> {
-  constructor(protected docArray: Array<propType>, protected classDefinition: new () => propType) { }
-  addItem(item: propType): propType {
-    const itemId = this.docArray.push(item['doc']);
-    return this.docArray[itemId] as any as propType;
+  constructor(protected itemArray: Array<propType>, protected classDefinition: new () => propType) { }
+  addItem(itemToBeAdded: propType): propType {
+    // const itemId = this.docArray.push(item['doc']);
+    const newItemIndex = this.itemArray.push(itemToBeAdded);
+    return this.itemArray[newItemIndex]; // as any as propType;
   }
-  removeItem(item: propType): void {
-    this.docArray.filter(doc => doc.id !== item.id);
+  removeItem(itemToBeRemoved: propType): void {
+    this.itemArray.filter(item => item.id !== itemToBeRemoved.id);
   }
   removeAll(): void {
-    this.docArray = [];
+    this.itemArray = [];
   }
   getNewItem(): propType {
-    if (!this.docArray) {
-      this.docArray = new Array<propType>();
+    if (!this.itemArray) {
+      this.itemArray = new Array<propType>();
     }
-    const item: propType = this.classDefinition.prototype; //.getNewItem();
-    this.docArray.push(item);
+    const item: propType = new this.classDefinition()//.prototype; //.getNewItem();
+    this.itemArray.push(item);
     return item;
   }
   get items(): ReadonlyArray<propType> {
-    return this.docArray;
+    return this.itemArray;
   }
 }

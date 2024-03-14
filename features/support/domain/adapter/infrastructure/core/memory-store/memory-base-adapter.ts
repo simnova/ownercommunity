@@ -20,11 +20,11 @@ import { nanoid } from "nanoid";
 //   get schemaVersion() {return this.doc.schemaVersion;}
 // }
 
-export abstract class MemoryDomainAdapter implements EntityProps {
+export abstract class MemoryBaseAdapter implements EntityProps {
     private _id: string;
-    set id(id: string) { 
-      this._id = id; 
-    }
+    // set id(id: string) { 
+    //   this._id = id; 
+    // }
     get id() { 
       this._id = this._id || nanoid();
       return this._id;

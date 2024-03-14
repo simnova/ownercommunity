@@ -8,7 +8,7 @@ import { RoleEntityReference, RoleProps } from "../../../../../../domain/context
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
 import { UserProps } from "../../../../../../domain/contexts/user/user";
 import { EntityProps } from "../../../../../../domain/shared/entity";
-import { MemoryDomainAdapter } from "../core/memory-store/memory-domain-adapter";
+import { MemoryBaseAdapter } from "../core/memory-store/memory-base-adapter";
 import { MemoryPropArray } from "../core/memory-store/memory-prop-array";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
 
@@ -25,7 +25,7 @@ class MemoryProfile implements ProfileProps {
   showLocation: boolean;
   showProperties: boolean;
 }
-class MemoryCustomView extends MemoryDomainAdapter implements EntityProps {
+class MemoryCustomView extends MemoryBaseAdapter implements EntityProps {
   name: string;
   type: string;
   filters: string[];
@@ -33,7 +33,7 @@ class MemoryCustomView extends MemoryDomainAdapter implements EntityProps {
   columnsToDisplay: string[];
 }
 
-class MemoryAccount extends MemoryDomainAdapter implements AccountProps {
+class MemoryAccount extends MemoryBaseAdapter implements AccountProps {
   firstName: string;
   lastName: string;
   user: UserProps;
@@ -43,7 +43,7 @@ class MemoryAccount extends MemoryDomainAdapter implements AccountProps {
   setCreatedByRef(createdBy: UserProps): void { this.createdBy = createdBy; };
 }
 
-class MemoryMember extends MemoryDomainAdapter implements MemberProps {
+class MemoryMember extends MemoryBaseAdapter implements MemberProps {
   private _accounts: AccountProps[] = [];
   private _customViews: CustomViewProps[] = [];
 

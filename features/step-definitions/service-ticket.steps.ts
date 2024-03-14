@@ -69,7 +69,7 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
   await actorCalled(actor.name)
     .whoCan(
       TakeNotes.usingAnEmptyNotepad(),
-      InteractWithTheDomain.using(SystemExecutionContext())
+      InteractWithTheDomain.asActor(actor)
       )
     .attemptsTo(
       createUser(givenUserData.externalId, givenUserData.firstName, givenUserData.lastName),
@@ -83,7 +83,7 @@ Given('{actor} creates community {word}', async function(actor: Actor, community
     await actorCalled(actor.name)
     .whoCan(
       TakeNotes.usingAnEmptyNotepad(),
-      InteractWithTheDomain.using(SystemExecutionContext())
+      InteractWithTheDomain.asActor(actor)
       )
     .attemptsTo(
       createUser(givenUserData2.externalId, givenUserData2.firstName, givenUserData2.lastName),

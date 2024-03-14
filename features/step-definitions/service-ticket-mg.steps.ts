@@ -13,7 +13,7 @@ Given('test setup', async function(){});
 Given('{actor} creates {word} community', async function(actor: Actor, communityName: string){
   await actor
     .whoCan(
-      InteractWithTheDomain.using(SystemExecutionContext()),
+      InteractWithTheDomain.asSystem(),
     )
     .attemptsTo(
       RegisterWithOwnerCommunity.asNewUser(),
@@ -25,45 +25,45 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
               .withPermissions(['read', 'write']),
     );
 
-    InteractWithTheDomain.using(SystemExecutionContext()).readCommunityDb(async (db) => {
+    InteractWithTheDomain.asSystem().readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.using(SystemExecutionContext()).readUserDb(async (db) => {
+    InteractWithTheDomain.asSystem().readUserDb(async (db) => {
       console.log('===> database > user : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.using(SystemExecutionContext()).readRoleDb(async (db) => {
+    InteractWithTheDomain.asSystem().readRoleDb(async (db) => {
       console.log('===> database > role : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.using(SystemExecutionContext()).readMemberDb(async (db) => {
+    InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
       console.log('===> database > member : ', JSON.stringify(db));
     });
     
     console.log('***************************************')
     await actor
     .whoCan(
-      InteractWithTheDomain.using(SystemExecutionContext()),
+      InteractWithTheDomain.asSystem(),
     )
     .attemptsTo(
       UpdateCommunity(communityName)
         .setDomain('second-domain.com')
     );
 
-    InteractWithTheDomain.using(SystemExecutionContext()).readCommunityDb(async (db) => {
+    InteractWithTheDomain.asSystem().readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.using(SystemExecutionContext()).readUserDb(async (db) => {
+    InteractWithTheDomain.asSystem().readUserDb(async (db) => {
       console.log('===> database > user : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.using(SystemExecutionContext()).readRoleDb(async (db) => {
+    InteractWithTheDomain.asSystem().readRoleDb(async (db) => {
       console.log('===> database > role : ', JSON.stringify(db));
     });
 
-    InteractWithTheDomain.using(SystemExecutionContext()).readMemberDb(async (db) => {
+    InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
       console.log('===> database > member : ', JSON.stringify(db));
     });
 

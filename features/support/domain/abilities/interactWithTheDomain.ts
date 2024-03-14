@@ -3,22 +3,26 @@ import { IMemoryDatabase, MemoryDatabase } from '../adapter/infrastructure/persi
 import { ReadOnlyMemoryStore } from '../adapter/infrastructure/core/memory-store/memory-store';
 import { ExecutionContext } from '../../../../domain/shared/execution-context';
 import { CommunityRepository } from '../../../../domain/contexts/community/community.repository';
-import { CommunityProps } from '../../../../domain/contexts/community/community';
+import { CommunityEntityReference, CommunityProps } from '../../../../domain/contexts/community/community';
 import { UserRepository } from '../../../../domain/contexts/user/user.repository';
-import { UserProps } from '../../../../domain/contexts/user/user';
+import { UserEntityReference, UserProps } from '../../../../domain/contexts/user/user';
 import { RoleRepository } from '../../../../domain/contexts/community/role.repository';
 import { RoleProps } from '../../../../domain/contexts/community/role';
 import { MemberRepository } from '../../../../domain/contexts/community/member.repository';
-import { MemberProps } from '../../../../domain/contexts/community/member';
+import { MemberEntityReference, MemberProps } from '../../../../domain/contexts/community/member';
 import { DomainExecutionContext } from '../../../../domain/contexts/context';
 import { Services } from '../../services';
 import RegisterHandlers from '../register-event-handlers';
 import { SystemExecutionContext } from '../../../../domain/infrastructure/execution-context';
+import { PassportImpl } from '../../../../domain/contexts/iam/passport';
+import { getCommunityByName } from '../../helpers/get-community-by-name';
+import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
+import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
 
 export interface InteractWithTheDomainAsUser {
   createCommunity: (communityName: string) => Promise<CommunityProps>;
   getMyCommunities: () => Promise<CommunityProps[]>;
-  forCommunity: (communityName: string) => InteractWithTheDomainAsCommunityMember;
+  asMemberOf: (communityName: string) => Promise<InteractWithTheDomainAsCommunityMember>;
 }
 
 export interface InteractWithTheDomainAsCommunityMember {
@@ -30,11 +34,11 @@ export interface InteractWithTheDomainAsCommunityMember {
   readMemberDb: (func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
 }
 
-export class InteractWithTheDomain extends Ability {
+
+export class InteractWithTheDomain extends Ability implements InteractWithTheDomainAsUser, InteractWithTheDomainAsCommunityMember{
   private static _initialized: boolean = false;
   private static _database: IMemoryDatabase;
-  private _user: UserProps;
-  private _domainExecutionContext: DomainExecutionContext
+  private _user: UserEntityReference;
 
   // A static method is typically used to inject a client of a given interface
   // and instantiate the ability, for example:
@@ -53,19 +57,27 @@ export class InteractWithTheDomain extends Ability {
     return new InteractWithTheDomain(context);
   }
 
-  public asMemberOf(communityName: string){
-    // look up the community by name
-    // build execution context
+  public async asMemberOf(communityName: string): Promise<InteractWithTheDomainAsCommunityMember>{
+    const community: CommunityEntityReference = await getCommunityByName(communityName);
+    const member: MemberEntityReference = await getMemberByUserAndCommunity(this._user.externalId, community.name);
+    const passport = new PassportImpl(this._user, member, community);
+    return new InteractWithTheDomain({passport});
   }
 
-  public static asSystem(){
+  // [MG-TBD] - remove this
+  public static asSystem(): InteractWithTheDomain{
     return this.using(SystemExecutionContext());
   }
 
 
-  // [MG-TBD] update domain execution context
-  public static asActor(actor: Actor){
-    return this.using(SystemExecutionContext());
+  private async setUserForActor(actor: Actor): Promise<void> {
+    this._user = await getOrCreateUserForActor(actor);
+  }
+
+  public static asActor(actor: Actor): InteractWithTheDomainAsUser{
+    const interactWithTheDomain = this.using(SystemExecutionContext());
+    interactWithTheDomain.setUserForActor(actor);
+    return interactWithTheDomain;
   }
   // public static withNoCommunity() {
   // public static as<A extends Ability>(actor: UsesAbilities): A {
@@ -90,6 +102,10 @@ export class InteractWithTheDomain extends Ability {
   ) {
     super();
   }
+
+  createCommunity: (communityName: string) => Promise<CommunityProps>; // [MG-TBD]
+  getMyCommunities: () => Promise<CommunityProps[]>; // [MG-TBD]
+  forCommunity: (communityName: string) => InteractWithTheDomainAsCommunityMember; // [MG-TBD]
 
   // Abilities expose methods that enable Interactions to call the system under test,
   // and Questions to retrieve information about its state.

@@ -1,8 +1,7 @@
 import { Attributes, Context, Link, SpanKind, TraceFlags } from '@opentelemetry/api';
-import { SeverityNumber, logs } from '@opentelemetry/api-logs';
 import { ReadableSpan, Sampler, SamplingDecision, SamplingResult, Span, SpanProcessor } from '@opentelemetry/sdk-trace-base';
 
-// Currently samples nothing, regardless of
+// Currently samples nothing, regardless of sampling decision. leaving here as reference
 export class SpanFilterSampler implements Sampler {
   shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult {
     const checkFilter = (attributes) => {
@@ -32,20 +31,9 @@ export class SpanFilteringProcessor implements SpanProcessor {
   onEnd(span: ReadableSpan): void {
     const filter_word = 'serverDate';
 
-    if (span.attributes['graphql.source']?.valueOf().toString().includes(filter_word)) {
-      const logger = logs.getLogger('default');
-      logger.emit({
-        body: `${filter_word} span should be filtered`,
-        severityNumber: SeverityNumber.INFO,
-        severityText: 'INFO',
-        attributes: {
-          'log.type': 'LogRecord',
-        },
-      });
-
-      // if (span.attributes['graphql.field.name']?.valueOf().toString().includes('property')) {
-      span.attributes['ShouldThisBeFiltered?'] = 'YesItShould(SpanFilteringProcessor)';
-      span.spanContext().traceFlags = TraceFlags.NONE; // Same as SamplingDecision.NOT_RECORD I think
+    if ([span.attributes['graphql.field.name'], span.attributes['graphql.source']]?.valueOf().toString().includes(filter_word)) {
+      span.attributes['ShouldThisBeFiltered?'] = "This should have been filtered, but wasn't";
+      span.spanContext().traceFlags = TraceFlags.NONE;
     }
   }
 }

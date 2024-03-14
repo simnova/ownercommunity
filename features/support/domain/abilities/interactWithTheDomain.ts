@@ -1,4 +1,4 @@
-import { Ability, AbilityType, Actor, UsesAbilities, notes} from '@serenity-js/core'
+import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes} from '@serenity-js/core'
 import { IMemoryDatabase, MemoryDatabase } from '../adapter/infrastructure/persistance/memory-database';
 import { ReadOnlyMemoryStore } from '../adapter/infrastructure/core/memory-store/memory-store';
 import { ExecutionContext } from '../../../../domain/shared/execution-context';
@@ -20,7 +20,10 @@ import { PassportImpl } from '../../../../domain/contexts/iam/passport';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
 import { NotepadType } from '../../actors';
 
-export interface InteractWithTheDomainAsUser {
+export interface InteractWithTheDomainAsUnregisteredUser {
+  registerAsUser: (actor: Actor) => Promise<InteractWithTheDomainAsRegisteredUser>;
+}
+export interface InteractWithTheDomainAsRegisteredUser {
   createCommunity: (communityName: string) => Promise<CommunityProps>;
   getMyCommunities: () => Promise<CommunityProps[]>;
   asMemberOf: (communityName: string) => Promise<InteractWithTheDomainAsCommunityMember>;
@@ -38,25 +41,29 @@ export interface InteractWithTheDomainAsCommunityMember {
 }
 
 
-export class InteractWithTheDomain extends Ability implements InteractWithTheDomainAsUser, InteractWithTheDomainAsCommunityMember{
-  private static _initialized: boolean = false;
+export class InteractWithTheDomain extends Ability 
+  implements InteractWithTheDomainAsRegisteredUser, 
+  InteractWithTheDomainAsCommunityMember,
+  InteractWithTheDomainAsUnregisteredUser
+{
+  // private static _initialized: boolean = false;
   private static _database: IMemoryDatabase;
-  private _user: UserEntityReference;
+  // private _user: UserEntityReference;
 
   // A static method is typically used to inject a client of a given interface
   // and instantiate the ability, for example:
   //   actorCalled('Phil').whoCan(MakePhoneCalls.using(phone))
   public static init() {
-    if(this._initialized === false) {
+    // if(this._initialized === false) {
       this.startWithEmptyDatabase();
       const services = new Services(InteractWithTheDomain._database);
       RegisterHandlers(services);
-      this._initialized = true;
-    }
+      // this._initialized = true;
+    // }
   }
 
   private static using(context: DomainExecutionContext) {
-    this.init();
+    // this.init();
     return new InteractWithTheDomain(context);
   }
 
@@ -78,21 +85,25 @@ export class InteractWithTheDomain extends Ability implements InteractWithTheDom
 
   public async asMemberOf(communityName: string): Promise<InteractWithTheDomainAsCommunityMember>{
     const community: CommunityEntityReference = await this.getCommunityByName(communityName);
-    const member: MemberEntityReference = await this.getMemberByUserAndCommunity(this._user.externalId, community.name);
-    const passport = new PassportImpl(this._user, member, community);
+    const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+    const member: MemberEntityReference = await this.getMemberByUserAndCommunity(user.externalId, community.name);
+    const passport = new PassportImpl(user, member, community);
     return new InteractWithTheDomain({passport});
   }
 
-  // [MG-TBD] - make this private, and make it as no-context
-  private static asSystem(): InteractWithTheDomain{
+  // [MG-TBD] - make it as no-context
+  public static asSystem(): InteractWithTheDomainAsCommunityMember{
     return this.using(SystemExecutionContext());
   }
 
 
   private async getOrCreateUserForActor(actor: Actor): Promise<UserEntityReference> {
-    const externalId = await notes<NotepadType>().get('user').externalId.answeredBy(actor);
-    const firstName = await notes<NotepadType>().get('user').firstName.answeredBy(actor);
-    const lastName = await notes<NotepadType>().get('user').lastName.answeredBy(actor);
+    const externalId = await notes<NotepadType>().get('user').externalId.answeredBy(actorInTheSpotlight());
+    const firstName = await notes<NotepadType>().get('user').firstName.answeredBy(actorInTheSpotlight());
+    const lastName = await notes<NotepadType>().get('user').lastName.answeredBy(actorInTheSpotlight());
+    console.log('===> externalId : ', externalId);
+    console.log('===> firstName : ', firstName);
+    console.log('===> lastName : ', lastName);
   
     let user: UserEntityReference;
     await InteractWithTheDomain.asSystem().readUserDb(async (db) => {
@@ -110,13 +121,51 @@ export class InteractWithTheDomain extends Ability implements InteractWithTheDom
     return newUser;
   }
   
-  private async setUserForActor(actor: Actor): Promise<void> {
-    this._user = await this.getOrCreateUserForActor(actor);
+  // private async setUserForActor(actor: Actor): Promise<void> {
+  //   // this._user = await this.getOrCreateUserForActor(actor);
+  //   await this.getOrCreateUserForActor(actor);
+  // }
+
+  public static async asUser(actor: Actor): Promise<InteractWithTheDomainAsRegisteredUser>{
+    const interactWithTheDomain = InteractWithTheDomain.using(ReadOnlyContext());
+    return interactWithTheDomain;
   }
 
-  public static async asActor(actor: Actor): Promise<InteractWithTheDomainAsUser>{
-    const interactWithTheDomain = this.using(SystemExecutionContext());
-    await interactWithTheDomain.setUserForActor(actor);
+  // asSystem() is okay here because we don't have a domain execution context for non-community functions
+  public createCommunity = async (communityName: string): Promise<CommunityProps> => {
+    let community: CommunityProps;
+    await InteractWithTheDomain.asSystem().actOnCommunity(async (repo) => {
+      const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+      const communityToBeSaved = await repo.getNewInstance(communityName, user);
+      const savedCommunity = await repo.save(communityToBeSaved);
+      community = savedCommunity['props'] as CommunityProps;
+    });
+    return community;
+  }
+
+  // asSystem() is okay here because we don't have a domain execution context for non-community functions
+  public getMyCommunities = async(): Promise<CommunityProps[]> => {
+    let communities: CommunityProps[];
+    await InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
+      const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+      communities = db?.getAll()?.filter(c => c.accounts.items.find(a => a.user.externalId === user.externalId))?.map(c => c.community);
+    });
+    return communities;
+  }
+
+  public forCommunity = async(communityName: string): Promise<InteractWithTheDomainAsCommunityMember> => {
+    return this.asMemberOf(communityName);
+  }
+  
+  // public async registerAsUser (actor: Actor): Promise<InteractWithTheDomainAsRegisteredUser> {
+  public async registerAsUser (actor: Actor): Promise<InteractWithTheDomainAsRegisteredUser> {
+    const interactWithTheDomain = InteractWithTheDomain.using(ReadOnlyContext());
+    await interactWithTheDomain.getOrCreateUserForActor(actor);
+    return interactWithTheDomain;
+  }
+
+  public static asActor(actor: Actor): InteractWithTheDomainAsUnregisteredUser {
+    const interactWithTheDomain = this.using(ReadOnlyContext());
     return interactWithTheDomain;
   }
   // public static withNoCommunity() {
@@ -143,29 +192,7 @@ export class InteractWithTheDomain extends Ability implements InteractWithTheDom
     super();
   }
 
-  // asSystem() is okay here because we don't have a domain execution context for non-community functions
-  public createCommunity = async (communityName: string): Promise<CommunityProps> => {
-    let community: CommunityProps;
-    await InteractWithTheDomain.asSystem().actOnCommunity(async (repo) => {
-      const communityToBeSaved = await repo.getNewInstance(communityName, this._user);
-      const savedCommunity = await repo.save(communityToBeSaved);
-      community = savedCommunity['props'] as CommunityProps;
-    });
-    return community;
-  }
-
-  // asSystem() is okay here because we don't have a domain execution context for non-community functions
-  public getMyCommunities = async(): Promise<CommunityProps[]> => {
-    let communities: CommunityProps[];
-    await InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
-      communities = db?.getAll()?.filter(c => c.accounts.items.find(a => a.user.externalId === this._user.externalId))?.map(c => c.community);
-    });
-    return communities;
-  }
-
-  public forCommunity = async(communityName: string): Promise<InteractWithTheDomainAsCommunityMember> => {
-    return this.asMemberOf(communityName);
-  }
+  
 
   // Abilities expose methods that enable Interactions to call the system under test,
   // and Questions to retrieve information about its state.

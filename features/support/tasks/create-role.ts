@@ -5,7 +5,7 @@ import { InteractWithTheDomain } from '../domain/abilities/interactWithTheDomain
 const GetCommunityInfo = (communityName: string) =>
     Question.about('User list contains user', async (actor: Actor) => {
       let community: CommunityProps;
-      (await (await InteractWithTheDomain.asActor(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
+      (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
         community = (await db?.getAll())?.find(c => c.name === communityName);
       });
        return community;

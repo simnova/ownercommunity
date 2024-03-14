@@ -19,7 +19,7 @@ export class MongoUnitOfWork<ContextType extends ExecutionContext, MongoType ext
         console.log('repo created');
         try {
           await func(repo);
-          console.log('func done');
+          // console.log('func done');
         }
         catch(e) {
           console.log('func failed');

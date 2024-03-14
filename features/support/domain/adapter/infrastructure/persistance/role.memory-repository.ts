@@ -3,18 +3,91 @@ import { PermissionsProps } from "../../../../../../domain/contexts/community/pe
 import { Role, RoleProps } from "../../../../../../domain/contexts/community/role";
 import { RoleRepository } from "../../../../../../domain/contexts/community/role.repository";
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
+import { MemoryDomainAdapter } from "../core/memory-store/memory-domain-adapter";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
 
 
-export class MemoryRole implements RoleProps {
-  id: string;
+export class MemoryCommunityPermissions extends MemoryDomainAdapter {
+  canManageRolesAndPermissions: boolean;
+  canManageCommunitySettings: boolean;
+  canManageSiteContent: boolean;
+  canManageMembers: boolean;
+  canEditOwnMemberProfile: boolean;
+  canEditOwnMemberAccounts: boolean;
+  isEditingOwnMemberAccount: boolean;
+  isSystemAccount: boolean;
+}
+
+export class MemoryPropertyPermissions extends MemoryDomainAdapter {
+  canManageProperties: boolean;
+  canEditOwnProperty: boolean;
+  isEditingOwnProperty: boolean;
+  isSystemAccount: boolean;
+}
+
+export class MemoryServicePermissions extends MemoryDomainAdapter {
+  canManageServices: boolean;
+  isSystemAccount: boolean;
+}
+
+export class MemoryServiceTicketPermissions extends MemoryDomainAdapter {
+  canCreateTickets: boolean;
+  canManageTickets: boolean;
+  canAssignTickets: boolean;
+  canWorkOnTickets: boolean;
+  isEditingOwnTicket: boolean;
+  isEditingAssignedTicket: boolean;
+  isSystemAccount: boolean;
+}
+export class MemoryPermissions extends MemoryDomainAdapter implements PermissionsProps {
+  private _communityPermissions: MemoryCommunityPermissions;
+  get communityPermissions(): MemoryCommunityPermissions {
+    if(!this._communityPermissions){
+      this._communityPermissions = new MemoryCommunityPermissions();
+    }
+    return this._communityPermissions;
+  }
+
+  private _propertyPermissions: MemoryPropertyPermissions;
+  get propertyPermissions(): MemoryPropertyPermissions {
+    if(!this._propertyPermissions){
+      this._propertyPermissions = new MemoryPropertyPermissions();
+    }
+    return this._propertyPermissions;
+  }
+
+  private _servicePermissions: MemoryServicePermissions;
+  get servicePermissions(): MemoryServicePermissions {
+    if(!this._servicePermissions){
+      this._servicePermissions = new MemoryServicePermissions();
+    }
+    return this._servicePermissions;
+  }
+
+  private _serviceTicketPermissions: MemoryServiceTicketPermissions;
+  get serviceTicketPermissions(): MemoryServiceTicketPermissions {
+    if(!this._serviceTicketPermissions){
+      this._serviceTicketPermissions = new MemoryServiceTicketPermissions();
+    }
+    return this._serviceTicketPermissions;
+  }
+}
+
+export class MemoryRole extends MemoryDomainAdapter implements RoleProps {
+  // id: string;
   roleName: string;
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void{
     this.community = community['props'] as CommunityProps;
   };
   isDefault: boolean;
-  permissions: PermissionsProps;
+  private _permissions: PermissionsProps;
+  get permissions(): PermissionsProps {
+    if(!this._permissions){
+      this._permissions = new MemoryPermissions();
+    }
+    return this._permissions;
+  };
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
@@ -28,7 +101,7 @@ export class MemoryRoleRepository<
   {
 
     async getNewInstance(name: string, community: CommunityEntityReference): Promise<Role<PropType>>{
-      return Role.getNewInstance(new MemoryRole as PropType, name, false, community, this.context);
+      return Role.getNewInstance(new MemoryRole as unknown as PropType, name, false, community, this.context);
     }
 
     async getById(id: string): Promise<Role<PropType>>{

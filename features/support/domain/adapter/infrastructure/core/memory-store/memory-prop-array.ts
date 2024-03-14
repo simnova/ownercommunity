@@ -17,7 +17,7 @@ export class MemoryPropArray<propType extends EntityProps> implements PropArray<
     if (!this.docArray) {
       this.docArray = new Array<propType>();
     }
-    const item: propType = this.classDefinition.prototype.getNewItem();
+    const item: propType = this.classDefinition.prototype; //.getNewItem();
     this.docArray.push(item);
     return item;
   }

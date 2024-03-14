@@ -5,7 +5,10 @@ import { SystemExecutionContext } from '../../domain/infrastructure/execution-co
 import { RegisterWithOwnerCommunity } from '../support/tasks/register-with-owner-community';
 import { CreateRole } from '../support/tasks/create-role';
 import { CreateCommunity } from '../support/tasks/create-community';
+import { UpdateCommunity } from '../support/tasks/update-community';
 
+
+Given('test setup', async function(){});
 
 Given('{actor} creates {word} community', async function(actor: Actor, communityName: string){
   await actor
@@ -33,7 +36,37 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
     InteractWithTheDomain.using(SystemExecutionContext()).readRoleDb(async (db) => {
       console.log('===> database > role : ', JSON.stringify(db));
     });
+
+    InteractWithTheDomain.using(SystemExecutionContext()).readMemberDb(async (db) => {
+      console.log('===> database > member : ', JSON.stringify(db));
+    });
     
+    console.log('***************************************')
+    await actor
+    .whoCan(
+      InteractWithTheDomain.using(SystemExecutionContext()),
+    )
+    .attemptsTo(
+      UpdateCommunity(communityName)
+        .setDomain('second-domain.com')
+    );
+
+    InteractWithTheDomain.using(SystemExecutionContext()).readCommunityDb(async (db) => {
+      console.log('===> database > community : ', JSON.stringify(db));
+    });
+
+    InteractWithTheDomain.using(SystemExecutionContext()).readUserDb(async (db) => {
+      console.log('===> database > user : ', JSON.stringify(db));
+    });
+
+    InteractWithTheDomain.using(SystemExecutionContext()).readRoleDb(async (db) => {
+      console.log('===> database > role : ', JSON.stringify(db));
+    });
+
+    InteractWithTheDomain.using(SystemExecutionContext()).readMemberDb(async (db) => {
+      console.log('===> database > member : ', JSON.stringify(db));
+    });
+
   });
 
 

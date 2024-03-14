@@ -11,17 +11,23 @@ import { RoleProps } from '../../../../domain/contexts/community/role';
 import { MemberRepository } from '../../../../domain/contexts/community/member.repository';
 import { MemberProps } from '../../../../domain/contexts/community/member';
 import { DomainExecutionContext } from '../../../../domain/contexts/context';
+import { Services } from '../../services';
+import RegisterHandlers from '../register-event-handlers';
 
 
 export class InteractWithTheDomain extends Ability {
-    private static database: IMemoryDatabase;
+  private static _initialized: boolean = false;
+  private static database: IMemoryDatabase;
 
   // A static method is typically used to inject a client of a given interface
   // and instantiate the ability, for example:
   //   actorCalled('Phil').whoCan(MakePhoneCalls.using(phone))
   public static using(context: DomainExecutionContext) {
-    if(!InteractWithTheDomain.database) {
+    if(this._initialized === false) {
       this.startWithEmptyDatabase();
+      const services = new Services(InteractWithTheDomain.database);
+      RegisterHandlers(services);
+      this._initialized = true;
     }
     return new InteractWithTheDomain(context);
   }
@@ -30,7 +36,6 @@ export class InteractWithTheDomain extends Ability {
   public static startWithEmptyDatabase() {
     InteractWithTheDomain.database = new MemoryDatabase();
   }
-
 
   // Abilities can hold state, for example: the client of a given interface,
   // additional configuration, or the result of the last interaction with a given interface.
@@ -80,8 +85,8 @@ export class InteractWithTheDomain extends Ability {
       await func(repo);
     });
   }
-  public async readMemberDb(func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain.database.UserMemoryStore);
+  public async readMemberDb(func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain.database.MemberMemoryStore);
   }
 
 }

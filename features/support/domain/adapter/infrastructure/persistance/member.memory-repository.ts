@@ -8,13 +8,24 @@ import { RoleEntityReference, RoleProps } from "../../../../../../domain/context
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
 import { UserProps } from "../../../../../../domain/contexts/user/user";
 import { EntityProps } from "../../../../../../domain/shared/entity";
-import { PropArray } from "../../../../../../domain/shared/prop-array";
+import { MemoryDomainAdapter } from "../core/memory-store/memory-domain-adapter";
 import { MemoryPropArray } from "../core/memory-store/memory-prop-array";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";
-import { MemoryCommunity } from "./community.memory-repository";
 
-class MemoryCustomView implements EntityProps {
-  id: string;
+
+class MemoryProfile implements ProfileProps {
+  name: string;
+  email: string;
+  bio: string;
+  avatarDocumentId: string;
+  interests: string[];
+  showInterests: boolean;
+  showEmail: boolean;
+  showProfile: boolean;
+  showLocation: boolean;
+  showProperties: boolean;
+}
+class MemoryCustomView extends MemoryDomainAdapter implements EntityProps {
   name: string;
   type: string;
   filters: string[];
@@ -22,8 +33,7 @@ class MemoryCustomView implements EntityProps {
   columnsToDisplay: string[];
 }
 
-class MemoryAccount implements AccountProps {
-  id: string;
+class MemoryAccount extends MemoryDomainAdapter implements AccountProps {
   firstName: string;
   lastName: string;
   user: UserProps;
@@ -33,11 +43,10 @@ class MemoryAccount implements AccountProps {
   setCreatedByRef(createdBy: UserProps): void { this.createdBy = createdBy; };
 }
 
-class MemoryMember implements MemberProps {
+class MemoryMember extends MemoryDomainAdapter implements MemberProps {
   private _accounts: AccountProps[] = [];
   private _customViews: CustomViewProps[] = [];
 
-  id: string;
   memberName: string;
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference) : void {
@@ -50,7 +59,14 @@ class MemoryMember implements MemberProps {
   setRoleRef(role: RoleEntityReference): void {
     this.role = role['props'] as RoleProps;
   }
-  profile: ProfileProps;
+
+  private _profile: ProfileProps;
+  get profile() {
+    if(!this._profile){
+      this._profile = new MemoryProfile();
+    }
+    return this._profile;
+  }
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;

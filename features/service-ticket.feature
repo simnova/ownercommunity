@@ -1,13 +1,12 @@
 Feature: Create a service ticket
 
-# Background: 
-#   Given OwenTheOwner creates Atlantis community
-#   And he creates CommunityManager role in Atlantis community with following permissions:
+Background: 
+  Given OwenTheOwner creates Atlantis community
+  # And he creates CommunityManager role in Atlantis community with following permissions:
 #     | communityPermissions      | canManageRolesAndPermissions, canManageSiteContent, canManageMembers |
 #     | serviceTicketPermissions  | canManageTickets |
 #     | servicePermissions        | canManageServices |
-#   And he assigns CommunityManager role to OwenTheOwner in Atlantis community
-
+#   And he assigns CommunityManager role to MegTheManager in Atlantis community
 
 
 

@@ -40,7 +40,7 @@ BeforeAll(async () => {
 
     // Configure Serenity/JS
     configure({
-      // actors: new Actors(),
+      actors: new Actors(),
 
         // Configure Serenity/JS actors to use Playwright browser
         // actors: new Actors(browser, {
@@ -51,13 +51,13 @@ BeforeAll(async () => {
         // }),
 
         // Configure Serenity/JS reporting services
-        // crew: [
+        crew: [
         //     ArtifactArchiver.storingArtifactsAt(projectRoot, 'target/site/serenity'),   // this is the default location where Serenity BDD reporting CLI looks for reports
         //     new SerenityBDDReporter(),
-        //     ConsoleReporter.forDarkTerminals(),
+            ConsoleReporter.withDefaultColourSupport(),
         //     Photographer.whoWill(TakePhotosOfInteractions),         // capture screenshots of all the interactions; slower but more comprehensive
         //     // Photographer.whoWill(TakePhotosOfFailures),             // capture screenshots of failed interactions; much faster
-        // ],
+        ],
 
         // cueTimeout: timeouts.serenity.cueTimeout,
     });
@@ -70,18 +70,3 @@ BeforeAll(async () => {
 //     }
 // })
 
-// defineParameterType({
-//   regexp: /[A-Z][a-z]+/,
-//   transformer(name: string) {
-//       return actorCalled(name);
-//   },
-//   name: 'actor',
-// });
-
-// defineParameterType({
-//   regexp: /he|she|they|his|her|their/,
-//   transformer() {
-//       return actorInTheSpotlight();
-//   },
-//   name: 'pronoun',
-// });

@@ -40,7 +40,7 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
     InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
       console.log('===> database > member : ', JSON.stringify(db));
     });
-    
+    /*
     console.log('***************************************')
     await actor
     .whoCan(
@@ -66,7 +66,7 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
     InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
       console.log('===> database > member : ', JSON.stringify(db));
     });
-
+    */
   });
 
 

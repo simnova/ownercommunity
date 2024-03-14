@@ -43,7 +43,7 @@ export class MemoryPermissions extends MemoryDomainAdapter implements Permission
   private _communityPermissions: MemoryCommunityPermissions;
   get communityPermissions(): MemoryCommunityPermissions {
     if(!this._communityPermissions){
-      this._communityPermissions = new MemoryCommunityPermissions;
+      this._communityPermissions = new MemoryCommunityPermissions();
     }
     return this._communityPermissions;
   }
@@ -51,7 +51,7 @@ export class MemoryPermissions extends MemoryDomainAdapter implements Permission
   private _propertyPermissions: MemoryPropertyPermissions;
   get propertyPermissions(): MemoryPropertyPermissions {
     if(!this._propertyPermissions){
-      this._propertyPermissions = new MemoryPropertyPermissions;
+      this._propertyPermissions = new MemoryPropertyPermissions();
     }
     return this._propertyPermissions;
   }
@@ -59,7 +59,7 @@ export class MemoryPermissions extends MemoryDomainAdapter implements Permission
   private _servicePermissions: MemoryServicePermissions;
   get servicePermissions(): MemoryServicePermissions {
     if(!this._servicePermissions){
-      this._servicePermissions = new MemoryServicePermissions;
+      this._servicePermissions = new MemoryServicePermissions();
     }
     return this._servicePermissions;
   }
@@ -67,7 +67,7 @@ export class MemoryPermissions extends MemoryDomainAdapter implements Permission
   private _serviceTicketPermissions: MemoryServiceTicketPermissions;
   get serviceTicketPermissions(): MemoryServiceTicketPermissions {
     if(!this._serviceTicketPermissions){
-      this._serviceTicketPermissions = new MemoryServiceTicketPermissions;
+      this._serviceTicketPermissions = new MemoryServiceTicketPermissions();
     }
     return this._serviceTicketPermissions;
   }
@@ -84,7 +84,7 @@ export class MemoryRole extends MemoryDomainAdapter implements RoleProps {
   private _permissions: PermissionsProps;
   get permissions(): PermissionsProps {
     if(!this._permissions){
-      this._permissions = new MemoryPermissions;
+      this._permissions = new MemoryPermissions();
     }
     return this._permissions;
   };

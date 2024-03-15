@@ -1,11 +1,11 @@
-import { EntityProps } from '../../shared/entity';
+import { EntityProps } from '../../../domain-seedwork/entity';
 import { Community, CommunityEntityReference, CommunityProps } from '../community/community';
 import { Member, MemberEntityReference, MemberProps } from '../community/member';
 import { DomainExecutionContext } from '../context';
 import * as ValueObjects from './property.value-objects';
 import { ListingDetails, ListingDetailProps, ListingDetailsEntityReference } from './listing-detail';
 import { Location, LocationEntityReference, LocationProps } from './location';
-import { AggregateRoot } from '../../shared/aggregate-root';
+import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { PropertyVisa } from '../iam/property-visa';
 import { PropertyCreatedEvent } from '../../events/property-created';
 import { PropertyDeletedEvent } from '../../events/property-deleted';

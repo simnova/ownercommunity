@@ -1,12 +1,12 @@
-import { NodeEventBus } from '../core/events/node-event-bus';
-import { CommunityCreatedEvent } from '../../events/community-created';
-import { ReadOnlyContext, SystemExecutionContext } from '../execution-context';
-import { Role } from '../../contexts/community/role';
-import { AccountStatusCodes } from '../../contexts/community/account.value-objects';
-import { Community, CommunityProps } from '../../contexts/community/community';
-import { CommunityUnitOfWork } from '../../contexts/community/community.uow';
-import { RoleUnitOfWork } from '../../contexts/community/role.uow';
-import { MemberUnitOfWork } from '../../contexts/community/member.uow';
+import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
+import { CommunityCreatedEvent } from '../events/community-created';
+import { ReadOnlyContext, SystemExecutionContext } from '../infrastructure/execution-context';
+import { Role } from '../contexts/community/role';
+import { AccountStatusCodes } from '../contexts/community/account.value-objects';
+import { Community, CommunityProps } from '../contexts/community/community';
+import { CommunityUnitOfWork } from '../contexts/community/community.uow';
+import { RoleUnitOfWork } from '../contexts/community/role.uow';
+import { MemberUnitOfWork } from '../contexts/community/member.uow';
 
 export default (
   communityUnitOfWork: CommunityUnitOfWork,

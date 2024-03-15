@@ -1,9 +1,9 @@
-import { NodeEventBus } from '../core/events/node-event-bus';
-import { MongoMemberUnitOfWork } from '../persistence/member.mongo-uow';
-import { SystemExecutionContext, ReadOnlyContext } from '../execution-context';
-import { RoleDeletedReassignEvent } from '../../events/role-deleted-reassign';
-import { RoleModel } from '../../../infrastructure/data-sources/cosmos-db/models/role';
-import { RoleConverter } from '../persistence/role.domain-adapter';
+import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
+import { MongoMemberUnitOfWork } from '../infrastructure/persistence/member.mongo-uow';
+import { SystemExecutionContext, ReadOnlyContext } from '../infrastructure/execution-context';
+import { RoleDeletedReassignEvent } from '../events/role-deleted-reassign';
+import { RoleModel } from '../../infrastructure/data-sources/cosmos-db/models/role';
+import { RoleConverter } from '../infrastructure/persistence/role.domain-adapter';
 
 export default () => { NodeEventBus.register(RoleDeletedReassignEvent, async (payload) => {
 

@@ -1,4 +1,4 @@
-import { IServices } from '../../domain/infrastructure/event-handlers/IServices';
+import { IServices } from '../../domain/event-handlers/IServices';
 import { ContentModerator, IContentModerator } from './content-moderator';
 import { Vercel, IVercel } from './vercel';
 import { CognitiveSearch, ICognitiveSearch } from './cognitive-search';

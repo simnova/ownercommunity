@@ -4,7 +4,7 @@ import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';
 import { PortalTokenValidation } from './extensions/portal-token-validation';
 import { combinedSchema } from './extensions/schema-builder';
-import RegisterHandlers from '../../domain/infrastructure/event-handlers/index';
+import RegisterHandlers from '../../domain/event-handlers/index';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
 import { permissions } from '../schema';

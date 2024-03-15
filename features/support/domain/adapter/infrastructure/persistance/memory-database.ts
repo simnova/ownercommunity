@@ -1,6 +1,6 @@
 // core
-import { EntityProps } from "../../../../../../domain/shared/entity";
-import { ExecutionContext } from "../../../../../../domain/shared/execution-context";
+import { EntityProps } from "../../../../../../domain-seedwork/entity";
+import { ExecutionContext } from "../../../../../../domain-seedwork/execution-context";
 import { MemoryUnitOfWork } from "../core/memory-store/memory-unit-of-work";
 import { MemoryStore, ReadOnlyMemoryStore } from "../core/memory-store/memory-store";
 // community

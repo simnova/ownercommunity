@@ -1,6 +1,6 @@
 import { ServiceTicket, ServiceTicketProps } from './service-ticket';
 import { ActivityDetailProps } from './activity-detail';
-import { PropArray } from '../../shared/prop-array';
+import { PropArray } from '../../../domain-seedwork/prop-array';
 import { CommunityEntityReference } from '../community/community';
 import { PropertyEntityReference } from '../property/property';
 import { MemberEntityReference } from '../community/member';

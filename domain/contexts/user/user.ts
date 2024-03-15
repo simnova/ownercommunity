@@ -1,6 +1,6 @@
 import { UserCreatedEvent } from '../../events/user-created';
-import { AggregateRoot } from '../../shared/aggregate-root';
-import { EntityProps } from '../../shared/entity';
+import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
+import { EntityProps } from '../../../domain-seedwork/entity';
 import { DomainExecutionContext } from '../context';
 import * as ValueObjects from './user.value-objects';
 

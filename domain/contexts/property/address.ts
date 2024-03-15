@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from "../../shared/value-object";
+import { ValueObject, ValueObjectProps } from "../../../domain-seedwork/value-object";
 import { PropertyVisa } from "../iam/property-visa";
 
 export interface AddressProps extends ValueObjectProps {

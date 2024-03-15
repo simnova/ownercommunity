@@ -7,7 +7,7 @@ import { ProfileProps } from "../../../../../../domain/contexts/community/profil
 import { RoleEntityReference, RoleProps } from "../../../../../../domain/contexts/community/role";
 import { DomainExecutionContext } from "../../../../../../domain/contexts/context";
 import { UserProps } from "../../../../../../domain/contexts/user/user";
-import { EntityProps } from "../../../../../../domain/shared/entity";
+import { EntityProps } from "../../../../../../domain-seedwork/entity";
 import { MemoryBaseAdapter } from "../core/memory-store/memory-base-adapter";
 import { MemoryPropArray } from "../core/memory-store/memory-prop-array";
 import { MemoryRepositoryBase } from "../core/memory-store/memory-repository";

@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../shared/entity';
+import { Entity, EntityProps } from '../../../domain-seedwork/entity';
 import { DomainExecutionContext } from '../context';
 import { CommunityVisa } from '../iam/community-visa';
 import { User, UserEntityReference, UserProps } from '../user/user';

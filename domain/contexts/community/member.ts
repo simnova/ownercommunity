@@ -1,8 +1,8 @@
-import { AggregateRoot } from '../../shared/aggregate-root';
-import { EntityProps } from '../../shared/entity';
+import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
+import { EntityProps } from '../../../domain-seedwork/entity';
 import * as ValueObjects from './member.value-objects';
 import { Community, CommunityProps, CommunityEntityReference } from './community';
-import { PropArray } from '../../shared/prop-array';
+import { PropArray } from '../../../domain-seedwork/prop-array';
 import { Account, AccountEntityReference, AccountProps } from './account';
 import { Role, RoleEntityReference, RoleProps } from './role';
 import { DomainExecutionContext } from '../context';

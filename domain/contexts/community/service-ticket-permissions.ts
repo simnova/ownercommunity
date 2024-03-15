@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../shared/entity';
+import { Entity, EntityProps } from '../../../domain-seedwork/entity';
 import { CommunityVisa } from '../iam/community-visa';
 import { ServiceTicketPermissions as ServiceTicketPermissionsSpec } from '../service-ticket/service-ticket-permissions.spec';
 

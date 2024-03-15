@@ -1,8 +1,8 @@
 import { DataSource, DataSourceConfig } from '../data-source';
 import { MongoUnitOfWork } from '../../../domain/infrastructure/core/mongo/mongo-unit-of-work';
 import { MongoRepositoryBase } from '../../../domain/infrastructure/core/mongo/mongo-repository';
-import { AggregateRoot } from '../../../domain/shared/aggregate-root';
-import { EntityProps } from '../../../domain/shared/entity';
+import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
+import { EntityProps } from '../../../domain-seedwork/entity';
 import { Document } from 'mongoose';
 import { DomainExecutionContext } from '../../../domain/contexts/context';
 import { Context as GraphQLContext } from '../../context';

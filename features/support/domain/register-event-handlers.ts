@@ -1,5 +1,5 @@
 import { IServices } from '../services/IServices';
-import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from '../../../domain/infrastructure/event-handlers/community-created-create-default-roles-member';
+import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from '../../../domain/event-handlers/community-created-create-default-roles-member';
 // import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from './role-deleted-reassign-member-new-role';
 // import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from './community-created-create-blob-container';
 // import { default as RegisterCommunityDomainUpdatedUpdateDomainBlobHandler } from './community-domain-updated-update-domain-blob';

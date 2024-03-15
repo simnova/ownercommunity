@@ -1,9 +1,9 @@
-import { AggregateRoot } from "../../../../../../../domain/shared/aggregate-root";
-import { DomainEvent } from "../../../../../../../domain/shared/domain-event";
-import { EntityProps } from "../../../../../../../domain/shared/entity";
-import { EventBus } from "../../../../../../../domain/shared/event-bus";
-import { ExecutionContext } from "../../../../../../../domain/shared/execution-context";
-import { PersistanceUnitOfWork } from "../../../../../../../domain/shared/unit-of-work";
+import { AggregateRoot } from "../../../../../../../domain-seedwork/aggregate-root";
+import { DomainEvent } from "../../../../../../../domain-seedwork/domain-event";
+import { EntityProps } from "../../../../../../../domain-seedwork/entity";
+import { EventBus } from "../../../../../../../domain-seedwork/event-bus";
+import { ExecutionContext } from "../../../../../../../domain-seedwork/execution-context";
+import { PersistanceUnitOfWork } from "../../../../../../../domain-seedwork/unit-of-work";
 import { MemoryRepositoryBase } from "./memory-repository";
 import { MemoryStore } from "./memory-store";
 

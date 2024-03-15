@@ -1,4 +1,4 @@
-import { UnitOfWork } from '../../shared/unit-of-work';
+import { UnitOfWork } from '../../../domain-seedwork/unit-of-work';
 import { DomainExecutionContext } from '../context';
 import { Member, MemberProps } from './member';
 import { MemberRepository } from './member.repository';

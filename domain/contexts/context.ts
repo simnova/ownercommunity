@@ -1,5 +1,5 @@
 import { Passport } from "./iam/passport";
-import { ExecutionContext } from "../shared/execution-context";
+import { ExecutionContext } from "../../domain-seedwork/execution-context";
 
 export interface DomainExecutionContext extends ExecutionContext {
   passport: Passport;

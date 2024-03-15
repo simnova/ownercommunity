@@ -1,8 +1,8 @@
-import { EntityProps } from '../../shared/entity';
+import { EntityProps } from '../../../domain-seedwork/entity';
 import { Permissions, PermissionsEntityReference, PermissionsProps } from './permissions';
 import { Community, CommunityProps, CommunityEntityReference } from './community';
 import { CommunityVisa } from '../iam/community-visa';
-import { AggregateRoot } from '../../shared/aggregate-root';
+import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../context';
 import { RoleDeletedReassignEvent } from '../../events/role-deleted-reassign';
 

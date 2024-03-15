@@ -1,6 +1,6 @@
-import { NodeEventBus } from '../core/events/node-event-bus';
-import { IVercel } from '../../../infrastructure/services/vercel';
-import { CommunityDomainUpdatedEvent } from '../../events/community-domain-updated';
+import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
+import { IVercel } from '../../infrastructure/services/vercel';
+import { CommunityDomainUpdatedEvent } from '../events/community-domain-updated';
 
 export default (vercel: IVercel) => {
   NodeEventBus.register(CommunityDomainUpdatedEvent, async (payload) => {

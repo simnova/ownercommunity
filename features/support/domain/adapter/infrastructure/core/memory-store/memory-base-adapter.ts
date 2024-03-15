@@ -1,5 +1,5 @@
 
-import { EntityProps } from "../../../../../../../domain/shared/entity";
+import { EntityProps } from "../../../../../../../domain-seedwork/entity";
 import { nanoid } from "nanoid";
 
 // export interface MemoryDocBase {

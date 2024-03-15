@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
-import { CustomDomainEvent, DomainEvent } from '../../../shared/domain-event';
-import { EventBus } from '../../../shared/event-bus';
+import { CustomDomainEvent, DomainEvent } from '../../../../domain-seedwork/domain-event';
+import { EventBus } from '../../../../domain-seedwork/event-bus';
 import api, { trace,TimeInput, SpanStatusCode } from '@opentelemetry/api';
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 

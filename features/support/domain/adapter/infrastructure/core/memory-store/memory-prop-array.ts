@@ -1,5 +1,5 @@
-import { EntityProps } from "../../../../../../../domain/shared/entity";
-import { PropArray } from "../../../../../../../domain/shared/prop-array";
+import { EntityProps } from "../../../../../../../domain-seedwork/entity";
+import { PropArray } from "../../../../../../../domain-seedwork/prop-array";
 
 export class MemoryPropArray<propType extends EntityProps> implements PropArray<propType> {
   constructor(protected itemArray: Array<propType>, protected classDefinition: new () => propType) { }

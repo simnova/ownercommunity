@@ -1,7 +1,7 @@
 import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes} from '@serenity-js/core'
 import { IMemoryDatabase, MemoryDatabase } from '../adapter/infrastructure/persistance/memory-database';
 import { ReadOnlyMemoryStore } from '../adapter/infrastructure/core/memory-store/memory-store';
-import { ExecutionContext } from '../../../../domain/shared/execution-context';
+import { ExecutionContext } from '../../../../domain-seedwork/execution-context';
 import { CommunityRepository } from '../../../../domain/contexts/community/community.repository';
 import { CommunityEntityReference, CommunityProps } from '../../../../domain/contexts/community/community';
 import { UserRepository } from '../../../../domain/contexts/user/user.repository';

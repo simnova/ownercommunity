@@ -1,4 +1,4 @@
-import { AfterAll, BeforeAll, setDefaultTimeout, defineParameterType } from '@cucumber/cucumber';
+import { AfterAll, BeforeAll, setDefaultTimeout, defineParameterType, Before } from '@cucumber/cucumber';
 import { ConsoleReporter } from '@serenity-js/console-reporter';
 import { actorCalled, actorInTheSpotlight, ArtifactArchiver, configure, Duration } from '@serenity-js/core';
 import { SerenityBDDReporter } from '@serenity-js/serenity-bdd';
@@ -28,8 +28,12 @@ const timeouts = {
 
 // let browser: playwright.Browser;
 
-BeforeAll(async () => {
+Before(() => {
     InteractWithTheDomain.init();
+});
+
+BeforeAll(async () => {
+    // InteractWithTheDomain.init();
     // Launch the browser once before all the tests
     // Serenity/JS will take care of managing Playwright browser context and browser tabs.
     // browser = await playwright.chromium.launch({

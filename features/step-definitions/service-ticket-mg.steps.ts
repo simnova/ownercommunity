@@ -3,8 +3,7 @@ import { Actor, Notepad, TakeNotes } from '@serenity-js/core';
 import { InteractWithTheDomain } from '../support/domain/abilities/interactWithTheDomain';
 import { CreateRole } from '../support/tasks/create-role';
 import { CreateCommunity } from '../support/tasks/create-community';
-import { v4 as uuidV4 } from 'uuid';
-import { NotepadType } from '../support/actors';
+
 import { Register } from '../support/tasks/register';
 
 // Before(function () {
@@ -28,12 +27,15 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
     .attemptsTo(
         Register.asUser(),
         CreateCommunity.named(communityName),
+        // Ensure.eventually(CommunityInDb(communityName), isPresent()),
+        // Ensure.eventually(RoleForCommunity(communityName, 'admin'), isPresent()),
+        // Ensure.eventually(Community.named().hasRole(), isTrue())
       // CreateRole
       //     .inCommunity(communityName)
       //       .asNewRole('manager')
       //         .withPermissions(['read', 'write']),
     );
-    /*
+    
     (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
     });

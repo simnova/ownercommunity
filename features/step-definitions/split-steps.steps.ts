@@ -18,6 +18,7 @@ Given('{actor} registers with Owner Community', async function(actor: Actor){
     .attemptsTo(
         Register.asUser(),
     );
+    /*
     console.log(' ******* {actor} registers with Owner Community');
     await InteractWithTheDomain.asSystem().readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
@@ -34,14 +35,17 @@ Given('{actor} registers with Owner Community', async function(actor: Actor){
     await InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
       console.log('===> database > member : ', JSON.stringify(db));
     });
+
+    */
   });
 
 When('{pronoun} creates community named {word}', async function(actor: Actor, communityName: string){
-  console.log(' ===> actor name : ', actor.name);
+  // console.log(' ===> actor name : ', actor.name);
   await actor
     .attemptsTo(
-        CreateCommunity.named(communityName),
+        // CreateCommunity.named(communityName),
     );
+/*
     console.log(' ******* {actor} creates {word} community');
     await InteractWithTheDomain.asSystem().readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
@@ -58,6 +62,7 @@ When('{pronoun} creates community named {word}', async function(actor: Actor, co
     await InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
       console.log('===> database > member : ', JSON.stringify(db));
     });
+    */
   }
   );
 

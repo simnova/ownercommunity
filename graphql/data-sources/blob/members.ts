@@ -1,7 +1,7 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
 import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } from '../../generated';
-import { MemberConverter } from '../../../domain-impl-mongo/member.domain-adapter';
+import { MemberConverter } from '../../../domain-impl-mongodb/member.domain-adapter';
 import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage/blob-request';
 
 export class Members extends BlobDataSource<Context> {

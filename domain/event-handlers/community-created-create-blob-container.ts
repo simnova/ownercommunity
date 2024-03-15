@@ -1,4 +1,4 @@
-import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
+import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
 import { CommunityCreatedEvent } from '../events/community-created';
 import { IBlobStorage } from '../../infrastructure/services/blob-storage';
 

@@ -1,4 +1,4 @@
-import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
+import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
 import { IVercel } from '../../infrastructure/services/vercel';
 import { CommunityDomainUpdatedEvent } from '../events/community-domain-updated';
 

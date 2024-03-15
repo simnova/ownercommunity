@@ -1,4 +1,4 @@
-import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
+import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from './property-search-index-format';
 import { ICognitiveSearch } from '../../infrastructure/services/cognitive-search';
 import { PropertyDeletedEvent } from '../events/property-deleted';

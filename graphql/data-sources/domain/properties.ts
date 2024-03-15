@@ -1,13 +1,13 @@
 import { Property as PropertyDO } from '../../../domain/contexts/property/property';
-import { PropertyConverter, PropertyDomainAdapter } from '../../../domain-impl-mongo/property.domain-adapter';
-import { MongoPropertyRepository } from '../../../domain-impl-mongo/property.mongo-repository';
+import { PropertyConverter, PropertyDomainAdapter } from '../../../domain-impl-mongodb/property.domain-adapter';
+import { MongoPropertyRepository } from '../../../domain-impl-mongodb/property.mongo-repository';
 import { Context } from '../../context';
 import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Property } from '../../../infrastructure/data-sources/cosmos-db/models/property';
-import { CommunityConverter } from '../../../domain-impl-mongo/community.domain-adapter';
+import { CommunityConverter } from '../../../domain-impl-mongodb/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
-import { MemberConverter } from '../../../domain-impl-mongo/member.domain-adapter';
+import { MemberConverter } from '../../../domain-impl-mongodb/member.domain-adapter';
 import { Amenities, Images } from '../../../domain/contexts/property/listing-detail.value-objects';
 import { BedDescriptions } from '../../../domain/contexts/property/bedroom-detail.value-objects';
 

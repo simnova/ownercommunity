@@ -7,11 +7,11 @@ import dayjs from 'dayjs';
 import { ICognitiveSearch } from '../../infrastructure/services/cognitive-search';
 import { Property } from '../contexts/property/property';
 import { PropertyUpdatedEvent } from '../events/property-updated';
-import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
+import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
 import { SystemExecutionContext } from '../infrastructure/execution-context';
-import { PropertyDomainAdapter } from '../../domain-impl-mongo/property.domain-adapter';
-import { MongoPropertyRepository } from '../../domain-impl-mongo/property.mongo-repository';
-import { PropertyUnitOfWork } from '../../domain-impl-mongo/property.uow';
+import { PropertyDomainAdapter } from '../../domain-impl-mongodb/property.domain-adapter';
+import { MongoPropertyRepository } from '../../domain-impl-mongodb/property.mongo-repository';
+import { PropertyUnitOfWork } from '../../domain-impl-mongodb/property.uow';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from './property-search-index-format';
 
 export default (cognitiveSearch: ICognitiveSearch) => {

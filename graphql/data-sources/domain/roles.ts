@@ -1,11 +1,11 @@
 import { Role as RoleDO } from '../../../domain/contexts/community/role';
-import { RoleConverter, RoleDomainAdapter }from '../../../domain-impl-mongo/role.domain-adapter';
-import { MongoRoleRepository } from '../../../domain-impl-mongo/role.mongo-repository';
+import { RoleConverter, RoleDomainAdapter }from '../../../domain-impl-mongodb/role.domain-adapter';
+import { MongoRoleRepository } from '../../../domain-impl-mongodb/role.mongo-repository';
 import { Context } from '../../context';
 import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Role } from '../../../infrastructure/data-sources/cosmos-db/models/role';
-import { CommunityConverter } from '../../../domain-impl-mongo/community.domain-adapter';
+import { CommunityConverter } from '../../../domain-impl-mongodb/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 
 type PropType = RoleDomainAdapter;

@@ -1,6 +1,6 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
-import { CommunityConverter } from '../../../domain-impl-mongo/community.domain-adapter';
+import { CommunityConverter } from '../../../domain-impl-mongodb/community.domain-adapter';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../generated';
 import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage';
 

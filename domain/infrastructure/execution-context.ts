@@ -1,9 +1,9 @@
 import { UserModel } from '../../infrastructure/data-sources/cosmos-db/models/user';
-import { UserDomainAdapter } from '../../domain-impl-mongo/user.domain-adapter';
+import { UserDomainAdapter } from '../../domain-impl-mongodb/user.domain-adapter';
 import { User as UserDO } from '../contexts/user/user';
 
 import { MemberModel } from '../../infrastructure/data-sources/cosmos-db/models/member';
-import { MemberDomainAdapter } from '../../domain-impl-mongo/member.domain-adapter';
+import { MemberDomainAdapter } from '../../domain-impl-mongodb/member.domain-adapter';
 import { Member as MemberDO } from '../contexts/community/member';
 
 import { PassportImpl, ReadOnlyPassport, SystemPassport } from '../contexts/iam/passport';

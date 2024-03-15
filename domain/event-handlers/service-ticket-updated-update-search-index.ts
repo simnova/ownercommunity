@@ -1,13 +1,13 @@
-import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
+import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from './service-ticket-search-index-format';
 import { ICognitiveSearch } from '../../infrastructure/services/cognitive-search';
 import { SystemExecutionContext } from '../infrastructure/execution-context';
 import { ServiceTicketUpdatedEvent } from '../events/service-ticket-updated';
 import retry from 'async-retry';
-import { ServiceTicketUnitOfWork } from '../../domain-impl-mongo/service-ticket.uow';
+import { ServiceTicketUnitOfWork } from '../../domain-impl-mongodb/service-ticket.uow';
 import { ServiceTicket } from '../contexts/service-ticket/service-ticket';
-import { ServiceTicketDomainAdapter } from '../../domain-impl-mongo/service-ticket.domain-adapter';
-import { MongoServiceTicketRepository } from '../../domain-impl-mongo/service-ticket.mongo-repository';
+import { ServiceTicketDomainAdapter } from '../../domain-impl-mongodb/service-ticket.domain-adapter';
+import { MongoServiceTicketRepository } from '../../domain-impl-mongodb/service-ticket.mongo-repository';
 import dayjs from 'dayjs';
 
 const crypto = require('crypto');

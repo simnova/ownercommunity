@@ -3,9 +3,9 @@ import { Context } from "../../context";
 
 import { HttpRequest } from "@azure/functions";
 import { isValidObjectId } from "mongoose";
-import { CommunityConverter } from '../../../domain-impl-mongo/community.domain-adapter';
-import { MemberConverter } from '../../../domain-impl-mongo/member.domain-adapter';
-import { UserConverter } from '../../../domain-impl-mongo/user.domain-adapter';
+import { CommunityConverter } from '../../../domain-impl-mongodb/community.domain-adapter';
+import { MemberConverter } from '../../../domain-impl-mongodb/member.domain-adapter';
+import { UserConverter } from '../../../domain-impl-mongodb/user.domain-adapter';
 import { Community, CommunityModel } from "../../../infrastructure/data-sources/cosmos-db/models/community";
 import { MemberModel } from "../../../infrastructure/data-sources/cosmos-db/models/member";
 import { UserModel } from "../../../infrastructure/data-sources/cosmos-db/models/user";

@@ -1,11 +1,11 @@
 import { Service as ServiceDO } from '../../../domain/contexts/service-ticket/service';
-import { ServiceConverter, ServiceDomainAdapter }from '../../../domain-impl-mongo/service.domain-adapter';
-import { MongoServiceRepository } from '../../../domain-impl-mongo/service.mongo-repository';
+import { ServiceConverter, ServiceDomainAdapter }from '../../../domain-impl-mongodb/service.domain-adapter';
+import { MongoServiceRepository } from '../../../domain-impl-mongodb/service.mongo-repository';
 import { Context } from '../../context';
 import { ServiceCreateInput, ServiceUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Service } from '../../../infrastructure/data-sources/cosmos-db/models/service';
-import { CommunityConverter } from '../../../domain-impl-mongo/community.domain-adapter';
+import { CommunityConverter } from '../../../domain-impl-mongodb/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
 
 type PropType = ServiceDomainAdapter;

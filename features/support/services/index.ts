@@ -7,7 +7,7 @@ import { IServices } from './IServices';
 import { CommunityUnitOfWork } from '../../../domain/contexts/community/community.uow';
 import { MemberUnitOfWork } from '../../../domain/contexts/community/member.uow';
 import { RoleUnitOfWork } from '../../../domain/contexts/community/role.uow';
-import { IMemoryDatabase } from '../domain/adapter/infrastructure/persistance/memory-database';
+import { IMemoryDatabase } from '../../../domain-impl-memorydb/memory-database';
 
 export class Services implements IServices{
   // private _vercel: IVercel;

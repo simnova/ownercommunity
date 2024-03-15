@@ -101,9 +101,9 @@ export class InteractWithTheDomain extends Ability
     const externalId = await notes<NotepadType>().get('user').externalId.answeredBy(actorInTheSpotlight());
     const firstName = await notes<NotepadType>().get('user').firstName.answeredBy(actorInTheSpotlight());
     const lastName = await notes<NotepadType>().get('user').lastName.answeredBy(actorInTheSpotlight());
-    console.log('===> externalId : ', externalId);
-    console.log('===> firstName : ', firstName);
-    console.log('===> lastName : ', lastName);
+    // console.log('===> externalId : ', externalId);
+    // console.log('===> firstName : ', firstName);
+    // console.log('===> lastName : ', lastName);
   
     let user: UserEntityReference;
     await InteractWithTheDomain.asSystem().readUserDb(async (db) => {

@@ -39,11 +39,7 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
   set CanManageRolesAndPermissions(value: boolean) {
     if (
       !this.visa.determineIf((permissions) => {
-        console.log('permissions', permissions);
-        console.log('permissions.isSystemAccount', permissions.isSystemAccount);
-        console.log('permissions.canManageRolesAndPermissions', permissions.canManageRolesAndPermissions);
         const value = permissions.canManageRolesAndPermissions || permissions.isSystemAccount;
-        console.log('canManageRolesAndPermissions', value);
         return value;
       })
     ) {

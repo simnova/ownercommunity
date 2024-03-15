@@ -1,4 +1,4 @@
-import { ServiceTicketConverter } from '../../../domain-impl-mongodb/service-ticket.domain-adapter';
+import { ServiceTicketConverter } from '../../../domain-services-impl/datastore-mongodb/service-ticket.domain-adapter';
 import { ServiceTicket, ServiceTicketModel } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { Context } from '../../context';
 import { CosmosDataSource } from './cosmos-data-source';

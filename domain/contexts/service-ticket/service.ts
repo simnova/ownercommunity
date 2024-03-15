@@ -1,7 +1,7 @@
 import { EntityProps } from '../../../domain-seedwork/entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
-import { DomainExecutionContext } from '../context';
+import { DomainExecutionContext } from '../execution-context';
 import * as ValueObjects from './service.value-objects';
 import { ServiceVisa } from '../iam/service-visa';
 

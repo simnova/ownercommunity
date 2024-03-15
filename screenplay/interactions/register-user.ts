@@ -1,5 +1,5 @@
 import { Actor, Interaction, notes } from "@serenity-js/core";
-import { InteractWithTheDomain } from "../abilities/interact-with-the-domain";
+import { InteractWithTheDomain } from "../abilities/domain/interact-with-the-domain";
 import { NotepadType } from "../actors";
 
 export const CreateUserInDb = () => {

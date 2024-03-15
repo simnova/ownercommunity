@@ -1,5 +1,5 @@
 import { UnitOfWork } from '../../../domain-seedwork/unit-of-work';
-import { DomainExecutionContext } from '../context';
+import { DomainExecutionContext } from '../execution-context';
 import { Community, CommunityProps } from './community';
 import { CommunityRepository } from './community.repository';
 

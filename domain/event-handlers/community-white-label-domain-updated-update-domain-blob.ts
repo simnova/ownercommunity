@@ -1,5 +1,5 @@
-import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
-import { IBlobStorage } from '../../infrastructure/services/blob-storage';
+import { NodeEventBus } from '../../domain-eventbus-impl-node/node-event-bus';
+import { IBlobStorage } from '../services/IBlobStorage';
 import { CommunityWhiteLabelDomainUpdatedEvent } from '../events/community-white-label-domain-updated';
 
 export default (blobStorage:IBlobStorage) => { NodeEventBus.register(CommunityWhiteLabelDomainUpdatedEvent, async (payload) => {

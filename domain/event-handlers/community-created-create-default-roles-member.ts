@@ -1,6 +1,6 @@
-import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
+import { NodeEventBus } from '../../domain-eventbus-impl-node/node-event-bus';
 import { CommunityCreatedEvent } from '../events/community-created';
-import { ReadOnlyContext, SystemExecutionContext } from '../infrastructure/execution-context';
+import { ReadOnlyContext, SystemExecutionContext } from '../contexts/execution-context';
 import { Role } from '../contexts/community/role';
 import { AccountStatusCodes } from '../contexts/community/account.value-objects';
 import { Community, CommunityProps } from '../contexts/community/community';

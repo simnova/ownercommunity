@@ -4,14 +4,14 @@ import { SeverityNumber, logs } from '@opentelemetry/api-logs';
 import retry from 'async-retry';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
-import { ICognitiveSearch } from '../../infrastructure/services/cognitive-search';
+import { ICognitiveSearch } from '../services/ICognitiveSearch';
 import { Property } from '../contexts/property/property';
 import { PropertyUpdatedEvent } from '../events/property-updated';
-import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
-import { SystemExecutionContext } from '../infrastructure/execution-context';
-import { PropertyDomainAdapter } from '../../domain-impl-mongodb/property.domain-adapter';
-import { MongoPropertyRepository } from '../../domain-impl-mongodb/property.mongo-repository';
-import { PropertyUnitOfWork } from '../../domain-impl-mongodb/property.uow';
+import { NodeEventBus } from '../../domain-eventbus-impl-node/node-event-bus';
+import { SystemExecutionContext } from '../contexts/execution-context';
+import { PropertyDomainAdapter } from '../../domain-services-impl/datastore-mongodb/property.domain-adapter';
+import { MongoPropertyRepository } from '../../domain-services-impl/datastore-mongodb/property.mongo-repository';
+import { PropertyUnitOfWork } from '../../domain-services-impl/datastore-mongodb/property.uow';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from './property-search-index-format';
 
 export default (cognitiveSearch: ICognitiveSearch) => {

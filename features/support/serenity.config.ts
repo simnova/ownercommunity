@@ -7,7 +7,7 @@ import { resolve } from 'path';
 // import * as playwright from 'playwright';
 
 import { Actors } from '../../screenplay/actors';
-import { InteractWithTheDomain } from '../../screenplay/abilities/interact-with-the-domain';
+import { InteractWithTheDomain } from '../../screenplay/abilities/domain/interact-with-the-domain';
 
 const projectRoot   = resolve(__dirname, '../..');
 

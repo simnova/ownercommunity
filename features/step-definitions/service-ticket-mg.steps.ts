@@ -1,6 +1,6 @@
 import { Before, Given, When, Then, DataTable, BeforeAll } from '@cucumber/cucumber';
 import { Actor, Notepad, TakeNotes } from '@serenity-js/core';
-import { InteractWithTheDomain } from '../../screenplay/abilities/interact-with-the-domain';
+import { InteractWithTheDomain } from '../../screenplay/abilities/domain/interact-with-the-domain';
 import { CreateRole } from '../../screenplay/tasks/create-role';
 import { CreateCommunity } from '../../screenplay/tasks/create-community';
 

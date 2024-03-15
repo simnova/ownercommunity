@@ -1,6 +1,6 @@
-import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
+import { NodeEventBus } from '../../domain-eventbus-impl-node/node-event-bus';
 import { CommunityCreatedEvent } from '../events/community-created';
-import { IBlobStorage } from '../../infrastructure/services/blob-storage';
+import { IBlobStorage } from '../services/IBlobStorage';
 
 export default (blobStorage:IBlobStorage) => { NodeEventBus.register(CommunityCreatedEvent, async (payload) => {
 

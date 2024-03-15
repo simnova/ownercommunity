@@ -1,6 +1,6 @@
 import { Actor, Cast, Notepad, TakeNotes } from '@serenity-js/core';
 import { v4 as uuidV4 } from 'uuid';
-import { InteractWithTheDomain } from './abilities/interact-with-the-domain';
+import { InteractWithTheDomain } from './abilities/domain/interact-with-the-domain';
 
 export interface NotepadType {
   user: {

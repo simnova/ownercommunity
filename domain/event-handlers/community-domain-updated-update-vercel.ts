@@ -1,5 +1,5 @@
-import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
-import { IVercel } from '../../infrastructure/services/vercel';
+import { NodeEventBus } from '../../domain-eventbus-impl-node/node-event-bus';
+import { IVercel } from '../services/IVercel';
 import { CommunityDomainUpdatedEvent } from '../events/community-domain-updated';
 
 export default (vercel: IVercel) => {

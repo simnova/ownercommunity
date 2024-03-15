@@ -1,13 +1,13 @@
-import { NodeEventBus } from '../../domain-impl-event-bus/node-event-bus';
+import { NodeEventBus } from '../../domain-eventbus-impl-node/node-event-bus';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from './service-ticket-search-index-format';
-import { ICognitiveSearch } from '../../infrastructure/services/cognitive-search';
-import { SystemExecutionContext } from '../infrastructure/execution-context';
+import { ICognitiveSearch } from '../services/ICognitiveSearch';
+import { SystemExecutionContext } from '../contexts/execution-context';
 import { ServiceTicketUpdatedEvent } from '../events/service-ticket-updated';
 import retry from 'async-retry';
-import { ServiceTicketUnitOfWork } from '../../domain-impl-mongodb/service-ticket.uow';
+import { ServiceTicketUnitOfWork } from '../../domain-services-impl/datastore-mongodb/service-ticket.uow';
 import { ServiceTicket } from '../contexts/service-ticket/service-ticket';
-import { ServiceTicketDomainAdapter } from '../../domain-impl-mongodb/service-ticket.domain-adapter';
-import { MongoServiceTicketRepository } from '../../domain-impl-mongodb/service-ticket.mongo-repository';
+import { ServiceTicketDomainAdapter } from '../../domain-services-impl/datastore-mongodb/service-ticket.domain-adapter';
+import { MongoServiceTicketRepository } from '../../domain-services-impl/datastore-mongodb/service-ticket.mongo-repository';
 import dayjs from 'dayjs';
 
 const crypto = require('crypto');

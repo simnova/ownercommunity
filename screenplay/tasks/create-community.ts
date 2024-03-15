@@ -1,5 +1,5 @@
 import { Actor, Interaction, Task } from '@serenity-js/core/lib/screenplay';
-import { InteractWithTheDomain } from '../abilities/interact-with-the-domain';
+import { InteractWithTheDomain } from '../abilities/domain/interact-with-the-domain';
 import { Ensure, isPresent } from '@serenity-js/assertions';
 import { CommunityInDb } from '../questions/community-in-db';
 

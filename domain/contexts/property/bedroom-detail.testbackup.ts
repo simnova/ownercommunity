@@ -1,6 +1,6 @@
 
 import { PropertyPermissions } from "./property-permissions.spec";
-import { DomainExecutionContext } from "../context";
+import { DomainExecutionContext } from "../execution-context";
 import { Passport } from "../iam/passport";
 import { PropertyVisa } from "../iam/property-visa";
 import { BedroomDetail, BedroomDetailProps } from "./bedroom-detail";

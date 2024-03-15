@@ -1,10 +1,10 @@
-import { UserUnitOfWork } from '../../../domain-impl-mongodb/user.uow';
-import { MongoCommunityUnitOfWork } from '../../../domain-impl-mongodb/community.mongo-uow';
-import { MongoMemberUnitOfWork } from '../../../domain-impl-mongodb/member.mongo-uow';
-import { MongoRoleUnitOfWork } from '../../../domain-impl-mongodb/role.mongo-uow';
-import { PropertyUnitOfWork } from '../../../domain-impl-mongodb/property.uow';
-import { ServiceUnitOfWork } from '../../../domain-impl-mongodb/service.uow';
-import { ServiceTicketUnitOfWork } from '../../../domain-impl-mongodb/service-ticket.uow';
+import { UserUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/user.uow';
+import { MongoCommunityUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/community.mongo-uow';
+import { MongoMemberUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/member.mongo-uow';
+import { MongoRoleUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/role.mongo-uow';
+import { PropertyUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/property.uow';
+import { ServiceUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/service.uow';
+import { ServiceTicketUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/service-ticket.uow';
 
 import { Users } from './users';
 import { Communities } from './communities';

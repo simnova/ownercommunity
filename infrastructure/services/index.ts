@@ -1,31 +1,32 @@
-import { IServices } from '../../domain/event-handlers/IServices';
-import { ContentModerator, IContentModerator } from './content-moderator';
-import { Vercel, IVercel } from './vercel';
-import { CognitiveSearch, ICognitiveSearch } from './cognitive-search';
-import { BlobStorage, IBlobStorage } from './blob-storage';
+import { IServices } from '../../domain/services';
+import { ContentModerator } from './content-moderator';
+import { IContentModerator } from '../../domain/services/IContentModerator';
+import { Vercel } from './vercel';
+import { IVercel } from '../../domain/services/IVercel';
+import { CognitiveSearch } from './cognitive-search';
+import { ICognitiveSearch } from '../../domain/services/ICognitiveSearch';
+import { BlobStorage } from './blob-storage';
+import { IBlobStorage } from '../../domain/services/IBlobStorage';
 import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
-import { MongoCommunityUnitOfWork } from '../../domain-impl-mongodb/community.mongo-uow';
+import { MongoCommunityUnitOfWork } from '../../domain-services-impl/datastore-mongodb/community.mongo-uow';
 import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
-import { MongoMemberUnitOfWork } from '../../domain-impl-mongodb/member.mongo-uow';
+import { MongoMemberUnitOfWork } from '../../domain-services-impl/datastore-mongodb/member.mongo-uow';
 import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
-import { MongoRoleUnitOfWork } from '../../domain-impl-mongodb/role.mongo-uow';
+import { MongoRoleUnitOfWork } from '../../domain-services-impl/datastore-mongodb/role.mongo-uow';
+import { IDataStore } from '../../domain/services/IDataStore';
 export class Services implements IServices{
   private _vercel: IVercel;
   private _contentModerator: IContentModerator;
   private _cognitiveSearch: ICognitiveSearch;
   private _blobStorage: IBlobStorage;
-  private _communityUnitOfWork: CommunityUnitOfWork;
-  private _memberUnitOfWork: MemberUnitOfWork;
-  private _roleUnitOfWork: RoleUnitOfWork;
+  private _dataStore: IDataStore;
 
   constructor() {
     this._vercel = this.InitVercel();
     this._contentModerator = this.InitContentModerator();
     this._cognitiveSearch = this.InitCognitiveSearch();
     this._blobStorage = this.InitBlobStorage();
-    this._communityUnitOfWork = this.InitCommunityUnitOfWork();
-    this._memberUnitOfWork = this.InitMemberUnitOfWork();
-    this._roleUnitOfWork = this.InitRoleUnitOfWork();
+    this._dataStore = this.InitDataStore();
   }
 
   public get vercel(): IVercel {
@@ -41,16 +42,8 @@ export class Services implements IServices{
     return this._blobStorage;
   }
 
-  public get communityUnitOfWork(): CommunityUnitOfWork {
-    return this._communityUnitOfWork;
-  }
-
-  public get memberUnitOfWork(): MemberUnitOfWork {
-    return this._memberUnitOfWork;
-  }
-
-  public get roleUnitOfWork(): RoleUnitOfWork {
-    return this._roleUnitOfWork;
+  public get dataStore(): IDataStore {
+    return this._dataStore;
   }
 
   private tryGetEnvVar(envVar: string): string {
@@ -95,5 +88,13 @@ export class Services implements IServices{
 
   private InitRoleUnitOfWork(): RoleUnitOfWork {
     return MongoRoleUnitOfWork;
+  }
+
+  private InitDataStore(): IDataStore {
+    return {
+      communityUnitOfWork: this.InitCommunityUnitOfWork(),
+      memberUnitOfWork: this.InitMemberUnitOfWork(),
+      roleUnitOfWork: this.InitRoleUnitOfWork()
+    };
   }
 }

@@ -1,9 +1,9 @@
-import { Member as MemberDO, MemberProps } from '../../contexts/community/member';
-import { MemberRepository } from '../../contexts/community/member.repository';
-import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
-import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
-import { DomainExecutionContext } from '../../contexts/context';
-import { CommunityEntityReference } from '../../contexts/community/community';
+import { Member as MemberDO, MemberProps } from '../domain/contexts/community/member';
+import { MemberRepository } from '../domain/contexts/community/member.repository';
+import { Member } from '../infrastructure/data-sources/cosmos-db/models/member';
+import { MongoRepositoryBase } from '../domain-seedwork-mongo/mongo-repository';
+import { DomainExecutionContext } from '../domain/contexts/context';
+import { CommunityEntityReference } from '../domain/contexts/community/community';
 
 export class MongoMemberRepository<PropType extends MemberProps>
   extends MongoRepositoryBase<DomainExecutionContext, Member, PropType, MemberDO<PropType>>

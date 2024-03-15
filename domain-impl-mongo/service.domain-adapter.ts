@@ -1,11 +1,11 @@
-import { Service } from '../../../infrastructure/data-sources/cosmos-db/models/service';
-import { Service as ServiceDO, ServiceProps } from '../../contexts/service-ticket/service';
-import { MongooseDomainAdapter } from '../core/mongo/mongo-domain-adapter';
-import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
+import { Service } from '../infrastructure/data-sources/cosmos-db/models/service';
+import { Service as ServiceDO, ServiceProps } from '../domain/contexts/service-ticket/service';
+import { MongooseDomainAdapter } from '../domain-seedwork-mongo/mongo-domain-adapter';
+import { MongoTypeConverter } from '../domain-seedwork-mongo/mongo-type-converter';
 
-import { CommunityProps } from '../../contexts/community/community';
+import { CommunityProps } from '../domain/contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
-import { DomainExecutionContext } from '../../contexts/context';
+import { DomainExecutionContext } from '../domain/contexts/context';
 
 export class ServiceConverter extends MongoTypeConverter<DomainExecutionContext, Service, ServiceDomainAdapter, ServiceDO<ServiceDomainAdapter>> {
   constructor() {

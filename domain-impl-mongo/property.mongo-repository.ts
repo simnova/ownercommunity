@@ -1,9 +1,9 @@
-import { Property as PropertyDO, PropertyProps } from '../../contexts/property/property';
-import { PropertyRepository } from '../../contexts/property/property.repository';
-import { Property } from '../../../infrastructure/data-sources/cosmos-db/models/property';
-import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
-import { DomainExecutionContext } from '../../contexts/context';
-import { CommunityEntityReference } from '../../contexts/community/community';
+import { Property as PropertyDO, PropertyProps } from '../domain/contexts/property/property';
+import { PropertyRepository } from '../domain/contexts/property/property.repository';
+import { Property } from '../infrastructure/data-sources/cosmos-db/models/property';
+import { MongoRepositoryBase } from '../domain-seedwork-mongo/mongo-repository';
+import { DomainExecutionContext } from '../domain/contexts/context';
+import { CommunityEntityReference } from '../domain/contexts/community/community';
 
 export class MongoPropertyRepository<PropType extends PropertyProps>
   extends MongoRepositoryBase<DomainExecutionContext, Property, PropType, PropertyDO<PropType>>

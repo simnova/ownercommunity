@@ -4,10 +4,10 @@ import { ICognitiveSearch } from '../../infrastructure/services/cognitive-search
 import { SystemExecutionContext } from '../infrastructure/execution-context';
 import { ServiceTicketUpdatedEvent } from '../events/service-ticket-updated';
 import retry from 'async-retry';
-import { ServiceTicketUnitOfWork } from '../infrastructure/persistence/service-ticket.uow';
+import { ServiceTicketUnitOfWork } from '../../domain-impl-mongo/service-ticket.uow';
 import { ServiceTicket } from '../contexts/service-ticket/service-ticket';
-import { ServiceTicketDomainAdapter } from '../infrastructure/persistence/service-ticket.domain-adapter';
-import { MongoServiceTicketRepository } from '../infrastructure/persistence/service-ticket.mongo-repository';
+import { ServiceTicketDomainAdapter } from '../../domain-impl-mongo/service-ticket.domain-adapter';
+import { MongoServiceTicketRepository } from '../../domain-impl-mongo/service-ticket.mongo-repository';
 import dayjs from 'dayjs';
 
 const crypto = require('crypto');

@@ -1,9 +1,9 @@
-import { Role as RoleDO, RoleProps } from '../../contexts/community/role';
-import { RoleRepository } from '../../contexts/community/role.repository';
-import { Role } from '../../../infrastructure/data-sources/cosmos-db/models/role';
-import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
-import { DomainExecutionContext } from '../../contexts/context';
-import { CommunityEntityReference } from '../../contexts/community/community';
+import { Role as RoleDO, RoleProps } from '../domain/contexts/community/role';
+import { RoleRepository } from '../domain/contexts/community/role.repository';
+import { Role } from '../infrastructure/data-sources/cosmos-db/models/role';
+import { MongoRepositoryBase } from '../domain-seedwork-mongo/mongo-repository';
+import { DomainExecutionContext } from '../domain/contexts/context';
+import { CommunityEntityReference } from '../domain/contexts/community/community';
 
 export class MongoRoleRepository<PropType extends RoleProps>
   extends MongoRepositoryBase<DomainExecutionContext, Role, PropType, RoleDO<PropType>>

@@ -1,9 +1,9 @@
-import { Community as CommunityDO, CommunityProps } from '../../contexts/community/community';
-import { CommunityRepository } from '../../contexts/community/community.repository';
-import { Community } from '../../../infrastructure/data-sources/cosmos-db/models/community';
-import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
-import { DomainExecutionContext } from '../../contexts/context';
-import { UserEntityReference } from '../../contexts/user/user';
+import { Community as CommunityDO, CommunityProps } from '../domain/contexts/community/community';
+import { CommunityRepository } from '../domain/contexts/community/community.repository';
+import { Community } from '../infrastructure/data-sources/cosmos-db/models/community';
+import { MongoRepositoryBase } from '../domain-seedwork-mongo/mongo-repository';
+import { DomainExecutionContext } from '../domain/contexts/context';
+import { UserEntityReference } from '../domain/contexts/user/user';
 
 export class MongoCommunityRepository<PropType extends CommunityProps>
   extends MongoRepositoryBase<DomainExecutionContext, Community, PropType, CommunityDO<PropType>>

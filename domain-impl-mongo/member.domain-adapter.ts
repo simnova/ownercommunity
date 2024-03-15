@@ -1,18 +1,18 @@
-import { Member, Account, Profile, CustomView } from '../../../infrastructure/data-sources/cosmos-db/models/member';
+import { Member, Account, Profile, CustomView } from '../infrastructure/data-sources/cosmos-db/models/member';
 
-import { Member as MemberDO, MemberProps } from '../../contexts/community/member';
-import { MongooseDomainAdapter, MongoosePropArray } from '../core/mongo/mongo-domain-adapter';
-import { MongoTypeConverter } from '../core/mongo/mongo-type-converter';
-import { AccountProps } from '../../contexts/community/account';
+import { Member as MemberDO, MemberProps } from '../domain/contexts/community/member';
+import { MongooseDomainAdapter, MongoosePropArray } from '../domain-seedwork-mongo/mongo-domain-adapter';
+import { MongoTypeConverter } from '../domain-seedwork-mongo/mongo-type-converter';
+import { AccountProps } from '../domain/contexts/community/account';
 import { UserDomainAdapter } from './user.domain-adapter';
-import { CommunityEntityReference } from '../../contexts/community/community';
+import { CommunityEntityReference } from '../domain/contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { RoleDomainAdapter } from './role.domain-adapter';
-import { DomainExecutionContext } from '../../contexts/context';
-import { RoleEntityReference } from '../../contexts/community/role';
-import { ProfileProps } from '../../contexts/community/profile';
-import { UserEntityReference } from '../../contexts/user/user';
-import { CustomViewProps } from '../../contexts/community/custom-view';
+import { DomainExecutionContext } from '../domain/contexts/context';
+import { RoleEntityReference } from '../domain/contexts/community/role';
+import { ProfileProps } from '../domain/contexts/community/profile';
+import { UserEntityReference } from '../domain/contexts/user/user';
+import { CustomViewProps } from '../domain/contexts/community/custom-view';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {
   constructor() {

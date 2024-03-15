@@ -9,9 +9,9 @@ import { Property } from '../contexts/property/property';
 import { PropertyUpdatedEvent } from '../events/property-updated';
 import { NodeEventBus } from '../infrastructure/core/events/node-event-bus';
 import { SystemExecutionContext } from '../infrastructure/execution-context';
-import { PropertyDomainAdapter } from '../infrastructure/persistence/property.domain-adapter';
-import { MongoPropertyRepository } from '../infrastructure/persistence/property.mongo-repository';
-import { PropertyUnitOfWork } from '../infrastructure/persistence/property.uow';
+import { PropertyDomainAdapter } from '../../domain-impl-mongo/property.domain-adapter';
+import { MongoPropertyRepository } from '../../domain-impl-mongo/property.mongo-repository';
+import { PropertyUnitOfWork } from '../../domain-impl-mongo/property.uow';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from './property-search-index-format';
 
 export default (cognitiveSearch: ICognitiveSearch) => {

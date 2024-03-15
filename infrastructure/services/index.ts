@@ -4,11 +4,11 @@ import { Vercel, IVercel } from './vercel';
 import { CognitiveSearch, ICognitiveSearch } from './cognitive-search';
 import { BlobStorage, IBlobStorage } from './blob-storage';
 import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
-import { MongoCommunityUnitOfWork } from '../../domain/infrastructure/persistence/community.mongo-uow';
+import { MongoCommunityUnitOfWork } from '../../domain-impl-mongo/community.mongo-uow';
 import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
-import { MongoMemberUnitOfWork } from '../../domain/infrastructure/persistence/member.mongo-uow';
+import { MongoMemberUnitOfWork } from '../../domain-impl-mongo/member.mongo-uow';
 import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
-import { MongoRoleUnitOfWork } from '../../domain/infrastructure/persistence/role.mongo-uow';
+import { MongoRoleUnitOfWork } from '../../domain-impl-mongo/role.mongo-uow';
 export class Services implements IServices{
   private _vercel: IVercel;
   private _contentModerator: IContentModerator;

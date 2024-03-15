@@ -1,8 +1,8 @@
-import { User as UserDO, UserProps } from '../../contexts/user/user';
-import { UserRepository } from '../../contexts/user/user.repository';
-import { User } from '../../../infrastructure/data-sources/cosmos-db/models/user';
-import { MongoRepositoryBase } from '../core/mongo/mongo-repository';
-import { DomainExecutionContext } from '../../contexts/context';
+import { User as UserDO, UserProps } from '../domain/contexts/user/user';
+import { UserRepository } from '../domain/contexts/user/user.repository';
+import { User } from '../infrastructure/data-sources/cosmos-db/models/user';
+import { MongoRepositoryBase } from '../domain-seedwork-mongo/mongo-repository';
+import { DomainExecutionContext } from '../domain/contexts/context';
 
 export class MongoUserRepository<PropType extends UserProps>
   extends MongoRepositoryBase<DomainExecutionContext, User, PropType, UserDO<PropType>>

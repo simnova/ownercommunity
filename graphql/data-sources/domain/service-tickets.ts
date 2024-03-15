@@ -1,18 +1,18 @@
 import { ServiceTicket as ServiceTicketDO } from '../../../domain/contexts/service-ticket/service-ticket';
 import { Service as ServiceDO } from '../../../domain/contexts/service-ticket/service';
 import { Member as MemberDO } from '../../../domain/contexts/community/member';
-import { ServiceTicketConverter, ServiceTicketDomainAdapter } from '../../../domain/infrastructure/persistence/service-ticket.domain-adapter';
-import { MongoServiceTicketRepository } from '../../../domain/infrastructure/persistence/service-ticket.mongo-repository';
+import { ServiceTicketConverter, ServiceTicketDomainAdapter } from '../../../domain-impl-mongo/service-ticket.domain-adapter';
+import { MongoServiceTicketRepository } from '../../../domain-impl-mongo/service-ticket.mongo-repository';
 import { Context } from '../../context';
 import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput, ServiceTicketDeleteInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { ServiceTicket } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
 import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
-import { CommunityConverter } from '../../../domain/infrastructure/persistence/community.domain-adapter';
+import { CommunityConverter } from '../../../domain-impl-mongo/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
-import { MemberConverter } from '../../../domain/infrastructure/persistence/member.domain-adapter';
-import { ServiceConverter, ServiceDomainAdapter } from '../../../domain/infrastructure/persistence/service.domain-adapter';
-import { PropertyConverter } from '../../../domain/infrastructure/persistence/property.domain-adapter';
+import { MemberConverter } from '../../../domain-impl-mongo/member.domain-adapter';
+import { ServiceConverter, ServiceDomainAdapter } from '../../../domain-impl-mongo/service.domain-adapter';
+import { PropertyConverter } from '../../../domain-impl-mongo/property.domain-adapter';
 
 type PropType = ServiceTicketDomainAdapter;
 type DomainType = ServiceTicketDO<PropType>;

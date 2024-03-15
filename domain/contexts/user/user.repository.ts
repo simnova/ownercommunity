@@ -1,5 +1,5 @@
 import { User, UserProps } from './user';
-import { Repository } from '../../shared/repository';
+import { Repository } from '../../../domain-seedwork/repository';
 
 export interface UserRepository<props extends UserProps> extends Repository<User<props>> {
   delete(id:string): Promise<void>;

@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../shared/entity';
+import { Entity, EntityProps } from '../../../domain-seedwork/entity';
 import { CommunityPermissions, CommunityPermissionsEntityReference, CommunityPermissionsProps } from './community-permissions';
 import { CommunityVisa } from '../iam/community-visa';
 import { PropertyPermissions, PropertyPermissionsProps } from './property-permissions';

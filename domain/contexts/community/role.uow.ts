@@ -1,5 +1,5 @@
-import { UnitOfWork } from '../../shared/unit-of-work';
-import { DomainExecutionContext } from '../context';
+import { UnitOfWork } from '../../../domain-seedwork/unit-of-work';
+import { DomainExecutionContext } from '../execution-context';
 import { Role, RoleProps } from './role';
 import { RoleRepository } from './role.repository';
 

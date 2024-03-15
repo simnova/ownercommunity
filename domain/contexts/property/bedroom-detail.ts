@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../shared/entity';
+import { Entity, EntityProps } from '../../../domain-seedwork/entity';
 import { PropertyVisa } from '../iam/property-visa';
 import * as ValueObjects from './bedroom-detail.value-objects';
 

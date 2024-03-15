@@ -1,4 +1,4 @@
-import { CustomDomainEventImpl } from '../shared/domain-event';
+import { CustomDomainEventImpl } from '../../domain-seedwork/domain-event';
 
 export interface CommunityWhiteLabelDomainUpdatedProps {
   communityId: string;

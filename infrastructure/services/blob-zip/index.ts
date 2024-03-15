@@ -1,4 +1,4 @@
-import { IBlobStorage } from '../blob-storage';
+import { IBlobStorage } from '../../../domain/services/IBlobStorage';
 import archiver from 'archiver';
 import internal from 'stream';
 

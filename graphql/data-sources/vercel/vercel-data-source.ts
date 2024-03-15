@@ -1,6 +1,6 @@
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
-import { IVercel } from '../../../infrastructure/services/vercel';
+import { IVercel } from '../../../domain/services/IVercel';
 import { DataSource } from '../data-source';
 
 export class VercelDataSource<Context extends GraphQLContext> extends DataSource<Context> {

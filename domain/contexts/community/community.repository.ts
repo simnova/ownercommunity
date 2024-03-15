@@ -1,5 +1,5 @@
 import { Community, CommunityProps } from './community';
-import { Repository } from '../../shared/repository';
+import { Repository } from '../../../domain-seedwork/repository';
 import { UserEntityReference } from '../user/user';
 
 export interface CommunityRepository<props extends CommunityProps> extends Repository<Community<props>> {

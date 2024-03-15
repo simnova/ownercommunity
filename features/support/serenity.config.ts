@@ -6,8 +6,8 @@ import { SerenityBDDReporter } from '@serenity-js/serenity-bdd';
 import { resolve } from 'path';
 // import * as playwright from 'playwright';
 
-import { Actors } from './actors';
-import { InteractWithTheDomain } from './domain/abilities/interactWithTheDomain';
+import { Actors } from '../../screenplay/actors';
+import { InteractWithTheDomain } from '../../screenplay/abilities/domain/interact-with-the-domain';
 
 const projectRoot   = resolve(__dirname, '../..');
 

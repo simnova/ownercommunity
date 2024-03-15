@@ -1,13 +1,13 @@
-import { EntityProps } from '../../shared/entity';
+import { EntityProps } from '../../../domain-seedwork/entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { Property, PropertyEntityReference, PropertyProps } from '../property/property';
 import { MemberEntityReference, Member, MemberProps } from '../community/member';
 import { Service, ServiceEntityReference, ServiceProps } from './service';
-import { AggregateRoot } from '../../shared/aggregate-root';
-import { DomainExecutionContext } from '../context';
+import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
+import { DomainExecutionContext } from '../execution-context';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './service-ticket.value-objects';
-import { PropArray } from '../../shared/prop-array';
+import { PropArray } from '../../../domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';

@@ -1,10 +1,10 @@
 import { Before, Given, When, Then, DataTable, BeforeAll } from '@cucumber/cucumber';
 import { Actor, Notepad, TakeNotes } from '@serenity-js/core';
-import { InteractWithTheDomain } from '../support/domain/abilities/interactWithTheDomain';
-import { CreateRole } from '../support/tasks/create-role';
-import { CreateCommunity } from '../support/tasks/create-community';
+import { InteractWithTheDomain } from '../../screenplay/abilities/domain/interact-with-the-domain';
+import { CreateRole } from '../../screenplay/tasks/create-role';
+import { CreateCommunity } from '../../screenplay/tasks/create-community';
 
-import { Register } from '../support/tasks/register';
+import { Register } from '../../screenplay/tasks/register';
 
 // Before(function () {
 //   InteractWithTheDomain.init();

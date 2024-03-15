@@ -1,6 +1,6 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
-import { PropertyConverter } from '../../../domain/infrastructure/persistence/property.domain-adapter';
+import { PropertyConverter } from '../../../domain-services-impl/datastore-mongodb/property.domain-adapter';
 import { MutationStatus, PropertyBlobFileAuthHeaderResult } from '../../generated';
 import { nanoid } from 'nanoid';
 import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage';

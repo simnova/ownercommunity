@@ -1,4 +1,4 @@
-import { ValueObject, ValueObjectProps } from '../../shared/value-object';
+import { ValueObject, ValueObjectProps } from '../../../domain-seedwork/value-object';
 import { CommunityVisa } from '../iam/community-visa';
 import * as ValueObjects from './profile.value-objects';
 

@@ -1,13 +1,7 @@
 import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential } from '@azure/identity';
 import { SearchIndexClient, SearchClient, AzureKeyCredential, SearchIndex, SearchDocumentsResult } from '@azure/search-documents';
+import { ICognitiveSearch } from '../../../domain/services/ICognitiveSearch';
 
-export interface ICognitiveSearch {
-  createIndexIfNotExists(indexName:string, indexDefinition:SearchIndex): Promise<void>;
-  createOrUpdateIndex(indexName:string, indexDefinition:SearchIndex): Promise<void>;
-  search(indexName: string, searchText: string, options?: any): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
-  deleteDocument(indexName: string, document: any): Promise<void>;
-  indexDocument(indexName: string, document: any): Promise<void>;
-}
 export class CognitiveSearch implements ICognitiveSearch {
   private client: SearchIndexClient;
   private searchClients: Map<string, SearchClient<unknown>> = new Map<string, SearchClient<unknown>>();

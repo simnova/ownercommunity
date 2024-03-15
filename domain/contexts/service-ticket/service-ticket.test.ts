@@ -1,10 +1,10 @@
 import { ServiceTicket, ServiceTicketProps } from './service-ticket';
 import { ActivityDetailProps } from './activity-detail';
-import { PropArray } from '../../shared/prop-array';
+import { PropArray } from '../../../domain-seedwork/prop-array';
 import { CommunityEntityReference } from '../community/community';
 import { PropertyEntityReference } from '../property/property';
 import { MemberEntityReference } from '../community/member';
-import { DomainExecutionContext } from '../context';
+import { DomainExecutionContext } from '../execution-context';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';
 import { Passport } from '../iam/passport';
 

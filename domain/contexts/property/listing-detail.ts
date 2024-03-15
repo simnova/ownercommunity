@@ -1,5 +1,5 @@
-import { ValueObject, ValueObjectProps } from '../../shared/value-object';
-import { PropArray } from '../../shared/prop-array';
+import { ValueObject, ValueObjectProps } from '../../../domain-seedwork/value-object';
+import { PropArray } from '../../../domain-seedwork/prop-array';
 import { BedroomDetail, BedroomDetailProps, BedroomDetailReference } from './bedroom-detail';
 import { AdditionalAmenity, AdditionalAmenityProps, AdditionalAmenityReference } from './additional-amenity';
 import * as ValueObjects from './listing-detail.value-objects';

@@ -1,13 +1,13 @@
-import { IServices } from './IServices';
+import { IServices } from '../test/IServices';
 // import { ContentModerator, IContentModerator } from '../../../infrastructure/services/content-moderator';
 // import { Vercel, IVercel } from '../../../infrastructure/services/vercel';
 // import { CognitiveSearch, ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 // import { BlobStorage, IBlobStorage } from '../../../infrastructure/services/blob-storage';
 
-import { CommunityUnitOfWork } from '../../../domain/contexts/community/community.uow';
-import { MemberUnitOfWork } from '../../../domain/contexts/community/member.uow';
-import { RoleUnitOfWork } from '../../../domain/contexts/community/role.uow';
-import { IMemoryDatabase } from '../../../domain-impl-memorydb/memory-database';
+import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
+import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
+import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
+import { IMemoryDatabase } from '../infrastructure/memory-database';
 
 export class Services implements IServices{
   // private _vercel: IVercel;

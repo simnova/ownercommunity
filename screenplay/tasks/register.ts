@@ -1,5 +1,5 @@
 import { Actor, Interaction, Task } from '@serenity-js/core/lib/screenplay';
-import { InteractWithTheDomain } from '../domain/abilities/interactWithTheDomain';
+import { InteractWithTheDomain } from '../abilities/interact-with-the-domain';
 
 export const Register = ({
     asUser: () => Task.where(`#actor registers as user`,

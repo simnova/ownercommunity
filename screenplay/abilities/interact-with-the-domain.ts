@@ -1,24 +1,24 @@
 import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes} from '@serenity-js/core'
-import { IMemoryDatabase, MemoryDatabase } from '../../../../domain-impl-memorydb/memory-database';
-import { ReadOnlyMemoryStore } from '../../../../domain-seedwork-memorydb/memory-store';
-import { ExecutionContext } from '../../../../domain-seedwork/execution-context';
-import { CommunityRepository } from '../../../../domain/contexts/community/community.repository';
-import { CommunityEntityReference, CommunityProps } from '../../../../domain/contexts/community/community';
-import { UserRepository } from '../../../../domain/contexts/user/user.repository';
-import { UserEntityReference, UserProps } from '../../../../domain/contexts/user/user';
-import { RoleRepository } from '../../../../domain/contexts/community/role.repository';
-import { RoleProps } from '../../../../domain/contexts/community/role';
-import { MemberRepository } from '../../../../domain/contexts/community/member.repository';
-import { Member, MemberEntityReference, MemberProps } from '../../../../domain/contexts/community/member';
-import { DomainExecutionContext } from '../../../../domain/contexts/context';
-import { Services } from '../../services';
-import RegisterHandlers from '../register-event-handlers';
-import { ReadOnlyContext, SystemExecutionContext } from '../../../../domain/infrastructure/execution-context';
-import { PassportImpl } from '../../../../domain/contexts/iam/passport';
+import { IMemoryDatabase, MemoryDatabase } from '../../domain-impl-memorydb/infrastructure/memory-database';
+import { ReadOnlyMemoryStore } from '../../domain-seedwork-memorydb/memory-store';
+import { ExecutionContext } from '../../domain-seedwork/execution-context';
+import { CommunityRepository } from '../../domain/contexts/community/community.repository';
+import { CommunityEntityReference, CommunityProps } from '../../domain/contexts/community/community';
+import { UserRepository } from '../../domain/contexts/user/user.repository';
+import { UserEntityReference, UserProps } from '../../domain/contexts/user/user';
+import { RoleRepository } from '../../domain/contexts/community/role.repository';
+import { RoleProps } from '../../domain/contexts/community/role';
+import { MemberRepository } from '../../domain/contexts/community/member.repository';
+import { Member, MemberEntityReference, MemberProps } from '../../domain/contexts/community/member';
+import { DomainExecutionContext } from '../../domain/contexts/context';
+import { Services } from '../../domain-impl-memorydb/services';
+import RegisterHandlers from '../../domain-impl-memorydb/test/register-event-handlers';
+import { ReadOnlyContext, SystemExecutionContext } from '../../domain/infrastructure/execution-context';
+import { PassportImpl } from '../../domain/contexts/iam/passport';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
-import { NotepadType } from '../../actors';
+import { NotepadType } from '../actors';
 
 export interface InteractWithTheDomainAsUnregisteredUser {
   registerAsUser: (actor: Actor) => Promise<InteractWithTheDomainAsRegisteredUser>;

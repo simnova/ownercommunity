@@ -1,9 +1,9 @@
-import { MemoryBaseAdapter } from "../domain-seedwork-memorydb/memory-base-adapter";
-import { MemoryRepositoryBase } from "../domain-seedwork-memorydb/memory-repository";
-import { DomainExecutionContext } from "../domain/contexts/context";
-import { Community, CommunityProps } from "../domain/contexts/community/community";
-import { CommunityRepository } from "../domain/contexts/community/community.repository";
-import { UserEntityReference, UserProps } from "../domain/contexts/user/user";
+import { MemoryBaseAdapter } from "../../domain-seedwork-memorydb/memory-base-adapter";
+import { MemoryRepositoryBase } from "../../domain-seedwork-memorydb/memory-repository";
+import { DomainExecutionContext } from "../../domain/contexts/context";
+import { Community, CommunityProps } from "../../domain/contexts/community/community";
+import { CommunityRepository } from "../../domain/contexts/community/community.repository";
+import { UserEntityReference, UserProps } from "../../domain/contexts/user/user";
 
 export class MemoryCommunity extends MemoryBaseAdapter implements CommunityProps {
   name: string;

@@ -1,23 +1,23 @@
 // core
-import { EntityProps } from "../domain-seedwork/entity";
-import { ExecutionContext } from "../domain-seedwork/execution-context";
-import { MemoryUnitOfWork } from "../domain-seedwork-memorydb/memory-unit-of-work";
-import { MemoryStore, ReadOnlyMemoryStore } from "../domain-seedwork-memorydb/memory-store";
+import { EntityProps } from "../../domain-seedwork/entity";
+import { ExecutionContext } from "../../domain-seedwork/execution-context";
+import { MemoryUnitOfWork } from "../../domain-seedwork-memorydb/memory-unit-of-work";
+import { MemoryStore, ReadOnlyMemoryStore } from "../../domain-seedwork-memorydb/memory-store";
 // community
-import { Community, CommunityProps } from "../domain/contexts/community/community";
+import { Community, CommunityProps } from "../../domain/contexts/community/community";
 import { MemoryCommunityRepository } from "./community.memory-repository";
 import { buildMemoryCommunityUnitOfWork } from "./community.memory-uow"
 // user
-import { User, UserProps } from "../domain/contexts/user/user";
+import { User, UserProps } from "../../domain/contexts/user/user";
 import { MemoryUserRepository } from "./user.memory-repository";
 import { buildMemoryUserUnitOfWork } from "./user.memory-uow";
 // role
-import { Role, RoleProps } from "../domain/contexts/community/role";
+import { Role, RoleProps } from "../../domain/contexts/community/role";
 import { MemoryRoleRepository } from "./role.memory-repository";
 import { buildMemoryRoleUnitOfWork } from "./role.memory-uow";
 
 // member
-import { Member, MemberProps } from "../domain/contexts/community/member";
+import { Member, MemberProps } from "../../domain/contexts/community/member";
 import { MemoryMemberRepository } from "./member.memory-repository";
 import { buildMemoryMemberUnitOfWork } from "./member.memory-uow";
 

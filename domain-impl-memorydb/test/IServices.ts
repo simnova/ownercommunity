@@ -2,9 +2,9 @@
 // import { IVercel } from '../../../infrastructure/services/vercel';
 // import { ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 // import { IBlobStorage } from '../../../infrastructure/services/blob-storage';
-import { CommunityUnitOfWork } from '../../../domain/contexts/community/community.uow';
-import { MemberUnitOfWork } from '../../../domain/contexts/community/member.uow';
-import { RoleUnitOfWork } from '../../../domain/contexts/community/role.uow';
+import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
+import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
+import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
 
 export interface IServices {
   // vercel: IVercel;

@@ -1,16 +1,16 @@
-import { AccountProps } from "../domain/contexts/community/account";
-import { CommunityEntityReference, CommunityProps } from "../domain/contexts/community/community";
-import { CustomViewProps } from "../domain/contexts/community/custom-view";
-import { Member, MemberProps } from "../domain/contexts/community/member";
-import { MemberRepository } from "../domain/contexts/community/member.repository";
-import { ProfileProps } from "../domain/contexts/community/profile";
-import { RoleEntityReference, RoleProps } from "../domain/contexts/community/role";
-import { DomainExecutionContext } from "../domain/contexts/context";
-import { UserProps } from "../domain/contexts/user/user";
-import { EntityProps } from "../domain-seedwork/entity";
-import { MemoryBaseAdapter } from "../domain-seedwork-memorydb/memory-base-adapter";
-import { MemoryPropArray } from "../domain-seedwork-memorydb/memory-prop-array";
-import { MemoryRepositoryBase } from "../domain-seedwork-memorydb/memory-repository";
+import { AccountProps } from "../../domain/contexts/community/account";
+import { CommunityEntityReference, CommunityProps } from "../../domain/contexts/community/community";
+import { CustomViewProps } from "../../domain/contexts/community/custom-view";
+import { Member, MemberProps } from "../../domain/contexts/community/member";
+import { MemberRepository } from "../../domain/contexts/community/member.repository";
+import { ProfileProps } from "../../domain/contexts/community/profile";
+import { RoleEntityReference, RoleProps } from "../../domain/contexts/community/role";
+import { DomainExecutionContext } from "../../domain/contexts/context";
+import { UserProps } from "../../domain/contexts/user/user";
+import { EntityProps } from "../../domain-seedwork/entity";
+import { MemoryBaseAdapter } from "../../domain-seedwork-memorydb/memory-base-adapter";
+import { MemoryPropArray } from "../../domain-seedwork-memorydb/memory-prop-array";
+import { MemoryRepositoryBase } from "../../domain-seedwork-memorydb/memory-repository";
 
 
 class MemoryProfile implements ProfileProps {

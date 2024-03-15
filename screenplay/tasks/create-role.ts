@@ -1,6 +1,6 @@
 import { Actor, Question, Task, notes } from '@serenity-js/core/lib/screenplay';
-import { CommunityProps } from '../../../domain/contexts/community/community';
-import { InteractWithTheDomain } from '../domain/abilities/interactWithTheDomain';
+import { CommunityProps } from '../../domain/contexts/community/community';
+import { InteractWithTheDomain } from '../abilities/interact-with-the-domain';
 
 const GetCommunityInfo = (communityName: string) =>
     Question.about('User list contains user', async (actor: Actor) => {

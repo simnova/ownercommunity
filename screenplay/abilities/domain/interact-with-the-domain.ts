@@ -11,7 +11,7 @@ import { RoleProps } from '../../../domain/contexts/community/role';
 import { MemberRepository } from '../../../domain/contexts/community/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../domain/contexts/community/member';
 import { DomainExecutionContext } from '../../../domain/contexts/execution-context';
-import { Services } from './io/services';
+import { getServicesInstanceWithMemoryDb } from './io/services';
 import StartDomainImplMemoryDb from './io/test/start-domain-impl-memorydb';
 import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/execution-context';
 import { PassportImpl } from '../../../domain/contexts/iam/passport';
@@ -56,8 +56,7 @@ export class InteractWithTheDomain extends Ability
   public static init() {
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
-      const services = new Services(InteractWithTheDomain._database);
-      StartDomainImplMemoryDb(services);
+      StartDomainImplMemoryDb(getServicesInstanceWithMemoryDb(InteractWithTheDomain._database));
       // this._initialized = true;
     // }
   }

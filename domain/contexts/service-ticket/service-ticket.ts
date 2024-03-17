@@ -11,9 +11,9 @@ import { PropArray } from '../../../domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';
-import { ServiceTicketCreatedEvent } from '../../events/service-ticket-created';
-import { ServiceTicketUpdatedEvent } from '../../events/service-ticket-updated';
-import { ServiceTicketDeletedEvent } from '../../events/service-ticket-deleted';
+import { ServiceTicketCreatedEvent } from '../../events/types/service-ticket-created';
+import { ServiceTicketUpdatedEvent } from '../../events/types/service-ticket-updated';
+import { ServiceTicketDeletedEvent } from '../../events/types/service-ticket-deleted';
 
 export interface ServiceTicketProps extends EntityProps {
   readonly community: CommunityProps;

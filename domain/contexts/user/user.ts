@@ -1,4 +1,4 @@
-import { UserCreatedEvent } from '../../events/user-created';
+import { UserCreatedEvent } from '../../events/types/user-created';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../domain-seedwork/entity';
 import { DomainExecutionContext } from '../execution-context';

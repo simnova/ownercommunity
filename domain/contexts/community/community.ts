@@ -1,5 +1,5 @@
-import { CommunityCreatedEvent } from '../../events/community-created';
-import { CommunityDomainUpdatedEvent } from '../../events/community-domain-updated';
+import { CommunityCreatedEvent } from '../../events/types/community-created';
+import { CommunityDomainUpdatedEvent } from '../../events/types/community-domain-updated';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../domain-seedwork/entity';
 import { DomainExecutionContext } from '../execution-context';

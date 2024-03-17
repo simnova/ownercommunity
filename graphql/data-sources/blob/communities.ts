@@ -1,8 +1,8 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
-import { CommunityConverter } from '../../../domain-services-impl/datastore-mongodb/community.domain-adapter';
+import { CommunityConverter } from '../../../domain-impl/services/datastore/mongodb/infrastructure/community.domain-adapter';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../generated';
-import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage';
+import { BlobRequestSettings } from '../../../services-seedwork-blob-storage';
 
 export class Communities extends BlobDataSource<Context> {
   public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {

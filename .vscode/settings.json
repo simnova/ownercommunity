@@ -9,7 +9,9 @@
     "cSpell.words": [
         "datasource",
         "lucaspaganini",
-        "maxlength"
+        "maxlength",
+        "memorydb",
+        "seedwork"
     ],
     "sonarlint.connectedMode.project": {
         "projectKey": "simnova_ownercommuntiy-data-access",

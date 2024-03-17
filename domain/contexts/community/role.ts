@@ -4,7 +4,7 @@ import { Community, CommunityProps, CommunityEntityReference } from './community
 import { CommunityVisa } from '../iam/community-visa';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../execution-context';
-import { RoleDeletedReassignEvent } from '../../events/role-deleted-reassign';
+import { RoleDeletedReassignEvent } from '../../events/types/role-deleted-reassign';
 
 export interface RoleProps extends EntityProps {
   roleName: string;

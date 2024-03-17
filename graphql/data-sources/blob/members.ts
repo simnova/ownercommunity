@@ -1,8 +1,8 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
 import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } from '../../generated';
-import { MemberConverter } from '../../../domain-services-impl/datastore-mongodb/member.domain-adapter';
-import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage/blob-request';
+import { MemberConverter } from '../../../domain-impl/services/datastore/mongodb/infrastructure/member.domain-adapter';
+import { BlobRequestSettings } from '../../../services-seedwork-blob-storage/blob-request';
 
 export class Members extends BlobDataSource<Context> {
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {

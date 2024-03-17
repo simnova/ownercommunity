@@ -1,6 +1,6 @@
 import { Community, Resolvers, Service, ServiceMutationResult } from '../../generated';
 import { isValidObjectId } from 'mongoose';
-import { Service as ServiceDo } from '../../../infrastructure/data-sources/cosmos-db/models/service';
+import { Service as ServiceDo } from '../../../domain-impl/services/datastore/mongodb/models/service';
 
 
 const ServiceMutationResolver = async (getService:Promise<ServiceDo>): Promise<ServiceMutationResult> => {

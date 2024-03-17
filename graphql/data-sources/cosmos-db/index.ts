@@ -1,10 +1,10 @@
-import { UserModel } from '../../../infrastructure/data-sources/cosmos-db/models/user';
-import { RoleModel } from '../../../infrastructure/data-sources/cosmos-db/models/role';
-import { ServiceModel } from '../../../infrastructure/data-sources/cosmos-db/models/service';
-import { ServiceTicketModel } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
-import { MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
-import { CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/models/community';
-import { PropertyModel } from '../../../infrastructure/data-sources/cosmos-db/models/property';
+import { UserModel } from '../../../domain-impl/services/datastore/mongodb/models/user';
+import { RoleModel } from '../../../domain-impl/services/datastore/mongodb/models/role';
+import { ServiceModel } from '../../../domain-impl/services/datastore/mongodb/models/service';
+import { ServiceTicketModel } from '../../../domain-impl/services/datastore/mongodb/models/service-ticket';
+import { MemberModel } from '../../../domain-impl/services/datastore/mongodb/models/member';
+import { CommunityModel } from '../../../domain-impl/services/datastore/mongodb/models/community';
+import { PropertyModel } from '../../../domain-impl/services/datastore/mongodb/models/property';
 
 import { Users } from './users';
 import { Roles } from './roles';

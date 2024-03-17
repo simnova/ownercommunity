@@ -5,7 +5,7 @@
 // import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
 // import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
 // import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
-import { IDataStore } from '../../../../../domain/services/IDataStore';
+import { IDataStore } from '../../../../../domain/services/datastore/interfaces';
 
 export interface IServices {
   // vercel: IVercel;

@@ -1,6 +1,6 @@
 import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes} from '@serenity-js/core'
-import { IMemoryDatabase, MemoryDatabase } from '../../../domain-services-impl/datastore-memorydb/memory-database';
-import { ReadOnlyMemoryStore } from '../../../domain-seedwork-memorydb/memory-store';
+import { IMemoryDatabase, MemoryDatabase } from '../../../domain-impl/services/datastore/memorydb/infrastructure/memory-database';
+import { ReadOnlyMemoryStore } from '../../../domain-impl-seedwork-datastore-memorydb/memory-store';
 import { ExecutionContext } from '../../../domain-seedwork/execution-context';
 import { CommunityRepository } from '../../../domain/contexts/community/community.repository';
 import { CommunityEntityReference, CommunityProps } from '../../../domain/contexts/community/community';
@@ -12,7 +12,7 @@ import { MemberRepository } from '../../../domain/contexts/community/member.repo
 import { Member, MemberEntityReference, MemberProps } from '../../../domain/contexts/community/member';
 import { DomainExecutionContext } from '../../../domain/contexts/execution-context';
 import { Services } from './io/services';
-import RegisterHandlers from './io/test/register-event-handlers';
+import StartDomainImplMemoryDb from './io/test/start-domain-impl-memorydb';
 import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/execution-context';
 import { PassportImpl } from '../../../domain/contexts/iam/passport';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
@@ -57,7 +57,7 @@ export class InteractWithTheDomain extends Ability
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
       const services = new Services(InteractWithTheDomain._database);
-      RegisterHandlers(services);
+      StartDomainImplMemoryDb(services);
       // this._initialized = true;
     // }
   }

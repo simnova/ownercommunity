@@ -1,15 +1,15 @@
 import { ApolloServer, GraphQLRequestContext } from '@apollo/server';
-import { connect } from '../../infrastructure/data-sources/cosmos-db/connect';
+import { connect } from '../../services-seedwork-datastore-mongodb/connect';
 import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';
 import { PortalTokenValidation } from './extensions/portal-token-validation';
 import { combinedSchema } from './extensions/schema-builder';
-import RegisterHandlers from '../../domain/event-handlers/register-event-handlers';
+import StartDomain from '../../domain/start-domain';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
-import { Services } from '../../infrastructure/services';
+import { ServicesInstance } from '../../startup/services';
 
 export class ApolloServerRequestHandler {
   private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {
@@ -31,8 +31,7 @@ export class ApolloServerRequestHandler {
             console.log('Apollo Server Starting');
             await connect();
             portalTokenExtractor.Start();
-            const services = new Services();
-            RegisterHandlers(services);
+            StartDomain(ServicesInstance);
           },
           async onHealthCheck(): Promise<any> {
             // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health

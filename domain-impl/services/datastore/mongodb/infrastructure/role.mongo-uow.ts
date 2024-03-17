@@ -1,4 +1,4 @@
-import { MongoUnitOfWork } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-unit-of-work';
+import { MongoUnitOfWork } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
 import { RoleModel } from '../models/role';
 import { RoleConverter } from './role.domain-adapter';
 import { MongoRoleRepository } from './role.mongo-repository';

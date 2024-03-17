@@ -1,8 +1,8 @@
 // core
 import { EntityProps } from "../../../../../domain-seedwork/entity";
 import { ExecutionContext } from "../../../../../domain-seedwork/execution-context";
-import { MemoryUnitOfWork } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-unit-of-work";
-import { MemoryStore, ReadOnlyMemoryStore } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-store";
+import { MemoryUnitOfWork } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
+import { MemoryStore, ReadOnlyMemoryStore } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-store";
 // community
 import { Community, CommunityProps } from "../../../../../domain/contexts/community/community";
 import { MemoryCommunityRepository } from "./community.memory-repository";

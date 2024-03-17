@@ -1,7 +1,7 @@
 import { Service } from '../models/service';
 import { Service as ServiceDO, ServiceProps } from '../../../../../domain/contexts/service-ticket/service';
-import { MongooseDomainAdapter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-type-converter';
+import { MongooseDomainAdapter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
 import { CommunityProps } from '../../../../../domain/contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';

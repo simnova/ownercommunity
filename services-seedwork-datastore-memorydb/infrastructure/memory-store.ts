@@ -1,4 +1,4 @@
-import { EntityProps } from "../domain-seedwork/entity";
+import { EntityProps } from "../../domain-seedwork/entity";
 
 
 export interface ReadOnlyMemoryStore<PropType extends EntityProps> {

@@ -1,7 +1,7 @@
 import { Community as CommunityDO, CommunityProps } from '../../../../../domain/contexts/community/community';
 import { CommunityRepository } from '../../../../../domain/contexts/community/community.repository';
 import { Community } from '../models/community';
-import { MongoRepositoryBase } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-repository';
+import { MongoRepositoryBase } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../domain/contexts/execution-context';
 import { UserEntityReference } from '../../../../../domain/contexts/user/user';
 

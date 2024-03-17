@@ -1,4 +1,4 @@
-import { MongoUnitOfWork } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-unit-of-work';
+import { MongoUnitOfWork } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
 import { ServiceTicketModel } from '../models/service-ticket';
 import { ServiceTicketConverter } from './service-ticket.domain-adapter';
 import { MongoServiceTicketRepository } from './service-ticket.mongo-repository';

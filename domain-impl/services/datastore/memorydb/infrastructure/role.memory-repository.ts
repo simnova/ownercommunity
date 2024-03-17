@@ -3,8 +3,8 @@ import { PermissionsProps } from "../../../../../domain/contexts/community/permi
 import { Role, RoleProps } from "../../../../../domain/contexts/community/role";
 import { RoleRepository } from "../../../../../domain/contexts/community/role.repository";
 import { DomainExecutionContext } from "../../../../../domain/contexts/execution-context";
-import { MemoryBaseAdapter } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-base-adapter";
-import { MemoryRepositoryBase } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-repository";
+import { MemoryBaseAdapter } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
+import { MemoryRepositoryBase } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 
 
 export class MemoryCommunityPermissions extends MemoryBaseAdapter {

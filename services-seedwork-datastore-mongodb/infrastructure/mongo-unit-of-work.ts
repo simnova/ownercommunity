@@ -1,12 +1,12 @@
-import { PersistanceUnitOfWork } from '../domain-seedwork/unit-of-work';
-import { AggregateRoot } from '../domain-seedwork/aggregate-root';
+import { PersistanceUnitOfWork } from '../../domain-seedwork/unit-of-work';
+import { AggregateRoot } from '../../domain-seedwork/aggregate-root';
 import mongoose, { ClientSession,Model,Document } from 'mongoose';
 import { MongoRepositoryBase } from './mongo-repository';
-import { TypeConverter } from '../domain-seedwork/type-converter';
-import { EntityProps } from '../domain-seedwork/entity';
-import { EventBus } from '../domain-seedwork/event-bus';
-import { DomainEvent } from '../domain-seedwork/domain-event';
-import { ExecutionContext } from '../domain-seedwork/execution-context';
+import { TypeConverter } from '../../domain-seedwork/type-converter';
+import { EntityProps } from '../../domain-seedwork/entity';
+import { EventBus } from '../../domain-seedwork/event-bus';
+import { DomainEvent } from '../../domain-seedwork/domain-event';
+import { ExecutionContext } from '../../domain-seedwork/execution-context';
 
 export class MongoUnitOfWork<ContextType extends ExecutionContext, MongoType extends Document,PropType extends EntityProps, DomainType  extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<ContextType, MongoType,PropType,DomainType> > extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
   async withTransaction(context:ContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {

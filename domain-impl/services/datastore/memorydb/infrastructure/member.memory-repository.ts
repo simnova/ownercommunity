@@ -8,9 +8,9 @@ import { RoleEntityReference, RoleProps } from "../../../../../domain/contexts/c
 import { DomainExecutionContext } from "../../../../../domain/contexts/execution-context";
 import { UserProps } from "../../../../../domain/contexts/user/user";
 import { EntityProps } from "../../../../../domain-seedwork/entity";
-import { MemoryBaseAdapter } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-base-adapter";
-import { MemoryPropArray } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-prop-array";
-import { MemoryRepositoryBase } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-repository";
+import { MemoryBaseAdapter } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
+import { MemoryPropArray } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
+import { MemoryRepositoryBase } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 
 
 class MemoryProfile implements ProfileProps {

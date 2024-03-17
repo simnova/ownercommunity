@@ -1,7 +1,7 @@
 import { ActivityDetail, ServiceTicket, Photo } from '../models/service-ticket';
 import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../../../../domain/contexts/service-ticket/service-ticket';
-import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-type-converter';
+import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../domain/contexts/execution-context';
 import { CommunityEntityReference } from '../../../../../domain/contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';

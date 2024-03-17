@@ -4,8 +4,8 @@ import { MemberEntityReference } from '../../../../../domain/contexts/community/
 import { DomainExecutionContext } from '../../../../../domain/contexts/execution-context';
 import { LocationProps } from '../../../../../domain/contexts/property/location';
 import { Property as PropertyDO, PropertyProps } from '../../../../../domain/contexts/property/property';
-import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-type-converter';
+import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { MemberDomainAdapter } from './member.domain-adapter';
 import { ListingDetailProps } from '../../../../../domain/contexts/property/listing-detail';

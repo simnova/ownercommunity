@@ -1,7 +1,7 @@
 import { Service as ServiceDO, ServiceProps } from '../../../../../domain/contexts/service-ticket/service';
 import { ServiceRepository } from '../../../../../domain/contexts/service-ticket/service.repository';
 import { Service } from '../models/service';
-import { MongoRepositoryBase } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-repository';
+import { MongoRepositoryBase } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../domain/contexts/execution-context';
 import { CommunityEntityReference } from '../../../../../domain/contexts/community/community';
 

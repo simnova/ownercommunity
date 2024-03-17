@@ -1,4 +1,4 @@
-import { MongoUnitOfWork } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-unit-of-work';
+import { MongoUnitOfWork } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
 import { MemberModel } from '../models/member';
 import { MemberConverter } from './member.domain-adapter';
 import { MongoMemberRepository } from './member.mongo-repository';

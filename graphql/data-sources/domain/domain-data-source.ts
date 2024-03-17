@@ -1,6 +1,6 @@
 import { DataSource, DataSourceConfig } from '../data-source';
-import { MongoUnitOfWork } from '../../../domain-impl-seedwork-datastore-mongodb/mongo-unit-of-work';
-import { MongoRepositoryBase } from '../../../domain-impl-seedwork-datastore-mongodb/mongo-repository';
+import { MongoUnitOfWork } from '../../../services-seedwork-datastore-mongodb/infrastructure/mongo-unit-of-work';
+import { MongoRepositoryBase } from '../../../services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../domain-seedwork/entity';
 import { Document } from 'mongoose';

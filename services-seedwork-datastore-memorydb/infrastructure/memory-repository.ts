@@ -1,9 +1,9 @@
-import { AggregateRoot } from "../domain-seedwork/aggregate-root";
-import { EntityProps } from "../domain-seedwork/entity";
-import { Repository } from "../domain-seedwork/repository";
-import { ExecutionContext } from "../domain-seedwork/execution-context";
-import { EventBus } from "../domain-seedwork/event-bus";
-import { DomainEvent } from "../domain-seedwork/domain-event";
+import { AggregateRoot } from "../../domain-seedwork/aggregate-root";
+import { EntityProps } from "../../domain-seedwork/entity";
+import { Repository } from "../../domain-seedwork/repository";
+import { ExecutionContext } from "../../domain-seedwork/execution-context";
+import { EventBus } from "../../domain-seedwork/event-bus";
+import { DomainEvent } from "../../domain-seedwork/domain-event";
 import { MemoryStore } from "./memory-store";
 
 export class MemoryRepositoryBase<

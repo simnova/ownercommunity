@@ -1,8 +1,8 @@
 import { Member, Account, Profile, CustomView } from '../models/member';
 
 import { Member as MemberDO, MemberProps } from '../../../../../domain/contexts/community/member';
-import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-type-converter';
+import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { AccountProps } from '../../../../../domain/contexts/community/account';
 import { UserDomainAdapter } from './user.domain-adapter';
 import { CommunityEntityReference } from '../../../../../domain/contexts/community/community';

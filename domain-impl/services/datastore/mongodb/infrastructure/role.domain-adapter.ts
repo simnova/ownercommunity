@@ -7,8 +7,8 @@ import {
   ServiceTicketPermissions,
 } from '../models/role';
 import { Role as RoleDO, RoleProps } from '../../../../../domain/contexts/community/role';
-import { MongooseDomainAdapter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-type-converter';
+import { MongooseDomainAdapter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
 import { CommunityProps } from '../../../../../domain/contexts/community/community';
 import { CommunityPermissionsProps } from '../../../../../domain/contexts/community/community-permissions';

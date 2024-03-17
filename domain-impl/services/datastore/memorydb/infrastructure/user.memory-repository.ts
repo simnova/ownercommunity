@@ -1,8 +1,8 @@
 import { DomainExecutionContext } from "../../../../../domain/contexts/execution-context";
 import { UserProps, User } from "../../../../../domain/contexts/user/user";
 import { UserRepository } from "../../../../../domain/contexts/user/user.repository";
-import { MemoryRepositoryBase } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-repository";
-import { MemoryBaseAdapter } from "../../../../../domain-impl-seedwork-datastore-memorydb/memory-base-adapter";
+import { MemoryRepositoryBase } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-repository";
+import { MemoryBaseAdapter } from "../../../../../services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 
 export class MemoryUser extends MemoryBaseAdapter implements UserProps{
   externalId: string;

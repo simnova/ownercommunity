@@ -1,7 +1,7 @@
 import { Community } from '../models/community';
 import { Community as CommunityDO, CommunityProps } from '../../../../../domain/contexts/community/community';
-import { MongooseDomainAdapter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../domain-impl-seedwork-datastore-mongodb/mongo-type-converter';
+import { MongooseDomainAdapter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../domain/contexts/execution-context';
 import { UserEntityReference, UserProps } from '../../../../../domain/contexts/user/user';
 import { UserDomainAdapter } from './user.domain-adapter';

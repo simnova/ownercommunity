@@ -13,7 +13,7 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
         Register.asUser(),
         CreateCommunity.named(communityName),
     );
-  LogDatabase();
+  // LogDatabase();
   });
 
   When('{pronoun} creates {word} role in {word} community with following permissions:', async function(actor: Actor, roleName: string, communityName: string, dataTable: DataTable){
@@ -24,7 +24,7 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
           .asNewRoleNamed(roleName)
           .withPermissions(dataTable.rowsHash())
       );
-    LogDatabase();
+    // LogDatabase();
   });
   
 

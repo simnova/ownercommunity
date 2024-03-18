@@ -36,7 +36,7 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
 
   // using setters from TS 5.1
 
-  set CanManageRolesAndPermissions(value: boolean) {
+  set canManageRolesAndPermissions(value: boolean) {
     if (
       !this.visa.determineIf((permissions) => {
         const value = permissions.canManageRolesAndPermissions || permissions.isSystemAccount;
@@ -48,35 +48,35 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
     this.props.canManageRolesAndPermissions = value;
   }
 
-  set CanManageCommunitySettings(value: boolean) {
+  set canManageCommunitySettings(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission2');
     }
     this.props.canManageCommunitySettings = value;
   }
 
-  set CanManageSiteContent(value: boolean) {
+  set canManageSiteContent(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission3');
     }
     this.props.canManageSiteContent = value;
   }
 
-  set CanManageMembers(value: boolean) {
+  set canManageMembers(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageMembers = value;
   }
 
-  set CanEditOwnMemberProfile(value: boolean) {
+  set canEditOwnMemberProfile(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canEditOwnMemberProfile = value;
   }
 
-  set CanEditOwnMemberAccounts(value: boolean) {
+  set canEditOwnMemberAccounts(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }

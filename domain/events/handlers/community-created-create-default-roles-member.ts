@@ -25,12 +25,12 @@ export default (
     role = await repo.getNewInstance('admin', communityDo);
     role.isDefault=(true);
 
-    role.permissions.communityPermissions.CanManageRolesAndPermissions=(true);
-    role.permissions.communityPermissions.CanManageCommunitySettings=(true);
-    role.permissions.communityPermissions.CanManageSiteContent=(true);
-    role.permissions.communityPermissions.CanManageMembers=(true);
-    role.permissions.communityPermissions.CanEditOwnMemberProfile=(true);
-    role.permissions.communityPermissions.CanEditOwnMemberAccounts=(true);
+    role.permissions.communityPermissions.canManageRolesAndPermissions=(true);
+    role.permissions.communityPermissions.canManageCommunitySettings=(true);
+    role.permissions.communityPermissions.canManageSiteContent=(true);
+    role.permissions.communityPermissions.canManageMembers=(true);
+    role.permissions.communityPermissions.canEditOwnMemberProfile=(true);
+    role.permissions.communityPermissions.canEditOwnMemberAccounts=(true);
 
     role.permissions.propertyPermissions.canManageProperties=(true);
     role.permissions.propertyPermissions.canEditOwnProperty=(true);

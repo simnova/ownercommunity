@@ -78,7 +78,7 @@ export class MemoryRole extends MemoryBaseAdapter implements RoleProps {
   roleName: string;
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void{
-    this.community = community['props'] as CommunityProps;
+    this.community = community as CommunityProps;
   };
   isDefault: boolean;
   private _permissions: PermissionsProps;

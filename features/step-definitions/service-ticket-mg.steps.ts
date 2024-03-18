@@ -36,6 +36,7 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
       //         .withPermissions(['read', 'write']),
     );
     
+    /*
     (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
       console.log('===> database > community : ', JSON.stringify(db));
     });
@@ -79,6 +80,34 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
     });
     */
   });
+
+  When('{pronoun} creates {word} role in {word} community with following permissions:', async function(actor: Actor, roleName: string, communityName: string, dataTable: DataTable){
+    const permissions = dataTable.rowsHash();
+    console.log('===> permissions input: ', permissions);
+    await actor
+      .attemptsTo(
+        await CreateRole
+          .inCommunity(communityName)
+            .asNewRole(roleName)
+              .withPermissions(permissions)
+      );
+    // (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readCommunityDb(async (db) => {
+    //   console.log('===> database > community : ', JSON.stringify(db));
+    // });
+
+    // (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readUserDb(async (db) => {
+    //   console.log('===> database > user : ', JSON.stringify(db));
+    // });
+
+    (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readRoleDb(async (db) => {
+      console.log('===> database > role : ', JSON.stringify(db));
+    });
+
+    // (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).readMemberDb(async (db) => {
+    //   console.log('===> database > member : ', JSON.stringify(db));
+    // });
+  });
+  
 
 
 

@@ -29,12 +29,12 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
         input.roleName,
         communityDo);
 
-      roleDo.permissions.communityPermissions.CanManageRolesAndPermissions=(input.permissions.communityPermissions.canManageRolesAndPermissions);
-      roleDo.permissions.communityPermissions.CanManageCommunitySettings=(input.permissions.communityPermissions.canManageCommunitySettings);
-      roleDo.permissions.communityPermissions.CanManageSiteContent=(input.permissions.communityPermissions.canManageSiteContent);
-      roleDo.permissions.communityPermissions.CanManageMembers=(input.permissions.communityPermissions.canManageMembers);
-      roleDo.permissions.communityPermissions.CanEditOwnMemberProfile=(input.permissions.communityPermissions.canEditOwnMemberProfile);
-      roleDo.permissions.communityPermissions.CanEditOwnMemberAccounts=(input.permissions.communityPermissions.canEditOwnMemberAccounts);
+      roleDo.permissions.communityPermissions.canManageRolesAndPermissions=(input.permissions.communityPermissions.canManageRolesAndPermissions);
+      roleDo.permissions.communityPermissions.canManageCommunitySettings=(input.permissions.communityPermissions.canManageCommunitySettings);
+      roleDo.permissions.communityPermissions.canManageSiteContent=(input.permissions.communityPermissions.canManageSiteContent);
+      roleDo.permissions.communityPermissions.canManageMembers=(input.permissions.communityPermissions.canManageMembers);
+      roleDo.permissions.communityPermissions.canEditOwnMemberProfile=(input.permissions.communityPermissions.canEditOwnMemberProfile);
+      roleDo.permissions.communityPermissions.canEditOwnMemberAccounts=(input.permissions.communityPermissions.canEditOwnMemberAccounts);
 
       roleDo.permissions.propertyPermissions.canManageProperties=(input.permissions.propertyPermissions.canManageProperties);
       roleDo.permissions.propertyPermissions.canEditOwnProperty=(input.permissions.propertyPermissions.canEditOwnProperty);
@@ -61,12 +61,12 @@ export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,Rep
 
       roleDo.roleName=(input.roleName);
       
-      roleDo.permissions.communityPermissions.CanManageRolesAndPermissions=(input.permissions.communityPermissions.canManageRolesAndPermissions);
-      roleDo.permissions.communityPermissions.CanManageCommunitySettings=(input.permissions.communityPermissions.canManageCommunitySettings);
-      roleDo.permissions.communityPermissions.CanManageSiteContent=(input.permissions.communityPermissions.canManageSiteContent);
-      roleDo.permissions.communityPermissions.CanManageMembers=(input.permissions.communityPermissions.canManageMembers);
-      roleDo.permissions.communityPermissions.CanEditOwnMemberProfile=(input.permissions.communityPermissions.canEditOwnMemberProfile);
-      roleDo.permissions.communityPermissions.CanEditOwnMemberAccounts=(input.permissions.communityPermissions.canEditOwnMemberAccounts);
+      roleDo.permissions.communityPermissions.canManageRolesAndPermissions=(input.permissions.communityPermissions.canManageRolesAndPermissions);
+      roleDo.permissions.communityPermissions.canManageCommunitySettings=(input.permissions.communityPermissions.canManageCommunitySettings);
+      roleDo.permissions.communityPermissions.canManageSiteContent=(input.permissions.communityPermissions.canManageSiteContent);
+      roleDo.permissions.communityPermissions.canManageMembers=(input.permissions.communityPermissions.canManageMembers);
+      roleDo.permissions.communityPermissions.canEditOwnMemberProfile=(input.permissions.communityPermissions.canEditOwnMemberProfile);
+      roleDo.permissions.communityPermissions.canEditOwnMemberAccounts=(input.permissions.communityPermissions.canEditOwnMemberAccounts);
 
       roleDo.permissions.propertyPermissions.canManageProperties=(input.permissions.propertyPermissions.canManageProperties);
       roleDo.permissions.propertyPermissions.canEditOwnProperty=(input.permissions.propertyPermissions.canEditOwnProperty);

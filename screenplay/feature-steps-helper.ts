@@ -19,9 +19,9 @@ export const generatePermissions = <PermissionsType extends Object>(permissionLi
 }
 
 
-export const SystemExecutionContext = (): DomainExecutionContext => {
-  const context: DomainExecutionContext = {
-    passport: SystemPassport.GetInstance(),
-  };
-  return context;
-};
+// export const SystemExecutionContext = (): DomainExecutionContext => {
+//   const context: DomainExecutionContext = {
+//     passport: SystemPassport.GetInstance(),
+//   };
+//   return context;
+// };

@@ -1,5 +1,5 @@
-import { Member, MemberModel } from '../../../domain-impl/services/datastore/mongodb/models/member';
-import { RoleModel } from '../../../domain-impl/services/datastore/mongodb/models/role';
+import { Member, MemberModel } from '../../../services-impl/datastore/mongodb/models/member';
+import { RoleModel } from '../../../services-impl/datastore/mongodb/models/role';
 import { Context } from '../../context';
 import { Types } from 'mongoose';
 import { CosmosDataSource } from './cosmos-data-source';

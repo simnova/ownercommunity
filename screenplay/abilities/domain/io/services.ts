@@ -7,7 +7,7 @@ import { IServices } from './test/IServices';
 import { CommunityUnitOfWork } from '../../../../domain/contexts/community/community.uow';
 import { MemberUnitOfWork } from '../../../../domain/contexts/community/member.uow';
 import { RoleUnitOfWork } from '../../../../domain/contexts/community/role.uow';
-import { IMemoryDatabase } from '../../../../domain-impl/services/datastore/memorydb/infrastructure/memory-database';
+import { IMemoryDatabase } from '../../../../services-impl/datastore/memorydb/memory-database';
 import { IDataStore } from '../../../../domain/services/datastore/interfaces';
 
 class Services implements IServices{
@@ -108,4 +108,4 @@ class Services implements IServices{
   }
 }
 
-export const getServicesInstanceWithMemoryDb = (database: IMemoryDatabase) => Services.getInstance(database);
+export const getServicesInstanceBDD = (database: IMemoryDatabase) => Services.getInstance(database);

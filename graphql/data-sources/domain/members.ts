@@ -1,14 +1,14 @@
 import { Member as MemberDO } from '../../../domain/contexts/community/member';
-import { MemberConverter, MemberDomainAdapter } from '../../../domain-impl/services/datastore/mongodb/infrastructure/member.domain-adapter';
-import { MongoMemberRepository } from '../../../domain-impl/services/datastore/mongodb/infrastructure/member.mongo-repository';
+import { MemberConverter, MemberDomainAdapter } from '../../../services-impl/datastore/mongodb/infrastructure/member.domain-adapter';
+import { MongoMemberRepository } from '../../../services-impl/datastore/mongodb/infrastructure/member.mongo-repository';
 import { Context } from '../../context';
 import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
-import { Member } from '../../../domain-impl/services/datastore/mongodb/models/member';
-import { CommunityConverter } from '../../../domain-impl/services/datastore/mongodb/infrastructure/community.domain-adapter';
+import { Member } from '../../../services-impl/datastore/mongodb/models/member';
+import { CommunityConverter } from '../../../services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
-import { RoleConverter } from '../../../domain-impl/services/datastore/mongodb/infrastructure/role.domain-adapter';
-import { UserConverter } from '../../../domain-impl/services/datastore/mongodb/infrastructure/user.domain-adapter';
+import { RoleConverter } from '../../../services-impl/datastore/mongodb/infrastructure/role.domain-adapter';
+import { UserConverter } from '../../../services-impl/datastore/mongodb/infrastructure/user.domain-adapter';
 import { Interests } from '../../../domain/contexts/community/profile.value-objects';
 import { CustomViewColumnsToDisplay, CustomViewFilters } from '../../../domain/contexts/community/custom-view.value-objects';
 

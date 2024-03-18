@@ -1,6 +1,6 @@
 /** @format */
 
-import { Role } from "../../../domain-impl/services/datastore/mongodb/models/role";
+import { Role } from "../../../services-impl/datastore/mongodb/models/role";
 import { Context } from "../../context";
 import { CosmosDataSource } from "./cosmos-data-source";
 

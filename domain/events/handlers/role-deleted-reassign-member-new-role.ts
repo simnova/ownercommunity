@@ -1,8 +1,8 @@
-import { MongoMemberUnitOfWork } from '../../../domain-impl/services/datastore/mongodb/infrastructure/member.mongo-uow';
+import { MongoMemberUnitOfWork } from '../../../services-impl/datastore/mongodb/infrastructure/member.mongo-uow';
 import { SystemExecutionContext, ReadOnlyContext } from '../../contexts/execution-context';
 import { RoleDeletedReassignEvent } from '../types/role-deleted-reassign';
-import { RoleModel } from '../../../domain-impl/services/datastore/mongodb/models/role';
-import { RoleConverter } from '../../../domain-impl/services/datastore/mongodb/infrastructure/role.domain-adapter';
+import { RoleModel } from '../../../services-impl/datastore/mongodb/models/role';
+import { RoleConverter } from '../../../services-impl/datastore/mongodb/infrastructure/role.domain-adapter';
 import { EventBusInstance } from '../event-bus';
 
 export default (

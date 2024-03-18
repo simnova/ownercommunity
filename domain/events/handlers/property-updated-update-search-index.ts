@@ -8,7 +8,7 @@ import { ICognitiveSearch } from '../../services/cognitive-search/interfaces';
 import { Property, PropertyProps } from '../../contexts/property/property';
 import { PropertyUpdatedEvent } from '../types/property-updated';
 import { SystemExecutionContext } from '../../contexts/execution-context';
-import { MongoPropertyRepository } from '../../../domain-impl/services/datastore/mongodb/infrastructure/property.mongo-repository';
+import { MongoPropertyRepository } from '../../../services-impl/datastore/mongodb/infrastructure/property.mongo-repository';
 // import { PropertyUnitOfWork } from '../../../domain-impl/services/datastore/mongodb/infrastructure/property.mongo-uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property.uow';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../services/cognitive-search/property-search-index-format';

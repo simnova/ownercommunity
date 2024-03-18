@@ -1,17 +1,17 @@
 import { IServices } from '../domain/services';
-import { ContentModerator } from '../services-seedwork-content-moderator';
+import { ContentModerator } from '../services-impl/content-moderator';
 import { IContentModerator } from '../domain/services/content-moderator/interfaces';
-import { Vercel } from '../services-seedwork-vercel';
+import { Vercel } from '../services-impl/vercel';
 import { IVercel } from '../domain/services/vercel/interfaces';
-import { CognitiveSearch } from '../services-seedwork-cognitive-search';
+import { CognitiveSearch } from '../services-impl/cognitive-search';
 import { ICognitiveSearch } from '../domain/services/cognitive-search/interfaces';
-import { BlobStorage } from '../services-seedwork-blob-storage';
+import { BlobStorage } from '../services-impl/blob-storage';
 import { IBlobStorage } from '../domain/services/blob-storage/interfaces';
 import { IDataStore } from '../domain/services/datastore/interfaces';
-import { MongoCommunityUnitOfWork } from '../domain-impl/services/datastore/mongodb/infrastructure/community.mongo-uow';
-import { MongoMemberUnitOfWork } from '../domain-impl/services/datastore/mongodb/infrastructure/member.mongo-uow';
-import { MongoRoleUnitOfWork } from '../domain-impl/services/datastore/mongodb/infrastructure/role.mongo-uow';
-import { MongoPropertyUnitOfWork } from '../domain-impl/services/datastore/mongodb/infrastructure/property.mongo-uow';
+import { MongoCommunityUnitOfWork } from '../services-impl/datastore/mongodb/infrastructure/community.mongo-uow';
+import { MongoMemberUnitOfWork } from '../services-impl/datastore/mongodb/infrastructure/member.mongo-uow';
+import { MongoRoleUnitOfWork } from '../services-impl/datastore/mongodb/infrastructure/role.mongo-uow';
+import { MongoPropertyUnitOfWork } from '../services-impl/datastore/mongodb/infrastructure/property.mongo-uow';
 
 class Services implements IServices{
   private _vercel: IVercel;

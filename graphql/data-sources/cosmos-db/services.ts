@@ -1,4 +1,4 @@
-import { Service } from "../../../domain-impl/services/datastore/mongodb/models/service";
+import { Service } from "../../../services-impl/datastore/mongodb/models/service";
 import { Context } from "../../context";
 import { CosmosDataSource } from "./cosmos-data-source";
 

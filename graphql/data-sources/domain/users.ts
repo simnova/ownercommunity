@@ -1,10 +1,10 @@
 import { User as UserDO } from '../../../domain/contexts/user/user';
-import { UserConverter, UserDomainAdapter }from '../../../domain-impl/services/datastore/mongodb/infrastructure/user.domain-adapter';
-import { MongoUserRepository } from '../../../domain-impl/services/datastore/mongodb/infrastructure/user.mongo-repository';
+import { UserConverter, UserDomainAdapter }from '../../../services-impl/datastore/mongodb/infrastructure/user.domain-adapter';
+import { MongoUserRepository } from '../../../services-impl/datastore/mongodb/infrastructure/user.mongo-repository';
 import { Context } from '../../context';
 import { UserUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
-import { User } from '../../../domain-impl/services/datastore/mongodb/models/user';
+import { User } from '../../../services-impl/datastore/mongodb/models/user';
 
 type PropType = UserDomainAdapter;
 type DomainType = UserDO<PropType>;

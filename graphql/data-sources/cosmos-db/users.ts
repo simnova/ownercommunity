@@ -1,4 +1,4 @@
-import { User } from '../../../services-impl/datastore/mongodb/models/user';
+import { User } from '../../../infrastructure-impl/datastore/mongodb/models/user';
 import { Context } from '../../context';
 import { CosmosDataSource } from './cosmos-data-source';
 

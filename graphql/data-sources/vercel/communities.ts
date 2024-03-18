@@ -1,5 +1,5 @@
 import { VercelDataSource } from './vercel-data-source';
-import { DomainResponse } from '../../../domain/services/vercel/interfaces';
+import { DomainResponse } from '../../../domain/infrastructure/vercel/interfaces';
 import { Context } from '../../context';
 
 export class Communities extends VercelDataSource<Context> {

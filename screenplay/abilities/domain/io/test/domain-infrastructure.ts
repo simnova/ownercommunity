@@ -5,9 +5,9 @@
 // import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
 // import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
 // import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
-import { IDataStore } from '../../../../../domain/services/datastore/interfaces';
+import { IDataStore } from '../../../../../domain/infrastructure/datastore/interfaces';
 
-export interface IServices {
+export interface DomainInfrastructureBDD {
   // vercel: IVercel;
   // contentModerator: IContentModerator;
   // cognitiveSearch: ICognitiveSearch;

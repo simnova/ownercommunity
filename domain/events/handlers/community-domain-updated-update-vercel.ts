@@ -1,4 +1,4 @@
-import { IVercel } from '../../services/vercel/interfaces';
+import { IVercel } from '../../infrastructure/vercel/interfaces';
 import { EventBusInstance } from '../event-bus';
 import { CommunityDomainUpdatedEvent } from '../types/community-domain-updated';
 

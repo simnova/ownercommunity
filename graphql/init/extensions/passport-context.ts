@@ -3,12 +3,12 @@ import { Context } from "../../context";
 
 import { HttpRequest } from "@azure/functions";
 import { isValidObjectId } from "mongoose";
-import { CommunityConverter } from '../../../services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
-import { MemberConverter } from '../../../services-impl/datastore/mongodb/infrastructure/member.domain-adapter';
-import { UserConverter } from '../../../services-impl/datastore/mongodb/infrastructure/user.domain-adapter';
-import { Community, CommunityModel } from "../../../services-impl/datastore/mongodb/models/community";
-import { MemberModel } from "../../../services-impl/datastore/mongodb/models/member";
-import { UserModel } from "../../../services-impl/datastore/mongodb/models/user";
+import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
+import { MemberConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.domain-adapter';
+import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';
+import { Community, CommunityModel } from "../../../infrastructure-impl/datastore/mongodb/models/community";
+import { MemberModel } from "../../../infrastructure-impl/datastore/mongodb/models/member";
+import { UserModel } from "../../../infrastructure-impl/datastore/mongodb/models/user";
 import { PortalTokenValidation } from "./portal-token-validation";
 import * as util from './util';
 

@@ -1,4 +1,4 @@
-import { IBlobStorage } from '../../services/blob-storage/interfaces';
+import { IBlobStorage } from '../../infrastructure/blob-storage/interfaces';
 import { EventBusInstance } from '../event-bus';
 import { CommunityWhiteLabelDomainUpdatedEvent } from '../types/community-white-label-domain-updated';
 

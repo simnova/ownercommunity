@@ -1,5 +1,5 @@
 import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes} from '@serenity-js/core'
-import { IMemoryDatabase, MemoryDatabase } from '../../../services-impl/datastore/memorydb/memory-database';
+import { IMemoryDatabase, MemoryDatabase } from '../../../infrastructure-impl/datastore/memorydb/memory-database';
 import { ReadOnlyMemoryStore } from '../../../services-seedwork-datastore-memorydb/infrastructure/memory-store';
 import { ExecutionContext } from '../../../domain-seedwork/execution-context';
 import { CommunityRepository } from '../../../domain/contexts/community/community.repository';
@@ -11,8 +11,8 @@ import { RoleProps } from '../../../domain/contexts/community/role';
 import { MemberRepository } from '../../../domain/contexts/community/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../domain/contexts/community/member';
 import { DomainExecutionContext } from '../../../domain/contexts/execution-context';
-import { getServicesInstanceBDD } from './io/services';
-import StartDomainImplMemoryDb from './io/test/start-domain-impl-memorydb';
+import { getDomainInfrastructureImplInstanceBDD } from './io/domain-infrastructure-impl-instance-bdd';
+import InitializeDomainBDD from './io/test/initialize-domain-bdd';
 import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/execution-context';
 import { PassportImpl } from '../../../domain/contexts/iam/passport';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
@@ -56,7 +56,7 @@ export class InteractWithTheDomain extends Ability
   public static init() {
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
-      StartDomainImplMemoryDb(getServicesInstanceBDD(InteractWithTheDomain._database));
+      InitializeDomainBDD(getDomainInfrastructureImplInstanceBDD(InteractWithTheDomain._database));
       // this._initialized = true;
     // }
   }

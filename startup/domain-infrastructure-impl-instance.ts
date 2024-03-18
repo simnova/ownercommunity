@@ -1,19 +1,19 @@
-import { IServices } from '../domain/services';
-import { ContentModerator } from '../services-impl/content-moderator';
-import { IContentModerator } from '../domain/services/content-moderator/interfaces';
-import { Vercel } from '../services-impl/vercel';
-import { IVercel } from '../domain/services/vercel/interfaces';
-import { CognitiveSearch } from '../services-impl/cognitive-search';
-import { ICognitiveSearch } from '../domain/services/cognitive-search/interfaces';
-import { BlobStorage } from '../services-impl/blob-storage';
-import { IBlobStorage } from '../domain/services/blob-storage/interfaces';
-import { IDataStore } from '../domain/services/datastore/interfaces';
-import { MongoCommunityUnitOfWork } from '../services-impl/datastore/mongodb/infrastructure/community.mongo-uow';
-import { MongoMemberUnitOfWork } from '../services-impl/datastore/mongodb/infrastructure/member.mongo-uow';
-import { MongoRoleUnitOfWork } from '../services-impl/datastore/mongodb/infrastructure/role.mongo-uow';
-import { MongoPropertyUnitOfWork } from '../services-impl/datastore/mongodb/infrastructure/property.mongo-uow';
+import { DomainInfrastructure } from '../domain/infrastructure';
+import { ContentModerator } from '../infrastructure-impl/content-moderator';
+import { IContentModerator } from '../domain/infrastructure/content-moderator/interfaces';
+import { Vercel } from '../infrastructure-impl/vercel';
+import { IVercel } from '../domain/infrastructure/vercel/interfaces';
+import { CognitiveSearch } from '../infrastructure-impl/cognitive-search';
+import { ICognitiveSearch } from '../domain/infrastructure/cognitive-search/interfaces';
+import { BlobStorage } from '../infrastructure-impl/blob-storage';
+import { IBlobStorage } from '../domain/infrastructure/blob-storage/interfaces';
+import { IDataStore } from '../domain/infrastructure/datastore/interfaces';
+import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
+import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
+import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';
+import { MongoPropertyUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/property.mongo-uow';
 
-class Services implements IServices{
+class DomainInfrastructureImpl implements DomainInfrastructure{
   private _vercel: IVercel;
   private _contentModerator: IContentModerator;
   private _cognitiveSearch: ICognitiveSearch;
@@ -86,8 +86,8 @@ class Services implements IServices{
     };
   }
 
-  private static instance: Services;
-  public static getInstance(): Services {
+  private static instance: DomainInfrastructureImpl;
+  public static getInstance(): DomainInfrastructureImpl {
     if (!this.instance) {
       this.instance = new this();
     }
@@ -95,4 +95,4 @@ class Services implements IServices{
   }
 }
 
-export const ServicesInstance = Services.getInstance();
+export const DomainInfrastructureImplInstance = DomainInfrastructureImpl.getInstance();

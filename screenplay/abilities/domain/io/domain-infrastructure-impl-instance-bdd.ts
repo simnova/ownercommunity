@@ -1,4 +1,4 @@
-import { IServices } from './test/IServices';
+import { DomainInfrastructureBDD } from './test/domain-infrastructure';
 // import { ContentModerator, IContentModerator } from '../../../infrastructure/services/content-moderator';
 // import { Vercel, IVercel } from '../../../infrastructure/services/vercel';
 // import { CognitiveSearch, ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
@@ -7,10 +7,10 @@ import { IServices } from './test/IServices';
 import { CommunityUnitOfWork } from '../../../../domain/contexts/community/community.uow';
 import { MemberUnitOfWork } from '../../../../domain/contexts/community/member.uow';
 import { RoleUnitOfWork } from '../../../../domain/contexts/community/role.uow';
-import { IMemoryDatabase } from '../../../../services-impl/datastore/memorydb/memory-database';
-import { IDataStore } from '../../../../domain/services/datastore/interfaces';
+import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memorydb/memory-database';
+import { IDataStore } from '../../../../domain/infrastructure/datastore/interfaces';
 
-class Services implements IServices{
+class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   // private _vercel: IVercel;
   // private _contentModerator: IContentModerator;
   // private _cognitiveSearch: ICognitiveSearch;
@@ -99,8 +99,8 @@ class Services implements IServices{
     }
   }
 
-  private static instance: Services;
-  public static getInstance(database: IMemoryDatabase): Services {
+  private static instance: DomainInfrastructureImplBDD;
+  public static getInstance(database: IMemoryDatabase): DomainInfrastructureImplBDD {
     if (!this.instance) {
       this.instance = new this(database);
     }
@@ -108,4 +108,4 @@ class Services implements IServices{
   }
 }
 
-export const getServicesInstanceBDD = (database: IMemoryDatabase) => Services.getInstance(database);
+export const getDomainInfrastructureImplInstanceBDD = (database: IMemoryDatabase) => DomainInfrastructureImplBDD.getInstance(database);

@@ -1,4 +1,4 @@
-import { IServices } from './services';
+import { DomainInfrastructure } from './infrastructure';
 import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from './events/handlers/community-created-create-default-roles-member';
 import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from './events/handlers/role-deleted-reassign-member-new-role';
 import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from './events/handlers/community-created-create-blob-container';
@@ -10,22 +10,22 @@ import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './ev
 import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from './events/handlers/service-ticket-updated-update-search-index';
 import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-deleted-update-search-index';
 
-const StartDomain = (services: IServices) => {
+const InitializeDomain = (infrastructure: DomainInfrastructure) => {
   // Register all event handlers
   RegisterCommunityCreatedCreateDefaultRolesMemberHandler(
-    services.dataStore.communityUnitOfWork,
-    services.dataStore.roleUnitOfWork,
-    services.dataStore.memberUnitOfWork
+    infrastructure.dataStore.communityUnitOfWork,
+    infrastructure.dataStore.roleUnitOfWork,
+    infrastructure.dataStore.memberUnitOfWork
   );
   RegisterRoleDeletedReassignMemberNewRoleHandler();
-  RegisterCommunityCreatedCreateBlobContainerHandler(services.blobStorage);
-  RegisterCommunityDomainUpdatedUpdateDomainBlobHandler(services.blobStorage);
-  RegisterCommunityDomainUpdatedUpdateVercel(services.vercel);
-  RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler(services.blobStorage);
-  RegisterPropertyDeletedUpdateSearchIndexHandler(services.cognitiveSearch);
-  RegisterPropertyUpdatedUpdateSearchIndexHandler(services.cognitiveSearch, services.dataStore.propertyUnitOfWork);
-  RegisterServiceTicketUpdatedUpdateSearchIndexHandler(services.cognitiveSearch, services.dataStore.serviceTicketUnitOfWork);
-  RegisterServiceTicketDeletedUpdateSearchIndexHandler(services.cognitiveSearch);
+  RegisterCommunityCreatedCreateBlobContainerHandler(infrastructure.blobStorage);
+  RegisterCommunityDomainUpdatedUpdateDomainBlobHandler(infrastructure.blobStorage);
+  RegisterCommunityDomainUpdatedUpdateVercel(infrastructure.vercel);
+  RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler(infrastructure.blobStorage);
+  RegisterPropertyDeletedUpdateSearchIndexHandler(infrastructure.cognitiveSearch);
+  RegisterPropertyUpdatedUpdateSearchIndexHandler(infrastructure.cognitiveSearch, infrastructure.dataStore.propertyUnitOfWork);
+  RegisterServiceTicketUpdatedUpdateSearchIndexHandler(infrastructure.cognitiveSearch, infrastructure.dataStore.serviceTicketUnitOfWork);
+  RegisterServiceTicketDeletedUpdateSearchIndexHandler(infrastructure.cognitiveSearch);
 };
 
-export default StartDomain;
+export default InitializeDomain;

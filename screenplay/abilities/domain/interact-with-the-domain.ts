@@ -40,6 +40,12 @@ export interface InteractWithTheDomainAsCommunityMember {
   readUserDb: (func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
 }
 
+export interface InteractWithTheDomainAsReadOnly {
+  readCommunityDb: (func:(db: ReadOnlyMemoryStore<CommunityProps>) => Promise<void>) => Promise<void>;
+  readRoleDb: (func:(db: ReadOnlyMemoryStore<RoleProps>) => Promise<void>) => Promise<void>;
+  readMemberDb: (func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
+  readUserDb: (func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
+}
 
 export class InteractWithTheDomain extends Ability 
   implements InteractWithTheDomainAsRegisteredUser, 
@@ -68,7 +74,7 @@ export class InteractWithTheDomain extends Ability
 
   private async getCommunityByName(communityName: string): Promise<CommunityEntityReference> {
     let community: CommunityEntityReference;
-    await InteractWithTheDomain.asSystem().readCommunityDb(async (db) => {
+    await InteractWithTheDomain.asReadOnly().readCommunityDb(async (db) => {
       community = db?.getAll()?.find(c => c.name === communityName);
     });
     return community;
@@ -76,7 +82,7 @@ export class InteractWithTheDomain extends Ability
 
   private async getMemberByUserAndCommunity(userExternalId: string, communityName: string): Promise<MemberEntityReference> {
     let member: MemberProps;
-    await InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
+    await InteractWithTheDomain.asReadOnly().readMemberDb(async (db) => {
       member = db?.getAll()?.find(c => c.community.name === communityName && c.accounts.items.find(a => a.user.externalId === userExternalId));
     });
     return new Member(member, ReadOnlyContext());
@@ -91,8 +97,8 @@ export class InteractWithTheDomain extends Ability
   }
 
   // [MG-TBD] - make it as no-context
-  public static asSystem(): InteractWithTheDomainAsCommunityMember{
-    return this.using(SystemExecutionContext());
+  public static asReadOnly(): InteractWithTheDomainAsReadOnly{
+    return this.using(ReadOnlyContext());
   }
 
 
@@ -102,7 +108,7 @@ export class InteractWithTheDomain extends Ability
     const lastName = await notes<NotepadType>().get('user').lastName.answeredBy(actorInTheSpotlight());
   
     let user: UserEntityReference;
-    await InteractWithTheDomain.asSystem().readUserDb(async (db) => {
+    await InteractWithTheDomain.asReadOnly().readUserDb(async (db) => {
       user = db?.getAll()?.find(user => user.externalId === externalId);
     });
     if(user) {
@@ -128,21 +134,20 @@ export class InteractWithTheDomain extends Ability
   }
 
   // asSystem() is okay here because we don't have a domain execution context for non-community functions
-  public createCommunity = async (communityName: string): Promise<CommunityProps> => {
-    let community: CommunityProps;
-    await InteractWithTheDomain.asSystem().actOnCommunity(async (repo) => {
-      const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
-      const communityToBeSaved = await repo.getNewInstance(communityName, user);
-      const savedCommunity = await repo.save(communityToBeSaved);
-      community = savedCommunity['props'] as CommunityProps;
-    });
-    return community;
-  }
+  // public createCommunity = async (communityName: string): Promise<CommunityProps> => {
+  //   let community: CommunityProps;
+  //   await InteractWithTheDomain.asUser(actorInTheSpotlight()).actOnCommunity(async (repo) => {
+  //     const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+  //     const communityToBeSaved = await repo.getNewInstance(communityName, user);
+  //     const savedCommunity = await repo.save(communityToBeSaved);
+  //     community = savedCommunity['props'] as CommunityProps;
+  //   });
+  //   return community;
+  // }
 
-  // asSystem() is okay here because we don't have a domain execution context for non-community functions
   public getMyCommunities = async(): Promise<CommunityProps[]> => {
     let communities: CommunityProps[];
-    await InteractWithTheDomain.asSystem().readMemberDb(async (db) => {
+    await InteractWithTheDomain.asReadOnly().readMemberDb(async (db) => {
       const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
       communities = db?.getAll()?.filter(c => c.accounts.items.find(a => a.user.externalId === user.externalId))?.map(c => c.community);
     });
@@ -153,7 +158,6 @@ export class InteractWithTheDomain extends Ability
     return this.asMemberOf(communityName);
   }
   
-  // public async registerAsUser (actor: Actor): Promise<InteractWithTheDomainAsRegisteredUser> {
   public async registerAsUser (actor: Actor): Promise<InteractWithTheDomainAsRegisteredUser> {
     const interactWithTheDomain = InteractWithTheDomain.using(ReadOnlyContext());
     await interactWithTheDomain.getOrCreateUserForActor(actor);
@@ -194,6 +198,16 @@ export class InteractWithTheDomain extends Ability
   // and Questions to retrieve information about its state.
 
 
+  public async createCommunity(communityName: string): Promise<CommunityProps> {
+    let community: CommunityProps;
+    InteractWithTheDomain._database.CommunityUnitOfWork.withTransaction(this.context, async (repo) => {
+        const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+        const communityToBeSaved = await repo.getNewInstance(communityName, user);
+        const savedCommunity = await repo.save(communityToBeSaved);
+         community  = savedCommunity['props'] as CommunityProps;
+    });
+    return community;
+  }
   // community
   public async actOnCommunity(func:(repo:CommunityRepository<CommunityProps>) => Promise<void>): Promise<void> {
     InteractWithTheDomain._database.CommunityUnitOfWork.withTransaction(this.context, async (repo) => {

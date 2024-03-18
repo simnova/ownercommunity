@@ -1,10 +1,10 @@
-import { UserUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/user.uow';
-import { MongoCommunityUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/community.mongo-uow';
-import { MongoMemberUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/member.mongo-uow';
-import { MongoRoleUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/role.mongo-uow';
-import { PropertyUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/property.uow';
-import { ServiceUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/service.uow';
-import { ServiceTicketUnitOfWork } from '../../../domain-services-impl/datastore-mongodb/service-ticket.uow';
+import { MongoUserUnitOfWork } from '../../../services-impl/datastore/mongodb/infrastructure/user.uow';
+import { MongoCommunityUnitOfWork } from '../../../services-impl/datastore/mongodb/infrastructure/community.mongo-uow';
+import { MongoMemberUnitOfWork } from '../../../services-impl/datastore/mongodb/infrastructure/member.mongo-uow';
+import { MongoRoleUnitOfWork } from '../../../services-impl/datastore/mongodb/infrastructure/role.mongo-uow';
+import { MongoPropertyUnitOfWork } from '../../../services-impl/datastore/mongodb/infrastructure/property.mongo-uow';
+import { MongoServiceUnitOfWork } from '../../../services-impl/datastore/mongodb/infrastructure/service.uow';
+import { MongoServiceTicketUnitOfWork } from '../../../services-impl/datastore/mongodb/infrastructure/service-ticket.uow';
 
 import { Users } from './users';
 import { Communities } from './communities';
@@ -16,7 +16,7 @@ import { ServiceTickets } from './service-tickets';
 
 export {
   Users as UserDomainAPI,
-  UserUnitOfWork,
+  MongoUserUnitOfWork as UserUnitOfWork,
   Communities as CommunityDomainAPI,
   MongoCommunityUnitOfWork as CommunityUnitOfWork,
   Members as MemberDomainAPI,
@@ -24,9 +24,9 @@ export {
   Roles as RoleDomainAPI,
   MongoRoleUnitOfWork as RoleUnitOfWork,
   Properties as PropertyDomainAPI,
-  PropertyUnitOfWork,
+  MongoPropertyUnitOfWork as PropertyUnitOfWork,
   Services as ServiceDomainAPI,
-  ServiceUnitOfWork,
+  MongoServiceUnitOfWork as ServiceUnitOfWork,
   ServiceTickets as ServiceTicketDomainAPI,
-  ServiceTicketUnitOfWork
+  MongoServiceTicketUnitOfWork as ServiceTicketUnitOfWork
 }

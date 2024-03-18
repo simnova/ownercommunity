@@ -1,7 +1,7 @@
 import { DataSource } from "../data-source";
 import { Context as GraphQLContext } from "../../context";
 import { Passport } from "../../../domain/contexts/iam/passport";
-import { ICognitiveSearch } from '../../../domain/services/ICognitiveSearch';
+import { ICognitiveSearch } from '../../../domain/services/cognitive-search/interfaces';
 
 export class CognitiveSearchDataSource<Context extends GraphQLContext> extends DataSource<Context> {
 

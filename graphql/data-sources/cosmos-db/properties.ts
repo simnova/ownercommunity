@@ -1,5 +1,5 @@
-import { MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
-import { Property, PropertyModel } from '../../../infrastructure/data-sources/cosmos-db/models/property';
+import { MemberModel } from '../../../services-impl/datastore/mongodb/models/member';
+import { Property, PropertyModel } from '../../../services-impl/datastore/mongodb/models/property';
 import { Context } from '../../context';
 import { Types } from 'mongoose';
 import { CosmosDataSource } from './cosmos-data-source';

@@ -1,18 +1,18 @@
 import { ServiceTicket as ServiceTicketDO } from '../../../domain/contexts/service-ticket/service-ticket';
 import { Service as ServiceDO } from '../../../domain/contexts/service-ticket/service';
 import { Member as MemberDO } from '../../../domain/contexts/community/member';
-import { ServiceTicketConverter, ServiceTicketDomainAdapter } from '../../../domain-services-impl/datastore-mongodb/service-ticket.domain-adapter';
-import { MongoServiceTicketRepository } from '../../../domain-services-impl/datastore-mongodb/service-ticket.mongo-repository';
+import { ServiceTicketConverter, ServiceTicketDomainAdapter } from '../../../services-impl/datastore/mongodb/infrastructure/service-ticket.domain-adapter';
+import { MongoServiceTicketRepository } from '../../../services-impl/datastore/mongodb/infrastructure/service-ticket.mongo-repository';
 import { Context } from '../../context';
 import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput, ServiceTicketDeleteInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
-import { ServiceTicket } from '../../../infrastructure/data-sources/cosmos-db/models/service-ticket';
-import { Member } from '../../../infrastructure/data-sources/cosmos-db/models/member';
-import { CommunityConverter } from '../../../domain-services-impl/datastore-mongodb/community.domain-adapter';
+import { ServiceTicket } from '../../../services-impl/datastore/mongodb/models/service-ticket';
+import { Member } from '../../../services-impl/datastore/mongodb/models/member';
+import { CommunityConverter } from '../../../services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
-import { MemberConverter } from '../../../domain-services-impl/datastore-mongodb/member.domain-adapter';
-import { ServiceConverter, ServiceDomainAdapter } from '../../../domain-services-impl/datastore-mongodb/service.domain-adapter';
-import { PropertyConverter } from '../../../domain-services-impl/datastore-mongodb/property.domain-adapter';
+import { MemberConverter } from '../../../services-impl/datastore/mongodb/infrastructure/member.domain-adapter';
+import { ServiceConverter, ServiceDomainAdapter } from '../../../services-impl/datastore/mongodb/infrastructure/service.domain-adapter';
+import { PropertyConverter } from '../../../services-impl/datastore/mongodb/infrastructure/property.domain-adapter';
 
 type PropType = ServiceTicketDomainAdapter;
 type DomainType = ServiceTicketDO<PropType>;

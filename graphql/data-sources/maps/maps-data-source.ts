@@ -1,7 +1,7 @@
 import { DataSource, DataSourceConfig } from '../data-source';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
-import { Maps } from '../../../infrastructure/services/maps';
+import { Maps } from '../../../services-seedwork-maps';
 
 export class MapsDataSource<Context extends GraphQLContext> extends DataSource<Context> {
   private _maps: Maps;

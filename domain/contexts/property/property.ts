@@ -7,9 +7,9 @@ import { ListingDetails, ListingDetailProps, ListingDetailsEntityReference } fro
 import { Location, LocationEntityReference, LocationProps } from './location';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { PropertyVisa } from '../iam/property-visa';
-import { PropertyCreatedEvent } from '../../events/property-created';
-import { PropertyDeletedEvent } from '../../events/property-deleted';
-import { PropertyUpdatedEvent } from '../../events/property-updated';
+import { PropertyCreatedEvent } from '../../events/types/property-created';
+import { PropertyDeletedEvent } from '../../events/types/property-deleted';
+import { PropertyUpdatedEvent } from '../../events/types/property-updated';
 
 export interface PropertyProps extends EntityProps {
   readonly community: CommunityProps;

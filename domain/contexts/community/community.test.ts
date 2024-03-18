@@ -3,7 +3,7 @@ import { UserEntityReference } from '../user/user';
 import { DomainExecutionContext } from '../execution-context';
 import { CommunityVisa } from '../iam/community-visa';
 import { Passport } from '../iam/passport';
-import { CommunityCreatedEvent } from '../../events/community-created';
+import { CommunityCreatedEvent } from '../../events/types/community-created';
 
 describe('domain.contexts.community::community', () => {
   describe('when creating a new community', () => {

@@ -1,5 +1,5 @@
 import { User, UserProps } from './user';
-import { UserCreatedEvent } from '../../events/user-created';
+import { UserCreatedEvent } from '../../events/types/user-created';
 
 describe('domain.contexts.user', () => {
   describe('when creating a new user', () => {

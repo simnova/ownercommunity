@@ -1,9 +1,9 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
-import { PropertyConverter } from '../../../domain-services-impl/datastore-mongodb/property.domain-adapter';
+import { PropertyConverter } from '../../../services-impl/datastore/mongodb/infrastructure/property.domain-adapter';
 import { MutationStatus, PropertyBlobFileAuthHeaderResult } from '../../generated';
 import { nanoid } from 'nanoid';
-import { BlobRequestSettings } from '../../../infrastructure/services/blob-storage';
+import { BlobRequestSettings } from '../../../services-seedwork-blob-storage';
 
 interface FileInfo {
 	fileName: string;

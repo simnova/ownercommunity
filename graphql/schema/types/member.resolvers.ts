@@ -1,7 +1,7 @@
 import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../../generated';
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from '../resolver-helper';
-import { Member as MemberDo } from '../../../infrastructure/data-sources/cosmos-db/models/member';
+import { Member as MemberDo } from '../../../services-impl/datastore/mongodb/models/member';
 
 const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<MemberMutationResult> => {
   try {

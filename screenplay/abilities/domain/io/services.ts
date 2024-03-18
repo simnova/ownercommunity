@@ -7,17 +7,17 @@ import { IServices } from './test/IServices';
 import { CommunityUnitOfWork } from '../../../../domain/contexts/community/community.uow';
 import { MemberUnitOfWork } from '../../../../domain/contexts/community/member.uow';
 import { RoleUnitOfWork } from '../../../../domain/contexts/community/role.uow';
-import { IMemoryDatabase } from '../../../../domain-services-impl/datastore-memorydb/memory-database';
-import { IDataStore } from '../../../../domain/services/IDataStore';
+import { IMemoryDatabase } from '../../../../services-impl/datastore/memorydb/memory-database';
+import { IDataStore } from '../../../../domain/services/datastore/interfaces';
 
-export class Services implements IServices{
+class Services implements IServices{
   // private _vercel: IVercel;
   // private _contentModerator: IContentModerator;
   // private _cognitiveSearch: ICognitiveSearch;
   // private _blobStorage: IBlobStorage;
   private _dataStore: IDataStore
   private _database: IMemoryDatabase;
-  constructor(
+  private constructor(
     database: IMemoryDatabase
   ) {
     // this._vercel = this.InitVercel();
@@ -98,4 +98,14 @@ export class Services implements IServices{
       roleUnitOfWork: this.roleUnitOfWork
     }
   }
+
+  private static instance: Services;
+  public static getInstance(database: IMemoryDatabase): Services {
+    if (!this.instance) {
+      this.instance = new this(database);
+    }
+    return this.instance;
+  }
 }
+
+export const getServicesInstanceBDD = (database: IMemoryDatabase) => Services.getInstance(database);

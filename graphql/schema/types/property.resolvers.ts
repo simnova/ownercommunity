@@ -1,6 +1,6 @@
 import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertyUpdateInput } from '../../generated';
 import { isValidObjectId } from 'mongoose';
-import { Property as PropertyDo } from '../../../infrastructure/data-sources/cosmos-db/models/property';
+import { Property as PropertyDo } from '../../../services-impl/datastore/mongodb/models/property';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { trace } from "@opentelemetry/api";
 

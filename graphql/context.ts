@@ -2,8 +2,9 @@ import { Passport } from '../domain/contexts/iam/passport';
 import { HttpRequest } from '@azure/functions';
 import { ApolloServerRequestHandler } from './init/apollo';
 import { PassportContext } from './init/extensions/passport-context';
-import { Services } from '../infrastructure/services';
+import { ServicesInstance } from '../startup/services';
 import { DataSourceBuilder } from './data-sources/data-source-builder';
+import { IServices } from '../domain/services';
 
 export class Context {
   public verifiedUser: {
@@ -14,10 +15,10 @@ export class Context {
   public passport: Passport;
   public dataSources: DataSourceBuilder;
   public executionContext: any;
-  public services: Services;
+  public services: IServices;
 
   public async init(req: HttpRequest, serverRequestHandler: ApolloServerRequestHandler) {
-    this.services = new Services();
+    this.services = ServicesInstance;
     this.dataSources = new DataSourceBuilder(this);
 
     await PassportContext.decorateContext(this, req, serverRequestHandler.getPortalTokenExtractor());

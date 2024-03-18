@@ -1,7 +1,7 @@
 import { isValidObjectId, Types } from 'mongoose';
-import { Community, CommunityModel } from '../../../infrastructure/data-sources/cosmos-db/models/community';
-import { MemberModel } from '../../../infrastructure/data-sources/cosmos-db/models/member';
-import { UserModel } from '../../../infrastructure/data-sources/cosmos-db/models/user';
+import { Community, CommunityModel } from '../../../services-impl/datastore/mongodb/models/community';
+import { MemberModel } from '../../../services-impl/datastore/mongodb/models/member';
+import { UserModel } from '../../../services-impl/datastore/mongodb/models/user';
 import { Context } from '../../context';
 import { CosmosDataSource } from './cosmos-data-source';
 

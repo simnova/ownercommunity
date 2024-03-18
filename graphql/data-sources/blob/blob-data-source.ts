@@ -1,7 +1,7 @@
 import { DataSource } from '../data-source';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
-import { IBlobStorage } from '../../../domain/services/blob-storage/interfaces';
+import { IBlobStorage } from '../../../domain/infrastructure/blob-storage/interfaces';
 
 export class BlobDataSource<Context extends GraphQLContext> extends DataSource<Context> {
 

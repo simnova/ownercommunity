@@ -4,7 +4,7 @@ import { ICognitiveSearch } from './cognitive-search/interfaces';
 import { IBlobStorage } from './blob-storage/interfaces';
 import { IDataStore } from './datastore/interfaces';
 
-export interface IServices {
+export interface DomainInfrastructure {
   vercel: IVercel;
   contentModerator: IContentModerator;
   cognitiveSearch: ICognitiveSearch;

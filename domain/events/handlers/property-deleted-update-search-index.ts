@@ -1,5 +1,5 @@
-import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../services/cognitive-search/property-search-index-format';
-import { ICognitiveSearch } from '../../services/cognitive-search/interfaces';
+import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../infrastructure/cognitive-search/property-search-index-format';
+import { ICognitiveSearch } from '../../infrastructure/cognitive-search/interfaces';
 import { PropertyDeletedEvent } from '../types/property-deleted';
 import { EventBusInstance } from '../event-bus';
 

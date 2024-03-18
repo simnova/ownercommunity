@@ -3,7 +3,7 @@ import { AuthHeader } from './auth-header';
 import {  BlobActions, FileInfo } from './blob-actions';
 import internal from 'stream';
 import { BlobUploadCommonResponse } from '@azure/storage-blob';
-import { IBlobStorage } from '../domain/services/blob-storage/interfaces';
+import { IBlobStorage } from '../domain/infrastructure/blob-storage/interfaces';
 
 export { BlobRequestSettings, FileInfo };
 

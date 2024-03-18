@@ -1,5 +1,5 @@
-import { IServices } from './IServices';
 import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from '../../../../../domain/events/handlers/community-created-create-default-roles-member';
+import { DomainInfrastructureBDD } from './domain-infrastructure';
 // import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from './role-deleted-reassign-member-new-role';
 // import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from './community-created-create-blob-container';
 // import { default as RegisterCommunityDomainUpdatedUpdateDomainBlobHandler } from './community-domain-updated-update-domain-blob';
@@ -10,12 +10,12 @@ import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } fr
 // import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from './service-ticket-updated-update-search-index';
 // import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from './service-ticket-deleted-update-search-index';
 
-const StartDomainImplMemoryDb = (services: IServices) => {
+const InitializeDomainBDD = (infrastructure: DomainInfrastructureBDD) => {
   // Register all event handlers
   RegisterCommunityCreatedCreateDefaultRolesMemberHandler(
-    services.dataStore.communityUnitOfWork,
-    services.dataStore.roleUnitOfWork,
-    services.dataStore.memberUnitOfWork
+    infrastructure.dataStore.communityUnitOfWork,
+    infrastructure.dataStore.roleUnitOfWork,
+    infrastructure.dataStore.memberUnitOfWork
   );
   // RegisterRoleDeletedReassignMemberNewRoleHandler();
   // RegisterCommunityCreatedCreateBlobContainerHandler(services.blobStorage);
@@ -28,4 +28,4 @@ const StartDomainImplMemoryDb = (services: IServices) => {
   // RegisterServiceTicketDeletedUpdateSearchIndexHandler(services.cognitiveSearch);
 };
 
-export default StartDomainImplMemoryDb;
+export default InitializeDomainBDD;

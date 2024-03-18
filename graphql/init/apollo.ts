@@ -4,12 +4,12 @@ import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';
 import { PortalTokenValidation } from './extensions/portal-token-validation';
 import { combinedSchema } from './extensions/schema-builder';
-import StartDomain from '../../domain/start-domain';
+import InitializeDomain from '../../domain/initialize-domain';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
-import { ServicesInstance } from '../../startup/services';
+import { DomainInfrastructureImplInstance } from '../../startup/domain-infrastructure-impl-instance';
 
 export class ApolloServerRequestHandler {
   private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {
@@ -31,7 +31,7 @@ export class ApolloServerRequestHandler {
             console.log('Apollo Server Starting');
             await connect();
             portalTokenExtractor.Start();
-            StartDomain(ServicesInstance);
+            InitializeDomain(DomainInfrastructureImplInstance);
           },
           async onHealthCheck(): Promise<any> {
             // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health

@@ -1,5 +1,5 @@
 import { CommunityCreatedEvent } from '../types/community-created';
-import { IBlobStorage } from '../../services/blob-storage/interfaces';
+import { IBlobStorage } from '../../infrastructure/blob-storage/interfaces';
 import { EventBusInstance } from '../event-bus';
 
 export default (

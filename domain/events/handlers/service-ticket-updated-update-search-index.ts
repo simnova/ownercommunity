@@ -1,5 +1,5 @@
-import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../services/cognitive-search/service-ticket-search-index-format';
-import { ICognitiveSearch } from '../../services/cognitive-search/interfaces';
+import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
+import { ICognitiveSearch } from '../../infrastructure/cognitive-search/interfaces';
 import { SystemExecutionContext } from '../../contexts/execution-context';
 import { ServiceTicketUpdatedEvent } from '../types/service-ticket-updated';
 import retry from 'async-retry';

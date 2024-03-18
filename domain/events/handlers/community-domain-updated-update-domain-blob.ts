@@ -1,4 +1,4 @@
-import { IBlobStorage } from '../../services/blob-storage/interfaces';
+import { IBlobStorage } from '../../infrastructure/blob-storage/interfaces';
 import { EventBusInstance } from '../event-bus';
 import { CommunityDomainUpdatedEvent } from '../types/community-domain-updated';
 

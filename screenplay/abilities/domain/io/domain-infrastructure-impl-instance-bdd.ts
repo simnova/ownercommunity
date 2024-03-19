@@ -20,11 +20,13 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   private _dataStore: DataStoreInfrastructure
   private _database: IMemoryDatabase;
   private constructor(
-    database: IMemoryDatabase
+    database: IMemoryDatabase,
+    cognitiveSearch: CognitiveSearchInfrastructure
   ) {
     // this._vercel = this.InitVercel();
     // this._contentModerator = this.InitContentModerator();
-    this._cognitiveSearch = this.InitCognitiveSearch();
+    // this._cognitiveSearch = this.InitCognitiveSearch();
+    this._cognitiveSearch = cognitiveSearch;
     // this._blobStorage = this.InitBlobStorage();
     this._database = database;
     this._dataStore = this.InitDataStore();
@@ -68,9 +70,9 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
     return new BlobStorage(storageAccount, storageKey);
   }
   */
-  private InitCognitiveSearch(): CognitiveSearchInfrastructure {
-    return MemoryCognitiveSearchImpl.getInstance();
-  }
+  // private InitCognitiveSearch(): CognitiveSearchInfrastructure {
+  //   return MemoryCognitiveSearchImpl.getInstance();
+  // }
   public get cognitiveSearch(): CognitiveSearchInfrastructure {
     return this._cognitiveSearch;
   }
@@ -96,12 +98,21 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   }
 
   private static instance: DomainInfrastructureImplBDD;
-  public static getInstance(database: IMemoryDatabase): DomainInfrastructureImplBDD {
+  public static getInstance(
+    database: IMemoryDatabase,
+    cognitiveSearch: CognitiveSearchInfrastructure
+  ): DomainInfrastructureImplBDD {
     if (!this.instance) {
-      this.instance = new this(database);
+      this.instance = new this(database, cognitiveSearch);
     }
     return this.instance;
   }
 }
 
-export const getDomainInfrastructureImplInstanceBDD = (database: IMemoryDatabase) => DomainInfrastructureImplBDD.getInstance(database);
+export const getDomainInfrastructureImplInstanceBDD = (
+  database: IMemoryDatabase,
+  cognitiveSearch: CognitiveSearchInfrastructure
+) => DomainInfrastructureImplBDD.getInstance(
+  database,
+  cognitiveSearch
+);

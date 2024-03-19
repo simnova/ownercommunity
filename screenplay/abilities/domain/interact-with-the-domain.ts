@@ -19,6 +19,7 @@ import { PassportImpl } from '../../../domain/contexts/iam/passport';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
 import { NotepadType } from '../../actors';
+import { MemoryCognitiveSearchImpl } from '../../../infrastructure-impl/cognitive-search/in-memory/infrastructure';
 
 export interface InteractWithTheDomainAsUnregisteredUser {
   registerAsUser: (actor: Actor) => Promise<InteractWithTheDomainAsRegisteredUser>;
@@ -54,6 +55,7 @@ export class InteractWithTheDomain extends Ability
 {
   // private static _initialized: boolean = false;
   private static _database: IMemoryDatabase;
+  private static _searchDatabase: MemoryCognitiveSearchImpl;
   // private _user: UserEntityReference;
 
   // A static method is typically used to inject a client of a given interface
@@ -62,7 +64,11 @@ export class InteractWithTheDomain extends Ability
   public static init() {
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
-      InitializeDomainBDD(getDomainInfrastructureImplInstanceBDD(InteractWithTheDomain._database));
+      this.startWithEmptySearchDatabase();
+      InitializeDomainBDD(getDomainInfrastructureImplInstanceBDD(
+        InteractWithTheDomain._database,
+        InteractWithTheDomain._searchDatabase
+      ));
       // this._initialized = true;
     // }
   }
@@ -182,6 +188,10 @@ export class InteractWithTheDomain extends Ability
 
   public static startWithEmptyDatabase() {
     InteractWithTheDomain._database = new MemoryDatabase();
+  }
+
+  public static startWithEmptySearchDatabase() {
+    InteractWithTheDomain._searchDatabase = new MemoryCognitiveSearchImpl();
   }
 
   // Abilities can hold state, for example: the client of a given interface,

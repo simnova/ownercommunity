@@ -1,4 +1,4 @@
-import { CognitiveSearch } from './index';
+import { AzCognitiveSearch } from './index';
 
 // Check if required environment variables are defined
 beforeAll(() => {
@@ -13,7 +13,7 @@ let cognitiveSearch;
 beforeEach(() => {
   const searchKey = process.env.SEARCH_API_KEY;
   const endpoint = process.env.SEARCH_API_ENDPOINT;
-  cognitiveSearch = new CognitiveSearch(searchKey, endpoint);
+  cognitiveSearch = new AzCognitiveSearch(searchKey, endpoint);
 });
 
 test.skip('Initialize cognitive search object', () => {

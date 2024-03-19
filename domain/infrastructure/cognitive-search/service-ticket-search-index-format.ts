@@ -1,4 +1,4 @@
-import { SearchIndex } from '@azure/search-documents';
+import { SearchIndex } from './base-types';
 
 export const ServiceTicketIndexSpec = {
   name: 'service-ticket-index',

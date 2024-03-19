@@ -1,4 +1,4 @@
-import { GeographyPoint, SearchIndex } from '@azure/search-documents';
+import { GeographyPoint, SearchIndex } from './base-types';
 
 export const PropertyListingIndexSpec = {
   name: 'property-listings',

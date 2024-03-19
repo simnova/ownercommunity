@@ -1,5 +1,5 @@
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
-import { ICognitiveSearch } from '../../infrastructure/cognitive-search/interfaces';
+import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { SystemExecutionContext } from '../../contexts/execution-context';
 import { ServiceTicketUpdatedEvent } from '../types/service-ticket-updated';
 import retry from 'async-retry';
@@ -12,7 +12,7 @@ import { ServiceTicketRepository } from '../../contexts/service-ticket/service-t
 const crypto = require('crypto');
 
 export default (
-  cognitiveSearch: ICognitiveSearch,
+  cognitiveSearch: CognitiveSearchDomain,
   serviceTicketUnitOfWork: ServiceTicketUnitOfWork
 ) => { EventBusInstance.register(ServiceTicketUpdatedEvent, async (payload) => {
     console.log(`Service Ticket Updated - Search Index Integration: ${JSON.stringify(payload)} and ServiceTicketId: ${payload.id}`);

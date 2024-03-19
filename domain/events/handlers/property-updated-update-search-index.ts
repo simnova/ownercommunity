@@ -4,7 +4,7 @@ import { SeverityNumber, logs } from '@opentelemetry/api-logs';
 import retry from 'async-retry';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
-import { ICognitiveSearch } from '../../infrastructure/cognitive-search/interfaces';
+import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { Property, PropertyProps } from '../../contexts/property/property';
 import { PropertyUpdatedEvent } from '../types/property-updated';
 import { SystemExecutionContext } from '../../contexts/execution-context';
@@ -16,7 +16,7 @@ import { EventBusInstance } from '../event-bus';
 import { PropertyRepository } from '../../contexts/property/property.repository';
 
 export default (
-  cognitiveSearch: ICognitiveSearch,
+  cognitiveSearch: CognitiveSearchDomain,
   propertyUnitOfWork: PropertyUnitOfWork
 ) => { EventBusInstance.register(PropertyUpdatedEvent, async (payload) => {
     const tracer = trace.getTracer('PG:data-access');

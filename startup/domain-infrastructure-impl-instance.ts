@@ -3,11 +3,11 @@ import { ContentModerator } from '../infrastructure-impl/content-moderator';
 import { IContentModerator } from '../domain/infrastructure/content-moderator/interfaces';
 import { Vercel } from '../infrastructure-impl/vercel';
 import { IVercel } from '../domain/infrastructure/vercel/interfaces';
-import { CognitiveSearch } from '../infrastructure-impl/cognitive-search';
-import { ICognitiveSearch } from '../domain/infrastructure/cognitive-search/interfaces';
+import { AzCognitiveSearchImpl } from '../infrastructure-impl/cognitive-search/az/infrastructure';
+import { CognitiveSearchInfrastructure } from '../infrastructure-impl/cognitive-search/interfaces';
 import { BlobStorage } from '../infrastructure-impl/blob-storage';
 import { IBlobStorage } from '../domain/infrastructure/blob-storage/interfaces';
-import { IDataStore } from '../domain/infrastructure/datastore/interfaces';
+import { DataStoreInfrastructure } from '../infrastructure-impl/datastore/interfaces';
 import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
 import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
 import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';
@@ -16,9 +16,9 @@ import { MongoPropertyUnitOfWork } from '../infrastructure-impl/datastore/mongod
 class DomainInfrastructureImpl implements DomainInfrastructure{
   private _vercel: IVercel;
   private _contentModerator: IContentModerator;
-  private _cognitiveSearch: ICognitiveSearch;
+  private _cognitiveSearch: CognitiveSearchInfrastructure;
   private _blobStorage: IBlobStorage;
-  private _dataStore: IDataStore;
+  private _dataStore: DataStoreInfrastructure;
   
   private constructor() {
     this._vercel = this.InitVercel();
@@ -34,14 +34,14 @@ class DomainInfrastructureImpl implements DomainInfrastructure{
   public get contentModerator(): IContentModerator {
     return this._contentModerator;
   }
-  public get cognitiveSearch(): ICognitiveSearch {
+  public get cognitiveSearch(): CognitiveSearchInfrastructure {
     return this._cognitiveSearch;
   }
   public get blobStorage(): IBlobStorage {
     return this._blobStorage;
   }
 
-  public get dataStore(): IDataStore {
+  public get dataStore(): DataStoreInfrastructure {
     return this._dataStore;
   }
 
@@ -65,10 +65,10 @@ class DomainInfrastructureImpl implements DomainInfrastructure{
     return new Vercel(vercelToken, vercelProject);
   }
 
-  private InitCognitiveSearch(): ICognitiveSearch {
+  private InitCognitiveSearch(): CognitiveSearchInfrastructure {
     const searchKey = this.tryGetEnvVar('SEARCH_API_KEY');
     const endpoint = this.tryGetEnvVar('SEARCH_API_ENDPOINT');
-    return new CognitiveSearch(searchKey, endpoint);
+    return new AzCognitiveSearchImpl(searchKey, endpoint);
   }
 
   private InitBlobStorage(): IBlobStorage {
@@ -77,7 +77,7 @@ class DomainInfrastructureImpl implements DomainInfrastructure{
     return new BlobStorage(storageAccount, storageKey);
   }
 
-  private InitDataStore(): IDataStore {
+  private InitDataStore(): DataStoreInfrastructure {
     return {
       communityUnitOfWork: MongoCommunityUnitOfWork,
       memberUnitOfWork: MongoMemberUnitOfWork,

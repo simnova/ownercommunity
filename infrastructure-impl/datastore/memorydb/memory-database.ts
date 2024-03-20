@@ -21,6 +21,10 @@ import { Member, MemberProps } from "../../../domain/contexts/community/member";
 import { MemoryMemberRepository } from "./infrastructure/member.memory-repository";
 import { buildMemoryMemberUnitOfWork } from "./infrastructure/member.memory-uow";
 
+// property
+import { Property, PropertyProps } from "../../../domain/contexts/property/property";
+import { MemoryPropertyRepository } from "./infrastructure/property.memory-repository";
+import { buildMemoryPropertyUnitOfWork } from "./infrastructure/property.memory-uow";
 
 export interface IMemoryDatabase {
   CommunityUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
@@ -31,6 +35,8 @@ export interface IMemoryDatabase {
   RoleMemoryStore: ReadOnlyMemoryStore<RoleProps>;
   MemberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
   MemberMemoryStore: ReadOnlyMemoryStore<MemberProps>;
+  PropertyUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
+  PropertyMemoryStore: ReadOnlyMemoryStore<PropertyProps>;
 }
 
 
@@ -91,6 +97,20 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
   public get MemberMemoryStore(): ReadOnlyMemoryStore<MemberProps> {
     return this.memberMemoryStore;
+  }
+
+  // property
+  private propertyUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
+  private propertyMemoryStore: MemoryStore<PropertyProps>;
+  public get PropertyUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>> {
+    if(!this.propertyUnitOfWork) {
+      this.propertyMemoryStore = new MemoryStore<PropertyProps>();
+      this.propertyUnitOfWork = buildMemoryPropertyUnitOfWork(this.propertyMemoryStore);
+    }
+    return this.propertyUnitOfWork;
+  }
+  public get PropertyMemoryStore(): ReadOnlyMemoryStore<PropertyProps> {
+    return this.propertyMemoryStore;
   }
 }
 

@@ -19,6 +19,9 @@ import { PassportImpl } from '../../../domain/contexts/iam/passport';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
 import { NotepadType } from '../../actors';
+import { MemoryCognitiveSearchImpl } from '../../../infrastructure-impl/cognitive-search/in-memory/infrastructure';
+import { PropertyRepository } from '../../../domain/contexts/property/property.repository';
+import { PropertyProps } from '../../../domain/contexts/property/property';
 
 export interface InteractWithTheDomainAsUnregisteredUser {
   registerAsUser: (actor: Actor) => Promise<InteractWithTheDomainAsRegisteredUser>;
@@ -38,6 +41,8 @@ export interface InteractWithTheDomainAsCommunityMember {
   readMemberDb: (func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
   actOnUser: (func:(repo:UserRepository<UserProps>) => Promise<void>) => Promise<void>;
   readUserDb: (func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
+  actOnProperty: (func:(repo:PropertyRepository<PropertyProps>) => Promise<void>) => Promise<void>;
+  readPropertyDb: (func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
 }
 
 export interface InteractWithTheDomainAsReadOnly {
@@ -45,6 +50,9 @@ export interface InteractWithTheDomainAsReadOnly {
   readRoleDb: (func:(db: ReadOnlyMemoryStore<RoleProps>) => Promise<void>) => Promise<void>;
   readMemberDb: (func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
   readUserDb: (func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
+  readPropertyDb: (func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
+  logSearchDatabase: () => Promise<void>;
+  logDatabase: () => Promise<void>;
 }
 
 export class InteractWithTheDomain extends Ability 
@@ -54,6 +62,7 @@ export class InteractWithTheDomain extends Ability
 {
   // private static _initialized: boolean = false;
   private static _database: IMemoryDatabase;
+  private static _searchDatabase: MemoryCognitiveSearchImpl;
   // private _user: UserEntityReference;
 
   // A static method is typically used to inject a client of a given interface
@@ -62,7 +71,11 @@ export class InteractWithTheDomain extends Ability
   public static init() {
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
-      InitializeDomainBDD(getDomainInfrastructureImplInstanceBDD(InteractWithTheDomain._database));
+      this.startWithEmptySearchDatabase();
+      InitializeDomainBDD(getDomainInfrastructureImplInstanceBDD(
+        InteractWithTheDomain._database,
+        InteractWithTheDomain._searchDatabase
+      ));
       // this._initialized = true;
     // }
   }
@@ -184,6 +197,10 @@ export class InteractWithTheDomain extends Ability
     InteractWithTheDomain._database = new MemoryDatabase();
   }
 
+  public static startWithEmptySearchDatabase() {
+    InteractWithTheDomain._searchDatabase = new MemoryCognitiveSearchImpl();
+  }
+
   // Abilities can hold state, for example: the client of a given interface,
   // additional configuration, or the result of the last interaction with a given interface.
   public constructor(
@@ -246,6 +263,43 @@ export class InteractWithTheDomain extends Ability
   }
   public async readMemberDb(func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>): Promise<void> {
     return await func(InteractWithTheDomain._database.MemberMemoryStore);
+  }
+
+  // property
+  public async actOnProperty(func:(repo:PropertyRepository<PropertyProps>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.PropertyUnitOfWork.withTransaction(this.context, async (repo) => {
+      await func(repo);
+    });
+  }
+  public async readPropertyDb(func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.PropertyMemoryStore);
+  }
+
+  public async logSearchDatabase() {
+    console.log('===> Memory Search Database ************');
+    InteractWithTheDomain._searchDatabase.logSearchCollectionIndexMap();
+  }
+
+  public async logDatabase() {
+    console.log('===> Memory Database ************');
+    await InteractWithTheDomain.asReadOnly().readCommunityDb(async (db) => {
+      console.log('===> database > community : ', JSON.stringify(db));
+    });
+
+    await InteractWithTheDomain.asReadOnly().readUserDb(async (db) => {
+      console.log('===> database > user : ', JSON.stringify(db));
+    });
+
+    await InteractWithTheDomain.asReadOnly().readRoleDb(async (db) => {
+      console.log('===> database > role : ', JSON.stringify(db));
+    });
+
+    await InteractWithTheDomain.asReadOnly().readMemberDb(async (db) => {
+      console.log('===> database > member : ', JSON.stringify(db));
+    });
+    await InteractWithTheDomain.asReadOnly().readPropertyDb(async (db) => {
+      console.log('===> database > property : ', JSON.stringify(db));
+    });
   }
 
 }

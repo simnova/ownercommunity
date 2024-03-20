@@ -5,12 +5,12 @@ import { RoleUnitOfWork } from '../../contexts/community/role.uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property.uow';
 import { ServiceUnitOfWork } from '../../contexts/service-ticket/service.uow';
 
-export interface IDataStore {
+export interface DataStoreDomain {
   communityUnitOfWork: CommunityUnitOfWork;
   memberUnitOfWork: MemberUnitOfWork;
   roleUnitOfWork: RoleUnitOfWork;
   // [MG-TBD] - optional params are for bdd wip testing, make following required when done
-  propertyUnitOfWork?: PropertyUnitOfWork;
+  propertyUnitOfWork: PropertyUnitOfWork;
   serviceTicketUnitOfWork?: ServiceTicketUnitOfWork;
   serviceUnitOfWork?: ServiceUnitOfWork;
 }

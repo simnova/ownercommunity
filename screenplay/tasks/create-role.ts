@@ -5,7 +5,7 @@ export const CreateRole = ({
     inCommunity: (communityName: string) => ({
         asNewRoleNamed: (roleName: string) => ({
             withPermissions: (permissions: Record<string, string>) => Task.where(`#actor creates ${roleName} role in ${communityName} community`,                
-                CreateRoleInDb(roleName, communityName,permissions),
+                CreateRoleInDb(communityName, roleName, permissions),
             ),
         }),
     }),

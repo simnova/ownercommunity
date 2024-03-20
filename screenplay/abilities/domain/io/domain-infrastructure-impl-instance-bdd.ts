@@ -7,22 +7,27 @@ import { DomainInfrastructureBDD } from './test/domain-infrastructure';
 import { CommunityUnitOfWork } from '../../../../domain/contexts/community/community.uow';
 import { MemberUnitOfWork } from '../../../../domain/contexts/community/member.uow';
 import { RoleUnitOfWork } from '../../../../domain/contexts/community/role.uow';
+import { PropertyUnitOfWork } from '../../../../domain/contexts/property/property.uow';
 import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memorydb/memory-database';
-import { IDataStore } from '../../../../domain/infrastructure/datastore/interfaces';
+import { DataStoreInfrastructure } from '../../../../infrastructure-impl/datastore/interfaces';
+import { CognitiveSearchInfrastructure } from '../../../../infrastructure-impl/cognitive-search/interfaces';
+import { MemoryCognitiveSearchImpl } from '../../../../infrastructure-impl/cognitive-search/in-memory/infrastructure';
 
 class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   // private _vercel: IVercel;
   // private _contentModerator: IContentModerator;
-  // private _cognitiveSearch: ICognitiveSearch;
+  private _cognitiveSearch: CognitiveSearchInfrastructure;
   // private _blobStorage: IBlobStorage;
-  private _dataStore: IDataStore
+  private _dataStore: DataStoreInfrastructure
   private _database: IMemoryDatabase;
   private constructor(
-    database: IMemoryDatabase
+    database: IMemoryDatabase,
+    cognitiveSearch: CognitiveSearchInfrastructure
   ) {
     // this._vercel = this.InitVercel();
     // this._contentModerator = this.InitContentModerator();
     // this._cognitiveSearch = this.InitCognitiveSearch();
+    this._cognitiveSearch = cognitiveSearch;
     // this._blobStorage = this.InitBlobStorage();
     this._database = database;
     this._dataStore = this.InitDataStore();
@@ -34,9 +39,6 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   }
   public get contentModerator(): IContentModerator {
     return this._contentModerator;
-  }
-  public get cognitiveSearch(): ICognitiveSearch {
-    return this._cognitiveSearch;
   }
   public get blobStorage(): IBlobStorage {
     return this._blobStorage;
@@ -62,50 +64,60 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
     return new Vercel(vercelToken, vercelProject);
   }
 
-  private InitCognitiveSearch(): ICognitiveSearch {
-    const searchKey = this.tryGetEnvVar('SEARCH_API_KEY');
-    const endpoint = this.tryGetEnvVar('SEARCH_API_ENDPOINT');
-    return new CognitiveSearch(searchKey, endpoint);
-  }
-
+  
   private InitBlobStorage(): IBlobStorage {
     const storageAccount = this.tryGetEnvVar('BLOB_ACCOUNT_NAME');
     const storageKey = this.tryGetEnvVar('BLOB_ACCOUNT_KEY');
     return new BlobStorage(storageAccount, storageKey);
   }
   */
+  // private InitCognitiveSearch(): CognitiveSearchInfrastructure {
+  //   return MemoryCognitiveSearchImpl.getInstance();
+  // }
+  public get cognitiveSearch(): CognitiveSearchInfrastructure {
+    return this._cognitiveSearch;
+  }
 
   public get communityUnitOfWork(): CommunityUnitOfWork {
     return this._database.CommunityUnitOfWork;
   }
-
   public get memberUnitOfWork(): MemberUnitOfWork {
     return this._database.MemberUnitOfWork;
   }
-
   public get roleUnitOfWork(): RoleUnitOfWork {
     return this._database.RoleUnitOfWork;
   }
-
-  public get dataStore(): IDataStore {
-    return this._dataStore;
+  public get propertyUnitOfWork(): PropertyUnitOfWork {
+    return this._database.PropertyUnitOfWork;
   }
-
-  private InitDataStore(): IDataStore {
+  private InitDataStore(): DataStoreInfrastructure {
     return {
       communityUnitOfWork: this.communityUnitOfWork,
       memberUnitOfWork: this.memberUnitOfWork,
-      roleUnitOfWork: this.roleUnitOfWork
+      roleUnitOfWork: this.roleUnitOfWork,
+      propertyUnitOfWork: this.propertyUnitOfWork,
     }
+  }
+  public get dataStore(): DataStoreInfrastructure {
+    return this._dataStore;
   }
 
   private static instance: DomainInfrastructureImplBDD;
-  public static getInstance(database: IMemoryDatabase): DomainInfrastructureImplBDD {
+  public static getInstance(
+    database: IMemoryDatabase,
+    cognitiveSearch: CognitiveSearchInfrastructure
+  ): DomainInfrastructureImplBDD {
     if (!this.instance) {
-      this.instance = new this(database);
+      this.instance = new this(database, cognitiveSearch);
     }
     return this.instance;
   }
 }
 
-export const getDomainInfrastructureImplInstanceBDD = (database: IMemoryDatabase) => DomainInfrastructureImplBDD.getInstance(database);
+export const getDomainInfrastructureImplInstanceBDD = (
+  database: IMemoryDatabase,
+  cognitiveSearch: CognitiveSearchInfrastructure
+) => DomainInfrastructureImplBDD.getInstance(
+  database,
+  cognitiveSearch
+);

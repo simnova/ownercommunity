@@ -9,8 +9,8 @@ export interface DataStoreDomain {
   communityUnitOfWork: CommunityUnitOfWork;
   memberUnitOfWork: MemberUnitOfWork;
   roleUnitOfWork: RoleUnitOfWork;
-  // [MG-TBD] - optional params are for bdd wip testing, make following required when done
   propertyUnitOfWork: PropertyUnitOfWork;
+  serviceUnitOfWork: ServiceUnitOfWork;
+  // [MG-TBD] - optional params are for bdd wip testing, make following required when done
   serviceTicketUnitOfWork?: ServiceTicketUnitOfWork;
-  serviceUnitOfWork?: ServiceUnitOfWork;
 }

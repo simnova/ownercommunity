@@ -26,6 +26,11 @@ import { Property, PropertyProps } from "../../../domain/contexts/property/prope
 import { MemoryPropertyRepository } from "./infrastructure/property.memory-repository";
 import { buildMemoryPropertyUnitOfWork } from "./infrastructure/property.memory-uow";
 
+// service
+import { Service, ServiceProps } from "../../../domain/contexts/service-ticket/service";
+import { MemoryServiceRepository } from "./infrastructure/service.memory-repository";
+import { buildMemoryServiceUnitOfWork } from "./infrastructure/service.memory-uow";
+
 export interface IMemoryDatabase {
   CommunityUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
   CommunityMemoryStore: ReadOnlyMemoryStore<CommunityProps>;
@@ -37,6 +42,8 @@ export interface IMemoryDatabase {
   MemberMemoryStore: ReadOnlyMemoryStore<MemberProps>;
   PropertyUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
   PropertyMemoryStore: ReadOnlyMemoryStore<PropertyProps>;
+  ServiceUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
+  ServiceMemoryStore: ReadOnlyMemoryStore<ServiceProps>;
 }
 
 
@@ -111,6 +118,20 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
   public get PropertyMemoryStore(): ReadOnlyMemoryStore<PropertyProps> {
     return this.propertyMemoryStore;
+  }
+
+  // service
+  private serviceUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
+  private serviceMemoryStore: MemoryStore<ServiceProps>;
+  public get ServiceUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>> {
+    if(!this.serviceUnitOfWork) {
+      this.serviceMemoryStore = new MemoryStore<ServiceProps>();
+      this.serviceUnitOfWork = buildMemoryServiceUnitOfWork(this.serviceMemoryStore);
+    }
+    return this.serviceUnitOfWork;
+  }
+  public get ServiceMemoryStore(): ReadOnlyMemoryStore<ServiceProps> {
+    return this.serviceMemoryStore;
   }
 }
 

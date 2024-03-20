@@ -151,7 +151,7 @@ export class MemoryPropertyRepository<
         return Property.getNewInstance(new MemoryProperty as unknown as PropType, name, community, this.context); // [MG-TBD]
       }
       async getById(id: string): Promise<Property<PropType>>{
-        const member = await this.get(id);
-        return member;
+        const property = await this.get(id);
+        return property;
       }
   }

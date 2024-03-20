@@ -217,11 +217,11 @@ export class InteractWithTheDomain extends Ability
 
   public async createCommunity(communityName: string): Promise<CommunityProps> {
     let community: CommunityProps;
-    InteractWithTheDomain._database.CommunityUnitOfWork.withTransaction(this.context, async (repo) => {
+    await InteractWithTheDomain._database.CommunityUnitOfWork.withTransaction(this.context, async (repo) => {
         const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
         const communityToBeSaved = await repo.getNewInstance(communityName, user);
         const savedCommunity = await repo.save(communityToBeSaved);
-         community  = savedCommunity['props'] as CommunityProps;
+        community  = savedCommunity['props'];
     });
     return community;
   }

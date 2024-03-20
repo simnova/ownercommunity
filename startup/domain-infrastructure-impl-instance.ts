@@ -12,6 +12,8 @@ import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongo
 import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
 import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';
 import { MongoPropertyUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/property.mongo-uow';
+import { MongoServiceUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/service.uow';
+import { MongoServiceTicketUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/service-ticket.uow';
 
 class DomainInfrastructureImpl implements DomainInfrastructure{
   private _vercel: IVercel;
@@ -82,7 +84,9 @@ class DomainInfrastructureImpl implements DomainInfrastructure{
       communityUnitOfWork: MongoCommunityUnitOfWork,
       memberUnitOfWork: MongoMemberUnitOfWork,
       roleUnitOfWork: MongoRoleUnitOfWork,
-      propertyUnitOfWork: MongoPropertyUnitOfWork
+      propertyUnitOfWork: MongoPropertyUnitOfWork,
+      serviceUnitOfWork: MongoServiceUnitOfWork,
+      serviceTicketUnitOfWork: MongoServiceTicketUnitOfWork
     };
   }
 

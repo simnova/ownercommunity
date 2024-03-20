@@ -9,10 +9,10 @@ import { MemberUnitOfWork } from '../../../../domain/contexts/community/member.u
 import { RoleUnitOfWork } from '../../../../domain/contexts/community/role.uow';
 import { PropertyUnitOfWork } from '../../../../domain/contexts/property/property.uow';
 import { ServiceUnitOfWork } from '../../../../domain/contexts/service-ticket/service.uow';
+import { ServiceTicketUnitOfWork } from '../../../../domain/contexts/service-ticket/service-ticket.uow';
 import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memorydb/memory-database';
 import { DataStoreInfrastructure } from '../../../../infrastructure-impl/datastore/interfaces';
 import { CognitiveSearchInfrastructure } from '../../../../infrastructure-impl/cognitive-search/interfaces';
-import { MemoryCognitiveSearchImpl } from '../../../../infrastructure-impl/cognitive-search/in-memory/infrastructure';
 
 class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   // private _vercel: IVercel;
@@ -94,13 +94,17 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   public get serviceUnitOfWork(): ServiceUnitOfWork {
     return this._database.ServiceUnitOfWork;
   }
+  public get serviceTicketUnitOfWork(): ServiceTicketUnitOfWork {
+    return this._database.ServiceTicketUnitOfWork;
+  }
   private InitDataStore(): DataStoreInfrastructure {
     return {
       communityUnitOfWork: this.communityUnitOfWork,
       memberUnitOfWork: this.memberUnitOfWork,
       roleUnitOfWork: this.roleUnitOfWork,
       propertyUnitOfWork: this.propertyUnitOfWork,
-      serviceUnitOfWork: this.serviceUnitOfWork
+      serviceUnitOfWork: this.serviceUnitOfWork,
+      serviceTicketUnitOfWork: this.serviceTicketUnitOfWork
     }
   }
   public get dataStore(): DataStoreInfrastructure {

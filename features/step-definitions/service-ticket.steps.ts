@@ -11,9 +11,9 @@ Given('test setup', async function(){});
 Given('{actor} creates {word} community', async function(actor: Actor, communityName: string){
   await actor
     .attemptsTo(
-        Register.asUser(),
-        CreateCommunity.named(communityName),
-        LogDataSources()
+        Register.asUser()
+        , CreateCommunity.named(communityName)
+        // , LogDataSources()
     );
   });
 
@@ -27,7 +27,7 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
         , CreateProperty
           .inCommunity(communityName)
           .asNewPropertyNamed('property1')
-        , LogDataSources()
+        // , LogDataSources()
       );
   });
   

@@ -31,6 +31,11 @@ import { Service, ServiceProps } from "../../../domain/contexts/service-ticket/s
 import { MemoryServiceRepository } from "./infrastructure/service.memory-repository";
 import { buildMemoryServiceUnitOfWork } from "./infrastructure/service.memory-uow";
 
+// service-ticket
+import { ServiceTicket, ServiceTicketProps } from "../../../domain/contexts/service-ticket/service-ticket";
+import { MemoryServiceTicketRepository } from "./infrastructure/service-ticket.memory-repository";
+import { buildMemoryServiceTicketUnitOfWork } from "./infrastructure/service-ticket.memory-uow";
+
 export interface IMemoryDatabase {
   CommunityUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
   CommunityMemoryStore: ReadOnlyMemoryStore<CommunityProps>;
@@ -44,6 +49,8 @@ export interface IMemoryDatabase {
   PropertyMemoryStore: ReadOnlyMemoryStore<PropertyProps>;
   ServiceUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
   ServiceMemoryStore: ReadOnlyMemoryStore<ServiceProps>;
+  ServiceTicketUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>>;
+  ServiceTicketMemoryStore: ReadOnlyMemoryStore<ServiceTicketProps>;
 }
 
 
@@ -132,6 +139,20 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
   public get ServiceMemoryStore(): ReadOnlyMemoryStore<ServiceProps> {
     return this.serviceMemoryStore;
+  }
+
+  // service-ticket
+  private serviceTicketUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>>;
+  private serviceTicketMemoryStore: MemoryStore<ServiceTicketProps>;
+  public get ServiceTicketUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>> {
+    if(!this.serviceTicketUnitOfWork) {
+      this.serviceTicketMemoryStore = new MemoryStore<ServiceTicketProps>();
+      this.serviceTicketUnitOfWork = buildMemoryServiceTicketUnitOfWork(this.serviceTicketMemoryStore);
+    }
+    return this.serviceTicketUnitOfWork;
+  }
+  public get ServiceTicketMemoryStore(): ReadOnlyMemoryStore<ServiceTicketProps> {
+    return this.serviceTicketMemoryStore;
   }
 }
 

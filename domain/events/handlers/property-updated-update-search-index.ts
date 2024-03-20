@@ -8,7 +8,6 @@ import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/int
 import { Property, PropertyProps } from '../../contexts/property/property';
 import { PropertyUpdatedEvent } from '../types/property-updated';
 import { SystemExecutionContext } from '../../contexts/execution-context';
-import { MongoPropertyRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/property.mongo-repository';
 // import { PropertyUnitOfWork } from '../../../domain-impl/services/datastore/mongodb/infrastructure/property.mongo-uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property.uow';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../infrastructure/cognitive-search/property-search-index-format';
@@ -34,7 +33,7 @@ export default (
           },
         });
 
-        console.log(`Property Updated - Search Index Integration: ${JSON.stringify(payload)} and PropertyId: ${payload.id}`);
+        // console.log(`Property Updated - Search Index Integration: ${JSON.stringify(payload)} and PropertyId: ${payload.id}`);
 
         const context = SystemExecutionContext();
         await propertyUnitOfWork.withTransaction(context, async (repo) => {
@@ -106,7 +105,6 @@ export default (
 function generateHash(listingDoc: Partial<PropertyListingIndexDocument>) {
   const listingDocCopy = JSON.parse(JSON.stringify(listingDoc));
   delete listingDocCopy.updatedAt;
-  console.log('listingDocCopy: ', listingDocCopy);
   const hash = crypto.createHash('sha256').update(JSON.stringify(listingDocCopy)).digest('base64');
   return hash;
 }
@@ -129,7 +127,7 @@ function convertToIndexDocument(property: Property<PropertyProps>) {
     id: property.id,
     communityId: property.community.id,
     name: property.propertyName,
-    type: property.propertyType.toLowerCase(),
+    type: property.propertyType?.toLowerCase(),
     bedrooms: property.listingDetail?.bedrooms,
     amenities: property.listingDetail?.amenities,
     additionalAmenities: updatedAdditionalAmenities,

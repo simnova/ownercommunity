@@ -10,6 +10,7 @@ export interface IMemoryCognitiveSearch {
   deleteDocument(indexName: string, document: any): Promise<void>;
   indexDocument(indexName: string, document: any): Promise<void>;
   search(indexName: string, searchText: string, options?: any): Promise<any>;
+  logSearchCollectionIndexMap(): void;
 }
 
 
@@ -19,7 +20,6 @@ export class MemoryCognitiveSearchCollection<DocumentType extends BaseDocumentTy
   constructor () {}
   
   async indexDocument(document: DocumentType): Promise<void> {
-    // add or update document in the collection
     const existingDocument = this.searchCollection.find((i) => i.id === document.id);
     if (existingDocument) {
       const index = this.searchCollection.indexOf(existingDocument);
@@ -46,12 +46,16 @@ export class MemoryCognitiveSearch implements IMemoryCognitiveSearch, CognitiveS
 
   async createIndexIfNotExists(indexName: string, indexDefinition: SearchIndex): Promise<void> {
     if (this.searchCollectionIndexMap.has(indexName)) return;
+    this.createNewIndex(indexName, indexDefinition);
+  }
+  private createNewIndex(indexName: string, indexDefinition: SearchIndex) {
     this.searchCollectionIndexDefinitionMap.set(indexName, indexDefinition);
     this.searchCollectionIndexMap.set(indexName, new MemoryCognitiveSearchCollection());
   }
+
   async createOrUpdateIndex(indexName: string, indexDefinition: SearchIndex): Promise<void> {
     if (this.searchCollectionIndexMap.has(indexName)) return;
-    this.searchCollectionIndexDefinitionMap.set(indexName, indexDefinition);
+    this.createNewIndex(indexName, indexDefinition);
   }
   async deleteDocument(indexName: string, document: any): Promise<void> {
     const collection = this.searchCollectionIndexMap.get(indexName);
@@ -70,4 +74,9 @@ export class MemoryCognitiveSearch implements IMemoryCognitiveSearch, CognitiveS
     throw new Error('MemoryCognitiveSearch:search - Method not implemented.');
   }
 
+  logSearchCollectionIndexMap() {
+    for (const [key, value] of this.searchCollectionIndexMap.entries()) {
+      console.log(`Index: ${key} |  Documents: ${JSON.stringify(value)}`);
+    }
+  } 
 }

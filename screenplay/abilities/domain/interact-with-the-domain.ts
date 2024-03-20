@@ -52,6 +52,7 @@ export interface InteractWithTheDomainAsReadOnly {
   readUserDb: (func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
   logSearchDatabase: () => Promise<void>;
+  logDatabase: () => Promise<void>;
 }
 
 export class InteractWithTheDomain extends Ability 
@@ -276,7 +277,29 @@ export class InteractWithTheDomain extends Ability
 
   public async logSearchDatabase() {
     console.log('===> Memory Search Database ************');
-    console.log('===> database > search : ', JSON.stringify(InteractWithTheDomain._searchDatabase));
+    InteractWithTheDomain._searchDatabase.logSearchCollectionIndexMap();
+  }
+
+  public async logDatabase() {
+    console.log('===> Memory Database ************');
+    await InteractWithTheDomain.asReadOnly().readCommunityDb(async (db) => {
+      console.log('===> database > community : ', JSON.stringify(db));
+    });
+
+    await InteractWithTheDomain.asReadOnly().readUserDb(async (db) => {
+      console.log('===> database > user : ', JSON.stringify(db));
+    });
+
+    await InteractWithTheDomain.asReadOnly().readRoleDb(async (db) => {
+      console.log('===> database > role : ', JSON.stringify(db));
+    });
+
+    await InteractWithTheDomain.asReadOnly().readMemberDb(async (db) => {
+      console.log('===> database > member : ', JSON.stringify(db));
+    });
+    await InteractWithTheDomain.asReadOnly().readPropertyDb(async (db) => {
+      console.log('===> database > property : ', JSON.stringify(db));
+    });
   }
 
 }

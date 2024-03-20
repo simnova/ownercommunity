@@ -7,6 +7,7 @@ import { DomainInfrastructureBDD } from './test/domain-infrastructure';
 import { CommunityUnitOfWork } from '../../../../domain/contexts/community/community.uow';
 import { MemberUnitOfWork } from '../../../../domain/contexts/community/member.uow';
 import { RoleUnitOfWork } from '../../../../domain/contexts/community/role.uow';
+import { PropertyUnitOfWork } from '../../../../domain/contexts/property/property.uow';
 import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memorydb/memory-database';
 import { DataStoreInfrastructure } from '../../../../infrastructure-impl/datastore/interfaces';
 import { CognitiveSearchInfrastructure } from '../../../../infrastructure-impl/cognitive-search/interfaces';
@@ -86,11 +87,15 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   public get roleUnitOfWork(): RoleUnitOfWork {
     return this._database.RoleUnitOfWork;
   }
+  public get propertyUnitOfWork(): PropertyUnitOfWork {
+    return this._database.PropertyUnitOfWork;
+  }
   private InitDataStore(): DataStoreInfrastructure {
     return {
       communityUnitOfWork: this.communityUnitOfWork,
       memberUnitOfWork: this.memberUnitOfWork,
-      roleUnitOfWork: this.roleUnitOfWork
+      roleUnitOfWork: this.roleUnitOfWork,
+      propertyUnitOfWork: this.propertyUnitOfWork,
     }
   }
   public get dataStore(): DataStoreInfrastructure {

@@ -4,6 +4,7 @@ import { CreateRole } from '../../screenplay/tasks/create-role';
 import { CreateCommunity } from '../../screenplay/tasks/create-community';
 import { Register } from '../../screenplay/tasks/register';
 import { LogDatabase } from './log-database';
+import { CreateProperty } from '../../screenplay/tasks/create-property';
 
 Given('test setup', async function(){});
 
@@ -23,8 +24,11 @@ Given('{actor} creates {word} community', async function(actor: Actor, community
           .inCommunity(communityName)
           .asNewRoleNamed(roleName)
           .withPermissions(dataTable.rowsHash())
+        , CreateProperty
+          .inCommunity(communityName)
+          .asNewPropertyNamed('property1')
       );
-    // LogDatabase();
+    LogDatabase();
   });
   
 

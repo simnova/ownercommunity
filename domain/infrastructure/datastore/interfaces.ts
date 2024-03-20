@@ -10,7 +10,7 @@ export interface DataStoreDomain {
   memberUnitOfWork: MemberUnitOfWork;
   roleUnitOfWork: RoleUnitOfWork;
   // [MG-TBD] - optional params are for bdd wip testing, make following required when done
-  propertyUnitOfWork?: PropertyUnitOfWork;
+  propertyUnitOfWork: PropertyUnitOfWork;
   serviceTicketUnitOfWork?: ServiceTicketUnitOfWork;
   serviceUnitOfWork?: ServiceUnitOfWork;
 }

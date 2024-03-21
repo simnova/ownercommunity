@@ -12,7 +12,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'pronoun',
-    regexp: /he|she|they|his|her|their/,
+    regexp: /he|she|his|hers|him|her|they|their|them/,
     transformer() {
         return actorInTheSpotlight();
     },

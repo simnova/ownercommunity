@@ -7,11 +7,11 @@ export class MemoryCognitiveSearchImpl extends MemoryCognitiveSearch implements 
   }
 
   startup = async (): Promise<void> => {
-    console.log('MemoryCognitiveSearchImpl startup');
+    // console.log('MemoryCognitiveSearchImpl startup');
   }
 
   shutdown = async (): Promise<void> => {
-    console.log('MemoryCognitiveSearchImpl shutdown');
+    // console.log('MemoryCognitiveSearchImpl shutdown');
   }
 
   logIndexes(): void {

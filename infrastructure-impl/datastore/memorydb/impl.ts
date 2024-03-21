@@ -8,11 +8,11 @@ export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreIn
   }
 
   startup = async (): Promise<void> => {
-    console.log('MemorydbDatastoreImpl startup');
+    // console.log('MemorydbDatastoreImpl startup');
   }
 
   shutdown = async (): Promise<void> => {
-    console.log('MemorydbDatastoreImpl shutdown');
+    // console.log('MemorydbDatastoreImpl shutdown');
   }
 
 }

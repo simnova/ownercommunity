@@ -1,6 +1,4 @@
 import { DomainInfrastructure } from '../domain/infrastructure';
-import { ContentModerator } from '../infrastructure-impl/content-moderator';
-import { IContentModerator } from '../domain/infrastructure/content-moderator/interfaces';
 import { VercelInfrastructure } from '../infrastructure-impl/vercel/interfaces';
 import { VercelApiImpl } from '../infrastructure-impl/vercel/api/impl';
 import { CognitiveSearchInfrastructure } from '../infrastructure-impl/cognitive-search/interfaces';
@@ -9,6 +7,8 @@ import { DatastoreInfrastructure } from '../infrastructure-impl/datastore/interf
 import { MongodbDatastoreImpl } from '../infrastructure-impl/datastore/mongodb/impl';
 import { BlobStorageInfrastructure } from '../infrastructure-impl/blob-storage/interfaces';
 import { AzBlobStorageImpl } from '../infrastructure-impl/blob-storage/az/impl';
+import { ContentModeratorInfrastructure } from '../infrastructure-impl/content-moderator/interfaces';
+import { AzContentModeratorImpl } from '../infrastructure-impl/content-moderator/az/impl';
 // import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
 // import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
 // import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';
@@ -18,7 +18,7 @@ import { AzBlobStorageImpl } from '../infrastructure-impl/blob-storage/az/impl';
 
 export class DomainInfrastructureImpl implements DomainInfrastructure{
   private _vercel: VercelInfrastructure;
-  private _contentModerator: IContentModerator;
+  private _contentModerator: ContentModeratorInfrastructure;
   private _cognitiveSearch: CognitiveSearchInfrastructure;
   private _blobStorage: BlobStorageInfrastructure;
   private _datastore: DatastoreInfrastructure;
@@ -34,7 +34,7 @@ export class DomainInfrastructureImpl implements DomainInfrastructure{
   public get vercel(): VercelInfrastructure {
     return this._vercel;
   }
-  public get contentModerator(): IContentModerator {
+  public get contentModerator(): ContentModeratorInfrastructure {
     return this._contentModerator;
   }
   public get cognitiveSearch(): CognitiveSearchInfrastructure {
@@ -56,10 +56,10 @@ export class DomainInfrastructureImpl implements DomainInfrastructure{
     return value;
   }
 
-  private InitContentModerator(): IContentModerator {
+  private InitContentModerator(): ContentModeratorInfrastructure {
     const subscriptionKey = this.tryGetEnvVar('CONTENT_MODERATOR_SUBSCRIPTION_KEY');
     const endpoint = this.tryGetEnvVar('CONTENT_MODERATOR_ENDPOINT');
-    return new ContentModerator(endpoint, subscriptionKey);
+    return new AzContentModeratorImpl(endpoint, subscriptionKey);
   }
 
   private InitVercel(): VercelInfrastructure {

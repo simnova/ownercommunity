@@ -11,7 +11,7 @@ import { PropertyUnitOfWork } from '../../../../domain/contexts/property/propert
 import { ServiceUnitOfWork } from '../../../../domain/contexts/service-ticket/service.uow';
 import { ServiceTicketUnitOfWork } from '../../../../domain/contexts/service-ticket/service-ticket.uow';
 import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memorydb/memory-database';
-import { DataStoreInfrastructure } from '../../../../infrastructure-impl/datastore/interfaces';
+import { DatastoreInfrastructure } from '../../../../infrastructure-impl/datastore/interfaces';
 import { CognitiveSearchInfrastructure } from '../../../../infrastructure-impl/cognitive-search/interfaces';
 
 export class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
@@ -19,19 +19,17 @@ export class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   // private _contentModerator: IContentModerator;
   private _cognitiveSearch: CognitiveSearchInfrastructure;
   // private _blobStorage: IBlobStorage;
-  // private _dataStore: DataStoreInfrastructure
-  private _database: IMemoryDatabase;
+  // private _database: IMemoryDatabase;
+  private _datastore: DatastoreInfrastructure;
   constructor(
-    database: IMemoryDatabase,
+    datastore: DatastoreInfrastructure,
     cognitiveSearch: CognitiveSearchInfrastructure
   ) {
     // this._vercel = this.InitVercel();
     // this._contentModerator = this.InitContentModerator();
-    // this._cognitiveSearch = this.InitCognitiveSearch();
-    this._cognitiveSearch = cognitiveSearch;
+    this._cognitiveSearch = cognitiveSearch; //this.InitCognitiveSearch();
     // this._blobStorage = this.InitBlobStorage();
-    this._database = database;
-    // this._dataStore = this.InitDataStore();
+    this._datastore = datastore; //this.InitDataStore();
   }
 
   /*
@@ -79,6 +77,11 @@ export class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
     return this._cognitiveSearch;
   }
 
+  public get datastore(): DatastoreInfrastructure {
+    return this._datastore;
+  }
+
+
   // public get communityUnitOfWork(): CommunityUnitOfWork {
   //   return this._database.CommunityUnitOfWork;
   // }
@@ -107,16 +110,16 @@ export class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   //     serviceTicketUnitOfWork: this.serviceTicketUnitOfWork
   //   }
   // }
-  public get dataStore(): DataStoreInfrastructure {
-    return {
-      communityUnitOfWork: this._database.CommunityUnitOfWork,
-      memberUnitOfWork: this._database.MemberUnitOfWork,
-      roleUnitOfWork: this._database.RoleUnitOfWork,
-      propertyUnitOfWork: this._database.PropertyUnitOfWork,
-      serviceUnitOfWork: this._database.ServiceUnitOfWork,
-      serviceTicketUnitOfWork: this._database.ServiceTicketUnitOfWork
-    };
-  }
+  // public get datastore(): DatastoreInfrastructure {
+  //   return {
+  //     communityUnitOfWork: this._database.communityUnitOfWork,
+  //     memberUnitOfWork: this._database.memberUnitOfWork,
+  //     roleUnitOfWork: this._database.roleUnitOfWork,
+  //     propertyUnitOfWork: this._database.propertyUnitOfWork,
+  //     serviceUnitOfWork: this._database.serviceUnitOfWork,
+  //     serviceTicketUnitOfWork: this._database.serviceTicketUnitOfWork
+  //   };
+  // }
 
   // private static instance: DomainInfrastructureImplBDD;
   // public static getInstance(

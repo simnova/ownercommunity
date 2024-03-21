@@ -1,11 +1,11 @@
-import { IBlobStorage } from '../domain/infrastructure/blob-storage/interfaces';
+import { BlobStorageDomain } from '../domain/infrastructure/blob-storage/interfaces';
 import archiver from 'archiver';
 import internal from 'stream';
 
 
 export class BlobZip {
-  private readonly blobStorage: IBlobStorage;
-  public constructor(blobStorage: IBlobStorage) {
+  private readonly blobStorage: BlobStorageDomain;
+  public constructor(blobStorage: BlobStorageDomain) {
     this.blobStorage = blobStorage;
   }
 

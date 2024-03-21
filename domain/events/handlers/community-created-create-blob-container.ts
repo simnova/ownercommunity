@@ -1,9 +1,9 @@
 import { CommunityCreatedEvent } from '../types/community-created';
-import { IBlobStorage } from '../../infrastructure/blob-storage/interfaces';
+import { BlobStorageDomain } from '../../infrastructure/blob-storage/interfaces';
 import { EventBusInstance } from '../event-bus';
 
 export default (
-  blobStorage:IBlobStorage,
+  blobStorage:BlobStorageDomain,
 ) => { EventBusInstance.register(CommunityCreatedEvent, async (payload) => {
 
   console.log(`CommunityCreatedEvent -> Create Blob Container - Called with Payload: ${JSON.stringify(payload)}`);

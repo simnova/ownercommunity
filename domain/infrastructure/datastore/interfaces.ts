@@ -5,11 +5,16 @@ import { RoleUnitOfWork } from '../../contexts/community/role.uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property.uow';
 import { ServiceUnitOfWork } from '../../contexts/service-ticket/service.uow';
 
-export interface DataStoreDomain {
+export interface DatastoreDomain {
   communityUnitOfWork: CommunityUnitOfWork;
   memberUnitOfWork: MemberUnitOfWork;
   roleUnitOfWork: RoleUnitOfWork;
   propertyUnitOfWork: PropertyUnitOfWork;
   serviceUnitOfWork: ServiceUnitOfWork;
   serviceTicketUnitOfWork: ServiceTicketUnitOfWork;
+}
+
+export interface DatastoreDomainInitializeable {
+  startup(): Promise<void>;
+  shutdown(): Promise<void>;
 }

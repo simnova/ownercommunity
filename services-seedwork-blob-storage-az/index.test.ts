@@ -1,4 +1,4 @@
-import { BlobStorage, BlobRequestSettings } from './index';
+import { AzBlobStorage, BlobRequestSettings } from './index';
 
 const performIntegrationTests = true;
 
@@ -6,9 +6,9 @@ const accountName = !performIntegrationTests ? 'account-name' : process.env['BLO
 const accountKey = !performIntegrationTests ? 'account-key' : process.env['BLOB_ACCOUNT_KEY'];
 
 describe('When using the Blob Storage API', () => {
-  let blobStorage: BlobStorage;
+  let blobStorage: AzBlobStorage;
   beforeEach(() => {
-    blobStorage = new BlobStorage(accountName, accountKey);
+    blobStorage = new AzBlobStorage(accountName, accountKey);
   });
 
   test('create auth header for text file', () => {
@@ -91,7 +91,7 @@ describe('When using the Blob Storage API', () => {
 
 test.skip('blob-storage: create auth header for zip file', () => {
   // arrange
-  const blobStorage = new BlobStorage('', '');
+  const blobStorage = new AzBlobStorage('', '');
   const blobName = 'MicrosoftFluentWeb_2004.zip';
   const fileSizeBytes = 15487837;
   const requestDate = new Date().toUTCString();
@@ -104,7 +104,7 @@ test.skip('blob-storage: create auth header for zip file', () => {
 
 test.skip('blob-storage: create auth header for text file', () => {
   // arrange
-  const blobStorage = new BlobStorage('', '');
+  const blobStorage = new AzBlobStorage('', '');
   const blobName = 'test4.txt';
   const fileSizeBytes = 14;
   const requestDate = new Date().toUTCString();
@@ -117,7 +117,7 @@ test.skip('blob-storage: create auth header for text file', () => {
 
 test.skip('blob-storage: create auth header lite for zip file', () => {
   // arrange
-  const blobStorage = new BlobStorage('', '');
+  const blobStorage = new AzBlobStorage('', '');
   const blobName = 'test.txt';
   // act
   const sharedKeyLite = blobStorage.generateSharedKeyLite(blobName, 'text/plain', 'test-container');

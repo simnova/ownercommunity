@@ -21,6 +21,7 @@ class BroadCaster {
 
   public removeAllListeners() {
     this.eventEmitter.removeAllListeners();
+    console.log('All listeners removed');
   }
 }
 

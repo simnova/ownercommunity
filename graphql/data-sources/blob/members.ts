@@ -2,7 +2,7 @@ import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
 import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } from '../../generated';
 import { MemberConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.domain-adapter';
-import { BlobRequestSettings } from '../../../services-seedwork-blob-storage/blob-request';
+import { BlobRequestSettings } from '../../../services-seedwork-blob-storage-az/blob-request';
 
 export class Members extends BlobDataSource<Context> {
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {

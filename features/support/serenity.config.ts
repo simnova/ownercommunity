@@ -1,4 +1,4 @@
-import { AfterAll, BeforeAll, setDefaultTimeout, defineParameterType, Before, After } from '@cucumber/cucumber';
+import { AfterAll, BeforeAll, setDefaultTimeout, defineParameterType, Before, After, AfterStep, BeforeStep } from '@cucumber/cucumber';
 import { ConsoleReporter } from '@serenity-js/console-reporter';
 import { actorCalled, actorInTheSpotlight, ArtifactArchiver, configure, Duration } from '@serenity-js/core';
 import { SerenityBDDReporter } from '@serenity-js/serenity-bdd';
@@ -28,11 +28,23 @@ const timeouts = {
 
 // let browser: playwright.Browser;
 
-Before(() => {
-    InteractWithTheDomain.init();
+
+Before(function logScenarioNameBefore(scenario) {
+    // console.log(`\n******* BEGIN Scenario : ${scenario.pickle.name} ***********`);
+    InteractWithTheDomain.startup();
 });
-After(() => {
-    InteractWithTheDomain.close();
+
+After(function logScenarioNameBefore(scenario) {
+    InteractWithTheDomain.shutdown();
+    // console.log(`\n******* END Scenario : ${scenario.pickle.name} ***********`);
+});
+
+BeforeStep(async function logStepNameBefore(step) {
+    // console.log(`\n   ===== BEGIN Step : ${step.pickleStep.text} =====`);
+});
+
+AfterStep(async function logStepNameAfter(step) {
+    // console.log(`\n   ===== END Step : ${step.pickleStep.text} =====`);
 });
 
 BeforeAll(async () => {

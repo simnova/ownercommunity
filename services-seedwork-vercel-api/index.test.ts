@@ -1,9 +1,9 @@
-import { Vercel } from './index';
+import { VercelApi } from './index';
 import axios, { AxiosError } from 'axios';
 
 const performIntegrationTests = true;
 
-let vercel: Vercel;
+let vercel: VercelApi;
 if(!performIntegrationTests){
   jest.mock('axios');
 } 
@@ -25,7 +25,7 @@ const defaultResponseHeadersResult = {
 }
 
 beforeEach(() => {
-  vercel = new Vercel(tokenValue,projectValue);
+  vercel = new VercelApi(tokenValue,projectValue);
 });
 
 describe('When using the Vercel API', () => {

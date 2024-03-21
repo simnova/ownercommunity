@@ -1,5 +1,5 @@
-import { AzCognitiveSearch } from "../../../../services-seedwork-cognitive-search-az";
-import { CognitiveSearchInfrastructure } from "../../interfaces";
+import { AzCognitiveSearch } from "../../../services-seedwork-cognitive-search-az";
+import { CognitiveSearchInfrastructure } from "../interfaces";
 
 export class AzCognitiveSearchImpl extends AzCognitiveSearch implements CognitiveSearchInfrastructure {
   
@@ -11,5 +11,13 @@ export class AzCognitiveSearchImpl extends AzCognitiveSearch implements Cognitiv
    */  
   constructor(searchKey: string, endpoint: string) {
       super(searchKey,  endpoint);
+  }
+
+  startup = async (): Promise<void> => {
+    console.log('AzCognitiveSearchImpl startup');
+  }
+
+  shutdown = async (): Promise<void> => {
+    console.log('AzCognitiveSearchImpl shutdown');
   }
 }

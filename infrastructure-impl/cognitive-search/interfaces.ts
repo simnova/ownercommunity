@@ -1,5 +1,5 @@
-import { CognitiveSearchDomain } from "../../domain/infrastructure/cognitive-search/interfaces";
+import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from "../../domain/infrastructure/cognitive-search/interfaces";
 
-export interface CognitiveSearchInfrastructure extends CognitiveSearchDomain {
+export interface CognitiveSearchInfrastructure extends CognitiveSearchDomain, CognitiveSearchDomainInitializeable {
   search(indexName: string, searchText: string, options?: any): Promise<any>;
 }

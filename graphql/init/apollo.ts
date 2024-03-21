@@ -4,12 +4,12 @@ import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';
 import { PortalTokenValidation } from './extensions/portal-token-validation';
 import { combinedSchema } from './extensions/schema-builder';
-import InitializeDomain from '../../domain/initialize-domain';
+import { DomainImpl } from '../../domain/domain-impl';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
-import { DomainInfrastructureImplInstance } from '../../startup/domain-infrastructure-impl-instance';
+import { DomainInfrastructureImpl } from '../../startup/domain-infrastructure-impl-instance';
 
 export class ApolloServerRequestHandler {
   private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {
@@ -31,7 +31,14 @@ export class ApolloServerRequestHandler {
             console.log('Apollo Server Starting');
             await connect();
             portalTokenExtractor.Start();
-            InitializeDomain(DomainInfrastructureImplInstance);
+            const DomainInfrastructureImplInstance = new DomainInfrastructureImpl();
+            const DomainImplInstance = new DomainImpl(
+              DomainInfrastructureImplInstance.datastore,
+              DomainInfrastructureImplInstance.cognitiveSearch,
+              DomainInfrastructureImplInstance.blobStorage,
+              DomainInfrastructureImplInstance.vercel
+            );
+            await DomainImplInstance.startup();
           },
           async onHealthCheck(): Promise<any> {
             // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health

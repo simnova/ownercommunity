@@ -1,9 +1,9 @@
-import { IBlobStorage } from '../../infrastructure/blob-storage/interfaces';
+import { BlobStorageDomain } from '../../infrastructure/blob-storage/interfaces';
 import { EventBusInstance } from '../event-bus';
 import { CommunityWhiteLabelDomainUpdatedEvent } from '../types/community-white-label-domain-updated';
 
 export default (
-  blobStorage:IBlobStorage
+  blobStorage:BlobStorageDomain
 ) => { EventBusInstance.register(CommunityWhiteLabelDomainUpdatedEvent, async (payload) => {
 
   console.log(`CommunityWhiteLabelDomainUpdatedEvent -> Create Blob Container - Called with Payload: ${JSON.stringify(payload)}`);

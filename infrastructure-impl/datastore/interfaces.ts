@@ -1,3 +1,3 @@
-import { DataStoreDomain } from "../../domain/infrastructure/datastore/interfaces";
+import { DatastoreDomain , DatastoreDomainInitializeable} from "../../domain/infrastructure/datastore/interfaces";
 
-export interface DataStoreInfrastructure extends DataStoreDomain {}
+export interface DatastoreInfrastructure extends DatastoreDomain, DatastoreDomainInitializeable {}

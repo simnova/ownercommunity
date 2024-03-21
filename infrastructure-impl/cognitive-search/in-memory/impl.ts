@@ -1,9 +1,17 @@
-import { MemoryCognitiveSearch} from "../../../../services-seedwork-cognitive-search-in-memory";
-import { CognitiveSearchInfrastructure } from "../../interfaces";
+import { MemoryCognitiveSearch} from "../../../services-seedwork-cognitive-search-in-memory";
+import { CognitiveSearchInfrastructure } from "../interfaces";
 
 export class MemoryCognitiveSearchImpl extends MemoryCognitiveSearch implements CognitiveSearchInfrastructure {
   constructor() {
       super();
+  }
+
+  startup = async (): Promise<void> => {
+    // console.log('MemoryCognitiveSearchImpl startup');
+  }
+
+  shutdown = async (): Promise<void> => {
+    // console.log('MemoryCognitiveSearchImpl shutdown');
   }
 
   logIndexes(): void {

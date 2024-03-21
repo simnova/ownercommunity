@@ -1,10 +1,10 @@
-import { BlobRequestSettings } from '../../../services-seedwork-blob-storage/blob-request';
-import { FileInfo } from '../../../services-seedwork-blob-storage/blob-actions';
+import { BlobRequestSettings } from '../../../services-seedwork-blob-storage-az/blob-request';
+import { FileInfo } from '../../../services-seedwork-blob-storage-az/blob-actions';
 import internal from 'stream';
 import { BlobUploadCommonResponse } from '@azure/storage-blob';
 
 
-export interface IBlobStorage {
+export interface BlobStorageDomain {
   deleteBlob(blobName: string, containerName: string): Promise<void>;
   createTextBlob(blobName: string, containerName: string, text: string, contentType?: string): Promise<void>;
   createContainer(containerName: string, allowPublicAccess?: boolean): Promise<void>;
@@ -15,4 +15,9 @@ export interface IBlobStorage {
   generateSharedKeyLite(blobName: string, mimeType: string, containerName: string): string;
   writeStreamToBlob(blobName: string, containerName: string, stream: internal.Readable, contentType: string): Promise<BlobUploadCommonResponse>;
   readStreamFromBlob(blobName: string, containerName: string): Promise<NodeJS.ReadableStream>;
+}
+
+export interface BlobStorageDomainInitializeable {
+  startup(): Promise<void>;
+  shutdown(): Promise<void>;
 }

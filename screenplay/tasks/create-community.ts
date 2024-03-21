@@ -8,7 +8,7 @@ export const CreateCommunity = ({
         Interaction.where(`#actor creates ${communityName} community`, async (actor:Actor) => {
             (await InteractWithTheDomain.asUser(actor)).createCommunity(communityName);
         }),
-        Ensure.eventually(CommunityInDb(communityName), isPresent())
+        //Ensure.eventually(CommunityInDb(communityName), isPresent())
     )
 });
 

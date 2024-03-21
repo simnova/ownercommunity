@@ -31,11 +31,11 @@ const timeouts = {
 
 Before(function logScenarioNameBefore(scenario) {
     // console.log(`\n******* BEGIN Scenario : ${scenario.pickle.name} ***********`);
-    InteractWithTheDomain.init();
+    InteractWithTheDomain.startup();
 });
 
 After(function logScenarioNameBefore(scenario) {
-    InteractWithTheDomain.close();
+    InteractWithTheDomain.shutdown();
     // console.log(`\n******* END Scenario : ${scenario.pickle.name} ***********`);
 });
 

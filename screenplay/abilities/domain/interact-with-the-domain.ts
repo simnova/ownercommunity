@@ -72,7 +72,7 @@ export class InteractWithTheDomain extends Ability
   // and instantiate the ability, for example:
   //   actorCalled('Phil').whoCan(MakePhoneCalls.using(phone))
   private static DomainImplBDDInstance: DomainImplBDD<MemorydbDatastoreImpl, MemoryCognitiveSearchImpl>;
-  public static init() {
+  public static startup() {
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
       this.startWithEmptySearchDatabase();
@@ -89,7 +89,7 @@ export class InteractWithTheDomain extends Ability
     // }
   }
 
-  public static close() {
+  public static shutdown() {
     // NodeEventBusInstance.removeAllListeners();
     this.DomainImplBDDInstance.shutdown();
   }

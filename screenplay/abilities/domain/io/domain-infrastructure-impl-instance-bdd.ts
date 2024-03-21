@@ -14,14 +14,14 @@ import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memor
 import { DataStoreInfrastructure } from '../../../../infrastructure-impl/datastore/interfaces';
 import { CognitiveSearchInfrastructure } from '../../../../infrastructure-impl/cognitive-search/interfaces';
 
-class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
+export class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   // private _vercel: IVercel;
   // private _contentModerator: IContentModerator;
   private _cognitiveSearch: CognitiveSearchInfrastructure;
   // private _blobStorage: IBlobStorage;
-  private _dataStore: DataStoreInfrastructure
+  // private _dataStore: DataStoreInfrastructure
   private _database: IMemoryDatabase;
-  private constructor(
+  constructor(
     database: IMemoryDatabase,
     cognitiveSearch: CognitiveSearchInfrastructure
   ) {
@@ -31,7 +31,7 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
     this._cognitiveSearch = cognitiveSearch;
     // this._blobStorage = this.InitBlobStorage();
     this._database = database;
-    this._dataStore = this.InitDataStore();
+    // this._dataStore = this.InitDataStore();
   }
 
   /*
@@ -79,54 +79,61 @@ class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
     return this._cognitiveSearch;
   }
 
-  public get communityUnitOfWork(): CommunityUnitOfWork {
-    return this._database.CommunityUnitOfWork;
-  }
-  public get memberUnitOfWork(): MemberUnitOfWork {
-    return this._database.MemberUnitOfWork;
-  }
-  public get roleUnitOfWork(): RoleUnitOfWork {
-    return this._database.RoleUnitOfWork;
-  }
-  public get propertyUnitOfWork(): PropertyUnitOfWork {
-    return this._database.PropertyUnitOfWork;
-  }
-  public get serviceUnitOfWork(): ServiceUnitOfWork {
-    return this._database.ServiceUnitOfWork;
-  }
-  public get serviceTicketUnitOfWork(): ServiceTicketUnitOfWork {
-    return this._database.ServiceTicketUnitOfWork;
-  }
-  private InitDataStore(): DataStoreInfrastructure {
-    return {
-      communityUnitOfWork: this.communityUnitOfWork,
-      memberUnitOfWork: this.memberUnitOfWork,
-      roleUnitOfWork: this.roleUnitOfWork,
-      propertyUnitOfWork: this.propertyUnitOfWork,
-      serviceUnitOfWork: this.serviceUnitOfWork,
-      serviceTicketUnitOfWork: this.serviceTicketUnitOfWork
-    }
-  }
+  // public get communityUnitOfWork(): CommunityUnitOfWork {
+  //   return this._database.CommunityUnitOfWork;
+  // }
+  // public get memberUnitOfWork(): MemberUnitOfWork {
+  //   return this._database.MemberUnitOfWork;
+  // }
+  // public get roleUnitOfWork(): RoleUnitOfWork {
+  //   return this._database.RoleUnitOfWork;
+  // }
+  // public get propertyUnitOfWork(): PropertyUnitOfWork {
+  //   return this._database.PropertyUnitOfWork;
+  // }
+  // public get serviceUnitOfWork(): ServiceUnitOfWork {
+  //   return this._database.ServiceUnitOfWork;
+  // }
+  // public get serviceTicketUnitOfWork(): ServiceTicketUnitOfWork {
+  //   return this._database.ServiceTicketUnitOfWork;
+  // }
+  // private InitDataStore(): DataStoreInfrastructure {
+  //   return {
+  //     communityUnitOfWork: this.communityUnitOfWork,
+  //     memberUnitOfWork: this.memberUnitOfWork,
+  //     roleUnitOfWork: this.roleUnitOfWork,
+  //     propertyUnitOfWork: this.propertyUnitOfWork,
+  //     serviceUnitOfWork: this.serviceUnitOfWork,
+  //     serviceTicketUnitOfWork: this.serviceTicketUnitOfWork
+  //   }
+  // }
   public get dataStore(): DataStoreInfrastructure {
-    return this._dataStore;
+    return {
+      communityUnitOfWork: this._database.CommunityUnitOfWork,
+      memberUnitOfWork: this._database.MemberUnitOfWork,
+      roleUnitOfWork: this._database.RoleUnitOfWork,
+      propertyUnitOfWork: this._database.PropertyUnitOfWork,
+      serviceUnitOfWork: this._database.ServiceUnitOfWork,
+      serviceTicketUnitOfWork: this._database.ServiceTicketUnitOfWork
+    };
   }
 
-  private static instance: DomainInfrastructureImplBDD;
-  public static getInstance(
-    database: IMemoryDatabase,
-    cognitiveSearch: CognitiveSearchInfrastructure
-  ): DomainInfrastructureImplBDD {
-    if (!this.instance) {
-      this.instance = new this(database, cognitiveSearch);
-    }
-    return this.instance;
-  }
+  // private static instance: DomainInfrastructureImplBDD;
+  // public static getInstance(
+  //   database: IMemoryDatabase,
+  //   cognitiveSearch: CognitiveSearchInfrastructure
+  // ): DomainInfrastructureImplBDD {
+  //   if (!this.instance) {
+  //     this.instance = new this(database, cognitiveSearch);
+  //   }
+  //   return this.instance;
+  // }
 }
 
-export const getDomainInfrastructureImplInstanceBDD = (
-  database: IMemoryDatabase,
-  cognitiveSearch: CognitiveSearchInfrastructure
-) => DomainInfrastructureImplBDD.getInstance(
-  database,
-  cognitiveSearch
-);
+// export const getDomainInfrastructureImplInstanceBDD = (
+//   database: IMemoryDatabase,
+//   cognitiveSearch: CognitiveSearchInfrastructure
+// ) => DomainInfrastructureImplBDD.getInstance(
+//   database,
+//   cognitiveSearch
+// );

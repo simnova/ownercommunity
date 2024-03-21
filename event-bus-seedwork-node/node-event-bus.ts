@@ -18,6 +18,10 @@ class BroadCaster {
   public on(event: string, listener: any) {
     this.eventEmitter.on(event, listener);
   }
+
+  public removeAllListeners() {
+    this.eventEmitter.removeAllListeners();
+  }
 }
 
 class NodeEventBusImpl implements EventBus {
@@ -26,6 +30,10 @@ class NodeEventBusImpl implements EventBus {
 
   private constructor() {
     this.broadcaster = new BroadCaster();
+  }
+
+  removeAllListeners() {
+    this.broadcaster.removeAllListeners();
   }
 
   async dispatch<T extends DomainEvent>(event: new(...args:any) => T, data: any): Promise<void> {

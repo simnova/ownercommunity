@@ -1,5 +1,5 @@
 import { Given } from "@cucumber/cucumber";
 
-Given('{actor} works', function (actor) {
+Given('{actor} works too', function (actor) {
   actor.attemptsTo();
 });

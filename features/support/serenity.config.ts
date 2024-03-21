@@ -1,4 +1,4 @@
-import { AfterAll, BeforeAll, setDefaultTimeout, defineParameterType, Before } from '@cucumber/cucumber';
+import { AfterAll, BeforeAll, setDefaultTimeout, defineParameterType, Before, After } from '@cucumber/cucumber';
 import { ConsoleReporter } from '@serenity-js/console-reporter';
 import { actorCalled, actorInTheSpotlight, ArtifactArchiver, configure, Duration } from '@serenity-js/core';
 import { SerenityBDDReporter } from '@serenity-js/serenity-bdd';
@@ -30,6 +30,9 @@ const timeouts = {
 
 Before(() => {
     InteractWithTheDomain.init();
+});
+After(() => {
+    InteractWithTheDomain.close();
 });
 
 BeforeAll(async () => {

@@ -11,7 +11,7 @@ import { RoleProps } from '../../../domain/contexts/community/role';
 import { MemberRepository } from '../../../domain/contexts/community/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../domain/contexts/community/member';
 import { DomainExecutionContext } from '../../../domain/contexts/execution-context';
-import { getDomainInfrastructureImplInstanceBDD } from './io/domain-infrastructure-impl-instance-bdd';
+import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
 import InitializeDomainBDD from './io/test/initialize-domain-bdd';
 import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/execution-context';
 import { PassportImpl } from '../../../domain/contexts/iam/passport';
@@ -22,6 +22,7 @@ import { NotepadType } from '../../actors';
 import { MemoryCognitiveSearchImpl } from '../../../infrastructure-impl/cognitive-search/in-memory/infrastructure';
 import { PropertyRepository } from '../../../domain/contexts/property/property.repository';
 import { PropertyProps } from '../../../domain/contexts/property/property';
+import { NodeEventBusInstance } from '../../../event-bus-seedwork-node';
 
 export interface InteractWithTheDomainAsUnregisteredUser {
   registerAsUser: (actor: Actor) => Promise<InteractWithTheDomainAsRegisteredUser>;
@@ -72,7 +73,7 @@ export class InteractWithTheDomain extends Ability
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
       this.startWithEmptySearchDatabase();
-      InitializeDomainBDD(getDomainInfrastructureImplInstanceBDD(
+      InitializeDomainBDD(new DomainInfrastructureImplBDD(
         InteractWithTheDomain._database,
         InteractWithTheDomain._searchDatabase
       ));
@@ -80,6 +81,10 @@ export class InteractWithTheDomain extends Ability
     // }
   }
 
+  public static close() {
+    NodeEventBusInstance.removeAllListeners();
+  }
+  
   private static using(context: DomainExecutionContext) {
     // this.init();
     return new InteractWithTheDomain(context);

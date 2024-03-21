@@ -15,7 +15,12 @@ export class MongoPropertyRepository<PropType extends PropertyProps>
   }
 
   async getById(id: string): Promise<PropertyDO<PropType>> {
-    let member = await this.model.findById(id).populate('community').exec();
-    return this.typeConverter.toDomain(member, this.context);
+    let propertyDTO = await this.model.findById(id).populate('community').exec();
+    return this.typeConverter.toDomain(propertyDTO, this.context);
+  }
+
+  async getAll(): Promise<PropertyDO<PropType>[]> {
+    let propertiesDTO = await this.model.find().populate('community').exec();
+    return propertiesDTO.map((property) => this.typeConverter.toDomain(property, this.context));
   }
 }

@@ -6,7 +6,7 @@ import { CreateCommunity } from '../../screenplay/tasks/create-community';
 import { MemberInDb } from '../../screenplay/questions/member-in-db';
 import { CommunityInDb } from '../../screenplay/questions/community-in-db';
 
-Given('{actor} registers an account in OwnerCommunity', async function (actor: Actor) {
+Given('{actor} has a registered account in OwnerCommunity', async function (actor: Actor) {
   console.log(`Actor: ${actor}`);
 
   await actor

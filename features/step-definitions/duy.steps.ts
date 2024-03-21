@@ -1,11 +1,11 @@
-import { Given, Then } from '@cucumber/cucumber';
+import { Given, Then, When } from '@cucumber/cucumber';
 import { Ensure, equals } from '@serenity-js/assertions';
 import { Actor } from '@serenity-js/core';
 import { RoleProps } from '../../domain/contexts/community/role';
 import { RoleForCommunityInDb } from '../../screenplay/questions/role-for-community-in-db';
 import { CreateCommunity } from '../../screenplay/tasks/create-community';
 
-Given('{pronoun} creates a new community named {word}', async function (actor: Actor, communityName: string) {
+When('{pronoun} creates a new community named {word}', async function (actor: Actor, communityName: string) {
   await actor.attemptsTo(CreateCommunity.named(communityName));
 });
 

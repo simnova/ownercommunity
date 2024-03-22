@@ -7,7 +7,7 @@ export const MemberInDb = async (memberName:string) => Question.about(`read ${me
   let member: MemberProps;
   await InteractWithTheDomain.asReadOnly().readMemberDb(async (db) => {
       const members = db.getAll();
-      member = (members).find((m) => m.memberName === `${firstName} ${lastName}`);
+      member = (members).find((m) => m.memberName.split("The").join(" ") === `${firstName} ${lastName}`);
   });
   return member;
 });

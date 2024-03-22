@@ -3,7 +3,7 @@ import { Context } from '../../context';
 import { PropertyConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/property.domain-adapter';
 import { MutationStatus, PropertyBlobFileAuthHeaderResult } from '../../generated';
 import { nanoid } from 'nanoid';
-import { BlobRequestSettings } from '../../../services-seedwork-blob-storage';
+import { BlobRequestSettings } from '../../../services-seedwork-blob-storage-az';
 
 interface FileInfo {
 	fileName: string;

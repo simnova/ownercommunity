@@ -14,6 +14,11 @@ export interface BatchModerationResult {
 export interface ModerationResult {
   IsApproved: boolean;
 }
-export interface IContentModerator {
+export interface ContentModeratorDomain {
   moderateText(text: string, contentType: ModeratedContentType): Promise<ModerationResult>;
+}
+
+export interface ContentModeratorDomainInitializeable {
+  startup(): Promise<void>;
+  shutdown(): Promise<void>;
 }

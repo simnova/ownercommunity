@@ -3,11 +3,11 @@ import { AuthHeader } from './auth-header';
 import {  BlobActions, FileInfo } from './blob-actions';
 import internal from 'stream';
 import { BlobUploadCommonResponse } from '@azure/storage-blob';
-import { IBlobStorage } from '../domain/infrastructure/blob-storage/interfaces';
+import { BlobStorageDomain } from '../domain/infrastructure/blob-storage/interfaces';
 
 export { BlobRequestSettings, FileInfo };
 
-export class BlobStorage implements IBlobStorage {
+export class AzBlobStorage implements BlobStorageDomain {
 
   private readonly accountName:string;
   private readonly accountKey:string;

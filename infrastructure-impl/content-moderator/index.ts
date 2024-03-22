@@ -1,1 +1,0 @@
-export { ContentModerator } from '../../services-seedwork-content-moderator';

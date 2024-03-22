@@ -12,7 +12,11 @@
     "test": "npx jest --watchAll=true",
     "gen": "graphql-codegen --config codegen.yml",
     "gen:watch": "graphql-codegen --config codegen.yml --watch  --silent=false",
-    "bdd": "clear && rm -rf ./dist && npm run build && cucumber-js --config ./cucumber.json"
+    "postinstall": "serenity-bdd update",
+    "bdd": "clear && rm -rf dist && rm -rf target && failsafe bdd:build bdd:execute",
+    "bdd:build": "npm run build",
+    "bdd:execute": "cucumber-js --config ./cucumber.json",
+    "bdd:report": "npm run bdd && serenity-bdd run --features ./features"
   },
   "description": "",
   "devDependencies": {
@@ -34,6 +38,7 @@
     "jest": "^29.7.0",
     "jest-html-reporter": "^3.6.0",
     "mongodb-memory-server": "^8.3.0",
+    "npm-failsafe": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "ts-jest": "^29.1.2",
     "typescript": "^5.1.3"

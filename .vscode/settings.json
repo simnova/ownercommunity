@@ -8,6 +8,8 @@
     "editor.tabSize": 2,
     "cSpell.words": [
         "datasource",
+        "facetable",
+        "Initializeable",
         "lucaspaganini",
         "maxlength",
         "memorydb",

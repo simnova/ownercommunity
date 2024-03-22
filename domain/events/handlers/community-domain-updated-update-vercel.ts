@@ -1,9 +1,9 @@
-import { IVercel } from '../../infrastructure/vercel/interfaces';
+import { VercelDomain } from '../../infrastructure/vercel/interfaces';
 import { EventBusInstance } from '../event-bus';
 import { CommunityDomainUpdatedEvent } from '../types/community-domain-updated';
 
 export default (
-  vercel: IVercel
+  vercel: VercelDomain
 ) => { EventBusInstance.register(CommunityDomainUpdatedEvent, async (payload) => {
     console.log(`CommunityDomainUpdatedEvent -> Update Vercel - Called with Payload: ${JSON.stringify(payload)}`);
 

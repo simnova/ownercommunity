@@ -5,8 +5,8 @@ import { CommunityEntityReference } from "../../domain/contexts/community/commun
 import { Role, RoleProps } from "../../domain/contexts/community/role";
 
 export const CreateRoleInDb = (
-  roleName: string,
   communityName: string,
+  roleName: string,
   inputPermissions: Record<string, string>
 ) => {
     return Interaction.where(`#actor creates user`, async (actor:Actor) => {

@@ -21,16 +21,36 @@ import { Member, MemberProps } from "../../../domain/contexts/community/member";
 import { MemoryMemberRepository } from "./infrastructure/member.memory-repository";
 import { buildMemoryMemberUnitOfWork } from "./infrastructure/member.memory-uow";
 
+// property
+import { Property, PropertyProps } from "../../../domain/contexts/property/property";
+import { MemoryPropertyRepository } from "./infrastructure/property.memory-repository";
+import { buildMemoryPropertyUnitOfWork } from "./infrastructure/property.memory-uow";
+
+// service
+import { Service, ServiceProps } from "../../../domain/contexts/service-ticket/service";
+import { MemoryServiceRepository } from "./infrastructure/service.memory-repository";
+import { buildMemoryServiceUnitOfWork } from "./infrastructure/service.memory-uow";
+
+// service-ticket
+import { ServiceTicket, ServiceTicketProps } from "../../../domain/contexts/service-ticket/service-ticket";
+import { MemoryServiceTicketRepository } from "./infrastructure/service-ticket.memory-repository";
+import { buildMemoryServiceTicketUnitOfWork } from "./infrastructure/service-ticket.memory-uow";
 
 export interface IMemoryDatabase {
-  CommunityUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
-  CommunityMemoryStore: ReadOnlyMemoryStore<CommunityProps>;
-  UserUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
-  UserMemoryStore: ReadOnlyMemoryStore<UserProps>;
-  RoleUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>>;
-  RoleMemoryStore: ReadOnlyMemoryStore<RoleProps>;
-  MemberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
-  MemberMemoryStore: ReadOnlyMemoryStore<MemberProps>;
+  communityUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
+  communityMemoryStore: ReadOnlyMemoryStore<CommunityProps>;
+  userUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
+  userMemoryStore: ReadOnlyMemoryStore<UserProps>;
+  roleUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>>;
+  roleMemoryStore: ReadOnlyMemoryStore<RoleProps>;
+  memberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
+  memberMemoryStore: ReadOnlyMemoryStore<MemberProps>;
+  propertyUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
+  propertyMemoryStore: ReadOnlyMemoryStore<PropertyProps>;
+  serviceUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
+  serviceMemoryStore: ReadOnlyMemoryStore<ServiceProps>;
+  serviceTicketUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>>;
+  serviceTicketMemoryStore: ReadOnlyMemoryStore<ServiceTicketProps>;
 }
 
 
@@ -38,59 +58,101 @@ export class MemoryDatabase implements IMemoryDatabase{
   constructor() {}
 
   // community
-  private communityUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
-  private communityMemoryStore: MemoryStore<CommunityProps>;
-  public get CommunityUnitOfWork():  MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>{
-    if(!this.communityUnitOfWork) {
-      this.communityMemoryStore = new MemoryStore<CommunityProps>();
-      this.communityUnitOfWork = buildMemoryCommunityUnitOfWork(this.communityMemoryStore);
+  private _communityUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
+  private _communityMemoryStore: MemoryStore<CommunityProps>;
+  public get communityUnitOfWork():  MemoryUnitOfWork<ExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>{
+    if(!this._communityUnitOfWork) {
+      this._communityMemoryStore = new MemoryStore<CommunityProps>();
+      this._communityUnitOfWork = buildMemoryCommunityUnitOfWork(this._communityMemoryStore);
     }
-    return this.communityUnitOfWork;
+    return this._communityUnitOfWork;
   }
-  public get CommunityMemoryStore(): ReadOnlyMemoryStore<CommunityProps> {
-    return this.communityMemoryStore;
+  public get communityMemoryStore(): ReadOnlyMemoryStore<CommunityProps> {
+    return this._communityMemoryStore;
   }
 
   // user
-  private userUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
-  private userMemoryStore: MemoryStore<UserProps>;
-  public get UserUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>> {
-    if(!this.userUnitOfWork) {
-      this.userMemoryStore = new MemoryStore<UserProps>();
-      this.userUnitOfWork = buildMemoryUserUnitOfWork(this.userMemoryStore);
+  private _userUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
+  private _userMemoryStore: MemoryStore<UserProps>;
+  public get userUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>> {
+    if(!this._userUnitOfWork) {
+      this._userMemoryStore = new MemoryStore<UserProps>();
+      this._userUnitOfWork = buildMemoryUserUnitOfWork(this._userMemoryStore);
     }
-    return this.userUnitOfWork;
+    return this._userUnitOfWork;
   }
-  public get UserMemoryStore(): ReadOnlyMemoryStore<UserProps> {
-    return this.userMemoryStore;
+  public get userMemoryStore(): ReadOnlyMemoryStore<UserProps> {
+    return this._userMemoryStore;
   }
   
   // role
-  private roleUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>>;
-  private roleMemoryStore: MemoryStore<RoleProps>;
-  public get RoleUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>> {
-    if(!this.roleUnitOfWork) {
-      this.roleMemoryStore = new MemoryStore<RoleProps>();
-      this.roleUnitOfWork = buildMemoryRoleUnitOfWork(this.roleMemoryStore);
+  private _roleUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>>;
+  private _roleMemoryStore: MemoryStore<RoleProps>;
+  public get roleUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>> {
+    if(!this._roleUnitOfWork) {
+      this._roleMemoryStore = new MemoryStore<RoleProps>();
+      this._roleUnitOfWork = buildMemoryRoleUnitOfWork(this._roleMemoryStore);
     }
-    return this.roleUnitOfWork;
+    return this._roleUnitOfWork;
   }
-  public get RoleMemoryStore(): ReadOnlyMemoryStore<RoleProps> {
-    return this.roleMemoryStore;
+  public get roleMemoryStore(): ReadOnlyMemoryStore<RoleProps> {
+    return this._roleMemoryStore;
   }
 
   // member
-  private memberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
-  private memberMemoryStore: MemoryStore<MemberProps>;
-  public get MemberUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>> {
-    if(!this.memberUnitOfWork) {
-      this.memberMemoryStore = new MemoryStore<MemberProps>();
-      this.memberUnitOfWork = buildMemoryMemberUnitOfWork(this.memberMemoryStore);
+  private _memberUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
+  private _memberMemoryStore: MemoryStore<MemberProps>;
+  public get memberUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>> {
+    if(!this._memberUnitOfWork) {
+      this._memberMemoryStore = new MemoryStore<MemberProps>();
+      this._memberUnitOfWork = buildMemoryMemberUnitOfWork(this._memberMemoryStore);
     }
-    return this.memberUnitOfWork;
+    return this._memberUnitOfWork;
   }
-  public get MemberMemoryStore(): ReadOnlyMemoryStore<MemberProps> {
-    return this.memberMemoryStore;
+  public get memberMemoryStore(): ReadOnlyMemoryStore<MemberProps> {
+    return this._memberMemoryStore;
+  }
+
+  // property
+  private _propertyUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
+  private _propertyMemoryStore: MemoryStore<PropertyProps>;
+  public get propertyUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>> {
+    if(!this._propertyUnitOfWork) {
+      this._propertyMemoryStore = new MemoryStore<PropertyProps>();
+      this._propertyUnitOfWork = buildMemoryPropertyUnitOfWork(this._propertyMemoryStore);
+    }
+    return this._propertyUnitOfWork;
+  }
+  public get propertyMemoryStore(): ReadOnlyMemoryStore<PropertyProps> {
+    return this._propertyMemoryStore;
+  }
+
+  // service
+  private _serviceUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
+  private _serviceMemoryStore: MemoryStore<ServiceProps>;
+  public get serviceUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>> {
+    if(!this._serviceUnitOfWork) {
+      this._serviceMemoryStore = new MemoryStore<ServiceProps>();
+      this._serviceUnitOfWork = buildMemoryServiceUnitOfWork(this._serviceMemoryStore);
+    }
+    return this._serviceUnitOfWork;
+  }
+  public get serviceMemoryStore(): ReadOnlyMemoryStore<ServiceProps> {
+    return this._serviceMemoryStore;
+  }
+
+  // service-ticket
+  private _serviceTicketUnitOfWork: MemoryUnitOfWork<ExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>>;
+  private _serviceTicketMemoryStore: MemoryStore<ServiceTicketProps>;
+  public get serviceTicketUnitOfWork(): MemoryUnitOfWork<ExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>> {
+    if(!this._serviceTicketUnitOfWork) {
+      this._serviceTicketMemoryStore = new MemoryStore<ServiceTicketProps>();
+      this._serviceTicketUnitOfWork = buildMemoryServiceTicketUnitOfWork(this._serviceTicketMemoryStore);
+    }
+    return this._serviceTicketUnitOfWork;
+  }
+  public get serviceTicketMemoryStore(): ReadOnlyMemoryStore<ServiceTicketProps> {
+    return this._serviceTicketMemoryStore;
   }
 }
 

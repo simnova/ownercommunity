@@ -5,15 +5,16 @@
 // import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
 // import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
 // import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
-import { IDataStore } from '../../../../../domain/infrastructure/datastore/interfaces';
+import { CognitiveSearchDomain } from '../../../../../domain/infrastructure/cognitive-search/interfaces';
+import { DatastoreDomain } from '../../../../../domain/infrastructure/datastore/interfaces';
 
 export interface DomainInfrastructureBDD {
   // vercel: IVercel;
   // contentModerator: IContentModerator;
-  // cognitiveSearch: ICognitiveSearch;
+  cognitiveSearch: CognitiveSearchDomain;
   // blobStorage: IBlobStorage;
   // communityUnitOfWork: CommunityUnitOfWork;
   // memberUnitOfWork: MemberUnitOfWork;
   // roleUnitOfWork: RoleUnitOfWork;
-  dataStore: IDataStore;
+  datastore: DatastoreDomain;
 }

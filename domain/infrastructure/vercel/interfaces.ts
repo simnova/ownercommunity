@@ -39,7 +39,7 @@ export interface AddDomainResult {
   };
 }
 
-export interface IVercel {
+export interface VercelDomain {
   addDomainToProject(domain: string): Promise<{ result?: DomainResponse; } & APIResponse>;
   removeDomainFromProject(domain: string): Promise<boolean>;
   getProjectDomain(domain: string): Promise<DomainResponse>;
@@ -53,4 +53,10 @@ export interface APIError {
 export interface APIResponse {
   success: boolean;
   error?: APIError;
+}
+
+
+export interface VercelDomainInitializeable {
+  startup(): Promise<void>;
+  shutdown(): Promise<void>;
 }

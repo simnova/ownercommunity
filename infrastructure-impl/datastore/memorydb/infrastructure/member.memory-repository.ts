@@ -44,35 +44,33 @@ class MemoryAccount extends MemoryBaseAdapter implements AccountProps {
 }
 
 class MemoryMember extends MemoryBaseAdapter implements MemberProps {
-  private _accounts: AccountProps[] = [];
-  private _customViews: CustomViewProps[] = [];
-
   memberName: string;
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference) : void {
     this.community = community['props'] as CommunityProps;
   };
+  private _accounts: AccountProps[] = [];
   get accounts() {
     return new MemoryPropArray(this._accounts, MemoryAccount);
-  }
+  };
   role: RoleProps;
   setRoleRef(role: RoleEntityReference): void {
     this.role = role['props'] as RoleProps;
-  }
-
+  };
   private _profile: ProfileProps;
   get profile() {
     if(!this._profile){
       this._profile = new MemoryProfile();
     }
     return this._profile;
-  }
+  };
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
+  private _customViews: CustomViewProps[] = [];
   get customViews() {
     return new MemoryPropArray(this._customViews, MemoryCustomView);
-  }
+  };
 } 
 
 export class MemoryMemberRepository<

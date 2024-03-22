@@ -1,13 +1,13 @@
-import { IContentModerator } from './content-moderator/interfaces';
-import { IVercel } from './vercel/interfaces';
-import { ICognitiveSearch } from './cognitive-search/interfaces';
-import { IBlobStorage } from './blob-storage/interfaces';
-import { IDataStore } from './datastore/interfaces';
+import { ContentModeratorDomain } from './content-moderator/interfaces';
+import { VercelDomain } from './vercel/interfaces';
+import { BlobStorageDomain } from './blob-storage/interfaces';
+import { DatastoreDomain } from './datastore/interfaces';
+import { CognitiveSearchDomain } from './cognitive-search/interfaces';
 
 export interface DomainInfrastructure {
-  vercel: IVercel;
-  contentModerator: IContentModerator;
-  cognitiveSearch: ICognitiveSearch;
-  blobStorage: IBlobStorage;
-  dataStore: IDataStore;
+  vercel: VercelDomain;
+  contentModerator: ContentModeratorDomain;
+  cognitiveSearch: CognitiveSearchDomain;
+  blobStorage: BlobStorageDomain;
+  datastore: DatastoreDomain;
 }

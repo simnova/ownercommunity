@@ -31,6 +31,7 @@ Then('{pronoun} should see that the {word} community was created by her', async 
 });
 
 Then('{pronoun} is a member of {word}', async function (actor: Actor, communityName: string) {
+  
   await actor
     .attemptsTo(
       Ensure.that((await MemberInDb(actor.name)).community.name, equals(communityName))

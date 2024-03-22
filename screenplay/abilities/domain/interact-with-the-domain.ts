@@ -25,6 +25,8 @@ import { PropertyProps } from '../../../domain/contexts/property/property';
 import { NodeEventBusInstance } from '../../../event-bus-seedwork-node';
 import { MemorydbDatastoreImpl } from '../../../infrastructure-impl/datastore/memorydb/impl';
 import { MongodbDatastoreImpl } from '../../../infrastructure-impl/datastore/mongodb/impl';
+import { ServiceTicketRepository } from '../../../domain/contexts/service-ticket/service-ticket.repository';
+import { ServiceTicketProps } from '../../../domain/contexts/service-ticket/service-ticket';
 
 export interface InteractWithTheDomainAsUnregisteredUser {
   registerAsUser: (actor: Actor) => Promise<InteractWithTheDomainAsRegisteredUser>;
@@ -46,6 +48,8 @@ export interface InteractWithTheDomainAsCommunityMember {
   readUserDb: (func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
   actOnProperty: (func:(repo:PropertyRepository<PropertyProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
+  actOnServiceTicket: (func: (repo:ServiceTicketRepository<ServiceTicketProps>) => Promise<void>) => Promise<void>;
+  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>) => Promise<void>;
 }
 
 export interface InteractWithTheDomainAsReadOnly {
@@ -54,6 +58,7 @@ export interface InteractWithTheDomainAsReadOnly {
   readMemberDb: (func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
   readUserDb: (func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
+  readServiceTicketDb: (func:(db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>) => Promise<void>;
   logSearchDatabase: () => Promise<void>;
   logDatabase: () => Promise<void>;
 }
@@ -287,6 +292,16 @@ export class InteractWithTheDomain extends Ability
   }
   public async readPropertyDb(func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>): Promise<void> {
     return await func(InteractWithTheDomain._database.propertyMemoryStore);
+  }
+
+  // service ticket
+  public async actOnServiceTicket(func:(repo:ServiceTicketRepository<ServiceTicketProps>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+      await func(repo);
+    });
+  }
+  public async readServiceTicketDb(func:(db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.serviceTicketMemoryStore);
   }
 
   public async logSearchDatabase() {

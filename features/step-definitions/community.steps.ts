@@ -6,15 +6,6 @@ import { CreateCommunity } from '../../screenplay/tasks/create-community';
 import { MemberInDb } from '../../screenplay/questions/member-in-db';
 import { CommunityInDb } from '../../screenplay/questions/community-in-db';
 
-Given('{actor} has a registered account in OwnerCommunity', async function (actor: Actor) {
-  console.log(`Actor: ${actor}`);
-
-  await actor
-    .attemptsTo(
-      Register.asUser()
-    );
-});
-
 When('{pronoun} creates a new community called {word}', async function (actor: Actor, communityName: string) {
   await actor
     .attemptsTo(

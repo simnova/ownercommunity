@@ -1,7 +1,7 @@
 import { Actor, Interaction } from '@serenity-js/core';
+import { CommunityEntityReference } from '../../domain/contexts/community/community';
 import { InteractWithTheDomain } from '../abilities/domain/interact-with-the-domain';
 import { CommunityInDb } from '../questions/community-in-db';
-import { CommunityEntityReference } from '../../domain/contexts/community/community';
 
 export const CreateMemberInDb = (memberName: string, communityName: string) => {
   return Interaction.where(`#actor creates a new member`, async (actor: Actor) => {

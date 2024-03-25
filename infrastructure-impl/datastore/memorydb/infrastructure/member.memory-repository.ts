@@ -47,7 +47,7 @@ class MemoryMember extends MemoryBaseAdapter implements MemberProps {
   memberName: string;
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference) : void {
-    this.community = community['props'] as CommunityProps;
+    this.community = community as CommunityProps;
   };
   private _accounts: AccountProps[] = [];
   get accounts() {
@@ -55,7 +55,7 @@ class MemoryMember extends MemoryBaseAdapter implements MemberProps {
   };
   role: RoleProps;
   setRoleRef(role: RoleEntityReference): void {
-    this.role = role['props'] as RoleProps;
+    this.role = role as RoleProps;
   };
   private _profile: ProfileProps;
   get profile() {

@@ -5,8 +5,9 @@ import { PassportContext } from './init/extensions/passport-context';
 import { DomainInfrastructureImpl } from '../startup/domain-infrastructure-impl-instance';
 import { DataSourceBuilder } from './data-sources/data-source-builder';
 import { DomainInfrastructure } from '../domain/infrastructure';
+import { DomainExecutionContext } from '../domain/contexts/execution-context';
 
-export class Context {
+export class Context implements DomainExecutionContext{
   public verifiedUser: {
     verifiedJWT: any;
     openIdConfigKey: string;

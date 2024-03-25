@@ -7,9 +7,6 @@ import { DomainDataSource } from './domain-data-source';
 import { Community } from '../../../infrastructure-impl/datastore/mongodb/models/community';
 import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';
 import { ReadOnlyContext } from '../../../domain/contexts/execution-context';
-import { CommunityDomainService, CommunityCreateInput as CommunityCreateInputDomain} from '../../../domain/services/community.domain-service';
-import { CommunityUnitOfWork } from '.';
-
 
 type PropType = CommunityDomainAdapter;
 type DomainType = CommunityDO<PropType>;
@@ -25,9 +22,14 @@ export class Communities extends DomainDataSource<Context,Community,PropType,Dom
     let mongoUser = await this.context.dataSources.userCosmosdbApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let userDo = new UserConverter().toDomain(mongoUser,ReadOnlyContext());
 
-    const communityDomainService = new CommunityDomainService<Context>({ unitOfWork: CommunityUnitOfWork, context: this.context });
-    const newCommunity = await communityDomainService.communityCreate(input as CommunityCreateInputDomain, userDo)
-    return new CommunityConverter().toPersistence(newCommunity as CommunityDO<CommunityDomainAdapter>);
+    let communityToReturn : Community;
+    await this.withTransaction(async (repo) => {
+      let newCommunity = await repo.getNewInstance(
+        input.name,
+        userDo);
+      communityToReturn = new CommunityConverter().toPersistence(await repo.save(newCommunity));
+    });
+    return communityToReturn;
   }
 
   async communityUpdate(community: CommunityUpdateInput) : Promise<Community> {

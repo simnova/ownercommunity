@@ -3,7 +3,7 @@ import { message } from 'antd';
 import {
   AdminRolesDetailContainerRoleDocument,
   AdminRolesDetailContainerRoleUpdateDocument,
-  RoleUpdateInput,
+  RoleUpdateInput
 } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { RolesDetail } from './roles-detail';
@@ -15,9 +15,7 @@ export interface RolesDetailContainerProps {
 }
 
 export const RolesDetailContainer: React.FC<any> = (props) => {
-  const [roleUpdate, { error: updateError }] = useMutation(
-    AdminRolesDetailContainerRoleUpdateDocument
-  );
+  const [roleUpdate, { error: updateError }] = useMutation(AdminRolesDetailContainerRoleUpdateDocument);
   const {
     data: roleData,
     loading: roleLoading,
@@ -34,12 +32,18 @@ export const RolesDetailContainer: React.FC<any> = (props) => {
         variables: {
           input: values
         }
+      }).then((res) => {
+        if (res.data?.roleUpdate.status.success) {
+          message.success('Role Updated');
+        } else {
+          message.error(`Error updating role: ${res.data?.roleUpdate.status.errorMessage}`);
+        }
       });
-      message.success('Role Updated');
     } catch (error) {
       message.error(`Error updating role: ${JSON.stringify(error)}`);
     }
   };
+
 
   return (
     <ComponentQueryLoader

@@ -8,8 +8,7 @@ export class Roles extends CosmosDataSource<Role, Context> {
 
   async getRoleById(id: string): Promise<Role> {
     const roles = await this.findByFields({ community: this.context.community })
-    const result = roles.find(role => role.id === id);
-    return result
+    return roles.find(role => role.id === id);
   }
 
   async getRoles(): Promise<Role[]> {

@@ -50,9 +50,16 @@ export const RolesDeleteContainer: React.FC<any> = (props) => {
             roleToReassignTo: values
           }
         }
+      }).then((res) => {
+        if (res.data?.roleDeleteAndReassign.status.success) {
+          message.success('Role Deleted Successfully');
+          navigate(`../`, { replace: true });
+        } else {
+          message.error(`Error Deleting role: ${res.data?.roleDeleteAndReassign.status.errorMessage}`);
+        }
       });
-      message.success('Role Deleted Successfully');
-      navigate(`../`, { replace: true });
+      
+      
     } catch (error) {
       message.error(`Error Deleting role: ${JSON.stringify(error)}`);
     }

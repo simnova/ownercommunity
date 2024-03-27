@@ -5,7 +5,6 @@ export const ViewCommunities = {
   ownedBy: (actorName: string) => Task.where(`#actor views his communities`,
       Interaction.where(`#actor views his communities`, async (actor: Actor) => {
         (await InteractWithTheDomain.asUser(actor)).getMyCommunities();
-        console.log('view community', await (await InteractWithTheDomain.asUser(actor)).getMyCommunities());
       })
     ),
 };

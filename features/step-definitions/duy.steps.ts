@@ -8,6 +8,7 @@ import { CreateCommunity } from '../../screenplay/tasks/create-community';
 import { LogDataSources } from '../../screenplay/tasks/log-data-sources';
 import { Register } from '../../screenplay/tasks/register';
 import { CreateMember } from './../../screenplay/tasks/create-member';
+import { AssignRole } from '../../screenplay/tasks/assign-role';
 
 Given('{actor} is the admin member of {word}', async function (actor: Actor, communityName: string) {
   await actor.attemptsTo(Register.asUser(), CreateCommunity.named(communityName));
@@ -20,13 +21,29 @@ When('{pronoun} adds a new member named {word} to {word}', async function (actor
 });
 
 When('{pronoun} creates a new community named {word}', async function (actor: Actor, communityName: string) {
-  await actor.attemptsTo(CreateCommunity.named(communityName));
+  await actor.attemptsTo(
+    CreateCommunity.named(communityName)
+    );
+});
+
+When('{pronoun} assigns admin role to {word} in {word}', async function (actor: Actor, memberName: string, communityName: string) {
+  await actor.attemptsTo(
+    AssignRole.named('admin').toMember(memberName).inCommunity(communityName)
+    );
 });
 
 Then('{pronoun} should be the admin member of {word}', async function (actor: Actor, communityName: string) {
   const roleQuestion = await RoleForCommunityInDb(communityName, 'admin');
   const role = await roleQuestion.answeredBy(actor);
   await actor.attemptsTo(Ensure.that(isAdminRole(role), equals(true)));
+});
+
+Then('{word} should have the admin role in TestCommunity3', async function (memberName: string) {
+  await actorInTheSpotlight().attemptsTo(Ensure.that((await MemberInDb(memberName)).role.roleName, equals('admin')));
+});
+
+Then('{word} should be the member of {word}', async function (memberName: string, communityName: string) {
+  await actorInTheSpotlight().attemptsTo(Ensure.that((await MemberInDb(memberName)).community.name, equals(communityName)));
 });
 
 const isAdminRole = (role: RoleProps) => {
@@ -51,7 +68,3 @@ const isAdminRole = (role: RoleProps) => {
   }
   return result;
 };
-
-Then('{word} should be the member of {word}', async function (memberName: string, communityName: string) {
-  await actorInTheSpotlight().attemptsTo(Ensure.that((await MemberInDb(memberName)).community.name, equals(communityName)));
-});

@@ -22,4 +22,9 @@ export class MongoMemberRepository<PropType extends MemberProps>
     let members = await this.model.find({ role: roleId }).exec();
     return members.map((member) => this.typeConverter.toDomain(member, this.context));
   }
+
+  async getAll(): Promise<MemberDO<PropType>[]> {
+    let members = await this.model.find().populate('community').exec();
+    return members.map((member) => this.typeConverter.toDomain(member, this.context));
+  }
 }

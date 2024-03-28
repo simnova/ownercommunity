@@ -1,7 +1,7 @@
 import { Property, ListingDetail, BedroomDetail, AdditionalAmenity, Location } from '../models/property';
 import { CommunityEntityReference } from '../../../../domain/contexts/community/community';
 import { MemberEntityReference } from '../../../../domain/contexts/community/member';
-import { DomainExecutionContext } from '../../../../domain/contexts/execution-context';
+import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
 import { LocationProps } from '../../../../domain/contexts/property/location';
 import { Property as PropertyDO, PropertyProps } from '../../../../domain/contexts/property/property';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';

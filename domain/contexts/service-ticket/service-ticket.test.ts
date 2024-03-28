@@ -4,7 +4,7 @@ import { PropArray } from '../../../domain-seedwork/prop-array';
 import { CommunityEntityReference } from '../community/community';
 import { PropertyEntityReference } from '../property/property';
 import { MemberEntityReference } from '../community/member';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';
 import { Passport } from '../iam/passport';
 

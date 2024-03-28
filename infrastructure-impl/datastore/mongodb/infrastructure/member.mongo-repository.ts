@@ -2,7 +2,7 @@ import { Member as MemberDO, MemberProps } from '../../../../domain/contexts/com
 import { MemberRepository } from '../../../../domain/contexts/community/member.repository';
 import { Member } from '../models/member';
 import { MongoRepositoryBase } from '../../../../services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../domain/contexts/execution-context';
+import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
 import { CommunityEntityReference } from '../../../../domain/contexts/community/community';
 
 export class MongoMemberRepository<PropType extends MemberProps>

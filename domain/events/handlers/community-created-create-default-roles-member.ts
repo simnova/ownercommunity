@@ -1,5 +1,5 @@
 import { CommunityCreatedEvent } from '../types/community-created';
-import { ReadOnlyContext, SystemExecutionContext } from '../../contexts/execution-context';
+import { ReadOnlyContext, SystemExecutionContext } from '../../contexts/domain-execution-context';
 import { Role } from '../../contexts/community/role';
 import { AccountStatusCodes } from '../../contexts/community/account.value-objects';
 import { Community, CommunityProps } from '../../contexts/community/community';

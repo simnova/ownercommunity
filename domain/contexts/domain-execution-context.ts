@@ -1,7 +1,7 @@
 import { Passport, ReadOnlyPassport, SystemPassport } from "./iam/passport";
-import { ExecutionContext } from "../../domain-seedwork/execution-context";
+import { BaseDomainExecutionContext } from "../../domain-seedwork/base-domain-execution-context";
 
-export interface DomainExecutionContext extends ExecutionContext {
+export interface DomainExecutionContext extends BaseDomainExecutionContext {
   passport: Passport;
 }
 

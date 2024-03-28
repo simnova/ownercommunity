@@ -1,6 +1,7 @@
 import { CommunityDataStructure } from "../../infrastructure-impl/datastore/data-structures/community";
 import { RoleDataStructure } from "../../infrastructure-impl/datastore/data-structures/role";
-import { BlobAuthHeader, FileInfo, MutationStatus } from "./_base.interfaces";
+import { BlobAuthHeader, FileInfo } from "../../services-seedwork-blob-storage-interfaces";
+import { MutationStatus } from "./_base.interfaces";
 
 export interface CommunityBlobStorageApplicationService {
   communityPublicFilesList(communityId: string): Promise<FileInfo[]>;

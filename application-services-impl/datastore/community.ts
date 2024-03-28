@@ -1,6 +1,6 @@
 import { Context } from '../../startup/context';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
-import { CommunityDataStructure } from '.';
+import { CommunityDataStructure } from '../../application-services/datastore';
 import { CommunityDatastoreApplicationService } from '../../application-services/datastore/community.interface';
 
 export class CommunityDatastoreApplicationServiceImpl 

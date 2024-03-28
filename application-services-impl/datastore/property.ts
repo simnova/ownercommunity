@@ -1,7 +1,7 @@
 import { Context } from '../../startup/context';
 import { PropertyDatastoreApplicationService } from '../../application-services/datastore/property.interface';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
-import { PropertyDataStructure } from '.';
+import { PropertyDataStructure } from '../../application-services/datastore';
 
 export class PropertyDatastoreApplicationServiceImpl 
   extends DatastoreApplicationServiceImpl<Context> 
@@ -44,6 +44,14 @@ export class PropertyDatastoreApplicationServiceImpl
     let propertyToReturn: PropertyDataStructure;
     await this.withDatastore(async (_passport, datastore) => {
       propertyToReturn = await datastore.propertyDatastore.getPropertyByIdWithCommunityOwner(propertyId);
+    });
+    return propertyToReturn;
+  }
+
+  async getPropertyById(propertyId: string): Promise<PropertyDataStructure> {
+    let propertyToReturn: PropertyDataStructure;
+    await this.withDatastore(async (_passport, datastore) => {
+      propertyToReturn = await datastore.propertyDatastore.findOneById(propertyId);
     });
     return propertyToReturn;
   }

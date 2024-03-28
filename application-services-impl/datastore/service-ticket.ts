@@ -1,4 +1,4 @@
-import { ServiceTicketDataStructure } from '.';
+import { ServiceTicketDataStructure } from '../../application-services/datastore';
 import { ServiceTicketDatastoreApplicationService } from '../../application-services/datastore/service-ticket.interface';
 import { ServiceTicketEntityReference } from '../../domain/contexts/service-ticket/service-ticket';
 import { Context } from '../../startup/context';

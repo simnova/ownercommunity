@@ -1,7 +1,7 @@
 import { Context } from '../../startup/context';
-import { MutationStatus, BlobAuthHeader } from '../../application-services/blob-storage/_base.interfaces';
+import { MutationStatus } from '../../application-services/blob-storage/_base.interfaces';
 import { BlobStorageApplicationServiceImpl } from './_blob-storage.application-service';
-import { BlobRequestSettings } from '../../services-seedwork-blob-storage-interfaces';
+import { BlobAuthHeader, BlobRequestSettings } from '../../services-seedwork-blob-storage-interfaces';
 import { MemberAvatarImageAuthHeaderResult } from '../../application-services/blob-storage/member.interface';
 import { MemberEntityReference } from '../../domain/contexts/community/member';
 

@@ -1,5 +1,5 @@
 import { PropertyMapsApplicationServiceImpl } from './property';
 
 export { 
-  PropertyMapsApplicationServiceImpl as PropertyMapsAPI 
+  PropertyMapsApplicationServiceImpl as PropertyMapsApiImpl,
 } 

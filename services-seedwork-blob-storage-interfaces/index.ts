@@ -12,3 +12,22 @@ export interface BlobRequestSettings {
   tags?:Record<string,string>;
   metadata?:Record<string,string>;
 }
+
+export type BlobAuthHeader = {
+  authHeader?: string;
+  blobName?: string;
+  blobPath?: string;
+  indexTags?: BlobIndexTag[];
+  metadataFields?: BlobMetadataField[];
+  requestDate?: string;
+};
+
+export type BlobIndexTag = {
+  name: string;
+  value: string;
+};
+
+export type BlobMetadataField = {
+  name: string;
+  value: string;
+};

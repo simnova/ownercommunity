@@ -6,4 +6,5 @@ export interface PropertyDatastoreApplicationService {
   getAllProperties(): Promise<PropertyDataStructure[]>;
   getPropertiesForCurrentUserByCommunityId(communityId: string, userId: string): Promise<PropertyDataStructure[]>;
   getPropertyByIdWithCommunityOwner(propertyId: string): Promise<PropertyDataStructure>;
+  getPropertyById(propertyId: string): Promise<PropertyDataStructure>;
 }

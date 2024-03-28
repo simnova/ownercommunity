@@ -1,41 +1,27 @@
-import { CommunityDataStructure, MemberDataStructure, PropertyDataStructure, RoleDataStructure, ServiceDataStructure, ServiceTicketDataStructure, UserDataStructure } from "../../application-services/datastore";
 import { DatastoreDomain , DatastoreDomainInitializeable} from "../../domain/infrastructure/datastore/interfaces";
+import { CommunityDatastoreInfrastructureService } from "./community";
+import { MemberDatastoreInfrastructureService } from "./member";
+import { PropertyDatastoreInfrastructureService } from "./property";
+import { RoleDatastoreInfrastructureService } from "./role";
+import { ServiceDatastoreInfrastructureService } from "./service";
+import { ServiceTicketDatastoreInfrastructureService } from "./service-ticket";
+import { UserDatastoreInfrastructureService } from "./user";
 
-export interface Fields {
-  [fieldName: string]:
-    | string
-    | number
-    | boolean
-    | (string | number | boolean)[]
-}
-
-export interface FindQueries<TData> {
-  findOneById(id: string): Promise<TData | null | undefined>;
-  findManyByIds(ids: string[]): Promise<(TData | null | undefined)[]>;
-  findByFields(fields: Fields): Promise<(TData | null | undefined)[]>;
+export {
+  CommunityDatastoreInfrastructureService,
+  MemberDatastoreInfrastructureService,
+  PropertyDatastoreInfrastructureService,
+  RoleDatastoreInfrastructureService,
+  ServiceDatastoreInfrastructureService,
+  ServiceTicketDatastoreInfrastructureService,
+  UserDatastoreInfrastructureService,
 }
 export interface DatastoreInfrastructureService extends DatastoreDomain, DatastoreDomainInitializeable {
-  communityDatastore: FindQueries<CommunityDataStructure> & {
-    getCommunityByHeader(header: string): Promise<CommunityDataStructure>;
-    isUserAdmin(communityId: string, externalId: string): Promise<boolean>;
-    getCommunitiesForUser(externalId: string): Promise<CommunityDataStructure[]>;
-
-  };
-  memberDatastore: FindQueries<MemberDataStructure> & {
-    getMembersAssignableToTickets(communityId: string): Promise<MemberDataStructure[]>;
-    getMemberByIdWithCommunity(memberId: string): Promise<MemberDataStructure>;
-  };
-  roleDatastore: FindQueries<RoleDataStructure>;
-  propertyDatastore: FindQueries<PropertyDataStructure> & {
-    getAll(): Promise<PropertyDataStructure[]>;
-    getPropertiesForCurrentUserByCommunityId(communityId: string, userId: string): Promise<PropertyDataStructure[]>;
-    getPropertyByIdWithCommunityOwner(propertyId: string): Promise<PropertyDataStructure>;
-  };
-  serviceDatastore: FindQueries<ServiceDataStructure>;
-  serviceTicketDatastore: FindQueries<ServiceTicketDataStructure> & {
-    findByFieldsWithPopulatedValues(fields: Fields): Promise<ServiceTicketDataStructure[]>;
-  };
-  userDatastore: FindQueries<UserDataStructure> & {
-    getAll(): Promise<UserDataStructure[]>;
-  };
+  communityDatastore: CommunityDatastoreInfrastructureService;
+  memberDatastore: MemberDatastoreInfrastructureService
+  roleDatastore: RoleDatastoreInfrastructureService;
+  propertyDatastore: PropertyDatastoreInfrastructureService;
+  serviceDatastore: ServiceDatastoreInfrastructureService;
+  serviceTicketDatastore: ServiceTicketDatastoreInfrastructureService
+  userDatastore: UserDatastoreInfrastructureService
 }

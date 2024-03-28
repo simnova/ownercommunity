@@ -3,7 +3,7 @@ import { MemberBlobStorageApplicationServiceImpl } from './member.application-se
 import { PropertyBlobStorageApplicationServiceImpl } from './property.application-service';
 
 export {
-  CommunityBlobStorageApplicationServiceImpl as CommunityBlobAPI,
-  MemberBlobStorageApplicationServiceImpl as MemberBlobAPI,
-  PropertyBlobStorageApplicationServiceImpl as PropertyBlobAPI,
+  CommunityBlobStorageApplicationServiceImpl as CommunityBlobApiImpl,
+  MemberBlobStorageApplicationServiceImpl as MemberBlobApiImpl,
+  PropertyBlobStorageApplicationServiceImpl as PropertyBlobApiImpl,
 }

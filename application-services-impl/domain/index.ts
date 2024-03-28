@@ -1,38 +1,38 @@
 // community
-import { CommunityDomainApplicationService } from "./community.interface";
+import { CommunityDomainApplicationServiceImpl } from "./community";
 import { CommunityUnitOfWork } from "../../domain/contexts/community/community.uow";
 // role
-import { RoleDomainApplicationService } from "./role.interface";
+import { RoleDomainApplicationServiceImpl } from "./role";
 import { RoleUnitOfWork } from "../../domain/contexts/community/role.uow";
 // user
-import { UserDomainApplicationService } from "./user.interface";
+import { UserDomainApplicationServiceImpl } from "./user";
 import { UserUnitOfWork } from "../../domain/contexts/user/user.uow";
 // service
-import { ServiceDomainApplicationService } from "./service.interface";
+import { ServiceDomainApplicationServiceImpl } from "./service";
 import { ServiceUnitOfWork } from "../../domain/contexts/service-ticket/service.uow";
 // service-ticket
-import { ServiceTicketDomainApplicationService } from "./service-ticket.interface";
+import { ServiceTicketDomainApplicationServiceImpl } from "./service-ticket";
 import { ServiceTicketUnitOfWork } from "../../domain/contexts/service-ticket/service-ticket.uow";
 // member
-import { MemberDomainApplicationService } from "./member.interface";
+import { MemberDomainApplicationServiceImpl } from "./member";
 import { MemberUnitOfWork } from "../../domain/contexts/community/member.uow";
 // property
-import { PropertyDomainApplicationService } from "./property.interface";
+import { PropertyDomainApplicationServiceImpl } from "./property";
 import { PropertyUnitOfWork } from "../../domain/contexts/property/property.uow";
 
 export {
-  CommunityDomainApplicationService as CommunityDomainAPI,
+  CommunityDomainApplicationServiceImpl as CommunityDomainApiImpl,
   CommunityUnitOfWork,
-  RoleDomainApplicationService as RoleDomainAPI,
+  RoleDomainApplicationServiceImpl as RoleDomainApiImpl,
   RoleUnitOfWork,
-  UserDomainApplicationService as UserDomainAPI,
+  UserDomainApplicationServiceImpl as UserDomainApiImpl,
   UserUnitOfWork,
-  ServiceDomainApplicationService as ServiceDomainAPI,
+  ServiceDomainApplicationServiceImpl as ServiceDomainApiImpl,
   ServiceUnitOfWork,
-  ServiceTicketDomainApplicationService as ServiceTicketDomainAPI,
+  ServiceTicketDomainApplicationServiceImpl as ServiceTicketDomainApiImpl,
   ServiceTicketUnitOfWork,
-  MemberDomainApplicationService as MemberDomainAPI,
+  MemberDomainApplicationServiceImpl as MemberDomainApiImpl,
   MemberUnitOfWork,
-  PropertyDomainApplicationService as PropertyDomainAPI,
+  PropertyDomainApplicationServiceImpl as PropertyDomainApiImpl,
   PropertyUnitOfWork,
 }

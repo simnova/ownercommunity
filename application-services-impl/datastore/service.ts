@@ -1,4 +1,4 @@
-import { ServiceDataStructure } from ".";
+import { ServiceDataStructure } from "../../application-services/datastore";
 import { ServiceDatastoreApplicationService } from "../../application-services/datastore/service.interface";
 import { Context } from '../../startup/context';
 import { DatastoreApplicationServiceImpl } from "./_datastore.application-service";

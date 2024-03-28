@@ -1,7 +1,7 @@
 import { Context } from '../../startup/context';
 import { MemberDatastoreApplicationService } from '../../application-services/datastore/member.interface';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
-import { MemberDataStructure } from '.';
+import { MemberDataStructure } from '../../application-services/datastore';
 
 export class MemberDatastoreApplicationServiceImpl 
   extends DatastoreApplicationServiceImpl<Context> 
@@ -45,6 +45,14 @@ export class MemberDatastoreApplicationServiceImpl
     let memberToReturn: MemberDataStructure;
     await this.withDatastore(async (_passport, datastore) => {
       memberToReturn = await datastore.memberDatastore.getMemberByIdWithCommunity(memberId);
+    });
+    return memberToReturn;
+  }
+
+  async getMemberById(memberId: string): Promise<MemberDataStructure> {
+    let memberToReturn: MemberDataStructure;
+    await this.withDatastore(async (_passport, datastore) => {
+      memberToReturn = await datastore.memberDatastore.findOneById(memberId);
     });
     return memberToReturn;
   }

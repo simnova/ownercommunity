@@ -6,4 +6,5 @@ export interface MemberDatastoreApplicationService {
   getMembersByCommunityId(communityId: string): Promise<MemberDataStructure[]>;
   getMembersAssignableToTickets(): Promise<MemberDataStructure[]>;
   getMemberByIdWithCommunity(memberId: string): Promise<MemberDataStructure>;
+  getMemberById(memberId: string): Promise<MemberDataStructure>;
 }

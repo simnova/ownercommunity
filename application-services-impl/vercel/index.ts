@@ -1,5 +1,5 @@
 import { CommunityVercelApplicationServiceImpl } from './community';
 
 export { 
-  CommunityVercelApplicationServiceImpl as CommunityVercelAPI 
+  CommunityVercelApplicationServiceImpl as CommunityVercelApiImpl,
 }

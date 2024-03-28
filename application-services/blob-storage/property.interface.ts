@@ -1,5 +1,6 @@
 import { PropertyDataStructure } from "../../infrastructure-impl/datastore/data-structures/property";
-import { BlobAuthHeader, MutationStatus } from "./_base.interfaces";
+import { BlobAuthHeader } from "../../services-seedwork-blob-storage-interfaces";
+import { MutationStatus } from "./_base.interfaces";
 
 export interface PropertyBlobStorageApplicationService {
   propertyPublicFileRemove(propertyId: string,memberId: string, fileName: string): Promise<void>;

@@ -1,5 +1,6 @@
 import { MemberDataStructure } from "../../infrastructure-impl/datastore/data-structures/member";
-import { BlobAuthHeader, MutationStatus } from "./_base.interfaces";
+import { BlobAuthHeader } from "../../services-seedwork-blob-storage-interfaces";
+import { MutationStatus } from "./_base.interfaces";
 
 export interface MemberBlobStorageApplicationService {
   memberProfileAvatarRemove(memberId: string): Promise<MutationStatus>;

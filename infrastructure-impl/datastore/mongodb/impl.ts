@@ -1,4 +1,4 @@
-import { DatastoreInfrastructureService, UserDatastoreInfrastructureService } from "../../../infrastructure-services/datastore";
+import { CommunityDatastoreInfrastructureService, DatastoreInfrastructureService, MemberDatastoreInfrastructureService, PropertyDatastoreInfrastructureService, RoleDatastoreInfrastructureService, ServiceDatastoreInfrastructureService, ServiceTicketDatastoreInfrastructureService, UserDatastoreInfrastructureService } from "../../../infrastructure-services/datastore";
 import { MongoCommunityUnitOfWork } from "./infrastructure/community.mongo-uow";
 import { MongoMemberUnitOfWork } from "./infrastructure/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "./infrastructure/property.mongo-uow";
@@ -56,27 +56,27 @@ export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
     return new MongoUserDatastore();
   }
 
-  get communityDatastore(): MongoCommunityDatastore {
+  get communityDatastore(): CommunityDatastoreInfrastructureService {
     return new MongoCommunityDatastore();
   }
 
-  get memberDatastore(): MongoMemberDatastore {
+  get memberDatastore(): MemberDatastoreInfrastructureService {
     return new MongoMemberDatastore();
   }
 
-  get roleDatastore(): MongoRoleDatastore {
+  get roleDatastore(): RoleDatastoreInfrastructureService {
     return new MongoRoleDatastore();
   }
 
-  get propertyDatastore(): MongoPropertyDatastore {
+  get propertyDatastore(): PropertyDatastoreInfrastructureService {
     return new MongoPropertyDatastore();
   }
 
-  get serviceDatastore(): MongoServiceDatastore {
+  get serviceDatastore(): ServiceDatastoreInfrastructureService {
     return new MongoServiceDatastore();
   }
 
-  get serviceTicketDatastore(): MongoServiceTicketDatastore {
+  get serviceTicketDatastore(): ServiceTicketDatastoreInfrastructureService {
     return new MongoServiceTicketDatastore();
   }
 }

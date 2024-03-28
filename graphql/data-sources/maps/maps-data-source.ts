@@ -1,19 +1,19 @@
 import { DataSource, DataSourceConfig } from '../data-source';
 import { Context as GraphQLContext } from '../../context';
 import { Passport } from '../../../domain/contexts/iam/passport';
-import { Maps } from '../../../services-seedwork-maps';
+import { AzMaps } from '../../../services-seedwork-maps-az';
 
 export class MapsDataSource<Context extends GraphQLContext> extends DataSource<Context> {
-  private _maps: Maps;
+  private _maps: AzMaps;
 
   constructor(options: DataSourceConfig<Context>) {
     super(options);
-    this._maps = new Maps();
+    this._maps = new AzMaps();
   }
   
   public get context(): Context { return this._context;}
 
-  public async withMaps(func:(passport:Passport, maps:Maps) => Promise<void>): Promise<void> {
+  public async withMaps(func:(passport:Passport, maps:AzMaps) => Promise<void>): Promise<void> {
     let passport =  this.context.passport; 
     await func(passport, this._maps);
   }

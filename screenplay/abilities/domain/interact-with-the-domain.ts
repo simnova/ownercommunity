@@ -11,7 +11,8 @@ import { RoleProps } from '../../../domain/contexts/community/role';
 import { MemberRepository } from '../../../domain/contexts/community/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../domain/contexts/community/member';
 import { DomainExecutionContext } from '../../../domain/contexts/domain-execution-context';
-import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
+// import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
+import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
 import {DomainImplBDD} from './io/test/domain-impl-bdd';
 import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/domain-execution-context';
 import { PassportImpl } from '../../../domain/contexts/iam/passport';
@@ -24,7 +25,6 @@ import { PropertyRepository } from '../../../domain/contexts/property/property.r
 import { PropertyProps } from '../../../domain/contexts/property/property';
 import { NodeEventBusInstance } from '../../../event-bus-seedwork-node';
 import { MemorydbDatastoreImpl } from '../../../infrastructure-impl/datastore/memorydb/impl';
-import { MongodbDatastoreImpl } from '../../../infrastructure-impl/datastore/mongodb/impl';
 import { ServiceTicketRepository } from '../../../domain/contexts/service-ticket/service-ticket.repository';
 import { ServiceTicketProps } from '../../../domain/contexts/service-ticket/service-ticket';
 
@@ -81,7 +81,7 @@ export class InteractWithTheDomain extends Ability
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
       this.startWithEmptySearchDatabase();
-      const DomainInfrastructureImplBDDInstance = new DomainInfrastructureImplBDD(
+      const DomainInfrastructureImplBDDInstance = new InfrastructureServicesBuilderBDD( // new DomainInfrastructureImplBDD(
         InteractWithTheDomain._database,
         InteractWithTheDomain._searchDatabase
       )
@@ -223,7 +223,7 @@ export class InteractWithTheDomain extends Ability
   // Abilities can hold state, for example: the client of a given interface,
   // additional configuration, or the result of the last interaction with a given interface.
   public constructor(
-    private readonly context: BaseDomainExecutionContext,
+    private readonly context: DomainExecutionContext // BaseDomainExecutionContext,
   ) {
     super();
   }

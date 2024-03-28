@@ -2,7 +2,7 @@ import { CommunityEntityReference, CommunityProps } from "../../../../domain/con
 import { PermissionsProps } from "../../../../domain/contexts/community/permissions";
 import { Role, RoleProps } from "../../../../domain/contexts/community/role";
 import { RoleRepository } from "../../../../domain/contexts/community/role.repository";
-import { DomainExecutionContext } from "../../../../domain/contexts/execution-context";
+import { DomainExecutionContext } from "../../../../domain/contexts/domain-execution-context";
 import { MemoryBaseAdapter } from "../../../../services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryRepositoryBase } from "../../../../services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 

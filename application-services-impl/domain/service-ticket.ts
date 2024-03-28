@@ -7,9 +7,9 @@ import { ServiceTicketProps } from '../../domain/contexts/service-ticket/service
 import { ServiceTicketRepository } from '../../domain/contexts/service-ticket/service-ticket.repository';
 import { CommunityEntityReference } from '../../domain/contexts/community/community';
 import { PropertyEntityReference } from '../../domain/contexts/property/property';
-import { MemberDataStructure } from '../datastore';
 import { MemberEntityReference } from '../../domain/contexts/community/member';
 import { ServiceEntityReference } from '../../domain/contexts/service-ticket/service';
+import { MemberDataStructure } from '../../application-services/datastore';
 
 type PropType = ServiceTicketProps;
 type Root = ServiceTicket<PropType>;

@@ -14,7 +14,7 @@ import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memor
 import { DatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
 import { CognitiveSearchInfrastructureService } from '../../../../infrastructure-services/cognitive-search';
 
-export class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
+export class DomainInfrastructureImplBDD_NOTINUSE implements DomainInfrastructureBDD{
   // private _vercel: IVercel;
   // private _contentModerator: IContentModerator;
   private _cognitiveSearch: CognitiveSearchInfrastructureService;

@@ -10,8 +10,21 @@ Feature: Manage Community
     When he adds a new member named DuyTheMember to TestCommunity2
     Then DuyTheMember should be the member of TestCommunity2
 
-  Scenario: Assign a role to a member
+  Scenario: Assign admin role to a member
     Given DuyTheOwner3 is the admin member of TestCommunity3
     When he adds a new member named DuyTheMember3 to TestCommunity3
     And he assigns admin role to DuyTheMember3 in TestCommunity3
     Then DuyTheMember3 should have the admin role in TestCommunity3
+
+  Scenario: Assign a member role to a member
+    Given DuyTheOwner4 is the admin member of TestCommunity4
+    When he adds a new member named DuyTheMember4 to TestCommunity4
+    And he creates PropertyOwner role in TestCommunity4 community with following permissions:
+      | propertyPermissions      | canManageProperties, canEditOwnProperty |
+      | serviceTicketPermissions  | canManageTickets |
+      | servicePermissions        | canManageServices |
+    And he assigns PropertyOwner role to DuyTheMember4 in TestCommunity4
+    Then DuyTheMember4 should have the PropertyOwner role in TestCommunity4 with the following permissions:
+      | propertyPermissions      | canManageProperties, canEditOwnProperty |
+      | serviceTicketPermissions  | canManageTickets |
+      | servicePermissions        | canManageServices |

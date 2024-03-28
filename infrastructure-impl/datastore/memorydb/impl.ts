@@ -13,10 +13,14 @@ import { MongoPropertyDatastore } from "../mongodb/infrastructure/property.mongo
 import { MongoRoleDatastore } from "../mongodb/infrastructure/role.mongo-datastore";
 import { MongoServiceDatastore } from "../mongodb/infrastructure/service.mongo-datastore";
 import { MongoServiceTicketDatastore } from "../mongodb/infrastructure/service-ticket.mongo-datastore";
-import { MemoryDatabase } from "./memory-database";
+import { IMemoryDatabase, MemoryDatabase } from "./memory-database";
 import { MemoryUnitOfWork } from "../../../services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 
 export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreInfrastructureService {
+
+  constructor(private readonly db: IMemoryDatabase){
+    super()
+  }
 
   startup = async (): Promise<void> => {
     // console.log('MemorydbDatastoreImpl startup');
@@ -26,32 +30,32 @@ export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreIn
     // console.log('MemorydbDatastoreImpl shutdown');
   }
 
-  get userUnitOfWork(): typeof MemoryUnitOfWork {
-    return MemoryUnitOfWork
+  get userUnitOfWork() {
+    return this.db.userUnitOfWork;
   }
 
-  get communityUnitOfWork(): typeof MongoCommunityUnitOfWork {
-    return MongoCommunityUnitOfWork
+  get communityUnitOfWork() {
+    return this.db.communityUnitOfWork;
   }
 
-  get memberUnitOfWork(): typeof MongoMemberUnitOfWork {
-    return MongoMemberUnitOfWork
+  get memberUnitOfWork() {
+    return this.db.memberUnitOfWork;
   }
 
-  get roleUnitOfWork(): typeof MongoRoleUnitOfWork {
-    return MongoRoleUnitOfWork
+  get roleUnitOfWork() {
+    return this.db.roleUnitOfWork;
   }
 
-  get propertyUnitOfWork(): typeof MongoPropertyUnitOfWork {
-    return MongoPropertyUnitOfWork
+  get propertyUnitOfWork() {
+    return this.db.propertyUnitOfWork;
   }
 
-  get serviceUnitOfWork(): typeof MongoServiceUnitOfWork {
-    return MongoServiceUnitOfWork
+  get serviceUnitOfWork() {
+    return this.db.serviceUnitOfWork;
   }
 
-  get serviceTicketUnitOfWork(): typeof MongoServiceTicketUnitOfWork {
-    return MongoServiceTicketUnitOfWork
+  get serviceTicketUnitOfWork() {
+    return this.db.serviceTicketUnitOfWork;
   }
 
   get userDatastore(): UserDatastoreInfrastructureService {

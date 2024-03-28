@@ -8,7 +8,7 @@
 import { CognitiveSearchDomain } from '../../../../../domain/infrastructure/cognitive-search/interfaces';
 import { DatastoreDomain } from '../../../../../domain/infrastructure/datastore/interfaces';
 
-export interface DomainInfrastructureBDD {
+export interface DomainInfrastructureBDD_NOTINUSE {
   // vercel: IVercel;
   // contentModerator: IContentModerator;
   cognitiveSearch: CognitiveSearchDomain;

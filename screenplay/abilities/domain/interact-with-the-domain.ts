@@ -213,7 +213,9 @@ export class InteractWithTheDomain extends Ability
   // }
 
   public static startWithEmptyDatabase() {
-    InteractWithTheDomain._database = new MemorydbDatastoreImpl();
+    InteractWithTheDomain._database = new MemorydbDatastoreImpl(
+      new MemoryDatabase()
+    );
   }
 
   public static startWithEmptySearchDatabase() {

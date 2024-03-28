@@ -1,16 +1,24 @@
+// interface to implement
+import { InfrastructureServices } from '../../../../infrastructure-services';
+// vercel
 import { VercelInfrastructureService } from '../../../../infrastructure-services/vercel';
 import { VercelApiImpl } from '../../../../infrastructure-impl/vercel/api/impl';
+// cognitive-search
 import { CognitiveSearchInfrastructureService } from '../../../../infrastructure-services/cognitive-search';
 import { AzCognitiveSearchImpl } from '../../../../infrastructure-impl/cognitive-search/az/impl';
-import { DatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+// blob-storage
 import { BlobStorageInfrastructureService } from '../../../../infrastructure-services/blob-storage';
 import { AzBlobStorageImpl } from '../../../../infrastructure-impl/blob-storage/az/impl';
+// content-moderator
 import { ContentModeratorInfrastructureService } from '../../../../infrastructure-services/content-moderator';
 import { AzContentModeratorImpl } from '../../../../infrastructure-impl/content-moderator/az/impl';
-import { InfrastructureServices } from '../../../../infrastructure-services';
-import { AzMapsImpl } from '../../../../infrastructure-impl/maps/az/impl';
+// maps
 import { MapsInfrastructureService } from '../../../../infrastructure-services/maps';
+import { AzMapsImpl } from '../../../../infrastructure-impl/maps/az/impl';
+// datastore
+import { DatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
 import { MemorydbDatastoreImpl } from '../../../../infrastructure-impl/datastore/memorydb/impl';
+import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memorydb/memory-database';
 // import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
 // import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
 // import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';
@@ -27,17 +35,15 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
   private _maps: MapsInfrastructureService;
   
   constructor(
-    datastore: DatastoreInfrastructureService,
+    datastore: IMemoryDatabase,
     cognitiveSearch: CognitiveSearchInfrastructureService
   ) {
-    this._vercel = this.InitVercel();
-    this._contentModerator = this.InitContentModerator();
-    // this._cognitiveSearch = this.InitCognitiveSearch();
-    this._cognitiveSearch = cognitiveSearch;
-    this._blobStorage = this.InitBlobStorage();
-    // this._datastore = this.InitDataStore();
-    this._datastore = datastore;
-    this._maps = this.InitMaps();
+    // this._vercel = this.InitVercel();
+    // this._contentModerator = this.InitContentModerator();
+    this._cognitiveSearch = this.InitCognitiveSearch(cognitiveSearch);
+    // this._blobStorage = this.InitBlobStorage();
+    this._datastore = this.InitDataStore(datastore);
+    // this._maps = this.InitMaps();
   }
 
   public get vercel(): VercelInfrastructureService {
@@ -81,10 +87,11 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
     return new VercelApiImpl(vercelToken, vercelProject);
   }
 
-  private InitCognitiveSearch(): CognitiveSearchInfrastructureService {
-    const searchKey = this.tryGetEnvVar('SEARCH_API_KEY');
-    const endpoint = this.tryGetEnvVar('SEARCH_API_ENDPOINT');
-    return new AzCognitiveSearchImpl(searchKey, endpoint);
+  private InitCognitiveSearch(cognitiveSearch: CognitiveSearchInfrastructureService): CognitiveSearchInfrastructureService {
+    // const searchKey = this.tryGetEnvVar('SEARCH_API_KEY');
+    // const endpoint = this.tryGetEnvVar('SEARCH_API_ENDPOINT');
+    // return new AzCognitiveSearchImpl(searchKey, endpoint);
+    return cognitiveSearch;
   }
 
   private InitBlobStorage(): BlobStorageInfrastructureService {
@@ -93,8 +100,8 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
     return new AzBlobStorageImpl(storageAccount, storageKey);
   }
 
-  private InitDataStore(): DatastoreInfrastructureService {
-    return new MemorydbDatastoreImpl();
+  private InitDataStore(db: IMemoryDatabase): DatastoreInfrastructureService {
+    return new MemorydbDatastoreImpl(db);
     // return {
     //   communityUnitOfWork: MongoCommunityUnitOfWork,
     //   memberUnitOfWork: MongoMemberUnitOfWork,

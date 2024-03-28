@@ -1,4 +1,4 @@
-import { DomainInfrastructureBDD } from './test/domain-infrastructure';
+import { DomainInfrastructureBDD_NOTINUSE } from './test/domain-infrastructure';
 // import { ContentModerator, IContentModerator } from '../../../infrastructure/services/content-moderator';
 // import { Vercel, IVercel } from '../../../infrastructure/services/vercel';
 // import { CognitiveSearch, ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
@@ -14,7 +14,7 @@ import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memor
 import { DatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
 import { CognitiveSearchInfrastructureService } from '../../../../infrastructure-services/cognitive-search';
 
-export class DomainInfrastructureImplBDD_NOTINUSE implements DomainInfrastructureBDD{
+export class DomainInfrastructureImplBDD_NOTINUSE implements DomainInfrastructureBDD_NOTINUSE{
   // private _vercel: IVercel;
   // private _contentModerator: IContentModerator;
   private _cognitiveSearch: CognitiveSearchInfrastructureService;

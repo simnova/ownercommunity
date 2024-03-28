@@ -10,15 +10,7 @@ import {
   BlobDownloadResponseParsed,
 } from '@azure/storage-blob';
 import internal from 'stream';
-
-
-export interface FileInfo {
-  name: string;
-  url: string;
-  size?: number;
-  type?: string;
-  tags?: Record<string, string>;
-}
+import { FileInfo } from '../services-seedwork-blob-storage-interfaces';
 
 export class BlobActions {
 

@@ -1,7 +1,7 @@
 import { AzCognitiveSearch } from "../../../services-seedwork-cognitive-search-az";
-import { CognitiveSearchInfrastructure } from "../interfaces";
+import { CognitiveSearchInfrastructureService } from "../../../infrastructure-services/cognitive-search";
 
-export class AzCognitiveSearchImpl extends AzCognitiveSearch implements CognitiveSearchInfrastructure {
+export class AzCognitiveSearchImpl extends AzCognitiveSearch implements CognitiveSearchInfrastructureService {
   
   /**
    * needs following environment variables:

@@ -1,14 +1,16 @@
-import { DomainInfrastructure } from '../domain/infrastructure';
-import { VercelInfrastructure } from '../infrastructure-impl/vercel/interfaces';
+import { VercelInfrastructureService } from '../infrastructure-services/vercel';
 import { VercelApiImpl } from '../infrastructure-impl/vercel/api/impl';
-import { CognitiveSearchInfrastructure } from '../infrastructure-impl/cognitive-search/interfaces';
+import { CognitiveSearchInfrastructureService } from '../infrastructure-services/cognitive-search';
 import { AzCognitiveSearchImpl } from '../infrastructure-impl/cognitive-search/az/impl';
-import { DatastoreInfrastructure } from '../infrastructure-impl/datastore/interfaces';
+import { DatastoreInfrastructureService } from '../infrastructure-services/datastore';
 import { MongodbDatastoreImpl } from '../infrastructure-impl/datastore/mongodb/impl';
-import { BlobStorageInfrastructure } from '../infrastructure-impl/blob-storage/interfaces';
+import { BlobStorageInfrastructureService } from '../infrastructure-services/blob-storage';
 import { AzBlobStorageImpl } from '../infrastructure-impl/blob-storage/az/impl';
-import { ContentModeratorInfrastructure } from '../infrastructure-impl/content-moderator/interfaces';
+import { ContentModeratorInfrastructureService } from '../infrastructure-services/content-moderator';
 import { AzContentModeratorImpl } from '../infrastructure-impl/content-moderator/az/impl';
+import { InfrastructureServices } from '../infrastructure-services';
+import { AzMapsImpl } from '../infrastructure-impl/maps/az/impl';
+import { MapsInfrastructureService } from '../infrastructure-services/maps';
 // import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
 // import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
 // import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';
@@ -16,12 +18,13 @@ import { AzContentModeratorImpl } from '../infrastructure-impl/content-moderator
 // import { MongoServiceUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/service.uow';
 // import { MongoServiceTicketUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/service-ticket.uow';
 
-export class DomainInfrastructureImpl implements DomainInfrastructure{
-  private _vercel: VercelInfrastructure;
-  private _contentModerator: ContentModeratorInfrastructure;
-  private _cognitiveSearch: CognitiveSearchInfrastructure;
-  private _blobStorage: BlobStorageInfrastructure;
-  private _datastore: DatastoreInfrastructure;
+export class InfrastructureServicesBuilder implements InfrastructureServices{
+  private _vercel: VercelInfrastructureService;
+  private _contentModerator: ContentModeratorInfrastructureService;
+  private _cognitiveSearch: CognitiveSearchInfrastructureService;
+  private _blobStorage: BlobStorageInfrastructureService;
+  private _datastore: DatastoreInfrastructureService;
+  private _maps: MapsInfrastructureService;
   
   constructor() {
     this._vercel = this.InitVercel();
@@ -29,23 +32,28 @@ export class DomainInfrastructureImpl implements DomainInfrastructure{
     this._cognitiveSearch = this.InitCognitiveSearch();
     this._blobStorage = this.InitBlobStorage();
     this._datastore = this.InitDataStore();
+    this._maps = this.InitMaps();
   }
 
-  public get vercel(): VercelInfrastructure {
+  public get vercel(): VercelInfrastructureService {
     return this._vercel;
   }
-  public get contentModerator(): ContentModeratorInfrastructure {
+  public get contentModerator(): ContentModeratorInfrastructureService {
     return this._contentModerator;
   }
-  public get cognitiveSearch(): CognitiveSearchInfrastructure {
+  public get cognitiveSearch(): CognitiveSearchInfrastructureService {
     return this._cognitiveSearch;
   }
-  public get blobStorage(): BlobStorageInfrastructure {
+  public get blobStorage(): BlobStorageInfrastructureService {
     return this._blobStorage;
   }
 
-  public get datastore(): DatastoreInfrastructure {
+  public get datastore(): DatastoreInfrastructureService {
     return this._datastore;
+  }
+
+  public get maps(): MapsInfrastructureService {
+    return this._maps;
   }
 
   private tryGetEnvVar(envVar: string): string {
@@ -56,31 +64,31 @@ export class DomainInfrastructureImpl implements DomainInfrastructure{
     return value;
   }
 
-  private InitContentModerator(): ContentModeratorInfrastructure {
+  private InitContentModerator(): ContentModeratorInfrastructureService {
     const subscriptionKey = this.tryGetEnvVar('CONTENT_MODERATOR_SUBSCRIPTION_KEY');
     const endpoint = this.tryGetEnvVar('CONTENT_MODERATOR_ENDPOINT');
     return new AzContentModeratorImpl(endpoint, subscriptionKey);
   }
 
-  private InitVercel(): VercelInfrastructure {
+  private InitVercel(): VercelInfrastructureService {
     const vercelToken = this.tryGetEnvVar('VERCEL_TOKEN');
     const vercelProject = this.tryGetEnvVar('VERCEL_PROJECT');
     return new VercelApiImpl(vercelToken, vercelProject);
   }
 
-  private InitCognitiveSearch(): CognitiveSearchInfrastructure {
+  private InitCognitiveSearch(): CognitiveSearchInfrastructureService {
     const searchKey = this.tryGetEnvVar('SEARCH_API_KEY');
     const endpoint = this.tryGetEnvVar('SEARCH_API_ENDPOINT');
     return new AzCognitiveSearchImpl(searchKey, endpoint);
   }
 
-  private InitBlobStorage(): BlobStorageInfrastructure {
+  private InitBlobStorage(): BlobStorageInfrastructureService {
     const storageAccount = this.tryGetEnvVar('BLOB_ACCOUNT_NAME');
     const storageKey = this.tryGetEnvVar('BLOB_ACCOUNT_KEY');
     return new AzBlobStorageImpl(storageAccount, storageKey);
   }
 
-  private InitDataStore(): DatastoreInfrastructure {
+  private InitDataStore(): DatastoreInfrastructureService {
     return new MongodbDatastoreImpl();
     // return {
     //   communityUnitOfWork: MongoCommunityUnitOfWork,
@@ -91,6 +99,10 @@ export class DomainInfrastructureImpl implements DomainInfrastructure{
     //   serviceTicketUnitOfWork: MongoServiceTicketUnitOfWork,
     //   startup: 
     // };
+  }
+
+  private InitMaps(): MapsInfrastructureService {
+    return new AzMapsImpl();
   }
 
   // private static instance: DomainInfrastructureImpl;

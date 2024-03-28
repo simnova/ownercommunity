@@ -1,7 +1,6 @@
-import { BlobRequestSettings } from '../../../services-seedwork-blob-storage-az/blob-request';
-import { FileInfo } from '../../../services-seedwork-blob-storage-az/blob-actions';
 import internal from 'stream';
 import { BlobUploadCommonResponse } from '@azure/storage-blob';
+import { BlobRequestSettings, FileInfo } from '../../../services-seedwork-blob-storage-interfaces';
 
 
 export interface BlobStorageDomain {

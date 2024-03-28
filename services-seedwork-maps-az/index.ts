@@ -3,7 +3,7 @@ import { TokenCredential, DefaultAzureCredential, DefaultAzureCredentialOptions,
 import dayjs from 'dayjs';
 import { setLogLevel } from '@azure/logger';
 
-export class Maps {
+export class AzMaps {
 
     //There is a problem with VSCode Authentication as of 2022-12-07 
     // https://github.com/Azure/azure-sdk-for-js/issues/22904

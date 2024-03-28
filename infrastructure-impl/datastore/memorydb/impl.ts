@@ -1,7 +1,7 @@
-import { DatastoreInfrastructure } from "../interfaces";
+import { DatastoreInfrastructureService } from "../../../infrastructure-services/datastore";
 import { MemoryDatabase } from "./memory-database";
 
-export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreInfrastructure {
+export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreInfrastructureService {
   
   constructor() {
       super();

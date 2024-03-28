@@ -1,4 +1,4 @@
-import { DatastoreInfrastructure } from "../interfaces";
+import { DatastoreInfrastructureService } from "../../../infrastructure-services/datastore";
 import { MongoCommunityUnitOfWork } from "./infrastructure/community.mongo-uow";
 import { MongoMemberUnitOfWork } from "./infrastructure/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "./infrastructure/property.mongo-uow";
@@ -7,7 +7,7 @@ import { MongoServiceTicketUnitOfWork } from "./infrastructure/service-ticket.uo
 import { MongoServiceUnitOfWork } from "./infrastructure/service.uow";
 import { MongoUserUnitOfWork } from "./infrastructure/user.uow";
 
-export class MongodbDatastoreImpl implements DatastoreInfrastructure {
+export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
   
   constructor() {
   }

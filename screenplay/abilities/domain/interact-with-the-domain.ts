@@ -1,7 +1,7 @@
 import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes} from '@serenity-js/core'
 import { IMemoryDatabase, MemoryDatabase } from '../../../infrastructure-impl/datastore/memorydb/memory-database';
 import { ReadOnlyMemoryStore } from '../../../services-seedwork-datastore-memorydb/infrastructure/memory-store';
-import { ExecutionContext } from '../../../domain-seedwork/execution-context';
+import { BaseDomainExecutionContext } from '../../../domain-seedwork/base-domain-execution-context';
 import { CommunityRepository } from '../../../domain/contexts/community/community.repository';
 import { CommunityEntityReference, CommunityProps } from '../../../domain/contexts/community/community';
 import { UserRepository } from '../../../domain/contexts/user/user.repository';
@@ -10,10 +10,10 @@ import { RoleRepository } from '../../../domain/contexts/community/role.reposito
 import { RoleProps } from '../../../domain/contexts/community/role';
 import { MemberRepository } from '../../../domain/contexts/community/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../domain/contexts/community/member';
-import { DomainExecutionContext } from '../../../domain/contexts/execution-context';
+import { DomainExecutionContext } from '../../../domain/contexts/domain-execution-context';
 import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
 import {DomainImplBDD} from './io/test/domain-impl-bdd';
-import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/execution-context';
+import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/domain-execution-context';
 import { PassportImpl } from '../../../domain/contexts/iam/passport';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
@@ -223,7 +223,7 @@ export class InteractWithTheDomain extends Ability
   // Abilities can hold state, for example: the client of a given interface,
   // additional configuration, or the result of the last interaction with a given interface.
   public constructor(
-    private readonly context: ExecutionContext,
+    private readonly context: BaseDomainExecutionContext,
   ) {
     super();
   }

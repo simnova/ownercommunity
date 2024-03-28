@@ -1,10 +1,10 @@
-import { Maps } from './index';
+import { AzMaps } from './index';
 
 // Common setup for all tests
 let maps;
 
 beforeEach(() => {
-  maps = new Maps();
+  maps = new AzMaps();
 });
 
 test.skip('sas token', async () => {

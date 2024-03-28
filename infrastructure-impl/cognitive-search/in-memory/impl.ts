@@ -1,7 +1,7 @@
 import { MemoryCognitiveSearch} from "../../../services-seedwork-cognitive-search-in-memory";
-import { CognitiveSearchInfrastructure } from "../interfaces";
+import { CognitiveSearchInfrastructureService } from "../../../infrastructure-services/cognitive-search";
 
-export class MemoryCognitiveSearchImpl extends MemoryCognitiveSearch implements CognitiveSearchInfrastructure {
+export class MemoryCognitiveSearchImpl extends MemoryCognitiveSearch implements CognitiveSearchInfrastructureService {
   constructor() {
       super();
   }

@@ -1,21 +1,17 @@
-import { Given, When, Then, Before, DataTable } from '@cucumber/cucumber';
+import { Given, When, Then, DataTable } from '@cucumber/cucumber';
 import { Actor } from '@serenity-js/core';
 
-When('{actor} creates a service ticket for {word} property', function (actor: Actor, propertyName: string) {});
+Given('{actor} the Member creates a service ticket', function (actor: Actor, dataTable: DataTable) {});
 
-When('{actor} creates a service ticket for {word} property not owned by {pronoun}', function (actor: Actor, propertyName: string, actor2: Actor) {});
+Given('{actor} the CommunityManager creates a service ticket', function (actor: Actor, dataTable: DataTable) {});
 
-When('{actor} adds title in the service ticket', function (actor: Actor) {});
-
-When('{actor} adds details in the service ticket', function (actor: Actor) {});
+When('{actor} the Member creates a service ticket for the property not owned by {pronoun}', function (actor: Actor, actor2: Actor, dataTable: DataTable) {});
 
 When('{actor} advances the service ticket from {word} to {word}', function (actor: Actor, status1: string, status2: string) {});
 
 When('{pronoun} saves the service ticket in {word}', function (actor: Actor, status1: string) {});
 
 When('{actor} assigns the service ticket to {actor}', function (actor: Actor, actor2: Actor) {});
-
-When('{actor} adds the property owner {actor} as a requester', function (actor: Actor, actor2: Actor) {});
 
 Then('the service ticket is created for {word} property', function (propertyName: string) {});
 

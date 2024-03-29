@@ -17,7 +17,7 @@ export class MongoPropertyDatastore
     return this.findByFields({});
   }
 
-  async getPropertiesForCurrentUserByCommunityId(communityId: string, userId: string): Promise<Property[]> {
+  async getPropertiesByCommunityIdUserId(communityId: string, userId: string): Promise<PropertyDataStructure[]> {
     let result = await MemberModel.aggregate<MongoPropertyDatastore>([
       {
         $match: {

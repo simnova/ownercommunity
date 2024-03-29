@@ -35,7 +35,7 @@ export class PropertyDatastoreApplicationServiceImpl
   async getPropertiesForCurrentUserByCommunityId(communityId: string, userId: string): Promise<PropertyDataStructure[]> {
     let propertyToReturn: PropertyDataStructure[];
     await this.withDatastore(async (_passport, datastore) => {
-      propertyToReturn = await datastore.propertyDatastore.getPropertiesForCurrentUserByCommunityId(communityId, userId);
+      propertyToReturn = await datastore.propertyDatastore.getPropertiesByCommunityIdUserId(communityId, userId);
     });
     return propertyToReturn;
   }

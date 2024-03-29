@@ -1,4 +1,5 @@
 import { EntityProps } from "../../domain-seedwork/entity";
+import { Fields } from "../../infrastructure-services/datastore/_base";
 
 
 export interface ReadOnlyMemoryStore<PropType extends EntityProps> {
@@ -29,3 +30,6 @@ export class MemoryStore<PropType extends EntityProps>  implements ReadOnlyMemor
     return this.memoryStore;
   }
 }
+
+
+

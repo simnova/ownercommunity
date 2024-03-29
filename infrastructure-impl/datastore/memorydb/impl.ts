@@ -15,6 +15,13 @@ import { MongoServiceDatastore } from "../mongodb/infrastructure/service.mongo-d
 import { MongoServiceTicketDatastore } from "../mongodb/infrastructure/service-ticket.mongo-datastore";
 import { IMemoryDatabase, MemoryDatabase } from "./memory-database";
 import { MemoryUnitOfWork } from "../../../services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
+import { MemoryCommunityDatastore } from "./infrastructure/community.memory-datastore";
+import { MemoryUserDatastore } from "./infrastructure/user.memory-datastore";
+import { MemoryMemberDatastore } from "./infrastructure/member.memory-datastore";
+import { MemoryRoleDatastore } from "./infrastructure/role.memory-datastore";
+import { MemoryPropertyDatastore } from "./infrastructure/property.memory-datastore";
+import { MemoryServiceDatastore } from "./infrastructure/service.memory-datastore";
+import { MemoryServiceTicketDatastore } from "./infrastructure/service-ticket.memory-datastore";
 
 export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreInfrastructureService {
 
@@ -59,30 +66,30 @@ export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreIn
   }
 
   get userDatastore(): UserDatastoreInfrastructureService {
-    return new MongoUserDatastore();
+    return new MemoryUserDatastore(this.db.userMemoryStore);
   }
 
   get communityDatastore(): CommunityDatastoreInfrastructureService {
-    return new MongoCommunityDatastore();
+    return new MemoryCommunityDatastore(this.db.communityMemoryStore);
   }
 
   get memberDatastore(): MemberDatastoreInfrastructureService {
-    return new MongoMemberDatastore();
+    return new MemoryMemberDatastore(this.db.memberMemoryDatastore);
   }
 
   get roleDatastore(): RoleDatastoreInfrastructureService {
-    return new MongoRoleDatastore();
+    return new MemoryRoleDatastore(this.db.roleMemoryDatastore);
   }
 
   get propertyDatastore(): PropertyDatastoreInfrastructureService {
-    return new MongoPropertyDatastore();
+    return new MemoryPropertyDatastore(this.db.propertyMemoryDatastore);
   }
 
   get serviceDatastore(): ServiceDatastoreInfrastructureService {
-    return new MongoServiceDatastore();
+    return new MemoryServiceDatastore(this.db.serviceMemoryStore);
   }
 
   get serviceTicketDatastore(): ServiceTicketDatastoreInfrastructureService {
-    return new MongoServiceTicketDatastore();
+    return new MemoryServiceTicketDatastore(this.db.serviceTicketMemoryDatastore);
   }
 }

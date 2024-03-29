@@ -35,22 +35,36 @@ import { buildMemoryServiceUnitOfWork } from "./infrastructure/service.memory-uo
 import { ServiceTicket, ServiceTicketProps } from "../../../domain/contexts/service-ticket/service-ticket";
 import { MemoryServiceTicketRepository } from "./infrastructure/service-ticket.memory-repository";
 import { buildMemoryServiceTicketUnitOfWork } from "./infrastructure/service-ticket.memory-uow";
+import { MemberDataStructure } from "../data-structures/member";
+import { CommunityDataStructure } from "../data-structures/community";
+import { UserDataStructure } from "../data-structures/user";
+import { RoleDataStructure } from "../data-structures/role";
+import { PropertyDataStructure } from "../data-structures/property";
+import { ServiceDataStructure } from "../data-structures/service";
+import { ServiceTicketDataStructure } from "../data-structures/service-ticket";
 
 export interface IMemoryDatabase {
   communityUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Community<CommunityProps>, MemoryCommunityRepository<CommunityProps, Community<CommunityProps>>>;
   communityMemoryStore: ReadOnlyMemoryStore<CommunityProps>;
+  readonly communityMemoryDatastore: ReadOnlyMemoryStore<CommunityDataStructure>;
   userUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
   userMemoryStore: ReadOnlyMemoryStore<UserProps>;
+  readonly userMemoryDatastore: ReadOnlyMemoryStore<UserDataStructure>;
   roleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>>;
   roleMemoryStore: ReadOnlyMemoryStore<RoleProps>;
+  readonly roleMemoryDatastore: ReadOnlyMemoryStore<RoleDataStructure>;
   memberUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
   memberMemoryStore: ReadOnlyMemoryStore<MemberProps>;
+  readonly memberMemoryDatastore: ReadOnlyMemoryStore<MemberDataStructure>
   propertyUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Property<PropertyProps>, MemoryPropertyRepository<PropertyProps, Property<PropertyProps>>>;
   propertyMemoryStore: ReadOnlyMemoryStore<PropertyProps>;
+  readonly propertyMemoryDatastore: ReadOnlyMemoryStore<PropertyDataStructure>;
   serviceUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
   serviceMemoryStore: ReadOnlyMemoryStore<ServiceProps>;
+  readonly serviceMemoryDatastore: ReadOnlyMemoryStore<ServiceDataStructure>;
   serviceTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>>;
   serviceTicketMemoryStore: ReadOnlyMemoryStore<ServiceTicketProps>;
+  readonly serviceTicketMemoryDatastore: ReadOnlyMemoryStore<ServiceTicketDataStructure>;
 }
 
 
@@ -70,6 +84,9 @@ export class MemoryDatabase implements IMemoryDatabase{
   public get communityMemoryStore(): ReadOnlyMemoryStore<CommunityProps> {
     return this._communityMemoryStore;
   }
+  public get communityMemoryDatastore(): ReadOnlyMemoryStore<CommunityDataStructure> {
+    return JSON.parse(JSON.stringify(this._communityMemoryStore));
+  }
 
   // user
   private _userUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
@@ -83,6 +100,9 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
   public get userMemoryStore(): ReadOnlyMemoryStore<UserProps> {
     return this._userMemoryStore;
+  }
+  public get userMemoryDatastore(): ReadOnlyMemoryStore<UserDataStructure> {
+    return JSON.parse(JSON.stringify(this._userMemoryStore));
   }
   
   // role
@@ -98,6 +118,9 @@ export class MemoryDatabase implements IMemoryDatabase{
   public get roleMemoryStore(): ReadOnlyMemoryStore<RoleProps> {
     return this._roleMemoryStore;
   }
+  public get roleMemoryDatastore(): ReadOnlyMemoryStore<RoleDataStructure> {
+    return JSON.parse(JSON.stringify(this._roleMemoryStore));
+  }
 
   // member
   private _memberUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
@@ -111,6 +134,9 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
   public get memberMemoryStore(): ReadOnlyMemoryStore<MemberProps> {
     return this._memberMemoryStore;
+  }
+  public get memberMemoryDatastore(): ReadOnlyMemoryStore<MemberDataStructure> {
+    return JSON.parse(JSON.stringify(this._memberMemoryStore));
   }
 
   // property
@@ -126,6 +152,9 @@ export class MemoryDatabase implements IMemoryDatabase{
   public get propertyMemoryStore(): ReadOnlyMemoryStore<PropertyProps> {
     return this._propertyMemoryStore;
   }
+  public get propertyMemoryDatastore(): ReadOnlyMemoryStore<PropertyDataStructure> {
+    return JSON.parse(JSON.stringify(this._propertyMemoryStore));
+  }
 
   // service
   private _serviceUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Service<ServiceProps>, MemoryServiceRepository<ServiceProps, Service<ServiceProps>>>;
@@ -140,6 +169,9 @@ export class MemoryDatabase implements IMemoryDatabase{
   public get serviceMemoryStore(): ReadOnlyMemoryStore<ServiceProps> {
     return this._serviceMemoryStore;
   }
+  public get serviceMemoryDatastore(): ReadOnlyMemoryStore<ServiceDataStructure> {
+    return JSON.parse(JSON.stringify(this._serviceMemoryStore));
+  }
 
   // service-ticket
   private _serviceTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>>;
@@ -153,6 +185,9 @@ export class MemoryDatabase implements IMemoryDatabase{
   }
   public get serviceTicketMemoryStore(): ReadOnlyMemoryStore<ServiceTicketProps> {
     return this._serviceTicketMemoryStore;
+  }
+  public get serviceTicketMemoryDatastore(): ReadOnlyMemoryStore<ServiceTicketDataStructure> {
+    return JSON.parse(JSON.stringify(this._serviceTicketMemoryStore));
   }
 }
 

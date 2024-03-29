@@ -1,9 +1,9 @@
 import { Member, MemberModel } from '../models/member';
 import { MemberDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
-import { MemberDataStructure } from '../../data-structures/member';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 import { Types } from 'mongoose';
 import { RoleModel } from '../models/role';
+import { MemberDataStructure } from '../../data-structures/member';
 
 export class MongoMemberDatastore 
   extends BaseMongoDatastore<Member>
@@ -39,10 +39,13 @@ export class MongoMemberDatastore
       },
     ]).exec();
     console.log(`getMembersAssignableToTickets`, result);
-    return result.map((r) => this.model.hydrate(r));
+    return result;
+    // return result.map((r) => new MemberConverter().toDomain(r, ReadOnlyContext()));
   }
 
   async getMemberByIdWithCommunity(memberId: string): Promise<MemberDataStructure> {
-    return this.model.findById(memberId).populate('community').exec();
-  }
+    const result = await this.model.findById(memberId).populate('community').exec();
+    return result;
+    // return new MemberConverter().toDomain(result,ReadOnlyContext()); // Add type assertion
+  }    
 }

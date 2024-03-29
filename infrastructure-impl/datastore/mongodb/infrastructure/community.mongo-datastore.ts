@@ -1,24 +1,27 @@
 import { Community, CommunityModel } from '../models/community';
 import { CommunityDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
-import { CommunityDataStructure } from '../../data-structures/community';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 import { Types, isValidObjectId } from 'mongoose';
 import { UserModel } from '../models/user';
 import { MemberModel } from '../models/member';
+import { CommunityConverter } from './community.domain-adapter';
+import { ReadOnlyContext } from '../../../../domain/contexts/domain-execution-context';
+import { CommunityDataStructure } from '../../data-structures/community';
 
 export class MongoCommunityDatastore 
   extends BaseMongoDatastore<Community>
   implements CommunityDatastoreInfrastructureService {
 
   constructor(){
-    super({ modelOrCollection: CommunityModel})
+    super({ modelOrCollection: CommunityModel});
   }
 
   async getCommunityByHeader(header: string): Promise<CommunityDataStructure> {
     console.log(`getCommunityByHeader`, header);
     if (isValidObjectId(header)) {
       console.log('valid header!objectId');
-      return this.findOneById(header);
+      const result = await this.findOneById(header); 
+      return new CommunityConverter().toDomain(result,ReadOnlyContext());
     }
 
     return this.collection.find({
@@ -148,7 +151,7 @@ export class MongoCommunityDatastore
         $replaceWith: '$c',
       },
     ]).exec();
-    return result.map((r) => this.model.hydrate(r));
+    // return result.map((r) => this.model.hydrate(r));
+    return result.map((r) => new CommunityConverter().toDomain(r,ReadOnlyContext()));
   }
-
 }

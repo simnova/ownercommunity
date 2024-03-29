@@ -1,6 +1,7 @@
 import { FindQueries, Fields } from "./_base";
 import { ServiceTicketDataStructure } from "../../application-services/datastore";
 
-export interface ServiceTicketDatastoreInfrastructureService extends FindQueries<ServiceTicketDataStructure> {
-  findByFieldsWithPopulatedValues(fields: Fields): Promise<ServiceTicketDataStructure[]>;
+type PropType = ServiceTicketDataStructure;
+export interface ServiceTicketDatastoreInfrastructureService extends FindQueries<PropType> {
+  findByFieldsWithPopulatedValues(fields: Fields): Promise<PropType[]>;
 }

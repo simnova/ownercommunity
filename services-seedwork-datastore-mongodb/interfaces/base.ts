@@ -13,7 +13,11 @@ export interface MongoBase {
  *
  * Can also change type to "any" in the data source but loose type safety
  */
-export interface Base extends Document, MongoBase {}
+export interface Base extends Document, MongoBase {
+  id: any;
+  createdAt: Date;
+  updatedAt: Date;
+}
 export const BaseOptions: SchemaOptions = {
   timestamps: true,
   versionKey: 'version',

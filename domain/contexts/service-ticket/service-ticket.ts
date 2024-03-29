@@ -4,7 +4,7 @@ import { Property, PropertyEntityReference, PropertyProps } from '../property/pr
 import { MemberEntityReference, Member, MemberProps } from '../community/member';
 import { Service, ServiceEntityReference, ServiceProps } from './service';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './service-ticket.value-objects';
 import { PropArray } from '../../../domain-seedwork/prop-array';

@@ -1,5 +1,5 @@
 import { UnitOfWork } from '../../../domain-seedwork/unit-of-work';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import { Property, PropertyProps } from './property';
 import { PropertyRepository } from './property.repository';
 

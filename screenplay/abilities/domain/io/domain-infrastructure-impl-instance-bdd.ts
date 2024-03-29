@@ -1,4 +1,4 @@
-import { DomainInfrastructureBDD } from './test/domain-infrastructure';
+import { DomainInfrastructureBDD_NOTINUSE } from './test/domain-infrastructure';
 // import { ContentModerator, IContentModerator } from '../../../infrastructure/services/content-moderator';
 // import { Vercel, IVercel } from '../../../infrastructure/services/vercel';
 // import { CognitiveSearch, ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
@@ -11,19 +11,19 @@ import { PropertyUnitOfWork } from '../../../../domain/contexts/property/propert
 import { ServiceUnitOfWork } from '../../../../domain/contexts/service-ticket/service.uow';
 import { ServiceTicketUnitOfWork } from '../../../../domain/contexts/service-ticket/service-ticket.uow';
 import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memorydb/memory-database';
-import { DatastoreInfrastructure } from '../../../../infrastructure-impl/datastore/interfaces';
-import { CognitiveSearchInfrastructure } from '../../../../infrastructure-impl/cognitive-search/interfaces';
+import { DatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { CognitiveSearchInfrastructureService } from '../../../../infrastructure-services/cognitive-search';
 
-export class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
+export class DomainInfrastructureImplBDD_NOTINUSE implements DomainInfrastructureBDD_NOTINUSE{
   // private _vercel: IVercel;
   // private _contentModerator: IContentModerator;
-  private _cognitiveSearch: CognitiveSearchInfrastructure;
+  private _cognitiveSearch: CognitiveSearchInfrastructureService;
   // private _blobStorage: IBlobStorage;
   // private _database: IMemoryDatabase;
-  private _datastore: DatastoreInfrastructure;
+  private _datastore: DatastoreInfrastructureService;
   constructor(
-    datastore: DatastoreInfrastructure,
-    cognitiveSearch: CognitiveSearchInfrastructure
+    datastore: DatastoreInfrastructureService,
+    cognitiveSearch: CognitiveSearchInfrastructureService
   ) {
     // this._vercel = this.InitVercel();
     // this._contentModerator = this.InitContentModerator();
@@ -73,11 +73,11 @@ export class DomainInfrastructureImplBDD implements DomainInfrastructureBDD{
   // private InitCognitiveSearch(): CognitiveSearchInfrastructure {
   //   return MemoryCognitiveSearchImpl.getInstance();
   // }
-  public get cognitiveSearch(): CognitiveSearchInfrastructure {
+  public get cognitiveSearch(): CognitiveSearchInfrastructureService {
     return this._cognitiveSearch;
   }
 
-  public get datastore(): DatastoreInfrastructure {
+  public get datastore(): DatastoreInfrastructureService {
     return this._datastore;
   }
 

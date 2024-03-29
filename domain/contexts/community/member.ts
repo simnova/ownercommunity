@@ -5,7 +5,7 @@ import { Community, CommunityProps, CommunityEntityReference } from './community
 import { PropArray } from '../../../domain-seedwork/prop-array';
 import { Account, AccountEntityReference, AccountProps } from './account';
 import { Role, RoleEntityReference, RoleProps } from './role';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import { Profile, ProfileEntityReference, ProfileProps } from './profile';
 import { CommunityVisa } from '../iam/community-visa';
 import { CustomView, CustomViewEntityReference, CustomViewProps } from './custom-view';

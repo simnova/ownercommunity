@@ -1,5 +1,5 @@
 import { Entity, EntityProps } from '../../../domain-seedwork/entity';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';
 
 export interface PhotoPropValues extends EntityProps {

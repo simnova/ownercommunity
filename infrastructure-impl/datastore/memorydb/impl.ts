@@ -1,10 +1,10 @@
-import { DatastoreInfrastructure } from "../interfaces";
-import { MemoryDatabase } from "./memory-database";
+import { DatastoreInfrastructureService } from "../../../infrastructure-services/datastore";
+import { IMemoryDatabase, MemoryDatabase } from "./memory-database";
 
-export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreInfrastructure {
-  
-  constructor() {
-      super();
+export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreInfrastructureService {
+
+  constructor(private readonly db: IMemoryDatabase){
+    super()
   }
 
   startup = async (): Promise<void> => {
@@ -14,5 +14,4 @@ export class MemorydbDatastoreImpl extends MemoryDatabase implements DatastoreIn
   shutdown = async (): Promise<void> => {
     // console.log('MemorydbDatastoreImpl shutdown');
   }
-
 }

@@ -1,6 +1,6 @@
 import { Community, CommunityProps } from './community';
 import { UserEntityReference } from '../user/user';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import { CommunityVisa } from '../iam/community-visa';
 import { Passport } from '../iam/passport';
 import { CommunityCreatedEvent } from '../../events/types/community-created';

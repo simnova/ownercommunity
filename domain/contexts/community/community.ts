@@ -2,7 +2,7 @@ import { CommunityCreatedEvent } from '../../events/types/community-created';
 import { CommunityDomainUpdatedEvent } from '../../events/types/community-domain-updated';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../domain-seedwork/entity';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import { CommunityVisa } from '../iam/community-visa';
 import { User, UserEntityReference, UserProps } from '../user/user';
 import * as ValueObjects from './community.value-objects';
@@ -61,14 +61,14 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
 
   public static getNewInstance<props extends CommunityProps>(
     newProps: props,
-    name: string,
-    createdBy: UserEntityReference,
+    communityName: string,
+    createdByUser: UserEntityReference,
     context: DomainExecutionContext
   ): Community<props> {
     let community = new Community(newProps, context);
     community.MarkAsNew();
-    community.Name = name;
-    community.CreatedBy = createdBy;
+    community.Name = communityName;
+    community.CreatedBy = createdByUser;
     community.isNew = false;
     return community;
   }

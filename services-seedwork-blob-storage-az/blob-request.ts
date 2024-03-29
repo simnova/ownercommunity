@@ -1,14 +1,6 @@
+import { BlobRequestSettings } from '../services-seedwork-blob-storage-interfaces';
 import { HeaderConstants } from './constants';
 import { WebResource } from '@azure/storage-blob';
-
-
-
-export interface BlobRequestSettings { 
-  fileSizeBytes?:number;
-  mimeType?:string;
-  tags?:Record<string,string>;
-  metadata?:Record<string,string>;
-}
 
 /*
  * Wrapper for https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob

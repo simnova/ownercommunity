@@ -9,7 +9,7 @@ import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
 import { permissions } from '../schema';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
-import { DomainInfrastructureImpl } from '../../startup/domain-infrastructure-impl-instance';
+import { InfrastructureServicesBuilder } from '../../startup-impl/infrastructure-services-builder';
 
 export class ApolloServerRequestHandler {
   private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {
@@ -31,7 +31,7 @@ export class ApolloServerRequestHandler {
             console.log('Apollo Server Starting');
             await connect();
             portalTokenExtractor.Start();
-            const DomainInfrastructureImplInstance = new DomainInfrastructureImpl();
+            const DomainInfrastructureImplInstance = new InfrastructureServicesBuilder();
             const DomainImplInstance = new DomainImpl(
               DomainInfrastructureImplInstance.datastore,
               DomainInfrastructureImplInstance.cognitiveSearch,

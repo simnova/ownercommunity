@@ -5,7 +5,7 @@ import { MongoTypeConverter } from '../../../../services-seedwork-datastore-mong
 
 import { CommunityProps } from '../../../../domain/contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
-import { DomainExecutionContext } from '../../../../domain/contexts/execution-context';
+import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
 
 export class ServiceConverter extends MongoTypeConverter<DomainExecutionContext, Service, ServiceDomainAdapter, ServiceDO<ServiceDomainAdapter>> {
   constructor() {

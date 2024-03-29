@@ -1,5 +1,5 @@
 import { Entity, EntityProps } from '../../../domain-seedwork/entity';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import { ServiceTicketVisa } from '../iam/service-ticket-visa';
 import { Member, MemberEntityReference, MemberProps } from '../community/member';
 import * as ValueObjects from './activity-detail.value-objects';

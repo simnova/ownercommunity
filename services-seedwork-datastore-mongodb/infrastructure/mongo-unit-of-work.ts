@@ -6,9 +6,9 @@ import { TypeConverter } from '../../domain-seedwork/type-converter';
 import { EntityProps } from '../../domain-seedwork/entity';
 import { EventBus } from '../../domain-seedwork/event-bus';
 import { DomainEvent } from '../../domain-seedwork/domain-event';
-import { ExecutionContext } from '../../domain-seedwork/execution-context';
+import { BaseDomainExecutionContext } from '../../domain-seedwork/base-domain-execution-context';
 
-export class MongoUnitOfWork<ContextType extends ExecutionContext, MongoType extends Document,PropType extends EntityProps, DomainType  extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<ContextType, MongoType,PropType,DomainType> > extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
+export class MongoUnitOfWork<ContextType extends BaseDomainExecutionContext, MongoType extends Document,PropType extends EntityProps, DomainType  extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<ContextType, MongoType,PropType,DomainType> > extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
   async withTransaction(context:ContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {
       let repoEvents: DomainEvent[] = [];
       console.log('withTransaction');

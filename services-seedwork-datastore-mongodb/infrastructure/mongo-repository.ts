@@ -3,12 +3,12 @@ import { AggregateRoot } from '../../domain-seedwork/aggregate-root';
 import { DomainEvent } from '../../domain-seedwork/domain-event';
 import { EntityProps } from '../../domain-seedwork/entity';
 import { EventBus } from '../../domain-seedwork/event-bus';
-import { ExecutionContext } from '../../domain-seedwork/execution-context';
+import { BaseDomainExecutionContext } from '../../domain-seedwork/base-domain-execution-context';
 import { Repository } from '../../domain-seedwork/repository';
 import { TypeConverter } from '../../domain-seedwork/type-converter';
 
 export abstract class MongoRepositoryBase<
-  ContextType extends ExecutionContext,
+  ContextType extends BaseDomainExecutionContext,
   MongoType extends Document,
   PropType extends EntityProps,
   DomainType extends AggregateRoot<PropType>
@@ -62,7 +62,7 @@ export abstract class MongoRepositoryBase<
   }
 
   static create<
-    ContextType extends ExecutionContext,
+    ContextType extends BaseDomainExecutionContext,
     MongoType extends Document,
     PropType extends EntityProps,
     DomainType extends AggregateRoot<PropType>,

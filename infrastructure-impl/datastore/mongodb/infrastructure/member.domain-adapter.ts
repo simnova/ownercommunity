@@ -8,7 +8,7 @@ import { UserDomainAdapter } from './user.domain-adapter';
 import { CommunityEntityReference } from '../../../../domain/contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { RoleDomainAdapter } from './role.domain-adapter';
-import { DomainExecutionContext } from '../../../../domain/contexts/execution-context';
+import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
 import { RoleEntityReference } from '../../../../domain/contexts/community/role';
 import { ProfileProps } from '../../../../domain/contexts/community/profile';
 import { UserEntityReference } from '../../../../domain/contexts/user/user';

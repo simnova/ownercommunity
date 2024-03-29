@@ -1,7 +1,7 @@
 import { AzContentModerator } from "../../../services-seedwork-content-moderator";
-import { ContentModeratorInfrastructure } from "../interfaces";
+import { ContentModeratorInfrastructureService } from "../../../infrastructure-services/content-moderator";
 
-export class AzContentModeratorImpl extends AzContentModerator implements ContentModeratorInfrastructure {
+export class AzContentModeratorImpl extends AzContentModerator implements ContentModeratorInfrastructureService {
   
   constructor(endpoint: string, subscriptionKey: string) {
       super(endpoint, subscriptionKey);

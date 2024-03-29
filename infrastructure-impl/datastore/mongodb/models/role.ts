@@ -5,6 +5,7 @@ import * as  Community from './community';
 export interface ServicePermissions {
   id: ObjectId;
   canManageServices: boolean;
+  isSystemAccount: false;
 }
 
 export interface ServiceTicketPermissions {

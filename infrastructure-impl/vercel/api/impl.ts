@@ -1,7 +1,7 @@
 import { VercelApi } from "../../../services-seedwork-vercel-api";
-import { VercelInfrastructure } from "../interfaces";
+import { VercelInfrastructureService } from "../../../infrastructure-services/vercel";
 
-export class VercelApiImpl extends VercelApi implements VercelInfrastructure {
+export class VercelApiImpl extends VercelApi implements VercelInfrastructureService {
   
   constructor(vercelToken: string, vercelProject: string) {
       super(vercelToken, vercelProject);

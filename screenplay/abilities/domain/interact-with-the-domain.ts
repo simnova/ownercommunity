@@ -1,7 +1,7 @@
 import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes} from '@serenity-js/core'
 import { IMemoryDatabase, MemoryDatabase } from '../../../infrastructure-impl/datastore/memorydb/memory-database';
 import { ReadOnlyMemoryStore } from '../../../services-seedwork-datastore-memorydb/infrastructure/memory-store';
-import { ExecutionContext } from '../../../domain-seedwork/execution-context';
+import { BaseDomainExecutionContext } from '../../../domain-seedwork/base-domain-execution-context';
 import { CommunityRepository } from '../../../domain/contexts/community/community.repository';
 import { CommunityEntityReference, CommunityProps } from '../../../domain/contexts/community/community';
 import { UserRepository } from '../../../domain/contexts/user/user.repository';
@@ -10,10 +10,11 @@ import { RoleRepository } from '../../../domain/contexts/community/role.reposito
 import { RoleProps } from '../../../domain/contexts/community/role';
 import { MemberRepository } from '../../../domain/contexts/community/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../domain/contexts/community/member';
-import { DomainExecutionContext } from '../../../domain/contexts/execution-context';
-import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
+import { DomainExecutionContext } from '../../../domain/contexts/domain-execution-context';
+// import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
+import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
 import {DomainImplBDD} from './io/test/domain-impl-bdd';
-import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/execution-context';
+import { ReadOnlyContext, SystemExecutionContext } from '../../../domain/contexts/domain-execution-context';
 import { PassportImpl } from '../../../domain/contexts/iam/passport';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
@@ -24,7 +25,6 @@ import { PropertyRepository } from '../../../domain/contexts/property/property.r
 import { PropertyProps } from '../../../domain/contexts/property/property';
 import { NodeEventBusInstance } from '../../../event-bus-seedwork-node';
 import { MemorydbDatastoreImpl } from '../../../infrastructure-impl/datastore/memorydb/impl';
-import { MongodbDatastoreImpl } from '../../../infrastructure-impl/datastore/mongodb/impl';
 import { ServiceTicketRepository } from '../../../domain/contexts/service-ticket/service-ticket.repository';
 import { ServiceTicketProps } from '../../../domain/contexts/service-ticket/service-ticket';
 
@@ -81,7 +81,7 @@ export class InteractWithTheDomain extends Ability
     // if(this._initialized === false) {
       this.startWithEmptyDatabase();
       this.startWithEmptySearchDatabase();
-      const DomainInfrastructureImplBDDInstance = new DomainInfrastructureImplBDD(
+      const DomainInfrastructureImplBDDInstance = new InfrastructureServicesBuilderBDD( // new DomainInfrastructureImplBDD(
         InteractWithTheDomain._database,
         InteractWithTheDomain._searchDatabase
       )
@@ -213,7 +213,9 @@ export class InteractWithTheDomain extends Ability
   // }
 
   public static startWithEmptyDatabase() {
-    InteractWithTheDomain._database = new MemorydbDatastoreImpl();
+    InteractWithTheDomain._database = new MemorydbDatastoreImpl(
+      new MemoryDatabase()
+    );
   }
 
   public static startWithEmptySearchDatabase() {
@@ -223,7 +225,7 @@ export class InteractWithTheDomain extends Ability
   // Abilities can hold state, for example: the client of a given interface,
   // additional configuration, or the result of the last interaction with a given interface.
   public constructor(
-    private readonly context: ExecutionContext,
+    private readonly context: DomainExecutionContext // BaseDomainExecutionContext,
   ) {
     super();
   }
@@ -251,7 +253,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readCommunityDb(func:(db: ReadOnlyMemoryStore<CommunityProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.communityMemoryStore);
+    return await func(InteractWithTheDomain._database.communityReadonlyMemoryStore);
   }
 
   // user
@@ -261,7 +263,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readUserDb(func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.userMemoryStore);
+    return await func(InteractWithTheDomain._database.userReadonlyMemoryStore);
   }
 
   // role
@@ -271,7 +273,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readRoleDb(func:(db: ReadOnlyMemoryStore<RoleProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.roleMemoryStore);
+    return await func(InteractWithTheDomain._database.roleReadonlyMemoryStore);
   }
 
   // member
@@ -281,7 +283,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readMemberDb(func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.memberMemoryStore);
+    return await func(InteractWithTheDomain._database.memberReadonlyMemoryStore);
   }
 
   // property
@@ -291,7 +293,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readPropertyDb(func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.propertyMemoryStore);
+    return await func(InteractWithTheDomain._database.propertyReadonlyMemoryStore);
   }
 
   // service ticket
@@ -301,7 +303,17 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readServiceTicketDb(func:(db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.serviceTicketMemoryStore);
+    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
+  }
+
+  // service
+  public async actOnService(func:(repo:ServiceTicketRepository<ServiceTicketProps>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+      await func(repo);
+    });
+  }
+  public async readServiceDb(func:(db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
   }
 
   public async logSearchDatabase() {

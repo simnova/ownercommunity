@@ -1,12 +1,12 @@
-import { BlobRequest, BlobRequestSettings } from './blob-request';
+import { BlobRequest } from './blob-request';
 import { AuthHeader } from './auth-header';
-import {  BlobActions, FileInfo } from './blob-actions';
+import {  BlobActions } from './blob-actions';
 import internal from 'stream';
 import { BlobUploadCommonResponse } from '@azure/storage-blob';
 import { BlobStorageDomain } from '../domain/infrastructure/blob-storage/interfaces';
 
-export { BlobRequestSettings, FileInfo };
-
+import { BlobRequestSettings, FileInfo } from '../services-seedwork-blob-storage-interfaces';
+export { BlobRequestSettings, FileInfo}
 export class AzBlobStorage implements BlobStorageDomain {
 
   private readonly accountName:string;

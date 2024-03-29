@@ -1,4 +1,4 @@
-import { DomainExecutionContext } from "../domain/contexts/execution-context";
+import { DomainExecutionContext } from "../domain/contexts/domain-execution-context";
 import { SystemPassport } from "../domain/contexts/iam/passport";
 
 export const generateEnumRegexFromInterface = (interfaceObj: Record<string, boolean>): RegExp => {

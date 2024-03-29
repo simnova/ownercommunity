@@ -1,5 +1,5 @@
 import { BlobStorageDomain } from '../domain/infrastructure/blob-storage/interfaces';
-import { DomainInfrastructureImpl } from '../startup/domain-infrastructure-impl-instance';
+import { InfrastructureServicesBuilder } from '../startup-impl/infrastructure-services-builder';
 import { BlobZip } from "./index";
 import internal from "stream";
 
@@ -8,7 +8,7 @@ describe('When using blob-zip', () => {
   var blobZip: BlobZip;
   beforeEach(() => {
     // arrange
-    const domainInfrastructureImplInstance = new DomainInfrastructureImpl();
+    const domainInfrastructureImplInstance = new InfrastructureServicesBuilder();
     blobStorage = domainInfrastructureImplInstance.blobStorage;
     blobZip = new BlobZip(blobStorage);
   });

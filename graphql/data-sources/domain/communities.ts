@@ -6,7 +6,7 @@ import { CommunityCreateInput, CommunityUpdateInput } from '../../generated';
 import { DomainDataSource } from './domain-data-source';
 import { Community } from '../../../infrastructure-impl/datastore/mongodb/models/community';
 import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';
-import { ReadOnlyContext } from '../../../domain/contexts/execution-context';
+import { ReadOnlyContext } from '../../../domain/contexts/domain-execution-context';
 
 type PropType = CommunityDomainAdapter;
 type DomainType = CommunityDO<PropType>;

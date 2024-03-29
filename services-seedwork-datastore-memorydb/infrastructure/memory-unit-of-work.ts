@@ -2,13 +2,13 @@ import { AggregateRoot } from "../../domain-seedwork/aggregate-root";
 import { DomainEvent } from "../../domain-seedwork/domain-event";
 import { EntityProps } from "../../domain-seedwork/entity";
 import { EventBus } from "../../domain-seedwork/event-bus";
-import { ExecutionContext } from "../../domain-seedwork/execution-context";
+import { BaseDomainExecutionContext } from "../../domain-seedwork/base-domain-execution-context";
 import { PersistanceUnitOfWork } from "../../domain-seedwork/unit-of-work";
 import { MemoryRepositoryBase } from "./memory-repository";
 import { MemoryStore } from "./memory-store";
 
 export class MemoryUnitOfWork<
-  ContextType extends ExecutionContext,
+  ContextType extends BaseDomainExecutionContext,
   PropType extends EntityProps, 
   DomainType extends AggregateRoot<PropType>,
   RepoType extends MemoryRepositoryBase<ContextType, PropType, DomainType>

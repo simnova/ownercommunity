@@ -5,7 +5,7 @@ import { Member, MemberProps } from "../../../../domain/contexts/community/membe
 import { MemberRepository } from "../../../../domain/contexts/community/member.repository";
 import { ProfileProps } from "../../../../domain/contexts/community/profile";
 import { RoleEntityReference, RoleProps } from "../../../../domain/contexts/community/role";
-import { DomainExecutionContext } from "../../../../domain/contexts/execution-context";
+import { DomainExecutionContext } from "../../../../domain/contexts/domain-execution-context";
 import { UserProps } from "../../../../domain/contexts/user/user";
 import { EntityProps } from "../../../../domain-seedwork/entity";
 import { MemoryBaseAdapter } from "../../../../services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";

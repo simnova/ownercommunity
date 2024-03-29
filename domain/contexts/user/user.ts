@@ -1,7 +1,7 @@
 import { UserCreatedEvent } from '../../events/types/user-created';
 import { AggregateRoot } from '../../../domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../domain-seedwork/entity';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import * as ValueObjects from './user.value-objects';
 
 export interface UserProps extends EntityProps {

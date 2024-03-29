@@ -1,5 +1,5 @@
 import { Entity, EntityProps } from '../../../domain-seedwork/entity';
-import { DomainExecutionContext } from '../execution-context';
+import { DomainExecutionContext } from '../domain-execution-context';
 import { CommunityVisa } from '../iam/community-visa';
 import * as ValueObjects from './custom-view.value-objects';
 

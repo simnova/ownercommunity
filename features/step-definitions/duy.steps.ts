@@ -9,6 +9,7 @@ import { LogDataSources } from '../../screenplay/tasks/log-data-sources';
 import { Register } from '../../screenplay/tasks/register';
 import { CreateMember } from './../../screenplay/tasks/create-member';
 import { AssignRole } from '../../screenplay/tasks/assign-role';
+import { CreateAccount } from '../../screenplay/tasks/create-account';
 
 Given('{actor} is the admin member of {word}', async function (actor: Actor, communityName: string) {
   await actor.attemptsTo(Register.asUser(), CreateCommunity.named(communityName));
@@ -31,6 +32,16 @@ When('{pronoun} assigns {word} role to {word} in {word}', async function (actor:
     AssignRole.named(roleName).toMember(memberName).inCommunity(communityName)
     );
 });
+
+When("{pronoun} creates an account with first name {word}, last name {word} for {word} using userId of {word} in {word}", async function (
+  actor: Actor, firstName: string, lastName: string, memberName: string, userName: string, communityName: string) {
+  
+  await actor.attemptsTo(
+    CreateAccount.withFirstName(firstName).andLastName(lastName).forMember(memberName).usingUserName(userName).inCommunity(communityName)
+  )
+})
+
+
 
 Then('{pronoun} should be the admin member of {word}', async function (actor: Actor, communityName: string) {
   const roleQuestion = await RoleForCommunityInDb(communityName, 'admin');

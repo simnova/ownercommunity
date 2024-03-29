@@ -4,7 +4,7 @@ import { CommunityDataStructure } from "./community";
 export interface ServicePermissions {
   id: any;
   canManageServices: boolean;
-  isSystemAccount: false;
+  isSystemAccount: boolean;
 }
 
 export interface ServiceTicketPermissions {
@@ -13,17 +13,17 @@ export interface ServiceTicketPermissions {
   canManageTickets: boolean;
   canAssignTickets: boolean;
   canWorkOnTickets: boolean;
-  isEditingOwnTicket: false;
-  isEditingAssignedTicket: false;
-  isSystemAccount: false;
+  isEditingOwnTicket: boolean;
+  isEditingAssignedTicket: boolean;
+  isSystemAccount: boolean;
 }
 
 export interface PropertyPermissions {
   id: any;
   canManageProperties: boolean;
   canEditOwnProperty: boolean;
-  isEditingOwnProperty: false;
-  isSystemAccount: false;
+  isEditingOwnProperty: boolean;
+  isSystemAccount: boolean;
 }
 
 export interface CommunityPermissions {
@@ -34,8 +34,8 @@ export interface CommunityPermissions {
   canManageMembers: boolean;
   canEditOwnMemberProfile: boolean;
   canEditOwnMemberAccounts: boolean;
-  isEditingOwnMemberAccount: false;
-  isSystemAccount: false;
+  isEditingOwnMemberAccount: boolean;
+  isSystemAccount: boolean;
 }
 
 export interface Permissions {

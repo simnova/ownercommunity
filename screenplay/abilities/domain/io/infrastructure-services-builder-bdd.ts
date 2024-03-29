@@ -35,14 +35,16 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
   private _maps: MapsInfrastructureService;
   
   constructor(
-    datastore: IMemoryDatabase,
+    datastore: DatastoreInfrastructureService,
     cognitiveSearch: CognitiveSearchInfrastructureService
   ) {
     // this._vercel = this.InitVercel();
     // this._contentModerator = this.InitContentModerator();
-    this._cognitiveSearch = this.InitCognitiveSearch(cognitiveSearch);
+    // this._cognitiveSearch = this.InitCognitiveSearch(cognitiveSearch);
+    this._cognitiveSearch = cognitiveSearch;
     // this._blobStorage = this.InitBlobStorage();
-    this._datastore = this.InitDataStore(datastore);
+    // this._datastore = this.InitDataStore(datastore);
+    this._datastore = datastore;
     // this._maps = this.InitMaps();
   }
 
@@ -100,8 +102,9 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
     return new AzBlobStorageImpl(storageAccount, storageKey);
   }
 
-  private InitDataStore(db: IMemoryDatabase): DatastoreInfrastructureService {
-    return new MemorydbDatastoreImpl(db);
+  private InitDataStore(db: DatastoreInfrastructureService): DatastoreInfrastructureService {
+    // return new MemorydbDatastoreImpl(db);
+    return db;
     // return {
     //   communityUnitOfWork: MongoCommunityUnitOfWork,
     //   memberUnitOfWork: MongoMemberUnitOfWork,

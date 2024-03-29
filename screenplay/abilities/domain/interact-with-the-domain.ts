@@ -253,7 +253,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readCommunityDb(func:(db: ReadOnlyMemoryStore<CommunityProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.communityMemoryStore);
+    return await func(InteractWithTheDomain._database.communityReadonlyMemoryStore);
   }
 
   // user
@@ -263,7 +263,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readUserDb(func:(db: ReadOnlyMemoryStore<UserProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.userMemoryStore);
+    return await func(InteractWithTheDomain._database.userReadonlyMemoryStore);
   }
 
   // role
@@ -273,7 +273,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readRoleDb(func:(db: ReadOnlyMemoryStore<RoleProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.roleMemoryStore);
+    return await func(InteractWithTheDomain._database.roleReadonlyMemoryStore);
   }
 
   // member
@@ -283,7 +283,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readMemberDb(func:(db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.memberMemoryStore);
+    return await func(InteractWithTheDomain._database.memberReadonlyMemoryStore);
   }
 
   // property
@@ -293,7 +293,7 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readPropertyDb(func:(db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.propertyMemoryStore);
+    return await func(InteractWithTheDomain._database.propertyReadonlyMemoryStore);
   }
 
   // service ticket
@@ -303,7 +303,17 @@ export class InteractWithTheDomain extends Ability
     });
   }
   public async readServiceTicketDb(func:(db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.serviceTicketMemoryStore);
+    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
+  }
+
+  // service
+  public async actOnService(func:(repo:ServiceTicketRepository<ServiceTicketProps>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+      await func(repo);
+    });
+  }
+  public async readServiceDb(func:(db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
   }
 
   public async logSearchDatabase() {

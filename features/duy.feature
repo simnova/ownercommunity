@@ -1,5 +1,6 @@
 Feature: Manage Community
 
+
   Scenario: Create a new community
     Given DuyTheOwner registers with Owner Community
     When he creates a new community named TestCommunity
@@ -28,3 +29,11 @@ Feature: Manage Community
       | propertyPermissions      | canManageProperties, canEditOwnProperty |
       | serviceTicketPermissions  | canManageTickets |
       | servicePermissions        | canManageServices |
+  
+  @wip
+  Scenario: Add account to a member
+    Given DuyTheUser5 registers with Owner Community
+    And DuyTheOwner5 is the admin member of TestCommunity5
+    When he adds a new member named DuyTheMember5 to TestCommunity5    
+    And he creates an account with first name Duy, last name Nguyen for DuyTheMember5 using userId of DuyTheUser5 in TestCommunity5 
+    Then DuyTheUser5 should be a member of TestCommunity5

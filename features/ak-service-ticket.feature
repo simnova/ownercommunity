@@ -44,24 +44,42 @@ Background:
     And the service ticket status is SUBMITTED
 
 @dev-todo
-  Scenario: Member saves service ticket in draft
+  Scenario: Save the service ticket in DRAFT
     When MikeTheMember creates a service ticket for ABC property
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
     And he saves the service ticket in DRAFT
-    Then the service ticket is not created for ABC property
+    Then the service ticket is not advanced to SUBMITTED
     And the service ticket status is DRAFT
 
 @dev-todo
-  Scenario: Assign the service ticket to MaintenancePerson
+  Scenario: Update the service ticket from SUBMITTED to ASSIGNED
     Given MikeTheMember creates a service ticket for ABC property
-    And the service ticket status is SUBMITTED
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
+    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     When CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
     Then the service ticket status is ASSIGNED
     And the service ticket is assigned to MaddyTheMaintenancePerson
 
 @dev-todo
-  Scenario: Update the service ticket to InProgress
+  Scenario: Update the service ticket from ASSIGNED to SUBMITTED
     Given MikeTheMember creates a service ticket for ABC property
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
+    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
+    And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
+    And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
+    When CamellaTheCommunityManager advances the service ticket from ASSIGNED to SUBMITTED
+    Then the service ticket status is SUBMITTED
+    And the service ticket is unassigned
+
+@dev-todo
+  Scenario: Update the service ticket ASSIGNED to INPROGRESS
+    Given MikeTheMember creates a service ticket for ABC property
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -69,9 +87,23 @@ Background:
     Then the service ticket status is INPROGRESS
 
 @dev-todo
-  Scenario:  Update the service ticket to Complete
-    Given CamellaTheCommunityManager creates a service ticket for DEF property
-    And CamellaTheCommunityManager advances the service ticket from DRAFT to SUBMITTED
+  Scenario:  Update the service ticket from INPROGRESS to ASSIGNED
+    Given MikeTheMember creates a service ticket for DEF property
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
+    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
+    And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
+    And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
+    And MaddyTheMaintenancePerson advances the service ticket from ASSIGNED to INPROGRESS
+    When MaddyTheMaintenancePerson advances the service ticket from INPROGRESS to ASSIGNED
+    Then the service ticket status is ASSIGNED
+
+@dev-todo
+  Scenario:  Update the service ticket from INPROGRESS to COMPLETED
+    Given MikeTheMember creates a service ticket for DEF property
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
+    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
     And MaddyTheMaintenancePerson advances the service ticket from ASSIGNED to INPROGRESS
@@ -81,13 +113,43 @@ Background:
 @dev-todo
   Rule: Service Ticket can be reopened after it is marked completed but not when closed
 
-  Scenario:  Reopen the service ticket to InProgress
-    Given CamellaTheCommunityManager creates a service ticket for DEF property
-    And CamellaTheCommunityManager advances the service ticket from DRAFT to SUBMITTED
+  Scenario:  Update the service ticket from COMPLETED to INPROGRESS
+    Given MikeTheMember creates a service ticket for DEF property
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
+    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
     And MaddyTheMaintenancePerson advances the service ticket from ASSIGNED to INPROGRESS
     And MaddyTheMaintenancePerson advances the service ticket from INPROGRESS to COMPLETED
     When CamellaTheCommunityManager advances the service ticket from COMPLETED to INPROGRESS
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
+    Then the service ticket status is INPROGRESS
+
+
+  @dev-todo
+  Scenario:  Update the service ticket from COMPLETED to CLOSED
+   Given MikeTheMember creates a service ticket for DEF property
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
+    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
+    And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
+    And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
+    And MaddyTheMaintenancePerson advances the service ticket from ASSIGNED to INPROGRESS
+    And MaddyTheMaintenancePerson advances the service ticket from INPROGRESS to COMPLETED
+    When CamellaTheCommunityManager advances the service ticket from COMPLETED to CLOSED
+    Then the service ticket status is CLOSED
+
+  @dev-todo
+  Scenario:  Update the service ticket from CLOSED to INPROGRESS
+   Given MikeTheMember creates a service ticket for DEF property
+    And MikeTheMember adds title in the service ticket
+    And MikeTheMember adds details in the service ticket
+    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
+    And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
+    And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
+    And MaddyTheMaintenancePerson advances the service ticket from ASSIGNED to INPROGRESS
+    And MaddyTheMaintenancePerson advances the service ticket from INPROGRESS to COMPLETED
+    And CamellaTheCommunityManager advances the service ticket from COMPLETED to CLOSED
+    When CamellaTheCommunityManager advances the service ticket from CLOSED to INPROGRESS
     Then the service ticket status is INPROGRESS

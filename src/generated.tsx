@@ -20,6 +20,7 @@ export type Scalars = {
   DID: any;
   Date: any;
   DateTime: any;
+  DateTimeISO: any;
   DeweyDecimal: any;
   Duration: any;
   EmailAddress: any;
@@ -41,6 +42,7 @@ export type Scalars = {
   LCCSubclass: any;
   Latitude: any;
   LocalDate: any;
+  LocalDateTime: any;
   LocalEndTime: any;
   LocalTime: any;
   Locale: any;

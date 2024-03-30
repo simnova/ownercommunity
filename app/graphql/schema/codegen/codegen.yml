@@ -2,11 +2,11 @@
 
 overwrite: true
 schema:
-  - './graphql/schema/core/graphql-tools-scalars.ts'
-  - './graphql/schema/**/**.graphql'
+  - './app/graphql/schema/core/graphql-tools-scalars.ts'
+  - './app/graphql/schema/**/**.graphql'
 documents: '../ui/src/components/**/**.graphql'
 generates:
-  graphql/generated.ts:
+  ./app/graphql/schema/codegen/generated.ts:
     config:
       contextType: './context#Context'
       useIndexSignature: true
@@ -67,7 +67,7 @@ generates:
     plugins:
       - 'typescript'
       - 'typescript-resolvers'
-  ./graphql.schema.json:
+  ./app/graphql/schema/codegen/graphql.schema.json:
     plugins:
       - 'introspection'
   ../ui/src/generated.tsx:

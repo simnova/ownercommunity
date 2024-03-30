@@ -2436,6 +2436,16 @@
       },
       {
         "kind": "SCALAR",
+        "name": "DateTimeISO",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
         "name": "DeweyDecimal",
         "description": null,
         "fields": null,
@@ -3739,6 +3749,16 @@
       {
         "kind": "SCALAR",
         "name": "LocalDate",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "LocalDateTime",
         "description": null,
         "fields": null,
         "inputFields": null,

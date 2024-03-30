@@ -22,6 +22,7 @@ export type Scalars = {
   DID: any;
   Date: Date;
   DateTime: any;
+  DateTimeISO: any;
   DeweyDecimal: any;
   Duration: any;
   EmailAddress: string;
@@ -43,6 +44,7 @@ export type Scalars = {
   LCCSubclass: any;
   Latitude: any;
   LocalDate: any;
+  LocalDateTime: any;
   LocalEndTime: any;
   LocalTime: any;
   Locale: any;
@@ -1475,6 +1477,7 @@ export type ResolversTypes = ResolversObject<{
   DID: ResolverTypeWrapper<Scalars['DID']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  DateTimeISO: ResolverTypeWrapper<Scalars['DateTimeISO']>;
   DeweyDecimal: ResolverTypeWrapper<Scalars['DeweyDecimal']>;
   Duration: ResolverTypeWrapper<Scalars['Duration']>;
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
@@ -1507,6 +1510,7 @@ export type ResolversTypes = ResolversObject<{
   ListingDetailsFilterInput: ListingDetailsFilterInput;
   ListingDetailsInput: ListingDetailsInput;
   LocalDate: ResolverTypeWrapper<Scalars['LocalDate']>;
+  LocalDateTime: ResolverTypeWrapper<Scalars['LocalDateTime']>;
   LocalEndTime: ResolverTypeWrapper<Scalars['LocalEndTime']>;
   LocalTime: ResolverTypeWrapper<Scalars['LocalTime']>;
   Locale: ResolverTypeWrapper<Scalars['Locale']>;
@@ -1682,6 +1686,7 @@ export type ResolversParentTypes = ResolversObject<{
   DID: Scalars['DID'];
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
+  DateTimeISO: Scalars['DateTimeISO'];
   DeweyDecimal: Scalars['DeweyDecimal'];
   Duration: Scalars['Duration'];
   EmailAddress: Scalars['EmailAddress'];
@@ -1714,6 +1719,7 @@ export type ResolversParentTypes = ResolversObject<{
   ListingDetailsFilterInput: ListingDetailsFilterInput;
   ListingDetailsInput: ListingDetailsInput;
   LocalDate: Scalars['LocalDate'];
+  LocalDateTime: Scalars['LocalDateTime'];
   LocalEndTime: Scalars['LocalEndTime'];
   LocalTime: Scalars['LocalTime'];
   Locale: Scalars['Locale'];
@@ -2077,6 +2083,10 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export interface DateTimeIsoScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTimeISO'], any> {
+  name: 'DateTimeISO';
+}
+
 export interface DeweyDecimalScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DeweyDecimal'], any> {
   name: 'DeweyDecimal';
 }
@@ -2214,6 +2224,10 @@ export type ListingDetailsResolvers<
 
 export interface LocalDateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalDate'], any> {
   name: 'LocalDate';
+}
+
+export interface LocalDateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalDateTime'], any> {
+  name: 'LocalDateTime';
 }
 
 export interface LocalEndTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalEndTime'], any> {
@@ -2911,6 +2925,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   DID?: GraphQLScalarType;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
+  DateTimeISO?: GraphQLScalarType;
   DeweyDecimal?: GraphQLScalarType;
   Duration?: GraphQLScalarType;
   EmailAddress?: GraphQLScalarType;
@@ -2936,6 +2951,7 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Latitude?: GraphQLScalarType;
   ListingDetails?: ListingDetailsResolvers<ContextType>;
   LocalDate?: GraphQLScalarType;
+  LocalDateTime?: GraphQLScalarType;
   LocalEndTime?: GraphQLScalarType;
   LocalTime?: GraphQLScalarType;
   Locale?: GraphQLScalarType;

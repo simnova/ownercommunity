@@ -4,15 +4,15 @@ import { DomainInfrastructureBDD_NOTINUSE } from './test/domain-infrastructure';
 // import { CognitiveSearch, ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 // import { BlobStorage, IBlobStorage } from '../../../infrastructure/services/blob-storage';
 
-import { CommunityUnitOfWork } from '../../../../domain/contexts/community/community.uow';
-import { MemberUnitOfWork } from '../../../../domain/contexts/community/member.uow';
-import { RoleUnitOfWork } from '../../../../domain/contexts/community/role.uow';
-import { PropertyUnitOfWork } from '../../../../domain/contexts/property/property.uow';
-import { ServiceUnitOfWork } from '../../../../domain/contexts/service-ticket/service.uow';
-import { ServiceTicketUnitOfWork } from '../../../../domain/contexts/service-ticket/service-ticket.uow';
-import { IMemoryDatabase } from '../../../../infrastructure-impl/datastore/memorydb/memory-database';
-import { DatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
-import { CognitiveSearchInfrastructureService } from '../../../../infrastructure-services/cognitive-search';
+import { CommunityUnitOfWork } from '../../../../app/domain/contexts/community/community.uow';
+import { MemberUnitOfWork } from '../../../../app/domain/contexts/community/member.uow';
+import { RoleUnitOfWork } from '../../../../app/domain/contexts/community/role.uow';
+import { PropertyUnitOfWork } from '../../../../app/domain/contexts/property/property.uow';
+import { ServiceUnitOfWork } from '../../../../app/domain/contexts/service-ticket/service.uow';
+import { ServiceTicketUnitOfWork } from '../../../../app/domain/contexts/service-ticket/service-ticket.uow';
+import { IMemoryDatabase } from '../../../../app/infrastructure-impl/datastore/memorydb/memory-database';
+import { DatastoreInfrastructureService } from '../../../../app/infrastructure-services/datastore';
+import { CognitiveSearchInfrastructureService } from '../../../../app/infrastructure-services/cognitive-search';
 
 export class DomainInfrastructureImplBDD_NOTINUSE implements DomainInfrastructureBDD_NOTINUSE{
   // private _vercel: IVercel;

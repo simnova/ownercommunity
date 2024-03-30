@@ -1,4 +1,4 @@
-import { Resolvers, User, CurrentUser } from '../../generated';
+import { Resolvers, User, CurrentUser } from '../codegen/generated';
 import { cacheControlFromInfo } from '@apollo/cache-control-types';
 
 const user: Resolvers = {

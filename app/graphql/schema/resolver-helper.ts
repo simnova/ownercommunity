@@ -1,5 +1,5 @@
 import { Context } from "../context";
-import { Member } from "../generated";
+import { Member } from "./codegen/generated";
 
 export const getMemberForCurrentUser = async (context: Context, communityId: string): Promise<Member|undefined>  => {
   try {

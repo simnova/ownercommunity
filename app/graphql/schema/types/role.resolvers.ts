@@ -1,4 +1,4 @@
-import { Resolvers, Role, Community, RoleMutationResult } from '../../generated';
+import { Resolvers, Role, Community, RoleMutationResult } from '../codegen/generated';
 import { isValidObjectId } from 'mongoose';
 import { Role as RoleDo } from '../../../infrastructure-impl/datastore/mongodb/models/role';
 

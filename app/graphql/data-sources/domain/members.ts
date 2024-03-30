@@ -2,7 +2,7 @@ import { Member as MemberDO } from '../../../domain/contexts/community/member';
 import { MemberConverter, MemberDomainAdapter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.domain-adapter';
 import { MongoMemberRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-repository';
 import { Context } from '../../context';
-import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput } from '../../generated';
+import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput } from '../../schema/codegen/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Member } from '../../../infrastructure-impl/datastore/mongodb/models/member';
 import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';

@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { shield, allow } from 'graphql-shield';
 import { Context } from '../../context';
-import { Resolvers } from '../../generated';
+import { Resolvers } from '../codegen/generated';
 
 
 const defaultPermissions = shield<Resolvers,Context>({

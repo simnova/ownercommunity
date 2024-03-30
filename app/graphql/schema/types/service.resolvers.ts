@@ -1,4 +1,4 @@
-import { Community, Resolvers, Service, ServiceMutationResult } from '../../generated';
+import { Community, Resolvers, Service, ServiceMutationResult } from '../codegen/generated';
 import { isValidObjectId } from 'mongoose';
 import { Service as ServiceDo } from '../../../infrastructure-impl/datastore/mongodb/models/service';
 

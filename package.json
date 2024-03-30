@@ -10,15 +10,15 @@
     "start:host": "func start",
     "start": "npm-run-all --parallel start:host watch",
     "test": "npx jest --watchAll=true",
-    "gen": "graphql-codegen --config codegen.yml",
-    "gen:watch": "graphql-codegen --config codegen.yml --watch  --silent=false",
+    "gen": "graphql-codegen --config app/graphql/schema/codegen/codegen.yml",
+    "gen:watch": "graphql-codegen --config app/graphql/schema/codegen/codegen.yml --watch  --silent=false",
     "postinstall": "serenity-bdd update",
     "prebdd": "npm run bdd:clean && npm run bdd:build",
-    "bdd": "cucumber-js --config ./cucumber.json",
+    "bdd": "cucumber-js --config ./features/support/cucumber.json",
     "bddreport": "failsafe bdd bdd:report",
-    "bdd:clean": "clear && rm -rf dist && rm -rf target",
+    "bdd:clean": "clear && rm -rf dist living-documentation test-results target",
     "bdd:build": "npm run build",
-    "bdd:report": "serenity-bdd run --features ./features"
+    "bdd:report": "serenity-bdd run --features ./features --destination ./living-documentation --source ./test-results/bdd"
   },
   "description": "",
   "devDependencies": {

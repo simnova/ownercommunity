@@ -1,9 +1,9 @@
-import './graphql/tracer';
-import { wrapFunctionHandler } from './graphql/wrapper';
+import './app/graphql/tracer';
+import { wrapFunctionHandler } from './app/graphql/wrapper';
 
-import { startServerAndCreateHandler } from './graphql/init/func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
-import { ApolloServerRequestHandler } from './graphql/init/apollo';
-import { Context as ApolloContext} from './graphql/context';
+import { startServerAndCreateHandler } from './app/graphql/init/func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
+import { ApolloServerRequestHandler } from './app/graphql/init/apollo';
+import { Context as ApolloContext} from './app/graphql/context';
 import { app } from '@azure/functions';
 
 let apolloServerRequestHandler = new ApolloServerRequestHandler(

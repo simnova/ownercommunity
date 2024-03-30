@@ -79,7 +79,8 @@ import path from "path";
 // // })
 
 const specDirectory = path.resolve(__dirname, '../../../dist/features');
-const outputDirectory = path.resolve(__dirname, '../../../target/site/serenity');
+const documentationDirectory = path.resolve(__dirname, '../../../living-documentation');
+const testResultsDirectory = path.resolve(__dirname, '../../../test-results/bdd');
 
 export const serenityConfig: SerenityConfig = {
   actors: new Actors(),
@@ -88,10 +89,11 @@ export const serenityConfig: SerenityConfig = {
     // ArtifactArchiver.storingArtifactsAt(projectRoot, 'target/site/serenity'),   // this is the default location where Serenity BDD reporting CLI looks for reports
     // new SerenityBDDReporter(), // Fix: Pass an empty object as the argument
     [ '@serenity-js/serenity-bdd', {
-      specDirectory: specDirectory  // optional, requirements hierarchy root
+      // specDirectory: specDirectory , // optional, requirements hierarchy root
+      // outputDirectory: documentationDirectory, // optional, defaults to `target/site/serenity`
     } ],
     [ '@serenity-js/core:ArtifactArchiver', {
-        outputDirectory: outputDirectory
+        outputDirectory: testResultsDirectory,
     } ],
     // ... any other reporting services
   ],

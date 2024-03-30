@@ -8,6 +8,13 @@
     "strict": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@seedwork/*": ["seedwork/*"],
+      "@app/*": ["app/*"],
+      "@features/*": ["features/*"],
+      "@screenplay/*": ["screenplay/*"],
+    }
   }
 }

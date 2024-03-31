@@ -1,4 +1,4 @@
-import { User as UserDO } from '../../../domain/contexts/user/user';
+import { User as UserDO } from '../../../core/domain/contexts/user/user';
 import { UserConverter, UserDomainAdapter }from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';
 import { MongoUserRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.mongo-repository';
 import { Context } from '../../context';

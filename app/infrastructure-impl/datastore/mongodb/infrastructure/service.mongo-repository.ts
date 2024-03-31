@@ -1,9 +1,9 @@
-import { Service as ServiceDO, ServiceProps } from '../../../../domain/contexts/service-ticket/service';
-import { ServiceRepository } from '../../../../domain/contexts/service-ticket/service.repository';
+import { Service as ServiceDO, ServiceProps } from '../../../../core/domain/contexts/service-ticket/service';
+import { ServiceRepository } from '../../../../core/domain/contexts/service-ticket/service.repository';
 import { Service } from '../models/service';
 import { MongoRepositoryBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
-import { CommunityEntityReference } from '../../../../domain/contexts/community/community';
+import { DomainExecutionContext } from '../../../../core/domain/contexts/domain-execution-context';
+import { CommunityEntityReference } from '../../../../core/domain/contexts/community/community';
 
 export class MongoServiceRepository<PropType extends ServiceProps>
   extends MongoRepositoryBase<DomainExecutionContext, Service, PropType, ServiceDO<PropType>>

@@ -1,4 +1,4 @@
-import { Community, CommunityProps } from "../../../../domain/contexts/community/community";
+import { Community, CommunityProps } from "../../../../core/domain/contexts/community/community";
 import { MemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryCommunityRepository } from "./community.memory-repository";

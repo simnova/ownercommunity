@@ -1,6 +1,6 @@
-import { DomainExecutionContext } from "../../../../domain/contexts/domain-execution-context";
-import { UserProps, User } from "../../../../domain/contexts/user/user";
-import { UserRepository } from "../../../../domain/contexts/user/user.repository";
+import { DomainExecutionContext } from "../../../../core/domain/contexts/domain-execution-context";
+import { UserProps, User } from "../../../../core/domain/contexts/user/user";
+import { UserRepository } from "../../../../core/domain/contexts/user/user.repository";
 import { MemoryRepositoryBase } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 import { MemoryBaseAdapter } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 

@@ -1,4 +1,4 @@
-import { ServiceTicket, ServiceTicketProps } from "../../../../domain/contexts/service-ticket/service-ticket";
+import { ServiceTicket, ServiceTicketProps } from "../../../../core/domain/contexts/service-ticket/service-ticket";
 import { MemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryServiceTicketRepository } from "./service-ticket.memory-repository";

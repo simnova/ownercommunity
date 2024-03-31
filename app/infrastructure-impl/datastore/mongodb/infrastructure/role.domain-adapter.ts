@@ -6,18 +6,18 @@ import {
   ServicePermissions,
   ServiceTicketPermissions,
 } from '../models/role';
-import { Role as RoleDO, RoleProps } from '../../../../domain/contexts/community/role';
+import { Role as RoleDO, RoleProps } from '../../../../core/domain/contexts/community/role';
 import { MongooseDomainAdapter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
-import { CommunityProps } from '../../../../domain/contexts/community/community';
-import { CommunityPermissionsProps } from '../../../../domain/contexts/community/community-permissions';
-import { PermissionsProps } from '../../../../domain/contexts/community/permissions';
+import { CommunityProps } from '../../../../core/domain/contexts/community/community';
+import { CommunityPermissionsProps } from '../../../../core/domain/contexts/community/community-permissions';
+import { PermissionsProps } from '../../../../core/domain/contexts/community/permissions';
 import { CommunityDomainAdapter } from './community.domain-adapter';
-import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
-import { PropertyPermissionsProps } from '../../../../domain/contexts/community/property-permissions';
-import { ServicePermissionsProps } from '../../../../domain/contexts/community/service-permissions';
-import { ServiceTicketPermissionsProps } from '../../../../domain/contexts/community/service-ticket-permissions';
+import { DomainExecutionContext } from '../../../../core/domain/contexts/domain-execution-context';
+import { PropertyPermissionsProps } from '../../../../core/domain/contexts/community/property-permissions';
+import { ServicePermissionsProps } from '../../../../core/domain/contexts/community/service-permissions';
+import { ServiceTicketPermissionsProps } from '../../../../core/domain/contexts/community/service-ticket-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext, Role, RoleDomainAdapter, RoleDO<RoleDomainAdapter>> {
   constructor() {

@@ -1,8 +1,8 @@
 /** @format */
 
-import { RoleDatastoreApplicationService } from "../../application-services/datastore/role.interface";
-import { RoleDataStructure } from "../../application-services/datastore";
-import { Context } from '../../startup/context';
+import { RoleDatastoreApplicationService } from "../../core/application-services/datastore/role.interface";
+import { RoleDataStructure } from "../../core/application-services/datastore";
+import { Context } from '../../core/context';
 import { DatastoreApplicationServiceImpl } from "./_datastore.application-service";
 
 export class RoleDatastoreApplicationServiceImpl 

@@ -1,18 +1,18 @@
 import { Property, ListingDetail, BedroomDetail, AdditionalAmenity, Location } from '../models/property';
-import { CommunityEntityReference } from '../../../../domain/contexts/community/community';
-import { MemberEntityReference } from '../../../../domain/contexts/community/member';
-import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
-import { LocationProps } from '../../../../domain/contexts/property/location';
-import { Property as PropertyDO, PropertyProps } from '../../../../domain/contexts/property/property';
+import { CommunityEntityReference } from '../../../../core/domain/contexts/community/community';
+import { MemberEntityReference } from '../../../../core/domain/contexts/community/member';
+import { DomainExecutionContext } from '../../../../core/domain/contexts/domain-execution-context';
+import { LocationProps } from '../../../../core/domain/contexts/property/location';
+import { Property as PropertyDO, PropertyProps } from '../../../../core/domain/contexts/property/property';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { MemberDomainAdapter } from './member.domain-adapter';
-import { ListingDetailProps } from '../../../../domain/contexts/property/listing-detail';
-import { BedroomDetailProps } from '../../../../domain/contexts/property/bedroom-detail';
-import { AdditionalAmenityProps } from '../../../../domain/contexts/property/additional-amenity';
-import { AddressProps } from '../../../../domain/contexts/property/address';
-import { PositionProps } from '../../../../domain/contexts/property/position';
+import { ListingDetailProps } from '../../../../core/domain/contexts/property/listing-detail';
+import { BedroomDetailProps } from '../../../../core/domain/contexts/property/bedroom-detail';
+import { AdditionalAmenityProps } from '../../../../core/domain/contexts/property/additional-amenity';
+import { AddressProps } from '../../../../core/domain/contexts/property/address';
+import { PositionProps } from '../../../../core/domain/contexts/property/position';
 
 export class PropertyConverter extends MongoTypeConverter<DomainExecutionContext, Property, PropertyDomainAdapter, PropertyDO<PropertyDomainAdapter>> {
   constructor() {

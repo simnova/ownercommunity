@@ -1,8 +1,8 @@
-import { User as UserDO, UserProps } from '../../../../domain/contexts/user/user';
-import { UserRepository } from '../../../../domain/contexts/user/user.repository';
+import { User as UserDO, UserProps } from '../../../../core/domain/contexts/user/user';
+import { UserRepository } from '../../../../core/domain/contexts/user/user.repository';
 import { User } from '../models/user';
 import { MongoRepositoryBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
+import { DomainExecutionContext } from '../../../../core/domain/contexts/domain-execution-context';
 
 export class MongoUserRepository<PropType extends UserProps>
   extends MongoRepositoryBase<DomainExecutionContext, User, PropType, UserDO<PropType>>

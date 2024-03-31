@@ -1,15 +1,15 @@
-import { ServiceTicket } from '../../domain/contexts/service-ticket/service-ticket';
-import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput, ServiceTicketDeleteInput } from '../../application-services/domain/service-ticket.interface';
+import { ServiceTicket } from '../../core/domain/contexts/service-ticket/service-ticket';
+import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput, ServiceTicketDeleteInput } from '../../core/application-services/domain/service-ticket.interface';
 import { BaseApplicationServiceExecutionContext } from '../_base.application-service';
 import { DomainApplicationServiceImpl } from './_domain.application-service';
-import { ServiceTicketDomainApplicationService } from '../../application-services/domain/service-ticket.interface';
-import { ServiceTicketProps } from '../../domain/contexts/service-ticket/service-ticket';
-import { ServiceTicketRepository } from '../../domain/contexts/service-ticket/service-ticket.repository';
-import { CommunityEntityReference } from '../../domain/contexts/community/community';
-import { PropertyEntityReference } from '../../domain/contexts/property/property';
-import { MemberEntityReference } from '../../domain/contexts/community/member';
-import { ServiceEntityReference } from '../../domain/contexts/service-ticket/service';
-import { MemberDataStructure } from '../../application-services/datastore';
+import { ServiceTicketDomainApplicationService } from '../../core/application-services/domain/service-ticket.interface';
+import { ServiceTicketProps } from '../../core/domain/contexts/service-ticket/service-ticket';
+import { ServiceTicketRepository } from '../../core/domain/contexts/service-ticket/service-ticket.repository';
+import { CommunityEntityReference } from '../../core/domain/contexts/community/community';
+import { PropertyEntityReference } from '../../core/domain/contexts/property/property';
+import { MemberEntityReference } from '../../core/domain/contexts/community/member';
+import { ServiceEntityReference } from '../../core/domain/contexts/service-ticket/service';
+import { MemberDataStructure } from '../../core/application-services/datastore';
 
 type PropType = ServiceTicketProps;
 type Root = ServiceTicket<PropType>;

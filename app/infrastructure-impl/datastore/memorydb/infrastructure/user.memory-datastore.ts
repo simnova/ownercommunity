@@ -1,7 +1,7 @@
-import { UserDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { UserDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { BaseMemoryDatastore } from './_base.memory-datastore';
 import { ReadOnlyMemoryStore } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store';
-import { UserDataStructure } from '../../../../application-services/datastore';
+import { UserDataStructure } from '../../../../core/application-services/datastore';
 
 type PropType = UserDataStructure;
 

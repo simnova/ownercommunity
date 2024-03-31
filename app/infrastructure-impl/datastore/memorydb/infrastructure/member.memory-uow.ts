@@ -1,4 +1,4 @@
-import { Member, MemberProps } from "../../../../domain/contexts/community/member";
+import { Member, MemberProps } from "../../../../core/domain/contexts/community/member";
 import { MemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryMemberRepository } from "./member.memory-repository";

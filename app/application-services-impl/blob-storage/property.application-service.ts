@@ -1,10 +1,10 @@
-import { Context } from '../../startup/context';
-import { MutationStatus,  } from '../../application-services/blob-storage/_base.interfaces';
-import { PropertyBlobFileAuthHeaderResult } from '../../application-services/blob-storage/property.interface';
+import { Context } from '../../core/context';
+import { MutationStatus,  } from '../../core/application-services/blob-storage/_base.interfaces';
+import { PropertyBlobFileAuthHeaderResult } from '../../core/application-services/blob-storage/property.interface';
 import { nanoid } from 'nanoid';
 import { BlobStorageApplicationServiceImpl } from './_blob-storage.application-service';
 import { BlobRequestSettings } from '../../../seedwork/services-seedwork-blob-storage-interfaces';
-import { PropertyEntityReference } from '../../domain/contexts/property/property';
+import { PropertyEntityReference } from '../../core/domain/contexts/property/property';
 
 interface FileInfo {
 	fileName: string;

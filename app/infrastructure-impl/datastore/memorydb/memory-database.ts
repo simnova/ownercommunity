@@ -4,41 +4,41 @@ import { BaseDomainExecutionContext } from "../../../../seedwork/domain-seedwork
 import { MemoryUnitOfWork } from "../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryStore, ReadOnlyMemoryStore } from "../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 // community
-import { Community, CommunityProps } from "../../../domain/contexts/community/community";
+import { Community, CommunityProps } from "../../../core/domain/contexts/community/community";
 import { MemoryCommunityRepository } from "./infrastructure/community.memory-repository";
 import { buildMemoryCommunityUnitOfWork } from "./infrastructure/community.memory-uow"
 import { MemoryCommunityDatastore } from "./infrastructure/community.memory-datastore";
 // user
-import { User, UserProps } from "../../../domain/contexts/user/user";
+import { User, UserProps } from "../../../core/domain/contexts/user/user";
 import { MemoryUserRepository } from "./infrastructure/user.memory-repository";
 import { buildMemoryUserUnitOfWork } from "./infrastructure/user.memory-uow";
 import { MemoryUserDatastore } from "./infrastructure/user.memory-datastore";
 // role
-import { Role, RoleProps } from "../../../domain/contexts/community/role";
+import { Role, RoleProps } from "../../../core/domain/contexts/community/role";
 import { MemoryRoleRepository } from "./infrastructure/role.memory-repository";
 import { buildMemoryRoleUnitOfWork } from "./infrastructure/role.memory-uow";
 import { MemoryRoleDatastore } from "./infrastructure/role.memory-datastore";
 
 // member
-import { Member, MemberProps } from "../../../domain/contexts/community/member";
+import { Member, MemberProps } from "../../../core/domain/contexts/community/member";
 import { MemoryMemberRepository } from "./infrastructure/member.memory-repository";
 import { buildMemoryMemberUnitOfWork } from "./infrastructure/member.memory-uow";
 import { MemoryMemberDatastore } from "./infrastructure/member.memory-datastore";
 
 // property
-import { Property, PropertyProps } from "../../../domain/contexts/property/property";
+import { Property, PropertyProps } from "../../../core/domain/contexts/property/property";
 import { MemoryPropertyRepository } from "./infrastructure/property.memory-repository";
 import { buildMemoryPropertyUnitOfWork } from "./infrastructure/property.memory-uow";
 import { MemoryPropertyDatastore } from "./infrastructure/property.memory-datastore";
 
 // service
-import { Service, ServiceProps } from "../../../domain/contexts/service-ticket/service";
+import { Service, ServiceProps } from "../../../core/domain/contexts/service-ticket/service";
 import { MemoryServiceRepository } from "./infrastructure/service.memory-repository";
 import { buildMemoryServiceUnitOfWork } from "./infrastructure/service.memory-uow";
 import { MemoryServiceDatastore } from "./infrastructure/service.memory-datastore";
 
 // service-ticket
-import { ServiceTicket, ServiceTicketProps } from "../../../domain/contexts/service-ticket/service-ticket";
+import { ServiceTicket, ServiceTicketProps } from "../../../core/domain/contexts/service-ticket/service-ticket";
 import { MemoryServiceTicketRepository } from "./infrastructure/service-ticket.memory-repository";
 import { buildMemoryServiceTicketUnitOfWork } from "./infrastructure/service-ticket.memory-uow";
 import { MemoryServiceTicketDatastore } from "./infrastructure/service-ticket.memory-datastore";

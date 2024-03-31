@@ -1,6 +1,6 @@
 import { EntityProps } from "../../../../../seedwork/domain-seedwork/entity";
 import { ReadOnlyMemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
-import { Fields, FindQueries } from "../../../../infrastructure-services/datastore/_base";
+import { Fields, FindQueries } from "../../../../core/infrastructure-services/datastore/_base";
 
 export class BaseMemoryDatastore<PropType extends EntityProps> implements FindQueries<PropType> {
   constructor(private readonly memoryStore: ReadOnlyMemoryStore<PropType>) {

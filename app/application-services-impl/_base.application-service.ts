@@ -1,8 +1,8 @@
-import { ApplicationServices } from "../application-services";
-import { DomainExecutionContext } from "../domain/contexts/domain-execution-context";
-import { Passport } from "../domain/contexts/iam/passport";
-import { InfrastructureServices } from "../infrastructure-services";
-import { VerifiedUser } from "../startup/context";
+import { ApplicationServices } from "../core/application-services";
+import { DomainExecutionContext } from "../core/domain/contexts/domain-execution-context";
+import { Passport } from "../core/domain/contexts/iam/passport";
+import { InfrastructureServices } from "../core/infrastructure-services";
+import { VerifiedUser } from "../core/context";
 
 export interface BaseApplicationServiceExecutionContext extends DomainExecutionContext {
   passport: Passport;

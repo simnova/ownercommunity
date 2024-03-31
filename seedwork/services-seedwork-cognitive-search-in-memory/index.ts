@@ -1,4 +1,4 @@
-import { CognitiveSearchDomain, SearchIndex, BaseDocumentType } from "../../app/domain/infrastructure/cognitive-search/interfaces";
+import { CognitiveSearchDomain, SearchIndex, BaseDocumentType } from "../../app/core/domain/infrastructure/cognitive-search/interfaces";
 
 export interface IMemoryCognitiveSearchCollection<DocumentType extends BaseDocumentType> {
   indexDocument(document: DocumentType): Promise<void>;

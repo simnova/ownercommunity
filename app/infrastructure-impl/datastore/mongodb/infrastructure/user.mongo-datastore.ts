@@ -1,5 +1,5 @@
 import { User, UserModel } from '../models/user';
-import { UserDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { UserDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { UserDataStructure } from '../../data-structures/user';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 

@@ -1,4 +1,4 @@
-import { MemberDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { MemberDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { BaseMemoryDatastore } from './_base.memory-datastore';
 import { ReadOnlyMemoryStore } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store';
 import { MemberDataStructure } from '../../data-structures/member';

@@ -1,5 +1,5 @@
 import { Service, ServiceModel } from '../models/service';
-import { ServiceDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { ServiceDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 
 export class MongoServiceDatastore 

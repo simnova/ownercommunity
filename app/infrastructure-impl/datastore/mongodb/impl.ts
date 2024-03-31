@@ -1,4 +1,4 @@
-import { CommunityDatastoreInfrastructureService, DatastoreInfrastructureService, MemberDatastoreInfrastructureService, PropertyDatastoreInfrastructureService, RoleDatastoreInfrastructureService, ServiceDatastoreInfrastructureService, ServiceTicketDatastoreInfrastructureService, UserDatastoreInfrastructureService } from "../../../infrastructure-services/datastore";
+import { CommunityDatastoreInfrastructureService, DatastoreInfrastructureService, MemberDatastoreInfrastructureService, PropertyDatastoreInfrastructureService, RoleDatastoreInfrastructureService, ServiceDatastoreInfrastructureService, ServiceTicketDatastoreInfrastructureService, UserDatastoreInfrastructureService } from "../../../core/infrastructure-services/datastore";
 import { MongoCommunityUnitOfWork } from "./infrastructure/community.mongo-uow";
 import { MongoMemberUnitOfWork } from "./infrastructure/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "./infrastructure/property.mongo-uow";

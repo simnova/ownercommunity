@@ -1,4 +1,4 @@
-import { Role, RoleProps } from "../../../../domain/contexts/community/role";
+import { Role, RoleProps } from "../../../../core/domain/contexts/community/role";
 import { MemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryRoleRepository } from "./role.memory-repository";

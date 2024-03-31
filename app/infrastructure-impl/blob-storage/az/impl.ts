@@ -1,5 +1,5 @@
 import { AzBlobStorage } from "../../../../seedwork/services-seedwork-blob-storage-az";
-import { BlobStorageInfrastructureService } from "../../../infrastructure-services/blob-storage";
+import { BlobStorageInfrastructureService } from "../../../core/infrastructure-services/blob-storage";
 
 export class AzBlobStorageImpl extends AzBlobStorage implements BlobStorageInfrastructureService {
    

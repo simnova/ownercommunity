@@ -1,6 +1,6 @@
 import { DataSource, DataSourceConfig } from '../data-source';
 import { Context as GraphQLContext } from '../../context';
-import { Passport } from '../../../domain/contexts/iam/passport';
+import { Passport } from '../../../core/domain/contexts/iam/passport';
 import { AzMaps } from '../../../../seedwork/services-seedwork-maps-az';
 
 export class MapsDataSource<Context extends GraphQLContext> extends DataSource<Context> {

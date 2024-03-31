@@ -4,7 +4,7 @@ import { MongoRepositoryBase } from '../../../../seedwork/services-seedwork-data
 import { AggregateRoot } from '../../../../seedwork/domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../../seedwork/domain-seedwork/entity';
 import { Document } from 'mongoose';
-import { DomainExecutionContext } from '../../../domain/contexts/domain-execution-context';
+import { DomainExecutionContext } from '../../../core/domain/contexts/domain-execution-context';
 import { Context as GraphQLContext } from '../../context';
 
 export class DomainDataSource<Context extends GraphQLContext,MongoType extends Document,PropType extends EntityProps,DomainType extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType,PropType,DomainType>> extends DataSource<Context> {

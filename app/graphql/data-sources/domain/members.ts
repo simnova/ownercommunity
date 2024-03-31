@@ -1,4 +1,4 @@
-import { Member as MemberDO } from '../../../domain/contexts/community/member';
+import { Member as MemberDO } from '../../../core/domain/contexts/community/member';
 import { MemberConverter, MemberDomainAdapter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.domain-adapter';
 import { MongoMemberRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-repository';
 import { Context } from '../../context';
@@ -6,11 +6,11 @@ import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, Mem
 import { DomainDataSource } from './domain-data-source';
 import { Member } from '../../../infrastructure-impl/datastore/mongodb/models/member';
 import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
-import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
+import { ReadOnlyPassport } from '../../../core/domain/contexts/iam/passport';
 import { RoleConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/role.domain-adapter';
 import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';
-import { Interests } from '../../../domain/contexts/community/profile.value-objects';
-import { CustomViewColumnsToDisplay, CustomViewFilters } from '../../../domain/contexts/community/custom-view.value-objects';
+import { Interests } from '../../../core/domain/contexts/community/profile.value-objects';
+import { CustomViewColumnsToDisplay, CustomViewFilters } from '../../../core/domain/contexts/community/custom-view.value-objects';
 
 type PropType = MemberDomainAdapter;
 type DomainType = MemberDO<PropType>;

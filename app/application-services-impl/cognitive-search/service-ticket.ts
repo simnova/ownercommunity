@@ -1,6 +1,6 @@
-import { FacetDetail, SearchDocumentsResult } from '../../application-services/cognitive-search/_base.interface';
-import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../application-services/cognitive-search/service-ticket.interface';
-import { Context } from '../../startup/context';
+import { FacetDetail, SearchDocumentsResult } from '../../core/application-services/cognitive-search/_base.interface';
+import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../core/application-services/cognitive-search/service-ticket.interface';
+import { Context } from '../../core/context';
 import { CognitiveSearchApplicationServiceImpl } from './_cognitive-search.application-service';
 
 const ServiceTicketFilterNames = {

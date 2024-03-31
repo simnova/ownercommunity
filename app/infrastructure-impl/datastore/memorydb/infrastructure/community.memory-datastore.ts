@@ -1,4 +1,4 @@
-import { CommunityDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { CommunityDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { CommunityDataStructure } from '../../data-structures/community';
 import { BaseMemoryDatastore } from './_base.memory-datastore';
 import { ReadOnlyMemoryStore } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store';

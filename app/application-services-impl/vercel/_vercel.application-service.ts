@@ -1,6 +1,6 @@
 import { BaseApplicationService, BaseApplicationServiceExecutionContext } from "../_base.application-service";
-import { Passport } from "../../domain/contexts/iam/passport";
-import { VercelInfrastructureService } from "../../infrastructure-services/vercel";
+import { Passport } from "../../core/domain/contexts/iam/passport";
+import { VercelInfrastructureService } from "../../core/infrastructure-services/vercel";
 
 export class VercelApplicationServiceImpl<Context extends BaseApplicationServiceExecutionContext> extends BaseApplicationService<Context> {
 

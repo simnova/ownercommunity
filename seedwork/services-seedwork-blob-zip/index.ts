@@ -1,4 +1,4 @@
-import { BlobStorageDomain } from '../../app/domain/infrastructure/blob-storage/interfaces';
+import { BlobStorageDomain } from '../../app/core/domain/infrastructure/blob-storage/interfaces';
 import archiver from 'archiver';
 import internal from 'stream';
 

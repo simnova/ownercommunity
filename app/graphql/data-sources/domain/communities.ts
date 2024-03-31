@@ -1,4 +1,4 @@
-import { Community as CommunityDO } from '../../../domain/contexts/community/community';
+import { Community as CommunityDO } from '../../../core/domain/contexts/community/community';
 import { CommunityConverter, CommunityDomainAdapter }from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 import { MongoCommunityRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-repository';
 import { Context } from '../../context';
@@ -6,7 +6,7 @@ import { CommunityCreateInput, CommunityUpdateInput } from '../../schema/codegen
 import { DomainDataSource } from './domain-data-source';
 import { Community } from '../../../infrastructure-impl/datastore/mongodb/models/community';
 import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';
-import { ReadOnlyContext } from '../../../domain/contexts/domain-execution-context';
+import { ReadOnlyContext } from '../../../core/domain/contexts/domain-execution-context';
 
 type PropType = CommunityDomainAdapter;
 type DomainType = CommunityDO<PropType>;

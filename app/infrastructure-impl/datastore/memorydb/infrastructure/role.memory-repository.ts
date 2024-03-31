@@ -1,8 +1,8 @@
-import { CommunityEntityReference, CommunityProps } from "../../../../domain/contexts/community/community";
-import { PermissionsProps } from "../../../../domain/contexts/community/permissions";
-import { Role, RoleProps } from "../../../../domain/contexts/community/role";
-import { RoleRepository } from "../../../../domain/contexts/community/role.repository";
-import { DomainExecutionContext } from "../../../../domain/contexts/domain-execution-context";
+import { CommunityEntityReference, CommunityProps } from "../../../../core/domain/contexts/community/community";
+import { PermissionsProps } from "../../../../core/domain/contexts/community/permissions";
+import { Role, RoleProps } from "../../../../core/domain/contexts/community/role";
+import { RoleRepository } from "../../../../core/domain/contexts/community/role.repository";
+import { DomainExecutionContext } from "../../../../core/domain/contexts/domain-execution-context";
 import { MemoryBaseAdapter } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryRepositoryBase } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 

@@ -1,5 +1,5 @@
 import { Role, RoleModel } from '../models/role';
-import { RoleDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { RoleDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 
 export class MongoRoleDatastore 

@@ -1,7 +1,7 @@
-import { ServiceTicketDataStructure } from '../../application-services/datastore';
-import { ServiceTicketDatastoreApplicationService } from '../../application-services/datastore/service-ticket.interface';
-import { ServiceTicketEntityReference } from '../../domain/contexts/service-ticket/service-ticket';
-import { Context } from '../../startup/context';
+import { ServiceTicketDataStructure } from '../../core/application-services/datastore';
+import { ServiceTicketDatastoreApplicationService } from '../../core/application-services/datastore/service-ticket.interface';
+import { ServiceTicketEntityReference } from '../../core/domain/contexts/service-ticket/service-ticket';
+import { Context } from '../../core/context';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
 
 export class ServiceTicketDatastoreApplicationServiceImpl 

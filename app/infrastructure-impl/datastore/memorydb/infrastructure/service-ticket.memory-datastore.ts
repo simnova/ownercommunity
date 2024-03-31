@@ -1,8 +1,8 @@
-import { ServiceTicketDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { ServiceTicketDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { BaseMemoryDatastore } from './_base.memory-datastore';
 import { ReadOnlyMemoryStore } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store';
 import { ServiceTicketDataStructure } from '../../data-structures/service-ticket';
-import { Fields } from '../../../../infrastructure-services/datastore/_base';
+import { Fields } from '../../../../core/infrastructure-services/datastore/_base';
 
 type PropType = ServiceTicketDataStructure;
 

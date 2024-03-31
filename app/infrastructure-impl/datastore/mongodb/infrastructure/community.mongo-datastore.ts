@@ -1,11 +1,11 @@
 import { Community, CommunityModel } from '../models/community';
-import { CommunityDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { CommunityDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 import { Types, isValidObjectId } from 'mongoose';
 import { UserModel } from '../models/user';
 import { MemberModel } from '../models/member';
 import { CommunityConverter } from './community.domain-adapter';
-import { ReadOnlyContext } from '../../../../domain/contexts/domain-execution-context';
+import { ReadOnlyContext } from '../../../../core/domain/contexts/domain-execution-context';
 import { CommunityDataStructure } from '../../data-structures/community';
 
 export class MongoCommunityDatastore 

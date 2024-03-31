@@ -1,4 +1,4 @@
-import { PassportImpl, ReadOnlyPassport } from "../../../domain/contexts/iam/passport";
+import { PassportImpl, ReadOnlyPassport } from "../../../core/domain/contexts/iam/passport";
 import { Context } from "../../context";
 
 import { HttpRequest } from "@azure/functions";

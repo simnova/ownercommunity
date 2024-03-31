@@ -1,6 +1,6 @@
-import { ServiceDataStructure } from "../../application-services/datastore";
-import { ServiceDatastoreApplicationService } from "../../application-services/datastore/service.interface";
-import { Context } from '../../startup/context';
+import { ServiceDataStructure } from "../../core/application-services/datastore";
+import { ServiceDatastoreApplicationService } from "../../core/application-services/datastore/service.interface";
+import { Context } from '../../core/context';
 import { DatastoreApplicationServiceImpl } from "./_datastore.application-service";
 
 export class ServiceDatastoreApplicationServiceImpl 

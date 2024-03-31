@@ -1,24 +1,24 @@
 // community
 import { CommunityDomainApplicationServiceImpl } from "./community";
-import { CommunityUnitOfWork } from "../../domain/contexts/community/community.uow";
+import { CommunityUnitOfWork } from "../../core/domain/contexts/community/community.uow";
 // role
 import { RoleDomainApplicationServiceImpl } from "./role";
-import { RoleUnitOfWork } from "../../domain/contexts/community/role.uow";
+import { RoleUnitOfWork } from "../../core/domain/contexts/community/role.uow";
 // user
 import { UserDomainApplicationServiceImpl } from "./user";
-import { UserUnitOfWork } from "../../domain/contexts/user/user.uow";
+import { UserUnitOfWork } from "../../core/domain/contexts/user/user.uow";
 // service
 import { ServiceDomainApplicationServiceImpl } from "./service";
-import { ServiceUnitOfWork } from "../../domain/contexts/service-ticket/service.uow";
+import { ServiceUnitOfWork } from "../../core/domain/contexts/service-ticket/service.uow";
 // service-ticket
 import { ServiceTicketDomainApplicationServiceImpl } from "./service-ticket";
-import { ServiceTicketUnitOfWork } from "../../domain/contexts/service-ticket/service-ticket.uow";
+import { ServiceTicketUnitOfWork } from "../../core/domain/contexts/service-ticket/service-ticket.uow";
 // member
 import { MemberDomainApplicationServiceImpl } from "./member";
-import { MemberUnitOfWork } from "../../domain/contexts/community/member.uow";
+import { MemberUnitOfWork } from "../../core/domain/contexts/community/member.uow";
 // property
 import { PropertyDomainApplicationServiceImpl } from "./property";
-import { PropertyUnitOfWork } from "../../domain/contexts/property/property.uow";
+import { PropertyUnitOfWork } from "../../core/domain/contexts/property/property.uow";
 
 export {
   CommunityDomainApplicationServiceImpl as CommunityDomainApiImpl,

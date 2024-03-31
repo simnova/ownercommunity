@@ -1,5 +1,5 @@
 import { Property, PropertyModel } from '../models/property';
-import { PropertyDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { PropertyDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { PropertyDataStructure } from '../../data-structures/property';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 import { Types } from 'mongoose';

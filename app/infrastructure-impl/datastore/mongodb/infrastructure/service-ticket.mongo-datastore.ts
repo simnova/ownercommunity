@@ -1,5 +1,5 @@
 import { ServiceTicket, ServiceTicketModel } from '../models/service-ticket';
-import { ServiceTicketDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { ServiceTicketDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { ServiceTicketDataStructure } from '../../data-structures/service-ticket';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 

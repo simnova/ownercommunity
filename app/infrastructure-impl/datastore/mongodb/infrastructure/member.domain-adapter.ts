@@ -1,18 +1,18 @@
 import { Member, Account, Profile, CustomView } from '../models/member';
 
-import { Member as MemberDO, MemberProps } from '../../../../domain/contexts/community/member';
+import { Member as MemberDO, MemberProps } from '../../../../core/domain/contexts/community/member';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { AccountProps } from '../../../../domain/contexts/community/account';
+import { AccountProps } from '../../../../core/domain/contexts/community/account';
 import { UserDomainAdapter } from './user.domain-adapter';
-import { CommunityEntityReference } from '../../../../domain/contexts/community/community';
+import { CommunityEntityReference } from '../../../../core/domain/contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { RoleDomainAdapter } from './role.domain-adapter';
-import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
-import { RoleEntityReference } from '../../../../domain/contexts/community/role';
-import { ProfileProps } from '../../../../domain/contexts/community/profile';
-import { UserEntityReference } from '../../../../domain/contexts/user/user';
-import { CustomViewProps } from '../../../../domain/contexts/community/custom-view';
+import { DomainExecutionContext } from '../../../../core/domain/contexts/domain-execution-context';
+import { RoleEntityReference } from '../../../../core/domain/contexts/community/role';
+import { ProfileProps } from '../../../../core/domain/contexts/community/profile';
+import { UserEntityReference } from '../../../../core/domain/contexts/user/user';
+import { CustomViewProps } from '../../../../core/domain/contexts/community/custom-view';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {
   constructor() {

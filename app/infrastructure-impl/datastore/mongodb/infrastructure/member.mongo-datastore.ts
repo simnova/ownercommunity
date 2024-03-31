@@ -1,5 +1,5 @@
 import { Member, MemberModel } from '../models/member';
-import { MemberDatastoreInfrastructureService } from '../../../../infrastructure-services/datastore';
+import { MemberDatastoreInfrastructureService } from '../../../../core/infrastructure-services/datastore';
 import { BaseMongoDatastore } from './_base.mongo-datastore';
 import { Types } from 'mongoose';
 import { RoleModel } from '../models/role';

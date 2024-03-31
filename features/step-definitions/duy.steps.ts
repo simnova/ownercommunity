@@ -1,7 +1,7 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 import { Ensure, equals } from '@serenity-js/assertions';
 import { Actor, actorInTheSpotlight } from '@serenity-js/core';
-import { RoleProps } from '../../app/domain/contexts/community/role';
+import { RoleProps } from '../../app/core/domain/contexts/community/role';
 import { MemberInDb } from '../../screenplay/questions/member-in-db';
 import { RoleForCommunityInDb } from '../../screenplay/questions/role-for-community-in-db';
 import { CreateCommunity } from '../../screenplay/tasks/create-community';

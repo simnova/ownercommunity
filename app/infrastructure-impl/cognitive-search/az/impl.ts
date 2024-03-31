@@ -1,5 +1,5 @@
 import { AzCognitiveSearch } from "../../../../seedwork/services-seedwork-cognitive-search-az";
-import { CognitiveSearchInfrastructureService } from "../../../infrastructure-services/cognitive-search";
+import { CognitiveSearchInfrastructureService } from "../../../core/infrastructure-services/cognitive-search";
 
 export class AzCognitiveSearchImpl extends AzCognitiveSearch implements CognitiveSearchInfrastructureService {
   

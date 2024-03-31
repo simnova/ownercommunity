@@ -1,19 +1,19 @@
 import { ActivityDetail, ServiceTicket, Photo } from '../models/service-ticket';
-import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../../../domain/contexts/service-ticket/service-ticket';
+import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../../../core/domain/contexts/service-ticket/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { DomainExecutionContext } from '../../../../domain/contexts/domain-execution-context';
-import { CommunityEntityReference } from '../../../../domain/contexts/community/community';
+import { DomainExecutionContext } from '../../../../core/domain/contexts/domain-execution-context';
+import { CommunityEntityReference } from '../../../../core/domain/contexts/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { PropertyDomainAdapter } from './property.domain-adapter';
-import { PropertyEntityReference } from '../../../../domain/contexts/property/property';
-import { MemberEntityReference } from '../../../../domain/contexts/community/member';
+import { PropertyEntityReference } from '../../../../core/domain/contexts/property/property';
+import { MemberEntityReference } from '../../../../core/domain/contexts/community/member';
 import { MemberDomainAdapter } from './member.domain-adapter';
-import { ActivityDetailProps } from '../../../../domain/contexts/service-ticket/activity-detail';
-import { PhotoProps } from '../../../../domain/contexts/service-ticket/photo';
+import { ActivityDetailProps } from '../../../../core/domain/contexts/service-ticket/activity-detail';
+import { PhotoProps } from '../../../../core/domain/contexts/service-ticket/photo';
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from './service.domain-adapter';
-import { ServiceEntityReference } from '../../../../domain/contexts/service-ticket/service';
+import { ServiceEntityReference } from '../../../../core/domain/contexts/service-ticket/service';
 
 export class ServiceTicketConverter extends MongoTypeConverter<
   DomainExecutionContext,

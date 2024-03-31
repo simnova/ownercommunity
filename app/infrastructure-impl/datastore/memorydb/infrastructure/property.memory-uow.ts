@@ -1,4 +1,4 @@
-import { Property, PropertyProps } from "../../../../domain/contexts/property/property";
+import { Property, PropertyProps } from "../../../../core/domain/contexts/property/property";
 import { MemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryPropertyRepository } from "./property.memory-repository";

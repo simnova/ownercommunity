@@ -47,13 +47,13 @@ import {
   PropertyMapsApiImpl,
   CommunityVercelApiImpl,
  } from "../application-services-impl";
-import { MongoUserUnitOfWork } from "../infrastructure-impl/datastore/mongodb/infrastructure/user.uow";
-import { MongoCommunityUnitOfWork } from "../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow";
-import { MongoMemberUnitOfWork } from "../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow";
-import { MongoRoleUnitOfWork } from "../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow";
-import { MongoPropertyUnitOfWork } from "../infrastructure-impl/datastore/mongodb/infrastructure/property.mongo-uow";
-import { MongoServiceUnitOfWork } from "../infrastructure-impl/datastore/mongodb/infrastructure/service.uow";
-import { MongoServiceTicketUnitOfWork } from "../infrastructure-impl/datastore/mongodb/infrastructure/service-ticket.uow";
+import { MongoUserUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/user.uow";
+import { MongoCommunityUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/community.mongo-uow";
+import { MongoMemberUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/member.mongo-uow";
+import { MongoRoleUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/role.mongo-uow";
+import { MongoPropertyUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/property.mongo-uow";
+import { MongoServiceUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/service.uow";
+import { MongoServiceTicketUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket.uow";
 
 export class ApplicationServicesBuilder implements ApplicationServices{
   communityBlobApi: CommunityBlobAPI;

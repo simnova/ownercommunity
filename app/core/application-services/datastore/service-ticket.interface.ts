@@ -1,4 +1,4 @@
-import { ServiceTicketDataStructure } from "../../../infrastructure-impl/datastore/data-structures/service-ticket";
+import { ServiceTicketDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/service-ticket";
 
 export interface ServiceTicketDatastoreApplicationService {
   getServiceTicketsByCommunityId(communityId: string): Promise<ServiceTicketDataStructure[]>;

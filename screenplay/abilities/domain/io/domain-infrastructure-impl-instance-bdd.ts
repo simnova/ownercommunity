@@ -10,7 +10,7 @@ import { RoleUnitOfWork } from '../../../../app/core/domain/contexts/community/r
 import { PropertyUnitOfWork } from '../../../../app/core/domain/contexts/property/property.uow';
 import { ServiceUnitOfWork } from '../../../../app/core/domain/contexts/service-ticket/service.uow';
 import { ServiceTicketUnitOfWork } from '../../../../app/core/domain/contexts/service-ticket/service-ticket.uow';
-import { IMemoryDatabase } from '../../../../app/infrastructure-impl/datastore/memorydb/memory-database';
+import { IMemoryDatabase } from '../../../../app/infrastructure-services-impl/datastore/memorydb/memory-database';
 import { DatastoreInfrastructureService } from '../../../../app/core/infrastructure-services/datastore';
 import { CognitiveSearchInfrastructureService } from '../../../../app/core/infrastructure-services/cognitive-search';
 

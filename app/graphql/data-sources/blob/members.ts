@@ -1,7 +1,7 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
 import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } from '../../schema/builder/generated';
-import { MemberConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.domain-adapter';
+import { MemberConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/member.domain-adapter';
 import { BlobRequestSettings } from '../../../../seedwork/services-seedwork-blob-storage-interfaces';
 
 export class Members extends BlobDataSource<Context> {

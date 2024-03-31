@@ -1,6 +1,6 @@
 import { BlobDataSource } from './blob-data-source';
 import { Context } from '../../context';
-import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
+import { CommunityConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../schema/builder/generated';
 import { BlobRequestSettings } from '../../../../seedwork/services-seedwork-blob-storage-az';
 

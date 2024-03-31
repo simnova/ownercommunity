@@ -1,4 +1,4 @@
-import { PropertyDataStructure } from "../../../infrastructure-impl/datastore/data-structures/property";
+import { PropertyDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/property";
 
 export interface PropertyDatastoreApplicationService {
   getPropertiesByCommunityId(communityId: string): Promise<PropertyDataStructure[]>;

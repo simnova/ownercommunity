@@ -1,5 +1,5 @@
 import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes} from '@serenity-js/core'
-import { IMemoryDatabase, MemoryDatabase } from '../../../app/infrastructure-impl/datastore/memorydb/memory-database';
+import { IMemoryDatabase, MemoryDatabase } from '../../../app/infrastructure-services-impl/datastore/memorydb/memory-database';
 import { ReadOnlyMemoryStore } from '../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store';
 import { BaseDomainExecutionContext } from '../../../seedwork/domain-seedwork/base-domain-execution-context';
 import { CommunityRepository } from '../../../app/core/domain/contexts/community/community.repository';
@@ -20,11 +20,11 @@ import { PassportImpl } from '../../../app/core/domain/contexts/iam/passport';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
 import { NotepadType } from '../../actors';
-import { MemoryCognitiveSearchImpl } from '../../../app/infrastructure-impl/cognitive-search/in-memory/impl';
+import { MemoryCognitiveSearchImpl } from '../../../app/infrastructure-services-impl/cognitive-search/in-memory/impl';
 import { PropertyRepository } from '../../../app/core/domain/contexts/property/property.repository';
 import { PropertyProps } from '../../../app/core/domain/contexts/property/property';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
-import { MemorydbDatastoreImpl } from '../../../app/infrastructure-impl/datastore/memorydb/impl';
+import { MemorydbDatastoreImpl } from '../../../app/infrastructure-services-impl/datastore/memorydb/impl';
 import { ServiceTicketRepository } from '../../../app/core/domain/contexts/service-ticket/service-ticket.repository';
 import { ServiceTicketProps } from '../../../app/core/domain/contexts/service-ticket/service-ticket';
 

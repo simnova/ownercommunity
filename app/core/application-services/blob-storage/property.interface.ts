@@ -1,4 +1,4 @@
-import { PropertyDataStructure } from "../../../infrastructure-impl/datastore/data-structures/property";
+import { PropertyDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/property";
 import { BlobAuthHeader } from "../../../../seedwork/services-seedwork-blob-storage-interfaces";
 import { MutationStatus } from "./_base.interfaces";
 

@@ -1,4 +1,4 @@
-import { CommunityDataStructure } from "../../../infrastructure-impl/datastore/data-structures/community";
+import { CommunityDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/community";
 
 export interface CommunityDatastoreApplicationService {
     getCurrentCommunity(): Promise<CommunityDataStructure>;

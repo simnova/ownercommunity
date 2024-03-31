@@ -1,4 +1,4 @@
-import { ServiceDataStructure } from "../../../infrastructure-impl/datastore/data-structures/service";
+import { ServiceDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/service";
 
 export interface ServiceDatastoreApplicationService {
   getServiceById(id: string): Promise<ServiceDataStructure>;

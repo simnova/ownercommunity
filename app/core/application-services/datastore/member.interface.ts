@@ -1,4 +1,4 @@
-import { MemberDataStructure } from "../../../infrastructure-impl/datastore/data-structures/member";
+import { MemberDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/member";
 
 export interface MemberDatastoreApplicationService {
   getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<MemberDataStructure>;

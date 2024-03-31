@@ -1,10 +1,10 @@
-import { UserModel } from '../../../infrastructure-impl/datastore/mongodb/models/user';
-import { RoleModel } from '../../../infrastructure-impl/datastore/mongodb/models/role';
-import { ServiceModel } from '../../../infrastructure-impl/datastore/mongodb/models/service';
-import { ServiceTicketModel } from '../../../infrastructure-impl/datastore/mongodb/models/service-ticket';
-import { MemberModel } from '../../../infrastructure-impl/datastore/mongodb/models/member';
-import { CommunityModel } from '../../../infrastructure-impl/datastore/mongodb/models/community';
-import { PropertyModel } from '../../../infrastructure-impl/datastore/mongodb/models/property';
+import { UserModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/user';
+import { RoleModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/role';
+import { ServiceModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/service';
+import { ServiceTicketModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
+import { MemberModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
+import { CommunityModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/community';
+import { PropertyModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/property';
 
 import { Users } from './users';
 import { Roles } from './roles';

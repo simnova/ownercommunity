@@ -1,14 +1,14 @@
 import { Member as MemberDO } from '../../../core/domain/contexts/community/member';
-import { MemberConverter, MemberDomainAdapter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.domain-adapter';
-import { MongoMemberRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-repository';
+import { MemberConverter, MemberDomainAdapter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/member.domain-adapter';
+import { MongoMemberRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/member.mongo-repository';
 import { Context } from '../../context';
 import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
-import { Member } from '../../../infrastructure-impl/datastore/mongodb/models/member';
-import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
+import { Member } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
+import { CommunityConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 import { ReadOnlyPassport } from '../../../core/domain/contexts/iam/passport';
-import { RoleConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/role.domain-adapter';
-import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';
+import { RoleConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/role.domain-adapter';
+import { UserConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/user.domain-adapter';
 import { Interests } from '../../../core/domain/contexts/community/profile.value-objects';
 import { CustomViewColumnsToDisplay, CustomViewFilters } from '../../../core/domain/contexts/community/custom-view.value-objects';
 

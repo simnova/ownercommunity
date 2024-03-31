@@ -1,5 +1,5 @@
-import { CommunityDataStructure } from "../../../infrastructure-impl/datastore/data-structures/community";
-import { RoleDataStructure } from "../../../infrastructure-impl/datastore/data-structures/role";
+import { CommunityDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/community";
+import { RoleDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/role";
 import { BlobAuthHeader, FileInfo } from "../../../../seedwork/services-seedwork-blob-storage-interfaces";
 import { MutationStatus } from "./_base.interfaces";
 

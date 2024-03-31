@@ -1,4 +1,4 @@
-import { UserDataStructure } from "../../../infrastructure-impl/datastore/data-structures/user";
+import { UserDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/user";
 
 export interface UserDatastoreApplicationService {
   getUserById(userId : string): Promise<UserDataStructure>;

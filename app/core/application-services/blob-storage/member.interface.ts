@@ -1,4 +1,4 @@
-import { MemberDataStructure } from "../../../infrastructure-impl/datastore/data-structures/member";
+import { MemberDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/member";
 import { BlobAuthHeader } from "../../../../seedwork/services-seedwork-blob-storage-interfaces";
 import { MutationStatus } from "./_base.interfaces";
 

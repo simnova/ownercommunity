@@ -2,7 +2,7 @@ import { Property as PropertyDO } from '../../../core/domain/contexts/property/p
 import { PropertyConverter, PropertyDomainAdapter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/property.domain-adapter';
 import { MongoPropertyRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/property.mongo-repository';
 import { Context } from '../../context';
-import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../schema/codegen/generated';
+import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Property } from '../../../infrastructure-impl/datastore/mongodb/models/property';
 import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';

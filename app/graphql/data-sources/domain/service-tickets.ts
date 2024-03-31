@@ -4,7 +4,7 @@ import { Member as MemberDO } from '../../../core/domain/contexts/community/memb
 import { ServiceTicketConverter, ServiceTicketDomainAdapter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/service-ticket.domain-adapter';
 import { MongoServiceTicketRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/service-ticket.mongo-repository';
 import { Context } from '../../context';
-import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput, ServiceTicketDeleteInput } from '../../schema/codegen/generated';
+import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput, ServiceTicketDeleteInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { ServiceTicket } from '../../../infrastructure-impl/datastore/mongodb/models/service-ticket';
 import { Member } from '../../../infrastructure-impl/datastore/mongodb/models/member';

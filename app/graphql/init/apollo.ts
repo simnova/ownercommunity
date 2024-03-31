@@ -3,7 +3,7 @@ import { connect } from '../../../seedwork/services-seedwork-datastore-mongodb/c
 import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';
 import { PortalTokenValidation } from '../../auth/portal-token-validation';
-import { combinedSchema } from '../schema/codegen/schema-builder';
+import { combinedSchema } from '../schema/builder/schema-builder';
 import { DomainImpl } from '../../core/domain/domain-impl';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';

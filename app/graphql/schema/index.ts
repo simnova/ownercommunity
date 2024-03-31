@@ -3,7 +3,7 @@
  * and merge them together to create the application schema
  */
 
-import { Resolvers } from './codegen/generated';
+import { Resolvers } from './builder/generated';
 import path from 'path';
 import { mergeResolvers } from '@graphql-tools/merge';
 import { loadFilesSync } from '@graphql-tools/load-files';

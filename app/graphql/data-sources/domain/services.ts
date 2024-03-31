@@ -2,7 +2,7 @@ import { Service as ServiceDO } from '../../../core/domain/contexts/service-tick
 import { ServiceConverter, ServiceDomainAdapter }from '../../../infrastructure-impl/datastore/mongodb/infrastructure/service.domain-adapter';
 import { MongoServiceRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/service.mongo-repository';
 import { Context } from '../../context';
-import { ServiceCreateInput, ServiceUpdateInput } from '../../schema/codegen/generated';
+import { ServiceCreateInput, ServiceUpdateInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Service } from '../../../infrastructure-impl/datastore/mongodb/models/service';
 import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';

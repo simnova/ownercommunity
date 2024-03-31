@@ -2,7 +2,7 @@ import { Community as CommunityDO } from '../../../core/domain/contexts/communit
 import { CommunityConverter, CommunityDomainAdapter }from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 import { MongoCommunityRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-repository';
 import { Context } from '../../context';
-import { CommunityCreateInput, CommunityUpdateInput } from '../../schema/codegen/generated';
+import { CommunityCreateInput, CommunityUpdateInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Community } from '../../../infrastructure-impl/datastore/mongodb/models/community';
 import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';

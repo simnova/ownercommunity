@@ -1,5 +1,5 @@
-import './app/graphql/tracer';
-import { wrapFunctionHandler } from './app/graphql/wrapper';
+import './app/telemetry/tracer';
+import { wrapFunctionHandler } from './app/telemetry/wrapper';
 
 import { startServerAndCreateHandler } from './app/graphql/init/func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { ApolloServerRequestHandler } from './app/graphql/init/apollo';

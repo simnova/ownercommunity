@@ -9,8 +9,8 @@ import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/in
 import { Community, CommunityModel } from "../../../infrastructure-impl/datastore/mongodb/models/community";
 import { MemberModel } from "../../../infrastructure-impl/datastore/mongodb/models/member";
 import { UserModel } from "../../../infrastructure-impl/datastore/mongodb/models/user";
-import { PortalTokenValidation } from "./portal-token-validation";
-import * as util from './util';
+import { PortalTokenValidation } from "../../../auth/portal-token-validation";
+import * as util from '../../../../seedwork/auth-seedwork-oidc/util';
 
 export class PassportContext {
   context: Partial<Context>;

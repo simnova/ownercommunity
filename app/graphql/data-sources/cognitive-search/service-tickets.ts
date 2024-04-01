@@ -1,7 +1,7 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
-import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../schema/codegen/generated';
+import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../schema/builder/generated';
 
 const ServiceTicketFilterNames = {
   RequestorId: 'requestorId',

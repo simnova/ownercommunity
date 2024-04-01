@@ -2,14 +2,14 @@ import { ApolloServer, GraphQLRequestContext } from '@apollo/server';
 import { connect } from '../../../seedwork/services-seedwork-datastore-mongodb/connect';
 import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import mongoose from 'mongoose';
-import { PortalTokenValidation } from './extensions/portal-token-validation';
-import { combinedSchema } from './extensions/schema-builder';
-import { DomainImpl } from '../../domain/domain-impl';
+import { PortalTokenValidation } from '../../auth/portal-token-validation';
+import { combinedSchema } from '../schema/builder/schema-builder';
+import { DomainImpl } from '../../core/domain/domain-impl';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
-import { permissions } from '../schema';
+import { permissions } from '../schema/builder/resolver-builder';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
-import { InfrastructureServicesBuilder } from '../../startup-impl/infrastructure-services-builder';
+import { InfrastructureServicesBuilder } from '../../startup/infrastructure-services-builder';
 
 export class ApolloServerRequestHandler {
   private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {

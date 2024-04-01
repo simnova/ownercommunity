@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { VercelDomain, VercelResponseHeaders, AddDomainResult, DomainResponse, APIResponse } from '../../app/domain/infrastructure/vercel/interfaces';
+import { VercelDomain, VercelResponseHeaders, AddDomainResult, DomainResponse, APIResponse } from '../../app/core/domain/infrastructure/vercel/interfaces';
 
 export class VercelApi implements VercelDomain {
   private readonly _vercelToken: string;

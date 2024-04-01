@@ -1,7 +1,7 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
 import { Context } from '../../context';
 import { SearchDocumentsResult } from '@azure/search-documents';
-import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../schema/codegen/generated';
+import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../schema/builder/generated';
 import dayjs from 'dayjs';
 
 const PropertyFilterNames = {

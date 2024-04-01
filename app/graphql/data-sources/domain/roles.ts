@@ -1,12 +1,12 @@
-import { Role as RoleDO } from '../../../domain/contexts/community/role';
-import { RoleConverter, RoleDomainAdapter }from '../../../infrastructure-impl/datastore/mongodb/infrastructure/role.domain-adapter';
-import { MongoRoleRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-repository';
+import { Role as RoleDO } from '../../../core/domain/contexts/community/role';
+import { RoleConverter, RoleDomainAdapter }from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/role.domain-adapter';
+import { MongoRoleRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/role.mongo-repository';
 import { Context } from '../../context';
-import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from '../../schema/codegen/generated';
+import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
-import { Role } from '../../../infrastructure-impl/datastore/mongodb/models/role';
-import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
-import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
+import { Role } from '../../../infrastructure-services-impl/datastore/mongodb/models/role';
+import { CommunityConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
+import { ReadOnlyPassport } from '../../../core/domain/contexts/iam/passport';
 
 type PropType = RoleDomainAdapter;
 type DomainType = RoleDO<PropType>;

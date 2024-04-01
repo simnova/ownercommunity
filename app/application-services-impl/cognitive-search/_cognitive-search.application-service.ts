@@ -1,6 +1,6 @@
 import { BaseApplicationService, BaseApplicationServiceExecutionContext } from "../_base.application-service";
-import { Passport } from "../../domain/contexts/iam/passport";
-import { CognitiveSearchInfrastructureService } from "../../infrastructure-services/cognitive-search";
+import { Passport } from "../../core/domain/contexts/iam/passport";
+import { CognitiveSearchInfrastructureService } from "../../core/infrastructure-services/cognitive-search";
 
 export class CognitiveSearchApplicationServiceImpl<Context extends BaseApplicationServiceExecutionContext> extends BaseApplicationService<Context> {
 

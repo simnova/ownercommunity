@@ -1,6 +1,6 @@
 import { ContentModeratorClient } from '@azure/cognitiveservices-contentmoderator';
 import { CognitiveServicesCredentials } from '@azure/ms-rest-azure-js';
-import { ContentModeratorDomain, ModeratedContentType, ModerationResult, BatchModerationResult } from '../../app/domain/infrastructure/content-moderator/interfaces';
+import { ContentModeratorDomain, ModeratedContentType, ModerationResult, BatchModerationResult } from '../../app/core/domain/infrastructure/content-moderator/interfaces';
 
 export class AzContentModerator implements ContentModeratorDomain {
   private client: ContentModeratorClient;

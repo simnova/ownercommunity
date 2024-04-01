@@ -1,4 +1,4 @@
-import { Context } from '../../startup/context';
+import { Context } from '../../core/context';
 import { MapsApplicationServiceImpl } from './_maps.application-service';
 
 export class PropertyMapsApplicationServiceImpl extends MapsApplicationServiceImpl<Context> {

@@ -1,12 +1,12 @@
-import { Service as ServiceDO } from '../../../domain/contexts/service-ticket/service';
-import { ServiceConverter, ServiceDomainAdapter }from '../../../infrastructure-impl/datastore/mongodb/infrastructure/service.domain-adapter';
-import { MongoServiceRepository } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/service.mongo-repository';
+import { Service as ServiceDO } from '../../../core/domain/contexts/service-ticket/service';
+import { ServiceConverter, ServiceDomainAdapter }from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/service.domain-adapter';
+import { MongoServiceRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/service.mongo-repository';
 import { Context } from '../../context';
-import { ServiceCreateInput, ServiceUpdateInput } from '../../schema/codegen/generated';
+import { ServiceCreateInput, ServiceUpdateInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
-import { Service } from '../../../infrastructure-impl/datastore/mongodb/models/service';
-import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
-import { ReadOnlyPassport } from '../../../domain/contexts/iam/passport';
+import { Service } from '../../../infrastructure-services-impl/datastore/mongodb/models/service';
+import { CommunityConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
+import { ReadOnlyPassport } from '../../../core/domain/contexts/iam/passport';
 
 type PropType = ServiceDomainAdapter;
 type DomainType = ServiceDO<PropType>;

@@ -1,7 +1,7 @@
-import { Context } from '../../startup/context';
+import { Context } from '../../core/context';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
-import { CommunityDataStructure } from '../../application-services/datastore';
-import { CommunityDatastoreApplicationService } from '../../application-services/datastore/community.interface';
+import { CommunityDataStructure } from '../../core/application-services/datastore';
+import { CommunityDatastoreApplicationService } from '../../core/application-services/datastore/community.interface';
 
 export class CommunityDatastoreApplicationServiceImpl 
   extends DatastoreApplicationServiceImpl<Context> 

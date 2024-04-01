@@ -1,11 +1,11 @@
-import { Service } from '../../domain/contexts/service-ticket/service';
-import { ServiceCreateInput, ServiceUpdateInput } from '../../application-services/domain/service.interface';
-import { ServiceDomainApplicationService } from '../../application-services/domain/service.interface';
+import { Service } from '../../core/domain/contexts/service-ticket/service';
+import { ServiceCreateInput, ServiceUpdateInput } from '../../core/application-services/domain/service.interface';
+import { ServiceDomainApplicationService } from '../../core/application-services/domain/service.interface';
 import { DomainApplicationServiceImpl } from './_domain.application-service';
 import { BaseApplicationServiceExecutionContext } from '../_base.application-service';
-import { ServiceProps } from '../../domain/contexts/service-ticket/service';
-import { ServiceRepository } from '../../domain/contexts/service-ticket/service.repository';
-import { CommunityEntityReference } from '../../domain/contexts/community/community';
+import { ServiceProps } from '../../core/domain/contexts/service-ticket/service';
+import { ServiceRepository } from '../../core/domain/contexts/service-ticket/service.repository';
+import { CommunityEntityReference } from '../../core/domain/contexts/community/community';
 
 type PropType = ServiceProps;
 type Root = Service<PropType>;

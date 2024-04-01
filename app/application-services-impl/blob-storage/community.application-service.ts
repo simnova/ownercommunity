@@ -1,13 +1,13 @@
 // import { BlobDataSource } from './blob-data-source';
-import { Context } from '../../startup/context';
+import { Context } from '../../core/context';
 // import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 // import { CommunityBlobContentAuthHeaderResult, FileInfo } from '';
 // import { BlobRequestSettings } from '../../../services-seedwork-blob-storage-az';
 
 import { BlobStorageApplicationServiceImpl } from './_blob-storage.application-service';
 import { BlobRequestSettings, FileInfo } from '../../../seedwork/services-seedwork-blob-storage-interfaces';
-import { CommunityEntityReference } from '../../domain/contexts/community/community';
-import { CommunityBlobContentAuthHeaderResult } from '../../application-services/blob-storage/community.interface';
+import { CommunityEntityReference } from '../../core/domain/contexts/community/community';
+import { CommunityBlobContentAuthHeaderResult } from '../../core/application-services/blob-storage/community.interface';
 
 export class CommunityBlobStorageApplicationServiceImpl extends BlobStorageApplicationServiceImpl<Context> {
   public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {

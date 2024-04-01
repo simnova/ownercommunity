@@ -1,11 +1,11 @@
-import { Role, RoleEntityReference } from '../../domain/contexts/community/role';
-import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from '../../application-services/domain/role.interface';
-import { RoleProps } from '../../domain/contexts/community/role';
-import { RoleRepository } from '../../domain/contexts/community/role.repository';
+import { Role, RoleEntityReference } from '../../core/domain/contexts/community/role';
+import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from '../../core/application-services/domain/role.interface';
+import { RoleProps } from '../../core/domain/contexts/community/role';
+import { RoleRepository } from '../../core/domain/contexts/community/role.repository';
 import { DomainApplicationServiceImpl } from './_domain.application-service';
 import { BaseApplicationServiceExecutionContext } from '../_base.application-service';
-import { RoleDomainApplicationService } from '../../application-services/domain/role.interface';
-import { CommunityEntityReference } from '../../domain/contexts/community/community';
+import { RoleDomainApplicationService } from '../../core/application-services/domain/role.interface';
+import { CommunityEntityReference } from '../../core/domain/contexts/community/community';
 
 type PropType = RoleProps;
 type Root = Role<PropType>;

@@ -4,15 +4,15 @@ import { DomainInfrastructureBDD_NOTINUSE } from './test/domain-infrastructure';
 // import { CognitiveSearch, ICognitiveSearch } from '../../../infrastructure/services/cognitive-search';
 // import { BlobStorage, IBlobStorage } from '../../../infrastructure/services/blob-storage';
 
-import { CommunityUnitOfWork } from '../../../../app/domain/contexts/community/community.uow';
-import { MemberUnitOfWork } from '../../../../app/domain/contexts/community/member.uow';
-import { RoleUnitOfWork } from '../../../../app/domain/contexts/community/role.uow';
-import { PropertyUnitOfWork } from '../../../../app/domain/contexts/property/property.uow';
-import { ServiceUnitOfWork } from '../../../../app/domain/contexts/service-ticket/service.uow';
-import { ServiceTicketUnitOfWork } from '../../../../app/domain/contexts/service-ticket/service-ticket.uow';
-import { IMemoryDatabase } from '../../../../app/infrastructure-impl/datastore/memorydb/memory-database';
-import { DatastoreInfrastructureService } from '../../../../app/infrastructure-services/datastore';
-import { CognitiveSearchInfrastructureService } from '../../../../app/infrastructure-services/cognitive-search';
+import { CommunityUnitOfWork } from '../../../../app/core/domain/contexts/community/community.uow';
+import { MemberUnitOfWork } from '../../../../app/core/domain/contexts/community/member.uow';
+import { RoleUnitOfWork } from '../../../../app/core/domain/contexts/community/role.uow';
+import { PropertyUnitOfWork } from '../../../../app/core/domain/contexts/property/property.uow';
+import { ServiceUnitOfWork } from '../../../../app/core/domain/contexts/service-ticket/service.uow';
+import { ServiceTicketUnitOfWork } from '../../../../app/core/domain/contexts/service-ticket/service-ticket.uow';
+import { IMemoryDatabase } from '../../../../app/infrastructure-services-impl/datastore/memorydb/memory-database';
+import { DatastoreInfrastructureService } from '../../../../app/core/infrastructure-services/datastore';
+import { CognitiveSearchInfrastructureService } from '../../../../app/core/infrastructure-services/cognitive-search';
 
 export class DomainInfrastructureImplBDD_NOTINUSE implements DomainInfrastructureBDD_NOTINUSE{
   // private _vercel: IVercel;

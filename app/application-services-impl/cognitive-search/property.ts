@@ -1,8 +1,8 @@
-import { Context } from '../../startup/context';
+import { Context } from '../../core/context';
 import dayjs from 'dayjs';
 import { CognitiveSearchApplicationServiceImpl } from './_cognitive-search.application-service';
-import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../application-services/cognitive-search/property.interface';
-import { SearchDocumentsResult } from '../../application-services/cognitive-search/_base.interface';
+import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../core/application-services/cognitive-search/property.interface';
+import { SearchDocumentsResult } from '../../core/application-services/cognitive-search/_base.interface';
 
 const PropertyFilterNames = {
   Bedrooms: 'bedrooms',

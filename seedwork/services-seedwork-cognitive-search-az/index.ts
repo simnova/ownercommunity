@@ -1,6 +1,6 @@
 import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential } from '@azure/identity';
 import { SearchIndexClient, SearchClient, AzureKeyCredential, SearchIndex, SearchDocumentsResult } from '@azure/search-documents';
-import { CognitiveSearchDomain } from '../../app/domain/infrastructure/cognitive-search/interfaces';
+import { CognitiveSearchDomain } from '../../app/core/domain/infrastructure/cognitive-search/interfaces';
 
 export class AzCognitiveSearch implements CognitiveSearchDomain {
   private client: SearchIndexClient;

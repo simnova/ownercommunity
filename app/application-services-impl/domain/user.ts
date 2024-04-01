@@ -1,8 +1,8 @@
-import { User } from '../../domain/contexts/user/user';
-import { UserUpdateInput } from '../../application-services/domain/user.interface';
-import { UserProps } from '../../domain/contexts/user/user';
-import { UserRepository } from '../../domain/contexts/user/user.repository';
-import { UserDomainApplicationService } from '../../application-services/domain/user.interface';
+import { User } from '../../core/domain/contexts/user/user';
+import { UserUpdateInput } from '../../core/application-services/domain/user.interface';
+import { UserProps } from '../../core/domain/contexts/user/user';
+import { UserRepository } from '../../core/domain/contexts/user/user.repository';
+import { UserDomainApplicationService } from '../../core/application-services/domain/user.interface';
 import { BaseApplicationServiceExecutionContext } from '../_base.application-service';
 import { DomainApplicationServiceImpl } from './_domain.application-service';
 

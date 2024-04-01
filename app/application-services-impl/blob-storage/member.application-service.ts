@@ -1,9 +1,9 @@
-import { Context } from '../../startup/context';
-import { MutationStatus } from '../../application-services/blob-storage/_base.interfaces';
+import { Context } from '../../core/context';
+import { MutationStatus } from '../../core/application-services/blob-storage/_base.interfaces';
 import { BlobStorageApplicationServiceImpl } from './_blob-storage.application-service';
 import { BlobAuthHeader, BlobRequestSettings } from '../../../seedwork/services-seedwork-blob-storage-interfaces';
-import { MemberAvatarImageAuthHeaderResult } from '../../application-services/blob-storage/member.interface';
-import { MemberEntityReference } from '../../domain/contexts/community/member';
+import { MemberAvatarImageAuthHeaderResult } from '../../core/application-services/blob-storage/member.interface';
+import { MemberEntityReference } from '../../core/domain/contexts/community/member';
 
 export class MemberBlobStorageApplicationServiceImpl extends BlobStorageApplicationServiceImpl<Context> {
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {

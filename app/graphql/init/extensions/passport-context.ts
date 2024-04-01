@@ -1,16 +1,16 @@
-import { PassportImpl, ReadOnlyPassport } from "../../../domain/contexts/iam/passport";
+import { PassportImpl, ReadOnlyPassport } from "../../../core/domain/contexts/iam/passport";
 import { Context } from "../../context";
 
 import { HttpRequest } from "@azure/functions";
 import { isValidObjectId } from "mongoose";
-import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
-import { MemberConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/member.domain-adapter';
-import { UserConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/user.domain-adapter';
-import { Community, CommunityModel } from "../../../infrastructure-impl/datastore/mongodb/models/community";
-import { MemberModel } from "../../../infrastructure-impl/datastore/mongodb/models/member";
-import { UserModel } from "../../../infrastructure-impl/datastore/mongodb/models/user";
-import { PortalTokenValidation } from "./portal-token-validation";
-import * as util from './util';
+import { CommunityConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
+import { MemberConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/member.domain-adapter';
+import { UserConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/user.domain-adapter';
+import { Community, CommunityModel } from "../../../infrastructure-services-impl/datastore/mongodb/models/community";
+import { MemberModel } from "../../../infrastructure-services-impl/datastore/mongodb/models/member";
+import { UserModel } from "../../../infrastructure-services-impl/datastore/mongodb/models/user";
+import { PortalTokenValidation } from "../../../auth/portal-token-validation";
+import * as util from '../../../../seedwork/auth-seedwork-oidc/util';
 
 export class PassportContext {
   context: Partial<Context>;

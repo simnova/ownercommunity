@@ -1,5 +1,5 @@
-import { DomainResponse } from '../../application-services/vercel/community.interface';
-import { Context } from '../../startup/context';
+import { DomainResponse } from '../../core/application-services/vercel/community.interface';
+import { Context } from '../../core/context';
 import { VercelApplicationServiceImpl } from './_vercel.application-service';
 
 export class CommunityVercelApplicationServiceImpl extends VercelApplicationServiceImpl<Context> {

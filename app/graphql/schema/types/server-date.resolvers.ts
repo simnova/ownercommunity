@@ -1,4 +1,4 @@
-import { Resolvers } from '../codegen/generated';
+import { Resolvers } from '../builder/generated';
 const { trace } = require("@opentelemetry/api");
 
 

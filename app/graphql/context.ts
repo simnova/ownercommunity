@@ -1,11 +1,11 @@
-import { Passport } from '../domain/contexts/iam/passport';
+import { Passport } from '../core/domain/contexts/iam/passport';
 import { HttpRequest } from '@azure/functions';
 import { ApolloServerRequestHandler } from './init/apollo';
 import { PassportContext } from './init/extensions/passport-context';
-import { InfrastructureServicesBuilder } from '../startup-impl/infrastructure-services-builder';
+import { InfrastructureServicesBuilder } from '../startup/infrastructure-services-builder';
 import { DataSourceBuilder } from './data-sources/data-source-builder';
-import { DomainInfrastructure } from '../domain/infrastructure';
-import { DomainExecutionContext } from '../domain/contexts/domain-execution-context';
+import { DomainInfrastructure } from '../core/domain/infrastructure';
+import { DomainExecutionContext } from '../core/domain/contexts/domain-execution-context';
 
 export class Context implements DomainExecutionContext{
   public verifiedUser: {

@@ -1,18 +1,18 @@
-import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from '../../../../../app/domain/events/handlers/community-created-create-default-roles-member';
-import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from '../../../../../app/domain/events/handlers/role-deleted-reassign-member-new-role';
-import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from '../../../../../app/domain/events/handlers/community-created-create-blob-container';
-import { default as RegisterCommunityDomainUpdatedUpdateDomainBlobHandler } from '../../../../../app/domain/events/handlers/community-domain-updated-update-domain-blob';
-import { default as RegisterCommunityDomainUpdatedUpdateVercel } from '../../../../../app/domain/events/handlers/community-domain-updated-update-vercel';
-import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from '../../../../../app/domain/events/handlers/community-white-label-domain-updated-update-domain-blob';
-import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from '../../../../../app/domain/events/handlers/property-deleted-update-search-index';
-import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from '../../../../../app/domain/events/handlers/property-updated-update-search-index';
-import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from '../../../../../app/domain/events/handlers/service-ticket-updated-update-search-index';
-import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from '../../../../../app/domain/events/handlers/service-ticket-deleted-update-search-index';
-import { DatastoreDomain, DatastoreDomainInitializeable } from '../../../../../app/domain/infrastructure/datastore/interfaces';
-import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from '../../../../../app/domain/infrastructure/cognitive-search/interfaces';
+import { default as RegisterCommunityCreatedCreateDefaultRolesMemberHandler } from '../../../../../app/core/domain/events/handlers/community-created-create-default-roles-member';
+import { default as RegisterRoleDeletedReassignMemberNewRoleHandler } from '../../../../../app/core/domain/events/handlers/role-deleted-reassign-member-new-role';
+import { default as RegisterCommunityCreatedCreateBlobContainerHandler } from '../../../../../app/core/domain/events/handlers/community-created-create-blob-container';
+import { default as RegisterCommunityDomainUpdatedUpdateDomainBlobHandler } from '../../../../../app/core/domain/events/handlers/community-domain-updated-update-domain-blob';
+import { default as RegisterCommunityDomainUpdatedUpdateVercel } from '../../../../../app/core/domain/events/handlers/community-domain-updated-update-vercel';
+import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from '../../../../../app/core/domain/events/handlers/community-white-label-domain-updated-update-domain-blob';
+import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from '../../../../../app/core/domain/events/handlers/property-deleted-update-search-index';
+import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from '../../../../../app/core/domain/events/handlers/property-updated-update-search-index';
+import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from '../../../../../app/core/domain/events/handlers/service-ticket-updated-update-search-index';
+import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from '../../../../../app/core/domain/events/handlers/service-ticket-deleted-update-search-index';
+import { DatastoreDomain, DatastoreDomainInitializeable } from '../../../../../app/core/domain/infrastructure/datastore/interfaces';
+import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from '../../../../../app/core/domain/infrastructure/cognitive-search/interfaces';
 import { NodeEventBusInstance } from '../../../../../seedwork/event-bus-seedwork-node';
-import { BlobStorageDomain } from '../../../../../app/domain/infrastructure/blob-storage/interfaces';
-import { VercelDomain } from '../../../../../app/domain/infrastructure/vercel/interfaces';
+import { BlobStorageDomain } from '../../../../../app/core/domain/infrastructure/blob-storage/interfaces';
+import { VercelDomain } from '../../../../../app/core/domain/infrastructure/vercel/interfaces';
 
 const RegisterEventHandlers = (
   datastore: DatastoreDomain,

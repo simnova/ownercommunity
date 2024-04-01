@@ -1,11 +1,11 @@
-import { Community } from '../../domain/contexts/community/community';
-import { CommunityCreateInput, CommunityUpdateInput } from '../../application-services/domain/community.interface';
-import { CommunityProps } from '../../domain/contexts/community/community';
-import { CommunityRepository } from '../../domain/contexts/community/community.repository';
+import { Community } from '../../core/domain/contexts/community/community';
+import { CommunityCreateInput, CommunityUpdateInput } from '../../core/application-services/domain/community.interface';
+import { CommunityProps } from '../../core/domain/contexts/community/community';
+import { CommunityRepository } from '../../core/domain/contexts/community/community.repository';
 import { BaseApplicationServiceExecutionContext } from '../_base.application-service';
 import { DomainApplicationServiceImpl } from './_domain.application-service';
-import { CommunityDomainApplicationService } from '../../application-services/domain/community.interface';
-import { UserEntityReference } from '../../domain/contexts/user/user';
+import { CommunityDomainApplicationService } from '../../core/application-services/domain/community.interface';
+import { UserEntityReference } from '../../core/domain/contexts/user/user';
 
 
 type PropType = CommunityProps;

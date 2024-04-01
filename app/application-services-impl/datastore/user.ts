@@ -1,6 +1,6 @@
-import { UserDataStructure } from '../../application-services/datastore';
-import { UserDatastoreApplicationService } from '../../application-services/datastore/user.interface';
-import { Context } from '../../startup/context';
+import { UserDataStructure } from '../../core/application-services/datastore';
+import { UserDatastoreApplicationService } from '../../core/application-services/datastore/user.interface';
+import { Context } from '../../core/context';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
 
 export class UserDatastoreApplicationServiceImpl 

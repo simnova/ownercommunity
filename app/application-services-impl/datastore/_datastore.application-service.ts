@@ -1,6 +1,6 @@
 import { BaseApplicationService, BaseApplicationServiceExecutionContext } from "../_base.application-service";
-import { Passport } from "../../domain/contexts/iam/passport";
-import { DatastoreInfrastructureService } from "../../infrastructure-services/datastore";
+import { Passport } from "../../core/domain/contexts/iam/passport";
+import { DatastoreInfrastructureService } from "../../core/infrastructure-services/datastore";
 
 export class DatastoreApplicationServiceImpl<Context extends BaseApplicationServiceExecutionContext> extends BaseApplicationService<Context> {
 

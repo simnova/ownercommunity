@@ -1,6 +1,6 @@
 import { BaseApplicationService, BaseApplicationServiceExecutionContext } from "../_base.application-service";
-import { Passport } from "../../domain/contexts/iam/passport";
-import { MapsInfrastructureService } from "../../infrastructure-services/maps";
+import { Passport } from "../../core/domain/contexts/iam/passport";
+import { MapsInfrastructureService } from "../../core/infrastructure-services/maps";
 
 export class MapsApplicationServiceImpl<Context extends BaseApplicationServiceExecutionContext> extends BaseApplicationService<Context> {
 

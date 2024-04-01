@@ -1,7 +1,7 @@
-import { Context } from '../../startup/context';
-import { MemberDatastoreApplicationService } from '../../application-services/datastore/member.interface';
+import { Context } from '../../core/context';
+import { MemberDatastoreApplicationService } from '../../core/application-services/datastore/member.interface';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
-import { MemberDataStructure } from '../../application-services/datastore';
+import { MemberDataStructure } from '../../core/application-services/datastore';
 
 export class MemberDatastoreApplicationServiceImpl 
   extends DatastoreApplicationServiceImpl<Context> 

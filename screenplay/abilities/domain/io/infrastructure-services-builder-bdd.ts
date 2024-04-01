@@ -1,24 +1,24 @@
 // interface to implement
-import { InfrastructureServices } from '../../../../app/infrastructure-services';
+import { InfrastructureServices } from '../../../../app/core/infrastructure-services';
 // vercel
-import { VercelInfrastructureService } from '../../../../app/infrastructure-services/vercel';
-import { VercelApiImpl } from '../../../../app/infrastructure-impl/vercel/api/impl';
+import { VercelInfrastructureService } from '../../../../app/core/infrastructure-services/vercel';
+import { VercelApiImpl } from '../../../../app/infrastructure-services-impl/vercel/api/impl';
 // cognitive-search
-import { CognitiveSearchInfrastructureService } from '../../../../app/infrastructure-services/cognitive-search';
-import { AzCognitiveSearchImpl } from '../../../../app/infrastructure-impl/cognitive-search/az/impl';
+import { CognitiveSearchInfrastructureService } from '../../../../app/core/infrastructure-services/cognitive-search';
+import { AzCognitiveSearchImpl } from '../../../../app/infrastructure-services-impl/cognitive-search/az/impl';
 // blob-storage
-import { BlobStorageInfrastructureService } from '../../../../app/infrastructure-services/blob-storage';
-import { AzBlobStorageImpl } from '../../../../app/infrastructure-impl/blob-storage/az/impl';
+import { BlobStorageInfrastructureService } from '../../../../app/core/infrastructure-services/blob-storage';
+import { AzBlobStorageImpl } from '../../../../app/infrastructure-services-impl/blob-storage/az/impl';
 // content-moderator
-import { ContentModeratorInfrastructureService } from '../../../../app/infrastructure-services/content-moderator';
-import { AzContentModeratorImpl } from '../../../../app/infrastructure-impl/content-moderator/az/impl';
+import { ContentModeratorInfrastructureService } from '../../../../app/core/infrastructure-services/content-moderator';
+import { AzContentModeratorImpl } from '../../../../app/infrastructure-services-impl/content-moderator/az/impl';
 // maps
-import { MapsInfrastructureService } from '../../../../app/infrastructure-services/maps';
-import { AzMapsImpl } from '../../../../app/infrastructure-impl/maps/az/impl';
+import { MapsInfrastructureService } from '../../../../app/core/infrastructure-services/maps';
+import { AzMapsImpl } from '../../../../app/infrastructure-services-impl/maps/az/impl';
 // datastore
-import { DatastoreInfrastructureService } from '../../../../app/infrastructure-services/datastore';
-import { MemorydbDatastoreImpl } from '../../../../app/infrastructure-impl/datastore/memorydb/impl';
-import { IMemoryDatabase } from '../../../../app/infrastructure-impl/datastore/memorydb/memory-database';
+import { DatastoreInfrastructureService } from '../../../../app/core/infrastructure-services/datastore';
+import { MemorydbDatastoreImpl } from '../../../../app/infrastructure-services-impl/datastore/memorydb/impl';
+import { IMemoryDatabase } from '../../../../app/infrastructure-services-impl/datastore/memorydb/memory-database';
 // import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
 // import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
 // import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';

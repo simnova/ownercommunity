@@ -1,6 +1,6 @@
-import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertyUpdateInput } from '../codegen/generated';
+import { Resolvers, Community, Member, Property, PropertyMutationResult, PropertyUpdateInput } from '../builder/generated';
 import { isValidObjectId } from 'mongoose';
-import { Property as PropertyDo } from '../../../infrastructure-impl/datastore/mongodb/models/property';
+import { Property as PropertyDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/property';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { trace } from "@opentelemetry/api";
 

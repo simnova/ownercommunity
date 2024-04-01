@@ -1,13 +1,13 @@
-import { MemberCreateInput, MemberUpdateInput, MemberAccountAddInput, MemberAccountEditInput, MemberAccountRemoveInput, MemberProfileUpdateInput, MemberProfileUpdateAvatarInput, MemberDomainApplicationService } from '../../application-services/domain/member.interface';
-import { Interests } from '../../domain/contexts/community/profile.value-objects';
-import { CustomViewColumnsToDisplay, CustomViewFilters } from '../../domain/contexts/community/custom-view.value-objects';
-import { Member, MemberProps } from '../../domain/contexts/community/member';
-import { MemberRepository } from '../../domain/contexts/community/member.repository';
+import { MemberCreateInput, MemberUpdateInput, MemberAccountAddInput, MemberAccountEditInput, MemberAccountRemoveInput, MemberProfileUpdateInput, MemberProfileUpdateAvatarInput, MemberDomainApplicationService } from '../../core/application-services/domain/member.interface';
+import { Interests } from '../../core/domain/contexts/community/profile.value-objects';
+import { CustomViewColumnsToDisplay, CustomViewFilters } from '../../core/domain/contexts/community/custom-view.value-objects';
+import { Member, MemberProps } from '../../core/domain/contexts/community/member';
+import { MemberRepository } from '../../core/domain/contexts/community/member.repository';
 import { DomainApplicationServiceImpl } from './_domain.application-service';
 import { BaseApplicationServiceExecutionContext } from '../_base.application-service';
-import { CommunityEntityReference } from '../../domain/contexts/community/community';
-import { RoleEntityReference } from '../../domain/contexts/community/role';
-import { UserEntityReference } from '../../domain/contexts/user/user';
+import { CommunityEntityReference } from '../../core/domain/contexts/community/community';
+import { RoleEntityReference } from '../../core/domain/contexts/community/role';
+import { UserEntityReference } from '../../core/domain/contexts/user/user';
 
 type PropType = MemberProps;
 type Root = Member<PropType>;

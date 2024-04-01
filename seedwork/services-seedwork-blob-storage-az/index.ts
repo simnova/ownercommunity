@@ -3,7 +3,7 @@ import { AuthHeader } from './auth-header';
 import {  BlobActions } from './blob-actions';
 import internal from 'stream';
 import { BlobUploadCommonResponse } from '@azure/storage-blob';
-import { BlobStorageDomain } from '../../app/domain/infrastructure/blob-storage/interfaces';
+import { BlobStorageDomain } from '../../app/core/domain/infrastructure/blob-storage/interfaces';
 
 import { BlobRequestSettings, FileInfo } from '../services-seedwork-blob-storage-interfaces';
 export { BlobRequestSettings, FileInfo}

@@ -1,14 +1,14 @@
-import { Property } from '../../domain/contexts/property/property';
-import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../application-services/domain/property.interface';
-import { Amenities, Images } from '../../domain/contexts/property/listing-detail.value-objects';
-import { BedDescriptions } from '../../domain/contexts/property/bedroom-detail.value-objects';
+import { Property } from '../../core/domain/contexts/property/property';
+import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../core/application-services/domain/property.interface';
+import { Amenities, Images } from '../../core/domain/contexts/property/listing-detail.value-objects';
+import { BedDescriptions } from '../../core/domain/contexts/property/bedroom-detail.value-objects';
 import { BaseApplicationServiceExecutionContext } from '../_base.application-service';
 import { DomainApplicationServiceImpl } from './_domain.application-service';
-import { PropertyDomainApplicationService } from '../../application-services/domain/property.interface';
-import { PropertyProps } from '../../domain/contexts/property/property';
-import { PropertyRepository } from '../../domain/contexts/property/property.repository';
-import { CommunityEntityReference } from '../../domain/contexts/community/community';
-import { MemberEntityReference } from '../../domain/contexts/community/member';
+import { PropertyDomainApplicationService } from '../../core/application-services/domain/property.interface';
+import { PropertyProps } from '../../core/domain/contexts/property/property';
+import { PropertyRepository } from '../../core/domain/contexts/property/property.repository';
+import { CommunityEntityReference } from '../../core/domain/contexts/community/community';
+import { MemberEntityReference } from '../../core/domain/contexts/community/member';
 
 type PropType = PropertyProps;
 type Root = Property<PropType>;

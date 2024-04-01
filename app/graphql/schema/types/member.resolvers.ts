@@ -1,7 +1,7 @@
-import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../codegen/generated';
+import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../builder/generated';
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from '../resolver-helper';
-import { Member as MemberDo } from '../../../infrastructure-impl/datastore/mongodb/models/member';
+import { Member as MemberDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
 
 const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<MemberMutationResult> => {
   try {

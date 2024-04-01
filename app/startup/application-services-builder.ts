@@ -1,5 +1,5 @@
 import { ApplicationServices } from "../core/application-services";
-import { Context } from "../core/context";
+import { Context } from "../core/context-builder";
 import {
   CommunityBlobAPI,
   MemberBlobAPI,

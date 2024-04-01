@@ -3,6 +3,7 @@ import { BaseMemoryDatastore } from './_base.memory-datastore';
 import { ReadOnlyMemoryStore } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store';
 import { MemberDataStructure } from '../../data-structures/member';
 import { CommunityDataStructure } from '../../data-structures/community';
+import { UserDataStructure } from '../../data-structures/user';
 
 type PropType = MemberDataStructure;
 
@@ -25,5 +26,13 @@ export class MemoryMemberDatastore
   async getMemberByIdWithCommunity(memberId: string): Promise<MemberDataStructure> {
     return this.findOneById(memberId); // [MG-TBD]: implement this
     // return member as MemberEntityReference;
+  }
+
+  async getMemberByCommunityAccountWithCommunityAccountRole(communityId: string, userId: string): Promise<MemberDataStructure> {
+    return (await this._memoryStore.getAll())?.
+      find(r => (
+        ((typeof r.community === 'string' && r.community === communityId) || ((r.community as CommunityDataStructure)?.id === communityId))
+         && r.accounts?.some(a => ((typeof a.user === 'string' && a.user === userId) || ((a.user as UserDataStructure)?.id === userId)))
+      )); // [MG-TBD]: implement this
   }
 }

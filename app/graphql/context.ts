@@ -1,10 +1,8 @@
 import { Passport } from '../core/domain/contexts/iam/passport';
 import { HttpRequest } from '@azure/functions';
-import { ApolloServerRequestHandler } from './init/apollo';
 import { PassportContext } from './init/extensions/passport-context';
 import { InfrastructureServicesBuilder } from '../startup/infrastructure-services-builder';
 import { DataSourceBuilder } from './data-sources/data-source-builder';
-import { DomainInfrastructure } from '../core/domain/infrastructure';
 import { DomainExecutionContext } from '../core/domain/contexts/domain-execution-context';
 import { PortalTokenValidation } from '../auth/portal-token-validation';
 
@@ -19,9 +17,14 @@ export class Context implements DomainExecutionContext{
   public executionContext: any;
   public services: InfrastructureServicesBuilder;
 
-  public async init(req: HttpRequest, portalTokenValidator: PortalTokenValidation) {
-    this.services = new InfrastructureServicesBuilder();
-    this.dataSources = new DataSourceBuilder(this);
+  public async init(
+    req: HttpRequest, 
+    portalTokenValidator: PortalTokenValidation,
+    applicationServices: DataSourceBuilder,
+    infrastructureServices: InfrastructureServicesBuilder
+    ) {
+    this.services = infrastructureServices;
+    this.dataSources = applicationServices;
 
     await PassportContext.decorateContext(this, req, portalTokenValidator);
 

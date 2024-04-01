@@ -9,6 +9,7 @@ import { PortalTokenValidation } from '../auth/portal-token-validation';
 import { connect } from '../../seedwork/services-seedwork-datastore-mongodb/connect';
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { DomainImpl } from '../core/domain/domain-impl';
+import { DataSourceBuilder } from '../graphql/data-sources/data-source-builder';
 
 const portalTokenValidator = new PortalTokenValidation(
   new Map<string,string>([
@@ -52,7 +53,12 @@ app.http("graphql", {
     handler: wrapFunctionHandler(startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
       context: async ({ req }) => {
         let context = new ApolloContext();
-        await context.init(req, portalTokenValidator);
+        await context.init(
+          req, 
+          portalTokenValidator,
+          new DataSourceBuilder(context),
+          new InfrastructureServicesBuilder()
+          );
         return context;
       }
     })),

@@ -5,7 +5,7 @@
 
 import { loadSchemaSync } from '@graphql-tools/load';
 import { addResolversToSchema, mergeSchemas, makeExecutableSchema } from '@graphql-tools/schema';
-import { resolvers } from '..';
+import { resolvers } from './resolver-builder';
 import { JsonFileLoader } from '@graphql-tools/json-file-loader';
 import * as Scalars from 'graphql-scalars';
 import { Context } from '../../context';

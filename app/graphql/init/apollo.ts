@@ -7,7 +7,7 @@ import { combinedSchema } from '../schema/builder/schema-builder';
 import { DomainImpl } from '../../core/domain/domain-impl';
 import { Context as ApolloContext } from '../context';
 import { applyMiddleware } from 'graphql-middleware';
-import { permissions } from '../schema';
+import { permissions } from '../schema/builder/resolver-builder';
 import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/types';
 import { InfrastructureServicesBuilder } from '../../startup/infrastructure-services-builder';
 

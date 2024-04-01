@@ -5,13 +5,34 @@ import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @a
 import { ApolloServerRequestHandler } from '../graphql/init/apollo';
 import { Context as ApolloContext} from '../graphql/context';
 import { app } from '@azure/functions';
+import { PortalTokenValidation } from '../auth/portal-token-validation';
+import { connect } from '../../seedwork/services-seedwork-datastore-mongodb/connect';
+import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
+import { DomainImpl } from '../core/domain/domain-impl';
 
-let apolloServerRequestHandler = new ApolloServerRequestHandler(
+const portalTokenValidator = new PortalTokenValidation(
   new Map<string,string>([
     ["AccountPortal","ACCOUNT_PORTAL"]
   ])
 );
+portalTokenValidator.Start();
+connect();
+const DomainInfrastructureImplInstance = new InfrastructureServicesBuilder();
+            const DomainImplInstance = new DomainImpl(
+              DomainInfrastructureImplInstance.datastore,
+              DomainInfrastructureImplInstance.cognitiveSearch,
+              DomainInfrastructureImplInstance.blobStorage,
+              DomainInfrastructureImplInstance.vercel
+            );
+            DomainImplInstance.startup();
 
+            
+let apolloServerRequestHandler = new ApolloServerRequestHandler(
+  // new Map<string,string>([
+  //   ["AccountPortal","ACCOUNT_PORTAL"]
+  // ])
+);
+console.log(' ########### Apollo Server Starting');
 
 // // const services = new Services();
 // // RegisterHandlers(services);
@@ -31,7 +52,7 @@ app.http("graphql", {
     handler: wrapFunctionHandler(startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
       context: async ({ req }) => {
         let context = new ApolloContext();
-        await context.init(req, apolloServerRequestHandler);
+        await context.init(req, portalTokenValidator);
         return context;
       }
     })),

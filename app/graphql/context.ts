@@ -6,6 +6,7 @@ import { InfrastructureServicesBuilder } from '../startup/infrastructure-service
 import { DataSourceBuilder } from './data-sources/data-source-builder';
 import { DomainInfrastructure } from '../core/domain/infrastructure';
 import { DomainExecutionContext } from '../core/domain/contexts/domain-execution-context';
+import { PortalTokenValidation } from '../auth/portal-token-validation';
 
 export class Context implements DomainExecutionContext{
   public verifiedUser: {
@@ -18,11 +19,11 @@ export class Context implements DomainExecutionContext{
   public executionContext: any;
   public services: InfrastructureServicesBuilder;
 
-  public async init(req: HttpRequest, serverRequestHandler: ApolloServerRequestHandler) {
+  public async init(req: HttpRequest, portalTokenValidator: PortalTokenValidation) {
     this.services = new InfrastructureServicesBuilder();
     this.dataSources = new DataSourceBuilder(this);
 
-    await PassportContext.decorateContext(this, req, serverRequestHandler.getPortalTokenExtractor());
+    await PassportContext.decorateContext(this, req, portalTokenValidator);
 
     req.headers.set('x-ms-privatelink-id', ''); // https://github.com/Azure/azure-functions-host/issues/6013
     req.headers.set('server', null); //hide microsoft server header

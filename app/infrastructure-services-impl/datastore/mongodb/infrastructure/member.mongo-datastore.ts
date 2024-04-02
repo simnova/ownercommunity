@@ -47,5 +47,14 @@ export class MongoMemberDatastore
     const result = await this.model.findById(memberId).populate('community').exec();
     return result;
     // return new MemberConverter().toDomain(result,ReadOnlyContext()); // Add type assertion
-  }    
+  }
+  
+  async getMemberByCommunityAccountWithCommunityAccountRole(communityId: string, userId: string): Promise<MemberDataStructure> {
+    const result = await this.model.findOne({community: communityId, 'accounts.user': userId})
+    .populate('community')
+    .populate('accounts.user')
+    .populate('role')
+    .exec();
+    return result;
+  }
 }

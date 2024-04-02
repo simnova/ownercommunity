@@ -1,11 +1,11 @@
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { MutationStatus } from '../../core/application-services/blob-storage/_base.interfaces';
 import { BlobStorageApplicationServiceImpl } from './_blob-storage.application-service';
 import { BlobAuthHeader, BlobRequestSettings } from '../../../seedwork/services-seedwork-blob-storage-interfaces';
 import { MemberAvatarImageAuthHeaderResult } from '../../core/application-services/blob-storage/member.interface';
 import { MemberEntityReference } from '../../core/domain/contexts/community/member';
 
-export class MemberBlobStorageApplicationServiceImpl extends BlobStorageApplicationServiceImpl<Context> {
+export class MemberBlobStorageApplicationServiceImpl extends BlobStorageApplicationServiceImpl<AppContext> {
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {
     let mutationResult: MutationStatus;
     await this.withStorage(async (passport, blobStorage) => {
@@ -30,7 +30,7 @@ export class MemberBlobStorageApplicationServiceImpl extends BlobStorageApplicat
   }
 
   async memberProfileAvatarCreateAuthHeader(memberId: string, fileName: string, contentType: string, contentLength: number): Promise<MemberAvatarImageAuthHeaderResult> {
-    const blobContainerName = this.context.community;
+    const blobContainerName = this.context.communityId;
     const blobDataStorageAccountName = process.env.BLOB_ACCOUNT_NAME;
 
     let headerResult: MemberAvatarImageAuthHeaderResult;
@@ -67,7 +67,7 @@ export class MemberBlobStorageApplicationServiceImpl extends BlobStorageApplicat
       let name: string = this.context.verifiedUser?.verifiedJWT?.name;
 
       const indexFields: Record<string, string> = {
-        communityId: this.context?.community, 
+        communityId: this.context?.communityId, 
         transmissionStatus: 'pending', //always pending when uploading
         documentVersion: 'current',
         createdDate: new Date().toISOString(),

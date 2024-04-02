@@ -1,7 +1,7 @@
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { MapsApplicationServiceImpl } from './_maps.application-service';
 
-export class PropertyMapsApplicationServiceImpl extends MapsApplicationServiceImpl<Context> {
+export class PropertyMapsApplicationServiceImpl extends MapsApplicationServiceImpl<AppContext> {
 
   public async getSasToken(): Promise<string> {
     let sasToken: string = '';

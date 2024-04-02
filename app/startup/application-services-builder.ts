@@ -1,5 +1,5 @@
 import { ApplicationServices } from "../core/application-services";
-import { Context } from "../core/context";
+import { AppContext } from "../core/app-context";
 import {
   CommunityBlobAPI,
   MemberBlobAPI,
@@ -78,7 +78,7 @@ export class ApplicationServicesBuilder implements ApplicationServices{
   propertyMapApi: PropertyMapsAPI;
   communityVercelApi: CommunityVercelAPI;
 
-  constructor(context: Context) {
+  constructor(context: AppContext) {
     this.communityBlobApi = new CommunityBlobApiImpl({ context });
     this.memberBlobApi = new MemberBlobApiImpl({ context });
     this.propertyBlobApi = new PropertyBlobApiImpl({ context });

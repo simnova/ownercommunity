@@ -26,7 +26,7 @@ export class ServiceTicketDomainApplicationServiceImpl<Context extends BaseAppli
     }
 
     let serviceTicketToReturn: Root;
-    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.community);
+    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
     let communityDo = community as CommunityEntityReference; //new CommunityConverter().toDomain(community, { passport: ReadOnlyPassport.GetInstance() });
 
     let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
@@ -36,7 +36,7 @@ export class ServiceTicketDomainApplicationServiceImpl<Context extends BaseAppli
     if (input.requestorId === undefined) {
       //assume requestor is the verified user
       let user = await this.context.applicationServices.userDataApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-      member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.community, user.id);
+      member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
     } else {
       //use the supplied requestorId - TODO: check that the current user is an admin
       member = await this.context.applicationServices.memberDataApi.getMemberById(input.requestorId);
@@ -123,7 +123,7 @@ export class ServiceTicketDomainApplicationServiceImpl<Context extends BaseAppli
 
   async serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<Root> {
     let user = await this.context.applicationServices.userDataApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.community, user.id);
+    let member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
     let memberDo = member as MemberEntityReference; //new MemberConverter().toDomain(member, { passport: ReadOnlyPassport.GetInstance() });
     let serviceTicketToReturn: Root;
     await this.withTransaction(async (repo) => {
@@ -136,7 +136,7 @@ export class ServiceTicketDomainApplicationServiceImpl<Context extends BaseAppli
 
   async serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<Root> {
     let user = await this.context.applicationServices.userDataApi.getByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.community, user.id);
+    let member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
     let memberDo = member as MemberEntityReference; //new MemberConverter().toDomain(member, { passport: ReadOnlyPassport.GetInstance() });
     let serviceTicketToReturn: Root;
     await this.withTransaction(async (repo) => {

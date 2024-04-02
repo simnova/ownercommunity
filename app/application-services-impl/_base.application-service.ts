@@ -2,14 +2,14 @@ import { ApplicationServices } from "../core/application-services";
 import { DomainExecutionContext } from "../core/domain/contexts/domain-execution-context";
 import { Passport } from "../core/domain/contexts/iam/passport";
 import { InfrastructureServices } from "../core/infrastructure-services";
-import { VerifiedUser } from "../core/context";
+import { VerifiedUser } from "../core/app-context";
 
 export interface BaseApplicationServiceExecutionContext extends DomainExecutionContext {
   passport: Passport;
   applicationServices: ApplicationServices;
   infrastructureServices: InfrastructureServices;
   verifiedUser: VerifiedUser;
-  community: string;
+  communityId: string;
 }
 
 export interface ApplicationServiceConfig<Context extends BaseApplicationServiceExecutionContext> {

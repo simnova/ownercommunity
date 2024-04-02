@@ -1,8 +1,8 @@
 import { User } from '../../../infrastructure-services-impl/datastore/mongodb/models/user';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { CosmosDataSource } from './cosmos-data-source';
 
-export class Users extends CosmosDataSource<User, Context> {
+export class Users extends CosmosDataSource<User, GraphqlContext> {
   
   async getUser(userId : string): Promise<User> {
     return this.findOneById(userId);

@@ -18,7 +18,7 @@ export class MemoryCommunityDatastore
 
   async getCommunityByHeader(header: string): Promise<CommunityDataStructure> {
     return (await this._memoryStore.getAll())?.
-      find(r => r.handle === header || r.domain === header || r.whiteLabelDomain === header)?.[0];
+      find(r => r.id === header || r.handle === header || r.domain === header || r.whiteLabelDomain === header)?.[0];
   }
   
   async isUserAdmin(communityId: string, externalId: string): Promise<boolean> {

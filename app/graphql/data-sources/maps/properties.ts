@@ -1,7 +1,7 @@
 import { MapsDataSource } from './maps-data-source';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 
-export class Properties extends MapsDataSource<Context> {
+export class Properties extends MapsDataSource<GraphqlContext> {
 
   public async getSasToken(): Promise<string> {
     let sasToken: string = '';

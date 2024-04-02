@@ -1,17 +1,17 @@
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
 import { CommunityDataStructure } from '../../core/application-services/datastore';
 import { CommunityDatastoreApplicationService } from '../../core/application-services/datastore/community.interface';
 
 export class CommunityDatastoreApplicationServiceImpl 
-  extends DatastoreApplicationServiceImpl<Context> 
+  extends DatastoreApplicationServiceImpl<AppContext> 
   implements CommunityDatastoreApplicationService
 {
 
   async getCurrentCommunity(): Promise<CommunityDataStructure> {
     let communityToReturn: CommunityDataStructure;
     await this.withDatastore(async (_passport, datastore) => {
-      communityToReturn = await datastore.communityDatastore.findOneById(this.context.community);
+      communityToReturn = await datastore.communityDatastore.findOneById(this.context.communityId);
     });
     return communityToReturn;
   }
@@ -41,10 +41,12 @@ export class CommunityDatastoreApplicationServiceImpl
   }
 
   async getCommunityByHeader(header: string): Promise<CommunityDataStructure> {
+    console.log('getCommunityByHeader > header: ', header);
     let communityToReturn: CommunityDataStructure;
     await this.withDatastore(async (_passport, datastore) => {
       communityToReturn = (await datastore.communityDatastore.getCommunityByHeader(header));
     });
+    console.log('getCommunityByHeader > communityToReturn: ', communityToReturn);
     return communityToReturn;
   }
 

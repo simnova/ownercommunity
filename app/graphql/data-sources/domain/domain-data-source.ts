@@ -5,7 +5,7 @@ import { AggregateRoot } from '../../../../seedwork/domain-seedwork/aggregate-ro
 import { EntityProps } from '../../../../seedwork/domain-seedwork/entity';
 import { Document } from 'mongoose';
 import { DomainExecutionContext } from '../../../core/domain/contexts/domain-execution-context';
-import { Context as GraphQLContext } from '../../context';
+import { GraphqlContext as GraphQLContext } from '../../graphql-context';
 
 export class DomainDataSource<Context extends GraphQLContext,MongoType extends Document,PropType extends EntityProps,DomainType extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType,PropType,DomainType>> extends DataSource<Context> {
   private unitOfWork: MongoUnitOfWork<DomainExecutionContext,MongoType,PropType,DomainType,RepoType>;

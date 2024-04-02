@@ -1,7 +1,7 @@
 import { Property as PropertyDO } from '../../../core/domain/contexts/property/property';
 import { PropertyConverter, PropertyDomainAdapter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/property.domain-adapter';
 import { MongoPropertyRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/property.mongo-repository';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Property } from '../../../infrastructure-services-impl/datastore/mongodb/models/property';
@@ -15,7 +15,7 @@ type PropType = PropertyDomainAdapter;
 type DomainType = PropertyDO<PropType>;
 type RepoType = MongoPropertyRepository<PropType>;
 
-export class Properties extends DomainDataSource<Context, Property, PropType, DomainType, RepoType> {
+export class Properties extends DomainDataSource<GraphqlContext, Property, PropType, DomainType, RepoType> {
   async propertyAdd(input: PropertyAddInput): Promise<Property> {
     console.log(`propertyAdd`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {

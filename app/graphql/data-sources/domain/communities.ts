@@ -1,7 +1,7 @@
 import { Community as CommunityDO } from '../../../core/domain/contexts/community/community';
 import { CommunityConverter, CommunityDomainAdapter }from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 import { MongoCommunityRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/community.mongo-repository';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { CommunityCreateInput, CommunityUpdateInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Community } from '../../../infrastructure-services-impl/datastore/mongodb/models/community';
@@ -12,7 +12,7 @@ type PropType = CommunityDomainAdapter;
 type DomainType = CommunityDO<PropType>;
 type RepoType = MongoCommunityRepository<PropType>;
 
-export class Communities extends DomainDataSource<Context,Community,PropType,DomainType,RepoType> {
+export class Communities extends DomainDataSource<GraphqlContext,Community,PropType,DomainType,RepoType> {
 
   async communityCreate(input: CommunityCreateInput) : Promise<Community> {
     console.log(`communityCreate`,this.context.verifiedUser);

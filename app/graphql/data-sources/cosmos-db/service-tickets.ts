@@ -1,9 +1,9 @@
 import { ServiceTicketConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket.domain-adapter';
 import { ServiceTicket, ServiceTicketModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { CosmosDataSource } from './cosmos-data-source';
 
-export class ServiceTickets extends CosmosDataSource<ServiceTicket, Context> {
+export class ServiceTickets extends CosmosDataSource<ServiceTicket, GraphqlContext> {
   async getServiceTicketsByCommunityId(communityId: string): Promise<ServiceTicket[]> {
     let dbData = await ServiceTicketModel.find({ community: communityId }).populate(['community', 'property', 'requestor', 'assignedTo']).exec();
 
@@ -25,7 +25,7 @@ export class ServiceTickets extends CosmosDataSource<ServiceTicket, Context> {
     return this.applyPermissionFilter(dbData, this.context);
   }
 
-  private async applyPermissionFilter(serviceTickets: ServiceTicket[], context: Context): Promise<ServiceTicket[]> {
+  private async applyPermissionFilter(serviceTickets: ServiceTicket[], context: GraphqlContext): Promise<ServiceTicket[]> {
     let converter = new ServiceTicketConverter();
 
     return (await Promise.all(serviceTickets.map((ticket) => ticket))) //.populate(['community','property','requestor','assignedTo']))))

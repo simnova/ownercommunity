@@ -1,5 +1,5 @@
 import { DataSource } from "../data-source";
-import { Context as GraphQLContext } from "../../context";
+import { GraphqlContext as GraphQLContext } from "../../graphql-context";
 import { Passport } from "../../../core/domain/contexts/iam/passport";
 import { CognitiveSearchInfrastructureService } from "../../../core/infrastructure-services/cognitive-search";
 

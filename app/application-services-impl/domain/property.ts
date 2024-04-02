@@ -25,7 +25,7 @@ export class PropertyDomainApplicationServiceImpl<Context extends BaseApplicatio
     }
 
     let propertyToReturn: Root;
-    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.community);
+    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
     let communityDo = community as CommunityEntityReference; // new CommunityConverter().toDomain(community, { passport: ReadOnlyPassport.GetInstance() });
 
     await this.withTransaction(async (repo) => {

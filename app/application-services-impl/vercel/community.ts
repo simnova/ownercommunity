@@ -1,8 +1,8 @@
 import { DomainResponse } from '../../core/application-services/vercel/community.interface';
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { VercelApplicationServiceImpl } from './_vercel.application-service';
 
-export class CommunityVercelApplicationServiceImpl extends VercelApplicationServiceImpl<Context> {
+export class CommunityVercelApplicationServiceImpl extends VercelApplicationServiceImpl<AppContext> {
 
   public async getDomainDetails(domain:string): Promise<DomainResponse> {
     let domainResponse: DomainResponse ;

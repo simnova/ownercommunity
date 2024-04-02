@@ -6,8 +6,8 @@ export class VercelApplicationServiceImpl<Context extends BaseApplicationService
 
   public async withVercel(func: (passport: Passport, vercel: VercelInfrastructureService) => Promise<void>): Promise<void> {
     await func(
-      this._context.passport, 
-      this._context.infrastructureServices.vercel
+      this.context.passport, 
+      this.context.infrastructureServices.vercel
     );
   }
 }

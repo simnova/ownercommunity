@@ -1,4 +1,4 @@
-import { Context as GraphQLContext } from '../../context';
+import { GraphqlContext as GraphQLContext } from '../../graphql-context';
 import { Passport } from '../../../core/domain/contexts/iam/passport';
 import { VercelDomain } from '../../../core/domain/infrastructure/vercel/interfaces';
 import { DataSource } from '../data-source';

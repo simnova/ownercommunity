@@ -1,10 +1,10 @@
 import { MemberModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
 import { Property, PropertyModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/property';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { Types } from 'mongoose';
 import { CosmosDataSource } from './cosmos-data-source';
 
-export class Properties extends CosmosDataSource<Property, Context> {
+export class Properties extends CosmosDataSource<Property, GraphqlContext> {
   async getPropertiesByCommunityId(communityId: string): Promise<Property[]> {
     return this.findByFields({ community: communityId });
   }

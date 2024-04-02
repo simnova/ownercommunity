@@ -6,8 +6,8 @@ export class CognitiveSearchApplicationServiceImpl<Context extends BaseApplicati
 
   public async withSearch(func: (passport: Passport, search: CognitiveSearchInfrastructureService) => Promise<void>): Promise<void> {
     await func(
-      this._context.passport, 
-      this._context.infrastructureServices.cognitiveSearch
+      this.context.passport, 
+      this.context.infrastructureServices.cognitiveSearch
     );
   }
 }

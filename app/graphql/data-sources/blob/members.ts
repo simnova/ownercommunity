@@ -1,10 +1,10 @@
 import { BlobDataSource } from './blob-data-source';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } from '../../schema/builder/generated';
 import { MemberConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/member.domain-adapter';
 import { BlobRequestSettings } from '../../../../seedwork/services-seedwork-blob-storage-interfaces';
 
-export class Members extends BlobDataSource<Context> {
+export class Members extends BlobDataSource<GraphqlContext> {
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {
     let mutationResult: MutationStatus;
     await this.withStorage(async (passport, blobStorage) => {

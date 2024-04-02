@@ -1,7 +1,7 @@
 import { User as UserDO } from '../../../core/domain/contexts/user/user';
 import { UserConverter, UserDomainAdapter }from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/user.domain-adapter';
 import { MongoUserRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/user.mongo-repository';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { UserUpdateInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { User } from '../../../infrastructure-services-impl/datastore/mongodb/models/user';
@@ -10,7 +10,7 @@ type PropType = UserDomainAdapter;
 type DomainType = UserDO<PropType>;
 type RepoType = MongoUserRepository<PropType>;
 
-export class Users extends DomainDataSource<Context,User,PropType,DomainType,RepoType> {
+export class Users extends DomainDataSource<GraphqlContext,User,PropType,DomainType,RepoType> {
 
   
 

@@ -1,8 +1,8 @@
 import { Service } from "../../../infrastructure-services-impl/datastore/mongodb/models/service";
-import { Context } from "../../context";
+import { GraphqlContext } from "../../graphql-context";
 import { CosmosDataSource } from "./cosmos-data-source";
 
-export class Services extends CosmosDataSource<Service, Context> {
+export class Services extends CosmosDataSource<Service, GraphqlContext> {
   async getServiceById(id: string): Promise<Service> {
     return (
       await this.findByFields({ id: id, community: this.context.community })

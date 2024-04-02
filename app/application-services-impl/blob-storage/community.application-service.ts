@@ -1,5 +1,5 @@
 // import { BlobDataSource } from './blob-data-source';
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 // import { CommunityConverter } from '../../../infrastructure-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 // import { CommunityBlobContentAuthHeaderResult, FileInfo } from '';
 // import { BlobRequestSettings } from '../../../services-seedwork-blob-storage-az';
@@ -9,7 +9,7 @@ import { BlobRequestSettings, FileInfo } from '../../../seedwork/services-seedwo
 import { CommunityEntityReference } from '../../core/domain/contexts/community/community';
 import { CommunityBlobContentAuthHeaderResult } from '../../core/application-services/blob-storage/community.interface';
 
-export class CommunityBlobStorageApplicationServiceImpl extends BlobStorageApplicationServiceImpl<Context> {
+export class CommunityBlobStorageApplicationServiceImpl extends BlobStorageApplicationServiceImpl<AppContext> {
   public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {
     let result: FileInfo[] = [];
     await this.withStorage(async (passport, blobStorage) => {

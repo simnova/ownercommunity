@@ -1,6 +1,6 @@
 import { FacetDetail, SearchDocumentsResult } from '../../core/application-services/cognitive-search/_base.interface';
 import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../core/application-services/cognitive-search/service-ticket.interface';
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { CognitiveSearchApplicationServiceImpl } from './_cognitive-search.application-service';
 
 const ServiceTicketFilterNames = {
@@ -10,7 +10,7 @@ const ServiceTicketFilterNames = {
   Priority: 'priority',
 };
 
-export class ServiceTicketCognitiveSearchApplicationServiceImpl extends CognitiveSearchApplicationServiceImpl<Context> {
+export class ServiceTicketCognitiveSearchApplicationServiceImpl extends CognitiveSearchApplicationServiceImpl<AppContext> {
 
   private getFilterString(filter: ServiceTicketsSearchFilterDetail, requestorId: string): string {
     let filterStrings = [];

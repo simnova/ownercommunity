@@ -1,4 +1,4 @@
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import dayjs from 'dayjs';
 import { CognitiveSearchApplicationServiceImpl } from './_cognitive-search.application-service';
 import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../core/application-services/cognitive-search/property.interface';
@@ -15,7 +15,7 @@ const PropertyFilterNames = {
   SquareFeet: 'squareFeet',
   Tags: 'tags',
 };
-export class PropertyCognitiveSearchApplicationServiceImpl extends CognitiveSearchApplicationServiceImpl<Context> {
+export class PropertyCognitiveSearchApplicationServiceImpl extends CognitiveSearchApplicationServiceImpl<AppContext> {
 
   private getFilterString(filter: FilterDetail): string {
     let filterStrings = [];

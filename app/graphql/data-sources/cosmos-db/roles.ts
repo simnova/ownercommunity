@@ -1,10 +1,10 @@
 /** @format */
 
 import { Role } from "../../../infrastructure-services-impl/datastore/mongodb/models/role";
-import { Context } from "../../context";
+import { GraphqlContext } from "../../graphql-context";
 import { CosmosDataSource } from "./cosmos-data-source";
 
-export class Roles extends CosmosDataSource<Role, Context> {
+export class Roles extends CosmosDataSource<Role, GraphqlContext> {
 
   async getRoleById(id: string): Promise<Role> {
     const roles = await this.findByFields({ community: this.context.community })

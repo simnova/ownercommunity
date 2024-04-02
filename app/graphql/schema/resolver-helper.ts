@@ -1,7 +1,7 @@
-import { Context } from "../context";
+import { GraphqlContext } from "../graphql-context";
 import { Member } from "./builder/generated";
 
-export const getMemberForCurrentUser = async (context: Context, communityId: string): Promise<Member|undefined>  => {
+export const getMemberForCurrentUser = async (context: GraphqlContext, communityId: string): Promise<Member|undefined>  => {
   try {
     const externalId = context.verifiedUser.verifiedJWT.sub;
     const currentUser = await context.dataSources.userCosmosdbApi.getByExternalId(externalId);

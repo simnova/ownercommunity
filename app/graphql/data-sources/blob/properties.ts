@@ -1,5 +1,5 @@
 import { BlobDataSource } from './blob-data-source';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { PropertyConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/property.domain-adapter';
 import { MutationStatus, PropertyBlobFileAuthHeaderResult } from '../../schema/builder/generated';
 import { nanoid } from 'nanoid';
@@ -12,7 +12,7 @@ interface FileInfo {
 	maxSizeBytes: number;
 }
 
-export class Properties extends BlobDataSource<Context> {
+export class Properties extends BlobDataSource<GraphqlContext> {
 
 	public async propertyPublicFileRemove(propertyId: string,memberId: string, fileName: string): Promise<void> {
 		const blobName = `public-files/${fileName}`;

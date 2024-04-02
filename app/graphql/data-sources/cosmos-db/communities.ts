@@ -2,10 +2,10 @@ import { isValidObjectId, Types } from 'mongoose';
 import { Community, CommunityModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/community';
 import { MemberModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
 import { UserModel } from '../../../infrastructure-services-impl/datastore/mongodb/models/user';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { CosmosDataSource } from './cosmos-data-source';
 
-export class Communities extends CosmosDataSource<Community, Context> {
+export class Communities extends CosmosDataSource<Community, GraphqlContext> {
 
   async getCurrentCommunity(): Promise<Community> {
     return this.findOneById(this.context.community);

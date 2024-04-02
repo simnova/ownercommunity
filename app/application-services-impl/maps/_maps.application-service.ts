@@ -6,8 +6,8 @@ export class MapsApplicationServiceImpl<Context extends BaseApplicationServiceEx
 
   public async withMaps(func: (passport: Passport, maps: MapsInfrastructureService) => Promise<void>): Promise<void> {
     await func(
-      this._context.passport, 
-      this._context.infrastructureServices.maps
+      this.context.passport, 
+      this.context.infrastructureServices.maps
     );
   }
 }

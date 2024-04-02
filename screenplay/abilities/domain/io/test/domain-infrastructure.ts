@@ -5,8 +5,8 @@
 // import { CommunityUnitOfWork } from '../../domain/contexts/community/community.uow';
 // import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
 // import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
-import { CognitiveSearchDomain } from '../../../../../app/core/domain/infrastructure/cognitive-search/interfaces';
-import { DatastoreDomain } from '../../../../../app/core/domain/infrastructure/datastore/interfaces';
+import { CognitiveSearchDomain } from '../../../../../src/app/domain/infrastructure/cognitive-search/interfaces';
+import { DatastoreDomain } from '../../../../../src/app/domain/infrastructure/datastore/interfaces';
 
 export interface DomainInfrastructureBDD_NOTINUSE {
   // vercel: IVercel;

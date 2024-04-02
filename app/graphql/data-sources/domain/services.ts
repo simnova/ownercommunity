@@ -1,7 +1,7 @@
 import { Service as ServiceDO } from '../../../core/domain/contexts/service-ticket/service';
 import { ServiceConverter, ServiceDomainAdapter }from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/service.domain-adapter';
 import { MongoServiceRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/service.mongo-repository';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { ServiceCreateInput, ServiceUpdateInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Service } from '../../../infrastructure-services-impl/datastore/mongodb/models/service';
@@ -12,7 +12,7 @@ type PropType = ServiceDomainAdapter;
 type DomainType = ServiceDO<PropType>;
 type RepoType = MongoServiceRepository<PropType>;
 
-export class Services extends DomainDataSource<Context,Service,PropType,DomainType,RepoType> {
+export class Services extends DomainDataSource<GraphqlContext,Service,PropType,DomainType,RepoType> {
 
   async serviceCreate(input: ServiceCreateInput) : Promise<Service> {
     console.log(`serviceCreate`,this.context.verifiedUser);

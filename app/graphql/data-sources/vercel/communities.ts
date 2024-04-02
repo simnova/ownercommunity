@@ -1,8 +1,8 @@
 import { VercelDataSource } from './vercel-data-source';
 import { DomainResponse } from '../../../core/domain/infrastructure/vercel/interfaces';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 
-export class Communities extends VercelDataSource<Context> {
+export class Communities extends VercelDataSource<GraphqlContext> {
 
   public async getDomainDetails(domain:string): Promise<DomainResponse> {
     let domainResponse: DomainResponse ;

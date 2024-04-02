@@ -6,8 +6,8 @@ export class BlobStorageApplicationServiceImpl<Context extends BaseApplicationSe
 
   public async withStorage(func: (passport: Passport, blobStorage: BlobStorageInfrastructureService) => Promise<void>): Promise<void> {
     await func(
-      this._context.passport, 
-      this._context.infrastructureServices.blobStorage
+      this.context.passport, 
+      this.context.infrastructureServices.blobStorage
     );
   }
 }

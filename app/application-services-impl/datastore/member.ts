@@ -1,10 +1,10 @@
-import { Context } from '../../core/context-builder';
+import { AppContext } from '../../core/app-context';
 import { MemberDatastoreApplicationService } from '../../core/application-services/datastore/member.interface';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
 import { MemberDataStructure } from '../../core/application-services/datastore';
 
 export class MemberDatastoreApplicationServiceImpl 
-  extends DatastoreApplicationServiceImpl<Context> 
+  extends DatastoreApplicationServiceImpl<AppContext> 
   implements MemberDatastoreApplicationService
 {
 
@@ -19,7 +19,7 @@ export class MemberDatastoreApplicationServiceImpl
   async getMembers(): Promise<MemberDataStructure[]> {
     let memberToReturn: MemberDataStructure[];
     await this.withDatastore(async (_passport, datastore) => {
-      memberToReturn = await datastore.memberDatastore.findByFields({ community: this.context.community });
+      memberToReturn = await datastore.memberDatastore.findByFields({ community: this.context.communityId });
     });
     return memberToReturn;
   }
@@ -33,7 +33,7 @@ export class MemberDatastoreApplicationServiceImpl
   }
 
   async getMembersAssignableToTickets(): Promise<MemberDataStructure[]> {
-    const communityId = this.context.community;
+    const communityId = this.context.communityId;
     let memberToReturn: MemberDataStructure[];
     await this.withDatastore(async (_passport, datastore) => {
       memberToReturn = await datastore.memberDatastore.getMembersAssignableToTickets(communityId);

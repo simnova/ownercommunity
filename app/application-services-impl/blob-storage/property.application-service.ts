@@ -1,4 +1,4 @@
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { MutationStatus,  } from '../../core/application-services/blob-storage/_base.interfaces';
 import { PropertyBlobFileAuthHeaderResult } from '../../core/application-services/blob-storage/property.interface';
 import { nanoid } from 'nanoid';
@@ -13,7 +13,7 @@ interface FileInfo {
 	maxSizeBytes: number;
 }
 
-export class PropertyBlobStorageApplicationServiceImpl extends BlobStorageApplicationServiceImpl<Context> {
+export class PropertyBlobStorageApplicationServiceImpl extends BlobStorageApplicationServiceImpl<AppContext> {
 
 	public async propertyPublicFileRemove(propertyId: string,memberId: string, fileName: string): Promise<void> {
 		const blobName = `public-files/${fileName}`;

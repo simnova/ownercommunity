@@ -93,6 +93,7 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
   }
 
   set roleName(roleName: string) {
+    console.log('vis..', this.visa);
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('Cannot set role name');
     }

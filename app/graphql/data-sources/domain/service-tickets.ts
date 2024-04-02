@@ -3,7 +3,7 @@ import { Service as ServiceDO } from '../../../core/domain/contexts/service-tick
 import { Member as MemberDO } from '../../../core/domain/contexts/community/member';
 import { ServiceTicketConverter, ServiceTicketDomainAdapter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket.domain-adapter';
 import { MongoServiceTicketRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket.mongo-repository';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput, ServiceTicketDeleteInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { ServiceTicket } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
@@ -18,7 +18,7 @@ type PropType = ServiceTicketDomainAdapter;
 type DomainType = ServiceTicketDO<PropType>;
 type RepoType = MongoServiceTicketRepository<PropType>;
 
-export class ServiceTickets extends DomainDataSource<Context, ServiceTicket, PropType, DomainType, RepoType> {
+export class ServiceTickets extends DomainDataSource<GraphqlContext, ServiceTicket, PropType, DomainType, RepoType> {
   async serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicket> {
     console.log(`serviceTicketCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {

@@ -20,11 +20,11 @@ export class DomainApplicationServiceImpl<
     this.unitOfWork = options.unitOfWork;
   }
 
-  public get context(): Context { return this._context;}
+  // public get context(): Context { return this._context;}
 
   public async withTransaction(func:(repo:RepoType) => Promise<void>): Promise<void> {
     const executionContext:Context = {
-      passport: this._context.passport
+      passport: this.context.passport
     } as Context;
 
     console.log('withTransaction',this.context.passport);

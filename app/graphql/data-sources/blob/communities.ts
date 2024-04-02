@@ -1,10 +1,10 @@
 import { BlobDataSource } from './blob-data-source';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { CommunityConverter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/community.domain-adapter';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../schema/builder/generated';
 import { BlobRequestSettings } from '../../../../seedwork/services-seedwork-blob-storage-az';
 
-export class Communities extends BlobDataSource<Context> {
+export class Communities extends BlobDataSource<GraphqlContext> {
   public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {
     let result: FileInfo[] = [];
     await this.withStorage(async (passport, blobStorage) => {

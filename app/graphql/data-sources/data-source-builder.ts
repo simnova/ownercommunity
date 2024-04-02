@@ -1,4 +1,4 @@
-import { Context } from "../context";
+import { GraphqlContext } from "../graphql-context";
 import { CommunityBlobAPI, MemberBlobAPI, PropertyBlobAPI } from "./blob"
 import { PropertySearchAPI, ServiceTicketsSearchAPI } from "./cognitive-search";
 import { CommunityCosmosdbAPI, CommunityModel, MemberCosmosdbAPI, MemberModel, PropertyCosmosdbAPI, PropertyModel, RoleCosmosdbAPI, RoleModel, ServiceCosmosdbAPI, ServiceModel, ServiceTicketCosmosdbAPI, ServiceTicketModel, UserCosmosdbAPI, UserModel } from "./cosmos-db";
@@ -29,7 +29,7 @@ export class DataSourceBuilder {
   propertyMapApi: PropertyMapAPI;
   communityVercelApi: CommunityVercelAPI;
 
-  constructor(context: Context) {
+  constructor(context: GraphqlContext) {
     this.communityBlobAPI = new CommunityBlobAPI({ context });
     this.memberBlobAPI = new MemberBlobAPI({ context });
     this.propertyBlobAPI = new PropertyBlobAPI({ context });

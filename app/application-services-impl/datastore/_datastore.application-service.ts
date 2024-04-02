@@ -6,8 +6,8 @@ export class DatastoreApplicationServiceImpl<Context extends BaseApplicationServ
 
   public async withDatastore(func: (passport: Passport, datastore: DatastoreInfrastructureService) => Promise<void>): Promise<void> {
     await func(
-      this._context.passport, 
-      this._context.infrastructureServices.datastore
+      this.context.passport, 
+      this.context.infrastructureServices.datastore
     );
   }
 }

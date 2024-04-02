@@ -1,10 +1,10 @@
 import { GraphQLError } from 'graphql';
 import { shield, allow } from 'graphql-shield';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { Resolvers } from '../builder/generated';
 
 
-const defaultPermissions = shield<Resolvers,Context>({
+const defaultPermissions = shield<Resolvers,GraphqlContext>({
   User: {
     "*": allow
   },

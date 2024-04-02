@@ -1,10 +1,10 @@
 import { UserDataStructure } from '../../core/application-services/datastore';
 import { UserDatastoreApplicationService } from '../../core/application-services/datastore/user.interface';
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
 
 export class UserDatastoreApplicationServiceImpl 
-  extends DatastoreApplicationServiceImpl<Context> 
+  extends DatastoreApplicationServiceImpl<AppContext> 
   implements UserDatastoreApplicationService
 {
   

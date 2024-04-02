@@ -1,10 +1,10 @@
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { PropertyDatastoreApplicationService } from '../../core/application-services/datastore/property.interface';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
 import { PropertyDataStructure } from '../../core/application-services/datastore';
 
 export class PropertyDatastoreApplicationServiceImpl 
-  extends DatastoreApplicationServiceImpl<Context> 
+  extends DatastoreApplicationServiceImpl<AppContext> 
   implements PropertyDatastoreApplicationService
 {
 

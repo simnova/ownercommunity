@@ -1,7 +1,7 @@
 import { Role as RoleDO } from '../../../core/domain/contexts/community/role';
 import { RoleConverter, RoleDomainAdapter }from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/role.domain-adapter';
 import { MongoRoleRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/role.mongo-repository';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Role } from '../../../infrastructure-services-impl/datastore/mongodb/models/role';
@@ -12,7 +12,7 @@ type PropType = RoleDomainAdapter;
 type DomainType = RoleDO<PropType>;
 type RepoType = MongoRoleRepository<PropType>;
 
-export class Roles extends DomainDataSource<Context,Role,PropType,DomainType,RepoType> {
+export class Roles extends DomainDataSource<GraphqlContext,Role,PropType,DomainType,RepoType> {
 
   async roleAdd(input: RoleAddInput) : Promise<Role> {
     console.log(`roleAdd`,this.context.verifiedUser);

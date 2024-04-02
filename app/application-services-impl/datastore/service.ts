@@ -1,16 +1,16 @@
 import { ServiceDataStructure } from "../../core/application-services/datastore";
 import { ServiceDatastoreApplicationService } from "../../core/application-services/datastore/service.interface";
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { DatastoreApplicationServiceImpl } from "./_datastore.application-service";
 
 export class ServiceDatastoreApplicationServiceImpl 
-  extends DatastoreApplicationServiceImpl<Context> 
+  extends DatastoreApplicationServiceImpl<AppContext> 
   implements ServiceDatastoreApplicationService
 {
   async getServiceById(id: string): Promise<ServiceDataStructure> {
     let serviceToReturn: ServiceDataStructure;
     await this.withDatastore(async (_passport, datastore) => {
-      serviceToReturn = (await datastore.serviceDatastore.findByFields({ id: id, community: this.context.community }))?.[0];
+      serviceToReturn = (await datastore.serviceDatastore.findByFields({ id: id, community: this.context.communityId }))?.[0];
     });
     return serviceToReturn;
   }
@@ -18,7 +18,7 @@ export class ServiceDatastoreApplicationServiceImpl
   async getServices(): Promise<ServiceDataStructure[]> {
     let serviceToReturn: ServiceDataStructure[];
     await this.withDatastore(async (_passport, datastore) => {
-      serviceToReturn = await datastore.serviceDatastore.findByFields({ community: this.context.community });
+      serviceToReturn = await datastore.serviceDatastore.findByFields({ community: this.context.communityId });
     });
     return serviceToReturn;
   }

@@ -1,5 +1,5 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { SearchDocumentsResult } from '@azure/search-documents';
 import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../schema/builder/generated';
 
@@ -9,7 +9,7 @@ const ServiceTicketFilterNames = {
   Status: 'status',
   Priority: 'priority',
 };
-export class ServiceTickets extends CognitiveSearchDataSource<Context> {
+export class ServiceTickets extends CognitiveSearchDataSource<GraphqlContext> {
   private getFilterString(filter: ServiceTicketsSearchFilterDetail, requestorId: string): string {
     let filterStrings = [];
     filterStrings.push(`(requestorId eq '${requestorId}')`);

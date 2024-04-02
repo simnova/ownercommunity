@@ -1,5 +1,5 @@
 import { MongoDataSource, MongoDataSourceConfig } from "apollo-datasource-mongodb";
-import { Context as GraphQLContext } from "../../context";
+import { GraphqlContext as GraphQLContext } from "../../graphql-context";
 
 export class CosmosDataSource<TData, Context extends GraphQLContext> extends MongoDataSource<TData> {
   protected context: Context;

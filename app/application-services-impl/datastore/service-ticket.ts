@@ -1,11 +1,11 @@
 import { ServiceTicketDataStructure } from '../../core/application-services/datastore';
 import { ServiceTicketDatastoreApplicationService } from '../../core/application-services/datastore/service-ticket.interface';
 import { ServiceTicketEntityReference } from '../../core/domain/contexts/service-ticket/service-ticket';
-import { Context } from '../../core/context';
+import { AppContext } from '../../core/app-context';
 import { DatastoreApplicationServiceImpl } from './_datastore.application-service';
 
 export class ServiceTicketDatastoreApplicationServiceImpl 
-  extends DatastoreApplicationServiceImpl<Context> 
+  extends DatastoreApplicationServiceImpl<AppContext> 
   implements ServiceTicketDatastoreApplicationService
 {
   async getServiceTicketsByCommunityId(communityId: string): Promise<ServiceTicketDataStructure[]> {
@@ -40,7 +40,7 @@ export class ServiceTicketDatastoreApplicationServiceImpl
     return this.applyPermissionFilter(serviceTicketToReturn, this.context);
   }
 
-  private async applyPermissionFilter(serviceTickets: ServiceTicketDataStructure[], context: Context): Promise<ServiceTicketDataStructure[]> {
+  private async applyPermissionFilter(serviceTickets: ServiceTicketDataStructure[], context: AppContext): Promise<ServiceTicketDataStructure[]> {
     return (await Promise.all(serviceTickets.map((ticket) => ticket)))
       .map((ticket) => ticket as unknown as ServiceTicketEntityReference) // [MG-TBD] remove unknown
       .filter((ticket) =>

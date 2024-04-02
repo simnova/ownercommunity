@@ -22,7 +22,7 @@ export class RoleDomainApplicationServiceImpl<Context extends BaseApplicationSer
     }
     
     let roleToReturn : Root;
-    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.community);
+    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
     let communityDo = community as CommunityEntityReference; // new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
 
     await this.withTransaction(async (repo) => {

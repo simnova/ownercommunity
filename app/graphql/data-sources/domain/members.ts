@@ -1,7 +1,7 @@
 import { Member as MemberDO } from '../../../core/domain/contexts/community/member';
 import { MemberConverter, MemberDomainAdapter } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/member.domain-adapter';
 import { MongoMemberRepository } from '../../../infrastructure-services-impl/datastore/mongodb/infrastructure/member.mongo-repository';
-import { Context } from '../../context';
+import { GraphqlContext } from '../../graphql-context';
 import { MemberAccountAddInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput, MemberAccountEditInput } from '../../schema/builder/generated';
 import { DomainDataSource } from './domain-data-source';
 import { Member } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
@@ -16,7 +16,7 @@ type PropType = MemberDomainAdapter;
 type DomainType = MemberDO<PropType>;
 type RepoType = MongoMemberRepository<PropType>;
 
-export class Members extends DomainDataSource<Context, Member, PropType, DomainType, RepoType> {
+export class Members extends DomainDataSource<GraphqlContext, Member, PropType, DomainType, RepoType> {
   async memberCreate(input: MemberCreateInput): Promise<Member> {
     console.log(`memberCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {

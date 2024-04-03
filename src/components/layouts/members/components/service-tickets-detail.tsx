@@ -1,5 +1,5 @@
 import { DownOutlined, FileDoneOutlined, FileOutlined, FileProtectOutlined, FileSyncOutlined, FileTextOutlined, SolutionOutlined } from '@ant-design/icons';
-import { Button, Descriptions, Dropdown, Form, Input, Menu, Modal, Select, Steps, Table, Typography } from 'antd';
+import { Button, Descriptions, Dropdown, Form, Input, Menu, Modal, Select, Space, Steps, Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
@@ -77,7 +77,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
   ]);
 
   const stateMap = new Map<string,{state:string, description:string}>([
-    ["CREATED",{state:"Crated", description:"Created"}],
+    ["CREATED",{state:"Created", description:"Created"}],
     ["DRAFT",{state:"Draft", description:"Editing Details"}],
     ["SUBMITTED",{state:"Submitted", description:"Awaiting Triage and Assignment"}],
     ["ASSIGNED",{state:"Assigned", description:"Work will be scheduled"}],
@@ -90,14 +90,20 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
     return menuMap.get(value)?.map((x:any) => x);
   });
 
-  console.log(menuItems)
+  const changeStatus = (state: string) => {
+    setNextState(state);
+    setModalVisible(true);
+  }
+
+  console.log(menuItems);
   const menu = (
-    <Menu 
-      onClick={(value)=>{
-      setNextState(value.key);
-      setModalVisible(true);
-      }}>
-      {menuItems}      
+    <Menu
+      onClick={(value) => {
+        console.log("Current status: ", props.data.serviceTicket.status);
+        changeStatus(value.key);
+      }}
+    >
+      {menuItems}
     </Menu>
   );
 
@@ -261,10 +267,16 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
               <Select.Option value={5}>5-No Rush</Select.Option>
             </Select>
           </Form.Item>
-
+          <Space>
           <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
             Save Draft
           </Button>
+          {props.data.serviceTicket.status === "DRAFT" ?
+              <Button type="primary" value={'save'} loading={changeStatusFormLoading} onClick={() => changeStatus("SUBMITTED")}>
+                Submit
+              </Button>: null
+              }
+          </Space>
         </Form>
       </div>
       </>}

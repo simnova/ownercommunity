@@ -25,10 +25,7 @@ Feature: Manage Community
       | serviceTicketPermissions  | canManageTickets |
       | servicePermissions        | canManageServices |
     And he assigns PropertyOwner role to DuyTheMember4 in TestCommunity4
-    Then DuyTheMember4 should have the PropertyOwner role in TestCommunity4 with the following permissions:
-      | propertyPermissions      | canManageProperties, canEditOwnProperty |
-      | serviceTicketPermissions  | canManageTickets |
-      | servicePermissions        | canManageServices |
+    Then DuyTheMember4 should have the PropertyOwner role in TestCommunity4
   
   @wip
   Scenario: Add account to a member

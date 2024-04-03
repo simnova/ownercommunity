@@ -1,7 +1,6 @@
 import { Given, Then, When } from '@cucumber/cucumber';
 import { Ensure, equals } from '@serenity-js/assertions';
 import { Actor, actorInTheSpotlight, notes } from '@serenity-js/core';
-import { RoleProps } from '../../app/core/domain/contexts/community/role';
 import { MemberInDb } from '../../screenplay/questions/member-in-db';
 import { RoleForCommunityInDb } from '../../screenplay/questions/role-for-community-in-db';
 import { AssignRole } from '../../screenplay/tasks/assign-role';
@@ -9,10 +8,9 @@ import { CreateAccount } from '../../screenplay/tasks/create-account';
 import { CreateCommunity } from '../../screenplay/tasks/create-community';
 import { LogDataSources } from '../../screenplay/tasks/log-data-sources';
 import { Register } from '../../screenplay/tasks/register';
+import { RoleProps } from '../../src/app/domain/contexts/community/role';
 import { CreateMember } from './../../screenplay/tasks/create-member';
-import { NotepadType } from '@screenplay/actors';
-import { UserEntityReference } from '@app/core/domain/contexts/user/user';
-import { InteractWithTheDomain } from '@screenplay/abilities/domain/interact-with-the-domain';
+import { NotepadType } from '../../screenplay/actors';
 
 Given('{actor} is the admin member of {word}', async function (actor: Actor, communityName: string) {
   await actor.attemptsTo(

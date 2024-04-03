@@ -1,5 +1,5 @@
 import { Question } from "@serenity-js/core";
-import { UserProps } from "../../app/core/domain/contexts/user/user";
+import { UserProps } from "../../src/app/domain/contexts/user/user";
 import { InteractWithTheDomain } from "../abilities/domain/interact-with-the-domain";
 
 

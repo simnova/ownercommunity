@@ -1,11 +1,11 @@
 import { Actor, Interaction } from "@serenity-js/core";
 import { InteractWithTheDomain } from "../abilities/domain/interact-with-the-domain";
 import { CommunityInDb } from "../questions/community-in-db";
-import { CommunityEntityReference } from "../../app/core/domain/contexts/community/community";
+import { CommunityEntityReference } from "../../src/app/domain/contexts/community/community";
 import { PropertyInDb } from "../questions/property-in-db";
-import { PropertyEntityReference } from "../../app/core/domain/contexts/property/property";
+import { PropertyEntityReference } from "../../src/app/domain/contexts/property/property";
 import { MemberInDb } from "../questions/member-in-db";
-import { MemberEntityReference } from "../../app/core/domain/contexts/community/member";
+import { MemberEntityReference } from "../../src/app/domain/contexts/community/member";
 
 
 export const CreateServiceTicketInDb = (

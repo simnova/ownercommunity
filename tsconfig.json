@@ -9,12 +9,13 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@seedwork/*": ["seedwork/*"],
-      "@app/*": ["app/*"],
-      "@features/*": ["features/*"],
-      "@screenplay/*": ["screenplay/*"],
-    }
+    // "moduleResolution": "node",
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@seedwork/*": ["seedwork/*"],
+    //   "@app/*": ["app/*"],
+    //   "@features/*": ["features/*"],
+    //   "@screenplay/*": ["screenplay/*"],
+    // }
   }
 }

@@ -1,7 +1,7 @@
 import { FindQueries } from "./_base";
-import { UserDataStructure } from "../../application-services/datastore";
+import { User as UserData} from "../../../infrastructure-services-impl/datastore/mongodb/models/user";
 
-type PropType = UserDataStructure;
-export interface UserDatastoreInfrastructureService extends FindQueries<PropType> {
-  getAll(): Promise<PropType[]>;
+export {UserData};
+export interface UserDatastoreInfrastructureService extends FindQueries<UserData> {
+  getAll(): Promise<UserData[]>;
 }

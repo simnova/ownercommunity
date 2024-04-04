@@ -1,6 +1,6 @@
 import { FindQueries } from "./_base";
-import { RoleDataStructure } from "../../application-services/datastore";
+import { Role as RoleData} from "../../../infrastructure-services-impl/datastore/mongodb/models/role";
 
-type PropType = RoleDataStructure;
-export interface RoleDatastoreInfrastructureService extends FindQueries<PropType> {
+export {RoleData};
+export interface RoleDatastoreInfrastructureService extends FindQueries<RoleData> {
 }

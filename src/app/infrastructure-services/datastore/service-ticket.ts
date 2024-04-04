@@ -1,7 +1,7 @@
 import { FindQueries, Fields } from "./_base";
-import { ServiceTicketDataStructure } from "../../application-services/datastore";
+import { ServiceTicket as ServiceTicketData } from "../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket";
 
-type PropType = ServiceTicketDataStructure;
-export interface ServiceTicketDatastoreInfrastructureService extends FindQueries<PropType> {
-  findByFieldsWithPopulatedValues(fields: Fields): Promise<PropType[]>;
+export {ServiceTicketData};
+export interface ServiceTicketDatastoreInfrastructureService extends FindQueries<ServiceTicketData> {
+  findByFieldsWithPopulatedValues(fields: Fields): Promise<ServiceTicketData[]>;
 }

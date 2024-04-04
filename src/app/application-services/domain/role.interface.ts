@@ -1,9 +1,9 @@
-import { Role, RoleProps } from '../../domain/contexts/community/role';
+import { RoleData } from "../../infrastructure-services/datastore";
 
 export interface RoleDomainApplicationService {
-  roleAdd(input: RoleAddInput) : Promise<Role<RoleProps>>;
-  roleUpdate(input: RoleUpdateInput) : Promise<Role<RoleProps>>;
-  roleDeleteAndReassign(input: RoleDeleteAndReassignInput) : Promise<Role<RoleProps>>;
+  roleAdd(input: RoleAddInput) : Promise<RoleData>;
+  roleUpdate(input: RoleUpdateInput) : Promise<RoleData>;
+  roleDeleteAndReassign(input: RoleDeleteAndReassignInput) : Promise<RoleData>;
 }
 
 export type RoleAddInput = {

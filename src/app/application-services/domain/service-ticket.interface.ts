@@ -1,13 +1,13 @@
-import { ServiceTicket, ServiceTicketProps } from '../../domain/contexts/service-ticket/service-ticket';
+import { ServiceTicketData } from "../../infrastructure-services/datastore";
 
 export interface ServiceTicketDomainApplicationService {
-  serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicket<ServiceTicketProps>>;
-  serviceTicketUpdate(input: ServiceTicketUpdateInput) : Promise<ServiceTicket<ServiceTicketProps>>;
-  serviceTicketDelete(input: ServiceTicketDeleteInput): Promise<ServiceTicket<ServiceTicketProps>>;
-  serviceTicketSubmit(input: ServiceTicketSubmitInput): Promise<ServiceTicket<ServiceTicketProps>>;
-  serviceTicketAssign(input: ServiceTicketAssignInput): Promise<ServiceTicket<ServiceTicketProps>>
-  serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<ServiceTicket<ServiceTicketProps>>;
-  serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<ServiceTicket<ServiceTicketProps>>;
+  serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData>;
+  serviceTicketUpdate(input: ServiceTicketUpdateInput) : Promise<ServiceTicketData>;
+  serviceTicketDelete(input: ServiceTicketDeleteInput): Promise<ServiceTicketData>;
+  serviceTicketSubmit(input: ServiceTicketSubmitInput): Promise<ServiceTicketData>;
+  serviceTicketAssign(input: ServiceTicketAssignInput): Promise<ServiceTicketData>
+  serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<ServiceTicketData>;
+  serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<ServiceTicketData>;
 }
 
 export type ServiceTicketCreateInput = {

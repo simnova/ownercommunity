@@ -1,8 +1,8 @@
-import { User, UserProps } from '../../domain/contexts/user/user';
+import { UserData } from "../../infrastructure-services/datastore";
 
 export interface UserDomainApplicationService {
-  addUser() : Promise<User<UserProps>>;
-  updateUser(user: UserUpdateInput) : Promise<User<UserProps>>; 
+  addUser() : Promise<UserData>;
+  updateUser(user: UserUpdateInput) : Promise<UserData>; 
 }
 
 export type UserUpdateInput = {

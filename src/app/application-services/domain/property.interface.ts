@@ -1,12 +1,12 @@
-import { Property, PropertyProps } from '../../domain/contexts/property/property';
+import { PropertyData } from "../../infrastructure-services/datastore";
 
 export interface PropertyDomainApplicationService {
-  propertyAdd(input: PropertyAddInput): Promise<Property<PropertyProps>>;
-  propertyUpdate(input: PropertyUpdateInput): Promise<Property<PropertyProps>>;
-  propertyDelete(input: PropertyDeleteInput): Promise<Property<PropertyProps>>;
-  propertyAssignOwner(input: PropertyAssignOwnerInput): Promise<Property<PropertyProps>>;
-  propertyRemoveOwner(input: PropertyRemoveOwnerInput): Promise<Property<PropertyProps>>;
-  propertyImageRemove(propertyId: string, blobName: string): Promise<Property<PropertyProps>>;
+  propertyAdd(input: PropertyAddInput): Promise<PropertyData>;
+  propertyUpdate(input: PropertyUpdateInput): Promise<PropertyData>;
+  propertyDelete(input: PropertyDeleteInput): Promise<PropertyData>;
+  propertyAssignOwner(input: PropertyAssignOwnerInput): Promise<PropertyData>;
+  propertyRemoveOwner(input: PropertyRemoveOwnerInput): Promise<PropertyData>;
+  propertyImageRemove(propertyId: string, blobName: string): Promise<PropertyData>;
 }
 
 export type PropertyAddInput = {

@@ -1,8 +1,8 @@
-import { ServiceTicketDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/service-ticket";
+import { ServiceTicketData } from "../../infrastructure-services/datastore";
 
 export interface ServiceTicketDatastoreApplicationService {
-  getServiceTicketsByCommunityId(communityId: string): Promise<ServiceTicketDataStructure[]>;
-  getServiceTicketsOpenByRequestor(memberId: string): Promise<ServiceTicketDataStructure[]>;
-  getServiceTicketsClosedByRequestor(memberId: string): Promise<ServiceTicketDataStructure[]>;
-  getServiceTicketsByAssignedTo(communityId: string, memberId: string): Promise<ServiceTicketDataStructure[]>; 
+  getServiceTicketsByCommunityId(communityId: string): Promise<ServiceTicketData[]>;
+  getServiceTicketsOpenByRequestor(memberId: string): Promise<ServiceTicketData[]>;
+  getServiceTicketsClosedByRequestor(memberId: string): Promise<ServiceTicketData[]>;
+  getServiceTicketsByAssignedTo(communityId: string, memberId: string): Promise<ServiceTicketData[]>; 
 }

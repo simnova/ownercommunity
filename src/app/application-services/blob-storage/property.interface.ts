@@ -1,4 +1,4 @@
-import { PropertyDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/property";
+import { PropertyData } from "../../infrastructure-services/datastore";
 import { BlobAuthHeader } from "../../../../seedwork/services-seedwork-blob-storage-interfaces";
 import { MutationStatus } from "./_base.interfaces";
 
@@ -15,6 +15,6 @@ export type PropertyBlobFileAuthHeaderResult = {
   status: MutationStatus;
 };
 
-export type Property = PropertyDataStructure & {
+export type Property = PropertyData & {
   mapSASToken?: string;
 };

@@ -1,9 +1,9 @@
 import { FindQueries } from "./_base";
-import { PropertyDataStructure } from "../../application-services/datastore";
+import { Property as PropertyData } from "../../../infrastructure-services-impl/datastore/mongodb/models/property";
 
-type PropType = PropertyDataStructure;
-export interface PropertyDatastoreInfrastructureService extends FindQueries<PropType> {
-  getAll(): Promise<PropType[]>;
-  getPropertiesByCommunityIdUserId(communityId: string, userId: string): Promise<PropType[]>;
-  getPropertyByIdWithCommunityOwner(propertyId: string): Promise<PropType>;
+export {PropertyData};
+export interface PropertyDatastoreInfrastructureService extends FindQueries<PropertyData> {
+  getAll(): Promise<PropertyData[]>;
+  getPropertiesByCommunityIdUserId(communityId: string, userId: string): Promise<PropertyData[]>;
+  getPropertyByIdWithCommunityOwner(propertyId: string): Promise<PropertyData>;
 }

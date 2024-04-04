@@ -1,7 +1,7 @@
 import { Passport, PassportImpl, ReadOnlyPassport } from "./domain/contexts/iam/passport";
 import { UserEntityReference } from "./domain/contexts/user/user";
 import { MemberEntityReference } from "./domain/contexts/community/member";
-import { CommunityDataStructure } from "./application-services/datastore";
+import { CommunityData } from "./infrastructure-services/datastore";
 import { CommunityEntityReference } from "./domain/contexts/community/community";
 import { ApplicationServices } from "./application-services";
 import { InfrastructureServices } from "./infrastructure-services";
@@ -26,7 +26,7 @@ export interface AppContext extends BaseApplicationServiceExecutionContext{
 export class AppContextImpl implements AppContext {
   private _verifiedUser: VerifiedUser;
   private _communityHeader: string;
-  private _communityData: CommunityDataStructure
+  private _communityData: CommunityData
   private _passport: Passport;
   private _applicationServices: ApplicationServices;
   private _infrastructureServices: InfrastructureServices;
@@ -65,11 +65,11 @@ export class AppContextImpl implements AppContext {
   }
 
   async init(): Promise<void> {
-    console.log(' initializing app context ...')
     await this.setDefaultPassport();
     await this.setCommunityData();
     await this.setPassport();
     await this.initializeDomain();
+    console.log(' app context initialized ...')
   }
 
   private async initializeDomain() {
@@ -87,12 +87,9 @@ export class AppContextImpl implements AppContext {
   }
   
   private async setCommunityData(): Promise<void>{
-    console.log(' == ERROR == communityHeader: ', this._communityHeader);
     if (this._communityHeader) {
       this._communityData = await this._applicationServices.communityDataApi.getCommunityByHeader(this._communityHeader);
     }
-    console.log(' == ERROR == communityData: ', this._communityData);
-    // this._communityData = null;
   }
 
   private async setPassport(): Promise<void> {
@@ -104,7 +101,5 @@ export class AppContextImpl implements AppContext {
         this._passport = new PassportImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference);
       }
     }
-    // console.log(' == ERROR == verifiedUser: ', this._verifiedUser, ' community: ', this._communityData);
-    // this._passport = ReadOnlyPassport.GetInstance();
   }
 }

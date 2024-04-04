@@ -1,7 +1,7 @@
-import { RoleDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/role";
+import { RoleData } from "../../infrastructure-services/datastore";
 
 export interface RoleDatastoreApplicationService {
-  getRoleById(id: string): Promise<RoleDataStructure>;
-  getRoles(): Promise<RoleDataStructure[]>;
-  getRolesByCommunityId(communityId: string): Promise<RoleDataStructure[]>;
+  getRoleById(id: string): Promise<RoleData>;
+  getRoles(): Promise<RoleData[]>;
+  getRolesByCommunityId(communityId: string): Promise<RoleData[]>;
 }

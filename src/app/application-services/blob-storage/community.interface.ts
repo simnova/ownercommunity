@@ -1,6 +1,5 @@
-import { CommunityDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/community";
-import { RoleDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/role";
 import { BlobAuthHeader, FileInfo } from "../../../../seedwork/services-seedwork-blob-storage-interfaces";
+import { CommunityData, RoleData } from "../../infrastructure-services/datastore";
 import { MutationStatus } from "./_base.interfaces";
 
 export interface CommunityBlobStorageApplicationService {
@@ -17,17 +16,14 @@ export type CommunityBlobContentAuthHeaderResult = {
   status: MutationStatus;
 };
 
-
-
-export type Community = CommunityDataStructure & {
+export type Community = CommunityData & {
   domainStatus?: CommunityDomainResult;
   files?: FileInfo[];
   filesByType?: FileInfo[];
   publicContentBlobUrl?: string;
-  roles?: RoleDataStructure[];
+  roles?: RoleData[];
   userIsAdmin?: boolean;
 };
-
 
 export type CommunityDomainResult = {
   verification?: CommunityDomainVerificationDetail[];

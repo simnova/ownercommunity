@@ -1,9 +1,10 @@
 import { FindQueries } from "./_base";
-import { CommunityDataStructure } from "../../application-services/datastore";
+import { Community as CommunityData} from "../../../infrastructure-services-impl/datastore/mongodb/models/community";
 
-type PropType = CommunityDataStructure;
-export interface CommunityDatastoreInfrastructureService extends FindQueries<PropType> {
-  getCommunityByHeader(header: string): Promise<PropType>;
+export {CommunityData};
+
+export interface CommunityDatastoreInfrastructureService extends FindQueries<CommunityData> {
+  getCommunityByHeader(header: string): Promise<CommunityData>;
   isUserAdmin(communityId: string, externalId: string): Promise<boolean>;
-  getCommunitiesForUser(externalId: string): Promise<PropType[]>;
+  getCommunitiesForUser(externalId: string): Promise<CommunityData[]>;
 }

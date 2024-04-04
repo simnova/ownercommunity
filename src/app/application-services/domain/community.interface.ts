@@ -1,8 +1,8 @@
-import { Community, CommunityProps } from '../../domain/contexts/community/community';
+import { CommunityData } from "../../infrastructure-services/datastore";
 
 export interface CommunityDomainApplicationService {
-  communityCreate(input: CommunityCreateInput) : Promise<Community<CommunityProps>>;
-  communityUpdate(input: CommunityUpdateInput) : Promise<Community<CommunityProps>>;
+  communityCreate(input: CommunityCreateInput) : Promise<CommunityData>;
+  communityUpdate(input: CommunityUpdateInput) : Promise<CommunityData>;
 }
 
 export type CommunityCreateInput = {

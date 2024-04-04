@@ -1,6 +1,6 @@
 import { FindQueries } from "./_base";
-import { ServiceDataStructure } from "../../application-services/datastore";
+import { Service as ServiceData} from "../../../infrastructure-services-impl/datastore/mongodb/models/service";
 
-type PropType = ServiceDataStructure;
-export interface ServiceDatastoreInfrastructureService extends FindQueries<PropType> {
+export {ServiceData};
+export interface ServiceDatastoreInfrastructureService extends FindQueries<ServiceData> {
 }

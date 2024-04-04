@@ -1,13 +1,13 @@
-import { Member, MemberProps } from '../../domain/contexts/community/member';
+import { MemberData } from "../../infrastructure-services/datastore";
 
-export interface MemberDomainApplicationService {// extends DomainApplicationService<MemberProps, Member<MemberProps>, MemberRepository<MemberProps>>{
-  memberCreate(input: MemberCreateInput) : Promise<Member<MemberProps>>;
-  memberUpdate(input: MemberUpdateInput) : Promise<Member<MemberProps>>;
-  memberAccountAdd(input: MemberAccountAddInput) : Promise<Member<MemberProps>>;
-  memberAccountEdit(input: MemberAccountEditInput) : Promise<Member<MemberProps>>;
-  memberAccountRemove(input: MemberAccountRemoveInput) : Promise<Member<MemberProps>>;
-  memberProfileUpdate(input: MemberProfileUpdateInput) : Promise<Member<MemberProps>>;
-  memberProfileUpdateAvatar(input: MemberProfileUpdateAvatarInput) : Promise<Member<MemberProps>>;
+export interface MemberDomainApplicationService {// extends DomainApplicationService<MemberProps, MemberData, MemberRepositoryData>{
+  memberCreate(input: MemberCreateInput) : Promise<MemberData>;
+  memberUpdate(input: MemberUpdateInput) : Promise<MemberData>;
+  memberAccountAdd(input: MemberAccountAddInput) : Promise<MemberData>;
+  memberAccountEdit(input: MemberAccountEditInput) : Promise<MemberData>;
+  memberAccountRemove(input: MemberAccountRemoveInput) : Promise<MemberData>;
+  memberProfileUpdate(input: MemberProfileUpdateInput) : Promise<MemberData>;
+  memberProfileUpdateAvatar(input: MemberProfileUpdateAvatarInput) : Promise<MemberData>;
 }
 
 export type MemberCreateInput = {

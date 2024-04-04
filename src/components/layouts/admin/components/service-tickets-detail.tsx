@@ -66,6 +66,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [nextState, setNextState] = useState('');
 
+  const assignStages = ['SUBMITTED', 'INPROGRESS', 'ASSIGNED']
+
   const columns: ColumnsType<ServiceTicketActivityDetail> = [
     {
       title: 'Activity',
@@ -169,13 +171,13 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const changeStatus = (state: string) => {
     setNextState(state);
     setModalVisible(true);
-  }
+  };
 
   console.log(menuItems);
   const menu = (
     <Menu
       onClick={(value) => {
-        console.log("Current status: ", props.data.serviceTicket.status);
+        console.log('Current status: ', props.data.serviceTicket.status);
         changeStatus(value.key);
       }}
     >
@@ -222,6 +224,14 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
               });
               setModalVisible(false);
               changeStatusForm.resetFields();
+
+              if (props.data.serviceTicket.status === 'SUBMITTED') {
+                console.log('values', values);
+                props.onAssign({
+                  serviceTicketId: props.data.serviceTicket.id,
+                  assignedToId: values.assignedTo.id
+                });
+              }
               setChangeStatusFormLoading(false);
             }}
           >
@@ -230,7 +240,20 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
             <br />
             New State: <b>{stateMap.get(nextState)?.state}</b>
             <br />
-            <br />
+            <div>
+              <br />
+
+              {props.data.serviceTicket.status === 'SUBMITTED' && (
+                <Form.Item name={['assignedTo', 'id']} label="Assigned To">
+                  <Select
+                    allowClear={true}
+                    placeholder="Select a Member"
+                    options={props.data.members}
+                    fieldNames={{ label: 'memberName', value: 'id' }}
+                  />
+                </Form.Item>
+              )}
+            </div>
             <Form.Item name={['activityDescription']} label="Activity Description">
               <TextArea rows={4} placeholder="Reason for status change." maxLength={2000} />
             </Form.Item>
@@ -277,7 +300,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           Delete Ticket
         </Button>
       </div>
-      {props.data.serviceTicket.status === 'SUBMITTED' && (
+      {assignStages.includes(props.data.serviceTicket.status) && (
         <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
           <Title level={5}>Ticket Assignment</Title>
           <br />
@@ -368,11 +391,16 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
               <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
                 Save Draft
               </Button>
-              {props.data.serviceTicket.status === "DRAFT" ?
-              <Button type="primary" value={'save'} loading={changeStatusFormLoading} onClick={() => changeStatus("SUBMITTED")}>
-                Submit
-              </Button>: null
-              }
+              {props.data.serviceTicket.status === 'DRAFT' && (
+                <Button
+                  type="primary"
+                  value={'save'}
+                  loading={changeStatusFormLoading}
+                  onClick={() => changeStatus('SUBMITTED')}
+                >
+                  Submit
+                </Button>
+              )}
             </Space>
           </Form>
         </div>

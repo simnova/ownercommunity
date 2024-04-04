@@ -1,6 +1,6 @@
 import { Actor, Interaction, Task } from '@serenity-js/core/lib/screenplay';
 import { InteractWithTheDomain } from '../abilities/domain/interact-with-the-domain';
-import { CommunityEntityReference } from '../../app/core/domain/contexts/community/community';
+import { CommunityEntityReference } from '../../src/app/domain/contexts/community/community';
 
 export const UpdateCommunity = (communityName: string) => ({
     setDomain: (domainName: string) => Task.where(`#actor updates ${communityName} community domain`,

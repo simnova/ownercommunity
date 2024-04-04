@@ -169,7 +169,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   ]);
   private readonly statusMappings = new Map<string, string>([
     [ValueObjects.StatusCodes.Draft, ActivityDetailValueObjects.ActivityTypeCodes.Created],
-    [ValueObjects.StatusCodes.Submitted, ActivityDetailValueObjects.ActivityTypeCodes.Created],
+    [ValueObjects.StatusCodes.Submitted, ActivityDetailValueObjects.ActivityTypeCodes.Submitted],
     [ValueObjects.StatusCodes.Assigned, ActivityDetailValueObjects.ActivityTypeCodes.Assigned],
     [ValueObjects.StatusCodes.InProgress, ActivityDetailValueObjects.ActivityTypeCodes.Updated],
     [ValueObjects.StatusCodes.Completed, ActivityDetailValueObjects.ActivityTypeCodes.Completed],

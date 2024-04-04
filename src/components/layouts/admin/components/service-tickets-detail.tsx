@@ -225,7 +225,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
               setModalVisible(false);
               changeStatusForm.resetFields();
 
-              if (props.data.serviceTicket.status === 'SUBMITTED') {
+              if (props.data.serviceTicket.status === 'SUBMITTED' && nextState !== 'DRAFT') {
                 console.log('values', values);
                 props.onAssign({
                   serviceTicketId: props.data.serviceTicket.id,
@@ -243,7 +243,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
             <div>
               <br />
 
-              {props.data.serviceTicket.status === 'SUBMITTED' && (
+              {props.data.serviceTicket.status === 'SUBMITTED' && nextState !== 'DRAFT' && (
                 <Form.Item name={['assignedTo', 'id']} label="Assigned To">
                   <Select
                     allowClear={true}
@@ -323,7 +323,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
                 allowClear={true}
                 placeholder="Select a Member"
                 options={props.data.members}
-                fieldNames={{ label: 'memberName', value: 'id' }}
+                fieldNames={{ label: 'memberName', value: 'id'}}
+                style={{width: '35%'}}
               />
             </Form.Item>
             <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
@@ -388,7 +389,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
               </Select>
             </Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
+              <Button htmlType="submit" value={'save'} loading={editDraftFormLoading}>
                 Save Draft
               </Button>
               {props.data.serviceTicket.status === 'DRAFT' && (
@@ -398,7 +399,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
                   loading={changeStatusFormLoading}
                   onClick={() => changeStatus('SUBMITTED')}
                 >
-                  Submit
+                  Submit Ticket
                 </Button>
               )}
             </Space>

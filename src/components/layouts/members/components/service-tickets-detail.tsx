@@ -41,6 +41,12 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
       title: "Activity",
       dataIndex: "activityType",
       key: "activityType",
+      render: (text: string) => {
+        if(text === "INPROGRESS"){
+          return "IN PROGRESS";
+        }
+        return text;
+      }
     },
     {
       title: "Activity By",
@@ -271,11 +277,6 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
             Save Draft
           </Button>
-          {props.data.serviceTicket.status === "DRAFT" ?
-              <Button type="primary" value={'save'} loading={changeStatusFormLoading} onClick={() => changeStatus("SUBMITTED")}>
-                Submit
-              </Button>: null
-              }
           </Space>
         </Form>
       </div>

@@ -268,14 +268,9 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
             </Select>
           </Form.Item>
           <Space>
-          <Button htmlType="submit" value={'save'} loading={editDraftFormLoading}>
+          <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
             Save Draft
           </Button>
-          {props.data.serviceTicket.status === "DRAFT" ?
-              <Button type="primary" value={'save'} loading={changeStatusFormLoading} onClick={() => changeStatus("SUBMITTED")}>
-                Submit Ticket
-              </Button>: null
-              }
           </Space>
         </Form>
       </div>

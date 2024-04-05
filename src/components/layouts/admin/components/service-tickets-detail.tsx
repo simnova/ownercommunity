@@ -72,7 +72,13 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
     {
       title: 'Activity',
       dataIndex: 'activityType',
-      key: 'activityType'
+      key: 'activityType',
+      render: (text: string) => {
+        if(text === "INPROGRESS"){
+          return "IN PROGRESS";
+        }
+        return text;
+      }
     },
     {
       title: 'Activity By',

@@ -1,16 +1,16 @@
-// description is in this format: DuyTheOwner{actor} creates a new community named Community1{word}.
-
 import { RoleProps } from "../../src/app/domain/contexts/community/role";
 
-// remove strings before {'s. for example, description will be conerted into "{actor} creates a new community named {word}."
+// remove strings before {'s. 
+// for example, description DuyTheOwner{actor} is the admin member of Community1{word} will be converted into "{actor} creates a new community named {word}."
 export const DescriptionParser = (description: string) => {
-  const values = description.match(/(\w+)\{/g);
+  const values = description.split(' ').filter(word => word.includes('{'));
   // delete values
-  let newDescription = description;
-  values?.forEach((value) => {
-    newDescription = newDescription.replace(value, '{');
+  let result = description;
+  values.forEach(value => {
+    result = result.replace(value, `{${value.split('{')[1]}`);
   });
-  return newDescription;
+
+  return result;
 };
 
 export const isAdminRole = (role: RoleProps) => {

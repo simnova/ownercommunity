@@ -12,7 +12,7 @@ import { Register } from '../../screenplay/tasks/register';
 import { CreateMember } from './../../screenplay/tasks/create-member';
 import { DescriptionParser, isAdminRole as IsAdminRole } from './helpers';
 
-Given(DescriptionParser('DuyTheOwner{actor} is the admin member of Community1{word}'), async function (actor: Actor, communityName: string) {
+Given('{actor} is the admin member of {word}', async function (actor: Actor, communityName: string) {
   await actor.attemptsTo(Register.asUser(), CreateCommunity.named(communityName));
 });
 
@@ -37,7 +37,7 @@ When(
   }
 );
 
-Then('{pronoun} should be the admin member of {word}', async function (actor: Actor, communityName: string) {
+Then('{actor} should be the admin member of {word}', async function (actor: Actor, communityName: string) {
   const roleQuestion = await RoleForCommunityInDb(communityName, 'admin');
   const role = await roleQuestion.answeredBy(actor);
   await actor.attemptsTo(Ensure.that(IsAdminRole(role), equals(true)));
@@ -51,7 +51,7 @@ Then('{word} should be the member of {word}', async function (memberName: string
   await actorInTheSpotlight().attemptsTo(Ensure.that((await MemberInDb(memberName)).community.name, equals(communityName)));
 });
 
-Then('{word} should have the {word} role in {word} with the following permissions:', async function (memberName: string, roleName: string, communityName: string) {
+Then('{word} should have the {word} role in {word}', async function (memberName: string, roleName: string, communityName: string) {
   const roleQuestion = await RoleForCommunityInDb(communityName, roleName);
   const role = await roleQuestion.answeredBy(actorInTheSpotlight());
   const member = await MemberInDb(memberName);

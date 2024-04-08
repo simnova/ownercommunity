@@ -17,14 +17,15 @@ Feature: Manage Community
     And DuyTheOwner3 assigns admin role to DuyTheMember3 in TestCommunity3
     Then DuyTheMember3 should have the admin role in TestCommunity3
 
+
   Scenario: Assign a member role to a member
     Given DuyTheOwner4 is the admin member of TestCommunity4
-    When DuyTheOwner3 adds a new member named DuyTheMember4 to TestCommunity4
-    And DuyTheOwner3 creates PropertyOwner role in TestCommunity4 community with following permissions:
+    When DuyTheOwner4 adds a new member named DuyTheMember4 to TestCommunity4
+    And he creates PropertyOwner role in TestCommunity4 community with following permissions:
       | propertyPermissions      | canManageProperties, canEditOwnProperty |
       | serviceTicketPermissions  | canManageTickets |
       | servicePermissions        | canManageServices |
-    And DuyTheOwner3 assigns PropertyOwner role to DuyTheMember4 in TestCommunity4
+    And DuyTheOwner4 assigns PropertyOwner role to DuyTheMember4 in TestCommunity4
     Then DuyTheMember4 should have the PropertyOwner role in TestCommunity4
   
   @wip

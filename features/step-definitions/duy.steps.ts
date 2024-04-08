@@ -43,9 +43,6 @@ Then('{actor} should be the admin member of {word}', async function (actor: Acto
   await actor.attemptsTo(Ensure.that(IsAdminRole(role), equals(true)));
 });
 
-Then('{word} should have the admin role in TestCommunity3', async function (memberName: string) {
-  await actorInTheSpotlight().attemptsTo(Ensure.that((await MemberInDb(memberName)).role.roleName, equals('admin')));
-});
 
 Then('{word} should be the member of {word}', async function (memberName: string, communityName: string) {
   await actorInTheSpotlight().attemptsTo(Ensure.that((await MemberInDb(memberName)).community.name, equals(communityName)));

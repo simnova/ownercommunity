@@ -4,7 +4,7 @@ import { RoleProps } from "../../src/app/domain/contexts/community/role";
 
 // remove strings before {'s. for example, description will be conerted into "{actor} creates a new community named {word}."
 export const DescriptionParser = (description: string) => {
-  const values = description.match(/(\w+){/g);
+  const values = description.match(/(\w+)\{/g);
   // delete values
   let newDescription = description;
   values?.forEach((value) => {

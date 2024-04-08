@@ -29,7 +29,7 @@ When('{actor} assigns {word} role to {word} in {word}', async function (actor: A
 });
 
 When(
-  'An account with first name {word}, last name {word} for {word} using userId of {actor} in {word} is created by {actor}',
+  'An account with first name {word}, last name {word} for {word} using externalId of {actor} in {word} is created by {actor}',
   async function (firstName: string, lastName: string, memberName: string, actor1: Actor, communityName: string, actor2: Actor) {
     const externalId = await notes<NotepadType>().get('user').externalId.answeredBy(actor1);
 
@@ -58,6 +58,9 @@ Then('{word} should have the {word} role in {word}', async function (memberName:
   await actorInTheSpotlight().attemptsTo(Ensure.that(member.role, equals(role)));
 });
 
-Then('DuyTheUser5 should be a member of TestCommunity5', async function () {
-  return 'pending';
+Then('{actor} should be a member of {word} under member named {word}', async function (actor: Actor, communityName: string, memberName: string) {
+  const user = await notes<NotepadType>().get('user').answeredBy(actor);
+  const member = await (await MemberInDb(memberName)).answeredBy(actor);
+  const accounts = member.accounts.items.map((item) => item.user).filter((user) => user.externalId === user.externalId);
+  await actor.attemptsTo(Ensure.that(accounts.length, equals(1)));  
 });

@@ -28,10 +28,9 @@ Feature: Manage Community
     And DuyTheOwner4 assigns PropertyOwner role to DuyTheMember4 in TestCommunity4
     Then DuyTheMember4 should have the PropertyOwner role in TestCommunity4
   
-  @wip
   Scenario: Add account to a member
     Given DuyTheUser5 registers with Owner Community
     And DuyTheOwner5 is the admin member of TestCommunity5
     When DuyTheOwner5 adds a new member named DuyTheMember5 to TestCommunity5    
-    And DuyTheOwner5 creates an account with first name Duy, last name Nguyen for DuyTheMember5 using userId of DuyTheUser5 in TestCommunity5 by DuyTheOwner5
-    Then DuyTheUser5 should be a member of TestCommunity5
+    And An account with first name Duy, last name Nguyen for DuyTheMember5 using externalId of DuyTheUser5 in TestCommunity5 is created by DuyTheOwner5
+    Then DuyTheUser5 should be a member of TestCommunity5 under member named DuyTheMember5

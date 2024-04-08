@@ -59,9 +59,5 @@ Then('{word} should have the {word} role in {word} with the following permission
 });
 
 Then('DuyTheUser5 should be a member of TestCommunity5', async function () {
-  // const memberInQuestion = await MemberInDb('DuyTheUser5');
-  // const member = await memberInQuestion.answeredBy(actorInTheSpotlight());
-  // const community = member.community
-  // await actorInTheSpotlight().attemptsTo(Ensure.that((await MemberInDb('DuyTheUser5')).community.name, equals('TestCommunity5')));
   return 'pending';
 });

@@ -123,7 +123,7 @@ export class InteractWithTheDomain extends Ability
   public async asMemberOf(communityName: string): Promise<InteractWithTheDomainAsCommunityMember>{
     const actor = actorInTheSpotlight();
     const community: CommunityEntityReference = await this.getCommunityByName(communityName);
-    const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+    const user: UserEntityReference = await this.getOrCreateUserForActor(actor);
     const member: MemberEntityReference = await this.getMemberByUserAndCommunity(user.externalId, community.name);
     const passport = new PassportImpl(user, member, community);
     return new InteractWithTheDomain({passport});

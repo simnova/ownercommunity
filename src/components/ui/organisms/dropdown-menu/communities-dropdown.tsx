@@ -1,8 +1,7 @@
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, MenuProps } from 'antd';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { LocalSettingsKeys } from '../../../../constants';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Community } from '../../../../generated';
 
 
@@ -18,8 +17,8 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const navigate = useNavigate();
 
-  const userId = localStorage.getItem(LocalSettingsKeys.UserId);
-  const path = props.isAdmin ? `/admin` : `/member/${userId}`;
+  const { memberId } = useParams();
+  const path = props.isAdmin ? `/admin/${memberId}` : `/member/${memberId}`;
 
   const items: MenuProps["items"] = props.data.communities?.map((community) => {
     return {

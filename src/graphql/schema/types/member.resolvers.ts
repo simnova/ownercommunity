@@ -58,6 +58,9 @@ const member: Resolvers = {
     membersByCommunityId: async (_, { communityId }, { dataSources }) => {
       return (await dataSources.memberCosmosdbApi.getMembersByCommunityId(communityId)) as Member[];
     },
+    membersByUserExternalId: async (_, { userExternalId }, { dataSources }) => {
+      return (await dataSources.memberCosmosdbApi.getMembersByUserExternalId(userExternalId)) as Member[];
+    },
     membersAssignableToTickets: async (_, _input, { dataSources }) => {
       return (await dataSources.memberCosmosdbApi.getMembersAssignableToTickets()) as Member[];
     },

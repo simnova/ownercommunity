@@ -13,6 +13,42 @@ export class Members extends CosmosDataSource<Member, GraphqlContext> {
       })
     )?.[0];
   }
+
+  async getMembersByUserExternalId(userExternalId: string): Promise<Member[]> {
+    const result = await MemberModel.aggregate<Member>([
+        {
+          $project: {
+            id: 0,
+            m: '$$ROOT',
+          },
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'm.accounts.user',
+            foreignField: '_id',
+            as: 'u',
+          },
+        },
+        {
+          "$match" : {
+              "u.externalId" : userExternalId
+          }
+        }, 
+        {
+            "$unwind" : {
+                "path" : "$m",
+                "preserveNullAndEmptyArrays" : true
+            }
+        }, 
+        {
+            "$replaceWith" : "$m"
+        }
+    ]).exec();
+
+    return result.map((r) => MemberModel.hydrate(r));
+  }
+
   async getMembers(): Promise<Member[]> {
     return this.findByFields({ community: this.context.community });
   }

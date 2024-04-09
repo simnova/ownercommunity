@@ -23,59 +23,59 @@ const PropertyMutationResolver = async (getProperty: Promise<PropertyDo>): Promi
 
 const property: Resolvers = {
   Property: {
-    mapSASToken: async (_parent, _args, {dataSources}, _info) => {
-      return await dataSources.propertyMapApi.getSasToken();
+    mapSASToken: async (_parent, _args, {applicationServices}, _info) => {
+      return await applicationServices.propertyMapApi.getSasToken();
     },
-    community: async (parent, _args, {dataSources}, _info) => {
+    community: async (parent, _args, {applicationServices}, _info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await dataSources.communityCosmosdbApi.findOneById(parent.community.toString())) as Community;
+        return (await applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
-    owner: async (parent, _args, {dataSources}, _info) => {
+    owner: async (parent, _args, {applicationServices}, _info) => {
       if (parent.owner && isValidObjectId(parent.owner.toString())) {
-        return (await dataSources.memberCosmosdbApi.findOneById(parent.owner.toString())) as Member;
+        return (await applicationServices.memberDataApi.getMemberById(parent.owner.toString())) as Member;
       }
       return parent.owner;
     },
   },
   Query: {
-    property: async (_parent, args, {dataSources}, _info) => {
+    property: async (_parent, args, {applicationServices}, _info) => {
       if (args.id && isValidObjectId(args.id)) {
-        return (await dataSources.propertyCosmosdbApi.findOneById(args.id)) as Property;
+        return (await applicationServices.propertyDataApi.getPropertyById(args.id)) as Property;
       }
       return null;
     },
-    properties: async (_parent, _args, {dataSources,community}, _info) => {
-      return (await dataSources.propertyCosmosdbApi.getPropertiesByCommunityId(community)) as Property[];
+    properties: async (_parent, _args, {applicationServices,communityId}, _info) => {
+      return (await applicationServices.propertyDataApi.getPropertiesByCommunityId(communityId)) as Property[];
     },
     propertiesByCommunityId: async (_, { communityId }, context) => {
-      return (await context.dataSources.propertyCosmosdbApi.getPropertiesByCommunityId(communityId)) as Property[];
+      return (await context.applicationServices.propertyDataApi.getPropertiesByCommunityId(communityId)) as Property[];
     },
     propertiesForCurrentUserByCommunityId: async (_, _args, context) => {
-      const user = await context.dataSources.userCosmosdbApi.getByExternalId(context.verifiedUser.verifiedJWT.sub);
-      return (await context.dataSources.propertyCosmosdbApi.getPropertiesForCurrentUserByCommunityId(context.community, user.id)) as Property[];
+      const user = await context.applicationServices.userDataApi.getUserByExternalId(context.verifiedUser.verifiedJWT.sub);
+      return (await context.applicationServices.propertyDataApi.getPropertiesForCurrentUserByCommunityId(context.communityId, user.id)) as Property[];
     },
     getAllPropertyTags: async (_, _args, context) => {
-      const properties = (await context.dataSources.propertyCosmosdbApi.getAllProperties()) as Property[];
+      const properties = (await context.applicationServices.propertyDataApi.getAllProperties()) as Property[];
       const tags = properties.map((p) => p.tags).flat();
       return [...new Set(tags)];
     },
 
     propertiesSearch: async (_, { input }, context, info) => {
-      const searchResults = await context.dataSources.propertySearchApi.propertiesSearch(input);
-      return await context.dataSources.propertySearchApi.getPropertiesSearchResults(searchResults, input);
+      const searchResults = await context.applicationServices.propertySearchApi.propertiesSearch(input);
+      return await context.applicationServices.propertySearchApi.getPropertiesSearchResults(searchResults, input);
     },
-    getMapSasToken: async (_, _args, {dataSources}) => {
-      return await dataSources.propertyMapApi.getSasToken();
+    getMapSasToken: async (_, _args, {applicationServices}) => {
+      return await applicationServices.propertyMapApi.getSasToken();
     },
   },
 
   Mutation: {
-    propertyAdd: async (_, { input }, { dataSources }) => {
-      return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyAdd(input));
+    propertyAdd: async (_, { input }, { applicationServices }) => {
+      return PropertyMutationResolver(applicationServices.propertyDomainApi.propertyAdd(input));
     },
-    propertyUpdate: async (_, { input }, { dataSources }) => {
+    propertyUpdate: async (_, { input }, { applicationServices }) => {
     let spanId = trace.getActiveSpan().spanContext().spanId;
     let traceId = trace.getActiveSpan().spanContext().traceId;
     let traceFlags = trace.getActiveSpan().spanContext().traceFlags;
@@ -90,48 +90,48 @@ const property: Resolvers = {
     console.log(`isRemote: ${isRemote}`);
 
 
-      return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyUpdate(input));
+      return PropertyMutationResolver(applicationServices.propertyDomainApi.propertyUpdate(input));
     },
-    propertyDelete: async (_, { input }, { dataSources }) => {
-      return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyDelete(input));
+    propertyDelete: async (_, { input }, { applicationServices }) => {
+      return PropertyMutationResolver(applicationServices.propertyDomainApi.propertyDelete(input));
     },
-    propertyAssignOwner: async (_, { input }, { dataSources }) => {
-      return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyAssignOwner(input));
+    propertyAssignOwner: async (_, { input }, { applicationServices }) => {
+      return PropertyMutationResolver(applicationServices.propertyDomainApi.propertyAssignOwner(input));
     },
-    propertyRemoveOwner: async (_, { input }, { dataSources }) => {
-      return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyRemoveOwner(input));
+    propertyRemoveOwner: async (_, { input }, { applicationServices }) => {
+      return PropertyMutationResolver(applicationServices.propertyDomainApi.propertyRemoveOwner(input));
     },
     propertyListingImageCreateAuthHeader: async (_, { input }, context) => {
-      const member = await getMemberForCurrentUser(context, context.community);
-      const result = await context.dataSources.propertyBlobAPI.propertyListingImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
+      const member = await getMemberForCurrentUser(context, context.communityId);
+      const result = await context.applicationServices.propertyBlobApi.propertyListingImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
-        let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
+        let propertyDbObj = await context.applicationServices.propertyDataApi.getPropertyByIdWithCommunityOwner(input.propertyId) as PropertyUpdateInput;
         propertyDbObj.listingDetail.images.push(result.authHeader.blobName);
-        result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
+        result.property = (await context.applicationServices.propertyDomainApi.propertyUpdate(propertyDbObj)) as Property;
       }
       console.log(`propertyListingImageCreateAuthHeader: ${JSON.stringify(result)}`);
       return result;
     },
     propertyFloorPlanImageCreateAuthHeader: async (_, { input }, context) => {
-      const member = await getMemberForCurrentUser(context, context.community);
-      const result = await context.dataSources.propertyBlobAPI.propertyFloorPlanImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
+      const member = await getMemberForCurrentUser(context, context.communityId);
+      const result = await context.applicationServices.propertyBlobApi.propertyFloorPlanImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
-        let propertyDbObj = (await (await context.dataSources.propertyCosmosdbApi.findOneById(input.propertyId)).populate('owner')) as PropertyUpdateInput;
+        let propertyDbObj = await context.applicationServices.propertyDataApi.getPropertyByIdWithCommunityOwner(input.propertyId) as PropertyUpdateInput;
         propertyDbObj.listingDetail.floorPlanImages.push(result.authHeader.blobName);
-        result.property = (await context.dataSources.propertyDomainAPI.propertyUpdate(propertyDbObj)) as Property;
+        result.property = (await context.applicationServices.propertyDomainApi.propertyUpdate(propertyDbObj)) as Property;
       }
       console.log(`propertyFloorPlanImageCreateAuthHeader: ${JSON.stringify(result)}`);
       return result;
     },
-    propertyListingImageRemove: async (_, { input }, { dataSources }) => {
+    propertyListingImageRemove: async (_, { input }, { applicationServices }) => {
       const result = {
-        status: await dataSources.propertyBlobAPI.propertyListingImageRemove(input.propertyId, input.memberId, input.blobName),
+        status: await applicationServices.propertyBlobApi.propertyListingImageRemove(input.propertyId, input.memberId, input.blobName),
       } as PropertyMutationResult;
 
       if (!result.status.success) {
         return result;
       } else {
-        return PropertyMutationResolver(dataSources.propertyDomainAPI.propertyImageRemove(input.propertyId, input.blobName));
+        return PropertyMutationResolver(applicationServices.propertyDomainApi.propertyImageRemove(input.propertyId, input.blobName));
       }
     }
   },

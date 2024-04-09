@@ -1,19 +1,9 @@
-import { Community, CommunityProps } from '../../domain/contexts/community/community';
+import { CommunityData } from "../../external-dependencies/datastore";
+import { CommunityCreateInput, CommunityUpdateInput } from "../../external-dependencies/graphql-api";
 
 export interface CommunityDomainApplicationService {
-  communityCreate(input: CommunityCreateInput) : Promise<Community<CommunityProps>>;
-  communityUpdate(input: CommunityUpdateInput) : Promise<Community<CommunityProps>>;
+  communityCreate(input: CommunityCreateInput) : Promise<CommunityData>;
+  communityUpdate(input: CommunityUpdateInput) : Promise<CommunityData>;
 }
 
-export type CommunityCreateInput = {
-  communityName: string;
-};
-
-export type CommunityUpdateInput = {
-  id: string;
-  communityName?: string;
-  domain?: string;
-  handle?: string;
-  whiteLabelDomain?: string;
-};
 

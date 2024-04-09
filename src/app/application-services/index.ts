@@ -1,54 +1,54 @@
-import { CommunityBlobAPI, MemberBlobAPI, PropertyBlobAPI } from "./blob-storage"
-import { PropertySearchAPI, ServiceTicketSearchAPI } from "./cognitive-search";
-import { CommunityDataAPI, MemberDataAPI, PropertyDataAPI, RoleDataAPI, ServiceDataAPI, ServiceTicketDataAPI, UserDataAPI } from "./datastore";
-import { CommunityDomainAPI, MemberDomainAPI, PropertyDomainAPI, RoleDomainAPI, ServiceDomainAPI, ServiceTicketDomainAPI, UserDomainAPI } from "./domain";
-import { PropertyMapsAPI } from "./maps";
-import { CommunityVercelAPI } from "./vercel";
+import { CommunityBlobApi, MemberBlobApi, PropertyBlobApi } from "./blob-storage"
+import { PropertySearchApi, ServiceTicketSearchApi } from "./cognitive-search";
+import { CommunityDataApi, MemberDataApi, PropertyDataApi, RoleDataApi, ServiceDataApi, ServiceTicketDataApi, UserDataApi } from "./datastore";
+import { CommunityDomainApi, MemberDomainApi, PropertyDomainApi, RoleDomainApi, ServiceDomainApi, ServiceTicketDomainApi, UserDomainApi } from "./domain";
+import { PropertyMapsApi } from "./maps";
+import { CommunityVercelApi } from "./vercel";
 
 export interface ApplicationServices {
-  communityBlobApi: CommunityBlobAPI;
-  memberBlobApi: MemberBlobAPI;
-  propertyBlobApi: PropertyBlobAPI;
-  propertySearchApi: PropertySearchAPI;
-  serviceTicketSearchApi: ServiceTicketSearchAPI;
-  userDataApi: UserDataAPI;
-  roleDataApi: RoleDataAPI;
-  serviceDataApi: ServiceDataAPI;
-  serviceTicketDataApi: ServiceTicketDataAPI;
-  memberDataApi: MemberDataAPI;
-  communityDataApi: CommunityDataAPI;
-  propertyDataApi: PropertyDataAPI;
-  userDomainApi: UserDomainAPI;
-  communityDomainApi: CommunityDomainAPI;
-  memberDomainApi: MemberDomainAPI;
-  roleDomainApi: RoleDomainAPI;
-  propertyDomainApi: PropertyDomainAPI;
-  serviceDomainApi: ServiceDomainAPI;
-  serviceTicketDomainApi: ServiceTicketDomainAPI;
-  propertyMapApi: PropertyMapsAPI;
-  communityVercelApi: CommunityVercelAPI;
+  communityBlobApi: CommunityBlobApi;
+  memberBlobApi: MemberBlobApi;
+  propertyBlobApi: PropertyBlobApi;
+  propertySearchApi: PropertySearchApi;
+  serviceTicketSearchApi: ServiceTicketSearchApi;
+  userDataApi: UserDataApi;
+  roleDataApi: RoleDataApi;
+  serviceDataApi: ServiceDataApi;
+  serviceTicketDataApi: ServiceTicketDataApi;
+  memberDataApi: MemberDataApi;
+  communityDataApi: CommunityDataApi;
+  propertyDataApi: PropertyDataApi;
+  userDomainApi: UserDomainApi;
+  communityDomainApi: CommunityDomainApi;
+  memberDomainApi: MemberDomainApi;
+  roleDomainApi: RoleDomainApi;
+  propertyDomainApi: PropertyDomainApi;
+  serviceDomainApi: ServiceDomainApi;
+  serviceTicketDomainApi: ServiceTicketDomainApi;
+  propertyMapApi: PropertyMapsApi;
+  communityVercelApi: CommunityVercelApi;
 }
 
 export {
-  CommunityBlobAPI,
-  MemberBlobAPI,
-  PropertyBlobAPI,
-  PropertySearchAPI,
-  ServiceTicketSearchAPI,
-  UserDataAPI,
-  RoleDataAPI,
-  ServiceDataAPI,
-  ServiceTicketDataAPI,
-  MemberDataAPI,
-  CommunityDataAPI,
-  PropertyDataAPI,
-  UserDomainAPI,
-  CommunityDomainAPI,
-  MemberDomainAPI,
-  RoleDomainAPI,
-  PropertyDomainAPI,
-  ServiceDomainAPI,
-  ServiceTicketDomainAPI,
-  PropertyMapsAPI,
-  CommunityVercelAPI
+  CommunityBlobApi,
+  MemberBlobApi,
+  PropertyBlobApi,
+  PropertySearchApi,
+  ServiceTicketSearchApi,
+  UserDataApi,
+  RoleDataApi,
+  ServiceDataApi,
+  ServiceTicketDataApi,
+  MemberDataApi,
+  CommunityDataApi,
+  PropertyDataApi,
+  UserDomainApi,
+  CommunityDomainApi,
+  MemberDomainApi,
+  RoleDomainApi,
+  PropertyDomainApi,
+  ServiceDomainApi,
+  ServiceTicketDomainApi,
+  PropertyMapsApi,
+  CommunityVercelApi
 }

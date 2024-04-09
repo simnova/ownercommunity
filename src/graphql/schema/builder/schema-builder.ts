@@ -8,7 +8,7 @@ import { addResolversToSchema, mergeSchemas, makeExecutableSchema } from '@graph
 import { resolvers } from './resolver-builder';
 import { JsonFileLoader } from '@graphql-tools/json-file-loader';
 import * as Scalars from 'graphql-scalars';
-import { GraphqlContext } from '../../graphql-context';
+import { GraphqlContext } from '../../graphql-context-builder';
 
 const schema = loadSchemaSync('./src/graphql/schema/builder/graphql.schema.json', {
   loaders: [new JsonFileLoader()],

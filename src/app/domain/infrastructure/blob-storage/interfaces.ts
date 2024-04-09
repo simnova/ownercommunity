@@ -1,7 +1,5 @@
 import internal from 'stream';
-import { BlobUploadCommonResponse } from '@azure/storage-blob';
-import { BlobRequestSettings, FileInfo } from '../../../../../seedwork/services-seedwork-blob-storage-interfaces';
-
+import { BlobUploadCommonResponse, BlobRequestSettings, FileInfo  } from '../../../external-dependencies/blob-storage';
 
 export interface BlobStorageDomain {
   deleteBlob(blobName: string, containerName: string): Promise<void>;

@@ -1,7 +1,7 @@
-import { UserDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/user";
+import { UserData } from "../../external-dependencies/datastore";
 
 export interface UserDatastoreApplicationService {
-  getUserById(userId : string): Promise<UserDataStructure>;
-  getByExternalId(externalId : string): Promise<UserDataStructure>;
-  getUsers(): Promise<UserDataStructure[]>;
+  getUserById(userId : string): Promise<UserData>;
+  getUserByExternalId(externalId : string): Promise<UserData>;
+  getUsers(): Promise<UserData[]>;
 }

@@ -17,62 +17,62 @@ const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Pr
 
 const community: Resolvers = {
   Community: {
-    roles: async (_rootObj: Community, _, { dataSources }) => {
-      return (await dataSources.roleCosmosdbApi.getRoles()) as Role[];
+    roles: async (_rootObj: Community, _, { applicationServices }) => {
+      return (await applicationServices.roleDataApi.getRoles()) as Role[];
     },
-    files: async (rootObj: Community, _, { dataSources }) => {
-      return dataSources.communityBlobAPI.communityPublicFilesList(rootObj.id);
+    files: async (rootObj: Community, _, { applicationServices }) => {
+      return applicationServices.communityBlobApi.communityPublicFilesList(rootObj.id);
     },
-    filesByType: async (rootObj: Community, { type }, { dataSources }) => {
-      return dataSources.communityBlobAPI.communityPublicFilesListByType(rootObj.id, type);
+    filesByType: async (rootObj: Community, { type }, { applicationServices }) => {
+      return applicationServices.communityBlobApi.communityPublicFilesListByType(rootObj.id, type);
     },
-    domainStatus: async (rootObj: Community, _, { dataSources }) => {
-      return dataSources.communityVercelApi.getDomainDetails(rootObj.domain);
+    domainStatus: async (rootObj: Community, _, { applicationServices }) => {
+      return applicationServices.communityVercelApi.getDomainDetails(rootObj.domain);
     },
-    userIsAdmin: async (rootObj: Community, _args, { dataSources }) => {
-      return dataSources.communityCosmosdbApi.userIsAdmin(rootObj.id);
+    userIsAdmin: async (rootObj: Community, _args, { applicationServices }) => {
+      return applicationServices.communityDataApi.userIsAdmin(rootObj.id);
     },
   },
   Query: {
-    community: async (_, _args, { dataSources }) => {
-      return (await dataSources.communityCosmosdbApi.getCurrentCommunity()) as Community;
+    community: async (_, _args, { applicationServices }) => {
+      return (await applicationServices.communityDataApi.getCurrentCommunity()) as Community;
     },
-    communityById: async (_, { id }, { dataSources }) => {
-      return (await dataSources.communityCosmosdbApi.getCommunityById(id)) as Community;
+    communityById: async (_, { id }, { applicationServices }) => {
+      return (await applicationServices.communityDataApi.getCommunityById(id)) as Community;
     },
-    communityByHandle: async (_, { handle }, { dataSources }) => {
-      return (await dataSources.communityCosmosdbApi.getCommunityByHandle(handle)) as Community;
+    communityByHandle: async (_, { handle }, { applicationServices }) => {
+      return (await applicationServices.communityDataApi.getCommunityByHandle(handle)) as Community;
     },
-    communityByDomain: async (_, { domain }, { dataSources }) => {
-      return (await dataSources.communityCosmosdbApi.getCommunityByDomain(domain)) as Community;
+    communityByDomain: async (_, { domain }, { applicationServices }) => {
+      return (await applicationServices.communityDataApi.getCommunityByDomain(domain)) as Community;
     },
-    communities: async (_, _args, { dataSources }) => {
-      return (await dataSources.communityCosmosdbApi.getCommunitiesForCurrentUser()) as Community[];
+    communities: async (_, _args, { applicationServices }) => {
+      return (await applicationServices.communityDataApi.getCommunitiesForCurrentUser()) as Community[];
     },
   },
   Mutation: {
-    communityCreate: async (_, { input }, { dataSources }) => {
-      return CommunityMutationResolver(dataSources.communityDomainAPI.communityCreate(input));
+    communityCreate: async (_, { input }, { applicationServices }) => {
+      return CommunityMutationResolver(applicationServices.communityDomainApi.communityCreate(input));
     },
-    communityUpdate: async (_, { input }, { dataSources }) => {
-      return CommunityMutationResolver(dataSources.communityDomainAPI.communityUpdate(input));
+    communityUpdate: async (_, { input }, { applicationServices }) => {
+      return CommunityMutationResolver(applicationServices.communityDomainApi.communityUpdate(input));
     },
-    communityPublicFileCreateAuthHeader: async (_, { input }, { dataSources }) => {
-      let result = await dataSources.communityBlobAPI.communityPublicFileCreateAuthHeader(input.communityId, input.fileName, input.contentType, input.contentLength);
+    communityPublicFileCreateAuthHeader: async (_, { input }, { applicationServices }) => {
+      let result = await applicationServices.communityBlobApi.communityPublicFileCreateAuthHeader(input.communityId, input.fileName, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
-      result.community = (await dataSources.communityCosmosdbApi.getCommunityById(input.communityId)) as Community;
+      result.community = (await applicationServices.communityDataApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
-    communityPublicContentCreateAuthHeader: async (_, { input }, { dataSources }) => {
-      let result = await dataSources.communityBlobAPI.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
+    communityPublicContentCreateAuthHeader: async (_, { input }, { applicationServices }) => {
+      let result = await applicationServices.communityBlobApi.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
-      result.community = (await dataSources.communityCosmosdbApi.getCommunityById(input.communityId)) as Community;
+      result.community = (await applicationServices.communityDataApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
-    communityPublicFileRemove: async (_, { input }, { dataSources }) => {
-      let result = await dataSources.communityBlobAPI.communityPublicFileRemove(input.communityId, input.fileName);
+    communityPublicFileRemove: async (_, { input }, { applicationServices }) => {
+      let result = await applicationServices.communityBlobApi.communityPublicFileRemove(input.communityId, input.fileName);
       console.log(`communityPublicFileRemove: ${JSON.stringify(result)}`);
-      return CommunityMutationResolver(dataSources.communityCosmosdbApi.getCommunityById(input.communityId)); // as Community;
+      return CommunityMutationResolver(applicationServices.communityDataApi.getCommunityById(input.communityId)); // as Community;
       //return result;
     },
   },

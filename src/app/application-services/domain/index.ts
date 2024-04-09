@@ -21,18 +21,18 @@ import { PropertyDomainApplicationService } from "./property.interface";
 import { PropertyUnitOfWork } from "../../domain/contexts/property/property.uow";
 
 export {
-  CommunityDomainApplicationService as CommunityDomainAPI,
+  CommunityDomainApplicationService as CommunityDomainApi,
   CommunityUnitOfWork,
-  RoleDomainApplicationService as RoleDomainAPI,
+  RoleDomainApplicationService as RoleDomainApi,
   RoleUnitOfWork,
-  UserDomainApplicationService as UserDomainAPI,
+  UserDomainApplicationService as UserDomainApi,
   UserUnitOfWork,
-  ServiceDomainApplicationService as ServiceDomainAPI,
+  ServiceDomainApplicationService as ServiceDomainApi,
   ServiceUnitOfWork,
-  ServiceTicketDomainApplicationService as ServiceTicketDomainAPI,
+  ServiceTicketDomainApplicationService as ServiceTicketDomainApi,
   ServiceTicketUnitOfWork,
-  MemberDomainApplicationService as MemberDomainAPI,
+  MemberDomainApplicationService as MemberDomainApi,
   MemberUnitOfWork,
-  PropertyDomainApplicationService as PropertyDomainAPI,
+  PropertyDomainApplicationService as PropertyDomainApi,
   PropertyUnitOfWork,
 }

@@ -66,4 +66,39 @@ export class MemberDataApiImpl
   async getMemberById(memberId: string): Promise<MemberData> {
     return this.findOneById(memberId);
   }
+
+  async getMembersByUserExternalId(userExternalId: string): Promise<MemberData[]> {
+    const result = await MemberModel.aggregate([
+        {
+          $project: {
+            id: 0,
+            m: '$$ROOT',
+          },
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'm.accounts.user',
+            foreignField: '_id',
+            as: 'u',
+          },
+        },
+        {
+          $match : {
+              "u.externalId" : userExternalId
+          }
+        }, 
+        {
+          $unwind : {
+              path : "$m",
+              preserveNullAndEmptyArrays : true
+          }
+        }, 
+        {
+          $replaceWith : "$m"
+        },
+    ]).exec();
+
+    return result.map((r) => MemberModel.hydrate(r));
+  }
 }

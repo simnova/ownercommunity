@@ -8,4 +8,5 @@ export interface MemberDatastoreApplicationService {
   getMemberByIdWithCommunity(memberId: string): Promise<MemberData>;
   getMemberById(memberId: string): Promise<MemberData>;
   getMemberByCommunityAccountWithCommunityAccountRole(communityId: string, userId: string): Promise<MemberData>;
+  getMembersByUserExternalId(userExternalId: string): Promise<MemberData[]>;
 }

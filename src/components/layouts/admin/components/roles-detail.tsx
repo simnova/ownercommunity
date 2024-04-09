@@ -19,8 +19,8 @@ export const RolesDetail: React.FC<any> = (props) => {
       <Descriptions title="Role Info" size={'small'} layout={'vertical'}>
         <Descriptions.Item label="Id">{props.data.id}</Descriptions.Item>
         <Descriptions.Item label="Is Default">{props.data?(props.data!.isDefault?"true":"false"):"false"}</Descriptions.Item>
-        <Descriptions.Item label="Created At">{dayjs(props.data.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
-        <Descriptions.Item label="Updated At">{dayjs(props.data.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
+        <Descriptions.Item label="Created At">{dayjs(props.data.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
+        <Descriptions.Item label="Updated At">{dayjs(props.data.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
       </Descriptions>
       <Form
         layout="vertical"

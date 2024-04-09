@@ -41,6 +41,12 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
       title: "Activity",
       dataIndex: "activityType",
       key: "activityType",
+      render: (text: string) => {
+        if(text === "INPROGRESS"){
+          return "IN PROGRESS";
+        }
+        return text;
+      }
     },
     {
       title: "Activity By",
@@ -188,8 +194,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Id">{props.data.serviceTicket.id}</Descriptions.Item>
           <Descriptions.Item label="Status">{stateMap.get(props.data.serviceTicket.status)?.state}</Descriptions.Item>
           <Descriptions.Item label="Assigned To">{props.data.serviceTicket.assignedTo?props.data.serviceTicket.assignedTo.memberName:''}</Descriptions.Item>
-          <Descriptions.Item label="Created At">{dayjs(props.data.serviceTicket.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
-          <Descriptions.Item label="Updated At">{dayjs(props.data.serviceTicket.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
+          <Descriptions.Item label="Created At">{dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
+          <Descriptions.Item label="Updated At">{dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
         </Descriptions>
       </div>
       {props.data.serviceTicket.status === 'DRAFT' && <>
@@ -271,11 +277,6 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
             Save Draft
           </Button>
-          {props.data.serviceTicket.status === "DRAFT" ?
-              <Button type="primary" value={'save'} loading={changeStatusFormLoading} onClick={() => changeStatus("SUBMITTED")}>
-                Submit
-              </Button>: null
-              }
           </Space>
         </Form>
       </div>

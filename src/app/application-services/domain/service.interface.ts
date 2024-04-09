@@ -1,18 +1,7 @@
-import { Service, ServiceProps } from '../../domain/contexts/service-ticket/service';
+import { ServiceData } from "../../external-dependencies/datastore";
+import { ServiceCreateInput, ServiceUpdateInput } from "../../external-dependencies/graphql-api";
 
 export interface ServiceDomainApplicationService {
-  serviceCreate(input: ServiceCreateInput) : Promise<Service<ServiceProps>>;
-  serviceUpdate(input: ServiceUpdateInput) : Promise<Service<ServiceProps>>;
+  serviceCreate(input: ServiceCreateInput) : Promise<ServiceData>;
+  serviceUpdate(input: ServiceUpdateInput) : Promise<ServiceData>;
 }
-
-export type ServiceCreateInput = {
-  description: string;
-  serviceName: string;
-};
-
-export type ServiceUpdateInput = {
-  description?: string;
-  id: string;
-  isActive?: boolean;
-  serviceName?: string;
-};

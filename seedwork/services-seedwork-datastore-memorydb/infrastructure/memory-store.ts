@@ -1,5 +1,4 @@
 import { EntityProps } from "../../domain-seedwork/entity";
-import { Fields } from "../../../src/app/infrastructure-services/datastore/_base";
 
 
 export interface ReadOnlyMemoryStore<PropType extends EntityProps> {

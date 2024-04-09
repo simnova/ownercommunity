@@ -1,4 +1,4 @@
-import { SearchIndex } from './base-types';
+import { SearchIndex } from '../../../external-dependencies/cognitive-search';
 
 export const ServiceTicketIndexSpec = {
   name: 'service-ticket-index',

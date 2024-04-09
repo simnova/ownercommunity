@@ -20,13 +20,13 @@ const member: Resolvers = {
   Member: {
     community: async (parent, _args, context) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.dataSources.communityCosmosdbApi.findOneById(parent.community.toString())) as Community;
+        return (await context.applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
     role: async (parent, _args, context) => {
       if (parent.role && isValidObjectId(parent.role.toString())) {
-        return (await context.dataSources.roleCosmosdbApi.findOneById(parent.role.toString())) as Role;
+        return (await context.applicationServices.roleDataApi.getRoleById(parent.role.toString())) as Role;
       }
       return parent.role;
     },
@@ -34,13 +34,13 @@ const member: Resolvers = {
   MemberAccount: {
     user: async (parent, _args, context) => {
       if (parent.user && isValidObjectId(parent.user.toString())) {
-        return (await context.dataSources.userCosmosdbApi.findOneById(parent.user.toString())) as User;
+        return (await context.applicationServices.userDataApi.getUserById(parent.user.toString())) as User;
       }
       return parent.user;
     },
     createdBy: async (parent, _args, context) => {
       if (parent.createdBy && isValidObjectId(parent.createdBy.toString())) {
-        return (await context.dataSources.userCosmosdbApi.findOneById(parent.createdBy.toString())) as User;
+        return (await context.applicationServices.userDataApi.getUserById(parent.createdBy.toString())) as User;
       }
       return parent.createdBy;
     },
@@ -48,61 +48,61 @@ const member: Resolvers = {
   Query: {
     member: async (_parent, {id}, context) => {
       if (id && isValidObjectId(id)) {
-        return (await context.dataSources.memberCosmosdbApi.findOneById(id)) as Member;
+        return (await context.applicationServices.memberDataApi.getMemberById(id)) as Member;
       }
       return null;
     },
-    members: async (_, _input, { dataSources }) => {
-      return (await dataSources.memberCosmosdbApi.getMembers()) as Member[];
+    members: async (_, _input, { applicationServices }) => {
+      return (await applicationServices.memberDataApi.getMembers()) as Member[];
     },
-    membersByCommunityId: async (_, { communityId }, { dataSources }) => {
-      return (await dataSources.memberCosmosdbApi.getMembersByCommunityId(communityId)) as Member[];
+    membersByCommunityId: async (_, { communityId }, { applicationServices }) => {
+      return (await applicationServices.memberDataApi.getMembersByCommunityId(communityId)) as Member[];
     },
-    membersAssignableToTickets: async (_, _input, { dataSources }) => {
-      return (await dataSources.memberCosmosdbApi.getMembersAssignableToTickets()) as Member[];
+    membersAssignableToTickets: async (_, _input, { applicationServices }) => {
+      return (await applicationServices.memberDataApi.getMembersAssignableToTickets()) as Member[];
     },
     memberForUser: async (_parent, input, context) => {
-      return (await context.dataSources.memberCosmosdbApi.getMemberByCommunityIdUserId(context.community, input.userId)) as Member;
+      return (await context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(context.communityId, input.userId)) as Member;
     },
     memberForCurrentUser: async (_, { communityId }, context) => {
       return getMemberForCurrentUser(context, communityId);
     },
   },
   Mutation: {
-    memberCreate: async (_, { input }, { dataSources }) => {
-      return MemberMutationResolver(dataSources.memberDomainAPI.memberCreate(input));
+    memberCreate: async (_, { input }, { applicationServices }) => {
+      return MemberMutationResolver(applicationServices.memberDomainApi.memberCreate(input));
     },
-    memberUpdate: async (_, { input }, { dataSources }) => {
-      return MemberMutationResolver(dataSources.memberDomainAPI.memberUpdate(input));
+    memberUpdate: async (_, { input }, { applicationServices }) => {
+      return MemberMutationResolver(applicationServices.memberDomainApi.memberUpdate(input));
     },
-    memberAccountAdd: async (_, { input }, { dataSources }) => {
-      return MemberMutationResolver(dataSources.memberDomainAPI.memberAccountAdd(input));
+    memberAccountAdd: async (_, { input }, { applicationServices }) => {
+      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountAdd(input));
     },
-    memberAccountEdit: async (_, { input }, { dataSources }) => {
-      return MemberMutationResolver(dataSources.memberDomainAPI.memberAccountEdit(input));
+    memberAccountEdit: async (_, { input }, { applicationServices }) => {
+      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountEdit(input));
     },
-    memberAccountRemove: async (_, { input }, { dataSources }) => {
-      return MemberMutationResolver(dataSources.memberDomainAPI.memberAccountRemove(input));
+    memberAccountRemove: async (_, { input }, { applicationServices }) => {
+      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountRemove(input));
     },
-    memberProfileUpdate: async (_, { input }, { dataSources }) => {
-      return MemberMutationResolver(dataSources.memberDomainAPI.memberProfileUpdate(input));
+    memberProfileUpdate: async (_, { input }, { applicationServices }) => {
+      return MemberMutationResolver(applicationServices.memberDomainApi.memberProfileUpdate(input));
     },
-    memberProfileAvatarCreateAuthHeader: async (_, { input }, { dataSources }) => {
-      const result = await dataSources.memberBlobAPI.memberProfileAvatarCreateAuthHeader(input.memberId, input.fileName, input.contentType, input.contentLength);
+    memberProfileAvatarCreateAuthHeader: async (_, { input }, { applicationServices }) => {
+      const result = await applicationServices.memberBlobApi.memberProfileAvatarCreateAuthHeader(input.memberId, input.fileName, input.contentType, input.contentLength);
       if (result.status.success) {
-        result.member = (await dataSources.memberDomainAPI.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
+        result.member = (await applicationServices.memberDomainApi.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
       }
       return result;
     },
-    memberProfileAvatarRemove: async (_, { memberId }, { dataSources }) => {
+    memberProfileAvatarRemove: async (_, { memberId }, { applicationServices }) => {
       const result = {
-        status: await dataSources.memberBlobAPI.memberProfileAvatarRemove(memberId),
+        status: await applicationServices.memberBlobApi.memberProfileAvatarRemove(memberId),
       } as MemberMutationResult;
 
       if (!result.status.success) {
         return result;
       } else {
-        return MemberMutationResolver(dataSources.memberDomainAPI.memberProfileUpdateAvatar(memberId, null));
+        return MemberMutationResolver(applicationServices.memberDomainApi.memberProfileUpdateAvatar(memberId, null));
       }
     },
   },

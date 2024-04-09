@@ -1,11 +1,10 @@
-import { CommunityDataStructure } from "../../../infrastructure-services-impl/datastore/data-structures/community";
-
+import { CommunityData } from "../../external-dependencies/datastore";
 export interface CommunityDatastoreApplicationService {
-    getCurrentCommunity(): Promise<CommunityDataStructure>;
-    getCommunityById(communityId: string): Promise<CommunityDataStructure>;
-    getCommunityByHandle(handle: string): Promise<CommunityDataStructure>;
-    getCommunityByDomain(domain: string): Promise<CommunityDataStructure>;
-    getCommunityByHeader(header: string): Promise<CommunityDataStructure>;
+    getCurrentCommunity(): Promise<CommunityData>;
+    getCommunityById(communityId: string): Promise<CommunityData>;
+    getCommunityByHandle(handle: string): Promise<CommunityData>;
+    getCommunityByDomain(domain: string): Promise<CommunityData>;
+    getCommunityByHeader(header: string): Promise<CommunityData>;
     userIsAdmin(communityId: string): Promise<boolean>;
-    getCommunitiesForCurrentUser(): Promise<CommunityDataStructure[]>;
+    getCommunitiesForCurrentUser(): Promise<CommunityData[]>;
 }

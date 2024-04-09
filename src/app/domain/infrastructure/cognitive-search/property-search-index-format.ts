@@ -1,4 +1,4 @@
-import { GeographyPoint, SearchIndex } from './base-types';
+import { GeographyPoint, SearchIndex } from '../../../external-dependencies/cognitive-search';
 
 export const PropertyListingIndexSpec = {
   name: 'property-listings',

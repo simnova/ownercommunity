@@ -1,4 +1,4 @@
-import { ServiceData } from "../../infrastructure-services/datastore";
+import { ServiceData } from "../../external-dependencies/datastore";
 
 export interface ServiceDatastoreApplicationService {
   getServiceById(id: string): Promise<ServiceData>;

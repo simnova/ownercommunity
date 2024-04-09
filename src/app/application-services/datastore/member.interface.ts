@@ -1,4 +1,4 @@
-import { MemberData } from "../../infrastructure-services/datastore";
+import { MemberData } from "../../external-dependencies/datastore";
 
 export interface MemberDatastoreApplicationService {
   getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<MemberData>;

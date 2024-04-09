@@ -13,14 +13,12 @@ import { ServiceDatastoreApplicationService } from './service.interface';
 // service-ticket
 import { ServiceTicketDatastoreApplicationService } from './service-ticket.interface';
 
-import { CommunityData, RoleData, PropertyData, MemberData, ServiceData, ServiceTicketData, UserData } from "../../infrastructure-services/datastore";
-
 export {
-  UserDatastoreApplicationService as UserDataAPI, UserData,
-  CommunityDatastoreApplicationService as CommunityDataAPI, CommunityData,
-  MemberDatastoreApplicationService as MemberDataAPI, MemberData,
-  RoleDatastoreApplicationService as RoleDataAPI, RoleData,
-  PropertyDatastoreApplicationService as PropertyDataAPI, PropertyData,
-  ServiceDatastoreApplicationService as ServiceDataAPI, ServiceData,
-  ServiceTicketDatastoreApplicationService as ServiceTicketDataAPI, ServiceTicketData,
+  UserDatastoreApplicationService as UserDataApi,
+  CommunityDatastoreApplicationService as CommunityDataApi,
+  MemberDatastoreApplicationService as MemberDataApi,
+  RoleDatastoreApplicationService as RoleDataApi,
+  PropertyDatastoreApplicationService as PropertyDataApi,
+  ServiceDatastoreApplicationService as ServiceDataApi,
+  ServiceTicketDatastoreApplicationService as ServiceTicketDataApi,
 }

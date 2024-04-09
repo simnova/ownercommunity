@@ -1,4 +1,4 @@
-import { CommunityData } from "../../infrastructure-services/datastore";
+import { CommunityData } from "../../external-dependencies/datastore";
 export interface CommunityDatastoreApplicationService {
     getCurrentCommunity(): Promise<CommunityData>;
     getCommunityById(communityId: string): Promise<CommunityData>;

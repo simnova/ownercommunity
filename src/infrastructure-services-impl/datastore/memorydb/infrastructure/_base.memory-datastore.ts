@@ -1,6 +1,19 @@
 import { EntityProps } from "../../../../../seedwork/domain-seedwork/entity";
 import { ReadOnlyMemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
-import { Fields, FindQueries } from "../../../../app/infrastructure-services/datastore/_base";
+
+export interface Fields {
+  [fieldName: string]:
+    | string
+    | number
+    | boolean
+    | (string | number | boolean)[]
+}
+
+export interface FindQueries<TData> {
+  findOneById(id: string): Promise<TData | null | undefined>;
+  findManyByIds(ids: string[]): Promise<(TData | null | undefined)[]>;
+  findByFields(fields: Fields): Promise<(TData | null | undefined)[]>;
+}
 
 export class BaseMemoryDatastore<PropType extends EntityProps> implements FindQueries<PropType> {
   constructor(private readonly memoryStore: ReadOnlyMemoryStore<PropType>) {

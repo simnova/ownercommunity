@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql';
 import { shield, allow } from 'graphql-shield';
-import { GraphqlContext } from '../../graphql-context';
+import { GraphqlContext } from '../../graphql-context-builder';
 import { Resolvers } from '../builder/generated';
 
 

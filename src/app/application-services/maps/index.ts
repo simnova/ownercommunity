@@ -1,5 +1,5 @@
 import { PropertyMapsApplicationService } from './property.interface';
 
 export { 
-  PropertyMapsApplicationService as PropertyMapsAPI,
+  PropertyMapsApplicationService as PropertyMapsApi,
 }

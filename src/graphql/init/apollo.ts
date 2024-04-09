@@ -5,7 +5,7 @@ import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/t
 import mongoose from 'mongoose';
 import { combinedSchema } from '../schema/builder/schema-builder';
 import { permissions } from '../schema/builder/resolver-builder';
-import { GraphqlContext as ApolloContext } from '../graphql-context';
+import { GraphqlContext as ApolloContext } from '../graphql-context-builder';
 // import { connect } from '../../../seedwork/services-seedwork-datastore-mongodb/connect';
 // import { PortalTokenValidation } from '../../auth/portal-token-validation';
 // import { DomainImpl } from '../../core/domain/domain-impl';

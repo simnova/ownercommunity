@@ -1,5 +1,3 @@
-// import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from "../../domain/infrastructure/cognitive-search/interfaces";
-
-export interface MapsInfrastructureService { //extends CognitiveSearchDomain, CognitiveSearchDomainInitializeable {
+export interface MapsInfrastructureService {
   generateSharedKey(): Promise<string>;
 }

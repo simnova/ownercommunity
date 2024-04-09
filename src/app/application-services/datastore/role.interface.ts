@@ -1,4 +1,4 @@
-import { RoleData } from "../../infrastructure-services/datastore";
+import { RoleData } from "../../external-dependencies/datastore";
 
 export interface RoleDatastoreApplicationService {
   getRoleById(id: string): Promise<RoleData>;

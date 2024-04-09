@@ -1,4 +1,4 @@
-import { PropertyData } from "../../infrastructure-services/datastore";
+import { PropertyData } from "../../external-dependencies/datastore";
 
 export interface PropertyDatastoreApplicationService {
   getPropertiesByCommunityId(communityId: string): Promise<PropertyData[]>;

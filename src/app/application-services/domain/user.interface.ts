@@ -1,13 +1,7 @@
-import { UserData } from "../../infrastructure-services/datastore";
+import { UserData } from "../../external-dependencies/datastore";
+import { UserUpdateInput } from "../../external-dependencies/graphql-api";
 
 export interface UserDomainApplicationService {
   addUser() : Promise<UserData>;
   updateUser(user: UserUpdateInput) : Promise<UserData>; 
 }
-
-export type UserUpdateInput = {
-  email?: string;
-  firstName?: string;
-  id: string;
-  lastName?: string;
-};

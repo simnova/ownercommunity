@@ -6,7 +6,6 @@ import {
   AdditionalAmenitiesCategories,
   AmentitiesOptions,
   BedTypeOptions,
-  SelectableRoomsOptions,
   additionalAmenitiesOptions
 } from '../../../../constants';
 import { PropertyUpdateInput, SharedPropertiesListingContainerPropertyFieldsFragment } from '../../../../generated';
@@ -34,7 +33,6 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
 
   const [selectableCategories, setSelectableCategories] = React.useState<string[]>(AdditionalAmenitiesCategories);
 
-  const [selectableRooms, setSelectableRooms] = React.useState<string[]>(SelectableRoomsOptions);
 
   useEffect(() => {
     const propertyBedroomDetails = props.data.property.listingDetail?.bedroomDetails;
@@ -56,29 +54,11 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
       }
     });
 
-    const remainingBeds = SelectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
     const remainingCategories = selectableCategories.filter((category: any) => !selectedCategories.includes(category));
 
-    setSelectableRooms(remainingBeds);
     setSelectableCategories(remainingCategories);
   }, []);
 
-  const onBedroomChange = (value: string, index: number) => {
-    let newBedroomDetails = JSON.parse(JSON.stringify(bedroomDetails));
-    newBedroomDetails[index].roomName = value;
-
-    const selectedBedrooms: string[] = [];
-    newBedroomDetails.forEach((bedroom: any) => {
-      if (bedroom.roomName) {
-        selectedBedrooms.push(bedroom.roomName);
-      }
-    });
-
-    const remainingBeds = SelectableRoomsOptions.filter((room: any) => !selectedBedrooms.includes(room));
-    setSelectableRooms(remainingBeds);
-    setBedroomDetails(newBedroomDetails);
-    form.setFields([{ name: ['listingDetail', 'bedroomDetails', index, 'bedDescriptions'], value: [] }]);
-  };
 
   const onSelectChanged = (value: string, index: number) => {
     let newAdditionalAmenities = JSON.parse(JSON.stringify(additionalAmenities));
@@ -100,10 +80,9 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
     setAdditionalAmenities(newAdditionalAmenities);
     form.setFields([{ name: ['listingDetail', 'additionalAmenities', index, 'amenities'], value: [] }]);
   };
-
   return (
     <div>
-      <Descriptions title="Property Info" size={'small'} layout={'vertical'} style={{ paddingBottom: 20}} >
+      <Descriptions title="Property Info" size={'small'} layout={'vertical'} style={{ paddingBottom: 20 }}>
         <Descriptions.Item label="Id">{props.data.property.id}</Descriptions.Item>
         <Descriptions.Item label="Created At">
           {dayjs(props.data.property.createdAt).format('DD/MM/YYYY')}
@@ -115,7 +94,7 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         <Descriptions.Item label="Name">{props.data.property.propertyName}</Descriptions.Item>
         <Descriptions.Item label="Type">{props.data.property.propertyType}</Descriptions.Item>
       </Descriptions>
-      
+
       <Form
         layout="vertical"
         form={form}
@@ -151,86 +130,11 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
           <Form.Item name={['listingDetail', 'maxGuests']} label="Max Guests">
             <InputNumber placeholder="Max Guests" />
           </Form.Item>
+        </div>
+        <div className="flex-container" style={{ display: 'flex', gap: 20 }}>
           <Form.Item name={['listingDetail', 'bedrooms']} label="Bedrooms">
             <InputNumber placeholder="Bedrooms" />
           </Form.Item>
-        </div>
-        <Title level={4} style={{ paddingBottom: 20 }}>
-          Bedroom Details
-        </Title>
-        <Form.List name={['listingDetail', 'bedroomDetails']}>
-          {(fields, { add, remove }) => {
-            if (fields.length == 0) {
-              return <></>;
-            }
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <div key={field.key} style={{ marginBottom: '15px' }}>
-                    <div
-                      style={{
-                        display: 'inline-block',
-                        verticalAlign: 'top',
-                        paddingRight: '10px'
-                      }}
-                    >
-                      <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
-                    </div>
-                    <div
-                      style={{
-                        display: 'inline-block',
-                        paddingTop: '3px',
-                        paddingLeft: '10px',
-                        borderLeft: '1px solid darkgrey'
-                      }}
-                    >
-                      <Form.Item name={[index, 'id']} hidden={true}>
-                        <Input hidden={true} />
-                      </Form.Item>
-                      <Form.Item name={[index, 'roomName']} label="Room Name">
-                        <Select
-                          placeholder="Room"
-                          onChange={(values) => {
-                            onBedroomChange(values, index);
-                          }}
-                        >
-                          {selectableRooms?.map((room: any) => (
-                            <Select.Option key={room} value={room}>
-                              {room}
-                            </Select.Option>
-                          ))}
-                        </Select>
-                        {/* <Input placeholder='Room Name' /> */}
-                      </Form.Item>
-                      <Form.Item name={[index, 'bedDescriptions']} label="Types of Beds">
-                        {/* <FormTags /> */}
-                        <SelectTags options={BedTypeOptions} label="Types of Beds" />
-                      </Form.Item>
-                    </div>
-                  </div>
-                ))}
-                <Form.Item>
-                  {fields.length <
-                  (props.data.property.listingDetail?.bedrooms ? props.data.property.listingDetail?.bedrooms : 0) ? (
-                    <Button
-                      type="dashed"
-                      onClick={() => {
-                        setBedroomDetails([...bedroomDetails, { roomName: '' }]);
-                        add();
-                      }}
-                      block
-                    >
-                      <PlusOutlined /> Add Additional Bed
-                    </Button>
-                  ) : (
-                    <></>
-                  )}
-                </Form.Item>
-              </div>
-            );
-          }}
-        </Form.List>
-        <div className="flex-container" style={{ display: 'flex', gap: 20 }}>
           <Form.Item name={['listingDetail', 'bathrooms']} label="Bathrooms">
             <InputNumber placeholder="Bathrooms" />
           </Form.Item>
@@ -245,7 +149,68 @@ export const PropertiesListing: React.FC<PropertiesListingProps> = (props) => {
         <Form.Item name={['listingDetail', 'description']} label="Description">
           <Input placeholder="Description" />
         </Form.Item>
-
+        {props.data.property.listingDetail?.bedrooms && props.data.property.listingDetail?.bedrooms > 0 ? (
+          <Form.List name={['listingDetail', 'bedroomDetails']}>
+            {(fields, { add, remove }) => {
+              return (
+                <div>
+                  <Title level={4} style={{ paddingBottom: 20 }}>
+                    Bedroom Details
+                  </Title>
+                  {fields.map((field, index) => (
+                    <div key={field.key} style={{ marginBottom: '15px' }}>
+                      <div
+                        style={{
+                          display: 'inline-block',
+                          verticalAlign: 'top',
+                          paddingRight: '10px'
+                        }}
+                      >
+                        <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
+                      </div>
+                      <div
+                        style={{
+                          display: 'inline-block',
+                          paddingTop: '3px',
+                          paddingLeft: '10px',
+                          borderLeft: '1px solid darkgrey'
+                        }}
+                      >
+                        <Form.Item name={[index, 'id']} hidden={true}>
+                          <Input hidden={true} />
+                        </Form.Item>
+                        <Form.Item name={[index, 'roomName']} label="Room Name">
+                          <Input placeholder='Room'/>
+                        </Form.Item>
+                        <Form.Item name={[index, 'bedDescriptions']} label="Types of Beds">
+                          {/* <FormTags /> */}
+                          <SelectTags options={BedTypeOptions} label="Types of Beds" />
+                        </Form.Item>
+                      </div>
+                    </div>
+                  ))}
+                  <Form.Item>
+                    {fields.length <
+                    (props.data.property.listingDetail?.bedrooms ? props.data.property.listingDetail?.bedrooms : 0) ? (
+                      <Button
+                        type="dashed"
+                        onClick={() => {
+                          setBedroomDetails([...bedroomDetails, { roomName: '' }]);
+                          add();
+                        }}
+                        block
+                      >
+                        <PlusOutlined /> Add Additional Bed
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+                  </Form.Item>
+                </div>
+              );
+            }}
+          </Form.List>
+        ) : null}
         <Title level={4}>Additional Amenities</Title>
         <Form.List name={['listingDetail', 'additionalAmenities']}>
           {(fields, { add, remove }) => {

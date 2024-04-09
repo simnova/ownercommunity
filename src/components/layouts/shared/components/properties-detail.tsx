@@ -25,10 +25,10 @@ export const PropertiesDetail: React.FC<PropertiesDetailProps> = (props) => {
       <Descriptions title="Property Info" size={'small'} layout={'vertical'}>
         <Descriptions.Item label="Id">{props.data.property.id}</Descriptions.Item>
         <Descriptions.Item label="Created At">
-          {dayjs(props.data.property.createdAt).format('DD/MM/YYYY')}
+          {dayjs(props.data.property.createdAt).format('MM/DD/YYYY')}
         </Descriptions.Item>
         <Descriptions.Item label="Updated At">
-          {dayjs(props.data.property.updatedAt).format('DD/MM/YYYY')}
+          {dayjs(props.data.property.updatedAt).format('MM/DD/YYYY')}
         </Descriptions.Item>
 
         {!props.isAdmin && (

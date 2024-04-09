@@ -294,10 +294,10 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
             {props.data.serviceTicket.assignedTo ? props.data.serviceTicket.assignedTo.memberName : ''}
           </Descriptions.Item>
           <Descriptions.Item label="Created At">
-            {dayjs(props.data.serviceTicket.createdAt).format('DD/MM/YYYY')}
+            {dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}
           </Descriptions.Item>
           <Descriptions.Item label="Updated At">
-            {dayjs(props.data.serviceTicket.createdAt).format('DD/MM/YYYY')}
+            {dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}
           </Descriptions.Item>
         </Descriptions>
       </div>

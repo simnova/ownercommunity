@@ -31,13 +31,13 @@ export const RolesList: React.FC<RolesListProps> = (props) => {
       title: "Updated",
       dataIndex: "updatedAt",
       key: "updatedAt",
-      render: (text: any) => <span>{dayjs(text).format('DD/MM/YYYY')}</span>
+      render: (text: any) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
     {
       title: "Created",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (text: any) => <span>{dayjs(text).format('DD/MM/YYYY')}</span>
+      render: (text: any) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
   ]
 

@@ -194,8 +194,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Id">{props.data.serviceTicket.id}</Descriptions.Item>
           <Descriptions.Item label="Status">{stateMap.get(props.data.serviceTicket.status)?.state}</Descriptions.Item>
           <Descriptions.Item label="Assigned To">{props.data.serviceTicket.assignedTo?props.data.serviceTicket.assignedTo.memberName:''}</Descriptions.Item>
-          <Descriptions.Item label="Created At">{dayjs(props.data.serviceTicket.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
-          <Descriptions.Item label="Updated At">{dayjs(props.data.serviceTicket.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
+          <Descriptions.Item label="Created At">{dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
+          <Descriptions.Item label="Updated At">{dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
         </Descriptions>
       </div>
       {props.data.serviceTicket.status === 'DRAFT' && <>

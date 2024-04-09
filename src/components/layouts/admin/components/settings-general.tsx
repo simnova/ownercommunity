@@ -14,8 +14,8 @@ export const SettingsGeneral: React.FC<any> = (props) => {
     <>
       <Descriptions title="Community Info" size={'small'} layout={'vertical'}>
         <Descriptions.Item label="Id">{props.data.id}</Descriptions.Item>
-        <Descriptions.Item label="Created At">{dayjs(props.data.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
-        <Descriptions.Item label="Updated At">{dayjs(props.data.createdAt).format('DD/MM/YYYY')}</Descriptions.Item>
+        <Descriptions.Item label="Created At">{dayjs(props.data.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
+        <Descriptions.Item label="Updated At">{dayjs(props.data.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
       </Descriptions>
       <Form
         layout="vertical"

@@ -1,4 +1,4 @@
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 import { Passport } from '../../domain/contexts/iam/passport';
 import { VercelDomain } from '../../domain/infrastructure/vercel/interfaces';
 import { DataSource } from '../data-source';

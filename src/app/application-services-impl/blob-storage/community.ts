@@ -3,7 +3,7 @@ import { CommunityConverter } from '../../external-dependencies/domain';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../external-dependencies/graphql-api';
 import { BlobRequestSettings } from '../../external-dependencies/blob-storage';
 import { CommunityBlobApi } from '../../application-services/blob-storage';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class CommunityBlobApiImpl 
   extends BlobDataSource<AppContext> 

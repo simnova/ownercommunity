@@ -5,7 +5,7 @@ import { DomainDataSource } from './domain-data-source';
 import { CommunityConverter, CommunityDomainAdapter, CommunityRepository, UserConverter } from '../../external-dependencies/domain';
 import { CommunityData } from '../../external-dependencies/datastore';
 import { CommunityDomainApi } from '../../application-services/domain';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 type PropType = CommunityDomainAdapter;
 type DomainType = Community<PropType>;

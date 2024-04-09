@@ -1,6 +1,6 @@
 import { MapsDataSource } from './maps-data-source';
 import { PropertyMapsApi } from '../../application-services/maps';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class PropertyMapsApiImpl
   extends MapsDataSource<AppContext> 

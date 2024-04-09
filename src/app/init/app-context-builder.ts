@@ -1,12 +1,12 @@
-import { Passport, PassportImpl, ReadOnlyPassport } from "./domain/contexts/iam/passport";
-import { UserEntityReference } from "./domain/contexts/user/user";
-import { MemberEntityReference } from "./domain/contexts/community/member";
-import { CommunityEntityReference } from "./domain/contexts/community/community";
-import { ApplicationServices } from "./application-services";
-import { InfrastructureServices } from "./infrastructure-services";
-import { DomainImpl } from "./domain/domain-impl";
-import { DomainExecutionContext } from "./domain/contexts/domain-execution-context";
-import { CommunityData } from "./external-dependencies/datastore";
+import { Passport, PassportImpl, ReadOnlyPassport } from "../domain/contexts/iam/passport";
+import { UserEntityReference } from "../domain/contexts/user/user";
+import { MemberEntityReference } from "../domain/contexts/community/member";
+import { CommunityEntityReference } from "../domain/contexts/community/community";
+import { ApplicationServices } from "../application-services";
+import { InfrastructureServices } from "../infrastructure-services";
+import { DomainImpl } from "../domain/domain-impl";
+import { DomainExecutionContext } from "../domain/contexts/domain-execution-context";
+import { CommunityData } from "../external-dependencies/datastore";
 import { ApplicationServicesBuilder } from "./application-services-builder";
 
 export type VerifiedUser = {

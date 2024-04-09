@@ -2,7 +2,7 @@ import { isValidObjectId, Types } from 'mongoose';
 import { CosmosDataSource } from './cosmos-data-source';
 import { CommunityDataApi } from '../../application-services/datastore';
 import { CommunityData, CommunityModel, UserModel, MemberModel } from '../../external-dependencies/datastore';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class CommunityDataApiImpl 
   extends CosmosDataSource<CommunityData, AppContext> 

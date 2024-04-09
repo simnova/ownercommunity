@@ -1,5 +1,5 @@
 import { BlobStorageDomain } from '../../src/app/domain/infrastructure/blob-storage/interfaces';
-import { InfrastructureServicesBuilder } from '../../src/startup/infrastructure-services-builder';
+import { InfrastructureServicesBuilder } from '../../src/init/infrastructure-services-builder';
 import { BlobZip } from "./index";
 import internal from "stream";
 

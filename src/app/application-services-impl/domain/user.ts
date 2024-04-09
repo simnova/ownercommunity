@@ -4,7 +4,7 @@ import { DomainDataSource } from './domain-data-source';
 import { UserConverter, UserDomainAdapter, UserRepository } from '../../external-dependencies/domain';
 import { UserData } from '../../external-dependencies/datastore';
 import { UserDomainApi } from '../../application-services/domain';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 type PropType = UserDomainAdapter;
 type DomainType = User<PropType>;

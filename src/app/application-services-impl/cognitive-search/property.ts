@@ -3,7 +3,7 @@ import { SearchDocumentsResult } from '../../external-dependencies/cognitive-sea
 import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../external-dependencies/graphql-api';
 import dayjs from 'dayjs';
 import { PropertySearchApi } from '../../application-services/cognitive-search';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 const PropertyFilterNames = {
   Bedrooms: 'bedrooms',

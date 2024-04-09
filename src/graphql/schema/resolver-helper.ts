@@ -1,4 +1,4 @@
-import { GraphqlContext } from "../graphql-context-builder";
+import { GraphqlContext } from "../init/graphql-context-builder";
 import { Member } from "./builder/generated";
 
 export const getMemberForCurrentUser = async (context: GraphqlContext, communityId: string): Promise<Member|undefined>  => {

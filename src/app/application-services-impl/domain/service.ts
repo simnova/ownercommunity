@@ -5,7 +5,7 @@ import { DomainDataSource } from './domain-data-source';
 import { CommunityConverter, ServiceConverter, ServiceDomainAdapter, ServiceRepository } from '../../external-dependencies/domain';
 import { ServiceData } from '../../external-dependencies/datastore';
 import { ServiceDomainApi } from '../../application-services/domain';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 type PropType = ServiceDomainAdapter;
 type DomainType = Service<PropType>;

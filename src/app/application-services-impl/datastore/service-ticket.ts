@@ -2,7 +2,7 @@ import { ServiceTicketConverter } from '../../external-dependencies/domain';
 import { ServiceTicketData, ServiceTicketModel } from '../../external-dependencies/datastore';
 import { CosmosDataSource } from './cosmos-data-source';
 import { ServiceTicketDataApi } from '../../application-services/datastore';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class ServiceTicketDataApiImpl 
   extends CosmosDataSource<ServiceTicketData, AppContext> 

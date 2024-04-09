@@ -7,7 +7,7 @@ import { CustomViewColumnsToDisplay, CustomViewFilters } from '../../domain/cont
 import { CommunityConverter, MemberConverter, MemberDomainAdapter, MemberRepository, RoleConverter, UserConverter } from '../../external-dependencies/domain';
 import { MemberData } from '../../external-dependencies/datastore';
 import { MemberDomainApi } from '../../application-services/domain';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 type PropType = MemberDomainAdapter;
 type DomainType = Member<PropType>;

@@ -15,8 +15,8 @@ export const Settings: React.FC<any> = () => {
   const location = useLocation();
 
   const pages = [
-    { id: "1", path: 'community/:communityId/admin/settings/', title: 'General', icon: <BookOutlined /> },
-    { id: "2", path: 'community/:communityId/admin/settings/saml', title: 'Saml', icon: <SettingOutlined /> }
+    { id: "1", path: 'community/:communityId/admin/:memberId/settings/', title: 'General', icon: <BookOutlined /> },
+    { id: "2", path: 'community/:communityId/admin/:memberId/settings/saml', title: 'Saml', icon: <SettingOutlined /> }
   ];
 
   const matchedPages = matchRoutes(pages, location);

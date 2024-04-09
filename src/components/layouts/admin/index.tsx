@@ -30,44 +30,44 @@ export const Admin: React.FC<any> = (_props) => {
   const params = useParams();
 
   const pageLayouts: PageLayoutProps[] = [
-    { path: '/community/:communityId/admin', title: 'Home', icon: <HomeOutlined />, id: 'ROOT' },
+    { path: '/community/:communityId/admin/:memberId', title: 'Home', icon: <HomeOutlined />, id: 'ROOT' },
     {
-      path: '/community/:communityId/admin/settings/*',
+      path: '/community/:communityId/admin/:memberId/settings/*',
       title: 'Settings',
       icon: <SettingOutlined />,
       id: 2,
       parent: 'ROOT'
     },
     {
-      path: '/community/:communityId/admin/site-editor/*',
+      path: '/community/:communityId/admin/:memberId/site-editor/*',
       title: 'Site Editor',
       icon: <LayoutOutlined />,
       id: 3,
       parent: 'ROOT'
     },
     {
-      path: '/community/:communityId/admin/roles/*',
+      path: '/community/:communityId/admin/:memberId/roles/*',
       title: 'Roles',
       icon: <SafetyOutlined />,
       id: 4,
       parent: 'ROOT'
     },
     {
-      path: '/community/:communityId/admin/members/*',
+      path: '/community/:communityId/admin/:memberId/members/*',
       title: 'Members',
       icon: <ContactsOutlined />,
       id: 5,
       parent: 'ROOT'
     },
     {
-      path: '/community/:communityId/admin/properties/*',
+      path: '/community/:communityId/admin/:memberId/properties/*',
       title: 'Properties',
       icon: <BarsOutlined />,
       id: 6,
       parent: 'ROOT'
     },
     {
-      path: '/community/:communityId/admin/service-tickets/*',
+      path: '/community/:communityId/admin/:memberId/service-tickets/*',
       title: 'Service Tickets',
       icon: <ScheduleOutlined />,
       id: 7,

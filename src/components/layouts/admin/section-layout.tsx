@@ -42,7 +42,7 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
           </div>
           <Link
             className="allowBoxShadow"
-            to={`/community/${params.communityId}/member/${localStorage.getItem(LocalSettingsKeys.UserId)}`}
+            to={`/community/${params.communityId}/member/${params.memberId}`}
           >
             View Member Site
           </Link>

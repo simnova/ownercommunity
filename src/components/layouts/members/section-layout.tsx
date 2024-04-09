@@ -12,7 +12,7 @@ const { Sider, Header } = Layout;
 export const SectionLayout: React.FC<any> = (props) => {
   const sidebarCollapsed = localStorage.getItem(LocalSettingsKeys.SidebarCollapsed);
   const [isExpanded, setIsExpanded] = useState(!sidebarCollapsed);
-  const { communityId } = useParams();
+  const { communityId, memberId } = useParams();
   const navigate = useNavigate();
   const params = useParams();
   const { data } = useQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
@@ -21,15 +21,17 @@ export const SectionLayout: React.FC<any> = (props) => {
     }
   });
 
-  const adminLink = () => {
-    if (data?.memberForCurrentUser?.role?.roleName.toLowerCase() === 'admin') {
-      return (
-        <a className="allowBoxShadow" onClick={() => navigate(`/community/${communityId}/admin`)}>
-          View Admin Site
-        </a>
-      );
-    }
-  };
+  // const adminLink = () => {
+  //   if (data?.memberForCurrentUser?.role !== null) {
+  //     if (data?.memberForCurrentUser?.role?.roleName.toLowerCase() === 'admin') {
+  //       return (
+  //         <a className="allowBoxShadow" onClick={() => navigate(`/community/${communityId}/admin/${memberId}`)}>
+  //           View Admin Site
+  //         </a>
+  //       );
+  //     }
+  //   }
+  // };
 
  
   const {
@@ -57,7 +59,7 @@ export const SectionLayout: React.FC<any> = (props) => {
          <div style={{ display: 'flex' }} className="allowBoxShadow">
             <CommunitiesDropdownContainer data={{ id: params.communityId }} />
           </div>
-          {adminLink()}
+          {/* {adminLink()} */}
 
           <div className="text-right  text-sky-400" style={{ flexGrow: '1' }}>
             <LoggedInUserContainer autoLogin={true} />

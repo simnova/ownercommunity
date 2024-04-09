@@ -7,11 +7,11 @@ export const CreateAccount = {
   withFirstName: (firstName: string) => ({
     andLastName: (lastName: string) => ({
       forMember: (memberName: string) => ({
-        usingUserName: (userName: string) => ({
+        usingUserExternalId: (externalId: string) => ({
           inCommunity: (communityName: string) =>
             Task.where(
-              `#actor creates an account with first name ${firstName}, last name ${lastName} for ${memberName} using userId of ${userName} in ${communityName}`,
-              CreateAccountForMemberInDb(firstName, lastName, userName, memberName, communityName),
+              `#actor creates an account with first name ${firstName}, last name ${lastName} for ${memberName} using userId ${externalId}  in ${communityName}`,
+              CreateAccountForMemberInDb(firstName, lastName, externalId, memberName, communityName),
               Ensure.eventually(MemberInDb(memberName), isPresent())
             ),
         }),

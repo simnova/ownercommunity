@@ -989,6 +989,7 @@ export type Query = {
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
+  membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
@@ -1045,6 +1046,11 @@ export type QueryMemberForUserArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMembersByCommunityIdArgs = {
   communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryMembersByUserExternalIdArgs = {
+  userExternalId: Scalars['String'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1434,6 +1440,67 @@ export type CommunityListContainerCommunitiesQueryQuery = {
     createdAt?: any | null;
     updatedAt?: any | null;
   } | null> | null;
+};
+
+export type CommunityListContainerMembersByUserExternalIdQueryQueryVariables = Exact<{
+  userExternalId: Scalars['String'];
+}>;
+
+export type CommunityListContainerMembersByUserExternalIdQueryQuery = {
+  __typename?: 'Query';
+  membersByUserExternalId?: Array<{
+    __typename?: 'Member';
+    id: any;
+    memberName?: string | null;
+    community?: { __typename?: 'Community'; id: any } | null;
+    role?: {
+      __typename?: 'Role';
+      permissions: {
+        __typename?: 'RolePermissions';
+        communityPermissions: {
+          __typename?: 'CommunityPermissions';
+          canManageRolesAndPermissions: boolean;
+          canManageCommunitySettings: boolean;
+          canManageSiteContent: boolean;
+          canManageMembers: boolean;
+        };
+        propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
+        serviceTicketPermissions: {
+          __typename?: 'ServiceTicketPermissions';
+          canManageTickets: boolean;
+          canAssignTickets: boolean;
+          canWorkOnTickets: boolean;
+        };
+      };
+    } | null;
+  } | null> | null;
+};
+
+export type CommunityListContainerMembersFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+  community?: { __typename?: 'Community'; id: any } | null;
+  role?: {
+    __typename?: 'Role';
+    permissions: {
+      __typename?: 'RolePermissions';
+      communityPermissions: {
+        __typename?: 'CommunityPermissions';
+        canManageRolesAndPermissions: boolean;
+        canManageCommunitySettings: boolean;
+        canManageSiteContent: boolean;
+        canManageMembers: boolean;
+      };
+      propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
+      serviceTicketPermissions: {
+        __typename?: 'ServiceTicketPermissions';
+        canManageTickets: boolean;
+        canAssignTickets: boolean;
+        canWorkOnTickets: boolean;
+      };
+    };
+  } | null;
 };
 
 export type CommunityListContainerCommunitiesFieldsFragment = {
@@ -4895,6 +4962,79 @@ export const CommunityCreateContainerMutationCommunityCreateFieldsFragmentDoc = 
     }
   ]
 } as unknown as DocumentNode<CommunityCreateContainerMutationCommunityCreateFieldsFragment, unknown>;
+export const CommunityListContainerMembersFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommunityListContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'community' },
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'communityPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'propertyPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } }]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CommunityListContainerMembersFieldsFragment, unknown>;
 export const CommunityListContainerCommunitiesFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -8601,6 +8741,116 @@ export const CommunityListContainerCommunitiesQueryDocument = {
 } as unknown as DocumentNode<
   CommunityListContainerCommunitiesQueryQuery,
   CommunityListContainerCommunitiesQueryQueryVariables
+>;
+export const CommunityListContainerMembersByUserExternalIdQueryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'CommunityListContainerMembersByUserExternalIdQuery' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'userExternalId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'membersByUserExternalId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userExternalId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'userExternalId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'CommunityListContainerMembersFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CommunityListContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'community' },
+            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'communityPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'propertyPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } }]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  CommunityListContainerMembersByUserExternalIdQueryQuery,
+  CommunityListContainerMembersByUserExternalIdQueryQueryVariables
 >;
 export const UserInfoContainerUserCurrentQueryDocument = {
   kind: 'Document',

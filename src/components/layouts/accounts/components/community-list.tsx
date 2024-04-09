@@ -1,7 +1,6 @@
 import { Button, Col, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { LocalSettingsKeys } from '../../../../constants';
-import { Community, Member, Role } from '../../../../generated';
+import { Community, Member } from '../../../../generated';
 
 const { Title } = Typography;
 

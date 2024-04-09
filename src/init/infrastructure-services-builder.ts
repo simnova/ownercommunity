@@ -11,12 +11,6 @@ import { AzContentModeratorImpl } from '../infrastructure-services-impl/content-
 import { InfrastructureServices } from '../app/infrastructure-services';
 import { AzMapsImpl } from '../infrastructure-services-impl/maps/az/impl';
 import { MapsInfrastructureService } from '../app/infrastructure-services/maps';
-// import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
-// import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
-// import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';
-// import { MongoPropertyUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/property.mongo-uow';
-// import { MongoServiceUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/service.uow';
-// import { MongoServiceTicketUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/service-ticket.uow';
 
 export class InfrastructureServicesBuilder implements InfrastructureServices{
   private _vercel: VercelInfrastructureService;
@@ -90,28 +84,9 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
 
   private InitDataStore(): DatastoreInfrastructureService {
     return new MongodbDatastoreImpl();
-    // return {
-    //   communityUnitOfWork: MongoCommunityUnitOfWork,
-    //   memberUnitOfWork: MongoMemberUnitOfWork,
-    //   roleUnitOfWork: MongoRoleUnitOfWork,
-    //   propertyUnitOfWork: MongoPropertyUnitOfWork,
-    //   serviceUnitOfWork: MongoServiceUnitOfWork,
-    //   serviceTicketUnitOfWork: MongoServiceTicketUnitOfWork,
-    //   startup: 
-    // };
   }
 
   private InitMaps(): MapsInfrastructureService {
     return new AzMapsImpl();
   }
-
-  // private static instance: DomainInfrastructureImpl;
-  // public static getInstance(): DomainInfrastructureImpl {
-  //   if (!this.instance) {
-  //     this.instance = new this();
-  //   }
-  //   return this.instance;
-  // }
 }
-
-// export const DomainInfrastructureImplInstance = DomainInfrastructureImpl.getInstance();

@@ -5,14 +5,9 @@ import { GraphQLSchemaWithFragmentReplacements } from 'graphql-middleware/dist/t
 import mongoose from 'mongoose';
 import { combinedSchema } from '../schema/builder/schema-builder';
 import { permissions } from '../schema/builder/resolver-builder';
-import { GraphqlContext as ApolloContext } from '../graphql-context-builder';
-// import { connect } from '../../../seedwork/services-seedwork-datastore-mongodb/connect';
-// import { PortalTokenValidation } from '../../auth/portal-token-validation';
-// import { DomainImpl } from '../../core/domain/domain-impl';
-// import { InfrastructureServicesBuilder } from '../../startup/infrastructure-services-builder';
+import { GraphqlContext as ApolloContext } from './graphql-context-builder';
 
 export class ApolloServerRequestHandler {
-  // private readonly serverConfig = (portalTokenExtractor: PortalTokenValidation, securedSchema: GraphQLSchemaWithFragmentReplacements) => {
   private readonly serverConfig = (securedSchema: GraphQLSchemaWithFragmentReplacements) => {
     return {
       schema: securedSchema,
@@ -30,16 +25,6 @@ export class ApolloServerRequestHandler {
           },
           async serverWillStart() {
             console.log('Apollo Server Starting');
-            // await connect();
-            // portalTokenExtractor.Start();
-            // const DomainInfrastructureImplInstance = new InfrastructureServicesBuilder();
-            // const DomainImplInstance = new DomainImpl(
-            //   DomainInfrastructureImplInstance.datastore,
-            //   DomainInfrastructureImplInstance.cognitiveSearch,
-            //   DomainInfrastructureImplInstance.blobStorage,
-            //   DomainInfrastructureImplInstance.vercel
-            // );
-            // await DomainImplInstance.startup();
           },
           async onHealthCheck(): Promise<any> {
             // health check endpoint is: https://<function-name>.azurewebsites.net/api/graphql/.well-known/apollo/server-health
@@ -65,24 +50,14 @@ export class ApolloServerRequestHandler {
     }
   }
 
-  // getPortalTokenExtractor(): PortalTokenValidation {
-  //   if (this.portalTokenExtractor) {
-  //     return this.portalTokenExtractor;
-  //   }
-  // }
-
   private readonly graphqlHandlerObj: ApolloServer<ApolloContext>;
-  // private readonly portalTokenExtractor: PortalTokenValidation;
 
-  // constructor(portals: Map<string, string>) {
   constructor() {
     try {
       console.log(' -=-=-=-=-=-=-=-=-= INITIALIZING APOLLO -=-=-=-=-=-=-=-=-=');
       const securedSchema: GraphQLSchemaWithFragmentReplacements = applyMiddleware(combinedSchema, permissions);
-      // this.portalTokenExtractor = new PortalTokenValidation(portals);
 
       const server = new ApolloServer<ApolloContext>({
-        // ...this.serverConfig(this.portalTokenExtractor, securedSchema),
         ...this.serverConfig(securedSchema),
       });
 

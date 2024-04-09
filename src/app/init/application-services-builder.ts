@@ -20,15 +20,15 @@ import { ApplicationServices,
   ServiceTicketDomainApi,
   PropertyMapsApi,
   CommunityVercelApi,
-} from "./application-services";
-import { UserModel, CommunityModel, RoleModel, PropertyModel, MemberModel, ServiceModel, ServiceTicketModel } from "./external-dependencies/datastore";
-import { CommunityUnitOfWork, MemberUnitOfWork, PropertyUnitOfWork, RoleUnitOfWork, ServiceTicketUnitOfWork, ServiceUnitOfWork, UserUnitOfWork } from "./external-dependencies/domain";
-import { CommunityBlobApiImpl, MemberBlobApiImpl, PropertyBlobApiImpl} from './application-services-impl/blob-storage';
-import { PropertySearchApiImpl, ServiceTicketSearchApiImpl } from './application-services-impl/cognitive-search';
-import { UserDataApiImpl, RoleDataApiImpl, ServiceDataApiImpl, ServiceTicketDataApiImpl, MemberDataApiImpl, CommunityDataApiImpl, PropertyDataApiImpl } from './application-services-impl/datastore';
-import { UserDomainApiImpl, RoleDomainApiImpl, ServiceDomainApiImpl, ServiceTicketDomainApiImpl, MemberDomainApiImpl, CommunityDomainApiImpl, PropertyDomainApiImpl } from "./application-services-impl/domain";
-import { PropertyMapsApiImpl } from "./application-services-impl/maps";
-import { CommunityVercelApiImpl } from "./application-services-impl/vercel";
+} from "../application-services";
+import { UserModel, CommunityModel, RoleModel, PropertyModel, MemberModel, ServiceModel, ServiceTicketModel } from "../external-dependencies/datastore";
+import { CommunityUnitOfWork, MemberUnitOfWork, PropertyUnitOfWork, RoleUnitOfWork, ServiceTicketUnitOfWork, ServiceUnitOfWork, UserUnitOfWork } from "../external-dependencies/domain";
+import { CommunityBlobApiImpl, MemberBlobApiImpl, PropertyBlobApiImpl} from '../application-services-impl/blob-storage';
+import { PropertySearchApiImpl, ServiceTicketSearchApiImpl } from '../application-services-impl/cognitive-search';
+import { UserDataApiImpl, RoleDataApiImpl, ServiceDataApiImpl, ServiceTicketDataApiImpl, MemberDataApiImpl, CommunityDataApiImpl, PropertyDataApiImpl } from '../application-services-impl/datastore';
+import { UserDomainApiImpl, RoleDomainApiImpl, ServiceDomainApiImpl, ServiceTicketDomainApiImpl, MemberDomainApiImpl, CommunityDomainApiImpl, PropertyDomainApiImpl } from "../application-services-impl/domain";
+import { PropertyMapsApiImpl } from "../application-services-impl/maps";
+import { CommunityVercelApiImpl } from "../application-services-impl/vercel";
 import { AppContext } from "./app-context-builder";
 
 export class ApplicationServicesBuilder implements ApplicationServices {

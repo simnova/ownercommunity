@@ -5,7 +5,7 @@ import { DomainDataSource } from './domain-data-source';
 import { CommunityConverter, RoleConverter, RoleDomainAdapter, RoleRepository } from '../../external-dependencies/domain';
 import { RoleData } from '../../external-dependencies/datastore';
 import { RoleDomainApi } from '../../application-services/domain';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 type PropType = RoleDomainAdapter;
 type DomainType = Role<PropType>;

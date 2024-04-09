@@ -7,7 +7,7 @@ import { BedDescriptions } from '../../domain/contexts/property/bedroom-detail.v
 import { CommunityConverter, MemberConverter, PropertyConverter, PropertyDomainAdapter, PropertyRepository } from '../../external-dependencies/domain';
 import { PropertyData } from '../../external-dependencies/datastore';
 import { PropertyDomainApi } from '../../application-services/domain';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 type PropType = PropertyDomainAdapter;
 type DomainType = Property<PropType>;

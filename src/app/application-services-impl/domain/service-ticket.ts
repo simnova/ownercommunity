@@ -7,7 +7,7 @@ import { DomainDataSource } from './domain-data-source';
 import { CommunityConverter, MemberConverter, PropertyConverter, ServiceConverter, ServiceDomainAdapter, ServiceTicketConverter, ServiceTicketDomainAdapter, ServiceTicketRepository } from '../../external-dependencies/domain';
 import { MemberData, ServiceTicketData } from '../../external-dependencies/datastore';
 import { ServiceTicketDomainApi } from '../../application-services/domain';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 type PropType = ServiceTicketDomainAdapter;
 type DomainType = ServiceTicket<PropType>;

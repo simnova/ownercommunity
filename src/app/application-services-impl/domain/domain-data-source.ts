@@ -5,7 +5,7 @@ import { AggregateRoot } from '../../../../seedwork/domain-seedwork/aggregate-ro
 import { EntityProps } from '../../../../seedwork/domain-seedwork/entity';
 import { Document } from 'mongoose';
 import { DomainExecutionContext } from '../../domain/contexts/domain-execution-context';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class DomainDataSource<Context extends AppContext,MongoType extends Document,PropType extends EntityProps,DomainType extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<DomainExecutionContext, MongoType,PropType,DomainType>> extends DataSource<Context> {
   private unitOfWork: MongoUnitOfWork<DomainExecutionContext,MongoType,PropType,DomainType,RepoType>;

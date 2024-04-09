@@ -2,7 +2,7 @@ import { PropertyData, PropertyModel, MemberModel } from '../../external-depende
 import { Types } from 'mongoose';
 import { CosmosDataSource } from './cosmos-data-source';
 import { PropertyDataApi } from '../../application-services/datastore';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class PropertyDataApiImpl 
   extends CosmosDataSource<PropertyData, AppContext> 

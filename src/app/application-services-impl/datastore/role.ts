@@ -1,7 +1,7 @@
 import { RoleData } from "../../external-dependencies/datastore";
 import { CosmosDataSource } from "./cosmos-data-source";
 import { RoleDataApi } from "../../application-services/datastore";
-import { AppContext } from "../../app-context-builder";
+import { AppContext } from "../../init/app-context-builder";
 
 export class RoleDataApiImpl extends CosmosDataSource<RoleData, AppContext> 
   implements RoleDataApi{

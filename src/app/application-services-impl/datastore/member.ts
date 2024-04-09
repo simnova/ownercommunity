@@ -2,7 +2,7 @@ import { MemberData, MemberModel, RoleModel } from '../../external-dependencies/
 import { Types } from 'mongoose';
 import { CosmosDataSource } from './cosmos-data-source';
 import { MemberDataApi } from '../../application-services/datastore';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class MemberDataApiImpl 
   extends CosmosDataSource<MemberData, AppContext> 

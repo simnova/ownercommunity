@@ -4,7 +4,7 @@ import { MutationStatus, PropertyBlobFileAuthHeaderResult } from '../../external
 import { nanoid } from 'nanoid';
 import { BlobRequestSettings } from '../../external-dependencies/blob-storage';
 import { PropertyBlobApi } from '../../application-services/blob-storage';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 interface FileInfo {
 	fileName: string;

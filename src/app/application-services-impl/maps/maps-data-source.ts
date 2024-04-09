@@ -1,7 +1,7 @@
 import { DataSource, DataSourceConfig } from '../data-source';
 import { Passport } from '../../domain/contexts/iam/passport';
 import { AzMaps } from '../../../../seedwork/services-seedwork-maps-az';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class MapsDataSource<Context extends AppContext> extends DataSource<Context> {
   private _maps: AzMaps;

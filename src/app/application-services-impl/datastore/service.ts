@@ -1,7 +1,7 @@
 import { ServiceData } from "../../external-dependencies/datastore";
 import { CosmosDataSource } from "./cosmos-data-source";
 import { ServiceDataApi } from "../../application-services/datastore";
-import { AppContext } from "../../app-context-builder";
+import { AppContext } from "../../init/app-context-builder";
 
 export class ServiceDataApiImpl 
   extends CosmosDataSource<ServiceData, AppContext> 

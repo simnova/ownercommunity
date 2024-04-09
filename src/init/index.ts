@@ -2,8 +2,8 @@ import '../telemetry/tracer';
 import { wrapFunctionHandler } from '../telemetry/wrapper';
 
 import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
-import { ApolloServerRequestHandler } from '../graphql/init/apollo';
-import { GraphqlContextBuilder as ApolloContext} from '../graphql/graphql-context-builder';
+import { ApolloServerRequestHandler } from '../graphql/init/apollo-server-request-handler';
+import { GraphqlContextBuilder as ApolloContext} from '../graphql/init/graphql-context-builder';
 import { app } from '@azure/functions';
 import { PortalTokenValidation } from '../auth/portal-token-validation';
 import { connect } from '../../seedwork/services-seedwork-datastore-mongodb/connect';

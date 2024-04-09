@@ -3,7 +3,7 @@ import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } fro
 import { MemberConverter } from '../../external-dependencies/domain';
 import { BlobRequestSettings } from '../../external-dependencies/blob-storage';
 import { MemberBlobApi } from '../../application-services/blob-storage';
-import { AppContext } from '../../app-context-builder';
+import { AppContext } from '../../init/app-context-builder';
 
 export class MemberBlobApiImpl 
   extends BlobDataSource<AppContext> 

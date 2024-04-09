@@ -824,3 +824,18 @@ export const HandleLogout = (auth: AuthContextProps, post_logout_redirect_uri?: 
   }
   auth.signoutRedirect();
 };
+
+export const isMemberAdmin = (member: Member): boolean => {
+  const role = member.role;
+  if (role == null || role == undefined) {
+    return false;
+  }
+  return role.permissions.communityPermissions.canManageRolesAndPermissions || 
+        role.permissions.communityPermissions.canManageCommunitySettings || 
+        role.permissions.communityPermissions.canManageSiteContent || 
+        role.permissions.communityPermissions.canManageMembers || 
+        role.permissions.propertyPermissions.canManageProperties ||
+        role.permissions.serviceTicketPermissions.canManageTickets ||
+        role.permissions.serviceTicketPermissions.canAssignTickets ||
+        role.permissions.serviceTicketPermissions.canWorkOnTickets;
+}

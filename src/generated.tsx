@@ -4824,58 +4824,65 @@ export type SearchDrawerContainerCustomViewsFieldsFragment = {
   } | null> | null;
 };
 
-export type SharedCommunitiesDropdownContainerCommunityQueryVariables = Exact<{
-  id: Scalars['ID'];
+export type SharedCommunitiesDropdownContainerMembersQueryVariables = Exact<{
+  userExternalId: Scalars['String'];
 }>;
 
-export type SharedCommunitiesDropdownContainerCommunityQuery = {
+export type SharedCommunitiesDropdownContainerMembersQuery = {
   __typename?: 'Query';
-  communityById?: {
-    __typename?: 'Community';
-    name?: string | null;
-    domain?: string | null;
-    whiteLabelDomain?: string | null;
-    handle?: string | null;
+  membersByUserExternalId?: Array<{
+    __typename?: 'Member';
     id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  } | null;
-  communities?: Array<{
-    __typename?: 'Community';
-    name?: string | null;
-    domain?: string | null;
-    whiteLabelDomain?: string | null;
-    handle?: string | null;
-    publicContentBlobUrl?: string | null;
-    id: any;
-    schemaVersion?: string | null;
-    createdAt?: any | null;
-    updatedAt?: any | null;
+    memberName?: string | null;
+    community?: { __typename?: 'Community'; id: any; name?: string | null } | null;
+    role?: {
+      __typename?: 'Role';
+      permissions: {
+        __typename?: 'RolePermissions';
+        communityPermissions: {
+          __typename?: 'CommunityPermissions';
+          canManageRolesAndPermissions: boolean;
+          canManageCommunitySettings: boolean;
+          canManageSiteContent: boolean;
+          canManageMembers: boolean;
+        };
+        propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
+        serviceTicketPermissions: {
+          __typename?: 'ServiceTicketPermissions';
+          canManageTickets: boolean;
+          canAssignTickets: boolean;
+          canWorkOnTickets: boolean;
+        };
+      };
+    } | null;
   } | null> | null;
 };
 
-export type SharedCommunitiesDropdownContainerCommunityFieldsFragment = {
-  __typename?: 'Community';
-  name?: string | null;
-  domain?: string | null;
-  whiteLabelDomain?: string | null;
-  handle?: string | null;
+export type SharedCommunitiesDropdownContainerMembersFieldsFragment = {
+  __typename?: 'Member';
   id: any;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-};
-
-export type SharedCommunityMenuContainerCommunitiesFieldsFragment = {
-  __typename?: 'Community';
-  name?: string | null;
-  domain?: string | null;
-  whiteLabelDomain?: string | null;
-  handle?: string | null;
-  publicContentBlobUrl?: string | null;
-  id: any;
-  schemaVersion?: string | null;
-  createdAt?: any | null;
-  updatedAt?: any | null;
+  memberName?: string | null;
+  community?: { __typename?: 'Community'; id: any; name?: string | null } | null;
+  role?: {
+    __typename?: 'Role';
+    permissions: {
+      __typename?: 'RolePermissions';
+      communityPermissions: {
+        __typename?: 'CommunityPermissions';
+        canManageRolesAndPermissions: boolean;
+        canManageCommunitySettings: boolean;
+        canManageSiteContent: boolean;
+        canManageMembers: boolean;
+      };
+      propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
+      serviceTicketPermissions: {
+        __typename?: 'ServiceTicketPermissions';
+        canManageTickets: boolean;
+        canAssignTickets: boolean;
+        canWorkOnTickets: boolean;
+      };
+    };
+  } | null;
 };
 
 export type LoggedInUserRootContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
@@ -8541,52 +8548,85 @@ export const SearchDrawerContainerCustomViewsMutationResultFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<SearchDrawerContainerCustomViewsMutationResultFieldsFragment, unknown>;
-export const SharedCommunitiesDropdownContainerCommunityFieldsFragmentDoc = {
+export const SharedCommunitiesDropdownContainerMembersFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'SharedCommunitiesDropdownContainerCommunityFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      name: { kind: 'Name', value: 'SharedCommunitiesDropdownContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'community' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'communityPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'propertyPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } }]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
         ]
       }
     }
   ]
-} as unknown as DocumentNode<SharedCommunitiesDropdownContainerCommunityFieldsFragment, unknown>;
-export const SharedCommunityMenuContainerCommunitiesFieldsFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'SharedCommunityMenuContainerCommunitiesFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<SharedCommunityMenuContainerCommunitiesFieldsFragment, unknown>;
+} as unknown as DocumentNode<SharedCommunitiesDropdownContainerMembersFieldsFragment, unknown>;
 export const LoggedInUserContainerUserCurrentFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -16923,18 +16963,18 @@ export const SearchDrawerContainerCustomViewsUpdateDocument = {
   SearchDrawerContainerCustomViewsUpdateMutation,
   SearchDrawerContainerCustomViewsUpdateMutationVariables
 >;
-export const SharedCommunitiesDropdownContainerCommunityDocument = {
+export const SharedCommunitiesDropdownContainerMembersDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'SharedCommunitiesDropdownContainerCommunity' },
+      name: { kind: 'Name', value: 'SharedCommunitiesDropdownContainerMembers' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'userExternalId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
         }
       ],
       selectionSet: {
@@ -16942,12 +16982,12 @@ export const SharedCommunitiesDropdownContainerCommunityDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'communityById' },
+            name: { kind: 'Name', value: 'membersByUserExternalId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+                name: { kind: 'Name', value: 'userExternalId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'userExternalId' } }
               }
             ],
             selectionSet: {
@@ -16955,20 +16995,7 @@ export const SharedCommunitiesDropdownContainerCommunityDocument = {
               selections: [
                 {
                   kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'SharedCommunitiesDropdownContainerCommunityFields' }
-                }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'communities' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'SharedCommunityMenuContainerCommunitiesFields' }
+                  name: { kind: 'Name', value: 'SharedCommunitiesDropdownContainerMembersFields' }
                 }
               ]
             }
@@ -16978,44 +17005,82 @@ export const SharedCommunitiesDropdownContainerCommunityDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'SharedCommunitiesDropdownContainerCommunityFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
+      name: { kind: 'Name', value: 'SharedCommunitiesDropdownContainerMembersFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'SharedCommunityMenuContainerCommunitiesFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Community' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'domain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'whiteLabelDomain' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'handle' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'publicContentBlobUrl' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'schemaVersion' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'community' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'communityPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'propertyPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } }]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
         ]
       }
     }
   ]
 } as unknown as DocumentNode<
-  SharedCommunitiesDropdownContainerCommunityQuery,
-  SharedCommunitiesDropdownContainerCommunityQueryVariables
+  SharedCommunitiesDropdownContainerMembersQuery,
+  SharedCommunitiesDropdownContainerMembersQueryVariables
 >;
 export const LoggedInUserRootContainerUserCurrentQueryDocument = {
   kind: 'Document',

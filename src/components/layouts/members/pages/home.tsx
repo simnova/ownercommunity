@@ -19,7 +19,7 @@ export const Home: React.FC<any> = () => {
       }}>Home</span>
     } />}>
       <Paragraph> Community ID: {params.communityId}</Paragraph>
-      <Paragraph> User ID: {params.userId}</Paragraph>
+      <Paragraph> Member ID: {params.memberId}</Paragraph>
     </SubPageLayout>
   );
 };

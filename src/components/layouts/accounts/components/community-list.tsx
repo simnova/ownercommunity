@@ -1,6 +1,7 @@
 import { Button, Col, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
+import { isMemberAdmin } from '../../../../constants';
 
 const { Title } = Typography;
 
@@ -9,21 +10,6 @@ export interface CommunityListProps {
     communities: Community[];
     members: Member[][];
   };
-}
-
-const isMemberAdmin = (member: Member): boolean => {
-  const role = member.role;
-  if (role == null || role == undefined) {
-    return false;
-  }
-  return role.permissions.communityPermissions.canManageRolesAndPermissions || 
-        role.permissions.communityPermissions.canManageCommunitySettings || 
-        role.permissions.communityPermissions.canManageSiteContent || 
-        role.permissions.communityPermissions.canManageMembers || 
-        role.permissions.propertyPermissions.canManageProperties ||
-        role.permissions.serviceTicketPermissions.canManageTickets ||
-        role.permissions.serviceTicketPermissions.canAssignTickets ||
-        role.permissions.serviceTicketPermissions.canWorkOnTickets;
 }
 
 export const CommunityList: React.FC<CommunityListProps> = (props) => {

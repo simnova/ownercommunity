@@ -1452,7 +1452,7 @@ export type CommunityListContainerMembersByUserExternalIdQueryQuery = {
     __typename?: 'Member';
     id: any;
     memberName?: string | null;
-    community?: { __typename?: 'Community'; id: any } | null;
+    community?: { __typename?: 'Community'; id: any; userIsAdmin?: boolean | null } | null;
     role?: {
       __typename?: 'Role';
       permissions: {
@@ -1480,7 +1480,7 @@ export type CommunityListContainerMembersFieldsFragment = {
   __typename?: 'Member';
   id: any;
   memberName?: string | null;
-  community?: { __typename?: 'Community'; id: any } | null;
+  community?: { __typename?: 'Community'; id: any; userIsAdmin?: boolean | null } | null;
   role?: {
     __typename?: 'Role';
     permissions: {
@@ -4834,27 +4834,7 @@ export type SharedCommunitiesDropdownContainerMembersQuery = {
     __typename?: 'Member';
     id: any;
     memberName?: string | null;
-    community?: { __typename?: 'Community'; id: any; name?: string | null } | null;
-    role?: {
-      __typename?: 'Role';
-      permissions: {
-        __typename?: 'RolePermissions';
-        communityPermissions: {
-          __typename?: 'CommunityPermissions';
-          canManageRolesAndPermissions: boolean;
-          canManageCommunitySettings: boolean;
-          canManageSiteContent: boolean;
-          canManageMembers: boolean;
-        };
-        propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
-        serviceTicketPermissions: {
-          __typename?: 'ServiceTicketPermissions';
-          canManageTickets: boolean;
-          canAssignTickets: boolean;
-          canWorkOnTickets: boolean;
-        };
-      };
-    } | null;
+    community?: { __typename?: 'Community'; id: any; name?: string | null; userIsAdmin?: boolean | null } | null;
   } | null> | null;
 };
 
@@ -4862,27 +4842,7 @@ export type SharedCommunitiesDropdownContainerMembersFieldsFragment = {
   __typename?: 'Member';
   id: any;
   memberName?: string | null;
-  community?: { __typename?: 'Community'; id: any; name?: string | null } | null;
-  role?: {
-    __typename?: 'Role';
-    permissions: {
-      __typename?: 'RolePermissions';
-      communityPermissions: {
-        __typename?: 'CommunityPermissions';
-        canManageRolesAndPermissions: boolean;
-        canManageCommunitySettings: boolean;
-        canManageSiteContent: boolean;
-        canManageMembers: boolean;
-      };
-      propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
-      serviceTicketPermissions: {
-        __typename?: 'ServiceTicketPermissions';
-        canManageTickets: boolean;
-        canAssignTickets: boolean;
-        canWorkOnTickets: boolean;
-      };
-    };
-  } | null;
+  community?: { __typename?: 'Community'; id: any; name?: string | null; userIsAdmin?: boolean | null } | null;
 };
 
 export type LoggedInUserRootContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
@@ -4984,7 +4944,13 @@ export const CommunityListContainerMembersFieldsFragmentDoc = {
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'community' },
-            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } }
+              ]
+            }
           },
           {
             kind: 'Field',
@@ -8567,58 +8533,8 @@ export const SharedCommunitiesDropdownContainerMembersFieldsFragmentDoc = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'role' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'permissions' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'communityPermissions' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } }
-                          ]
-                        }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'propertyPermissions' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } }]
-                        }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'serviceTicketPermissions' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                }
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } }
               ]
             }
           }
@@ -8831,7 +8747,13 @@ export const CommunityListContainerMembersByUserExternalIdQueryDocument = {
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'community' },
-            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } }
+              ]
+            }
           },
           {
             kind: 'Field',
@@ -17019,58 +16941,8 @@ export const SharedCommunitiesDropdownContainerMembersDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } }
-              ]
-            }
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'role' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'permissions' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'communityPermissions' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } }
-                          ]
-                        }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'propertyPermissions' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } }]
-                        }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'serviceTicketPermissions' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                }
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } }
               ]
             }
           }

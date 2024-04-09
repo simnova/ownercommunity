@@ -1,7 +1,6 @@
 import { Button, Col, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
-import { isMemberAdmin } from '../../../../constants';
 
 const { Title } = Typography;
 
@@ -50,10 +49,10 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
               <div style={{ backgroundColor: '#3a59e0', padding: '10px', margin: "0 50px", borderRadius: "5px" }}>
                 <Title level={4} style={{ padding: "5px 0" }}>Admin Portal</Title>
                 {props.data?.members[i]?.map((member: Member) => {
-                    if (isMemberAdmin(member)) {
+                    if (member?.community?.userIsAdmin) {
                         return (
                             <Button
-                                key={member.id}
+                                key={member.id + '-admin'}
                                 data-testid="community-list-admin-button"
                                 style={{ width: '200px', marginBottom: '10px' }}
                                 onClick={() =>

@@ -10,23 +10,6 @@ fragment SharedCommunitiesDropdownContainerMembersFields on Member {
   community {
     id
     name
-  }
-  role {
-    permissions {
-      communityPermissions {
-        canManageRolesAndPermissions
-        canManageCommunitySettings
-        canManageSiteContent
-        canManageMembers
-      }
-      propertyPermissions {
-        canManageProperties
-      }
-      serviceTicketPermissions {
-        canManageTickets
-        canAssignTickets
-        canWorkOnTickets
-      }
-    }
+    userIsAdmin
   }
 }

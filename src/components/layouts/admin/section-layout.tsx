@@ -38,7 +38,7 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
           }}
         >
           <div style={{ display: 'flex' }} className="allowBoxShadow">
-            <CommunitiesDropdownContainer data={{ id: params.communityId }} isAdmin />
+            <CommunitiesDropdownContainer data={{ id: params.communityId }} />
           </div>
           <Link
             className="allowBoxShadow"

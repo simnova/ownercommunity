@@ -15,6 +15,7 @@ fragment CommunityListContainerMembersFields on Member {
   memberName
   community {
     id
+    userIsAdmin
   }
   role {
     permissions {

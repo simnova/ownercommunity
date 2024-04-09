@@ -8,7 +8,6 @@ interface CommunitiesDropdownContainerProps {
   data: {
     id?: string;
   };
-  isAdmin?: boolean;
 }
 
 export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainerProps> = (props) => {
@@ -35,7 +34,6 @@ export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainer
           data={{
             members: membersData?.membersByUserExternalId as Member[]
           }}
-          isAdmin={props.isAdmin}
         />
       }
       error={membersError}

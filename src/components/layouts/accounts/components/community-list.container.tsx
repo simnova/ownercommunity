@@ -20,7 +20,6 @@ export const CommunityListContainer: React.FC<any> = () => {
   let members: Member[][] = [];
   if (membersData?.membersByUserExternalId && membersData?.membersByUserExternalId.length > 0 && communityData?.communities) {
     for (const community of communityData.communities) {
-      console.log("Community: \n", community);
       members.push(membersData.membersByUserExternalId.filter(member => member?.community?.id === community?.id) as Member[]);
     }
   }

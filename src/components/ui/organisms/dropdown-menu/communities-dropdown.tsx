@@ -3,14 +3,12 @@ import { Dropdown, MenuProps } from 'antd';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Member } from '../../../../generated';
-import { isMemberAdmin } from '../../../../constants';
 
 
 interface CommunitiesDropdownProps {
   data: {
     members: Member[];
   };
-  isAdmin?: boolean;
 }
 
 export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) => {
@@ -27,7 +25,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
       path: `/community/${member?.community?.id}/member/${member?.id}`,
     };
 
-    if (isMemberAdmin(member)) {
+    if (member?.community?.userIsAdmin) {
       return [
         { ...memberProps },
         { ...memberProps, key: memberProps.key + '-admin', label: memberProps.label + ' (Admin)', path: `/community/${member?.community?.id}/admin/${member?.id}` },
@@ -37,10 +35,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
     return memberProps;
   }).flat();
 
-  console.log(items)
-
   const onMenuItemClicked = (e: any) => {
-    console.log("onMenuItemClicked", e)
     setDropdownVisible(false);
     navigate(e.item.props.path);
   };
@@ -61,7 +56,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
         className="ant-dropdown-link"
         style={{ minHeight: '50px' }}
       >
-        {currentMember?.memberName} <DownOutlined />
+        {currentMember?.community?.name} | {currentMember?.memberName} <DownOutlined />
       </a>
     </Dropdown>)
   );

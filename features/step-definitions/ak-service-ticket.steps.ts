@@ -13,14 +13,18 @@ When('{pronoun} saves the service ticket in {word}', function (actor: Actor, sta
 
 When('{actor} assigns the service ticket to {actor}', function (actor: Actor, actor2: Actor) {});
 
+When('{pronoun} deletes the service ticket', function (actor: Actor) {});
+
 Then('the service ticket is created for {word} property', function (propertyName: string) {});
 
 Then('the service ticket is not created for {word} property', function (propertyName: string) {});
-
-Then('the service ticket is not advanced to {word}', function (status1: string) {});
 
 Then('the service ticket status is {word}', function (status1: string) {});
 
 Then('the service ticket is assigned to {actor}', function (actor: Actor) {});
 
 Then('the service ticket is unassigned', function () {});
+
+Then('the service ticket is deleted', function () {});
+
+Then('the service ticket is not deleted', function () {});

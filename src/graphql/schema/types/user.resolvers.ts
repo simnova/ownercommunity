@@ -8,27 +8,27 @@ const user: Resolvers = {
         console.log(`user found in context with JWT: ${JSON.stringify(context.verifiedUser.verifiedJWT)}`);
       }
       console.log(`Resolver>Query>user ${args.id}`);
-      return (await context.dataSources.userCosmosdbApi.getUser(args.id)) as User;
+      return (await context.applicationServices.userDataApi.getUserById(args.id)) as User;
     },
     users: async (parent, args, context, info) => {
       cacheControlFromInfo(info).setCacheHint({ maxAge: 60, scope: 'PUBLIC' }); //this works, but doesn't work when setting it with a directive
       console.log(`Resolver>Query>users`);
       console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`);
-      return (await context.dataSources.userCosmosdbApi.getUsers()) as User[];
+      return (await context.applicationServices.userDataApi.getUsers()) as User[];
     },
     userCurrent: async (parent, args, context, info) => {
       console.log(`Resolver>Query>userCurrent`);
-      return (await context.dataSources.userDomainAPI.addUser()) as CurrentUser;
+      return (await context.applicationServices.userDomainApi.addUser()) as CurrentUser;
     },
   },
   Mutation: {
     userCreate: async (parent, args, context, info) => {
       return null;
-      //return (await context.dataSources.userDomainAPI.addUser()) as User;
+      //return (await context.applicationServices.userDomainApi.addUser()) as User;
     },
     userUpdate: async (parent, args, context, info) => {
       return null;
-      // return (await context.dataSources.userDomainAPI.updateUser(args.input)) as User;
+      // return (await context.applicationServices.userDomainApi.updateUser(args.input)) as User;
     },
     /*
     createAuthHeaderForProfilePhoto: async (parent, args, context, info) => {

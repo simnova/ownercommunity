@@ -8,7 +8,7 @@ documents: '../ui/src/components/**/**.graphql'
 generates:
   ./src/graphql/schema/builder/generated.ts:
     config:
-      contextType: '../../graphql-context#GraphqlContext'
+      contextType: '../../init/graphql-context-builder#GraphqlContext'
       useIndexSignature: true
 
       scalars:

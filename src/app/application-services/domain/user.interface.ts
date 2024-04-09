@@ -1,13 +1,7 @@
-import { User, UserProps } from '../../domain/contexts/user/user';
+import { UserData } from "../../external-dependencies/datastore";
+import { UserUpdateInput } from "../../external-dependencies/graphql-api";
 
 export interface UserDomainApplicationService {
-  addUser() : Promise<User<UserProps>>;
-  updateUser(user: UserUpdateInput) : Promise<User<UserProps>>; 
+  addUser() : Promise<UserData>;
+  updateUser(user: UserUpdateInput) : Promise<UserData>; 
 }
-
-export type UserUpdateInput = {
-  email?: string;
-  firstName?: string;
-  id: string;
-  lastName?: string;
-};

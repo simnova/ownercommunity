@@ -5,8 +5,10 @@ import {
 
 export const ActivityTypeCodes = {
   Created : 'CREATED',
+  Submitted : 'SUBMITTED',
   Assigned : 'ASSIGNED',
   Updated : 'UPDATED',
+  InProgress: 'INPROGRESS',
   Completed: 'COMPLETED',
   Closed: 'CLOSED'
 }

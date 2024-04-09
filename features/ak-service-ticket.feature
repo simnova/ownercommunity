@@ -18,11 +18,22 @@ Background:
 
 
 @dev-todo
-  Scenario: Member creates a service ticket for own property
+  Scenario: Create service ticket
     When MikeTheMember the Member creates a service ticket
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p5 |
+    Then the service ticket is created for XYZ property
+    And the service ticket status is DRAFT
+
+@dev-todo
+  Scenario: Member submits a service ticket for own property
+    When MikeTheMember the Member creates a service ticket
+          | propertyName | "XYZ property name" |
+          | title | "Abc title" |
+          | description | "ABCDEF details" |
+          | priority | p1 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     Then the service ticket is created for ABC property
     And the service ticket status is SUBMITTED
@@ -30,31 +41,22 @@ Background:
 @dev-todo
   Rule: Members are not allowed to create service ticket for the property not owned by them 
 
-  Scenario: Member creates a service ticket for a property not owned
+  Scenario: Member submits a service ticket for a property not owned
     When WendyTheMember the Member creates a service ticket for the property not owned by her
           | propertyName | "XYZ property name" |
     Then the service ticket is not created for XYZ property
 
 @dev-todo
-  Scenario: CommunityManager creates a service ticket for the property
+  Scenario: CommunityManager submits a service ticket for the property
     When CamellaTheCommunityManager the CommunityManager creates a service ticket
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
           | requester | "MikeTheMember" |
+          | priority | p2 |
     And CamellaTheCommunityManager advances the service ticket from DRAFT to SUBMITTED
     Then the service ticket is created for DEF property
     And the service ticket status is SUBMITTED
-
-@dev-todo
-  Scenario: Save the service ticket in DRAFT
-    When MikeTheMember the Member creates a service ticket
-          | propertyName | "XYZ property name" |
-          | title | "Abc title" |
-          | description | "ABCDEF details" |
-    And he saves the service ticket in DRAFT
-    Then the service ticket is not advanced to SUBMITTED
-    And the service ticket status is DRAFT
 
 @dev-todo
   Scenario: Update the service ticket from SUBMITTED to ASSIGNED
@@ -62,6 +64,7 @@ Background:
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p3 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     When CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -74,6 +77,7 @@ Background:
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p4 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -82,11 +86,12 @@ Background:
     And the service ticket is unassigned
 
 @dev-todo
-  Scenario: Update the service ticket ASSIGNED to INPROGRESS
+  Scenario: Update the service ticket from ASSIGNED to INPROGRESS
     Given MikeTheMember the Member creates a service ticket
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p5 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -99,6 +104,7 @@ Background:
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p5 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -112,6 +118,7 @@ Background:
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p5 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -127,6 +134,7 @@ Background:
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p5 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -143,6 +151,7 @@ Background:
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p5 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -157,6 +166,7 @@ Background:
           | propertyName | "XYZ property name" |
           | title | "Abc title" |
           | description | "ABCDEF details" |
+          | priority | p5 |
     And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
     And CamellaTheCommunityManager assigns the service ticket to MaddyTheMaintenancePerson
     And CamellaTheCommunityManager advances the service ticket from SUBMITTED to ASSIGNED
@@ -165,3 +175,39 @@ Background:
     And CamellaTheCommunityManager advances the service ticket from COMPLETED to CLOSED
     When CamellaTheCommunityManager advances the service ticket from CLOSED to INPROGRESS
     Then the service ticket status is INPROGRESS
+
+@dev-todo
+  Scenario: Memeber deletes the DRAFT service ticket
+    Given MikeTheMember the Member creates a service ticket
+          | propertyName | "XYZ property name" |
+          | title | "Abc title" |
+          | description | "ABCDEF details" |
+          | priority | p5 |
+    And the service ticket is created for XYZ property
+    When he deletes the service ticket
+    Then the service ticket is deleted
+
+@dev-todo
+  Scenario: Member deletes the SUBMMITTED service ticket
+    Given MikeTheMember the Member creates a service ticket
+          | propertyName | "XYZ property name" |
+          | title | "Abc title" |
+          | description | "ABCDEF details" |
+          | priority | p5 |
+    And the service ticket is created for XYZ property
+    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
+    When he deletes the service ticket
+    Then the service ticket is not deleted
+
+@dev-todo
+  Scenario: CommunityManager deletes the service ticket
+    Given CamellaTheCommunityManager the CommunityManager creates a service ticket
+          | propertyName | "XYZ property name" |
+          | title | "Abc title" |
+          | description | "ABCDEF details" |
+          | requester | "MikeTheMember" |
+          | priority | p2 |
+    And CamellaTheCommunityManager advances the service ticket from DRAFT to SUBMITTED
+    When she deletes the service ticket
+    Then the service ticket is deleted
+  

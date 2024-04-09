@@ -21,10 +21,10 @@ export const MembersDetail: React.FC<any> = (props) => {
       <Descriptions title="Member Info" size={'small'} layout={'vertical'}>
         <Descriptions.Item label="Id">{props.data.member.id}</Descriptions.Item>
         <Descriptions.Item label="Created At">
-          {dayjs(props.data.member.createdAt).format('DD/MM/YYYY')}
+          {dayjs(props.data.member.createdAt).format('MM/DD/YYYY')}
         </Descriptions.Item>
         <Descriptions.Item label="Updated At">
-          {dayjs(props.data.member.createdAt).format('DD/MM/YYYY')}
+          {dayjs(props.data.member.createdAt).format('MM/DD/YYYY')}
         </Descriptions.Item>
       </Descriptions>
       <Form

@@ -24,10 +24,10 @@ export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {
           {props.data ? (props.data.roleToDelete.isDefault ? 'true' : 'false') : 'false'}
         </Descriptions.Item>
         <Descriptions.Item label="Created At">
-          {dayjs(props.data.roleToDelete.createdAt).format('DD/MM/YYYY')}
+          {dayjs(props.data.roleToDelete.createdAt).format('MM/DD/YYYY')}
         </Descriptions.Item>
         <Descriptions.Item label="Updated At">
-          {dayjs(props.data.roleToDelete.updatedAt).format('DD/MM/YYYY')}
+          {dayjs(props.data.roleToDelete.updatedAt).format('MM/DD/YYYY')}
         </Descriptions.Item>
       </Descriptions>
       <Form

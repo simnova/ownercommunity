@@ -1,0 +1,34 @@
+mutation SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeader($input: PropertyBlobFileInput!) {
+  propertyListingImageCreateAuthHeader(input: $input) {
+    authHeader {
+      authHeader
+      blobPath
+      requestDate
+      indexTags {
+        name
+        value
+      }
+      metadataFields {
+        name
+        value
+      }
+    }
+    status {
+      success
+      errorMessage
+    }   
+    property {
+      ...SharedPropertiesListingImageUploadContainerPropertyFields
+    } 
+  }
+}
+
+fragment SharedPropertiesListingImageUploadContainerPropertyFields on Property {
+  listingDetail {
+    images
+  }
+
+  id
+  createdAt
+  updatedAt
+}

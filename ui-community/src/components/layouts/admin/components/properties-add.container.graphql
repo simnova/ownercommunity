@@ -1,0 +1,23 @@
+mutation AdminPropertiesAddContainerPropertyAdd($input: PropertyAddInput!) {
+  propertyAdd(input: $input) {
+    ...AdminPropertiesAddContainerPropertyMutationResultFields
+  }
+}
+
+fragment AdminPropertiesAddContainerPropertyMutationResultFields on PropertyMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  property {
+    ...AdminPropertiesAddContainerPropertyFields
+  }
+}
+
+fragment AdminPropertiesAddContainerPropertyFields on Property {
+  propertyName
+  
+  id
+  createdAt
+  updatedAt
+}

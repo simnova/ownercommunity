@@ -1,0 +1,68 @@
+{
+  "FeatureFlags": [
+    {
+      "Name": "SEASON_ID",
+      "Description": "Current Season Identifier",
+      "Value": "owners-community-2023",
+      "AllowedValues": ["owners-YYYY"],
+      "RetirementDate": "12-05-2023"
+    },
+
+    {
+      "Name": "UI_CONFIG_VERSION",
+      "Description": "Current UI Config Version",
+      "Value": "v1",
+      "AllowedValues": ["version number"],
+      "RetirementDate": "12-05-2023"
+    },
+    {
+      "Name": "MAINTENANCE_MSG_SYSTEM_UIPORTAL",
+      "Description": "Message to be displayed during the maintenance on UI Portal",
+      "Value": "<div><b>ERAS Fellowship Documents Office Portal Unavailable ##timeRangeStr##.</b> <p>Due to scheduled maintenance, the ERAS Fellowship Documents Office Portal is expected to be unavailable beginning at approximately ##startTimestampStr##. The application is expected to be restored by ##endTimestampStr##. All times are calculated using Eastern Time in the United States. Thank you for your patience and cooperation as we work to maintain high-quality on-line services.</p></div>",
+      "AllowedValues": ["system message"],
+      "RetirementDate": "12-12-2023"
+    },
+    {
+      "Name": "MAINTENANCE_MSG_IMPENDING_UIPORTAL",
+      "Description": "Message to be displayed when the maintenance is impending on Applicant Portal",
+      "Value": "ERAS Fellowship Documents Office Portal Unavailable ##timeRangeStr##. Due to scheduled maintenance, the ERAS Fellowship Documents Office Portal is expected to be unavailable beginning at approximately ##startTimestampStr##. The application is expected to be restored by ##endTimestampStr##. All times are calculated using Eastern Time in the United States. Thank you for your patience and cooperation as we work to maintain high-quality on-line services.",
+      "AllowedValues": ["impending message"],
+      "RetirementDate": "12-12-2023"
+    },
+    {
+      "Name": "MAINTENANCE_TIMESTAMP_IMPENDING_UIPORTAL",
+      "Description": "DateTime in UTC when the impending message should begin to be displayed on Applicant Portal",
+      "Value": "2024-02-11T00:00:00.000Z",
+      "AllowedValues": ["timestamp"],
+      "RetirementDate": "12-05-2024"
+    },
+    {
+      "Name": "MAINTENANCE_START_TIMESTAMP_UIPORTAL",
+      "Description": "DateTime in UTC when the maintenance is going to begin on Applicant Portal",
+      "Value": "2024-06-12T00:00:00.000Z",
+      "AllowedValues": ["timestamp"],
+      "RetirementDate": "12-05-2024"
+    },
+    {
+      "Name": "MAINTENANCE_END_TIMESTAMP_UIPORTAL",
+      "Description": "DateTime in UTC when the maintenance is going to end on Applicant Portal",
+      "Value": "2024-06-03T03:00:00.000Z",
+      "AllowedValues": ["timestamp"],
+      "RetirementDate": "12-05-2024"
+    },
+    {
+      "Name": "MAINTENANCE_UPCOMING_UIPORTAL",
+      "Description": "Flag to indicate if a maintenance activity is coming up on Applicant Portal",
+      "Value": "true",
+      "AllowedValues": ["true", "false"],
+      "RetirementDate": "12-05-2024"
+    },
+    {
+      "Name": "TRY",
+      "Description": "Flag to indicate if a maintenance activity is coming up on Applicant Portal",
+      "Value": "false",
+      "AllowedValues": ["true", "false"],
+      "RetirementDate": "12-05-2024"
+    }
+  ]
+}

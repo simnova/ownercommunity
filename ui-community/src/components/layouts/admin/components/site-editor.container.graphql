@@ -1,0 +1,35 @@
+mutation AdminSiteEditorContainerCommunityPublicContentCreateAuthHeader($input: CommunityBlobContentInput!) {
+  communityPublicContentCreateAuthHeader(input: $input) {
+    authHeader {
+      authHeader
+      blobPath
+      blobName
+      requestDate
+      indexTags {
+        name
+        value
+      }
+      metadataFields {
+        name
+        value
+      }
+    }
+    status {
+      success
+      errorMessage
+    }   
+    community {
+      ...AdminSiteEditorContainerCommunityFields
+    } 
+  }
+}
+
+fragment AdminSiteEditorContainerCommunityFields on Community {
+  name
+  publicContentBlobUrl
+
+  id
+  schemaVersion
+  createdAt
+  updatedAt
+}

@@ -1,0 +1,30 @@
+query AdminRolesDeleteContainerRoles {
+  roles {
+    ...AdminRolesDeleteContainerRolesFields
+  }
+}
+
+mutation AdminRolesDeleteContainerRoleDeleteAndReassign($input: RoleDeleteAndReassignInput!) {
+  roleDeleteAndReassign(input: $input) {
+    ...AdminRolesDeleteContainerRoleMutationResultFields
+  }
+}
+
+fragment AdminRolesDeleteContainerRoleMutationResultFields on RoleMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  role {
+    ...AdminRolesDeleteContainerRolesFields
+  }
+}
+
+fragment AdminRolesDeleteContainerRolesFields on Role {
+  roleName
+  isDefault
+
+  id
+  createdAt
+  updatedAt
+}

@@ -1,0 +1,56 @@
+query MemberPropertyByPropertyId($propertyId: ObjectID!) {
+  property(id: $propertyId) {
+    ...PropertyDetailsByPropertyIdFields
+  }
+}
+
+fragment PropertyDetailsByPropertyIdFields on Property{
+    listedForLease
+    listedForRent
+    listedForSale
+    owner {
+      memberName
+    }
+    propertyName
+    propertyType
+    location {
+      address {
+        streetName
+        streetNumber
+        freeformAddress
+      }
+    }
+    listingDetail {
+      additionalAmenities {
+        category
+        amenities
+      }
+      amenities
+      bathrooms
+      bedroomDetails {
+        roomName
+        bedDescriptions
+      }
+      bedrooms
+      description
+      floorPlan
+      floorPlanImages
+      images
+      lease
+      listingAgent
+      listingAgentCompany
+      listingAgentCompanyAddress
+      listingAgentCompanyEmail
+      listingAgentCompanyPhone
+      listingAgentCompanyWebsite
+      listingAgentEmail
+      listingAgentPhone
+      listingAgentWebsite
+      maxGuests
+      price
+      rentHigh
+      rentLow
+      squareFeet
+      video
+    }
+}

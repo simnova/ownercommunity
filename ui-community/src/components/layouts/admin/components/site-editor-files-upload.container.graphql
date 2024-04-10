@@ -1,0 +1,37 @@
+mutation AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeader($input: CommunityBlobFileInput!) {
+  communityPublicFileCreateAuthHeader(input: $input) {
+    authHeader {
+      authHeader
+      blobPath
+      requestDate
+      indexTags {
+        name
+        value
+      }
+      metadataFields {
+        name
+        value
+      }
+    }
+    status {
+      success
+      errorMessage
+    }   
+    community {
+      ...AdminSiteEditorFilesUploadContainerCommunityFields
+    } 
+  }
+}
+
+fragment AdminSiteEditorFilesUploadContainerCommunityFields on Community {
+  files {
+    name
+    size
+    type
+    url
+  }
+
+  id
+  createdAt
+  updatedAt
+}

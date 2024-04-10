@@ -1,0 +1,88 @@
+query MembersServiceTicketsListContainerServiceTicketsOpenByRequestor {
+  serviceTicketsOpenByRequestor {
+    ...MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields
+  }
+}
+
+query MemberServiceTicketsListContainerSearchServiceTickets(
+  $input: ServiceTicketsSearchInput!
+) {
+  serviceTicketsSearch(input: $input) {
+    ...MembersServiceTicketsListContainerSearchServiceTicketsFields
+  }
+}
+
+query MemberNameServiceTicketContainer($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...MembersNameServiceTicketContainerFields
+  }
+}
+
+fragment MembersNameServiceTicketContainerFields on Member {
+  id
+  memberName
+}
+
+fragment MembersServiceTicketsListContainerServiceTicketsOpenByRequestorFields on ServiceTicket {
+  title
+  requestor {
+    memberName
+  }
+  assignedTo {
+    memberName
+  }
+  priority
+
+  id
+  createdAt
+  updatedAt
+}
+
+fragment MembersServiceTicketsListContainerSearchServiceTicketsFields on ServiceTicketsSearchResult {
+  serviceTicketsResults {
+    ...MemberServiceTicketsListContainerSearchServiceTicketsResultFields
+  }
+  count
+  facets {
+    requestor {
+      value
+      count
+    }
+    assignedTo {
+      value
+      count
+    }
+    status {
+      value
+      count
+    }
+    priority {
+      value
+      count
+    }
+    requestorId {
+      value
+      count
+    }
+    assignedToId {
+      value
+      count
+    }
+  }
+}
+
+fragment MemberServiceTicketsListContainerSearchServiceTicketsResultFields on ServiceTicketsResult {
+  id
+  communityId
+  propertyId
+  title
+  requestor
+  assignedTo
+  requestorId
+  assignedToId
+  description
+  status
+  priority
+  createdAt
+  updatedAt
+}

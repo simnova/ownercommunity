@@ -1,0 +1,47 @@
+query AdminMembersDetailContainerMember($id: ID!) {
+  member(id: $id) {
+    ...AdminMembersDetailContainerMemberFields
+  }
+}
+query AdminMembersDetailContainerRoles($communityId: ID!) {
+  rolesByCommunityId(communityId: $communityId) {
+    ...AdminMembersDetailContainerRolesFields
+  }
+}
+
+mutation AdminMembersDetailContainerMemberUpdate($input: MemberUpdateInput!) {
+  memberUpdate(input: $input) {
+    ...AdminMembersDetailContainerMutationFields
+  }
+}
+
+fragment AdminMembersDetailContainerMutationFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...AdminMembersDetailContainerMemberFields
+  }
+}
+
+fragment AdminMembersDetailContainerMemberFields on Member {
+  memberName
+  role {
+    id
+    roleName
+  }
+
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminMembersDetailContainerRolesFields on Role {
+  roleName
+  isDefault
+
+  id
+  createdAt
+  updatedAt
+}

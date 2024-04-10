@@ -1,0 +1,17 @@
+query MembersPropertiesListContainerProperties($communityId: ID!) {
+  propertiesForCurrentUserByCommunityId(communityId: $communityId) {
+    ...MembersPropertiesListContainerPropertyFields
+  }
+}
+
+fragment MembersPropertiesListContainerPropertyFields on Property {
+  propertyName
+  propertyType
+  owner {
+    memberName
+  }
+
+  id
+  createdAt
+  updatedAt
+}

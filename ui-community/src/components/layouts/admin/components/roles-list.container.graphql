@@ -1,0 +1,14 @@
+query AdminRolesListContainerRoles($communityId: ID!) {
+  rolesByCommunityId(communityId: $communityId) {
+    ...AdminRolesListContainerRolesFields
+  }
+}
+
+fragment AdminRolesListContainerRolesFields on Role {
+  roleName
+  isDefault
+
+  id
+  createdAt
+  updatedAt
+}

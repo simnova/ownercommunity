@@ -1,0 +1,15 @@
+query SharedCommunitiesDropdownContainerMembers($userExternalId: String!) {
+  membersByUserExternalId(userExternalId: $userExternalId) {
+    ...SharedCommunitiesDropdownContainerMembersFields
+  }
+}
+
+fragment SharedCommunitiesDropdownContainerMembersFields on Member {
+  id
+  memberName
+  community {
+    id
+    name
+    userIsAdmin
+  }
+}

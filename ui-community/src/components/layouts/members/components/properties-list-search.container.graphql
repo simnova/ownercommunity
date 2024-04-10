@@ -1,0 +1,118 @@
+query MemberPropertiesListSearchContainerProperties($input: PropertiesSearchInput!) {
+  propertiesSearch(input: $input) {
+    ...MemberPropertiesListSearchContainerPropertyFields
+  }
+}
+
+query MemberPropertiesGetAllTags {
+  getAllPropertyTags
+}
+
+query MemberPropertiesListSearchContainerMapSasToken {
+  getMapSasToken
+}
+
+fragment MemberPropertiesListSearchContainerPropertyFields on PropertySearchResult {
+  propertyResults {
+    ...MembersPropertiesListSearchContainerPropertyResultFields
+  }
+  count
+  facets {
+    type {
+      value
+      count
+    }
+    amenities {
+      value
+      count
+    }
+    additionalAmenitiesCategory {
+      value
+      count
+    }
+    additionalAmenitiesAmenities {
+      value
+      count
+    }
+    listedForSale {
+      value
+      count
+    }
+    listedForRent {
+      value
+      count
+    }
+    listedForLease {
+      value
+      count
+    }
+    bedrooms {
+      value
+      count
+    }
+    bathrooms {
+      value
+      count
+    }
+    updatedAt {
+      value
+      count
+    }
+    createdAt {
+      value
+      count
+    }
+    tags {
+      value
+      count
+    }
+  }
+}
+
+fragment MembersPropertiesListSearchContainerPropertyResultFields on PropertyResult {
+  communityId
+  id
+  name
+  type
+  bedrooms
+  amenities
+  additionalAmenities {
+    category
+    amenities
+  }
+  price
+  bathrooms
+  squareFeet
+  position {
+    latitude
+    longitude
+  }
+  images
+  listingAgentCompany
+  address {
+    streetNumber
+    streetName
+    municipality
+    municipalitySubdivision
+    localName
+    countrySecondarySubdivision
+    countryTertiarySubdivision
+    countrySubdivision
+    countrySubdivisionName
+    postalCode
+    extendedPostalCode
+    countryCode
+    country
+    countryCodeISO3
+    freeformAddress
+    streetNameAndNumber
+    routeNumbers
+    crossStreet
+  }
+  listedForSale
+  listedForRent
+  listedForLease
+  updatedAt
+  createdAt
+  tags
+}

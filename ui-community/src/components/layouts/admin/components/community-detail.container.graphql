@@ -1,0 +1,17 @@
+query AdminCommunityDetailContainerCommunity($id: ID!) {
+  communityById(id: $id) {
+    ...AdminCommunityDetailContainerCommunityFields
+  }
+}
+
+fragment AdminCommunityDetailContainerCommunityFields on Community {
+  name
+  domain
+  
+  whiteLabelDomain
+  handle
+
+  id
+  createdAt
+  updatedAt
+}

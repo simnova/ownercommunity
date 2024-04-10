@@ -1,0 +1,29 @@
+mutation AdminMembersAccountsAddContainerMemberAccountAdd($input: MemberAccountAddInput!) {
+  memberAccountAdd(input: $input) {
+    ...AdminMembersAccountsAddContainerMemberMutationResultFields
+  }
+}
+
+query AdminMembersAccountsAddContainerMemberForUser($userId: ObjectID!) {
+  memberForUser(userId: $userId) {
+    ...AdminMembersAccountsAddContainerMember
+  }
+}
+
+fragment AdminMembersAccountsAddContainerMemberMutationResultFields on MemberMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  member {
+    ...AdminMembersAccountsAddContainerMember
+  }
+}
+
+fragment AdminMembersAccountsAddContainerMember on Member {
+  memberName
+  
+  id
+  createdAt
+  updatedAt
+}

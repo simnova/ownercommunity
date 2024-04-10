@@ -1,0 +1,108 @@
+query AdminServiceTicketsDetailContainerMembersAssignableToTickets {
+  membersAssignableToTickets {
+    ...AdminServiceTicketsDetailContainerMemberFields
+  }
+}
+
+query AdminServiceTicketsDetailContainerProperties {
+  properties {
+    ...AdminServiceTicketsDetailContainerPropertyFields
+  }
+}
+
+query AdminServiceTicketsDetailContainerServiceTicket($id: ObjectID!) {
+  serviceTicket(id: $id) {
+    ...AdminServiceTicketsDetailContainerServiceTicketFields
+  }
+}
+
+mutation AdminServiceTicketsDetailContainerServiceTicketUpdate($input: ServiceTicketUpdateInput!) {
+  serviceTicketUpdate(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+mutation AdminServiceTicketsDetailContainerServiceTicketChangeStatus($input: ServiceTicketChangeStatusInput!) {
+  serviceTicketChangeStatus(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+mutation AdminServiceTicketsDetailContainerServiceAssign($input: ServiceTicketAssignInput!) {
+  serviceTicketAssign(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+mutation AdminServiceTicketsDetailContainerAddUpdateActivity($input: ServiceTicketAddUpdateActivityInput!) {
+  serviceTicketAddUpdateActivity(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+mutation AdminServiceTicketDetailContainerServiceTicketDelete($input: ServiceTicketDeleteInput!) {
+  serviceTicketDelete(input: $input) {
+    ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
+  }
+}
+
+
+
+fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  serviceTicket {
+    ...AdminServiceTicketsDetailContainerServiceTicketFields
+  }
+}
+
+fragment AdminServiceTicketsDetailContainerServiceTicketFields on ServiceTicket {
+  title
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  assignedTo {
+    id
+    memberName
+  }
+  title
+  description
+  status
+  priority
+  photos {
+    documentId
+    description
+
+    id
+    createdAt
+    updatedAt
+  }
+  activityLog {
+    activityType
+    activityDescription
+    activityBy {
+      id
+      memberName
+    }
+    id
+    createdAt
+    updatedAt
+  }
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminServiceTicketsDetailContainerMemberFields on Member {
+  id
+  memberName
+}
+fragment AdminServiceTicketsDetailContainerPropertyFields on Property {
+  id
+  propertyName
+}

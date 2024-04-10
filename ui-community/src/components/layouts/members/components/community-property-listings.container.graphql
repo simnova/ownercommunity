@@ -1,0 +1,29 @@
+query MemberPropertiesByCommunityId($communityId: ID!) {
+  propertiesByCommunityId(communityId: $communityId) {
+    ...PropertyInformationFields
+  }
+}
+
+fragment PropertyInformationFields on Property {
+    listedForLease
+    listedForRent
+    listedForSale
+    listedInDirectory
+    propertyName
+    propertyType
+    id
+    owner {
+        memberName
+    }
+    listingDetail {
+      bathrooms
+      bedrooms
+      squareFeet
+    }
+    location {
+        address {
+            streetNumber
+            streetName
+        }
+    }
+}

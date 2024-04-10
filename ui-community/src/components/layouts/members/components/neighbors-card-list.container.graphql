@@ -1,0 +1,28 @@
+query MemberSiteNeighborsListContainer($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...MemberSiteNeighborsListContainerFields
+  }
+}
+
+fragment MemberSiteNeighborsListContainerFields on Member {
+  id
+  memberName
+  accounts {
+    user {
+        id 
+        firstName
+    }
+  }
+  profile {
+    name
+    email
+    bio
+    avatarDocumentId
+    interests
+    showInterests
+    showEmail
+    showProfile
+    showLocation
+    showProperties
+  }
+}

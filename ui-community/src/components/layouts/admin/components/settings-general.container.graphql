@@ -1,0 +1,37 @@
+query AdminSettingsGeneralContainerCommunity($id: ID!) {
+  communityById(id: $id) {
+    ...AdminSettingsGeneralContainerCommunityFields
+  }
+}
+
+mutation AdminSettingsGeneralContainerCommunityUpdate($input: CommunityUpdateInput!) {
+  communityUpdate(input: $input) {
+    status {
+      success
+      errorMessage
+    }
+    community {
+      ...AdminSettingsGeneralContainerCommunityFields
+    }
+  }
+}
+
+fragment AdminSettingsGeneralContainerCommunityFields on Community {
+  name
+  domain
+  domainStatus {
+    verified
+    verification {
+      type
+      domain
+      value
+      reason
+    }
+  }
+  whiteLabelDomain
+  handle
+
+  id
+  createdAt
+  updatedAt
+}

@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "data-access"
+		},
+		{
+			"path": "ui-community"
+		},
+		{
+			"path": "ui-whitelabel-wrapper"
+		},
+		{
+			"path": "b2c"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen"
+	}
+}

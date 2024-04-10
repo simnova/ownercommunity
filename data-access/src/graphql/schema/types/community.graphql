@@ -1,0 +1,89 @@
+type Community implements MongoBase {
+  name: String
+  domain: String
+  domainStatus: CommunityDomainResult
+  whiteLabelDomain: String
+  handle: String
+  publicContentBlobUrl: String
+  roles: [Role]
+  files: [FileInfo]
+  filesByType(type: String!): [FileInfo]
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  userIsAdmin: Boolean
+}
+
+type CommunityDomainResult {
+  verified: Boolean
+  verification: [CommunityDomainVerificationDetail]
+}
+
+type CommunityDomainVerificationDetail {
+  type: String
+  domain: String
+  value: String
+  reason: String
+}
+
+extend type Query {
+  community: Community
+  communityById(id: ID!): Community
+  communityByHandle(handle: String!): Community
+  communityByDomain(domain: String!): Community
+  communities: [Community]
+}
+
+extend type Mutation {
+  communityCreate(input: CommunityCreateInput!): CommunityMutationResult
+  communityUpdate(input: CommunityUpdateInput!): CommunityMutationResult!
+  communityPublicContentCreateAuthHeader(input: CommunityBlobContentInput!): CommunityBlobContentAuthHeaderResult!
+  communityPublicFileCreateAuthHeader(input: CommunityBlobFileInput!): CommunityBlobContentAuthHeaderResult!
+  communityPublicFileRemove(input: CommunityPublicFileRemoveInput!): CommunityMutationResult!
+}
+
+type CommunityMutationResult implements MutationResult {
+  status: MutationStatus!
+  community: Community
+}
+
+input CommunityCreateInput {
+  name: String!
+}
+
+input CommunityUpdateInput {
+  id: ID!
+  name: String
+  domain: String
+  whiteLabelDomain: String
+  handle: String
+}
+
+input CommunityBlobFileInput {
+  communityId: ObjectID!
+  contentType: String!
+  contentLength: Int!
+  fileName: String!
+}
+input CommunityPublicFileRemoveInput {
+  communityId: ObjectID!
+  fileName: String!
+}
+input CommunityBlobContentInput {
+  communityId: ObjectID!
+  contentType: String!
+  contentLength: Int!
+}
+type CommunityBlobContentAuthHeaderResult {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  community: Community
+}
+
+type FileInfo {
+  name: String!
+  size: Int!
+  type: String!
+  url: String!
+}

@@ -1,0 +1,51 @@
+type User implements MongoBase {
+  externalId: String
+  firstName: String
+  lastName: String
+  email: EmailAddress
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type CurrentUser implements MongoBase  {
+  externalId: String
+  firstName: String
+  lastName: String
+  email: EmailAddress
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+
+extend type Query {
+  user(id: ObjectID!): User
+  users: [User]
+  userCurrent: CurrentUser
+}
+
+extend type Mutation {
+  userCreate: UserMutationResult!
+  """
+  Allows the user to update their profile
+  """
+  userUpdate(input: UserUpdateInput!): UserMutationResult!
+}
+
+
+type UserMutationResult implements MutationResult {
+  status: MutationStatus!
+  user: User
+}
+
+input UserUpdateInput {
+  id: ObjectID!
+  firstName: String
+  lastName: String
+  email: String
+}

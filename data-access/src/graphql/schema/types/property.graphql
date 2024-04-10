@@ -1,0 +1,340 @@
+# @format
+
+type Property implements MongoBase {
+  community: Community
+  location: Location
+  mapSASToken: String
+  owner: Member
+  propertyName: String!
+  propertyType: String
+
+  listedForSale: Boolean!
+  listedForRent: Boolean!
+  listedForLease: Boolean!
+  listedInDirectory: Boolean!
+
+  listingDetail: ListingDetails
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  tags: [String]
+}
+type ListingDetails {
+  price: Float
+  rentHigh: Float
+  rentLow: Float
+  lease: Float
+  maxGuests: Int
+  bedrooms: Int
+  bedroomDetails: [BedroomDetails]
+  bathrooms: Float
+  squareFeet: Int
+  description: String
+  amenities: [String]
+  additionalAmenities: [AdditionalAmenities]
+  images: [String]
+  video: String
+  floorPlan: String
+  floorPlanImages: [String]
+  listingAgent: String
+  listingAgentPhone: String
+  listingAgentEmail: String
+  listingAgentWebsite: String
+  listingAgentCompany: String
+  listingAgentCompanyPhone: String
+  listingAgentCompanyEmail: String
+  listingAgentCompanyWebsite: String
+  listingAgentCompanyAddress: String
+}
+input ListingDetailsInput {
+  price: Float
+  rentHigh: Float
+  rentLow: Float
+  lease: Float
+  maxGuests: Int
+  bedrooms: Int
+  bedroomDetails: [BedroomDetailsInput]
+  bathrooms: Float
+  squareFeet: Int
+  description: String
+  amenities: [String]
+  additionalAmenities: [AdditionalAmenitiesInput]
+  images: [String]
+  video: String
+  floorPlan: String
+  floorPlanImages: [String]
+  listingAgent: String
+  listingAgentPhone: String
+  listingAgentEmail: String
+  listingAgentWebsite: String
+  listingAgentCompany: String
+  listingAgentCompanyPhone: String
+  listingAgentCompanyEmail: String
+  listingAgentCompanyWebsite: String
+  listingAgentCompanyAddress: String
+}
+
+type BedroomDetails implements MongoSubdocument {
+  roomName: String
+  bedDescriptions: [String]
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+input BedroomDetailsInput {
+  id: ObjectID
+  roomName: String
+  bedDescriptions: [String]
+}
+
+type AdditionalAmenities implements MongoSubdocument {
+  category: String
+  amenities: [String]
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+input AdditionalAmenitiesInput {
+  id: ObjectID
+  category: String
+  amenities: [String]
+}
+
+type Location {
+  position: Point
+  address: Address
+}
+input LocationInput {
+  position: PointInput
+  address: AddressInput
+}
+
+type Point {
+  type: String
+  coordinates: [Float]
+}
+input PointInput {
+  type: String
+  coordinates: [Float]
+}
+
+type Address {
+  streetNumber: String
+  streetName: String
+  municipality: String
+  municipalitySubdivision: String
+  localName: String
+  countrySecondarySubdivision: String
+  countryTertiarySubdivision: String
+  countrySubdivision: String
+  countrySubdivisionName: String
+  postalCode: String
+  extendedPostalCode: String
+  countryCode: String
+  country: String
+  countryCodeISO3: String
+  freeformAddress: String
+  streetNameAndNumber: String
+  routeNumbers: String
+  crossStreet: String
+}
+input AddressInput {
+  streetNumber: String!
+  streetName: String!
+  municipality: String!
+  municipalitySubdivision: String!
+  localName: String!
+  countrySecondarySubdivision: String!
+  countryTertiarySubdivision: String!
+  countrySubdivision: String!
+  countrySubdivisionName: String!
+  postalCode: String!
+  extendedPostalCode: String!
+  countryCode: String!
+  country: String!
+  countryCodeISO3: String!
+  freeformAddress: String!
+  streetNameAndNumber: String!
+  routeNumbers: String!
+  crossStreet: String!
+}
+
+extend type Query {
+  properties: [Property]
+  property(id: ObjectID!): Property
+  propertiesByCommunityId(communityId: ID!): [Property]
+  propertiesForCurrentUserByCommunityId(communityId: ID!): [Property]
+  propertiesSearch(input: PropertiesSearchInput!): PropertySearchResult
+  getMapSasToken: String
+  getAllPropertyTags: [String]
+}
+
+extend type Mutation {
+  propertyAdd(input: PropertyAddInput!): PropertyMutationResult!
+  propertyUpdate(input: PropertyUpdateInput!): PropertyMutationResult!
+  propertyDelete(input: PropertyDeleteInput!): PropertyMutationResult!
+  propertyAssignOwner(input: PropertyAssignOwnerInput!): PropertyMutationResult!
+  propertyRemoveOwner(input: PropertyRemoveOwnerInput!): PropertyMutationResult!
+  propertyListingImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
+  propertyFloorPlanImageCreateAuthHeader(input: PropertyBlobFileInput!): PropertyBlobFileAuthHeaderResult!
+  propertyListingImageRemove(input: PropertyRemoveImageInput!): PropertyMutationResult!
+}
+
+type PropertyMutationResult implements MutationResult {
+  status: MutationStatus!
+  property: Property
+}
+input PropertyDeleteInput {
+  id: ObjectID!
+}
+
+input PropertiesSearchInput {
+  searchString: String
+  options: PropertiesSearchOptions
+}
+input PropertiesSearchOptions {
+  filter: FilterDetail
+  facets: [String]
+  top: Int
+  skip: Int
+  orderBy: [String]
+}
+input FilterDetail {
+  communityId: String
+  propertyType: [String]
+  listingDetail: ListingDetailsFilterInput
+  listedInfo: [String]
+  distance: Float
+  position: GeographyPointInput
+  updatedAt: String
+  createdAt: String
+  tags: [String]
+}
+
+input GeographyPointInput {
+  latitude: Float
+  longitude: Float
+}
+
+input ListingDetailsFilterInput {
+  bedrooms: Int
+  amenities: [String]
+  prices: [Float]
+  additionalAmenities: [AdditionalAmenitiesFilterInput]
+  bathrooms: Float
+  squareFeets: [Int]
+}
+input AdditionalAmenitiesFilterInput {
+  id: ObjectID
+  category: String
+  amenities: [String]
+}
+
+input PropertyAddInput {
+  propertyName: String!
+}
+input PropertyUpdateInput {
+  id: ObjectID!
+  propertyName: String
+  propertyType: String
+  listedForSale: Boolean
+  listedForRent: Boolean
+  listedForLease: Boolean
+  listedInDirectory: Boolean
+  owner: PropertyOwnerInput
+  listingDetail: ListingDetailsInput
+  location: LocationInput
+  tags: [String]
+}
+
+input PropertyOwnerInput {
+  id: ObjectID
+}
+input PropertyAssignOwnerInput {
+  id: ObjectID!
+  ownerId: ObjectID!
+}
+input PropertyRemoveOwnerInput {
+  id: ObjectID!
+}
+
+type PropertyResult {
+  id: String
+  communityId: String
+  name: String
+  type: String
+  bedrooms: Int
+  amenities: [String]
+  additionalAmenities: [AdditionalAmenitiesSearchResult]
+  price: Float
+  bathrooms: Float
+  squareFeet: Int
+  position: GeographyPoint
+  images: [String]
+  listingAgentCompany: String
+  address: Address
+  listedForLease: Boolean
+  listedForRent: Boolean
+  listedForSale: Boolean
+  updatedAt: DateTime
+  createdAt: DateTime
+  tags: [String]
+}
+
+type GeographyPoint {
+  latitude: Float
+  longitude: Float
+}
+
+type AdditionalAmenitiesSearchResult {
+  category: String
+  amenities: [String]
+}
+
+type PropertySearchResult {
+  propertyResults: [PropertyResult]
+  count: Int
+  facets: PropertySearchFacets
+}
+type PropertySearchFacets {
+  type: [FacetDetail]
+  amenities: [FacetDetail]
+  additionalAmenitiesCategory: [FacetDetail]
+  additionalAmenitiesAmenities: [FacetDetail]
+  listedForLease: [FacetDetail]
+  listedForRent: [FacetDetail]
+  listedForSale: [FacetDetail]
+  bedrooms: [FacetDetail]
+  bathrooms: [FacetDetail]
+  updatedAt: [FacetDetail]
+  createdAt: [FacetDetail]
+  tags: [FacetDetail]
+}
+
+type FacetDetail {
+  value: String
+  count: Int
+}
+
+input PropertyBlobFileInput {
+  propertyId: ObjectID!
+  contentType: String!
+  contentLength: Int!
+  fileName: String!
+}
+type PropertyBlobFileAuthHeaderResult {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  property: Property
+}
+
+input PropertyRemoveImageInput {
+  propertyId: ObjectID!
+  memberId: ObjectID!
+  blobName: String!
+}

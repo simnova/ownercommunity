@@ -1,0 +1,96 @@
+# @format
+
+type Role implements MongoBase {
+  roleName: String!
+  community: Community
+  isDefault: Boolean!
+  permissions: RolePermissions!
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type RolePermissions {
+  serviceTicketPermissions: ServiceTicketPermissions!
+  communityPermissions: CommunityPermissions!
+  propertyPermissions: PropertyPermissions!
+}
+input PermissionsInput {
+  serviceTicketPermissions: ServiceTicketPermissionsInput!
+  communityPermissions: CommunityPermissionsInput!
+  propertyPermissions: PropertyPermissionsInput!
+}
+
+type ServiceTicketPermissions {
+  canCreateTickets: Boolean!
+  canManageTickets: Boolean!
+  canAssignTickets: Boolean!
+  canWorkOnTickets: Boolean!
+}
+input ServiceTicketPermissionsInput {
+  canCreateTickets: Boolean!
+  canManageTickets: Boolean!
+  canAssignTickets: Boolean!
+  canWorkOnTickets: Boolean!
+}
+
+type PropertyPermissions {
+  canManageProperties: Boolean!
+  canEditOwnProperty: Boolean!
+}
+input PropertyPermissionsInput {
+  canManageProperties: Boolean!
+  canEditOwnProperty: Boolean!
+}
+
+type CommunityPermissions {
+  canManageRolesAndPermissions: Boolean!
+  canManageCommunitySettings: Boolean!
+  canManageSiteContent: Boolean!
+  canManageMembers: Boolean!
+  canEditOwnMemberProfile: Boolean!
+  canEditOwnMemberAccounts: Boolean!
+}
+input CommunityPermissionsInput {
+  canManageRolesAndPermissions: Boolean!
+  canManageCommunitySettings: Boolean!
+  canManageSiteContent: Boolean!
+  canManageMembers: Boolean!
+  canEditOwnMemberProfile: Boolean!
+  canEditOwnMemberAccounts: Boolean!
+}
+
+extend type Query {
+  roles: [Role]
+  rolesByCommunityId(communityId: ID!): [Role]
+  role(id: ObjectID!): Role
+}
+
+extend type Mutation {
+  roleAdd(input: RoleAddInput!): RoleMutationResult!
+  roleUpdate(input: RoleUpdateInput!): RoleMutationResult!
+  roleDeleteAndReassign(input: RoleDeleteAndReassignInput!): RoleMutationResult!
+}
+
+type RoleMutationResult implements MutationResult {
+  status: MutationStatus!
+  role: Role
+}
+
+input RoleAddInput {
+  roleName: String!
+  permissions: PermissionsInput!
+}
+
+input RoleUpdateInput {
+  id: ObjectID!
+  roleName: String!
+  permissions: PermissionsInput!
+}
+
+input RoleDeleteAndReassignInput {
+  roleToDelete: ObjectID!
+  roleToReassignTo: ObjectID!
+}

@@ -1,0 +1,174 @@
+type ServiceTicket implements MongoBase {
+  community: Community!
+  property: Property
+  requestor: Member!
+  assignedTo: Member
+  service: Service
+  title: String!
+  description: String!
+  status: String!
+  priority: Int!
+  photos: [ServiceTicketPhoto]
+  activityLog: [ServiceTicketActivityDetail]
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ServiceTicketActivityDetail implements MongoSubdocument {
+  activityType: String!
+  activityDescription: String!
+  activityBy: Member!
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ServiceTicketPhoto implements MongoSubdocument {
+  documentId: String!
+  description: String!
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+extend type Query {
+  serviceTicket(id: ObjectID!): ServiceTicket
+  serviceTicketsOpenByCommunity: [ServiceTicket]
+  serviceTicketsOpenByRequestor: [ServiceTicket]
+  serviceTicketsClosedByRequestor: [ServiceTicket]
+  serviceTicketsAssignedToCurrentUser: [ServiceTicket]
+  serviceTicketsByCommunityId(communityId: ID!): [ServiceTicket]
+  serviceTicketsSearch(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
+}
+
+extend type Mutation {
+  serviceTicketCreate(input: ServiceTicketCreateInput!): ServiceTicketMutationResult!
+  serviceTicketUpdate(input: ServiceTicketUpdateInput!): ServiceTicketMutationResult!
+  serviceTicketAddPhoto(input: ServiceTicketAddPhotoInput!): ServiceTicketPhotoAuthHeaderResult!
+  serviceTicketRemovePhoto(input: ServiceTicketRemovePhotoInput!): ServiceTicketMutationResult!
+  serviceTicketSubmit(input: ServiceTicketSubmitInput!): ServiceTicketMutationResult!
+  serviceTicketAssign(input: ServiceTicketAssignInput!): ServiceTicketMutationResult!
+  serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput!): ServiceTicketMutationResult!
+  serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput!): ServiceTicketMutationResult!
+  serviceTicketDelete(input: ServiceTicketDeleteInput!): ServiceTicketMutationResult!
+}
+
+type ServiceTicketMutationResult implements MutationResult {
+  status: MutationStatus!
+  serviceTicket: ServiceTicket
+}
+
+input ServiceTicketDeleteInput {
+  serviceTicketId: ObjectID!
+}
+
+input ServiceTicketCreateInput {
+  propertyId: ObjectID!
+  requestorId: ObjectID
+  title: String!
+  description: String!
+  serviceId: ObjectID
+}
+
+input ServiceTicketUpdateInput {
+  serviceTicketId: ObjectID!
+  propertyId: ObjectID
+  title: String!
+  description: String!
+  priority: Int!
+  serviceId: ObjectID
+}
+
+input ServiceTicketAddPhotoInput {
+  serviceTicketId: ObjectID!
+  contentType: String!
+  contentLength: String!
+  description: String
+}
+
+input ServiceTicketRemovePhotoInput {
+  serviceTicketId: ObjectID!
+  photoId: ObjectID!
+}
+
+type ServiceTicketPhotoAuthHeaderResult implements MutationResult {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  serviceTicket: ServiceTicket
+}
+
+input ServiceTicketSubmitInput {
+  serviceTicketId: ObjectID!
+}
+
+input ServiceTicketAssignInput {
+  serviceTicketId: ObjectID!
+  assignedToId: ObjectID
+}
+
+input ServiceTicketAddUpdateActivityInput {
+  serviceTicketId: ObjectID!
+  activityDescription: String!
+}
+
+input ServiceTicketChangeStatusInput {
+  serviceTicketId: ObjectID!
+  status: String!
+  activityDescription: String
+}
+
+input ServiceTicketsSearchInput {
+  searchString: String
+  options: ServiceTicketsSearchOptions
+}
+
+input ServiceTicketsSearchOptions {
+  filter: ServiceTicketsSearchFilterDetail
+  facets: [String]
+  top: Int
+  skip: Int
+  orderBy: [String]
+}
+
+input ServiceTicketsSearchFilterDetail {
+  requestorId: [String]
+  assignedToId: [String]
+  status: [String]
+  priority: [Int]
+}
+
+type ServiceTicketsSearchResult {
+  serviceTicketsResults: [ServiceTicketsResult]
+  count: Int
+  facets: ServiceTicketsSearchFacets
+}
+
+type ServiceTicketsResult {
+  id: String
+  communityId: String
+  propertyId: String
+  title: String
+  requestor: String
+  assignedTo: String
+  requestorId: String
+  assignedToId: String
+  description: String
+  status: String
+  priority: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ServiceTicketsSearchFacets {
+  requestor: [FacetDetail]
+  assignedTo: [FacetDetail]
+  status: [FacetDetail]
+  priority: [FacetDetail]
+  requestorId: [FacetDetail]
+  assignedToId: [FacetDetail]
+}

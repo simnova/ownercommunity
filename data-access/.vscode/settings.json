@@ -1,0 +1,22 @@
+{
+    "azureFunctions.deploySubpath": ".",
+    "azureFunctions.postDeployTask": "npm install (functions)",
+    "azureFunctions.projectLanguage": "TypeScript",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.preDeployTask": "npm prune (functions)",
+    "editor.tabSize": 2,
+    "cSpell.words": [
+        "datasource",
+        "facetable",
+        "Initializeable",
+        "lucaspaganini",
+        "maxlength",
+        "memorydb",
+        "seedwork"
+    ],
+    "sonarlint.connectedMode.project": {
+        "projectKey": "simnova_ownercommuntiy-data-access",
+        "connectionId": "simnova",
+    }
+}

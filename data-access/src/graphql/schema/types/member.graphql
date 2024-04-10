@@ -1,0 +1,149 @@
+# @format
+
+type Member implements MongoBase {
+  memberName: String
+  community: Community
+  role: Role
+  accounts: [MemberAccount]
+  profile: MemberProfile
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  customViews: [CustomView]
+}
+
+type CustomView implements MongoSubdocument {
+  id: ObjectID!
+
+  name: String # The name of the custom view. e.g. "view 1"
+  type: String # "property" or "serviceTicket"
+  filters: [String] # ["Assigned to: Duy Nguyen", "Assigned to: Nick", "Assigned to: Richard", "Statuc: Created"]
+  sortOrder: String # "price desc" or "price asc"
+  columnsToDisplay: [String] # ["Title", "Requestor"]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MemberAccount implements MongoSubdocument {
+  firstName: String!
+  lastName: String
+  user: User
+  statusCode: String
+  createdBy: User
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MemberProfile {
+  name: String
+  email: String
+  bio: String
+  avatarDocumentId: String
+  interests: [String]
+  showInterests: Boolean
+  showEmail: Boolean
+  showProfile: Boolean
+  showLocation: Boolean
+  showProperties: Boolean
+}
+
+extend type Query {
+  member(id: ID!): Member
+  members: [Member]
+  membersByCommunityId(communityId: ID!): [Member]
+  membersByUserExternalId(userExternalId: String!): [Member]
+  membersAssignableToTickets: [Member]
+  memberForUser(userId: ObjectID!): Member
+  memberForCurrentUser(communityId: ObjectID!): Member
+}
+
+extend type Mutation {
+  memberCreate(input: MemberCreateInput!): MemberMutationResult!
+  memberUpdate(input: MemberUpdateInput!): MemberMutationResult!
+  memberAccountAdd(input: MemberAccountAddInput!): MemberMutationResult!
+  memberAccountEdit(input: MemberAccountEditInput!): MemberMutationResult!
+  memberAccountRemove(input: MemberAccountRemoveInput!): MemberMutationResult!
+  memberProfileUpdate(input: MemberProfileUpdateInput!): MemberMutationResult!
+  memberProfileAvatarCreateAuthHeader(input: MemberAvatarImageInput!): MemberAvatarImageAuthHeaderResult!
+  memberProfileAvatarRemove(memberId: ObjectID!): MemberMutationResult!
+}
+
+type MemberMutationResult implements MutationResult {
+  status: MutationStatus!
+  member: Member
+}
+
+input MemberCreateInput {
+  memberName: String!
+}
+input MemberUpdateInput {
+  id: ObjectID!
+  memberName: String
+  role: ObjectID
+  customViews: [CustomViewInput]
+}
+
+input MemberAccountAddInput {
+  memberId: ObjectID!
+  account: MemberAccountCreateInput!
+}
+input MemberAccountEditInput {
+  memberId: ObjectID!
+  accountId: ObjectID!
+  firstName: String!
+  lastName: String
+}
+
+input MemberAccountCreateInput {
+  user: ObjectID!
+  firstName: String!
+  lastName: String
+}
+
+input MemberAccountRemoveInput {
+  memberId: ObjectID!
+  accountId: ObjectID!
+}
+
+input CustomViewInput {
+  id: ObjectID
+  name: String
+  type: String
+  filters: [String]
+  sortOrder: String
+  columnsToDisplay: [String]
+}
+
+input MemberProfileUpdateInput {
+  memberId: ObjectID!
+  profile: MemberProfileInput
+}
+
+input MemberProfileInput {
+  name: String
+  email: String
+  bio: String
+  interests: [String]
+  showInterests: Boolean
+  showEmail: Boolean
+  showProfile: Boolean
+  showLocation: Boolean
+  showProperties: Boolean
+}
+
+input MemberAvatarImageInput {
+  memberId: ObjectID!
+  contentType: String
+  contentLength: Int
+  fileName: String!
+}
+type MemberAvatarImageAuthHeaderResult {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  member: Member
+}

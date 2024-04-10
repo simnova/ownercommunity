@@ -1,0 +1,38 @@
+type Service implements MongoBase {
+  community: Community!
+  serviceName: String!
+  description: String!
+  isActive: Boolean!
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+extend type Query {
+  service(id: ObjectID!): Service
+  servicesByCommunityId(communityId: ID!): [Service]
+}
+
+extend type Mutation {
+  serviceCreate(input: ServiceCreateInput!): ServiceMutationResult!
+  serviceUpdate(input: ServiceUpdateInput!): ServiceMutationResult!
+}
+
+type ServiceMutationResult implements MutationResult {
+  status: MutationStatus!
+  service: Service
+}
+
+input ServiceCreateInput {
+  serviceName: String!
+  description: String!
+}
+
+input ServiceUpdateInput {
+  id: ObjectID!
+  serviceName: String
+  description: String
+  isActive: Boolean
+}

@@ -1,32 +1,15 @@
-query SharedCommunitiesDropdownContainerCommunity($id: ID!) {
-  communityById(id: $id) {
-    ...SharedCommunitiesDropdownContainerCommunityFields
-  }
-  communities {
-    ...SharedCommunityMenuContainerCommunitiesFields
+query SharedCommunitiesDropdownContainerMembers($userExternalId: String!) {
+  membersByUserExternalId(userExternalId: $userExternalId) {
+    ...SharedCommunitiesDropdownContainerMembersFields
   }
 }
 
-fragment SharedCommunitiesDropdownContainerCommunityFields on Community {
-  name
-  domain
-  whiteLabelDomain
-  handle
-
+fragment SharedCommunitiesDropdownContainerMembersFields on Member {
   id
-  createdAt
-  updatedAt
-}
-
-fragment SharedCommunityMenuContainerCommunitiesFields on Community {
-  name
-  domain
-  whiteLabelDomain
-  handle
-  publicContentBlobUrl
-
-  id
-  schemaVersion
-  createdAt
-  updatedAt
+  memberName
+  community {
+    id
+    name
+    userIsAdmin
+  }
 }

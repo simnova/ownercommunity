@@ -26,8 +26,8 @@ function App() {
       <ApolloConnection AuthenticationIdentifier="account">
         <Routes>
           <Route path="/accounts/*" element={<Accounts />} />
-          <Route path="/:communityId/admin/*" element={<Admin />} />
-          <Route path="/:communityId/member/:userId/*" element={<Members />} />
+          <Route path="/:communityId/admin/:memberId/*" element={<Admin />} />
+          <Route path="/:communityId/member/:memberId/*" element={<Members />} />
         </Routes>
       </ApolloConnection>
     </RequireAuth>

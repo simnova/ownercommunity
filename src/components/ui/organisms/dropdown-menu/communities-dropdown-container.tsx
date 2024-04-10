@@ -1,38 +1,42 @@
 import { useQuery } from '@apollo/client';
-import { Community, SharedCommunitiesDropdownContainerCommunityDocument } from '../../../../generated';
+import { Community, Member, SharedCommunitiesDropdownContainerMembersDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 import { CommunitiesDropdown } from './communities-dropdown';
+import { jwtDecode } from 'jwt-decode';
 
 interface CommunitiesDropdownContainerProps {
   data: {
     id?: string;
   };
-  isAdmin?: boolean;
 }
 
 export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainerProps> = (props) => {
+
+  const sessionStorageKey = `oidc.user:${import.meta.env.VITE_AAD_ACCOUNT_AUTHORITY}:${import.meta.env.VITE_AAD_ACCOUNT_CLIENTID}`;
+  const { id_token } = JSON.parse(sessionStorage.getItem(sessionStorageKey) as string);
+
+  const userExternalId = jwtDecode(id_token).sub ?? '';
+
   const {
-    data: communityData,
-    loading: communityLoading,
-    error: communityError
-  } = useQuery(SharedCommunitiesDropdownContainerCommunityDocument, {
-    variables: { id: props.data.id ?? '' }
+    data: membersData,
+    loading: membersLoading,
+    error: membersError
+  } = useQuery(SharedCommunitiesDropdownContainerMembersDocument, {
+    variables: { userExternalId }
   });
 
   return (
     <ComponentQueryLoader
-      loading={communityLoading}
-      hasData={communityData}
+      loading={membersLoading}
+      hasData={membersData}
       hasDataComponent={
         <CommunitiesDropdown
           data={{
-            community: communityData?.communityById as Community,
-            communities: communityData?.communities as Community[]
+            members: membersData?.membersByUserExternalId as Member[]
           }}
-          isAdmin={props.isAdmin}
         />
       }
-      error={communityError}
+      error={membersError}
     />
   );
 };

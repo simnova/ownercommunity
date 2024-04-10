@@ -20,48 +20,48 @@ import { PropertiesSearch } from './pages/properties-search';
 
 const pageLayouts = [
   {
-    path: '/community/:communityId/member/:userId',
+    path: '/community/:communityId/member/:memberId',
     title: 'Home',
     icon: <HomeOutlined />,
     id: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:userId/profile/*',
+    path: '/community/:communityId/member/:memberId/profile/*',
     title: 'Profile Settings',
     icon: <UserOutlined />,
     id: 2,
     parent: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:userId/properties/*',
+    path: '/community/:communityId/member/:memberId/properties/*',
     title: 'Properties',
     icon: <BarsOutlined />,
     id: 3,
     parent: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:userId/service-tickets/*',
+    path: '/community/:communityId/member/:memberId/service-tickets/*',
     title: 'Service Tickets',
     icon: <ScheduleOutlined />,
     id: 4,
     parent: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:userId/listings/*',
+    path: '/community/:communityId/member/:memberId/listings/*',
     title: 'Listings',
     icon: <ShopOutlined />,
     id: 5,
     parent: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:userId/neighbors/*',
+    path: '/community/:communityId/member/:memberId/neighbors/*',
     title: 'Neighbors',
     icon: <TeamOutlined />,
     id: 6,
     parent: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:userId/propertiesSearch',
+    path: '/community/:communityId/member/:memberId/propertiesSearch',
     title: 'Property Search',
     icon: <SearchOutlined />,
     id: 7,

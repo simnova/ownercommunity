@@ -4,6 +4,39 @@ query CommunityListContainerCommunitiesQuery {
   }
 }
 
+query CommunityListContainerMembersByUserExternalIdQuery($userExternalId: String!) {
+  membersByUserExternalId(userExternalId: $userExternalId) {
+    ...CommunityListContainerMembersFields
+  }
+}
+
+fragment CommunityListContainerMembersFields on Member {
+  id
+  memberName
+  community {
+    id
+    userIsAdmin
+  }
+  role {
+    permissions {
+      communityPermissions {
+        canManageRolesAndPermissions
+        canManageCommunitySettings
+        canManageSiteContent
+        canManageMembers
+      }
+      propertyPermissions {
+        canManageProperties
+      }
+      serviceTicketPermissions {
+        canManageTickets
+        canAssignTickets
+        canWorkOnTickets
+      }
+    }
+  }
+}
+
 fragment CommunityListContainerCommunitiesFields on Community {
   name
   domain

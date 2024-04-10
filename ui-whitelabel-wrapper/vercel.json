@@ -1,0 +1,16 @@
+{
+    "rewrites": [
+        {
+            "source": "(.*)/embed-react-build.js", "destination": "/embed-react-build.js"
+        },
+        {
+            "source": "/embed-react-build.js", "destination": "/embed-react-build.js"
+        },
+        {
+            "source": "/", "destination": "/index.html"
+        },
+        {
+            "source": "(.*)", "destination": "/index.html"
+        }
+    ]
+}

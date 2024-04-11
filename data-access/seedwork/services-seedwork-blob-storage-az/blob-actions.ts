@@ -75,7 +75,6 @@ export class BlobActions {
 
     let blobList: FileInfo[] = [];
     for await (const blob of containerClient.listBlobsFlat(options)) {
-      // console.log(blob);
       blobList.push({
         name: blob.name,
         url: `https://${this.accountName}.blob.core.windows.net/${containerName}/${blob.name}`,

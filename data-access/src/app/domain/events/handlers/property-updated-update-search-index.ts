@@ -61,7 +61,6 @@ export default (
                   property.Hash = hash;
                   await repo.save(property);
                   console.log('Index update failed: ', property.updateIndexFailedDate);
-                  console.log(property);
                 } else {
                   span.addEvent('Index update attempt: ' + currentAttempt);
                   await updateSearchIndex(listingDoc, property, hash, repo);

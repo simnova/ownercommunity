@@ -1,0 +1,56 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+ paths:
+  include:
+    - iac-global
+ branches:
+   include:
+     - main
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - iac-global
+
+variables:
+## PROJECT SPECIFIC VARIABLES - start
+    vmImageName: 'ubuntu-latest'
+    system.debug: true
+    subscription: 'Azure DevOps Publishing Service Connection'
+    npm_config_cache: $(Pipeline.Workspace)/.npm
+    SONARCLOUD_PROJECT_KEY: 'pwy-iac'
+    SONARCLOUD_PROJECT_NAME: 'pwy-iac'
+    SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
+    ResourceGroupName: 'rg-owner-community'
+    PROJECT_NAME: iac-global
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+
+# - stage: create_activity_log_alerts
+#   displayName: Create Activity Log Alerts
+#   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+#   jobs:
+#   - job: Infrastructure 
+#     displayName: Infrastructure Setup 
+#     pool:
+#       vmImage: $(vmImageName) 
+#     steps:
+#     - task: AzureResourceManagerTemplateDeployment@3
+#       inputs:
+#         connectedServiceName: $(subscription)
+#         deploymentName: $(Build.BuildNumber)
+#         location: $(deploymentDefaultLocation)
+#         resourceGroupName: $(ResourceGroupName)
+#         csmFile: $(PROJECT_NAME)/iac/main.bicep
+#         overrideParameters: >
+#               -environment cor

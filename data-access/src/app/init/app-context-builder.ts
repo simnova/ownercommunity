@@ -26,6 +26,7 @@ export interface AppContext extends DomainExecutionContext {
 export class AppContextBuilder implements AppContext {
   private _verifiedUser: VerifiedUser;
   private _communityHeader: string;
+  private _memberId: string;
   private _communityData: CommunityData
   private _passport: Passport;
   private _applicationServices: ApplicationServices;
@@ -34,10 +35,12 @@ export class AppContextBuilder implements AppContext {
   constructor(
     verifiedUser: VerifiedUser, 
     communityHeader: string,
+    memberId: string,
     infrastructureServices: InfrastructureServices
     ) {
       this._verifiedUser = verifiedUser;
       this._communityHeader = communityHeader;
+      this._memberId = memberId;
       this._applicationServices = new ApplicationServicesBuilder(this);
       this._infrastructureServices = infrastructureServices;
   }
@@ -94,7 +97,7 @@ export class AppContextBuilder implements AppContext {
     let userExternalId = this._verifiedUser.verifiedJWT.sub;
     if(userExternalId && this._communityData) {
       let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
-      let memberData = await this._applicationServices.memberDataApi.getMemberByCommunityAccountWithCommunityAccountRole(this._communityData.id, userData.id);
+      let memberData = (await this._applicationServices.memberDataApi.getMemberByIdWithCommunityAccountRole(this._memberId));
       if(memberData && userData) {
         this._passport = new PassportImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference);
       }

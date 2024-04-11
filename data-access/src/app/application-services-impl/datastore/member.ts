@@ -55,8 +55,8 @@ export class MemberDataApiImpl
     const result = await this.model.findById(memberId).populate('community').exec();
     return result;
   }
-  async getMemberByCommunityAccountWithCommunityAccountRole(communityId: string, userId: string): Promise<MemberData> {
-    const result = await this.model.findOne({community: communityId, 'accounts.user': userId})
+  async getMemberByIdWithCommunityAccountRole(memberId: string): Promise<MemberData> {
+    const result = await this.model.findById(memberId)
     .populate('community')
     .populate('accounts.user')
     .populate('role')

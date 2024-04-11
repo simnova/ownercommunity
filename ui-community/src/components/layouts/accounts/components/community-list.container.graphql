@@ -15,26 +15,8 @@ fragment CommunityListContainerMembersFields on Member {
   memberName
   community {
     id
-    userIsAdmin
   }
-  role {
-    permissions {
-      communityPermissions {
-        canManageRolesAndPermissions
-        canManageCommunitySettings
-        canManageSiteContent
-        canManageMembers
-      }
-      propertyPermissions {
-        canManageProperties
-      }
-      serviceTicketPermissions {
-        canManageTickets
-        canAssignTickets
-        canWorkOnTickets
-      }
-    }
-  }
+  isAdmin
 }
 
 fragment CommunityListContainerCommunitiesFields on Community {
@@ -43,7 +25,6 @@ fragment CommunityListContainerCommunitiesFields on Community {
   whiteLabelDomain
   handle
   publicContentBlobUrl
-  userIsAdmin
   id
   schemaVersion
   createdAt

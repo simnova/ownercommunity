@@ -101,4 +101,17 @@ export class MemberDataApiImpl
 
     return result.map((r) => MemberModel.hydrate(r));
   }
+
+  async isAdmin(memberId: string): Promise<boolean> {
+    const result = await this.model.findById(memberId).populate('role').exec();
+    const p = result.role.permissions;
+    return p?.serviceTicketPermissions?.canWorkOnTickets || 
+           p?.serviceTicketPermissions?.canManageTickets || 
+           p?.serviceTicketPermissions?.canAssignTickets || 
+           p?.communityPermissions?.canManageRolesAndPermissions || 
+           p?.communityPermissions?.canManageCommunitySettings || 
+           p?.communityPermissions?.canManageSiteContent || 
+           p?.communityPermissions?.canManageMembers || 
+           p?.propertyPermissions?.canManageProperties;
+  }
 }

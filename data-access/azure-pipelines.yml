@@ -24,7 +24,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  disableSonarCloudTasks: 'false'
+  disableSonarCloudTasks: 'true'
   deploymentDefaultLocation: 'eastus2'
   ServiceConnectionName: 'Azure DevOps Publishing Service Connection'
   vmImageName: 'ubuntu-latest'

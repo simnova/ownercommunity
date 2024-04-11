@@ -42,8 +42,8 @@ Background:
 
 
 
-Scenario: Setup
-  Given test setup
+# Scenario: Setup
+  # Given test setup
   # Given SamTheSystem creates community Palms
   # And SamTheSystem creates property Cottage in Atlantis
   # And he creates property Villa in Atlantis

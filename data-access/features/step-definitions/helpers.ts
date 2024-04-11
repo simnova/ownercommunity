@@ -1,6 +1,6 @@
 import { RoleProps } from "../../src/app/domain/contexts/community/role";
 
-// remove strings before {'s. 
+// remove word before {. 
 // for example, description DuyTheOwner{actor} is the admin member of Community1{word} will be converted into "{actor} creates a new community named {word}."
 export const DescriptionParser = (description: string) => {
   const values = description.split(' ').filter(word => word.includes('{'));
@@ -13,7 +13,7 @@ export const DescriptionParser = (description: string) => {
   return result;
 };
 
-export const isAdminRole = (role: RoleProps) => {
+export const IsAdminRole = (role: RoleProps) => {
   let result = false;
   if (
     role.roleName === 'admin' &&
@@ -35,3 +35,27 @@ export const isAdminRole = (role: RoleProps) => {
   }
   return result;
 };
+
+export const _ = {
+  // Account
+  AnAccountIsCreatedByActor: 'An account with first name {word}, last name {word} for {word} using externalId of {actor} in {word} is created by {actor}',
+
+  // Community
+  UserCreatesANewCommunity: '{actor} creates a new community named {word}',
+
+  // Member
+  MemberIsTheAdminMemberOfCommunity: '{actor} is the admin member of {word}',
+  MemberAddsANewMemberToCommunity: '{actor} adds a new member named {word} to {word}',
+  
+
+  // Property
+
+
+  // Role
+
+  // ServiceTicket
+
+  // User
+  UserIsAMemberOfCommunityUnderMemberNamed: '{actor} should be a member of {word} under member named {word}',
+
+}

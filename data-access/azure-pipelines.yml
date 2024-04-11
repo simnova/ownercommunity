@@ -69,7 +69,7 @@ stages:
           script: |
             export NODE_OPTIONS=--max_old_space_size=16384
             npm install
-            npm run test:ci
+            npm run test:install
             npm run build:production
 
       # # Cache SonarCloud downloaded assets to speed up build process.

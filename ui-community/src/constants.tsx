@@ -341,7 +341,6 @@ export const addressQuery = async (addressInput: string, mapSASToken: string) =>
     });
 
     const data = await request.json();
-    console.log(data);
     return data.results;
   };
 

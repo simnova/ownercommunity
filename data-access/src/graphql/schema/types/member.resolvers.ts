@@ -30,6 +30,9 @@ const member: Resolvers = {
       }
       return parent.role;
     },
+    isAdmin: async (parent, _args, context) => {
+      return (await context.applicationServices.memberDataApi.isAdmin(parent.id));
+    },
   },
   MemberAccount: {
     user: async (parent, _args, context) => {

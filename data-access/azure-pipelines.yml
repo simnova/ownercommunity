@@ -122,36 +122,36 @@ stages:
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         artifact: drop
 
-  - stage: Deploy
-    displayName: 'Deploy stage'
-    dependsOn: Build
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    jobs:
-    - deployment: Deploy
-      displayName: Deploy
-      environment: $(environmentName)
-      pool: 
-        vmImage: $(vmImageName)
-      strategy:
-        runOnce:
-          deploy:
-            steps:
+  # - stage: Deploy
+  #   displayName: 'Deploy stage'
+  #   dependsOn: Build
+  #   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  #   jobs:
+  #   - deployment: Deploy
+  #     displayName: Deploy
+  #     environment: $(environmentName)
+  #     pool: 
+  #       vmImage: $(vmImageName)
+  #     strategy:
+  #       runOnce:
+  #         deploy:
+  #           steps:
             
-            - task: AzureFunctionApp@1
-              displayName: 'Azure Functions App Deploy: $(functionApp1Name)'
-              inputs:
-                azureSubscription: 'OwnerCommunity'
-                appType: 'functionAppLinux'
-                appName: $(functionApp1Name)
-                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-                runtimeStack: 'NODE|16'
-                deploymentMethod: 'runFromPackage'
-            - task: AzureFunctionApp@1
-              displayName: 'Azure Functions App Deploy: $(functionApp2Name)'
-              inputs:
-                azureSubscription: 'OwnerCommunity'
-                appType: 'functionAppLinux'
-                appName: $(functionApp2Name)
-                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-                runtimeStack: 'NODE|16'
-                deploymentMethod: 'runFromPackage'
+  #           - task: AzureFunctionApp@1
+  #             displayName: 'Azure Functions App Deploy: $(functionApp1Name)'
+  #             inputs:
+  #               azureSubscription: 'OwnerCommunity'
+  #               appType: 'functionAppLinux'
+  #               appName: $(functionApp1Name)
+  #               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+  #               runtimeStack: 'NODE|16'
+  #               deploymentMethod: 'runFromPackage'
+  #           - task: AzureFunctionApp@1
+  #             displayName: 'Azure Functions App Deploy: $(functionApp2Name)'
+  #             inputs:
+  #               azureSubscription: 'OwnerCommunity'
+  #               appType: 'functionAppLinux'
+  #               appName: $(functionApp2Name)
+  #               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+  #               runtimeStack: 'NODE|16'
+  #               deploymentMethod: 'runFromPackage'

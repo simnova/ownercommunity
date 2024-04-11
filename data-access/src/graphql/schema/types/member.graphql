@@ -13,6 +13,7 @@ type Member implements MongoBase {
   updatedAt: DateTime
 
   customViews: [CustomView]
+  isAdmin: Boolean
 }
 
 type CustomView implements MongoSubdocument {

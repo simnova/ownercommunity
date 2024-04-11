@@ -1,4 +1,4 @@
-import { Button, Col, Row, Typography, Tabs } from 'antd';
+import { Button, Typography, Tabs } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 
@@ -33,7 +33,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
               >
                 Member Portal
               </Button>
-              {member?.community?.userIsAdmin && (
+              {member?.isAdmin && (
                 <Button
                   type="default"
                   key={member.id + '-admin'}

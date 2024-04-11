@@ -52,14 +52,14 @@ stages:
       - task: FuncToolsInstaller@0
         displayName: 'Install: func tools - latest'
 
-      # Cache NPM packages to speed up build process.
-      - task: Cache@2
-        displayName: 'NPM: Restore Cache'
-        inputs:
-          key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/package-lock.json'
-          restoreKeys: |
-              npm | "$(Agent.OS)"
-          path: $(npm_config_cache)
+      # # Cache NPM packages to speed up build process.
+      # - task: Cache@2
+      #   displayName: 'NPM: Restore Cache'
+      #   inputs:
+      #     key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/package-lock.json'
+      #     restoreKeys: |
+      #         npm | "$(Agent.OS)"
+      #     path: $(npm_config_cache)
 
       # Build project and run tests
       - task: Bash@3
@@ -72,14 +72,14 @@ stages:
             npm run test:ci
             npm run build:production
 
-      # Cache SonarCloud downloaded assets to speed up build process.
-      - task: Cache@2
-        displayName: 'SonarCloud: Restore Cache'
-        inputs:
-          key: 'sonarcloud | "$(Agent.OS)"'
-          restoreKeys: |
-            sonarcloud | "$(Agent.OS)"
-          path: $(SONAR_USER_HOME)/cache
+      # # Cache SonarCloud downloaded assets to speed up build process.
+      # - task: Cache@2
+      #   displayName: 'SonarCloud: Restore Cache'
+      #   inputs:
+      #     key: 'sonarcloud | "$(Agent.OS)"'
+      #     restoreKeys: |
+      #       sonarcloud | "$(Agent.OS)"
+      #     path: $(SONAR_USER_HOME)/cache
 
       # Set up SonarCloud
       - task: SonarCloudPrepare@1

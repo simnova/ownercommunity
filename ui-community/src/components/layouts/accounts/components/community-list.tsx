@@ -49,7 +49,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
               <div style={{ backgroundColor: '#3a59e0', padding: '10px', margin: "0 50px", borderRadius: "5px" }}>
                 <Title level={4} style={{ padding: "5px 0" }}>Admin Portal</Title>
                 {props.data?.members[i]?.map((member: Member) => {
-                    if (member?.community?.userIsAdmin) {
+                    if (member?.isAdmin) {
                         return (
                             <Button
                                 key={member.id + '-admin'}

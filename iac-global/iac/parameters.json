@@ -1,0 +1,299 @@
+{
+  "applicationPrefix": "oc",
+  "env": {
+    "cor": {
+      "activityLogAlert": {
+        "instances": [
+          {
+            "run": true,
+            "name": "ala",
+            "subgroupName": "EM",
+            "location": "eastus2",
+            "emailAddressList": [
+              { "name": "Eddie Tang", "emailAddress": "etang@intealth.org" },
+              { "name": "Patrick Gidich", "emailAddress": "pgidich@intealth.org" },
+              { "name": "Anil Kapoor", "emailAddress": "akapoor@intealth.org" },
+              { "name": "Ike Wilson", "emailAddress": "iwilson@intealth.org" },
+              { "name": "Dhaval Heruwala", "emailAddress": "dheruwala@intealth.org" },
+              { "name": "Mohit Gupta", "emailAddress": "mgupta@intealth.org" },
+              { "name": "Duy Nguyen", "emailAddress": "dnguyen@intealth.org" }
+            ],
+            "smsReceiverList": [],
+            "resourcesToAlert": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "field": "properties.incidentType",
+                "equals": "Maintenance"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Storage"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Event Hubs"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Frontdoor"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "CDN"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Active Directory"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Active Directory B2C"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Functions"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Application Insights"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Cosmos DB"
+              },
+              {
+                "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                "equals": "East US 2"
+              }
+            ]
+          },
+          {
+            "run": true,
+            "name": "ala",
+            "subgroupName": "PH",
+            "location": "eastus2",
+            "emailAddressList": [],
+            "smsReceiverList": [
+              {
+                "countryCode": "1",
+                "name": "Eddie Tang",
+                "phoneNumber": "610-715-1352"
+              },
+              {
+                "countryCode": "1",
+                "name": "Patrick Gidich",
+                "phoneNumber": "484-431-4487"
+              },
+              {
+                "countryCode": "1",
+                "name": "Anil Kapoor",
+                "phoneNumber": "267-265-4922"
+              },
+              {
+                "countryCode": "1",
+                "name": "Ike Wilson",
+                "phoneNumber": "612-432-0424"
+              },
+              {
+                "countryCode": "1",
+                "name": "Dhaval Heruwala",
+                "phoneNumber": "267-697-9738"
+              },
+              {
+                "countryCode": "1",
+                "name": "Mohit Gupta",
+                "phoneNumber": "267-367-1472"
+              },
+              {
+                "countryCode": "1",
+                "name": "Duy Nguyen",
+                "phoneNumber": "267-438-8895"
+              }
+            ],
+            "resourcesToAlert": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "field": "properties.incidentType",
+                "equals": "Incident"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Storage"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Event Hubs"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Frontdoor"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "CDN"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Active Directory"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Active Directory B2C"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Functions"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Application Insights"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Cosmos DB"
+              },
+              {
+                "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                "equals": "East US 2"
+              }
+            ]
+          },
+          {
+            "run": true,
+            "name": "ala",
+            "subgroupName": "EM",
+            "location": "westus3",
+            "emailAddressList": [
+              { "name": "Eddie Tang", "emailAddress": "etang@ecfmg.org" },
+              { "name": "Patrick Gidich", "emailAddress": "pgidich@intealth.org" },
+              { "name": "Anil Kapoor", "emailAddress": "akapoor@intealth.org" },
+              { "name": "Ike Wilson", "emailAddress": "iwilson@intealth.org" },
+              { "name": "Dhaval Heruwala", "emailAddress": "dheruwala@intealth.org" },
+              { "name": "Mohit Gupta", "emailAddress": "mgupta@intealth.org" },
+              { "name": "Duy Nguyen", "emailAddress": "dnguyen@intealth.org" }
+            ],
+            "smsReceiverList": [],
+            "resourcesToAlert": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "field": "properties.incidentType",
+                "equals": "Maintenance"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Storage"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "CDN"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Active Directory"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Active Directory B2C"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Functions"
+              },
+              {
+                "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                "equals": "West US 3"
+              }
+            ]
+          },
+          {
+            "run": true,
+            "name": "ala",
+            "subgroupName": "PH",
+            "location": "westus3",
+            "emailAddressList": [],
+            "smsReceiverList": [
+              {
+                "countryCode": "1",
+                "name": "Eddie Tang",
+                "phoneNumber": "610-715-1352"
+              },
+              {
+                "countryCode": "1",
+                "name": "Patrick Gidich",
+                "phoneNumber": "484-431-4487"
+              },
+              {
+                "countryCode": "1",
+                "name": "Anil Kapoor",
+                "phoneNumber": "267-265-4922"
+              },
+              {
+                "countryCode": "1",
+                "name": "Ike Wilson",
+                "phoneNumber": "612-432-0424"
+              },
+              {
+                "countryCode": "1",
+                "name": "Dhaval Heruwala",
+                "phoneNumber": "267-697-9738"
+              },
+              {
+                "countryCode": "1",
+                "name": "Mohit Gupta",
+                "phoneNumber": "267-367-1472"
+              },
+              {
+                "countryCode": "1",
+                "name": "Duy Nguyen",
+                "phoneNumber": "267-438-8895"
+              }
+            ],
+            "resourcesToAlert": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "field": "properties.incidentType",
+                "equals": "Incident"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Storage"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "CDN"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Active Directory"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Azure Active Directory B2C"
+              },
+              {
+                "field": "properties.impactedServices[*].ServiceName",
+                "equals": "Functions"
+              },
+              {
+                "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                "equals": "West US 3"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

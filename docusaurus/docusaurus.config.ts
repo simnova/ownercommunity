@@ -3,15 +3,15 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Owner Community Site',
+  title: 'Owner Community Docu Website',
   tagline: 'Connecting Homeowners with Peace of Mind',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://owner.community/',
+  url: 'https://simnova.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/ownercommunity/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.

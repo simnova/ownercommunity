@@ -24,7 +24,6 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  disableSonarCloudTasks: 'false'
   deploymentDefaultLocation: 'eastus2'
   ServiceConnectionName: 'Azure DevOps Publishing Service Connection'
   vmImageName: 'ubuntu-latest'
@@ -42,7 +41,7 @@ stages:
     parameters:
       vmImageName: $(vmImageName)
       npm_config_cache: $(npm_config_cache)
-      isNpmCacheAvailable: 'false'
+      isNpmCacheAvailable: 'true'
       disableSonarCloudTasks: 'false'
       SONAR_USER_HOME: $(SONAR_USER_HOME)
       SonarCloud: 'sonarcloud'

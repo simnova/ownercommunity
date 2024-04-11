@@ -1,6 +1,12 @@
 {
 	"folders": [
 		{
+			"path": "az-bicep"
+		},
+		{
+			"path": "iac-global"
+		},
+		{
 			"path": "data-access"
 		},
 		{

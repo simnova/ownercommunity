@@ -1,0 +1,297 @@
+{
+  "applicationPrefix": "oc",
+  "env": {
+    "dev": {
+      "staticWebsite": {
+        "instances": [
+          {
+            "run": true,
+            "name": "uic",
+            "tags": {
+              "environment": "dev",
+              "application": "oc"
+            },
+            "storageAccount": {
+              "sku": "Standard_RAGZRS",
+              "location": "westus3",
+              "cors": {
+                "allowedOrigins": ["https://oc-dev-func-pri-avaqbizf2s7le.azurewebsites.net"],
+                "allowedMethods": ["GET", "POST"],
+                "allowedHeaders": [""],
+                "exposedHeaders": [""],
+                "maxAgeInSeconds": 0
+              }
+            },
+            "cdn": {
+              "sku": "Standard_Microsoft",
+              "profileName": "cdn-dev-ms-standard",
+              "location": "eastus2",
+              "googleAnalyticsSha256": "",
+              "customDomainName": "pathways-dev.myintealth.app",
+              "rules": [
+                {
+                  "name": "Global",
+                  "order": "0",
+                  "actions": [
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters":{
+                        "headerAction": "Append",
+                        "headerName": "X-Frame-Options",
+                        "value": "SAMEORIGIN",
+                        "typeName":"DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Delete",
+                        "headerName": "Server",
+                        "value": null,
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Content-Security-Policy",
+                        "value": "default-src https: 'unsafe-eval' 'unsafe-inline' www.googletagmanager.com; img-src 'self' www.googletagmanager.com data:;",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "X-Content-Type-Options",
+                        "value": "nosniff",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "Global2",
+                  "order": "1",
+                  "conditions": [
+                    {
+                      "name": "RequestScheme",
+                      "parameters": {
+                        "matchValues": ["HTTPS"],
+                        "negateCondition": false,
+                        "operator": "Equal",
+                        "typeName": "DeliveryRuleRequestSchemeConditionParameters"
+                      }
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Strict-Transport-Security",
+                        "value": "max-age=31536000; includeSubDomains; preload",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Referrer-Policy",
+                        "value": "no-referrer",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Content-Security-Policy",
+                        "value": "script-src 'self' 'unsafe-eval' https://flex.cybersource.com cdnjs.cloudflare.com www.googletagmanager.com ",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "Global3",
+                  "order": "2",
+                  "conditions": [
+                    {
+                      "name": "RequestScheme",
+                      "parameters": {
+                        "matchValues": ["HTTPS"],
+                        "negateCondition": false,
+                        "operator": "Equal",
+                        "typeName": "DeliveryRuleRequestSchemeConditionParameters"
+                      }
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Content-Security-Policy",
+                        "value": "'';",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "prd": {
+      "staticWebsite": {
+        "instances": [
+          {
+            "run": true,
+            "name": "uic",
+            "tags": {
+              "environment": "prd",
+              "application": "oc"
+            },
+            "storageAccount": {
+              "sku": "Standard_RAGZRS",
+              "location": "westus3",
+              "cors": {
+                "allowedOrigins": ["https://pwy-prd-func-pri-fxauyey43w7y6.azurewebsites.net"],
+                "allowedMethods": ["GET", "POST"],
+                "allowedHeaders": [""],
+                "exposedHeaders": [""],
+                "maxAgeInSeconds": 0
+              }
+            },
+            "cdn": {
+              "sku": "Standard_Microsoft",
+              "profileName": "cdn-prod-ms-standard",
+              "location": "eastus2",
+              "googleAnalyticsSha256": "",
+              "customDomainName": "pathways.myintealth.app",
+              "rules": [
+                {
+                  "name": "Global",
+                  "order": "0",
+                  "actions": [
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters":{
+                        "headerAction": "Append",
+                        "headerName": "X-Frame-Options",
+                        "value": "SAMEORIGIN",
+                        "typeName":"DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Delete",
+                        "headerName": "Server",
+                        "value": null,
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Content-Security-Policy",
+                        "value": "default-src https: 'unsafe-eval' 'unsafe-inline' www.googletagmanager.com; img-src 'self' www.googletagmanager.com data:;",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "X-Content-Type-Options",
+                        "value": "nosniff",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "Global2",
+                  "order": "1",
+                  "conditions": [
+                    {
+                      "name": "RequestScheme",
+                      "parameters": {
+                        "matchValues": ["HTTPS"],
+                        "negateCondition": false,
+                        "operator": "Equal",
+                        "typeName": "DeliveryRuleRequestSchemeConditionParameters"
+                      }
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Strict-Transport-Security",
+                        "value": "max-age=31536000; includeSubDomains; preload",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Referrer-Policy",
+                        "value": "no-referrer",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    },
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Content-Security-Policy",
+                        "value": "script-src 'self' 'unsafe-eval' https://flex.cybersource.com cdnjs.cloudflare.com www.googletagmanager.com ",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "Global3",
+                  "order": "2",
+                  "conditions": [
+                    {
+                      "name": "RequestScheme",
+                      "parameters": {
+                        "matchValues": ["HTTPS"],
+                        "negateCondition": false,
+                        "operator": "Equal",
+                        "typeName": "DeliveryRuleRequestSchemeConditionParameters"
+                      }
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "name": "ModifyResponseHeader",
+                      "parameters": {
+                        "headerAction": "Append",
+                        "headerName": "Content-Security-Policy",
+                        "value": "'';",
+                        "typeName": "DeliveryRuleHeaderActionParameters"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

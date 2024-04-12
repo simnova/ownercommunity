@@ -1,9 +1,7 @@
-import { Then, When } from '@cucumber/cucumber';
-import { NotepadType } from '../../../screenplay/actors';
+import { When } from '@cucumber/cucumber';
 import { Actor, notes } from '@serenity-js/core';
+import { NotepadType } from '../../../screenplay/actors';
 import { CreateAccount } from '../../../screenplay/tasks/create-account';
-import { MemberInDb } from '../../../screenplay/questions/member-in-db';
-import { Ensure, equals } from '@serenity-js/assertions';
 import { _ } from '../helpers';
 
 When(

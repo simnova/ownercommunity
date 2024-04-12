@@ -1,9 +1,18 @@
-import { Then } from "@cucumber/cucumber";
+import { Given, Then } from "@cucumber/cucumber";
 import { Ensure, equals } from "@serenity-js/assertions";
 import { Actor, notes } from "@serenity-js/core";
 import { NotepadType } from "../../../screenplay/actors";
 import { MemberInDb } from "../../../screenplay/questions/member-in-db";
 import { _ } from "../helpers";
+import { Register } from "../../../screenplay/tasks/register";
+
+Given('{actor} registers with Owner Community', async function(actor: Actor){
+  await actor
+    .attemptsTo(
+        Register.asUser(),
+    );
+  });
+
 
 Then(_.UserIsAMemberOfCommunityUnderMemberNamed, async function (actor: Actor, communityName: string, memberName: string) {
   const user = await notes<NotepadType>().get('user').answeredBy(actor);

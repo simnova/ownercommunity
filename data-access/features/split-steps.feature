@@ -2,7 +2,7 @@ Feature: Create a service ticket
 
 Background: 
   Given OttoTheOwner registers with Owner Community
-  And he creates community named Palms
+  And OttoTheOwner creates a new community named Palms
   # And he creates CommunityManager role in Atlantis community with following permissions:
 #     | communityPermissions      | canManageRolesAndPermissions, canManageSiteContent, canManageMembers |
 #     | serviceTicketPermissions  | canManageTickets |

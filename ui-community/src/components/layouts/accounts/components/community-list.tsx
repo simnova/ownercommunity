@@ -17,39 +17,49 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
     key: community.id,
     label: community.name,
     children: (
-      <div>
-        {props.data?.members[i]?.map((member: Member) => (
-          <div className="flex flex-col gap-4">
-            <Title level={5} style={{}}>
-              {community.name + ' Login Portals'}
-            </Title>
-            <div className="flex flex-row gap-4 items-center">
-              <Button
-                type="default"
-                key={member.id}
-                data-testid="community-list-button"
-                style={{ width: '200px', marginBottom: '10px' }}
-                onClick={() => navigate(`/community/${community.id}/member/${member.id}`)}
-              >
-                Member Portal
-              </Button>
-              {member?.isAdmin && (
-                <Button
-                  type="default"
-                  key={member.id + '-admin'}
-                  data-testid="community-list-admin-button"
-                  style={{ width: '200px', marginBottom: '10px' }}
-                  onClick={() => navigate(`/community/${community.id}/admin/${member.id}`)}
-                >
-                  Admin Portal
-                </Button>
+      <div style={{float: 'left'}}>
+        <div style={{float: 'left', marginRight: 20}}>
+          <Title level={5} style={{textAlign: 'center'}}>Member Portal</Title>
+          {props.data?.members[i]?.map((member: Member) => (
+            <div>
+                <div className="listofbuttons">
+                  <Button
+                    type="default"
+                    key={member.id}
+                    data-testid="community-list-button"
+                    style={{ width: '200px', marginBottom: '10px' }}
+                    onClick={() => navigate(`/community/${community.id}/member/${member.id}`)}
+                  >
+                    {member.memberName}
+                  </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{float: 'left'}}>
+          <Title level={5} style={{textAlign: 'center'}}>Admin Portal</Title>
+          {props.data?.members[i]?.map((member: Member) => (
+            <div>
+              {member.isAdmin && (
+                  <div className="listofbuttons">
+                    <Button
+                      type="default"
+                      key={member.id + '-admin'}
+                      data-testid="community-list-admin-button"
+                      style={{ width: '200px', marginBottom: '10px' }}
+                      onClick={() => navigate(`/community/${community.id}/admin/${member.id}`)}
+                    >
+                      {member.memberName}
+                    </Button>
+                  </div>
               )}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     )
   }));
+
   return (
     <div>
       <div className="flex justify-between">
@@ -59,7 +69,14 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         </Button>
       </div>
       <div className="w-full p-5 mx-auto my-5 shadow-lg rounded-lg">
-        {items.length > 0 ? <Tabs items={items} tabPosition="left" /> : <Title level={5} style={{display: 'flex', justifyContent: 'center'}}>You currently don't have any communities. Please create a community using the button on the right or join one.</Title>}
+        {items.length > 0 ? (
+          <Tabs items={items} tabPosition="left" />
+        ) : (
+          <Title level={5} style={{ display: 'flex', justifyContent: 'center' }}>
+            You currently don't have any communities. Please create a community using the button on the right or join
+            one.
+          </Title>
+        )}
       </div>
     </div>
   );

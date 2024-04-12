@@ -8,12 +8,12 @@ import { Ensure, isPresent, equals} from '@serenity-js/assertions';
 
 const communityName = 'myCommunity';
 
-Given('{pronoun} is a member of a community', async function (actor: Actor) {
-  await actor
-    .attemptsTo(
-      CreateCommunity.named(communityName)    
-      );
-});
+// Given('{pronoun} is a member of a community', async function (actor: Actor) {
+//   await actor
+//     .attemptsTo(
+//       CreateCommunity.named(communityName)    
+//       );
+// });
 
 When('{pronoun} creates the property {word} in the community', async function (actor: Actor, propertyName: string) {
   await actor

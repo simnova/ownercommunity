@@ -1,5 +1,10 @@
 trigger:
-  - main
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - docusaurus/*
 
 pool:
   vmImage: ubuntu-latest
@@ -18,6 +23,7 @@ steps:
       git config --global user.email "${GH_EMAIL}"
       git checkout -b main
       echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+      cd docusaurus
       npm install
       GIT_USER="${GH_NAME}" npm deploy
     env:

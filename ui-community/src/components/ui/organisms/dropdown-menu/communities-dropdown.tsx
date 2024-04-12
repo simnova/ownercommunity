@@ -1,9 +1,8 @@
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, MenuProps, Cascader } from 'antd';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Member } from '../../../../generated';
-
 
 interface CommunitiesDropdownProps {
   data: {
@@ -18,28 +17,55 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
 
   const currentMember = props.data.members?.find((member) => member.id === params.memberId);
 
-  const items: MenuProps["items"] = props.data.members?.map((member: Member) => {
-    const memberProps = {
-      key: member?.community?.id,
-      label: member?.community?.name,
-      children: [{
-        key: member?.id,
-        label: member?.community?.name + " | " + member?.memberName,
-        path: `/community/${member?.community?.id}/member/${member?.id}`,
-      }]
-    };
-
-    if (member?.community?.userIsAdmin) {
-      memberProps.children.push({
-        key: memberProps.key + '-admin',
-        label: member?.community?.name + " | " + member?.memberName + ' (Admin)', 
-        path: `/community/${member?.community?.id}/admin/${member?.id}`,
-      })
+  let items: MenuProps['items'] = [];
+  const populateItems = (member: Member) => {
+    if (items?.some((community) => community?.key === member.community?.id) === false) {
+      const memberProps = {
+        key: member?.community?.id,
+        label: member?.community?.name,
+        children: [
+          {
+            key: member?.id,
+            label: member?.community?.name + ' | ' + member?.memberName,
+            path: `/community/${member?.community?.id}/member/${member?.id}`
+          }
+        ]
+      };
+      if (member?.community?.userIsAdmin) {
+        memberProps.children.push({
+          key: memberProps.key + '-admin',
+          label: member?.community?.name + ' | ' + member?.memberName + ' (Admin)',
+          path: `/community/${member?.community?.id}/admin/${member?.id}`
+        });
+      }
+      items.push(memberProps);
+      return;
     }
 
-    return memberProps;
-  }).flat();
+    if (items?.length !== undefined) {
+      for (let i = 0; i < items?.length; i++) {
+        if (items[i]?.key === member?.community?.id) {
+          let tempCommunity: any = items[i];
+          tempCommunity.children.push({
+            key: member?.id,
+            label: member?.community?.name + ' | ' + member?.memberName,
+            path: `/community/${member?.community?.id}/member/${member?.id}`
+          });
+          if (member?.community?.userIsAdmin) {
+            tempCommunity.children.push({
+              key: tempCommunity.key + '-admin',
+              label: member?.community?.name + ' | ' + member?.memberName + ' (Admin)',
+              path: `/community/${member?.community?.id}/admin/${member?.id}`
+            });
+          }
+          items[i] = tempCommunity;
+          break;
+        }
+      }
+    }
+  };
 
+  props.data.members?.forEach((member: Member) => populateItems(member));
 
 
   const onMenuItemClicked = (e: any) => {
@@ -53,16 +79,12 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
         items,
         selectable: true,
         defaultSelectedKeys: [params.memberId ?? ''],
-        onClick: onMenuItemClicked,
+        onClick: onMenuItemClicked
       }}
       open={dropdownVisible}
       onOpenChange={(visible) => setDropdownVisible(visible)}
     >
-      <a
-        onClick={(e) => e.preventDefault()}
-        className="ant-dropdown-link"
-        style={{ minHeight: '50px' }}
-      >
+      <a onClick={(e) => e.preventDefault()} className="ant-dropdown-link" style={{ minHeight: '50px' }}>
         {currentMember?.community?.name} | {currentMember?.memberName} <DownOutlined />
       </a>
     </Dropdown>

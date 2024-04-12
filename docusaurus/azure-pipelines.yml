@@ -1,10 +1,5 @@
 trigger:
-  branches:
-    include:
-      - main
-  paths:
-    include:
-      - docusaurus/*
+  - main
 
 pool:
   vmImage: ubuntu-latest

@@ -1,6 +1,6 @@
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, MenuProps } from 'antd';
-import { useState } from 'react';
+import { Dropdown, MenuProps, Cascader } from 'antd';
+import { ReactNode, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Member } from '../../../../generated';
 
@@ -20,28 +20,34 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
 
   const items: MenuProps["items"] = props.data.members?.map((member: Member) => {
     const memberProps = {
-      key: member?.id,
-      label: `${member?.community?.name} | ${member?.memberName}`,
-      path: `/community/${member?.community?.id}/member/${member?.id}`,
+      key: member?.community?.id,
+      label: member?.community?.name,
+      children: [{
+        key: member?.id,
+        label: member?.community?.name + " | " + member?.memberName,
+        path: `/community/${member?.community?.id}/member/${member?.id}`,
+      }]
     };
 
     if (member?.community?.userIsAdmin) {
-      return [
-        { ...memberProps },
-        { ...memberProps, key: memberProps.key + '-admin', label: memberProps.label + ' (Admin)', path: `/community/${member?.community?.id}/admin/${member?.id}` },
-      ];
+      memberProps.children.push({
+        key: memberProps.key + '-admin',
+        label: member?.community?.name + " | " + member?.memberName + ' (Admin)', 
+        path: `/community/${member?.community?.id}/admin/${member?.id}`,
+      })
     }
 
     return memberProps;
   }).flat();
 
+
+
   const onMenuItemClicked = (e: any) => {
-    setDropdownVisible(false);
     navigate(e.item.props.path);
   };
 
   return (
-    (<Dropdown
+    <Dropdown
       menu={{
         items,
         selectable: true,
@@ -58,6 +64,6 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
       >
         {currentMember?.community?.name} | {currentMember?.memberName} <DownOutlined />
       </a>
-    </Dropdown>)
+    </Dropdown>
   );
 };

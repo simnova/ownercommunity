@@ -20,7 +20,8 @@ steps:
       echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
       cd docusaurus
       npm install
-      GIT_USER="${GH_NAME}" npm deploy
+      GIT_USER="${GH_NAME}" 
+      npm deploy
     env:
       GH_NAME: $(GH_NAME)
       GH_EMAIL: $(GH_EMAIL)

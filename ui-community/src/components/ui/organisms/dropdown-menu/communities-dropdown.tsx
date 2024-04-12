@@ -43,6 +43,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
 
 
   const onMenuItemClicked = (e: any) => {
+    setDropdownVisible(false);
     navigate(e.item.props.path);
   };
 

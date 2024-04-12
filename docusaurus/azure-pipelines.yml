@@ -21,7 +21,8 @@ steps:
       cd docusaurus
       npm install
       GIT_USER="${GH_NAME}" 
-      npm deploy
+      npm run build
+      npm run deploy
     env:
       GH_NAME: $(GH_NAME)
       GH_EMAIL: $(GH_EMAIL)

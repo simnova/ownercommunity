@@ -11,3 +11,11 @@ Owner Community is an open-source platform for community associations. It suppor
 
 
 [Documentation](https://docs.owner.community)
+
+
+
+| Project |     |     |     |     |     |
+| --- | --- | --- | --- | --- | --- |
+| /ui |     |     | [](https://sonarcloud.io/summary/new_code?id=simnova_ownercommunity-ui) | [](https://sonarcloud.io/summary/new_code?id=simnova_ownercommunity-ui) | [](https://sonarcloud.io/summary/new_code?id=simnova_ownercommunity-ui) |
+| /data-access | [](https://dev.azure.com/simnova/OwnerCommunity/_build/latest?definitionId=5&branchName=main) | [](https://dev.azure.com/simnova/OwnerCommunity/_build/latest?definitionId=5&branchName=main) | [](https://sonarcloud.io/summary/new_code?id=simnova_ownercommuntiy-data-access) | [](https://sonarcloud.io/summary/new_code?id=simnova_ownercommuntiy-data-access) | [](https://sonarcloud.io/summary/new_code?id=simnova_ownercommuntiy-data-access) |                                                                                                                                                                          |     |
+

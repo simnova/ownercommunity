@@ -14,6 +14,13 @@ Owner Community is an open-source platform for community associations. It suppor
 
 [Documentation](https://docs.owner.community)
 
+## Features
+
+- Easily design a simple public community website
+- Manage properties and community members
+- Allow community members to show their profile in a community directory
+- Allow community members to create service tickets
+
 
 ## Your feedback matters!
 

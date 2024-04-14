@@ -27,8 +27,8 @@ npm run start
 This will start a server where you can browse the documentation:
 `http://localhost:3000`.
 
-If you add new pages or rename existing pages, those changes will be to take
-effect shortly, so you don't need to restart the server.
+If you add new pages or rename existing pages, those changes will take effect shortly,
+so you don't need to restart the server.
 
 Make a PR with your changes and we'll review it as soon as possible.
 

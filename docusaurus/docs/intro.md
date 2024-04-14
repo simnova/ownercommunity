@@ -1,6 +1,5 @@
 ---
 sidebar_position: 1
-slug: /
 ---
 
 # Introduction 👋
@@ -17,4 +16,3 @@ On this site you'll find instructions to setup a local instance of
 Owner Community, documentation on the architecture of
 OwnerCommunity, how to contribute, and many other useful
 documents.
-

@@ -1,7 +1,6 @@
 import { DataTable, Given, Then, When } from '@cucumber/cucumber';
 import { CreateCommunity } from '../../../screenplay/tasks/create-community';
 import { Actor } from '@serenity-js/core';
-import { _ } from '../helpers';
 import { Ensure, isPresent, equals } from '@serenity-js/assertions';
 import { CommunityInDb } from '../../../screenplay/questions/community-in-db';
 import { MemberInDb } from '../../../screenplay/questions/member-in-db';
@@ -27,11 +26,7 @@ Given('{actor} is member of the following communities:', async function (actor: 
   });
 });
 
-When(_.UserCreatesANewCommunity, async function (actor: Actor, communityName: string) {
-  await actor.attemptsTo(CreateCommunity.named(communityName));
-});
-
-When('{pronoun} creates a new community called {word}', async function (actor: Actor, communityName: string) {
+When('{actor} creates a new community named {word}', async function (actor: Actor, communityName: string) {
   await actor.attemptsTo(CreateCommunity.named(communityName));
 });
 

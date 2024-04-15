@@ -7,19 +7,24 @@ import { Register } from '../../../screenplay/tasks/register';
 import { AssignRole } from '../../../screenplay/tasks/assign-role';
 import { Ensure, equals } from '@serenity-js/assertions';
 import { RoleForCommunityInDb } from '../../../screenplay/questions/role-for-community-in-db';
-import { IsAdminRole, _ } from '../helpers';
+import { IsAdminRole } from '../../support/helpers';
 import { MemberInDb } from '../../../screenplay/questions/member-in-db';
 
-Given(_.MemberIsTheAdminMemberOfCommunity, async function (actor: Actor, communityName: string) {
-  await actor.attemptsTo(Register.asUser(), CreateCommunity.named(communityName));
+Given('{actor} is the admin member of {word}', async function (actor: Actor, communityName: string) {
+  await actor.attemptsTo(
+    Register.asUser(), 
+    CreateCommunity.named(communityName));
 });
 
 When('{actor} adds a new member named {word} to {word}', async function (actor: Actor, memberName: string, communityName: string) {
-  await actor.attemptsTo(CreateMember.inCommunity(communityName).asNewMemberNamed(memberName), LogDataSources());
+  await actor.attemptsTo(
+    CreateMember.inCommunity(communityName).asNewMemberNamed(memberName), 
+    LogDataSources());
 });
 
 When('{actor} assigns {word} role to {word} in {word}', async function (actor: Actor, roleName: string, memberName: string, communityName: string) {
-  await actor.attemptsTo(AssignRole.named(roleName).toMember(memberName).inCommunity(communityName));
+  await actor.attemptsTo(
+    AssignRole.named(roleName).toMember(memberName).inCommunity(communityName));
 });
 
 Then('{actor} should be the admin member of {word}', async function (actor: Actor, communityName: string) {

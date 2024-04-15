@@ -7,7 +7,7 @@ import { MemberInDb } from '../../../screenplay/questions/member-in-db';
 import { ViewCommunities } from '../../../screenplay/tasks/view-community';
 import { Register } from '../../../screenplay/tasks/register';
 
-Given('{pronoun} is a member of a community named {word}', async function (actor: Actor, communityName: string) {
+Given('{actor} is a member of a community named {word}', async function (actor: Actor, communityName: string) {
   if (!communityName || typeof communityName !== 'string' || communityName.trim() === '') {
     throw new Error('Invalid community name provided');
   }

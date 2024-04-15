@@ -12,16 +12,16 @@ Feature: Create a property Listing in a community
       | servicePermissions        | canManageServices |
 
   Scenario: Add a property listing for Sale to the Hogwarts community
-    Given DumbledoreTheWizard creates a property GryffindorTower in the Hogwarts community
-    When he lists the property GryffindorTower for Sale
+    When DumbledoreTheWizard creates a property named GryffindorTower in community Hogwarts
+    And he lists the property GryffindorTower for Sale
     Then the property should be listed for Sale in the Hogwarts community Listings
 
   Scenario: Add a property listing for Rent to the Hogwarts community
-    Given DumbledoreTheWizard creates a property GryffindorTower in the Hogwarts community
-    When he lists the property GryffindorTower for Rent
+    When DumbledoreTheWizard creates a property named GryffindorTower in community Hogwarts
+    And he lists the property GryffindorTower for Rent
     Then the property should be listed for Rent in the Hogwarts community Listings
 
   Scenario: Add a property listing for Lease to the Hogwarts community
-    Given DumbledoreTheWizard creates a property GryffindorTower in the Hogwarts community
-    When he lists the property GryffindorTower for Lease
+    When DumbledoreTheWizard creates a property named GryffindorTower in community Hogwarts
+    And he lists the property GryffindorTower for Lease
     Then the property should be listed for Lease in the Hogwarts community Listings

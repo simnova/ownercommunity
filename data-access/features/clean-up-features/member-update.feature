@@ -1,22 +1,10 @@
-Feature: Manage Community
-
-
-  Scenario: Create a new community
-    Given DuyTheOwner registers with Owner Community
-    When DuyTheOwner creates a new community named TestCommunity
-    And DuyTheOwner should be the admin member of TestCommunity
-
-  Scenario: Create a new member
-    Given DuyTheOwner2 is the admin member of community TestCommunity2
-    When DuyTheOwner2 adds a new member named DuyTheMember to TestCommunity2
-    Then DuyTheMember should be the member of TestCommunity2
+Feature: Update Member
 
   Scenario: Assign admin role to a member
     Given DuyTheOwner3 is the admin member of community TestCommunity3
     When DuyTheOwner3 adds a new member named DuyTheMember3 to TestCommunity3
     And DuyTheOwner3 assigns admin role to DuyTheMember3 in TestCommunity3
     Then DuyTheMember3 should have the admin role in TestCommunity3
-
 
   Scenario: Assign a member role to a member
     Given DuyTheOwner4 is the admin member of community TestCommunity4
@@ -27,8 +15,8 @@ Feature: Manage Community
       | servicePermissions        | canManageServices |
     And DuyTheOwner4 assigns PropertyOwner role to DuyTheMember4 in TestCommunity4
     Then DuyTheMember4 should have the PropertyOwner role in TestCommunity4
-  
-  Scenario: Add account to a member
+
+   Scenario: Add account to a member
     Given DuyTheUser5 registers with Owner Community
     And DuyTheOwner5 is the admin member of community TestCommunity5
     When DuyTheOwner5 adds a new member named DuyTheMember5 to TestCommunity5    

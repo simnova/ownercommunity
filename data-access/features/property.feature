@@ -11,4 +11,4 @@ Feature: Manage Properties
     And SharaTheOwner is the admin member of community Philadelphia
     When OmarTheOwner creates a property named Pavilion in community Cheltenham
     Then the property Pavilion created by him does not exist in Philadelphia
-  
+

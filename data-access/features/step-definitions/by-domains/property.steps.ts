@@ -1,10 +1,10 @@
-import { Given, When, Then } from '@cucumber/cucumber';
-import { Ensure, equals } from '@serenity-js/assertions';
-import { Actor, notes, actorInTheSpotlight } from '@serenity-js/core';
+import { Then, When } from '@cucumber/cucumber';
+import { Ensure, equals, not } from '@serenity-js/assertions';
+import { Actor, actorInTheSpotlight, notes } from '@serenity-js/core';
 import { PropertyInCommunityInDb } from '../../../screenplay/questions/property-in-community-in-db';
+import { PropertyInDb } from '../../../screenplay/questions/property-in-db';
 import { CreateProperty } from '../../../screenplay/tasks/create-property';
 import { ListProperty } from '../../../screenplay/tasks/list-property';
-import { PropertyInDb } from '../../../screenplay/questions/property-in-db';
 
 interface StepNotes {
   communityName: string;
@@ -60,3 +60,7 @@ Then('the property should be listed for Lease in the {word} community Listings',
 Then('the property {word} created by {pronoun} exists in community {word}', async function (propertyName: string, actor: Actor, communityName: string) {
   await actor.attemptsTo(Ensure.that((await PropertyInDb(propertyName)).community.name, equals(communityName)));
 });
+
+Then("the property {word} created by {pronoun} does not exist in {word}", async function (propertyName: string, actor: Actor, communityName: string) {
+  await actor.attemptsTo(Ensure.that((await PropertyInDb(propertyName)).community.name, not(equals(communityName))));
+})

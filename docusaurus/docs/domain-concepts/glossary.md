@@ -46,6 +46,10 @@ References:
 
 - [Community Associations Institute - Introduction Document](https://www.caionline.org/AboutCommunityAssociations/About%20Comm%20Assns/introduction.pdf)
 
+- [HOA & Condo Board Members Documents](https://www.caionline.org/HomeownerLeaders/ResourcesforResidentsandRealtors/Resources%20for%20Residents/Forms/AllItems.aspx)
+
+- [About Community Associations Documents](https://www.caionline.org/AboutCommunityAssociations/About%20Comm%20Assns/Forms/AllItems.aspx)
+
 
 
 

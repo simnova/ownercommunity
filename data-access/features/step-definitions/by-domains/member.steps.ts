@@ -10,7 +10,7 @@ import { RoleForCommunityInDb } from '../../../screenplay/questions/role-for-com
 import { IsAdminRole } from '../../support/helpers';
 import { MemberInDb } from '../../../screenplay/questions/member-in-db';
 
-Given('{actor} is the admin member of {word}', async function (actor: Actor, communityName: string) {
+Given('{actor} is the admin member of community {word}', async function (actor: Actor, communityName: string) {
   await actor.attemptsTo(
     Register.asUser(), 
     CreateCommunity.named(communityName));

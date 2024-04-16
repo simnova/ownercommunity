@@ -31,6 +31,16 @@ code .
 
 ![VSCode Opening Workspace](./img/openingWorkspace.png)
 
+**5. Open a terminal in the project and navigate to the each of the following directories**:
+      * **ui**
+      * **data-access**
+      * **docusaurus** <br></br> 
+      
+      **and enter the command below**:
+```
+npm install
+```
+
 ### Directory Structure
 This structure represents the ownercommunity directory and its subdirectories, each containing various files and folders specific to their respective purposes.
 ```

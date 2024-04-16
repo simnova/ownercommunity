@@ -54,7 +54,6 @@ VITE_TIMEOUT_BEFORE_MAINTENANCE=120
 
 
     "APPLICATIONINSIGHTS_CONNECTION_STRING": "";
-    IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/",
     
     "BLOB_ACCOUNT_NAME": "ownercommunity",
     "BLOB_ACCOUNT_KEY": "",
@@ -81,15 +80,4 @@ VITE_TIMEOUT_BEFORE_MAINTENANCE=120
     "CORS": "*"
   }
 }
-```
-<br></br>
-
-**7. Open a terminal in the project and navigate to the each of the following directories**:
-      * **ui**
-      * **data-access**
-      * **docusaurus** <br></br> 
-      
-      **and enter the command below**:
-```
-npm install
 ```

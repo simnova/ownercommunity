@@ -21,7 +21,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         <div style={{float: 'left', marginRight: 20}}>
           <Title level={5} style={{textAlign: 'center'}}>Member Portal</Title>
           {props.data?.members[i]?.map((member: Member) => (
-            <div>
+            <div key={member.id}>
                 <div className="listofbuttons">
                   <Button
                     type="default"
@@ -39,7 +39,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         <div style={{float: 'left'}}>
           <Title level={5} style={{textAlign: 'center'}}>Admin Portal</Title>
           {props.data?.members[i]?.map((member: Member) => (
-            <div>
+            <div key={member.id}>
               {member.isAdmin && (
                   <div className="listofbuttons">
                     <Button

@@ -8,9 +8,9 @@ Please find below the instructions to configure the project environment. These s
 **1. Create a ***".env"*** file in the base of the ui-community folder of the project and copy the values below into it**:
 ```
 VITE_FUNCTION_ENDPOINT=http://localhost:7071/api/graphql   
-VITE_APP_INSIGHTS_CONNECTION_STRING=InstrumentationKey=4c426ba1-cb2c-43ee-96b5-04aa3c7b52e1;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/
+VITE_APP_INSIGHTS_CONNECTION_STRING=InstrumentationKey=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/
 # AAD App Registrations > Applicaiton (client) ID  
-VITE_AAD_ACCOUNT_CLIENTID=252e70d9-6c17-47fa-b202-9a4e842fd6e3  
+VITE_AAD_ACCOUNT_CLIENTID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx  
 # https://<<TENANT NAME>>.b2clogin.com/<<TENANT NAME>>.onmicrosoft.com/<<CUSTOM POLICY NAME>>   
 VITE_AAD_ACCOUNT_AUTHORITY=https://ownercommunityb2c.b2clogin.com/ownercommunityb2c.onmicrosoft.com/B2C_1A_SIGNUP_SIGNIN   
 # <<Applicaiton (client) ID>>|openid 
@@ -48,10 +48,7 @@ VITE_TIMEOUT_BEFORE_MAINTENANCE=120
     "VERCEL_PROJECT" : "ownercommunity-firsthit",
 
     "CONTENT_MODERATOR_SUBSCRIPTION_KEY": "",
-    
     "CONTENT_MODERATOR_ENDPOINT": "https://oc-cm.cognitiveservices.azure.com/",
-
-
 
     "APPLICATIONINSIGHTS_CONNECTION_STRING": "";
     
@@ -60,11 +57,13 @@ VITE_TIMEOUT_BEFORE_MAINTENANCE=120
     
     "ACCOUNT_PORTAL_OIDC_ENDPOINT" : "https://ownercommunityb2c.b2clogin.com/ownercommunityb2c.onmicrosoft.com/b2c_1a_signup_signin/discovery/v2.0/keys",
     "ACCOUNT_PORTAL_OIDC_AUDIENCE-info": "this comes from a B2C appliction -> B2C Appliction ClientID",
-    "ACCOUNT_PORTAL_OIDC_AUDIENCE": "http://localhost:3000/",
+    "ACCOUNT_PORTAL_OIDC_AUDIENCE": "http://localhost:3000/",  
     "TO_GET_ACCOUNT_PORTAL_OIDC_ISSUER":"look it up from OIDC ENDPOINT",
     "ACCOUNT_PORTAL_OIDC_ISSUER": "https://ownercommunityb2c.b2clogin.com/9227e22b-4754-46be-98c1-2a1a1e40457e/", 
+
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsStorage": "",
+    
     "COSMOSDB": << removed >>,
     "COSMOSDB_POOL_SIZE": "10",
     "COSMOSDB_DBNAME": "owner-community",

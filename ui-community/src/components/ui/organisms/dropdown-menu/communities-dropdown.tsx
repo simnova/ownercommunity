@@ -26,7 +26,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
         children: [
           {
             key: member?.id,
-            label: member?.community?.name + ' | ' + member?.memberName,
+            label: member?.memberName,
             path: `/community/${member?.community?.id}/member/${member?.id}`
           }
         ]
@@ -34,7 +34,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
       if (member?.community?.userIsAdmin) {
         memberProps.children.push({
           key: memberProps.key + '-admin',
-          label: member?.community?.name + ' | ' + member?.memberName + ' (Admin)',
+          label: member?.memberName + ' (Admin)',
           path: `/community/${member?.community?.id}/admin/${member?.id}`
         });
       }
@@ -48,13 +48,13 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
           let tempCommunity: any = items[i];
           tempCommunity.children.push({
             key: member?.id,
-            label: member?.community?.name + ' | ' + member?.memberName,
+            label: member?.memberName,
             path: `/community/${member?.community?.id}/member/${member?.id}`
           });
           if (member?.community?.userIsAdmin) {
             tempCommunity.children.push({
               key: tempCommunity.key + '-admin',
-              label: member?.community?.name + ' | ' + member?.memberName + ' (Admin)',
+              label: member?.memberName + ' (Admin)',
               path: `/community/${member?.community?.id}/admin/${member?.id}`
             });
           }

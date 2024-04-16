@@ -1,33 +1,11 @@
 ---
-sidebar_position: 4
+sidebar_position: 2
 ---
 
-# Getting Started
+# Configuration
+Please find below the instructions to configure the project environment. These steps will guide you through setting up the necessary configurations for operation.
 
-### Setting Up A Local Version of Owner Community
-
-**1. Clone the project**
-```
-cd <<path to repos>>
-```
-
-```
-git clone git@github.com/simnova/ownercommunity.git ownercommunity
-```
-
-**2. Open VS Code**
-```
-code .
-```
-
-**3. Choose "add folder to workspace" and add the "ownercommuntiy" directory**
-
-**4. Access repo in VSCode using workspace option**:
-
-![VSCode Opening Workspace](./img/openingWorkspace.png)
-
-
-**5. Create a **.env** file in the base of the **ui** folder of the project and copy the values below into it**:
+**1. Create a ***".env"*** file in the base of the ui-community folder of the project and copy the values below into it**:
 ```
 VITE_FUNCTION_ENDPOINT=http://localhost:7071/api/graphql   
 VITE_APP_INSIGHTS_CONNECTION_STRING=InstrumentationKey=4c426ba1-cb2c-43ee-96b5-04aa3c7b52e1;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/
@@ -48,7 +26,7 @@ VITE_TIMEOUT_BEFORE_MAINTENANCE=120
 ```
 
 <br></br>
-**6. Create a <u>local.settings.json</u> file in the base of the <u>data-access</u> folder of the project and copy the value below into it**:
+**2. Create a ***"local.settings.json"*** file in the base of the data-access folder of the project and copy the value below into it**:
 ```
 {
   "IsEncrypted": false,
@@ -115,5 +93,3 @@ VITE_TIMEOUT_BEFORE_MAINTENANCE=120
 ```
 npm install
 ```
-    
-

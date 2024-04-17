@@ -4,11 +4,11 @@ sidebar_label: 002 MADR Open Telemetry
 description: "Use Markdown Any Decision Records (MADR) to track Open Telemetry Decisions."
 # These are optional elements. Feel free to remove any of them.
 status: accepted
-contact: @heruwala
+contact: heruwala
 date: 2024-04-17
-deciders: @gidich, @heruwala, @TheIceCreamTroll
-consulted: @etang93, @mgupta83
-informed: @ikeem07, @nguyenduy
+deciders: gidich, heruwala, TheIceCreamTroll
+consulted: etang93, mgupta83
+informed: ikeem07, nguyenduy
 ---
 
 # Use Open Telemetry to add observability to the project

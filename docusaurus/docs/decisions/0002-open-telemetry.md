@@ -1,7 +1,7 @@
 ---
 sidebar_position: 5
-sidebar_label: 002 MADR Open Telemetry
-description: "Use Markdown Any Decision Records (MADR) to track Open Telemetry Decisions."
+sidebar_label: 002 Open Telemetry
+description: "Open Telemetry Decisions."
 # These are optional elements. Feel free to remove any of them.
 status: accepted
 contact: heruwala

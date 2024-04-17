@@ -1,6 +1,7 @@
 ---
 sidebar_position: 5
 sidebar_label: ADR Template
+description: "Use this template to track Architectural Decisions."
 # These are optional elements. Feel free to remove any of them.
 status: proposed | rejected | accepted | deprecated | … | superseded by [ADR-0001](0001-madr-architecture-decisions.md)
 contact: person proposing the ADR

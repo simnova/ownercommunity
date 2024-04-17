@@ -1,5 +1,7 @@
 ---
 sidebar_position: 1
+sidebar_label: Glossary
+description: "Key terms and definitions used in the Owner Community project."
 ---
 
 # Glossary

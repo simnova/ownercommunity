@@ -3,7 +3,6 @@ import { Ensure, equals } from "@serenity-js/assertions";
 import { Actor, notes } from "@serenity-js/core";
 import { NotepadType } from "../../../screenplay/actors";
 import { MemberInDb } from "../../../screenplay/questions/member-in-db";
-import { _ } from "../helpers";
 import { Register } from "../../../screenplay/tasks/register";
 
 Given('{actor} registers with Owner Community', async function(actor: Actor){
@@ -14,7 +13,7 @@ Given('{actor} registers with Owner Community', async function(actor: Actor){
   });
 
 
-Then(_.UserIsAMemberOfCommunityUnderMemberNamed, async function (actor: Actor, communityName: string, memberName: string) {
+Then('{actor} should be a member of {word} under member named {word}', async function (actor: Actor, communityName: string, memberName: string) {
   const user = await notes<NotepadType>().get('user').answeredBy(actor);
   const member = await (await MemberInDb(memberName)).answeredBy(actor);
   const accounts = member.accounts.items.map((item) => item.user).filter((u) => u.externalId === user.externalId);

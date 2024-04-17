@@ -1,9 +1,8 @@
-Feature: Create a service ticket
+# Feature: Create a service ticket
 
-Background: 
-  Given OttoTheOwner registers with Owner Community
-  And OttoTheOwner creates a new community named Palms
-  # And he creates CommunityManager role in Atlantis community with following permissions:
+# Background: 
+#   Given OwenTheOwner creates Atlantis community
+#   And he creates CommunityManager role in Atlantis community with following permissions:
 #     | communityPermissions      | canManageRolesAndPermissions, canManageSiteContent, canManageMembers |
 #     | serviceTicketPermissions  | canManageTickets |
 #     | servicePermissions        | canManageServices |

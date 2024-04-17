@@ -35,27 +35,3 @@ export const IsAdminRole = (role: RoleProps) => {
   }
   return result;
 };
-
-export const _ = {
-  // Account
-  AnAccountIsCreatedByActor: 'An account with first name {word}, last name {word} for {word} using externalId of {actor} in {word} is created by {actor}',
-
-  // Community
-  UserCreatesANewCommunity: '{actor} creates a new community named {word}',
-
-  // Member
-  MemberIsTheAdminMemberOfCommunity: '{actor} is the admin member of {word}',
-  MemberAddsANewMemberToCommunity: '{actor} adds a new member named {word} to {word}',
-  
-
-  // Property
-
-
-  // Role
-
-  // ServiceTicket
-
-  // User
-  UserIsAMemberOfCommunityUnderMemberNamed: '{actor} should be a member of {word} under member named {word}',
-
-}

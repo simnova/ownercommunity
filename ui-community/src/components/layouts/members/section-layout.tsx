@@ -33,16 +33,13 @@ export const SectionLayout: React.FC<any> = (props) => {
   }, []);
 
   const adminLink = () => {
-    console.log(data?.memberForCurrentUser);
-    if (data?.memberForCurrentUser?.role !== null) {
-      if (data?.memberForCurrentUser?.role?.roleName.toLowerCase() === 'admin') {
+      if (data?.memberForCurrentUser?.isAdmin !== null && data?.memberForCurrentUser?.isAdmin) {
         return (
           <a className="allowBoxShadow" onClick={() => navigate(`/community/${communityId}/admin/${memberId}`)}>
             View Admin Site
           </a>
         );
       }
-    }
   };
 
  

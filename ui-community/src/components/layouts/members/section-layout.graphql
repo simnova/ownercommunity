@@ -3,5 +3,6 @@ query MemberSiteCurrentMemberHasAdminRole($communityId: ObjectID!) {
     role {
       roleName
     }
+    isAdmin
   }
 }

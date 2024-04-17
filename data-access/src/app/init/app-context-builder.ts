@@ -94,7 +94,7 @@ export class AppContextBuilder implements AppContext {
     let userExternalId = this._verifiedUser.verifiedJWT.sub;
     if(userExternalId && this._communityData) {
       let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
-      let memberData = await this._applicationServices.memberDataApi.getMemberByCommunityAccountWithCommunityAccountRole(this._communityData.id, userData.id);
+      let memberData = await this._applicationServices.memberDataApi.getMemberByCommunityAccountWithCommunityAccountRole(this._communityData.id, userData?.id);
       if(memberData && userData) {
         this._passport = new PassportImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference);
       }

@@ -90,3 +90,22 @@
   cursor: pointer;
   opacity: 0.8;
 }
+
+.modal-custom-style {
+  width: 800px;
+  max-height: 90vh;
+}
+
+.centered-container {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-preview-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}

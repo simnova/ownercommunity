@@ -15,6 +15,7 @@ export const CommunityListContainer: React.FC<any> = () => {
 
   const { loading: membersLoading, error: membersError, data: membersData } = useQuery(CommunityListContainerMembersByUserExternalIdQueryDocument, {
     variables: { userExternalId },
+    fetchPolicy: 'network-only'
   });
 
   let members: Member[][] = [];

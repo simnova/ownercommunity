@@ -52,7 +52,8 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (text: any, record: FileInfo) =>
         text ? (
-          <Button type="link"
+          <Button
+            type="link"
             onClick={() => {
               setSelectedFile(record);
               setShowModal(true);
@@ -133,9 +134,15 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
 
   let preview = (file: FileInfo): React.JSX.Element => {
     if (file.type.startsWith('image/')) {
-      return <img src={file.url} alt="File Preview" />;
+      return (
+        <img
+          src={file.url}
+          alt="File Preview"
+          style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+        />
+      );
     } else if (file.type.startsWith('application/pdf')) {
-      return <embed src={file.url} />;
+      return <embed src={file.url} style={{ width: '100%', height: '80vh' }} />;
     } else {
       return <p>Preview not available for this file type</p>;
     }
@@ -148,9 +155,14 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
         open={showModal}
         onCancel={() => setShowModal(false)}
         onOk={() => setShowModal(false)}
+        width={800}
+        style={{ maxHeight: '90vh' }}
       >
-        <div>{selectedFile && preview(selectedFile)}</div>
+        <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {selectedFile && preview(selectedFile)}
+        </div>
       </Modal>
+
       <div className="site-editor-files-list">
         <div className="site-editor-files-list-header">
           <div className="site-editor-files-list-header-title">Files</div>

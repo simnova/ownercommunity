@@ -92,7 +92,7 @@ export class AppContextBuilder implements AppContext {
       let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
       if (userData) {
         let memberData = await this._applicationServices.memberDataApi.getMemberByCommunityAccountWithCommunityAccountRole(this._communityData.id, userData.id);
-        if (memberData && userData) {
+        if (memberData) {
           this._passport = new PassportImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference);
         }
       }

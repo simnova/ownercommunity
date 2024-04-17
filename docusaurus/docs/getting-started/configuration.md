@@ -1,5 +1,7 @@
 ---
 sidebar_position: 2
+sidebar_label: Configuration
+description: "Configuring your project environment."
 ---
 
 # Configuration

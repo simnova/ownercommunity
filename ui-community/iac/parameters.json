@@ -27,7 +27,7 @@
               "profileName": "cdn-dev-ms-standard",
               "location": "eastus2",
               "googleAnalyticsSha256": "",
-              "customDomainName": "pathways-dev.myintealth.app",
+              "customDomainName": "owner-dev.community",
               "rules": [
                 {
                   "name": "Global",
@@ -161,7 +161,7 @@
               "sku": "Standard_RAGZRS",
               "location": "westus3",
               "cors": {
-                "allowedOrigins": ["https://pwy-prd-func-pri-fxauyey43w7y6.azurewebsites.net"],
+                "allowedOrigins": ["https://oc-prd-func-pri-fxauyey43w7y6.azurewebsites.net"],
                 "allowedMethods": ["GET", "POST"],
                 "allowedHeaders": [""],
                 "exposedHeaders": [""],
@@ -173,7 +173,7 @@
               "profileName": "cdn-prod-ms-standard",
               "location": "eastus2",
               "googleAnalyticsSha256": "",
-              "customDomainName": "pathways.myintealth.app",
+              "customDomainName": "owner.community",
               "rules": [
                 {
                   "name": "Global",

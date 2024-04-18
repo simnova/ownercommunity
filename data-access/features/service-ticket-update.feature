@@ -1,31 +1,4 @@
-Feature: Create and manage service tickets
-
-Background: 
-  # Given OwenTheOwner creates Atlantis community
-  # And he creates CommunityManager role in Atlantis community with following permissions:
-  #   | communityPermissions      | canManageRolesAndPermissions, canManageSiteContent, canManageMembers |
-  #   | serviceTicketPermissions  | canManageTickets |
-  #   | servicePermissions        | canManageServices |
-  # And he creates Member role in Atlantis community with following permissions:
-  #   | serviceTicketPermissions  | canManageTickets |
-  #   | servicePermissions        | canManageServices |
-  # And MikeTheMember is assigned the Member role at the Atlantis community
-  # And MikeTheMember has a ABC property in the Atlantis community
-  # And WendyTheMember is assigned the Member role at the Atlantis community
-  # And WendyTheMember has a DEF property in the Atlantis community
-  # And CamellaTheCommunityManager is assigned the CommunityManager role at the Atlantis community
-  # And MaddyTheMaintenancePerson is assigned the MaintenancePerson role at the Atlantis community
-
-
-@dev-todo
-  Scenario: Create service ticket
-    When MikeTheMember the Member creates a service ticket
-          | propertyName | "XYZ property name" |
-          | title | "Abc title" |
-          | description | "ABCDEF details" |
-          | priority | p5 |
-    Then the service ticket is created for XYZ property
-    And the service ticket status is DRAFT
+Feature: Update Service Ticket
 
 @dev-todo
   Scenario: Member submits a service ticket for own property
@@ -175,39 +148,3 @@ Background:
     And CamellaTheCommunityManager advances the service ticket from COMPLETED to CLOSED
     When CamellaTheCommunityManager advances the service ticket from CLOSED to INPROGRESS
     Then the service ticket status is INPROGRESS
-
-@dev-todo
-  Scenario: Memeber deletes the DRAFT service ticket
-    Given MikeTheMember the Member creates a service ticket
-          | propertyName | "XYZ property name" |
-          | title | "Abc title" |
-          | description | "ABCDEF details" |
-          | priority | p5 |
-    And the service ticket is created for XYZ property
-    When he deletes the service ticket
-    Then the service ticket is deleted
-
-@dev-todo
-  Scenario: Member deletes the SUBMMITTED service ticket
-    Given MikeTheMember the Member creates a service ticket
-          | propertyName | "XYZ property name" |
-          | title | "Abc title" |
-          | description | "ABCDEF details" |
-          | priority | p5 |
-    And the service ticket is created for XYZ property
-    And MikeTheMember advances the service ticket from DRAFT to SUBMITTED
-    When he deletes the service ticket
-    Then the service ticket is not deleted
-
-@dev-todo
-  Scenario: CommunityManager deletes the service ticket
-    Given CamellaTheCommunityManager the CommunityManager creates a service ticket
-          | propertyName | "XYZ property name" |
-          | title | "Abc title" |
-          | description | "ABCDEF details" |
-          | requester | "MikeTheMember" |
-          | priority | p2 |
-    And CamellaTheCommunityManager advances the service ticket from DRAFT to SUBMITTED
-    When she deletes the service ticket
-    Then the service ticket is deleted
-  

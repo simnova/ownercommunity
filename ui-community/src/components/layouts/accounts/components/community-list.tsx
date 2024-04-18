@@ -1,4 +1,4 @@
-import { Button, Col, Row, Typography } from 'antd';
+import { Button, Typography, Tabs } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 
@@ -13,66 +13,71 @@ export interface CommunityListProps {
 
 export const CommunityList: React.FC<CommunityListProps> = (props) => {
   const navigate = useNavigate();
-  
+  let items = props.data?.communities?.map((community: any, i: number) => ({
+    key: community.id,
+    label: community.name,
+    children: (
+      <div style={{float: 'left'}}>
+        <div style={{float: 'left', marginRight: 20}}>
+          <Title level={5} style={{textAlign: 'center'}}>Member Portal</Title>
+          {props.data?.members[i]?.map((member: Member) => (
+            <div key={member.id}>
+                <div className="listofbuttons">
+                  <Button
+                    type="default"
+                    key={member.id}
+                    data-testid="community-list-button"
+                    style={{ width: '200px', marginBottom: '10px' }}
+                    onClick={() => navigate(`/community/${community.id}/member/${member.id}`)}
+                  >
+                    {member.memberName}
+                  </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{float: 'left'}}>
+          <Title level={5} style={{textAlign: 'center'}}>Admin Portal</Title>
+          {props.data?.members[i]?.map((member: Member) => (
+            <div key={member.id}>
+              {member.isAdmin && (
+                  <div className="listofbuttons">
+                    <Button
+                      type="default"
+                      key={member.id + '-admin'}
+                      data-testid="community-list-admin-button"
+                      style={{ width: '200px', marginBottom: '10px' }}
+                      onClick={() => navigate(`/community/${community.id}/admin/${member.id}`)}
+                    >
+                      {member.memberName}
+                    </Button>
+                  </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }));
+
   return (
     <div>
-      <h1>Navigate to a Community</h1>
-
-      {props.data?.communities?.map((community: any, i: number) => (
-        <div key={community.id} style={{ padding: "20px"}}>
-          <Row justify="center">
-            <Col span={16} style={{ textAlign: 'left' }}>
-              <Title level={2}>{community.name}</Title>
-            </Col>
-          </Row>
-          <Row justify="center">
-            <Col span={8} style={{ textAlign: 'center' }}>
-              <div style={{ backgroundColor: 'lightblue', padding: '10px', margin: "0 50px", borderRadius: "5px" }}>
-                <Title level={4} style={{ padding: "5px 0" }}>Member Portal</Title>
-                {props.data?.members[i]?.map((member: Member) => 
-                    <Button
-                        key={member.id}
-                        data-testid="community-list-button"
-                        style={{ width: '200px', marginBottom: '10px' }}
-                        onClick={() =>
-                            navigate(
-                                `/community/${community.id}/member/${member.id}`
-                            )
-                        }
-                    >
-                        {member.memberName}
-                    </Button>
-                )}
-              </div>
-            </Col>
-            <Col span={8} style={{ textAlign: 'center' }}>
-              <div style={{ backgroundColor: '#3a59e0', padding: '10px', margin: "0 50px", borderRadius: "5px" }}>
-                <Title level={4} style={{ padding: "5px 0" }}>Admin Portal</Title>
-                {props.data?.members[i]?.map((member: Member) => {
-                    if (member?.isAdmin) {
-                        return (
-                            <Button
-                                key={member.id + '-admin'}
-                                data-testid="community-list-admin-button"
-                                style={{ width: '200px', marginBottom: '10px' }}
-                                onClick={() =>
-                                    navigate(
-                                        `/community/${community.id}/admin/${member.id}`
-                                    )
-                                }
-                            >
-                                {member.memberName}
-                            </Button>
-                        )
-                    } else {
-                        return <></>;
-                    }
-                })}
-              </div>
-            </Col>
-          </Row>
-        </div>
-      ))}
+      <div className="flex justify-between">
+        <h1>Navigate to a Community</h1>
+        <Button type="primary" onClick={() => navigate('create-community')}>
+          Create a Community
+        </Button>
+      </div>
+      <div className="w-full p-5 mx-auto my-5 shadow-lg rounded-lg">
+        {items.length > 0 ? (
+          <Tabs items={items} tabPosition="left" />
+        ) : (
+          <Title level={5} style={{ display: 'flex', justifyContent: 'center' }}>
+            You currently don't have any communities. Please create a community using the button on the right or join
+            one.
+          </Title>
+        )}
+      </div>
     </div>
   );
 };

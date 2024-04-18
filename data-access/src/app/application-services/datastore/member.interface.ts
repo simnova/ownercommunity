@@ -9,4 +9,5 @@ export interface MemberDatastoreApplicationService {
   getMemberById(memberId: string): Promise<MemberData>;
   getMemberByIdWithCommunityAccountRole(memberId): Promise<MemberData>;
   getMembersByUserExternalId(userExternalId: string): Promise<MemberData[]>;
+  isAdmin(memberId: string): Promise<boolean>;
 }

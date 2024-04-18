@@ -2,9 +2,9 @@ import { Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Layout, theme } from 'antd';
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
 import { MenuComponent } from '../shared/components/menu-component'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LocalSettingsKeys, handleToggler } from '../../../constants';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { MemberSiteCurrentMemberHasAdminRoleDocument } from '../../../generated';
 import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
 
@@ -15,23 +15,32 @@ export const SectionLayout: React.FC<any> = (props) => {
   const { communityId, memberId } = useParams();
   const navigate = useNavigate();
   const params = useParams();
-  const { data } = useQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
+  const [data, setData] = useState<any>(null);
+
+  const [loadMemberRole] = useLazyQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
     variables: {
       communityId: communityId
     }
   });
 
-  // const adminLink = () => {
-  //   if (data?.memberForCurrentUser?.role !== null) {
-  //     if (data?.memberForCurrentUser?.role?.roleName.toLowerCase() === 'admin') {
-  //       return (
-  //         <a className="allowBoxShadow" onClick={() => navigate(`/community/${communityId}/admin/${memberId}`)}>
-  //           View Admin Site
-  //         </a>
-  //       );
-  //     }
-  //   }
-  // };
+  useEffect(() => { 
+    const fetchData = async () => {
+      const result = await loadMemberRole();
+      setData(result.data);
+    }
+
+    fetchData();
+  }, []);
+
+  const adminLink = () => {
+      if (data?.memberForCurrentUser?.isAdmin !== null && data?.memberForCurrentUser?.isAdmin) {
+        return (
+          <a className="allowBoxShadow" onClick={() => navigate(`/community/${communityId}/admin/${memberId}`)}>
+            View Admin Site
+          </a>
+        );
+      }
+  };
 
  
   const {
@@ -59,7 +68,7 @@ export const SectionLayout: React.FC<any> = (props) => {
          <div style={{ display: 'flex' }} className="allowBoxShadow">
             <CommunitiesDropdownContainer data={{ id: params.communityId }} />
           </div>
-          {/* {adminLink()} */}
+          {adminLink()}
 
           <div className="text-right  text-sky-400" style={{ flexGrow: '1' }}>
             <LoggedInUserContainer autoLogin={true} />

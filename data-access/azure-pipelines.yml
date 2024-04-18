@@ -3,155 +3,89 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+
 trigger:
-  branches:
-    include:
-      - main
- 
+ paths:
+   include:
+     - data-access
+ branches:
+   include:
+     - main
+
 pr:
   branches:
     include:
       - main
+  paths:
+    include:
+      - data-access
+
+pool:
+  vmImage: ubuntu-latest
 
 variables:
-  # Function app name
-  functionApp1Name: 'owner-community-data-access-west2'
-  functionApp2Name: 'owner-community-data-access-east2'
-
-  # Environment name
-  environmentName: 'data-access'
-
-  # Agent VM image name
+  deploymentDefaultLocation: 'eastus2'
+  ServiceConnectionName: 'Azure DevOps Publishing Service Connection'
   vmImageName: 'ubuntu-latest'
-
   system.debug: true
   npm_config_cache: $(Pipeline.Workspace)/.npm
   SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
-
-pool:
-  # Ensure OS we build on is same as what we run the function on.
-  vmImage: 'ubuntu-latest'
+  UniqueStringDev: 'avaqbizf2s7le'
+  UniqueStringQA: 'pnp3ehpzqysdg'
+  UniqueStringUAT: 'mbe5flfloncdm'
+  UniqueStringPRD: 'lbiusbw5zdgpc'
+  UniqueStringTRN: 'fxauyey43w7y6'
 
 stages:
-  - stage: Build
-    displayName: Build stage
-    jobs:
-    - job: Build
-      displayName: Build
-      pool:
-        vmImage: $(vmImageName) 
-      steps:
+  - template: ./build-pipeline/core/function-app-build-stage.yml
+    parameters:
+      vmImageName: $(vmImageName)
+      npm_config_cache: $(npm_config_cache)
+      isNpmCacheAvailable: 'true'
+      disableSonarCloudTasks: 'false'
+      SONAR_USER_HOME: $(SONAR_USER_HOME)
+      SonarCloud: 'sonarcloud'
+      SonarCloud_organization: 'simnova'
+      SonarCloud_scannerMode: 'CLI'
+      SonarCloud_configMode: 'manual'
+      SonarCloud_cliProjectKey: 'simnova_ownercommuntiy-data-access'
+      SonarCloud_cliProjectName: 'simnova_ownercommuntiy-data-access'
 
-      # Ensure the correct version of Node is installed.
-      - task: NodeTool@0
-        displayName: 'Install: Node.js - LTS'
-        inputs:
-          versionSpec: '16.x'
- 
-      # Ensure the correct version of function tools are installed.
-      - task: FuncToolsInstaller@0
-        displayName: 'Install: func tools - latest'
+  # - template: ./build-pipeline/core/core-stage.yml
+  #   parameters: 
+  #     dependsOnStage: Build
+  #     environmentNameDevOps: 'Core'
+  #     vmImageName: $(vmImageName)
+  #     ServiceConnectionName: $(ServiceConnectionName)
+  #     deploymentDefaultLocation: $(deploymentDefaultLocation)
+  #     resourceGroupName: 'corp-core-rg'
 
-      # Cache NPM packages to speed up build process.
-      - task: Cache@2
-        displayName: 'NPM: Restore Cache'
-        inputs:
-          key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/package-lock.json'
-          restoreKeys: |
-              npm | "$(Agent.OS)"
-          path: $(npm_config_cache)
-
-      # Build project and run tests
-      - task: Bash@3
-        displayName: 'NPM: Prepare binaries and run tests'
-        inputs:
-          targetType: 'inline'
-          script: |
-            export NODE_OPTIONS=--max_old_space_size=16384
-            npm ci
-            npm run test:ci
-            npm run build:production
-
-      # Cache SonarCloud downloaded assets to speed up build process.
-      - task: Cache@2
-        displayName: 'SonarCloud: Restore Cache'
-        inputs:
-          key: 'sonarcloud | "$(Agent.OS)"'
-          restoreKeys: |
-            sonarcloud | "$(Agent.OS)"
-          path: $(SONAR_USER_HOME)/cache
-
-      # Set up SonarCloud
-      - task: SonarCloudPrepare@1
-        displayName: 'SonarCloud: Prepare analysis configuration'
-        inputs:
-          SonarCloud: 'sonarcloud'
-          organization: 'simnova'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: 'simnova_ownercommuntiy-data-access'
-          cliProjectName: 'simnova_ownercommuntiy-data-access'
-          cliSources: './'
-          extraProperties: |
-            sonar.javascript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/coverage/lcov.info
-
-      # SonarCloud: Analyze code and code coverage
-      - task: SonarCloudAnalyze@1
-        displayName: 'SonarCloud: Run analysis'
-
-      # SonarCloud: Publish analysis results and wait until completion
-      - task: SonarCloudPublish@1
-        displayName: 'SonarCloud: Publish results on build summary'
-        inputs:
-          pollingTimeoutSec: '300'
-
-      # Package compiled assets into artifact
-      - task: ArchiveFiles@2
-        displayName: 'Artifact: Prepare'
-        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-        inputs:
-          rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-          includeRootFolder: false
-          archiveType: zip
-          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-          replaceExistingArchive: true
-
-      # Upload artifact as build result
-      - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        displayName: 'Artifact: Publish'
-        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-        artifact: drop
-
-  - stage: Deploy
-    displayName: 'Deploy stage'
-    dependsOn: Build
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    jobs:
-    - deployment: Deploy
-      displayName: Deploy
-      environment: $(environmentName)
-      pool: 
-        vmImage: $(vmImageName)
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            
-            - task: AzureFunctionApp@1
-              displayName: 'Azure Functions App Deploy: $(functionApp1Name)'
-              inputs:
-                azureSubscription: 'OwnerCommunity'
-                appType: 'functionAppLinux'
-                appName: $(functionApp1Name)
-                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-                runtimeStack: 'NODE|16'
-                deploymentMethod: 'runFromPackage'
-            - task: AzureFunctionApp@1
-              displayName: 'Azure Functions App Deploy: $(functionApp2Name)'
-              inputs:
-                azureSubscription: 'OwnerCommunity'
-                appType: 'functionAppLinux'
-                appName: $(functionApp2Name)
-                package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-                runtimeStack: 'NODE|16'
-                deploymentMethod: 'runFromPackage'
+  # - template: ./build-pipeline/core/function-app-deployment-stage.yml
+  #   parameters: 
+  #     stageName: 'DEV'
+  #     dependsOnStage: Core
+  #     environmentNameBicep: 'dev'
+  #     environmentNameDevOps: 'efm-dev'
+  #     vmImageName: $(vmImageName)
+  #     ServiceConnectionName: $(ServiceConnectionName)
+  #     deploymentDefaultLocation: $(deploymentDefaultLocation)
+  #     resourceGroupName: 'corp-dev-rg'
+  #     functionAppNamePri: 'efm-dev-func-pri-$(UniqueStringDev)'
+  #     functionAppNameSec: 'efm-dev-func-sec-$(UniqueStringDev)'
+  #     appSettingsJsonFileRelativePathPri: 'data-access/build-pipeline/config/dev-pri.json'
+  #     appSettingsJsonFileRelativePathSec: 'data-access/build-pipeline/config/dev-sec.json'
+  
+  # - template: ./build-pipeline/core/function-app-deployment-stage.yml
+    # parameters: 
+    #   stageName: 'PRD'
+    #   dependsOnStage: DEV
+    #   environmentNameBicep: 'prd'
+    #   environmentNameDevOps: 'efm-prd'
+    #   vmImageName: $(vmImageName)
+    #   ServiceConnectionName: $(ServiceConnectionName)
+    #   deploymentDefaultLocation: $(deploymentDefaultLocation)
+    #   resourceGroupName: 'corp-prod-rg'
+    #   functionAppNamePri: 'efm-prd-func-pri-$(UniqueStringPRD)'
+    #   functionAppNameSec: 'efm-prd-func-sec-$(UniqueStringPRD)'
+    #   appSettingsJsonFileRelativePathPri: 'data-access/build-pipeline/config/prd-pri.json'
+    #   appSettingsJsonFileRelativePathSec: 'data-access/build-pipeline/config/prd-sec.json'

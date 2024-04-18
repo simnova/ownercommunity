@@ -20,7 +20,7 @@ export interface AuthProps {
 }
 
 const ApolloConnection: FC<any> = (props) => {
-  const auth = useAuth()
+  const auth = useAuth();
   const params = useParams();
 
   const hasAuth = props.AuthenticationIdentifier !== null && typeof props.AuthenticationIdentifier !== "undefined";

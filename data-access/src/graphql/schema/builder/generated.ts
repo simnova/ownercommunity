@@ -446,6 +446,7 @@ export type Member = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   customViews?: Maybe<Array<Maybe<CustomView>>>;
   id: Scalars['ObjectID'];
+  isAdmin?: Maybe<Scalars['Boolean']>;
   memberName?: Maybe<Scalars['String']>;
   profile?: Maybe<MemberProfile>;
   role?: Maybe<Role>;
@@ -2281,6 +2282,7 @@ export type MemberResolvers<ContextType = GraphqlContext, ParentType extends Res
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   customViews?: Resolver<Maybe<Array<Maybe<ResolversTypes['CustomView']>>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  isAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   memberName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   profile?: Resolver<Maybe<ResolversTypes['MemberProfile']>, ParentType, ContextType>;
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;

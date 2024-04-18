@@ -1,13 +1,13 @@
-import { Passport, PassportImpl, ReadOnlyPassport } from "../domain/contexts/iam/passport";
-import { UserEntityReference } from "../domain/contexts/user/user";
-import { MemberEntityReference } from "../domain/contexts/community/member";
-import { CommunityEntityReference } from "../domain/contexts/community/community";
-import { ApplicationServices } from "../application-services";
-import { InfrastructureServices } from "../infrastructure-services";
-import { DomainImpl } from "../domain/domain-impl";
-import { DomainExecutionContext } from "../domain/contexts/domain-execution-context";
-import { CommunityData } from "../external-dependencies/datastore";
-import { ApplicationServicesBuilder } from "./application-services-builder";
+import { Passport, PassportImpl, ReadOnlyPassport } from '../domain/contexts/iam/passport';
+import { UserEntityReference } from '../domain/contexts/user/user';
+import { MemberEntityReference } from '../domain/contexts/community/member';
+import { CommunityEntityReference } from '../domain/contexts/community/community';
+import { ApplicationServices } from '../application-services';
+import { InfrastructureServices } from '../infrastructure-services';
+import { DomainImpl } from '../domain/domain-impl';
+import { DomainExecutionContext } from '../domain/contexts/domain-execution-context';
+import { CommunityData } from '../external-dependencies/datastore';
+import { ApplicationServicesBuilder } from './application-services-builder';
 
 export type VerifiedUser = {
   verifiedJWT: any;
@@ -70,7 +70,7 @@ export class AppContextBuilder implements AppContext {
     await this.setCommunityData();
     await this.setPassport();
     await this.initializeDomain();
-    console.log(' app context initialized ...')
+    console.log(' app context initialized ...');
   }
 
   private async initializeDomain() {
@@ -82,12 +82,12 @@ export class AppContextBuilder implements AppContext {
     );
     await DomainImplInstance.startup();
   }
-  
+
   private async setDefaultPassport(): Promise<void> {
     this._passport = ReadOnlyPassport.GetInstance();
   }
-  
-  private async setCommunityData(): Promise<void>{
+
+  private async setCommunityData(): Promise<void> {
     if (this._communityHeader) {
       this._communityData = await this._applicationServices.communityDataApi.getCommunityByHeader(this._communityHeader);
     }
@@ -95,7 +95,7 @@ export class AppContextBuilder implements AppContext {
 
   private async setPassport(): Promise<void> {
     let userExternalId = this._verifiedUser.verifiedJWT.sub;
-    if(userExternalId && this._communityData) {
+    if (userExternalId && this._communityData) {
       let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
       let memberData = (await this._applicationServices.memberDataApi.getMemberByIdWithCommunityAccountRole(this._memberId));
       if(memberData && userData) {

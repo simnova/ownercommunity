@@ -15,7 +15,7 @@ import { OpenIdConfig, VerifiedTokenService } from '../../seedwork/auth-seedwork
    **/
   constructor(portal: Map<string, string>, refreshInterval: number  = 1000*60*5) {
     this.tokenSettings = new Map<string,OpenIdConfig>();
-    
+    console.log("i love logging");
     for(let [portalKey, envPrefix] of portal){
       this.tokenSettings.set(
         portalKey,

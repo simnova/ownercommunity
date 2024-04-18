@@ -18,6 +18,11 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
   const currentMember = props.data.members?.find((member) => member.id === params.memberId);
 
   let items: MenuProps['items'] = [];
+
+  function isAdminMember(member: Member) {
+    return member?.community?.userIsAdmin;
+  }
+
   const populateItems = (member: Member) => {
     if (items?.some((community) => community?.key === member.community?.id) === false) {
       const memberProps = {
@@ -31,7 +36,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
           }
         ]
       };
-      if (member?.community?.userIsAdmin) {
+      if (isAdminMember(member)) {
         memberProps.children.push({
           key: memberProps.key + '-admin',
           label: member?.memberName + ' (Admin)',
@@ -51,7 +56,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
             label: member?.memberName,
             path: `/community/${member?.community?.id}/member/${member?.id}`
           });
-          if (member?.community?.userIsAdmin) {
+          if (isAdminMember(member)) {
             tempCommunity.children.push({
               key: tempCommunity.key + '-admin',
               label: member?.memberName + ' (Admin)',

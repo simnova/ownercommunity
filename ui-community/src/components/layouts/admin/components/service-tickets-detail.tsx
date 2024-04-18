@@ -35,7 +35,6 @@ import {
 const { Title } = Typography;
 const { TextArea } = Input;
 const { Step } = Steps;
-//const { ColumnGroupType, ColumnType } = Table;
 
 export interface ServiceTicketsDetailProps {
   data: {
@@ -66,7 +65,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [nextState, setNextState] = useState('');
 
-  const assignStages = ['SUBMITTED', 'INPROGRESS', 'ASSIGNED']
+  const assignStages = ['SUBMITTED', 'INPROGRESS', 'ASSIGNED'];
 
   const columns: ColumnsType<ServiceTicketActivityDetail> = [
     {
@@ -74,8 +73,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
       dataIndex: 'activityType',
       key: 'activityType',
       render: (text: string) => {
-        if(text === "INPROGRESS"){
-          return "IN PROGRESS";
+        if (text === 'INPROGRESS') {
+          return 'IN PROGRESS';
         }
         return text;
       }
@@ -329,8 +328,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
                 allowClear={true}
                 placeholder="Select a Member"
                 options={props.data.members}
-                fieldNames={{ label: 'memberName', value: 'id'}}
-                style={{width: '35%'}}
+                fieldNames={{ label: 'memberName', value: 'id' }}
+                style={{ width: '35%' }}
               />
             </Form.Item>
             <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>

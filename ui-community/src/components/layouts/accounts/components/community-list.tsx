@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 import { ColumnFilterItem } from 'antd/es/table/interface';
 import { DownOutlined } from '@ant-design/icons';
+import { useMemo } from 'react';
 
 const { Title } = Typography;
 
@@ -16,35 +17,39 @@ export interface CommunityListProps {
 export const CommunityList: React.FC<CommunityListProps> = (props) => {
   const navigate = useNavigate();
 
-  const columns = [
-    {
-      title: 'Community Name',
-      dataIndex: 'community',
-      key: 'community',
-      filters:
-        props.data?.communities?.map(
-          (community) =>
-            ({
-              text: community.name as string,
-              value: community.name as string
-            } as ColumnFilterItem)
-        ) ?? [],
-      filterMode: 'menu' as 'menu',
-      filterSearch: true,
-      onFilter: (value: boolean | React.Key, record: any) => record.community.startsWith(value) as boolean,
-      width: '30%'
-    },
-    {
-      title: 'Member Portal',
-      dataIndex: 'memberPortal',
-      key: 'memberPortal'
-    },
-    {
-      title: 'Admin Portal',
-      dataIndex: 'adminPortal',
-      key: 'adminPortal'
-    }
-  ];
+  const useCommunnityColumns = (props: CommunityListProps) =>
+    useMemo(() => {
+      const columns = [
+        {
+          title: 'Community Name',
+          dataIndex: 'community',
+          key: 'community',
+          filters:
+            props.data?.communities?.map(
+              (community) =>
+                ({
+                  text: community.name as string,
+                  value: community.name as string
+                } as ColumnFilterItem)
+            ) ?? [],
+          filterMode: 'menu' as 'menu',
+          filterSearch: true,
+          onFilter: (value: boolean | React.Key, record: any) => record.community.startsWith(value) as boolean,
+          width: '30%'
+        },
+        {
+          title: 'Member Portal',
+          dataIndex: 'memberPortal',
+          key: 'memberPortal'
+        },
+        {
+          title: 'Admin Portal',
+          dataIndex: 'adminPortal',
+          key: 'adminPortal'
+        }
+      ];
+      return columns;
+    }, [props]);
 
   let items = props.data?.communities?.map((community: any, i: number) => ({
     key: community.id,
@@ -101,7 +106,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         {items.length > 0 ? (
           <Table
             dataSource={items}
-            columns={columns}
+            columns={useCommunnityColumns(props)}
             sticky={{
               offsetHeader: 0
             }}

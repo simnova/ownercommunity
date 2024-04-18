@@ -24,7 +24,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
   }
 
   const populateItems = (member: Member) => {
-    if (items?.some((community) => community?.key === member.community?.id) === false) {
+    if (items?.[member?.community?.id] !== null) {
       const memberProps = {
         key: member?.community?.id,
         label: member?.community?.name,
@@ -43,35 +43,27 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
           path: `/community/${member?.community?.id}/admin/${member?.id}`
         });
       }
-      items.push(memberProps);
+      items?.push(memberProps);
       return;
     }
-
-    if (items?.length !== undefined) {
-      for (let i = 0; i < items?.length; i++) {
-        if (items[i]?.key === member?.community?.id) {
-          let tempCommunity: any = items[i];
-          tempCommunity.children.push({
-            key: member?.id,
-            label: member?.memberName,
-            path: `/community/${member?.community?.id}/member/${member?.id}`
-          });
-          if (isAdminMember(member)) {
-            tempCommunity.children.push({
-              key: tempCommunity.key + '-admin',
-              label: member?.memberName + ' (Admin)',
-              path: `/community/${member?.community?.id}/admin/${member?.id}`
-            });
-          }
-          items[i] = tempCommunity;
-          break;
-        }
-      }
+    
+    let tempCommunity: any = items[member?.community?.id];
+    tempCommunity.children.push({
+      key: member?.id,
+      label: member?.memberName,
+      path: `/community/${member?.community?.id}/member/${member?.id}`
+    });
+    if (isAdminMember(member)) {
+      tempCommunity.children.push({
+        key: tempCommunity.key + '-admin',
+        label: member?.memberName + ' (Admin)',
+        path: `/community/${member?.community?.id}/admin/${member?.id}`
+      });
     }
+    items[member?.community?.id] = tempCommunity;
   };
 
   props.data.members?.forEach((member: Member) => populateItems(member));
-
 
   const onMenuItemClicked = (e: any) => {
     setDropdownVisible(false);

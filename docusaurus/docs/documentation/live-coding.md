@@ -1,4 +1,5 @@
 ---
+sidebar_position: 6
 title: Live Coding Example Page
 description: How to implement a live coding example page in Docusaurus.
 ---

@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 sidebar_label: 0001 MADR Architecture Decisions
+description: "Use Markdown Any Decision Records (MADR) to track Architectural Decisions."
 # These are optional elements. Feel free to remove them if you don't need them.
 status: accepted
 date: 2024-04-12
@@ -23,6 +24,12 @@ For more information [see](https://adr.github.io/)
 - **Consistency**: Ensure consistency in documenting architectural decisions.
 - **Transparency**: Architecture changes and associated decisions should be visible and accessible to the community.
 - **Discoverability**: Ensure that architectural decisions are easily discoverable and comprehensible by storing decision records in the repository for teams involved in various language ports.
+
+## Considered Options
+
+* [MADR](https://adr.github.io/madr/) 3.0.0 – The Markdown Any Decision Records
+* [Microsoft sementic-kernel](https://github.com/microsoft/semantic-kernel/tree/main/docs/decisions) - Microsoft's MADR implementation
+* [forem](https://github.com/forem/forem-docs) - Forem's ADR implementation
 
 ## Decision Outcome
 

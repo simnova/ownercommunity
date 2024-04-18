@@ -17,7 +17,6 @@ export class ApolloServerRequestHandler {
       },
 
       allowBatchedHttpRequests: true,
-      //  playground: { endpoint: '/api/graphql/playground' },
       plugins: [
         {
           async didEncounterErrors(requestContext: GraphQLRequestContext<ApolloContext>) {

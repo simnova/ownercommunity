@@ -142,7 +142,7 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
         />
       );
     } else if (file.type.startsWith('application/pdf')) {
-      return <embed src={file.url} style={{ width: '100%', height: '80vh' }} />;
+      return <embed src={file.url} className="file-preview-pdf" />;
     } else {
       return <p>Preview not available for this file type</p>;
     }

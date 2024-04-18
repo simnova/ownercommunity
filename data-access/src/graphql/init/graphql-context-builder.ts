@@ -49,6 +49,7 @@ export class GraphqlContextBuilder implements GraphqlContext{
     this._appContext = new AppContextBuilder(
       this._verifiedUser, 
       this._req.headers.get('community'),
+      this._req.headers.get('member'),
       this._infrastructureServices
     );
     await this._appContext.init();

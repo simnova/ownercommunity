@@ -27,7 +27,7 @@ export class AppContextBuilder implements AppContext {
   private _verifiedUser: VerifiedUser;
   private _communityHeader: string;
   private _memberId: string;
-  private _communityData: CommunityData
+  private _communityData: CommunityData;
   private _passport: Passport;
   private _applicationServices: ApplicationServices;
   private _infrastructureServices: InfrastructureServices;

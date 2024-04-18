@@ -36,7 +36,7 @@ export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerPr
   useEffect(() => {
     const blobPath = `https://ownercommunity.blob.core.windows.net/${props.data.communityId}/profile/${props.data.id}/avatar`;
     setImageUrl(blobPath);
-  }, [props.data.id]);
+  }, [props.data.id, props.data.communityId]);
 
   const handleRemoveRequest = async () => {
     const result = await memberProfileAvatarRemove({ variables: { memberId: props.data.id } });

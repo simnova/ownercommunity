@@ -1,6 +1,7 @@
 import { Menu, MenuTheme } from 'antd';
 import { MenuMode } from 'rc-menu/lib/interface';
 import { Link, generatePath, matchRoutes, useLocation, useParams } from 'react-router-dom';
+import { Member } from '../../../../generated';
 
 const { SubMenu } = Menu;
 
@@ -8,6 +9,7 @@ interface TextProp {
   pageLayouts: any;
   theme: MenuTheme | undefined;
   mode: MenuMode | undefined;
+  memberData?: Member;
 }
 
 export const MenuComponent = ({ pageLayouts, ...props }: TextProp) => {
@@ -26,6 +28,9 @@ export const MenuComponent = ({ pageLayouts, ...props }: TextProp) => {
     return children.map((x: any) => {
       let child = pageLayouts.find((y: any) => y.id === x.id) as any;
       let grandChildren = pageLayouts.filter((x: any) => x.parent === child.id);
+      if (props.memberData && !child.hasPermissions(props.memberData)) {
+        return <></>;
+      }
       return grandChildren && grandChildren.length > 0 ? (
         <SubMenu key={child.id} title={child.title}>
           <Menu.Item key={`${child.id}-link`} icon={child.icon}>

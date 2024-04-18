@@ -3919,7 +3919,11 @@ export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
 
 export type MemberSiteCurrentMemberHasAdminRoleQuery = {
   __typename?: 'Query';
-  memberForCurrentUser?: { __typename?: 'Member'; role?: { __typename?: 'Role'; roleName: string } | null } | null;
+  memberForCurrentUser?: {
+    __typename?: 'Member';
+    isAdmin?: boolean | null;
+    role?: { __typename?: 'Role'; roleName: string } | null;
+  } | null;
 };
 
 export type SharedMembersProfileContainerMemberQueryVariables = Exact<{
@@ -14795,7 +14799,8 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
                     kind: 'SelectionSet',
                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'roleName' } }]
                   }
-                }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } }
               ]
             }
           }

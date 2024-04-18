@@ -1,5 +1,7 @@
 ---
 sidebar_position: 1
+sidebar_label: Contributing to the Docs
+description: "Contributing to Owner Community's developer documentation."
 ---
 
 # Contributing to the Docs

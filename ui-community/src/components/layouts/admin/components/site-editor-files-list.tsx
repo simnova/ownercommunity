@@ -52,7 +52,8 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
       sorter: (a, b) => a.name.localeCompare(b.name),
       render: (text: any, record: FileInfo) =>
         text ? (
-          <Button type="link"
+          <Button
+            type="link"
             onClick={() => {
               setSelectedFile(record);
               setShowModal(true);
@@ -133,9 +134,15 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
 
   let preview = (file: FileInfo): React.JSX.Element => {
     if (file.type.startsWith('image/')) {
-      return <img src={file.url} alt="File Preview" />;
+      return (
+        <img
+          src={file.url}
+          alt="File Preview"
+          className="file-preview-img"
+        />
+      );
     } else if (file.type.startsWith('application/pdf')) {
-      return <embed src={file.url} />;
+      return <embed src={file.url} className="file-preview-pdf" />;
     } else {
       return <p>Preview not available for this file type</p>;
     }
@@ -148,9 +155,13 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
         open={showModal}
         onCancel={() => setShowModal(false)}
         onOk={() => setShowModal(false)}
+        className="modal-custom-style"
       >
-        <div>{selectedFile && preview(selectedFile)}</div>
+        <div className="centered-container">
+          {selectedFile && preview(selectedFile)}
+        </div>
       </Modal>
+
       <div className="site-editor-files-list">
         <div className="site-editor-files-list-header">
           <div className="site-editor-files-list-header-title">Files</div>

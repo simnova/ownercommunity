@@ -23,7 +23,8 @@ Create a code framework:
 - **Reduced Complexity**: DDD breaks down complex business logic into smaller, more manageable pieces (aggregate roots, entities, value objects, etc.).
 - **Easier Mocking**: DDD's emphasis on interfaces and abstraction makes it easier to mock dependencies, reducing the complexity of testing.
 - **Separation of Concerns**: DDD separate Business Logic from Infrastructure layer, making it easier to test the business logic without worrying about the underlying infrastructure.
-- **Ubiquitous Language**: DDD encourages creating a common shared language between developers, domain experts and users, thereby avoiding ambiguity/confusion in communication.
+- **Ubiquitous Language**: DDD promotes a common shared language between developers, domain experts and users, thereby avoiding ambiguity/confusion in communication.
+- **Anti-Corruption Layer**: DDD provides a way to isolate the domain layer from external systems, reducing the impact of changes in external systems on the domain layer.
 
 ## Decision
 We will implement a DDD framework using the following components:

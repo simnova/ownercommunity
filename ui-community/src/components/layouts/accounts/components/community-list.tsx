@@ -34,7 +34,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
             ) ?? [],
           filterMode: 'menu' as 'menu',
           filterSearch: true,
-          onFilter: (value: boolean | React.Key, record: any) => record.community.startsWith(value) as boolean,
+          onFilter: (value: any, record: any) => record.community.indexOf(value as string) !== -1,
           width: '30%'
         },
         {

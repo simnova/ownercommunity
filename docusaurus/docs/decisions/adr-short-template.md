@@ -1,6 +1,7 @@
 ---
 sidebar_position: 6
 sidebar_label: ADR Short Template
+description: "Use this short template to track Architectural Decisions."
 # These are optional elements. Feel free to remove any of them.
 status: proposed | rejected | accepted | deprecated | … | superseded by [ADR-0001](0001-madr-architecture-decisions.md)
 contact: person proposing the ADR
@@ -18,7 +19,6 @@ Describe the context and problem statement, e.g., in free form using two to thre
 You may want to articulate the problem in form of a question and add links to collaboration boards or issue management systems.
 
 <!-- This is an optional element. Feel free to remove. -->
-
 ## Decision Drivers
 
 - decision driver 1, e.g., a force, facing concern, …

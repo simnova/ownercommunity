@@ -138,11 +138,11 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
         <img
           src={file.url}
           alt="File Preview"
-          style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+          className="file-preview-img"
         />
       );
     } else if (file.type.startsWith('application/pdf')) {
-      return <embed src={file.url} style={{ width: '100%', height: '80vh' }} />;
+      return <embed src={file.url} className="file-preview-pdf" />;
     } else {
       return <p>Preview not available for this file type</p>;
     }
@@ -155,10 +155,9 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
         open={showModal}
         onCancel={() => setShowModal(false)}
         onOk={() => setShowModal(false)}
-        width={800}
-        style={{ maxHeight: '90vh' }}
+        className="modal-custom-style"
       >
-        <div style={{ textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="centered-container">
           {selectedFile && preview(selectedFile)}
         </div>
       </Modal>

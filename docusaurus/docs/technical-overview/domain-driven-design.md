@@ -1,5 +1,7 @@
 ---
 sidebar_position: 2
+sidebar_label: Domain Driven Design
+description: "Owner Community is a Domain-Driven Design (DDD) platform tailored to facilitate the management and communication requirements of community associations."
 ---
 
 # Domain Driven Design

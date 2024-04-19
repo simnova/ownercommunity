@@ -17,8 +17,10 @@ import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
 import { ServiceTickets } from './pages/service-tickets';
 import { CommunityProperty } from './pages/community-property';
 import { PropertiesSearch } from './pages/properties-search';
+import { PageLayoutProps } from '../admin';
+import { Member } from '../../../generated';
 
-const pageLayouts = [
+const pageLayouts: PageLayoutProps[] = [
   {
     path: '/community/:communityId/member/:memberId',
     title: 'Home',
@@ -44,7 +46,10 @@ const pageLayouts = [
     title: 'Service Tickets',
     icon: <ScheduleOutlined />,
     id: 4,
-    parent: 'ROOT'
+    parent: 'ROOT',
+    hasPermissions: (member: Member) => (member?.role?.permissions?.serviceTicketPermissions?.canCreateTickets ||
+                                        member?.role?.permissions?.serviceTicketPermissions?.canWorkOnTickets || 
+                                        member?.role?.permissions?.serviceTicketPermissions?.canAssignTickets) ?? false
   },
   {
     path: '/community/:communityId/member/:memberId/listings/*',

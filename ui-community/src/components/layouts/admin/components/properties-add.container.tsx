@@ -36,19 +36,25 @@ export const PropertiesAddContainer: React.FC<PropertiesAddContainerProps> = (pr
 
   const handleSave = async (values: PropertyAddInput) => {
     try {
-      const newProperty = await propertyAdd({
+      await propertyAdd({
         variables: {
           input: values
         }
-      });
-      if (newProperty.data?.propertyAdd.status.success) {
-        message.success('Property Added');
-        navigate(`../${newProperty.data?.propertyAdd.property?.id}`, { replace: true });
-      } else {
+      }).then((response) => {
+          if (response.data?.propertyAdd.status.success) {
+            message.success('Property Added');
+            navigate(`../${response.data?.propertyAdd.property?.id}`, { replace: true });
+          } else {
+            message.error(
+              `Error adding Property: ${response.data?.propertyAdd.status.errorMessage}`
+            );
+          }
+      }).catch((error) => {
         message.error(
-          `Error adding Property: ${newProperty.data?.propertyAdd.status.errorMessage}`
+          `Error adding Property: ${error.message || JSON.stringify(error)}`
         );
-      }
+        }
+      )
     } catch (error) {
       message.error(`Error adding Property: ${JSON.stringify(error)}`);
     }

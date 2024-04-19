@@ -1,5 +1,7 @@
 ---
 sidebar_position: 1
+sidebar_label: Installation
+description: "How to install Owner Community locally."
 ---
 
 # Installation

@@ -2872,6 +2872,51 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
+export type SectionLayoutContainerMemberByIdQueryQueryVariables = Exact<{
+  memberId: Scalars['ID'];
+}>;
+
+export type SectionLayoutContainerMemberByIdQueryQuery = {
+  __typename?: 'Query';
+  member?: {
+    __typename?: 'Member';
+    role?: {
+      __typename?: 'Role';
+      permissions: {
+        __typename?: 'RolePermissions';
+        communityPermissions: {
+          __typename?: 'CommunityPermissions';
+          canManageRolesAndPermissions: boolean;
+          canManageCommunitySettings: boolean;
+          canManageSiteContent: boolean;
+          canManageMembers: boolean;
+        };
+        propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
+        serviceTicketPermissions: { __typename?: 'ServiceTicketPermissions'; canManageTickets: boolean };
+      };
+    } | null;
+  } | null;
+};
+
+export type SectionLayoutContainerMemberFieldsFragment = {
+  __typename?: 'Member';
+  role?: {
+    __typename?: 'Role';
+    permissions: {
+      __typename?: 'RolePermissions';
+      communityPermissions: {
+        __typename?: 'CommunityPermissions';
+        canManageRolesAndPermissions: boolean;
+        canManageCommunitySettings: boolean;
+        canManageSiteContent: boolean;
+        canManageMembers: boolean;
+      };
+      propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
+      serviceTicketPermissions: { __typename?: 'ServiceTicketPermissions'; canManageTickets: boolean };
+    };
+  } | null;
+};
+
 export type MemberPropertyByPropertyIdQueryVariables = Exact<{
   propertyId: Scalars['ObjectID'];
 }>;
@@ -3919,7 +3964,11 @@ export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
 
 export type MemberSiteCurrentMemberHasAdminRoleQuery = {
   __typename?: 'Query';
-  memberForCurrentUser?: { __typename?: 'Member'; role?: { __typename?: 'Role'; roleName: string } | null } | null;
+  memberForCurrentUser?: {
+    __typename?: 'Member';
+    isAdmin?: boolean | null;
+    role?: { __typename?: 'Role'; roleName: string } | null;
+  } | null;
 };
 
 export type SharedMembersProfileContainerMemberQueryVariables = Exact<{
@@ -6346,6 +6395,68 @@ export const AdminSiteEditorContainerCommunityFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<AdminSiteEditorContainerCommunityFieldsFragment, unknown>;
+export const SectionLayoutContainerMemberFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SectionLayoutContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'communityPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'propertyPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } }]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } }]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SectionLayoutContainerMemberFieldsFragment, unknown>;
 export const PropertyDetailsByPropertyIdFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -12400,6 +12511,105 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
 >;
+export const SectionLayoutContainerMemberByIdQueryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SectionLayoutContainerMemberByIdQuery' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'member' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'memberId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'SectionLayoutContainerMemberFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SectionLayoutContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'communityPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageRolesAndPermissions' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageCommunitySettings' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageSiteContent' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageMembers' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'propertyPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } }]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'serviceTicketPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } }]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SectionLayoutContainerMemberByIdQueryQuery,
+  SectionLayoutContainerMemberByIdQueryQueryVariables
+>;
 export const MemberPropertyByPropertyIdDocument = {
   kind: 'Document',
   definitions: [
@@ -14795,7 +15005,8 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
                     kind: 'SelectionSet',
                     selections: [{ kind: 'Field', name: { kind: 'Name', value: 'roleName' } }]
                   }
-                }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } }
               ]
             }
           }

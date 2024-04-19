@@ -1,3 +1,9 @@
+---
+sidebar_position: 1
+label: Admin Guide
+description: "Comprehensive documentation for navigating and managing the Owner Community admin interface."
+---
+
 # Admin Guide 
 Welcome to the Owner Community Admin Guide! This guide is designed to provide comprehensive documentation for understanding and navigating the various features and functionalities of the site's admin interface.
 

@@ -1,5 +1,11 @@
+---
+sidebar_position: 2
+label: Overview of Features
+description: Explore the comprehensive walkthrough of key features available in the admin interface, detailing how each feature contributes to the management of your community.
+---
+
 # Overview of Features
-This page provides a comprehensive walkthrough of the key features available in the admin interface. We'll highlight how each feature contributes to the management of the different aspects of your community, giving you a clear understanding of the capabilities at your disposal.
+This page offers a comprehensive walkthrough of the key features available in the admin interface. Each feature's contribution to managing various aspects of the community is highlighted, providing a clear understanding of the capabilities available
 
 ### Admin Site Features
 #### 1. Settings

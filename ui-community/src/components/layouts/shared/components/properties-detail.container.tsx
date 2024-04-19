@@ -92,7 +92,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
           input: values
         }
       }).then((response) => {
-        if (response.data?.propertyUpdate.status.success) {
+        if (response.data?.propertyUpdate?.status?.success) {
           message.success('Saved');
           appInsights
             .getAppInsights()

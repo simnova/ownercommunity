@@ -51,7 +51,7 @@ export const PropertiesAddContainer: React.FC<PropertiesAddContainerProps> = (pr
           }
       }).catch((error) => {
         message.error(
-          `Error adding Property: ${error}`
+          `Error adding Property: ${error.message || JSON.stringify(error)}`
         );
         }
       )

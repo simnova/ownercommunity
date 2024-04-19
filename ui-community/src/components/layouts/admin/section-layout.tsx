@@ -7,11 +7,13 @@ import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/c
 import { LoggedInUserContainer } from '../../ui/organisms/header/logged-in-user.container';
 import { MenuComponent } from '../shared/components/menu-component';
 import './section-layout.css';
+import { Member } from '../../../generated';
 
 const { Sider, Header } = Layout;
 
 interface AdminSectionLayoutProps {
   pageLayouts: PageLayoutProps[];
+  memberData: Member;
 }
 
 export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
@@ -70,7 +72,7 @@ export const SectionLayout: React.FC<AdminSectionLayoutProps> = (props) => {
         >
           <div className="logo" />
 
-          <MenuComponent pageLayouts={props.pageLayouts} theme="light" mode="inline" />
+          <MenuComponent pageLayouts={props.pageLayouts} memberData={props.memberData} theme="light" mode="inline" />
         </Sider>
 
         <Layout

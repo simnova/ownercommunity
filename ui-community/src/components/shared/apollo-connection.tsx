@@ -5,6 +5,7 @@ import { ApolloClient, ApolloLink, ApolloProvider, HttpLink, InMemoryCache, from
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { setContext } from '@apollo/client/link/context';
 import { useAuth } from 'react-oidc-context';
+import { useParams } from 'react-router-dom';
 
 export interface AuthProps {
   AuthenticationIdentifier?: string;
@@ -12,20 +13,21 @@ export interface AuthProps {
 
 const ApolloConnection: FC<any> = (props) => {
   const auth = useAuth();
+  const params = useParams();
 
   const hasAuth = props.AuthenticationIdentifier !== null && typeof props.AuthenticationIdentifier !== 'undefined';
 
   const withToken = setContext(async (_, { headers }) => {
     if (hasAuth) {
       const access_token = auth.user?.access_token;
-      const returnHeaders = { ...headers };
-      if (access_token) {
-        returnHeaders['Authorization'] = `Bearer ${access_token}`;
-      }
-      if (localStorage.getItem('community') !== null) {
-        returnHeaders['community'] = localStorage.getItem('community')?.replaceAll('"', '');
-      }
-      return { headers: returnHeaders };
+      console.log('auth-token',access_token);
+      const returnHeaders = {...headers};
+      if(access_token){ returnHeaders['Authorization'] = `Bearer ${access_token}`; }
+      if(localStorage.getItem('community') !== null){ returnHeaders['community'] = localStorage.getItem('community')?.replaceAll('"',''); }
+      const memberId = params['*']?.match(/\/member\/([a-zA-Z0-9]+)\/?/)?.[1] ?? null;
+      if(memberId !== null){ returnHeaders['member'] = memberId; }
+      console.log('returnHeaders',returnHeaders);
+      return {headers: returnHeaders};
     } else {
       return {
         headers: {

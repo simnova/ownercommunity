@@ -91,12 +91,17 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
         variables: {
           input: values
         }
-      });
-      appInsights.trackEvent({ name: 'PropertiesDetail-SaveEvent', properties: { success: true } });
-      message.success('Saved');
-      appInsights
-        .getAppInsights()
-        .stopTrackPage('PropertiesDetail-SavePageView', window.location.href + '/save-property');
+      }).then((response) => {
+        if (response.data?.propertyUpdate.status.success) {
+          message.success('Saved');
+          appInsights
+            .getAppInsights()
+            .stopTrackPage('PropertiesDetail-SavePageView', window.location.href + '/save-property');
+        } else {
+          message.error(`Error updating Property: ${response.data?.propertyUpdate.status.errorMessage}`);
+          appInsights.trackException({ exception: response.data?.propertyUpdate.status.errorMessage } as IExceptionTelemetry, { propertyId: values.id });
+        }
+      })
     } catch (error) {
       message.error(`Error updating Property: ${JSON.stringify(error)}`);
       appInsights.trackException({ exception: error } as IExceptionTelemetry, { propertyId: values.id });

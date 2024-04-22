@@ -50,7 +50,7 @@ It defines the scope of a model and ensures that terms and concepts are consiste
 An entity is an object within the domain that has a unique identity and is identifiable throughout its lifetime. 
 An entity may have attributes and relationships with other entities.
 - *Think of it as a real-world object that can be uniquely identified by an Id.*
-- **Implementation:** src/app/domain/contexts/**/*.ts <span style="color:red">[maybe, add '.entity.ts' extension]</span>
+- **Implementation:** src/app/domain/contexts/**/*.ts [..maybe, add '.entity.ts' extension]
 - **Example:** community, role, member, account
 
 #### Entity Props
@@ -63,11 +63,12 @@ An interface that governs how an entity refers to another entity. It could be a 
 Objects that are equal due to the value of their properties, are called value objects.
 - **Implementation:** src/app/domain/contexts/**/*.value-objects.ts
 - **Example:** community, account, profile *(Typically, one for each entity.)*
+- [@lucaspaganini/value-objects](https://www.npmjs.com/package/@lucaspaganini/value-objects): provides framework to create and validate value objects.
 
 ### Aggregate-Root
 An entity that acts as a guardian for a group of related entities (known as an aggregate). It is responsible for maintaining the integrity and consistency of the aggregate and for enforcing business rules.
 - *Think of it as an entry point to access and manage a group of related entities.*
-- **Implementation:** src/app/domain/contexts/**/*.ts <span style="color:red">[maybe, add '.aggregate-root.ts' extension]</span>
+- **Implementation:** src/app/domain/contexts/**/*.ts [...maybe, add '.aggregate-root.ts' extension]
 - **Example:** member (aggregate-root), managing the accounts, custom views, role, etc.
 
 ### Unit of Work

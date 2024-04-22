@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 3
 sidebar_label: 0003 Domain Driven Design
 description: "Domain Driven Design Decisions."
 # These are optional elements. Feel free to remove any of them.

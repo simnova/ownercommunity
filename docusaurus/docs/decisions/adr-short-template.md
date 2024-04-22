@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 16
 sidebar_label: ADR Short Template
 description: "Use this short template to track Architectural Decisions."
 # These are optional elements. Feel free to remove any of them.

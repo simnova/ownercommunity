@@ -1,9 +1,9 @@
-import { Button, Typography, Table, Dropdown, Space } from 'antd';
+import { Button, Typography, Table, Dropdown, Space, Input as Search } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 import { ColumnFilterItem } from 'antd/es/table/interface';
 import { DownOutlined } from '@ant-design/icons';
-import { useMemo } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 
 const { Title } = Typography;
 
@@ -15,7 +15,19 @@ export interface CommunityListProps {
 }
 
 export const CommunityList: React.FC<CommunityListProps> = (props) => {
+  const [communityList, setCommunityList] = useState(props.data.communities)
   const navigate = useNavigate();
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if(event.target.value == ""){
+      setCommunityList(props.data.communities);
+      return;
+    }
+    let filteredCommunities = props.data.communities.filter(function (community: Community){
+      return community?.name?.includes(event.target.value);
+    })
+    setCommunityList(filteredCommunities);
+  }
 
   const useCommunnityColumns = (props: CommunityListProps) =>
     useMemo(() => {
@@ -25,7 +37,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
           dataIndex: 'community',
           key: 'community',
           filters:
-            props.data?.communities?.map(
+            communityList.map(
               (community) =>
                 ({
                   text: community.name as string,
@@ -51,7 +63,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
       return columns;
     }, [props]);
 
-  let items = props.data?.communities?.map((community: any, i: number) => ({
+  let items = communityList.map((community: any, i: number) => ({
     key: community.id,
     community: community.name,
     memberPortal: (
@@ -102,6 +114,9 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
           Create a Community
         </Button>
       </div>
+      <Search placeholder="Search for a community" enterKeyHint="search" style={{ width: '50%' }} 
+      onChange={onChange}
+      />
       <div className="w-full p-5 mx-auto my-5 shadow-lg rounded-lg">
         {items.length > 0 ? (
           <Table

@@ -1,6 +1,6 @@
 ---
-sidebar_position: 4
-sidebar_label: 0004 Authorization and Access Pattern
+sidebar_position: 5
+sidebar_label: 0005 Authorization and Access Pattern
 description: "Use Passport/Visa Pattern for Authorization and Access for the project."
 # These are optional elements. Feel free to remove any of them.
 status: accepted

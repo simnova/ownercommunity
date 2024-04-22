@@ -40,6 +40,8 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
     return <Image src={url} alt={'floor plan'} />;
   });
 
+  const { rentLow, rentHigh } = props.data.property.listingDetail;
+
   const marketDataConfig: MarketDataConfigDefinition = {
     listedFor: [
       {
@@ -55,7 +57,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         listedFlag: props.data.property.listedForRent,
         name: 'rental',
         location: props.data.property.location.address.freeformAddress,
-        price: [props.data.property.listingDetail.rentLow, props.data.property.listingDetail.rentHigh],
+        price: [rentLow, rentHigh],
         listingImages: listingImages
       },
       {

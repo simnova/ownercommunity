@@ -23,10 +23,10 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
       setCommunityList(props.data.communities);
       return;
     }
-    let filteredCommunities = props.data.communities.filter(function (community: Community){
+    let filteredCommunities: Community[] = props.data.communities.filter(function (community: Community){
       return community?.name?.includes(event.target.value);
     })
-    setCommunityList(filteredCommunities);
+    setCommunityList(filteredCommunities.length > 0 ? filteredCommunities: props.data.communities);
   }
 
   const useCommunnityColumns = (props: CommunityListProps) =>

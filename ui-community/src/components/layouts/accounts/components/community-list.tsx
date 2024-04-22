@@ -1,4 +1,4 @@
-import { Button, Typography, Table, Dropdown, Space, Input as Search } from 'antd';
+import { Button, Typography, Table, Dropdown, Space, Input as Search, Alert } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 import { ColumnFilterItem } from 'antd/es/table/interface';
@@ -15,19 +15,28 @@ export interface CommunityListProps {
 }
 
 export const CommunityList: React.FC<CommunityListProps> = (props) => {
-  const [communityList, setCommunityList] = useState(props.data.communities)
+  const [communityList, setCommunityList] = useState(props.data.communities);
+  const [displayNotFound, setDisplayNotFound] = useState(false);
   const navigate = useNavigate();
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if(event.target.value == ""){
+    const searchValue = event.target.value;
+    if (searchValue == '') {
+      setDisplayNotFound(false);
       setCommunityList(props.data.communities);
       return;
     }
-    let filteredCommunities: Community[] = props.data.communities.filter(function (community: Community){
-      return community?.name?.includes(event.target.value);
-    })
-    setCommunityList(filteredCommunities.length > 0 ? filteredCommunities: props.data.communities);
-  }
+    const filteredCommunities: Community[] = props.data.communities.filter(function (community: Community) {
+      return community?.name?.includes(searchValue);
+    });
+    if (filteredCommunities.length > 0) {
+      setDisplayNotFound(false);
+      setCommunityList(filteredCommunities);
+    } else {
+      setDisplayNotFound(true);
+      setCommunityList(props.data.communities);
+    }
+  };
 
   const useCommunnityColumns = (props: CommunityListProps) =>
     useMemo(() => {
@@ -61,7 +70,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         }
       ];
       return columns;
-    }, [props]);
+    }, [communityList]);
 
   let items = communityList.map((community: any, i: number) => ({
     key: community.id,
@@ -114,9 +123,15 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
           Create a Community
         </Button>
       </div>
-      <Search placeholder="Search for a community" enterKeyHint="search" style={{ width: '50%' }} 
-      onChange={onChange}
-      />
+      {displayNotFound && (
+        <Alert
+        description="No matching communities found. Displaying all communities."
+        type="error"
+        style={{padding: 10, marginBottom: 10}}
+        />
+      )}
+
+      <Search placeholder="Search for a community" enterKeyHint="search" style={{ width: '50%' }} onChange={onChange} />
       <div className="w-full p-5 mx-auto my-5 shadow-lg rounded-lg">
         {items.length > 0 ? (
           <Table

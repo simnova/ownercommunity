@@ -28,10 +28,61 @@ Create a code framework:
 
 ## Decision
 We will implement a DDD framework using the following components:
-- **Domain Layer**: This layer will contain the business logic and domain models. We will use JavaScript classes to define our aggregate roots, entities, and value objects.
-- **Application Layer**: This layer will contain the use cases and interfaces for our domain models. We will use JavaScript classes to define our application services.
-- **Infrastructure Layer**: This layer will contain the data access and infrastructure code. We will use MongoDB as our datastore.
-- **Interface Adapters**: We will use interface adapters to connect our application layer to our infrastructure layer. For example, we will use a MongoDB adapter to connect our application layer to our MongoDB database.
+- **Domain Layer**: This layer will contain the domain models and business logic to manage them.
+- **Application Service Layer**: It serves as an intermediary between the user interface and the domain model.
+    - coordinates use cases and fulfill application requirements.
+    - orchestrates the domain model to execute business logic and retrieve/update data.
+    - implements business logic that doesn't naturally fit within the domain model.
+    - transaction management and other cross-cutting concerns.
+- **Infrastructure Service Layer**: It handles interactions with external systems or services, such as third-party APIs or data stores.
+    - facilitates communication and translation between the application and external systems
+    - implements anti-corruption layer to translate data and operations between the domain model and external systems using adapters/converters.
+
+
+## Domain Layer
+### Context
+It defines the scope of a model and ensures that terms and concepts are consistent within that scope. 
+- *Think of it as a microservice boundary, where each microservice has its own domain model and language.*
+- **Implementation:** src/app/domain/contexts/*
+- **Example:** community
+
+### Entity
+An entity is an object within the domain that has a unique identity and is identifiable throughout its lifetime. 
+An entity may have attributes and relationships with other entities.
+- *Think of it as a real-world object that can be uniquely identified by an Id.*
+- **Implementation:** src/app/domain/contexts/**/*.ts <span style="color:red">[maybe, add '.entity.ts' extension]</span>
+- **Example:** community, role, member, account
+
+#### Entity Props
+An interface for attributes or characteristics of an entity. It defines the state of the entity at any given time.
+
+#### Entity Reference
+An interface that governs how an entity refers to another entity. It could be a readonly version of the Entity Props interface, allowing the calling entity to access the referred entity's state but not modify it.
+
+### Value Object
+Objects that are equal due to the value of their properties, are called value objects.
+- **Implementation:** src/app/domain/contexts/**/*.value-objects.ts
+- **Example:** community, account, profile *(Typically, one for each entity.)*
+
+### Aggregate-Root
+An entity that acts as a guardian for a group of related entities (known as an aggregate). It is responsible for maintaining the integrity and consistency of the aggregate and for enforcing business rules.
+- *Think of it as an entry point to access and manage a group of related entities.*
+- **Implementation:** src/app/domain/contexts/**/*.ts <span style="color:red">[maybe, add '.aggregate-root.ts' extension]</span>
+- **Example:** member (aggregate-root), managing the accounts, custom views, role, etc.
+
+### Unit of Work
+It ensures that a set of changes to the domain model are treated as a single, atomic operation. If one part of the operation fails, the entire operation is rolled back, ensuring data consistency. 
+- *Think of it as a transaction boundary for data persistence.*
+- **Implementation:** src/app/domain/contexts/**/*.uow.ts
+- **Example:** : member *(Typically, one for each aggregate-root.)*
+
+### Repository
+An abstraction that provides access to the aggregate root, encapsulating the details of data storage and retrieval. Repositories make the system more modular and easier to test.
+- *Think of it as an interface that provides CRUD operations for aggregate root, typically a save and multiple purpose-specific get methods.*
+- **Implementation:** src/app/domain/contexts/**/*.uow.ts
+- **Example:** : member *(Typically, one for each aggregate-root.)*
+
+
 
 ## Consequences
 - We will need to invest time in learning and implementing DDD principles and patterns.
@@ -40,6 +91,5 @@ We will implement a DDD framework using the following components:
 
 
 ## More Information
-
 - [Domain-Driven Design: Tackling Complexity in the Heart of Software by Eric Evans](https://learning.oreilly.com/library/view/domain-driven-design-tackling/0321125215/)
 - [Domain Driven Design - Martin Fowler](https://martinfowler.com/bliki/DomainDrivenDesign.html)

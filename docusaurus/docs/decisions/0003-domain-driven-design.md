@@ -60,9 +60,10 @@ An interface for attributes or characteristics of an entity. It defines the stat
 An interface that governs how an entity refers to another entity. It could be a readonly version of the Entity Props interface, allowing the calling entity to access the referred entity's state but not modify it.
 
 ### Value Object
-Objects that are equal due to the value of their properties, are called value objects.
+Objects that are equal due to the value of their properties, are called value objects. They are immutable and can be shared across entities.
+- *Think of it as a compound attribute set where individual attributes don't have any meaning on their own, but together they represent a concept, like price = 5 USD where price is the value object consisting of amount and currency attributes*
 - **Implementation:** src/app/domain/contexts/**/*.value-objects.ts
-- **Example:** community, account, profile *(Typically, one for each entity.)*
+- **Example:** community, account, profile *(Typically, one for each entity, with classes for individual value objects such as address, payment)*
 - [@lucaspaganini/value-objects](https://www.npmjs.com/package/@lucaspaganini/value-objects): provides framework to create and validate value objects.
 
 ### Aggregate-Root

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-sidebar_label: SerenityJS
+sidebar_label: 0005 SerenityJS
 description: "Use SerenityJS to create business-focused test scenarios, automate acceptance criteria, test domain layer, and generate living documentation."
 # These are optional elements. Feel free to remove any of them.
 status: proposed
@@ -11,80 +11,55 @@ consulted: gidich, mgupta83
 informed: etang93, heruwala, anil
 ---
 
-# short title of solved problem and solution
+# Use SerenityJS to ensure delivering right features
 
 ## Context and Problem Statement
 
-Describe the context and problem statement, e.g., in free form using two to three sentences or in the form of an illustrative story.
-You may want to articulate the problem in form of a question and add links to collaboration boards or issue management systems.
-
-<!-- This is an optional element. Feel free to remove. -->
+When developing a project, it is essential to ensure that the features being developed are what the business wants. This requires a way to document the features in a document as a contract that can be reviewed and understood by both the development team and the business stakeholders. As a result, the project needs a tool that can create business-focused test scenarios to automate acceptance tests, test the domain layer (which captures the objects and business logic/rules in the system), and produce living documentation.
 
 ## Decision Drivers
 
-- decision driver 1, e.g., a force, facing concern, …
-- decision driver 2, e.g., a force, facing concern, …
-- … <!-- numbers of drivers can vary -->
+- **Business Focus**: Ensure that the project's features align with the business requirements and expectations.
+- **Timely Feedback**: Provide timely feedback to the development team and business stakeholders on the project's progress and quality.
+- **Keep track of the project's features**: Document the project's features in a way that is understandable and accessible to all stakeholders and team members.
+- **Automated Testing**: Automate acceptance criteria to ensure that the project's features are tested thoroughly.
+- **Domain Layer Testing**: Test the domain layer to ensure that the business logic/rules are correctly implemented.
+- **Living Documentation**: Generate living documentation that is always up-to-date and reflects the current state of the project's features.
 
 ## Considered Options
 
-- title of option 1
-- title of option 2
-- title of option 3
-- … <!-- numbers of options can vary -->
+**Option #1: Use SerenityJS**
+
+- **Description**: SerenityJS with the popular Screenplay pattern provides a high-quality, user-centered approach in automating acceptance tests, testing the domain layer, and generating living documentation. It provides a business-readable DSL (Domain-Specific Language) that can be understood by both developers and business stakeholders.
 
 ## Decision Outcome
 
-Chosen option: "title of option 1", because
-justification. e.g., only option, which meets k.o. criterion decision driver | which resolves force | … | comes out best (see below).
+Chosen option: **Option #1: Use SerenityJS**
 
-<!-- This is an optional element. Feel free to remove. -->
-
-### Consequences
-
-- Good, because positive consequence, e.g., improvement of one or more desired qualities, …
-- Bad, because negative consequence, e.g., compromising one or more desired qualities, …
-- … <!-- numbers of consequences can vary -->
-
-<!-- This is an optional element. Feel free to remove. -->
-
-## Validation
-
-describe how the implementation of/compliance with the ADR is validated. E.g., by a review or an ArchUnit test
-
-<!-- This is an optional element. Feel free to remove. -->
 
 ## Pros and Cons of the Options
 
-### title of option 1
+Pros of SerenityJS:
 
-<!-- This is an optional element. Feel free to remove. -->
+- **Free and open-source**: SerenityJS is free and open-source, making it accessible to all teams.
 
-example | description | pointer to more information | …
+- **Business-focused test scenarios**: SerenityJS allows for the creation of business-focused test scenarios that can be understood by both developers and business stakeholders.
 
-- Good, because argument a
-- Good, because argument b
-<!-- use "neutral" if the given argument weights neither for good nor bad -->
-- Neutral, because argument c
-- Bad, because argument d
-- … <!-- numbers of pros and cons can vary -->
+- **Automated acceptance tests**: SerenityJS enables the automation of acceptance tests, ensuring that the project's features are thoroughly tested.
 
-### title of other option
+- **Domain layer testing**: SerenityJS allows for the testing of the domain layer, ensuring that the business logic/rules are correctly implemented.
 
-example | description | pointer to more information | …
+- **Living documentation**: SerenityJS generates living documentation that is always up-to-date and reflects the current state of the project's features.
 
-- Good, because argument a
-- Good, because argument b
-- Neutral, because argument c
-- Bad, because argument d
-- …
+Cons of SerenityJS:
 
-<!-- This is an optional element. Feel free to remove. -->
+- **Learning curve**: SerenityJS may have a learning curve for team members who are new to the tool.
 
-## More Information
+- **Complexity**: SerenityJS may introduce additional complexity to the project, especially when defining test scenarios and maintaining the living documentation.
 
-You might want to provide additional evidence/confidence for the decision outcome here and/or
-document the team agreement on the decision and/or
-define when this decision when and how the decision should be realized and if/when it should be re-visited and/or
-how the decision is validated.
-Links to other decisions and resources might appear here as well.
+- **Maintenance**: SerenityJS may require additional maintenance to keep the test scenarios and living documentation up-to-date.
+
+## Links
+
+- [SerenityJS](https://serenity-js.org/)
+

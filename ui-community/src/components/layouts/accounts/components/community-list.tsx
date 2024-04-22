@@ -27,7 +27,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
       return;
     }
     const filteredCommunities: Community[] = props.data.communities.filter(function (community: Community) {
-      return community?.name?.includes(searchValue);
+      return community?.name?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase());
     });
     if (filteredCommunities.length > 0) {
       setDisplayNotFound(false);
@@ -127,7 +127,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         <Alert
         description="No matching communities found. Displaying all communities."
         type="error"
-        style={{padding: 10, marginBottom: 10}}
+        style={{padding: 10, marginBottom: 10, width: '50%'}}
         />
       )}
 

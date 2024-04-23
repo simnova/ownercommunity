@@ -10,13 +10,13 @@ consulted: etang93, mgupta83
 informed: nguyenduy, heruwala
 ---
 
-# Use AAD and AAD B2C for Identity and Access Control
+# Use AAD and AAD B2C for Identity and Access Control (WIP)
 
 ## Context and Problem Statement
 
 The project requires a robust identity and access control solution to manage user authentication, and access to resources. The solution should support various authentication methods, provide secure access to resources, and integrate seamlessly with the project's architecture.
 
-![Azure Active Directory](../.gitbook/assets/aad.png)
+![Azure Active Directory](./img/aad.png)
 
 Partners with Staff - With Existing Identity Provider
 

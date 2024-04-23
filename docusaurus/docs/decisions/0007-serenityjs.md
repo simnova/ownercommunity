@@ -1,6 +1,6 @@
 ---
-sidebar_position: 5
-sidebar_label: 0005 SerenityJS
+sidebar_position: 7
+sidebar_label: 0007 SerenityJS
 description: "Use SerenityJS to create business-focused test scenarios, automate acceptance criteria, test domain layer, and generate living documentation."
 # These are optional elements. Feel free to remove any of them.
 status: proposed

@@ -10,11 +10,11 @@ The `Community` class is an [Aggregate Root](../aggregate-root) that encapsulate
 
 > **Location:** `ownercommunity/data-access/src/app/domain/contexts/community/community.ts`
 
-#### Why is the Community class an Entity from the DDD persepective?
+#### Why is the Community class an Entity from the DDD perspective?
 
 From a Domain-Driven Design (DDD) perspective, the `Community` class qualifies as an entity becuase the class has a unique identifier (`id`) that distinguishes one instance of `Community` from another. Secondly, the `Community` entity encapsulates business rules and behaviors that are specific to the community concept in the domain. For example, it manages permissions through the `CommunityVisa` and enforces rules in property setters, ensuring that any changes to the community's state adhere to defined business rules and access controls.
 
-#### Why is the Community class an Aggregate Roote from the DDD persepective?
+#### Why is the Community class an Aggregate Root from the DDD perspective?
 
 The `Community` class qualifies as an [Aggregate Root](../aggregate-root) for several reasons:
 

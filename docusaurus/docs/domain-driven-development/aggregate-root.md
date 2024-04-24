@@ -6,7 +6,7 @@ description: "Aggregate Root"
 
 # Aggregate Root
 
-> #### Defition of Aggregate Root
+> #### Definition of Aggregate Root
 >
 > An **Aggregate Root** is a specific entity within an aggregate that serves as the _access point_ and handler for all interactions involving the aggregate's entities and value objects. It is the only member of the aggregate that external objects are allowed to hold references to and interact with directly.
 

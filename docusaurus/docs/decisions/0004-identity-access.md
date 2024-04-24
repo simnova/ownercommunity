@@ -10,7 +10,7 @@ consulted: etang93, mgupta83
 informed: nguyenduy, heruwala
 ---
 
-# Use AAD and AAD B2C for Identity and Access Control (WIP)
+# Use of Azure Active Directory (AAD) and Azure Active Directory B2C (AAD B2C) for Identity and Access Control
 
 ## Context and Problem Statement
 
@@ -40,7 +40,7 @@ Administrators of Partners will log in using the MSAL configuration "admin conse
 
 Chosen option: **Option #1: Azure Active Directory (AAD)** and **Option #2: Azure Active Directory B2C (AAD B2C)**
 
-Azure Active Directory (AAD) and Azure Active Directory B2C (AAD B2C) have been chosen as the identity and access control solutions for the project. AAD provides secure authentication and access control for applications, supporting various authentication methods and seamless integration with Azure services. AAD B2C enables developers to customize and control how customers sign up, sign in, and manage their profiles when using applications, offering a flexible and scalable solution for customer identity management. Together, AAD and AAD B2C provide a comprehensive identity and access control solution that aligns with the project's requirements.
+Azure Active Directory (AAD) and Azure Active Directory B2C (AAD B2C) have been chosen as the identity and access control solutions for the project. AAD provides secure authentication and access control for applications, supporting various authentication methods and seamless integration with Azure services. This allows users that are already in AAD to have a single sign in. AAD B2C enables developers to customize and control how customers sign up, sign in, and manage their profiles when using applications, offering a flexible and scalable solution for customer identity management. Together, AAD and AAD B2C provide a comprehensive identity and access control solution that aligns with the project's requirements.
 
 ## Pros and Cons of the Options
 

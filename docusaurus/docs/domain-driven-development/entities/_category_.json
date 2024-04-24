@@ -1,0 +1,8 @@
+{
+    "label": "Entities",
+    "position": 1,
+    "link": {
+        "type": "generated-index",
+        "description": "OwnerCommunity Entities."
+    }
+}

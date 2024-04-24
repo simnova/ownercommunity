@@ -33,12 +33,14 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
   const listingImages = props.data.property.listingDetail.images.map((image: any) => {
     return `https://ownercommunity.blob.core.windows.net/${params.communityId}/${image}`;
-  })
+  });
 
   const floorPlanImages = props.data.property.listingDetail.floorPlanImages.map((floorPlan: any) => {
     const url = `https://ownercommunity.blob.core.windows.net/${params.communityId}/${floorPlan}`;
     return <Image src={url} alt={'floor plan'} />;
   });
+
+  const { rentLow, rentHigh } = props.data.property.listingDetail;
 
   const marketDataConfig: MarketDataConfigDefinition = {
     listedFor: [
@@ -55,10 +57,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         listedFlag: props.data.property.listedForRent,
         name: 'rental',
         location: props.data.property.location.address.freeformAddress,
-        price: [
-          props.data.property.listingDetail.rentLow,
-          props.data.property.listingDetail.rentHigh
-        ],
+        price: [rentLow, rentHigh],
         listingImages: listingImages
       },
       {
@@ -158,13 +157,9 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
   const generateAgentDetails = () => {
     return (
-      (<Space direction={props.space ?? 'vertical'}>
+      <Space direction={props.space ?? 'vertical'}>
         <Space>
-          {props.data.property.listingDetail.listingAgent ? (
-            props.data.property.listingDetail.listingAgent
-          ) : (
-            <></>
-          )}
+          {props.data.property.listingDetail.listingAgent ? props.data.property.listingDetail.listingAgent : <></>}
           {props.data.property.listingDetail.listingAgentCompany ? (
             <Button type="link" onClick={showModal}>
               <Text italic style={{ color: 'gray' }}>
@@ -197,12 +192,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
           <></>
         )}
         {props.data.property.listingDetail.listingAgentCompany ? (
-          <Modal
-            open={isModalVisible}
-            onCancel={handleCancel}
-            title={'Company Details'}
-            footer={null}
-          >
+          <Modal open={isModalVisible} onCancel={handleCancel} title={'Company Details'} footer={null}>
             <Space direction="vertical">
               <Title level={3}>{props.data.property.listingDetail.listingAgentCompany}</Title>
               {props.data.property.listingDetail.listingAgentCompanyAddress ? (
@@ -236,7 +226,7 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
         ) : (
           <></>
         )}
-      </Space>)
+      </Space>
     );
   };
 
@@ -261,41 +251,35 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
 
   return (
     <Space direction="vertical">
-      <Space direction="vertical" size={0}>
-        <Title level={2} style={{ marginBottom: '0px' }}>
-          {props.data.property.propertyName}
-        </Title>
-        <Text italic style={{ color: 'gray' }}>
-          Owned By:{' '}
-          {props.data.property.owner?.memberName ? props.data.property.owner.memberName : ''}
-        </Text>
-      </Space>
+      <div className='listings-property-information'>
+        <div className='listings-property-block'>
+          <Title level={3} style={{ marginBottom: '0px' }}>
+            {props.data.property.propertyName}
+          </Title>
+          <Text italic style={{ color: 'gray' }}>
+            Owned By: {props.data.property.owner?.memberName ? props.data.property.owner.memberName : ''}
+          </Text>
+        </div>
 
-      <Space direction="horizontal" size={50}>
-        <Title level={3} style={{ marginTop: '0px' }}>
-          {props.data.property.location.address.streetNumber +
-            ' ' +
-            props.data.property.location.address.streetName}
-        </Title>
-        <Title level={4}>
-          {props.data.property.listingDetail.bedrooms
-            ? props.data.property.listingDetail.bedrooms
-            : '-'}{' '}
-          Bds
-        </Title>
-        <Title level={4}>
-          {props.data.property.listingDetail.bathrooms
-            ? props.data.property.listingDetail.bathrooms
-            : '-'}{' '}
-          Ba
-        </Title>
-        <Title level={4}>
-          {props.data.property.listingDetail.squareFeet
-            ? props.data.property.listingDetail.squareFeet
-            : '-'}{' '}
-          Sqft
-        </Title>
-      </Space>
+        <div className='listings-property-block'>
+          <Title level={5} style={{ marginTop: '0px' }}>
+            {props.data.property.location.address.streetNumber && props.data.property.location.address.streetName
+              ? props.data.property.location.address.streetNumber +
+                ' ' +
+                props.data.property.location.address.streetName
+              : 'No Address Given'}
+          </Title>
+          <Title level={5}>
+            {props.data.property.listingDetail.bedrooms ? props.data.property.listingDetail.bedrooms : '-'} Bedrooms
+          </Title>
+          <Title level={5}>
+            {props.data.property.listingDetail.bathrooms ? props.data.property.listingDetail.bathrooms : '-'} Bathrooms
+          </Title>
+          <Title level={5}>
+            {props.data.property.listingDetail.squareFeet ? props.data.property.listingDetail.squareFeet : '-'} Sqft
+          </Title>
+        </div>
+      </div>
 
       {generateMarketData()}
 
@@ -319,15 +303,14 @@ export const CommunityPropertyDetail: React.FC<any> = (props) => {
       <div className="max-w-4xl mx-auto grid grid-cols-1 gap-y-3 md:grid-cols-2 lg:max-w-full lg:gap-x-20 lg:grid-cols-4">
         {generateAdditionalAmentities()}
       </div>
-
-      <Divider orientation="left" orientationMargin={'5px'}>
-        <Title level={5}>
-          About{' '}
-          {props.data.property.location.address.streetNumber +
-            ' ' +
-            props.data.property.location.address.streetName}
-        </Title>
-      </Divider>
+      {props.data.property.location.address.streetNumber && props.data.property.location.address.streetName && (
+        <Divider orientation="left" orientationMargin={'5px'}>
+          <Title level={5}>
+            About{' '}
+            {props.data.property.location.address.streetNumber + ' ' + props.data.property.location.address.streetName}
+          </Title>
+        </Divider>
+      )}
       <Text italic>{props.data.property.listingDetail.description}</Text>
 
       {floorPlanImages.length !== 0 ? (

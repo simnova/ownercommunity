@@ -1,10 +1,8 @@
 import { Button, Typography, Table, Dropdown, Space, Input as Search, Alert } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
-import { ColumnFilterItem } from 'antd/es/table/interface';
 import { DownOutlined } from '@ant-design/icons';
 import { ChangeEvent, useState } from 'react';
-import { unstable_batchedUpdates } from 'react-dom';
 
 const { Title } = Typography;
 
@@ -17,25 +15,18 @@ export interface CommunityListProps {
 
 export const CommunityList: React.FC<CommunityListProps> = (props) => {
   const [communityList, setCommunityList] = useState(props.data.communities);
-  const [displayNotFound, setDisplayNotFound] = useState(false);
   const navigate = useNavigate();
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
     if (searchValue == '') {
-      unstable_batchedUpdates(() => {
-        setDisplayNotFound(false);
-        setCommunityList(props.data.communities);
-      });
+      setCommunityList(props.data.communities);
       return;
     }
     const filteredCommunities: Community[] = props.data.communities.filter(function (community: Community) {
       return community?.name?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase());
     });
-    unstable_batchedUpdates(() => {
-      setDisplayNotFound(filteredCommunities.length === 0);
-      setCommunityList(filteredCommunities);
-    });
+    setCommunityList(filteredCommunities);
   };
 
   const columns = [
@@ -43,17 +34,6 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
       title: 'Community Name',
       dataIndex: 'community',
       key: 'community',
-      filters:
-        communityList.map(
-          (community) =>
-            ({
-              text: community.name as string,
-              value: community.name as string
-            } as ColumnFilterItem)
-        ) ?? [],
-      filterMode: 'menu' as 'menu',
-      filterSearch: true,
-      onFilter: (value: any, record: any) => record.community.indexOf(value as string) !== -1,
       width: '30%'
     },
     {
@@ -67,7 +47,6 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
       key: 'adminPortal'
     }
   ];
-
   let items = communityList.map((community: any, i: number) => ({
     key: community.id,
     community: community.name,
@@ -118,14 +97,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         <Button type="primary" onClick={() => navigate('create-community')}>
           Create a Community
         </Button>
-      </div>
-      {displayNotFound && (
-        <Alert
-          description="No matching communities found. Displaying all communities."
-          type="error"
-          style={{ padding: 10, marginBottom: 10, width: '50%' }}
-        />
-      )}
+      </div> 
 
       <Search placeholder="Search for a community" enterKeyHint="search" style={{ width: '50%' }} onChange={onChange} />
       <div className="w-full p-5 mx-auto my-5 shadow-lg rounded-lg">
@@ -140,8 +112,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
           />
         ) : (
           <Title level={5} style={{ display: 'flex', justifyContent: 'center' }}>
-            You currently don't have any communities. Please create a community using the button on the right or join
-            one.
+            No communities found.
           </Title>
         )}
       </div>

@@ -29,16 +29,11 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
     const filteredCommunities: Community[] = props.data.communities.filter(function (community: Community) {
       return community?.name?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase());
     });
-    if (filteredCommunities.length > 0) {
-      setDisplayNotFound(false);
-      setCommunityList(filteredCommunities);
-    } else {
-      setDisplayNotFound(true);
-      setCommunityList(props.data.communities);
-    }
+    setDisplayNotFound(filteredCommunities.length === 0);
+    setCommunityList(filteredCommunities.length > 0 ? filteredCommunities : props.data.communities);
   };
 
-  const useCommunnityColumns = (props: CommunityListProps) =>
+  const useCommunnityColumns = () =>
     useMemo(() => {
       const columns = [
         {
@@ -125,9 +120,9 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
       </div>
       {displayNotFound && (
         <Alert
-        description="No matching communities found. Displaying all communities."
-        type="error"
-        style={{padding: 10, marginBottom: 10, width: '50%'}}
+          description="No matching communities found. Displaying all communities."
+          type="error"
+          style={{ padding: 10, marginBottom: 10, width: '50%' }}
         />
       )}
 
@@ -136,7 +131,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         {items.length > 0 ? (
           <Table
             dataSource={items}
-            columns={useCommunnityColumns(props)}
+            columns={useCommunnityColumns()}
             sticky={{
               offsetHeader: 0
             }}

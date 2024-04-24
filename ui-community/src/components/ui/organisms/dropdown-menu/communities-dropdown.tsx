@@ -1,5 +1,5 @@
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, MenuProps, Cascader } from 'antd';
+import { Dropdown, MenuProps } from 'antd';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Member } from '../../../../generated';

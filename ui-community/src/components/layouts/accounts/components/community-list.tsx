@@ -4,6 +4,7 @@ import { Community, Member } from '../../../../generated';
 import { ColumnFilterItem } from 'antd/es/table/interface';
 import { DownOutlined } from '@ant-design/icons';
 import { ChangeEvent, useMemo, useState } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 
 const { Title } = Typography;
 
@@ -22,18 +23,22 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
     if (searchValue == '') {
-      setDisplayNotFound(false);
-      setCommunityList(props.data.communities);
+      unstable_batchedUpdates(() => {
+        setDisplayNotFound(false);
+        setCommunityList(props.data.communities);
+      });
       return;
     }
     const filteredCommunities: Community[] = props.data.communities.filter(function (community: Community) {
       return community?.name?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase());
     });
-    setDisplayNotFound(filteredCommunities.length === 0);
-    setCommunityList(filteredCommunities.length > 0 ? filteredCommunities : props.data.communities);
+    unstable_batchedUpdates(() => {
+      setDisplayNotFound(filteredCommunities.length === 0);
+      setCommunityList(filteredCommunities.length > 0 ? filteredCommunities : props.data.communities);
+    });
   };
 
-  const useCommunnityColumns = () =>
+  const useCommunityColumns = () =>
     useMemo(() => {
       const columns = [
         {
@@ -131,7 +136,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         {items.length > 0 ? (
           <Table
             dataSource={items}
-            columns={useCommunnityColumns()}
+            columns={useCommunityColumns()}
             sticky={{
               offsetHeader: 0
             }}

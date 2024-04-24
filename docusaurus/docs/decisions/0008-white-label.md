@@ -37,8 +37,6 @@ OwnerCommunity needs a way to allow users to customize how the websites of their
 
 **Option #1: White label using CraftJS+Blob Storage and Vercel**
 
-- **Pros**
-
 ## Decision Outcome
 
 Chosen option: **Option #1: White label using CraftJS+Blob Storage and Vercel**
@@ -48,5 +46,34 @@ Chosen option: **Option #1: White label using CraftJS+Blob Storage and Vercel**
 ### White label using CraftJS+Blob Storage and Vercel
 
 - **CraftJS**:
+  - **Pros**
+    - CraftJS is a flexible and powerful static site generator that allows us to build dynamic websites with ease.
+    - CraftJS provides a rich set of features and plugins that make it easy to customize the look and feel of the website.
+    - CraftJS is easy to use and has good documentation that makes it easy to get started.
+  - **Cons**
+    - CraftJS may have a learning curve for developers who are not familiar with it.
+    - CraftJS may require additional setup and configuration to work with other services and tools.
+
+- **Blob Storage**:
+  - **Pros**
+    - Blob Storage is a cost-effective and scalable solution for storing large amounts of data.
+    - Blob Storage is easy to use and has good performance that makes it suitable for hosting static websites.
+    - Blob Storage provides a secure and reliable way to store data that can be accessed from anywhere.
+  - **Cons**
+    - Blob Storage may require additional setup and configuration to work with other services and tools.
+    - Blob Storage may have limitations in terms of performance and scalability for large websites.
+
+- **Vercel**:
+  - **Pros**
+    - Vercel is cheap and provides unlimited domains
+    - Vercel is easy to use and has good documentation that makes it easy to get started.
+    - Vercel provides a secure and reliable way to host websites that can be accessed from anywhere.
+  - **Cons**
+    - Vercel has expensive bandwidth.
 
 ## Links
+
+- [CraftJS](https://craftjs.org/)
+- [Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)
+- [Vercel](https://vercel.com/)
+```

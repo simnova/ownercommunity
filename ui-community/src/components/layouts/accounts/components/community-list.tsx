@@ -96,7 +96,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
             .map((member: Member) => ({
               key: member.id as string,
               label: (
-                <a onClick={() => navigate(`/community/${community.id}/member/${member.id}`)}>{member.memberName}</a>
+                <a onClick={() => navigate(`/community/${community.id}/admin/${member.id}`)}>{member.memberName}</a>
               )
             }))
         }}

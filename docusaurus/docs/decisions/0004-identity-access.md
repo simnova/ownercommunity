@@ -10,7 +10,7 @@ consulted: etang93, mgupta83
 informed: nguyenduy, heruwala
 ---
 
-# Use AAD and AAD B2C for Identity and Access Control (WIP)
+# Use of Azure Active Directory (AAD) and Azure Active Directory B2C (AAD B2C) for Identity and Access Control (WIP)
 
 ## Context and Problem Statement
 

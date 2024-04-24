@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 import { ColumnFilterItem } from 'antd/es/table/interface';
 import { DownOutlined } from '@ant-design/icons';
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { unstable_batchedUpdates } from 'react-dom';
 
 const { Title } = Typography;
@@ -34,43 +34,39 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
     });
     unstable_batchedUpdates(() => {
       setDisplayNotFound(filteredCommunities.length === 0);
-      setCommunityList(filteredCommunities.length > 0 ? filteredCommunities : props.data.communities);
+      setCommunityList(filteredCommunities);
     });
   };
 
-  const useCommunityColumns = () =>
-    useMemo(() => {
-      const columns = [
-        {
-          title: 'Community Name',
-          dataIndex: 'community',
-          key: 'community',
-          filters:
-            communityList.map(
-              (community) =>
-                ({
-                  text: community.name as string,
-                  value: community.name as string
-                } as ColumnFilterItem)
-            ) ?? [],
-          filterMode: 'menu' as 'menu',
-          filterSearch: true,
-          onFilter: (value: any, record: any) => record.community.indexOf(value as string) !== -1,
-          width: '30%'
-        },
-        {
-          title: 'Member Portal',
-          dataIndex: 'memberPortal',
-          key: 'memberPortal'
-        },
-        {
-          title: 'Admin Portal',
-          dataIndex: 'adminPortal',
-          key: 'adminPortal'
-        }
-      ];
-      return columns;
-    }, [communityList]);
+  const columns = [
+    {
+      title: 'Community Name',
+      dataIndex: 'community',
+      key: 'community',
+      filters:
+        communityList.map(
+          (community) =>
+            ({
+              text: community.name as string,
+              value: community.name as string
+            } as ColumnFilterItem)
+        ) ?? [],
+      filterMode: 'menu' as 'menu',
+      filterSearch: true,
+      onFilter: (value: any, record: any) => record.community.indexOf(value as string) !== -1,
+      width: '30%'
+    },
+    {
+      title: 'Member Portal',
+      dataIndex: 'memberPortal',
+      key: 'memberPortal'
+    },
+    {
+      title: 'Admin Portal',
+      dataIndex: 'adminPortal',
+      key: 'adminPortal'
+    }
+  ];
 
   let items = communityList.map((community: any, i: number) => ({
     key: community.id,
@@ -136,7 +132,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         {items.length > 0 ? (
           <Table
             dataSource={items}
-            columns={useCommunityColumns()}
+            columns={columns}
             sticky={{
               offsetHeader: 0
             }}

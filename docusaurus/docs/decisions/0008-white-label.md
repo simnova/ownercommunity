@@ -1,29 +1,52 @@
 ---
 sidebar_position: 8
 sidebar_label: 0008 White Label
-description: "Use white label to allow users to choose their own domain for their community."
+description: "Use white label to allow users to choose their own domains for their communities."
 # These are optional elements. Feel free to remove any of them.
 status: accepted
 contact: gidich
 date: 04-23-2024
-deciders: list everyone involved in the decision
-consulted: list everyone whose opinions are sought (typically subject-matter experts); and with whom there is a two-way communication
-informed: list everyone who is kept up-to-date on progress; and with whom there is a one-way communication
+deciders: gidich
+consulted: gidich, mgupta83
+informed: etang93, heruwala, anil, duynguyen
 ---
 
-# short title of solved problem and solution
+# White label website using CraftJs + Blob Storage and Vercel
 
 ## Context and Problem Statement
 
-Describe the context and problem statement, e.g., in free form using two to three sentences or in the form of an illustrative story.
-You may want to articulate the problem in form of a question and add links to collaboration boards or issue management systems.
+OwnerCommunity needs a way to allow users to customize how the websites of their communities look and choose their own domains for them. This will allow users to have a more personalized experience and make it easier for them to share their communities with others.
 
 ## Decision Drivers
 
+- **Personalization**: Allow users to customize their community websites and choose their own domains for their communities.
+
+- **User Experience**: Improve the user experience by allowing users to have a more personalized experience.
+
+- **Shareability**: Make it easier for users to share their communities with others.
+
+- **Scalability**: Ensure that the solution can scale to support a large number of users and communities.
+
+- **Cost-Effective**: Implement a cost-effective solution that can be easily maintained and scaled.
+
+- **Performance**: Ensure that the solution is performant and can handle a large number of requests.
+
+<!-- - **Security**: Implement a secure solution that protects user data and community websites. -->
+
+## Considered Options
+
+**Option #1: White label using CraftJS+Blob Storage and Vercel**
+
+- **Pros**
+
 ## Decision Outcome
+
+Chosen option: **Option #1: White label using CraftJS+Blob Storage and Vercel**
 
 ## Pros and Cons of the Options
 
-### title of option 1
+### White label using CraftJS+Blob Storage and Vercel
+
+- **CraftJS**:
 
 ## Links

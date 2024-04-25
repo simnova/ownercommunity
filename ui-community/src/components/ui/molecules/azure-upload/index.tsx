@@ -61,10 +61,15 @@ export type AzureUploadProps = ComponentProp;
 export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
   const authResultRef = useRef<AuthResult | undefined>(undefined);
   function renameFile(originalFile: RcFile, newName: string) {
-    return new File([originalFile], newName, {
-      type: originalFile.type,
-      lastModified: originalFile.lastModified
-    });
+    try {
+      return new File([originalFile], newName, {
+        type: originalFile.type,
+        lastModified: originalFile.lastModified
+      });
+    } catch (error) {
+      console.error('Error occurred while renaming file:', error);
+      return originalFile;
+    }
   }
   const beforeUpload = async (file: RcFile) => {
     const sanitizedFilename = file.name.replace(/\s+/g, '-');

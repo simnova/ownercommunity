@@ -2,6 +2,7 @@ import { Upload, message } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import axios from 'axios';
 import React, { useRef } from 'react';
+import { AxiosProgressEvent } from 'axios';
 
 import { RcFile, UploadFile, UploadProps } from 'antd/lib/upload/interface';
 import { BlobIndexTag, BlobMetadataField } from '../../../../generated';
@@ -149,13 +150,17 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
           data: new Blob([option.file], { type: option.file.type }),
           headers: headers,
           onUploadProgress: (progressEvent) => {
-            if (
-              progressEvent !== undefined &&
-              progressEvent.total !== undefined &&
-              progressEvent.loaded !== undefined
-            ) {
-              const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-              option.onProgress({ percent: percentCompleted }, option.file);
+            function isValidProgressEvent(progressEvent: AxiosProgressEvent) {
+              return (
+                progressEvent !== undefined && progressEvent.total !== undefined && progressEvent.loaded !== undefined
+              );
+            }
+
+            if (isValidProgressEvent(progressEvent)) {
+              if (progressEvent.total !== undefined) {
+                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                option.onProgress({ percent: percentCompleted }, option.file);
+              }
             }
           }
         });

@@ -1861,7 +1861,7 @@ export type AdminMembersListContainerMembersQuery = {
     memberName?: string | null;
     createdAt?: any | null;
     updatedAt?: any | null;
-    role?: { __typename?: 'Role'; roleName: string } | null;
+    role?: { __typename?: 'Role'; id: any; roleName: string } | null;
   } | null> | null;
 };
 
@@ -1871,7 +1871,7 @@ export type AdminMembersListContainerMembersFieldsFragment = {
   memberName?: string | null;
   createdAt?: any | null;
   updatedAt?: any | null;
-  role?: { __typename?: 'Role'; roleName: string } | null;
+  role?: { __typename?: 'Role'; id: any; roleName: string } | null;
 };
 
 export type AdminPropertiesAddContainerPropertyAddMutationVariables = Exact<{
@@ -2880,8 +2880,10 @@ export type SectionLayoutContainerMemberByIdQueryQuery = {
   __typename?: 'Query';
   member?: {
     __typename?: 'Member';
+    id: any;
     role?: {
       __typename?: 'Role';
+      id: any;
       permissions: {
         __typename?: 'RolePermissions';
         communityPermissions: {
@@ -2900,8 +2902,10 @@ export type SectionLayoutContainerMemberByIdQueryQuery = {
 
 export type SectionLayoutContainerMemberFieldsFragment = {
   __typename?: 'Member';
+  id: any;
   role?: {
     __typename?: 'Role';
+    id: any;
     permissions: {
       __typename?: 'RolePermissions';
       communityPermissions: {
@@ -5454,7 +5458,10 @@ export const AdminMembersListContainerMembersFieldsFragmentDoc = {
             name: { kind: 'Name', value: 'role' },
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'roleName' } }]
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'roleName' } }
+              ]
             }
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
@@ -6411,6 +6418,7 @@ export const SectionLayoutContainerMemberFieldsFragmentDoc = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'permissions' },
@@ -6451,7 +6459,8 @@ export const SectionLayoutContainerMemberFieldsFragmentDoc = {
                 }
               ]
             }
-          }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
         ]
       }
     }
@@ -9782,7 +9791,10 @@ export const AdminMembersListContainerMembersDocument = {
             name: { kind: 'Name', value: 'role' },
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'roleName' } }]
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'roleName' } }
+              ]
             }
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
@@ -12561,6 +12573,7 @@ export const SectionLayoutContainerMemberByIdQueryDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'permissions' },
@@ -12601,7 +12614,8 @@ export const SectionLayoutContainerMemberByIdQueryDocument = {
                 }
               ]
             }
-          }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
         ]
       }
     }

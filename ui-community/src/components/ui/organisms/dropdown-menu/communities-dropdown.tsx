@@ -1,5 +1,5 @@
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, MenuProps, Cascader } from 'antd';
+import { Dropdown, MenuProps } from 'antd';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Member } from '../../../../generated';
@@ -24,7 +24,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
   }
 
   const populateItems = (member: Member) => {
-    if (items?.[member?.community?.id] !== null) {
+    if (items?.[member?.community?.id] === null || items?.[member?.community?.id] === undefined) {
       const memberProps = {
         key: member?.community?.id,
         label: member?.community?.name,
@@ -47,7 +47,7 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
       return;
     }
     
-    let tempCommunity: any = items[member?.community?.id];
+    let tempCommunity: any = items?.[member?.community?.id];
     tempCommunity.children.push({
       key: member?.id,
       label: member?.memberName,

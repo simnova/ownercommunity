@@ -6,6 +6,7 @@ query SectionLayoutContainerMemberByIdQuery($memberId: ID!) {
 
 fragment SectionLayoutContainerMemberFields on Member {
   role {
+    id
     permissions {
       communityPermissions {
         canManageRolesAndPermissions
@@ -21,4 +22,5 @@ fragment SectionLayoutContainerMemberFields on Member {
       }
     }
   }
+  id
 }

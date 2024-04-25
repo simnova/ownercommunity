@@ -1,4 +1,4 @@
-import { Button, Typography, Table, Dropdown, Space, Input as Search, Alert } from 'antd';
+import { Button, Typography, Table, Dropdown, Space, Input as Search } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 import { DownOutlined } from '@ant-design/icons';

@@ -1,9 +1,8 @@
-import { Button, Typography, Table, Dropdown, Space, Input as Search, Alert } from 'antd';
+import { Button, Typography, Table, Dropdown, Space, Input as Search } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
-import { ColumnFilterItem } from 'antd/es/table/interface';
 import { DownOutlined } from '@ant-design/icons';
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 const { Title } = Typography;
 
@@ -16,62 +15,38 @@ export interface CommunityListProps {
 
 export const CommunityList: React.FC<CommunityListProps> = (props) => {
   const [communityList, setCommunityList] = useState(props.data.communities);
-  const [displayNotFound, setDisplayNotFound] = useState(false);
   const navigate = useNavigate();
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
     if (searchValue == '') {
-      setDisplayNotFound(false);
       setCommunityList(props.data.communities);
       return;
     }
     const filteredCommunities: Community[] = props.data.communities.filter(function (community: Community) {
       return community?.name?.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase());
     });
-    if (filteredCommunities.length > 0) {
-      setDisplayNotFound(false);
-      setCommunityList(filteredCommunities);
-    } else {
-      setDisplayNotFound(true);
-      setCommunityList(props.data.communities);
-    }
+    setCommunityList(filteredCommunities);
   };
 
-  const useCommunnityColumns = (props: CommunityListProps) =>
-    useMemo(() => {
-      const columns = [
-        {
-          title: 'Community Name',
-          dataIndex: 'community',
-          key: 'community',
-          filters:
-            communityList.map(
-              (community) =>
-                ({
-                  text: community.name as string,
-                  value: community.name as string
-                } as ColumnFilterItem)
-            ) ?? [],
-          filterMode: 'menu' as 'menu',
-          filterSearch: true,
-          onFilter: (value: any, record: any) => record.community.indexOf(value as string) !== -1,
-          width: '30%'
-        },
-        {
-          title: 'Member Portal',
-          dataIndex: 'memberPortal',
-          key: 'memberPortal'
-        },
-        {
-          title: 'Admin Portal',
-          dataIndex: 'adminPortal',
-          key: 'adminPortal'
-        }
-      ];
-      return columns;
-    }, [communityList]);
-
+  const columns = [
+    {
+      title: 'Community Name',
+      dataIndex: 'community',
+      key: 'community',
+      width: '30%'
+    },
+    {
+      title: 'Member Portal',
+      dataIndex: 'memberPortal',
+      key: 'memberPortal'
+    },
+    {
+      title: 'Admin Portal',
+      dataIndex: 'adminPortal',
+      key: 'adminPortal'
+    }
+  ];
   let items = communityList.map((community: any, i: number) => ({
     key: community.id,
     community: community.name,
@@ -122,21 +97,14 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
         <Button type="primary" onClick={() => navigate('create-community')}>
           Create a Community
         </Button>
-      </div>
-      {displayNotFound && (
-        <Alert
-        description="No matching communities found. Displaying all communities."
-        type="error"
-        style={{padding: 10, marginBottom: 10, width: '50%'}}
-        />
-      )}
+      </div> 
 
       <Search placeholder="Search for a community" enterKeyHint="search" style={{ width: '50%' }} onChange={onChange} />
       <div className="w-full p-5 mx-auto my-5 shadow-lg rounded-lg">
         {items.length > 0 ? (
           <Table
             dataSource={items}
-            columns={useCommunnityColumns(props)}
+            columns={columns}
             sticky={{
               offsetHeader: 0
             }}
@@ -144,8 +112,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
           />
         ) : (
           <Title level={5} style={{ display: 'flex', justifyContent: 'center' }}>
-            You currently don't have any communities. Please create a community using the button on the right or join
-            one.
+            No communities found.
           </Title>
         )}
       </div>

@@ -1,10 +1,11 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { LoggedInUserCommunityContainerUserCurrentQueryDocument } from '../../../../generated';
 
 import { useParams } from 'react-router-dom';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useAuth } from 'react-oidc-context';
+import { useEffect, useState } from 'react';
 
 interface HeaderPropTypes {
   autoLogin: boolean;
@@ -14,11 +15,29 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   const auth = useAuth();
   const params = useParams();
 
-  const { loading, error, data } = useQuery(LoggedInUserCommunityContainerUserCurrentQueryDocument, {
-    variables: {
-      communityId: params.communityId
+  const [memberQuery] =  useLazyQuery(LoggedInUserCommunityContainerUserCurrentQueryDocument);
+  const [data, setData] = useState<any>(null)
+  const [error, setError] = useState<any>(null)
+  const [loading, setLoading] = useState<any>(null);
+  
+
+  useEffect(() => {
+    const getData = async () => {
+      const {
+        data: dataTemp,
+        loading: loadingTemp,
+        error: errorTemp
+      } = await memberQuery({
+        variables: {
+          communityId: params.communityId
+        }
+      });
+      setData(dataTemp)
+      setError(loadingTemp)
+      setLoading(errorTemp)
     }
-  });
+    getData();
+  }, [params])
 
   const handleLogout = async () => {
     await auth.removeUser()

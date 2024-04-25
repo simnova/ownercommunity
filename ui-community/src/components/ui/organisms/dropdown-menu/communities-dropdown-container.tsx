@@ -1,8 +1,9 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { Community, Member, SharedCommunitiesDropdownContainerMembersDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 import { CommunitiesDropdown } from './communities-dropdown';
 import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from 'react';
 
 interface CommunitiesDropdownContainerProps {
   data: {
@@ -17,13 +18,28 @@ export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainer
 
   const userExternalId = jwtDecode(id_token).sub ?? '';
 
-  const {
-    data: membersData,
-    loading: membersLoading,
-    error: membersError
-  } = useQuery(SharedCommunitiesDropdownContainerMembersDocument, {
-    variables: { userExternalId }
-  });
+  const [memberQuery] =  useLazyQuery(SharedCommunitiesDropdownContainerMembersDocument);
+  const [membersData, setMemberData] = useState<any>(null)
+  const [membersError, setMemberError] = useState<any>(null)
+  const [membersLoading, setMemberLoading] = useState<any>(null);
+  
+
+  useEffect(() => {
+    const getData = async () => {
+      const {
+        data: membersDataTemp,
+        loading: membersLoadingTemp,
+        error: membersErrorTemp
+      } = await memberQuery({
+        variables: { userExternalId }
+      });
+      setMemberData(membersDataTemp)
+      setMemberError(membersErrorTemp)
+      setMemberLoading(membersLoadingTemp)
+    }
+    getData();
+  }, [userExternalId])
+
 
   return (
     <ComponentQueryLoader

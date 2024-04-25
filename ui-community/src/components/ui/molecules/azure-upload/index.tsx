@@ -8,18 +8,18 @@ import { BlobIndexTag, BlobMetadataField } from '../../../../generated';
 import { FileValidator } from './file-validator';
 
 interface UploadButtonProp {
-  authorizeRequest: (file:File) => Promise<AuthResult>
-  blobPath: string
-  onChange?: (value:any) => void
-  onRemoveRequested?: () => Promise<boolean>
-  onInvalidContentType?: () => void
-  onInvalidContentLength?: () => void
-  permittedContentTypes?: string[]
-  permittedExtensions?: string[]
-  maxFileSizeBytes?: number
-  maxWidthOrHeight?: number
-  onSuccess?: (file: UploadFile) => void
-  button?: React.ReactNode
+  authorizeRequest: (file: File) => Promise<AuthResult>;
+  blobPath: string;
+  onChange?: (value: any) => void;
+  onRemoveRequested?: () => Promise<boolean>;
+  onInvalidContentType?: () => void;
+  onInvalidContentLength?: () => void;
+  permittedContentTypes?: string[];
+  permittedExtensions?: string[];
+  maxFileSizeBytes?: number;
+  maxWidthOrHeight?: number;
+  onSuccess?: (file: UploadFile) => void;
+  button?: React.ReactNode;
 }
 
 export type UploadButtonProps = UploadButtonProp;
@@ -60,7 +60,16 @@ export type AzureUploadProps = ComponentProp;
 
 export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
   const authResultRef = useRef<AuthResult | undefined>(undefined);
+  function renameFile(originalFile: RcFile, newName: string) {
+    return new File([originalFile], newName, {
+      type: originalFile.type,
+      lastModified: originalFile.lastModified
+    });
+  }
   const beforeUpload = async (file: RcFile) => {
+    const sanitizedFilename = file.name.replace(/\s+/g, '-');
+    let sanitizedFile: RcFile = renameFile(file, sanitizedFilename) as RcFile;
+    sanitizedFile.uid = file.uid;
 
     const validatorOptions = {
       maxFileSizeBytes: props.data.maxFileSizeBytes,
@@ -68,7 +77,7 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
       permittedContentTypes: props.data.permittedContentTypes
     };
 
-    const validator = new FileValidator(file, validatorOptions);
+    const validator = new FileValidator(sanitizedFile, validatorOptions);
     const result = await validator.validate();
 
     if (!result.success) {
@@ -126,8 +135,8 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
           'x-ms-version': '2021-04-10',
           'x-ms-date': authHeader.requestDate,
           'Content-Type': option.file.type
-        }
-        console.log('headers',JSON.stringify(headers));
+        };
+        console.log('headers', JSON.stringify(headers));
 
         let response = await axios.request({
           method: 'put',
@@ -135,7 +144,11 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
           data: new Blob([option.file], { type: option.file.type }),
           headers: headers,
           onUploadProgress: (progressEvent) => {
-            if (progressEvent !== undefined && progressEvent.total !== undefined && progressEvent.loaded !== undefined) {
+            if (
+              progressEvent !== undefined &&
+              progressEvent.total !== undefined &&
+              progressEvent.loaded !== undefined
+            ) {
               const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
               option.onProgress({ percent: percentCompleted }, option.file);
             }
@@ -172,7 +185,7 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
   const getIndexTagsHeaders = (indexTags?: BlobIndexTag[]) => {
     let indexTagsHeaders: any = {};
     if (indexTags) {
-      const output = indexTags.reduce((acc: Record<string, string>, cur: { name: string, value: string }) => {
+      const output = indexTags.reduce((acc: Record<string, string>, cur: { name: string; value: string }) => {
         acc[cur.name] = cur.value;
         return acc;
       }, {});

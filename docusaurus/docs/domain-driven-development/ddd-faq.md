@@ -6,8 +6,6 @@ description: "Questions related to DDD concepts."
 
 # DDD FAQ
 
-> **Location:** `ownercommunity/data-access/src/app/domain/contexts/community/community.ts`
-
 ## What qualifies as an [Entity](../decisions/domain-driven-design#entity)?
 
 In Domain Driven Design (DDD), an object qualifies as an entity if it meets the following criteria:

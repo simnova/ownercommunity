@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-sidebar_label: 002 Open Telemetry
+sidebar_label: 0002 Open Telemetry
 description: "Open Telemetry Decisions."
 # These are optional elements. Feel free to remove any of them.
 status: accepted

@@ -12,34 +12,37 @@ interface CommunitiesDropdownContainerProps {
 }
 
 export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainerProps> = (props) => {
-
-  const sessionStorageKey = `oidc.user:${import.meta.env.VITE_AAD_ACCOUNT_AUTHORITY}:${import.meta.env.VITE_AAD_ACCOUNT_CLIENTID}`;
+  const sessionStorageKey = `oidc.user:${import.meta.env.VITE_AAD_ACCOUNT_AUTHORITY}:${
+    import.meta.env.VITE_AAD_ACCOUNT_CLIENTID
+  }`;
   const { id_token } = JSON.parse(sessionStorage.getItem(sessionStorageKey) as string);
 
   const userExternalId = jwtDecode(id_token).sub ?? '';
 
-  const [memberQuery] =  useLazyQuery(SharedCommunitiesDropdownContainerMembersDocument);
-  const [membersData, setMemberData] = useState<any>(null)
-  const [membersError, setMemberError] = useState<any>(null)
+  const [memberQuery] = useLazyQuery(SharedCommunitiesDropdownContainerMembersDocument);
+  const [membersData, setMemberData] = useState<any>(null);
+  const [membersError, setMemberError] = useState<any>(null);
   const [membersLoading, setMemberLoading] = useState<any>(null);
-  
 
   useEffect(() => {
     const getData = async () => {
-      const {
-        data: membersDataTemp,
-        loading: membersLoadingTemp,
-        error: membersErrorTemp
-      } = await memberQuery({
-        variables: { userExternalId }
-      });
-      setMemberData(membersDataTemp)
-      setMemberError(membersErrorTemp)
-      setMemberLoading(membersLoadingTemp)
-    }
+      try {
+        const {
+          data: membersDataTemp,
+          loading: membersLoadingTemp,
+          error: membersErrorTemp
+        } = await memberQuery({
+          variables: { userExternalId }
+        });
+        setMemberData(membersDataTemp);
+        setMemberError(membersErrorTemp);
+        setMemberLoading(membersLoadingTemp);
+      } catch (e) {
+        console.error('Error getting data in communit dropdown: ', e);
+      }
+    };
     getData();
-  }, [userExternalId])
-
+  }, [userExternalId]);
 
   return (
     <ComponentQueryLoader

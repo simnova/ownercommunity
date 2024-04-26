@@ -15,46 +15,48 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   const auth = useAuth();
   const params = useParams();
 
-  const [memberQuery] =  useLazyQuery(LoggedInUserCommunityContainerUserCurrentQueryDocument);
-  const [data, setData] = useState<any>(null)
-  const [error, setError] = useState<any>(null)
+  const [memberQuery] = useLazyQuery(LoggedInUserCommunityContainerUserCurrentQueryDocument);
+  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<any>(null);
-  
 
   useEffect(() => {
     const getData = async () => {
-      const {
-        data: dataTemp,
-        loading: loadingTemp,
-        error: errorTemp
-      } = await memberQuery({
-        variables: {
-          communityId: params.communityId
-        }
-      });
-      setData(dataTemp)
-      setError(loadingTemp)
-      setLoading(errorTemp)
-    }
+      try {
+        const {
+          data: dataTemp,
+          loading: loadingTemp,
+          error: errorTemp
+        } = await memberQuery({
+          variables: {
+            communityId: params.communityId
+          }
+        });
+        setData(dataTemp);
+        setError(loadingTemp);
+        setLoading(errorTemp);
+      } catch (e) {
+        console.error('Error getting data in logged in user component: ', e);
+      }
+    };
     getData();
-  }, [params])
+  }, [params]);
 
   const handleLogout = async () => {
-    await auth.removeUser()
+    await auth.removeUser();
     await auth.signoutRedirect({ post_logout_redirect_uri: window.location.origin });
   };
 
   const LoggedInCommunityContainer = () => {
-    
     const userData: LoggedInUserPropTypes = {
       data: {
         isLoggedIn: true,
         firstName: data?.userCurrent?.firstName ?? '',
         lastName: data?.userCurrent?.lastName ?? '',
         notificationCount: 0,
-        profileImage:
-        data?.memberForCurrentUser?.profile?.avatarDocumentId ? `https://ownercommunity.blob.core.windows.net/${params.communityId}/${data.memberForCurrentUser.profile.avatarDocumentId}` :
-          undefined
+        profileImage: data?.memberForCurrentUser?.profile?.avatarDocumentId
+          ? `https://ownercommunity.blob.core.windows.net/${params.communityId}/${data.memberForCurrentUser.profile.avatarDocumentId}`
+          : undefined
       }
     };
     console.log('LoggedInCommunityContainer', userData);

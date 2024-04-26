@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { ComponentQueryLoader } from '../../ui/molecules/component-query-loader';
 import { SectionLayout } from './section-layout';
 import { useEffect, useState } from 'react';
+import { Exception } from '@microsoft/applicationinsights-web';
 
 interface SectionLayoutContainerProps {
   pageLayouts: PageLayoutProps[];
@@ -20,18 +21,23 @@ export const SectionLayoutContainer = (props: SectionLayoutContainerProps) => {
 
   useEffect(() => {
     const getData = async () => {
-      const {
-        data: memberDataTemp,
-        loading: memberLoadingTemp,
-        error: memberErrorTemp
-      } = await memberQuery({
-        variables: {
-          memberId: params.memberId ?? ''
-        }
-      });
-      setMemberData(memberDataTemp);
+      try{
+        const {
+          data: memberDataTemp,
+          loading: memberLoadingTemp,
+          error: memberErrorTemp
+        } = await memberQuery({
+          variables: {
+            memberId: params.memberId ?? ''
+          }
+        });
+        setMemberData(memberDataTemp);
       setMemberError(memberErrorTemp);
       setMemberLoading(memberLoadingTemp);
+      }
+      catch(e){
+        console.error("Error fetching data in section layout: ", e);
+      }
     };
     getData();
   }, [params]);

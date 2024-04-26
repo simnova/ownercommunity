@@ -6,6 +6,7 @@ import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 import { LoggedInUser, LoggedInUserPropTypes } from '../../molecules/logged-in-user';
 import { useAuth } from 'react-oidc-context';
 import { useEffect, useState } from 'react';
+import { Skeleton } from 'antd';
 
 interface HeaderPropTypes {
   autoLogin: boolean;
@@ -73,7 +74,7 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
       hasData={data?.userCurrent && data.memberForCurrentUser}
       hasDataComponent={<LoggedInCommunityContainer />}
       error={error}
-      noDataComponent={<div>Nothing</div>}
+      noDataComponent={<Skeleton loading/>}
     />
   );
 };

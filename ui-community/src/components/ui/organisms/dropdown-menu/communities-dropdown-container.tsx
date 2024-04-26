@@ -1,5 +1,5 @@
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { Community, Member, SharedCommunitiesDropdownContainerMembersDocument } from '../../../../generated';
+import { useLazyQuery } from '@apollo/client';
+import { Member, SharedCommunitiesDropdownContainerMembersDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
 import { CommunitiesDropdown } from './communities-dropdown';
 import { jwtDecode } from 'jwt-decode';

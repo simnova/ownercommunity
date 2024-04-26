@@ -1,4 +1,4 @@
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { LoggedInUserCommunityContainerUserCurrentQueryDocument } from '../../../../generated';
 
 import { useParams } from 'react-router-dom';

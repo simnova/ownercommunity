@@ -1,11 +1,10 @@
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { PageLayoutProps } from '.';
 import { Member, SectionLayoutContainerMemberByIdQueryDocument } from '../../../generated';
 import { useParams } from 'react-router-dom';
 import { ComponentQueryLoader } from '../../ui/molecules/component-query-loader';
 import { SectionLayout } from './section-layout';
 import { useEffect, useState } from 'react';
-import { Exception } from '@microsoft/applicationinsights-web';
 
 interface SectionLayoutContainerProps {
   pageLayouts: PageLayoutProps[];

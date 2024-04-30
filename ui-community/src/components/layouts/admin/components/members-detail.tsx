@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Button, Descriptions, Form, Input, Select } from 'antd';
+import { Button, Descriptions, Form, Input, Popover, Select } from 'antd';
 import dayjs from 'dayjs';
 
 import { MemberUpdateInput } from '../../../../generated';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 export interface MembersDetailProps {
   data: {
@@ -16,6 +17,18 @@ export interface MembersDetailProps {
 export const MembersDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
+  const roleContent = (
+    <div>
+      <p>
+        <span>ID: </span>
+        {props.data.member.role.id}
+      </p>
+      <p>
+        <span>Role Name: </span>
+        {props.data.member.role.roleName}
+      </p>
+    </div>
+  );
   return (
     <div>
       <Descriptions title="Member Info" size={'small'} layout={'vertical'}>
@@ -50,13 +63,21 @@ export const MembersDetail: React.FC<any> = (props) => {
           <Input placeholder="Name" maxLength={200} />
         </Form.Item>
         <Form.Item name={['role', 'id']} label="Role" required>
-          <Select
-            allowClear={true}
-            placeholder="Select a role"
-            options={props.data.roles}
-            fieldNames={{ label: 'roleName', value: 'id' }}
-          />
+          <div className="flex gap-2" h-full>
+            <Select
+              allowClear={true}
+              placeholder="Select a role"
+              options={props.data.roles}
+              fieldNames={{ label: 'roleName', value: 'id' }}
+            />
+            <Popover content={roleContent} title="Role">
+              <Button>
+                <InfoCircleOutlined />
+              </Button>
+            </Popover>
+          </div>
         </Form.Item>
+
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Save
         </Button>

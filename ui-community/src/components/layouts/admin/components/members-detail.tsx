@@ -18,6 +18,7 @@ export interface MembersDetailProps {
 export const MembersDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
+  const [selectedRoleId, setSelectedRoleId] = React.useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -61,12 +62,14 @@ export const MembersDetail: React.FC<any> = (props) => {
               placeholder="Select a role"
               options={props.data.roles}
               fieldNames={{ label: 'roleName', value: 'id' }}
+              onChange={(value) => {
+                setSelectedRoleId(value);
+              }}
             />
             <Button
+              disabled={!selectedRoleId}
               onClick={() =>
-                navigate(
-                  `/community/${props.data.communityId}/${props.data.member.role.roleName}/${props.data.member.id}/roles/${props.data.member.role.id}`
-                )
+                navigate(`/community/${props.data.communityId}/admin/${props.data.member.id}/roles/${selectedRoleId}`)
               }
               aria-label="Open Role Details"
             >

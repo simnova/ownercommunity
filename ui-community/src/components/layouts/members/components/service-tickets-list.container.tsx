@@ -56,7 +56,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     (async () => {
       await handleSearch();
     })();
-  }, [ServiceTicketSearchParamKeys]);
+  }, []);
 
   useEffect(() => {
     setVisible(false);
@@ -161,6 +161,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
               customData={{ data: membersData, loading: memberLoading, error: memberError }}
               type={SearchType.ServiceTicket}
               clearFilter={clearFilter}
+              searchParams={searchParams}
             />
           </Drawer>
           <Button type="default" onClick={() => setVisible(true)} className="ml-4">

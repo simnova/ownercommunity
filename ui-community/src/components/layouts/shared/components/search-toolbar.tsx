@@ -35,6 +35,7 @@ interface SearchToolbarProps {
   customData: MemberPropertiesGetAllTagsQuery | MemberNameServiceTicketContainerQuery;
   customViewData: SearchDrawerContainerCustomViewsQuery;
   buttonClicked: number
+  searchParams: URLSearchParams
   handleUpdateCustomView: (
     memberId: string,
     customViews: CustomViewInput[],
@@ -55,17 +56,17 @@ const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Updated
 
 export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
   const forceUpdate = useForceUpdate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [ _, setSearchParams ] = useSearchParams();
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
   const [savedFilterNameInput, setSavedFilterNameInput] = useState('');
   const [selectedSavedFilterName, setSelectedSavedFilterName] = useState<string | undefined>(
-    searchParams.get(SearchParamKeys.SavedFilter) ?? undefined
+    props.searchParams.get(SearchParamKeys.SavedFilter) ?? undefined
   );
 
   const [customViews, setCustomViews] = useState<CustomView[]>([]);
   const [filteredCustomViews, setFilteredCustomViews] = useState<CustomView[]>([]);
   const [columnsToDisplay, setColumnsToDisplay] = useState<string[] | undefined>(
-    searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
+   props.searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
   );
   const [lastClick, setLastClick] = useState(0);
 
@@ -83,8 +84,9 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
   
   useEffect(() => {
     if(lastClick < props.buttonClicked){
-      setSearchParams(searchParams);
-      setLastClick(props.buttonClicked);
+      console.log("yoyo")
+      setSearchParams(props.searchParams);
+      setLastClick(lastClick => lastClick + 1);
     }
   }, [props.buttonClicked])
   
@@ -96,10 +98,10 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
       if (view.name === selectedSavedFilterName && view.type === props.type) {
         const updatedFilters =
           props.type === SearchType.Property
-            ? GetPropertySelectedFilterTags(searchParams)
-            : GetServiceTicketSelectedFilterTags(searchParams, memberData?.membersByCommunityId as Member[]);
-        const updatedSortOrder = searchParams.get(SearchParamKeys.Sort) ?? '';
-        const updatedColumnsToDisplay = searchParams.get(ServiceTicketSearchParamKeys.Column);
+            ? GetPropertySelectedFilterTags(props.searchParams)
+            : GetServiceTicketSelectedFilterTags(props.searchParams, memberData?.membersByCommunityId as Member[]);
+        const updatedSortOrder = props.searchParams.get(SearchParamKeys.Sort) ?? '';
+        const updatedColumnsToDisplay = props.searchParams.get(ServiceTicketSearchParamKeys.Column);
         // update
         customViewInputs.push({
           name: view.name,
@@ -131,8 +133,8 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
       CustomViewOperation.Update
     );
     if (selectedSavedFilterName) {
-      searchParams.set(SearchParamKeys.SavedFilter, selectedSavedFilterName);
-      setSearchParams(searchParams);
+      props.searchParams.set(SearchParamKeys.SavedFilter, selectedSavedFilterName);
+      setSearchParams(props.searchParams);
     }
     setCustomViews(currentViews);
   };
@@ -145,17 +147,17 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
     }
     const filters =
       props.type === SearchType.ServiceTicket
-        ? GetServiceTicketSelectedFilterTags(searchParams, memberData?.membersByCommunityId as Member[])
-        : GetPropertySelectedFilterTags(searchParams);
+        ? GetServiceTicketSelectedFilterTags(props.searchParams, memberData?.membersByCommunityId as Member[])
+        : GetPropertySelectedFilterTags(props.searchParams);
 
-    const qscolumnsToDisplay = searchParams.get(ServiceTicketSearchParamKeys.Column);
+    const qscolumnsToDisplay = props.searchParams.get(ServiceTicketSearchParamKeys.Column);
 
     let customViewInputs: CustomViewInput[] = [];
     let newCustomView: CustomViewInput = {
       name: savedFilterNameInput,
       type: props.type,
       filters: filters,
-      sortOrder: searchParams.get(SearchParamKeys.Sort) ?? '',
+      sortOrder: props.searchParams.get(SearchParamKeys.Sort) ?? '',
       columnsToDisplay:
         props.type === SearchType.ServiceTicket && qscolumnsToDisplay ? qscolumnsToDisplay.split(',') : []
     };
@@ -183,8 +185,8 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
       )
       .then((data) => {
         setCustomViews(data?.member?.customViews as CustomView[]);
-        searchParams.set(SearchParamKeys.SavedFilter, savedFilterNameInput);
-        setSearchParams(searchParams);
+        props.searchParams.set(SearchParamKeys.SavedFilter, savedFilterNameInput);
+        setSearchParams(props.searchParams);
         onSelectViewChanged(savedFilterNameInput);
         setSavedFilterNameInput('');
         setIsSaveModalVisible(false);
@@ -219,8 +221,8 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
       );
       if (deletedView?.name === selectedSavedFilterName) {
         setSelectedSavedFilterName(undefined);
-        searchParams.delete(SearchParamKeys.SavedFilter);
-        setSearchParams(searchParams);
+        props.searchParams.delete(SearchParamKeys.SavedFilter);
+        setSearchParams(props.searchParams);
         clearFilter();
       }
       setCustomViews(updatedViews);
@@ -237,9 +239,9 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
 
   const onSortChanged = (value: string) => {
     if (value) {
-      searchParams.set(SearchParamKeys.Sort, value);
+     props.searchParams.set(SearchParamKeys.Sort, value);
     } else {
-      searchParams.delete(SearchParamKeys.Sort);
+      props.searchParams.delete(SearchParamKeys.Sort);
     }
   };
 
@@ -249,37 +251,37 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
     } else {
       const selectedView = filteredCustomViews.find((view) => view.name === viewName);
       const filters = selectedView?.filters;
-      if (selectedView?.sortOrder) searchParams.set(SearchParamKeys.Sort, selectedView?.sortOrder);
+      if (selectedView?.sortOrder) props.searchParams.set(SearchParamKeys.Sort, selectedView?.sortOrder);
       setSelectedSavedFilterName(viewName);
       if (props.type === SearchType.Property) {
-        SetSearchParamsFromPropertyFilter(filters as string[], searchParams);
+        SetSearchParamsFromPropertyFilter(filters as string[], props.searchParams);
       } else {
         const memberData = props.customData as MemberNameServiceTicketContainerQuery;
         SetSearchParamsFromServiceTicketFilter(
           filters as string[],
-          searchParams,
+          props.searchParams,
           memberData?.membersByCommunityId as Member[]
         );
         if (selectedView?.columnsToDisplay && selectedView?.columnsToDisplay?.length > 0)
-          searchParams.set(ServiceTicketSearchParamKeys.Column, selectedView.columnsToDisplay?.join(','));
+          props.searchParams.set(ServiceTicketSearchParamKeys.Column, selectedView.columnsToDisplay?.join(','));
       }
-      searchParams.set(SearchParamKeys.SavedFilter, viewName);
+      props.searchParams.set(SearchParamKeys.SavedFilter, viewName);
     }
   };
 
   const onSelectColumnChanged = (columnName: string) => {
-    const originalSearchParams = searchParams.get(ServiceTicketSearchParamKeys.Column) ?? '';
-    searchParams.set(
+    const originalSearchParams = props.searchParams.get(ServiceTicketSearchParamKeys.Column) ?? '';
+    props.searchParams.set(
       ServiceTicketSearchParamKeys.Column,
       originalSearchParams.length > 0
-        ? searchParams.get(ServiceTicketSearchParamKeys.Column) + ',' + columnName
+        ? props.searchParams.get(ServiceTicketSearchParamKeys.Column) + ',' + columnName
         : columnName
     );
     setColumnsToDisplay([...(columnsToDisplay ?? []), columnName]);
   };
 
   const onColumnDelete = (columnName: string) => {
-    const searchParamsString = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
+    const searchParamsString = props.searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
     const newSearchParamsArray: any = [];
     searchParamsString?.forEach((searchParam) => {
       if (searchParam !== columnName) {
@@ -288,9 +290,9 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
     });
 
     if (newSearchParamsArray.length > 0) {
-      searchParams.set(ServiceTicketSearchParamKeys.Column, newSearchParamsArray.join(','));
+      props.searchParams.set(ServiceTicketSearchParamKeys.Column, newSearchParamsArray.join(','));
     } else {
-      searchParams.delete(ServiceTicketSearchParamKeys.Column);
+      props.searchParams.delete(ServiceTicketSearchParamKeys.Column);
     }
     setColumnsToDisplay(columnsToDisplay?.filter((column) => column !== columnName));
   };
@@ -301,7 +303,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
         <Space size="middle">
           <Select
             onChange={onSelectViewChanged}
-            value={searchParams.get(SearchParamKeys.SavedFilter) ?? selectedSavedFilterName}
+            value={props.searchParams.get(SearchParamKeys.SavedFilter) ?? selectedSavedFilterName}
             style={{ width: '175px' }}
             placeholder="Select saved filter"
             dropdownRender={() =>
@@ -365,7 +367,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
       >
         <Text style={{ fontWeight: '600', alignSelf: 'center' }}>Sort By: </Text>
         <Select
-          defaultValue={searchParams.get('sort') ? searchParams.get('sort') : ''}
+          defaultValue={props.searchParams.get('sort') ? props.searchParams.get('sort') : ''}
           style={{ width: '225px' }}
           onChange={(value) => onSortChanged(value)}
         >
@@ -408,8 +410,8 @@ export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
             defaultValue={columnsToDisplay}
             allowClear
             onClear={() => {
-              searchParams.delete(ServiceTicketSearchParamKeys.Column);
-              setSearchParams(searchParams);
+              props.searchParams.delete(ServiceTicketSearchParamKeys.Column);
+              setSearchParams(props.searchParams);
               setColumnsToDisplay(undefined);
               forceUpdate();
             }}

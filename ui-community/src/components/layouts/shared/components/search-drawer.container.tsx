@@ -19,6 +19,7 @@ import { useState } from 'react';
 interface SearchDrawerContainerProps {
   type: SearchType;
   searchData: any;
+  searchParams: URLSearchParams
   customData: {
     data: any;
     loading: boolean;
@@ -26,6 +27,7 @@ interface SearchDrawerContainerProps {
   };
   clearFilter: () => void;
 }
+
 
 export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (props) => {
   const params = useParams();
@@ -96,7 +98,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
   };
   
   const saveFilters = () => {
-    setButtonClicked(buttonClicked++)
+    setButtonClicked(buttonClicked => buttonClicked + 1)
   }
 
   if (customViewsError || props.customData.error) {
@@ -121,6 +123,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
             handleUpdateCustomView={handleUpdateCustomView}
             clearFilter={props.clearFilter}
             buttonClicked={buttonClicked}
+            searchParams={props.searchParams}
           />
         </div>
         {props.type === SearchType.Property ? (
@@ -130,7 +133,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
             tagData={props.customData.data.getAllPropertyTags as string[]}
           />
         ) : (
-          <ServiceTicketsSearchFilters buttonClicked={buttonClicked} searchData={props.searchData} memberData={props.customData.data as MemberNameServiceTicketContainerQuery | MemberPropertiesGetAllTagsQuery} />
+          <ServiceTicketsSearchFilters searchParams={props.searchParams} buttonClicked={buttonClicked} searchData={props.searchData} memberData={props.customData.data as MemberNameServiceTicketContainerQuery | MemberPropertiesGetAllTagsQuery} />
         )}
         <Button type='primary' onClick={saveFilters}> Apply Filters </Button>
       </>

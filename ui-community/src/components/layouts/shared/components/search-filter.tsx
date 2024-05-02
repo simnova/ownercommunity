@@ -57,7 +57,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   useEffect(() => {
     if (lastClick < props.buttonClicked) {
       setSearchParams(searchParams);
-      setLastClick(props.buttonClicked);
+      setLastClick(lastClick => lastClick + 1);
     }
   }, [props.buttonClicked]);
 

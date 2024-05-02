@@ -6,6 +6,7 @@
   "dependencies": {
     "@ant-design/compatible": "^5.1.1",
     "@ant-design/cssinjs": "^1.9.1",
+    "@ant-design/icons": "^5.3.6",
     "@ant-design/pro-layout": "^7.13.3",
     "@apollo/client": "^3.5.8",
     "@azure/storage-blob": "^12.14.0",

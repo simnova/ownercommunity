@@ -55,7 +55,7 @@ export const MembersDetail: React.FC<any> = (props) => {
           <Input placeholder="Name" maxLength={200} />
         </Form.Item>
         <Form.Item name={['role', 'id']} label="Role" required>
-          <div className="flex gap-2" h-full>
+          <div className="flex gap-2">
             <Select
               allowClear={true}
               placeholder="Select a role"

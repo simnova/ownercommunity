@@ -68,8 +68,9 @@ export const MembersDetail: React.FC<any> = (props) => {
                   `/community/${props.data.communityId}/${props.data.member.role.roleName}/${props.data.member.id}/roles/${props.data.member.role.id}`
                 )
               }
+              aria-label="Open Role Details"
             >
-              Open Role Details page
+              Open Role Details
             </Button>
           </div>
         </Form.Item>

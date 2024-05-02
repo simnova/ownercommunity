@@ -132,7 +132,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
         ) : (
           <ServiceTicketsSearchFilters buttonClicked={buttonClicked} searchData={props.searchData} memberData={props.customData.data as MemberNameServiceTicketContainerQuery | MemberPropertiesGetAllTagsQuery} />
         )}
-        <Button type='primary' onClick={saveFilters}> Save </Button>
+        <Button type='primary' onClick={saveFilters}> Apply Filters </Button>
       </>
     );
   }

@@ -4,7 +4,6 @@ import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail } from '../../../../generated';
-import { render } from 'react-dom';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
@@ -46,8 +45,13 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   const [checkboxSelectors, setCheckBoxSelectors] = useState<string[]>([]);
 
   useEffect(() => {
-    setCheckBoxSelectors([]);
-    resetOptions();
+    if(checkboxSelectors.length === 0){
+      const searchId = props.searchId[0];
+      const searchParamsString = searchParams.get(searchId)?.split(',');  
+      searchParamsString?.forEach((param) => {
+        setCheckBoxSelectors([...checkboxSelectors, param]);
+      })
+    }
   }, []);
 
   useEffect(() => {

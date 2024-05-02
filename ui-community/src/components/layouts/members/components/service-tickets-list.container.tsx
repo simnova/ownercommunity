@@ -56,13 +56,14 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     (async () => {
       await handleSearch();
     })();
-  }, []);
+  }, [ServiceTicketSearchParamKeys]);
 
   useEffect(() => {
-    (async () => {
-      await handleSearch();
-    })();
-  }, [searchParams]);
+    setVisible(false);
+    handleSearch();
+  }, [searchParams, params])
+  
+
 
   const handleSearch = async () => {
     if (searchString.length > 0) {
@@ -172,7 +173,6 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
           searchParams={searchParams}
           setSearchParams={setSearchParams}
         />
-        {SearchResult}
       </>
     );
   }

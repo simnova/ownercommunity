@@ -16,6 +16,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         options: [],
         searchId: filter.searchId,
         searchbar: filter.searchbar ?? false,
+        buttonClicked: props.buttonClicked
       }
 
       filter.values.forEach((value: any) => {
@@ -36,7 +37,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
     setFilters(filters);
   }
 
-
+  
   useEffect(() => {
 
     const filterConfig: SearchFilterConfigDefinition = {
@@ -86,7 +87,6 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
         }
       ]
     };
-
     generateFilters(filterConfig);
   }, []);
 
@@ -102,6 +102,7 @@ export const ServiceTicketsSearchFilters: React.FC<any> = (props) => {
             searchId={filter?.searchId}
             options={filter?.options}
             searchbar={filter?.searchbar ?? false}
+            buttonClicked={props.buttonClicked}
           />
         );
       })}

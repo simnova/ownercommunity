@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Skeleton, message } from 'antd';
+import { Button, Skeleton, message } from 'antd';
 import { useParams } from 'react-router-dom';
 import { CustomViewOperation, SearchType } from '../../../../constants';
 import {
@@ -14,6 +14,7 @@ import {
 import { ServiceTicketsSearchFilters } from '../../members/components/service-tickets-search-filters';
 import { SearchToolbar } from './search-toolbar';
 import PropertiesListSearchFilters from '../../members/components/properties-list-search-filters';
+import { useState } from 'react';
 
 interface SearchDrawerContainerProps {
   type: SearchType;
@@ -28,6 +29,7 @@ interface SearchDrawerContainerProps {
 
 export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (props) => {
   const params = useParams();
+  let [buttonClicked, setButtonClicked] = useState(0);
   const [updateCustomViews] = useMutation(SearchDrawerContainerCustomViewsUpdateDocument, {
     update(cache, { data }) {
       // update the list of custom views
@@ -92,6 +94,10 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
     });
     return data;
   };
+  
+  const saveFilters = () => {
+    setButtonClicked(buttonClicked++)
+  }
 
   if (customViewsError || props.customData.error) {
     return (
@@ -114,6 +120,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
             customData={props.customData.data}
             handleUpdateCustomView={handleUpdateCustomView}
             clearFilter={props.clearFilter}
+            buttonClicked={buttonClicked}
           />
         </div>
         {props.type === SearchType.Property ? (
@@ -123,8 +130,9 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
             tagData={props.customData.data.getAllPropertyTags as string[]}
           />
         ) : (
-          <ServiceTicketsSearchFilters searchData={props.searchData} memberData={props.customData.data as MemberNameServiceTicketContainerQuery | MemberPropertiesGetAllTagsQuery} />
+          <ServiceTicketsSearchFilters buttonClicked={buttonClicked} searchData={props.searchData} memberData={props.customData.data as MemberNameServiceTicketContainerQuery | MemberPropertiesGetAllTagsQuery} />
         )}
+        <Button type='primary' onClick={saveFilters}> Save </Button>
       </>
     );
   }

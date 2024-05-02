@@ -4,6 +4,7 @@ import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FacetDetail } from '../../../../generated';
+import { render } from 'react-dom';
 const { Title } = Typography;
 const { Panel } = Collapse;
 
@@ -20,7 +21,7 @@ export interface SearchFilterConfigDefinition {
     searchbar?: boolean;
     values: any[];
     facet?: string[];
-    type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom' ;
+    type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom';
     customComponent?: React.JSX.Element;
     handleCount?: (facet: FacetDetail, value?: any) => boolean;
     transform?: (value: any) => string;
@@ -35,15 +36,31 @@ export interface SearchFilterProps {
   searchbar?: boolean;
   type?: 'checkbox' | 'inputNumber' | 'radio' | 'custom';
   customComponent?: React.JSX.Element;
+  buttonClicked: number;
 }
 
 export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   const [options, setOptions] = useState<{ value: string }[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [lastClick, setLastClick] = useState(0);
+  const [checkboxSelectors, setCheckBoxSelectors] = useState<string[]>([]);
 
   useEffect(() => {
+    setCheckBoxSelectors([]);
     resetOptions();
   }, []);
+
+  useEffect(() => {
+    if (lastClick < props.buttonClicked) {
+      setSearchParams(searchParams);
+      setLastClick(props.buttonClicked);
+    }
+  }, [props.buttonClicked]);
+
+  useEffect(() => {
+    
+  }, [checkboxSelectors])
+  
 
   const getOptions = (value: string | undefined) => {
     let uniqueNames: string[] = _.uniq(props.options?.map((option: any) => option.name));
@@ -67,10 +84,11 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
   const onSelectCheckbox = (e: any, key: string) => {
     const searchId = props.searchId[0];
     if (e.target.checked) {
+      setCheckBoxSelectors([...checkboxSelectors, key]);
       const originalSearchParams = searchParams.get(searchId) ?? '';
       searchParams.set(searchId, originalSearchParams.length > 0 ? searchParams.get(searchId) + ',' + key : key);
-      setSearchParams(searchParams);
     } else {
+      setCheckBoxSelectors(checkboxSelectors.filter(selector => selector !== key));
       const searchParamsString = searchParams.get(searchId)?.split(',');
       const newSearchParamsArray: any = [];
       searchParamsString?.forEach((searchParam) => {
@@ -82,12 +100,11 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
       if (searchParams.get(searchId) === '') {
         searchParams.delete(searchId);
       }
-      setSearchParams(searchParams);
     }
   };
 
   const onChangeInputNumber = (value: any, optionId: string) => {
-    if (value.trim() === '') return; 
+    if (value.trim() === '') return;
     if (!Number.isInteger(Number(value))) return;
     const searchId = props.searchId.find((id: any) => id === optionId) ?? props.searchId[0];
     if (value === null) {
@@ -95,7 +112,6 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
     } else {
       searchParams.set(searchId, value);
     }
-    setSearchParams(searchParams);
   };
 
   const onChangeRadio = (e: any) => {
@@ -105,16 +121,10 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
       radioValue = e.target.value.split('(')[0].trim();
     }
     searchParams.set(searchId, radioValue);
-    setSearchParams(searchParams);
   };
 
   const isChecked = (id: string) => {
-    const searchId = props.searchId[0];
-    const searchParamsString = searchParams.get(searchId)?.split(',');
-    if (searchParamsString) {
-      return searchParamsString.includes(id);
-    }
-    return false;
+    return checkboxSelectors.includes(id)
   };
 
   const onSearchSelect = (value: string) => {
@@ -139,7 +149,6 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
 
     // set the new search params
     searchParams.set(searchId, newSearchParamsArray.join(','));
-    setSearchParams(searchParams);
   };
 
   const getRadioValue = (options: SearchFilterOption[]) => {
@@ -147,11 +156,11 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
     if (qsValue === null) return undefined;
     const count = options.find((option: SearchFilterOption) => option.name.includes(qsValue))?.count;
     if (count && count > -1) {
-      return `${qsValue} (${count})`
+      return `${qsValue} (${count})`;
     } else {
       return qsValue;
     }
-  }
+  };
 
   const renderOptions = (options: SearchFilterOption[]) => {
     switch (props.type) {
@@ -160,22 +169,28 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
           <>
             {options.map((option: SearchFilterOption) => (
               <div key={option.name} style={{ display: 'flex', padding: '5px', width: '250px' }}>
-                  <InputNumber id={option.id} onPressEnter={(e: any) => onChangeInputNumber(e.target.value, option.id)} value={searchParams.get(option.id)} />
-                  <label style={{ padding: "0px 10px"}}>{option.name}</label>
+                <InputNumber
+                  id={option.id}
+                  onPressEnter={(e: any) => onChangeInputNumber(e.target.value, option.id)}
+                  value={searchParams.get(option.id)}
+                />
+                <label style={{ padding: '0px 10px' }}>{option.name}</label>
               </div>
             ))}
           </>
         );
       case 'custom':
-            return props.customComponent ?? <></>
+        return props.customComponent ?? <></>;
       case 'radio':
         return (
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '290px'}}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '290px' }}>
             <Radio.Group
               style={{ overflowY: 'hidden' }}
               value={getRadioValue(options)}
               onChange={(e: any) => onChangeRadio(e)}
-              options={options.map((option: SearchFilterOption) => option.count > -1 ? `${option.name} (${option.count})` : option.name)}
+              options={options.map((option: SearchFilterOption) =>
+                option.count > -1 ? `${option.name} (${option.count})` : option.name
+              )}
             />
           </div>
         );
@@ -183,7 +198,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
         return (
           <>
             {options.map((option: SearchFilterOption) => (
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '250px' }} key={option.name} >
+              <div style={{ display: 'flex', justifyContent: 'space-between', width: '250px' }} key={option.name}>
                 <Checkbox
                   key={option.id}
                   checked={isChecked(option.id)}
@@ -204,9 +219,9 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
       className="service-ticket-search-filter-collapse"
       defaultActiveKey={['1']}
       ghost
-      style={{width: '80%'}}
-      expandIcon={({isActive}) =>
-        isActive ? <MinusOutlined style={{fontSize: '30px'}}/> : <PlusOutlined style={{fontSize: '30px'}}/>
+      style={{ width: '80%' }}
+      expandIcon={({ isActive }) =>
+        isActive ? <MinusOutlined style={{ fontSize: '30px' }} /> : <PlusOutlined style={{ fontSize: '30px' }} />
       }
     >
       <Panel
@@ -229,7 +244,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = (props) => {
             options={options}
             placeholder="Search"
             className="search-filter-searchbar"
-            style={{width: '40%'}}
+            style={{ width: '40%' }}
             onChange={onChange}
             onClear={resetOptions}
             onSelect={onSearchSelect}

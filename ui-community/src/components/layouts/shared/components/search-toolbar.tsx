@@ -1,6 +1,6 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, Select, Space, Typography, message } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useImperativeHandle, useLayoutEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   CustomViewOperation,
@@ -25,6 +25,7 @@ import {
 } from '../../../../generated';
 import { PropertiesListSearchTags } from '../../members/components/properties-list-search-tags';
 import { ServiceTicketsSearchTags } from '../../members/components/service-tickets-search-tags';
+import React from 'react';
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -33,6 +34,7 @@ interface SearchToolbarProps {
   type: SearchType;
   customData: MemberPropertiesGetAllTagsQuery | MemberNameServiceTicketContainerQuery;
   customViewData: SearchDrawerContainerCustomViewsQuery;
+  buttonClicked: number
   handleUpdateCustomView: (
     memberId: string,
     customViews: CustomViewInput[],
@@ -51,7 +53,7 @@ function useForceUpdate() {
 
 const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Updated', 'Created'];
 
-export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
+export const SearchToolbar: React.FC<SearchToolbarProps> =(props) => {
   const forceUpdate = useForceUpdate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false);
@@ -65,6 +67,7 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
   const [columnsToDisplay, setColumnsToDisplay] = useState<string[] | undefined>(
     searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
   );
+  const [lastClick, setLastClick] = useState(0);
 
   const memberData = props.customData as MemberNameServiceTicketContainerQuery;
   const tagData = props.customData as MemberPropertiesGetAllTagsQuery;
@@ -77,6 +80,14 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
       setFilteredCustomViews(filteredCustomViews);
     }
   }, [props.customViewData?.memberForCurrentUser?.customViews]);
+  
+  useEffect(() => {
+    if(lastClick < props.buttonClicked){
+      setSearchParams(searchParams);
+      setLastClick(props.buttonClicked);
+    }
+  }, [props.buttonClicked])
+  
 
   const updateCustomView = async () => {
     let customViewInputs: CustomViewInput[] = [];
@@ -230,8 +241,6 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
     } else {
       searchParams.delete(SearchParamKeys.Sort);
     }
-
-    setSearchParams(searchParams);
   };
 
   const onSelectViewChanged = (viewName: string) => {
@@ -255,7 +264,6 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
           searchParams.set(ServiceTicketSearchParamKeys.Column, selectedView.columnsToDisplay?.join(','));
       }
       searchParams.set(SearchParamKeys.SavedFilter, viewName);
-      setSearchParams(searchParams);
     }
   };
 
@@ -267,7 +275,6 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
         ? searchParams.get(ServiceTicketSearchParamKeys.Column) + ',' + columnName
         : columnName
     );
-    setSearchParams(searchParams);
     setColumnsToDisplay([...(columnsToDisplay ?? []), columnName]);
   };
 
@@ -285,7 +292,6 @@ export const SearchToolbar: React.FC<SearchToolbarProps> = (props) => {
     } else {
       searchParams.delete(ServiceTicketSearchParamKeys.Column);
     }
-    setSearchParams(searchParams);
     setColumnsToDisplay(columnsToDisplay?.filter((column) => column !== columnName));
   };
 

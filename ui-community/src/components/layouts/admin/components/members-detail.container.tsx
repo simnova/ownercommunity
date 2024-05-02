@@ -2,10 +2,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
 import {
-    AdminMembersDetailContainerMemberDocument,
-    AdminMembersDetailContainerMemberUpdateDocument,
-    AdminMembersDetailContainerRolesDocument,
-    MemberUpdateInput
+  AdminMembersDetailContainerMemberDocument,
+  AdminMembersDetailContainerMemberUpdateDocument,
+  AdminMembersDetailContainerRolesDocument,
+  MemberUpdateInput
 } from '../../../../generated';
 import { MembersDetail } from './members-detail';
 
@@ -23,8 +23,7 @@ interface ComponentPropInterface {
   };
 }
 
-export type MembersDetailContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> &
-  ComponentPropInterface;
+export type MembersDetailContainerPropTypes = PropTypes.InferProps<typeof ComponentPropTypes> & ComponentPropInterface;
 
 export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> = (props) => {
   const {
@@ -75,7 +74,8 @@ export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> =
     } else if (memberData?.member && roleData?.rolesByCommunityId) {
       const detailData = {
         member: memberData.member,
-        roles: roleData.rolesByCommunityId
+        roles: roleData.rolesByCommunityId,
+        communityId: props.data.communityId
       };
       return <MembersDetail data={detailData} onSave={handleSave} />;
     } else {

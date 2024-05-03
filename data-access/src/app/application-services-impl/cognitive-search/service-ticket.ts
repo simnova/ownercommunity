@@ -105,7 +105,7 @@ export class ServiceTicketSearchApiImpl
       searchString = input.searchString.trim();
     }
 
-    console.log(`Resolver>Query>serviceTicketsSearchByCommunityId: ${searchString}`);
+    console.log(`Resolver>Query>serviceTicketsSearchAdmin: ${searchString}`);
     let filterString = this.getFilterStringAdmin(input ? input.options.filter: null, communityId);
     console.log('filterString: ', filterString);
 
@@ -119,7 +119,7 @@ export class ServiceTicketSearchApiImpl
       });
     });
     
-    console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);
+    console.log(`Resolver>Query>serviceTicketsSearchAdmin ${JSON.stringify(searchResults)}`);
     return searchResults;
   }
 

@@ -1,5 +1,5 @@
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { AdminServiceTicketsListContainerSearchServiceTicketsDocument, AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument } from '../../../../generated';
+import { useLazyQuery  } from '@apollo/client';
+import { AdminServiceTicketsListContainerSearchServiceTicketsDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { ServiceTicketsList } from './service-tickets-list';
 import { useEffect } from 'react';

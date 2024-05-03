@@ -30,10 +30,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
           options: {
             filter: {
               communityId: props.communityId
-            },
-            // top: top,
-            // skip: skip,
-            // orderBy: [orderBy]
+            }
           }
         }
       }

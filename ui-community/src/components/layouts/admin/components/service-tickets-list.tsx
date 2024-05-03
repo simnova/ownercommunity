@@ -43,7 +43,6 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
       render: (text: any) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
   ]
-  console.log("heyhey")
   return <div>
     <Table
       columns={columns}

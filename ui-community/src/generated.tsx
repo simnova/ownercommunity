@@ -1008,6 +1008,7 @@ export type Query = {
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsSearch?: Maybe<ServiceTicketsSearchResult>;
+  serviceTicketsSearchAdmin?: Maybe<ServiceTicketsSearchResult>;
   servicesByCommunityId?: Maybe<Array<Maybe<Service>>>;
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
@@ -1101,6 +1102,11 @@ export type QueryServiceTicketsByCommunityIdArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsSearchArgs = {
+  input: ServiceTicketsSearchInput;
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryServiceTicketsSearchAdminArgs = {
   input: ServiceTicketsSearchInput;
 };
 
@@ -1326,6 +1332,7 @@ export type ServiceTicketsSearchFacets = {
 
 export type ServiceTicketsSearchFilterDetail = {
   assignedToId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  communityId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   priority?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   requestorId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   status?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2669,6 +2676,72 @@ export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsF
   updatedAt?: any | null;
   requestor: { __typename?: 'Member'; memberName?: string | null };
   assignedTo?: { __typename?: 'Member'; memberName?: string | null } | null;
+};
+
+export type AdminServiceTicketsListContainerSearchServiceTicketsQueryVariables = Exact<{
+  input: ServiceTicketsSearchInput;
+}>;
+
+export type AdminServiceTicketsListContainerSearchServiceTicketsQuery = {
+  __typename?: 'Query';
+  serviceTicketsSearchAdmin?: {
+    __typename?: 'ServiceTicketsSearchResult';
+    count?: number | null;
+    serviceTicketsResults?: Array<{
+      __typename?: 'ServiceTicketsResult';
+      id?: string | null;
+      communityId?: string | null;
+      propertyId?: string | null;
+      title?: string | null;
+      requestor?: string | null;
+      assignedTo?: string | null;
+      requestorId?: string | null;
+      assignedToId?: string | null;
+      description?: string | null;
+      status?: string | null;
+      priority?: number | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null> | null;
+  } | null;
+};
+
+export type AdminServiceTicketSearchFieldsFragment = {
+  __typename?: 'ServiceTicketsSearchResult';
+  count?: number | null;
+  serviceTicketsResults?: Array<{
+    __typename?: 'ServiceTicketsResult';
+    id?: string | null;
+    communityId?: string | null;
+    propertyId?: string | null;
+    title?: string | null;
+    requestor?: string | null;
+    assignedTo?: string | null;
+    requestorId?: string | null;
+    assignedToId?: string | null;
+    description?: string | null;
+    status?: string | null;
+    priority?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null> | null;
+};
+
+export type AdminServiceTicketsListContainerSearchServiceTicketsResultFieldsFragment = {
+  __typename?: 'ServiceTicketsResult';
+  id?: string | null;
+  communityId?: string | null;
+  propertyId?: string | null;
+  title?: string | null;
+  requestor?: string | null;
+  assignedTo?: string | null;
+  requestorId?: string | null;
+  assignedToId?: string | null;
+  description?: string | null;
+  status?: string | null;
+  priority?: number | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
 };
 
 export type AdminSettingsGeneralContainerCommunityQueryVariables = Exact<{
@@ -6274,6 +6347,86 @@ export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields
     }
   ]
 } as unknown as DocumentNode<AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragment, unknown>;
+export const AdminServiceTicketsListContainerSearchServiceTicketsResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsListContainerSearchServiceTicketsResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedTo' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestorId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedToId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminServiceTicketsListContainerSearchServiceTicketsResultFieldsFragment, unknown>;
+export const AdminServiceTicketSearchFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketSearchFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsSearchResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketsResults' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminServiceTicketsListContainerSearchServiceTicketsResultFields' }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsListContainerSearchServiceTicketsResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedTo' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestorId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedToId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminServiceTicketSearchFieldsFragment, unknown>;
 export const AdminSettingsGeneralContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -11917,6 +12070,96 @@ export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocume
 } as unknown as DocumentNode<
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery,
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVariables
+>;
+export const AdminServiceTicketsListContainerSearchServiceTicketsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AdminServiceTicketsListContainerSearchServiceTickets' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsSearchInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketsSearchAdmin' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminServiceTicketSearchFields' } }]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketsListContainerSearchServiceTicketsResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'communityId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'propertyId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestor' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedTo' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'requestorId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'assignedToId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminServiceTicketSearchFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketsSearchResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketsResults' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminServiceTicketsListContainerSearchServiceTicketsResultFields' }
+                }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  AdminServiceTicketsListContainerSearchServiceTicketsQuery,
+  AdminServiceTicketsListContainerSearchServiceTicketsQueryVariables
 >;
 export const AdminSettingsGeneralContainerCommunityDocument = {
   kind: 'Document',

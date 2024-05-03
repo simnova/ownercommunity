@@ -9,6 +9,7 @@ const ServiceTicketFilterNames = {
   AssignedToId: 'assignedToId',
   Status: 'status',
   Priority: 'priority',
+  CommunityId: 'communityId'
 };
 export class ServiceTicketSearchApiImpl 
   extends CognitiveSearchDataSource<AppContext> 
@@ -21,6 +22,35 @@ export class ServiceTicketSearchApiImpl
       // requestor
       if (filter.requestorId && filter.requestorId.length > 0) {
         filterStrings.push(`search.in(${ServiceTicketFilterNames.RequestorId}, '${filter.requestorId.join(',')}',',')`);
+      }
+      // assignedTo
+      if (filter.assignedToId && filter.assignedToId.length > 0) {
+        filterStrings.push(`search.in(${ServiceTicketFilterNames.AssignedToId}, '${filter.assignedToId.join(',')}',',')`);
+      }
+      // status
+      if (filter.status && filter.status.length > 0) {
+        filterStrings.push(`search.in(${ServiceTicketFilterNames.Status}, '${filter.status.join(',')}',',')`);
+      }
+      // priority (number)
+      if (filter.priority && filter.priority.length > 0) {
+        let priorityFilter = [];
+        filter.priority.forEach((priority) => {
+          priorityFilter.push(`${ServiceTicketFilterNames.Priority} eq ${priority}`);
+        });
+        filterStrings.push(`(${priorityFilter.join(' or ')})`);
+      }
+    }
+
+    return filterStrings.join(' and ');
+  }
+
+  private getFilterStringAdmin(filter: ServiceTicketsSearchFilterDetail, communityId: string): string {
+    let filterStrings = [];
+    filterStrings.push(`(communityId eq '${communityId}')`);
+    if (filter) {
+      // community
+      if (filter.communityId && filter.communityId.length > 0) {
+        filterStrings.push(`search.in(${ServiceTicketFilterNames.CommunityId}, '${filter.communityId.join(',')}',',')`);
       }
       // assignedTo
       if (filter.assignedToId && filter.assignedToId.length > 0) {
@@ -62,6 +92,30 @@ export class ServiceTicketSearchApiImpl
         top: input.options.top,
         skip: input.options.skip,
         orderBy: input.options.orderBy,
+      });
+    });
+    
+    console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);
+    return searchResults;
+  }
+
+  async serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput, communityId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
+    let searchString = ""
+    if(input !== null ){
+      searchString = input.searchString.trim();
+    }
+
+    console.log(`Resolver>Query>serviceTicketsSearchByCommunityId: ${searchString}`);
+    let filterString = this.getFilterStringAdmin(input ? input.options.filter: null, communityId);
+    console.log('filterString: ', filterString);
+
+    let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
+    await this.withSearch(async (_passport, search) => {
+      searchResults = await search.search('service-ticket-index', searchString, {
+        queryType: 'full',
+        searchMode: 'all',
+        includeTotalCount: true,
+        filter: filterString,
       });
     });
     

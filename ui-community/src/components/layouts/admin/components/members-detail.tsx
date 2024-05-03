@@ -4,11 +4,13 @@ import { Button, Descriptions, Form, Input, Select } from 'antd';
 import dayjs from 'dayjs';
 
 import { MemberUpdateInput } from '../../../../generated';
+import { useNavigate } from 'react-router-dom';
 
 export interface MembersDetailProps {
   data: {
     member: any;
     roles: any[];
+    communityId: string;
   };
   onSave: (member: MemberUpdateInput) => void;
 }
@@ -16,6 +18,10 @@ export interface MembersDetailProps {
 export const MembersDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
+  const [selectedRoleId, setSelectedRoleId] = React.useState<string | null>(null);
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <Descriptions title="Member Info" size={'small'} layout={'vertical'}>
@@ -50,13 +56,28 @@ export const MembersDetail: React.FC<any> = (props) => {
           <Input placeholder="Name" maxLength={200} />
         </Form.Item>
         <Form.Item name={['role', 'id']} label="Role" required>
-          <Select
-            allowClear={true}
-            placeholder="Select a role"
-            options={props.data.roles}
-            fieldNames={{ label: 'roleName', value: 'id' }}
-          />
+          <div className="flex gap-2">
+            <Select
+              allowClear={true}
+              placeholder="Select a role"
+              options={props.data.roles}
+              fieldNames={{ label: 'roleName', value: 'id' }}
+              onChange={(value) => {
+                setSelectedRoleId(value);
+              }}
+            />
+            <Button
+              disabled={!selectedRoleId}
+              onClick={() =>
+                navigate(`/community/${props.data.communityId}/admin/${props.data.member.id}/roles/${selectedRoleId}`)
+              }
+              aria-label="Open Role Details"
+            >
+              Open Role Details
+            </Button>
+          </div>
         </Form.Item>
+
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Save
         </Button>

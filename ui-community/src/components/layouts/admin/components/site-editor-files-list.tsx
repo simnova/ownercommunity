@@ -15,16 +15,11 @@ export interface SiteEditorFilesListProps {
 
 export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) => {
   const [tableHeight, setTableHeight] = useState(0);
-  const [currentPage, setCurrentPage] = useState(props.initialCurrentPage || 1);
-  const [pageSize, setPageSize] = useState(props.initialPageSize || 10);
+  const [currentPage, setCurrentPage] = useState(props.initialCurrentPage ?? 1);
+  const [pageSize, setPageSize] = useState(props.initialPageSize ?? 10);
   const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileInfo | undefined>(undefined);
   //const scroll = true;
-
-  // const handleTableChange = (pagination: TablePaginationConfig) => {
-  //   setCurrentPage(pagination.current);
-  //   setPageSize(pagination.pageSize);
-  // };
 
   const handleTableChange = (pagination: TablePaginationConfig) => {
     if (pagination.current !== undefined) {
@@ -220,3 +215,10 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
     </>
   );
 };
+
+SiteEditorFilesList.defaultProps = {
+  initialPageSize: 10,
+  initialCurrentPage: 1
+};
+
+export default SiteEditorFilesList;

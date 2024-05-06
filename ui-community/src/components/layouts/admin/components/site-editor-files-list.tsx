@@ -7,14 +7,16 @@ import { FileInfo } from '../../../../generated';
 import './site-editor-files-list.css';
 
 export interface SiteEditorFilesListProps {
+  initialPageSize: number;
+  initialCurrentPage: number;
   data: FileInfo[];
   onRemove: (fileName: string) => void;
 }
 
 export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) => {
   const [tableHeight, setTableHeight] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(props.initialCurrentPage || 1);
+  const [pageSize, setPageSize] = useState(props.initialPageSize || 10);
   const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileInfo | undefined>(undefined);
   //const scroll = true;
@@ -34,6 +36,10 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
   };
 
   const pageSizeOptions = ['5', '10', '20', '50'];
+
+  const handlePageSize = (_current: number | undefined, size: number) => {
+    setPageSize(size);
+  };
 
   const bytesToSize = (bytes: number): string => {
     const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -195,7 +201,14 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
               //scroll={scroll}
               columns={columns}
               dataSource={props.data}
-              pagination={{ current: currentPage, pageSize: pageSize, total: props.data.length, showSizeChanger: true, pageSizeOptions: pageSizeOptions, onShowSizeChange: (_current, size) => setPageSize(size) }}
+              pagination={{ 
+                current: currentPage, 
+                pageSize: pageSize, 
+                total: props.data.length, 
+                showSizeChanger: true, 
+                pageSizeOptions: pageSizeOptions, 
+                onShowSizeChange: handlePageSize
+              }}
               onChange={handleTableChange}
               rowKey="name"
               size="small"

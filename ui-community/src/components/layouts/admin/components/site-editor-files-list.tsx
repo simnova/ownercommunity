@@ -1,5 +1,5 @@
 import { LinkOutlined } from '@ant-design/icons';
-import { Button, Modal, Table, TableColumnsType, notification } from 'antd';
+import { Button, Modal, Table, TableColumnsType, notification, TablePaginationConfig } from 'antd';
 import copy from 'copy-to-clipboard';
 import ResizeObserver from 'rc-resize-observer';
 import React, { useState } from 'react';
@@ -13,9 +13,27 @@ export interface SiteEditorFilesListProps {
 
 export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) => {
   const [tableHeight, setTableHeight] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileInfo | undefined>(undefined);
   //const scroll = true;
+
+  // const handleTableChange = (pagination: TablePaginationConfig) => {
+  //   setCurrentPage(pagination.current);
+  //   setPageSize(pagination.pageSize);
+  // };
+
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    if (pagination.current !== undefined) {
+      setCurrentPage(pagination.current);
+    }
+    if (pagination.pageSize !== undefined) {
+      setPageSize(pagination.pageSize);
+    }
+  };
+
+  const pageSizeOptions = ['5', '10', '20', '50'];
 
   const bytesToSize = (bytes: number): string => {
     const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -177,7 +195,8 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
               //scroll={scroll}
               columns={columns}
               dataSource={props.data}
-              pagination={false}
+              pagination={{ current: currentPage, pageSize: pageSize, total: props.data.length, showSizeChanger: true, pageSizeOptions: pageSizeOptions, onShowSizeChange: (_current, size) => setPageSize(size) }}
+              onChange={handleTableChange}
               rowKey="name"
               size="small"
               style={{ height: tableHeight }}

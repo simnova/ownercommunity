@@ -1,21 +1,22 @@
 import { FilterOutlined } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Drawer, Input, Skeleton, theme } from 'antd';
+import { Button, Drawer, Input, Skeleton, theme, Popover, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
-    GetFilterFromServiceTicketQueryString,
-    SearchType,
-    ServiceTicketFilterNames,
-    ServiceTicketSearchParamKeys
+  GetFilterFromServiceTicketQueryString,
+  SearchType,
+  ServiceTicketFilterNames,
+  ServiceTicketSearchParamKeys
 } from '../../../../constants';
 import {
-    MemberNameServiceTicketContainerDocument,
-    MemberServiceTicketsListContainerSearchServiceTicketsDocument,
-    ServiceTicketsSearchFilterDetail
+  MemberNameServiceTicketContainerDocument,
+  MemberServiceTicketsListContainerSearchServiceTicketsDocument,
+  ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 import { ServiceTicketsList } from './service-tickets-list';
+import { FilterPopover } from '../../shared/components/filter-popover';
 
 const { Search } = Input;
 
@@ -144,7 +145,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     );
     return (
       <>
-        <div className="py-4">
+        <div className="py-4" style={{display: 'inline-flex', width: '100%'}}>
           <Search
             allowClear
             style={{ width: '40%' }}
@@ -153,6 +154,11 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
             value={searchString}
             onChange={(e) => onChange(e)}
             enterButton
+          />
+          <FilterPopover
+            searchData={searchServiceTicketsData?.serviceTicketsSearch}
+            memberData={membersData}
+            clearFilter={clearFilter}
           />
           <Drawer title="Search Filters" placement="left" onClose={() => setVisible(false)} open={visible} width={445}>
             <SearchDrawerContainer

@@ -202,7 +202,9 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
                 total: props.data.length, 
                 showSizeChanger: true, 
                 pageSizeOptions: pageSizeOptions, 
-                onShowSizeChange: handlePageSize
+                onShowSizeChange: handlePageSize,
+                showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+                position: ['topRight', 'bottomRight'] 
               }}
               onChange={handleTableChange}
               rowKey="name"

@@ -17,12 +17,12 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     },
     {
       title: "Requestor",
-      dataIndex: ["requestor", "memberName"],  
+      dataIndex: ["requestor"],  
       key: "requestor",
     },
     {
       title: "Assigned To",
-      dataIndex: ["assignedTo", "memberName"],  
+      dataIndex: ["assignedTo"],
       key: "assignedTo",
     },
     {

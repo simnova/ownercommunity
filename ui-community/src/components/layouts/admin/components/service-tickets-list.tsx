@@ -17,12 +17,12 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     },
     {
       title: "Requestor",
-      dataIndex: ["requestor", "memberName"],  
+      dataIndex: ["requestor"],  
       key: "requestor",
     },
     {
       title: "Assigned To",
-      dataIndex: ["assignedTo", "memberName"],  
+      dataIndex: ["assignedTo"],
       key: "assignedTo",
     },
     {
@@ -43,11 +43,10 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
       render: (text: any) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
   ]
-
   return <div>
     <Table
       columns={columns}
-      dataSource={props.data}
+      dataSource={props.data?.serviceTicketsResults}
       rowKey={(record: any) => record.id}
     />
   </div>

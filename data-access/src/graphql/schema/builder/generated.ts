@@ -1010,6 +1010,7 @@ export type Query = {
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsSearch?: Maybe<ServiceTicketsSearchResult>;
+  serviceTicketsSearchAdmin?: Maybe<ServiceTicketsSearchResult>;
   servicesByCommunityId?: Maybe<Array<Maybe<Service>>>;
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
@@ -1103,6 +1104,11 @@ export type QueryServiceTicketsByCommunityIdArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketsSearchArgs = {
+  input: ServiceTicketsSearchInput;
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryServiceTicketsSearchAdminArgs = {
   input: ServiceTicketsSearchInput;
 };
 
@@ -1328,6 +1334,7 @@ export type ServiceTicketsSearchFacets = {
 
 export type ServiceTicketsSearchFilterDetail = {
   assignedToId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  communityId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   priority?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   requestorId?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   status?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -2673,6 +2680,12 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   serviceTicketsOpenByCommunity?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsOpenByRequestor?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsSearch?: Resolver<Maybe<ResolversTypes['ServiceTicketsSearchResult']>, ParentType, ContextType, RequireFields<QueryServiceTicketsSearchArgs, 'input'>>;
+  serviceTicketsSearchAdmin?: Resolver<
+    Maybe<ResolversTypes['ServiceTicketsSearchResult']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryServiceTicketsSearchAdminArgs, 'input'>
+  >;
   servicesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Service']>>>, ParentType, ContextType, RequireFields<QueryServicesByCommunityIdArgs, 'communityId'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userCurrent?: Resolver<Maybe<ResolversTypes['CurrentUser']>, ParentType, ContextType>;

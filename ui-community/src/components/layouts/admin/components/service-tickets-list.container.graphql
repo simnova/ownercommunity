@@ -18,3 +18,32 @@ fragment AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields on 
   createdAt
   updatedAt
 }
+
+query AdminServiceTicketsListContainerSearchServiceTickets($input: ServiceTicketsSearchInput!) {
+  serviceTicketsSearchAdmin(input: $input) {
+    ...AdminServiceTicketSearchFields
+  }
+}
+
+fragment AdminServiceTicketSearchFields on ServiceTicketsSearchResult {
+  serviceTicketsResults {
+    ...AdminServiceTicketsListContainerSearchServiceTicketsResultFields
+  }
+  count
+}
+
+fragment AdminServiceTicketsListContainerSearchServiceTicketsResultFields on ServiceTicketsResult {
+  id
+  communityId
+  propertyId
+  title
+  requestor
+  assignedTo
+  requestorId
+  assignedToId
+  description
+  status
+  priority
+  createdAt
+  updatedAt
+}

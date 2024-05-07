@@ -9,7 +9,7 @@ export const CreateRoleInDb = (
   roleName: string,
   inputPermissions: Record<string, string>
 ) => {
-    return Interaction.where(`#actor creates user`, async (actor:Actor) => {
+    return Interaction.where(`#actor creates role`, async (actor:Actor) => {
       const community = await (await CommunityInDb(communityName)).answeredBy(actor) as CommunityEntityReference;
       (await (await InteractWithTheDomain.asUser(actor)).asMemberOf(communityName)).actOnRole(async (repo) => { // [MG-TBD] - change to user context
         const newRole = await repo.getNewInstance(roleName, community);

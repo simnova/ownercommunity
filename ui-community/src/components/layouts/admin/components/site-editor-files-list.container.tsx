@@ -31,8 +31,7 @@ export const SiteEditorFilesListContainer: React.FC<any> = (props) => {
                 input: { fileName: fileName, communityId: props.data.communityId }
               }
             });
-          }}
-        />
+          } } initialPageSize={10} initialCurrentPage={1}        />
       }
       error={communityError}
     />

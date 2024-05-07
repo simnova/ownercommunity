@@ -43,6 +43,7 @@ extend type Query {
   serviceTicketsClosedByRequestor: [ServiceTicket]
   serviceTicketsAssignedToCurrentUser: [ServiceTicket]
   serviceTicketsByCommunityId(communityId: ID!): [ServiceTicket]
+  serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
   serviceTicketsSearch(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
 }
 
@@ -140,6 +141,7 @@ input ServiceTicketsSearchFilterDetail {
   assignedToId: [String]
   status: [String]
   priority: [Int]
+  communityId: [String]
 }
 
 type ServiceTicketsSearchResult {

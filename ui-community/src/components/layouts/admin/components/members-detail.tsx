@@ -4,13 +4,12 @@ import { Button, Descriptions, Form, Input, Select } from 'antd';
 import dayjs from 'dayjs';
 
 import { MemberUpdateInput } from '../../../../generated';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export interface MembersDetailProps {
   data: {
     member: any;
     roles: any[];
-    communityId: string;
   };
   onSave: (member: MemberUpdateInput) => void;
 }
@@ -18,7 +17,8 @@ export interface MembersDetailProps {
 export const MembersDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
-  const [selectedRoleId, setSelectedRoleId] = React.useState<string | null>(null);
+  const [selectedRoleId, setSelectedRoleId] = React.useState<string | null>(props.data.member?.role?.id ?? null);
+  const params = useParams();
 
   const navigate = useNavigate();
 
@@ -65,11 +65,12 @@ export const MembersDetail: React.FC<any> = (props) => {
               onChange={(value) => {
                 setSelectedRoleId(value);
               }}
+              defaultValue={props.data.member?.role?.roleName ?? null}
             />
             <Button
               disabled={!selectedRoleId}
               onClick={() =>
-                navigate(`/community/${props.data.communityId}/admin/${props.data.member.id}/roles/${selectedRoleId}`)
+                navigate(`/community/${params.communityId}/admin/${params.memberId}/roles/${selectedRoleId}`)
               }
               aria-label="Open Role Details"
             >

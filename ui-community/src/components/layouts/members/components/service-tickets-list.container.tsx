@@ -21,10 +21,7 @@ const { Search } = Input;
 const { Option } = Select;
 const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Updated', 'Created'];
 
-function useForceUpdate() {
-  const [, setValue] = useState(0);
-  return () => setValue((value) => value + 1); 
-}
+
 
 export const ServiceTicketsListContainer: React.FC<any> = () => {
   const {
@@ -36,7 +33,6 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
   const [columnsToDisplay, setColumnsToDisplay] = useState<string[] | undefined>(
     searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
   );
-  const forceUpdate = useForceUpdate();
 
   const {
     data: membersData,
@@ -142,7 +138,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
 
   const onColumnDelete = (columnName: string) => {
     const searchParamsString = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
-    const newSearchParamsArray: any = [];
+    const newSearchParamsArray: string[] = [];
     searchParamsString?.forEach((searchParam) => {
       if (searchParam !== columnName) {
         newSearchParamsArray.push(searchParam);
@@ -235,7 +231,6 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
               searchParams.delete(ServiceTicketSearchParamKeys.Column);
               setSearchParams(searchParams);
               setColumnsToDisplay(undefined);
-              forceUpdate();
             }}
             onDeselect={(value: any) => onColumnDelete(value)}
           >

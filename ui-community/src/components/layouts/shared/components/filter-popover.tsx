@@ -15,7 +15,6 @@ interface FilterPopoverProps {
 export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState<SearchFilterProps[]>([]);
-  const [checkList, setCheckList] = useState<any>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleOpenChange = (newOpen: any) => {
@@ -121,8 +120,6 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
       }
       setSearchParams(searchParams);
     }
-    const nextSelectedTags = checked ? [...checkList, key] : checkList.filter((t: any) => t !== key);
-    setCheckList(nextSelectedTags);
   };
 
   const isChecked = (id: string) => {

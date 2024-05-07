@@ -1,30 +1,43 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import {
   AdminServiceTicketsListContainerSearchServiceTicketsDocument,
-  MemberNameServiceTicketContainerDocument
+  AdminMemberNameServiceTicketContainerDocument,
+  ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { ServiceTicketsList } from './service-tickets-list';
 import { useEffect, useState } from 'react';
 import { ServiceTicketSearchHelpers } from '../../shared/components/service-ticket-search-helpers';
 import { FilterPopover } from '../../shared/components/filter-popover';
-import { ServiceTicketSearchParamKeys } from '../../../../constants';
+import {
+  GetFilterFromServiceTicketQueryString,
+  ServiceTicketFilterNames,
+  ServiceTicketSearchParamKeys
+} from '../../../../constants';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { Input } from 'antd';
+import { Input, Skeleton, theme } from 'antd';
 
-export const ServiceTicketsListContainer: React.FC<any> = (props) => {
+export const ServiceTicketsListContainer: React.FC<any> = () => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
   const { Search } = Input;
+  const {
+    token: { colorText }
+  } = theme.useToken();
 
-  const { data: membersData } = useQuery(MemberNameServiceTicketContainerDocument, {
+  const { data: membersData, loading: memberDataLoading, error: memberDataError } = useQuery(AdminMemberNameServiceTicketContainerDocument, {
     variables: { communityId: params.communityId ?? '' }
   });
 
   const [
     getServiceTickets,
-    { loading: searchServiceTicketsLoading, data: searchServiceTicketsData, error: searchServiceTicketsError }
+    {
+      called: searchServiceTicketsCalled,
+      loading: searchServiceTicketsLoading,
+      data: searchServiceTicketsData,
+      error: searchServiceTicketsError
+    }
   ] = useLazyQuery(AdminServiceTicketsListContainerSearchServiceTicketsDocument, {
     fetchPolicy: 'network-only'
   });
@@ -34,8 +47,59 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   };
 
   useEffect(() => {
-    handleSearch();
-  }, [props.communityId]);
+    searchParams.set(ServiceTicketSearchParamKeys.Page, searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1');
+    searchParams.set(ServiceTicketSearchParamKeys.Top, searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10');
+    setSearchParams(searchParams);
+    (async () => {
+      await handleSearch();
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      await handleSearch();
+    })();
+  }, [searchParams]);
+
+  const handleSearch = async () => {
+    if (searchString.length > 0) {
+      searchParams.set(ServiceTicketSearchParamKeys.SearchString, searchString);
+    } else {
+      searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
+    }
+    setSearchParams(searchParams);
+
+    const page = parseInt(searchParams.get(ServiceTicketSearchParamKeys.Page) ?? '1') - 1;
+    const top = parseInt(searchParams.get(ServiceTicketSearchParamKeys.Top) ?? '10');
+    const skip = page * top;
+
+    const qsSearchString = searchString;
+
+    let filters: ServiceTicketsSearchFilterDetail = GetFilterFromServiceTicketQueryString(searchParams);
+    const orderBy = searchParams.get(ServiceTicketSearchParamKeys.Sort) ?? '';
+
+    await getServiceTickets({
+      variables: {
+        input: {
+          searchString: qsSearchString,
+          options: {
+            facets: [
+              ServiceTicketFilterNames.Requestor + ',count:1000',
+              ServiceTicketFilterNames.AssignedTo + ',count:1000',
+              ServiceTicketFilterNames.Status + ',count:1000',
+              ServiceTicketFilterNames.Priority + ',count:1000',
+              ServiceTicketFilterNames.RequestorId + ',count:1000',
+              ServiceTicketFilterNames.AssignedToId + ',count:1000'
+            ],
+            filter: filters,
+            top: top,
+            skip: skip,
+            orderBy: [orderBy]
+          }
+        }
+      }
+    });
+  };
 
   const clearFilter = () => {
     searchParams.delete(ServiceTicketSearchParamKeys.SearchString);
@@ -49,20 +113,29 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
     setSearchParams(searchParams);
   };
 
-  const handleSearch = async () => {
-    await getServiceTickets({
-      variables: {
-        input: {
-          searchString: '',
-          options: {
-            filter: {
-              communityId: props.communityId
-            }
-          }
-        }
-      }
-    });
-  };
+  if (searchServiceTicketsError || memberDataError) {
+    return <div>{JSON.stringify(searchServiceTicketsError ? searchServiceTicketsError: memberDataError)}</div>;
+  }
+  if (searchServiceTicketsLoading || memberDataLoading) {
+    return (
+      <div>
+        <Skeleton active />
+      </div>
+    );
+  }
+  if (searchServiceTicketsCalled && searchServiceTicketsData) {
+    let SearchResult = null;
+    SearchResult = (
+      <pre
+        className=" mt-2 p-2"
+        style={{
+          color: colorText
+        }}
+      >
+        {JSON.stringify(searchServiceTicketsData, null, 2)}
+      </pre>
+    );
+  }
 
   return (
     <div>
@@ -76,11 +149,11 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
           onChange={(e) => onChange(e)}
           enterButton
         />
-        {/* <FilterPopover
+        <FilterPopover
           searchData={searchServiceTicketsData?.serviceTicketsSearchAdmin}
           memberData={membersData}
           clearFilter={clearFilter}
-        /> */}
+        />
       </div>
       <ServiceTicketSearchHelpers />
       <ComponentQueryLoader

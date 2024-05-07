@@ -47,3 +47,14 @@ fragment AdminServiceTicketsListContainerSearchServiceTicketsResultFields on Ser
   createdAt
   updatedAt
 }
+
+query AdminMemberNameServiceTicketContainer($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...AdminMembersNameServiceTicketContainerFields
+  }
+}
+
+fragment AdminMembersNameServiceTicketContainerFields on Member {
+  id
+  memberName
+}

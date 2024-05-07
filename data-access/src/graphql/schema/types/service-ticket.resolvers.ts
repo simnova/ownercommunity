@@ -78,8 +78,6 @@ const serviceTicket: Resolvers = {
       const member = await getMemberForCurrentUser(context, context.communityId);
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByAssignedTo(context.communityId, member.id)) as ServiceTicket[];
     },
-    // const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearchByCommunityId(null, communityId)
-    //   return await context.applicationServices.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults) as ServiceTicket[]
     serviceTicketsByCommunityId: async (_parent, { communityId }, context, _info) => {
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByCommunityId(communityId)) as ServiceTicket[];
     },

@@ -2744,6 +2744,21 @@ export type AdminServiceTicketsListContainerSearchServiceTicketsResultFieldsFrag
   updatedAt?: any | null;
 };
 
+export type AdminMemberNameServiceTicketContainerQueryVariables = Exact<{
+  communityId: Scalars['ID'];
+}>;
+
+export type AdminMemberNameServiceTicketContainerQuery = {
+  __typename?: 'Query';
+  membersByCommunityId?: Array<{ __typename?: 'Member'; id: any; memberName?: string | null } | null> | null;
+};
+
+export type AdminMembersNameServiceTicketContainerFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
+};
+
 export type AdminSettingsGeneralContainerCommunityQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -6427,6 +6442,23 @@ export const AdminServiceTicketSearchFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<AdminServiceTicketSearchFieldsFragment, unknown>;
+export const AdminMembersNameServiceTicketContainerFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersNameServiceTicketContainerFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminMembersNameServiceTicketContainerFieldsFragment, unknown>;
 export const AdminSettingsGeneralContainerCommunityFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -12160,6 +12192,63 @@ export const AdminServiceTicketsListContainerSearchServiceTicketsDocument = {
 } as unknown as DocumentNode<
   AdminServiceTicketsListContainerSearchServiceTicketsQuery,
   AdminServiceTicketsListContainerSearchServiceTicketsQueryVariables
+>;
+export const AdminMemberNameServiceTicketContainerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AdminMemberNameServiceTicketContainer' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'membersByCommunityId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'communityId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminMembersNameServiceTicketContainerFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminMembersNameServiceTicketContainerFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  AdminMemberNameServiceTicketContainerQuery,
+  AdminMemberNameServiceTicketContainerQueryVariables
 >;
 export const AdminSettingsGeneralContainerCommunityDocument = {
   kind: 'Document',

@@ -16,7 +16,7 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState<SearchFilterProps[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  console.log("man", props.memberData)
   const handleOpenChange = (newOpen: any) => {
     setOpen(newOpen);
   };
@@ -31,10 +31,11 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
       };
 
       filter.values.forEach((value: any) => {
-        const count =
-          props.searchData.facets[filter.facet[0]].find((facet: FacetDetail) =>
-            filter.handleCount ? filter.handleCount(facet, value) : facet.value === value
-          )?.count ?? 0;
+        // const count =
+        //   props.searchData.facets[filter.facet[0]].find((facet: FacetDetail) =>
+        //     filter.handleCount ? filter.handleCount(facet, value) : facet.value === value
+        //   )?.count ?? 0;
+        const count = 0;
         if (filter.handleBuild) {
           filter.handleBuild(newFilter, value, count);
         } else {
@@ -143,6 +144,7 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
         style={{
           display: 'grid',
           maxWidth: 'max-content',
+          marginBottom: '10px'
         }}
       >
         {filter.title}

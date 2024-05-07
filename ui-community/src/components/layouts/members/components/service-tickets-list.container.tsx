@@ -253,7 +253,6 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
           searchParams={searchParams}
           setSearchParams={setSearchParams}
         />
-        {SearchResult}
       </>
     );
   }

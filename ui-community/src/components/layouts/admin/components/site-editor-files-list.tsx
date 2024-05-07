@@ -1,5 +1,5 @@
 import { LinkOutlined } from '@ant-design/icons';
-import { Button, Modal, Table, TableColumnsType, notification } from 'antd';
+import { Button, Modal, Table, TableColumnsType, notification, TablePaginationConfig } from 'antd';
 import copy from 'copy-to-clipboard';
 import ResizeObserver from 'rc-resize-observer';
 import React, { useState } from 'react';
@@ -7,15 +7,34 @@ import { FileInfo } from '../../../../generated';
 import './site-editor-files-list.css';
 
 export interface SiteEditorFilesListProps {
+  initialPageSize: number;
+  initialCurrentPage: number;
   data: FileInfo[];
   onRemove: (fileName: string) => void;
 }
 
 export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) => {
   const [tableHeight, setTableHeight] = useState(0);
+  const [currentPage, setCurrentPage] = useState(props.initialCurrentPage ?? 1);
+  const [pageSize, setPageSize] = useState(props.initialPageSize ?? 10);
   const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileInfo | undefined>(undefined);
   //const scroll = true;
+
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    if (pagination.current !== undefined) {
+      setCurrentPage(pagination.current);
+    }
+    if (pagination.pageSize !== undefined) {
+      setPageSize(pagination.pageSize);
+    }
+  };
+
+  const pageSizeOptions = ['5', '10', '20', '50'];
+
+  const handlePageSize = (_current: number | undefined, size: number) => {
+    setPageSize(size);
+  };
 
   const bytesToSize = (bytes: number): string => {
     const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -177,7 +196,17 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
               //scroll={scroll}
               columns={columns}
               dataSource={props.data}
-              pagination={false}
+              pagination={{ 
+                current: currentPage, 
+                pageSize: pageSize, 
+                total: props.data.length, 
+                showSizeChanger: true, 
+                pageSizeOptions: pageSizeOptions, 
+                onShowSizeChange: handlePageSize,
+                showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+                position: ['topRight', 'bottomRight'] 
+              }}
+              onChange={handleTableChange}
               rowKey="name"
               size="small"
               style={{ height: tableHeight }}
@@ -188,3 +217,10 @@ export const SiteEditorFilesList: React.FC<SiteEditorFilesListProps> = (props) =
     </>
   );
 };
+
+SiteEditorFilesList.defaultProps = {
+  initialPageSize: 10,
+  initialCurrentPage: 1
+};
+
+export default SiteEditorFilesList;

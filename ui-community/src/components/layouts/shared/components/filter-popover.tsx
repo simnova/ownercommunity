@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { FacetDetail } from '../../../../generated';
 import { SearchFilterConfigDefinition, SearchFilterProps } from './search-filter';
 import { ServiceTicketSearchParamKeys } from '../../../../constants';
+import { FilterOutlined } from '@ant-design/icons';
+import { useSearchParams } from 'react-router-dom';
 
 interface FilterPopoverProps {
   searchData: any;
@@ -13,10 +15,9 @@ interface FilterPopoverProps {
 export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState<SearchFilterProps[]>([]);
+  const [checkList, setCheckList] = useState<any>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const hide = () => {
-    setOpen(false);
-  };
   const handleOpenChange = (newOpen: any) => {
     setOpen(newOpen);
   };
@@ -52,26 +53,6 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
     console.log('yoyo', filters);
   };
 
-  const popoverContent = filters.map((filter) => {
-    const tagContent = filter.options.map((option) => {
-      return (
-        <Tag.CheckableTag key={10} checked={true} style={{borderRadius: '5px'}}>
-          {option.name}
-        </Tag.CheckableTag>
-      );
-    });
-    return (
-      <div
-        style={{
-          display: 'grid',
-          maxWidth: 'max-content',
-        }}
-      >
-        {filter.title}
-        {tagContent}
-      </div>
-    );
-  });
   useEffect(() => {
     const filterConfig: SearchFilterConfigDefinition = {
       filters: [
@@ -116,6 +97,63 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
     generateFilters(filterConfig);
   }, []);
 
+  const getSearchId = (key: string) => {
+    return filters.filter((filter: any) => filter.options.some((option: any) => option.id === key))[0].searchId[0]
+  }
+
+  const onSelectCheckbox = (checked: any, key: string) => {
+    const searchId = getSearchId(key)
+    if (checked) {
+      const originalSearchParams = searchParams.get(searchId) ?? '';
+      searchParams.set(searchId, originalSearchParams.length > 0 ? searchParams.get(searchId) + ',' + key : key);
+      setSearchParams(searchParams);
+    } else {
+      const searchParamsString = searchParams.get(searchId)?.split(',');
+      const newSearchParamsArray: any = [];
+      searchParamsString?.forEach((searchParam) => {
+        if (searchParam !== key) {
+          newSearchParamsArray.push(searchParam);
+        }
+      });
+      searchParams.set(searchId, newSearchParamsArray.join(','));
+      if (searchParams.get(searchId) === '') {
+        searchParams.delete(searchId);
+      }
+      setSearchParams(searchParams);
+    }
+    const nextSelectedTags = checked ? [...checkList, key] : checkList.filter((t: any) => t !== key);
+    setCheckList(nextSelectedTags);
+  };
+
+  const isChecked = (id: string) => {
+    return searchParams.get(getSearchId(id))?.split(',').includes(id) ? true : false
+  };
+
+  const popoverContent = filters.map((filter) => {
+    const tagContent = filter.options.map((option) => {
+      return (
+        <Tag.CheckableTag
+          checked={isChecked(option.id)}
+          onChange={(e) => onSelectCheckbox(e, option.id)}
+          style={{ borderRadius: '10px', border: '1px solid #4096ff', marginBottom: '5px'}}
+        >
+          {option.name}
+        </Tag.CheckableTag>
+      );
+    });
+    return (
+      <div
+        style={{
+          display: 'grid',
+          maxWidth: 'max-content',
+        }}
+      >
+        {filter.title}
+        {tagContent}
+      </div>
+    );
+  });
+
   return (
     <div>
       <Popover
@@ -126,7 +164,10 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
         open={open}
         onOpenChange={handleOpenChange}
       >
-        <Button type="primary">Filter</Button>
+        <Button type="primary">
+          <FilterOutlined />
+          Filter
+        </Button>
       </Popover>
     </div>
   );

@@ -1,13 +1,15 @@
 import { FilterOutlined } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Drawer, Input, Skeleton, theme, Popover, Tag } from 'antd';
+import { Button, Drawer, Input, Skeleton, theme, Popover, Tag, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
   GetFilterFromServiceTicketQueryString,
+  SearchParamKeys,
   SearchType,
   ServiceTicketFilterNames,
-  ServiceTicketSearchParamKeys
+  ServiceTicketSearchParamKeys,
+  ServiceTicketSortOptions
 } from '../../../../constants';
 import {
   MemberNameServiceTicketContainerDocument,
@@ -19,6 +21,13 @@ import { ServiceTicketsList } from './service-tickets-list';
 import { FilterPopover } from '../../shared/components/filter-popover';
 
 const { Search } = Input;
+const { Option } = Select;
+const columnOptions = ['Title', 'Requestor', 'Assigned To', 'Priority', 'Updated', 'Created'];
+
+function useForceUpdate() {
+  const [, setValue] = useState(0);
+  return () => setValue((value) => value + 1); 
+}
 
 export const ServiceTicketsListContainer: React.FC<any> = () => {
   const {
@@ -28,6 +37,11 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
   const [visible, setVisible] = useState(false);
+  const [selectedColumns, setSelectedColumns] = useState<any>([]);
+  const [columnsToDisplay, setColumnsToDisplay] = useState<string[] | undefined>(
+    searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
+  );
+  const forceUpdate = useForceUpdate();
 
   const {
     data: membersData,
@@ -121,6 +135,46 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     setSearchString(e.target.value);
   };
 
+  const onSelectColumnChanged = (columnName: string) => {
+    const originalSearchParams = searchParams.get(ServiceTicketSearchParamKeys.Column) ?? '';
+    searchParams.set(
+      ServiceTicketSearchParamKeys.Column,
+      originalSearchParams.length > 0
+        ? searchParams.get(ServiceTicketSearchParamKeys.Column) + ',' + columnName
+        : columnName
+    );
+    setSearchParams(searchParams);
+    setColumnsToDisplay([...(columnsToDisplay ?? []), columnName]);
+  };
+
+  const onColumnDelete = (columnName: string) => {
+    const searchParamsString = searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
+    const newSearchParamsArray: any = [];
+    searchParamsString?.forEach((searchParam) => {
+      if (searchParam !== columnName) {
+        newSearchParamsArray.push(searchParam);
+      }
+    });
+
+    if (newSearchParamsArray.length > 0) {
+      searchParams.set(ServiceTicketSearchParamKeys.Column, newSearchParamsArray.join(','));
+    } else {
+      searchParams.delete(ServiceTicketSearchParamKeys.Column);
+    }
+    setSearchParams(searchParams);
+    setColumnsToDisplay(columnsToDisplay?.filter((column) => column !== columnName));
+  };
+
+  const onSortChanged = (value: string) => {
+    if (value) {
+      searchParams.set(SearchParamKeys.Sort, value);
+    } else {
+      searchParams.delete(SearchParamKeys.Sort);
+    }
+
+    setSearchParams(searchParams);
+  };
+
   if (searchServiceTicketsError) {
     return <div>{JSON.stringify(searchServiceTicketsError)}</div>;
   }
@@ -145,11 +199,11 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     );
     return (
       <>
-        <div className="py-4" style={{display: 'inline-flex', width: '100%'}}>
+        <div className="py-4" style={{ display: 'inline-flex', width: '100%' }}>
           <Search
             allowClear
-            style={{ width: '40%' }}
-            placeholder="input search text"
+            style={{ width: '40%', marginRight: '10px' }}
+            placeholder="Search For Service Tickets"
             onSearch={() => handleSearch()}
             value={searchString}
             onChange={(e) => onChange(e)}
@@ -160,16 +214,44 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
             memberData={membersData}
             clearFilter={clearFilter}
           />
-          <Drawer title="Search Filters" placement="left" onClose={() => setVisible(false)} open={visible} width={445}>
-            <SearchDrawerContainer
-              searchData={searchServiceTicketsData?.serviceTicketsSearch}
-              customData={{ data: membersData, loading: memberLoading, error: memberError }}
-              type={SearchType.ServiceTicket}
-              clearFilter={clearFilter}
-            />
-          </Drawer>
-          <Button type="default" onClick={() => setVisible(true)} className="ml-4">
-            <FilterOutlined />
+        </div>
+        <div style={{ paddingBottom: '10px' }}>
+          <Select
+            style={{ width: '225px', marginRight: '10px' }}
+            placeholder="Sort By"
+            allowClear
+            onChange={(value) => onSortChanged(value)}
+            defaultValue={searchParams.get('sort') ? searchParams.get('sort') : ''}
+          >
+            {ServiceTicketSortOptions.map((option) => {
+              return (
+                <Option key={option.value} value={option.value}>
+                  {option.label}
+                </Option>
+              );
+            })}
+          </Select>
+          <Select
+            style={{ width: '175px', marginRight: '10px' }}
+            mode="multiple"
+            placeholder="Select Column"
+            allowClear
+            onSelect={(e: any) => onSelectColumnChanged(e)}
+            defaultValue={columnsToDisplay}
+            onClear={() => {
+              searchParams.delete(ServiceTicketSearchParamKeys.Column);
+              setSearchParams(searchParams);
+              setColumnsToDisplay(undefined);
+              forceUpdate();
+            }}
+            onDeselect={(value: any) => onColumnDelete(value)}
+          >
+            {columnOptions.map((option: string) => {
+              return <Option key={option}>{option}</Option>;
+            })}
+          </Select>
+          <Button type="primary" danger onClick={() => clearFilter()}>
+            Clear
           </Button>
         </div>
         <ServiceTicketsList
@@ -187,7 +269,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     <>
       <Search
         style={{ width: '40%' }}
-        placeholder="input search text"
+        placeholder="Search For Tickets"
         onSearch={() => handleSearch()}
         value={searchString}
         onChange={(e) => setSearchString(e.target.value)}

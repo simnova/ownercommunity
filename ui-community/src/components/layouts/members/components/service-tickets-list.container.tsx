@@ -214,7 +214,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
             placeholder="Sort By"
             allowClear
             onChange={(value) => onSortChanged(value)}
-            defaultValue={searchParams.get('sort') ? searchParams.get('sort') : ''}
+            defaultValue={searchParams.get('sort') ? searchParams.get('sort') : null}
           >
             {ServiceTicketSortOptions.map((option) => {
               return (

@@ -23,7 +23,7 @@ export const SiteEditorFilesListContainer: React.FC<any> = (props) => {
 
   useEffect(() => {
     if (uploadSuccess) {
-      refetch();  // This should now work as expected
+      refetch(); 
       resetUploadSuccess();
     }
   }, [uploadSuccess, resetUploadSuccess, refetch]);

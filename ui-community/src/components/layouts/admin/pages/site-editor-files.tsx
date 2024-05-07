@@ -15,6 +15,8 @@ const SiteEditorFiles: React.FC = (_props) => {
   const handleUploadSuccess = () => {
     setUploadSuccess(true);
   };
+
+  const resetUploadSuccess = () => setUploadSuccess(false);
   
   return <div style={{display: 'flex', flexDirection: 'column', flexGrow: 1}}>
     <Row>
@@ -30,8 +32,10 @@ const SiteEditorFiles: React.FC = (_props) => {
     </Row>
     <Row style={{display: 'flex', flexGrow: 1}}>
       <Col span={24} style={{border: '1px solid lightgrey'}}>
-        <SiteEditorFilesListContainer data={{communityId: params.communityId ?? ''}} uploadSuccess={uploadSuccess}
-          resetUploadSuccess={() => setUploadSuccess(false)}/>
+        <SiteEditorFilesListContainer 
+        data={{communityId: params.communityId ?? ''}} 
+        uploadSuccess={uploadSuccess}
+        resetUploadSuccess={resetUploadSuccess}/>
       </Col>
     </Row>
   </div>

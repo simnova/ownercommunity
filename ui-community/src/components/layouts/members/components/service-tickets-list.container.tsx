@@ -1,12 +1,10 @@
-import { FilterOutlined } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Drawer, Input, Skeleton, theme, Popover, Tag, Select } from 'antd';
+import { Button, Input, Skeleton, theme, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
   GetFilterFromServiceTicketQueryString,
   SearchParamKeys,
-  SearchType,
   ServiceTicketFilterNames,
   ServiceTicketSearchParamKeys,
   ServiceTicketSortOptions
@@ -16,7 +14,6 @@ import {
   MemberServiceTicketsListContainerSearchServiceTicketsDocument,
   ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
-import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 import { ServiceTicketsList } from './service-tickets-list';
 import { FilterPopover } from '../../shared/components/filter-popover';
 
@@ -36,8 +33,6 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
-  const [visible, setVisible] = useState(false);
-  const [selectedColumns, setSelectedColumns] = useState<any>([]);
   const [columnsToDisplay, setColumnsToDisplay] = useState<string[] | undefined>(
     searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
   );
@@ -45,8 +40,6 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
 
   const {
     data: membersData,
-    loading: memberLoading,
-    error: memberError
   } = useQuery(MemberNameServiceTicketContainerDocument, {
     variables: { communityId: params.communityId ?? '' }
     // fetchPolicy: 'cache-and-network'

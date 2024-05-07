@@ -74,8 +74,7 @@ export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> =
     } else if (memberData?.member && roleData?.rolesByCommunityId) {
       const detailData = {
         member: memberData.member,
-        roles: roleData.rolesByCommunityId,
-        communityId: props.data.communityId
+        roles: roleData.rolesByCommunityId
       };
       return <MembersDetail data={detailData} onSave={handleSave} />;
     } else {

@@ -3,7 +3,11 @@ import { SearchParamKeys, ServiceTicketSearchParamKeys, ServiceTicketSortOptions
 import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 
-export const ServiceTicketSearchHelpers: React.FC<any> = () => {
+export interface SearchHelperProps {
+  clearFilter: () => void
+}
+
+export const ServiceTicketSearchHelpers: React.FC<SearchHelperProps> = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [columnsToDisplay, setColumnsToDisplay] = useState<string[] | undefined>(
     searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',') ?? []
@@ -50,9 +54,6 @@ export const ServiceTicketSearchHelpers: React.FC<any> = () => {
 
     setSearchParams(searchParams);
   };
-  function clearFilter(): void {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <div style={{ paddingBottom: '10px' }}>
@@ -89,7 +90,7 @@ export const ServiceTicketSearchHelpers: React.FC<any> = () => {
           return <Option key={option}>{option}</Option>;
         })}
       </Select>
-      <Button type="primary" danger onClick={() => clearFilter()}>
+      <Button type="primary" danger onClick={() => props.clearFilter()}>
         Clear
       </Button>
     </div>

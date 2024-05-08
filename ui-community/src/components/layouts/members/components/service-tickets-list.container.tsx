@@ -159,7 +159,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
             clearFilter={clearFilter}
           />
         </div>
-        <ServiceTicketSearchHelpers/>
+        <ServiceTicketSearchHelpers clearFilter={clearFilter}/>
         <ServiceTicketsList
           data={searchServiceTicketsData?.serviceTicketsSearch}
           handleSearch={handleSearch}

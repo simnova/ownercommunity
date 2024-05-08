@@ -16,6 +16,7 @@ import {
 } from '../../../../constants';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Input, Skeleton, theme } from 'antd';
+import { set } from 'lodash';
 
 export const ServiceTicketsListContainer: React.FC<any> = () => {
   const params = useParams();
@@ -26,7 +27,11 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     token: { colorText }
   } = theme.useToken();
 
-  const { data: membersData, loading: memberDataLoading, error: memberDataError } = useQuery(AdminMemberNameServiceTicketContainerDocument, {
+  const {
+    data: membersData,
+    loading: memberDataLoading,
+    error: memberDataError
+  } = useQuery(AdminMemberNameServiceTicketContainerDocument, {
     variables: { communityId: params.communityId ?? '' }
   });
 
@@ -114,7 +119,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
   };
 
   if (searchServiceTicketsError || memberDataError) {
-    return <div>{JSON.stringify(searchServiceTicketsError ? searchServiceTicketsError: memberDataError)}</div>;
+    return <div>{JSON.stringify(searchServiceTicketsError ? searchServiceTicketsError : memberDataError)}</div>;
   }
   if (searchServiceTicketsLoading || memberDataLoading) {
     return (
@@ -155,11 +160,17 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
           clearFilter={clearFilter}
         />
       </div>
-      <ServiceTicketSearchHelpers />
+      <ServiceTicketSearchHelpers clearFilter={clearFilter} />
       <ComponentQueryLoader
         loading={searchServiceTicketsLoading}
         hasData={searchServiceTicketsData?.serviceTicketsSearchAdmin !== null}
-        hasDataComponent={<ServiceTicketsList data={searchServiceTicketsData?.serviceTicketsSearchAdmin} />}
+        hasDataComponent={
+          <ServiceTicketsList
+            data={searchServiceTicketsData?.serviceTicketsSearchAdmin}
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+          />
+        }
         error={searchServiceTicketsError}
       />
     </div>

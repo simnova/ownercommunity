@@ -16,7 +16,6 @@ import {
 } from '../../../../constants';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Input, Skeleton, theme } from 'antd';
-import { set } from 'lodash';
 
 export const ServiceTicketsListContainer: React.FC<any> = () => {
   const params = useParams();

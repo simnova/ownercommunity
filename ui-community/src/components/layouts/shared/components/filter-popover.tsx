@@ -16,7 +16,6 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState<SearchFilterProps[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log("man", props.memberData)
   const handleOpenChange = (newOpen: any) => {
     setOpen(newOpen);
   };
@@ -31,11 +30,10 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
       };
 
       filter.values.forEach((value: any) => {
-        // const count =
-        //   props.searchData.facets[filter.facet[0]].find((facet: FacetDetail) =>
-        //     filter.handleCount ? filter.handleCount(facet, value) : facet.value === value
-        //   )?.count ?? 0;
-        const count = 0;
+        const count =
+          props.searchData.facets[filter.facet[0]].find((facet: FacetDetail) =>
+            filter.handleCount ? filter.handleCount(facet, value) : facet.value === value
+          )?.count ?? 0;
         if (filter.handleBuild) {
           filter.handleBuild(newFilter, value, count);
         } else {
@@ -133,9 +131,9 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
         <Tag.CheckableTag
           checked={isChecked(option.id)}
           onChange={(e) => onSelectCheckbox(e, option.id)}
-          style={{ borderRadius: '10px', border: '1px solid #4096ff', marginBottom: '5px'}}
+          style={{ borderRadius: '10px', border: '1px solid #4096ff', marginBottom: '5px', fontFamily: 'sans-serif', fontWeight: '100px'}}
         >
-          {option.name}
+          {option.name + " (" + option.count + ")"}
         </Tag.CheckableTag>
       );
     });

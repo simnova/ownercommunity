@@ -2703,6 +2703,15 @@ export type AdminServiceTicketsListContainerSearchServiceTicketsQuery = {
       createdAt?: any | null;
       updatedAt?: any | null;
     } | null> | null;
+    facets?: {
+      __typename?: 'ServiceTicketsSearchFacets';
+      requestor?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+      assignedTo?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+      status?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+      priority?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+      requestorId?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+      assignedToId?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+    } | null;
   } | null;
 };
 
@@ -2725,6 +2734,15 @@ export type AdminServiceTicketSearchFieldsFragment = {
     createdAt?: any | null;
     updatedAt?: any | null;
   } | null> | null;
+  facets?: {
+    __typename?: 'ServiceTicketsSearchFacets';
+    requestor?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+    assignedTo?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+    status?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+    priority?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+    requestorId?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+    assignedToId?: Array<{ __typename?: 'FacetDetail'; value?: string | null; count?: number | null } | null> | null;
+  } | null;
 };
 
 export type AdminServiceTicketsListContainerSearchServiceTicketsResultFieldsFragment = {
@@ -6413,7 +6431,82 @@ export const AdminServiceTicketSearchFieldsFragmentDoc = {
               ]
             }
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'facets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'requestor' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignedTo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'priority' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'requestorId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignedToId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
         ]
       }
     },
@@ -12184,7 +12277,82 @@ export const AdminServiceTicketsListContainerSearchServiceTicketsDocument = {
               ]
             }
           },
-          { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'facets' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'requestor' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignedTo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'priority' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'requestorId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'assignedToId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'count' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
         ]
       }
     }

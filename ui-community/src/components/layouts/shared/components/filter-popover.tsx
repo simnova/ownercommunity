@@ -131,7 +131,7 @@ export const FilterPopover: React.FC<FilterPopoverProps> = (props) => {
         <Tag.CheckableTag
           checked={isChecked(option.id)}
           onChange={(e) => onSelectCheckbox(e, option.id)}
-          style={{ borderRadius: '10px', border: '1px solid #4096ff', marginBottom: '5px', fontFamily: 'sans-serif', fontWeight: '100px'}}
+          style={{ borderRadius: '10px', border: '1px solid #4096ff', marginBottom: '5px', fontFamily: 'sans-serif'}}
         >
           {option.name + " (" + option.count + ")"}
         </Tag.CheckableTag>

@@ -1,3 +1,9 @@
+export interface VercelBase {
+  addDomainToProject(domain: string): Promise<{ result?: DomainResponse; } & APIResponse>;
+  removeDomainFromProject(domain: string): Promise<boolean>;
+  getProjectDomain(domain: string): Promise<DomainResponse>;
+}
+
 
 export interface VercelResponseHeaders {
   /** The maximum number of requests that the consumer is permitted to make.

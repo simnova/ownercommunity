@@ -1,8 +1,6 @@
-import { ModeratedContentType, ModerationResult } from "../../../external-dependencies/content-moderator";
+import { ContentModeratorBase } from '../../../../../seedwork/services-seedwork-content-moderator-interfaces';
 
-export interface ContentModeratorDomain {
-  moderateText(text: string, contentType: ModeratedContentType): Promise<ModerationResult>;
-}
+export interface ContentModeratorDomain extends ContentModeratorBase {}
 
 export interface ContentModeratorDomainInitializeable {
   startup(): Promise<void>;

@@ -3,11 +3,9 @@ import { AuthHeader } from './auth-header';
 import {  BlobActions } from './blob-actions';
 import internal from 'stream';
 import { BlobUploadCommonResponse } from '@azure/storage-blob';
-import { BlobStorageDomain } from '../../src/app/domain/infrastructure/blob-storage/interfaces';
 
-import { BlobRequestSettings, FileInfo } from '../services-seedwork-blob-storage-interfaces';
-export { BlobRequestSettings, FileInfo}
-export class AzBlobStorage implements BlobStorageDomain {
+import { BlobRequestSettings, BlobStorageBase, FileInfo } from '../services-seedwork-blob-storage-interfaces';
+export class AzBlobStorage implements BlobStorageBase {
 
   private readonly accountName:string;
   private readonly accountKey:string;

@@ -1,10 +1,6 @@
-import { APIResponse, DomainResponse } from "../../../external-dependencies/vercel";
+import { VercelBase } from '../../../../../seedwork/services-seedwork-vercel-api/interfaces';
 
-export interface VercelDomain {
-  addDomainToProject(domain: string): Promise<{ result?: DomainResponse; } & APIResponse>;
-  removeDomainFromProject(domain: string): Promise<boolean>;
-  getProjectDomain(domain: string): Promise<DomainResponse>;
-}
+export interface VercelDomain extends VercelBase {}
 
 export interface VercelDomainInitializeable {
   startup(): Promise<void>;

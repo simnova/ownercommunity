@@ -1,9 +1,9 @@
 import { BlobDataSource } from './blob-data-source';
 import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } from '../../external-dependencies/graphql-api';
 import { MemberConverter } from '../../external-dependencies/domain';
-import { BlobRequestSettings } from '../../external-dependencies/blob-storage';
 import { MemberBlobApi } from '../../application-services/blob-storage';
 import { AppContext } from '../../init/app-context-builder';
+import { BlobRequestSettings } from '../../../../seedwork/services-seedwork-blob-storage-interfaces';
 
 export class MemberBlobApiImpl 
   extends BlobDataSource<AppContext> 

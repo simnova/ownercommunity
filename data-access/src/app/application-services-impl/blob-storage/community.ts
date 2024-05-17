@@ -1,9 +1,9 @@
 import { BlobDataSource } from './blob-data-source';
 import { CommunityConverter } from '../../external-dependencies/domain';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../external-dependencies/graphql-api';
-import { BlobRequestSettings } from '../../external-dependencies/blob-storage';
 import { CommunityBlobApi } from '../../application-services/blob-storage';
 import { AppContext } from '../../init/app-context-builder';
+import { BlobRequestSettings } from '../../../../seedwork/services-seedwork-blob-storage-interfaces';
 
 export class CommunityBlobApiImpl 
   extends BlobDataSource<AppContext> 

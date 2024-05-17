@@ -1,4 +1,5 @@
-import { AzBlobStorage, BlobRequestSettings } from './index';
+import { BlobRequestSettings } from '../services-seedwork-blob-storage-interfaces';
+import { AzBlobStorage } from './index';
 
 const performIntegrationTests = true;
 

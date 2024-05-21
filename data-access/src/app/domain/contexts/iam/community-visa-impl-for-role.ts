@@ -4,7 +4,7 @@ import { MemberEntityReference } from '../community/member';
 import { RoleEntityReference } from '../community/role';
 import { CommunityVisa } from './community-visa';
 
-export class RoleVisaImpl<root extends RoleEntityReference> implements CommunityVisa {
+export class CommunityVisaImplForRole<root extends RoleEntityReference> implements CommunityVisa {
   constructor(private root: root, private member: MemberEntityReference) {}  
   
   determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean {

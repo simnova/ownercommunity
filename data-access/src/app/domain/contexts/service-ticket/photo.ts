@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../domain-execution-context';
-import { ServiceTicketVisa } from '../iam/service-ticket-visa';
+import { ServiceTicketVisa } from '../iam/domain-visa/service-ticket-visa';
 
 export interface PhotoPropValues extends EntityProps {
   documentId: string;

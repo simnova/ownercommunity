@@ -21,9 +21,9 @@ export class PropertyBlobApiImpl extends BlobDataSource<AppContext> implements P
       if (!property) {
         return;
       }
-      let propertyDO = new PropertyConverter().toDomain(property, { passport: passport });
+      let propertyDO = new PropertyConverter().toDomain(property, { domainVisa: passport.domainVisa });
       if (
-        !passport.forProperty(propertyDO).determineIf((permissions) => permissions.canManageProperties || (permissions.canEditOwnProperty && propertyDO.owner.id === memberId))
+        !passport.domainVisa.forProperty(propertyDO).determineIf((permissions) => permissions.canManageProperties || (permissions.canEditOwnProperty && propertyDO.owner.id === memberId))
       ) {
         return;
       }
@@ -77,9 +77,9 @@ export class PropertyBlobApiImpl extends BlobDataSource<AppContext> implements P
         mutationResult = { success: false, errorMessage: `Property not found: ${propertyId}` } as MutationStatus;
         return;
       }
-      let propertyDO = new PropertyConverter().toDomain(property, { passport: passport });
+      let propertyDO = new PropertyConverter().toDomain(property, { domainVisa: passport.domainVisa });
       if (
-        !passport.forProperty(propertyDO).determineIf((permissions) => permissions.canManageProperties || (permissions.canEditOwnProperty && propertyDO.owner.id === memberId))
+        !passport.domainVisa.forProperty(propertyDO).determineIf((permissions) => permissions.canManageProperties || (permissions.canEditOwnProperty && propertyDO.owner.id === memberId))
       ) {
         mutationResult = { success: false, errorMessage: `User does not have permission to remove images from property: ${propertyId}` } as MutationStatus;
         return;
@@ -100,10 +100,10 @@ export class PropertyBlobApiImpl extends BlobDataSource<AppContext> implements P
         return;
       }
 
-      let propertyDO = new PropertyConverter().toDomain(property, { passport: passport });
+      let propertyDO = new PropertyConverter().toDomain(property, { domainVisa: passport.domainVisa });
 
       if (
-        !passport.forProperty(propertyDO).determineIf((permissions) => {
+        !passport.domainVisa.forProperty(propertyDO).determineIf((permissions) => {
           console.log('canManageProperties', permissions.canManageProperties);
           console.log('canEditOwnProperty', permissions.canEditOwnProperty);
           return permissions.canManageProperties || (permissions.canEditOwnProperty && propertyDO.owner.id === memberId);

@@ -36,9 +36,9 @@ export class ServiceTicketDataApiImpl
     let converter = new ServiceTicketConverter();
 
     return (await Promise.all(serviceTickets.map((ticket) => ticket)))
-      .map((ticket) => converter.toDomain(ticket, context))
+      .map((ticket) => converter.toDomain(ticket, context.passport))
       .filter((ticket) =>
-        context.passport
+        context.passport.domainVisa
           .forServiceTicket(ticket)
           .determineIf(
             (permissions) =>

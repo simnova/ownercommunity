@@ -1,14 +1,14 @@
-import { CommunityEntityReference } from '../community/community';
-import { CommunityPermissions } from "../community/community-permissions.spec";
-import { MemberEntityReference } from '../community/member';
-import { RoleEntityReference } from '../community/role';
-import { PropertyEntityReference } from '../property/property';
-import { PropertyPermissions } from "../property/property-permissions.spec";
-import { ServiceEntityReference } from '../service-ticket/service';
-import { ServicePermissions } from "../service-ticket/service-permissions.spec";
-import { ServiceTicketEntityReference } from '../service-ticket/service-ticket';
-import { ServiceTicketPermissions } from "../service-ticket/service-ticket-permissions.spec";
-import { UserEntityReference } from '../user/user';
+import { CommunityEntityReference } from '../../community/community';
+import { CommunityPermissions } from "../../community/community-permissions.spec";
+import { MemberEntityReference } from '../../community/member';
+import { RoleEntityReference } from '../../community/role';
+import { PropertyEntityReference } from '../../property/property';
+import { PropertyPermissions } from "../../property/property-permissions.spec";
+import { ServiceEntityReference } from '../../service-ticket/service';
+import { ServicePermissions } from "../../service-ticket/service-permissions.spec";
+import { ServiceTicketEntityReference } from '../../service-ticket/service-ticket';
+import { ServiceTicketPermissions } from "../../service-ticket/service-ticket-permissions.spec";
+import { UserEntityReference } from '../../user/user';
 import { CommunityVisa } from './community-visa';
 import { CommunityVisaImplForCommunity } from './community-visa-impl-for-community';
 import { CommunityVisaImplForMember } from './community-visa-impl-for-member';
@@ -24,7 +24,7 @@ import { UserVisaImplForUser } from './user-visa-impl-for-user';
 
 export const SystemUserId = 'system';
 
-export interface Passport {
+export interface DomainVisa {
   forMember(root:MemberEntityReference): CommunityVisa;
   forCommunity(root: CommunityEntityReference):  CommunityVisa;
   forCurrentCommunity(): CommunityVisa;
@@ -35,7 +35,7 @@ export interface Passport {
   forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa;
 }
 
-export class PassportImpl implements Passport {
+export class DomainVisaImpl implements DomainVisa {
   constructor(
     private readonly user: UserEntityReference, 
     private readonly member: MemberEntityReference,
@@ -71,12 +71,12 @@ export class PassportImpl implements Passport {
   }
 }
 
-export class ReadOnlyPassport implements Passport {
+export class ReadOnlyDomainVisa implements DomainVisa {
   private constructor(){
     //prevent public construction
   }
-  public static GetInstance(): Passport {
-    return new ReadOnlyPassport();
+  public static GetInstance(): DomainVisa {
+    return new ReadOnlyDomainVisa();
   }
   forMember (_root: MemberEntityReference): CommunityVisa {
     return {determineIf:  () => false };
@@ -105,12 +105,12 @@ export class ReadOnlyPassport implements Passport {
 
 }
 
-export class SystemPassport implements Passport {
+export class SystemDomainVisa implements DomainVisa {
   private constructor(){
     //prevent public construction
   }
-  public static GetInstance(): Passport {
-    return new SystemPassport();
+  public static GetInstance(): DomainVisa {
+    return new SystemDomainVisa();
   }
   private communityPermissionsForSystem: CommunityPermissions = {
     canManageRolesAndPermissions: false,

@@ -1,10 +1,10 @@
-import { Passport } from '../../app/domain/contexts/iam/passport';
 import { HttpRequest } from '@azure/functions';
 import { PortalTokenValidation } from '../../auth/portal-token-validation';
 import { ApplicationServices } from '../../app/application-services';
 import { InfrastructureServices } from '../../app/infrastructure-services';
 import * as util from '../../../seedwork/auth-seedwork-oidc/util';
 import { AppContext, AppContextBuilder } from '../../app/init/app-context-builder';
+import { Passport } from '../../app/init/passport';
 
 export type VerifiedUser = {
   verifiedJWT: any;

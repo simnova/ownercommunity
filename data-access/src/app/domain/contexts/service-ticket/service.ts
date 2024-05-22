@@ -3,7 +3,7 @@ import { Community, CommunityProps, CommunityEntityReference } from '../communit
 import { AggregateRoot } from '../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../domain-execution-context';
 import * as ValueObjects from './service.value-objects';
-import { ServiceVisa } from '../iam/service-visa';
+import { ServiceVisa } from '../iam/domain-visa/service-visa';
 
 export interface ServiceProps extends EntityProps {
   readonly community: CommunityProps;
@@ -26,7 +26,7 @@ export class Service<props extends ServiceProps> extends AggregateRoot<props> im
   private readonly visa: ServiceVisa;
   constructor(props: props, private context: DomainExecutionContext) {
     super(props);
-    this.visa = context.passport.forService(this);
+    this.visa = context.domainVisa.forService(this);
   }
 
   public static getNewInstance<props extends ServiceProps>(

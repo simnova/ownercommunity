@@ -1,5 +1,5 @@
 import { Entity, EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
-import { CommunityVisa } from '../iam/community-visa';
+import { CommunityVisa } from '../iam/domain-visa/community-visa';
 import { ServicePermissions as ServicePermissionsSpec } from "../service-ticket/service-permissions.spec";
 
 export interface ServicePermissionsProps extends ServicePermissionsSpec, EntityProps {}

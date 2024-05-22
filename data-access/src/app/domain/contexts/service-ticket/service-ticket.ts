@@ -10,7 +10,7 @@ import * as ValueObjects from './service-ticket.value-objects';
 import { PropArray } from '../../../../../seedwork/domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
-import { ServiceTicketVisa } from '../iam/service-ticket-visa';
+import { ServiceTicketVisa } from '../iam/domain-visa/service-ticket-visa';
 import { ServiceTicketCreatedEvent } from '../../events/types/service-ticket-created';
 import { ServiceTicketUpdatedEvent } from '../../events/types/service-ticket-updated';
 import { ServiceTicketDeletedEvent } from '../../events/types/service-ticket-deleted';
@@ -74,7 +74,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   private readonly visa: ServiceTicketVisa;
   constructor(props: props, private context: DomainExecutionContext) {
     super(props);
-    this.visa = context.passport.forServiceTicket(this);
+    this.visa = context.domainVisa.forServiceTicket(this);
   }
 
   public static getNewInstance<props extends ServiceTicketProps>(

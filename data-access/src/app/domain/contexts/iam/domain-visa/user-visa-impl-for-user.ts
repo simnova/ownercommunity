@@ -1,4 +1,4 @@
-import { UserEntityReference, UserPermissions } from '../user/user';
+import { UserEntityReference, UserPermissions } from '../../user/user';
 import { UserVisa } from './user-visa';
 
 

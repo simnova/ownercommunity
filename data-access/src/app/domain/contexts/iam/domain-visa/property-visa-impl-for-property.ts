@@ -1,6 +1,6 @@
-import { MemberEntityReference } from '../community/member';
-import { PropertyEntityReference } from '../property/property';
-import { PropertyPermissions } from "../property/property-permissions.spec";
+import { MemberEntityReference } from '../../community/member';
+import { PropertyEntityReference } from '../../property/property';
+import { PropertyPermissions } from "../../property/property-permissions.spec";
 import { PropertyVisa } from './property-visa';
 
 

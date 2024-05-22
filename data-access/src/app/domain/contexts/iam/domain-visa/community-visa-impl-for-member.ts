@@ -1,6 +1,6 @@
 
-import { CommunityPermissions } from "../community/community-permissions.spec";
-import { MemberEntityReference } from '../community/member';
+import { CommunityPermissions } from "../../community/community-permissions.spec";
+import { MemberEntityReference } from '../../community/member';
 import { CommunityVisa } from './community-visa';
 
 export class CommunityVisaImplForMember<root extends MemberEntityReference> implements CommunityVisa {

@@ -16,9 +16,9 @@ export class MemberBlobApiImpl
       if (!member) {
         mutationResult = { success: false, errorMessage: `Member not found: ${memberId}` } as MutationStatus;
       }
-      let memberDo = new MemberConverter().toDomain(member, { passport: passport });
+      let memberDo = new MemberConverter().toDomain(member, { domainVisa: passport.domainVisa });
       if (
-        !passport
+        !passport.domainVisa
           .forMember(memberDo)
           .determineIf((permissions) => (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount) || permissions.canManageMembers)
       ) {
@@ -42,9 +42,9 @@ export class MemberBlobApiImpl
         headerResult = { status: { success: false, errorMessage: `Member not found: ${memberId}` } } as MemberAvatarImageAuthHeaderResult;
         return;
       }
-      let memberDo = new MemberConverter().toDomain(member, { passport: passport });
+      let memberDo = new MemberConverter().toDomain(member, { domainVisa: passport.domainVisa });
       if (
-        !passport
+        !passport.domainVisa
           .forMember(memberDo)
           .determineIf((permissions) => (permissions.canEditOwnMemberAccounts && permissions.isEditingOwnMemberAccount) || permissions.canManageMembers)
       ) {

@@ -1,5 +1,5 @@
 import { ValueObject, ValueObjectProps } from '../../../../../seedwork/domain-seedwork/value-object';
-import { CommunityVisa } from '../iam/community-visa';
+import { CommunityVisa } from '../iam/domain-visa/community-visa';
 import * as ValueObjects from './profile.value-objects';
 
 export interface ProfileProps extends ValueObjectProps {

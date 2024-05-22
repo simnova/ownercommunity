@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
 import { CommunityPermissions, CommunityPermissionsEntityReference, CommunityPermissionsProps } from './community-permissions';
-import { CommunityVisa } from '../iam/community-visa';
+import { CommunityVisa } from '../iam/domain-visa/community-visa';
 import { PropertyPermissions, PropertyPermissionsProps } from './property-permissions';
 import { ServiceTicketPermissions, ServiceTicketPermissionsProps } from './service-ticket-permissions';
 import { ServicePermissions, ServicePermissionsProps } from './service-permissions';

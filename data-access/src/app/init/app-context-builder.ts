@@ -86,8 +86,10 @@ export class AppContextBuilder implements AppContext {
   }
 
   private async setDefaultPassport(): Promise<void> {
-    this._passport.domainVisa = ReadOnlyDomainVisa.GetInstance();
-    this._passport.datastoreVisa = ReadOnlyDatastoreVisaImpl.GetInstance();
+    this._passport = {
+      domainVisa: ReadOnlyDomainVisa.GetInstance(),
+      datastoreVisa: ReadOnlyDatastoreVisaImpl.GetInstance()
+    }
   }
 
   private async setCommunityData(): Promise<void> {
@@ -97,13 +99,15 @@ export class AppContextBuilder implements AppContext {
   }
 
   private async setPassport(): Promise<void> {
-    let userExternalId = this._verifiedUser.verifiedJWT.sub;
+    let userExternalId = this._verifiedUser?.verifiedJWT.sub;
     if (userExternalId && this._communityData) {
       let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
       let memberData = (await this._applicationServices.memberDataApi.getMemberByIdWithCommunityAccountRole(this._memberId));
       if(memberData && userData) {
-        this._passport.domainVisa = new DomainVisaImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference);
-        this._passport.datastoreVisa = new DatastoreVisaImpl(userData, memberData);
+        this._passport = {
+          domainVisa :new DomainVisaImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference),
+          datastoreVisa: new DatastoreVisaImpl(userData, memberData)
+        }
       }
     }
   }

@@ -1,7 +1,7 @@
 import { DataSource } from '../data-source';
-import { Passport } from '../../domain/contexts/iam/passport';
 import { BlobStorageDomain } from '../../domain/infrastructure/blob-storage/interfaces';
 import { AppContext } from '../../init/app-context-builder';
+import { Passport } from '../../init/passport';
 
 export class BlobDataSource<Context extends AppContext> extends DataSource<Context> {
 

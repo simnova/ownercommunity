@@ -3,7 +3,7 @@ import { CommunityDomainUpdatedEvent } from '../../events/types/community-domain
 import { AggregateRoot } from '../../../../../seedwork/domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../domain-execution-context';
-import { CommunityVisa } from '../iam/community-visa';
+import { CommunityVisa } from '../iam/domain-visa/community-visa';
 import { User, UserEntityReference, UserProps } from '../user/user';
 import * as ValueObjects from './community.value-objects';
 
@@ -28,7 +28,7 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
   private isNew: boolean = false;
   constructor(props: props, private readonly context: DomainExecutionContext) {
     super(props);
-    this.visa = context.passport.forCommunity(this);
+    this.visa = context.domainVisa.forCommunity(this);
   }
 
   get id() {

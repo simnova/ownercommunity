@@ -3,7 +3,7 @@ import { PropArray } from '../../../../../seedwork/domain-seedwork/prop-array';
 import { BedroomDetail, BedroomDetailProps, BedroomDetailReference } from './bedroom-detail';
 import { AdditionalAmenity, AdditionalAmenityProps, AdditionalAmenityReference } from './additional-amenity';
 import * as ValueObjects from './listing-detail.value-objects';
-import { PropertyVisa } from '../iam/property-visa';
+import { PropertyVisa } from '../iam/domain-visa/property-visa';
 import { Images } from './listing-detail.value-objects';
 
 export interface ListingDetailProps extends ValueObjectProps {

@@ -6,7 +6,7 @@ import * as ValueObjects from './property.value-objects';
 import { ListingDetails, ListingDetailProps, ListingDetailsEntityReference } from './listing-detail';
 import { Location, LocationEntityReference, LocationProps } from './location';
 import { AggregateRoot } from '../../../../../seedwork/domain-seedwork/aggregate-root';
-import { PropertyVisa } from '../iam/property-visa';
+import { PropertyVisa } from '../iam/domain-visa/property-visa';
 import { PropertyCreatedEvent } from '../../events/types/property-created';
 import { PropertyDeletedEvent } from '../../events/types/property-deleted';
 import { PropertyUpdatedEvent } from '../../events/types/property-updated';
@@ -48,7 +48,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   private isNew: boolean = false;
   constructor(props: props, private readonly context: DomainExecutionContext) {
     super(props);
-    this.visa = context.passport.forProperty(this);
+    this.visa = context.domainVisa.forProperty(this);
   }
 
   public static getNewInstance<props extends PropertyProps>(

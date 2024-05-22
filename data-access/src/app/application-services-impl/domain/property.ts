@@ -1,5 +1,5 @@
 import { Property } from '../../domain/contexts/property/property';
-import { ReadOnlyPassport } from '../../domain/contexts/iam/passport';
+import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
 import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../external-dependencies/graphql-api';
 import { DomainDataSource } from './domain-data-source';
 import { Amenities, Images } from '../../domain/contexts/property/listing-detail.value-objects';
@@ -25,7 +25,7 @@ export class PropertyDomainApiImpl
 
     let propertyToReturn: PropertyData;
     let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
-    let communityDo = new CommunityConverter().toDomain(community, { passport: ReadOnlyPassport.GetInstance() });
+    let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
       let newProperty = await repo.getNewInstance(input.propertyName, communityDo);
@@ -38,7 +38,7 @@ export class PropertyDomainApiImpl
     let propertyToReturn: PropertyData;
 
     let mongoMember = await this.context.applicationServices.memberDataApi.getMemberById(input.owner?.id);
-    let memberDo = new MemberConverter().toDomain(mongoMember, { passport: ReadOnlyPassport.GetInstance() });
+    let memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
@@ -147,7 +147,7 @@ export class PropertyDomainApiImpl
   async propertyAssignOwner(input: PropertyAssignOwnerInput): Promise<PropertyData> {
     let propertyToReturn: PropertyData;
     let mongoMember = await this.context.applicationServices.memberDataApi.getMemberById(input.ownerId);
-    let memberDo = new MemberConverter().toDomain(mongoMember, { passport: ReadOnlyPassport.GetInstance() });
+    let memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
       property.Owner=(memberDo);

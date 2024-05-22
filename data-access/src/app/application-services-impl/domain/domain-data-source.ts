@@ -19,10 +19,10 @@ export class DomainDataSource<Context extends AppContext,MongoType extends Docum
 
   public async withTransaction(func:(repo:RepoType) => Promise<void>): Promise<void> {
     const executionContext:DomainExecutionContext = {
-      passport: this._context.passport
+      domainVisa: this._context.passport.domainVisa
     }
 
-    console.log('withTransaction',this.context.passport);
+    console.log('withTransaction',this.context.passport.domainVisa);
     return this.unitOfWork.withTransaction(executionContext,(repo:RepoType) => func(repo));
   }
 }

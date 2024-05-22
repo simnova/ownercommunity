@@ -1,5 +1,5 @@
 import { Role } from '../../domain/contexts/community/role';
-import { ReadOnlyPassport } from '../../domain/contexts/iam/passport';
+import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
 import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from '../../external-dependencies/graphql-api';
 import { DomainDataSource } from './domain-data-source';
 import { CommunityConverter, RoleConverter, RoleDomainAdapter, RoleRepository } from '../../external-dependencies/domain';
@@ -24,7 +24,7 @@ export class RoleDomainApiImpl
     
     let roleToReturn : RoleData;
     let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
-    let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
+    let communityDo = new CommunityConverter().toDomain(community,{domainVisa:ReadOnlyDomainVisa.GetInstance()});
 
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getNewInstance(
@@ -90,7 +90,7 @@ export class RoleDomainApiImpl
     }
 
     let mongoNewRole = await this.context.applicationServices.roleDataApi.getRoleById(input.roleToReassignTo);
-    let newROleDo = new RoleConverter().toDomain(mongoNewRole,{passport:ReadOnlyPassport.GetInstance()});
+    let newROleDo = new RoleConverter().toDomain(mongoNewRole,{domainVisa:ReadOnlyDomainVisa.GetInstance()});
     let roleToReturn : RoleData;
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getById(input.roleToDelete);

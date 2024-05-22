@@ -15,7 +15,7 @@ import { DomainExecutionContext } from '../../../src/app/domain/contexts/domain-
 import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
 import {DomainImplBDD} from './io/test/domain-impl-bdd';
 import { ReadOnlyContext, SystemExecutionContext } from '../../../src/app/domain/contexts/domain-execution-context';
-import { PassportImpl } from '../../../src/app/domain/contexts/iam/passport';
+import { DomainVisaImpl } from '../../../src/app/domain/contexts/iam/domain-visa';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
@@ -125,8 +125,8 @@ export class InteractWithTheDomain extends Ability
     const community: CommunityEntityReference = await this.getCommunityByName(communityName);
     const user: UserEntityReference = await this.getOrCreateUserForActor(actor);
     const member: MemberEntityReference = await this.getMemberByUserAndCommunity(user.externalId, community.name);
-    const passport = new PassportImpl(user, member, community);
-    return new InteractWithTheDomain({passport});
+    const passport = new DomainVisaImpl(user, member, community);
+    return new InteractWithTheDomain({domainVisa: passport});
   }
 
   // [MG-TBD] - make it as no-context

@@ -1,5 +1,5 @@
 import { Entity, EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
-import { PropertyVisa } from '../iam/property-visa';
+import { PropertyVisa } from '../iam/domain-visa/property-visa';
 import * as ValueObjects from './bedroom-detail.value-objects';
 
 export interface BedroomDetailProps extends EntityProps {

@@ -8,14 +8,29 @@ export class RoleDataApiImpl extends CosmosDataSource<RoleData, AppContext>
 
   async getRoleById(id: string): Promise<RoleData> {
     const roles = await this.findByFields({ community: this.context.communityId })
-    return roles.find(role => role.id === id);
+    const roleToReturn = roles.find(role => role.id === id);
+    if(roleToReturn && this.applyPermissions(roleToReturn)){
+      return roleToReturn;
+    }
   }
 
   async getRoles(): Promise<RoleData[]> {
-    return this.findByFields({ community: this.context.communityId });
+    const rolesToReturn = await this.findByFields({ community: this.context.communityId });
+    rolesToReturn.filter(roleData => this.applyPermissions(roleData));
+    return rolesToReturn;
   }
 
   async getRolesByCommunityId(communityId: string): Promise<RoleData[]> {
-    return this.findByFields({ community: communityId });
+    const rolesToReturn = await this.findByFields({ community: communityId });
+    rolesToReturn.filter(roleData => this.applyPermissions(roleData));
+    return rolesToReturn;
+  }
+
+  private applyPermissions(roleData: RoleData) {
+    if(this.context.passport.datastoreVisa.forRole(roleData).determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)){
+      return true;
+    }
+    return false;
   }
 }
+

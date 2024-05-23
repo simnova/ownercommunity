@@ -1,0 +1,46 @@
+parameters:
+- name: subscription
+  default: false
+- name: destinationBlobContainer
+  type: string
+- name: archiveName
+  type: string
+- name: cdnProfile
+  type: string
+- name: cdnResourceGroup
+  type: string
+- name: cdnName
+  type: string
+
+steps:
+
+# Get the zip file for with proper environment settings already compiled in it.
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Pipeline.Workspace)'
+    Contents: '**/$(Build.BuildId)-${{parameters.archiveName}}.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+
+# Extract the files from the zip file.
+- task: ExtractFiles@1
+  inputs:
+    archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-${{parameters.archiveName}}.zip'
+    destinationFolder: '$(Build.ArtifactStagingDirectory)/deploy'
+    cleanDestinationFolder: true
+    overwriteExistingFiles: false
+
+# Delete all files in the $web container and replace with extracted files.
+# Purge the CDN endpoint to ensure the CDN has only latest files.
+- task: AzureCLI@2
+  displayName: Copy to Blob
+  inputs:
+    azureSubscription: ${{parameters.subscription}}
+    scriptType: 'pscore'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az storage blob delete-batch -s `$web --pattern * --account-name ${{parameters.destinationBlobContainer}}
+      az storage blob upload-batch --destination `$web --account-name ${{parameters.destinationBlobContainer}} --source $(Build.ArtifactStagingDirectory)/deploy
+      az cdn endpoint purge --profile-name ${{parameters.cdnProfile}} -g ${{parameters.cdnResourceGroup}} -n ${{parameters.cdnName}} --content-paths "/*"
+    addSpnToEnvironment: true
+    workingDirectory: 'ui/build'

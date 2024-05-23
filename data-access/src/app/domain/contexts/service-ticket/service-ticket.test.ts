@@ -5,8 +5,8 @@ import { CommunityEntityReference } from '../community/community';
 import { PropertyEntityReference } from '../property/property';
 import { MemberEntityReference } from '../community/member';
 import { DomainExecutionContext } from '../domain-execution-context';
-import { ServiceTicketVisa } from '../iam/service-ticket-visa';
-import { Passport } from '../iam/passport';
+import { ServiceTicketVisa } from '../iam/domain-visa/service-ticket-visa';
+import { DomainVisa } from '../iam/domain-visa';
 
 describe('domain.contexts.service-ticket::service-ticket', () => {
   describe('when creating a new service ticket', () => {
@@ -18,10 +18,10 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
     const serviceTicketVisaMock = jest.mocked({} as ServiceTicketVisa);
     const givenValidContext = jest.mocked<DomainExecutionContext>(
       ({
-        passport: jest.mocked<Passport>(
+        domainVisa: jest.mocked<DomainVisa>(
           ({
             forServiceTicket: jest.fn(() => serviceTicketVisaMock)
-          } as Partial<Passport>) as any)
+          } as Partial<DomainVisa>) as any)
       } as Partial<DomainExecutionContext>) as any
     );
     const serviceTicketProps = jest.mocked<ServiceTicketProps>(

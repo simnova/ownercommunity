@@ -1,11 +1,9 @@
 
-import { CommunityPermissions } from "../community/community-permissions.spec";
-import { MemberEntityReference } from '../community/member';
-import { RoleEntityReference } from '../community/role';
-import { CommunityVisa } from './community-visa';
+import { CommunityPermissions, MemberData, RoleData } from "../../../../external-dependencies/datastore";
+import { RoleVisa } from './role-visa';
 
-export class RoleVisaImpl<root extends RoleEntityReference> implements CommunityVisa {
-  constructor(private root: root, private member: MemberEntityReference) {}  
+export class RoleVisaImplForRole<root extends RoleData> implements RoleVisa {
+  constructor(private root: root, private member: MemberData) {}  
   
   determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean {
     //ensure that the member is a member of the community

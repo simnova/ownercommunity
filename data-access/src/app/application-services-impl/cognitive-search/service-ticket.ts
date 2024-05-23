@@ -1,8 +1,8 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
-import { SearchDocumentsResult } from '../../external-dependencies/cognitive-search';
 import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../external-dependencies/graphql-api';
 import { ServiceTicketSearchApi } from '../../application-services/cognitive-search';
 import { AppContext } from '../../init/app-context-builder';
+import { SearchDocumentsResult } from '../../../../seedwork/services-seedwork-cognitive-search-interfaces';
 
 const ServiceTicketFilterNames = {
   RequestorId: 'requestorId',

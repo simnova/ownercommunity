@@ -1,7 +1,7 @@
 import { EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
 import { Permissions, PermissionsEntityReference, PermissionsProps } from './permissions';
 import { Community, CommunityProps, CommunityEntityReference } from './community';
-import { CommunityVisa } from '../iam/community-visa';
+import { CommunityVisa } from '../iam/domain-visa/community-visa';
 import { AggregateRoot } from '../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../domain-execution-context';
 import { RoleDeletedReassignEvent } from '../../events/types/role-deleted-reassign';
@@ -27,7 +27,7 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
   private readonly visa: CommunityVisa;
   constructor(props: props, private context: DomainExecutionContext) {
     super(props);
-    this.visa = context.passport.forRole(this);
+    this.visa = context.domainVisa.forRole(this);
   }
 
   get roleName() {

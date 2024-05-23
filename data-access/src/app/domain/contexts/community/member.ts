@@ -7,7 +7,7 @@ import { Account, AccountEntityReference, AccountProps } from './account';
 import { Role, RoleEntityReference, RoleProps } from './role';
 import { DomainExecutionContext } from '../domain-execution-context';
 import { Profile, ProfileEntityReference, ProfileProps } from './profile';
-import { CommunityVisa } from '../iam/community-visa';
+import { CommunityVisa } from '../iam/domain-visa/community-visa';
 import { CustomView, CustomViewEntityReference, CustomViewProps } from './custom-view';
 
 export interface MemberProps extends EntityProps {
@@ -37,7 +37,7 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   private readonly visa: CommunityVisa;
   constructor(props: props, private readonly context: DomainExecutionContext) {
     super(props);
-    this.visa = context.passport.forMember(this);
+    this.visa = context.domainVisa.forMember(this);
   }
 
   get id() {

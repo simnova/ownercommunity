@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { VercelResponseHeaders, AddDomainResult, DomainResponse, APIResponse } from './interfaces';
-import { VercelDomain } from '../../src/app/domain/infrastructure/vercel/interfaces';
+import { VercelResponseHeaders, AddDomainResult, DomainResponse, APIResponse, VercelBase } from './interfaces';
 
-export class VercelApi implements VercelDomain {
+export class VercelApi implements VercelBase {
   private readonly _vercelToken: string;
   private readonly _vercelProject: string;
 

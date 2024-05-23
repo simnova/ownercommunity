@@ -1,8 +1,8 @@
 import { Community, CommunityProps } from './community';
 import { UserEntityReference } from '../user/user';
 import { DomainExecutionContext } from '../domain-execution-context';
-import { CommunityVisa } from '../iam/community-visa';
-import { Passport } from '../iam/passport';
+import { CommunityVisa } from '../iam/domain-visa/community-visa';
+import { DomainVisa } from '../iam/domain-visa';
 import { CommunityCreatedEvent } from '../../events/types/community-created';
 
 describe('domain.contexts.community::community', () => {
@@ -15,8 +15,8 @@ describe('domain.contexts.community::community', () => {
       // Arrange
       const newProps = jest.mocked({} as CommunityProps);
       newProps.setCreatedByRef = jest.fn();
-      givenValidContext.passport = jest.mocked({} as Passport);
-      givenValidContext.passport.forCommunity = jest.fn(() => jest.mocked({} as CommunityVisa));
+      givenValidContext.domainVisa = jest.mocked({} as DomainVisa);
+      givenValidContext.domainVisa.forCommunity = jest.fn(() => jest.mocked({} as CommunityVisa));
 
       //201 characters ->  http://www.unit-conversion.info/texttools/random-string-generator/
       const givenInvalidCommunityName = 'REcK03mhSslLPAmidGzyRvc16iOyrZ9VDfgnOcTlBEZzDFlbl8FdPcpLGZXLAXJxbScF96qRhGkqnPgDWMYAHst56OZwIxVb4b8mX4FvmiqwjpY51pBG5C9EOwlWhELc7mi74z977jnaR4IpMlP3cZpUY0bkRLJAUVprG2jfHQymztv4KbQzDUcmbwjnXiBIxO9faxcV0';  
@@ -34,8 +34,8 @@ describe('domain.contexts.community::community', () => {
       // Arrange
       const newProps = jest.mocked({} as CommunityProps);
       newProps.setCreatedByRef = jest.fn();
-      givenValidContext.passport = jest.mocked({} as Passport);
-      givenValidContext.passport.forCommunity = jest.fn(() => jest.mocked({} as CommunityVisa));
+      givenValidContext.domainVisa = jest.mocked({} as DomainVisa);
+      givenValidContext.domainVisa.forCommunity = jest.fn(() => jest.mocked({} as CommunityVisa));
 
       const givenInvalidCreatedBy = null;
       // Act

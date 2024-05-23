@@ -1,9 +1,9 @@
 import { CognitiveSearchDataSource } from './cognitive-search-data-source';
-import { SearchDocumentsResult } from '../../external-dependencies/cognitive-search';
 import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../external-dependencies/graphql-api';
 import dayjs from 'dayjs';
 import { PropertySearchApi } from '../../application-services/cognitive-search';
 import { AppContext } from '../../init/app-context-builder';
+import { SearchDocumentsResult } from '../../../../seedwork/services-seedwork-cognitive-search-interfaces';
 
 const PropertyFilterNames = {
   Bedrooms: 'bedrooms',

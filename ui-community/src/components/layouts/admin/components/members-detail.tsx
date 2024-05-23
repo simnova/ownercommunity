@@ -4,6 +4,7 @@ import { Button, Descriptions, Form, Input, Select } from 'antd';
 import dayjs from 'dayjs';
 
 import { MemberUpdateInput } from '../../../../generated';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export interface MembersDetailProps {
   data: {
@@ -16,6 +17,11 @@ export interface MembersDetailProps {
 export const MembersDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
+  const [selectedRoleId, setSelectedRoleId] = React.useState<string | null>(props.data.member?.role?.id ?? null);
+  const params = useParams();
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <Descriptions title="Member Info" size={'small'} layout={'vertical'}>
@@ -50,13 +56,29 @@ export const MembersDetail: React.FC<any> = (props) => {
           <Input placeholder="Name" maxLength={200} />
         </Form.Item>
         <Form.Item name={['role', 'id']} label="Role" required>
-          <Select
-            allowClear={true}
-            placeholder="Select a role"
-            options={props.data.roles}
-            fieldNames={{ label: 'roleName', value: 'id' }}
-          />
+          <div className="flex gap-2">
+            <Select
+              allowClear={true}
+              placeholder="Select a role"
+              options={props.data.roles}
+              fieldNames={{ label: 'roleName', value: 'id' }}
+              onChange={(value) => {
+                setSelectedRoleId(value);
+              }}
+              defaultValue={props.data.member?.role?.roleName ?? null}
+            />
+            <Button
+              disabled={!selectedRoleId}
+              onClick={() =>
+                navigate(`/community/${params.communityId}/admin/${params.memberId}/roles/${selectedRoleId}`)
+              }
+              aria-label="Open Role Details"
+            >
+              Open Role Details
+            </Button>
+          </div>
         </Form.Item>
+
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Save
         </Button>

@@ -30,5 +30,5 @@ export const ComponentQueryLoader: FC<ComponentQueryLoaderProps> = (props) => {
   if (props.hasData) {
     return props.hasDataComponent;
   }
-  return props.noDataComponent ?? <div>No Data...</div>;
+  return props.noDataComponent ?? <Skeleton loading/>;
 };

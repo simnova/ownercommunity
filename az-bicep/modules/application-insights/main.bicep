@@ -17,27 +17,6 @@ param scheduledQueryRules array = []
 param location string
 @description('Application Insights tags.')
 param applicationInsightsTags object
-// @description('The time aggregation type to use for the metric measure column.')
-// @allowed([
-//   'Average'
-//   'Count'
-//   'Maximum'
-//   'Minimum'
-//   'Total'
-// ])
-// param scheduledQueryRulesTimeAggregation string
-// @description('The operator to use for the metric measure column.')
-// @allowed([
-//   'GreaterThan'
-//   'GreaterThanOrEqual'
-//   'LessThan'
-//   'LessThanOrEqual'
-//   'Equal'
-//   'NotEqual'
-// ])
-// param scheduledQueryRulesOperator string
-
-
 
 
 

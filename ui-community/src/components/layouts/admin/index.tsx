@@ -16,7 +16,8 @@ import { Roles } from './pages/roles';
 import { ServiceTickets } from './pages/service-tickets';
 import { Settings } from './pages/settings';
 import { SiteEditor } from './pages/site-editor';
-import { SectionLayout } from './section-layout';
+import { SectionLayoutContainer } from './section-layout.container';
+import { Member } from '../../../generated';
 
 export interface PageLayoutProps {
   path: string;
@@ -24,6 +25,7 @@ export interface PageLayoutProps {
   icon: React.JSX.Element;
   id: string | number;
   parent?: string;
+  hasPermissions?: (member: Member) => boolean;
 }
 
 export const Admin: React.FC<any> = (_props) => {
@@ -36,49 +38,55 @@ export const Admin: React.FC<any> = (_props) => {
       title: 'Settings',
       icon: <SettingOutlined />,
       id: 2,
-      parent: 'ROOT'
+      parent: 'ROOT',
+      hasPermissions: (member: Member) => member?.role?.permissions?.communityPermissions?.canManageCommunitySettings ?? false
     },
     {
       path: '/community/:communityId/admin/:memberId/site-editor/*',
       title: 'Site Editor',
       icon: <LayoutOutlined />,
       id: 3,
-      parent: 'ROOT'
+      parent: 'ROOT',
+      hasPermissions: (member: Member) => member?.role?.permissions?.communityPermissions?.canManageSiteContent ?? false
     },
     {
       path: '/community/:communityId/admin/:memberId/roles/*',
       title: 'Roles',
       icon: <SafetyOutlined />,
       id: 4,
-      parent: 'ROOT'
+      parent: 'ROOT',
+      hasPermissions: (member: Member) => member?.role?.permissions?.communityPermissions?.canManageRolesAndPermissions ?? false
     },
     {
       path: '/community/:communityId/admin/:memberId/members/*',
       title: 'Members',
       icon: <ContactsOutlined />,
       id: 5,
-      parent: 'ROOT'
+      parent: 'ROOT',
+      hasPermissions: (member: Member) => member?.role?.permissions?.communityPermissions?.canManageMembers ?? false
     },
     {
       path: '/community/:communityId/admin/:memberId/properties/*',
       title: 'Properties',
       icon: <BarsOutlined />,
       id: 6,
-      parent: 'ROOT'
+      parent: 'ROOT',
+      hasPermissions: (member: Member) => member?.role?.permissions?.propertyPermissions?.canManageProperties ?? false
     },
     {
       path: '/community/:communityId/admin/:memberId/service-tickets/*',
       title: 'Service Tickets',
       icon: <ScheduleOutlined />,
       id: 7,
-      parent: 'ROOT'
+      parent: 'ROOT',
+      hasPermissions: (member: Member) => member?.role?.permissions?.serviceTicketPermissions?.canManageTickets ?? false
     }
   ];
 
   return (
     <BlobToLocalStorage communityId={params.communityId}>
       <Routes>
-        <Route path="" element={<SectionLayout pageLayouts={pageLayouts} />}>
+        <Route path="" element={<SectionLayoutContainer pageLayouts={pageLayouts} />}>
           <Route path="/" element={<Home />} />
           <Route path="/settings/*" element={<Settings />} />
           <Route path="/site-editor/*" element={<SiteEditor />} />

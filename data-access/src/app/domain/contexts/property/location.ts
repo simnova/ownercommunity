@@ -1,5 +1,5 @@
 import { ValueObject, ValueObjectProps } from '../../../../../seedwork/domain-seedwork/value-object';
-import { PropertyVisa } from '../iam/property-visa';
+import { PropertyVisa } from '../iam/domain-visa/property-visa';
 import { Address, AddressProps } from './address';
 import { Position, PositionProps } from './position';
 

@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../domain-execution-context';
-import { ServiceTicketVisa } from '../iam/service-ticket-visa';
+import { ServiceTicketVisa } from '../iam/domain-visa/service-ticket-visa';
 import { Member, MemberEntityReference, MemberProps } from '../community/member';
 import * as ValueObjects from './activity-detail.value-objects';
 

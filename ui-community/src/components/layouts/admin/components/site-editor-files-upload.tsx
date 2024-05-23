@@ -5,6 +5,7 @@ import { FileUploadButton } from '../../shared/components/file-upload-button';
 export interface SiteEditorFilesUploadProps {
   authorizeRequest: (file:File) => Promise<AuthResult>
   blobPath: string
+  onSuccess?: () => void;
 }
 
 export const SiteEditorFilesUpload: React.FC<SiteEditorFilesUploadProps> = (props) => {
@@ -31,6 +32,7 @@ export const SiteEditorFilesUpload: React.FC<SiteEditorFilesUploadProps> = (prop
       ]}
       maxFileSizeBytes={10 *  1024 * 1024} // 10MB,
       maxWidthOrHeight={2048}
+      onSuccess={props.onSuccess} 
     />
   )
 }

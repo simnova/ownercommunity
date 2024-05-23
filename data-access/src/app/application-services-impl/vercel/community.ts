@@ -1,7 +1,7 @@
 import { VercelDataSource } from './vercel-data-source';
 import { CommunityVercelApi } from '../../application-services/vercel';
-import { DomainResponse } from '../../external-dependencies/vercel';
 import { AppContext } from '../../init/app-context-builder';
+import { DomainResponse } from '../../../../seedwork/services-seedwork-vercel-api/interfaces';
 
 export class CommunityVercelApiImpl
   extends VercelDataSource<AppContext> 

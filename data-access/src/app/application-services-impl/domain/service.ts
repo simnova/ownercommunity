@@ -1,5 +1,5 @@
 import { Service } from '../../domain/contexts/service-ticket/service';
-import { ReadOnlyPassport } from '../../domain/contexts/iam/passport';
+import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
 import { ServiceCreateInput, ServiceUpdateInput } from '../../external-dependencies/graphql-api';
 import { DomainDataSource } from './domain-data-source';
 import { CommunityConverter, ServiceConverter, ServiceDomainAdapter, ServiceRepository } from '../../external-dependencies/domain';
@@ -24,7 +24,7 @@ export class ServiceDomainApiImpl
     
     let serviceToReturn : ServiceData;
     let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
-    let communityDo = new CommunityConverter().toDomain(community,{passport:ReadOnlyPassport.GetInstance()});
+    let communityDo = new CommunityConverter().toDomain(community,{domainVisa:ReadOnlyDomainVisa.GetInstance()});
 
     await this.withTransaction(async (repo) => {
       let newService = await repo.getNewInstance(

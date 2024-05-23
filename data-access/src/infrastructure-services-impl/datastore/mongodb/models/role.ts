@@ -28,7 +28,7 @@ export interface PropertyPermissions {
 }
 
 export interface CommunityPermissions {
-  id: ObjectId;
+  id?: ObjectId;
   canManageRolesAndPermissions: boolean;  
   canManageCommunitySettings: boolean;
   canManageSiteContent: boolean;

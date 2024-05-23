@@ -1,4 +1,4 @@
-import { Row, Space, Spin, Typography } from 'antd';
+import {Row, Space, Spin, Typography } from 'antd';
 import React, { useEffect } from 'react';
 import { hasAuthParams, useAuth } from 'react-oidc-context';
 import { Navigate, useLocation } from 'react-router-dom';
@@ -28,6 +28,10 @@ const RequireAuth: React.FC<RequireAuthProps> = (props) => {
     }
   }, [auth.isAuthenticated, auth.activeNavigator, auth.isLoading, auth.signinRedirect, auth.error]);
 
+  const redirectUser = () => {
+    auth.signinRedirect();
+  };
+
   if (auth.isLoading || auth.activeNavigator) {
     //still loading
     return (
@@ -39,21 +43,12 @@ const RequireAuth: React.FC<RequireAuthProps> = (props) => {
       </Row>
     );
   }
-  let result: React.JSX.Element;
   if (auth.isAuthenticated) {
-    result = props.children;
+    return props.children;
   } else if (auth.error) {
-    result = <Navigate to="/" />;
+    return <Navigate to="/" />;
   } else {
-    return (
-      <Row justify={'center'} style={{ height: '100vh', alignItems: 'center' }}>
-        <Space size={'large'} direction="vertical" style={{ textAlign: 'center' }}>
-          <Typography.Title level={2}>Not Authorized</Typography.Title>
-        </Space>
-      </Row>
-    );
+    redirectUser();
   }
-
-  return result;
 };
 export default RequireAuth;

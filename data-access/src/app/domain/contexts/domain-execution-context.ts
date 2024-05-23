@@ -1,20 +1,20 @@
-import { Passport, ReadOnlyPassport, SystemPassport } from "./iam/passport";
+import { DomainVisa, ReadOnlyDomainVisa, SystemDomainVisa } from "./iam/domain-visa";
 import { BaseDomainExecutionContext } from "../../../../seedwork/domain-seedwork/base-domain-execution-context";
 
 export interface DomainExecutionContext extends BaseDomainExecutionContext {
-  passport: Passport;
+  domainVisa: DomainVisa;
 }
 
 export const SystemExecutionContext = (): DomainExecutionContext => {
   const context: DomainExecutionContext = {
-    passport: SystemPassport.GetInstance(),
+    domainVisa: SystemDomainVisa.GetInstance(),
   };
   return context;
 };
 
 export const ReadOnlyContext = (): DomainExecutionContext => {
   const context: DomainExecutionContext = {
-    passport: ReadOnlyPassport.GetInstance(),
+    domainVisa: ReadOnlyDomainVisa.GetInstance(),
   };
   return context;
 };

@@ -1,0 +1,26 @@
+query SectionLayoutContainerMemberByIdQuery($memberId: ID!) {
+  member(id: $memberId) {
+    ...SectionLayoutContainerMemberFields
+  }
+}
+
+fragment SectionLayoutContainerMemberFields on Member {
+  role {
+    id
+    permissions {
+      communityPermissions {
+        canManageRolesAndPermissions
+        canManageCommunitySettings
+        canManageSiteContent
+        canManageMembers
+      }
+      propertyPermissions {
+        canManageProperties
+      }
+      serviceTicketPermissions {
+        canManageTickets
+      }
+    }
+  }
+  id
+}

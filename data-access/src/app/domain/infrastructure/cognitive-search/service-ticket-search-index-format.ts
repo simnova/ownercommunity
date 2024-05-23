@@ -1,4 +1,4 @@
-import { SearchIndex } from '../../../external-dependencies/cognitive-search';
+import { SearchIndex } from "../../../../../seedwork/services-seedwork-cognitive-search-interfaces";
 
 export const ServiceTicketIndexSpec = {
   name: 'service-ticket-index',

@@ -1,4 +1,4 @@
-import { GeographyPoint, SearchIndex } from '../../../external-dependencies/cognitive-search';
+import { GeographyPoint, SearchIndex } from "../../../../../seedwork/services-seedwork-cognitive-search-interfaces";
 
 export const PropertyListingIndexSpec = {
   name: 'property-listings',

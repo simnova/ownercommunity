@@ -22,9 +22,7 @@ const TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
   const {
     token: { colorTextBase, colorBgContainer }
   }=theme.useToken();
-
   return (
-    
     <div 
       className="px-4 py-2"
       ref={ref => connect(drag(ref as HTMLDivElement))} 
@@ -38,7 +36,7 @@ const TextThing = ({ title,body , fontSize, ...props } : TextProp) => {
                   color: colorTextBase
                 }}>{title}</h2>
             </div>
-            <div className="md:w-80 text-base leading-6 mt-4 text-gray-600">
+            <div className="w-full text-base leading-6 mt-4 text-gray-600">
               <ContentEditable
                 html={body} 
                 disabled={!enabled}

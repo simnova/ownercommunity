@@ -28,9 +28,9 @@ export const MenuComponent = ({ pageLayouts, ...props }: TextProp) => {
     return children.map((x: any) => {
       let child = pageLayouts.find((y: any) => y.id === x.id) as any;
       let grandChildren = pageLayouts.filter((x: any) => x.parent === child.id);
-      // if (props.memberData && !child.hasPermissions(props.memberData)) {
-      //   return <></>;
-      // }
+      if (props.memberData && !child.hasPermissions(props.memberData)) {
+        return <></>;
+      }
       return grandChildren && grandChildren.length > 0 ? (
         <SubMenu key={child.id} title={child.title}>
           <Menu.Item key={`${child.id}-link`} icon={child.icon}>

@@ -58,12 +58,16 @@ param corsAllowedHeaders array
 param corsExposedHeaders array
 @description('maxAge for CORS')
 param corsMaxAgeInSeconds int
+
+// Check to see if we have cors settings to include
+var includeCorsRules = length(corsAllowedOrigins) > 1 || (length(corsAllowedOrigins) == 1 && corsAllowedOrigins[0] != '')
+
 resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2022-05-01' = {
   parent: storageAccount
   name: 'default'
   properties: {
     cors: {
-      corsRules: [
+      corsRules: includeCorsRules ? [
         {
           allowedOrigins: corsAllowedOrigins
           allowedMethods: corsAllowedMethods
@@ -71,7 +75,7 @@ resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2022-05-01'
           exposedHeaders: corsExposedHeaders
           maxAgeInSeconds: corsMaxAgeInSeconds
         }
-      ]
+      ] : []
     }
     deleteRetentionPolicy: {
       allowPermanentDelete: false

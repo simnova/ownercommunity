@@ -1,12 +1,12 @@
 import '../telemetry/tracer';
 import { wrapFunctionHandler } from '../telemetry/wrapper';
 
-import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
-import { ApolloServerRequestHandler } from '../graphql/init/apollo-server-request-handler';
-import { GraphqlContextBuilder as ApolloContext} from '../graphql/init/graphql-context-builder';
 import { app } from '@azure/functions';
+import { CosmosDbConnection } from '../../seedwork/services-seedwork-datastore-mongodb/cosmos-db-connection';
 import { PortalTokenValidation } from '../auth/portal-token-validation';
-import { connect } from '../../seedwork/services-seedwork-datastore-mongodb/connect';
+import { ApolloServerRequestHandler } from '../graphql/init/apollo-server-request-handler';
+import { GraphqlContextBuilder as ApolloContext } from '../graphql/init/graphql-context-builder';
+import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 
 const portalTokenValidator = new PortalTokenValidation(
@@ -17,7 +17,18 @@ const portalTokenValidator = new PortalTokenValidation(
 
 async function init(){
   portalTokenValidator.Start();
-  connect();
+  let cosmosDbConnection = CosmosDbConnection.getInstance(
+    process.env.AZURE_TENANT_ID,
+    process.env.AZURE_SUBSCRIPTION_ID,
+    process.env.AZURE_RESOURCE_GROUP_NAME,
+    process.env.COSMOSDB_ACCOUNT_NAME,
+    process.env.COSMOSDB_NAME,
+    process.env.COSMOSDB_AUTO_INDEX === "true",
+    process.env.COSMOSDB_AUTO_CREATE === "true",
+    Number.parseInt(process.env.COSMOSDB_MIN_POOL_SIZE),
+    Number.parseInt(process.env.COSMOSDB_MAX_POOL_SIZE)
+  );
+  await cosmosDbConnection.connect();
 }
 
 init();

@@ -8,25 +8,22 @@ import { ApolloServerRequestHandler } from '../graphql/init/apollo-server-reques
 import { GraphqlContextBuilder as ApolloContext } from '../graphql/init/graphql-context-builder';
 import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
+import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 
-const portalTokenValidator = new PortalTokenValidation(
-  new Map<string,string>([
-    ["AccountPortal","ACCOUNT_PORTAL"]
-  ])
-);
+const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([['AccountPortal', 'ACCOUNT_PORTAL']]));
 
-async function init(){
+async function init() {
   portalTokenValidator.Start();
   let cosmosDbConnection = CosmosDbConnection.getInstance(
-    process.env.AZURE_TENANT_ID,
-    process.env.AZURE_SUBSCRIPTION_ID,
-    process.env.AZURE_RESOURCE_GROUP_NAME,
-    process.env.COSMOSDB_ACCOUNT_NAME,
-    process.env.COSMOSDB_NAME,
-    process.env.COSMOSDB_AUTO_INDEX === "true",
-    process.env.COSMOSDB_AUTO_CREATE === "true",
-    Number.parseInt(process.env.COSMOSDB_MIN_POOL_SIZE),
-    Number.parseInt(process.env.COSMOSDB_MAX_POOL_SIZE)
+    tryGetEnvVar('AZURE_TENANT_ID'),
+    tryGetEnvVar('AZURE_SUBSCRIPTION_ID'),
+    tryGetEnvVar('AZURE_RESOURCE_GROUP_NAME'),
+    tryGetEnvVar('COSMOSDB_ACCOUNT_NAME'),
+    tryGetEnvVar('COSMOSDB_NAME'),
+    tryGetEnvVar('COSMOSDB_AUTO_INDEX') === 'true',
+    tryGetEnvVar('COSMOSDB_AUTO_CREATE') === 'true',
+    Number.parseInt(tryGetEnvVar('COSMOSDB_MIN_POOL_SIZE')),
+    Number.parseInt(tryGetEnvVar('COSMOSDB_MAX_POOL_SIZE'))
   );
   await cosmosDbConnection.connect();
 }
@@ -46,19 +43,16 @@ let apolloServerRequestHandler = new ApolloServerRequestHandler();
 // startup();
 
 // Execute the following with every http request
-app.http("graphql", {
-  methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD"],
-  route: "graphql/{*segments}",
-    handler: wrapFunctionHandler(startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
+app.http('graphql', {
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
+  route: 'graphql/{*segments}',
+  handler: wrapFunctionHandler(
+    startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
       context: async ({ req }) => {
         let context = new ApolloContext();
-        await context.init(
-          req, 
-          portalTokenValidator,
-          new InfrastructureServicesBuilder()
-          );
+        await context.init(req, portalTokenValidator, new InfrastructureServicesBuilder());
         return context;
-      }
-    })),
-  }
-);
+      },
+    })
+  ),
+});

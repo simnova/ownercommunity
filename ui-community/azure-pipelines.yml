@@ -21,7 +21,7 @@ pr:
 
 variables:
 ## PROJECT SPECIFIC VARIABLES - start
-    PROJECT_NAME: 'ui'
+    PROJECT_NAME: 'ui-community'
     vmImageName: 'ubuntu-latest'
     system.debug: true
     npm_config_cache: $(Pipeline.Workspace)/.npm

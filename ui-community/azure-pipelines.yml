@@ -147,7 +147,8 @@ stages:
           VITE_IDLE_TIMER: $(VITE_IDLE_TIMER_PRD)
           VITE_LOGOUT_TIMER: $(VITE_LOGOUT_TIMER_PRD)
           VITE_TIMEOUT_BEFORE_MAINTENANCE: $(VITE_TIMEOUT_BEFORE_MAINTENANCE_PRD)
-
+          VITE_BUILD_VERSION: $(Build.BuildId)
+          
     - task: PublishBuildArtifacts@1
       condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
       inputs:

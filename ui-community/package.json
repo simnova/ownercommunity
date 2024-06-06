@@ -42,10 +42,11 @@
     "react-router-dom": "^6.21.3",
     "stream-browserify": "^3.0.0",
     "uniqid": "^5.4.0",
-    "use-local-storage-state": "^13.0.0"
+    "use-local-storage-state": "^13.0.0",
+    "@dotenvx/dotenvx": "github:dotenvx/dotenvx",
+    "dotenv": "^16.4.5"
   },
   "scripts": {
-    "prebuild": "node generate-build-version.cjs",
     "start": "vite",
     "build": "tsc && vite build --base=https://ownercommunity-ui.pages.dev/",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -54,12 +55,13 @@
     "prod": "http-server -p 3000 build",
     "test": "vitest --typecheck",
     "coverage": "vitest run --coverage",
-    "build:major": "node generate-build-version major && npm run build",
-    "build:minor": "node generate-build-version minor && npm run build",
     "tscheck": "tsc --noEmit --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "clean": "rm -rf node_modules && rm -rf build"
+    "clean": "rm -rf node_modules && rm -rf build",
+    "prebuild": "dotenvx run --env-file=.env.local -- node generate-build-version.cjs",
+    "build:major": "node generate-build-version.cjs major && npm run build",
+    "build:minor": "node generate-build-version.cjs minor && npm run build"
   },
   "eslintConfig": {
     "extends": [

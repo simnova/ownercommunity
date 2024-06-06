@@ -64,7 +64,8 @@ export class MemberDataApiImpl
     return result;
   }
   async getMemberById(memberId: string): Promise<MemberData> {
-    return this.findOneById(memberId);
+    let result = await (await this.findOneById(memberId)).populate('role')
+    return result
   }
 
   async getMembersByUserExternalId(userExternalId: string): Promise<MemberData[]> {

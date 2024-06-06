@@ -11,6 +11,7 @@ import { AzContentModeratorImpl } from '../infrastructure-services-impl/content-
 import { InfrastructureServices } from '../app/infrastructure-services';
 import { AzMapsImpl } from '../infrastructure-services-impl/maps/az/impl';
 import { MapsInfrastructureService } from '../app/infrastructure-services/maps';
+import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 
 export class InfrastructureServicesBuilder implements InfrastructureServices{
   private _vercel: VercelInfrastructureService;
@@ -50,35 +51,28 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
     return this._maps;
   }
 
-  private tryGetEnvVar(envVar: string): string {
-    const value = process.env[envVar];
-    if (value === undefined) {
-      throw new Error(`Environment variable ${envVar} is not set`);
-    }
-    return value;
-  }
 
   private InitContentModerator(): ContentModeratorInfrastructureService {
-    const subscriptionKey = this.tryGetEnvVar('CONTENT_MODERATOR_SUBSCRIPTION_KEY');
-    const endpoint = this.tryGetEnvVar('CONTENT_MODERATOR_ENDPOINT');
+    const subscriptionKey = tryGetEnvVar('CONTENT_MODERATOR_SUBSCRIPTION_KEY');
+    const endpoint = tryGetEnvVar('CONTENT_MODERATOR_ENDPOINT');
     return new AzContentModeratorImpl(endpoint, subscriptionKey);
   }
 
   private InitVercel(): VercelInfrastructureService {
-    const vercelToken = this.tryGetEnvVar('VERCEL_TOKEN');
-    const vercelProject = this.tryGetEnvVar('VERCEL_PROJECT');
+    const vercelToken = tryGetEnvVar('VERCEL_TOKEN');
+    const vercelProject = tryGetEnvVar('VERCEL_PROJECT');
     return new VercelApiImpl(vercelToken, vercelProject);
   }
 
   private InitCognitiveSearch(): CognitiveSearchInfrastructureService {
-    const searchKey = this.tryGetEnvVar('SEARCH_API_KEY');
-    const endpoint = this.tryGetEnvVar('SEARCH_API_ENDPOINT');
+    const searchKey = tryGetEnvVar('SEARCH_API_KEY');
+    const endpoint = tryGetEnvVar('SEARCH_API_ENDPOINT');
     return new AzCognitiveSearchImpl(searchKey, endpoint);
   }
 
   private InitBlobStorage(): BlobStorageInfrastructureService {
-    const storageAccount = this.tryGetEnvVar('BLOB_ACCOUNT_NAME');
-    const storageKey = this.tryGetEnvVar('BLOB_ACCOUNT_KEY');
+    const storageAccount = tryGetEnvVar('BLOB_ACCOUNT_NAME');
+    const storageKey = tryGetEnvVar('BLOB_ACCOUNT_KEY');
     return new AzBlobStorageImpl(storageAccount, storageKey);
   }
 

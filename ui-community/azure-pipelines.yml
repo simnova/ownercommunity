@@ -22,8 +22,8 @@ pr:
 variables:
 ## PROJECT SPECIFIC VARIABLES - start
     PROJECT_NAME: 'ui-community'
-    SONARCLOUD_PROJECT_KEY: 'oc-ui-community'
-    SONARCLOUD_PROJECT_NAME: 'oc-ui-community'
+    SONARCLOUD_PROJECT_KEY: 'oc-ui'
+    SONARCLOUD_PROJECT_NAME: 'oc-ui'
     vmImageName: 'ubuntu-latest'
 ## PROJECT SPECIFIC VARIABLES - end
     system.debug: true

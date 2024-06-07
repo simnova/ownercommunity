@@ -25,8 +25,8 @@ variables:
     system.debug: true
     subscription: 'Azure DevOps Publishing Service Connection'
     npm_config_cache: $(Pipeline.Workspace)/.npm
-    SONARCLOUD_PROJECT_KEY: 'pwy-iac'
-    SONARCLOUD_PROJECT_NAME: 'pwy-iac'
+    SONARCLOUD_PROJECT_KEY: 'oc-iac'
+    SONARCLOUD_PROJECT_NAME: 'oc-iac'
     SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
     ResourceGroupName: 'rg-owner-community'
     PROJECT_NAME: iac-global

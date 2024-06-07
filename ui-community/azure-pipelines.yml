@@ -92,17 +92,26 @@ stages:
           VITE_TIMEOUT_BEFORE_MAINTENANCE: $(VITE_TIMEOUT_BEFORE_MAINTENANCE_DEV)
 
         # Publish chromatic
-    - task: Bash@3
-      condition: ne(variables['Build.Reason'], 'PullRequest')
-      displayName: 'chromatic build'
-      inputs:
-        targetType: 'inline'
-        script: |
-          npx chromatic --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --allow-console-errors
-        workingDirectory: 'ui'
-      env: 
-        NODE_OPTIONS: --max_old_space_size=16384   
-        VITE_MYINTEALTH_URL: $(VITE_MYINTEALTH_URL_DEV)
+    # - task: Bash@3
+    #   condition: ne(variables['Build.Reason'], 'PullRequest')
+    #   displayName: 'chromatic build'
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       npx chromatic --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --allow-console-errors
+    #     workingDirectory: 'ui'
+    #   env: 
+    #     NODE_OPTIONS: --max_old_space_size=16384   
+    #     INLINE_RUNTIME_CHUNK: 'false'
+    #     VITE_FUNCTION_ENDPOINT: $(VITE_FUNCTION_ENDPOINT_DEV)
+    #     VITE_APP_INSIGHTS_CONNECTION_STRING: $(VITE_APP_INSIGHTS_CONNECTION_STRING_DEV)
+    #     VITE_AAD_ACCOUNT_CLIENTID: $(VITE_AAD_ACCOUNT_CLIENTID_DEV)
+    #     VITE_AAD_ACCOUNT_AUTHORITY: $(VITE_AAD_ACCOUNT_AUTHORITY_DEV)
+    #     VITE_AAD_ACCOUNT_SCOPES: $(VITE_AAD_ACCOUNT_SCOPES_DEV)
+    #     VITE_AAD_REDIRECT_URI: $(VITE_AAD_REDIRECT_URI_DEV)
+    #     VITE_PORTAL_IDENTIFIER: $(VITE_PORTAL_IDENTIFIER)
+    #     VITE_FEATURE_FLAG_URL: $(VITE_FEATURE_FLAG_URL_DEV)
+    #     VITE_TIMEOUT_BEFORE_MAINTENANCE: $(VITE_TIMEOUT_BEFORE_MAINTENANCE_DEV)
 
     - task: SonarCloudAnalyze@1
       displayName: 'SonarCloud: Run analysis'

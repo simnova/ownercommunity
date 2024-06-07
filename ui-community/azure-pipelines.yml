@@ -29,7 +29,7 @@ variables:
     system.debug: true
     npm_config_cache: $(Pipeline.Workspace)/.npm
     SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
-    subscription: 'simnova (2)'
+    subscription: 'OwnerCommunity'
     #dev
     environmentNameDev: 'oc-dev'
     ResourceGroupNameDev: 'corp-dev-rg'

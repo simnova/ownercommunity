@@ -6,9 +6,10 @@ import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-e
 import { MemberEntityReference } from '../../../../app/domain/contexts/community/member';
 import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community';
 import { PropertyEntityReference } from '../../../../app/domain/contexts/property/property';
+import { AdminTicket } from '../models/admin-ticket';
 
 export class MongoServiceTicketRepository<PropType extends ServiceTicketProps>
-  extends MongoRepositoryBase<DomainExecutionContext, ServiceTicket, PropType, ServiceTicketDO<PropType>>
+  extends MongoRepositoryBase<DomainExecutionContext, AdminTicket, PropType, ServiceTicketDO<PropType>>
   implements ServiceTicketRepository<PropType>
 {
   async getNewInstance(
@@ -16,10 +17,12 @@ export class MongoServiceTicketRepository<PropType extends ServiceTicketProps>
     description: string,
     community: CommunityEntityReference,
     property: PropertyEntityReference,
-    requestor: MemberEntityReference
+    requestor: MemberEntityReference,
+    penaltyAmount?: number,
+    penaltyPaidDate?: Date
   ): Promise<ServiceTicketDO<PropType>> {
     let adapter = this.typeConverter.toAdapter(new this.model());
-    return ServiceTicketDO.getNewInstance(adapter, title, description, community, property, requestor, this.context);
+    return ServiceTicketDO.getNewInstance(adapter, title, description, community, property, requestor, this.context, penaltyAmount, penaltyPaidDate);
   }
 
   async getById(id: string): Promise<ServiceTicketDO<PropType>> {

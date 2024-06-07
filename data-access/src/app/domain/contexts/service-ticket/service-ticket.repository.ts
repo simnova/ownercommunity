@@ -10,7 +10,9 @@ export interface ServiceTicketRepository<props extends ServiceTicketProps> exten
     description: string,
     community: CommunityEntityReference,
     property: PropertyEntityReference,
-    requestor: MemberEntityReference
+    requestor: MemberEntityReference,
+    penaltyAmount: number,
+    paymentDate: Date
   ): Promise<ServiceTicket<props>>;
 
   getById(id: string): Promise<ServiceTicket<props>>

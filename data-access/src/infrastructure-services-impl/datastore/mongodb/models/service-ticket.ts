@@ -57,6 +57,7 @@ export interface ServiceTicket extends Base {
   description: string;
   status: string;
   priority: number;
+  discriminatorKey: string;
   activityLog: Types.DocumentArray<ActivityDetail>;
   photos: Types.DocumentArray<Photo>;
   hash: string;
@@ -64,54 +65,57 @@ export interface ServiceTicket extends Base {
   updateIndexFailedDate: Date;
 }
 
+const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, ServiceTicket>(
+  {
+    schemaVersion: {
+      type: String,
+      default: '1.0.0',
+      required: false,
+    },
+    community: { type: Schema.Types.ObjectId, ref: Community.CommunityModel.modelName, required: true, index: true },
+    property: { type: Schema.Types.ObjectId, ref: Property.PropertyModel.modelName, required: false, index: true },
+    requestor: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true, index: true },
+    assignedTo: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
+    service: { type: Schema.Types.ObjectId, ref:Service.ServiceModel.modelName, required: false, index: true },
+
+    title: {
+      type: String,
+      required: true,
+      maxlength: 200,
+    },
+    description: {
+      type: String,
+      required: true,
+      maxlength: 2000,
+    },
+    status: {
+      type: String,
+      enum: ['DRAFT', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'COMPLETED', 'CLOSED'],
+      default: 'DRAFT',
+      required: true,
+    },
+    priority: {
+      type: Number,
+      required: true,
+      default: 5,
+      min: 1,
+      max: 5,
+    },
+    discriminatorKey: 'ticketType',
+    activityLog: [ActivityDetailSchema],
+    photos: [PhotoSchema],
+    hash: { type: String, required: false, maxlength: 100 },
+    lastIndexed: { type: Date, required: false },
+    updateIndexFailedDate: { type: Date, required: false },
+  },
+  {
+    timestamps: true, 
+    versionKey: 'version',
+    shardKey: { community: 1 },
+  },
+)
+
 export const ServiceTicketModel = model<ServiceTicket>(
   'ServiceTicket',
-  new Schema<ServiceTicket, Model<ServiceTicket>, ServiceTicket>(
-    {
-      schemaVersion: {
-        type: String,
-        default: '1.0.0',
-        required: false,
-      },
-      community: { type: Schema.Types.ObjectId, ref: Community.CommunityModel.modelName, required: true, index: true },
-      property: { type: Schema.Types.ObjectId, ref: Property.PropertyModel.modelName, required: false, index: true },
-      requestor: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true, index: true },
-      assignedTo: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
-      service: { type: Schema.Types.ObjectId, ref:Service.ServiceModel.modelName, required: false, index: true },
-
-      title: {
-        type: String,
-        required: true,
-        maxlength: 200,
-      },
-      description: {
-        type: String,
-        required: true,
-        maxlength: 2000,
-      },
-      status: {
-        type: String,
-        enum: ['DRAFT', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'COMPLETED', 'CLOSED'],
-        default: 'DRAFT',
-        required: true,
-      },
-      priority: {
-        type: Number,
-        required: true,
-        default: 5,
-        min: 1,
-        max: 5,
-      },
-      activityLog: [ActivityDetailSchema],
-      photos: [PhotoSchema],
-      hash: { type: String, required: false, maxlength: 100 },
-      lastIndexed: { type: Date, required: false },
-      updateIndexFailedDate: { type: Date, required: false },
-    },
-    {
-      timestamps: true, 
-      versionKey: 'version',
-      shardKey: { community: 1 },
-    }
-  )
+  ServiceTicketSchema
 );

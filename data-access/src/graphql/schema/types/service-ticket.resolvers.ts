@@ -1,7 +1,8 @@
-import { Community, Member, Property, Resolvers,Service, ServiceTicket, ServiceTicketMutationResult } from '../builder/generated';
+import { Community, Member, Property, Resolvers,Service, , ServiceTicketMutationResult } from '../builder/generated';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
 import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
+import { AdminTicket as AdminTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/admin-ticket';
 
 const ServiceTicketMutationResolver = async (getServiceTicket: Promise<ServiceTicketDo>): Promise<ServiceTicketMutationResult> => {
   try {
@@ -95,6 +96,9 @@ const serviceTicket: Resolvers = {
   },
   Mutation: {
     serviceTicketCreate: async (_, { input }, { applicationServices }) => {
+      if(input.ticketType === "ADMIN_TICKET") {
+        return ServiceTicketMutationResolver(applicationServices.serviceTicketDomainApi.adminTicketCreate(input));
+      }
       return ServiceTicketMutationResolver(applicationServices.serviceTicketDomainApi.serviceTicketCreate(input));
     },
     serviceTicketUpdate: async (_, { input }, { applicationServices }) => {

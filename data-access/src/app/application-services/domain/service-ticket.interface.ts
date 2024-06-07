@@ -3,6 +3,7 @@ import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceT
 
 export interface ServiceTicketDomainApplicationService {
   serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData>;
+  adminTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData>;
   serviceTicketUpdate(input: ServiceTicketUpdateInput) : Promise<ServiceTicketData>;
   serviceTicketDelete(input: ServiceTicketDeleteInput): Promise<ServiceTicketData>;
   serviceTicketSubmit(input: ServiceTicketSubmitInput): Promise<ServiceTicketData>;

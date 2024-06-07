@@ -111,7 +111,8 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
           givenValidCommunity,
           givenValidProperty,
           givenInvalidRequestor,
-          givenValidContext
+          givenValidContext,
+          
           ) 
       };
 

@@ -14,10 +14,11 @@ import { PhotoProps } from '../../../../app/domain/contexts/service-ticket/photo
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from './service.domain-adapter';
 import { ServiceEntityReference } from '../../../../app/domain/contexts/service-ticket/service';
+import { AdminTicket } from '../models/admin-ticket';
 
 export class ServiceTicketConverter extends MongoTypeConverter<
   DomainExecutionContext,
-  ServiceTicket,
+  AdminTicket,
   ServiceTicketDomainAdapter,
   ServiceTicketDO<ServiceTicketDomainAdapter>
 > {
@@ -26,7 +27,7 @@ export class ServiceTicketConverter extends MongoTypeConverter<
   }
 }
 
-export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTicket> implements ServiceTicketProps {
+export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<AdminTicket> implements ServiceTicketProps {
   get community() {
     if (this.doc.community) {
       return new CommunityDomainAdapter(this.doc.community);

@@ -9,6 +9,9 @@ type ServiceTicket implements MongoBase {
   status: String!
   priority: Int!
   photos: [ServiceTicketPhoto]
+  ticketType: String!
+  penaltyAmount: Int
+  penaltyPaidDate: DateTime
   activityLog: [ServiceTicketActivityDetail]
 
   id: ObjectID!
@@ -74,7 +77,10 @@ input ServiceTicketCreateInput {
   title: String!
   description: String!
   serviceId: ObjectID
+  ticketType: String!
+  penaltyAmount: Int
 }
+
 
 input ServiceTicketUpdateInput {
   serviceTicketId: ObjectID!
@@ -83,6 +89,7 @@ input ServiceTicketUpdateInput {
   description: String!
   priority: Int!
   serviceId: ObjectID
+    penaltyPaidDate: DateTime!
 }
 
 input ServiceTicketAddPhotoInput {

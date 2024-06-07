@@ -1194,6 +1194,8 @@ export type ServiceTicket = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  penaltyAmount?: Maybe<Scalars['Int']>;
+  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars['Int'];
   property?: Maybe<Property>;
@@ -1201,6 +1203,7 @@ export type ServiceTicket = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
+  ticketType: Scalars['String'];
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -1240,9 +1243,11 @@ export type ServiceTicketChangeStatusInput = {
 
 export type ServiceTicketCreateInput = {
   description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Int']>;
   propertyId: Scalars['ObjectID'];
   requestorId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
+  ticketType: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -1298,6 +1303,7 @@ export type ServiceTicketSubmitInput = {
 
 export type ServiceTicketUpdateInput = {
   description: Scalars['String'];
+  penaltyPaidDate: Scalars['DateTime'];
   priority: Scalars['Int'];
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
@@ -2774,6 +2780,8 @@ export type ServiceTicketResolvers<
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  penaltyAmount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  penaltyPaidDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketPhoto']>>>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
@@ -2781,6 +2789,7 @@ export type ServiceTicketResolvers<
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ticketType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

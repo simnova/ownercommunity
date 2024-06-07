@@ -26,6 +26,8 @@ export interface ServiceTicketProps extends EntityProps {
   setAssignedToRef(assignedTo: MemberEntityReference): void;
   readonly service: ServiceProps;
   setServiceRef(service: ServiceEntityReference): void;
+  penaltyAmount: number;
+  penaltyPaidDate: Date;
   title: string;
   description: string;
   status: string;
@@ -46,6 +48,8 @@ export interface ServiceTicketEntityReference
   extends Readonly<
     Omit<
       ServiceTicketProps,
+      | 'penaltyAmount'
+      | 'penaltyPaidDate'
       | 'community'
       | 'setCommunityRef'
       | 'property'
@@ -84,7 +88,9 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     community: CommunityEntityReference,
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
-    context: DomainExecutionContext
+    context: DomainExecutionContext,
+    penaltyAmount?: number,
+    penaltyPaidDate?: Date
   ): ServiceTicket<props> {
     let serviceTicket = new ServiceTicket(newProps, context);
     serviceTicket.MarkAsNew();
@@ -96,6 +102,8 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     serviceTicket.Requestor = requestor;
     serviceTicket.Status = ValueObjects.StatusCodes.Draft;
     serviceTicket.Priority = 5;
+    serviceTicket.PenaltyAmount = penaltyAmount;
+    serviceTicket.PenaltyPaidDate = penaltyPaidDate;
     let newActivity = serviceTicket.requestNewActivityDetail();
     newActivity.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Created);
     newActivity.ActivityDescription=('Created');
@@ -313,6 +321,21 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
       throw new Error('Unauthorized7');
     }
     this.props.updateIndexFailedDate = updateIndexFailedDate;
+  }
+
+  set PenaltyAmount(penaltyAmount: number) {
+  // TODO: Verify Permissions for this setter 
+      if (
+        !this.isNew &&
+        !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))
+      ) {
+        throw new Error('Unauthorized');
+      }
+      this.props.penaltyAmount = new ValueObjects.PenaltyAmount(penaltyAmount).valueOf();
+    }
+
+  set PenaltyPaidDate(penaltyPaidDate: Date) {
+    this.props.penaltyPaidDate = penaltyPaidDate;
   }
   //
 

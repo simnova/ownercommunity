@@ -25,7 +25,7 @@ pool:
 
 variables:
   deploymentDefaultLocation: 'eastus2'
-  ServiceConnectionName: 'Azure DevOps Publishing Service Connection'
+  ServiceConnectionName: 'OwnerCommunity'
   vmImageName: 'ubuntu-latest'
   system.debug: true
   npm_config_cache: $(Pipeline.Workspace)/.npm

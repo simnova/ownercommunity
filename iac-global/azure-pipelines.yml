@@ -23,10 +23,10 @@ variables:
 ## PROJECT SPECIFIC VARIABLES - start
     vmImageName: 'ubuntu-latest'
     system.debug: true
-    subscription: 'Azure DevOps Publishing Service Connection'
+    subscription: 'OwnerCommunity'
     npm_config_cache: $(Pipeline.Workspace)/.npm
-    SONARCLOUD_PROJECT_KEY: 'pwy-iac'
-    SONARCLOUD_PROJECT_NAME: 'pwy-iac'
+    SONARCLOUD_PROJECT_KEY: 'oc-iac'
+    SONARCLOUD_PROJECT_NAME: 'oc-iac'
     SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
     ResourceGroupName: 'rg-owner-community'
     PROJECT_NAME: iac-global
@@ -36,21 +36,21 @@ pool:
 
 stages:
 
-# - stage: create_activity_log_alerts
-#   displayName: Create Activity Log Alerts
-#   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-#   jobs:
-#   - job: Infrastructure 
-#     displayName: Infrastructure Setup 
-#     pool:
-#       vmImage: $(vmImageName) 
-#     steps:
-#     - task: AzureResourceManagerTemplateDeployment@3
-#       inputs:
-#         connectedServiceName: $(subscription)
-#         deploymentName: $(Build.BuildNumber)
-#         location: $(deploymentDefaultLocation)
-#         resourceGroupName: $(ResourceGroupName)
-#         csmFile: $(PROJECT_NAME)/iac/main.bicep
-#         overrideParameters: >
-#               -environment cor
+- stage: create_activity_log_alerts
+  displayName: Create Activity Log Alerts
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  jobs:
+  - job: Infrastructure 
+    displayName: Infrastructure Setup 
+    pool:
+      vmImage: $(vmImageName) 
+    steps:
+    - task: AzureResourceManagerTemplateDeployment@3
+      inputs:
+        connectedServiceName: $(subscription)
+        deploymentName: $(Build.BuildNumber)
+        location: $(deploymentDefaultLocation)
+        resourceGroupName: $(ResourceGroupName)
+        csmFile: $(PROJECT_NAME)/iac/main.bicep
+        overrideParameters: >
+              -environment cor

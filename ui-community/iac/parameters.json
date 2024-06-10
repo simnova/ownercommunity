@@ -15,7 +15,7 @@
               "sku": "Standard_RAGZRS",
               "location": "westus3",
               "cors": {
-                "allowedOrigins": ["https://oc-dev-func-pri-avaqbizf2s7le.azurewebsites.net"],
+                "allowedOrigins": [""],
                 "allowedMethods": ["GET", "POST"],
                 "allowedHeaders": [""],
                 "exposedHeaders": [""],
@@ -161,7 +161,7 @@
               "sku": "Standard_RAGZRS",
               "location": "westus3",
               "cors": {
-                "allowedOrigins": ["https://oc-prd-func-pri-fxauyey43w7y6.azurewebsites.net"],
+                "allowedOrigins": [""],
                 "allowedMethods": ["GET", "POST"],
                 "allowedHeaders": [""],
                 "exposedHeaders": [""],

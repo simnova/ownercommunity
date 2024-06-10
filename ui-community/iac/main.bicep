@@ -15,7 +15,7 @@ var envParams = paramsJson.env[environment]
 var applicationPrefix = paramsJson.applicationPrefix
      
 // static website
-module staticWebsite '../../az-bicep/modules/static-website-no-customdomain/main.bicep' = [for instance in envParams.staticWebsite.instances: if(instance.run) {
+module staticWebsite '../../az-bicep/modules/static-website/main.bicep' = [for instance in envParams.staticWebsite.instances: if(instance.run == true) {
   name: 'staticWebsiteModule-${instance.name}'
   params: {
     applicationPrefix: applicationPrefix
@@ -27,7 +27,7 @@ module staticWebsite '../../az-bicep/modules/static-website-no-customdomain/main
     cdnSku: instance.cdn.sku
     cdnRules: instance.cdn.rules
     googleAnalyticsSha256: instance.cdn.googleAnalyticsSha256
-    // customDomainName: instance.cdn.customDomainName
+    customDomainName: instance.cdn.customDomainName
     corsAllowedMethods: instance.storageAccount.cors.allowedMethods
     corsAllowedOrigins: instance.storageAccount.cors.allowedOrigins
     corsAllowedHeaders: instance.storageAccount.cors.allowedHeaders

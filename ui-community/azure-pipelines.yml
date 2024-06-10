@@ -32,7 +32,7 @@ variables:
     subscription: 'OwnerCommunity'
     #dev
     environmentNameDev: 'oc-dev'
-    ResourceGroupNameDev: 'corp-dev-rg'
+    ResourceGroupNameDev: 'rg-owner-community'
     destinationBlobContainerDev: 'ocdevstuicavaqbizf2s7le'
     cdnProfileDev: 'cdn-dev-ms-standard'
     cdnNameDev: 'oc-dev-cdne-uia-avaqbizf2s7le'

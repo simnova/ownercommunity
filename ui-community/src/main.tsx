@@ -14,7 +14,7 @@ import FeatureFlagProvider, { useFeatureFlags } from './components/shared/featur
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import featureFlagConfig from './config/feature-flag-config';
 import { oidcConfig } from './config/odic-config';
-import { CachePurgeProvider } from './contexts/CachePurgeContext';
+import { CachePurgeProvider } from './contexts/components/CachePurgeContext';
 import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
 function ConfigProviderWrapper() {

@@ -1,0 +1,167 @@
+[
+  {
+    "name": "MAPS_AZURE_SUBSCRIPTION_ID",
+    "value": "bc064761-c1ee-470f-8b10-a75fe7a89d25",
+    "slotSetting": false
+  },
+  {
+    "name": "MAPS_RESOURCE_GROUP",
+    "value": "rg-owner-community",
+    "slotSetting": false
+  },
+  {
+    "name": "MAPS_OBJECT_PRINCIPAL_ID",
+    "value": "ff703717-60c6-4e41-b651-b3da0f7d9a71",
+    "slotSetting": false
+  },
+  {
+    "name": "MAPS_ACCOUNT_NAME",
+    "value": "oc-maps",
+    "slotSetting": false
+  },
+  {
+    "name": "VERCEL_TOKEN",
+    "value": "28237LgLIhHusNZOLZk5mJaz",
+    "slotSetting": false
+  },
+  {
+    "name": "VERCEL_PROJECT",
+    "value": "ownercommunity-firsthit",
+    "slotSetting": false
+  },  
+  {
+    "name": "CONTENT_MODERATOR_SUBSCRIPTION_KEY",
+    "value": "fac19b8f29eb4671b75a7a6b2d0df711",
+    "slotSetting": false
+  },
+  {
+    "name": "CONTENT_MODERATOR_ENDPOINT",
+    "value": "https://oc-cm.cognitiveservices.azure.com/",
+    "slotSetting": false
+  },
+  {
+    "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+    "value": "InstrumentationKey=438279b1-d37c-4ce1-9688-d1c500ac6e10;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/",
+    "slotSetting": false
+  },
+  {
+    "name": "BLOB_ACCOUNT_NAME",
+    "value": "ownercommunity",
+    "slotSetting": false
+  },
+  {
+    "name": "BLOB_ACCOUNT_KEY",
+    "value": "fPjVgQ2TBbXD/MPkktgOV5Qo2g49Eo48ekUzRPdkQV+fG8uWFvexUzOvKsPBWd0vzCnq6TL/j/othT9lJB/KFQ==",
+    "slotSetting": false
+  },
+  {
+    "name": "ACCOUNT_PORTAL_OIDC_ENDPOINT",
+    "value": "https://ownercommunityb2c.b2clogin.com/ownercommunityb2c.onmicrosoft.com/b2c_1a_signup_signin/discovery/v2.0/keys",
+    "slotSetting": false
+  },
+  {
+    "name": "ACCOUNT_PORTAL_OIDC_AUDIENCE-info",
+    "value": "this comes from a B2C appliction -> B2C Appliction ClientID",
+    "slotSetting": false
+  },
+  {
+    "name": "ACCOUNT_PORTAL_OIDC_AUDIENCE",
+    "value": "http://localhost:3000/",
+    "slotSetting": false
+  },
+  {
+    "name": "TO_GET_ACCOUNT_PORTAL_OIDC_ISSUER",
+    "value": "look it up from OIDC ENDPOINT",
+    "slotSetting": false
+  },
+  {
+    "name": "ACCOUNT_PORTAL_OIDC_ISSUER",
+    "value": "https://ownercommunityb2clogin.com/9227e22b-4754-46be-98c1-2a1a1e40457e/",
+    "slotSetting": false
+  },
+  {
+    "name": "FUNCTIONS_WORKER_RUNTIME",
+    "value": "node",
+    "slotSetting": false
+  },
+  {
+    "name": "AzureWebJobsStorage",
+    "value": "",
+    "slotSetting": false
+  },
+  {
+    "name": "COSMOSDB_POOL_SIZE",
+    "value": "10",
+    "slotSetting": false
+  },
+  {
+    "name": "COSMOSDB_DBNAME",
+    "value": "owner-community",
+    "slotSetting": false
+  },
+  {
+    "name": "SEARCH_API_ENDPOINT",
+    "value": "https://owner-community-search.search.windows.net",
+    "slotSetting": false
+  },
+  {
+    "name": "SEARCH_API_KEY",
+    "value": "",
+    "slotSetting": false
+  },
+  {
+    "name": "languageWorkers:node:arguments",
+    "value": "--inspect=5858",
+    "slotSetting": false
+  },
+  {
+    "name": "NODE_ENV",
+    "value": "development",
+    "slotSetting": false
+  },
+  {
+    "name": "AZURE_TENANT_ID",
+    "value": "1414c1cf-8ecf-4524-ad52-d0dfc6c318e1",
+    "slotSetting": false
+  },
+  {
+    "name": "AZURE_SUBSCRIPTION_ID",
+    "value": "bc064761-c1ee-470f-8b10-a75fe7a89d25",
+    "slotSetting": false
+  },
+  {
+    "name": "AZURE_RESOURCE_GROUP_NAME",
+    "value": "rg-owner-community",
+    "slotSetting": false
+  },
+  {
+    "name": "COSMOSDB_ACCOUNT_NAME",
+    "value": "owner-community",
+    "slotSetting": false
+  },
+  {
+    "name": "COSMOSDB_NAME",
+    "value": "owner-community",
+    "slotSetting": false
+  },
+  {
+    "name": "COSMOSDB_AUTO_INDEX",
+    "value": "true",
+    "slotSetting": false
+  },
+  {
+    "name": "COSMOSDB_AUTO_CREATE",
+    "value": "true",
+    "slotSetting": false
+  },
+  {
+    "name": "COSMOSDB_MIN_POOL_SIZE",
+    "value": 10,
+    "slotSetting": false
+  },
+  {
+    "name": "COSMOSDB_MAX_POOL_SIZE",
+    "value": 100,
+    "slotSetting": false
+  }
+]

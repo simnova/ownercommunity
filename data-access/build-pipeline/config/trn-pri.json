@@ -1,0 +1,77 @@
+[
+  {
+    "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+    "value": "b5fc632f-2c19-44a8-b16e-8a472d6f7214",
+    "slotSetting": false
+  },
+  {
+    "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+    "value": "InstrumentationKey=b5fc632f-2c19-44a8-b16e-8a472d6f7214;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/;ApplicationId=78fad6f5-bb4a-48f3-88d9-ff8439699aa4",
+    "slotSetting": false
+  },
+  {
+    "name": "BLOB_SALESFORCE_ACCOUNT_NAME",
+    "value": "ecfmgtrain001",
+    "slotSetting": false
+  },
+  {
+    "name": "BLOB_SALESFORCE_ACCOUNT_KEY",
+    "value": "@Microsoft.KeyVault(SecretUri=https://corp-trn-kv.vault.azure.net/secrets/DVI-BLOB-SALESFORCE-ACCOUNT-KEY)",
+    "slotSetting": false
+  },
+  {
+    "name": "CONFIG_VERSION",
+    "value": "0.3",
+    "slotSetting": false
+  },
+  {
+    "name": "DATABASE_URL",
+    "value": "@Microsoft.KeyVault(SecretUri=https://corp-trn-kv.vault.azure.net/secrets/DVI-POSTGRES-CONNECTION-STRING)",
+    "slotSetting": false
+  },  
+  {
+    "name": "FEATURE_FLAG_BLOB_NAME",
+    "value": "DVI_Feature_Flag_TRN.json",
+    "slotSetting": false
+  },
+  {
+    "name": "GRAPHQL_SERVICE_JWT_EXPIRES_IN",
+    "value": "3000s",
+    "slotSetting": false
+  },
+  {
+    "name": "GRAPHQL_SERVICE_URL",
+    "value": "https://data.dvi-trn.myintealth.app/api/graphql",
+    "slotSetting": false
+  },
+  {
+    "name": "NODE_ENV",
+    "value": "production",
+    "slotSetting": false
+  },
+  {
+    "name": "SF_OIDC_AUDIENCE",
+    "value": "3MVG94DzwlYDSHS4ny_DeU4MPt9b7aGfooOcLTS7qtMtiXZVzzCCud1zXB0kEnkmBz5el6Hj5gtctNCWJJBi4",
+    "slotSetting": false
+  },
+  {
+    "name": "SF_OIDC_CLOCK_TOLERANCE",
+    "value": "4 hours",
+    "slotSetting": false
+  },
+  {
+    "name": "SF_OIDC_ENDPOINT",
+    "value": "https://ecfmgb2--train1.sandbox.my.salesforce.com/id/keys",
+    "slotSetting": false
+  },
+  {
+    "name": "SF_OIDC_IGNORE_ISSUER",
+    "value": "false",
+    "slotSetting": false
+  },
+  {
+    "name": "SF_OIDC_ISSUER",
+    "value": "https://ecfmgb2--train1.sandbox.my.salesforce.com",
+    "slotSetting": false
+  }
+]

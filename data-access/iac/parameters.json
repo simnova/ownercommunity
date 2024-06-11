@@ -1,0 +1,281 @@
+{
+    "applicationPrefix": "oc",
+    "appServicePlanApplicationPrefix": "oc",
+    "env": {
+        "dev": {
+            "appServicePlan": {
+                "instances": [
+                    {
+                        "run": true,
+                        "name": "pri-001",
+                        "location": "eastus2",
+                        "sku": "B2",
+                        "operatingSystem": "linux",
+                        "tags": {
+                            "environment": "dev",
+                            "application": "oc"
+                        }
+                    },
+                    {
+                        "run": true,
+                        "name": "sec-001",
+                        "location": "westus3",
+                        "sku": "B2",
+                        "operatingSystem": "linux",
+                        "tags": {
+                            "environment": "dev",
+                            "application": "oc"
+                        }
+                    }
+                ]
+            },
+            "functionApp": {
+                "allowedOrigins": [
+                    "https://ownercommunity-dev.simnova.app",
+                    "https://oc-dev-cdne-uid-avaqbizf2s7le.azureedge.net"
+                ],
+                "instances": [
+                    {
+                       "run": true,
+                        "name": "pri",
+                        "appServicePlanName": "oc-dev-asp-pri-001",
+                        "appServicePlanSku": "B2",
+                        "location": "eastus2",
+                        "storageAccountName": "ocdevstfunceastus2",
+                        "functionApp": {
+                            "maxOldSpaceSizeMB": "3072",
+                            "functionWorkerRuntime": "node",
+                            "functionExtensionVersion": "~4",
+                            "linuxFxVersion": "Node|20"
+                        },
+                        "tags": {
+                            "environment": "dev",
+                            "application": "oc"
+                        }
+                    },
+                    {
+                       "run": true,
+                        "name": "sec",
+                        "appServicePlanName": "oc-dev-asp-sec-001",
+                        "appServicePlanSku": "B2",
+                        "location": "westus3",
+                        "storageAccountName": "ocdevstfuncwestus3",
+                        "functionApp": {
+                            "maxOldSpaceSizeMB": "3072",
+                            "functionWorkerRuntime": "node",
+                            "functionExtensionVersion": "~4",
+                            "linuxFxVersion": "Node|20"
+                        },
+                        "tags": {
+                            "environment": "dev",
+                            "application": "oc"
+                        }
+                    }
+                ]
+            },
+            "applicationInsights": {
+                "instances": [
+                    {
+                        "run": true,
+                        "runActionGroups": true,
+                        "runScheduledQueryRules": true,
+                        "name": "appi",
+                        "location": "eastus2",
+                        "tags": {
+                            "environment": "dev",
+                            "application": "oc"
+                        },
+                        "actionGroups": [],
+                        "scheduledQueryRules": []
+                    }
+                ]
+            },            
+            "storageAccount": {
+                "instances": [
+                    {
+                        "run": true,
+                        "name": "app",
+                        "location": "eastus2",
+                        "sku": "Standard_RAGRS",
+                        "managementPolicy": {
+                            "enable": false,
+                            "deleteAfterNDaysList": []
+                        },
+                        "enableBlobService": true,
+                        "containers": [
+                            {
+                                "name": "public",
+                                "publicAccess": "blob"
+                            }
+                        ],
+                        "enableQueueService": false,
+                        "queues": [],
+                        "enableTableService": false,
+                        "tables": [],
+                        "cors": {
+                            "allowedOrigins": [
+                                "https://ownercommunity-dev.simnova.app",
+                                "https://oc-dev-cdne-uid-avaqbizf2s7le.azureedge.net",
+                                "http://localhost:3000"
+                            ],
+                            "allowedMethods": [
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "OPTIONS"
+                            ],
+                            "allowedHeaders": [
+                                "*"
+                            ],
+                            "exposedHeaders": [""],
+                            "maxAgeInSeconds": 0
+                        },
+                        "tags": {
+                            "environment": "dev",
+                            "application": "oc"
+                        }
+                    }
+                ]
+            },
+            "keyVault": {
+                "name": "corp-dev-kv"
+            }
+        },
+        "prd": {
+            "appServicePlan": {
+                "instances": [
+                    {
+                        "run": true,
+                        "name": "pri-001",
+                        "location": "eastus2",
+                        "sku": "EP1",
+                        "operatingSystem": "linux",
+                        "tags": {
+                            "environment": "prd",
+                            "application": "oc"
+                        }
+                    },
+                    {
+                        "run": true,
+                        "name": "sec-001",
+                        "location": "westus3",
+                        "sku": "EP1",
+                        "operatingSystem": "linux",
+                        "tags": {
+                            "environment": "prd",
+                            "application": "oc"
+                        }
+                    }
+                ]
+            },
+            "functionApp": {
+                "allowedOrigins": [
+                    "https://ownercommunity.simnova.app"
+                ],
+                "instances": [
+                    {
+                       "run": true,
+                        "name": "pri",
+                        "appServicePlanName": "oc-prd-asp-pri-001",
+                        "appServicePlanSku": "EP1",
+                        "location": "eastus2",
+                        "storageAccountName": "ocprdstfunceastus2",
+                        "functionApp": {
+                            "maxOldSpaceSizeMB": "3072",
+                            "functionWorkerRuntime": "node",
+                            "functionExtensionVersion": "~4",
+                            "linuxFxVersion": "Node|20"
+                        },
+                        "tags": {
+                            "environment": "prd",
+                            "application": "oc"
+                        }
+                    },
+                    {
+                       "run": true,
+                        "name": "sec",
+                        "appServicePlanName": "oc-prd-asp-sec-001",
+                        "appServicePlanSku": "EP1",
+                        "location": "westus3",
+                        "storageAccountName": "ocprdstfuncwestus3",
+                        "functionApp": {
+                            "maxOldSpaceSizeMB": "3072",
+                            "functionWorkerRuntime": "node",
+                            "functionExtensionVersion": "~4",
+                            "linuxFxVersion": "Node|20"
+                        },
+                        "tags": {
+                            "environment": "prd",
+                            "application": "oc"
+                        }
+                    }
+                ]
+            },
+            "applicationInsights": {
+                "instances": [
+                    {
+                        "run": true,
+                        "runActionGroups": true,
+                        "runScheduledQueryRules": true,
+                        "name": "appi",
+                        "location": "eastus2",
+                        "tags": {
+                            "environment": "prd",
+                            "application": "oc"
+                        },
+                        "actionGroups": [],
+                        "scheduledQueryRules": []
+                    }
+                ]
+            },             
+            "storageAccount": {
+                "instances": [
+                    {
+                        "run": true,
+                        "name": "app",
+                        "location": "eastus2",
+                        "sku": "Standard_RAGRS",
+                        "managementPolicy": {
+                            "enable": false,
+                            "deleteAfterNDaysList": []
+                        },
+                        "enableBlobService": true,
+                        "containers": [
+                            {
+                                "name": "public",
+                                "publicAccess": "blob"
+                            }
+                        ],
+                        "enableQueueService": false,
+                        "queues": [],
+                        "enableTableService": false,
+                        "tables": [],
+                        "cors": {
+                            "allowedOrigins": [
+                                "https://ownercommunity.simnova.app"
+                            ],
+                            "allowedMethods": [
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "OPTIONS"
+                            ],
+                            "allowedHeaders": [
+                                "*"
+                            ],
+                            "exposedHeaders": [""],
+                            "maxAgeInSeconds": 0
+                        },
+                        "tags": {
+                            "environment": "prd",
+                            "application": "oc"
+                        }
+                    }
+                ]
+            },
+            "keyVault": {
+                "name": "corp-prod-kv"
+            }
+        }
+    }
+}

@@ -58,7 +58,7 @@ stages:
       vmImageName: $(vmImageName)
       ServiceConnectionName: $(ServiceConnectionName)
       deploymentDefaultLocation: $(deploymentDefaultLocation)
-      resourceGroupName: 'corp-core-rg'
+      resourceGroupName: 'rg-owner-community'
 
   # - template: ./build-pipeline/core/function-app-deployment-stage.yml
   #   parameters: 

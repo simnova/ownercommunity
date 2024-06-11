@@ -1,7 +1,7 @@
 [
   {
     "name": "MAPS_AZURE_SUBSCRIPTION_ID",
-    "value": "bc064761-c1ee-470f-8b10-a75fe7a89d25",
+    "value": "",
     "slotSetting": false
   },
   {
@@ -11,7 +11,7 @@
   },
   {
     "name": "MAPS_OBJECT_PRINCIPAL_ID",
-    "value": "ff703717-60c6-4e41-b651-b3da0f7d9a71",
+    "value": "",
     "slotSetting": false
   },
   {
@@ -21,7 +21,7 @@
   },
   {
     "name": "VERCEL_TOKEN",
-    "value": "28237LgLIhHusNZOLZk5mJaz",
+    "value": "",
     "slotSetting": false
   },
   {
@@ -31,7 +31,7 @@
   },  
   {
     "name": "CONTENT_MODERATOR_SUBSCRIPTION_KEY",
-    "value": "fac19b8f29eb4671b75a7a6b2d0df711",
+    "value": "",
     "slotSetting": false
   },
   {
@@ -41,7 +41,7 @@
   },
   {
     "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-    "value": "InstrumentationKey=438279b1-d37c-4ce1-9688-d1c500ac6e10;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/",
+    "value": "",
     "slotSetting": false
   },
   {
@@ -51,7 +51,7 @@
   },
   {
     "name": "BLOB_ACCOUNT_KEY",
-    "value": "fPjVgQ2TBbXD/MPkktgOV5Qo2g49Eo48ekUzRPdkQV+fG8uWFvexUzOvKsPBWd0vzCnq6TL/j/othT9lJB/KFQ==",
+    "value": "",
     "slotSetting": false
   },
   {
@@ -60,18 +60,8 @@
     "slotSetting": false
   },
   {
-    "name": "ACCOUNT_PORTAL_OIDC_AUDIENCE-info",
-    "value": "this comes from a B2C appliction -> B2C Appliction ClientID",
-    "slotSetting": false
-  },
-  {
     "name": "ACCOUNT_PORTAL_OIDC_AUDIENCE",
     "value": "http://localhost:3000/",
-    "slotSetting": false
-  },
-  {
-    "name": "TO_GET_ACCOUNT_PORTAL_OIDC_ISSUER",
-    "value": "look it up from OIDC ENDPOINT",
     "slotSetting": false
   },
   {
@@ -110,23 +100,18 @@
     "slotSetting": false
   },
   {
-    "name": "languageWorkers:node:arguments",
-    "value": "--inspect=5858",
-    "slotSetting": false
-  },
-  {
     "name": "NODE_ENV",
-    "value": "development",
+    "value": "production",
     "slotSetting": false
   },
   {
     "name": "AZURE_TENANT_ID",
-    "value": "1414c1cf-8ecf-4524-ad52-d0dfc6c318e1",
+    "value": "",
     "slotSetting": false
   },
   {
     "name": "AZURE_SUBSCRIPTION_ID",
-    "value": "bc064761-c1ee-470f-8b10-a75fe7a89d25",
+    "value": "",
     "slotSetting": false
   },
   {

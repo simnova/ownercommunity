@@ -1,7 +1,7 @@
 import { CommunityBlobApi, MemberBlobApi, PropertyBlobApi } from "./blob-storage"
 import { PropertySearchApi, ServiceTicketSearchApi } from "./cognitive-search";
 import { CommunityDataApi, MemberDataApi, PropertyDataApi, RoleDataApi, ServiceDataApi, ServiceTicketDataApi, UserDataApi } from "./datastore";
-import { CommunityDomainApi, MemberDomainApi, PropertyDomainApi, RoleDomainApi, ServiceDomainApi, ServiceTicketDomainApi, UserDomainApi } from "./domain";
+import { CommunityDomainApi, MemberDomainApi, PropertyDomainApi, RoleDomainApi, ServiceDomainApi, ServiceTicketDomainApi, UserDomainApi, AdminTicketDomainApi } from "./domain";
 import { PropertyMapsApi } from "./maps";
 import { CommunityVercelApi } from "./vercel";
 
@@ -25,6 +25,7 @@ export interface ApplicationServices {
   propertyDomainApi: PropertyDomainApi;
   serviceDomainApi: ServiceDomainApi;
   serviceTicketDomainApi: ServiceTicketDomainApi;
+  adminTicketDomainApi: AdminTicketDomainApi;
   propertyMapApi: PropertyMapsApi;
   communityVercelApi: CommunityVercelApi;
 }

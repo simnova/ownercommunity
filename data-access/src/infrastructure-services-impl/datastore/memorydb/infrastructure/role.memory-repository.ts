@@ -39,6 +39,16 @@ export class MemoryServiceTicketPermissions extends MemoryBaseAdapter {
   isEditingAssignedTicket: boolean;
   isSystemAccount: boolean;
 }
+
+export class MemoryAdminTicketPermissions extends MemoryBaseAdapter {
+  canCreateTickets: boolean;
+  canManageTickets: boolean;
+  canAssignTickets: boolean;
+  canWorkOnTickets: boolean;
+  isEditingOwnTicket: boolean;
+  isEditingAssignedTicket: boolean;
+  isSystemAccount: boolean;
+}
 export class MemoryPermissions extends MemoryBaseAdapter implements PermissionsProps {
   private _communityPermissions: MemoryCommunityPermissions;
   get communityPermissions(): MemoryCommunityPermissions {
@@ -70,6 +80,14 @@ export class MemoryPermissions extends MemoryBaseAdapter implements PermissionsP
       this._serviceTicketPermissions = new MemoryServiceTicketPermissions();
     }
     return this._serviceTicketPermissions;
+  }
+
+  private _adminTicketPermissions: MemoryAdminTicketPermissions;
+  get adminTicketPermissions(): MemoryAdminTicketPermissions {
+    if(!this._adminTicketPermissions){
+      this._adminTicketPermissions = new MemoryAdminTicketPermissions();
+    }
+    return this._adminTicketPermissions;
   }
 }
 

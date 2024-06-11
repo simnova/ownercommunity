@@ -5,3 +5,4 @@ export { Property as PropertyData, PropertyModel } from "../../infrastructure-se
 export { Service as ServiceData, ServiceModel } from "../../infrastructure-services-impl/datastore/mongodb/models/service";
 export { ServiceTicket as ServiceTicketData, ServiceTicketModel } from "../../infrastructure-services-impl/datastore/mongodb/models/service-ticket";
 export { Member as MemberData, MemberModel } from "../../infrastructure-services-impl/datastore/mongodb/models/member";
+export { AdminTicket as AdminTicketData, AdminTicketModel } from "../../infrastructure-services-impl/datastore/mongodb/models/admin-ticket";

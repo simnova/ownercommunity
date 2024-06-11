@@ -2,6 +2,7 @@ import { Community, Member, Property, Resolvers,Service, ServiceTicket, ServiceT
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
 import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
+import { AdminTicket as AdminTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/admin-ticket';
 
 const ServiceTicketMutationResolver = async (getServiceTicket: Promise<ServiceTicketDo>): Promise<ServiceTicketMutationResult> => {
   try {
@@ -11,6 +12,21 @@ const ServiceTicketMutationResolver = async (getServiceTicket: Promise<ServiceTi
     } as ServiceTicketMutationResult;
   } catch (error) {
     console.error('ServiceTicket > Mutation  : ', error);
+    return {
+      status: { success: false, errorMessage: error.message },
+      serviceTicket: null,
+    } as ServiceTicketMutationResult;
+  }
+};
+
+const AdminTicketMutationResolver = async (getAdminTicket: Promise<AdminTicketDo>): Promise<ServiceTicketMutationResult> => {
+  try {
+    return {
+      status: { success: true },
+      serviceTicket: await getAdminTicket,
+    } as ServiceTicketMutationResult;
+  } catch (error) {
+    console.error('AdminTicket > Mutation  : ', error);
     return {
       status: { success: false, errorMessage: error.message },
       serviceTicket: null,
@@ -96,6 +112,9 @@ const serviceTicket: Resolvers = {
   Mutation: {
     serviceTicketCreate: async (_, { input }, { applicationServices }) => {
       return ServiceTicketMutationResolver(applicationServices.serviceTicketDomainApi.serviceTicketCreate(input));
+    },
+    adminTicketCreate: async (_, { input }, { applicationServices }) => {
+      return AdminTicketMutationResolver(applicationServices.adminTicketDomainApi.adminTicketCreate(input));
     },
     serviceTicketUpdate: async (_, { input }, { applicationServices }) => {
       return ServiceTicketMutationResolver(applicationServices.serviceTicketDomainApi.serviceTicketUpdate(input));

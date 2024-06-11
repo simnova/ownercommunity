@@ -28,6 +28,11 @@ export { MongoServiceTicketUnitOfWork as ServiceTicketUnitOfWork } from '../../i
 export { ServiceTicketDomainAdapter, ServiceTicketConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket.domain-adapter';
 export { MongoServiceTicketRepository as ServiceTicketRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket.mongo-repository';
 
+// admin-ticket
+export { MongoAdminTicketUnitOfWork as AdminTicketUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/admin-ticket.uow';
+export { AdminTicketDomainAdapter, AdminTicketConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/admin-ticket.domain-adapter';
+export { MongoAdminTicketRepository as AdminTicketRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/admin-ticket.mongo-repository';
+
 // user
 export { MongoUserUnitOfWork as UserUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/user.uow';
 export { UserDomainAdapter, UserConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/user.domain-adapter';

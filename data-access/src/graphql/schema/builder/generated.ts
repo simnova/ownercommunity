@@ -151,6 +151,48 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
+export type AdminTicket = {
+  __typename?: 'AdminTicket';
+  activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
+  assignedTo?: Maybe<Member>;
+  community: Community;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description: Scalars['String'];
+  id: Scalars['ObjectID'];
+  penaltyAmount?: Maybe<Scalars['Float']>;
+  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
+  photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
+  priority: Scalars['Int'];
+  property?: Maybe<Property>;
+  requestor: Member;
+  schemaVersion?: Maybe<Scalars['String']>;
+  service?: Maybe<Service>;
+  status: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AdminTicketCreateInput = {
+  description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  penaltyPaidDate?: InputMaybe<Scalars['DateTime']>;
+  propertyId: Scalars['ObjectID'];
+  requestorId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
+  title: Scalars['String'];
+};
+
+export type AdminTicketUpdateInput = {
+  description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  penaltyPaidDate?: InputMaybe<Scalars['DateTime']>;
+  priority: Scalars['Int'];
+  propertyId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
+  serviceTicketId: Scalars['ObjectID'];
+  title: Scalars['String'];
+};
+
 export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -575,6 +617,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
+  adminTicketCreate: ServiceTicketMutationResult;
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
@@ -613,6 +656,11 @@ export type Mutation = {
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationAdminTicketCreateArgs = {
+  input: AdminTicketCreateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1461,6 +1509,9 @@ export type ResolversTypes = ResolversObject<{
   AdditionalAmenitiesSearchResult: ResolverTypeWrapper<AdditionalAmenitiesSearchResult>;
   Address: ResolverTypeWrapper<Address>;
   AddressInput: AddressInput;
+  AdminTicket: ResolverTypeWrapper<AdminTicket>;
+  AdminTicketCreateInput: AdminTicketCreateInput;
+  AdminTicketUpdateInput: AdminTicketUpdateInput;
   BedroomDetails: ResolverTypeWrapper<BedroomDetails>;
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
@@ -1671,6 +1722,9 @@ export type ResolversParentTypes = ResolversObject<{
   AdditionalAmenitiesSearchResult: AdditionalAmenitiesSearchResult;
   Address: Address;
   AddressInput: AddressInput;
+  AdminTicket: AdminTicket;
+  AdminTicketCreateInput: AdminTicketCreateInput;
+  AdminTicketUpdateInput: AdminTicketUpdateInput;
   BedroomDetails: BedroomDetails;
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: Scalars['BigInt'];
@@ -1928,6 +1982,30 @@ export type AddressResolvers<ContextType = GraphqlContext, ParentType extends Re
   streetName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   streetNameAndNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   streetNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type AdminTicketResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['AdminTicket'] = ResolversParentTypes['AdminTicket'],
+> = ResolversObject<{
+  activityLog?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketActivityDetail']>>>, ParentType, ContextType>;
+  assignedTo?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  community?: Resolver<ResolversTypes['Community'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  penaltyAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  penaltyPaidDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  photos?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketPhoto']>>>, ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
+  requestor?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2373,6 +2451,7 @@ export type MongoSubdocumentResolvers<
 
 export type MutationResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  adminTicketCreate?: Resolver<ResolversTypes['ServiceTicketMutationResult'], ParentType, ContextType, RequireFields<MutationAdminTicketCreateArgs, 'input'>>;
   communityCreate?: Resolver<Maybe<ResolversTypes['CommunityMutationResult']>, ParentType, ContextType, RequireFields<MutationCommunityCreateArgs, 'input'>>;
   communityPublicContentCreateAuthHeader?: Resolver<
     ResolversTypes['CommunityBlobContentAuthHeaderResult'],
@@ -2950,6 +3029,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   AdditionalAmenities?: AdditionalAmenitiesResolvers<ContextType>;
   AdditionalAmenitiesSearchResult?: AdditionalAmenitiesSearchResultResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
+  AdminTicket?: AdminTicketResolvers<ContextType>;
   BedroomDetails?: BedroomDetailsResolvers<ContextType>;
   BigInt?: GraphQLScalarType;
   BlobAuthHeader?: BlobAuthHeaderResolvers<ContextType>;

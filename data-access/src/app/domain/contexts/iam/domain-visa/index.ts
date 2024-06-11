@@ -21,6 +21,10 @@ import { ServiceTicketVisa } from './service-ticket-visa';
 import { ServiceTicketVisaImplForServiceTicket } from './service-ticket-visa-impl-for-service-ticket';
 import { UserVisa } from './user-visa';
 import { UserVisaImplForUser } from './user-visa-impl-for-user';
+import { AdminTicketEntityReference } from '../../service-ticket/admin-ticket';
+import { AdminTicketVisa } from './admin-ticket-visa';
+import { AdminTicketVisaImplForAdminTicket } from './admin-visa-impl-for-community';
+import { AdminTicketPermissions } from '../../service-ticket/admin-ticket-permissions.spec';
 
 export const SystemUserId = 'system';
 
@@ -33,6 +37,7 @@ export interface DomainVisa {
   forProperty(root: PropertyEntityReference):  PropertyVisa;
   forService(root: ServiceEntityReference): ServiceVisa;
   forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa;
+  forAdminTicket(root: AdminTicketEntityReference): AdminTicketVisa
 }
 
 export class DomainVisaImpl implements DomainVisa {
@@ -69,6 +74,9 @@ export class DomainVisaImpl implements DomainVisa {
   forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa {
     return new ServiceTicketVisaImplForServiceTicket(root,this.member);
   }
+  forAdminTicket(root: AdminTicketEntityReference): AdminTicketVisa {
+    return new AdminTicketVisaImplForAdminTicket(root,this.member);
+  }
 }
 
 export class ReadOnlyDomainVisa implements DomainVisa {
@@ -102,7 +110,9 @@ export class ReadOnlyDomainVisa implements DomainVisa {
   forServiceTicket(_root: ServiceTicketEntityReference): ServiceTicketVisa {
     return {determineIf:  () => false }; 
   }
-
+  forAdminTicket(_root: AdminTicketEntityReference): AdminTicketVisa {
+    return {determineIf:  () => false }; 
+  }
 }
 
 export class SystemDomainVisa implements DomainVisa {
@@ -141,6 +151,15 @@ export class SystemDomainVisa implements DomainVisa {
     isEditingAssignedTicket: false,
     isSystemAccount: true,
   }
+  private adminTicketPermissionsForSystem: AdminTicketPermissions = {
+    canCreateTickets: false,
+    canManageTickets: false,
+    canAssignTickets: false,
+    canWorkOnTickets: false,
+    isEditingOwnTicket: false,
+    isEditingAssignedTicket: false,
+    isSystemAccount: true,
+  }
   forMember (root: MemberEntityReference): CommunityVisa {
     return {determineIf: (func) => func(this.communityPermissionsForSystem) };
   }
@@ -164,5 +183,8 @@ export class SystemDomainVisa implements DomainVisa {
   }
   forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa {
     return {determineIf:  (func) => func(this.serviceTicketPermissionsForSystem) };
+  }
+  forAdminTicket(root: AdminTicketEntityReference): AdminTicketVisa {
+    return {determineIf:  (func) => func(this.adminTicketPermissionsForSystem) };
   }
 }

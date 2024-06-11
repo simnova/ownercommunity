@@ -5,3 +5,4 @@ export { RoleDomainApiImpl } from './role';
 export { PropertyDomainApiImpl } from './property';
 export { ServiceDomainApiImpl } from './service';
 export { ServiceTicketDomainApiImpl } from './service-ticket';
+export { AdminTicketDomainApiImpl } from './admin-ticket';

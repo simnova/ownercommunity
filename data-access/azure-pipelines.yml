@@ -48,8 +48,8 @@ stages:
       SonarCloud_organization: 'simnova'
       SonarCloud_scannerMode: 'CLI'
       SonarCloud_configMode: 'manual'
-      SonarCloud_cliProjectKey: 'simnova_ownercommuntiy-data-access'
-      SonarCloud_cliProjectName: 'simnova_ownercommuntiy-data-access'
+      SonarCloud_cliProjectKey: 'oc-data-access'
+      SonarCloud_cliProjectName: 'oc-data-access'
 
   - template: ./build-pipeline/core/core-stage.yml
     parameters: 

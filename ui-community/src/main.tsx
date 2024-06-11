@@ -45,7 +45,6 @@ function ConfigProviderWrapper() {
     >
       <MaintenanceMessageProvider maintenanceInfo={maintenanceInfo} auth={auth}>
         <ThemeProvider>
-          // HelmetProvider is used for managing changes to the document head
         <HelmetProvider>
           <BrowserRouter>
             <App />

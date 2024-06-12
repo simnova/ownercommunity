@@ -30,7 +30,7 @@ variables:
   system.debug: true
   npm_config_cache: $(Pipeline.Workspace)/.npm
   SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
-  UniqueStringDev: 'avaqbizf2s7le'
+  UniqueStringDev: 'rjyobt6kbghbk'
   UniqueStringQA: 'pnp3ehpzqysdg'
   UniqueStringUAT: 'mbe5flfloncdm'
   UniqueStringPRD: 'lbiusbw5zdgpc'

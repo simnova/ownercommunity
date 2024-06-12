@@ -33,9 +33,9 @@ variables:
     #dev
     environmentNameDev: 'oc-dev'
     ResourceGroupNameDev: 'rg-owner-community'
-    destinationBlobContainerDev: 'ocdevstuicavaqbizf2s7le'
+    destinationBlobContainerDev: 'ocdevstuicrjyobt6kbghbk'
     cdnProfileDev: 'cdn-dev-ms-standard'
-    cdnNameDev: 'oc-dev-cdne-uia-avaqbizf2s7le'
+    cdnNameDev: 'oc-dev-cdne-uia-rjyobt6kbghbk'
     #prod
     environmentNamePrd: 'oc-prd'
     ResourceGroupNamePrd: 'corp-prod-rg'

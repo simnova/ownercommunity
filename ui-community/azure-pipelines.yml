@@ -62,7 +62,7 @@ stages:
         path: $(SONAR_USER_HOME)/cache
       displayName: Cache SonarCloud
 
-    - task: SonarCloudPrepare@1
+    - task: SonarCloudPrepare@2
       displayName: 'SonarCloud: Prepare analysis configuration'
       inputs:
         SonarCloud: 'SonarCloud'

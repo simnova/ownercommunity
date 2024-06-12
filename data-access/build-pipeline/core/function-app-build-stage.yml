@@ -98,7 +98,7 @@ stages:
         path: ${{parameters.SONAR_USER_HOME}}/cache
 
     # Set up SonarCloud
-    - task: SonarCloudPrepare@1
+    - task: SonarCloudPrepare@2
       displayName: 'SonarCloud: Prepare analysis configuration'
       condition: and(succeeded(), eq(${{parameters.disableSonarCloudTasks}}, False))
       inputs:

@@ -8,6 +8,7 @@ import { SubPageLayout } from '../sub-page-layout';
 import { MembersAccounts } from './members-accounts';
 import { MembersGeneral } from './members-general';
 import { MembersProfile } from './members-profile';
+import { Helmet } from 'react-helmet-async';
 
 
 export const MembersDetail: React.FC<any> = () => {
@@ -32,6 +33,9 @@ export const MembersDetail: React.FC<any> = () => {
           onBack={() => navigate('../')}
         />}
       >
+        <Helmet>
+          <title>Member Detail</title>
+        </Helmet>
         <Row wrap={false}>
           <Col flex="none">
           <Menu mode="inline" selectedKeys={matchedIds}>

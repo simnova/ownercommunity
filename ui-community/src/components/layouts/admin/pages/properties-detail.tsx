@@ -7,6 +7,7 @@ import { PropertiesListing } from '../../shared/pages/properties-listing';
 import { PropertiesLocation } from '../../shared/pages/properties-location';
 import { SubPageLayout } from '../sub-page-layout';
 import { PropertiesGeneral } from './properties-general';
+import { Helmet } from 'react-helmet-async';
 
 
 export const PropertiesDetail: React.FC<any> = () => {
@@ -31,6 +32,10 @@ export const PropertiesDetail: React.FC<any> = () => {
           onBack={() => navigate('../')}
         />}
       >
+      <Helmet>
+        <title>Property Detail</title>
+      </Helmet>
+
         <Row wrap={false}>
           <Col flex="none">
           <Menu mode="inline" selectedKeys={matchedIds}>

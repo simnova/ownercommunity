@@ -1,4 +1,5 @@
 import { PageHeader } from '@ant-design/pro-layout';
+import { Helmet } from 'react-helmet-async';
 import { theme } from 'antd';
 import { useParams } from 'react-router-dom';
 import { CommunityDetailContainer } from '../components/community-detail.container';
@@ -21,6 +22,9 @@ export const Home: React.FC<any> = () => {
         }}>Home</span>
       }
     />}>
+      <Helmet>
+        <title>Home - Admin</title>
+      </Helmet>
       <CommunityDetailContainer data={{ id: params.communityId }} />
     </SubPageLayout>
   );

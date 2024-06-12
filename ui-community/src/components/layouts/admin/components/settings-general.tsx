@@ -1,6 +1,7 @@
 import { Button, Descriptions, Form, Input, Typography } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 
 export const SettingsGeneral: React.FC<any> = (props) => {
@@ -17,6 +18,11 @@ export const SettingsGeneral: React.FC<any> = (props) => {
         <Descriptions.Item label="Created At">{dayjs(props.data.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
         <Descriptions.Item label="Updated At">{dayjs(props.data.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
       </Descriptions>
+
+      <Helmet>
+        <title>Admin Settings - General</title>
+      </Helmet>
+      
       <Form
         layout="vertical"
         form={form}

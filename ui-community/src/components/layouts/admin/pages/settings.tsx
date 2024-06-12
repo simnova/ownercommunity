@@ -7,6 +7,7 @@ import { Link, Route, Routes, matchRoutes, useLocation } from 'react-router-dom'
 import { SubPageLayout } from '../sub-page-layout';
 import { SettingsGeneral } from './settings-general';
 import { SettingsRoles } from './settings-roles';
+import { Helmet } from 'react-helmet-async';
 
 export const Settings: React.FC<any> = () => {
   const {
@@ -39,6 +40,9 @@ export const Settings: React.FC<any> = () => {
         />
       }
     >
+    <Helmet>
+        <title>Admin Settings</title>
+    </Helmet>
       <Row
         style={{
           color: colorTextBase

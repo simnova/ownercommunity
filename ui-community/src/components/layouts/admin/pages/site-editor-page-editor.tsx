@@ -12,6 +12,7 @@ import { Download } from '../../../editor/page/download';
 import { EditorDetail } from '../../../editor/page/editor-detail';
 import { SettingsPanel } from '../../../editor/page/settings-panel';
 import { Toolbox } from '../../../editor/page/toolbox';
+import { Helmet } from 'react-helmet-async';
 
 const { Title } = Typography;
 
@@ -25,6 +26,9 @@ const SiteEditorPageEditor: React.FC<any> = () => {
   
   return (
     <>
+    <Helmet>
+        <title>Site Editor Page Editor</title>
+    </Helmet>
       <Editor resolver={{ ...CmsComponents }} onRender={ComponentWrapper}>
         <Row>
           <Col span={24} style={{ marginBottom: '24px' }}>

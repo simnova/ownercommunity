@@ -32,7 +32,7 @@
             "functionApp": {
                 "allowedOrigins": [
                     "https://ownercommunity-dev.simnova.app",
-                    "https://oc-dev-cdne-uid-avaqbizf2s7le.azureedge.net"
+                    "https://oc-dev-cdne-uid-rjyobt6kbghbk.azureedge.net"
                 ],
                 "instances": [
                     {
@@ -115,7 +115,7 @@
                         "cors": {
                             "allowedOrigins": [
                                 "https://ownercommunity-dev.simnova.app",
-                                "https://oc-dev-cdne-uid-avaqbizf2s7le.azureedge.net",
+                                "https://oc-dev-cdne-uid-rjyobt6kbghbk.azureedge.net",
                                 "http://localhost:3000"
                             ],
                             "allowedMethods": [

@@ -160,6 +160,7 @@ type ServiceTicketsResult {
   requestorId: String
   assignedToId: String
   description: String
+  ticketType: String
   status: String
   priority: Int
   createdAt: DateTime

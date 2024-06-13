@@ -1371,6 +1371,7 @@ export type ServiceTicketsResult = {
   requestor?: Maybe<Scalars['String']>;
   requestorId?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
+  ticketType?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -2952,6 +2953,7 @@ export type ServiceTicketsResultResolvers<
   requestor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   requestorId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  ticketType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

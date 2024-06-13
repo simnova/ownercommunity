@@ -3023,6 +3023,8 @@ export type ViolationTicketCreateMutation = {
       penaltyAmount?: number | null;
       createdAt?: any | null;
       updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
     } | null;
   };
 };
@@ -3039,6 +3041,8 @@ export type ViolationTicketsCreateMutationResultFieldsFragment = {
     penaltyAmount?: number | null;
     createdAt?: any | null;
     updatedAt?: any | null;
+    property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+    requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
   } | null;
 };
 
@@ -3051,6 +3055,8 @@ export type ViolationTicketsCreateContainerServiceTicketFieldsFragment = {
   penaltyAmount?: number | null;
   createdAt?: any | null;
   updatedAt?: any | null;
+  property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+  requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
 };
 
 export type SectionLayoutContainerMemberByIdQueryQueryVariables = Exact<{
@@ -6679,6 +6685,28 @@ export const ViolationTicketsCreateContainerServiceTicketFieldsFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
           { kind: 'Field', name: { kind: 'Name', value: 'status' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -6736,6 +6764,28 @@ export const ViolationTicketsCreateMutationResultFieldsFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
           { kind: 'Field', name: { kind: 'Name', value: 'status' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -13007,6 +13057,28 @@ export const ViolationTicketCreateDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
           { kind: 'Field', name: { kind: 'Name', value: 'status' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]

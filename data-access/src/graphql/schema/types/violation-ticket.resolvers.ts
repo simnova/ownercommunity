@@ -18,7 +18,7 @@ const ViolationTicketMutationResolver = async (getAdminTicket: Promise<AdminTick
 };
 
 const serviceTicket: Resolvers = {
-  ViolationTicket: {
+  AdminTicket: {
     community: async (parent, args, context, info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
         return (await context.applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;

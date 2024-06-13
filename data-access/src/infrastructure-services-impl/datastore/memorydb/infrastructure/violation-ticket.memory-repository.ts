@@ -91,7 +91,6 @@ export class MemoryViolationTicketRepository<
         return AdminTicket.getNewInstance(new MemoryViolationTicket as unknown as PropType, title, description, community, property, requestor, this.context, penaltyAmount); // [MG-TBD]
       }
       async getById(id: string): Promise<AdminTicket<PropType>>{
-        const adminTicket = await this.get(id);
-        return adminTicket;
+        return await this.get(id);
       }
   }

@@ -72,12 +72,12 @@ export default (
     });
   });
 
-  async function updateSearchIndex(
+  const updateSearchIndex = async (
     violationTicketDoc: Partial<ServiceTicketIndexDocument>,
     violationTicket: AdminTicket<AdminTicketProps>,
     hash: any,
     repo: AdminTicketRepository<AdminTicketProps>,
-  ) {
+  ) => {
     await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
     await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, violationTicketDoc);
     console.log(`Violation Ticket Updated - Index Updated: ${JSON.stringify(violationTicketDoc)}`);

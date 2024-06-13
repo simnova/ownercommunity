@@ -1,5 +1,6 @@
-import { Resolvers, ViolationTicketMutationResult } from '../builder/generated';
+import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult } from '../builder/generated';
 import { AdminTicket as AdminTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/admin-ticket';
+import { isValidObjectId } from 'mongoose';
 
 const ViolationTicketMutationResolver = async (getAdminTicket: Promise<AdminTicketDo>): Promise<ViolationTicketMutationResult> => {
   try {
@@ -17,6 +18,38 @@ const ViolationTicketMutationResolver = async (getAdminTicket: Promise<AdminTick
 };
 
 const serviceTicket: Resolvers = {
+  ViolationTicket: {
+    community: async (parent, args, context, info) => {
+      if (parent.community && isValidObjectId(parent.community.toString())) {
+        return (await context.applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;
+      }
+      return parent.community;
+    },
+    property: async (parent, args, context, info) => {
+      if (parent.property && isValidObjectId(parent.property.toString())) {
+        return (await context.applicationServices.propertyDataApi.getPropertyById(parent.property.toString())) as Property;
+      }
+      return parent.property;
+    },
+    requestor: async (parent, args, context, info) => {
+      if (parent.requestor && isValidObjectId(parent.requestor.toString())) {
+        return (await context.applicationServices.memberDataApi.getMemberById(parent.requestor.toString())) as Member;
+      }
+      return parent.requestor;
+    },
+    assignedTo: async (parent, args, context, info) => {
+      if (parent.assignedTo && isValidObjectId(parent.assignedTo.toString())) {
+        return (await context.applicationServices.memberDataApi.getMemberById(parent.assignedTo.toString())) as Member;
+      }
+      return parent.assignedTo;
+    },
+    service: async (parent, args, context, info) => {
+      if(parent.service && isValidObjectId(parent.service.toString())){
+        return (await context.applicationServices.serviceDataApi.getServiceById(parent.service.toString())) as Service;
+      }
+      return parent.service;
+    }
+  },
   Query: {
   },
   Mutation: {

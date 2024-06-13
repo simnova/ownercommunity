@@ -14,7 +14,7 @@ export class AdminTicketVisaImplForAdminTicket<root extends AdminTicketEntityRef
       console.log("Admin Ticket Visa : member is not a member of this community", this.member, this.root);
       return false;
     }
-    const adminTicketPermissions = this.member.role.permissions.adminTicketPermissions;
+    const adminTicketPermissions = this.member.role.permissions.serviceTicketPermissions;
     if (!adminTicketPermissions) {
       console.log("Admin Ticket Visa : no community permissions");
       return false;

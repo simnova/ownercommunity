@@ -17,27 +17,6 @@ type ServiceTicket implements MongoBase {
   updatedAt: DateTime
 }
 
-type AdminTicket {
-  community: Community!
-  property: Property
-  requestor: Member!
-  assignedTo: Member
-  service: Service
-  title: String!
-  description: String!
-  status: String!
-  priority: Int!
-  photos: [ServiceTicketPhoto]
-  penaltyAmount: Float
-  penaltyPaidDate: DateTime
-  activityLog: [ServiceTicketActivityDetail]
-
-  id: ObjectID!
-  schemaVersion: String
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-
 type ServiceTicketActivityDetail implements MongoSubdocument {
   activityType: String!
   activityDescription: String!
@@ -69,7 +48,6 @@ extend type Query {
 }
 
 extend type Mutation {
-  adminTicketCreate(input: AdminTicketCreateInput!): ServiceTicketMutationResult!
   serviceTicketCreate(input: ServiceTicketCreateInput!): ServiceTicketMutationResult!
   serviceTicketUpdate(input: ServiceTicketUpdateInput!): ServiceTicketMutationResult!
   serviceTicketAddPhoto(input: ServiceTicketAddPhotoInput!): ServiceTicketPhotoAuthHeaderResult!
@@ -98,16 +76,6 @@ input ServiceTicketCreateInput {
   serviceId: ObjectID
 }
 
-input AdminTicketCreateInput {
-  propertyId: ObjectID!
-  requestorId: ObjectID
-  title: String!
-  description: String!
-  serviceId: ObjectID
-  penaltyAmount: Float
-  penaltyPaidDate: DateTime
-}
-
 input ServiceTicketUpdateInput {
   serviceTicketId: ObjectID!
   propertyId: ObjectID
@@ -115,17 +83,6 @@ input ServiceTicketUpdateInput {
   description: String!
   priority: Int!
   serviceId: ObjectID
-}
-
-input AdminTicketUpdateInput {
-  serviceTicketId: ObjectID!
-  propertyId: ObjectID
-  title: String!
-  description: String!
-  priority: Int!
-  serviceId: ObjectID
-  penaltyAmount: Float
-  penaltyPaidDate: DateTime
 }
 
 input ServiceTicketAddPhotoInput {

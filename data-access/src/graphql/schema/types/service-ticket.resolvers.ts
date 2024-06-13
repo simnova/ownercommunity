@@ -19,21 +19,6 @@ const ServiceTicketMutationResolver = async (getServiceTicket: Promise<ServiceTi
   }
 };
 
-const AdminTicketMutationResolver = async (getAdminTicket: Promise<AdminTicketDo>): Promise<ServiceTicketMutationResult> => {
-  try {
-    return {
-      status: { success: true },
-      serviceTicket: await getAdminTicket,
-    } as ServiceTicketMutationResult;
-  } catch (error) {
-    console.error('AdminTicket > Mutation  : ', error);
-    return {
-      status: { success: false, errorMessage: error.message },
-      serviceTicket: null,
-    } as ServiceTicketMutationResult;
-  }
-};
-
 const serviceTicket: Resolvers = {
   ServiceTicket: {
     community: async (parent, args, context, info) => {
@@ -112,9 +97,6 @@ const serviceTicket: Resolvers = {
   Mutation: {
     serviceTicketCreate: async (_, { input }, { applicationServices }) => {
       return ServiceTicketMutationResolver(applicationServices.serviceTicketDomainApi.serviceTicketCreate(input));
-    },
-    adminTicketCreate: async (_, { input }, { applicationServices }) => {
-      return AdminTicketMutationResolver(applicationServices.adminTicketDomainApi.adminTicketCreate(input));
     },
     serviceTicketUpdate: async (_, { input }, { applicationServices }) => {
       return ServiceTicketMutationResolver(applicationServices.serviceTicketDomainApi.serviceTicketUpdate(input));

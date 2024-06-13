@@ -8,6 +8,7 @@ import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from './ev
 import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './events/handlers/property-updated-update-search-index';
 import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from './events/handlers/service-ticket-updated-update-search-index';
 import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-deleted-update-search-index';
+import {default as RegisterViolationTicketUpdatedUpdateSearchIndexHandler} from './events/handlers/violation-ticket-updated-update-search-index';
 import { DatastoreDomain, DatastoreDomainInitializeable } from './infrastructure/datastore/interfaces';
 import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from './infrastructure/cognitive-search/interfaces';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
@@ -35,6 +36,7 @@ const RegisterEventHandlers = (
   RegisterPropertyUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.propertyUnitOfWork);
   RegisterServiceTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketUnitOfWork);
   RegisterServiceTicketDeletedUpdateSearchIndexHandler(cognitiveSearch);
+  RegisterViolationTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.violationTicketUnitOfWork);
 };
 
 const StopEventHandlers = () => {

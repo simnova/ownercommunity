@@ -17,11 +17,10 @@ export class MongoAdminTicketRepository<PropType extends AdminTicketProps>
     community: CommunityEntityReference,
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
-    penaltyAmount: number,
-    penaltyPaidDate: Date
+    penaltyAmount: number
   ): Promise<AdminTicketDO<PropType>> {
     let adapter = this.typeConverter.toAdapter(new this.model());
-    return AdminTicketDO.getNewInstance(adapter, title, description, community, property, requestor, this.context, penaltyAmount, penaltyPaidDate);
+    return AdminTicketDO.getNewInstance(adapter, title, description, community, property, requestor, this.context, penaltyAmount);
   }
 
   async getById(id: string): Promise<AdminTicketDO<PropType>> {

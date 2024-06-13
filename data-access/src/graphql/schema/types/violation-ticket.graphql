@@ -1,0 +1,50 @@
+type AdminTicket {
+  community: Community!
+  property: Property
+  requestor: Member!
+  assignedTo: Member
+  service: Service
+  title: String!
+  description: String!
+  status: String!
+  priority: Int!
+  photos: [ServiceTicketPhoto]
+  penaltyAmount: Float
+  penaltyPaidDate: DateTime
+  activityLog: [ServiceTicketActivityDetail]
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input AdminTicketCreateInput {
+  propertyId: ObjectID!
+  requestorId: ObjectID
+  title: String!
+  description: String!
+  serviceId: ObjectID
+  penaltyAmount: Float
+}
+
+input AdminTicketUpdateInput {
+  serviceTicketId: ObjectID!
+  propertyId: ObjectID
+  title: String!
+  description: String!
+  priority: Int!
+  serviceId: ObjectID
+  penaltyAmount: Float
+  penaltyPaidDate: DateTime!
+}
+
+type ViolationTicketMutationResult implements MutationResult {
+  status: MutationStatus!
+  violationTicket: AdminTicket
+}
+
+extend type Mutation {
+  adminTicketCreate(input: AdminTicketCreateInput!): ViolationTicketMutationResult!
+  violationTicketUpdate(input: AdminTicketUpdateInput!): ViolationTicketMutationResult!
+}

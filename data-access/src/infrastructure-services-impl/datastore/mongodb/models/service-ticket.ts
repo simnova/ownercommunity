@@ -57,6 +57,7 @@ export interface ServiceTicket extends Base {
   description: string;
   status: string;
   priority: number;
+  ticketType?: string;
   discriminatorKey: string;
   activityLog: Types.DocumentArray<ActivityDetail>;
   photos: Types.DocumentArray<Photo>;
@@ -115,6 +116,7 @@ const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, Serv
   }
 )
 
+// TODO: Discriminator key and Version can't exist together, if we don't use version key it will fall back to __v
 export const ServiceTicketModel = model<ServiceTicket>(
   'ServiceTicket', ServiceTicketSchema
 )

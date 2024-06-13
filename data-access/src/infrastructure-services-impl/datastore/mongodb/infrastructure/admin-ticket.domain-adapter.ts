@@ -144,6 +144,10 @@ export class AdminTicketDomainAdapter extends MongooseDomainAdapter<AdminTicket>
   get penaltyPaidDate () {
     return this.doc.penaltyPaidDate;  
   }
+
+  get ticketType() {
+    return this.doc.ticketType;  
+  }
 }
 
 export class ActivityDetailDomainAdapter implements ActivityDetailProps {

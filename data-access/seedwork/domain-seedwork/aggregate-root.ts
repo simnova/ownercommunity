@@ -30,6 +30,7 @@ export  class AggregateRoot<PropType extends EntityProps> extends Entity<PropTyp
   private integrationEvents: DomainEvent[] = [];
   public addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']) {
     let eventToAdd = new event(this.props.id);
+    console.log('eventToAdd', eventToAdd.payload)
     eventToAdd.payload = props;
     this.integrationEvents.push(eventToAdd);
   }

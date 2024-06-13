@@ -2,7 +2,7 @@ import { AdminTicket } from '../../domain/contexts/service-ticket/admin-ticket';
 import { Service } from '../../domain/contexts/service-ticket/service';
 import { Member } from '../../domain/contexts/community/member';
 import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
-import { AdminTicketCreateInput } from '../../external-dependencies/graphql-api';
+import { AdminTicketCreateInput, AdminTicketUpdateInput } from '../../external-dependencies/graphql-api';
 import { DomainDataSource } from './domain-data-source';
 import { CommunityConverter, MemberConverter, PropertyConverter, ServiceConverter, ServiceDomainAdapter, AdminTicketDomainAdapter, AdminTicketRepository, AdminTicketConverter } from '../../external-dependencies/domain';
 import { AdminTicketData, MemberData } from '../../external-dependencies/datastore';
@@ -58,8 +58,7 @@ export class AdminTicketDomainApiImpl
         communityDo,
         propertyDo,
         memberDo,
-        input.penaltyAmount,
-        input.penaltyPaidDate);
+        input.penaltyAmount);
       if(input.serviceId) { newAdminTicket.Service=(serviceDo); }
       
       adminTicketToReturn = new AdminTicketConverter().toPersistence(await repo.save(newAdminTicket));
@@ -67,7 +66,33 @@ export class AdminTicketDomainApiImpl
     return adminTicketToReturn;
   }
 
-  // async adminTicketUpdate() {
-  //   throw new Error('Method not implemented.');
-  // }
+  async violationTicketUpdate(input: AdminTicketUpdateInput): Promise<AdminTicketData> {
+    let serviceTicketToReturn : AdminTicketData;
+
+    let serviceDo : Service<ServiceDomainAdapter> | undefined = undefined;
+    if(input.serviceId) {
+      let service = await this.context.applicationServices.serviceDataApi.getServiceById(input.serviceId);
+      serviceDo = new ServiceConverter().toDomain(service,{domainVisa:ReadOnlyDomainVisa.GetInstance()});
+    }
+
+    await this.withTransaction(async (repo) => {
+      let serviceTicket = await repo.getById(input.serviceTicketId);
+      let propertyDo = null;
+      if (serviceTicket.property.id !== input.propertyId) {
+        let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
+          if(!property) {
+            propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+          }
+        serviceTicket.Property=(propertyDo);
+      }
+      serviceTicket.Title=(input.title);
+      serviceTicket.Description=(input.description);
+      serviceTicket.Priority=(input.priority);
+      serviceTicket.PenaltyAmount=(input.penaltyAmount);
+      serviceTicket.PenaltyPaidDate=(input.penaltyPaidDate);
+      if(input.serviceId) { serviceTicket.Service=(serviceDo); }
+      serviceTicketToReturn = new AdminTicketConverter().toPersistence(await repo.save(serviceTicket));
+    });
+    return serviceTicketToReturn;
+  }
 }

@@ -11,9 +11,9 @@ import { PropArray } from '../../../../../seedwork/domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
 import { AdminTicketVisa } from '../iam/domain-visa/admin-ticket-visa';
-import { ServiceTicketCreatedEvent } from '../../events/types/service-ticket-created';
-import { ServiceTicketUpdatedEvent } from '../../events/types/service-ticket-updated';
 import { ServiceTicketDeletedEvent } from '../../events/types/service-ticket-deleted';
+import { ViolationTicketUpdatedEvent } from '../../events/types/violation-ticket-updated';
+import { ViolationTicketCreatedEvent } from '../../events/types/violation-ticket-created';
 
 export interface AdminTicketProps extends EntityProps {
   readonly community: CommunityProps;
@@ -28,6 +28,7 @@ export interface AdminTicketProps extends EntityProps {
   setServiceRef(service: ServiceEntityReference): void;
   penaltyAmount: number;
   penaltyPaidDate: Date;
+  readonly ticketType?: string;
   title: string;
   description: string;
   status: string;
@@ -116,7 +117,6 @@ export class AdminTicket<props extends AdminTicketProps> extends AggregateRoot<p
     return new Community(this.props.community, this.context);
   }
   get property() {
-    console.log(this.props.property, "============>")
     return new Property(this.props.property, this.context);
   }
   get requestor() {
@@ -134,6 +134,19 @@ export class AdminTicket<props extends AdminTicketProps> extends AggregateRoot<p
   get description() {
     return this.props.description;
   }
+
+  get penaltyAmount() {
+    return this.props.penaltyAmount;
+  }
+
+  get penaltyPaidDate() {
+    return this.props.penaltyPaidDate;
+  }
+
+  get ticketType() {
+    return this.props.ticketType;
+  }
+
   get status() {
     return this.props.status;
   }
@@ -187,7 +200,7 @@ export class AdminTicket<props extends AdminTicketProps> extends AggregateRoot<p
 
   private MarkAsNew(): void {
     this.isNew = true;
-    this.addIntegrationEvent(ServiceTicketCreatedEvent, { id: this.props.id });
+    this.addIntegrationEvent(ViolationTicketCreatedEvent, { id: this.props.id });
   }
 
   // using set from TS 5.1
@@ -389,7 +402,7 @@ export class AdminTicket<props extends AdminTicketProps> extends AggregateRoot<p
 
   public override onSave(isModified: boolean): void {
     if (isModified && !super.isDeleted) {
-      this.addIntegrationEvent(ServiceTicketUpdatedEvent, { id: this.props.id });
+      this.addIntegrationEvent(ViolationTicketUpdatedEvent, { id: this.props.id });
     }
   }
 }

@@ -30,7 +30,7 @@ variables:
   system.debug: true
   npm_config_cache: $(Pipeline.Workspace)/.npm
   SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
-  UniqueStringDev: 'avaqbizf2s7le'
+  UniqueStringDev: 'rjyobt6kbghbk'
   UniqueStringQA: 'pnp3ehpzqysdg'
   UniqueStringUAT: 'mbe5flfloncdm'
   UniqueStringPRD: 'lbiusbw5zdgpc'
@@ -48,8 +48,8 @@ stages:
       SonarCloud_organization: 'simnova'
       SonarCloud_scannerMode: 'CLI'
       SonarCloud_configMode: 'manual'
-      SonarCloud_cliProjectKey: 'simnova_ownercommuntiy-data-access'
-      SonarCloud_cliProjectName: 'simnova_ownercommuntiy-data-access'
+      SonarCloud_cliProjectKey: 'oc-data-access'
+      SonarCloud_cliProjectName: 'oc-data-access'
 
   - template: ./build-pipeline/core/core-stage.yml
     parameters: 
@@ -58,34 +58,34 @@ stages:
       vmImageName: $(vmImageName)
       ServiceConnectionName: $(ServiceConnectionName)
       deploymentDefaultLocation: $(deploymentDefaultLocation)
-      resourceGroupName: 'corp-core-rg'
+      resourceGroupName: 'rg-owner-community'
 
-  # - template: ./build-pipeline/core/function-app-deployment-stage.yml
-  #   parameters: 
-  #     stageName: 'DEV'
-  #     dependsOnStage: Core
-  #     environmentNameBicep: 'dev'
-  #     environmentNameDevOps: 'efm-dev'
-  #     vmImageName: $(vmImageName)
-  #     ServiceConnectionName: $(ServiceConnectionName)
-  #     deploymentDefaultLocation: $(deploymentDefaultLocation)
-  #     resourceGroupName: 'corp-dev-rg'
-  #     functionAppNamePri: 'efm-dev-func-pri-$(UniqueStringDev)'
-  #     functionAppNameSec: 'efm-dev-func-sec-$(UniqueStringDev)'
-  #     appSettingsJsonFileRelativePathPri: 'data-access/build-pipeline/config/dev-pri.json'
-  #     appSettingsJsonFileRelativePathSec: 'data-access/build-pipeline/config/dev-sec.json'
+  - template: ./build-pipeline/core/function-app-deployment-stage.yml
+    parameters: 
+      stageName: 'DEV'
+      dependsOnStage: Core
+      environmentNameBicep: 'dev'
+      environmentNameDevOps: 'oc-dev'
+      vmImageName: $(vmImageName)
+      ServiceConnectionName: $(ServiceConnectionName)
+      deploymentDefaultLocation: $(deploymentDefaultLocation)
+      resourceGroupName: 'rg-owner-community'
+      functionAppNamePri: 'oc-dev-func-pri-$(UniqueStringDev)'
+      functionAppNameSec: 'oc-dev-func-sec-$(UniqueStringDev)'
+      appSettingsJsonFileRelativePathPri: 'data-access/build-pipeline/config/dev-pri.json'
+      appSettingsJsonFileRelativePathSec: 'data-access/build-pipeline/config/dev-sec.json'
   
-  # - template: ./build-pipeline/core/function-app-deployment-stage.yml
-    # parameters: 
-    #   stageName: 'PRD'
-    #   dependsOnStage: DEV
-    #   environmentNameBicep: 'prd'
-    #   environmentNameDevOps: 'efm-prd'
-    #   vmImageName: $(vmImageName)
-    #   ServiceConnectionName: $(ServiceConnectionName)
-    #   deploymentDefaultLocation: $(deploymentDefaultLocation)
-    #   resourceGroupName: 'corp-prod-rg'
-    #   functionAppNamePri: 'efm-prd-func-pri-$(UniqueStringPRD)'
-    #   functionAppNameSec: 'efm-prd-func-sec-$(UniqueStringPRD)'
-    #   appSettingsJsonFileRelativePathPri: 'data-access/build-pipeline/config/prd-pri.json'
-    #   appSettingsJsonFileRelativePathSec: 'data-access/build-pipeline/config/prd-sec.json'
+  - template: ./build-pipeline/core/function-app-deployment-stage.yml
+    parameters: 
+      stageName: 'PRD'
+      dependsOnStage: DEV
+      environmentNameBicep: 'prd'
+      environmentNameDevOps: 'oc-prd'
+      vmImageName: $(vmImageName)
+      ServiceConnectionName: $(ServiceConnectionName)
+      deploymentDefaultLocation: $(deploymentDefaultLocation)
+      resourceGroupName: 'rg-owner-community'
+      functionAppNamePri: 'oc-prd-func-pri-$(UniqueStringPRD)'
+      functionAppNameSec: 'oc-prd-func-sec-$(UniqueStringPRD)'
+      appSettingsJsonFileRelativePathPri: 'data-access/build-pipeline/config/prd-pri.json'
+      appSettingsJsonFileRelativePathSec: 'data-access/build-pipeline/config/prd-sec.json'

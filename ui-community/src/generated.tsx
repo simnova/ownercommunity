@@ -149,6 +149,47 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
+export type AdminTicket = {
+  __typename?: 'AdminTicket';
+  activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
+  assignedTo?: Maybe<Member>;
+  community: Community;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description: Scalars['String'];
+  id: Scalars['ObjectID'];
+  penaltyAmount?: Maybe<Scalars['Float']>;
+  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
+  photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
+  priority: Scalars['Int'];
+  property?: Maybe<Property>;
+  requestor: Member;
+  schemaVersion?: Maybe<Scalars['String']>;
+  service?: Maybe<Service>;
+  status: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AdminTicketCreateInput = {
+  description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  propertyId: Scalars['ObjectID'];
+  requestorId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
+  title: Scalars['String'];
+};
+
+export type AdminTicketUpdateInput = {
+  description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  penaltyPaidDate: Scalars['DateTime'];
+  priority: Scalars['Int'];
+  propertyId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
+  serviceTicketId: Scalars['ObjectID'];
+  title: Scalars['String'];
+};
+
 export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -573,6 +614,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
+  adminTicketCreate: ViolationTicketMutationResult;
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
@@ -611,6 +653,12 @@ export type Mutation = {
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
+  violationTicketUpdate: ViolationTicketMutationResult;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationAdminTicketCreateArgs = {
+  input: AdminTicketCreateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -791,6 +839,11 @@ export type MutationServiceUpdateArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationUserUpdateArgs = {
   input: UserUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketUpdateArgs = {
+  input: AdminTicketUpdateInput;
 };
 
 export type MutationResult = {
@@ -1316,6 +1369,7 @@ export type ServiceTicketsResult = {
   requestor?: Maybe<Scalars['String']>;
   requestorId?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
+  ticketType?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -1388,6 +1442,12 @@ export type UserUpdateInput = {
   firstName?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   lastName?: InputMaybe<Scalars['String']>;
+};
+
+export type ViolationTicketMutationResult = MutationResult & {
+  __typename?: 'ViolationTicketMutationResult';
+  status: MutationStatus;
+  violationTicket?: Maybe<AdminTicket>;
 };
 
 export type CommunityCreateContainerMutationCommunityCreateMutationVariables = Exact<{
@@ -2941,6 +3001,54 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   publicContentBlobUrl?: string | null;
   id: any;
   schemaVersion?: string | null;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
+
+export type ViolationTicketCreateMutationVariables = Exact<{
+  input: AdminTicketCreateInput;
+}>;
+
+export type ViolationTicketCreateMutation = {
+  __typename?: 'Mutation';
+  adminTicketCreate: {
+    __typename?: 'ViolationTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    violationTicket?: {
+      __typename?: 'AdminTicket';
+      id: any;
+      title: string;
+      status: string;
+      priority: number;
+      penaltyAmount?: number | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null;
+  };
+};
+
+export type ViolationTicketsCreateMutationResultFieldsFragment = {
+  __typename?: 'ViolationTicketMutationResult';
+  status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  violationTicket?: {
+    __typename?: 'AdminTicket';
+    id: any;
+    title: string;
+    status: string;
+    priority: number;
+    penaltyAmount?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type ViolationTicketsCreateContainerServiceTicketFieldsFragment = {
+  __typename?: 'AdminTicket';
+  id: any;
+  title: string;
+  status: string;
+  priority: number;
+  penaltyAmount?: number | null;
   createdAt?: any | null;
   updatedAt?: any | null;
 };
@@ -6555,6 +6663,86 @@ export const AdminSiteEditorContainerCommunityFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<AdminSiteEditorContainerCommunityFieldsFragment, unknown>;
+export const ViolationTicketsCreateContainerServiceTicketFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ViolationTicketsCreateContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<ViolationTicketsCreateContainerServiceTicketFieldsFragment, unknown>;
+export const ViolationTicketsCreateMutationResultFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ViolationTicketsCreateMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'violationTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ViolationTicketsCreateContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ViolationTicketsCreateContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<ViolationTicketsCreateMutationResultFieldsFragment, unknown>;
 export const SectionLayoutContainerMemberFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -12766,6 +12954,100 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
 >;
+export const ViolationTicketCreateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'ViolationTicketCreate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicketCreateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'adminTicketCreate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ViolationTicketsCreateMutationResultFields' } }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ViolationTicketsCreateContainerServiceTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ViolationTicketsCreateMutationResultFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicketMutationResult' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'status' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'violationTicket' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ViolationTicketsCreateContainerServiceTicketFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<ViolationTicketCreateMutation, ViolationTicketCreateMutationVariables>;
 export const SectionLayoutContainerMemberByIdQueryDocument = {
   kind: 'Document',
   definitions: [

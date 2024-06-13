@@ -1,19 +1,20 @@
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, InputNumber, Select } from 'antd';
 import React from 'react';
 
-import { ServiceTicketCreateInput } from '../../../../generated';
+import { AdminTicketCreateInput } from '../../../../generated';
 
 const { TextArea } = Input;
-export interface ServiceTicketsCreateProps {
+
+export interface ViolationTicketsCreateProps {
   data: {
     members: any[];
     properties: any[];
   };
-  onSave: (member: ServiceTicketCreateInput) => void;
+  onSave: (member: AdminTicketCreateInput) => void;
   isAdmin?: boolean;
 }
 
-export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props) => {
+export const ViolationTicketsCreate: React.FC<ViolationTicketsCreateProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
 
@@ -44,6 +45,18 @@ export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props)
             fieldNames={{ label: 'propertyName', value: 'id' }}
           />
         </Form.Item>
+
+        <Form.Item
+          name={['penaltyAmount']}
+          label="Penalty Amount"
+          rules={[{ required: true, message: 'Penalty amount is required for Admin Ticket.' }]}
+        >
+          <InputNumber
+            formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            parser={(value) => value?.replace(/\$\s?|(,*)/g, '') as unknown as number}
+            className="w-fit"
+          />
+        </Form.Item>
       </>
     );
   };
@@ -64,8 +77,8 @@ export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props)
         {props.isAdmin ? (
           <Form.Item
             name={['requestorId']}
-            label="Requestor"
-            rules={[{ required: true, message: 'Requestor is required.' }]}
+            label="Assignee"
+            rules={[{ required: true, message: 'Assignee is required.' }]}
           >
             <Select
               allowClear={true}
@@ -77,7 +90,7 @@ export const ServiceTicketsCreate: React.FC<ServiceTicketsCreateProps> = (props)
         ) : null}
 
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
-          Create Service Ticket
+          Create Violation Ticket
         </Button>
       </Form>
     </div>

@@ -44,8 +44,6 @@ mutation AdminServiceTicketDetailContainerServiceTicketDelete($input: ServiceTic
   }
 }
 
-
-
 fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
   status {
     success

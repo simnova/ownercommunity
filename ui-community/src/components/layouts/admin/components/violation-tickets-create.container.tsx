@@ -5,18 +5,19 @@ import {
   AdminServiceTicketsCreateContainerMembersDocument,
   AdminServiceTicketsCreateContainerPropertiesDocument,
   AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
+  ViolationTicketCreateDocument,
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-  ServiceTicketCreateInput
+  AdminTicketCreateInput // TODO: Change to ViolationTicketCreateInput
 } from '../../../../generated';
-import { ServiceTicketsCreate } from '../../shared/components/service-tickets-create';
+import { ViolationTicketsCreate } from '../../shared/components/violation-tickets-create';
 
-interface ServiceTicketsCreateContainerProps {
+interface ViolationTicketsCreateContainerProps {
   data: {
     communityId: string;
   };
 }
 
-export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (props) => {
+export const ViolationTicketsCreateContainer: React.FC<ViolationTicketsCreateContainerProps> = (props) => {
   const navigate = useNavigate();
 
   const {
@@ -35,39 +36,41 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
     variables: { communityId: props.data.communityId }
   });
 
-  const [serviceTicketCreate] = useMutation(AdminServiceTicketsCreateContainerServiceTicketCreateDocument, {
+  const [violationTicketCreate] = useMutation(ViolationTicketCreateDocument, {
     update(cache, { data }) {
       // update the list with the new item
-      const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
+      const newViolationTicket = data?.adminTicketCreate.violationTicket; // TODO: Change to adminTicketCreate.violationTicket
+
       const serviceTickets = cache.readQuery({
         query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
         variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
-      if (newServiceTicket && serviceTickets) {
+
+      if (newViolationTicket && serviceTickets) {
         cache.writeQuery({
           query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
           variables: { communityId: props.data.communityId },
           data: {
-            serviceTicketsByCommunityId: [...serviceTickets, newServiceTicket]
+            serviceTicketsByCommunityId: [...serviceTickets] // TODO: Append the newViolationTicket to the list
           }
         });
       }
     }
   });
 
-  const handleCreate = async (values: ServiceTicketCreateInput) => {
+  const handleCreate = async (values: AdminTicketCreateInput) => {
     try {
-      const newServiceTicket = await serviceTicketCreate({
+      const newServiceTicket = await violationTicketCreate({
         variables: {
           input: values
         }
       });
-      message.success('ServiceTicket Created');
-      navigate(`../${newServiceTicket.data?.serviceTicketCreate.serviceTicket?.id}`, {
+      message.success('Violation Ticket Created');
+      navigate(`../${newServiceTicket.data?.adminTicketCreate.violationTicket?.id}`, {
         replace: true
       });
     } catch (error) {
-      message.error(`Error creating ServiceTicket: ${JSON.stringify(error)}`);
+      message.error(`Error creating Violation Ticket: ${JSON.stringify(error)}`);
     }
   };
 
@@ -87,7 +90,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
       properties: propertyData.propertiesByCommunityId
     };
 
-    return <ServiceTicketsCreate data={data as any} onSave={handleCreate} isAdmin />;
+    return <ViolationTicketsCreate data={data as any} onSave={handleCreate} isAdmin />;
   } else {
     return <div>No Data...</div>;
   }

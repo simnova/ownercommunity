@@ -16,9 +16,7 @@ interface ServiceTicketsCreateContainerProps {
   };
 }
 
-export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (
-  props
-) => {
+export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (props) => {
   const navigate = useNavigate();
   const {
     data: memberData,
@@ -34,26 +32,23 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
   } = useQuery(MembersServiceTicketsCreateContainerPropertiesDocument, {
     variables: { communityId: props.data.communityId }
   });
-  const [serviceTicketCreate] = useMutation(
-    MembersServiceTicketsCreateContainerServiceTicketCreateDocument,
-    {
-      update(cache, { data }) {
-        // update the list with the new item
-        const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
-        const serviceTickets = cache.readQuery({
+  const [serviceTicketCreate] = useMutation(MembersServiceTicketsCreateContainerServiceTicketCreateDocument, {
+    update(cache, { data }) {
+      // update the list with the new item
+      const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
+      const serviceTickets = cache.readQuery({
+        query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument
+      })?.serviceTicketsOpenByRequestor;
+      if (newServiceTicket && serviceTickets) {
+        cache.writeQuery({
           query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument,
-        })?.serviceTicketsOpenByRequestor;
-        if (newServiceTicket && serviceTickets) {
-          cache.writeQuery({
-            query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument,
-            data: {
-              serviceTicketsOpenByRequestor: [...serviceTickets, newServiceTicket]
-            }
-          });
-        }
+          data: {
+            serviceTicketsOpenByRequestor: [...serviceTickets, newServiceTicket]
+          }
+        });
       }
     }
-  );
+  });
 
   const handleCreate = async (values: ServiceTicketCreateInput) => {
     try {

@@ -1,0 +1,55 @@
+query AdminServiceTicketsCreateContainerMembers($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...AdminServiceTicketsCreateContainerMemberFields
+  }
+}
+
+query AdminServiceTicketsCreateContainerProperties($communityId: ID!) {
+  propertiesByCommunityId(communityId: $communityId) {
+    ...AdminServiceTicketsCreateContainerPropertyFields
+  }
+}
+
+mutation ViolationTicketCreate($input: AdminTicketCreateInput!) {
+  adminTicketCreate(input: $input) {
+    ...ViolationTicketsCreateMutationResultFields
+  }
+}
+
+fragment ViolationTicketsCreateMutationResultFields on ViolationTicketMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  violationTicket {
+    ...ViolationTicketsCreateContainerServiceTicketFields
+  }
+}
+
+fragment ViolationTicketsCreateContainerServiceTicketFields on AdminTicket {
+  id
+  title
+  status
+  priority
+  status
+  penaltyAmount
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  createdAt
+  updatedAt
+}
+
+fragment AdminServiceTicketsCreateContainerMemberFields on Member {
+  id
+  memberName
+}
+fragment AdminServiceTicketsCreateContainerPropertyFields on Property {
+  id
+  propertyName
+}

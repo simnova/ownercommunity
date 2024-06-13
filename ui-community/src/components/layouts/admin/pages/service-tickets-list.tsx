@@ -46,6 +46,7 @@ export const ServiceTicketsList: React.FC<any> = () => {
           }
           extra={[
             <Dropdown.Button
+              key="add-new"
               menu={menuProps}
               type="primary"
               onClick={() => {

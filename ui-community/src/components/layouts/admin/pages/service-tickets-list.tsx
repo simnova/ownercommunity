@@ -41,7 +41,7 @@ export const ServiceTicketsList: React.FC<any> = () => {
                 color: colorTextBase
               }}
             >
-              Service Tickets
+              Tickets
             </span>
           }
           extra={[

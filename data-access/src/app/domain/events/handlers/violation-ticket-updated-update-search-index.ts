@@ -24,7 +24,7 @@ export default (
 
       const createdDate = dayjs(violationTicket.createdAt.toISOString().split('T')[0]).toISOString();
 
-      const penaltyPaidDate = dayjs(violationTicket.penaltyPaidDate.toISOString().split('T')[0]).toISOString();
+      const penaltyPaidDate = violationTicket.penaltyPaidDate ? dayjs(violationTicket.penaltyPaidDate.toISOString().split('T')[0]).toISOString() : null;
 
       let violationTicketDoc: Partial<ServiceTicketIndexDocument> = {
         id: violationTicket.id,

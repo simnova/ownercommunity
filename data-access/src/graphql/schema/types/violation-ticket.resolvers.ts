@@ -1,5 +1,5 @@
 import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult } from '../builder/generated';
-import { AdminTicket as AdminTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/admin-ticket';
+import { AdminTicket as AdminTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/violation-ticket';
 import { isValidObjectId } from 'mongoose';
 
 const ViolationTicketMutationResolver = async (getAdminTicket: Promise<AdminTicketDo>): Promise<ViolationTicketMutationResult> => {

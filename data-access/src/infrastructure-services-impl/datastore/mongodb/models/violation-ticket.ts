@@ -1,4 +1,4 @@
-import { Schema, model, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
+import { Schema, Model, Types, PopulatedDoc, model, ObjectId } from 'mongoose';
 import { Base, SubdocumentBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as Community from './community';
 import * as Property from './property';
@@ -12,6 +12,13 @@ export interface ActivityDetail extends SubdocumentBase {
   activityDescription: string;
   activityBy: PopulatedDoc<Member.Member>;
 }
+
+export interface Photo extends SubdocumentBase {
+  id: ObjectId;
+  documentId: string;
+  description: string;
+}
+
 const ActivityDetailSchema = new Schema<ActivityDetail, Model<ActivityDetail>, ActivityDetail>(
   {
     activityType: {
@@ -32,11 +39,6 @@ const ActivityDetailSchema = new Schema<ActivityDetail, Model<ActivityDetail>, A
   }
 );
 
-export interface Photo extends SubdocumentBase {
-  id: ObjectId;
-  documentId: string;
-  description: string;
-}
 export const PhotoSchema = new Schema<Photo, Model<Photo>, Photo>({
   description: {
     type: String,
@@ -48,7 +50,7 @@ export const PhotoSchema = new Schema<Photo, Model<Photo>, Photo>({
   documentId: { type: String, required: true },
 });
 
-export interface ServiceTicket extends Ticket {
+export interface AdminTicket extends Ticket {
   community: PopulatedDoc<Community.Community>;
   property?: PopulatedDoc<Property.Property>;
   requestor: PopulatedDoc<Member.Member>;
@@ -65,9 +67,11 @@ export interface ServiceTicket extends Ticket {
   hash: string;
   lastIndexed: Date;
   updateIndexFailedDate: Date;
+  penaltyAmount: number;
+  penaltyPaidDate: Date;
 }
 
-const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, ServiceTicket>(
+const ViolationTicketSchema = new Schema<AdminTicket, Model<AdminTicket>, AdminTicket>(
   {
     schemaVersion: {
       type: String,
@@ -108,10 +112,16 @@ const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, Serv
     hash: { type: String, required: false, maxlength: 100 },
     lastIndexed: { type: Date, required: false },
     updateIndexFailedDate: { type: Date, required: false },
+    penaltyAmount: {
+      type: Number,
+      required: true,
+    },
+    penaltyPaidDate: {
+      type: Date,
+      required: false,
+    },
   },
   ticketOptions
 );
 
-// TODO: Discriminator key and Version can't exist together, if we don't use version key it will fall back to __v
-
-export const ServiceTicketModel = TicketModel.discriminator('ServiceTicketType', ServiceTicketSchema);
+export const ViolationTicketModel = TicketModel.discriminator('ViolationTicketType', ViolationTicketSchema);

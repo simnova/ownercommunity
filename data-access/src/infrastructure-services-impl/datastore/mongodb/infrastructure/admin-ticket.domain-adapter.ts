@@ -1,5 +1,5 @@
 import { ActivityDetail, Photo } from '../models/service-ticket';
-import { AdminTicket } from '../models/admin-ticket';
+import { AdminTicket } from '../models/violation-ticket';
 import { AdminTicket as AdminTicketDO, AdminTicketProps } from '../../../../app/domain/contexts/service-ticket/admin-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';

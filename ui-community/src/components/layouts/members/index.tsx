@@ -43,7 +43,7 @@ const pageLayouts: PageLayoutProps[] = [
   },
   {
     path: '/community/:communityId/member/:memberId/service-tickets/*',
-    title: 'Service Tickets',
+    title: 'Tickets',
     icon: <ScheduleOutlined />,
     id: 4,
     parent: 'ROOT',

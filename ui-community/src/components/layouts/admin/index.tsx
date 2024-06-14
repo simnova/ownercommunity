@@ -75,7 +75,7 @@ export const Admin: React.FC<any> = (_props) => {
     },
     {
       path: '/community/:communityId/admin/:memberId/service-tickets/*',
-      title: 'Service Tickets',
+      title: 'Tickets',
       icon: <ScheduleOutlined />,
       id: 7,
       parent: 'ROOT',

@@ -21,7 +21,7 @@ export const ServiceTicketsList: React.FC<any> = (_props) => {
         title={
           <span style={{
             color: colorTextBase
-          }}>Service Tickets</span>
+          }}>Tickets</span>
         }
           extra={[
             <Button type="primary" onClick={() => navigate('new')}>

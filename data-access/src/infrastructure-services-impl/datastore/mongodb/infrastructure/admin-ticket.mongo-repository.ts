@@ -1,5 +1,5 @@
 import { AdminTicket as AdminTicketDO, AdminTicketProps } from '../../../../app/domain/contexts/service-ticket/admin-ticket';
-import { AdminTicket } from '../models/admin-ticket';
+import { AdminTicket } from '../models/violation-ticket';
 import { MongoRepositoryBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 import { MemberEntityReference } from '../../../../app/domain/contexts/community/member';

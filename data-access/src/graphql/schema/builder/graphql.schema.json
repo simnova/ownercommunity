@@ -773,7 +773,7 @@
       {
         "kind": "OBJECT",
         "name": "AdminTicket",
-        "description": null,
+        "description": "An Admin ticket describes violation ticket type.",
         "fields": [
           {
             "name": "activityLog",
@@ -9431,8 +9431,8 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "ServiceTicket",
+                "kind": "UNION",
+                "name": "TicketType",
                 "ofType": null
               }
             },
@@ -12070,6 +12070,27 @@
         "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
+      },
+      {
+        "kind": "UNION",
+        "name": "TicketType",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "AdminTicket",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "ServiceTicket",
+            "ofType": null
+          }
+        ]
       },
       {
         "kind": "SCALAR",

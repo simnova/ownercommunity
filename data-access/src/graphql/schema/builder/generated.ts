@@ -151,6 +151,7 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
+/** An Admin ticket describes violation ticket type. */
 export type AdminTicket = {
   __typename?: 'AdminTicket';
   activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
@@ -1058,7 +1059,7 @@ export type Query = {
   service?: Maybe<Service>;
   serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
-  serviceTicketsByCommunityId?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicketsByCommunityId?: Maybe<Array<Maybe<TicketType>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -1421,6 +1422,8 @@ export type ServiceUpdateInput = {
   serviceName?: InputMaybe<Scalars['String']>;
 };
 
+export type TicketType = AdminTicket | ServiceTicket;
+
 export type User = MongoBase & {
   __typename?: 'User';
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -1511,6 +1514,16 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   context: TContext,
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
+
+/** Mapping of union types */
+export type ResolversUnionTypes = ResolversObject<{
+  TicketType: AdminTicket | ServiceTicket;
+}>;
+
+/** Mapping of union parent types */
+export type ResolversUnionParentTypes = ResolversObject<{
+  TicketType: AdminTicket | ServiceTicket;
+}>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
@@ -1711,6 +1724,7 @@ export type ResolversTypes = ResolversObject<{
   ServiceTicketsSearchResult: ResolverTypeWrapper<ServiceTicketsSearchResult>;
   ServiceUpdateInput: ServiceUpdateInput;
   String: ResolverTypeWrapper<Scalars['String']>;
+  TicketType: ResolverTypeWrapper<ResolversUnionTypes['TicketType']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
   TimeZone: ResolverTypeWrapper<Scalars['TimeZone']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
@@ -1925,6 +1939,7 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceTicketsSearchResult: ServiceTicketsSearchResult;
   ServiceUpdateInput: ServiceUpdateInput;
   String: Scalars['String'];
+  TicketType: ResolversUnionParentTypes['TicketType'];
   Time: Scalars['Time'];
   TimeZone: Scalars['TimeZone'];
   Timestamp: Scalars['Timestamp'];
@@ -2768,7 +2783,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType, RequireFields<QueryServiceTicketArgs, 'id'>>;
   serviceTicketsAssignedToCurrentUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>,
+    Maybe<Array<Maybe<ResolversTypes['TicketType']>>>,
     ParentType,
     ContextType,
     RequireFields<QueryServiceTicketsByCommunityIdArgs, 'communityId'>
@@ -2982,6 +2997,10 @@ export type ServiceTicketsSearchResultResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type TicketTypeResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['TicketType'] = ResolversParentTypes['TicketType']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'AdminTicket' | 'ServiceTicket', ParentType, ContextType>;
+}>;
+
 export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
   name: 'Time';
 }
@@ -3163,6 +3182,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   ServiceTicketsResult?: ServiceTicketsResultResolvers<ContextType>;
   ServiceTicketsSearchFacets?: ServiceTicketsSearchFacetsResolvers<ContextType>;
   ServiceTicketsSearchResult?: ServiceTicketsSearchResultResolvers<ContextType>;
+  TicketType?: TicketTypeResolvers<ContextType>;
   Time?: GraphQLScalarType;
   TimeZone?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;

@@ -149,6 +149,7 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
+/** An Admin ticket describes violation ticket type. */
 export type AdminTicket = {
   __typename?: 'AdminTicket';
   activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
@@ -1056,7 +1057,7 @@ export type Query = {
   service?: Maybe<Service>;
   serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
-  serviceTicketsByCommunityId?: Maybe<Array<Maybe<ServiceTicket>>>;
+  serviceTicketsByCommunityId?: Maybe<Array<Maybe<TicketType>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -1418,6 +1419,8 @@ export type ServiceUpdateInput = {
   isActive?: InputMaybe<Scalars['Boolean']>;
   serviceName?: InputMaybe<Scalars['String']>;
 };
+
+export type TicketType = AdminTicket | ServiceTicket;
 
 export type User = MongoBase & {
   __typename?: 'User';
@@ -2715,16 +2718,20 @@ export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQueryVa
 
 export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery = {
   __typename?: 'Query';
-  serviceTicketsByCommunityId?: Array<{
-    __typename?: 'ServiceTicket';
-    title: string;
-    priority: number;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    requestor: { __typename?: 'Member'; memberName?: string | null };
-    assignedTo?: { __typename?: 'Member'; memberName?: string | null } | null;
-  } | null> | null;
+  serviceTicketsByCommunityId?: Array<
+    | { __typename?: 'AdminTicket' }
+    | {
+        __typename?: 'ServiceTicket';
+        title: string;
+        priority: number;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        requestor: { __typename?: 'Member'; memberName?: string | null };
+        assignedTo?: { __typename?: 'Member'; memberName?: string | null } | null;
+      }
+    | null
+  > | null;
 };
 
 export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFieldsFragment = {

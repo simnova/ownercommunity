@@ -2769,6 +2769,7 @@ export type AdminServiceTicketsListContainerSearchServiceTicketsQuery = {
       priority?: number | null;
       createdAt?: any | null;
       updatedAt?: any | null;
+      ticketType?: string | null;
     } | null> | null;
   } | null;
 };
@@ -2791,6 +2792,7 @@ export type AdminServiceTicketSearchFieldsFragment = {
     priority?: number | null;
     createdAt?: any | null;
     updatedAt?: any | null;
+    ticketType?: string | null;
   } | null> | null;
 };
 
@@ -2809,6 +2811,7 @@ export type AdminServiceTicketsListContainerSearchServiceTicketsResultFieldsFrag
   priority?: number | null;
   createdAt?: any | null;
   updatedAt?: any | null;
+  ticketType?: string | null;
 };
 
 export type AdminSettingsGeneralContainerCommunityQueryVariables = Exact<{
@@ -6490,7 +6493,8 @@ export const AdminServiceTicketsListContainerSearchServiceTicketsResultFieldsFra
           { kind: 'Field', name: { kind: 'Name', value: 'status' } },
           { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'ticketType' } }
         ]
       }
     }
@@ -6542,7 +6546,8 @@ export const AdminServiceTicketSearchFieldsFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'status' } },
           { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'ticketType' } }
         ]
       }
     }
@@ -12373,7 +12378,8 @@ export const AdminServiceTicketsListContainerSearchServiceTicketsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'status' } },
           { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'ticketType' } }
         ]
       }
     },

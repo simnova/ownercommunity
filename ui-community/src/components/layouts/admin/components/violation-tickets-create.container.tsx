@@ -51,7 +51,7 @@ export const ViolationTicketsCreateContainer: React.FC<ViolationTicketsCreateCon
           query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
           variables: { communityId: props.data.communityId },
           data: {
-            serviceTicketsByCommunityId: [...serviceTickets] // TODO: Append the newViolationTicket to the list
+            serviceTicketsByCommunityId: [...serviceTickets, newViolationTicket]
           }
         });
       }

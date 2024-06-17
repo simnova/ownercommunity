@@ -77,8 +77,8 @@ export const ViolationTicketsCreate: React.FC<ViolationTicketsCreateProps> = (pr
         {props.isAdmin ? (
           <Form.Item
             name={['requestorId']}
-            label="Assignee"
-            rules={[{ required: true, message: 'Assignee is required.' }]}
+            label="Requestor"
+            rules={[{ required: true, message: 'Requestor is required.' }]}
           >
             <Select
               allowClear={true}

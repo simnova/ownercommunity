@@ -17,7 +17,8 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     {
       title: 'Type',
       dataIndex: 'ticketType',
-      key: 'ticketType'
+      key: 'ticketType',
+      render: (text: string) => <span>{text === 'ViolationTicketType' ? 'Violation' : text}</span>
     },
     {
       title: 'Title',

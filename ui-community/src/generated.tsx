@@ -167,6 +167,7 @@ export type AdminTicket = {
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
+  ticketType?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -1260,6 +1261,7 @@ export type ServiceTicket = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
+  ticketType?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
 };

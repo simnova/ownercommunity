@@ -39,7 +39,7 @@ type ServiceTicketPhoto implements MongoSubdocument {
 union TicketType = ServiceTicket | AdminTicket
 
 extend type Query {
-  serviceTicket(id: ObjectID!): ServiceTicket
+  serviceTicket(id: ObjectID!, ticketType: String!): TicketType
   serviceTicketsOpenByCommunity: [ServiceTicket]
   serviceTicketsOpenByRequestor: [ServiceTicket]
   serviceTicketsClosedByRequestor: [ServiceTicket]

@@ -1057,7 +1057,7 @@ export type Query = {
   rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
   serverDate?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
-  serviceTicket?: Maybe<ServiceTicket>;
+  serviceTicket?: Maybe<TicketType>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsByCommunityId?: Maybe<Array<Maybe<TicketType>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -1150,6 +1150,7 @@ export type QueryServiceArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketArgs = {
   id: Scalars['ObjectID'];
+  ticketType: Scalars['String'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -2786,7 +2787,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   rolesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType, RequireFields<QueryRolesByCommunityIdArgs, 'communityId'>>;
   serverDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType, RequireFields<QueryServiceArgs, 'id'>>;
-  serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType, RequireFields<QueryServiceTicketArgs, 'id'>>;
+  serviceTicket?: Resolver<Maybe<ResolversTypes['TicketType']>, ParentType, ContextType, RequireFields<QueryServiceTicketArgs, 'id' | 'ticketType'>>;
   serviceTicketsAssignedToCurrentUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsByCommunityId?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['TicketType']>>>,

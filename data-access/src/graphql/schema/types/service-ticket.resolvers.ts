@@ -61,6 +61,9 @@ const serviceTicket: Resolvers = {
   },
   Query: {
     serviceTicket: async (_parent, args, context, _info) => {
+      if(args.ticketType === 'ViolationTicketType') {
+        return (await context.applicationServices.violationTicketDataApi.getViolationTicketById(args.id)) as AdminTicket;
+      }
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketById(args.id)) as ServiceTicket;
     },
     serviceTicketsOpenByCommunity: async (_parent, _args, context, _info) => {

@@ -10,8 +10,8 @@ query AdminServiceTicketsDetailContainerProperties {
   }
 }
 
-query AdminServiceTicketsDetailContainerServiceTicket($id: ObjectID!) {
-  serviceTicket(id: $id) {
+query AdminServiceTicketsDetailContainerServiceTicket($id: ObjectID!, $ticketType: String!) {
+  serviceTicket(id: $id, ticketType: $ticketType) {
     ...AdminServiceTicketsDetailContainerServiceTicketFields
   }
 }

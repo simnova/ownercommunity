@@ -1055,7 +1055,7 @@ export type Query = {
   rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
   serverDate?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
-  serviceTicket?: Maybe<ServiceTicket>;
+  serviceTicket?: Maybe<TicketType>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsByCommunityId?: Maybe<Array<Maybe<TicketType>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -1148,6 +1148,7 @@ export type QueryServiceArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketArgs = {
   id: Scalars['ObjectID'];
+  ticketType: Scalars['String'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -2394,40 +2395,44 @@ export type AdminServiceTicketsDetailContainerPropertiesQuery = {
 
 export type AdminServiceTicketsDetailContainerServiceTicketQueryVariables = Exact<{
   id: Scalars['ObjectID'];
+  ticketType: Scalars['String'];
 }>;
 
 export type AdminServiceTicketsDetailContainerServiceTicketQuery = {
   __typename?: 'Query';
-  serviceTicket?: {
-    __typename?: 'ServiceTicket';
-    title: string;
-    description: string;
-    status: string;
-    priority: number;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
-    requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
-    assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
-    photos?: Array<{
-      __typename?: 'ServiceTicketPhoto';
-      documentId: string;
-      description: string;
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-    } | null> | null;
-    activityLog?: Array<{
-      __typename?: 'ServiceTicketActivityDetail';
-      activityType: string;
-      activityDescription: string;
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-      activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
-    } | null> | null;
-  } | null;
+  serviceTicket?:
+    | { __typename?: 'AdminTicket' }
+    | {
+        __typename?: 'ServiceTicket';
+        title: string;
+        description: string;
+        status: string;
+        priority: number;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+        requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+        assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+        photos?: Array<{
+          __typename?: 'ServiceTicketPhoto';
+          documentId: string;
+          description: string;
+          id: any;
+          createdAt?: any | null;
+          updatedAt?: any | null;
+        } | null> | null;
+        activityLog?: Array<{
+          __typename?: 'ServiceTicketActivityDetail';
+          activityType: string;
+          activityDescription: string;
+          id: any;
+          createdAt?: any | null;
+          updatedAt?: any | null;
+          activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+        } | null> | null;
+      }
+    | null;
 };
 
 export type AdminServiceTicketsDetailContainerServiceTicketUpdateMutationVariables = Exact<{
@@ -3713,40 +3718,44 @@ export type MembersServiceTicketsDetailContainerPropertiesQuery = {
 
 export type MembersServiceTicketsDetailContainerServiceTicketQueryVariables = Exact<{
   id: Scalars['ObjectID'];
+  ticketType: Scalars['String'];
 }>;
 
 export type MembersServiceTicketsDetailContainerServiceTicketQuery = {
   __typename?: 'Query';
-  serviceTicket?: {
-    __typename?: 'ServiceTicket';
-    title: string;
-    description: string;
-    status: string;
-    priority: number;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
-    requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
-    assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
-    photos?: Array<{
-      __typename?: 'ServiceTicketPhoto';
-      documentId: string;
-      description: string;
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-    } | null> | null;
-    activityLog?: Array<{
-      __typename?: 'ServiceTicketActivityDetail';
-      activityType: string;
-      activityDescription: string;
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-      activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
-    } | null> | null;
-  } | null;
+  serviceTicket?:
+    | { __typename?: 'AdminTicket' }
+    | {
+        __typename?: 'ServiceTicket';
+        title: string;
+        description: string;
+        status: string;
+        priority: number;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+        requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+        assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+        photos?: Array<{
+          __typename?: 'ServiceTicketPhoto';
+          documentId: string;
+          description: string;
+          id: any;
+          createdAt?: any | null;
+          updatedAt?: any | null;
+        } | null> | null;
+        activityLog?: Array<{
+          __typename?: 'ServiceTicketActivityDetail';
+          activityType: string;
+          activityDescription: string;
+          id: any;
+          createdAt?: any | null;
+          updatedAt?: any | null;
+          activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+        } | null> | null;
+      }
+    | null;
 };
 
 export type MembersServiceTicketsDetailContainerServiceTicketUpdateMutationVariables = Exact<{
@@ -11268,6 +11277,11 @@ export const AdminServiceTicketsDetailContainerServiceTicketDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'ticketType' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
         }
       ],
       selectionSet: {
@@ -11281,6 +11295,11 @@ export const AdminServiceTicketsDetailContainerServiceTicketDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'id' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'ticketType' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'ticketType' } }
               }
             ],
             selectionSet: {
@@ -14332,6 +14351,11 @@ export const MembersServiceTicketsDetailContainerServiceTicketDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'ticketType' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
         }
       ],
       selectionSet: {
@@ -14345,6 +14369,11 @@ export const MembersServiceTicketsDetailContainerServiceTicketDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'id' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'ticketType' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'ticketType' } }
               }
             ],
             selectionSet: {

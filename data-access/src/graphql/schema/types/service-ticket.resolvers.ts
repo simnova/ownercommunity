@@ -59,12 +59,22 @@ const serviceTicket: Resolvers = {
       return parent.activityBy;
     },
   },
+  TicketType: {
+    __resolveType: (parent, context, info) => {
+      if (parent.ticketType === 'ServiceTicketType') {
+        return 'ServiceTicket';
+      }
+        return 'AdminTicket';
+  },
+},
   Query: {
     serviceTicket: async (_parent, args, context, _info) => {
-      if(args.ticketType === 'ViolationTicketType') {
+      if (args.ticketType === 'ServiceTicketType') {
+        return (await context.applicationServices.serviceTicketDataApi.getServiceTicketById(args.id)) as ServiceTicket;
+      }
+      if (args.ticketType === 'ViolationTicketType') {
         return (await context.applicationServices.violationTicketDataApi.getViolationTicketById(args.id)) as AdminTicket;
       }
-      return (await context.applicationServices.serviceTicketDataApi.getServiceTicketById(args.id)) as ServiceTicket;
     },
     serviceTicketsOpenByCommunity: async (_parent, _args, context, _info) => {
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByCommunityId(context.communityId)) as ServiceTicket[];
@@ -120,5 +130,6 @@ const serviceTicket: Resolvers = {
     },
   },
 };
+
 
 export default serviceTicket;

@@ -169,6 +169,7 @@ export type AdminTicket = {
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
+  ticketType?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -1262,6 +1263,7 @@ export type ServiceTicket = MongoBase & {
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
+  ticketType?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -2042,6 +2044,7 @@ export type AdminTicketResolvers<
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ticketType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -2901,6 +2904,7 @@ export type ServiceTicketResolvers<
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ticketType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

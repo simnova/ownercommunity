@@ -8,6 +8,7 @@ type ServiceTicket implements MongoBase {
   description: String!
   status: String!
   priority: Int!
+  ticketType: String
   photos: [ServiceTicketPhoto]
   activityLog: [ServiceTicketActivityDetail]
 

@@ -1,11 +1,11 @@
 import {
-    BarsOutlined,
-    ContactsOutlined,
-    HomeOutlined,
-    LayoutOutlined,
-    SafetyOutlined,
-    ScheduleOutlined,
-    SettingOutlined
+  BarsOutlined,
+  ContactsOutlined,
+  HomeOutlined,
+  LayoutOutlined,
+  SafetyOutlined,
+  ScheduleOutlined,
+  SettingOutlined
 } from '@ant-design/icons';
 import { Route, Routes, useParams } from 'react-router-dom';
 import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
@@ -39,7 +39,8 @@ export const Admin: React.FC<any> = (_props) => {
       icon: <SettingOutlined />,
       id: 2,
       parent: 'ROOT',
-      hasPermissions: (member: Member) => member?.role?.permissions?.communityPermissions?.canManageCommunitySettings ?? false
+      hasPermissions: (member: Member) =>
+        member?.role?.permissions?.communityPermissions?.canManageCommunitySettings ?? false
     },
     {
       path: '/community/:communityId/admin/:memberId/site-editor/*',
@@ -55,7 +56,8 @@ export const Admin: React.FC<any> = (_props) => {
       icon: <SafetyOutlined />,
       id: 4,
       parent: 'ROOT',
-      hasPermissions: (member: Member) => member?.role?.permissions?.communityPermissions?.canManageRolesAndPermissions ?? false
+      hasPermissions: (member: Member) =>
+        member?.role?.permissions?.communityPermissions?.canManageRolesAndPermissions ?? false
     },
     {
       path: '/community/:communityId/admin/:memberId/members/*',
@@ -90,7 +92,7 @@ export const Admin: React.FC<any> = (_props) => {
           <Route path="/" element={<Home />} />
           <Route path="/settings/*" element={<Settings />} />
           <Route path="/site-editor/*" element={<SiteEditor />} />
-          <Route path="/roles/*" element={<Roles />}  />
+          <Route path="/roles/*" element={<Roles />} />
           <Route path="/members/*" element={<Members />} />
           <Route path="/properties/*" element={<Properties />} />
           <Route path="/service-tickets/*" element={<ServiceTickets />} />

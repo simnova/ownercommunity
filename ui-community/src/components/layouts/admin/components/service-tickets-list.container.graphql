@@ -1,6 +1,19 @@
 query AdminServiceTicketsListContainerServiceTicketsOpenByCommunity($communityId: ID!) {
   serviceTicketsByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields
+    ... on AdminTicket {
+      id
+      title
+      requestor {
+        memberName
+      }
+      assignedTo {
+        memberName
+      }
+      priority
+      createdAt
+      updatedAt
+    }
   }
 }
 

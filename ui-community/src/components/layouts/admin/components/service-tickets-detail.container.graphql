@@ -13,6 +13,7 @@ query AdminServiceTicketsDetailContainerProperties {
 query AdminServiceTicketsDetailContainerServiceTicket($id: ObjectID!, $ticketType: String!) {
   serviceTicket(id: $id, ticketType: $ticketType) {
     ...AdminServiceTicketsDetailContainerServiceTicketFields
+    ...AdminServiceTicketsDetailContainerAdminTicketFields
   }
 }
 
@@ -55,6 +56,48 @@ fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on 
 }
 
 fragment AdminServiceTicketsDetailContainerServiceTicketFields on ServiceTicket {
+  title
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  assignedTo {
+    id
+    memberName
+  }
+  title
+  description
+  status
+  priority
+  photos {
+    documentId
+    description
+
+    id
+    createdAt
+    updatedAt
+  }
+  activityLog {
+    activityType
+    activityDescription
+    activityBy {
+      id
+      memberName
+    }
+    id
+    createdAt
+    updatedAt
+  }
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminServiceTicketsDetailContainerAdminTicketFields on AdminTicket {
   title
   property {
     id

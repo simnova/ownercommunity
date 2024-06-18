@@ -8,17 +8,28 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
     {
       title: 'Action',
       dataIndex: 'id',
-      render: (text: any) => (
-        <Button type="primary" size="small" onClick={() => navigate(text)}>
-          Edit
-        </Button>
-      )
+      render: (text: any, record: any) => {
+        return (
+          <Button type="primary" size="small" onClick={() => navigate(`${record.ticketType}/${text}`)}>
+            Edit
+          </Button>
+        );
+      }
     },
     {
       title: 'Type',
       dataIndex: 'ticketType',
       key: 'ticketType',
-      render: (text: string) => <span>{text === 'ViolationTicketType' ? 'Violation' : text}</span>
+      render: (text: string) => {
+        switch (text) {
+          case 'ViolationTicketType':
+            return 'Violation';
+          case 'ServiceTicketType':
+            return 'Service Request';
+          default:
+            return text;
+        }
+      }
     },
     {
       title: 'Title',
@@ -53,9 +64,14 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
       render: (text: any) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     }
   ];
+  console.table(props.data?.serviceTicketsResults);
   return (
     <div>
-      <Table columns={columns} dataSource={props.data?.serviceTicketsResults} rowKey={(record: any) => record.id} />
+      <Table
+        columns={columns}
+        dataSource={props.data?.serviceTicketsResults as any}
+        rowKey={(record: any) => record.id}
+      />
     </div>
   );
 };

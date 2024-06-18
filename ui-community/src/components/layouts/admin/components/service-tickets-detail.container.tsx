@@ -1,26 +1,27 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { Skeleton, message } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from '@apollo/client';
+import { Skeleton, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import {
-    AdminServiceTicketDetailContainerServiceTicketDeleteDocument,
-    AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
-    AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
-    AdminServiceTicketsDetailContainerPropertiesDocument,
-    AdminServiceTicketsDetailContainerServiceAssignDocument,
-    AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
-    AdminServiceTicketsDetailContainerServiceTicketDocument,
-    AdminServiceTicketsDetailContainerServiceTicketUpdateDocument,
-    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-    ServiceTicketAddUpdateActivityInput,
-    ServiceTicketAssignInput,
-    ServiceTicketChangeStatusInput,
-    ServiceTicketUpdateInput
-} from "../../../../generated";
-import { ServiceTicketsDetail } from "./service-tickets-detail";
+  AdminServiceTicketDetailContainerServiceTicketDeleteDocument,
+  AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
+  AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
+  AdminServiceTicketsDetailContainerPropertiesDocument,
+  AdminServiceTicketsDetailContainerServiceAssignDocument,
+  AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
+  AdminServiceTicketsDetailContainerServiceTicketDocument,
+  AdminServiceTicketsDetailContainerServiceTicketUpdateDocument,
+  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+  ServiceTicketAddUpdateActivityInput,
+  ServiceTicketAssignInput,
+  ServiceTicketChangeStatusInput,
+  ServiceTicketUpdateInput
+} from '../../../../generated';
+import { ServiceTicketsDetail } from './service-tickets-detail';
 
 export interface ServiceTicketsDetailContainerProps {
   data: {
     id: string;
+    ticketType: string;
     communityId: string;
   };
 }
@@ -28,26 +29,39 @@ export interface ServiceTicketsDetailContainerProps {
 export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContainerProps> = (props) => {
   const navigate = useNavigate();
 
-  const [serviceTicketUpdate] = useMutation(AdminServiceTicketsDetailContainerServiceTicketUpdateDocument); 
-  const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument);  
+  const [serviceTicketUpdate] = useMutation(AdminServiceTicketsDetailContainerServiceTicketUpdateDocument);
+  const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument);
   const [serviceTicketAssign] = useMutation(AdminServiceTicketsDetailContainerServiceAssignDocument);
   const [serviceTicketAddUpdateActivity] = useMutation(AdminServiceTicketsDetailContainerAddUpdateActivityDocument);
-  const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument);
+  const {
+    data: memberData,
+    loading: memberLoading,
+    error: memberError
+  } = useQuery(AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument);
 
-  const { data: propertyData, loading: propertyLoading, error: propertyError } = useQuery(AdminServiceTicketsDetailContainerPropertiesDocument);
- 
-  const { data: serviceTicketData, loading: serviceTicketLoading, error: serviceTicketError } = useQuery(AdminServiceTicketsDetailContainerServiceTicketDocument,{
+  const {
+    data: propertyData,
+    loading: propertyLoading,
+    error: propertyError
+  } = useQuery(AdminServiceTicketsDetailContainerPropertiesDocument);
+
+  const {
+    data: serviceTicketData,
+    loading: serviceTicketLoading,
+    error: serviceTicketError
+  } = useQuery(AdminServiceTicketsDetailContainerServiceTicketDocument, {
     variables: {
-      id: props.data.id
+      id: props.data.id,
+      ticketType: props.data.ticketType
     }
   });
 
   const [deleteServiceTicket] = useMutation(AdminServiceTicketDetailContainerServiceTicketDeleteDocument, {
-    update(cache, {data}) {
+    update(cache, { data }) {
       const deletedServiceTicket = data?.serviceTicketDelete.serviceTicket;
       const serviceTickets = cache.readQuery({
-        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument, 
-        variables: {communityId: props.data.communityId}
+        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+        variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
       if (deletedServiceTicket && serviceTickets) {
         cache.writeQuery({
@@ -61,7 +75,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
         });
       }
     }
-  })
+  });
 
   const handleAssign = async (values: ServiceTicketAssignInput) => {
     try {
@@ -70,11 +84,11 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
           input: values
         }
       });
-      message.success("Assignment changed successfully");
+      message.success('Assignment changed successfully');
     } catch (error) {
       message.error(`Error changing assignment on Service Ticket : ${JSON.stringify(error)}`);
     }
-  }
+  };
 
   const handleAddUpdateActivity = async (values: ServiceTicketAddUpdateActivityInput) => {
     try {
@@ -83,12 +97,11 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
           input: values
         }
       });
-      message.success("Activity added successfully");
+      message.success('Activity added successfully');
     } catch (error) {
       message.error(`Error adding activity on Service Ticket : ${JSON.stringify(error)}`);
     }
-  }
-
+  };
 
   const handleChangeStatus = async (values: ServiceTicketChangeStatusInput) => {
     try {
@@ -97,15 +110,17 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
           input: values
         }
       });
-      if(!result.data?.serviceTicketChangeStatus.status.success){
-        message.error(`Error changing Service Ticket status : ${result.data?.serviceTicketChangeStatus.status.errorMessage}`);
-      }else{
-        message.success("Status changed successfully");
+      if (!result.data?.serviceTicketChangeStatus.status.success) {
+        message.error(
+          `Error changing Service Ticket status : ${result.data?.serviceTicketChangeStatus.status.errorMessage}`
+        );
+      } else {
+        message.success('Status changed successfully');
       }
     } catch (error) {
       message.error(`Error changing Service Ticket status : ${JSON.stringify(error)}`);
     }
-  }
+  };
 
   const handleUpdate = async (values: ServiceTicketUpdateInput) => {
     try {
@@ -114,14 +129,13 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
       await serviceTicketUpdate({
         variables: {
           input: values
-        },
+        }
       });
-      message.success("Service Ticket Updated");
-
+      message.success('Service Ticket Updated');
     } catch (error) {
       message.error(`Error updating Service Ticket : ${JSON.stringify(error)}`);
     }
-  } 
+  };
 
   const handleDelete = async () => {
     try {
@@ -139,27 +153,28 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
     }
   };
 
-  if(serviceTicketLoading || memberLoading || propertyLoading){
-    return <Skeleton active />
-  }else if(serviceTicketError || memberError || propertyError){
-    return <div>{JSON.stringify(serviceTicketError ?? memberError ?? propertyError)}</div>
-  }else if(serviceTicketData?.serviceTicket && memberData?.membersAssignableToTickets && propertyData?.properties){
+  if (serviceTicketLoading || memberLoading || propertyLoading) {
+    return <Skeleton active />;
+  } else if (serviceTicketError || memberError || propertyError) {
+    return <div>{JSON.stringify(serviceTicketError ?? memberError ?? propertyError)}</div>;
+  } else if (serviceTicketData?.serviceTicket && memberData?.membersAssignableToTickets && propertyData?.properties) {
     const data = {
       serviceTicket: serviceTicketData.serviceTicket,
       members: memberData.membersAssignableToTickets,
-      properties: propertyData.properties,
-    }
-  return <ServiceTicketsDetail 
-            onAdd={{}} 
-            onUpdate={handleUpdate} 
-            onChangeStatus={handleChangeStatus} 
-            data={data} 
-            onAssign={handleAssign}
-            onAddUpdateActivity={handleAddUpdateActivity}
-            onDelete={handleDelete}
-            />
+      properties: propertyData.properties
+    };
+    return (
+      <ServiceTicketsDetail
+        onAdd={{}}
+        onUpdate={handleUpdate}
+        onChangeStatus={handleChangeStatus}
+        data={data}
+        onAssign={handleAssign}
+        onAddUpdateActivity={handleAddUpdateActivity}
+        onDelete={handleDelete}
+      />
+    );
   } else {
-    return <div>No Data...</div>
+    return <div>No Data...</div>;
   }
-  
-}
+};

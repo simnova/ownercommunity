@@ -1067,6 +1067,7 @@ export type Query = {
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
+  violationTicket?: Maybe<AdminTicket>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1171,6 +1172,11 @@ export type QueryServicesByCommunityIdArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryUserArgs = {
+  id: Scalars['ObjectID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryViolationTicketArgs = {
   id: Scalars['ObjectID'];
 };
 

@@ -8,6 +8,7 @@ import { ApplicationServices,
   RoleDataApi,
   ServiceDataApi,
   ServiceTicketDataApi,
+  ViolationTicketDataApi,
   MemberDataApi,
   CommunityDataApi,
   PropertyDataApi,
@@ -21,11 +22,11 @@ import { ApplicationServices,
   PropertyMapsApi,
   CommunityVercelApi,
 } from "../application-services";
-import { UserModel, CommunityModel, RoleModel, PropertyModel, MemberModel, ServiceModel, ServiceTicketModel } from "../external-dependencies/datastore";
+import { UserModel, CommunityModel, RoleModel, PropertyModel, MemberModel, ServiceModel, ServiceTicketModel, AdminTicketModel } from "../external-dependencies/datastore";
 import { AdminTicketUnitOfWork, CommunityUnitOfWork, MemberUnitOfWork, PropertyUnitOfWork, RoleUnitOfWork, ServiceTicketUnitOfWork, ServiceUnitOfWork, UserUnitOfWork } from "../external-dependencies/domain";
 import { CommunityBlobApiImpl, MemberBlobApiImpl, PropertyBlobApiImpl} from '../application-services-impl/blob-storage';
 import { PropertySearchApiImpl, ServiceTicketSearchApiImpl } from '../application-services-impl/cognitive-search';
-import { UserDataApiImpl, RoleDataApiImpl, ServiceDataApiImpl, ServiceTicketDataApiImpl, MemberDataApiImpl, CommunityDataApiImpl, PropertyDataApiImpl } from '../application-services-impl/datastore';
+import { UserDataApiImpl, RoleDataApiImpl, ServiceDataApiImpl, ServiceTicketDataApiImpl, ViolationTicketDataApiImpl, MemberDataApiImpl, CommunityDataApiImpl, PropertyDataApiImpl } from '../application-services-impl/datastore';
 import { UserDomainApiImpl, RoleDomainApiImpl, ServiceDomainApiImpl, ServiceTicketDomainApiImpl, MemberDomainApiImpl, CommunityDomainApiImpl, PropertyDomainApiImpl, AdminTicketDomainApiImpl } from "../application-services-impl/domain";
 import { PropertyMapsApiImpl } from "../application-services-impl/maps";
 import { CommunityVercelApiImpl } from "../application-services-impl/vercel";
@@ -42,6 +43,7 @@ export class ApplicationServicesBuilder implements ApplicationServices {
   roleDataApi: RoleDataApi;
   serviceDataApi: ServiceDataApi;
   serviceTicketDataApi: ServiceTicketDataApi;
+  violationTicketDataApi: ViolationTicketDataApi;
   memberDataApi: MemberDataApi;
   communityDataApi: CommunityDataApi;
   propertyDataApi: PropertyDataApi;
@@ -67,6 +69,7 @@ export class ApplicationServicesBuilder implements ApplicationServices {
     this.roleDataApi = new RoleDataApiImpl({ modelOrCollection: RoleModel, context });
     this.serviceDataApi = new ServiceDataApiImpl({ modelOrCollection: ServiceModel, context });
     this.serviceTicketDataApi = new ServiceTicketDataApiImpl({ modelOrCollection: ServiceTicketModel, context });
+    this.violationTicketDataApi = new ViolationTicketDataApiImpl({ modelOrCollection: AdminTicketModel, context });
     this.memberDataApi = new MemberDataApiImpl({ modelOrCollection: MemberModel, context });
     this.communityDataApi = new CommunityDataApiImpl({ modelOrCollection: CommunityModel, context });
     this.propertyDataApi = new PropertyDataApiImpl({ modelOrCollection: PropertyModel, context });

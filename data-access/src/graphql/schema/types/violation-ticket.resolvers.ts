@@ -1,4 +1,4 @@
-import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult } from '../builder/generated';
+import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, AdminTicket } from '../builder/generated';
 import { AdminTicket as AdminTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/violation-ticket';
 import { isValidObjectId } from 'mongoose';
 
@@ -51,6 +51,9 @@ const serviceTicket: Resolvers = {
     }
   },
   Query: {
+    violationTicket: async (_parent, args, context, _info) => {
+      return (await context.applicationServices.violationTicketDataApi.getViolationTicketById(args.id)) as AdminTicket;
+    },
   },
   Mutation: {
     adminTicketCreate: async (_, { input }, { applicationServices }) => {

@@ -1069,6 +1069,7 @@ export type Query = {
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
+  violationTicket?: Maybe<AdminTicket>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1173,6 +1174,11 @@ export type QueryServicesByCommunityIdArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryUserArgs = {
+  id: Scalars['ObjectID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryViolationTicketArgs = {
   id: Scalars['ObjectID'];
 };
 
@@ -2802,6 +2808,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userCurrent?: Resolver<Maybe<ResolversTypes['CurrentUser']>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  violationTicket?: Resolver<Maybe<ResolversTypes['AdminTicket']>, ParentType, ContextType, RequireFields<QueryViolationTicketArgs, 'id'>>;
 }>;
 
 export interface RgbScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['RGB'], any> {

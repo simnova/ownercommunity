@@ -2,7 +2,6 @@ import { Community, Member, Property, Resolvers,Service, ServiceTicket, AdminTic
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
 import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
-import { AdminTicket as AdminTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/violation-ticket';
 
 const ServiceTicketMutationResolver = async (getServiceTicket: Promise<ServiceTicketDo>): Promise<ServiceTicketMutationResult> => {
   try {

@@ -22,6 +22,10 @@ type AdminTicket {
   updatedAt: DateTime
 }
 
+extend type Query {
+  violationTicket(id: ObjectID!): AdminTicket
+}
+
 input AdminTicketCreateInput {
   propertyId: ObjectID!
   requestorId: ObjectID

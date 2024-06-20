@@ -2,7 +2,7 @@ import { ViolationTicket } from '../../domain/contexts/violation-ticket/violatio
 import { Service } from '../../domain/contexts/service-ticket/service';
 import { Member } from '../../domain/contexts/community/member';
 import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
-import { ViolationTicketCreateInput,  ViolationTicketUpdateInput } from '../../external-dependencies/graphql-api';
+import { ViolationTicketCreateInput,  ViolationTicketUpdateInput, ViolationTicketDeleteInput, ViolationTicketAssignInput, ViolationTicketChangeStatusInput, ViolationTicketAddUpdateActivityInput } from '../../external-dependencies/graphql-api';
 import { DomainDataSource } from './domain-data-source';
 import { CommunityConverter, MemberConverter, PropertyConverter, ServiceConverter, ServiceDomainAdapter, ViolationTicketDomainAdapter, ViolationTicketRepository, ViolationTicketConverter } from '../../external-dependencies/domain';
 import { ViolationTicketData as ViolationTicketData, MemberData } from '../../external-dependencies/datastore';
@@ -18,13 +18,13 @@ export class ViolationTicketDomainApiImpl
   implements ViolationTicketDomainApi
 {
   async violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData> {
-    console.log(`serviceTicketCreate`, this.context.verifiedUser);
+    console.log(`violationTicketCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
-      throw new Error('Unauthorized:serviceTicketCreate');
+      throw new Error('Unauthorized:violationTicketCreate');
     }
 
     let violationTicketToReturn: ViolationTicketData;
-    console.log(`serviceTicketCreate:communityId`, this.context.communityId);
+    console.log(`violationTicketCreate:communityId`, this.context.communityId);
     let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
@@ -48,8 +48,8 @@ export class ViolationTicketDomainApiImpl
       serviceDo = new ServiceConverter().toDomain(service,{domainVisa:ReadOnlyDomainVisa.GetInstance()});
     }
 
-    console.log(`serviceTicketCreate:memberDO`,memberDo);
-    console.log(`serviceTicketCreate:requestorId`,input.requestorId);
+    console.log(`violationTicketCreate:memberDO`,memberDo);
+    console.log(`violationTicketCreate:requestorId`,input.requestorId);
 
     await this.withTransaction(async (repo) => {
       let newViolationTicket = await repo.getNewInstance(
@@ -91,6 +91,57 @@ export class ViolationTicketDomainApiImpl
       violationTicket.PenaltyAmount=(input.penaltyAmount);
       violationTicket.PenaltyPaidDate=(input.penaltyPaidDate);
       if(input.serviceId) { violationTicket.Service=(serviceDo); }
+      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+    });
+    return violationTicketToReturn;
+  }
+
+  async violationTicketDelete(input: ViolationTicketDeleteInput): Promise<ViolationTicketData> {
+    let violationTicketToReturn : ViolationTicketData;
+    await this.withTransaction(async (repo) => {
+      let violationTicket = await repo.getById(input.violationTicketId);
+      violationTicket.requestDelete();
+      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+    });
+    return violationTicketToReturn;
+  }
+
+  async violationTicketAssign(input: ViolationTicketAssignInput): Promise<ViolationTicketData> {
+    let violationTicketToReturn: ViolationTicketData;
+    let memberDo: Member<any> | undefined = undefined;
+    if (input.assignedToId) {
+      let member = await this.context.applicationServices.memberDataApi.getMemberById(input.assignedToId);
+      memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    }
+    await this.withTransaction(async (repo) => {
+      let violationTicket = await repo.getById(input.violationTicketId);
+      violationTicket.AssignedTo=(memberDo);
+      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+    });
+    return violationTicketToReturn;
+  }
+
+  async violationTicketChangeStatus(input: ViolationTicketChangeStatusInput): Promise<ViolationTicketData> {
+    let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
+    let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let violationTicketToReturn: ViolationTicketData;
+    await this.withTransaction(async (repo) => {
+      let violationTicket = await repo.getById(input.violationTicketId);
+      violationTicket.requestAddStatusTransition(input.status, input.activityDescription, memberDo);
+      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+    });
+    return violationTicketToReturn;
+  }
+
+  async violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput): Promise<ViolationTicketData> {
+    let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
+    let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let violationTicketToReturn: ViolationTicketData;
+    await this.withTransaction(async (repo) => {
+      let violationTicket = await repo.getById(input.violationTicketId);
+      violationTicket.requestAddStatusUpdate(input.activityDescription, memberDo);
       violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;

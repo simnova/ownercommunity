@@ -613,7 +613,11 @@ export type Mutation = {
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
+  violationTicketAddUpdateActivity: ViolationTicketMutationResult;
+  violationTicketAssign: ViolationTicketMutationResult;
+  violationTicketChangeStatus: ViolationTicketMutationResult;
   violationTicketCreate: ViolationTicketMutationResult;
+  violationTicketDelete: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
 };
 
@@ -798,8 +802,28 @@ export type MutationUserUpdateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketAddUpdateActivityArgs = {
+  input: ViolationTicketAddUpdateActivityInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketAssignArgs = {
+  input: ViolationTicketAssignInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketChangeStatusArgs = {
+  input: ViolationTicketChangeStatusInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationViolationTicketCreateArgs = {
   input: ViolationTicketCreateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketDeleteArgs = {
+  input: ViolationTicketDeleteInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1437,6 +1461,22 @@ export type ViolationTicket = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type ViolationTicketAddUpdateActivityInput = {
+  activityDescription: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
+};
+
+export type ViolationTicketAssignInput = {
+  assignedToId?: InputMaybe<Scalars['ObjectID']>;
+  violationTicketId: Scalars['ObjectID'];
+};
+
+export type ViolationTicketChangeStatusInput = {
+  activityDescription?: InputMaybe<Scalars['String']>;
+  status: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
+};
+
 export type ViolationTicketCreateInput = {
   description: Scalars['String'];
   penaltyAmount?: InputMaybe<Scalars['Float']>;
@@ -1444,6 +1484,10 @@ export type ViolationTicketCreateInput = {
   requestorId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
+};
+
+export type ViolationTicketDeleteInput = {
+  violationTicketId: Scalars['ObjectID'];
 };
 
 export type ViolationTicketMutationResult = MutationResult & {
@@ -1743,7 +1787,11 @@ export type ResolversTypes = ResolversObject<{
   UserUpdateInput: UserUpdateInput;
   UtcOffset: ResolverTypeWrapper<Scalars['UtcOffset']>;
   ViolationTicket: ResolverTypeWrapper<ViolationTicket>;
+  ViolationTicketAddUpdateActivityInput: ViolationTicketAddUpdateActivityInput;
+  ViolationTicketAssignInput: ViolationTicketAssignInput;
+  ViolationTicketChangeStatusInput: ViolationTicketChangeStatusInput;
   ViolationTicketCreateInput: ViolationTicketCreateInput;
+  ViolationTicketDeleteInput: ViolationTicketDeleteInput;
   ViolationTicketMutationResult: ResolverTypeWrapper<ViolationTicketMutationResult>;
   ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
@@ -1958,7 +2006,11 @@ export type ResolversParentTypes = ResolversObject<{
   UserUpdateInput: UserUpdateInput;
   UtcOffset: Scalars['UtcOffset'];
   ViolationTicket: ViolationTicket;
+  ViolationTicketAddUpdateActivityInput: ViolationTicketAddUpdateActivityInput;
+  ViolationTicketAssignInput: ViolationTicketAssignInput;
+  ViolationTicketChangeStatusInput: ViolationTicketChangeStatusInput;
   ViolationTicketCreateInput: ViolationTicketCreateInput;
+  ViolationTicketDeleteInput: ViolationTicketDeleteInput;
   ViolationTicketMutationResult: ViolationTicketMutationResult;
   ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: Scalars['Void'];
@@ -2533,7 +2585,21 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   serviceUpdate?: Resolver<ResolversTypes['ServiceMutationResult'], ParentType, ContextType, RequireFields<MutationServiceUpdateArgs, 'input'>>;
   userCreate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType>;
   userUpdate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType, RequireFields<MutationUserUpdateArgs, 'input'>>;
+  violationTicketAddUpdateActivity?: Resolver<
+    ResolversTypes['ViolationTicketMutationResult'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationViolationTicketAddUpdateActivityArgs, 'input'>
+  >;
+  violationTicketAssign?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketAssignArgs, 'input'>>;
+  violationTicketChangeStatus?: Resolver<
+    ResolversTypes['ViolationTicketMutationResult'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationViolationTicketChangeStatusArgs, 'input'>
+  >;
   violationTicketCreate?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketCreateArgs, 'input'>>;
+  violationTicketDelete?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketDeleteArgs, 'input'>>;
   violationTicketUpdate?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketUpdateArgs, 'input'>>;
 }>;
 

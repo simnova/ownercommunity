@@ -611,7 +611,11 @@ export type Mutation = {
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
+  violationTicketAddUpdateActivity: ViolationTicketMutationResult;
+  violationTicketAssign: ViolationTicketMutationResult;
+  violationTicketChangeStatus: ViolationTicketMutationResult;
   violationTicketCreate: ViolationTicketMutationResult;
+  violationTicketDelete: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
 };
 
@@ -796,8 +800,28 @@ export type MutationUserUpdateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketAddUpdateActivityArgs = {
+  input: ViolationTicketAddUpdateActivityInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketAssignArgs = {
+  input: ViolationTicketAssignInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketChangeStatusArgs = {
+  input: ViolationTicketChangeStatusInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationViolationTicketCreateArgs = {
   input: ViolationTicketCreateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketDeleteArgs = {
+  input: ViolationTicketDeleteInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1435,6 +1459,22 @@ export type ViolationTicket = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type ViolationTicketAddUpdateActivityInput = {
+  activityDescription: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
+};
+
+export type ViolationTicketAssignInput = {
+  assignedToId?: InputMaybe<Scalars['ObjectID']>;
+  violationTicketId: Scalars['ObjectID'];
+};
+
+export type ViolationTicketChangeStatusInput = {
+  activityDescription?: InputMaybe<Scalars['String']>;
+  status: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
+};
+
 export type ViolationTicketCreateInput = {
   description: Scalars['String'];
   penaltyAmount?: InputMaybe<Scalars['Float']>;
@@ -1442,6 +1482,10 @@ export type ViolationTicketCreateInput = {
   requestorId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
+};
+
+export type ViolationTicketDeleteInput = {
+  violationTicketId: Scalars['ObjectID'];
 };
 
 export type ViolationTicketMutationResult = MutationResult & {

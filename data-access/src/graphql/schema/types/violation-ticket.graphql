@@ -55,4 +55,28 @@ type ViolationTicketMutationResult implements MutationResult {
 extend type Mutation {
   violationTicketCreate(input: ViolationTicketCreateInput!): ViolationTicketMutationResult!
   violationTicketUpdate(input: ViolationTicketUpdateInput!): ViolationTicketMutationResult!
+  violationTicketDelete(input: ViolationTicketDeleteInput!): ViolationTicketMutationResult!
+  violationTicketAssign(input: ViolationTicketAssignInput!): ViolationTicketMutationResult!
+  violationTicketChangeStatus(input: ViolationTicketChangeStatusInput!): ViolationTicketMutationResult!
+  violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput!): ViolationTicketMutationResult!
+}
+
+input ViolationTicketDeleteInput {
+  violationTicketId: ObjectID!
+}
+
+input ViolationTicketAssignInput {
+  violationTicketId: ObjectID!
+  assignedToId: ObjectID
+}
+
+input ViolationTicketChangeStatusInput {
+  violationTicketId: ObjectID!
+  status: String!
+  activityDescription: String
+}
+
+input ViolationTicketAddUpdateActivityInput {
+  violationTicketId: ObjectID!
+  activityDescription: String!
 }

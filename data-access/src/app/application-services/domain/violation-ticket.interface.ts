@@ -1,14 +1,12 @@
 import { ViolationTicketData } from "../../external-dependencies/datastore";
-import {ViolationTicketCreateInput, ViolationTicketUpdateInput } from "../../external-dependencies/graphql-api";
+import {ViolationTicketCreateInput, ViolationTicketUpdateInput, ViolationTicketDeleteInput, ViolationTicketAssignInput, ViolationTicketChangeStatusInput, ViolationTicketAddUpdateActivityInput } from "../../external-dependencies/graphql-api";
 
 export interface ViolationTicketDomainApplicationService {
   violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData>;
   violationTicketUpdate(input: ViolationTicketUpdateInput) : Promise<ViolationTicketData>;
-  // serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData>;
-  // serviceTicketUpdate(input: ServiceTicketUpdateInput) : Promise<ServiceTicketData>;
-  // serviceTicketDelete(input: ServiceTicketDeleteInput): Promise<ServiceTicketData>;
+  violationTicketDelete(input: ViolationTicketDeleteInput): Promise<ViolationTicketData>;
+  violationTicketAssign(input: ViolationTicketAssignInput): Promise<ViolationTicketData>;
+  violationTicketChangeStatus(input: ViolationTicketChangeStatusInput): Promise<ViolationTicketData>;
+  violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput): Promise<ViolationTicketData>;
   // serviceTicketSubmit(input: ServiceTicketSubmitInput): Promise<ServiceTicketData>;
-  // serviceTicketAssign(input: ServiceTicketAssignInput): Promise<ServiceTicketData>
-  // serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<ServiceTicketData>;
-  // serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<ServiceTicketData>;
 }

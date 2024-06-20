@@ -1,7 +1,7 @@
 query AdminServiceTicketsListContainerServiceTicketsOpenByCommunity($communityId: ID!) {
   serviceTicketsByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields
-    ... on AdminTicket {
+    ... on ViolationTicket {
       id
       title
       requestor {

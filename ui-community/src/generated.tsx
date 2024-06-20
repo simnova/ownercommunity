@@ -149,49 +149,6 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
-/** An Admin ticket describes violation ticket type. */
-export type AdminTicket = {
-  __typename?: 'AdminTicket';
-  activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
-  assignedTo?: Maybe<Member>;
-  community: Community;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  description: Scalars['String'];
-  id: Scalars['ObjectID'];
-  penaltyAmount?: Maybe<Scalars['Float']>;
-  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
-  photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
-  priority: Scalars['Int'];
-  property?: Maybe<Property>;
-  requestor: Member;
-  schemaVersion?: Maybe<Scalars['String']>;
-  service?: Maybe<Service>;
-  status: Scalars['String'];
-  ticketType?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type AdminTicketCreateInput = {
-  description: Scalars['String'];
-  penaltyAmount?: InputMaybe<Scalars['Float']>;
-  propertyId: Scalars['ObjectID'];
-  requestorId?: InputMaybe<Scalars['ObjectID']>;
-  serviceId?: InputMaybe<Scalars['ObjectID']>;
-  title: Scalars['String'];
-};
-
-export type AdminTicketUpdateInput = {
-  description: Scalars['String'];
-  penaltyAmount?: InputMaybe<Scalars['Float']>;
-  penaltyPaidDate: Scalars['DateTime'];
-  priority: Scalars['Int'];
-  propertyId?: InputMaybe<Scalars['ObjectID']>;
-  serviceId?: InputMaybe<Scalars['ObjectID']>;
-  serviceTicketId: Scalars['ObjectID'];
-  title: Scalars['String'];
-};
-
 export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -616,7 +573,6 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
-  adminTicketCreate: ViolationTicketMutationResult;
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
@@ -655,12 +611,8 @@ export type Mutation = {
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
+  violationTicketCreate: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
-};
-
-/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
-export type MutationAdminTicketCreateArgs = {
-  input: AdminTicketCreateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -844,8 +796,13 @@ export type MutationUserUpdateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketCreateArgs = {
+  input: ViolationTicketCreateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationViolationTicketUpdateArgs = {
-  input: AdminTicketUpdateInput;
+  input: ViolationTicketUpdateInput;
 };
 
 export type MutationResult = {
@@ -1056,9 +1013,9 @@ export type Query = {
   rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
   serverDate?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
-  serviceTicket?: Maybe<TicketType>;
+  serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
-  serviceTicketsByCommunityId?: Maybe<Array<Maybe<TicketType>>>;
+  serviceTicketsByCommunityId?: Maybe<Array<Maybe<Ticket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -1068,7 +1025,7 @@ export type Query = {
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
-  violationTicket?: Maybe<AdminTicket>;
+  violationTicket?: Maybe<ViolationTicket>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1149,7 +1106,6 @@ export type QueryServiceArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketArgs = {
   id: Scalars['ObjectID'];
-  ticketType: Scalars['String'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1429,7 +1385,7 @@ export type ServiceUpdateInput = {
   serviceName?: InputMaybe<Scalars['String']>;
 };
 
-export type TicketType = AdminTicket | ServiceTicket;
+export type Ticket = ServiceTicket | ViolationTicket;
 
 export type User = MongoBase & {
   __typename?: 'User';
@@ -1456,10 +1412,53 @@ export type UserUpdateInput = {
   lastName?: InputMaybe<Scalars['String']>;
 };
 
+/** An Violation ticket describes violation ticket type. */
+export type ViolationTicket = {
+  __typename?: 'ViolationTicket';
+  activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
+  assignedTo?: Maybe<Member>;
+  community: Community;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description: Scalars['String'];
+  id: Scalars['ObjectID'];
+  penaltyAmount?: Maybe<Scalars['Float']>;
+  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
+  photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
+  priority: Scalars['Int'];
+  property?: Maybe<Property>;
+  requestor: Member;
+  schemaVersion?: Maybe<Scalars['String']>;
+  service?: Maybe<Service>;
+  status: Scalars['String'];
+  ticketType?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ViolationTicketCreateInput = {
+  description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  propertyId: Scalars['ObjectID'];
+  requestorId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
+  title: Scalars['String'];
+};
+
 export type ViolationTicketMutationResult = MutationResult & {
   __typename?: 'ViolationTicketMutationResult';
   status: MutationStatus;
-  violationTicket?: Maybe<AdminTicket>;
+  violationTicket?: Maybe<ViolationTicket>;
+};
+
+export type ViolationTicketUpdateInput = {
+  description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  penaltyPaidDate: Scalars['DateTime'];
+  priority: Scalars['Int'];
+  propertyId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
+  title: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
 };
 
 export type CommunityCreateContainerMutationCommunityCreateMutationVariables = Exact<{
@@ -2397,73 +2396,40 @@ export type AdminServiceTicketsDetailContainerPropertiesQuery = {
 
 export type AdminServiceTicketsDetailContainerServiceTicketQueryVariables = Exact<{
   id: Scalars['ObjectID'];
-  ticketType: Scalars['String'];
 }>;
 
 export type AdminServiceTicketsDetailContainerServiceTicketQuery = {
   __typename?: 'Query';
-  serviceTicket?:
-    | {
-        __typename?: 'AdminTicket';
-        title: string;
-        description: string;
-        status: string;
-        priority: number;
-        id: any;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
-        requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
-        assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
-        photos?: Array<{
-          __typename?: 'ServiceTicketPhoto';
-          documentId: string;
-          description: string;
-          id: any;
-          createdAt?: any | null;
-          updatedAt?: any | null;
-        } | null> | null;
-        activityLog?: Array<{
-          __typename?: 'ServiceTicketActivityDetail';
-          activityType: string;
-          activityDescription: string;
-          id: any;
-          createdAt?: any | null;
-          updatedAt?: any | null;
-          activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
-        } | null> | null;
-      }
-    | {
-        __typename?: 'ServiceTicket';
-        title: string;
-        description: string;
-        status: string;
-        priority: number;
-        id: any;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
-        requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
-        assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
-        photos?: Array<{
-          __typename?: 'ServiceTicketPhoto';
-          documentId: string;
-          description: string;
-          id: any;
-          createdAt?: any | null;
-          updatedAt?: any | null;
-        } | null> | null;
-        activityLog?: Array<{
-          __typename?: 'ServiceTicketActivityDetail';
-          activityType: string;
-          activityDescription: string;
-          id: any;
-          createdAt?: any | null;
-          updatedAt?: any | null;
-          activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
-        } | null> | null;
-      }
-    | null;
+  serviceTicket?: {
+    __typename?: 'ServiceTicket';
+    title: string;
+    description: string;
+    status: string;
+    priority: number;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+    requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+    assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+    photos?: Array<{
+      __typename?: 'ServiceTicketPhoto';
+      documentId: string;
+      description: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null> | null;
+    activityLog?: Array<{
+      __typename?: 'ServiceTicketActivityDetail';
+      activityType: string;
+      activityDescription: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+    } | null> | null;
+  } | null;
 };
 
 export type AdminServiceTicketsDetailContainerServiceTicketUpdateMutationVariables = Exact<{
@@ -2743,7 +2709,7 @@ export type AdminServiceTicketsDetailContainerServiceTicketFieldsFragment = {
 };
 
 export type AdminServiceTicketsDetailContainerAdminTicketFieldsFragment = {
-  __typename?: 'AdminTicket';
+  __typename?: 'ServiceTicket';
   title: string;
   description: string;
   status: string;
@@ -2793,20 +2759,20 @@ export type AdminServiceTicketsListContainerServiceTicketsOpenByCommunityQuery =
   __typename?: 'Query';
   serviceTicketsByCommunityId?: Array<
     | {
-        __typename?: 'AdminTicket';
-        id: any;
+        __typename?: 'ServiceTicket';
         title: string;
         priority: number;
+        id: any;
         createdAt?: any | null;
         updatedAt?: any | null;
         requestor: { __typename?: 'Member'; memberName?: string | null };
         assignedTo?: { __typename?: 'Member'; memberName?: string | null } | null;
       }
     | {
-        __typename?: 'ServiceTicket';
+        __typename?: 'ViolationTicket';
+        id: any;
         title: string;
         priority: number;
-        id: any;
         createdAt?: any | null;
         updatedAt?: any | null;
         requestor: { __typename?: 'Member'; memberName?: string | null };
@@ -3098,16 +3064,16 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
 };
 
 export type ViolationTicketCreateMutationVariables = Exact<{
-  input: AdminTicketCreateInput;
+  input: ViolationTicketCreateInput;
 }>;
 
 export type ViolationTicketCreateMutation = {
   __typename?: 'Mutation';
-  adminTicketCreate: {
+  violationTicketCreate: {
     __typename?: 'ViolationTicketMutationResult';
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
     violationTicket?: {
-      __typename?: 'AdminTicket';
+      __typename?: 'ViolationTicket';
       id: any;
       title: string;
       status: string;
@@ -3125,7 +3091,7 @@ export type ViolationTicketsCreateMutationResultFieldsFragment = {
   __typename?: 'ViolationTicketMutationResult';
   status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
   violationTicket?: {
-    __typename?: 'AdminTicket';
+    __typename?: 'ViolationTicket';
     id: any;
     title: string;
     status: string;
@@ -3139,7 +3105,7 @@ export type ViolationTicketsCreateMutationResultFieldsFragment = {
 };
 
 export type ViolationTicketsCreateContainerServiceTicketFieldsFragment = {
-  __typename?: 'AdminTicket';
+  __typename?: 'ViolationTicket';
   id: any;
   title: string;
   status: string;
@@ -3789,44 +3755,40 @@ export type MembersServiceTicketsDetailContainerPropertiesQuery = {
 
 export type MembersServiceTicketsDetailContainerServiceTicketQueryVariables = Exact<{
   id: Scalars['ObjectID'];
-  ticketType: Scalars['String'];
 }>;
 
 export type MembersServiceTicketsDetailContainerServiceTicketQuery = {
   __typename?: 'Query';
-  serviceTicket?:
-    | { __typename?: 'AdminTicket' }
-    | {
-        __typename?: 'ServiceTicket';
-        title: string;
-        description: string;
-        status: string;
-        priority: number;
-        id: any;
-        createdAt?: any | null;
-        updatedAt?: any | null;
-        property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
-        requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
-        assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
-        photos?: Array<{
-          __typename?: 'ServiceTicketPhoto';
-          documentId: string;
-          description: string;
-          id: any;
-          createdAt?: any | null;
-          updatedAt?: any | null;
-        } | null> | null;
-        activityLog?: Array<{
-          __typename?: 'ServiceTicketActivityDetail';
-          activityType: string;
-          activityDescription: string;
-          id: any;
-          createdAt?: any | null;
-          updatedAt?: any | null;
-          activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
-        } | null> | null;
-      }
-    | null;
+  serviceTicket?: {
+    __typename?: 'ServiceTicket';
+    title: string;
+    description: string;
+    status: string;
+    priority: number;
+    id: any;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+    requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+    assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+    photos?: Array<{
+      __typename?: 'ServiceTicketPhoto';
+      documentId: string;
+      description: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null> | null;
+    activityLog?: Array<{
+      __typename?: 'ServiceTicketActivityDetail';
+      activityType: string;
+      activityDescription: string;
+      id: any;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+    } | null> | null;
+  } | null;
 };
 
 export type MembersServiceTicketsDetailContainerServiceTicketUpdateMutationVariables = Exact<{
@@ -6493,7 +6455,7 @@ export const AdminServiceTicketsDetailContainerAdminTicketFieldsFragmentDoc = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerAdminTicketFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -6868,7 +6830,7 @@ export const ViolationTicketsCreateContainerServiceTicketFieldsFragmentDoc = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'ViolationTicketsCreateContainerServiceTicketFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicket' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -6947,7 +6909,7 @@ export const ViolationTicketsCreateMutationResultFieldsFragmentDoc = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'ViolationTicketsCreateContainerServiceTicketFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicket' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -11443,11 +11405,6 @@ export const AdminServiceTicketsDetailContainerServiceTicketDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'ticketType' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
         }
       ],
       selectionSet: {
@@ -11461,11 +11418,6 @@ export const AdminServiceTicketsDetailContainerServiceTicketDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'id' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'ticketType' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'ticketType' } }
               }
             ],
             selectionSet: {
@@ -11578,7 +11530,7 @@ export const AdminServiceTicketsDetailContainerServiceTicketDocument = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'AdminServiceTicketsDetailContainerAdminTicketFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicket' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -12566,7 +12518,7 @@ export const AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocume
                 },
                 {
                   kind: 'InlineFragment',
-                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicket' } },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -13345,7 +13297,7 @@ export const ViolationTicketCreateDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicketCreateInput' } }
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicketCreateInput' } }
           }
         }
       ],
@@ -13354,7 +13306,7 @@ export const ViolationTicketCreateDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'adminTicketCreate' },
+            name: { kind: 'Name', value: 'violationTicketCreate' },
             arguments: [
               {
                 kind: 'Argument',
@@ -13375,7 +13327,7 @@ export const ViolationTicketCreateDocument = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'ViolationTicketsCreateContainerServiceTicketFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AdminTicket' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicket' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -14641,11 +14593,6 @@ export const MembersServiceTicketsDetailContainerServiceTicketDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'ticketType' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
         }
       ],
       selectionSet: {
@@ -14659,11 +14606,6 @@ export const MembersServiceTicketsDetailContainerServiceTicketDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'id' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'ticketType' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'ticketType' } }
               }
             ],
             selectionSet: {

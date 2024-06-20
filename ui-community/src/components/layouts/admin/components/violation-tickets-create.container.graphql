@@ -10,8 +10,8 @@ query AdminServiceTicketsCreateContainerProperties($communityId: ID!) {
   }
 }
 
-mutation ViolationTicketCreate($input: AdminTicketCreateInput!) {
-  adminTicketCreate(input: $input) {
+mutation ViolationTicketCreate($input: ViolationTicketCreateInput!) {
+  violationTicketCreate(input: $input) {
     ...ViolationTicketsCreateMutationResultFields
   }
 }
@@ -26,7 +26,7 @@ fragment ViolationTicketsCreateMutationResultFields on ViolationTicketMutationRe
   }
 }
 
-fragment ViolationTicketsCreateContainerServiceTicketFields on AdminTicket {
+fragment ViolationTicketsCreateContainerServiceTicketFields on ViolationTicket {
   id
   title
   status

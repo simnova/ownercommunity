@@ -10,8 +10,8 @@ query MembersServiceTicketsDetailContainerProperties($communityId: ID!) {
   }
 }
 
-query MembersServiceTicketsDetailContainerServiceTicket($id: ObjectID!, $ticketType: String!) {
-  serviceTicket(id: $id, ticketType: $ticketType) {
+query MembersServiceTicketsDetailContainerServiceTicket($id: ObjectID!) {
+  serviceTicket(id: $id) {
     ...MembersServiceTicketsDetailContainerServiceTicketFields
   }
 }

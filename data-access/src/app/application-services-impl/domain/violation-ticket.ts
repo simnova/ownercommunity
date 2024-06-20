@@ -1,29 +1,29 @@
-import { AdminTicket } from '../../domain/contexts/service-ticket/admin-ticket';
+import { ViolationTicket } from '../../domain/contexts/violation-ticket/violation-ticket';
 import { Service } from '../../domain/contexts/service-ticket/service';
 import { Member } from '../../domain/contexts/community/member';
 import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
-import { AdminTicketCreateInput, AdminTicketUpdateInput } from '../../external-dependencies/graphql-api';
+import { ViolationTicketCreateInput,  ViolationTicketUpdateInput } from '../../external-dependencies/graphql-api';
 import { DomainDataSource } from './domain-data-source';
-import { CommunityConverter, MemberConverter, PropertyConverter, ServiceConverter, ServiceDomainAdapter, AdminTicketDomainAdapter, AdminTicketRepository, AdminTicketConverter } from '../../external-dependencies/domain';
-import { AdminTicketData, MemberData } from '../../external-dependencies/datastore';
-import { AdminTicketDomainApi } from '../../application-services/domain';
+import { CommunityConverter, MemberConverter, PropertyConverter, ServiceConverter, ServiceDomainAdapter, ViolationTicketDomainAdapter, ViolationTicketRepository, ViolationTicketConverter } from '../../external-dependencies/domain';
+import { ViolationTicketData as ViolationTicketData, MemberData } from '../../external-dependencies/datastore';
+import { ViolationTicketDomainApi as ViolationTicketDomainApi } from '../../application-services/domain';
 import { AppContext } from '../../init/app-context-builder';
 
-type PropType = AdminTicketDomainAdapter;
-type DomainType = AdminTicket<PropType>;
-type RepoType = AdminTicketRepository<PropType>;
+type PropType = ViolationTicketDomainAdapter;
+type DomainType = ViolationTicket<PropType>;
+type RepoType = ViolationTicketRepository<PropType>;
 
-export class AdminTicketDomainApiImpl
-  extends DomainDataSource<AppContext, AdminTicketData, PropType, DomainType, RepoType> 
-  implements AdminTicketDomainApi
+export class ViolationTicketDomainApiImpl
+  extends DomainDataSource<AppContext, ViolationTicketData, PropType, DomainType, RepoType> 
+  implements ViolationTicketDomainApi
 {
-  async adminTicketCreate(input: AdminTicketCreateInput): Promise<AdminTicketData> {
+  async violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData> {
     console.log(`serviceTicketCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized:serviceTicketCreate');
     }
 
-    let adminTicketToReturn: AdminTicketData;
+    let violationTicketToReturn: ViolationTicketData;
     console.log(`serviceTicketCreate:communityId`, this.context.communityId);
     let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
@@ -52,22 +52,22 @@ export class AdminTicketDomainApiImpl
     console.log(`serviceTicketCreate:requestorId`,input.requestorId);
 
     await this.withTransaction(async (repo) => {
-      let newAdminTicket = await repo.getNewInstance(
+      let newViolationTicket = await repo.getNewInstance(
         input.title,
         input.description,
         communityDo,
         propertyDo,
         memberDo,
         input.penaltyAmount);
-      if(input.serviceId) { newAdminTicket.Service=(serviceDo); }
+      if(input.serviceId) { newViolationTicket.Service=(serviceDo); }
       
-      adminTicketToReturn = new AdminTicketConverter().toPersistence(await repo.save(newAdminTicket));
+      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(newViolationTicket));
     });
-    return adminTicketToReturn;
+    return violationTicketToReturn;
   }
 
-  async violationTicketUpdate(input: AdminTicketUpdateInput): Promise<AdminTicketData> {
-    let serviceTicketToReturn : AdminTicketData;
+  async violationTicketUpdate(input: ViolationTicketUpdateInput): Promise<ViolationTicketData> {
+    let violationTicketToReturn : ViolationTicketData;
 
     let serviceDo : Service<ServiceDomainAdapter> | undefined = undefined;
     if(input.serviceId) {
@@ -76,23 +76,23 @@ export class AdminTicketDomainApiImpl
     }
 
     await this.withTransaction(async (repo) => {
-      let serviceTicket = await repo.getById(input.serviceTicketId);
+      let violationTicket = await repo.getById(input.violationTicketId);
       let propertyDo = null;
-      if (serviceTicket.property.id !== input.propertyId) {
+      if (violationTicket.property.id !== input.propertyId) {
         let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
           if(!property) {
             propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
           }
-        serviceTicket.Property=(propertyDo);
+        violationTicket.Property=(propertyDo);
       }
-      serviceTicket.Title=(input.title);
-      serviceTicket.Description=(input.description);
-      serviceTicket.Priority=(input.priority);
-      serviceTicket.PenaltyAmount=(input.penaltyAmount);
-      serviceTicket.PenaltyPaidDate=(input.penaltyPaidDate);
-      if(input.serviceId) { serviceTicket.Service=(serviceDo); }
-      serviceTicketToReturn = new AdminTicketConverter().toPersistence(await repo.save(serviceTicket));
+      violationTicket.Title=(input.title);
+      violationTicket.Description=(input.description);
+      violationTicket.Priority=(input.priority);
+      violationTicket.PenaltyAmount=(input.penaltyAmount);
+      violationTicket.PenaltyPaidDate=(input.penaltyPaidDate);
+      if(input.serviceId) { violationTicket.Service=(serviceDo); }
+      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
     });
-    return serviceTicketToReturn;
+    return violationTicketToReturn;
   }
 }

@@ -3,21 +3,21 @@ import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/int
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
 import { ViolationTicketUpdatedEvent } from '../types/violation-ticket-updated';
 import retry from 'async-retry';
-import { AdminTicket, AdminTicketProps } from '../../contexts/service-ticket/admin-ticket';
+import { ViolationTicket, ViolationTicketProps } from '../../contexts/violation-ticket/violation-ticket';
 import dayjs from 'dayjs';
 import { EventBusInstance } from '../event-bus';
-import { AdminTicketUnitOfWork } from '../../contexts/service-ticket/admin-ticket.uow';
-import { AdminTicketRepository } from '../../contexts/service-ticket/admin-ticket.repository';
+import { ViolationTicketUnitOfWork } from '../../contexts/violation-ticket/violation-ticket.uow';
+import { ViolationTicketRepository } from '../../contexts/violation-ticket/violation-ticket.repository';
 
 const crypto = require('crypto');
 
 export default (
   cognitiveSearch: CognitiveSearchDomain,
-  adminTicketUnitOfWork: AdminTicketUnitOfWork
+  violationTicketUnitOfWork: ViolationTicketUnitOfWork
 ) => { EventBusInstance.register(ViolationTicketUpdatedEvent, async (payload) => {
     console.log(`Violation Ticket Updating - Search Index Integration: ${JSON.stringify(payload)} and ViolationTicketId: ${payload.id}`);
     const context = SystemExecutionContext();
-    await adminTicketUnitOfWork.withTransaction(context, async (repo) => {
+    await violationTicketUnitOfWork.withTransaction(context, async (repo) => {
       let violationTicket = await repo.getById(payload.id);
 
       const updatedDate = dayjs(violationTicket.updatedAt.toISOString().split('T')[0]).toISOString();
@@ -74,9 +74,9 @@ export default (
 
   const updateSearchIndex = async (
     violationTicketDoc: Partial<ServiceTicketIndexDocument>,
-    violationTicket: AdminTicket<AdminTicketProps>,
+    violationTicket: ViolationTicket<ViolationTicketProps>,
     hash: any,
-    repo: AdminTicketRepository<AdminTicketProps>,
+    repo: ViolationTicketRepository<ViolationTicketProps>,
   ) => {
     await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
     await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, violationTicketDoc);

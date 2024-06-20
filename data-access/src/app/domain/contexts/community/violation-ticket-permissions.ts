@@ -1,11 +1,11 @@
 import { Entity, EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
 import { CommunityVisa } from '../iam/domain-visa/community-visa';
-import { AdminTicketPermissions as AdminTicketPermissionsSpec } from '../service-ticket/admin-ticket-permissions.spec';
+import { ViolationTicketPermissions as ViolationTicketPermissionsSpec } from '../violation-ticket/violation-ticket-permissions.spec';
 
-export interface AdminTicketPermissionsProps extends AdminTicketPermissionsSpec, EntityProps {}
+export interface ViolationTicketPermissionsProps extends ViolationTicketPermissionsSpec, EntityProps {}
 
-export class AdminTicketPermissions extends Entity<AdminTicketPermissionsProps> implements AdminTicketPermissionsEntityReference {
-  constructor(props: AdminTicketPermissionsProps, private visa: CommunityVisa) {
+export class ViolationTicketPermissions extends Entity<ViolationTicketPermissionsProps> implements ViolationTicketPermissionsEntityReference {
+  constructor(props: ViolationTicketPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }
 
@@ -62,4 +62,4 @@ export class AdminTicketPermissions extends Entity<AdminTicketPermissionsProps> 
   }
 }
 
-export interface AdminTicketPermissionsEntityReference extends Readonly<AdminTicketPermissionsProps> {}
+export interface ViolationTicketPermissionsEntityReference extends Readonly<ViolationTicketPermissionsProps> {}

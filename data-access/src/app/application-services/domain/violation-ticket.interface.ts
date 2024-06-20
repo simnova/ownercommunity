@@ -1,9 +1,9 @@
-import { AdminTicketData } from "../../external-dependencies/datastore";
-import { AdminTicketCreateInput, AdminTicketUpdateInput } from "../../external-dependencies/graphql-api";
+import { ViolationTicketData } from "../../external-dependencies/datastore";
+import {ViolationTicketCreateInput, ViolationTicketUpdateInput } from "../../external-dependencies/graphql-api";
 
-export interface AdminTicketDomainApplicationService {
-  adminTicketCreate(input: AdminTicketCreateInput): Promise<AdminTicketData>;
-  violationTicketUpdate(input: AdminTicketUpdateInput) : Promise<AdminTicketData>;
+export interface ViolationTicketDomainApplicationService {
+  violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData>;
+  violationTicketUpdate(input: ViolationTicketUpdateInput) : Promise<ViolationTicketData>;
   // serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData>;
   // serviceTicketUpdate(input: ServiceTicketUpdateInput) : Promise<ServiceTicketData>;
   // serviceTicketDelete(input: ServiceTicketDeleteInput): Promise<ServiceTicketData>;

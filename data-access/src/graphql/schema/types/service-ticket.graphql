@@ -36,16 +36,14 @@ type ServiceTicketPhoto implements MongoSubdocument {
   createdAt: DateTime
   updatedAt: DateTime
 }
-
-union TicketType = ServiceTicket | AdminTicket
-
+union Ticket = ServiceTicket | ViolationTicket
 extend type Query {
-  serviceTicket(id: ObjectID!, ticketType: String!): TicketType
+  serviceTicket(id: ObjectID!): ServiceTicket
   serviceTicketsOpenByCommunity: [ServiceTicket]
   serviceTicketsOpenByRequestor: [ServiceTicket]
   serviceTicketsClosedByRequestor: [ServiceTicket]
   serviceTicketsAssignedToCurrentUser: [ServiceTicket]
-  serviceTicketsByCommunityId(communityId: ID!): [TicketType]
+  serviceTicketsByCommunityId(communityId: ID!): [Ticket]
   serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
   serviceTicketsSearch(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
 }

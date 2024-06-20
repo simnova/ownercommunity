@@ -2,9 +2,9 @@ import { Repository } from '../../../../../seedwork/domain-seedwork/repository';
 import { CommunityEntityReference } from '../community/community';
 import { PropertyEntityReference } from '../property/property';
 import { MemberEntityReference } from '../community/member';
-import { AdminTicket, AdminTicketProps } from './admin-ticket';
+import { ViolationTicket as ViolationTicket, ViolationTicketProps as ViolationTicketProps } from './violation-ticket';
 
-export interface AdminTicketRepository<props extends AdminTicketProps> extends Repository<AdminTicket<props>> {
+export interface ViolationTicketRepository<props extends ViolationTicketProps> extends Repository<ViolationTicket<props>> {
   getNewInstance(
     title: string,
     description: string,
@@ -13,7 +13,7 @@ export interface AdminTicketRepository<props extends AdminTicketProps> extends R
     requestor: MemberEntityReference,
     penaltyAmount: number,
     penaltyPaidDate: Date
-  ): Promise<AdminTicket<props>>;
+  ): Promise<ViolationTicket<props>>;
 
-  getById(id: string): Promise<AdminTicket<props>>
+  getById(id: string): Promise<ViolationTicket<props>>
 }

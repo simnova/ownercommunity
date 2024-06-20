@@ -1,5 +1,5 @@
-import { AdminTicketUnitOfWork } from './../../domain/contexts/service-ticket/admin-ticket.uow';
-import { AdminTicketDomainApplicationService } from './admin-ticket.interface';
+import { ViolationTicketUnitOfWork } from '../../domain/contexts/violation-ticket/violation-ticket.uow';
+import { ViolationTicketDomainApplicationService } from './violation-ticket.interface';
 // community
 import { CommunityDomainApplicationService } from "./community.interface";
 import { CommunityUnitOfWork } from "../../domain/contexts/community/community.uow";
@@ -32,9 +32,9 @@ export {
   ServiceDomainApplicationService as ServiceDomainApi,
   ServiceUnitOfWork,
   ServiceTicketDomainApplicationService as ServiceTicketDomainApi,
-  AdminTicketDomainApplicationService as AdminTicketDomainApi,
+  ViolationTicketDomainApplicationService as ViolationTicketDomainApi,
   ServiceTicketUnitOfWork,
-  AdminTicketUnitOfWork,
+  ViolationTicketUnitOfWork,
   MemberDomainApplicationService as MemberDomainApi,
   MemberUnitOfWork,
   PropertyDomainApplicationService as PropertyDomainApi,

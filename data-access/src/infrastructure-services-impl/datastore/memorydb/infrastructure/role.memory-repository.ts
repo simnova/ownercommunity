@@ -83,7 +83,7 @@ export class MemoryPermissions extends MemoryBaseAdapter implements PermissionsP
   }
 
   private _adminTicketPermissions: MemoryAdminTicketPermissions;
-  get adminTicketPermissions(): MemoryAdminTicketPermissions {
+  get violationTicketPermissions(): MemoryAdminTicketPermissions {
     if(!this._adminTicketPermissions){
       this._adminTicketPermissions = new MemoryAdminTicketPermissions();
     }

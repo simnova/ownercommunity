@@ -1,6 +1,6 @@
 import { ActivityDetail, Photo } from '../models/service-ticket';
-import { AdminTicket } from '../models/violation-ticket';
-import { AdminTicket as AdminTicketDO, AdminTicketProps } from '../../../../app/domain/contexts/service-ticket/admin-ticket';
+import { ViolationTicket } from '../models/violation-ticket';
+import { ViolationTicket as ViolationTicketDO, ViolationTicketProps } from '../../../../app/domain/contexts/violation-ticket/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
@@ -16,18 +16,18 @@ import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from './service.domain-adapter';
 import { ServiceEntityReference } from '../../../../app/domain/contexts/service-ticket/service';
 
-export class AdminTicketConverter extends MongoTypeConverter<
+export class ViolationTicketConverter extends MongoTypeConverter<
   DomainExecutionContext,
-  AdminTicket,
-  AdminTicketDomainAdapter,
-  AdminTicketDO<AdminTicketDomainAdapter>
+  ViolationTicket,
+  ViolationTicketDomainAdapter,
+  ViolationTicketDO<ViolationTicketDomainAdapter>
 > {
   constructor() {
-    super(AdminTicketDomainAdapter, AdminTicketDO);
+    super(ViolationTicketDomainAdapter, ViolationTicketDO);
   }
 }
 
-export class AdminTicketDomainAdapter extends MongooseDomainAdapter<AdminTicket> implements AdminTicketProps {
+export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<ViolationTicket> implements ViolationTicketProps {
   get community() {
     if (this.doc.community) {
       return new CommunityDomainAdapter(this.doc.community);

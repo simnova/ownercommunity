@@ -9,8 +9,8 @@ import { MemoryBaseAdapter } from "../../../../../seedwork/services-seedwork-dat
 import { MemoryPropArray } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
 import { MemoryRepositoryBase } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 import {v4 as uuidV4} from 'uuid';
-import { AdminTicket, AdminTicketProps } from "../../../../app/domain/contexts/service-ticket/admin-ticket";
-import { AdminTicketRepository } from "../../../../app/domain/contexts/service-ticket/admin-ticket.repository";
+import { ViolationTicket, ViolationTicketProps } from "../../../../app/domain/contexts/violation-ticket/violation-ticket";
+import { ViolationTicketRepository } from "../../../../app/domain/contexts/violation-ticket/violation-ticket.repository";
 
 class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailProps {
   activityType: string;
@@ -29,7 +29,7 @@ class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {
   }
 }
 
-class MemoryViolationTicket extends MemoryBaseAdapter implements AdminTicketProps  {
+class MemoryViolationTicket extends MemoryBaseAdapter implements ViolationTicketProps  {
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference) : void {
     this.community = community as CommunityProps;
@@ -74,10 +74,10 @@ class MemoryViolationTicket extends MemoryBaseAdapter implements AdminTicketProp
 }
 
 export class MemoryViolationTicketRepository<
-  PropType extends AdminTicketProps, 
-  DomainType extends AdminTicket<PropType>
+  PropType extends ViolationTicketProps, 
+  DomainType extends ViolationTicket<PropType>
   > extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType> 
-    implements AdminTicketRepository<PropType> 
+    implements ViolationTicketRepository<PropType> 
     {
 
       async getNewInstance(
@@ -87,10 +87,10 @@ export class MemoryViolationTicketRepository<
         property: PropertyEntityReference,
         requestor: MemberEntityReference,
         penaltyAmount: number
-      ): Promise<AdminTicket<PropType>> {
-        return AdminTicket.getNewInstance(new MemoryViolationTicket as unknown as PropType, title, description, community, property, requestor, this.context, penaltyAmount); // [MG-TBD]
+      ): Promise<ViolationTicket<PropType>> {
+        return ViolationTicket.getNewInstance(new MemoryViolationTicket as unknown as PropType, title, description, community, property, requestor, this.context, penaltyAmount); // [MG-TBD]
       }
-      async getById(id: string): Promise<AdminTicket<PropType>>{
+      async getById(id: string): Promise<ViolationTicket<PropType>>{
         return await this.get(id);
       }
   }

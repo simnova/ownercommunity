@@ -19,7 +19,7 @@ import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-e
 import { PropertyPermissionsProps } from '../../../../app/domain/contexts/community/property-permissions';
 import { ServicePermissionsProps } from '../../../../app/domain/contexts/community/service-permissions';
 import { ServiceTicketPermissionsProps } from '../../../../app/domain/contexts/community/service-ticket-permissions';
-import { AdminTicketPermissionsProps } from '../../../../app/domain/contexts/community/admin-ticket-permissions';
+import { ViolationTicketPermissionsProps } from '../../../../app/domain/contexts/community/violation-ticket-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext, Role, RoleDomainAdapter, RoleDO<RoleDomainAdapter>> {
   constructor() {
@@ -84,7 +84,7 @@ class PermissionsAdapter implements PermissionsProps {
     return new ServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions);
   }
 
-  public get adminTicketPermissions() {
+  public get violationTicketPermissions() {
     return new AdminTicketPermissionsAdapter(this.props.adminTicketPermissions);
   }
 }
@@ -236,7 +236,7 @@ class ServiceTicketPermissionsAdapter implements ServiceTicketPermissionsProps {
   }
 }
 
-class AdminTicketPermissionsAdapter implements AdminTicketPermissionsProps {
+class AdminTicketPermissionsAdapter implements ViolationTicketPermissionsProps {
   constructor(public readonly props: AdminTicketPermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();

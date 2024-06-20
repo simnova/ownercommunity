@@ -4,14 +4,14 @@ import { CommunityVisa } from '../iam/domain-visa/community-visa';
 import { PropertyPermissions, PropertyPermissionsProps } from './property-permissions';
 import { ServiceTicketPermissions, ServiceTicketPermissionsProps } from './service-ticket-permissions';
 import { ServicePermissions, ServicePermissionsProps } from './service-permissions';
-import { AdminTicketPermissions, AdminTicketPermissionsProps } from './admin-ticket-permissions';
+import { ViolationTicketPermissions, ViolationTicketPermissionsProps } from './violation-ticket-permissions';
 
 export interface PermissionsProps extends EntityProps {
   communityPermissions: CommunityPermissionsProps;
   propertyPermissions: PropertyPermissionsProps;
   serviceTicketPermissions: ServiceTicketPermissionsProps;
   servicePermissions: ServicePermissionsProps;
-  adminTicketPermissions: AdminTicketPermissionsProps;
+  violationTicketPermissions: ViolationTicketPermissionsProps;
 }
 
 export interface PermissionsEntityReference extends Readonly<Omit<PermissionsProps, 'communityPermissions'>> {
@@ -35,7 +35,7 @@ export class Permissions extends Entity<PermissionsProps> implements Permissions
   get servicePermissions(): ServicePermissions {
     return new ServicePermissions(this.props.servicePermissions,this.visa);
   }
-  get adminTicketPermissions(): AdminTicketPermissions {
-    return new AdminTicketPermissions(this.props.adminTicketPermissions,this.visa);
+  get violationTicketPermissions(): ViolationTicketPermissions {
+    return new ViolationTicketPermissions(this.props.violationTicketPermissions,this.visa);
   }
 }

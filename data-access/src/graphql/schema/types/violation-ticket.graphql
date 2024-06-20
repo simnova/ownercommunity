@@ -1,7 +1,7 @@
 """
-An Admin ticket describes violation ticket type.
+An Violation ticket describes violation ticket type.
 """
-type AdminTicket {
+type ViolationTicket {
   community: Community!
   property: Property
   requestor: Member!
@@ -24,10 +24,10 @@ type AdminTicket {
 }
 
 extend type Query {
-  violationTicket(id: ObjectID!): AdminTicket
+  violationTicket(id: ObjectID!): ViolationTicket
 }
 
-input AdminTicketCreateInput {
+input ViolationTicketCreateInput {
   propertyId: ObjectID!
   requestorId: ObjectID
   title: String!
@@ -36,8 +36,8 @@ input AdminTicketCreateInput {
   penaltyAmount: Float
 }
 
-input AdminTicketUpdateInput {
-  serviceTicketId: ObjectID!
+input ViolationTicketUpdateInput {
+  violationTicketId: ObjectID!
   propertyId: ObjectID
   title: String!
   description: String!
@@ -49,10 +49,10 @@ input AdminTicketUpdateInput {
 
 type ViolationTicketMutationResult implements MutationResult {
   status: MutationStatus!
-  violationTicket: AdminTicket
+  violationTicket: ViolationTicket
 }
 
 extend type Mutation {
-  adminTicketCreate(input: AdminTicketCreateInput!): ViolationTicketMutationResult!
-  violationTicketUpdate(input: AdminTicketUpdateInput!): ViolationTicketMutationResult!
+  violationTicketCreate(input: ViolationTicketCreateInput!): ViolationTicketMutationResult!
+  violationTicketUpdate(input: ViolationTicketUpdateInput!): ViolationTicketMutationResult!
 }

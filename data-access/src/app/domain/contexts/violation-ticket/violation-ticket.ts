@@ -2,20 +2,20 @@ import { EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { Property, PropertyEntityReference, PropertyProps } from '../property/property';
 import { MemberEntityReference, Member, MemberProps } from '../community/member';
-import { Service, ServiceEntityReference, ServiceProps } from './service';
+import { Service, ServiceEntityReference, ServiceProps } from '../service-ticket/service';
 import { AggregateRoot } from '../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../domain-execution-context';
-import * as ActivityDetailValueObjects from './activity-detail.value-objects';
-import * as ValueObjects from './service-ticket.value-objects';
+import * as ActivityDetailValueObjects from '../service-ticket/activity-detail.value-objects';
+import * as ValueObjects from '../service-ticket/service-ticket.value-objects';
 import { PropArray } from '../../../../../seedwork/domain-seedwork/prop-array';
-import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
-import { Photo, PhotoEntityReference, PhotoProps } from './photo';
-import { AdminTicketVisa } from '../iam/domain-visa/admin-ticket-visa';
+import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from '../service-ticket/activity-detail';
+import { Photo, PhotoEntityReference, PhotoProps } from '../service-ticket/photo';
+import { ViolationTicketVisa as ViolationTicketVisa } from '../iam/domain-visa/violation-ticket-visa';
 import { ServiceTicketDeletedEvent } from '../../events/types/service-ticket-deleted';
 import { ViolationTicketUpdatedEvent } from '../../events/types/violation-ticket-updated';
 import { ViolationTicketCreatedEvent } from '../../events/types/violation-ticket-created';
 
-export interface AdminTicketProps extends EntityProps {
+export interface ViolationTicketProps extends EntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
   readonly property: PropertyProps;
@@ -45,10 +45,10 @@ export interface AdminTicketProps extends EntityProps {
   updateIndexFailedDate: Date; // failure
 }
 
-export interface AdminTicketEntityReference
+export interface ViolationTicketEntityReference
   extends Readonly<
     Omit<
-    AdminTicketProps,
+    ViolationTicketProps,
       | 'penaltyAmount'
       | 'penaltyPaidDate'
       | 'community'
@@ -74,15 +74,15 @@ export interface AdminTicketEntityReference
   readonly photos: ReadonlyArray<PhotoEntityReference>;
 }
 
-export class AdminTicket<props extends AdminTicketProps> extends AggregateRoot<props> implements AdminTicketEntityReference {
+export class ViolationTicket<props extends ViolationTicketProps> extends AggregateRoot<props> implements ViolationTicketEntityReference {
   private isNew: boolean = false;
-  private readonly visa: AdminTicketVisa;
+  private readonly visa: ViolationTicketVisa;
   constructor(props: props, private context: DomainExecutionContext) {
     super(props);
-    this.visa = context.domainVisa.forAdminTicket(this);
+    this.visa = context.domainVisa.forViolationTicket(this);
   }
 
-  public static getNewInstance<props extends AdminTicketProps>(
+  public static getNewInstance<props extends ViolationTicketProps>(
     newProps: props,
     title: string,
     description: string,
@@ -92,25 +92,25 @@ export class AdminTicket<props extends AdminTicketProps> extends AggregateRoot<p
     context: DomainExecutionContext,
     penaltyAmount?: number,
     penaltyPaidDate?: Date
-  ): AdminTicket<props> {
-    let adminTicket = new AdminTicket(newProps, context);
-    adminTicket.MarkAsNew();
-    adminTicket.isNew = true;
-    adminTicket.Title = title;
-    adminTicket.Description = description;
-    adminTicket.Community = community;
-    adminTicket.Property = property;
-    adminTicket.Requestor = requestor;
-    adminTicket.Status = ValueObjects.StatusCodes.Draft;
-    adminTicket.Priority = 5;
-    adminTicket.PenaltyAmount = penaltyAmount;
-    adminTicket.PenaltyPaidDate = penaltyPaidDate;
-    let newActivity = adminTicket.requestNewActivityDetail();
+  ): ViolationTicket<props> {
+    let violationTicket = new ViolationTicket(newProps, context);
+    violationTicket.MarkAsNew();
+    violationTicket.isNew = true;
+    violationTicket.Title = title;
+    violationTicket.Description = description;
+    violationTicket.Community = community;
+    violationTicket.Property = property;
+    violationTicket.Requestor = requestor;
+    violationTicket.Status = ValueObjects.StatusCodes.Draft;
+    violationTicket.Priority = 5;
+    violationTicket.PenaltyAmount = penaltyAmount;
+    violationTicket.PenaltyPaidDate = penaltyPaidDate;
+    let newActivity = violationTicket.requestNewActivityDetail();
     newActivity.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Created);
     newActivity.ActivityDescription=('Created');
     newActivity.ActivityBy=(requestor);
-    adminTicket.isNew = false;
-    return adminTicket;
+    violationTicket.isNew = false;
+    return violationTicket;
   }
 
   get community() {

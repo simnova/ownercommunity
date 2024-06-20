@@ -1,15 +1,15 @@
-import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, AdminTicket } from '../builder/generated';
-import { AdminTicket as AdminTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/violation-ticket';
+import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, ViolationTicket } from '../builder/generated';
+import { ViolationTicket as ViolationTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/violation-ticket';
 import { isValidObjectId } from 'mongoose';
 
-const ViolationTicketMutationResolver = async (getAdminTicket: Promise<AdminTicketDo>): Promise<ViolationTicketMutationResult> => {
+const ViolationTicketMutationResolver = async (getViolationTicket: Promise<ViolationTicketDo>): Promise<ViolationTicketMutationResult> => {
   try {
     return {
       status: { success: true },
-      violationTicket: await getAdminTicket,
+      violationTicket: await getViolationTicket,
     } as ViolationTicketMutationResult;
   } catch (error) {
-    console.error('AdminTicket > Mutation  : ', error);
+    console.error('ViolationTicket > Mutation  : ', error);
     return {
       status: { success: false, errorMessage: error.message },
       violationTicket: null,
@@ -18,7 +18,7 @@ const ViolationTicketMutationResolver = async (getAdminTicket: Promise<AdminTick
 };
 
 const serviceTicket: Resolvers = {
-  AdminTicket: {
+  ViolationTicket: {
     community: async (parent, args, context, info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
         return (await context.applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;
@@ -52,15 +52,15 @@ const serviceTicket: Resolvers = {
   },
   Query: {
     violationTicket: async (_parent, args, context, _info) => {
-      return (await context.applicationServices.violationTicketDataApi.getViolationTicketById(args.id)) as AdminTicket;
+      return (await context.applicationServices.violationTicketDataApi.getViolationTicketById(args.id)) as ViolationTicket;
     },
   },
   Mutation: {
-    adminTicketCreate: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.adminTicketDomainApi.adminTicketCreate(input));
+    violationTicketCreate: async (_, { input }, { applicationServices }) => {
+      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketCreate(input));
     },
     violationTicketUpdate: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.adminTicketDomainApi.violationTicketUpdate(input));
+      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketUpdate(input));
     },
   },
 };

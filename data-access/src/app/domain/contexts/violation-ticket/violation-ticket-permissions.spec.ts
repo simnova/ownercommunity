@@ -1,4 +1,4 @@
-export interface AdminTicketPermissions {
+export interface ViolationTicketPermissions {
   canCreateTickets: boolean;
   canManageTickets: boolean;
   canAssignTickets: boolean;

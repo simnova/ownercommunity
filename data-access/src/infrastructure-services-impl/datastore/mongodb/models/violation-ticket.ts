@@ -50,7 +50,7 @@ export const PhotoSchema = new Schema<Photo, Model<Photo>, Photo>({
   documentId: { type: String, required: true },
 });
 
-export interface AdminTicket extends Ticket {
+export interface ViolationTicket extends Ticket {
   community: PopulatedDoc<Community.Community>;
   property?: PopulatedDoc<Property.Property>;
   requestor: PopulatedDoc<Member.Member>;
@@ -71,7 +71,7 @@ export interface AdminTicket extends Ticket {
   penaltyPaidDate: Date;
 }
 
-const ViolationTicketSchema = new Schema<AdminTicket, Model<AdminTicket>, AdminTicket>(
+const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>, ViolationTicket>(
   {
     schemaVersion: {
       type: String,

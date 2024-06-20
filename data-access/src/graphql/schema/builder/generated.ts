@@ -151,49 +151,6 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
-/** An Admin ticket describes violation ticket type. */
-export type AdminTicket = {
-  __typename?: 'AdminTicket';
-  activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
-  assignedTo?: Maybe<Member>;
-  community: Community;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  description: Scalars['String'];
-  id: Scalars['ObjectID'];
-  penaltyAmount?: Maybe<Scalars['Float']>;
-  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
-  photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
-  priority: Scalars['Int'];
-  property?: Maybe<Property>;
-  requestor: Member;
-  schemaVersion?: Maybe<Scalars['String']>;
-  service?: Maybe<Service>;
-  status: Scalars['String'];
-  ticketType?: Maybe<Scalars['String']>;
-  title: Scalars['String'];
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type AdminTicketCreateInput = {
-  description: Scalars['String'];
-  penaltyAmount?: InputMaybe<Scalars['Float']>;
-  propertyId: Scalars['ObjectID'];
-  requestorId?: InputMaybe<Scalars['ObjectID']>;
-  serviceId?: InputMaybe<Scalars['ObjectID']>;
-  title: Scalars['String'];
-};
-
-export type AdminTicketUpdateInput = {
-  description: Scalars['String'];
-  penaltyAmount?: InputMaybe<Scalars['Float']>;
-  penaltyPaidDate: Scalars['DateTime'];
-  priority: Scalars['Int'];
-  propertyId?: InputMaybe<Scalars['ObjectID']>;
-  serviceId?: InputMaybe<Scalars['ObjectID']>;
-  serviceTicketId: Scalars['ObjectID'];
-  title: Scalars['String'];
-};
-
 export type BedroomDetails = MongoSubdocument & {
   __typename?: 'BedroomDetails';
   bedDescriptions?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -618,7 +575,6 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
-  adminTicketCreate: ViolationTicketMutationResult;
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
@@ -657,12 +613,8 @@ export type Mutation = {
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
+  violationTicketCreate: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
-};
-
-/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
-export type MutationAdminTicketCreateArgs = {
-  input: AdminTicketCreateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -846,8 +798,13 @@ export type MutationUserUpdateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketCreateArgs = {
+  input: ViolationTicketCreateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationViolationTicketUpdateArgs = {
-  input: AdminTicketUpdateInput;
+  input: ViolationTicketUpdateInput;
 };
 
 export type MutationResult = {
@@ -1058,9 +1015,9 @@ export type Query = {
   rolesByCommunityId?: Maybe<Array<Maybe<Role>>>;
   serverDate?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
-  serviceTicket?: Maybe<TicketType>;
+  serviceTicket?: Maybe<ServiceTicket>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
-  serviceTicketsByCommunityId?: Maybe<Array<Maybe<TicketType>>>;
+  serviceTicketsByCommunityId?: Maybe<Array<Maybe<Ticket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByCommunity?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsOpenByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -1070,7 +1027,7 @@ export type Query = {
   user?: Maybe<User>;
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
-  violationTicket?: Maybe<AdminTicket>;
+  violationTicket?: Maybe<ViolationTicket>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1151,7 +1108,6 @@ export type QueryServiceArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServiceTicketArgs = {
   id: Scalars['ObjectID'];
-  ticketType: Scalars['String'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1431,7 +1387,7 @@ export type ServiceUpdateInput = {
   serviceName?: InputMaybe<Scalars['String']>;
 };
 
-export type TicketType = AdminTicket | ServiceTicket;
+export type Ticket = ServiceTicket | ViolationTicket;
 
 export type User = MongoBase & {
   __typename?: 'User';
@@ -1458,10 +1414,53 @@ export type UserUpdateInput = {
   lastName?: InputMaybe<Scalars['String']>;
 };
 
+/** An Violation ticket describes violation ticket type. */
+export type ViolationTicket = {
+  __typename?: 'ViolationTicket';
+  activityLog?: Maybe<Array<Maybe<ServiceTicketActivityDetail>>>;
+  assignedTo?: Maybe<Member>;
+  community: Community;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description: Scalars['String'];
+  id: Scalars['ObjectID'];
+  penaltyAmount?: Maybe<Scalars['Float']>;
+  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
+  photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
+  priority: Scalars['Int'];
+  property?: Maybe<Property>;
+  requestor: Member;
+  schemaVersion?: Maybe<Scalars['String']>;
+  service?: Maybe<Service>;
+  status: Scalars['String'];
+  ticketType?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ViolationTicketCreateInput = {
+  description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  propertyId: Scalars['ObjectID'];
+  requestorId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
+  title: Scalars['String'];
+};
+
 export type ViolationTicketMutationResult = MutationResult & {
   __typename?: 'ViolationTicketMutationResult';
   status: MutationStatus;
-  violationTicket?: Maybe<AdminTicket>;
+  violationTicket?: Maybe<ViolationTicket>;
+};
+
+export type ViolationTicketUpdateInput = {
+  description: Scalars['String'];
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  penaltyPaidDate: Scalars['DateTime'];
+  priority: Scalars['Int'];
+  propertyId?: InputMaybe<Scalars['ObjectID']>;
+  serviceId?: InputMaybe<Scalars['ObjectID']>;
+  title: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -1526,12 +1525,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes = ResolversObject<{
-  TicketType: AdminTicket | ServiceTicket;
+  Ticket: ServiceTicket | ViolationTicket;
 }>;
 
 /** Mapping of union parent types */
 export type ResolversUnionParentTypes = ResolversObject<{
-  TicketType: AdminTicket | ServiceTicket;
+  Ticket: ServiceTicket | ViolationTicket;
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -1543,9 +1542,6 @@ export type ResolversTypes = ResolversObject<{
   AdditionalAmenitiesSearchResult: ResolverTypeWrapper<AdditionalAmenitiesSearchResult>;
   Address: ResolverTypeWrapper<Address>;
   AddressInput: AddressInput;
-  AdminTicket: ResolverTypeWrapper<AdminTicket>;
-  AdminTicketCreateInput: AdminTicketCreateInput;
-  AdminTicketUpdateInput: AdminTicketUpdateInput;
   BedroomDetails: ResolverTypeWrapper<BedroomDetails>;
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
@@ -1733,7 +1729,7 @@ export type ResolversTypes = ResolversObject<{
   ServiceTicketsSearchResult: ResolverTypeWrapper<ServiceTicketsSearchResult>;
   ServiceUpdateInput: ServiceUpdateInput;
   String: ResolverTypeWrapper<Scalars['String']>;
-  TicketType: ResolverTypeWrapper<ResolversUnionTypes['TicketType']>;
+  Ticket: ResolverTypeWrapper<ResolversUnionTypes['Ticket']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
   TimeZone: ResolverTypeWrapper<Scalars['TimeZone']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
@@ -1746,7 +1742,10 @@ export type ResolversTypes = ResolversObject<{
   UserMutationResult: ResolverTypeWrapper<UserMutationResult>;
   UserUpdateInput: UserUpdateInput;
   UtcOffset: ResolverTypeWrapper<Scalars['UtcOffset']>;
+  ViolationTicket: ResolverTypeWrapper<ViolationTicket>;
+  ViolationTicketCreateInput: ViolationTicketCreateInput;
   ViolationTicketMutationResult: ResolverTypeWrapper<ViolationTicketMutationResult>;
+  ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 }>;
 
@@ -1759,9 +1758,6 @@ export type ResolversParentTypes = ResolversObject<{
   AdditionalAmenitiesSearchResult: AdditionalAmenitiesSearchResult;
   Address: Address;
   AddressInput: AddressInput;
-  AdminTicket: AdminTicket;
-  AdminTicketCreateInput: AdminTicketCreateInput;
-  AdminTicketUpdateInput: AdminTicketUpdateInput;
   BedroomDetails: BedroomDetails;
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: Scalars['BigInt'];
@@ -1948,7 +1944,7 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceTicketsSearchResult: ServiceTicketsSearchResult;
   ServiceUpdateInput: ServiceUpdateInput;
   String: Scalars['String'];
-  TicketType: ResolversUnionParentTypes['TicketType'];
+  Ticket: ResolversUnionParentTypes['Ticket'];
   Time: Scalars['Time'];
   TimeZone: Scalars['TimeZone'];
   Timestamp: Scalars['Timestamp'];
@@ -1961,7 +1957,10 @@ export type ResolversParentTypes = ResolversObject<{
   UserMutationResult: UserMutationResult;
   UserUpdateInput: UserUpdateInput;
   UtcOffset: Scalars['UtcOffset'];
+  ViolationTicket: ViolationTicket;
+  ViolationTicketCreateInput: ViolationTicketCreateInput;
   ViolationTicketMutationResult: ViolationTicketMutationResult;
+  ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: Scalars['Void'];
 }>;
 
@@ -2022,31 +2021,6 @@ export type AddressResolvers<ContextType = GraphqlContext, ParentType extends Re
   streetName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   streetNameAndNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   streetNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type AdminTicketResolvers<
-  ContextType = GraphqlContext,
-  ParentType extends ResolversParentTypes['AdminTicket'] = ResolversParentTypes['AdminTicket'],
-> = ResolversObject<{
-  activityLog?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketActivityDetail']>>>, ParentType, ContextType>;
-  assignedTo?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
-  community?: Resolver<ResolversTypes['Community'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
-  penaltyAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  penaltyPaidDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  photos?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketPhoto']>>>, ParentType, ContextType>;
-  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
-  requestor?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
-  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
-  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  ticketType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2492,7 +2466,6 @@ export type MongoSubdocumentResolvers<
 
 export type MutationResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  adminTicketCreate?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationAdminTicketCreateArgs, 'input'>>;
   communityCreate?: Resolver<Maybe<ResolversTypes['CommunityMutationResult']>, ParentType, ContextType, RequireFields<MutationCommunityCreateArgs, 'input'>>;
   communityPublicContentCreateAuthHeader?: Resolver<
     ResolversTypes['CommunityBlobContentAuthHeaderResult'],
@@ -2560,6 +2533,7 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   serviceUpdate?: Resolver<ResolversTypes['ServiceMutationResult'], ParentType, ContextType, RequireFields<MutationServiceUpdateArgs, 'input'>>;
   userCreate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType>;
   userUpdate?: Resolver<ResolversTypes['UserMutationResult'], ParentType, ContextType, RequireFields<MutationUserUpdateArgs, 'input'>>;
+  violationTicketCreate?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketCreateArgs, 'input'>>;
   violationTicketUpdate?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketUpdateArgs, 'input'>>;
 }>;
 
@@ -2790,10 +2764,10 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   rolesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType, RequireFields<QueryRolesByCommunityIdArgs, 'communityId'>>;
   serverDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType, RequireFields<QueryServiceArgs, 'id'>>;
-  serviceTicket?: Resolver<Maybe<ResolversTypes['TicketType']>, ParentType, ContextType, RequireFields<QueryServiceTicketArgs, 'id' | 'ticketType'>>;
+  serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType, RequireFields<QueryServiceTicketArgs, 'id'>>;
   serviceTicketsAssignedToCurrentUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['TicketType']>>>,
+    Maybe<Array<Maybe<ResolversTypes['Ticket']>>>,
     ParentType,
     ContextType,
     RequireFields<QueryServiceTicketsByCommunityIdArgs, 'communityId'>
@@ -2812,7 +2786,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userCurrent?: Resolver<Maybe<ResolversTypes['CurrentUser']>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
-  violationTicket?: Resolver<Maybe<ResolversTypes['AdminTicket']>, ParentType, ContextType, RequireFields<QueryViolationTicketArgs, 'id'>>;
+  violationTicket?: Resolver<Maybe<ResolversTypes['ViolationTicket']>, ParentType, ContextType, RequireFields<QueryViolationTicketArgs, 'id'>>;
 }>;
 
 export interface RgbScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['RGB'], any> {
@@ -3009,8 +2983,8 @@ export type ServiceTicketsSearchResultResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TicketTypeResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['TicketType'] = ResolversParentTypes['TicketType']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'AdminTicket' | 'ServiceTicket', ParentType, ContextType>;
+export type TicketResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Ticket'] = ResolversParentTypes['Ticket']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'ServiceTicket' | 'ViolationTicket', ParentType, ContextType>;
 }>;
 
 export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
@@ -3070,12 +3044,37 @@ export interface UtcOffsetScalarConfig extends GraphQLScalarTypeConfig<Resolvers
   name: 'UtcOffset';
 }
 
+export type ViolationTicketResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['ViolationTicket'] = ResolversParentTypes['ViolationTicket'],
+> = ResolversObject<{
+  activityLog?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketActivityDetail']>>>, ParentType, ContextType>;
+  assignedTo?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  community?: Resolver<ResolversTypes['Community'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  penaltyAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  penaltyPaidDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  photos?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketPhoto']>>>, ParentType, ContextType>;
+  priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
+  requestor?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ticketType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type ViolationTicketMutationResultResolvers<
   ContextType = GraphqlContext,
   ParentType extends ResolversParentTypes['ViolationTicketMutationResult'] = ResolversParentTypes['ViolationTicketMutationResult'],
 > = ResolversObject<{
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
-  violationTicket?: Resolver<Maybe<ResolversTypes['AdminTicket']>, ParentType, ContextType>;
+  violationTicket?: Resolver<Maybe<ResolversTypes['ViolationTicket']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -3088,7 +3087,6 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   AdditionalAmenities?: AdditionalAmenitiesResolvers<ContextType>;
   AdditionalAmenitiesSearchResult?: AdditionalAmenitiesSearchResultResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
-  AdminTicket?: AdminTicketResolvers<ContextType>;
   BedroomDetails?: BedroomDetailsResolvers<ContextType>;
   BigInt?: GraphQLScalarType;
   BlobAuthHeader?: BlobAuthHeaderResolvers<ContextType>;
@@ -3194,7 +3192,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   ServiceTicketsResult?: ServiceTicketsResultResolvers<ContextType>;
   ServiceTicketsSearchFacets?: ServiceTicketsSearchFacetsResolvers<ContextType>;
   ServiceTicketsSearchResult?: ServiceTicketsSearchResultResolvers<ContextType>;
-  TicketType?: TicketTypeResolvers<ContextType>;
+  Ticket?: TicketResolvers<ContextType>;
   Time?: GraphQLScalarType;
   TimeZone?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;
@@ -3206,6 +3204,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   User?: UserResolvers<ContextType>;
   UserMutationResult?: UserMutationResultResolvers<ContextType>;
   UtcOffset?: GraphQLScalarType;
+  ViolationTicket?: ViolationTicketResolvers<ContextType>;
   ViolationTicketMutationResult?: ViolationTicketMutationResultResolvers<ContextType>;
   Void?: GraphQLScalarType;
 }>;

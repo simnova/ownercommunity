@@ -43,8 +43,8 @@ input ViolationTicketUpdateInput {
   description: String!
   priority: Int!
   serviceId: ObjectID
-  penaltyAmount: Float
-  penaltyPaidDate: DateTime!
+  penaltyAmount: Float!
+  penaltyPaidDate: DateTime
 }
 
 type ViolationTicketMutationResult implements MutationResult {

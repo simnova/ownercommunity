@@ -1454,8 +1454,8 @@ export type ViolationTicketMutationResult = MutationResult & {
 
 export type ViolationTicketUpdateInput = {
   description: Scalars['String'];
-  penaltyAmount?: InputMaybe<Scalars['Float']>;
-  penaltyPaidDate: Scalars['DateTime'];
+  penaltyAmount: Scalars['Float'];
+  penaltyPaidDate?: InputMaybe<Scalars['DateTime']>;
   priority: Scalars['Int'];
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;

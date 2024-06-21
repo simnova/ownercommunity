@@ -9,16 +9,14 @@ import {
   AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
   AdminServiceTicketsDetailContainerPropertiesDocument,
   AdminServiceTicketsDetailContainerServiceAssignDocument,
-  AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
-  AdminServiceTicketsDetailContainerServiceTicketUpdateDocument,
   AdminServiceTicketsDetailContainerViolationTicketDocument,
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
   AdminViolationTicketsDetailContainerViolationTicketUpdateDocument,
   ServiceTicketAddUpdateActivityInput,
   ServiceTicketAssignInput,
-  ServiceTicketChangeStatusInput,
-  ServiceTicketUpdateInput,
-  ViolationTicketUpdateInput
+  ViolationTicketUpdateInput,
+  ViolationTicketChangeStatusInput,
+  AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument
 } from '../../../../generated';
 
 import { ViolationTicketsDetail } from './violation-tickets-detail';
@@ -35,7 +33,7 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
   const navigate = useNavigate();
 
   const [violationTicketUpdate] = useMutation(AdminViolationTicketsDetailContainerViolationTicketUpdateDocument);
-  const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument);
+  const [violationTicketChangeStatus] = useMutation(AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument);
   const [serviceTicketAssign] = useMutation(AdminServiceTicketsDetailContainerServiceAssignDocument);
   const [serviceTicketAddUpdateActivity] = useMutation(AdminServiceTicketsDetailContainerAddUpdateActivityDocument);
   const {
@@ -107,22 +105,22 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     }
   };
 
-  const handleChangeStatus = async (values: ServiceTicketChangeStatusInput) => {
+  const handleChangeStatus = async (values: ViolationTicketChangeStatusInput) => {
     try {
-      const result = await serviceTicketChangeStatus({
+      const result = await violationTicketChangeStatus({
         variables: {
           input: values
         }
       });
-      if (!result.data?.serviceTicketChangeStatus.status.success) {
+      if (!result.data?.violationTicketChangeStatus.status.success) {
         message.error(
-          `Error changing Service Ticket status : ${result.data?.serviceTicketChangeStatus.status.errorMessage}`
+          `Error changing Violation Ticket status : ${result.data?.violationTicketChangeStatus.status.errorMessage}`
         );
       } else {
         message.success('Status changed successfully');
       }
     } catch (error) {
-      message.error(`Error changing Service Ticket status : ${JSON.stringify(error)}`);
+      message.error(`Error changing Violation Ticket status : ${JSON.stringify(error)}`);
     }
   };
 

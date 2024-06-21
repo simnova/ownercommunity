@@ -30,8 +30,8 @@ import {
   ViolationTicket,
   ServiceTicketActivityDetail,
   ServiceTicketAddUpdateActivityInput,
-  ServiceTicketChangeStatusInput,
-  ViolationTicketUpdateInput
+  ViolationTicketUpdateInput,
+  ViolationTicketChangeStatusInput
 } from '../../../../generated';
 
 const { Title } = Typography;
@@ -45,7 +45,7 @@ export interface ViolationTicketsDetailProps {
     properties: any[];
   };
   onUpdate: (violationTicket: ViolationTicketUpdateInput) => void;
-  onChangeStatus: (changeStatusInput: ServiceTicketChangeStatusInput) => Promise<void>;
+  onChangeStatus: (changeStatusInput: ViolationTicketChangeStatusInput) => Promise<void>;
   onAddUpdateActivity: (values: ServiceTicketAddUpdateActivityInput) => Promise<void>;
 }
 
@@ -225,7 +225,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               setChangeStatusFormLoading(true);
               console.log('values', values);
               await props.onChangeStatus({
-                serviceTicketId: props.data.violationTicket.id,
+                violationTicketId: props.data.violationTicket.id,
                 status: nextState,
                 activityDescription: values.activityDescription
               });

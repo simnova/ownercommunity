@@ -21,11 +21,13 @@ mutation AdminViolationTicketsDetailContainerViolationTicketUpdate($input: Viola
     ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
   }
 }
-# mutation AdminServiceTicketsDetailContainerServiceTicketChangeStatus($input: ServiceTicketChangeStatusInput!) {
-#   serviceTicketChangeStatus(input: $input) {
-#     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
-#   }
-# }
+
+mutation AdminViolationTicketsDetailContainerViolationTicketChangeStatus($input: ViolationTicketChangeStatusInput!) {
+  violationTicketChangeStatus(input: $input) {
+    ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
 # mutation AdminServiceTicketsDetailContainerServiceAssign($input: ServiceTicketAssignInput!) {
 #   serviceTicketAssign(input: $input) {
 #     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields

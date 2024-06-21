@@ -38,11 +38,11 @@ mutation AdminViolationTicketsDetailContainerViolationTicketUpdate($input: Viola
 #   }
 # }
 
-# mutation AdminServiceTicketDetailContainerServiceTicketDelete($input: ServiceTicketDeleteInput!) {
-#   serviceTicketDelete(input: $input) {
-#     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
-#   }
-# }
+ mutation AdminViolationTicketDetailContainerViolationTicketDelete($input: ViolationTicketDeleteInput!) {
+   violationTicketDelete(input: $input) {
+     ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+   }
+ }
 
 fragment AdminViolationTicketsDetailContainerViolationTicketMutationResultFields on ViolationTicketMutationResult {
   status {

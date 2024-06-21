@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 
 import {
-  AdminServiceTicketDetailContainerServiceTicketDeleteDocument,
+  AdminViolationTicketDetailContainerViolationTicketDeleteDocument,
   AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
   AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
   AdminServiceTicketsDetailContainerPropertiesDocument,
@@ -60,20 +60,20 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     }
   });
 
-  const [deleteServiceTicket] = useMutation(AdminServiceTicketDetailContainerServiceTicketDeleteDocument, {
+  const [deleteViolationTicket] = useMutation(AdminViolationTicketDetailContainerViolationTicketDeleteDocument, {
     update(cache, { data }) {
-      const deletedServiceTicket = data?.serviceTicketDelete.serviceTicket;
-      const serviceTickets = cache.readQuery({
+      const deletedViolationTicket = data?.violationTicketDelete.violationTicket;
+      const tickets = cache.readQuery({
         query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
         variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
-      if (deletedServiceTicket && serviceTickets) {
+      if (deletedViolationTicket && tickets) {
         cache.writeQuery({
           query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
           variables: { communityId: props.data.communityId },
           data: {
-            serviceTicketsByCommunityId: serviceTickets?.filter(
-              (serviceTickets) => serviceTickets?.id !== deletedServiceTicket.id
+            serviceTicketsByCommunityId: tickets?.filter(
+              (serviceTickets) => serviceTickets?.id !== deletedViolationTicket.id
             )
           }
         });
@@ -143,10 +143,10 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
 
   const handleDelete = async () => {
     try {
-      await deleteServiceTicket({
+      await deleteViolationTicket({
         variables: {
           input: {
-            serviceTicketId: props.data.id
+            violationTicketId: props.data.id
           }
         }
       });

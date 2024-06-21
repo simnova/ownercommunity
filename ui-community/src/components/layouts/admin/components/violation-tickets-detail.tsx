@@ -29,7 +29,7 @@ import React, { useState } from 'react';
 import {
   ViolationTicket,
   ServiceTicketActivityDetail,
-  ServiceTicketAddUpdateActivityInput,
+  ViolationTicketAddUpdateActivityInput,
   ViolationTicketUpdateInput,
   ViolationTicketChangeStatusInput
 } from '../../../../generated';
@@ -46,7 +46,7 @@ export interface ViolationTicketsDetailProps {
   };
   onUpdate: (violationTicket: ViolationTicketUpdateInput) => void;
   onChangeStatus: (changeStatusInput: ViolationTicketChangeStatusInput) => Promise<void>;
-  onAddUpdateActivity: (values: ServiceTicketAddUpdateActivityInput) => Promise<void>;
+  onAddUpdateActivity: (values: ViolationTicketAddUpdateActivityInput) => Promise<void>;
 }
 
 export const ViolationTicketsDetail: React.FC<any> = (props) => {
@@ -235,7 +235,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               if (props.data.violationTicket.status === 'SUBMITTED' && nextState !== 'DRAFT') {
                 console.log('values', values);
                 props.onAssign({
-                  serviceTicketId: props.data.violationTicket.id,
+                  violationTicketId: props.data.violationTicket.id,
                   assignedToId: values.assignedTo.id
                 });
               }
@@ -319,7 +319,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               setAssignFormLoading(true);
               console.log('values', values);
               props.onAssign({
-                serviceTicketId: props.data.violationTicket.id,
+                violationTicketId: props.data.violationTicket.id,
                 assignedToId: values.assignedTo.id
               });
               setAssignFormLoading(false);
@@ -439,7 +439,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             setAddUpdateActivityFormLoading(true);
             console.log('values', values);
             await props.onAddUpdateActivity({
-              serviceTicketId: props.data.violationTicket.id,
+              violationTicketId: props.data.violationTicket.id,
               activityDescription: values.activityDescription
             });
             addUpdateActivityForm.resetFields();

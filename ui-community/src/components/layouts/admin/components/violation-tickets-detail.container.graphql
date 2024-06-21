@@ -28,17 +28,17 @@ mutation AdminViolationTicketsDetailContainerViolationTicketChangeStatus($input:
   }
 }
 
-# mutation AdminServiceTicketsDetailContainerServiceAssign($input: ServiceTicketAssignInput!) {
-#   serviceTicketAssign(input: $input) {
-#     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
-#   }
-# }
+mutation AdminViolationTicketsDetailContainerViolationAssign($input: ViolationTicketAssignInput!) {
+  violationTicketAssign(input: $input) {
+    ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
 
-# mutation AdminServiceTicketsDetailContainerAddUpdateActivity($input: ServiceTicketAddUpdateActivityInput!) {
-#   serviceTicketAddUpdateActivity(input: $input) {
-#     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
-#   }
-# }
+mutation AdminViolationTicketsDetailContainerAddUpdateActivity($input: ViolationTicketAddUpdateActivityInput!) {
+  violationTicketAddUpdateActivity(input: $input) {
+    ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
 
  mutation AdminViolationTicketDetailContainerViolationTicketDelete($input: ViolationTicketDeleteInput!) {
    violationTicketDelete(input: $input) {
@@ -55,48 +55,6 @@ fragment AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
     ...AdminViolationTicketsDetailContainerViolationTicketFields
   }
 }
-
-# fragment AdminServiceTicketsDetailContainerServiceTicketFields on ServiceTicket {
-#   title
-#   property {
-#     id
-#     propertyName
-#   }
-#   requestor {
-#     id
-#     memberName
-#   }
-#   assignedTo {
-#     id
-#     memberName
-#   }
-#   title
-#   description
-#   status
-#   priority
-#   photos {
-#     documentId
-#     description
-
-#     id
-#     createdAt
-#     updatedAt
-#   }
-#   activityLog {
-#     activityType
-#     activityDescription
-#     activityBy {
-#       id
-#       memberName
-#     }
-#     id
-#     createdAt
-#     updatedAt
-#   }
-#   id
-#   createdAt
-#   updatedAt
-# }
 
 fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationTicket {
   title

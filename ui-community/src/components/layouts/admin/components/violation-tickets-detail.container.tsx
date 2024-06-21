@@ -5,18 +5,18 @@ import { Skeleton, message } from 'antd';
 
 import {
   AdminViolationTicketDetailContainerViolationTicketDeleteDocument,
-  AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
   AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
   AdminServiceTicketsDetailContainerPropertiesDocument,
-  AdminServiceTicketsDetailContainerServiceAssignDocument,
   AdminServiceTicketsDetailContainerViolationTicketDocument,
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
   AdminViolationTicketsDetailContainerViolationTicketUpdateDocument,
-  ServiceTicketAddUpdateActivityInput,
-  ServiceTicketAssignInput,
+  ViolationTicketAddUpdateActivityInput,
+  ViolationTicketAssignInput,
   ViolationTicketUpdateInput,
   ViolationTicketChangeStatusInput,
-  AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument
+  AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument,
+  AdminViolationTicketsDetailContainerViolationAssignDocument,
+  AdminViolationTicketsDetailContainerAddUpdateActivityDocument
 } from '../../../../generated';
 
 import { ViolationTicketsDetail } from './violation-tickets-detail';
@@ -34,8 +34,8 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
 
   const [violationTicketUpdate] = useMutation(AdminViolationTicketsDetailContainerViolationTicketUpdateDocument);
   const [violationTicketChangeStatus] = useMutation(AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument);
-  const [serviceTicketAssign] = useMutation(AdminServiceTicketsDetailContainerServiceAssignDocument);
-  const [serviceTicketAddUpdateActivity] = useMutation(AdminServiceTicketsDetailContainerAddUpdateActivityDocument);
+  const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationAssignDocument);
+  const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerAddUpdateActivityDocument);
   const {
     data: memberData,
     loading: memberLoading,
@@ -79,29 +79,29 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     }
   });
 
-  const handleAssign = async (values: ServiceTicketAssignInput) => {
+  const handleAssign = async (values: ViolationTicketAssignInput) => {
     try {
-      await serviceTicketAssign({
+      await violationTicketAssign({
         variables: {
           input: values
         }
       });
       message.success('Assignment changed successfully');
     } catch (error) {
-      message.error(`Error changing assignment on Service Ticket : ${JSON.stringify(error)}`);
+      message.error(`Error changing assignment on Violation Ticket : ${JSON.stringify(error)}`);
     }
   };
 
-  const handleAddUpdateActivity = async (values: ServiceTicketAddUpdateActivityInput) => {
+  const handleAddUpdateActivity = async (values: ViolationTicketAddUpdateActivityInput) => {
     try {
-      await serviceTicketAddUpdateActivity({
+      await violationTicketAddUpdateActivity({
         variables: {
           input: values
         }
       });
       message.success('Activity added successfully');
     } catch (error) {
-      message.error(`Error adding activity on Service Ticket : ${JSON.stringify(error)}`);
+      message.error(`Error adding activity on Violation Ticket : ${JSON.stringify(error)}`);
     }
   };
 

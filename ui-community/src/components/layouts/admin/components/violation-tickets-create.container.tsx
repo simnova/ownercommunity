@@ -4,10 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import {
   AdminServiceTicketsCreateContainerMembersDocument,
   AdminServiceTicketsCreateContainerPropertiesDocument,
-  AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
-  ViolationTicketCreateDocument,
+  AdminViolationTicketsCreateContainerViolationTicketCreateDocument,
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-  AdminTicketCreateInput // TODO: Change to ViolationTicketCreateInput
+  ViolationTicketCreateInput
 } from '../../../../generated';
 import { ViolationTicketsCreate } from '../../shared/components/violation-tickets-create';
 
@@ -36,29 +35,29 @@ export const ViolationTicketsCreateContainer: React.FC<ViolationTicketsCreateCon
     variables: { communityId: props.data.communityId }
   });
 
-  const [violationTicketCreate] = useMutation(ViolationTicketCreateDocument, {
+  const [violationTicketCreate] = useMutation(AdminViolationTicketsCreateContainerViolationTicketCreateDocument, {
     update(cache, { data }) {
       // update the list with the new item
-      const newViolationTicket = data?.adminTicketCreate.violationTicket; // TODO: Change to adminTicketCreate.violationTicket
+      const newViolationTicket = data?.violationTicketCreate.violationTicket;
 
-      const serviceTickets = cache.readQuery({
+      const tickets = cache.readQuery({
         query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
         variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
 
-      if (newViolationTicket && serviceTickets) {
+      if (newViolationTicket && tickets) {
         cache.writeQuery({
           query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
           variables: { communityId: props.data.communityId },
           data: {
-            serviceTicketsByCommunityId: [...serviceTickets, newViolationTicket]
+            serviceTicketsByCommunityId: [...tickets, newViolationTicket]
           }
         });
       }
     }
   });
 
-  const handleCreate = async (values: AdminTicketCreateInput) => {
+  const handleCreate = async (values: ViolationTicketCreateInput) => {
     try {
       const newServiceTicket = await violationTicketCreate({
         variables: {
@@ -66,7 +65,7 @@ export const ViolationTicketsCreateContainer: React.FC<ViolationTicketsCreateCon
         }
       });
       message.success('Violation Ticket Created');
-      navigate(`../${newServiceTicket.data?.adminTicketCreate.violationTicket?.id}`, {
+      navigate(`../${newServiceTicket.data?.violationTicketCreate.violationTicket?.id}`, {
         replace: true
       });
     } catch (error) {

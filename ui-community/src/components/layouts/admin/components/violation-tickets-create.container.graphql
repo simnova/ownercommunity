@@ -10,7 +10,7 @@ query AdminServiceTicketsCreateContainerProperties($communityId: ID!) {
   }
 }
 
-mutation ViolationTicketCreate($input: ViolationTicketCreateInput!) {
+mutation AdminViolationTicketsCreateContainerViolationTicketCreate($input: ViolationTicketCreateInput!) {
   violationTicketCreate(input: $input) {
     ...ViolationTicketsCreateMutationResultFields
   }

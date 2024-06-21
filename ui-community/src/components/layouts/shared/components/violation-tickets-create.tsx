@@ -1,7 +1,7 @@
 import { Button, Form, Input, InputNumber, Select } from 'antd';
 import React from 'react';
 
-import { AdminTicketCreateInput } from '../../../../generated';
+import { ViolationTicketCreateInput } from '../../../../generated';
 
 const { TextArea } = Input;
 
@@ -10,7 +10,7 @@ export interface ViolationTicketsCreateProps {
     members: any[];
     properties: any[];
   };
-  onSave: (member: AdminTicketCreateInput) => void;
+  onSave: (member: ViolationTicketCreateInput) => void;
   isAdmin?: boolean;
 }
 
@@ -77,12 +77,12 @@ export const ViolationTicketsCreate: React.FC<ViolationTicketsCreateProps> = (pr
         {props.isAdmin ? (
           <Form.Item
             name={['requestorId']}
-            label="Requestor"
-            rules={[{ required: true, message: 'Requestor is required.' }]}
+            label="Member"
+            rules={[{ required: true, message: 'Member is required.' }]}
           >
             <Select
               allowClear={true}
-              placeholder="Select an Owner"
+              placeholder="Select a Member"
               options={props.data.members}
               fieldNames={{ label: 'memberName', value: 'id' }}
             />

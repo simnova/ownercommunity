@@ -51,8 +51,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
     error: serviceTicketError
   } = useQuery(AdminServiceTicketsDetailContainerServiceTicketDocument, {
     variables: {
-      id: props.data.id,
-      ticketType: props.data.ticketType
+      id: props.data.id
     }
   });
 

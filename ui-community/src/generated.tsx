@@ -3107,11 +3107,11 @@ export type AdminSiteEditorContainerCommunityFieldsFragment = {
   updatedAt?: any | null;
 };
 
-export type ViolationTicketCreateMutationVariables = Exact<{
+export type AdminViolationTicketsCreateContainerViolationTicketCreateMutationVariables = Exact<{
   input: ViolationTicketCreateInput;
 }>;
 
-export type ViolationTicketCreateMutation = {
+export type AdminViolationTicketsCreateContainerViolationTicketCreateMutation = {
   __typename?: 'Mutation';
   violationTicketCreate: {
     __typename?: 'ViolationTicketMutationResult';
@@ -13754,13 +13754,13 @@ export const AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderDocum
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutation,
   AdminSiteEditorContainerCommunityPublicContentCreateAuthHeaderMutationVariables
 >;
-export const ViolationTicketCreateDocument = {
+export const AdminViolationTicketsCreateContainerViolationTicketCreateDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'ViolationTicketCreate' },
+      name: { kind: 'Name', value: 'AdminViolationTicketsCreateContainerViolationTicketCreate' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13869,7 +13869,10 @@ export const ViolationTicketCreateDocument = {
       }
     }
   ]
-} as unknown as DocumentNode<ViolationTicketCreateMutation, ViolationTicketCreateMutationVariables>;
+} as unknown as DocumentNode<
+  AdminViolationTicketsCreateContainerViolationTicketCreateMutation,
+  AdminViolationTicketsCreateContainerViolationTicketCreateMutationVariables
+>;
 export const AdminServiceTicketsDetailContainerViolationTicketDocument = {
   kind: 'Document',
   definitions: [

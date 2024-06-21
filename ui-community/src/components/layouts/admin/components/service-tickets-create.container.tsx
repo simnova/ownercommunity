@@ -16,9 +16,10 @@ interface ServiceTicketsCreateContainerProps {
   };
 }
 
-export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (props) => {
+export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (
+  props
+) => {
   const navigate = useNavigate();
-
   const {
     data: memberData,
     loading: memberLoading,
@@ -26,7 +27,6 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
   } = useQuery(AdminServiceTicketsCreateContainerMembersDocument, {
     variables: { communityId: props.data.communityId }
   });
-
   const {
     data: propertyData,
     loading: propertyLoading,
@@ -34,8 +34,9 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
   } = useQuery(AdminServiceTicketsCreateContainerPropertiesDocument, {
     variables: { communityId: props.data.communityId }
   });
-
-  const [serviceTicketCreate] = useMutation(AdminServiceTicketsCreateContainerServiceTicketCreateDocument, {
+  const [serviceTicketCreate] = useMutation(
+    AdminServiceTicketsCreateContainerServiceTicketCreateDocument, 
+    {
     update(cache, { data }) {
       // update the list with the new item
       const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
@@ -53,7 +54,8 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
         });
       }
     }
-  });
+  }
+);
 
   const handleCreate = async (values: ServiceTicketCreateInput) => {
     try {

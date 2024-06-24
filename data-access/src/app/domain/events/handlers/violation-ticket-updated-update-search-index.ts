@@ -10,7 +10,6 @@ import { ViolationTicketUnitOfWork } from '../../contexts/violation-ticket/viola
 import { ViolationTicketRepository } from '../../contexts/violation-ticket/violation-ticket.repository';
 
 const crypto = require('crypto');
-let called = 0;
 export default (
   cognitiveSearch: CognitiveSearchDomain,
   violationTicketUnitOfWork: ViolationTicketUnitOfWork

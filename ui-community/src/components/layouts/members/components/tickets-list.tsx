@@ -43,6 +43,11 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
       )
     },
     {
+      title: 'Type',
+      dataIndex: 'ticketType',
+      key: 'ticketType',
+    },
+    {
       title: 'Title',
       dataIndex: 'title',
       key: 'title'

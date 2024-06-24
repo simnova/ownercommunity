@@ -2,7 +2,7 @@ import { PageHeader } from '@ant-design/pro-layout';
 import { Dropdown, MenuProps, theme } from 'antd';
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { ServiceTicketsListContainer } from '../components/service-tickets-list.container';
+import { ServiceTicketsListContainer } from '../components/tickets-list.container';
 import { SubPageLayout } from '../sub-page-layout';
 
 export const ServiceTicketsList: React.FC<any> = () => {

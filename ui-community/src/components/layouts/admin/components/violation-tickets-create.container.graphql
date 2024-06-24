@@ -22,17 +22,18 @@ fragment ViolationTicketsCreateMutationResultFields on ViolationTicketMutationRe
     errorMessage
   }
   violationTicket {
-    ...ViolationTicketsCreateContainerServiceTicketFields
+    ...ViolationTicketsCreateContainerViolationTicketFields
   }
 }
 
-fragment ViolationTicketsCreateContainerServiceTicketFields on ViolationTicket {
+fragment ViolationTicketsCreateContainerViolationTicketFields on ViolationTicket {
   id
   title
   status
   priority
   status
   penaltyAmount
+  ticketType
   property {
     id
     propertyName

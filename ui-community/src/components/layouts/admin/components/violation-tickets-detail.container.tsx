@@ -149,7 +149,7 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
         }
       });
       message.success('Deleted');
-      navigate('../../');
+      navigate('../');
     } catch (error) {
       message.error(`Error deleting Service Ticket: ${JSON.stringify(error)}`);
     }

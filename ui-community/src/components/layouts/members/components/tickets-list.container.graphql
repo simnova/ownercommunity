@@ -81,6 +81,7 @@ fragment MemberServiceTicketsListContainerSearchServiceTicketsResultFields on Se
   requestorId
   assignedToId
   description
+  ticketType
   status
   priority
   createdAt

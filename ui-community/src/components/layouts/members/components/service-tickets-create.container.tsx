@@ -58,7 +58,12 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
         }
       });
       message.success('ServiceTicket Created');
-      navigate(`../${newServiceTicket.data?.serviceTicketCreate.serviceTicket?.id}`, {
+      const ticketDetails = {
+        ticketId: newServiceTicket.data?.serviceTicketCreate.serviceTicket?.id,
+        ticketType: newServiceTicket.data?.serviceTicketCreate.serviceTicket?.ticketType
+      }
+      message.success('ServiceTicket Created');
+      navigate(`../${ticketDetails.ticketType}/${ticketDetails.ticketId}`, {
         replace: true
       });
     } catch (error) {

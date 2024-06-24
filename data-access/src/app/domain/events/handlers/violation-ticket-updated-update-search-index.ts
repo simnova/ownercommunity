@@ -10,7 +10,7 @@ import { ViolationTicketUnitOfWork } from '../../contexts/violation-ticket/viola
 import { ViolationTicketRepository } from '../../contexts/violation-ticket/violation-ticket.repository';
 
 const crypto = require('crypto');
-
+let called = 0;
 export default (
   cognitiveSearch: CognitiveSearchDomain,
   violationTicketUnitOfWork: ViolationTicketUnitOfWork
@@ -45,10 +45,10 @@ export default (
         updatedAt: updatedDate,
       };
 
-      let serviceTicketDocCopy = JSON.parse(JSON.stringify(violationTicketDoc));
-      delete serviceTicketDocCopy.updatedAt;
+      let violationTicketDocCopy = JSON.parse(JSON.stringify(violationTicketDoc));
+      delete violationTicketDocCopy.updatedAt;
 
-      const hash = crypto.createHash('sha256').update(JSON.stringify(serviceTicketDocCopy)).digest('base64');
+      const hash = crypto.createHash('sha256').update(JSON.stringify(violationTicketDocCopy)).digest('base64');
 
       const maxAttempt = 3;
       if (violationTicket.hash !== hash) {

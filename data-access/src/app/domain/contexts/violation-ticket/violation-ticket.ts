@@ -109,7 +109,6 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     newActivity.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Created);
     newActivity.ActivityDescription=('Created');
     newActivity.ActivityBy=(requestor);
-    violationTicket.isNew = false;
     return violationTicket;
   }
 

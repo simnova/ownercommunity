@@ -64,8 +64,12 @@ export const ViolationTicketsCreateContainer: React.FC<ViolationTicketsCreateCon
           input: values
         }
       });
+      const ticketDetails = {
+        ticketId: newServiceTicket.data?.violationTicketCreate.violationTicket?.id,
+        ticketType: newServiceTicket.data?.violationTicketCreate.violationTicket?.ticketType
+      }
       message.success('Violation Ticket Created');
-      navigate(`../${newServiceTicket.data?.violationTicketCreate.violationTicket?.id}`, {
+      navigate(`../${ticketDetails.ticketType}/${ticketDetails.ticketId}`, {
         replace: true
       });
     } catch (error) {

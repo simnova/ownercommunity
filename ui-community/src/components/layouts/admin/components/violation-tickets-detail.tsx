@@ -180,7 +180,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     setModalVisible(true);
   };
 
-  console.log(menuItems);
   const menu = (
     <Menu
       onClick={(value) => {
@@ -349,12 +348,14 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             form={editDraftForm}
             initialValues={{
               ...props.data.violationTicket,
-              penaltyPaidDate: dayjs(props.data.violationTicket.penaltyPaidDate)
+              penaltyPaidDate: props.data.violationTicket.penaltyPaidDate
+                ? dayjs(props.data.violationTicket.penaltyPaidDate)
+                : undefined
             }}
-            onFinish={(values) => {
+            onFinish={async (values) => {
               setEditDraftFormLoading(true);
               console.log('values', values);
-              props.onUpdate({
+              await props.onUpdate({
                 violationTicketId: props.data.violationTicket.id,
                 propertyId: values.property.id,
                 title: values.title,
@@ -417,7 +418,13 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               </Form.Item>
             </div>
             <Space>
-              <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                value={'save'}
+                loading={editDraftFormLoading}
+                disabled={editDraftFormLoading}
+              >
                 Save Draft
               </Button>
             </Space>

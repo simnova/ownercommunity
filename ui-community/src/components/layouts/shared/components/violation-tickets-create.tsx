@@ -10,7 +10,7 @@ export interface ViolationTicketsCreateProps {
     members: any[];
     properties: any[];
   };
-  onSave: (member: ViolationTicketCreateInput) => void;
+  onSave: (member: ViolationTicketCreateInput) => Promise<void>;
   isAdmin?: boolean;
 }
 
@@ -66,20 +66,16 @@ export const ViolationTicketsCreate: React.FC<ViolationTicketsCreateProps> = (pr
       <Form
         layout="vertical"
         form={form}
-        onFinish={(values) => {
+        onFinish={async (values) => {
           setFormLoading(true);
-          props.onSave(values);
+          await props.onSave(values);
           setFormLoading(false);
         }}
       >
         {formItems()}
 
         {props.isAdmin ? (
-          <Form.Item
-            name={['requestorId']}
-            label="Member"
-            rules={[{ required: true, message: 'Member is required.' }]}
-          >
+          <Form.Item name={['requestorId']} label="Member" rules={[{ required: true, message: 'Member is required.' }]}>
             <Select
               allowClear={true}
               placeholder="Select a Member"

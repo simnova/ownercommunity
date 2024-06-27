@@ -29,7 +29,6 @@ extend type Query {
 
 input ViolationTicketCreateInput {
   propertyId: ObjectID!
-  requestorId: ObjectID
   title: String!
   description: String!
   serviceId: ObjectID

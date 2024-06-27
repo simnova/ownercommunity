@@ -32,14 +32,11 @@ export class ViolationTicketDomainApiImpl
     let propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     let member: MemberData;
-    if (input.requestorId === undefined) {
+
       //assume requestor is the verified user
       let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
       member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
-    } else {
-      //use the supplied requestorId - TODO: check that the current user is an admin
-      member = await this.context.applicationServices.memberDataApi.getMemberById(input.requestorId);
-    }
+
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     let serviceDo : Service<ServiceDomainAdapter> | undefined = undefined;
@@ -49,7 +46,7 @@ export class ViolationTicketDomainApiImpl
     }
 
     console.log(`violationTicketCreate:memberDO`,memberDo);
-    console.log(`violationTicketCreate:requestorId`,input.requestorId);
+    console.log(`violationTicketCreate:requestorId`, member.id);
 
     await this.withTransaction(async (repo) => {
       let newViolationTicket = await repo.getNewInstance(
@@ -80,16 +77,31 @@ export class ViolationTicketDomainApiImpl
       let propertyDo = null;
       if (violationTicket.property.id !== input.propertyId) {
         let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
-          if(!property) {
-            propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
-          }
+        if(!property) throw new Error('Property not found');
+        propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
         violationTicket.Property=(propertyDo);
       }
+
+      let member: MemberData;
+
+      //assume requestor is the verified user
+      let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+      member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
+
+      let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+// TODO: Improve the below code by optimizing to track changes in activity log for any fields updated
+      if(violationTicket.penaltyAmount !== input.penaltyAmount) {
+        violationTicket.requestAddStatusUpdate(`Penalty amount changed from ${violationTicket.penaltyAmount} to ${input.penaltyAmount}`, memberDo);
+      }
+      if(violationTicket.penaltyPaidDate !== input?.penaltyPaidDate) {
+        violationTicket.requestAddStatusUpdate(`Penalty paid date changed from ${violationTicket?.penaltyPaidDate || ''} to ${input?.penaltyPaidDate}`, memberDo);
+      }
+
       violationTicket.Title=(input.title);
       violationTicket.Description=(input.description);
       violationTicket.Priority=(input.priority);
       violationTicket.PenaltyAmount=(input.penaltyAmount);
-      violationTicket.PenaltyPaidDate=(input.penaltyPaidDate);
+      violationTicket.PenaltyPaidDate=(input?.penaltyPaidDate);
       if(input.serviceId) { violationTicket.Service=(serviceDo); }
       violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
     });

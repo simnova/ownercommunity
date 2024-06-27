@@ -73,18 +73,6 @@ export const ViolationTicketsCreate: React.FC<ViolationTicketsCreateProps> = (pr
         }}
       >
         {formItems()}
-
-        {props.isAdmin ? (
-          <Form.Item name={['requestorId']} label="Member" rules={[{ required: true, message: 'Member is required.' }]}>
-            <Select
-              allowClear={true}
-              placeholder="Select a Member"
-              options={props.data.members}
-              fieldNames={{ label: 'memberName', value: 'id' }}
-            />
-          </Form.Item>
-        ) : null}
-
         <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Create Violation Ticket
         </Button>

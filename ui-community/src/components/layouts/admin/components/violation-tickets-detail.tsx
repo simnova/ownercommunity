@@ -362,7 +362,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 description: values.description,
                 priority: values.priority,
                 penaltyAmount: values.penaltyAmount,
-                penaltyPaidDate: dayjs(values.penaltyPaidDate).toISOString()
+                penaltyPaidDate: values.penaltyPaidDate ? dayjs(values.penaltyPaidDate).toISOString() : undefined
               });
               setEditDraftFormLoading(false);
             }}

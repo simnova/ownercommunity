@@ -139,7 +139,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
   }
 
   get penaltyPaidDate() {
-    return this.props.penaltyPaidDate;
+    return this.props?.penaltyPaidDate;
   }
 
   get ticketType() {

@@ -8696,6 +8696,22 @@
             "deprecationReason": null
           },
           {
+            "name": "membersAssignableToViolationTickets",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Member",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "membersByCommunityId",
             "description": null,
             "args": [
@@ -12552,18 +12568,6 @@
                 "name": "ObjectID",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "requestorId",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "ObjectID",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,

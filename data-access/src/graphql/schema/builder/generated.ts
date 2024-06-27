@@ -1027,6 +1027,7 @@ export type Query = {
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
+  membersAssignableToViolationTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
@@ -1481,7 +1482,6 @@ export type ViolationTicketCreateInput = {
   description: Scalars['String'];
   penaltyAmount?: InputMaybe<Scalars['Float']>;
   propertyId: Scalars['ObjectID'];
-  requestorId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
 };
@@ -2808,6 +2808,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   memberForUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberForUserArgs, 'userId'>>;
   members?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
   membersAssignableToTickets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
+  membersAssignableToViolationTickets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
   membersByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType, RequireFields<QueryMembersByCommunityIdArgs, 'communityId'>>;
   membersByUserExternalId?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Member']>>>,

@@ -1025,6 +1025,7 @@ export type Query = {
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
+  membersAssignableToViolationTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
@@ -1479,7 +1480,6 @@ export type ViolationTicketCreateInput = {
   description: Scalars['String'];
   penaltyAmount?: InputMaybe<Scalars['Float']>;
   propertyId: Scalars['ObjectID'];
-  requestorId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
 };

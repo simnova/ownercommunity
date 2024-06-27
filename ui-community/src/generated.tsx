@@ -1021,11 +1021,11 @@ export type Query = {
   getAllPropertyTags?: Maybe<Array<Maybe<Scalars['String']>>>;
   getMapSasToken?: Maybe<Scalars['String']>;
   member?: Maybe<Member>;
+  memberAssignableToViolationTickets?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
   memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
-  membersAssignableToViolationTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
@@ -1071,6 +1071,11 @@ export type QueryCommunityByIdArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberArgs = {
   id: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryMemberAssignableToViolationTicketsArgs = {
+  violationTicketId: Scalars['String'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */

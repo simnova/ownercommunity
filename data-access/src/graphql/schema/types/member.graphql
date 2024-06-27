@@ -59,7 +59,7 @@ extend type Query {
   membersByCommunityId(communityId: ID!): [Member]
   membersByUserExternalId(userExternalId: String!): [Member]
   membersAssignableToTickets: [Member]
-  membersAssignableToViolationTickets: [Member]
+  memberAssignableToViolationTickets(violationTicketId: String!): Member
   memberForUser(userId: ObjectID!): Member
   memberForCurrentUser(communityId: ObjectID!): Member
 }

@@ -8606,6 +8606,35 @@
             "deprecationReason": null
           },
           {
+            "name": "memberAssignableToViolationTickets",
+            "description": null,
+            "args": [
+              {
+                "name": "violationTicketId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Member",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "memberForCurrentUser",
             "description": null,
             "args": [
@@ -8681,22 +8710,6 @@
           },
           {
             "name": "membersAssignableToTickets",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Member",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "membersAssignableToViolationTickets",
             "description": null,
             "args": [],
             "type": {

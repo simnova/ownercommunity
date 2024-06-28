@@ -14,6 +14,7 @@ import { ViolationTicketVisa as ViolationTicketVisa } from '../iam/domain-visa/v
 import { ServiceTicketDeletedEvent } from '../../events/types/service-ticket-deleted';
 import { ViolationTicketUpdatedEvent } from '../../events/types/violation-ticket-updated';
 import { ViolationTicketCreatedEvent } from '../../events/types/violation-ticket-created';
+import { ViolationTicketUpdateInput } from '../../../external-dependencies/graphql-api';
 
 export interface ViolationTicketProps extends EntityProps {
   readonly community: CommunityProps;
@@ -370,13 +371,31 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
           permissions.canAssignTickets
       )
     ) {
-      throw new Error('Unauthorized7');
+      throw new Error('Unauthorized');
     }
     const activityDetail = this.requestNewActivityDetail();
     activityDetail.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Updated);
     activityDetail.ActivityDescription=(description);
     activityDetail.ActivityBy=(by);
   }
+
+  public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
+    let penaltyPaidDateLog = !this.penaltyPaidDate ? `Penalty paid on date ${incomingPayload.penaltyPaidDate}` : null;
+    const updateLogMessages = {
+      title: incomingPayload.title !== this.title ? `Title changed from ${this.title} to ${incomingPayload.title}` : null,
+      description: incomingPayload.description !== this.description ? `Description changed from ${this.description} to ${incomingPayload.description}` : null,
+      penaltyAmount: incomingPayload.penaltyAmount !== this.penaltyAmount ? `Penalty amount changed from $${this.penaltyAmount} to $${incomingPayload.penaltyAmount}` : null,
+      penaltyPaidDate: !penaltyPaidDateLog ? `Penalty paid date changed from ${this.penaltyPaidDate} to ${incomingPayload.penaltyPaidDate}` : null,
+      priority: incomingPayload.priority !== this.priority ? `Priority changed from ${this.priority} to ${incomingPayload.priority}` : null,
+      property: incomingPayload.propertyId !== this.property.id ? `Property changed to ${propertyDo.propertyName}`: null,
+    }
+    for(let key in updateLogMessages) {
+      if(updateLogMessages[key]) {
+        this.requestAddStatusUpdate(updateLogMessages[key], this.requestor);
+      }
+    }
+  }
+
   public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {
     if (
       !this.visa.determineIf(

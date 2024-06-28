@@ -77,34 +77,19 @@ export class ViolationTicketDomainApiImpl
       let propertyDo = null;
       if (violationTicket.property.id !== input.propertyId) {
         let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
-        if(!property) throw new Error('Property not found');
         propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
         violationTicket.Property=(propertyDo);
       }
 
-      let member: MemberData;
-
-      //assume requestor is the verified user
-      let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-      member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
-
-      let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
-// TODO: Improve the below code by optimizing to track changes in activity log for any fields updated
-      if(violationTicket.penaltyAmount !== input.penaltyAmount) {
-        violationTicket.requestAddStatusUpdate(`Penalty amount changed from ${violationTicket.penaltyAmount} to ${input.penaltyAmount}`, memberDo);
-      }
-      if(violationTicket.penaltyPaidDate !== input?.penaltyPaidDate) {
-        violationTicket.requestAddStatusUpdate(`Penalty paid date changed from ${violationTicket?.penaltyPaidDate || ''} to ${input?.penaltyPaidDate}`, memberDo);
-      }
-
+      violationTicket.detectValueChangeAndAddTicketActivityLogs(input, propertyDo)
       violationTicket.Title=(input.title);
       violationTicket.Description=(input.description);
       violationTicket.Priority=(input.priority);
       violationTicket.PenaltyAmount=(input.penaltyAmount);
       violationTicket.PenaltyPaidDate=(input?.penaltyPaidDate);
-      if(input.serviceId) { violationTicket.Service=(serviceDo); }
       violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
-    });
+      if(input.serviceId) { violationTicket.Service=(serviceDo); }
+      });
     return violationTicketToReturn;
   }
 

@@ -1,10 +1,18 @@
 import { Button, Table } from "antd"
 import dayjs from "dayjs"
 import { useNavigate } from "react-router-dom"
+import { ServiceTicketSearchParamKeys } from "../../../../constants"
 
-export const ServiceTicketsList: React.FC<any> = (props) => {
+interface SearchTicketsListProps {
+  data: any;
+  searchParams: URLSearchParams;
+  setSearchParams: (searchParams: URLSearchParams) => void;
+}
+
+export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
   const navigate = useNavigate()
-  const columns = [
+  const columnSearchParams = props.searchParams.get(ServiceTicketSearchParamKeys.Column)?.split(',');
+  const columnOptions = [
     {
       title: "Action",
       dataIndex: "id",
@@ -43,6 +51,21 @@ export const ServiceTicketsList: React.FC<any> = (props) => {
       render: (text: any) => <span>{dayjs(text).format('MM/DD/YYYY')}</span>
     },
   ]
+
+  let columns: any = [];
+
+  if (columnSearchParams) {
+    columns.push(columnOptions.find((option: any) => option.title === 'Action'));
+
+    columnOptions.forEach((option: any) => {
+      if (columnSearchParams.includes(option.title)) {
+        columns.push(option); 
+      }
+    });
+  } else {
+    columns = columnOptions;
+  }
+
   return <div>
     <Table
       columns={columns}

@@ -100,13 +100,11 @@ export class ServiceTicketSearchApiImpl
   }
 
   async serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput, communityId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-    let searchString = ""
-    if(input !== null ){
-      searchString = input.searchString.trim();
-    }
+    let searchString = input.searchString.trim();
+    
 
     console.log(`Resolver>Query>serviceTicketsSearchAdmin: ${searchString}`);
-    let filterString = this.getFilterStringAdmin(input ? input.options.filter: null, communityId);
+    let filterString = this.getFilterStringAdmin(input.options.filter, communityId);
     console.log('filterString: ', filterString);
 
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
@@ -116,6 +114,10 @@ export class ServiceTicketSearchApiImpl
         searchMode: 'all',
         includeTotalCount: true,
         filter: filterString,
+        facets: input.options.facets,
+        top: input.options.top,
+        skip: input.options.skip,
+        orderBy: input.options.orderBy,
       });
     });
     

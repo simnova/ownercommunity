@@ -30,6 +30,32 @@ fragment AdminServiceTicketSearchFields on ServiceTicketsSearchResult {
     ...AdminServiceTicketsListContainerSearchServiceTicketsResultFields
   }
   count
+  facets {
+    requestor {
+      value
+      count
+    }
+    assignedTo {
+      value
+      count
+    }
+    status {
+      value
+      count
+    }
+    priority {
+      value
+      count
+    }
+    requestorId {
+      value
+      count
+    }
+    assignedToId {
+      value
+      count
+    }
+  }
 }
 
 fragment AdminServiceTicketsListContainerSearchServiceTicketsResultFields on ServiceTicketsResult {
@@ -46,4 +72,15 @@ fragment AdminServiceTicketsListContainerSearchServiceTicketsResultFields on Ser
   priority
   createdAt
   updatedAt
+}
+
+query AdminMemberNameServiceTicketContainer($communityId: ID!) {
+  membersByCommunityId(communityId: $communityId) {
+    ...AdminMembersNameServiceTicketContainerFields
+  }
+}
+
+fragment AdminMembersNameServiceTicketContainerFields on Member {
+  id
+  memberName
 }

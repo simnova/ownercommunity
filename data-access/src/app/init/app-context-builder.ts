@@ -1,4 +1,4 @@
-import { DomainVisaImpl, ReadOnlyDomainVisa } from '../domain/contexts/iam/domain-visa';
+import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../domain/contexts/iam/domain-visa';
 import { UserEntityReference } from '../domain/contexts/user/user';
 import { MemberEntityReference } from '../domain/contexts/community/member';
 import { CommunityEntityReference } from '../domain/contexts/community/community';
@@ -9,7 +9,7 @@ import { DomainImpl } from '../domain/domain-impl';
 import { CommunityData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
-import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl } from '../application-services-impl/datastore/iam/datastore-visa';
+import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../application-services-impl/datastore/iam/datastore-visa';
 
 export type VerifiedUser = {
   verifiedJWT: any;
@@ -108,6 +108,12 @@ export class AppContextBuilder implements AppContext {
           domainVisa :new DomainVisaImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference),
           datastoreVisa: new DatastoreVisaImpl(userData, memberData)
         }
+      }
+    } 
+    else if (this._verifiedUser?.openIdConfigKey === 'SYSTEM') {
+      this._passport = {
+        domainVisa: SystemDomainVisa.GetInstance(),
+        datastoreVisa: SystemDatastoreVisaImpl.GetInstance()
       }
     }
   }

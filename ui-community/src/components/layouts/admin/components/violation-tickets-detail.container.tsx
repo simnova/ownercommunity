@@ -5,7 +5,7 @@ import { Skeleton, message } from 'antd';
 
 import {
   AdminViolationTicketDetailContainerViolationTicketDeleteDocument,
-  AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
+  AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument,
   AdminServiceTicketsDetailContainerPropertiesDocument,
   AdminServiceTicketsDetailContainerViolationTicketDocument,
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
@@ -40,7 +40,11 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     data: memberData,
     loading: memberLoading,
     error: memberError
-  } = useQuery(AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument);
+  } = useQuery(AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument, {
+    variables: {
+      violationTicketId: props.data.id
+    }
+  });
 
   const {
     data: propertyData,
@@ -161,12 +165,12 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     return <div>{JSON.stringify(violationTicketError ?? memberError ?? propertyError)}</div>;
   } else if (
     violationTicketData?.violationTicket &&
-    memberData?.membersAssignableToTickets &&
+    memberData?.memberAssignableToViolationTickets &&
     propertyData?.properties
   ) {
     const data = {
       violationTicket: violationTicketData.violationTicket,
-      members: memberData.membersAssignableToTickets,
+      members: memberData.memberAssignableToViolationTickets,
       properties: propertyData.properties
     };
     return (

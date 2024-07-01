@@ -1075,7 +1075,7 @@ export type QueryMemberArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberAssignableToViolationTicketsArgs = {
-  violationTicketId: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -3172,6 +3172,15 @@ export type ViolationTicketsCreateContainerViolationTicketFieldsFragment = {
   requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
 };
 
+export type AdminViolationTicketsDetailContainerMembersAssignableToTicketsQueryVariables = Exact<{
+  violationTicketId: Scalars['ObjectID'];
+}>;
+
+export type AdminViolationTicketsDetailContainerMembersAssignableToTicketsQuery = {
+  __typename?: 'Query';
+  memberAssignableToViolationTickets?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+};
+
 export type AdminServiceTicketsDetailContainerViolationTicketQueryVariables = Exact<{
   id: Scalars['ObjectID'];
 }>;
@@ -3500,6 +3509,12 @@ export type AdminViolationTicketsDetailContainerViolationTicketFieldsFragment = 
     updatedAt?: any | null;
     activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
   } | null> | null;
+};
+
+export type AdminViolationTicketsDetailContainerMemberFieldsFragment = {
+  __typename?: 'Member';
+  id: any;
+  memberName?: string | null;
 };
 
 export type SectionLayoutContainerMemberByIdQueryQueryVariables = Exact<{
@@ -7571,6 +7586,23 @@ export const AdminViolationTicketsDetailContainerViolationTicketMutationResultFi
     }
   ]
 } as unknown as DocumentNode<AdminViolationTicketsDetailContainerViolationTicketMutationResultFieldsFragment, unknown>;
+export const AdminViolationTicketsDetailContainerMemberFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminViolationTicketsDetailContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<AdminViolationTicketsDetailContainerMemberFieldsFragment, unknown>;
 export const SectionLayoutContainerMemberFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -14031,6 +14063,63 @@ export const AdminViolationTicketsCreateContainerViolationTicketCreateDocument =
 } as unknown as DocumentNode<
   AdminViolationTicketsCreateContainerViolationTicketCreateMutation,
   AdminViolationTicketsCreateContainerViolationTicketCreateMutationVariables
+>;
+export const AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AdminViolationTicketsDetailContainerMembersAssignableToTickets' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'violationTicketId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberAssignableToViolationTickets' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'violationTicketId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'violationTicketId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AdminViolationTicketsDetailContainerMemberFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AdminViolationTicketsDetailContainerMemberFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  AdminViolationTicketsDetailContainerMembersAssignableToTicketsQuery,
+  AdminViolationTicketsDetailContainerMembersAssignableToTicketsQueryVariables
 >;
 export const AdminServiceTicketsDetailContainerViolationTicketDocument = {
   kind: 'Document',

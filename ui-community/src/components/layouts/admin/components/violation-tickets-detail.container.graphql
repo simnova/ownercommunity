@@ -1,8 +1,8 @@
-# query AdminServiceTicketsDetailContainerMembersAssignableToTickets {
-#   membersAssignableToTickets {
-#     ...AdminServiceTicketsDetailContainerMemberFields
-#   }
-# }
+query AdminViolationTicketsDetailContainerMembersAssignableToTickets($violationTicketId: ObjectID!) {
+  memberAssignableToViolationTickets(violationTicketId: $violationTicketId) {
+    ...AdminViolationTicketsDetailContainerMemberFields
+  }
+}
 
 # query AdminServiceTicketsDetailContainerProperties {
 #   properties {
@@ -100,10 +100,10 @@ fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationT
   updatedAt
 }
 
-# fragment AdminServiceTicketsDetailContainerMemberFields on Member {
-#   id
-#   memberName
-# }
+fragment AdminViolationTicketsDetailContainerMemberFields on Member {
+  id
+  memberName
+}
 # fragment AdminServiceTicketsDetailContainerPropertyFields on Property {
 #   id
 #   propertyName

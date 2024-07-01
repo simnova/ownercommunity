@@ -1077,7 +1077,7 @@ export type QueryMemberArgs = {
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberAssignableToViolationTicketsArgs = {
-  violationTicketId: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */

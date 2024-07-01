@@ -254,7 +254,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                   <Select
                     allowClear={true}
                     placeholder="Select a Member"
-                    options={props.data.members}
+                    options={[props.data.members]}
                     fieldNames={{ label: 'memberName', value: 'id' }}
                   />
                 </Form.Item>
@@ -328,7 +328,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               <Select
                 allowClear={true}
                 placeholder="Select a Member"
-                options={props.data.members}
+                options={[props.data.members]}
                 fieldNames={{ label: 'memberName', value: 'id' }}
                 style={{ width: '35%' }}
               />

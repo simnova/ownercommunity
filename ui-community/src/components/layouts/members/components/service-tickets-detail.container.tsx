@@ -149,7 +149,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
         }
       });
       message.success('Deleted');
-      navigate('../../');
+      navigate('../');
     } catch (error) {
       message.error(`Error deleting Service Ticket: ${JSON.stringify(error)}`);
     }

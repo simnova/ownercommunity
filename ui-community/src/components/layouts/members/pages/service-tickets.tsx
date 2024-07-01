@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { ServiceTicketsCreate } from './service-tickets-create';
-import { ServiceTicketsList } from './service-tickets-list';
+import { ServiceTicketsList } from './tickets-list';
 import { ServiceTicketsDetail } from './service-tickets-detail';
 
 export const ServiceTickets: React.FC<any> = (_props) => {

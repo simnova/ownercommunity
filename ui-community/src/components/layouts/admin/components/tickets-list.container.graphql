@@ -1,6 +1,19 @@
 query AdminServiceTicketsListContainerServiceTicketsOpenByCommunity($communityId: ID!) {
   serviceTicketsByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsListContainerServiceTicketsOpenByCommunityFields
+    ... on ViolationTicket {
+      id
+      title
+      requestor {
+        memberName
+      }
+      assignedTo {
+        memberName
+      }
+      priority
+      createdAt
+      updatedAt
+    }
   }
 }
 
@@ -46,4 +59,5 @@ fragment AdminServiceTicketsListContainerSearchServiceTicketsResultFields on Ser
   priority
   createdAt
   updatedAt
+  ticketType
 }

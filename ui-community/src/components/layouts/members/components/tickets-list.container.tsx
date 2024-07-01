@@ -15,7 +15,7 @@ import {
     ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
-import { ServiceTicketsList } from './service-tickets-list';
+import { ServiceTicketsList } from './tickets-list';
 
 const { Search } = Input;
 

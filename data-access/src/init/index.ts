@@ -9,8 +9,11 @@ import { GraphqlContextBuilder as ApolloContext } from '../graphql/init/graphql-
 import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
+import { DomainImpl } from '../app/domain/domain-impl';
 
 const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([['AccountPortal', 'ACCOUNT_PORTAL']]));
+const infrastructureServices = new InfrastructureServicesBuilder();
+
 
 async function init() {
   portalTokenValidator.Start();
@@ -26,6 +29,13 @@ async function init() {
     Number.parseInt(tryGetEnvVar('COSMOSDB_MAX_POOL_SIZE'))
   );
   await cosmosDbConnection.connect();
+  const DomainImplInstance = new DomainImpl(
+    infrastructureServices.datastore,
+    infrastructureServices.cognitiveSearch,
+    infrastructureServices.blobStorage,
+    infrastructureServices.vercel
+  );
+  await DomainImplInstance.startup();
 }
 
 init();
@@ -50,7 +60,7 @@ app.http('graphql', {
     startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
       context: async ({ req }) => {
         let context = new ApolloContext();
-        await context.init(req, portalTokenValidator, new InfrastructureServicesBuilder());
+        await context.init(req, portalTokenValidator, infrastructureServices);
         return context;
       },
     })

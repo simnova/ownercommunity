@@ -38,7 +38,7 @@ fragment MembersServiceTicketsCreateContainerServiceTicketFields on ServiceTicke
   title
   status
   priority
-
+  ticketType
   id
   createdAt
   updatedAt

@@ -65,6 +65,28 @@ export const ServiceTicketIndexSpec = {
       facetable: false,
     },
     {
+      name: 'penaltyAmount',
+      type: 'Edm.Double',
+      searchable: false,
+      filterable: false,
+      sortable: true,
+      facetable: false,
+    },
+    {
+     name: 'penaltyPaidDate',
+     type: 'Edm.DateTimeOffset', 
+     facetable: true,
+     filterable: true,
+     sortable: true,
+    },
+    {
+      name: 'ticketType',
+      type: 'Edm.String',
+      facetable: true,
+      searchable: true,
+      filterable: true,
+    },
+    {
       name: 'status',
       type: 'Edm.String',
       searchable: false,
@@ -109,6 +131,9 @@ export interface ServiceTicketIndexDocument {
   assignedTo: string;
   assignedToId: string;
   description: string;
+  penaltyAmount: number;
+  penaltyPaidDate: string;
+  ticketType: string;
   status: string;
   priority: number;
   createdAt: string;

@@ -13,6 +13,7 @@ query AdminServiceTicketsDetailContainerProperties {
 query AdminServiceTicketsDetailContainerServiceTicket($id: ObjectID!) {
   serviceTicket(id: $id) {
     ...AdminServiceTicketsDetailContainerServiceTicketFields
+    ...AdminServiceTicketsDetailContainerAdminTicketFields
   }
 }
 
@@ -44,8 +45,6 @@ mutation AdminServiceTicketDetailContainerServiceTicketDelete($input: ServiceTic
   }
 }
 
-
-
 fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on ServiceTicketMutationResult {
   status {
     success
@@ -57,6 +56,48 @@ fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on 
 }
 
 fragment AdminServiceTicketsDetailContainerServiceTicketFields on ServiceTicket {
+  title
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  assignedTo {
+    id
+    memberName
+  }
+  title
+  description
+  status
+  priority
+  photos {
+    documentId
+    description
+
+    id
+    createdAt
+    updatedAt
+  }
+  activityLog {
+    activityType
+    activityDescription
+    activityBy {
+      id
+      memberName
+    }
+    id
+    createdAt
+    updatedAt
+  }
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminServiceTicketsDetailContainerAdminTicketFields on ServiceTicket {
   title
   property {
     id

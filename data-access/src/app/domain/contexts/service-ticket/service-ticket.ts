@@ -28,6 +28,7 @@ export interface ServiceTicketProps extends EntityProps {
   setServiceRef(service: ServiceEntityReference): void;
   title: string;
   description: string;
+  readonly ticketType?: string;
   status: string;
   priority: number;
   readonly activityLog: PropArray<ActivityDetailProps>;
@@ -124,6 +125,9 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
   }
   get description() {
     return this.props.description;
+  }
+  get ticketType() {
+    return this.props.ticketType;
   }
   get status() {
     return this.props.status;

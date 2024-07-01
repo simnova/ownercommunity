@@ -1,3 +1,5 @@
+import { ViolationTicketUnitOfWork } from '../../domain/contexts/violation-ticket/violation-ticket.uow';
+import { ViolationTicketDomainApplicationService } from './violation-ticket.interface';
 // community
 import { CommunityDomainApplicationService } from "./community.interface";
 import { CommunityUnitOfWork } from "../../domain/contexts/community/community.uow";
@@ -30,7 +32,9 @@ export {
   ServiceDomainApplicationService as ServiceDomainApi,
   ServiceUnitOfWork,
   ServiceTicketDomainApplicationService as ServiceTicketDomainApi,
+  ViolationTicketDomainApplicationService as ViolationTicketDomainApi,
   ServiceTicketUnitOfWork,
+  ViolationTicketUnitOfWork,
   MemberDomainApplicationService as MemberDomainApi,
   MemberUnitOfWork,
   PropertyDomainApplicationService as PropertyDomainApi,

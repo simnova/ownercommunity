@@ -5,6 +5,7 @@ import { RoleUnitOfWork } from '../../contexts/community/role.uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property.uow';
 import { ServiceUnitOfWork } from '../../contexts/service-ticket/service.uow';
 import { UserUnitOfWork } from '../../contexts/user/user.uow';
+import { ViolationTicketUnitOfWork } from '../../contexts/violation-ticket/violation-ticket.uow';
 
 export interface DatastoreDomain {
   communityUnitOfWork: CommunityUnitOfWork;
@@ -14,6 +15,7 @@ export interface DatastoreDomain {
   serviceUnitOfWork: ServiceUnitOfWork;
   serviceTicketUnitOfWork: ServiceTicketUnitOfWork;
   userUnitOfWork: UserUnitOfWork;
+  violationTicketUnitOfWork: ViolationTicketUnitOfWork;
 }
 
 export interface DatastoreDomainInitializeable {

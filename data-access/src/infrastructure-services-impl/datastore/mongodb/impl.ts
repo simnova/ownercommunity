@@ -6,6 +6,7 @@ import { MongoRoleUnitOfWork } from "./infrastructure/role.mongo-uow";
 import { MongoServiceTicketUnitOfWork } from "./infrastructure/service-ticket.uow";
 import { MongoServiceUnitOfWork } from "./infrastructure/service.uow";
 import { MongoUserUnitOfWork } from "./infrastructure/user.uow";
+import { MongoViolationTicketUnitOfWork } from "./infrastructure/violation-ticket.uow";
 
 export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
 
@@ -43,5 +44,9 @@ export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
 
   get serviceTicketUnitOfWork(): typeof MongoServiceTicketUnitOfWork {
     return MongoServiceTicketUnitOfWork
+  }
+
+  get violationTicketUnitOfWork(): typeof MongoViolationTicketUnitOfWork {
+    return MongoViolationTicketUnitOfWork
   }
 }

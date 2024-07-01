@@ -127,6 +127,10 @@ export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTic
   set updateIndexFailedDate(updateIndexFailedDate) {
     this.doc.updateIndexFailedDate = updateIndexFailedDate;
   }
+
+  get ticketType() {
+    return this.doc.ticketType;  
+  }
 }
 
 export class ActivityDetailDomainAdapter implements ActivityDetailProps {

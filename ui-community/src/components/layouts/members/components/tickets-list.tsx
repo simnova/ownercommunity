@@ -36,8 +36,8 @@ export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
     {
       title: 'Action',
       dataIndex: 'id',
-      render: (text: any) => (
-        <Button type="primary" size="small" onClick={() => navigate(text)}>
+      render: (text: any, record: any) => (
+        <Button type="primary" size="small" onClick={() => navigate(`${record.ticketType}/${text}`)}>
           Edit
         </Button>
       )

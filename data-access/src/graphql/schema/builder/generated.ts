@@ -845,6 +845,7 @@ export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
   serviceTicketPermissions: ServiceTicketPermissionsInput;
+  violationTicketPermissions: ViolationTicketPermissionsInput;
 };
 
 export type Point = {
@@ -1203,6 +1204,7 @@ export type RolePermissions = {
   communityPermissions: CommunityPermissions;
   propertyPermissions: PropertyPermissions;
   serviceTicketPermissions: ServiceTicketPermissions;
+  violationTicketPermissions: ViolationTicketPermissions;
 };
 
 export type RoleUpdateInput = {
@@ -1499,6 +1501,21 @@ export type ViolationTicketMutationResult = MutationResult & {
   __typename?: 'ViolationTicketMutationResult';
   status: MutationStatus;
   violationTicket?: Maybe<ViolationTicket>;
+};
+
+export type ViolationTicketPermissions = {
+  __typename?: 'ViolationTicketPermissions';
+  canAssignTickets: Scalars['Boolean'];
+  canCreateTickets: Scalars['Boolean'];
+  canManageTickets: Scalars['Boolean'];
+  canWorkOnTickets: Scalars['Boolean'];
+};
+
+export type ViolationTicketPermissionsInput = {
+  canAssignTickets: Scalars['Boolean'];
+  canCreateTickets: Scalars['Boolean'];
+  canManageTickets: Scalars['Boolean'];
+  canWorkOnTickets: Scalars['Boolean'];
 };
 
 export type ViolationTicketUpdateInput = {
@@ -1798,6 +1815,8 @@ export type ResolversTypes = ResolversObject<{
   ViolationTicketCreateInput: ViolationTicketCreateInput;
   ViolationTicketDeleteInput: ViolationTicketDeleteInput;
   ViolationTicketMutationResult: ResolverTypeWrapper<ViolationTicketMutationResult>;
+  ViolationTicketPermissions: ResolverTypeWrapper<ViolationTicketPermissions>;
+  ViolationTicketPermissionsInput: ViolationTicketPermissionsInput;
   ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 }>;
@@ -2017,6 +2036,8 @@ export type ResolversParentTypes = ResolversObject<{
   ViolationTicketCreateInput: ViolationTicketCreateInput;
   ViolationTicketDeleteInput: ViolationTicketDeleteInput;
   ViolationTicketMutationResult: ViolationTicketMutationResult;
+  ViolationTicketPermissions: ViolationTicketPermissions;
+  ViolationTicketPermissionsInput: ViolationTicketPermissionsInput;
   ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: Scalars['Void'];
 }>;
@@ -2902,6 +2923,7 @@ export type RolePermissionsResolvers<
   communityPermissions?: Resolver<ResolversTypes['CommunityPermissions'], ParentType, ContextType>;
   propertyPermissions?: Resolver<ResolversTypes['PropertyPermissions'], ParentType, ContextType>;
   serviceTicketPermissions?: Resolver<ResolversTypes['ServiceTicketPermissions'], ParentType, ContextType>;
+  violationTicketPermissions?: Resolver<ResolversTypes['ViolationTicketPermissions'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -3155,6 +3177,17 @@ export type ViolationTicketMutationResultResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ViolationTicketPermissionsResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['ViolationTicketPermissions'] = ResolversParentTypes['ViolationTicketPermissions'],
+> = ResolversObject<{
+  canAssignTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canCreateTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canManageTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  canWorkOnTickets?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void';
 }
@@ -3283,6 +3316,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   UtcOffset?: GraphQLScalarType;
   ViolationTicket?: ViolationTicketResolvers<ContextType>;
   ViolationTicketMutationResult?: ViolationTicketMutationResultResolvers<ContextType>;
+  ViolationTicketPermissions?: ViolationTicketPermissionsResolvers<ContextType>;
   Void?: GraphQLScalarType;
 }>;
 

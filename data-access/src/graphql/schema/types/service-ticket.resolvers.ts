@@ -1,4 +1,4 @@
-import { Community, Member, Property, Resolvers,Service, ServiceTicket, Ticket, ServiceTicketMutationResult } from '../builder/generated';
+import { Community, Member, Property, Resolvers, Service, ServiceTicket, Ticket, ServiceTicketMutationResult } from '../builder/generated';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
 import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
@@ -45,11 +45,11 @@ const serviceTicket: Resolvers = {
       return parent.assignedTo;
     },
     service: async (parent, args, context, info) => {
-      if(parent.service && isValidObjectId(parent.service.toString())){
+      if (parent.service && isValidObjectId(parent.service.toString())) {
         return (await context.applicationServices.serviceDataApi.getServiceById(parent.service.toString())) as Service;
       }
       return parent.service;
-    }
+    },
   },
   ServiceTicketActivityDetail: {
     activityBy: async (parent, args, context, info) => {
@@ -89,6 +89,7 @@ const serviceTicket: Resolvers = {
     },
     serviceTicketsSearch: async (_, { input }, context, info) => {
       const member = await getMemberForCurrentUser(context, context.communityId);
+      // TODO: Revisit this once memberId available in context
       const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearch(input, member.id);
       return await context.applicationServices.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults);
     },
@@ -117,6 +118,5 @@ const serviceTicket: Resolvers = {
     },
   },
 };
-
 
 export default serviceTicket;

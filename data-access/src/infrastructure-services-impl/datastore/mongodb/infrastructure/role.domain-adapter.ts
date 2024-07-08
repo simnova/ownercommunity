@@ -1,12 +1,4 @@
-import {
-  Role,
-  Permissions,
-  CommunityPermissions,
-  PropertyPermissions,
-  ServicePermissions,
-  ServiceTicketPermissions,
-  AdminTicketPermissions,
-} from '../models/role';
+import { Role, Permissions, CommunityPermissions, PropertyPermissions, ServicePermissions, ServiceTicketPermissions, ViolationTicketPermissions } from '../models/role';
 import { Role as RoleDO, RoleProps } from '../../../../app/domain/contexts/community/role';
 import { MongooseDomainAdapter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -85,7 +77,7 @@ class PermissionsAdapter implements PermissionsProps {
   }
 
   public get violationTicketPermissions() {
-    return new AdminTicketPermissionsAdapter(this.props.adminTicketPermissions);
+    return new AdminTicketPermissionsAdapter(this.props.violationTicketPermissions);
   }
 }
 
@@ -237,7 +229,7 @@ class ServiceTicketPermissionsAdapter implements ServiceTicketPermissionsProps {
 }
 
 class AdminTicketPermissionsAdapter implements ViolationTicketPermissionsProps {
-  constructor(public readonly props: AdminTicketPermissions) {}
+  constructor(public readonly props: ViolationTicketPermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }

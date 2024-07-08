@@ -1,20 +1,17 @@
 import { MemberData, MemberModel, RoleModel, ViolationTicketModel } from '../../external-dependencies/datastore';
 import { Types } from 'mongoose';
+import {} from 'mongodb';
 import { CosmosDataSource } from './cosmos-data-source';
 import { MemberDataApi } from '../../application-services/datastore';
 import { AppContext } from '../../init/app-context-builder';
 
-export class MemberDataApiImpl 
-  extends CosmosDataSource<MemberData, AppContext> 
-  implements MemberDataApi
-{
+export class MemberDataApiImpl extends CosmosDataSource<MemberData, AppContext> implements MemberDataApi {
   async getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<MemberData> {
-    return (
-      await this.findByFields({
-        community: communityId,
-        'accounts.user': userId,
-      })
-    )?.[0];
+    // TODO: Remove this method once memberId is available in the context
+    return await MemberModel.findOne({
+      community: new Types.ObjectId(communityId),
+      'accounts.user': new Types.ObjectId(userId),
+    });
   }
   async getMembers(): Promise<MemberData[]> {
     return this.findByFields({ community: this.context.communityId });
@@ -59,39 +56,39 @@ export class MemberDataApiImpl
         $match: {
           _id: new Types.ObjectId(violationTicketId),
           community: new Types.ObjectId(communityId),
-        }
+        },
       },
       {
         $lookup: {
-          from: "properties",
-          localField: "property",
-          foreignField: "_id",
-          as: "p"
-        }
-      },
-        {
-        $unwind: {
-          path: "$p"
-        }
+          from: 'properties',
+          localField: 'property',
+          foreignField: '_id',
+          as: 'p',
+        },
       },
       {
-        $replaceWith: "$p"
+        $unwind: {
+          path: '$p',
+        },
+      },
+      {
+        $replaceWith: '$p',
       },
       {
         $lookup: {
-          from: "members",
-          localField: "owner",
-          foreignField: "_id",
-          as: "m"
-        }
+          from: 'members',
+          localField: 'owner',
+          foreignField: '_id',
+          as: 'm',
+        },
       },
       {
         $unwind: {
-          path: "$m",
-        }
+          path: '$m',
+        },
       },
       {
-          $replaceWith: "$m"
+        $replaceWith: '$m',
       },
     ]).exec();
     console.log(`getMemberAssignableToViolationTickets`, result);
@@ -103,48 +100,44 @@ export class MemberDataApiImpl
     return result;
   }
   async getMemberByIdWithCommunityAccountRole(memberId: string): Promise<MemberData> {
-    const result = await this.model.findById(memberId)
-    .populate('community')
-    .populate('accounts.user')
-    .populate('role')
-    .exec();
+    const result = await this.model.findById(memberId).populate('community').populate('accounts.user').populate('role').exec();
     return result;
   }
   async getMemberById(memberId: string): Promise<MemberData> {
-    let result = await (await this.findOneById(memberId)).populate('role')
-    return result
+    let result = await (await this.findOneById(memberId)).populate('role');
+    return result;
   }
 
   async getMembersByUserExternalId(userExternalId: string): Promise<MemberData[]> {
     const result = await MemberModel.aggregate([
-        {
-          $project: {
-            id: 0,
-            m: '$$ROOT',
-          },
+      {
+        $project: {
+          id: 0,
+          m: '$$ROOT',
         },
-        {
-          $lookup: {
-            from: 'users',
-            localField: 'm.accounts.user',
-            foreignField: '_id',
-            as: 'u',
-          },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'm.accounts.user',
+          foreignField: '_id',
+          as: 'u',
         },
-        {
-          $match : {
-              "u.externalId" : userExternalId
-          }
-        }, 
-        {
-          $unwind : {
-              path : "$m",
-              preserveNullAndEmptyArrays : true
-          }
-        }, 
-        {
-          $replaceWith : "$m"
+      },
+      {
+        $match: {
+          'u.externalId': userExternalId,
         },
+      },
+      {
+        $unwind: {
+          path: '$m',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $replaceWith: '$m',
+      },
     ]).exec();
 
     return result.map((r) => MemberModel.hydrate(r));
@@ -153,13 +146,15 @@ export class MemberDataApiImpl
   async isAdmin(memberId: string): Promise<boolean> {
     const result = await this.model.findById(memberId).populate('role').exec();
     const p = result.role.permissions;
-    return p?.serviceTicketPermissions?.canWorkOnTickets || 
-           p?.serviceTicketPermissions?.canManageTickets || 
-           p?.serviceTicketPermissions?.canAssignTickets || 
-           p?.communityPermissions?.canManageRolesAndPermissions || 
-           p?.communityPermissions?.canManageCommunitySettings || 
-           p?.communityPermissions?.canManageSiteContent || 
-           p?.communityPermissions?.canManageMembers || 
-           p?.propertyPermissions?.canManageProperties;
+    return (
+      p?.serviceTicketPermissions?.canWorkOnTickets ||
+      p?.serviceTicketPermissions?.canManageTickets ||
+      p?.serviceTicketPermissions?.canAssignTickets ||
+      p?.communityPermissions?.canManageRolesAndPermissions ||
+      p?.communityPermissions?.canManageCommunitySettings ||
+      p?.communityPermissions?.canManageSiteContent ||
+      p?.communityPermissions?.canManageMembers ||
+      p?.propertyPermissions?.canManageProperties
+    );
   }
 }

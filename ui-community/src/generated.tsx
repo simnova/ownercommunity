@@ -843,6 +843,7 @@ export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
   serviceTicketPermissions: ServiceTicketPermissionsInput;
+  violationTicketPermissions: ViolationTicketPermissionsInput;
 };
 
 export type Point = {
@@ -1201,6 +1202,7 @@ export type RolePermissions = {
   communityPermissions: CommunityPermissions;
   propertyPermissions: PropertyPermissions;
   serviceTicketPermissions: ServiceTicketPermissions;
+  violationTicketPermissions: ViolationTicketPermissions;
 };
 
 export type RoleUpdateInput = {
@@ -1497,6 +1499,21 @@ export type ViolationTicketMutationResult = MutationResult & {
   __typename?: 'ViolationTicketMutationResult';
   status: MutationStatus;
   violationTicket?: Maybe<ViolationTicket>;
+};
+
+export type ViolationTicketPermissions = {
+  __typename?: 'ViolationTicketPermissions';
+  canAssignTickets: Scalars['Boolean'];
+  canCreateTickets: Scalars['Boolean'];
+  canManageTickets: Scalars['Boolean'];
+  canWorkOnTickets: Scalars['Boolean'];
+};
+
+export type ViolationTicketPermissionsInput = {
+  canAssignTickets: Scalars['Boolean'];
+  canCreateTickets: Scalars['Boolean'];
+  canManageTickets: Scalars['Boolean'];
+  canWorkOnTickets: Scalars['Boolean'];
 };
 
 export type ViolationTicketUpdateInput = {
@@ -2159,6 +2176,13 @@ export type AdminRolesDetailContainerRoleQuery = {
         canManageProperties: boolean;
         canEditOwnProperty: boolean;
       };
+      violationTicketPermissions: {
+        __typename?: 'ViolationTicketPermissions';
+        canCreateTickets: boolean;
+        canManageTickets: boolean;
+        canAssignTickets: boolean;
+        canWorkOnTickets: boolean;
+      };
     };
   } | null;
 };
@@ -2201,6 +2225,13 @@ export type AdminRolesDetailContainerRoleAddMutation = {
           __typename?: 'PropertyPermissions';
           canManageProperties: boolean;
           canEditOwnProperty: boolean;
+        };
+        violationTicketPermissions: {
+          __typename?: 'ViolationTicketPermissions';
+          canCreateTickets: boolean;
+          canManageTickets: boolean;
+          canAssignTickets: boolean;
+          canWorkOnTickets: boolean;
         };
       };
     } | null;
@@ -2246,6 +2277,13 @@ export type AdminRolesDetailContainerRoleUpdateMutation = {
           canManageProperties: boolean;
           canEditOwnProperty: boolean;
         };
+        violationTicketPermissions: {
+          __typename?: 'ViolationTicketPermissions';
+          canCreateTickets: boolean;
+          canManageTickets: boolean;
+          canAssignTickets: boolean;
+          canWorkOnTickets: boolean;
+        };
       };
     } | null;
   };
@@ -2284,6 +2322,13 @@ export type AdminRolesDetailContainerRoleMutationResultFieldsFragment = {
         canManageProperties: boolean;
         canEditOwnProperty: boolean;
       };
+      violationTicketPermissions: {
+        __typename?: 'ViolationTicketPermissions';
+        canCreateTickets: boolean;
+        canManageTickets: boolean;
+        canAssignTickets: boolean;
+        canWorkOnTickets: boolean;
+      };
     };
   } | null;
 };
@@ -2317,6 +2362,13 @@ export type AdminRolesDetailContainerRoleFieldsFragment = {
       __typename?: 'PropertyPermissions';
       canManageProperties: boolean;
       canEditOwnProperty: boolean;
+    };
+    violationTicketPermissions: {
+      __typename?: 'ViolationTicketPermissions';
+      canCreateTickets: boolean;
+      canManageTickets: boolean;
+      canAssignTickets: boolean;
+      canWorkOnTickets: boolean;
     };
   };
 };
@@ -6462,6 +6514,19 @@ export const AdminRolesDetailContainerRoleFieldsFragmentDoc = {
                       { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
                     ]
                   }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'violationTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                    ]
+                  }
                 }
               ]
             }
@@ -6559,6 +6624,19 @@ export const AdminRolesDetailContainerRoleMutationResultFieldsFragmentDoc = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'violationTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
                     ]
                   }
                 }
@@ -11749,6 +11827,19 @@ export const AdminRolesDetailContainerRoleDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
                     ]
                   }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'violationTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                    ]
+                  }
                 }
               ]
             }
@@ -11852,6 +11943,19 @@ export const AdminRolesDetailContainerRoleAddDocument = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'violationTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
                     ]
                   }
                 }
@@ -11991,6 +12095,19 @@ export const AdminRolesDetailContainerRoleUpdateDocument = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'canManageProperties' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'canEditOwnProperty' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'violationTicketPermissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
                     ]
                   }
                 }

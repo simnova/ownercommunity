@@ -9,15 +9,12 @@ const ServiceTicketFilterNames = {
   AssignedToId: 'assignedToId',
   Status: 'status',
   Priority: 'priority',
-  CommunityId: 'communityId'
+  CommunityId: 'communityId',
 };
-export class ServiceTicketSearchApiImpl 
-  extends CognitiveSearchDataSource<AppContext> 
-  implements ServiceTicketSearchApi
-{
-  private getFilterString(filter: ServiceTicketsSearchFilterDetail, requestorId: string): string {
+export class ServiceTicketSearchApiImpl extends CognitiveSearchDataSource<AppContext> implements ServiceTicketSearchApi {
+  private getFilterString(filter: ServiceTicketsSearchFilterDetail, memberId: string): string {
     let filterStrings = [];
-    filterStrings.push(`(requestorId eq '${requestorId}')`);
+    filterStrings.push(`(requestorId eq '${memberId}') or (assignedToId eq '${memberId}')`);
     if (filter) {
       // requestor
       if (filter.requestorId && filter.requestorId.length > 0) {
@@ -73,12 +70,11 @@ export class ServiceTicketSearchApiImpl
     return filterStrings.join(' and ');
   }
 
-  async serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-
+  async serviceTicketsSearch(input: ServiceTicketsSearchInput, memberId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
     let searchString = input.searchString.trim();
 
     console.log(`Resolver>Query>serviceTicketsSearch: ${searchString}`);
-    let filterString = this.getFilterString(input.options.filter, requestorId);
+    let filterString = this.getFilterString(input.options.filter, memberId);
     console.log('filterString: ', filterString);
 
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
@@ -94,19 +90,19 @@ export class ServiceTicketSearchApiImpl
         orderBy: input.options.orderBy,
       });
     });
-    
+
     console.log(`Resolver>Query>serviceTicketsSearch ${JSON.stringify(searchResults)}`);
     return searchResults;
   }
 
   async serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput, communityId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-    let searchString = ""
-    if(input !== null ){
+    let searchString = '';
+    if (input !== null) {
       searchString = input.searchString.trim();
     }
 
     console.log(`Resolver>Query>serviceTicketsSearchAdmin: ${searchString}`);
-    let filterString = this.getFilterStringAdmin(input ? input.options.filter: null, communityId);
+    let filterString = this.getFilterStringAdmin(input ? input.options.filter : null, communityId);
     console.log('filterString: ', filterString);
 
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
@@ -118,7 +114,7 @@ export class ServiceTicketSearchApiImpl
         filter: filterString,
       });
     });
-    
+
     console.log(`Resolver>Query>serviceTicketsSearchAdmin ${JSON.stringify(searchResults)}`);
     return searchResults;
   }
@@ -128,7 +124,6 @@ export class ServiceTicketSearchApiImpl
     for await (const result of searchResults?.results ?? []) {
       results.push(result.document);
     }
-
     return {
       serviceTicketsResults: results,
       count: searchResults?.count,

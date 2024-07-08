@@ -16,11 +16,28 @@ type RolePermissions {
   serviceTicketPermissions: ServiceTicketPermissions!
   communityPermissions: CommunityPermissions!
   propertyPermissions: PropertyPermissions!
+  violationTicketPermissions: ViolationTicketPermissions!
 }
+
 input PermissionsInput {
   serviceTicketPermissions: ServiceTicketPermissionsInput!
   communityPermissions: CommunityPermissionsInput!
   propertyPermissions: PropertyPermissionsInput!
+  violationTicketPermissions: ViolationTicketPermissionsInput!
+}
+
+type ViolationTicketPermissions {
+  canCreateTickets: Boolean!
+  canManageTickets: Boolean!
+  canAssignTickets: Boolean!
+  canWorkOnTickets: Boolean!
+}
+
+input ViolationTicketPermissionsInput {
+  canCreateTickets: Boolean!
+  canManageTickets: Boolean!
+  canAssignTickets: Boolean!
+  canWorkOnTickets: Boolean!
 }
 
 type ServiceTicketPermissions {

@@ -10,11 +10,11 @@ import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @a
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 import { testHandler } from '../http/test-handler';
-import { HttpContextBuilder } from '../../seedwork/seedwork-az-function-handler_http/http-context-builder';
 import { TestQueueHandler } from '../queue/test-queue-handler';
-import { QueueContextBuilder } from '../../seedwork/seedwork-az-function-handler_queue/queue-context-builder';
 import { TestTimerHandler } from '../timer/test-timer-handler';
-import { TimerContextBuilder } from '../../seedwork/seedwork-az-function-handler_timer/timer-context-builder';
+import { QueueContextBuilderImpl } from '../queue/init/queue-context-builder-impl';
+import { HttpContextBuilderImpl } from '../http/init/http-context-builder-impl';
+import { TimerContextBuilderImpl } from '../timer/init/timer-context-builder-impl';
 
 const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([['AccountPortal', 'ACCOUNT_PORTAL']]));
 
@@ -67,7 +67,7 @@ app.http('http-test', {
   methods: ['GET'],
   route: 'http-test',
   handler: async (req) => {
-    let context = new HttpContextBuilder(req, portalTokenValidator, new InfrastructureServicesBuilder());
+    let context = new HttpContextBuilderImpl(req, portalTokenValidator, new InfrastructureServicesBuilder());
     await context.init();
     return testHandler(context);
   }
@@ -77,7 +77,7 @@ app.storageQueue('TestQueue', {
   queueName: 'test-queue',
   connection: 'QUEUE_STORAGE_URL',
   handler: async (queueItem, invocationContext) => {
-    let context = new QueueContextBuilder(queueItem, invocationContext, new InfrastructureServicesBuilder());
+    let context = new QueueContextBuilderImpl(queueItem, invocationContext, new InfrastructureServicesBuilder());
     await context.init();
     return TestQueueHandler(context);
   }
@@ -86,7 +86,7 @@ app.storageQueue('TestQueue', {
 app.timer('TimerTrigger', {
   schedule: "0 */5 * * * *",
   handler: async (timer, invocationContext) => {
-    let context = new TimerContextBuilder(timer, invocationContext, new InfrastructureServicesBuilder());
+    let context = new TimerContextBuilderImpl(timer, invocationContext, new InfrastructureServicesBuilder());
     await context.init();
     return TestTimerHandler(context);
   }

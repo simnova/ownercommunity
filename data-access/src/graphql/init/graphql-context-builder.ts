@@ -3,13 +3,13 @@ import { PortalTokenValidation } from '../../auth/portal-token-validation';
 import { Passport } from '../../app/init/passport';
 import { HttpContext, HttpContextBuilder } from '../../../seedwork/seedwork-az-function-handler_http/http-context-builder';
 import { InfrastructureServicesBuilder } from '../../init/infrastructure-services-builder';
+import { HttpContextBuilderImpl } from '../../http/init/http-context-builder-impl';
 
 export interface GraphqlContext extends HttpContext {
   communityId: string;
-  passport: Passport;
 }
 
-export class GraphqlContextBuilder extends HttpContextBuilder implements GraphqlContext {;
+export class GraphqlContextBuilder extends HttpContextBuilderImpl implements GraphqlContext {;
   constructor(request: HttpRequest, portalTokenValidator: PortalTokenValidation, infrastructureServices: InfrastructureServicesBuilder) {
     super(request, portalTokenValidator, infrastructureServices);
   }
@@ -27,9 +27,5 @@ export class GraphqlContextBuilder extends HttpContextBuilder implements Graphql
 
   get communityId(): string {
     return this._appContext.communityId;
-  }
-
-  get passport(): Passport {
-    return this._appContext.passport;
   }
 }

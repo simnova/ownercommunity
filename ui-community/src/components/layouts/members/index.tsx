@@ -8,7 +8,8 @@ import {
   BarsOutlined,
   ScheduleOutlined,
   ShopOutlined,
-  SearchOutlined
+  SearchOutlined,
+  WalletOutlined
 } from '@ant-design/icons';
 import { MemberProfile } from './pages/member-profile';
 import { Neighbors } from './pages/neighbors';
@@ -17,6 +18,7 @@ import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
 import { ServiceTickets } from './pages/service-tickets';
 import { CommunityProperty } from './pages/community-property';
 import { PropertiesSearch } from './pages/properties-search';
+import { BillingInfo } from './pages/billing-info';
 import { PageLayoutProps } from '../admin';
 import { Member } from '../../../generated';
 
@@ -71,6 +73,13 @@ const pageLayouts: PageLayoutProps[] = [
     icon: <SearchOutlined />,
     id: 7,
     parent: 'ROOT'
+  },
+  {
+    path: '/community/:communityId/member/:memberId/billingInfo/*',
+    title: 'Billing Info',
+    icon: <WalletOutlined />,
+    id: 8,
+    parent: 'ROOT'
   }
 ];
 
@@ -87,6 +96,7 @@ export const Members: React.FC<any> = (_props) => {
           <Route path="/properties/*" element={<Properties />} />
           <Route path="/service-tickets/*" element={<ServiceTickets />} />
           <Route path="/propertiesSearch/*" element={<PropertiesSearch />} />
+          <Route path="/billingInfo/*" element={<BillingInfo />} />
         </Route>
       </Routes>
     </BlobToLocalStorage>

@@ -10,6 +10,9 @@ import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @a
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 
+import { readBodyStream } from '../cybersource/middleware/read-body-stream';
+import { cyberSourceFunctionHandler } from '../cybersource/index';
+
 const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([['AccountPortal', 'ACCOUNT_PORTAL']]));
 
 async function init() {
@@ -55,4 +58,21 @@ app.http('graphql', {
       },
     })
   ),
+});
+
+app.http('cybersource', {
+  methods: ['GET', 'POST'],
+  route: 'cybersource/{*segments}',
+  handler: async (request, context) => {
+    try{
+      const body = await readBodyStream(request, context);
+      const response = await cyberSourceFunctionHandler(request, context, body);
+      return response;
+    } catch (error) {
+      return {
+        status: 500,
+        body: 'Error processing Cybersource',
+      };
+    } 
+  },
 });

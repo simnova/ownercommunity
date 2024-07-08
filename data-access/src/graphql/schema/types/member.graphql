@@ -59,8 +59,7 @@ extend type Query {
   membersByCommunityId(communityId: ID!): [Member]
   membersByUserExternalId(userExternalId: String!): [Member]
   membersAssignableToTickets: [Member]
-  memberForUser(userId: ObjectID!): Member
-  memberForCurrentUser(communityId: ObjectID!): Member
+  memberForCurrentUser: Member
 }
 
 extend type Mutation {

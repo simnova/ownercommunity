@@ -1,6 +1,6 @@
 
-query SearchDrawerContainerCustomViews($communityId: ObjectID!) {
-  memberForCurrentUser(communityId: $communityId) {
+query SearchDrawerContainerCustomViews {
+  memberForCurrentUser {
     ...SearchDrawerContainerCustomViewsFields
   }
 }

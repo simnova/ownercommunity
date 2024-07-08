@@ -14,6 +14,7 @@ export type VerifiedUser = {
 export interface GraphqlContext{
   verifiedUser: VerifiedUser;
   communityId: string;
+  memberId: string;
   passport: Passport;
   applicationServices: ApplicationServices;
   infrastructureServices: InfrastructureServices;
@@ -78,6 +79,10 @@ export class GraphqlContextBuilder implements GraphqlContext{
 
   public get communityId(): string {
     return this._appContext.communityId;
+  }
+
+  public get memberId(): string {
+    return this._appContext.memberId;
   }
 
   public get passport(): Passport {

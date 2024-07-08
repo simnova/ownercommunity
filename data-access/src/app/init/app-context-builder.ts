@@ -19,6 +19,7 @@ export type VerifiedUser = {
 export interface AppContext{  // extends DomainExecutionContext {
   verifiedUser: VerifiedUser;
   communityId: string;
+  memberId: string;
   passport: Passport;
   applicationServices: ApplicationServices;
   infrastructureServices: InfrastructureServices;
@@ -53,6 +54,10 @@ export class AppContextBuilder implements AppContext {
 
   get communityId(): string {
     return this._communityData.id;
+  }
+
+  get memberId(): string {
+    return this._memberId;
   }
 
   get passport(): Passport {

@@ -127,6 +127,32 @@ export const RolesDetail: React.FC<any> = (props) => {
           <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Manage Properties</Checkbox>
         </Form.Item>
 
+        <h3>Violation Ticket Permissions (Administrative PErmissions)</h3>
+        <Form.Item 
+          name={["permissions","violationTicketPermissions","canAssignTickets"]}
+          valuePropName="checked"        
+          > 
+          <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Assign Tickets</Checkbox>
+        </Form.Item>
+        <Form.Item 
+          name={["permissions","violationTicketPermissions","canCreateTickets"]}
+          valuePropName="checked"        
+          > 
+          <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Create Tickets</Checkbox>
+        </Form.Item>
+        <Form.Item 
+          name={["permissions","violationTicketPermissions","canManageTickets"]}
+          valuePropName="checked"        
+          > 
+          <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Manage Tickets</Checkbox>
+        </Form.Item>
+        <Form.Item 
+          name={["permissions","violationTicketPermissions","canWorkOnTickets"]}
+          valuePropName="checked"        
+          > 
+          <Checkbox style={{ lineHeight: '32px' }} disabled={props.data.isDefault}>Can Work on Tickets</Checkbox>
+        </Form.Item>
+        
         <Button type="primary" htmlType="submit" value={'save'} disabled={props.data.isDefault} loading={formLoading}>
           Save
         </Button>

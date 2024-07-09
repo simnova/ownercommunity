@@ -8,5 +8,4 @@ fragment MemberProfileContainerMemberForCurrentUserFields on Member {
   profile {
     avatarDocumentId
   }
-  id
 }

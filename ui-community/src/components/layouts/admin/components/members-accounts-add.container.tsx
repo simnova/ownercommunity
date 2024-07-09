@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {

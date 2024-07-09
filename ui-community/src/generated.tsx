@@ -3189,13 +3189,6 @@ export type MemberSiteNeighborsListContainerFieldsFragment = {
   } | null;
 };
 
-export type MemberSiteNeighborsListCurrentMemberIdQueryVariables = Exact<{ [key: string]: never }>;
-
-export type MemberSiteNeighborsListCurrentMemberIdQuery = {
-  __typename?: 'Query';
-  memberForCurrentUser?: { __typename?: 'Member'; id: any } | null;
-};
-
 export type MemberPropertiesListSearchContainerPropertiesQueryVariables = Exact<{
   input: PropertiesSearchInput;
 }>;
@@ -4126,14 +4119,12 @@ export type MemberProfileContainerMemberForCurrentUserQuery = {
   __typename?: 'Query';
   memberForCurrentUser?: {
     __typename?: 'Member';
-    id: any;
     profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
   } | null;
 };
 
 export type MemberProfileContainerMemberForCurrentUserFieldsFragment = {
   __typename?: 'Member';
-  id: any;
   profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
 };
 
@@ -7894,8 +7885,7 @@ export const MemberProfileContainerMemberForCurrentUserFieldsFragmentDoc = {
               kind: 'SelectionSet',
               selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
             }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+          }
         ]
       }
     }
@@ -13089,29 +13079,6 @@ export const MemberSiteNeighborsListContainerDocument = {
     }
   ]
 } as unknown as DocumentNode<MemberSiteNeighborsListContainerQuery, MemberSiteNeighborsListContainerQueryVariables>;
-export const MemberSiteNeighborsListCurrentMemberIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'MemberSiteNeighborsListCurrentMemberId' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'memberForCurrentUser' },
-            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  MemberSiteNeighborsListCurrentMemberIdQuery,
-  MemberSiteNeighborsListCurrentMemberIdQueryVariables
->;
 export const MemberPropertiesListSearchContainerPropertiesDocument = {
   kind: 'Document',
   definitions: [
@@ -15370,8 +15337,7 @@ export const MemberProfileContainerMemberForCurrentUserDocument = {
               kind: 'SelectionSet',
               selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
             }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+          }
         ]
       }
     }

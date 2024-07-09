@@ -1,13 +1,14 @@
 import getNextSegment from './functions/shared/get-next-segment';
 import generateKey from './functions/generate-key';
-import createPaymentInstrument from './functions/create-payment-instrument';
-import getPaymentInstrument from './functions/get-payment-instrument';
+import createCustomer from './functions/create-customer';
+import getCustomerPaymentInstruments from './functions/get-customer-payment-instruments';
 import processPaymentWithPaymentInstrument from './functions/process-payment-with-payment-instrument';
 
 export async function cyberSourceFunctionHandler(request, context, body) {
   const segment = getNextSegment(request.params);
   let keyId;
-  let createPaymentInstrumentResponse;
+  let createCustomerResponse;
+  let getCustomerPaymentInstrumentsResponse;
   let processPaymentWithPaymentInstrumentResponse;
 
   switch (segment) {
@@ -17,13 +18,14 @@ export async function cyberSourceFunctionHandler(request, context, body) {
       console.log('Generating key')
       keyId = await generateKey();
       return { status: 200, body: JSON.stringify({ keyId }) };
-    case 'create-payment-instrument':
-      console.log('Create payment instrument')
-      createPaymentInstrumentResponse = await createPaymentInstrument(body);
-      return { status: 200, body: JSON.stringify(createPaymentInstrumentResponse) };
-    case 'get-payment-instrument':
-      console.log('Get payment instrument')
-      return { status: 200, body: 'Get instrument identifier' };
+    case 'create-customer':
+      console.log('Create customer')
+      createCustomerResponse = await createCustomer(body);
+      return { status: 200, body: JSON.stringify(createCustomerResponse) };
+    case 'get-customer-payment-instruments':
+      console.log('Get customer payment instruments')
+      getCustomerPaymentInstrumentsResponse = await getCustomerPaymentInstruments(body);
+      return { status: 200, body: JSON.stringify(getCustomerPaymentInstrumentsResponse) };
     case 'process-payment-with-payment-instrument':
       console.log('Process payment')
       processPaymentWithPaymentInstrumentResponse = await processPaymentWithPaymentInstrument(body);

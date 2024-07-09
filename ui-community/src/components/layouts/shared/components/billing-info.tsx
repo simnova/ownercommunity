@@ -111,17 +111,27 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
     });
   };
 
-  const onCreatePaymentInstrument = async () => {
+  const onCreateCustomer = async () => {
     if (paymentToken !== '') {
-      await axios.post('http://localhost:7071/api/cybersource/create-payment-instrument', {
+      await axios.post('http://localhost:7071/api/cybersource/create-customer', {
         paymentToken: paymentToken,
       }).then((response) => {
-        console.log('CREATE INSTRUMENT RESPONSE', response);
+        console.log('CREATE CUSTOMER RESPONSE', response);
       }).catch((error) => {
-        console.log('CREATE INSTRUMENT ERROR', error);
+        console.log('CREATE CUSTOMER ERROR', error);
       });
     }
-  }
+  };
+
+  const onGetCustomer = async () => {
+    await axios.post('http://localhost:7071/api/cybersource/get-customer-payment-instruments', {
+      customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
+    }).then((response) => {
+      console.log('GET CUSTOMER RESPONSE', response);
+    }).catch((error) => {
+      console.log('GET CUSTOMER ERROR', error);
+    });
+  };
 
   const onProcessPaymentWithPaymentInstrument = async () => {
     await axios.post('http://localhost:7071/api/cybersource/process-payment-with-payment-instrument', {
@@ -131,7 +141,7 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
     }).catch((error) => {
       console.log('PROCESS PAYMENT ERROR', error);
     });
-  }
+  };
 
   const ErrorMessage = () => {
     return props.errorMessage ? <div style={{ textAlign: 'center', fontWeight: 'bold', color: 'red' }}>{props.errorMessage}</div> : <></>;
@@ -206,8 +216,16 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
 
         <Row style={{ marginTop: '20px' }}>
           <Col span={14} style={{ textAlign: 'right' }}>
-            <Button onClick={() => onCreatePaymentInstrument()}>
-              {'Create Payment Instrument'}
+            <Button onClick={() => onCreateCustomer()}>
+              {'Create Customer'}
+            </Button>
+          </Col>
+        </Row>
+
+        <Row style={{ marginTop: '20px' }}>
+          <Col span={14} style={{ textAlign: 'right' }}>
+            <Button onClick={() => onGetCustomer()}>
+              {'Get Customer Payment Instruments'}
             </Button>
           </Col>
         </Row>

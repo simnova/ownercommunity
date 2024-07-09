@@ -1,6 +1,6 @@
 import cybersource from 'cybersource-rest-client';
 
-interface CreatePaymentInstrumentResponse {
+interface CreateCustomerResponse {
   _links: {
     self: {
       href: string;
@@ -34,6 +34,7 @@ interface CreatePaymentInstrumentResponse {
   pointOfSaleInformation: { terminalId: string },
   tokenInformation: {
     instrumentidentifierNew: boolean,
+    customer: { id: string },
     paymentInstrument: { id: string },
     instrumentIdentifier: { id: string, state: string } // state: 'ACTIVE'
   }
@@ -52,13 +53,13 @@ const configObject = {
 
 const cybersourceClient = new cybersource.ApiClient();
 
-function createPaymentInstrument(body: any) {
+function createCustomer(body: any) {
   try {
     const client = new cybersource.PaymentsApi(configObject, cybersourceClient);
 
     //====== ClientReferenceInformation ====== Used for reconciliation purposes (search)
     let clientReferenceInformation = new cybersource.Ptsv2paymentsClientReferenceInformation();
-    clientReferenceInformation.code = '1234567890';
+    clientReferenceInformation.code = '1234567892';
     clientReferenceInformation.applicationName = 'owner-community';
     //====== ClientReferenceInformation ======
     //====== OrderInformation ======
@@ -83,8 +84,7 @@ function createPaymentInstrument(body: any) {
     //====== ProcessingInformation ======
     let processingInformation = new cybersource.Ptsv2paymentsProcessingInformation();
     processingInformation.actionList = ['TOKEN_CREATE'];
-    processingInformation.actionTokenTypes = ['paymentInstrument'];
-    //processingInformation.capture = true; // Set to true so that the payment does not remain in the "PENDING" state
+    processingInformation.actionTokenTypes = ['customer', 'paymentInstrument'];
     //====== ProcessingInformation ======
     //====== TokenInformation ======
     let tokenInformationObj = new cybersource.Ptsv2paymentsTokenInformation();
@@ -101,7 +101,7 @@ function createPaymentInstrument(body: any) {
     return new Promise((resolve, reject) => {
       client.createPayment(createPaymentRequestObj, (error, data, response) => {
         if (!error) {
-          resolve(data as CreatePaymentInstrumentResponse);
+          resolve(data as CreateCustomerResponse);
         } else {
           reject(new Error(error.message || 'Unknown error occurred'));
         }
@@ -115,4 +115,4 @@ function createPaymentInstrument(body: any) {
   }
 }
 
-export default createPaymentInstrument;
+export default createCustomer;

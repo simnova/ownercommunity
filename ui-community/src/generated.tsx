@@ -3592,6 +3592,13 @@ export type SectionLayoutContainerMemberByIdQueryQuery = {
         };
         propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
         serviceTicketPermissions: { __typename?: 'ServiceTicketPermissions'; canManageTickets: boolean };
+        violationTicketPermissions: {
+          __typename?: 'ViolationTicketPermissions';
+          canManageTickets: boolean;
+          canCreateTickets: boolean;
+          canAssignTickets: boolean;
+          canWorkOnTickets: boolean;
+        };
       };
     } | null;
   } | null;
@@ -3614,6 +3621,13 @@ export type SectionLayoutContainerMemberFieldsFragment = {
       };
       propertyPermissions: { __typename?: 'PropertyPermissions'; canManageProperties: boolean };
       serviceTicketPermissions: { __typename?: 'ServiceTicketPermissions'; canManageTickets: boolean };
+      violationTicketPermissions: {
+        __typename?: 'ViolationTicketPermissions';
+        canManageTickets: boolean;
+        canCreateTickets: boolean;
+        canAssignTickets: boolean;
+        canWorkOnTickets: boolean;
+      };
     };
   } | null;
 };
@@ -7847,6 +7861,19 @@ export const SectionLayoutContainerMemberFieldsFragmentDoc = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } }]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'violationTicketPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                          ]
                         }
                       }
                     ]
@@ -15705,6 +15732,19 @@ export const SectionLayoutContainerMemberByIdQueryDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } }]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'violationTicketPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canCreateTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canAssignTickets' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canWorkOnTickets' } }
+                          ]
                         }
                       }
                     ]

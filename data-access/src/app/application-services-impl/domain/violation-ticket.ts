@@ -82,11 +82,11 @@ export class ViolationTicketDomainApiImpl
       }
 
       violationTicket.detectValueChangeAndAddTicketActivityLogs(input, propertyDo)
-      violationTicket.Title=(input.title);
-      violationTicket.Description=(input.description);
-      violationTicket.Priority=(input.priority);
-      violationTicket.PenaltyAmount=(input.penaltyAmount);
-      violationTicket.PenaltyPaidDate=(input?.penaltyPaidDate);
+      if(input.title) violationTicket.Title=(input.title);
+      if(input.description) violationTicket.Description=(input.description);
+      if(input.priority) violationTicket.Priority=(input.priority);
+      if(input.penaltyAmount) violationTicket.PenaltyAmount=(input.penaltyAmount);
+      if(input.penaltyPaidDate) violationTicket.PenaltyPaidDate=(input?.penaltyPaidDate);
       violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
       if(input.serviceId) { violationTicket.Service=(serviceDo); }
       });

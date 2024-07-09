@@ -32,17 +32,17 @@ input ViolationTicketCreateInput {
   title: String!
   description: String!
   serviceId: ObjectID
-  penaltyAmount: Float
+  penaltyAmount: Float!
 }
 
 input ViolationTicketUpdateInput {
   violationTicketId: ObjectID!
   propertyId: ObjectID
-  title: String!
-  description: String!
-  priority: Int!
+  title: String
+  description: String
+  priority: Int
   serviceId: ObjectID
-  penaltyAmount: Float!
+  penaltyAmount: Float
   penaltyPaidDate: DateTime
 }
 

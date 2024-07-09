@@ -1517,13 +1517,13 @@ export type ViolationTicketPermissionsInput = {
 };
 
 export type ViolationTicketUpdateInput = {
-  description: Scalars['String'];
-  penaltyAmount: Scalars['Float'];
+  description?: InputMaybe<Scalars['String']>;
+  penaltyAmount?: InputMaybe<Scalars['Float']>;
   penaltyPaidDate?: InputMaybe<Scalars['DateTime']>;
-  priority: Scalars['Int'];
+  priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
 };
 

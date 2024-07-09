@@ -336,6 +336,12 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
   }
 
   set PenaltyAmount(penaltyAmount: number) {
+    if (
+      !this.isNew &&
+      !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))
+    ) {
+      throw new Error('Unauthorized3b');
+    }
     this.props.penaltyAmount = penaltyAmount;
   }
 
@@ -395,7 +401,6 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
   }
 
   public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {
-    console.log("Condition 2", this.validStatusTransitions.get(this.status.valueOf())?.includes(newStatus.valueOf()));
     if (
       !this.visa.determineIf(
         (permissions) =>

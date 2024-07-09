@@ -1,5 +1,5 @@
-query MemberProfileContainerMemberForCurrentUser($communityId: ObjectID!) {
-  memberForCurrentUser(communityId: $communityId) {
+query MemberProfileContainerMemberForCurrentUser {
+  memberForCurrentUser {
     ...MemberProfileContainerMemberForCurrentUserFields
   }
 }
@@ -8,5 +8,4 @@ fragment MemberProfileContainerMemberForCurrentUserFields on Member {
   profile {
     avatarDocumentId
   }
-  id
 }

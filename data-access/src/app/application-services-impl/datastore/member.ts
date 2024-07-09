@@ -8,14 +8,6 @@ export class MemberDataApiImpl
   extends CosmosDataSource<MemberData, AppContext> 
   implements MemberDataApi
 {
-  async getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<MemberData> {
-    return (
-      await this.findByFields({
-        community: communityId,
-        'accounts.user': userId,
-      })
-    )?.[0];
-  }
   async getMembers(): Promise<MemberData[]> {
     return this.findByFields({ community: this.context.communityId });
   }

@@ -4878,7 +4878,8 @@ export type SharedCommunitiesDropdownContainerMembersQuery = {
     __typename?: 'Member';
     id: any;
     memberName?: string | null;
-    community?: { __typename?: 'Community'; id: any; name?: string | null; userIsAdmin?: boolean | null } | null;
+    isAdmin?: boolean | null;
+    community?: { __typename?: 'Community'; id: any; name?: string | null } | null;
   } | null> | null;
 };
 
@@ -4886,7 +4887,8 @@ export type SharedCommunitiesDropdownContainerMembersFieldsFragment = {
   __typename?: 'Member';
   id: any;
   memberName?: string | null;
-  community?: { __typename?: 'Community'; id: any; name?: string | null; userIsAdmin?: boolean | null } | null;
+  isAdmin?: boolean | null;
+  community?: { __typename?: 'Community'; id: any; name?: string | null } | null;
 };
 
 export type LoggedInUserRootContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
@@ -8658,6 +8660,7 @@ export const SharedCommunitiesDropdownContainerMembersFieldsFragmentDoc = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'community' },
@@ -8665,8 +8668,7 @@ export const SharedCommunitiesDropdownContainerMembersFieldsFragmentDoc = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } }
               ]
             }
           }
@@ -17055,6 +17057,7 @@ export const SharedCommunitiesDropdownContainerMembersDocument = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'community' },
@@ -17062,8 +17065,7 @@ export const SharedCommunitiesDropdownContainerMembersDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } }
               ]
             }
           }

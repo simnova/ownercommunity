@@ -17,12 +17,12 @@ export class ViolationTicketVisaImplForViolationTicket<root extends ViolationTic
       console.log('Violation Ticket Visa : no community permissions');
       return false;
     }
-
+    console.log("root", this.root, "member", this.member)
     const updatedPermissions = Object.create(violationTicketPermissions, {
       isEditingOwnTicket: {
         value: this.member.id === this.root.requestor.id,
       },
-      isEditingAssignedTickets: {
+      isEditingAssignedTicket: {
         value: this.root.assignedTo?.id && this.member.id === this.root.assignedTo.id,
       }, //overwrite isEditingOwnProperty based on user ownership
     }) as ViolationTicketPermissions;

@@ -49,7 +49,7 @@ export interface ViolationTicketProps extends EntityProps {
 export interface ViolationTicketEntityReference
   extends Readonly<
     Omit<
-      ViolationTicketProps,
+    ViolationTicketProps,
       | 'penaltyAmount'
       | 'penaltyPaidDate'
       | 'community'
@@ -107,9 +107,9 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     violationTicket.PenaltyAmount = penaltyAmount;
     violationTicket.PenaltyPaidDate = penaltyPaidDate;
     let newActivity = violationTicket.requestNewActivityDetail();
-    newActivity.ActivityType = (ActivityDetailValueObjects.ActivityTypeCodes.Created);
-    newActivity.ActivityDescription = ('Created');
-    newActivity.ActivityBy = (requestor);
+    newActivity.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Created);
+    newActivity.ActivityDescription=('Created');
+    newActivity.ActivityBy=(requestor);
     return violationTicket;
   }
 
@@ -372,9 +372,9 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
       throw new Error('Unauthorized');
     }
     const activityDetail = this.requestNewActivityDetail();
-    activityDetail.ActivityType = (ActivityDetailValueObjects.ActivityTypeCodes.Updated);
-    activityDetail.ActivityDescription = (description);
-    activityDetail.ActivityBy = (by);
+    activityDetail.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Updated);
+    activityDetail.ActivityDescription=(description);
+    activityDetail.ActivityBy=(by);
   }
 
   public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
@@ -385,23 +385,23 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
       penaltyAmount: incomingPayload.penaltyAmount !== this.penaltyAmount ? `Penalty amount changed from $${this.penaltyAmount} to $${incomingPayload.penaltyAmount}` : null,
       penaltyPaidDate: !penaltyPaidDateLog ? `Penalty paid date changed from ${this.penaltyPaidDate} to ${incomingPayload.penaltyPaidDate}` : null,
       priority: incomingPayload.priority !== this.priority ? `Priority changed from ${this.priority} to ${incomingPayload.priority}` : null,
-      property: incomingPayload.propertyId !== this.property.id ? `Property changed to ${propertyDo.propertyName}` : null,
+      property: incomingPayload.propertyId !== this.property.id ? `Property changed to ${propertyDo.propertyName}`: null,
     }
-    for (let key in updateLogMessages) {
-      if (updateLogMessages[key]) {
+    for(let key in updateLogMessages) {
+      if(updateLogMessages[key]) {
         this.requestAddStatusUpdate(updateLogMessages[key], this.requestor);
       }
     }
   }
 
   public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {
+    console.log("Condition 2", this.validStatusTransitions.get(this.status.valueOf())?.includes(newStatus.valueOf()));
     if (
       !this.visa.determineIf(
         (permissions) =>
           permissions.isSystemAccount ||
           (this.validStatusTransitions.get(this.status.valueOf())?.includes(newStatus.valueOf()) &&
-            (permissions.canManageTickets ||
-              permissions.canAssignTickets ||
+            (  permissions.canManageTickets || permissions.canAssignTickets ||
               (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
               (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket)))
       )
@@ -411,9 +411,9 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
 
     this.props.status = newStatus.valueOf();
     const activityDetail = this.requestNewActivityDetail();
-    activityDetail.ActivityDescription = (description);
-    activityDetail.ActivityType = (this.statusMappings.get(newStatus.valueOf()));
-    activityDetail.ActivityBy = (by);
+    activityDetail.ActivityDescription=(description);
+    activityDetail.ActivityType=(this.statusMappings.get(newStatus.valueOf()));
+    activityDetail.ActivityBy=(by);
   }
 
   public override onSave(isModified: boolean): void {

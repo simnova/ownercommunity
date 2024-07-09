@@ -24,7 +24,7 @@ const ActivityDetailSchema = new Schema<ActivityDetail, Model<ActivityDetail>, A
     activityType: {
       type: String,
       required: true,
-      enum: ['CREATED', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'UPDATED', 'COMPLETED', 'CLOSED'],
+      enum: ['CREATED', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'PAID', 'UPDATED', 'CLOSED'],
     },
     activityDescription: {
       type: String,
@@ -96,7 +96,7 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
     },
     status: {
       type: String,
-      enum: ['DRAFT', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'COMPLETED', 'CLOSED'],
+      enum: ['DRAFT', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'PAID', 'CLOSED'],
       default: 'DRAFT',
       required: true,
     },

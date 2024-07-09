@@ -106,7 +106,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     ['SUBMITTED', ['DRAFT', 'ASSIGNED']],
     ['ASSIGNED', ['SUBMITTED', 'PAID']],
     ['PAID', ['ASSIGNED', 'CLOSED']],
-    ['CLOSED', ['PAID']]
+    ['CLOSED', ['ASSIGNED']]
   ]);
 
   const menuMap = new Map<string, any[]>([
@@ -286,6 +286,11 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Penalty Amount">
             {`$ ${props.data.violationTicket.penaltyAmount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </Descriptions.Item>
+          {props.data.violationTicket?.penaltyPaidDate && (
+            <Descriptions.Item label="Penalty Paid Date">
+              {props.data.violationTicket.penaltyPaidDate}
+            </Descriptions.Item>
+          )}
           <Descriptions.Item label="Assigned To">
             {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
           </Descriptions.Item>

@@ -105,7 +105,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     ['SUBMITTED', ['DRAFT', 'ASSIGNED']],
     ['ASSIGNED', ['SUBMITTED', 'PAID']],
     ['PAID', ['ASSIGNED', 'CLOSED']],
-    ['CLOSED', ['PAID']]
+    ['CLOSED', ['ASSIGNED']]
   ]);
 
   const menuMap = new Map<string, any[]>([
@@ -195,13 +195,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <div className="inline-block">
             <Title level={3}>Ticket Progress</Title>
           </div>
-          <div className="float-right">
-            <Dropdown overlay={menu}>
-              <Button type={'primary'}>
-                Change Status .. <DownOutlined />
-              </Button>
-            </Dropdown>
-          </div>
         </div>
         <Modal
           title="Change Status"
@@ -285,7 +278,16 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
       <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
         <Descriptions title="ViolationTicket Info" size={'small'} layout={'vertical'} labelStyle={{ fontSize: '10px' }}>
           <Descriptions.Item label="Id">{props.data.violationTicket.id}</Descriptions.Item>
+          <Descriptions.Item label="Title">{props.data.violationTicket.title}</Descriptions.Item>
           <Descriptions.Item label="Status">{stateMap.get(props.data.violationTicket.status)?.state}</Descriptions.Item>
+          <Descriptions.Item label="Penalty Amount">
+            {`$ ${props.data.violationTicket.penaltyAmount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          </Descriptions.Item>
+          {props.data.violationTicket?.penaltyPaidDate && (
+            <Descriptions.Item label="Penalty Paid Date">
+              {props.data.violationTicket.penaltyPaidDate}
+            </Descriptions.Item>
+          )}
           <Descriptions.Item label="Assigned To">
             {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
           </Descriptions.Item>
@@ -321,17 +323,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 console.log('values', values, props);
                 await props.onUpdate({
                   violationTicketId: props.data.violationTicket.id,
-                  propertyId: props.data.violationTicket.property.id,
-                  title: props.data.violationTicket.title,
-                  description: props.data.violationTicket.description,
-                  priority: props.data.violationTicket.priority,
-                  penaltyAmount: props.data.violationTicket.penaltyAmount,
                   penaltyPaidDate: dayjs().toISOString()
                 });
 
                 // TODO: The backend should be changing the status to PAID
-                console.log('current status', props.data.violationTicket.status);
-                console.log('next state', nextState);
                 await props.onChangeStatus({
                   violationTicketId: props.data.violationTicket.id,
                   status: nextState,

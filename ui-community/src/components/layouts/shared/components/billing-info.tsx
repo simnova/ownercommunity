@@ -123,15 +123,26 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
     }
   };
 
-  const onGetCustomer = async () => {
+  const onGetCustomerPaymentInstruments = async () => {
     await axios.post('http://localhost:7071/api/cybersource/get-customer-payment-instruments', {
       customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
     }).then((response) => {
-      console.log('GET CUSTOMER RESPONSE', response);
+      console.log('GET PAYMENT INSTRUMENTS RESPONSE', response);
     }).catch((error) => {
-      console.log('GET CUSTOMER ERROR', error);
+      console.log('GET PAYMENT INSTRUMENTS ERROR', error);
     });
   };
+
+  const onAddCustomerPaymentInstrument = async () => {
+    await axios.post('http://localhost:7071/api/cybersource/add-customer-payment-instrument', {
+      customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
+      paymentToken: paymentToken,
+    }).then((response) => {
+      console.log('ADD PAYMENT INSTRUMENT RESPONSE', response);
+    }).catch((error) => {
+      console.log('ADD PAYMENT INSTRUMENT ERROR', error);
+    });
+  }
 
   const onProcessPaymentWithPaymentInstrument = async () => {
     await axios.post('http://localhost:7071/api/cybersource/process-payment-with-payment-instrument', {
@@ -224,8 +235,16 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
 
         <Row style={{ marginTop: '20px' }}>
           <Col span={14} style={{ textAlign: 'right' }}>
-            <Button onClick={() => onGetCustomer()}>
+            <Button onClick={() => onGetCustomerPaymentInstruments()}>
               {'Get Customer Payment Instruments'}
+            </Button>
+          </Col>
+        </Row>
+
+        <Row style={{ marginTop: '20px' }}>
+          <Col span={14} style={{ textAlign: 'right' }}>
+            <Button onClick={() => onAddCustomerPaymentInstrument()}>
+              {'Add Customer Payment Instrument'}
             </Button>
           </Col>
         </Row>

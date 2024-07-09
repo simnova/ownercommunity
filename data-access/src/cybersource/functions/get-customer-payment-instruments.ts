@@ -17,63 +17,65 @@ interface GetCustomerPaymentInstrumentsResponse {
   count: number,
   total: number,
   _embedded: { 
-    paymentInstruments: PaymentInstrument[]
+    paymentInstruments: {
+      billTo: {
+        firstName: string,
+        lastName: string,
+        address1: string,
+        locality: string,
+        administrativeArea: string,
+        postalCode: string,
+        country: string,
+        email: string
+      },
+      buyerInformation: { currency: string },
+      card: {
+        expirationMonth: string,
+        expirationYear: string,
+        type: string
+      },
+      default: boolean,
+      id: string,
+      instrumentIdentifier: { id: string },
+      metadata: { creator: string },
+      processingInformation: { billPaymentProgramEnabled: boolean },
+      state: string,  // ACTIVE
+      _embedded: {
+        instrumentIdentifier: {
+          _links: {
+            self: {
+              href: string
+            },
+            paymentInstruments: {
+              href: string
+            }
+          },
+          id: string,
+          object: string, // 'instrumentIdentifier'
+          state: string, // 'ACTIVE'
+          card: {
+            number: string, // '411111XXXXXX1111'
+          },
+          processingInformation: {
+            authorizationOptions: {
+              initiator: {
+                merchantInitiatedTransaction: {
+                  previousTransactionId: string
+                }
+              }
+            }
+          },
+          metadata: {
+            creator: string // 'ecfmg_faimer'
+          }
+        }
+      }
+    }[]
   }
 }
 
-interface PaymentInstrument {
-  billTo: {
-    firstName: string,
-    lastName: string,
-    address1: string,
-    locality: string,
-    administrativeArea: string,
-    postalCode: string,
-    country: string,
-    email: string
-  },
-  buyerInformation: { currency: string },
-  card: {
-    expirationMonth: string,
-    expirationYear: string,
-    type: string
-  },
-  default: boolean,
-  id: string,
-  instrumentIdentifier: { id: string },
-  metadata: { creator: string },
-  processingInformation: { billPaymentProgramEnabled: boolean },
-  state: string,  // ACTIVE
-  _embedded: {
-    instrumentIdentifier: {
-      _links: {
-        self: {
-          href: string
-        },
-        paymentInstruments: {
-          href: string
-        }
-      },
-      id: string,
-      object: string, // 'instrumentIdentifier'
-      state: string, // 'ACTIVE'
-      card: {
-        number: string, // '411111XXXXXX1111'
-      },
-      processingInformation: {
-        authorizationOptions: {
-          initiator: {
-            merchantInitiatedTransaction: {
-              previousTransactionId: string
-            }
-          }
-        }
-      },
-      metadata: {
-        creator: string // 'ecfmg_faimer'
-      }
-    }
-  }
+interface DataResponse {
+  
 }
 
 const configObject = {
@@ -89,7 +91,7 @@ const configObject = {
 
 const cybersourceClient = new cybersource.ApiClient();
 
-function getCustomerPaymentInstruments(body: any) {
+async function getCustomerPaymentInstruments(body: any) {
   try {
     const client = new cybersource.CustomerPaymentInstrumentApi(configObject, cybersourceClient);
 

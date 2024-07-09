@@ -2,6 +2,7 @@ import getNextSegment from './functions/shared/get-next-segment';
 import generateKey from './functions/generate-key';
 import createCustomer from './functions/create-customer';
 import getCustomerPaymentInstruments from './functions/get-customer-payment-instruments';
+import addCustomerPaymentInstrument from './functions/add-customer-payment-instrument';
 import processPaymentWithPaymentInstrument from './functions/process-payment-with-payment-instrument';
 
 export async function cyberSourceFunctionHandler(request, context, body) {
@@ -10,6 +11,7 @@ export async function cyberSourceFunctionHandler(request, context, body) {
   let createCustomerResponse;
   let getCustomerPaymentInstrumentsResponse;
   let processPaymentWithPaymentInstrumentResponse;
+  let data;
 
   switch (segment) {
     case 'health':
@@ -26,6 +28,10 @@ export async function cyberSourceFunctionHandler(request, context, body) {
       console.log('Get customer payment instruments')
       getCustomerPaymentInstrumentsResponse = await getCustomerPaymentInstruments(body);
       return { status: 200, body: JSON.stringify(getCustomerPaymentInstrumentsResponse) };
+    case 'add-customer-payment-instrument':
+      console.log('Add customer payment instrument')
+      data = await addCustomerPaymentInstrument(body);
+      return { status: 200, body: JSON.stringify(data) };
     case 'process-payment-with-payment-instrument':
       console.log('Process payment')
       processPaymentWithPaymentInstrumentResponse = await processPaymentWithPaymentInstrument(body);

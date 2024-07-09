@@ -24,24 +24,12 @@ const configObject = {
   }
 };
 
-class Microform {
-  createField(fieldName: string, options: { placeholder?: string; maxLength?: number }): Field {
-    return new Field();
-  }
-  createToken(options: TokenOptions, callback: Callback): void {}
-}
-
-class Field {
-  on(event: string, callback: (data: any) => void): void {}
-  load(containerId: string): void {}
-}
-
-
 export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props) => {
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [cardNumberValidationHelpText, setCardNumberValidationHelpText] = useState<string>("");
   const [securityCodeValidationHelpText, setSecurityCodeValidationHelpText] = useState<string>("");
-
   const [isCardContainerLoaded, setIsCardContainerLoaded] = useState(false);
+  const [flexMicroform, setFlexMicroform] = useState<any>(null);
 
   useEffect(() => {
     if (isCardContainerLoaded) {
@@ -66,6 +54,16 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props)
                   break;
               }
             });
+
+            // Get Microform iFrames
+            const frames = document.getElementsByTagName('iframe');
+
+            // Set CSS on Microform iFrames
+            for (const element of frames) {
+              element.style.height = '30px';
+              element.style.border = '1px solid #d5d0da';
+              element.style.paddingLeft = '10px';
+            }
           })
           .catch((error) => {
             console.log('MICROFORM ERROR', error);
@@ -98,13 +96,11 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props)
         '::placeholder': { 'color': '#A4A4A4' },
       };
       const microform = flex.microform({ styles: myStyles });
-      console.log('MICROFORM', microform);
+      setFlexMicroform(microform);
 
       // Create fields
       const number = microform.createField('number', { placeholder: 'Enter card number' });
       const securityCode = microform.createField('securityCode', { maxLength: 4, placeholder: '•••' });
-      console.log('NUMBER', number);
-      console.log('SECURITY CODE', securityCode);
 
       // Add event listeners
       number.on('change', function (data: any) {
@@ -125,7 +121,7 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props)
       number.load('#card-number-container');
       securityCode.load('#securityCode-container');
     } catch (error) {
-      console.log('MICROSFORM ERROR', error);
+      console.log('MICROFORM ERROR', error);
     }
   }
 
@@ -134,23 +130,27 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props)
       expirationMonth: expirationMonth,
       expirationYear: expirationYear,
     };
-    
-    const microform = new Microform(); // Assuming this is available in the scope
-    microform.createToken(options, function (err, token) {
-      if (err) {
-        console.log('CREATE TOKEN ERROR', err);
+
+    flexMicroform.createToken(options, function (error: any, token: any) {
+      if (error) {
+        console.log('CREATE TOKEN ERROR', error);
       } else {
         console.log('TOKEN CREATED');
       }
-      callBack(err, token);
+      callBack(error, token);
     });
   }
 
   return (
     <BillingInfo
+      errorMessage={errorMessage}
+      onSetErrorMessage={setErrorMessage}
       cardNumberValidationHelpText={cardNumberValidationHelpText} 
+      setCardNumberValidationHelpText={setCardNumberValidationHelpText}
       securityCodeValidationHelpText={securityCodeValidationHelpText}
+      setSecurityCodeValidationHelpText={setSecurityCodeValidationHelpText}
       onCardNumberContainerLoaded={onCardNumberContainerLoaded}
+      createToken={createToken}
     />
   )
 }

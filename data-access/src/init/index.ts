@@ -71,7 +71,7 @@ app.http('cybersource', {
     } catch (error) {
       return {
         status: 500,
-        body: 'Error processing Cybersource',
+        body: `Error processing Cybersource ${error.message}`,
       };
     } 
   },

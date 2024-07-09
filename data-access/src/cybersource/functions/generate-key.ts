@@ -4,8 +4,8 @@ const configObject = {
   authenticationType: 'http_signature',
   runEnvironment: 'apitest.cybersource.com',
   merchantID: 'ecfmg_faimer',
-  merchantKeyId: '15db87b6-5531-4771-9c19-cc34a2d435b9',
-  merchantsecretKey: 'iMt2CuZsRPcuURcM1L2VieNFmnqscxVR4/BPFFitn10=',
+  merchantKeyId: '2adee370-c670-4d76-a64a-ec2a5319d008',
+  merchantsecretKey: 's3c1EtcQkSpCAMem1l7dTHJU2z1DJm6Ce97yxmVkc6U=',
   logConfiguration: {
     enableLog: false,
   }

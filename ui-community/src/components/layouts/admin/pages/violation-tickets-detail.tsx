@@ -9,6 +9,8 @@ export const ViolationTicketsDetail: React.FC<any> = () => {
   const params = useParams();
   const navigate = useNavigate();
 
+  console.log('params', params);
+
   return (
     <SubPageLayout header={<PageHeader title="Violation Ticket Detail" onBack={() => navigate(-1)} />}>
       <ViolationTicketsDetailContainer

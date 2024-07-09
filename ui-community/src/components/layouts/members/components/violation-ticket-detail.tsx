@@ -55,19 +55,18 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
 
   const [assignForm] = Form.useForm();
   const [assignFormLoading, setAssignFormLoading] = useState(false);
-  
+
   const [editDraftForm] = Form.useForm();
   const [editDraftFormLoading, setEditDraftFormLoading] = useState(false);
 
   const [addUpdateActivityForm] = Form.useForm();
   const [addUpdateActivityFormLoading, setAddUpdateActivityFormLoading] = useState(false);
 
-  const stepArray = ['CREATED', 'DRAFT', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'COMPLETED', 'CLOSED'];
+  const stepArray = ['CREATED', 'DRAFT', 'SUBMITTED', 'ASSIGNED', 'PAID', 'CLOSED'];
+
   const currentStep = stepArray.findIndex((value) => value === props.data.violationTicket.status);
   const [modalVisible, setModalVisible] = useState(false);
-  const [nextState, setNextState] = useState('');
-
-  const assignStages = ['SUBMITTED', 'INPROGRESS', 'ASSIGNED'];
+  const [nextState, setNextState] = useState(stepArray[currentStep + 1]);
 
   const columns: ColumnsType<ServiceTicketActivityDetail> = [
     {
@@ -104,10 +103,9 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const validStatusTransitions = new Map<string, string[]>([
     ['DRAFT', ['SUBMITTED']],
     ['SUBMITTED', ['DRAFT', 'ASSIGNED']],
-    ['ASSIGNED', ['SUBMITTED', 'INPROGRESS']],
-    ['INPROGRESS', ['ASSIGNED', 'COMPLETED']],
-    ['COMPLETED', ['INPROGRESS', 'CLOSED']],
-    ['CLOSED', ['INPROGRESS']]
+    ['ASSIGNED', ['SUBMITTED', 'PAID']],
+    ['PAID', ['ASSIGNED', 'CLOSED']],
+    ['CLOSED', ['PAID']]
   ]);
 
   const menuMap = new Map<string, any[]>([
@@ -166,8 +164,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     ['DRAFT', { state: 'Draft', description: 'Editing Details' }],
     ['SUBMITTED', { state: 'Submitted', description: 'Awaiting Triage and Assignment' }],
     ['ASSIGNED', { state: 'Assigned', description: 'Work will be scheduled' }],
-    ['INPROGRESS', { state: 'In Progress', description: 'Work is happening' }],
-    ['COMPLETED', { state: 'Completed', description: 'Work is complete, verification may be required' }],
+    ['PAID', { state: 'Paid', description: 'Payment complete' }],
     ['CLOSED', { state: 'Closed', description: 'Work has been completed' }]
   ]);
 
@@ -275,10 +272,9 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
         <Steps current={currentStep} size="small">
           <Step title="Created" description="Created" />
           <Step title="Draft" description="Editing Details" />
-          <Step title="Submitted" description="Awaiting Triage and Assignment" />
-          <Step title="Assigned" description="Assigned to property owner" />
-          <Step title="Payment" description={props.data.violationTicket.penaltyPaidDate? "Completed" : "Pending"} />
-          <Step title="Completed" description="Payment completed verification required" />
+          <Step title="Submitted" description="Awaiting assignment" />
+          <Step title="Assigned" description="Awaiting payment" />
+          <Step title="Paid" description="Payment complete" />
           <Step
             title="Closed"
             description="Payment has been completed"
@@ -306,76 +302,50 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           Delete Ticket
         </Button>
       </div> */}
-      {assignStages.includes(props.data.violationTicket.status) && (<div style={{display: "flex", justifyContent: "space-between"}}>
-        <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white', width: "50%" }}>
-          <Title level={5}>Ticket Assignment</Title>
-          <br />
-          <Form
-            layout="vertical"
-            form={assignForm}
-            initialValues={props.data.violationTicket}
-            onFinish={(values) => {
-              setAssignFormLoading(true);
-              console.log('values', values);
-              props.onAssign({
-                violationTicketId: props.data.violationTicket.id,
-                assignedToId: values.assignedTo.id
-              });
-              setAssignFormLoading(false);
-            }}
-          >
-            <Form.Item name={['assignedTo', 'id']} label="Assigned To">
-              <Select
-                disabled={!props.data.violationTicket.penaltyPaidDate}
-                allowClear={true}
-                placeholder="Select a Member"
-                options={[props.data.members]}
-                fieldNames={{ label: 'memberName', value: 'id' }}
-                style={{ width: '35%' }}
-              />
-            </Form.Item>
-            <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
-              Save Assignment
-            </Button>
-          </Form>
-        </div>
-        <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white', width: "50%" }}>
-        <Title level={5}>Pay with</Title>
-        <br />
-          <Form
-            layout="vertical"
-            form={editDraftForm}
-            initialValues={props.data.violationTicket}
-            onFinish={async (values) => {
-              setAssignFormLoading(true);
-              console.log('values', values, props);
-              await props.onUpdate({
-                violationTicketId: props.data.violationTicket.id,
-                propertyId: props.data.violationTicket.property.id,
-                title: props.data.violationTicket.title,
-                description: props.data.violationTicket.description,
-                priority: props.data.violationTicket.priority,
-                penaltyAmount: props.data.violationTicket.penaltyAmount,
-                penaltyPaidDate: values.penaltyPaidDate ? dayjs(values.penaltyPaidDate).toISOString() : undefined
-              });
-              setAssignFormLoading(false);
-            }}
-          >
+      {props.data.violationTicket.status === 'ASSIGNED' && (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white', width: '50%' }}>
+            <Title level={5}>Pay Penalty</Title>
+            <br />
+            <Form
+              layout="vertical"
+              form={editDraftForm}
+              initialValues={{
+                ...props.data.violationTicket,
+                penaltyPaidDate: props.data.violationTicket.penaltyPaidDate
+                  ? dayjs(props.data.violationTicket.penaltyPaidDate)
+                  : undefined
+              }}
+              onFinish={async (values) => {
+                setAssignFormLoading(true);
+                console.log('values', values, props);
+                await props.onUpdate({
+                  violationTicketId: props.data.violationTicket.id,
+                  propertyId: props.data.violationTicket.property.id,
+                  title: props.data.violationTicket.title,
+                  description: props.data.violationTicket.description,
+                  priority: props.data.violationTicket.priority,
+                  penaltyAmount: props.data.violationTicket.penaltyAmount,
+                  penaltyPaidDate: dayjs().toISOString()
+                });
 
-          <Form.Item name={['penaltyPaidDate']} label="Penalty Paid Date">
-            <DatePicker format={'YYYY-MM-DD'} />
-          </Form.Item>
-          <Button
-                type="primary"
-                htmlType="submit"
-                value={'save'}
-                loading={assignFormLoading}
-              >
+                // TODO: The backend should be changing the status to PAID
+                console.log('current status', props.data.violationTicket.status);
+                console.log('next state', nextState);
+                await props.onChangeStatus({
+                  violationTicketId: props.data.violationTicket.id,
+                  status: nextState,
+                  activityDescription: 'Penalty paid'
+                });
+                setAssignFormLoading(false);
+              }}
+            >
+              <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
                 Pay now
               </Button>
-          </Form>
+            </Form>
           </div>
-          </div>
+        </div>
       )}
       {props.data.violationTicket.status === 'DRAFT' && (
         <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
@@ -396,7 +366,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 title: values.title,
                 description: values.description,
                 priority: values.priority,
-                penaltyAmount: values.penaltyAmount,
+                penaltyAmount: values.penaltyAmount
               });
               setEditDraftFormLoading(false);
             }}

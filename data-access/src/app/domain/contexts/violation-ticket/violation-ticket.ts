@@ -49,7 +49,7 @@ export interface ViolationTicketProps extends EntityProps {
 export interface ViolationTicketEntityReference
   extends Readonly<
     Omit<
-    ViolationTicketProps,
+      ViolationTicketProps,
       | 'penaltyAmount'
       | 'penaltyPaidDate'
       | 'community'
@@ -107,9 +107,9 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     violationTicket.PenaltyAmount = penaltyAmount;
     violationTicket.PenaltyPaidDate = penaltyPaidDate;
     let newActivity = violationTicket.requestNewActivityDetail();
-    newActivity.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Created);
-    newActivity.ActivityDescription=('Created');
-    newActivity.ActivityBy=(requestor);
+    newActivity.ActivityType = (ActivityDetailValueObjects.ActivityTypeCodes.Created);
+    newActivity.ActivityDescription = ('Created');
+    newActivity.ActivityBy = (requestor);
     return violationTicket;
   }
 
@@ -184,17 +184,15 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
   private readonly validStatusTransitions = new Map<string, string[]>([
     [ValueObjects.StatusCodes.Draft, [ValueObjects.StatusCodes.Submitted]],
     [ValueObjects.StatusCodes.Submitted, [ValueObjects.StatusCodes.Draft, ValueObjects.StatusCodes.Assigned]],
-    [ValueObjects.StatusCodes.Assigned, [ValueObjects.StatusCodes.Submitted, ValueObjects.StatusCodes.InProgress]],
-    [ValueObjects.StatusCodes.InProgress, [ValueObjects.StatusCodes.Assigned, ValueObjects.StatusCodes.Completed]],
-    [ValueObjects.StatusCodes.Completed, [ValueObjects.StatusCodes.InProgress, ValueObjects.StatusCodes.Closed]],
+    [ValueObjects.StatusCodes.Assigned, [ValueObjects.StatusCodes.Submitted, ValueObjects.StatusCodes.Paid]],
+    [ValueObjects.StatusCodes.Paid, [ValueObjects.StatusCodes.Assigned, ValueObjects.StatusCodes.Closed]],
     [ValueObjects.StatusCodes.Closed, [ValueObjects.StatusCodes.InProgress]],
   ]);
   private readonly statusMappings = new Map<string, string>([
     [ValueObjects.StatusCodes.Draft, ActivityDetailValueObjects.ActivityTypeCodes.Created],
     [ValueObjects.StatusCodes.Submitted, ActivityDetailValueObjects.ActivityTypeCodes.Submitted],
     [ValueObjects.StatusCodes.Assigned, ActivityDetailValueObjects.ActivityTypeCodes.Assigned],
-    [ValueObjects.StatusCodes.InProgress, ActivityDetailValueObjects.ActivityTypeCodes.InProgress],
-    [ValueObjects.StatusCodes.Completed, ActivityDetailValueObjects.ActivityTypeCodes.Completed],
+    [ValueObjects.StatusCodes.Paid, ActivityDetailValueObjects.ActivityTypeCodes.Paid],
     [ValueObjects.StatusCodes.Closed, ActivityDetailValueObjects.ActivityTypeCodes.Closed],
   ]);
 
@@ -374,9 +372,9 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
       throw new Error('Unauthorized');
     }
     const activityDetail = this.requestNewActivityDetail();
-    activityDetail.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Updated);
-    activityDetail.ActivityDescription=(description);
-    activityDetail.ActivityBy=(by);
+    activityDetail.ActivityType = (ActivityDetailValueObjects.ActivityTypeCodes.Updated);
+    activityDetail.ActivityDescription = (description);
+    activityDetail.ActivityBy = (by);
   }
 
   public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
@@ -387,10 +385,10 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
       penaltyAmount: incomingPayload.penaltyAmount !== this.penaltyAmount ? `Penalty amount changed from $${this.penaltyAmount} to $${incomingPayload.penaltyAmount}` : null,
       penaltyPaidDate: !penaltyPaidDateLog ? `Penalty paid date changed from ${this.penaltyPaidDate} to ${incomingPayload.penaltyPaidDate}` : null,
       priority: incomingPayload.priority !== this.priority ? `Priority changed from ${this.priority} to ${incomingPayload.priority}` : null,
-      property: incomingPayload.propertyId !== this.property.id ? `Property changed to ${propertyDo.propertyName}`: null,
+      property: incomingPayload.propertyId !== this.property.id ? `Property changed to ${propertyDo.propertyName}` : null,
     }
-    for(let key in updateLogMessages) {
-      if(updateLogMessages[key]) {
+    for (let key in updateLogMessages) {
+      if (updateLogMessages[key]) {
         this.requestAddStatusUpdate(updateLogMessages[key], this.requestor);
       }
     }
@@ -413,9 +411,9 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
 
     this.props.status = newStatus.valueOf();
     const activityDetail = this.requestNewActivityDetail();
-    activityDetail.ActivityDescription=(description);
-    activityDetail.ActivityType=(this.statusMappings.get(newStatus.valueOf()));
-    activityDetail.ActivityBy=(by);
+    activityDetail.ActivityDescription = (description);
+    activityDetail.ActivityType = (this.statusMappings.get(newStatus.valueOf()));
+    activityDetail.ActivityBy = (by);
   }
 
   public override onSave(isModified: boolean): void {

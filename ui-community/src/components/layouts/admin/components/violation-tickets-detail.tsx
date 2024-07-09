@@ -62,12 +62,12 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [addUpdateActivityForm] = Form.useForm();
   const [addUpdateActivityFormLoading, setAddUpdateActivityFormLoading] = useState(false);
 
-  const stepArray = ['CREATED', 'DRAFT', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'COMPLETED', 'CLOSED'];
+  // const stepArray = ['CREATED', 'DRAFT', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'COMPLETED', 'CLOSED'];
+  const stepArray = ['CREATED', 'DRAFT', 'SUBMITTED', 'ASSIGNED', 'PAID', 'CLOSED'];
+
   const currentStep = stepArray.findIndex((value) => value === props.data.violationTicket.status);
   const [modalVisible, setModalVisible] = useState(false);
   const [nextState, setNextState] = useState('');
-
-  const assignStages = ['SUBMITTED', 'INPROGRESS', 'ASSIGNED'];
 
   const columns: ColumnsType<ServiceTicketActivityDetail> = [
     {
@@ -75,8 +75,8 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
       dataIndex: 'activityType',
       key: 'activityType',
       render: (text: string) => {
-        if (text === 'INPROGRESS') {
-          return 'IN PROGRESS';
+        if (text === 'PAID') {
+          return 'PAID';
         }
         return text;
       }
@@ -104,10 +104,9 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const validStatusTransitions = new Map<string, string[]>([
     ['DRAFT', ['SUBMITTED']],
     ['SUBMITTED', ['DRAFT', 'ASSIGNED']],
-    ['ASSIGNED', ['SUBMITTED', 'INPROGRESS']],
-    ['INPROGRESS', ['ASSIGNED', 'COMPLETED']],
-    ['COMPLETED', ['INPROGRESS', 'CLOSED']],
-    ['CLOSED', ['INPROGRESS']]
+    ['ASSIGNED', ['SUBMITTED', 'PAID']],
+    ['PAID', ['ASSIGNED', 'CLOSED']],
+    ['CLOSED', ['PAID']]
   ]);
 
   const menuMap = new Map<string, any[]>([
@@ -136,18 +135,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
       ]
     ],
     [
-      'INPROGRESS',
+      'PAID',
       [
-        <Menu.Item key="INPROGRESS" icon={<FileSyncOutlined />}>
-          In Progress
-        </Menu.Item>
-      ]
-    ],
-    [
-      'COMPLETED',
-      [
-        <Menu.Item key="COMPLETED" icon={<FileDoneOutlined />}>
-          Completed
+        <Menu.Item key="PAID" icon={<FileSyncOutlined />}>
+          Paid
         </Menu.Item>
       ]
     ],
@@ -166,8 +157,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     ['DRAFT', { state: 'Draft', description: 'Editing Details' }],
     ['SUBMITTED', { state: 'Submitted', description: 'Awaiting Triage and Assignment' }],
     ['ASSIGNED', { state: 'Assigned', description: 'Work will be scheduled' }],
-    ['INPROGRESS', { state: 'In Progress', description: 'Work is happening' }],
-    ['COMPLETED', { state: 'Completed', description: 'Work is complete, verification may be required' }],
+    ['PAID', { state: 'Paid', description: 'Payment complete' }],
     ['CLOSED', { state: 'Closed', description: 'Work has been completed' }]
   ]);
 
@@ -219,10 +209,14 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
         >
           <Form
             form={changeStatusForm}
+            initialValues={{
+              assignedTo: {
+                id: props.data.violationTicket?.assignedTo?.id
+              }
+            }}
             layout="vertical"
             onFinish={async (values) => {
               setChangeStatusFormLoading(true);
-              console.log('values', values);
               await props.onChangeStatus({
                 violationTicketId: props.data.violationTicket.id,
                 status: nextState,
@@ -248,7 +242,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             <br />
             <div>
               <br />
-
               {props.data.violationTicket.status === 'SUBMITTED' && nextState !== 'DRAFT' && (
                 <Form.Item name={['assignedTo', 'id']} label="Assigned To">
                   <Select
@@ -260,7 +253,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 </Form.Item>
               )}
             </div>
-            <Form.Item name={['activityDescription']} label="Activity Description">
+            <Form.Item name={['activityDescription']} label="Activity Description" required>
               <TextArea rows={4} placeholder="Reason for status change." maxLength={2000} />
             </Form.Item>
             <div className={'text-right'}>
@@ -275,10 +268,9 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
         <Steps current={currentStep} size="small">
           <Step title="Created" description="Created" />
           <Step title="Draft" description="Editing Details" />
-          <Step title="Submitted" description="Awaiting Triage and Assignment" />
-          <Step title="Assigned" description="Work will be scheduled" />
-          <Step title="In Progress" description="Work is happening" />
-          <Step title="Completed" description="Work is complete verification may be required" />
+          <Step title="Submitted" description="Awaiting assigment" />
+          <Step title="Assigned" description="Awaiting payment" />
+          <Step title="Paid" description="Payment complete" />
           <Step
             title="Closed"
             description="Work has been completed"
@@ -289,7 +281,11 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
       <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
         <Descriptions title="ServiceTicket Info" size={'small'} layout={'vertical'} labelStyle={{ fontSize: '10px' }}>
           <Descriptions.Item label="Id">{props.data.violationTicket.id}</Descriptions.Item>
+          <Descriptions.Item label="Title">{props.data.violationTicket.title}</Descriptions.Item>
           <Descriptions.Item label="Status">{stateMap.get(props.data.violationTicket.status)?.state}</Descriptions.Item>
+          <Descriptions.Item label="Penalty Amount">
+            {`$ ${props.data.violationTicket.penaltyAmount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          </Descriptions.Item>
           <Descriptions.Item label="Assigned To">
             {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
           </Descriptions.Item>
@@ -306,7 +302,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           Delete Ticket
         </Button>
       </div>
-      {assignStages.includes(props.data.violationTicket.status) && (
+      {props.data.violationTicket.status === 'SUBMITTED' && (
         <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
           <Title level={5}>Ticket Assignment</Title>
           <br />
@@ -314,10 +310,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             layout="vertical"
             form={assignForm}
             initialValues={props.data.violationTicket}
-            onFinish={(values) => {
+            onFinish={async (values) => {
               setAssignFormLoading(true);
               console.log('values', values);
-              props.onAssign({
+              await props.onAssign({
                 violationTicketId: props.data.violationTicket.id,
                 assignedToId: values.assignedTo.id
               });
@@ -412,9 +408,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                   parser={(value) => value?.replace(/\$\s?|(,*)/g, '') as unknown as number}
                   className="w-fit"
                 />
-              </Form.Item>
-              <Form.Item name={['penaltyPaidDate']} label="Penalty Paid Date">
-                <DatePicker format={'YYYY-MM-DD'} />
               </Form.Item>
             </div>
             <Space>

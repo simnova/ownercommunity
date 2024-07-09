@@ -33,7 +33,9 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
   const navigate = useNavigate();
 
   const [violationTicketUpdate] = useMutation(AdminViolationTicketsDetailContainerViolationTicketUpdateDocument);
-  const [violationTicketChangeStatus] = useMutation(AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument);
+  const [violationTicketChangeStatus] = useMutation(
+    AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument
+  );
   const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationAssignDocument);
   const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerAddUpdateActivityDocument);
   const {

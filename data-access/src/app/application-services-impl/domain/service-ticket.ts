@@ -32,7 +32,6 @@ export class ServiceTicketDomainApiImpl
 
     let member: MemberData;
     if (input.requestorId === undefined) {
-      //assume requestor is the verified user
       member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
     } else {
       //use the supplied requestorId - TODO: check that the current user is an admin

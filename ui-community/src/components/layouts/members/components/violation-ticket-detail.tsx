@@ -267,7 +267,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                   ? dayjs(props.data.violationTicket.penaltyPaidDate)
                   : undefined
               }}
-              onFinish={async (values) => {
+              onFinish={async () => {
                 setAssignFormLoading(true);
                 await props.onUpdate({
                   violationTicketId: props.data.violationTicket.id,

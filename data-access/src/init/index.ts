@@ -29,7 +29,6 @@ async function init() {
     Number.parseInt(tryGetEnvVar('COSMOSDB_MAX_POOL_SIZE'))
   );
   await cosmosDbConnection.connect();
-
   const DomainImplInstance = new DomainImpl(
     infrastructureServices.datastore,
     infrastructureServices.cognitiveSearch,

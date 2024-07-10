@@ -384,29 +384,29 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
   }
 
   public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
+    let activityMessage: string = `${this.requestor.memberName} made field changes: | `;
     let penaltyPaidDateLog = !this.penaltyPaidDate ? `Penalty paid on date ${incomingPayload.penaltyPaidDate}` : null;
     const updateLogMessages = {
-      title: incomingPayload.title && incomingPayload.title !== this.title ? `Title changed from ${this.title} to ${incomingPayload.title}` : null,
+      title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} - %o ${this.title}` : null,
       description:
-        incomingPayload.description && incomingPayload.description !== this.description
-          ? `Description changed from ${this.description} to ${incomingPayload.description}`
-          : null,
+        incomingPayload.description && incomingPayload.description !== this.description ? `Description: %n ${incomingPayload.description} - %o ${this.description}` : null,
       penaltyAmount:
         incomingPayload.penaltyAmount && incomingPayload.penaltyAmount !== this.penaltyAmount
-          ? `Penalty amount changed from $${this.penaltyAmount} to $${incomingPayload.penaltyAmount}`
+          ? `Penalty amount: %n $${incomingPayload.penaltyAmount} - %o $${this.penaltyAmount}`
           : null,
-      penaltyPaidDate: !penaltyPaidDateLog ? `Penalty paid date changed from ${this.penaltyPaidDate} to ${incomingPayload.penaltyPaidDate}` : null,
-      priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority changed from ${this.priority} to ${incomingPayload.priority}` : null,
-      property: incomingPayload.propertyId && incomingPayload.propertyId !== this.property.id ? `Property changed to ${propertyDo?.propertyName}` : null,
+      penaltyPaidDate: !penaltyPaidDateLog ? `Penalty paid date: %n ${incomingPayload.penaltyPaidDate} - %o ${this.penaltyPaidDate}` : null,
+      priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority: %n ${incomingPayload.priority} - %o ${this.priority}` : null,
+      property: incomingPayload.propertyId && incomingPayload.propertyId !== this.property.id ? `Property: %n ${propertyDo?.propertyName}` : null,
     };
     for (let key in updateLogMessages) {
       if (!propertyDo) {
         delete updateLogMessages.property;
       }
       if (updateLogMessages[key]) {
-        this.requestAddStatusUpdate(updateLogMessages[key], this.requestor);
+        activityMessage += `${updateLogMessages[key]}. | `;
       }
     }
+    this.requestAddStatusUpdate(activityMessage, this.requestor);
   }
 
   public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {

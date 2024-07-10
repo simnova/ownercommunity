@@ -115,7 +115,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
       render: (text: string) => {
         let logs = text.split(' | ');
         return logs.map((log) => {
-          const regex = /(?<field>[^:]+):\s*%n\s*(?<newValue>[^-]+)(?:\s*-\s*%o\s*(?<oldValue>[^.]+))?\./;
+          const regex = /(?<field>[^:]+):\s*%n\s*(?<newValue>.*?)(?:\s*%o\s*(?<oldValue>.*))?$/;
           const match = log.match(regex);
 
           if (match && match.groups) {
@@ -126,6 +126,14 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             if (field === 'Priority') {
               newValue = priority.find((x) => x.value === parseInt(newValue))?.label ?? '';
               oldValue = priority.find((x) => x.value === parseInt(oldValue))?.label ?? '';
+            }
+
+            if (dayjs(newValue).isValid()) {
+              newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY');
+            }
+
+            if (dayjs(oldValue).isValid()) {
+              oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY');
             }
 
             return (

@@ -76,17 +76,18 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [nextState, setNextState] = useState('');
 
-  const [membersData, { data: memberData, loading: memberLoading, error: memberError }] = props.memberLazyQuery;
+  const [membersData, { data: memberData, loading: memberLoading }] = props.memberLazyQuery;
 
   useEffect(() => {
     const fetchMembers = async () => {
       await membersData();
+      assignForm.resetFields(['assignedTo', 'id']);
     };
 
-    if (props.data.violationTicket.property?.id) {
+    if (nextState === 'SUBMITTED') {
       fetchMembers();
     }
-  }, [props.data.violationTicket.property?.id]);
+  }, [nextState]);
 
   const columns: ColumnsType<ServiceTicketActivityDetail> = [
     {
@@ -112,7 +113,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
       render: (text: string) => {
         let logs = text.split(' | ');
         return logs.map((log) => {
-          const regex = /(?<field>[^:]+):\s*%n\s*(?<newValue>[^-]+)(?:\s*-\s*%o\s*(?<oldValue>[^.]+))?\./;
+          const regex = /(?<field>[^:]+):\s*%n\s*(?<newValue>.*?)(?:\s*%o\s*(?<oldValue>.*))?$/;
           const match = log.match(regex);
 
           if (match && match.groups) {
@@ -123,6 +124,14 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             if (field === 'Priority') {
               newValue = priority.find((x) => x.value === parseInt(newValue))?.label ?? '';
               oldValue = priority.find((x) => x.value === parseInt(oldValue))?.label ?? '';
+            }
+
+            if (dayjs(newValue).isValid()) {
+              newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY');
+            }
+
+            if (dayjs(oldValue).isValid()) {
+              oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY');
             }
 
             return (
@@ -220,7 +229,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const menu = (
     <Menu
       onClick={(value) => {
-        console.log('Current status: ', props.data.violationTicket.status);
         changeStatus(value.key);
       }}
     >
@@ -296,7 +304,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               changeStatusForm.resetFields();
 
               if (props.data.violationTicket.status === 'SUBMITTED' && nextState !== 'DRAFT') {
-                console.log('values', values);
                 props.onAssign({
                   violationTicketId: props.data.violationTicket.id,
                   assignedToId: values.assignedTo.id
@@ -394,7 +401,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               form={assignForm}
               onFinish={async (values) => {
                 setAssignFormLoading(true);
-                console.log('values', values);
                 await props.onAssign({
                   violationTicketId: props.data.violationTicket.id,
                   assignedToId: values.assignedTo.id
@@ -409,6 +415,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                   options={[memberData?.memberAssignableToViolationTickets]}
                   fieldNames={{ label: 'memberName', value: 'id' }}
                   style={{ width: '35%' }}
+                  defaultValue={undefined}
                 />
               </Form.Item>
               <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
@@ -433,7 +440,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             }}
             onFinish={async (values) => {
               setEditDraftFormLoading(true);
-              console.log('values', values);
               await props.onUpdate({
                 violationTicketId: props.data.violationTicket.id,
                 propertyId: values.property.id,
@@ -519,7 +525,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           form={addUpdateActivityForm}
           onFinish={async (values) => {
             setAddUpdateActivityFormLoading(true);
-            console.log('values', values);
             await props.onAddUpdateActivity({
               violationTicketId: props.data.violationTicket.id,
               activityDescription: values.activityDescription

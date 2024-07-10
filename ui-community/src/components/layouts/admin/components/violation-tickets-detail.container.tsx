@@ -38,15 +38,6 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
   );
   const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationAssignDocument);
   const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerAddUpdateActivityDocument);
-  // const {
-  //   data: memberData,
-  //   loading: memberLoading,
-  //   error: memberError
-  // } = useQuery(AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument, {
-  //   variables: {
-  //     violationTicketId: props.data.id
-  //   }
-  // });
 
   const membersLazyQuery = useLazyQuery(AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument, {
     fetchPolicy: 'network-only',

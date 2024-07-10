@@ -1,9 +1,9 @@
 import React from 'react';
-import PdfRenderer from './PdfRenderer';
+import { PdfTemplate } from './PdfTemplate';
 import pdfData from "./pdfRendererTest.json"
 
 export const PdfRendererContainer: React.FC<any> = () => {
-  return <PdfRenderer data={pdfData} />;
+  return <PdfTemplate data={pdfData} />;
 };
 
 export default PdfRendererContainer;

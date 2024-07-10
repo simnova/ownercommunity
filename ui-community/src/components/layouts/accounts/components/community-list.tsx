@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 import { DownOutlined } from '@ant-design/icons';
 import { ChangeEvent, useState } from 'react';
+import TestPdfView from '../../../testing/TestPdfView';
 
 const { Title } = Typography;
 
@@ -98,7 +99,6 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
           Create a Community
         </Button>
       </div> 
-
       <Search placeholder="Search for a community" enterKeyHint="search" style={{ width: '50%' }} onChange={onChange} />
       <div className="w-full p-5 mx-auto my-5 shadow-lg rounded-lg">
         {items.length > 0 ? (
@@ -116,6 +116,7 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
           </Title>
         )}
       </div>
+      <TestPdfView/>
     </div>
   );
 };

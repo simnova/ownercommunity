@@ -41,18 +41,6 @@ let infrastructureServices = new InfrastructureServicesBuilder();
 init(infrastructureServices);
 let apolloServerRequestHandler = new ApolloServerRequestHandler();
 
-// const services = new Services();
-// RegisterHandlers(services);
-// function startup() {
-//   console.log('Starting up...');
-//   // wait for 20 secs
-//   setTimeout(() => {
-//     console.log('Startup complete.');
-//   }, 20000);
-// }
-// startup();
-
-// Execute the following with every http request
 app.http('graphql', {
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
   route: 'graphql/{*segments}',

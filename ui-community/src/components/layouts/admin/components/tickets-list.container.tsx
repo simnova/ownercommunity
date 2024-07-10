@@ -1,7 +1,7 @@
 import { useLazyQuery  } from '@apollo/client';
 import { AdminServiceTicketsListContainerSearchServiceTicketsDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
-import { ServiceTicketsList } from './service-tickets-list';
+import { ServiceTicketsList } from './tickets-list';
 import { useEffect } from 'react';
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {

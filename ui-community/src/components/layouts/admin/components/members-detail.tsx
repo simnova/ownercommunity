@@ -21,7 +21,6 @@ export const MembersDetail: React.FC<any> = (props) => {
   const params = useParams();
 
   const navigate = useNavigate();
-
   return (
     <div>
       <Descriptions title="Member Info" size={'small'} layout={'vertical'}>
@@ -64,6 +63,7 @@ export const MembersDetail: React.FC<any> = (props) => {
               fieldNames={{ label: 'roleName', value: 'id' }}
               onChange={(value) => {
                 setSelectedRoleId(value);
+                form.setFieldsValue({ role: { id: value } });
               }}
               defaultValue={props.data.member?.role?.roleName ?? null}
             />

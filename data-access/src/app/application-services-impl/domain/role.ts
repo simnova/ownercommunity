@@ -78,6 +78,11 @@ export class RoleDomainApiImpl
       roleDo.permissions.serviceTicketPermissions.canAssignTickets=(input.permissions.serviceTicketPermissions.canAssignTickets);
       roleDo.permissions.serviceTicketPermissions.canWorkOnTickets=(input.permissions.serviceTicketPermissions.canWorkOnTickets);
 
+      roleDo.permissions.violationTicketPermissions.canAssignTickets=(input.permissions.violationTicketPermissions.canAssignTickets);
+      roleDo.permissions.violationTicketPermissions.canCreateTickets=(input.permissions.violationTicketPermissions.canCreateTickets);
+      roleDo.permissions.violationTicketPermissions.canManageTickets=(input.permissions.violationTicketPermissions.canManageTickets);
+      roleDo.permissions.violationTicketPermissions.canWorkOnTickets=(input.permissions.violationTicketPermissions.canWorkOnTickets);
+      
       roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo));
     });
     return roleToReturn;

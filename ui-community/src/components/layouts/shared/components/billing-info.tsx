@@ -154,6 +154,17 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
     });
   };
 
+  const onUpdateCustomerDefaultPaymentInstrument = async () => {
+    await axios.post('http://localhost:7071/api/cybersource/update-customer-default-payment-instrument', {
+      customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
+      paymentInstrumentId: '1CD4BF677E8742EAE063AF598E0AEF98',
+    }).then((response) => {
+      console.log('UPDATE DEFAULT PAYMENT INSTRUMENT RESPONSE', response);
+    }).catch((error) => {
+      console.log('UPDATE DEFAULT PAYMENT INSTRUMENT ERROR', error);
+    });
+  };
+
   const ErrorMessage = () => {
     return props.errorMessage ? <div style={{ textAlign: 'center', fontWeight: 'bold', color: 'red' }}>{props.errorMessage}</div> : <></>;
   };
@@ -253,6 +264,14 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
           <Col span={14} style={{ textAlign: 'right' }}>
             <Button onClick={() => onProcessPaymentWithPaymentInstrument()}>
               {'Process Payment'}
+            </Button>
+          </Col>
+        </Row>
+
+        <Row style={{ marginTop: '20px' }}>
+          <Col span={14} style={{ textAlign: 'right' }}>
+            <Button onClick={() => onUpdateCustomerDefaultPaymentInstrument()}>
+              {'Update Customer Default Payment Instrument'}
             </Button>
           </Col>
         </Row>

@@ -4,13 +4,11 @@ import createCustomer from './functions/create-customer';
 import getCustomerPaymentInstruments from './functions/get-customer-payment-instruments';
 import addCustomerPaymentInstrument from './functions/add-customer-payment-instrument';
 import processPaymentWithPaymentInstrument from './functions/process-payment-with-payment-instrument';
+import updateCustomerDefaultPaymentInstrument from './functions/update-customer-default-payment-instrument';
 
 export async function cyberSourceFunctionHandler(request, context, body) {
   const segment = getNextSegment(request.params);
   let keyId;
-  let createCustomerResponse;
-  let getCustomerPaymentInstrumentsResponse;
-  let processPaymentWithPaymentInstrumentResponse;
   let data;
 
   switch (segment) {
@@ -22,20 +20,24 @@ export async function cyberSourceFunctionHandler(request, context, body) {
       return { status: 200, body: JSON.stringify({ keyId }) };
     case 'create-customer':
       console.log('Create customer')
-      createCustomerResponse = await createCustomer(body);
-      return { status: 200, body: JSON.stringify(createCustomerResponse) };
+      data = await createCustomer(body);
+      return { status: 200, body: JSON.stringify(data) };
     case 'get-customer-payment-instruments':
       console.log('Get customer payment instruments')
-      getCustomerPaymentInstrumentsResponse = await getCustomerPaymentInstruments(body);
-      return { status: 200, body: JSON.stringify(getCustomerPaymentInstrumentsResponse) };
+      data = await getCustomerPaymentInstruments(body);
+      return { status: 200, body: JSON.stringify(data) };
     case 'add-customer-payment-instrument':
       console.log('Add customer payment instrument')
       data = await addCustomerPaymentInstrument(body);
       return { status: 200, body: JSON.stringify(data) };
     case 'process-payment-with-payment-instrument':
       console.log('Process payment')
-      processPaymentWithPaymentInstrumentResponse = await processPaymentWithPaymentInstrument(body);
-      return { status: 200, body: JSON.stringify(processPaymentWithPaymentInstrumentResponse) };
+      data = await processPaymentWithPaymentInstrument(body);
+      return { status: 200, body: JSON.stringify(data) };
+    case 'update-customer-default-payment-instrument':
+      console.log('Update customer default payment instrument')
+      data = await updateCustomerDefaultPaymentInstrument(body);
+      return { status: 200, body: JSON.stringify(data) };
     default:
       return { status: 404, body: 'Not Found' };
   }

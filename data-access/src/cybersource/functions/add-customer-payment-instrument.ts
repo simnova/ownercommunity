@@ -1,7 +1,57 @@
 import cybersource from 'cybersource-rest-client';
 
 interface AddCustomerPaymentInstrumentResponse {
-
+  _links: {
+    self: {
+      href: string,
+      method: string
+    },
+    capture: {
+      href: string,
+      method: string
+    }
+  },
+  id: string,
+  submitTimeUtc: string, // '2024-07-10T14:18:29Z'
+  status: string, // 'AUTHORIZED
+  reconciliationId: string,
+  clientReferenceInformation: { code: string },
+  processorInformation: {
+    approvalCode: string,
+    responseCode: string, // '100' = 'Successful transaction'
+    avs: {
+      code: string,
+      codeRaw: string
+    },
+    cardVerification: {
+      resultCode: string
+    },
+    paymentAccountReferenceNumber: string
+  },
+  paymentAccountInformation: {
+    card: { type: string } // type: 001 = 'Visa', 002 = 'Master Card', 003 = 'American Express'
+  },
+  paymentInformation: {
+    card: { type: string },
+    tokenizedCard: { type: string },
+    accountFeatures: { balanceAmount: string },
+    customer: { id: string }
+  },
+  orderInformation: {
+    amountDetails: {
+      authorizedAmount: string,
+      currency: string
+    }
+  },
+  pointOfSaleInformation: { terminalId: string },
+  tokenInformation: {
+    instrumentidentifierNew: boolean,
+    paymentInstrument: { id: string },
+    instrumentIdentifier: {
+      id: string,
+      state: string // 'ACTIVE'
+    }
+  }
 }
 
 interface DataResponse {
@@ -80,10 +130,8 @@ async function addCustomerPaymentInstrument(body: any) {
     return new Promise((resolve, reject) => {
       client.createPayment(createPaymentRequestObj, (error, data, response) => {
         if (!error) {
-          console.log('DATA', data);
-          resolve(data);
+          resolve(data as AddCustomerPaymentInstrumentResponse);
         } else {
-          console.log('ERROR', error);
           reject(new Error(error.message || 'Unknown error occurred'));
         }
       });

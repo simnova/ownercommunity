@@ -37,28 +37,26 @@ export const PdfCandidateDetails: React.FC<PdfCandidateDetailsProps> = (props) =
   });
 
   return (
-    <>
-      <View style={styles.leftColumn}>
-        <View style={styles.row}>
-          <Text style={styles.bannertext}>Candidate Details </Text>
-          <View>
-            <Text style={styles.text}>Last Name: Student</Text>
-            <Text style={styles.text}>Rest of Name: Jane Sample</Text>
-            <Text style={styles.text}>Date of Birth: 01 January 1980</Text>
-            <Text style={styles.text}>Gender: Female</Text>
-            <Text style={styles.text}>EPIC ID: C-SJ000003</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            width: '70%'
-          }}
-        >
-          <Image style={styles.image} src={avatarUrl} />
-          <Text style={styles.text}>Photo provided by candidate</Text>
+    <View style={styles.leftColumn}>
+      <View style={styles.row}>
+        <Text style={styles.bannertext}>Candidate Details </Text>
+        <View>
+          <Text style={styles.text}>Last Name: Student</Text>
+          <Text style={styles.text}>Rest of Name: Jane Sample</Text>
+          <Text style={styles.text}>Date of Birth: 01 January 1980</Text>
+          <Text style={styles.text}>Gender: Female</Text>
+          <Text style={styles.text}>EPIC ID: C-SJ000003</Text>
         </View>
       </View>
-    </>
+      <View
+        style={{
+          width: '70%'
+        }}
+      >
+        <Image style={styles.image} src={avatarUrl} />
+        <Text style={styles.text}>Photo provided by candidate</Text>
+      </View>
+    </View>
   );
 };
 export default PdfCandidateDetails;

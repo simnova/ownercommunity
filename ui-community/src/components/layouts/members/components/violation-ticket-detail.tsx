@@ -68,6 +68,29 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [nextState, setNextState] = useState(stepArray[currentStep + 1]);
 
+  const priority = [
+    {
+      label: '1-Critical',
+      value: 1
+    },
+    {
+      label: '2-High',
+      value: 2
+    },
+    {
+      label: '3-Normal',
+      value: 3
+    },
+    {
+      label: '4-Low',
+      value: 4
+    },
+    {
+      label: '5-No Rush',
+      value: 5
+    }
+  ];
+
   const columns: ColumnsType<ServiceTicketActivityDetail> = [
     {
       title: 'Activity',
@@ -88,7 +111,35 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     {
       title: 'Description',
       dataIndex: ['activityDescription'],
-      key: 'activityDescription'
+      key: 'activityDescription',
+      render: (text: string) => {
+        let logs = text.split(' | ');
+        return logs.map((log) => {
+          const regex = /(?<field>[^:]+):\s*%n\s*(?<newValue>[^-]+)(?:\s*-\s*%o\s*(?<oldValue>[^.]+))?\./;
+          const match = log.match(regex);
+
+          if (match && match.groups) {
+            const field = match.groups?.field;
+            let newValue = match.groups?.newValue?.trim();
+            let oldValue = match.groups?.oldValue?.trim();
+
+            if (field === 'Priority') {
+              newValue = priority.find((x) => x.value === parseInt(newValue))?.label ?? '';
+              oldValue = priority.find((x) => x.value === parseInt(oldValue))?.label ?? '';
+            }
+
+            return (
+              <div className="flex gap-1">
+                <b>{field}:</b>
+                <span>{newValue}</span>
+                <span></span>
+                <s>{oldValue}</s>
+              </div>
+            );
+          }
+          return <p>{log}</p>;
+        });
+      }
     },
     {
       title: 'Created',
@@ -285,7 +336,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           </Descriptions.Item>
           {props.data.violationTicket?.penaltyPaidDate && (
             <Descriptions.Item label="Penalty Paid Date">
-              {props.data.violationTicket.penaltyPaidDate}
+              {dayjs(props.data.violationTicket.penaltyPaidDate).format('DD-MMM-YYYY h:mm A')}
             </Descriptions.Item>
           )}
           <Descriptions.Item label="Assigned To">

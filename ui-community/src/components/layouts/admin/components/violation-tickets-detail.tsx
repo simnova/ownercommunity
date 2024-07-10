@@ -112,13 +112,18 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
       render: (text: string) => {
         let logs = text.split(' | ');
         return logs.map((log) => {
-          const regex = /(?<field>[^:]+):\s*%n\s*(?<newValue>[^-]+)\s*-\s*%o\s*(?<oldValue>[^.]+)\./;
+          const regex = /(?<field>[^:]+):\s*%n\s*(?<newValue>[^-]+)(?:\s*-\s*%o\s*(?<oldValue>[^.]+))?\./;
           const match = log.match(regex);
 
           if (match && match.groups) {
             const field = match.groups?.field;
-            const newValue = match.groups?.newValue?.trim();
-            const oldValue = match.groups?.oldValue?.trim();
+            let newValue = match.groups?.newValue?.trim();
+            let oldValue = match.groups?.oldValue?.trim();
+
+            if (field === 'Priority') {
+              newValue = priority.find((x) => x.value === parseInt(newValue))?.label ?? '';
+              oldValue = priority.find((x) => x.value === parseInt(oldValue))?.label ?? '';
+            }
 
             return (
               <div className="flex gap-1">
@@ -222,6 +227,29 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
       {menuItems}
     </Menu>
   );
+
+  const priority = [
+    {
+      label: '1-Critical',
+      value: 1
+    },
+    {
+      label: '2-High',
+      value: 2
+    },
+    {
+      label: '3-Normal',
+      value: 3
+    },
+    {
+      label: '4-Low',
+      value: 4
+    },
+    {
+      label: '5-No Rush',
+      value: 5
+    }
+  ];
 
   return (
     <div>
@@ -332,7 +360,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           </Descriptions.Item>
           {props.data.violationTicket?.penaltyPaidDate && (
             <Descriptions.Item label="Penalty Paid Date">
-              {props.data.violationTicket.penaltyPaidDate}
+              {dayjs(props.data.violationTicket.penaltyPaidDate).format('DD-MMM-YYYY h:mm A')}
             </Descriptions.Item>
           )}
           <Descriptions.Item label="Assigned To">
@@ -444,13 +472,12 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               label="Priority"
               rules={[{ required: true, message: 'Priority is required.' }]}
             >
-              <Select allowClear={false} placeholder="Select a Priority">
-                <Select.Option value={1}>1-Critical</Select.Option>
-                <Select.Option value={2}>2-High</Select.Option>
-                <Select.Option value={3}>3-Normal</Select.Option>
-                <Select.Option value={4}>4-Low</Select.Option>
-                <Select.Option value={5}>5-No Rush</Select.Option>
-              </Select>
+              <Select
+                allowClear={false}
+                placeholder="Select a Priority"
+                options={priority}
+                fieldNames={{ label: 'label', value: 'value' }}
+              />
             </Form.Item>
             <div className="flex gap-2">
               <Form.Item

@@ -15,6 +15,7 @@ import { ViolationTicketDeletedEvent } from '../../events/types/violation-ticket
 import { ViolationTicketUpdatedEvent } from '../../events/types/violation-ticket-updated';
 import { ViolationTicketCreatedEvent } from '../../events/types/violation-ticket-created';
 import { ViolationTicketUpdateInput } from '../../../external-dependencies/graphql-api';
+import dayjs from 'dayjs';
 
 export interface ViolationTicketProps extends EntityProps {
   readonly community: CommunityProps;
@@ -382,10 +383,10 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     activityDetail.ActivityDescription = description;
     activityDetail.ActivityBy = by;
   }
-
+  
   public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
     let activityMessage: string = `${this.requestor.memberName} made field changes: | `;
-    let penaltyPaidDateLog = incomingPayload.penaltyPaidDate ? `Penalty paid date: %n ${incomingPayload.penaltyPaidDate}` : null;
+    let penaltyPaidDateLog = incomingPayload.penaltyPaidDate ? `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate.toISOString().split('T')[0]).toISOString()}` : null;
     const updateLogMessages = {
       title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} - %o ${this.title}` : null,
       description:
@@ -394,7 +395,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
         incomingPayload.penaltyAmount && incomingPayload.penaltyAmount !== this.penaltyAmount
           ? `Penalty amount: %n $${incomingPayload.penaltyAmount} - %o $${this.penaltyAmount}`
           : null,
-      penaltyPaidDate: !incomingPayload.penaltyPaidDate ? null : !penaltyPaidDateLog ? `Penalty paid date: %n ${incomingPayload.penaltyPaidDate} - %o ${this.penaltyPaidDate}` : penaltyPaidDateLog,
+      penaltyPaidDate: !incomingPayload.penaltyPaidDate ? null : !penaltyPaidDateLog ? `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate.toISOString().split('T')[0]).toISOString()} - %o ${dayjs(this.penaltyPaidDate.toISOString().split('T')[0]).toISOString()}` : penaltyPaidDateLog,
       priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority: %n ${incomingPayload.priority} - %o ${this.priority}` : null,
       property: incomingPayload.propertyId && incomingPayload.propertyId !== this.property.id ? `Property: %n ${propertyDo?.propertyName}` : null,
     };

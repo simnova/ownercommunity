@@ -71,19 +71,8 @@ export class AppContextBuilder implements AppContext {
     await this.setDefaultPassport();
     await this.setCommunityData();
     await this.setPassport();
-    // await this.initializeDomain();
     console.log(' app context initialized ...');
   }
-
-  // private async initializeDomain() {
-  //   const DomainImplInstance = new DomainImpl(
-  //     this._infrastructureServices.datastore,
-  //     this._infrastructureServices.cognitiveSearch,
-  //     this._infrastructureServices.blobStorage,
-  //     this._infrastructureServices.vercel
-  //   );
-  //   await DomainImplInstance.startup();
-  // }
 
   private async setDefaultPassport(): Promise<void> {
     this._passport = {

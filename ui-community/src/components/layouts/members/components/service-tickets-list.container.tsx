@@ -1,23 +1,24 @@
-import { FilterOutlined } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Drawer, Input, Skeleton, theme } from 'antd';
+import { Input, Skeleton, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
-    GetFilterFromServiceTicketQueryString,
-    SearchType,
-    ServiceTicketFilterNames,
-    ServiceTicketSearchParamKeys
+  GetFilterFromServiceTicketQueryString,
+  ServiceTicketFilterNames,
+  ServiceTicketSearchParamKeys,
 } from '../../../../constants';
 import {
-    MemberNameServiceTicketContainerDocument,
-    MemberServiceTicketsListContainerSearchServiceTicketsDocument,
-    ServiceTicketsSearchFilterDetail
+  MemberNameServiceTicketContainerDocument,
+  MemberServiceTicketsListContainerSearchServiceTicketsDocument,
+  ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
-import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 import { ServiceTicketsList } from './service-tickets-list';
+import { FilterPopover } from '../../shared/components/filter-popover';
+import { ServiceTicketSearchHelpers } from '../../shared/components/service-ticket-search-helpers';
 
 const { Search } = Input;
+
+
 
 export const ServiceTicketsListContainer: React.FC<any> = () => {
   const {
@@ -26,12 +27,10 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
-  const [visible, setVisible] = useState(false);
+  
 
   const {
     data: membersData,
-    loading: memberLoading,
-    error: memberError
   } = useQuery(MemberNameServiceTicketContainerDocument, {
     variables: { communityId: params.communityId ?? '' }
     // fetchPolicy: 'cache-and-network'
@@ -144,35 +143,29 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     );
     return (
       <>
-        <div className="py-4">
+        <div className="py-4" style={{ display: 'inline-flex', width: '100%' }}>
           <Search
             allowClear
-            style={{ width: '40%' }}
-            placeholder="input search text"
+            style={{ width: '40%', marginRight: '10px' }}
+            placeholder="Search For Service Tickets"
             onSearch={() => handleSearch()}
             value={searchString}
             onChange={(e) => onChange(e)}
             enterButton
           />
-          <Drawer title="Search Filters" placement="left" onClose={() => setVisible(false)} open={visible} width={445}>
-            <SearchDrawerContainer
-              searchData={searchServiceTicketsData?.serviceTicketsSearch}
-              customData={{ data: membersData, loading: memberLoading, error: memberError }}
-              type={SearchType.ServiceTicket}
-              clearFilter={clearFilter}
-            />
-          </Drawer>
-          <Button type="default" onClick={() => setVisible(true)} className="ml-4">
-            <FilterOutlined />
-          </Button>
+          <FilterPopover
+            searchData={searchServiceTicketsData?.serviceTicketsSearch}
+            memberData={membersData}
+            clearFilter={clearFilter}
+          />
         </div>
+        <ServiceTicketSearchHelpers clearFilter={clearFilter}/>
         <ServiceTicketsList
           data={searchServiceTicketsData?.serviceTicketsSearch}
           handleSearch={handleSearch}
           searchParams={searchParams}
           setSearchParams={setSearchParams}
         />
-        {SearchResult}
       </>
     );
   }
@@ -181,7 +174,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
     <>
       <Search
         style={{ width: '40%' }}
-        placeholder="input search text"
+        placeholder="Search For Tickets"
         onSearch={() => handleSearch()}
         value={searchString}
         onChange={(e) => setSearchString(e.target.value)}

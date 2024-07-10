@@ -1,25 +1,4 @@
-import {
-  FileDoneOutlined,
-  FileOutlined,
-  FileProtectOutlined,
-  FileSyncOutlined,
-  FileTextOutlined,
-  SolutionOutlined
-} from '@ant-design/icons';
-import {
-  Button,
-  Descriptions,
-  Form,
-  Input,
-  InputNumber,
-  Menu,
-  Modal,
-  Select,
-  Space,
-  Steps,
-  Table,
-  Typography
-} from 'antd';
+import { Button, Descriptions, Form, Input, InputNumber, Modal, Select, Space, Steps, Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
@@ -50,7 +29,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [changeStatusForm] = Form.useForm();
   const [changeStatusFormLoading, setChangeStatusFormLoading] = useState(false);
 
-  const [assignForm] = Form.useForm();
   const [assignFormLoading, setAssignFormLoading] = useState(false);
 
   const [editDraftForm] = Form.useForm();
@@ -63,7 +41,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
 
   const currentStep = stepArray.findIndex((value) => value === props.data.violationTicket.status);
   const [modalVisible, setModalVisible] = useState(false);
-  const [nextState, setNextState] = useState(stepArray[currentStep + 1]);
+  const nextState = (stepArray[currentStep + 1]);
 
   const priority = [
     {
@@ -157,65 +135,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     }
   ];
 
-  const validStatusTransitions = new Map<string, string[]>([
-    ['DRAFT', ['SUBMITTED']],
-    ['SUBMITTED', ['DRAFT', 'ASSIGNED']],
-    ['ASSIGNED', ['SUBMITTED', 'PAID']],
-    ['PAID', ['ASSIGNED', 'CLOSED']],
-    ['CLOSED', ['ASSIGNED']]
-  ]);
-
-  const menuMap = new Map<string, any[]>([
-    [
-      'DRAFT',
-      [
-        <Menu.Item key="DRAFT" icon={<FileOutlined />}>
-          Draft
-        </Menu.Item>
-      ]
-    ],
-    [
-      'SUBMITTED',
-      [
-        <Menu.Item key="SUBMITTED" icon={<FileTextOutlined />}>
-          Submitted
-        </Menu.Item>
-      ]
-    ],
-    [
-      'ASSIGNED',
-      [
-        <Menu.Item key="ASSIGNED" icon={<SolutionOutlined />}>
-          Assigned
-        </Menu.Item>
-      ]
-    ],
-    [
-      'INPROGRESS',
-      [
-        <Menu.Item key="INPROGRESS" icon={<FileSyncOutlined />}>
-          In Progress
-        </Menu.Item>
-      ]
-    ],
-    [
-      'COMPLETED',
-      [
-        <Menu.Item key="COMPLETED" icon={<FileDoneOutlined />}>
-          Completed
-        </Menu.Item>
-      ]
-    ],
-    [
-      'CLOSED',
-      [
-        <Menu.Item key="CLOSED" icon={<FileProtectOutlined />}>
-          Closed
-        </Menu.Item>
-      ]
-    ]
-  ]);
-
   const stateMap = new Map<string, { state: string; description: string }>([
     ['CREATED', { state: 'Created', description: 'Created' }],
     ['DRAFT', { state: 'Draft', description: 'Editing Details' }],
@@ -224,26 +143,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     ['PAID', { state: 'Paid', description: 'Payment complete' }],
     ['CLOSED', { state: 'Closed', description: 'Work has been completed' }]
   ]);
-
-  const menuItems = validStatusTransitions.get(props.data.violationTicket.status)?.map((value: string) => {
-    return menuMap.get(value)?.map((x: any) => x);
-  });
-
-  const changeStatus = (state: string) => {
-    setNextState(state);
-    setModalVisible(true);
-  };
-
-  const menu = (
-    <Menu
-      onClick={(value) => {
-        console.log('Current status: ', props.data.violationTicket.status);
-        changeStatus(value.key);
-      }}
-    >
-      {menuItems}
-    </Menu>
-  );
 
   return (
     <div>
@@ -354,11 +253,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           </Descriptions.Item>
         </Descriptions>
       </div>
-      {/* <div style={{ padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-        <Button type="primary" danger onClick={props.onDelete}>
-          Delete Ticket
-        </Button>
-      </div> */}
       {props.data.violationTicket.status === 'ASSIGNED' && (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white', width: '50%' }}>

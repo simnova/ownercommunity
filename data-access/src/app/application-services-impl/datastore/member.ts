@@ -1,18 +1,13 @@
 import { MemberData, MemberModel, RoleModel, ViolationTicketModel } from '../../external-dependencies/datastore';
 import { Types } from 'mongoose';
-import {} from 'mongodb';
 import { CosmosDataSource } from './cosmos-data-source';
 import { MemberDataApi } from '../../application-services/datastore';
 import { AppContext } from '../../init/app-context-builder';
 
-export class MemberDataApiImpl extends CosmosDataSource<MemberData, AppContext> implements MemberDataApi {
-  async getMemberByCommunityIdUserId(communityId: string, userId: string): Promise<MemberData> {
-    // TODO: Remove this method once memberId is available in the context
-    return await MemberModel.findOne({
-      community: new Types.ObjectId(communityId),
-      'accounts.user': new Types.ObjectId(userId),
-    });
-  }
+export class MemberDataApiImpl 
+  extends CosmosDataSource<MemberData, AppContext> 
+  implements MemberDataApi
+{
   async getMembers(): Promise<MemberData[]> {
     return this.findByFields({ community: this.context.communityId });
   }

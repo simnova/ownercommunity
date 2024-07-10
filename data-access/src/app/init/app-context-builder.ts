@@ -19,6 +19,7 @@ export type VerifiedUser = {
 export interface AppContext{  // extends DomainExecutionContext {
   verifiedUser: VerifiedUser;
   communityId: string;
+  memberId: string;
   passport: Passport;
   applicationServices: ApplicationServices;
   infrastructureServices: InfrastructureServices;
@@ -53,6 +54,10 @@ export class AppContextBuilder implements AppContext {
 
   get communityId(): string {
     return this._communityData.id;
+  }
+
+  get memberId(): string {
+    return this._memberId;
   }
 
   get passport(): Passport {
@@ -93,6 +98,9 @@ export class AppContextBuilder implements AppContext {
       let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
       let memberData = (await this._applicationServices.memberDataApi.getMemberByIdWithCommunityAccountRole(this._memberId));
       if(memberData && userData) {
+        if (!(memberData.accounts.find((account) => account.user.id === userData.id && memberData.community.id === this._communityData.id))) {  
+          throw new Error('user is not related to member');
+        }
         this._passport = {
           domainVisa :new DomainVisaImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference),
           datastoreVisa: new DatastoreVisaImpl(userData, memberData)

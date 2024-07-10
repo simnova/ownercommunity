@@ -32,9 +32,7 @@ export class ViolationTicketDomainApiImpl
 
     let member: MemberData;
 
-    //assume requestor is the verified user
-    let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
+    member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
 
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
@@ -118,8 +116,7 @@ export class ViolationTicketDomainApiImpl
   }
 
   async violationTicketChangeStatus(input: ViolationTicketChangeStatusInput): Promise<ViolationTicketData> {
-    let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
+    let member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let violationTicketToReturn: ViolationTicketData;
     await this.withTransaction(async (repo) => {
@@ -131,8 +128,7 @@ export class ViolationTicketDomainApiImpl
   }
 
   async violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput): Promise<ViolationTicketData> {
-    let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(this.context.communityId, user.id);
+    let member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let violationTicketToReturn: ViolationTicketData;
     await this.withTransaction(async (repo) => {

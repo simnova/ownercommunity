@@ -1026,7 +1026,6 @@ export type Query = {
   member?: Maybe<Member>;
   memberAssignableToViolationTickets?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
-  memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
@@ -1079,16 +1078,6 @@ export type QueryMemberArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberAssignableToViolationTicketsArgs = {
   violationTicketId: Scalars['ObjectID'];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryMemberForCurrentUserArgs = {
-  communityId: Scalars['ObjectID'];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryMemberForUserArgs = {
-  userId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1487,7 +1476,7 @@ export type ViolationTicketChangeStatusInput = {
 
 export type ViolationTicketCreateInput = {
   description: Scalars['String'];
-  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  penaltyAmount: Scalars['Float'];
   propertyId: Scalars['ObjectID'];
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
@@ -2836,8 +2825,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
     ContextType,
     RequireFields<QueryMemberAssignableToViolationTicketsArgs, 'violationTicketId'>
   >;
-  memberForCurrentUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberForCurrentUserArgs, 'communityId'>>;
-  memberForUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberForUserArgs, 'userId'>>;
+  memberForCurrentUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
   members?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
   membersAssignableToTickets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
   membersByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType, RequireFields<QueryMembersByCommunityIdArgs, 'communityId'>>;

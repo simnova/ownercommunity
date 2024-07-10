@@ -12,10 +12,8 @@ import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 import { DomainImpl } from '../app/domain/domain-impl';
 
 const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([['AccountPortal', 'ACCOUNT_PORTAL']]));
-const infrastructureServices = new InfrastructureServicesBuilder();
 
-
-async function init() {
+async function init(infrastructureServices: InfrastructureServicesBuilder) {
   portalTokenValidator.Start();
   let cosmosDbConnection = CosmosDbConnection.getInstance(
     tryGetEnvVar('AZURE_TENANT_ID'),
@@ -38,21 +36,10 @@ async function init() {
   await DomainImplInstance.startup();
 }
 
-init();
+let infrastructureServices = new InfrastructureServicesBuilder();
+init(infrastructureServices);
 let apolloServerRequestHandler = new ApolloServerRequestHandler();
 
-// const services = new Services();
-// RegisterHandlers(services);
-// function startup() {
-//   console.log('Starting up...');
-//   // wait for 20 secs
-//   setTimeout(() => {
-//     console.log('Startup complete.');
-//   }, 20000);
-// }
-// startup();
-
-// Execute the following with every http request
 app.http('graphql', {
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
   route: 'graphql/{*segments}',

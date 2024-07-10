@@ -67,15 +67,15 @@ const serviceTicket: Resolvers = {
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByCommunityId(context.communityId)) as ServiceTicket[];
     },
     serviceTicketsOpenByRequestor: async (_, _args, context) => {
-      const member = await getMemberForCurrentUser(context, context.communityId);
+      const member = await getMemberForCurrentUser(context);
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsOpenByRequestor(member.id)) as ServiceTicket[];
     },
     serviceTicketsClosedByRequestor: async (_, _args, context) => {
-      const member = await getMemberForCurrentUser(context, context.communityId);
+      const member = await getMemberForCurrentUser(context);
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsClosedByRequestor(member.id)) as ServiceTicket[];
     },
     serviceTicketsAssignedToCurrentUser: async (_, _args, context) => {
-      const member = await getMemberForCurrentUser(context, context.communityId);
+      const member = await getMemberForCurrentUser(context);
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByAssignedTo(context.communityId, member.id)) as ServiceTicket[];
     },
     // const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearchByCommunityId(null, communityId)
@@ -88,8 +88,7 @@ const serviceTicket: Resolvers = {
       return await context.applicationServices.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults);
     },
     serviceTicketsSearch: async (_, { input }, context, info) => {
-      const member = await getMemberForCurrentUser(context, context.communityId);
-      // TODO: Revisit this once memberId available in context
+      const member = await getMemberForCurrentUser(context);
       const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearch(input, member.id);
       return await context.applicationServices.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults);
     },

@@ -21,7 +21,7 @@ type CustomView implements MongoSubdocument {
 
   name: String # The name of the custom view. e.g. "view 1"
   type: String # "property" or "serviceTicket"
-  filters: [String] # ["Assigned to: Duy Nguyen", "Assigned to: Nick", "Assigned to: Richard", "Statuc: Created"]
+  filters: [String] # ["Assigned to: Duy Nguyen", "Assigned to: Nick", "Assigned to: Richard", "Status: Created"]
   sortOrder: String # "price desc" or "price asc"
   columnsToDisplay: [String] # ["Title", "Requestor"]
   createdAt: DateTime
@@ -60,8 +60,7 @@ extend type Query {
   membersByUserExternalId(userExternalId: String!): [Member]
   membersAssignableToTickets: [Member]
   memberAssignableToViolationTickets(violationTicketId: ObjectID!): Member
-  memberForUser(userId: ObjectID!): Member
-  memberForCurrentUser(communityId: ObjectID!): Member
+  memberForCurrentUser: Member
 }
 
 extend type Mutation {

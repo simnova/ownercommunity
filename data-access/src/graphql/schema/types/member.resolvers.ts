@@ -70,11 +70,8 @@ const member: Resolvers = {
     memberAssignableToViolationTickets: async (_, { violationTicketId }, { applicationServices }) => {
       return (await applicationServices.memberDataApi.getMemberAssignableToViolationTickets(violationTicketId)) as Member;
     },
-    memberForUser: async (_parent, input, context) => {
-      return (await context.applicationServices.memberDataApi.getMemberByCommunityIdUserId(context.communityId, input.userId)) as Member;
-    },
-    memberForCurrentUser: async (_, { communityId }, context) => {
-      return getMemberForCurrentUser(context, communityId);
+    memberForCurrentUser: async (_, _input, context) => {
+      return getMemberForCurrentUser(context);
     },
   },
   Mutation: {

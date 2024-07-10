@@ -11,7 +11,7 @@ import { PropArray } from '../../../../../seedwork/domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from '../service-ticket/activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from '../service-ticket/photo';
 import { ViolationTicketVisa as ViolationTicketVisa } from '../iam/domain-visa/violation-ticket-visa';
-import { ServiceTicketDeletedEvent } from '../../events/types/service-ticket-deleted';
+import { ViolationTicketDeletedEvent } from '../../events/types/violation-ticket-deleted';
 import { ViolationTicketUpdatedEvent } from '../../events/types/violation-ticket-updated';
 import { ViolationTicketCreatedEvent } from '../../events/types/violation-ticket-created';
 import { ViolationTicketUpdateInput } from '../../../external-dependencies/graphql-api';
@@ -355,7 +355,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
       throw new Error('You do not have permission to delete this property');
     }
     super.isDeleted = true;
-    this.addIntegrationEvent(ServiceTicketDeletedEvent, { id: this.props.id });
+    this.addIntegrationEvent(ViolationTicketDeletedEvent, { id: this.props.id });
   }
 
   private requestNewActivityDetail(): ActivityDetail {

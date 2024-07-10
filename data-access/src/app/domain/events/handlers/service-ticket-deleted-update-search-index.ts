@@ -6,7 +6,7 @@ import { EventBusInstance } from '../event-bus';
 export default (
   cognitiveSearch:CognitiveSearchDomain
 ) => { EventBusInstance.register(ServiceTicketDeletedEvent, async (payload) => {
-    console.log(`Property Deleted - Search Index Integration: ${JSON.stringify(payload)} and PropertyId: ${payload.id}`);
+    console.log(`Service Ticket Deleted - Search Index Integration: ${JSON.stringify(payload)} and ServiceTicketId: ${payload.id}`);
 
     let serviceTicketDoc: Partial<ServiceTicketIndexDocument> = {
       id: payload.id,

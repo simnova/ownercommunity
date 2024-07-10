@@ -108,7 +108,30 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     {
       title: 'Description',
       dataIndex: ['activityDescription'],
-      key: 'activityDescription'
+      key: 'activityDescription',
+      render: (text: string) => {
+        let logs = text.split(' | ');
+        return logs.map((log) => {
+          const regex = /(?<field>[^:]+):\s*%n\s*(?<newValue>[^-]+)\s*-\s*%o\s*(?<oldValue>[^.]+)\./;
+          const match = log.match(regex);
+
+          if (match && match.groups) {
+            const field = match.groups?.field;
+            const newValue = match.groups?.newValue?.trim();
+            const oldValue = match.groups?.oldValue?.trim();
+
+            return (
+              <div className="flex gap-1">
+                <b>{field}:</b>
+                <span>{newValue}</span>
+                <span></span>
+                <s>{oldValue}</s>
+              </div>
+            );
+          }
+          return <p>{log}</p>;
+        });
+      }
     },
     {
       title: 'Created',

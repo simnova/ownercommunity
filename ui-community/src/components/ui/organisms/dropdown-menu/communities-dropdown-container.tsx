@@ -38,7 +38,7 @@ export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainer
         setMemberError(membersErrorTemp);
         setMemberLoading(membersLoadingTemp);
       } catch (e) {
-        console.error('Error getting data in communit dropdown: ', e);
+        console.error('Error getting data in community dropdown: ', e);
       }
     };
     getData();

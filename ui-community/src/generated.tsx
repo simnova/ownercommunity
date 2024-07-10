@@ -1024,7 +1024,6 @@ export type Query = {
   member?: Maybe<Member>;
   memberAssignableToViolationTickets?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
-  memberForUser?: Maybe<Member>;
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
@@ -1077,16 +1076,6 @@ export type QueryMemberArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryMemberAssignableToViolationTicketsArgs = {
   violationTicketId: Scalars['ObjectID'];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryMemberForCurrentUserArgs = {
-  communityId: Scalars['ObjectID'];
-};
-
-/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryMemberForUserArgs = {
-  userId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1485,7 +1474,7 @@ export type ViolationTicketChangeStatusInput = {
 
 export type ViolationTicketCreateInput = {
   description: Scalars['String'];
-  penaltyAmount?: InputMaybe<Scalars['Float']>;
+  penaltyAmount: Scalars['Float'];
   propertyId: Scalars['ObjectID'];
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title: Scalars['String'];
@@ -1689,21 +1678,6 @@ export type AdminMembersAccountsAddContainerMemberAccountAddMutation = {
       updatedAt?: any | null;
     } | null;
   };
-};
-
-export type AdminMembersAccountsAddContainerMemberForUserQueryVariables = Exact<{
-  userId: Scalars['ObjectID'];
-}>;
-
-export type AdminMembersAccountsAddContainerMemberForUserQuery = {
-  __typename?: 'Query';
-  memberForUser?: {
-    __typename?: 'Member';
-    memberName?: string | null;
-    id: any;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  } | null;
 };
 
 export type AdminMembersAccountsAddContainerMemberMutationResultFieldsFragment = {
@@ -3853,15 +3827,6 @@ export type MemberSiteNeighborsListContainerFieldsFragment = {
   } | null;
 };
 
-export type MemberSiteNeighborsListCurrentMemberIdQueryVariables = Exact<{
-  communityId: Scalars['ObjectID'];
-}>;
-
-export type MemberSiteNeighborsListCurrentMemberIdQuery = {
-  __typename?: 'Query';
-  memberForCurrentUser?: { __typename?: 'Member'; id: any } | null;
-};
-
 export type MemberPropertiesListSearchContainerPropertiesQueryVariables = Exact<{
   input: PropertiesSearchInput;
 }>;
@@ -4795,9 +4760,7 @@ export type MemberViolationTicketsDetailContainerMemberFieldsFragment = {
   memberName?: string | null;
 };
 
-export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{
-  communityId: Scalars['ObjectID'];
-}>;
+export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MemberSiteCurrentMemberHasAdminRoleQuery = {
   __typename?: 'Query';
@@ -4910,22 +4873,18 @@ export type SharedMembersProfileContainerMemberFieldsFragment = {
   } | null;
 };
 
-export type MemberProfileContainerMemberForCurrentUserQueryVariables = Exact<{
-  communityId: Scalars['ObjectID'];
-}>;
+export type MemberProfileContainerMemberForCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MemberProfileContainerMemberForCurrentUserQuery = {
   __typename?: 'Query';
   memberForCurrentUser?: {
     __typename?: 'Member';
-    id: any;
     profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
   } | null;
 };
 
 export type MemberProfileContainerMemberForCurrentUserFieldsFragment = {
   __typename?: 'Member';
-  id: any;
   profile?: { __typename?: 'MemberProfile'; avatarDocumentId?: string | null } | null;
 };
 
@@ -5159,15 +5118,6 @@ export type SharedPropertiesFloorPlanImageUploadContainerPropertyFieldsFragment 
   createdAt?: any | null;
   updatedAt?: any | null;
   listingDetail?: { __typename?: 'ListingDetails'; floorPlanImages?: Array<string | null> | null } | null;
-};
-
-export type SharedPropertiesListingImageListContainerMemberForUserQueryVariables = Exact<{
-  userId: Scalars['ObjectID'];
-}>;
-
-export type SharedPropertiesListingImageListContainerMemberForUserQuery = {
-  __typename?: 'Query';
-  memberForUser?: { __typename?: 'Member'; id: any } | null;
 };
 
 export type SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationMutationVariables = Exact<{
@@ -5585,9 +5535,7 @@ export type SharedAddressLocationContainerPropertyFieldsFragment = {
   } | null;
 };
 
-export type SearchDrawerContainerCustomViewsQueryVariables = Exact<{
-  communityId: Scalars['ObjectID'];
-}>;
+export type SearchDrawerContainerCustomViewsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type SearchDrawerContainerCustomViewsQuery = {
   __typename?: 'Query';
@@ -5681,7 +5629,8 @@ export type SharedCommunitiesDropdownContainerMembersQuery = {
     __typename?: 'Member';
     id: any;
     memberName?: string | null;
-    community?: { __typename?: 'Community'; id: any; name?: string | null; userIsAdmin?: boolean | null } | null;
+    isAdmin?: boolean | null;
+    community?: { __typename?: 'Community'; id: any; name?: string | null } | null;
   } | null> | null;
 };
 
@@ -5689,7 +5638,8 @@ export type SharedCommunitiesDropdownContainerMembersFieldsFragment = {
   __typename?: 'Member';
   id: any;
   memberName?: string | null;
-  community?: { __typename?: 'Community'; id: any; name?: string | null; userIsAdmin?: boolean | null } | null;
+  isAdmin?: boolean | null;
+  community?: { __typename?: 'Community'; id: any; name?: string | null } | null;
 };
 
 export type LoggedInUserRootContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
@@ -5705,9 +5655,7 @@ export type LoggedInUserRootContainerUserCurrentQueryQuery = {
   } | null;
 };
 
-export type LoggedInUserCommunityContainerUserCurrentQueryQueryVariables = Exact<{
-  communityId: Scalars['ObjectID'];
-}>;
+export type LoggedInUserCommunityContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type LoggedInUserCommunityContainerUserCurrentQueryQuery = {
   __typename?: 'Query';
@@ -9455,8 +9403,7 @@ export const MemberProfileContainerMemberForCurrentUserFieldsFragmentDoc = {
               kind: 'SelectionSet',
               selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
             }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+          }
         ]
       }
     }
@@ -10221,6 +10168,7 @@ export const SharedCommunitiesDropdownContainerMembersFieldsFragmentDoc = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'community' },
@@ -10228,8 +10176,7 @@ export const SharedCommunitiesDropdownContainerMembersFieldsFragmentDoc = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } }
               ]
             }
           }
@@ -10646,62 +10593,6 @@ export const AdminMembersAccountsAddContainerMemberAccountAddDocument = {
 } as unknown as DocumentNode<
   AdminMembersAccountsAddContainerMemberAccountAddMutation,
   AdminMembersAccountsAddContainerMemberAccountAddMutationVariables
->;
-export const AdminMembersAccountsAddContainerMemberForUserDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AdminMembersAccountsAddContainerMemberForUser' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'memberForUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'userId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AdminMembersAccountsAddContainerMember' } }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AdminMembersAccountsAddContainerMember' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Member' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  AdminMembersAccountsAddContainerMemberForUserQuery,
-  AdminMembersAccountsAddContainerMemberForUserQueryVariables
 >;
 export const AdminMembersAccountsEditContainerMemberDocument = {
   kind: 'Document',
@@ -16083,43 +15974,6 @@ export const MemberSiteNeighborsListContainerDocument = {
     }
   ]
 } as unknown as DocumentNode<MemberSiteNeighborsListContainerQuery, MemberSiteNeighborsListContainerQueryVariables>;
-export const MemberSiteNeighborsListCurrentMemberIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'MemberSiteNeighborsListCurrentMemberId' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'memberForCurrentUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
-              }
-            ],
-            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  MemberSiteNeighborsListCurrentMemberIdQuery,
-  MemberSiteNeighborsListCurrentMemberIdQueryVariables
->;
 export const MemberPropertiesListSearchContainerPropertiesDocument = {
   kind: 'Document',
   definitions: [
@@ -18266,26 +18120,12 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'MemberSiteCurrentMemberHasAdminRole' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'memberForCurrentUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
-              }
-            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -18498,26 +18338,12 @@ export const MemberProfileContainerMemberForCurrentUserDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'MemberProfileContainerMemberForCurrentUser' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'memberForCurrentUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
-              }
-            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -18545,8 +18371,7 @@ export const MemberProfileContainerMemberForCurrentUserDocument = {
               kind: 'SelectionSet',
               selections: [{ kind: 'Field', name: { kind: 'Name', value: 'avatarDocumentId' } }]
             }
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+          }
         ]
       }
     }
@@ -19316,43 +19141,6 @@ export const SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCr
   SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutation,
   SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeaderMutationVariables
 >;
-export const SharedPropertiesListingImageListContainerMemberForUserDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SharedPropertiesListingImageListContainerMemberForUser' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'memberForUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'userId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } }
-              }
-            ],
-            selectionSet: { kind: 'SelectionSet', selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }] }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  SharedPropertiesListingImageListContainerMemberForUserQuery,
-  SharedPropertiesListingImageListContainerMemberForUserQueryVariables
->;
 export const SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument = {
   kind: 'Document',
   definitions: [
@@ -20070,26 +19858,12 @@ export const SearchDrawerContainerCustomViewsDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'SearchDrawerContainerCustomViews' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'memberForCurrentUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
-              }
-            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -20283,6 +20057,7 @@ export const SharedCommunitiesDropdownContainerMembersDocument = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'memberName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'community' },
@@ -20290,8 +20065,7 @@ export const SharedCommunitiesDropdownContainerMembersDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'userIsAdmin' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } }
               ]
             }
           }
@@ -20353,13 +20127,6 @@ export const LoggedInUserCommunityContainerUserCurrentQueryDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'LoggedInUserCommunityContainerUserCurrentQuery' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
-        }
-      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -20376,13 +20143,6 @@ export const LoggedInUserCommunityContainerUserCurrentQueryDocument = {
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'memberForCurrentUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
-              }
-            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [

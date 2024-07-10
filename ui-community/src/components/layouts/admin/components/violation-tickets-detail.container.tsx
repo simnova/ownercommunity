@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 
 import { Skeleton, message } from 'antd';
 
@@ -38,11 +38,18 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
   );
   const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationAssignDocument);
   const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerAddUpdateActivityDocument);
-  const {
-    data: memberData,
-    loading: memberLoading,
-    error: memberError
-  } = useQuery(AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument, {
+  // const {
+  //   data: memberData,
+  //   loading: memberLoading,
+  //   error: memberError
+  // } = useQuery(AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument, {
+  //   variables: {
+  //     violationTicketId: props.data.id
+  //   }
+  // });
+
+  const membersLazyQuery = useLazyQuery(AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument, {
+    fetchPolicy: 'network-only',
     variables: {
       violationTicketId: props.data.id
     }
@@ -161,29 +168,24 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     }
   };
 
-  if (violationTicketLoading || memberLoading || propertyLoading) {
+  if (violationTicketLoading || propertyLoading) {
     return <Skeleton active />;
-  } else if (violationTicketError || memberError || propertyError) {
-    return <div>{JSON.stringify(violationTicketError ?? memberError ?? propertyError)}</div>;
-  } else if (
-    violationTicketData?.violationTicket &&
-    memberData?.memberAssignableToViolationTickets &&
-    propertyData?.properties
-  ) {
+  } else if (violationTicketError || propertyError) {
+    return <div>{JSON.stringify(violationTicketError ?? propertyError)}</div>;
+  } else if (violationTicketData?.violationTicket && propertyData?.properties) {
     const data = {
-      violationTicket: violationTicketData.violationTicket,
-      members: memberData.memberAssignableToViolationTickets,
-      properties: propertyData.properties
+      violationTicket: violationTicketData.violationTicket!,
+      properties: propertyData.properties!
     };
     return (
       <ViolationTicketsDetail
-        onAdd={{}}
         onUpdate={handleUpdate}
         onChangeStatus={handleChangeStatus}
         data={data}
         onAssign={handleAssign}
         onAddUpdateActivity={handleAddUpdateActivity}
         onDelete={handleDelete}
+        memberLazyQuery={membersLazyQuery}
       />
     );
   } else {

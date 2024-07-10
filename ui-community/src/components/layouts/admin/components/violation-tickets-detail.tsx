@@ -1,6 +1,5 @@
 import {
   DownOutlined,
-  FileDoneOutlined,
   FileOutlined,
   FileProtectOutlined,
   FileSyncOutlined,
@@ -9,7 +8,6 @@ import {
 } from '@ant-design/icons';
 import {
   Button,
-  DatePicker,
   Descriptions,
   Dropdown,
   Form,
@@ -18,6 +16,7 @@ import {
   Menu,
   Modal,
   Select,
+  Skeleton,
   Space,
   Steps,
   Table,
@@ -25,14 +24,18 @@ import {
 } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ViolationTicket,
   ServiceTicketActivityDetail,
   ViolationTicketAddUpdateActivityInput,
   ViolationTicketUpdateInput,
-  ViolationTicketChangeStatusInput
+  ViolationTicketChangeStatusInput,
+  AdminViolationTicketsDetailContainerMembersAssignableToTicketsQuery,
+  Exact
 } from '../../../../generated';
+
+import { LazyQueryResultTuple } from '@apollo/client';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -41,12 +44,17 @@ const { Step } = Steps;
 export interface ViolationTicketsDetailProps {
   data: {
     violationTicket: ViolationTicket;
-    members: any[];
     properties: any[];
   };
   onUpdate: (violationTicket: ViolationTicketUpdateInput) => void;
   onChangeStatus: (changeStatusInput: ViolationTicketChangeStatusInput) => Promise<void>;
   onAddUpdateActivity: (values: ViolationTicketAddUpdateActivityInput) => Promise<void>;
+  memberLazyQuery: LazyQueryResultTuple<
+    AdminViolationTicketsDetailContainerMembersAssignableToTicketsQuery,
+    Exact<{
+      violationTicketId: any;
+    }>
+  >;
 }
 
 export const ViolationTicketsDetail: React.FC<any> = (props) => {
@@ -62,12 +70,23 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [addUpdateActivityForm] = Form.useForm();
   const [addUpdateActivityFormLoading, setAddUpdateActivityFormLoading] = useState(false);
 
-  // const stepArray = ['CREATED', 'DRAFT', 'SUBMITTED', 'ASSIGNED', 'INPROGRESS', 'COMPLETED', 'CLOSED'];
   const stepArray = ['CREATED', 'DRAFT', 'SUBMITTED', 'ASSIGNED', 'PAID', 'CLOSED'];
 
   const currentStep = stepArray.findIndex((value) => value === props.data.violationTicket.status);
   const [modalVisible, setModalVisible] = useState(false);
   const [nextState, setNextState] = useState('');
+
+  const [membersData, { data: memberData, loading: memberLoading, error: memberError }] = props.memberLazyQuery;
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      await membersData();
+    };
+
+    if (props.data.violationTicket.property?.id) {
+      fetchMembers();
+    }
+  }, [props.data.violationTicket.property?.id]);
 
   const columns: ColumnsType<ServiceTicketActivityDetail> = [
     {
@@ -211,7 +230,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             form={changeStatusForm}
             initialValues={{
               assignedTo: {
-                id: props.data.violationTicket?.assignedTo?.id
+                id: memberData?.memberAssignableToViolationTickets?.id
               }
             }}
             layout="vertical"
@@ -242,16 +261,18 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             <br />
             <div>
               <br />
-              {props.data.violationTicket.status === 'SUBMITTED' && nextState !== 'DRAFT' && (
-                <Form.Item name={['assignedTo', 'id']} label="Assigned To">
-                  <Select
-                    allowClear={true}
-                    placeholder="Select a Member"
-                    options={[props.data.members]}
-                    fieldNames={{ label: 'memberName', value: 'id' }}
-                  />
-                </Form.Item>
-              )}
+              {props.data.violationTicket.status === 'SUBMITTED' &&
+                nextState !== 'DRAFT' &&
+                memberData?.memberAssignableToViolationTickets && (
+                  <Form.Item name={['assignedTo', 'id']} label="Assigned To">
+                    <Select
+                      allowClear={true}
+                      placeholder="Select a Member"
+                      options={[memberData?.memberAssignableToViolationTickets]}
+                      fieldNames={{ label: 'memberName', value: 'id' }}
+                    />
+                  </Form.Item>
+                )}
             </div>
             <Form.Item name={['activityDescription']} label="Activity Description" required>
               <TextArea rows={4} placeholder="Reason for status change." maxLength={2000} />
@@ -307,38 +328,44 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           Delete Ticket
         </Button>
       </div>
-      {props.data.violationTicket.status === 'SUBMITTED' && (
-        <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-          <Title level={5}>Ticket Assignment</Title>
-          <br />
-          <Form
-            layout="vertical"
-            form={assignForm}
-            initialValues={props.data.violationTicket}
-            onFinish={async (values) => {
-              setAssignFormLoading(true);
-              console.log('values', values);
-              await props.onAssign({
-                violationTicketId: props.data.violationTicket.id,
-                assignedToId: values.assignedTo.id
-              });
-              setAssignFormLoading(false);
-            }}
-          >
-            <Form.Item name={['assignedTo', 'id']} label="Assigned To">
-              <Select
-                allowClear={true}
-                placeholder="Select a Member"
-                options={[props.data.members]}
-                fieldNames={{ label: 'memberName', value: 'id' }}
-                style={{ width: '35%' }}
-              />
-            </Form.Item>
-            <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
-              Save Assignment
-            </Button>
-          </Form>
+      {memberLoading ? (
+        <div>
+          <Skeleton active />
         </div>
+      ) : (
+        props.data.violationTicket.status === 'SUBMITTED' &&
+        memberData?.memberAssignableToViolationTickets && (
+          <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
+            <Title level={5}>Ticket Assignment</Title>
+            <br />
+            <Form
+              layout="vertical"
+              form={assignForm}
+              onFinish={async (values) => {
+                setAssignFormLoading(true);
+                console.log('values', values);
+                await props.onAssign({
+                  violationTicketId: props.data.violationTicket.id,
+                  assignedToId: values.assignedTo.id
+                });
+                setAssignFormLoading(false);
+              }}
+            >
+              <Form.Item name={['assignedTo', 'id']} label="Assigned To">
+                <Select
+                  allowClear={true}
+                  placeholder="Select a Member"
+                  options={[memberData?.memberAssignableToViolationTickets]}
+                  fieldNames={{ label: 'memberName', value: 'id' }}
+                  style={{ width: '35%' }}
+                />
+              </Form.Item>
+              <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
+                Save Assignment
+              </Button>
+            </Form>
+          </div>
+        )
       )}
       {props.data.violationTicket.status === 'DRAFT' && (
         <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>

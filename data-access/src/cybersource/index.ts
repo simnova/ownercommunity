@@ -3,6 +3,7 @@ import generateKey from './functions/generate-key';
 import createCustomer from './functions/create-customer';
 import getCustomerPaymentInstruments from './functions/get-customer-payment-instruments';
 import addCustomerPaymentInstrument from './functions/add-customer-payment-instrument';
+import deleteCustomerPaymentInstrument from './functions/delete-customer-payment-instrument';
 import processPaymentWithPaymentInstrument from './functions/process-payment-with-payment-instrument';
 import updateCustomerDefaultPaymentInstrument from './functions/update-customer-default-payment-instrument';
 
@@ -29,6 +30,10 @@ export async function cyberSourceFunctionHandler(request, context, body) {
     case 'add-customer-payment-instrument':
       console.log('Add customer payment instrument')
       data = await addCustomerPaymentInstrument(body);
+      return { status: 200, body: JSON.stringify(data) };
+    case 'delete-customer-payment-instrument':
+      console.log('Delete customer payment instrument')
+      data = await deleteCustomerPaymentInstrument(body);
       return { status: 200, body: JSON.stringify(data) };
     case 'process-payment-with-payment-instrument':
       console.log('Process payment')

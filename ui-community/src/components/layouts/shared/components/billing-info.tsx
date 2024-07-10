@@ -144,6 +144,17 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
     });
   }
 
+  const onDeleteCustomerPaymentInstrument = async () => {
+    await axios.post('http://localhost:7071/api/cybersource/delete-customer-payment-instrument', {
+      customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
+      paymentInstrumentId: '1CE627A481F7E175E063AF598E0AF73D',
+    }).then((response) => {
+      console.log('DELETE PAYMENT INSTRUMENT RESPONSE', response);
+    }).catch((error) => {
+      console.log('DELETE PAYMENT INSTRUMENT ERROR', error);
+    });
+  }
+
   const onProcessPaymentWithPaymentInstrument = async () => {
     await axios.post('http://localhost:7071/api/cybersource/process-payment-with-payment-instrument', {
       paymentInstrumentId: '1CC3816AF671FCC3E063AF598E0A5FA7',
@@ -256,6 +267,14 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
           <Col span={14} style={{ textAlign: 'right' }}>
             <Button onClick={() => onAddCustomerPaymentInstrument()}>
               {'Add Customer Payment Instrument'}
+            </Button>
+          </Col>
+        </Row>
+
+        <Row style={{ marginTop: '20px' }}>
+          <Col span={14} style={{ textAlign: 'right' }}>
+            <Button onClick={() => onDeleteCustomerPaymentInstrument()}>
+              {'Delete Customer Payment Instrument'}
             </Button>
           </Col>
         </Row>

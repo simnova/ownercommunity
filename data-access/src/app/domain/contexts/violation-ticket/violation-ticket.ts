@@ -385,7 +385,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
 
   public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
     let activityMessage: string = `${this.requestor.memberName} made field changes: | `;
-    let penaltyPaidDateLog = !this.penaltyPaidDate ? `Penalty paid on date ${incomingPayload.penaltyPaidDate}` : null;
+    let penaltyPaidDateLog = incomingPayload.penaltyPaidDate ? `Penalty paid date: %n ${incomingPayload.penaltyPaidDate}` : null;
     const updateLogMessages = {
       title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} - %o ${this.title}` : null,
       description:
@@ -394,7 +394,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
         incomingPayload.penaltyAmount && incomingPayload.penaltyAmount !== this.penaltyAmount
           ? `Penalty amount: %n $${incomingPayload.penaltyAmount} - %o $${this.penaltyAmount}`
           : null,
-      penaltyPaidDate: !penaltyPaidDateLog ? `Penalty paid date: %n ${incomingPayload.penaltyPaidDate} - %o ${this.penaltyPaidDate}` : null,
+      penaltyPaidDate: !incomingPayload.penaltyPaidDate ? null : !penaltyPaidDateLog ? `Penalty paid date: %n ${incomingPayload.penaltyPaidDate} - %o ${this.penaltyPaidDate}` : penaltyPaidDateLog,
       priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority: %n ${incomingPayload.priority} - %o ${this.priority}` : null,
       property: incomingPayload.propertyId && incomingPayload.propertyId !== this.property.id ? `Property: %n ${propertyDo?.propertyName}` : null,
     };

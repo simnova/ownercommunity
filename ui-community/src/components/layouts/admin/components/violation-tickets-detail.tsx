@@ -120,20 +120,25 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             const field = match.groups?.field;
             let newValue = match.groups?.newValue?.trim();
             let oldValue = match.groups?.oldValue?.trim();
-
             if (field === 'Priority') {
               newValue = priority.find((x) => x.value === parseInt(newValue))?.label ?? '';
               oldValue = priority.find((x) => x.value === parseInt(oldValue))?.label ?? '';
             }
 
-            if (dayjs(newValue).isValid()) {
-              newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY');
+            if (field === 'Penalty Amount') {
+              newValue = `$ ${newValue}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              oldValue = `$ ${oldValue}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }
 
-            if (dayjs(oldValue).isValid()) {
-              oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY');
-            }
+            if(field === 'Penalty paid date') {
+              if (dayjs(newValue).isValid()) {
+                newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY h:mm A');
+              }
 
+              if (dayjs(oldValue).isValid()) {
+                oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY h:mm A');
+              }
+          }
             return (
               <div className="flex gap-1">
                 <b>{field}:</b>

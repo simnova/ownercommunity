@@ -1,4 +1,25 @@
-import { Button, Descriptions, Form, Input, InputNumber, Modal, Select, Space, Steps, Table, Typography } from 'antd';
+import {
+  FileDoneOutlined,
+  FileOutlined,
+  FileProtectOutlined,
+  FileSyncOutlined,
+  FileTextOutlined,
+  SolutionOutlined
+} from '@ant-design/icons';
+import {
+  Button,
+  Descriptions,
+  Form,
+  Input,
+  InputNumber,
+  Menu,
+  Modal,
+  Select,
+  Space,
+  Steps,
+  Table,
+  Typography
+} from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
@@ -29,6 +50,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [changeStatusForm] = Form.useForm();
   const [changeStatusFormLoading, setChangeStatusFormLoading] = useState(false);
 
+  const [assignForm] = Form.useForm();
   const [assignFormLoading, setAssignFormLoading] = useState(false);
 
   const [editDraftForm] = Form.useForm();
@@ -41,7 +63,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
 
   const currentStep = stepArray.findIndex((value) => value === props.data.violationTicket.status);
   const [modalVisible, setModalVisible] = useState(false);
-  const nextState = stepArray[currentStep + 1];
+  const [nextState, setNextState] = useState(stepArray[currentStep + 1]);
 
   const priority = [
     {
@@ -97,20 +119,21 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             const field = match.groups?.field;
             let newValue = match.groups?.newValue?.trim();
             let oldValue = match.groups?.oldValue?.trim();
-
+            console.log(newValue);
             if (field === 'Priority') {
               newValue = priority.find((x) => x.value === parseInt(newValue))?.label ?? '';
               oldValue = priority.find((x) => x.value === parseInt(oldValue))?.label ?? '';
             }
 
-            if (dayjs(newValue).isValid()) {
-              newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY');
+            if (field === 'Penalty Amount') {
+              newValue = `$ ${newValue}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              oldValue = `$ ${oldValue}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }
 
-            if (dayjs(oldValue).isValid()) {
-              oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY');
-            }
-
+            if(field === 'Penalty paid date') {
+                newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY h:mm A');
+                oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY h:mm A');
+          }
             return (
               <div className="flex gap-1">
                 <b>{field}:</b>
@@ -134,6 +157,65 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     }
   ];
 
+  const validStatusTransitions = new Map<string, string[]>([
+    ['DRAFT', ['SUBMITTED']],
+    ['SUBMITTED', ['DRAFT', 'ASSIGNED']],
+    ['ASSIGNED', ['SUBMITTED', 'PAID']],
+    ['PAID', ['ASSIGNED', 'CLOSED']],
+    ['CLOSED', ['ASSIGNED']]
+  ]);
+
+  const menuMap = new Map<string, any[]>([
+    [
+      'DRAFT',
+      [
+        <Menu.Item key="DRAFT" icon={<FileOutlined />}>
+          Draft
+        </Menu.Item>
+      ]
+    ],
+    [
+      'SUBMITTED',
+      [
+        <Menu.Item key="SUBMITTED" icon={<FileTextOutlined />}>
+          Submitted
+        </Menu.Item>
+      ]
+    ],
+    [
+      'ASSIGNED',
+      [
+        <Menu.Item key="ASSIGNED" icon={<SolutionOutlined />}>
+          Assigned
+        </Menu.Item>
+      ]
+    ],
+    [
+      'INPROGRESS',
+      [
+        <Menu.Item key="INPROGRESS" icon={<FileSyncOutlined />}>
+          In Progress
+        </Menu.Item>
+      ]
+    ],
+    [
+      'COMPLETED',
+      [
+        <Menu.Item key="COMPLETED" icon={<FileDoneOutlined />}>
+          Completed
+        </Menu.Item>
+      ]
+    ],
+    [
+      'CLOSED',
+      [
+        <Menu.Item key="CLOSED" icon={<FileProtectOutlined />}>
+          Closed
+        </Menu.Item>
+      ]
+    ]
+  ]);
+
   const stateMap = new Map<string, { state: string; description: string }>([
     ['CREATED', { state: 'Created', description: 'Created' }],
     ['DRAFT', { state: 'Draft', description: 'Editing Details' }],
@@ -142,6 +224,26 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     ['PAID', { state: 'Paid', description: 'Payment complete' }],
     ['CLOSED', { state: 'Closed', description: 'Work has been completed' }]
   ]);
+
+  const menuItems = validStatusTransitions.get(props.data.violationTicket.status)?.map((value: string) => {
+    return menuMap.get(value)?.map((x: any) => x);
+  });
+
+  const changeStatus = (state: string) => {
+    setNextState(state);
+    setModalVisible(true);
+  };
+
+  const menu = (
+    <Menu
+      onClick={(value) => {
+        console.log('Current status: ', props.data.violationTicket.status);
+        changeStatus(value.key);
+      }}
+    >
+      {menuItems}
+    </Menu>
+  );
 
   return (
     <div>
@@ -167,7 +269,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             layout="vertical"
             onFinish={async (values) => {
               setChangeStatusFormLoading(true);
-              console.log('values', values);
               await props.onChangeStatus({
                 violationTicketId: props.data.violationTicket.id,
                 status: nextState,
@@ -177,7 +278,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               changeStatusForm.resetFields();
 
               if (props.data.violationTicket.status === 'SUBMITTED' && nextState !== 'DRAFT') {
-                console.log('values', values);
                 props.onAssign({
                   violationTicketId: props.data.violationTicket.id,
                   assignedToId: values.assignedTo.id
@@ -275,7 +375,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               }}
               onFinish={async (values) => {
                 setAssignFormLoading(true);
-                console.log('values', values, props);
                 await props.onUpdate({
                   violationTicketId: props.data.violationTicket.id,
                   penaltyPaidDate: dayjs().toISOString()
@@ -309,7 +408,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             }}
             onFinish={async (values) => {
               setEditDraftFormLoading(true);
-              console.log('values', values);
               await props.onUpdate({
                 violationTicketId: props.data.violationTicket.id,
                 propertyId: values.property.id,
@@ -397,7 +495,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           form={addUpdateActivityForm}
           onFinish={async (values) => {
             setAddUpdateActivityFormLoading(true);
-            console.log('values', values);
             await props.onAddUpdateActivity({
               violationTicketId: props.data.violationTicket.id,
               activityDescription: values.activityDescription

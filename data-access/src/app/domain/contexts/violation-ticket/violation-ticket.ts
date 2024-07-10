@@ -385,18 +385,26 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
   }
   
   public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
+    let penaltyPaidDateLog = null;
+    let newPenaltyPaidDate = incomingPayload.penaltyPaidDate ? incomingPayload.penaltyPaidDate : '';
+    let oldPenaltyPaidDate = this.penaltyPaidDate ? this.penaltyPaidDate : '';
     let activityMessage: string = `${this.requestor.memberName} made field changes: | `;
-    let penaltyPaidDateLog = incomingPayload.penaltyPaidDate ? `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate.toISOString().split('T')[0]).toISOString()}` : null;
+    if(newPenaltyPaidDate && newPenaltyPaidDate !== oldPenaltyPaidDate && !oldPenaltyPaidDate) {
+      penaltyPaidDateLog = `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate).toISOString()}`
+    }
+    if(newPenaltyPaidDate && newPenaltyPaidDate !== oldPenaltyPaidDate && oldPenaltyPaidDate) {
+      penaltyPaidDateLog = `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate).toISOString()} %o ${dayjs(this.penaltyPaidDate).toISOString()}`
+    }
     const updateLogMessages = {
-      title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} - %o ${this.title}` : null,
+      title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} %o ${this.title}` : null,
       description:
-        incomingPayload.description && incomingPayload.description !== this.description ? `Description: %n ${incomingPayload.description} - %o ${this.description}` : null,
+        incomingPayload.description && incomingPayload.description !== this.description ? `Description: %n ${incomingPayload.description} %o ${this.description}` : null,
       penaltyAmount:
         incomingPayload.penaltyAmount && incomingPayload.penaltyAmount !== this.penaltyAmount
-          ? `Penalty amount: %n $${incomingPayload.penaltyAmount} - %o $${this.penaltyAmount}`
+          ? `Penalty amount: %n $${incomingPayload.penaltyAmount} %o $${this.penaltyAmount}`
           : null,
-      penaltyPaidDate: !incomingPayload.penaltyPaidDate ? null : !penaltyPaidDateLog ? `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate.toISOString().split('T')[0]).toISOString()} - %o ${dayjs(this.penaltyPaidDate.toISOString().split('T')[0]).toISOString()}` : penaltyPaidDateLog,
-      priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority: %n ${incomingPayload.priority} - %o ${this.priority}` : null,
+      penaltyPaidDate: penaltyPaidDateLog,
+      priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority: %n ${incomingPayload.priority} %o ${this.priority}` : null,
       property: incomingPayload.propertyId && incomingPayload.propertyId !== this.property.id ? `Property: %n ${propertyDo?.propertyName}` : null,
     };
     for (let key in updateLogMessages) {
@@ -404,7 +412,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
         delete updateLogMessages.property;
       }
       if (updateLogMessages[key]) {
-        activityMessage += `${updateLogMessages[key]}. | `;
+        activityMessage += `${updateLogMessages[key]} | `;
       }
     }
     this.requestAddStatusUpdate(activityMessage, this.requestor);

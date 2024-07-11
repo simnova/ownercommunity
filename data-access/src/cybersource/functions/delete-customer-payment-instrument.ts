@@ -13,7 +13,7 @@ const configObject = {
   runEnvironment: 'apitest.cybersource.com',
   merchantID: 'ecfmg_faimer',
   merchantKeyId: '2adee370-c670-4d76-a64a-ec2a5319d008',
-  merchantsecretKey: 's3c1EtcQkSpCAMem1l7dTHJU2z1DJm6Ce97yxmVkc6U=',
+  merchantsecretKey: process.env.CYBERSOURCE_MERCHANT_SECRET_KEY,
   logConfiguration: {
     enableLog: false,
   }

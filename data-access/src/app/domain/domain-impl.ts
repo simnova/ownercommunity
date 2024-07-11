@@ -15,6 +15,7 @@ import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from './in
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { BlobStorageDomain } from './infrastructure/blob-storage/interfaces';
 import { VercelDomain } from './infrastructure/vercel/interfaces';
+import { PaymentDomain } from './infrastructure/cybersource/interfaces';
 
 const RegisterEventHandlers = (
   datastore: DatastoreDomain,
@@ -55,6 +56,7 @@ CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitial
     private _datastoreImpl: DatastoreImpl,
     private _cognitiveSearchImpl: CognitiveSearchImpl,
     private _blobStorageImpl: BlobStorageDomain,
+    private _paymentImpl: PaymentDomain,
     private _vercelImpl: VercelDomain,
   ) {}
 

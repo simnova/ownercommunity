@@ -839,6 +839,16 @@ export type MutationStatus = {
   success: Scalars['Boolean'];
 };
 
+export type Payment = MongoBase & {
+  __typename?: 'Payment';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  paymentKey?: Maybe<Scalars['String']>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
@@ -1028,6 +1038,7 @@ export type Query = {
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
+  paymentKey?: Maybe<Scalars['String']>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;

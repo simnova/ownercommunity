@@ -21,6 +21,7 @@ import { ApplicationServices,
   ServiceTicketDomainApi,
   PropertyMapsApi,
   CommunityVercelApi,
+  PaymentApi,
 } from "../application-services";
 import { UserModel, CommunityModel, RoleModel, PropertyModel, MemberModel, ServiceModel, ServiceTicketModel, ViolationTicketModel } from "../external-dependencies/datastore";
 import { ViolationTicketUnitOfWork, CommunityUnitOfWork, MemberUnitOfWork, PropertyUnitOfWork, RoleUnitOfWork, ServiceTicketUnitOfWork, ServiceUnitOfWork, UserUnitOfWork } from "../external-dependencies/domain";
@@ -32,6 +33,7 @@ import { PropertyMapsApiImpl } from "../application-services-impl/maps";
 import { CommunityVercelApiImpl } from "../application-services-impl/vercel";
 import { AppContext } from "./app-context-builder";
 import { ViolationTicketDomainApi } from "../application-services/domain";
+import { PaymentApiImpl } from "../application-services-impl/payment";
 
 export class ApplicationServicesBuilder implements ApplicationServices {
   communityBlobApi: CommunityBlobApi;
@@ -57,7 +59,7 @@ export class ApplicationServicesBuilder implements ApplicationServices {
   violationTicketDomainApi: ViolationTicketDomainApi;
   propertyMapApi: PropertyMapsApi;
   communityVercelApi: CommunityVercelApi;
-  
+  paymentApi: PaymentApi;
 
   constructor(context: AppContext) {
     this.communityBlobApi = new CommunityBlobApiImpl({ context });
@@ -83,5 +85,6 @@ export class ApplicationServicesBuilder implements ApplicationServices {
     this.violationTicketDomainApi = new ViolationTicketDomainApiImpl({ unitOfWork: ViolationTicketUnitOfWork, context });
     this.propertyMapApi = new PropertyMapsApiImpl({ context });
     this.communityVercelApi = new CommunityVercelApiImpl({ context });
+    this.paymentApi = new PaymentApiImpl({ context });
   }
 }

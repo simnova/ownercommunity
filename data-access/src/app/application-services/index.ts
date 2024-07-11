@@ -3,6 +3,7 @@ import { PropertySearchApi, ServiceTicketSearchApi } from "./cognitive-search";
 import { CommunityDataApi, MemberDataApi, PropertyDataApi, RoleDataApi, ServiceDataApi, ServiceTicketDataApi, UserDataApi, ViolationTicketDataApi } from "./datastore";
 import { CommunityDomainApi, MemberDomainApi, PropertyDomainApi, RoleDomainApi, ServiceDomainApi, ServiceTicketDomainApi, UserDomainApi, ViolationTicketDomainApi } from "./domain";
 import { PropertyMapsApi } from "./maps";
+import { PaymentApi } from "./payment";
 import { CommunityVercelApi } from "./vercel";
 
 export interface ApplicationServices {
@@ -29,6 +30,7 @@ export interface ApplicationServices {
   violationTicketDomainApi: ViolationTicketDomainApi;
   propertyMapApi: PropertyMapsApi;
   communityVercelApi: CommunityVercelApi;
+  paymentApi: PaymentApi; 
 }
 
 export {
@@ -54,5 +56,6 @@ export {
   ServiceTicketDomainApi,
   ViolationTicketDomainApi,
   PropertyMapsApi,
-  CommunityVercelApi
+  CommunityVercelApi,
+  PaymentApi
 }

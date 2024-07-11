@@ -12,12 +12,15 @@ import { InfrastructureServices } from '../app/infrastructure-services';
 import { AzMapsImpl } from '../infrastructure-services-impl/maps/az/impl';
 import { MapsInfrastructureService } from '../app/infrastructure-services/maps';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
+import { PaymentInfrastructureService } from '../app/infrastructure-services/payment';
+import { CybersourceImpl } from '../infrastructure-services-impl/payment/cybersource/impl';
 
 export class InfrastructureServicesBuilder implements InfrastructureServices{
   private _vercel: VercelInfrastructureService;
   private _contentModerator: ContentModeratorInfrastructureService;
   private _cognitiveSearch: CognitiveSearchInfrastructureService;
   private _blobStorage: BlobStorageInfrastructureService;
+  private _payment: PaymentInfrastructureService;
   private _datastore: DatastoreInfrastructureService;
   private _maps: MapsInfrastructureService;
   
@@ -26,6 +29,7 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
     this._contentModerator = this.InitContentModerator();
     this._cognitiveSearch = this.InitCognitiveSearch();
     this._blobStorage = this.InitBlobStorage();
+    this._payment = this.InitPayment();
     this._datastore = this.InitDataStore();
     this._maps = this.InitMaps();
   }
@@ -42,6 +46,10 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
   public get blobStorage(): BlobStorageInfrastructureService {
     return this._blobStorage;
   }
+
+  public get payment(): PaymentInfrastructureService {
+    return this._payment;
+  } 
 
   public get datastore(): DatastoreInfrastructureService {
     return this._datastore;
@@ -74,6 +82,10 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
     const storageAccount = tryGetEnvVar('BLOB_ACCOUNT_NAME');
     const storageKey = tryGetEnvVar('BLOB_ACCOUNT_KEY');
     return new AzBlobStorageImpl(storageAccount, storageKey);
+  }
+
+  private InitPayment(): PaymentInfrastructureService {
+    return new CybersourceImpl();
   }
 
   private InitDataStore(): DatastoreInfrastructureService {

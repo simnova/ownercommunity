@@ -83,6 +83,16 @@ const configObject = {
 
 const cybersourceClient = new cybersource.ApiClient();
 
+/**
+ * Updates the default payment instrument for a customer using the Cybersource Customer API.
+ * 
+ * This function constructs the necessary information objects required by the Cybersource API,
+ * specifically the default payment instrument and the patch customer request object.
+ * It then calls the Cybersource API to update the customer's default payment instrument.
+ * 
+ * @param {any} body - The request body containing the customer ID and payment instrument ID.
+ * @returns {Promise<UpdateCustomerDefaultPaymentInstrumentResponse>} A promise that resolves to the response of the update, or rejects with an error.
+ */
 async function updateCustomerDefaultPaymentInstrument(body: any) {
   try {
     const client = new cybersource.CustomerApi(configObject, cybersourceClient);

@@ -1,4 +1,5 @@
 import cybersource from 'cybersource-rest-client';
+import { randomUUID } from 'crypto';
 
 interface CreateCustomerResponse {
   _links: {
@@ -57,13 +58,23 @@ const configObject = {
 
 const cybersourceClient = new cybersource.ApiClient();
 
+/**
+ * Creates a new customer using the Cybersource Payments API.
+ * 
+ * This function constructs various information objects required by the Cybersource API,
+ * such as client reference information, order information, processing information, and token information.
+ * It then creates a payment request object and calls the Cybersource API to create a new customer.
+ * 
+ * @param {any} body - The request body containing customer details and payment token.
+ * @returns {Promise<CreateCustomerResponse>} A promise that resolves to the response of the customer creation, or rejects with an error.
+ */
 async function createCustomer(body: any) {
   try {
     const client = new cybersource.PaymentsApi(configObject, cybersourceClient);
 
     //====== ClientReferenceInformation ====== Used for reconciliation purposes (search)
     let clientReferenceInformation = new cybersource.Ptsv2paymentsClientReferenceInformation();
-    clientReferenceInformation.code = '1234567892';
+    clientReferenceInformation.code = randomUUID();
     clientReferenceInformation.applicationName = 'owner-community';
     //====== ClientReferenceInformation ======
     //====== OrderInformation ======
@@ -72,14 +83,14 @@ async function createCustomer(body: any) {
     orderInformationAmountDetails.currency = 'USD';
 
     let orderInformationBillTo = new cybersource.Ptsv2paymentsOrderInformationBillTo();
-    orderInformationBillTo.firstName = 'Ike';
-    orderInformationBillTo.lastName = 'Wilson';
-    orderInformationBillTo.address1 = '123 Main St.';
-    orderInformationBillTo.locality = 'Foster City';
-    orderInformationBillTo.administrativeArea = 'CA';
-    orderInformationBillTo.postalCode = '94404';
-    orderInformationBillTo.country = 'US';
-    orderInformationBillTo.email = 'iwilson@ecfmg.org';
+    orderInformationBillTo.firstName = body.firstName;
+    orderInformationBillTo.lastName = body.lastName;
+    orderInformationBillTo.address1 = body.address;
+    orderInformationBillTo.locality = body.city;
+    orderInformationBillTo.administrativeArea = body.state;
+    orderInformationBillTo.postalCode = body.postalCode;
+    orderInformationBillTo.country = body.country;
+    orderInformationBillTo.email = body.email;
 
     let orderInformation = new cybersource.Ptsv2paymentsOrderInformation();
     orderInformation.amountDetails = orderInformationAmountDetails;
@@ -87,8 +98,8 @@ async function createCustomer(body: any) {
     //====== OrderInformation ======
     //====== ProcessingInformation ======
     let processingInformation = new cybersource.Ptsv2paymentsProcessingInformation();
-    processingInformation.actionList = ['TOKEN_CREATE'];
-    processingInformation.actionTokenTypes = ['customer', 'paymentInstrument'];
+    processingInformation.actionList = ['TOKEN_CREATE']; // Actions to create tokens
+    processingInformation.actionTokenTypes = ['customer', 'paymentInstrument']; // Token types for the actions
     //====== ProcessingInformation ======
     //====== TokenInformation ======
     let tokenInformationObj = new cybersource.Ptsv2paymentsTokenInformation();

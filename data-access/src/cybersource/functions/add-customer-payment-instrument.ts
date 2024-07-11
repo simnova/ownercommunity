@@ -1,4 +1,5 @@
 import cybersource from 'cybersource-rest-client';
+import { randomUUID } from 'crypto';
 
 interface AddCustomerPaymentInstrumentResponse {
   _links: {
@@ -71,30 +72,41 @@ const configObject = {
 
 const cybersourceClient = new cybersource.ApiClient();
 
+/**
+ * Adds a payment instrument for a customer using the Cybersource Payments API.
+ * 
+ * This function constructs various information objects required by the Cybersource API,
+ * such as client reference information, order information, processing information, token information,
+ * and payment information. It then creates a payment request object and calls the Cybersource API
+ * to add the payment instrument.
+ * 
+ * @param {any} body - The request body containing customer details, payment token, and customer ID.
+ * @returns {Promise<AddCustomerPaymentInstrumentResponse>} A promise that resolves to the response of the payment instrument addition, or rejects with an error.
+ */
 async function addCustomerPaymentInstrument(body: any) {
   try {
     const client = new cybersource.PaymentsApi(configObject, cybersourceClient);
 
     //====== ClientReferenceInformation ====== Used for reconciliation purposes (search)
     let clientReferenceInformation = new cybersource.Ptsv2paymentsClientReferenceInformation();
-    clientReferenceInformation.code = '1234567892';
+    clientReferenceInformation.code = randomUUID();
     clientReferenceInformation.applicationName = 'owner-community';
     //====== ClientReferenceInformation ======
 
     //====== OrderInformation ======
     let orderInformationAmountDetails = new cybersource.Ptsv2paymentsOrderInformationAmountDetails();
-    orderInformationAmountDetails.totalAmount = '0'; // Zero amount for instrument identifier
+    orderInformationAmountDetails.totalAmount = '0'; // Zero amount for instrument identifier authorization
     orderInformationAmountDetails.currency = 'USD';
 
     let orderInformationBillTo = new cybersource.Ptsv2paymentsOrderInformationBillTo();
-    orderInformationBillTo.firstName = 'Ike';
-    orderInformationBillTo.lastName = 'Wilson';
-    orderInformationBillTo.address1 = '123 Main St.';
-    orderInformationBillTo.locality = 'Foster City';
-    orderInformationBillTo.administrativeArea = 'CA';
-    orderInformationBillTo.postalCode = '94404';
-    orderInformationBillTo.country = 'US';
-    orderInformationBillTo.email = 'iwilson@ecfmg.org';
+    orderInformationBillTo.firstName = body.firstName;
+    orderInformationBillTo.lastName = body.lastName;
+    orderInformationBillTo.address1 = body.address;
+    orderInformationBillTo.locality = body.city;
+    orderInformationBillTo.administrativeArea = body.state;
+    orderInformationBillTo.postalCode = body.postalCode;
+    orderInformationBillTo.country = body.country;
+    orderInformationBillTo.email = body.email;
 
     let orderInformation = new cybersource.Ptsv2paymentsOrderInformation();
     orderInformation.amountDetails = orderInformationAmountDetails;
@@ -103,8 +115,8 @@ async function addCustomerPaymentInstrument(body: any) {
 
     //====== ProcessingInformation ======
     let processingInformation = new cybersource.Ptsv2paymentsProcessingInformation();
-    processingInformation.actionList = ['TOKEN_CREATE'];
-    processingInformation.actionTokenTypes = ['paymentInstrument'];
+    processingInformation.actionList = ['TOKEN_CREATE']; // Action to create a token
+    processingInformation.actionTokenTypes = ['paymentInstrument']; // Token type for the action
     //====== ProcessingInformation ======
 
     //====== TokenInformation ======

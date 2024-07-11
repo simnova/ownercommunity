@@ -114,7 +114,15 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
   const onCreateCustomer = async () => {
     if (paymentToken !== '') {
       await axios.post('http://localhost:7071/api/cybersource/create-customer', {
-        paymentToken: paymentToken,
+        firstName: '',
+        lastName: '',
+        address: '',
+        city: '',
+        state: '',
+        postalCode: '', 
+        country: '', // 2 char country code - https://www.iban.com/country-codes
+        email: '', // [required] - maybe if we already have a user, we can fill in their email
+        paymentToken: paymentToken
       }).then((response) => {
         console.log('CREATE CUSTOMER RESPONSE', response);
       }).catch((error) => {

@@ -1,4 +1,5 @@
 import cybersource from 'cybersource-rest-client';
+import { randomUUID } from 'crypto';
 
 interface ProcessPaymentWithPaymentInstrumentResponse {
   _links: {
@@ -49,19 +50,29 @@ const configObject = {
 
 const cybersourceClient = new cybersource.ApiClient();
 
+/**
+ * Processes a payment using a specified payment instrument with the Cybersource Payments API.
+ * 
+ * This function constructs various information objects required by the Cybersource API,
+ * such as client reference information, order information, processing information, and payment information.
+ * It then creates a payment request object and calls the Cybersource API to process the payment.
+ * 
+ * @param {any} body - The request body containing payment instrument ID and other payment details.
+ * @returns {Promise<ProcessPaymentWithPaymentInstrumentResponse>} A promise that resolves to the response of the payment processing, or rejects with an error.
+ */
 function processPaymentWithPaymentInstrument(body: any) {
   try {
     const client = new cybersource.PaymentsApi(configObject, cybersourceClient);
 
     //====== ClientReferenceInformation ====== Used for reconciliation purposes (search)
     let clientReferenceInformation = new cybersource.Ptsv2paymentsClientReferenceInformation();
-    clientReferenceInformation.code = '1234567891';
+    clientReferenceInformation.code = randomUUID();
     clientReferenceInformation.applicationName = 'owner-community';
     //====== ClientReferenceInformation ======
 
     //====== OrderInformation ======
     let orderInformationAmountDetails = new cybersource.Ptsv2paymentsOrderInformationAmountDetails();
-    orderInformationAmountDetails.totalAmount = '900';
+    orderInformationAmountDetails.totalAmount = '900'; // Amount should come from service ticket fee 
     orderInformationAmountDetails.currency = 'USD';
 
     let orderInformation = new cybersource.Ptsv2paymentsOrderInformation();
@@ -90,10 +101,8 @@ function processPaymentWithPaymentInstrument(body: any) {
     return new Promise((resolve, reject) => {
       client.createPayment(createPaymentRequestObj, (error, data, response) => {
         if (!error) {
-          console.log('PAYMENT DATA', data);
           resolve(data as ProcessPaymentWithPaymentInstrumentResponse);
         } else {
-          console.log('PAYMENT ERROR', error);
           reject(new Error(error.message || 'Unknown error occurred'));
         }
       });

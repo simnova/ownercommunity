@@ -21,6 +21,16 @@ const configObject = {
 
 const cybersourceClient = new cybersource.ApiClient();
 
+/**
+ * Deletes a customer's payment instrument using the Cybersource Customer Payment Instrument API.
+ * 
+ * This function calls the Cybersource API to delete a specified payment instrument for a given customer.
+ * It constructs the API client and uses the customer ID and payment instrument ID from the request body
+ * to perform the deletion.
+ * 
+ * @param {any} body - The request body containing customer ID and payment instrument ID.
+ * @returns {Promise<any>} A promise that resolves to the response of the deletion, or rejects with an error.
+ */
 async function deleteCustomerPaymentInstrument(body: any) {
   try {
     const client = new cybersource.CustomerPaymentInstrumentApi(configObject, cybersourceClient);

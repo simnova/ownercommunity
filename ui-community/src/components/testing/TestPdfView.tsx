@@ -1,13 +1,13 @@
 import { Button, Modal } from 'antd';
 import React, { useState } from 'react';
-import PdfRendererContainer from './PdfRenderer.container';
+import PdfEpicReportContainer from './PdfEpicReport.container';
 import { PDFViewer, pdf } from '@react-pdf/renderer';
 
 export const TestPdfView: React.FC<any> = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const downloadPdf = async () => {
-    const blob = await pdf(<PdfRendererContainer />).toBlob();
+    const blob = await pdf(<PdfEpicReportContainer />).toBlob();
     const blobUrl = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = blobUrl;
@@ -41,7 +41,7 @@ export const TestPdfView: React.FC<any> = () => {
           Download pdf
         </Button>
         <PDFViewer>
-          <PdfRendererContainer />
+          <PdfEpicReportContainer />
         </PDFViewer>
       </Modal>
     </>

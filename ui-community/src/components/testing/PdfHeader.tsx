@@ -14,8 +14,8 @@ export const PdfHeader: React.FC<PdfHeaderProps> = (props) => {
     },
     text: {
       fontSize: '12px',
-      paddingBottom: '10px',
-      fontWeight: 'ultrabold'
+      fontWeight: 'bold',
+      paddingBottom: '10px'
     },
     leftColumn: {
       flexDirection: 'row',
@@ -38,20 +38,27 @@ export const PdfHeader: React.FC<PdfHeaderProps> = (props) => {
       backgroundColor: '#d3d3d3',
       marginBottom: '10px',
       padding: '2.5px'
-    },
+    }
   });
 
   return (
     <View style={styles.leftColumn}>
       <Image style={styles.image} src={logoUrl} />
       <View style={styles.row}>
-        <Text style={styles.text}>Final Medical Diploma</Text>
+        <Text
+          style={{
+            fontSize: '12px',
+            fontWeight: 'ultrabold'
+          }}
+        >
+          {props.data.documentTitle}
+        </Text>
         <Text style={styles.title}>Verification Report</Text>
-        <Text style={styles.bannertext}>Jane Sample Student</Text>
+        <Text style={styles.bannertext}>{props.data.nameOnDocument}</Text>
         <View>
-          <Text style={styles.text}>Report Issued: 19 July, 2018</Text>
-          <Text style={styles.text}>Issued To: Sample Regulatory Authority USA</Text>
-          <Text style={styles.text}>Inclusions: &nbsp Verification Report; Verified Credential; Verification Form</Text>
+          <Text style={styles.text}>Report Issued: &nbsp; {props.data.reportIssued}</Text>
+          <Text style={styles.text}>Issued To: &nbsp; {props.data.issuedOn}</Text>
+          <Text style={styles.text}>Inclusions: &nbsp; {props.data.inclusions}</Text>
         </View>
       </View>
     </View>

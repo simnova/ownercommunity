@@ -35,11 +35,11 @@ export const PdfCredentialDetails: React.FC<PdfCredentialDetailsProps> = (props)
       <View style={styles.row}>
         <Text style={styles.bannertext}>Credential Details </Text>
         <View>
-          <Text style={styles.text}>Name on Document: Jane Sample Student</Text>
-          <Text style={styles.text}>Type of Credential: Final Medical Diploma </Text>
-          <Text style={styles.text}>Status of Credential: VERIFIED</Text>
-          <Text style={styles.text}>Medical School: ECFMG University School of Medicine</Text>
-          <Text style={styles.text}>Medical School Location: Philadelphia, USA</Text>
+          <Text style={styles.text}>Name on Document: &nbsp; {props.data.nameOnDocument}</Text>
+          <Text style={styles.text}>Type of Credential: &nbsp; {props.data.typeOfCredential}</Text>
+          <Text style={styles.text}>Status of Credential: &nbsp; {props.data.statusOfCredential}</Text>
+          <Text style={styles.text}>Medical School: &nbsp; {props.data.medicalSchool}</Text>
+          <Text style={styles.text}>Medical School Location: &nbsp; {props.data.schoolLocation}</Text>
         </View>
       </View>
     </View>

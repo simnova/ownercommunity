@@ -3,14 +3,11 @@ import { View, Text, StyleSheet, Image } from '@react-pdf/renderer';
 interface PdfCandidateDetailsProps {
   data: any;
 }
-const avatarUrl =
-  'https://staticstorageuniquename.blob.core.windows.net/public/image%20(1).png?sp=r&st=2024-07-10T17:27:57Z&se=2024-07-31T01:27:57Z&spr=https&sv=2022-11-02&sr=b&sig=O0pFclYfrcVA5vwVFyLWzJX3II6gtM3ykciyJjlOLpY%3D';
 
 export const PdfCandidateDetails: React.FC<PdfCandidateDetailsProps> = (props) => {
   const styles = StyleSheet.create({
     image: {
-      width: '80%',
-      paddingRight: '20px'
+      width: '100%'
     },
     text: {
       fontSize: '12px',
@@ -41,11 +38,12 @@ export const PdfCandidateDetails: React.FC<PdfCandidateDetailsProps> = (props) =
       <View style={styles.row}>
         <Text style={styles.bannertext}>Candidate Details </Text>
         <View>
-          <Text style={styles.text}>Last Name: Student</Text>
-          <Text style={styles.text}>Rest of Name: Jane Sample</Text>
-          <Text style={styles.text}>Date of Birth: 01 January 1980</Text>
-          <Text style={styles.text}>Gender: Female</Text>
-          <Text style={styles.text}>EPIC ID: C-SJ000003</Text>
+          <Text style={styles.text}>Last Name: &nbsp; {props.data.lastName}</Text>
+          <Text style={styles.text}>Rest of Name: &nbsp; {props.data.restOfName}</Text>
+          <Text style={styles.text}>Generational Suffix: &nbsp; {props.data.generationalSuffix}</Text>
+          <Text style={styles.text}>Date of Birth: &nbsp; {props.data.dateOfBirth}</Text>
+          <Text style={styles.text}>Gender: &nbsp; {props.data.gender}</Text>
+          <Text style={styles.text}>EPIC ID: &nbsp; {props.data.epicId}</Text>
         </View>
       </View>
       <View
@@ -53,7 +51,7 @@ export const PdfCandidateDetails: React.FC<PdfCandidateDetailsProps> = (props) =
           width: '70%'
         }}
       >
-        <Image style={styles.image} src={avatarUrl} />
+        <Image style={styles.image} src={props.data.applicantPhoto} />
         <Text style={styles.text}>Photo provided by candidate</Text>
       </View>
     </View>

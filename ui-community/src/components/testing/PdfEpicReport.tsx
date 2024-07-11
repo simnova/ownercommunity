@@ -1,11 +1,15 @@
 import React from 'react';
 import { Document, Page, Text, StyleSheet, Font } from '@react-pdf/renderer';
-import PdfHeader from './PdfHeader';
+import PdfTitleSection from './PdfTitleSection';
 import PdfCandidateDetails from './PdfCandidateDetails';
 import PdfCredentialDetails from './PdfCredentialDetails';
 import PdfDisclaimers from './PdfDisclaimers';
 import FontFranklinRegular from '../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-100.ttf';
 import PoppinsRegular from '..//../fonts/poppins-v19-latin/poppins-v19-latin-100.ttf';
+import PdfHeader from './PdfHeader';
+import PdfSignatureInformation from './PdfSignatureInformation';
+import PdfSignatureInstructions from './PdfSignatureInstructions';
+import PdfSignatureSection from './PdfSignatureSection';
 interface PdfTemplateProps {
   data: any;
 }
@@ -21,7 +25,7 @@ Font.register({
   fonts: [
     {
       src: PoppinsRegular,
-      fontWeight: 800,
+      fontWeight: 800
     }
   ]
 });
@@ -29,9 +33,8 @@ Font.register({
 export const PdfEpicReport: React.FC<PdfTemplateProps> = (props) => {
   const styles = StyleSheet.create({
     page: {
-      fontFamily: "Libre Franklin",
-      fontWeightStrong: 1000,
-      color: "black"
+      fontFamily: 'Libre Franklin',
+      color: 'black'
     },
     divider: {
       height: '1px',
@@ -48,13 +51,18 @@ export const PdfEpicReport: React.FC<PdfTemplateProps> = (props) => {
   return (
     <Document>
       <Page style={styles.page}>
-        <PdfHeader data={props.data} />
+        <PdfTitleSection data={props.data} />
         <Text style={styles.divider}></Text>
         <PdfCandidateDetails data={props.data} />
         <PdfCredentialDetails data={props.data} />
         <PdfDisclaimers data={props.data} />
       </Page>
-      <Page></Page>
+      <Page style={styles.page}>
+        <PdfHeader data={props.data} />
+        <PdfSignatureInformation data={props.data} />
+        <PdfSignatureInstructions data={props.data} />
+        <PdfSignatureSection data={props.data} />
+      </Page>
     </Document>
   );
 };

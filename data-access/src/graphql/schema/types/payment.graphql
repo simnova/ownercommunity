@@ -1,0 +1,17 @@
+"""
+A payment object.
+"""
+type Payment implements MongoBase {
+  paymentKey: String
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  tags: [String]
+}
+
+extend type Query {
+  paymentKey: String
+}

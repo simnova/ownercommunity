@@ -19,7 +19,7 @@
                     {
                         "run": true,
                         "name": "sec-001",
-                        "location": "westus3",
+                        "location": "westus2",
                         "sku": "B1",
                         "operatingSystem": "linux",
                         "tags": {
@@ -58,7 +58,7 @@
                         "name": "sec",
                         "appServicePlanName": "oc-dev-asp-sec-001",
                         "appServicePlanSku": "B1",
-                        "location": "westus3",
+                        "location": "westus2",
                         "storageAccountName": "ocdevstfuncwestus3",
                         "functionApp": {
                             "maxOldSpaceSizeMB": "3072",

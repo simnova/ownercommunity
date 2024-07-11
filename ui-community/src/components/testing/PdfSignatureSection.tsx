@@ -66,94 +66,55 @@ export const PdfSignatureSection: React.FC<PdfCredentialDetailsProps> = (props) 
     }
   });
 
-  const ecfmgSignatueeSection = (
-    <>
-      <Text style={styles.divider}></Text>
-      <View style={styles.leftColumn}>
-        <View style={styles.row}>
-          <Text style={styles.text}>Signature</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.text}>Date of Signature</Text>
-        </View>
-      </View>
-      <View style={styles.shortLeftColumn}>
-        <View style={styles.subRow}>
-          <Text style={styles.smallDivider}></Text>
-          <View style={styles.subLeftColumn}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Printed Name</Text>
-            </View>
+  const signatueeSection = (section: boolean) => {
+    const imageSource = section ? SignatureImage : SealImage;
+    return (
+      <>
+        <Text style={styles.divider}></Text>
+        <View style={styles.leftColumn}>
+          <View style={styles.row}>
+            <Text style={styles.text}>Signature</Text>
           </View>
-          <Text style={styles.smallDivider}></Text>
-          <View style={styles.subLeftColumn}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Title of Your Institution</Text>
-            </View>
-          </View>
-          <Text style={styles.smallDivider}></Text>
-          <View style={styles.subLeftColumn}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Name of Your Institution</Text>
-            </View>
-          </View>
-          <Text style={styles.smallDivider}></Text>
-          <View style={styles.subLeftColumn}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Your Contact E-mail</Text>
-            </View>
+          <View style={styles.row}>
+            <Text style={styles.text}>Date of Signature</Text>
           </View>
         </View>
-        <Image style={styles.image} src={SignatureImage} />
-      </View>
-    </>
-  );
-  const otherSignatueeSection = (
-    <>
-      <Text style={styles.divider}></Text>
-      <View style={styles.leftColumn}>
-        <View style={styles.row}>
-          <Text style={styles.text}>Signature</Text>
+        <View style={styles.shortLeftColumn}>
+          <View style={styles.subRow}>
+            <Text style={styles.smallDivider}></Text>
+            <View style={styles.subLeftColumn}>
+              <View style={styles.row}>
+                <Text style={styles.text}>Printed Name</Text>
+              </View>
+            </View>
+            <Text style={styles.smallDivider}></Text>
+            <View style={styles.subLeftColumn}>
+              <View style={styles.row}>
+                <Text style={styles.text}>Title of Your Institution</Text>
+              </View>
+            </View>
+            <Text style={styles.smallDivider}></Text>
+            <View style={styles.subLeftColumn}>
+              <View style={styles.row}>
+                <Text style={styles.text}>Name of Your Institution</Text>
+              </View>
+            </View>
+            <Text style={styles.smallDivider}></Text>
+            <View style={styles.subLeftColumn}>
+              <View style={styles.row}>
+                <Text style={styles.text}>Your Contact E-mail</Text>
+              </View>
+            </View>
+          </View>
+          <Image style={styles.image} src={imageSource} />
         </View>
-        <View style={styles.row}>
-          <Text style={styles.text}>Date of Signature</Text>
-        </View>
-      </View>
-      <View style={styles.shortLeftColumn}>
-        <View style={styles.subRow}>
-          <Text style={styles.smallDivider}></Text>
-          <View style={styles.subLeftColumn}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Printed Name</Text>
-            </View>
-          </View>
-          <Text style={styles.smallDivider}></Text>
-          <View style={styles.subLeftColumn}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Title of Your Institution</Text>
-            </View>
-          </View>
-          <Text style={styles.smallDivider}></Text>
-          <View style={styles.subLeftColumn}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Name of Your Institution</Text>
-            </View>
-          </View>
-          <Text style={styles.smallDivider}></Text>
-          <View style={styles.subLeftColumn}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Your Contact E-mail</Text>
-            </View>
-          </View>
-        </View>
-        <Image style={styles.image} src={SealImage} />
-      </View>
-    </>
-  );
+      </>
+    );
+  };
 
   return (
     <>
-      {ecfmgSignatueeSection}
+      {signatueeSection(true)}
       <Text style={styles.title}>
         I cannot certify that the attached document is authentic and correct because (attach additional sheet(s) if
         necessary):
@@ -161,7 +122,7 @@ export const PdfSignatureSection: React.FC<PdfCredentialDetailsProps> = (props) 
       <Text style={styles.divider}></Text>
       <Text style={styles.divider}></Text>
       <Text style={[styles.divider, { marginBottom: '15px' }]}></Text>
-      {otherSignatueeSection}
+      {signatueeSection(false)}
       <Text style={[styles.text, { textAlign: 'center', paddingTop: 25 }]}>
         Contact ECFMG at deansbox@ecfmg.org if you have any questions about this verification form.
       </Text>

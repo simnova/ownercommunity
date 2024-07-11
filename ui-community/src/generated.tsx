@@ -839,6 +839,7 @@ export type MutationStatus = {
   success: Scalars['Boolean'];
 };
 
+/** A payment object. */
 export type Payment = MongoBase & {
   __typename?: 'Payment';
   createdAt?: Maybe<Scalars['DateTime']>;

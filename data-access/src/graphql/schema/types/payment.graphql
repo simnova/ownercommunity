@@ -1,4 +1,6 @@
-
+"""
+A payment object.
+"""
 type Payment implements MongoBase {
   paymentKey: String
 

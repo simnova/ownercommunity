@@ -6751,7 +6751,7 @@
       {
         "kind": "OBJECT",
         "name": "Payment",
-        "description": null,
+        "description": "A payment object.",
         "fields": [
           {
             "name": "createdAt",

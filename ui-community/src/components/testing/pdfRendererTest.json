@@ -14,5 +14,6 @@
   "typeOfCredential": "Final Medical Diploma",
   "statusOfCredential": "VERIFIED",
   "medicalSchool": "ECFMG University School of Medicine",
-  "schoolLocation": "Philadelphia, USA"
+  "schoolLocation": "Philadelphia, USA",
+  "requestId": "12345"
 }

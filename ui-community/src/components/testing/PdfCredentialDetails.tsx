@@ -12,10 +12,9 @@ export const PdfCredentialDetails: React.FC<PdfCredentialDetailsProps> = (props)
     },
     leftColumn: {
       flexDirection: 'row',
-      paddingTop: 30,
       paddingRight: 20,
-      paddingBottom: 10,
-      paddingLeft: 20
+      paddingLeft: 20,
+      paddingBottom: 10
     },
     row: {
       width: '100%'

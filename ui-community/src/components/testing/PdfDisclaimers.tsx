@@ -8,13 +8,10 @@ export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = (props) => {
   const styles = StyleSheet.create({
     text: {
       fontSize: '10px',
-      paddingBottom: '10px'
     },
     leftColumn: {
       flexDirection: 'row',
-      paddingTop: 30,
       paddingRight: 20,
-      paddingBottom: 10,
       paddingLeft: 20
     },
     row: {
@@ -34,11 +31,24 @@ export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = (props) => {
         <Text style={styles.bannertext}>Candidate Details </Text>
         <View>
           <Text style={styles.text}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
+            This report is intended only for the report recipient (the entity to which the report is issued). Any
+            reproduction, transfer, distribution, or other dissemination for use other than by the report recipient is
+            strictly prohibited and could result in legal action.
+            {'\n'} {'\n'}
+            This report is valid only if obtained by the report recipient through the EPIC Report Portal. ECFMG makes no
+            claims about the authenticity of any Verification Report not obtained by the report recipient through the
+            EPIC Report Portal. The use of the term "VERIFIED" indicates that ECFMG has authenticated a physician's
+            credential as indicated in this report through ECFMG's primary source verification process. This includes
+            the authentication of the credential by the issuing authority, which ECFMG does not control. ECFMG does not
+            guarauntee, certify, or assure that such verification is accurate. ECFMG makes no reccomendation or
+            endorsements of physicians.
+            {'\n'} {'\n'}
+            If the credential was submitted to ECFMG in a language other than English, the physician was required to
+            include a certified English translation of the document. That translation, if applicable, is included for
+            your reference. ECFMG does not verify the content of the translation and makes no endorsement of the agency
+            or company that prepared the translation.
+            {'\n'} {'\n'}
+            For more information on EPIC, please visit www.ecfmgepic.org.
           </Text>
         </View>
       </View>

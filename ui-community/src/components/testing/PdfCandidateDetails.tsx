@@ -10,9 +10,8 @@ export const PdfCandidateDetails: React.FC<PdfCandidateDetailsProps> = (props) =
       width: '100%'
     },
     text: {
-      fontSize: '12px',
+      fontSize: '10px',
       paddingBottom: '10px',
-      fontWeight: 'ultrabold'
     },
     leftColumn: {
       flexDirection: 'row',
@@ -26,7 +25,6 @@ export const PdfCandidateDetails: React.FC<PdfCandidateDetailsProps> = (props) =
     },
     bannertext: {
       fontSize: 12,
-      fontWeight: 'ultrabold',
       backgroundColor: '#d3d3d3',
       marginBottom: '10px',
       padding: '2.5px'

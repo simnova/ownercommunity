@@ -13,8 +13,7 @@ export const PdfHeader: React.FC<PdfHeaderProps> = (props) => {
       paddingRight: '20px'
     },
     text: {
-      fontSize: '12px',
-      fontWeight: 'bold',
+      fontSize: '10px',
       paddingBottom: '10px'
     },
     leftColumn: {
@@ -24,8 +23,7 @@ export const PdfHeader: React.FC<PdfHeaderProps> = (props) => {
       paddingBottom: 10
     },
     title: {
-      fontSize: '16px',
-      fontWeight: 'ultrabold',
+      fontSize: '12px',
       paddingTop: '10px',
       paddingBottom: '10px'
     },
@@ -34,7 +32,6 @@ export const PdfHeader: React.FC<PdfHeaderProps> = (props) => {
     },
     bannertext: {
       fontSize: 12,
-      fontWeight: 'ultrabold',
       backgroundColor: '#d3d3d3',
       marginBottom: '10px',
       padding: '2.5px'
@@ -48,7 +45,6 @@ export const PdfHeader: React.FC<PdfHeaderProps> = (props) => {
         <Text
           style={{
             fontSize: '12px',
-            fontWeight: 'ultrabold'
           }}
         >
           {props.data.documentTitle}

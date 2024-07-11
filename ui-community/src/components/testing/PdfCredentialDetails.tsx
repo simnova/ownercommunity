@@ -7,9 +7,8 @@ interface PdfCredentialDetailsProps {
 export const PdfCredentialDetails: React.FC<PdfCredentialDetailsProps> = (props) => {
   const styles = StyleSheet.create({
     text: {
-      fontSize: '12px',
+      fontSize: '10px',
       paddingBottom: '10px',
-      fontWeight: 'ultrabold'
     },
     leftColumn: {
       flexDirection: 'row',
@@ -23,7 +22,6 @@ export const PdfCredentialDetails: React.FC<PdfCredentialDetailsProps> = (props)
     },
     bannertext: {
       fontSize: 12,
-      fontWeight: 'ultrabold',
       backgroundColor: '#d3d3d3',
       marginBottom: '10px',
       padding: '2.5px'

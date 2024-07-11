@@ -1,17 +1,38 @@
 import React from 'react';
-import { Document, Page, Text, StyleSheet, View, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, StyleSheet, Font } from '@react-pdf/renderer';
 import PdfHeader from './PdfHeader';
 import PdfCandidateDetails from './PdfCandidateDetails';
 import PdfCredentialDetails from './PdfCredentialDetails';
 import PdfDisclaimers from './PdfDisclaimers';
+import FontFranklinRegular from '../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-100.ttf';
+import PoppinsRegular from '..//../fonts/poppins-v19-latin/poppins-v19-latin-100.ttf';
 interface PdfTemplateProps {
   data: any;
 }
 
-// Font.register({ family: 'Poppins', src: "https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" });
+Font.register({
+  family: 'Libre Franklin',
+  src: FontFranklinRegular,
+  fontWeight: 1600
+});
+
+Font.register({
+  family: 'Poppins',
+  fonts: [
+    {
+      src: PoppinsRegular,
+      fontWeight: 800,
+    }
+  ]
+});
 
 export const PdfEpicReport: React.FC<PdfTemplateProps> = (props) => {
   const styles = StyleSheet.create({
+    page: {
+      fontFamily: "Libre Franklin",
+      fontWeightStrong: 1000,
+      color: "black"
+    },
     divider: {
       height: '1px',
       border: 0,
@@ -26,16 +47,14 @@ export const PdfEpicReport: React.FC<PdfTemplateProps> = (props) => {
 
   return (
     <Document>
-      <Page>
+      <Page style={styles.page}>
         <PdfHeader data={props.data} />
         <Text style={styles.divider}></Text>
         <PdfCandidateDetails data={props.data} />
         <PdfCredentialDetails data={props.data} />
         <PdfDisclaimers data={props.data} />
       </Page>
-      <Page>
-
-        </Page>
+      <Page></Page>
     </Document>
   );
 };

@@ -7,9 +7,8 @@ interface PdfDisclaimersProps {
 export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = (props) => {
   const styles = StyleSheet.create({
     text: {
-      fontSize: '12px',
-      paddingBottom: '10px',
-      fontWeight: 'ultrabold'
+      fontSize: '10px',
+      paddingBottom: '10px'
     },
     leftColumn: {
       flexDirection: 'row',
@@ -22,8 +21,7 @@ export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = (props) => {
       width: '100%'
     },
     bannertext: {
-      fontSize: 12,
-      fontWeight: 'ultrabold',
+      fontSize: 10,
       backgroundColor: '#d3d3d3',
       marginBottom: '10px',
       padding: '2.5px'

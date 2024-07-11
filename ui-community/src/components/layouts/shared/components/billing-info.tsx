@@ -131,9 +131,10 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
     }
   };
 
+  // To test get customer payment instruments: customerId = '1CD4C5EE92E27A57E063AF598E0ACEC6'
   const onGetCustomerPaymentInstruments = async () => {
     await axios.post('http://localhost:7071/api/cybersource/get-customer-payment-instruments', {
-      customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
+      customerId: '',
     }).then((response) => {
       console.log('GET PAYMENT INSTRUMENTS RESPONSE', response);
     }).catch((error) => {
@@ -143,7 +144,7 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
 
   const onAddCustomerPaymentInstrument = async () => {
     await axios.post('http://localhost:7071/api/cybersource/add-customer-payment-instrument', {
-      customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
+      customerId: '',
       paymentToken: paymentToken,
     }).then((response) => {
       console.log('ADD PAYMENT INSTRUMENT RESPONSE', response);
@@ -154,8 +155,8 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
 
   const onDeleteCustomerPaymentInstrument = async () => {
     await axios.post('http://localhost:7071/api/cybersource/delete-customer-payment-instrument', {
-      customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
-      paymentInstrumentId: '1CE627A481F7E175E063AF598E0AF73D',
+      customerId: '',
+      paymentInstrumentId: '',
     }).then((response) => {
       console.log('DELETE PAYMENT INSTRUMENT RESPONSE', response);
     }).catch((error) => {
@@ -165,7 +166,7 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
 
   const onProcessPaymentWithPaymentInstrument = async () => {
     await axios.post('http://localhost:7071/api/cybersource/process-payment-with-payment-instrument', {
-      paymentInstrumentId: '1CC3816AF671FCC3E063AF598E0A5FA7',
+      paymentInstrumentId: '',
     }).then((response) => {
       console.log('PROCESS PAYMENT RESPONSE', response);
     }).catch((error) => {
@@ -175,7 +176,7 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
 
   const onUpdateCustomerDefaultPaymentInstrument = async () => {
     await axios.post('http://localhost:7071/api/cybersource/update-customer-default-payment-instrument', {
-      customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
+      customerId: '',
       paymentInstrumentId: '1CD4BF677E8742EAE063AF598E0AEF98',
     }).then((response) => {
       console.log('UPDATE DEFAULT PAYMENT INSTRUMENT RESPONSE', response);

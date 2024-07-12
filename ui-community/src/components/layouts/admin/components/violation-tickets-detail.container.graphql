@@ -1,0 +1,110 @@
+query AdminViolationTicketsDetailContainerMembersAssignableToTickets($violationTicketId: ObjectID!) {
+  memberAssignableToViolationTickets(violationTicketId: $violationTicketId) {
+    ...AdminViolationTicketsDetailContainerMemberFields
+  }
+}
+
+# query AdminServiceTicketsDetailContainerProperties {
+#   properties {
+#     ...AdminServiceTicketsDetailContainerPropertyFields
+#   }
+# }
+
+query AdminServiceTicketsDetailContainerViolationTicket($id: ObjectID!) {
+  violationTicket(id: $id) {
+    ...AdminViolationTicketsDetailContainerViolationTicketFields
+  }
+}
+
+mutation AdminViolationTicketsDetailContainerViolationTicketUpdate($input: ViolationTicketUpdateInput!) {
+  violationTicketUpdate(input: $input) {
+    ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+mutation AdminViolationTicketsDetailContainerViolationTicketChangeStatus($input: ViolationTicketChangeStatusInput!) {
+  violationTicketChangeStatus(input: $input) {
+    ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+mutation AdminViolationTicketsDetailContainerViolationAssign($input: ViolationTicketAssignInput!) {
+  violationTicketAssign(input: $input) {
+    ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+mutation AdminViolationTicketsDetailContainerAddUpdateActivity($input: ViolationTicketAddUpdateActivityInput!) {
+  violationTicketAddUpdateActivity(input: $input) {
+    ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+ mutation AdminViolationTicketDetailContainerViolationTicketDelete($input: ViolationTicketDeleteInput!) {
+   violationTicketDelete(input: $input) {
+     ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+   }
+ }
+
+fragment AdminViolationTicketsDetailContainerViolationTicketMutationResultFields on ViolationTicketMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  violationTicket {
+    ...AdminViolationTicketsDetailContainerViolationTicketFields
+  }
+}
+
+fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationTicket {
+  title
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  assignedTo {
+    id
+    memberName
+  }
+  title
+  description
+  status
+  priority
+  photos {
+    documentId
+    description
+
+    id
+    createdAt
+    updatedAt
+  }
+  activityLog {
+    activityType
+    activityDescription
+    activityBy {
+      id
+      memberName
+    }
+    id
+    createdAt
+    updatedAt
+  }
+  id
+  penaltyAmount
+  penaltyPaidDate
+  createdAt
+  updatedAt
+}
+
+fragment AdminViolationTicketsDetailContainerMemberFields on Member {
+  id
+  memberName
+}
+# fragment AdminServiceTicketsDetailContainerPropertyFields on Property {
+#   id
+#   propertyName
+# }

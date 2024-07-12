@@ -8,6 +8,7 @@ type ServiceTicket implements MongoBase {
   description: String!
   status: String!
   priority: Int!
+  ticketType: String
   photos: [ServiceTicketPhoto]
   activityLog: [ServiceTicketActivityDetail]
 
@@ -35,14 +36,14 @@ type ServiceTicketPhoto implements MongoSubdocument {
   createdAt: DateTime
   updatedAt: DateTime
 }
-
+union Ticket = ServiceTicket | ViolationTicket
 extend type Query {
   serviceTicket(id: ObjectID!): ServiceTicket
   serviceTicketsOpenByCommunity: [ServiceTicket]
   serviceTicketsOpenByRequestor: [ServiceTicket]
   serviceTicketsClosedByRequestor: [ServiceTicket]
   serviceTicketsAssignedToCurrentUser: [ServiceTicket]
-  serviceTicketsByCommunityId(communityId: ID!): [ServiceTicket]
+  serviceTicketsByCommunityId(communityId: ID!): [Ticket]
   serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
   serviceTicketsSearch(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
 }
@@ -160,6 +161,7 @@ type ServiceTicketsResult {
   requestorId: String
   assignedToId: String
   description: String
+  ticketType: String
   status: String
   priority: Int
   createdAt: DateTime

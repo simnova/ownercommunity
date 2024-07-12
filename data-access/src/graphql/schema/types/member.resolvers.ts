@@ -67,6 +67,9 @@ const member: Resolvers = {
     membersAssignableToTickets: async (_, _input, { applicationServices }) => {
       return (await applicationServices.memberDataApi.getMembersAssignableToTickets()) as Member[];
     },
+    memberAssignableToViolationTickets: async (_, { violationTicketId }, { applicationServices }) => {
+      return (await applicationServices.memberDataApi.getMemberAssignableToViolationTickets(violationTicketId)) as Member;
+    },
     memberForCurrentUser: async (_, _input, context) => {
       return getMemberForCurrentUser(context);
     },

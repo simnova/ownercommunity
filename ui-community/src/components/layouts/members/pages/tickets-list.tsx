@@ -3,7 +3,7 @@ import { PageHeader } from '@ant-design/pro-layout';
 import { Button, theme } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ServiceTicketsListContainer } from '../components/service-tickets-list.container';
+import { ServiceTicketsListContainer } from '../components/tickets-list.container';
 
 export const ServiceTicketsList: React.FC<any> = (_props) => {
   const {
@@ -21,7 +21,7 @@ export const ServiceTicketsList: React.FC<any> = (_props) => {
         title={
           <span style={{
             color: colorTextBase
-          }}>Service Tickets</span>
+          }}>Tickets</span>
         }
           extra={[
             <Button type="primary" onClick={() => navigate('new')}>

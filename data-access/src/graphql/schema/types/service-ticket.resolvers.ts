@@ -1,4 +1,4 @@
-import { Community, Member, Property, Resolvers,Service, ServiceTicket, ServiceTicketMutationResult } from '../builder/generated';
+import { Community, Member, Property, Resolvers, Service, ServiceTicket, Ticket, ServiceTicketMutationResult } from '../builder/generated';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
 import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
@@ -45,11 +45,11 @@ const serviceTicket: Resolvers = {
       return parent.assignedTo;
     },
     service: async (parent, args, context, info) => {
-      if(parent.service && isValidObjectId(parent.service.toString())){
+      if (parent.service && isValidObjectId(parent.service.toString())) {
         return (await context.applicationServices.serviceDataApi.getServiceById(parent.service.toString())) as Service;
       }
       return parent.service;
-    }
+    },
   },
   ServiceTicketActivityDetail: {
     activityBy: async (parent, args, context, info) => {
@@ -81,7 +81,7 @@ const serviceTicket: Resolvers = {
     // const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearchByCommunityId(null, communityId)
     //   return await context.applicationServices.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults) as ServiceTicket[]
     serviceTicketsByCommunityId: async (_parent, { communityId }, context, _info) => {
-      return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByCommunityId(communityId)) as ServiceTicket[];
+      return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByCommunityId(communityId)) as Ticket[];
     },
     serviceTicketsSearchAdmin: async (_, { input }, context, info) => {
       const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearchAdmin(input, context.communityId);

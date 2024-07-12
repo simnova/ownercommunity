@@ -1,0 +1,81 @@
+"""
+An Violation ticket describes violation ticket type.
+"""
+type ViolationTicket {
+  community: Community!
+  property: Property
+  requestor: Member!
+  assignedTo: Member
+  service: Service
+  title: String!
+  description: String!
+  status: String!
+  priority: Int!
+  photos: [ServiceTicketPhoto]
+  penaltyAmount: Float
+  penaltyPaidDate: DateTime
+  ticketType: String
+  activityLog: [ServiceTicketActivityDetail]
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+extend type Query {
+  violationTicket(id: ObjectID!): ViolationTicket
+}
+
+input ViolationTicketCreateInput {
+  propertyId: ObjectID!
+  title: String!
+  description: String!
+  serviceId: ObjectID
+  penaltyAmount: Float!
+}
+
+input ViolationTicketUpdateInput {
+  violationTicketId: ObjectID!
+  propertyId: ObjectID
+  title: String
+  description: String
+  priority: Int
+  serviceId: ObjectID
+  penaltyAmount: Float
+  penaltyPaidDate: DateTime
+}
+
+type ViolationTicketMutationResult implements MutationResult {
+  status: MutationStatus!
+  violationTicket: ViolationTicket
+}
+
+extend type Mutation {
+  violationTicketCreate(input: ViolationTicketCreateInput!): ViolationTicketMutationResult!
+  violationTicketUpdate(input: ViolationTicketUpdateInput!): ViolationTicketMutationResult!
+  violationTicketDelete(input: ViolationTicketDeleteInput!): ViolationTicketMutationResult!
+  violationTicketAssign(input: ViolationTicketAssignInput!): ViolationTicketMutationResult!
+  violationTicketChangeStatus(input: ViolationTicketChangeStatusInput!): ViolationTicketMutationResult!
+  violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput!): ViolationTicketMutationResult!
+}
+
+input ViolationTicketDeleteInput {
+  violationTicketId: ObjectID!
+}
+
+input ViolationTicketAssignInput {
+  violationTicketId: ObjectID!
+  assignedToId: ObjectID
+}
+
+input ViolationTicketChangeStatusInput {
+  violationTicketId: ObjectID!
+  status: String!
+  activityDescription: String
+}
+
+input ViolationTicketAddUpdateActivityInput {
+  violationTicketId: ObjectID!
+  activityDescription: String!
+}

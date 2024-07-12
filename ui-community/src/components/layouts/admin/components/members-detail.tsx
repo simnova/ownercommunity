@@ -21,7 +21,6 @@ export const MembersDetail: React.FC<any> = (props) => {
   const params = useParams();
 
   const navigate = useNavigate();
-
   return (
     <div>
       <Descriptions title="Member Info" size={'small'} layout={'vertical'}>

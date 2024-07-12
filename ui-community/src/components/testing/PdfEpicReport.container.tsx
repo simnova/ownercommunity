@@ -1,9 +1,9 @@
 import React from 'react';
-import { PdfEpicReport } from './PdfEpicReport';
 import pdfData from "./pdfRendererTest.json"
+import PdfEpicReportSignaturePage from './pdf-pages/PdfEpicReportSignaturePage';
 
 export const PdfEpicReportContainer: React.FC<any> = () => {
-  return <PdfEpicReport data={pdfData} />;
+  return <PdfEpicReportSignaturePage data={pdfData} />;
 };
 
 export default PdfEpicReportContainer;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from '@react-pdf/renderer';
-import HeaderImage from './test-images/HeaderImage.png';
+import HeaderImage from '../test-images/HeaderImage.png';
 interface PdfHeaderProps {
   data: any;
 }

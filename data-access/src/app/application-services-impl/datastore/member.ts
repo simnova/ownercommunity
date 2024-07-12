@@ -149,7 +149,11 @@ export class MemberDataApiImpl
       p?.communityPermissions?.canManageCommunitySettings ||
       p?.communityPermissions?.canManageSiteContent ||
       p?.communityPermissions?.canManageMembers ||
-      p?.propertyPermissions?.canManageProperties
+      p?.propertyPermissions?.canManageProperties ||
+      p?.violationTicketPermissions?.canManageTickets ||
+      p?.violationTicketPermissions?.canAssignTickets ||
+      p?.violationTicketPermissions?.canWorkOnTickets ||
+      p?.violationTicketPermissions?.canCreateTickets
     );
   }
 }

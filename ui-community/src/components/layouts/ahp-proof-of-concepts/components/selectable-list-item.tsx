@@ -9,7 +9,7 @@ interface SelectableListItemProps {
 }
 export const SelectableListItem: FC<SelectableListItemProps> = (props) => {
   return (
-    <Row style={{ width: '100%' }}>
+    <Row style={{ width: '100%', cursor:"pointer" }}>
       <Col span={7}>
         <div
           style={{

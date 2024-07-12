@@ -841,6 +841,17 @@ export type MutationStatus = {
   success: Scalars['Boolean'];
 };
 
+/** A payment object. */
+export type Payment = MongoBase & {
+  __typename?: 'Payment';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  paymentKey?: Maybe<Scalars['String']>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
@@ -1030,6 +1041,7 @@ export type Query = {
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
+  paymentKey?: Maybe<Scalars['String']>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
@@ -1687,6 +1699,7 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['Community']
     | ResolversTypes['CurrentUser']
     | ResolversTypes['Member']
+    | ResolversTypes['Payment']
     | ResolversTypes['Property']
     | ResolversTypes['Role']
     | ResolversTypes['Service']
@@ -1719,6 +1732,7 @@ export type ResolversTypes = ResolversObject<{
   NonPositiveFloat: ResolverTypeWrapper<Scalars['NonPositiveFloat']>;
   NonPositiveInt: ResolverTypeWrapper<Scalars['NonPositiveInt']>;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
+  Payment: ResolverTypeWrapper<Payment>;
   PermissionsInput: PermissionsInput;
   PhoneNumber: ResolverTypeWrapper<Scalars['PhoneNumber']>;
   Point: ResolverTypeWrapper<Point>;
@@ -1908,6 +1922,7 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['Community']
     | ResolversParentTypes['CurrentUser']
     | ResolversParentTypes['Member']
+    | ResolversParentTypes['Payment']
     | ResolversParentTypes['Property']
     | ResolversParentTypes['Role']
     | ResolversParentTypes['Service']
@@ -1940,6 +1955,7 @@ export type ResolversParentTypes = ResolversObject<{
   NonPositiveFloat: Scalars['NonPositiveFloat'];
   NonPositiveInt: Scalars['NonPositiveInt'];
   ObjectID: Scalars['ObjectID'];
+  Payment: Payment;
   PermissionsInput: PermissionsInput;
   PhoneNumber: Scalars['PhoneNumber'];
   Point: Point;
@@ -2510,7 +2526,7 @@ export type MemberProfileResolvers<
 }>;
 
 export type MongoBaseResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['MongoBase'] = ResolversParentTypes['MongoBase']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'Community' | 'CurrentUser' | 'Member' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Community' | 'CurrentUser' | 'Member' | 'Payment' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'User', ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2679,6 +2695,16 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectID';
 }
 
+export type PaymentResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Payment'] = ResolversParentTypes['Payment']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  paymentKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface PhoneNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PhoneNumber'], any> {
   name: 'PhoneNumber';
 }
@@ -2835,6 +2861,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
     ContextType,
     RequireFields<QueryMembersByUserExternalIdArgs, 'userExternalId'>
   >;
+  paymentKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   properties?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
   propertiesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType, RequireFields<QueryPropertiesByCommunityIdArgs, 'communityId'>>;
   propertiesForCurrentUserByCommunityId?: Resolver<
@@ -3257,6 +3284,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   NonPositiveFloat?: GraphQLScalarType;
   NonPositiveInt?: GraphQLScalarType;
   ObjectID?: GraphQLScalarType;
+  Payment?: PaymentResolvers<ContextType>;
   PhoneNumber?: GraphQLScalarType;
   Point?: PointResolvers<ContextType>;
   Port?: GraphQLScalarType;

@@ -32,6 +32,7 @@ async function init(infrastructureServices: InfrastructureServicesBuilder) {
     infrastructureServices.datastore,
     infrastructureServices.cognitiveSearch,
     infrastructureServices.blobStorage,
+    infrastructureServices.payment,
     infrastructureServices.vercel
   );
   await DomainImplInstance.startup();

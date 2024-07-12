@@ -87,7 +87,7 @@ export const PdfApplicantCertification: React.FC<PdfDisclaimersProps> = (props) 
         <Text style={styles.divider}></Text>
       </View>
       <View style={styles.leftColumn}>
-        <Text style={[styles.text, { marginRight: 95, marginLeft: 5 }]}>Signature of Applicant</Text>
+        <Text style={[styles.text, { marginRight: 130, marginLeft: 5 }]}>Signature of Applicant</Text>
         <Text style={styles.text}>Date</Text>
       </View>
     </View>

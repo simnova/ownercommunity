@@ -13,7 +13,7 @@ export const PdfBarCodeHeader: React.FC<PdfHeaderProps> = (props) => {
       paddingRight: 10
     },
     text: {
-      fontSize: '7px',
+      fontSize: '9px',
       width: '100%',
       paddingLeft: 120,
       textAlign: 'center'

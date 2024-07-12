@@ -69,7 +69,7 @@ export const PdfIdentificationCertification: React.FC<PdfDisclaimersProps> = (pr
         <Text style={styles.divider}></Text>
       </View>
       <View style={styles.leftColumn}>
-        <Text style={[styles.text, { marginRight: 95, marginLeft: 5 }]}>Signature of Official</Text>
+        <Text style={[styles.text, { marginRight: 135, marginLeft: 5 }]}>Signature of Official</Text>
         <Text style={styles.text}>Title (with English translation, if not in english)</Text>
       </View>
     </View>

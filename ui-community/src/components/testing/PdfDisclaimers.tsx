@@ -28,7 +28,7 @@ export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = (props) => {
   return (
     <View style={styles.leftColumn}>
       <View style={styles.row}>
-        <Text style={styles.bannertext}>Candidate Details </Text>
+        <Text style={styles.bannertext}>Disclaimers</Text>
         <View>
           <Text style={styles.text}>
             This report is intended only for the report recipient (the entity to which the report is issued). Any

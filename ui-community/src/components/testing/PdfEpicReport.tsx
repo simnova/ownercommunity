@@ -7,9 +7,9 @@ import PdfDisclaimers from './PdfDisclaimers';
 import FontFranklinRegular from '../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-100.ttf';
 import PoppinsRegular from '..//../fonts/poppins-v19-latin/poppins-v19-latin-100.ttf';
 import PdfHeader from './PdfHeader';
-import PdfSignatureInformation from './PdfSignatureInformation';
-import PdfSignatureInstructions from './PdfSignatureInstructions';
-import PdfSignatureSection from './PdfSignatureSection';
+import PdfSignatureInformation from './pdf-signature/PdfSignatureInformation';
+import PdfSignatureInstructions from './pdf-signature/PdfSignatureInstructions';
+import PdfSignatureSection from './pdf-signature/PdfSignatureSection';
 interface PdfTemplateProps {
   data: any;
 }

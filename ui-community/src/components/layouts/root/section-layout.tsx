@@ -13,7 +13,7 @@ export const SectionLayout: React.FC<any> = () => {
   }
 
   const navigateToAhpProofOfConcept = () => {
-    navigate('/ahp-proof-of-concepts');
+    navigate('/ahp-proof-of-concepts/requests');
   };
 
   return (

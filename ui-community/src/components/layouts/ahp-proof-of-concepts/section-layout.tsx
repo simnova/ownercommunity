@@ -1,6 +1,6 @@
 import { Button, Layout, Menu, Row, Space } from 'antd';
 import { FC, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { PageLayoutProps } from '.';
 import { MenuComponent } from '../shared/components/menu-component';
 const { Header, Content, Footer, Sider } = Layout;
@@ -10,6 +10,7 @@ interface AHPPOCSectionLayoutProps {
 }
 export const AHPPOCSectionLayout: FC<AHPPOCSectionLayoutProps> = (props) => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigation = useNavigate();
 
   const HeaderLeftCorner = () => <div style={{ justifyContent: 'flex-start' }}>Intealth</div>;
   const HeaderRightCorner = () => (
@@ -29,7 +30,14 @@ export const AHPPOCSectionLayout: FC<AHPPOCSectionLayoutProps> = (props) => {
         </div>
         <Space>
           <div>John Doe</div>
-          <Button type="link">Logout</Button>
+          <Button
+            type="link"
+            onClick={() => {
+              navigation('/');
+            }}
+          >
+            Logout
+          </Button>
         </Space>
       </Space>
     </div>
@@ -42,7 +50,7 @@ export const AHPPOCSectionLayout: FC<AHPPOCSectionLayoutProps> = (props) => {
         <HeaderLeftCorner />
         <HeaderRightCorner />
       </Header>
-      <Layout style={{ minHeight: '100%', background:"white" }}>
+      <Layout style={{ minHeight: '100%', background: 'white' }}>
         <Sider
           style={{ border: '1px solid black', borderTop: '0' }}
           theme="light"

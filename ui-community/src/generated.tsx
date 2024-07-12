@@ -4783,6 +4783,10 @@ export type MemberSiteCurrentMemberHasAdminRoleQuery = {
   } | null;
 };
 
+export type SharedPaymentContainerPaymentKeyQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SharedPaymentContainerPaymentKeyQuery = { __typename?: 'Query'; paymentKey?: string | null };
+
 export type SharedMembersProfileContainerMemberQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -18161,6 +18165,20 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   MemberSiteCurrentMemberHasAdminRoleQuery,
   MemberSiteCurrentMemberHasAdminRoleQueryVariables
 >;
+export const SharedPaymentContainerPaymentKeyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SharedPaymentContainerPaymentKey' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'paymentKey' } }]
+      }
+    }
+  ]
+} as unknown as DocumentNode<SharedPaymentContainerPaymentKeyQuery, SharedPaymentContainerPaymentKeyQueryVariables>;
 export const SharedMembersProfileContainerMemberDocument = {
   kind: 'Document',
   definitions: [

@@ -1,8 +1,10 @@
+import { useQuery } from '@apollo/client';
+import { SharedPaymentContainerPaymentKeyDocument } from '../../../../generated';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BillingInfo } from './billing-info';
-import axios from 'axios';
 
-export interface WalletContainerProps {
+interface BillingInfoContainerProps {
   data: any;
 }
 
@@ -10,69 +12,36 @@ interface TokenOptions {
   expirationMonth: string;
   expirationYear: string;
 }
-
 type Callback = (err: any, token: string) => void;
 
-const configObject = {
-  authenticationType: 'http_signature',
-  runEnvironment: 'apitest.cybersource.com',
-  merchantID: 'ecfmg_faimer',
-  merchantKeyId: '15db87b6-5531-4771-9c19-cc34a2d435b9',
-  merchantsecretKey: 'iMt2CuZsRPcuURcM1L2VieNFmnqscxVR4/BPFFitn10=',
-  logConfiguration: {
-    enableLog: false
-  }
-};
-
-export const BillingInfoContainer: React.FC<WalletContainerProps> = ({ data }) => {
+export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [cardNumberValidationHelpText, setCardNumberValidationHelpText] = useState<string>('');
   const [securityCodeValidationHelpText, setSecurityCodeValidationHelpText] = useState<string>('');
   const [isCardContainerLoaded, setIsCardContainerLoaded] = useState(false);
   const [flexMicroform, setFlexMicroform] = useState<any>(null);
+  const [isMicroformScriptLoaded, setScriptLoaded] = useState(false);
+  const {
+    data: cybersource,
+    loading: cybersourceLoading,
+    error: cybersourceError
+  } = useQuery(SharedPaymentContainerPaymentKeyDocument);
 
-  useEffect(() => {
-    if (isCardContainerLoaded) {
-      const microformScript = document.createElement('script');
+  const createToken = (expirationMonth: string, expirationYear: string, callBack: Callback): void => {
+    const options: TokenOptions = {
+      expirationMonth: expirationMonth,
+      expirationYear: expirationYear
+    };
 
-      microformScript.src = 'https://flex.cybersource.com/cybersource/assets/microform/0.11/flex-microform.min.js';
-
-      microformScript.onload = async () => {
-        await axios
-          .get(`http://localhost:7071/api/cybersource/generate-key`)
-          .then((response) => {
-            createFlexObj(response.data.keyId, async function (data: any, field: string) {
-              switch (field) {
-                case 'number':
-                  if (data.valid === true) {
-                    setCardNumberValidationHelpText('');
-                  }
-                  break;
-                case 'securityCode':
-                  if (data.valid === true) {
-                    setSecurityCodeValidationHelpText('');
-                  }
-                  break;
-              }
-            });
-
-            // Get Microform iFrames
-            const frames = document.getElementsByTagName('iframe');
-
-            // Set CSS on Microform iFrames
-            for (const element of frames) {
-              element.style.height = '30px';
-              element.style.border = '1px solid #d5d0da';
-              element.style.paddingLeft = '10px';
-            }
-          })
-          .catch((error) => {
-            console.log('MICROFORM ERROR', error);
-          });
-      };
-      document.body.appendChild(microformScript);
-    }
-  }, [isCardContainerLoaded]);
+    flexMicroform.createToken(options, function (error: any, token: any) {
+      if (error) {
+        console.log('CREATE TOKEN ERROR', error);
+      } else {
+        console.log('TOKEN CREATED');
+      }
+      callBack(error, token);
+    });
+  };
 
   const onCardNumberContainerLoaded = () => {
     setIsCardContainerLoaded(true);
@@ -111,13 +80,6 @@ export const BillingInfoContainer: React.FC<WalletContainerProps> = ({ data }) =
         clearValidationText(data, 'securityCode');
       });
 
-      // Check if the containers exist in the DOM
-      // const cardNumberContainer = document.getElementById('card-number-container');
-      // const securityCodeContainer = document.getElementById('securityCode-container');
-
-      // console.log('Card Number Container:', cardNumberContainer);
-      // console.log('Security Code Container:', securityCodeContainer);
-
       // Load fields
       number.load('#card-number-container');
       securityCode.load('#securityCode-container');
@@ -126,21 +88,37 @@ export const BillingInfoContainer: React.FC<WalletContainerProps> = ({ data }) =
     }
   };
 
-  const createToken = (expirationMonth: string, expirationYear: string, callBack: Callback): void => {
-    const options: TokenOptions = {
-      expirationMonth: expirationMonth,
-      expirationYear: expirationYear
-    };
+  // useEffect to load the microform script
+  useEffect(() => {
+    if (cybersource) {
+      let microformScript: HTMLScriptElement = document.createElement('script');
+      microformScript.src = 'https://flex.cybersource.com/cybersource/assets/microform/0.11/flex-microform.min.js';
+      microformScript.async = true;
+      document.body.appendChild(microformScript);
+      microformScript.onload = () => {
+        console.log('script loaded');
+        createFlexObj(cybersource?.paymentKey || '', async function (data: any, field: string) {
+          switch (field) {
+            case 'number':
+              if (data.valid === true) {
+                setCardNumberValidationHelpText('');
+              }
+              break;
+            case 'securityCode':
+              if (data.valid === true) {
+                setSecurityCodeValidationHelpText('');
+              }
+              break;
+          }
+        });
+      };
 
-    flexMicroform.createToken(options, function (error: any, token: any) {
-      if (error) {
-        console.log('CREATE TOKEN ERROR', error);
-      } else {
-        console.log('TOKEN CREATED');
-      }
-      callBack(error, token);
-    });
-  };
+      return () => {
+        console.log('script removed');
+        document.body.removeChild(microformScript);
+      };
+    }
+  }, [cybersource]);
 
   return (
     <BillingInfo

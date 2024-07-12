@@ -15,6 +15,3 @@ type Payment implements MongoBase {
 extend type Query {
   paymentKey: String
 }
-
-extend type Mutation {
-}

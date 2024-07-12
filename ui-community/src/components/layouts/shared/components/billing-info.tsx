@@ -89,7 +89,7 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
     }
   };
 
-  const onFinish = () => {
+  const onCreateToken = () => {
     // reset any displayed errors
     resetErrorMessages();
 
@@ -102,7 +102,7 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
 
       form.validateFields().then((_values) => {
         if (token) {
-          console.log('TOKEN', token);
+          console.log('Payment Token', token);
           setPaymentToken(token);
         }
       });
@@ -250,19 +250,19 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
           <div id="securityCode-container"></div>
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" onClick={() => onFinish()}>
-          {'Save Card'}
-        </Button>
+        <Button type="primary" htmlType="submit" onClick={() => onCreateToken()}>
+          {'Save Card and get Payment Token'}
+        </Button> <br /> <br />
 
-        <Button onClick={() => onCreateCustomer()}>{'Create Customer'}</Button>
+        <Button onClick={() => onCreateCustomer()}>{'Create Customer'}</Button> <br /> <br />
 
-        <Button onClick={() => onGetCustomerPaymentInstruments()}>{'Get Customer Payment Instruments'}</Button>
+        <Button onClick={() => onGetCustomerPaymentInstruments()}>{'Get Customer Payment Instruments'}</Button> <br /> <br />
 
-        <Button onClick={() => onAddCustomerPaymentInstrument()}>{'Add Customer Payment Instrument'}</Button>
+        <Button onClick={() => onAddCustomerPaymentInstrument()}>{'Add Customer Payment Instrument'}</Button> <br /> <br />
 
-        <Button onClick={() => onDeleteCustomerPaymentInstrument()}>{'Delete Customer Payment Instrument'}</Button>
+        <Button onClick={() => onDeleteCustomerPaymentInstrument()}>{'Delete Customer Payment Instrument'}</Button> <br /> <br />
 
-        <Button onClick={() => onProcessPaymentWithPaymentInstrument()}>{'Process Payment'}</Button>
+        <Button onClick={() => onProcessPaymentWithPaymentInstrument()}>{'Process Payment'}</Button> <br /> <br />
 
         <Button onClick={() => onUpdateCustomerDefaultPaymentInstrument()}>
           {'Update Customer Default Payment Instrument'}

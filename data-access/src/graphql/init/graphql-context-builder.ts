@@ -7,6 +7,7 @@ import { HttpContextBuilderImpl } from '../../http/init/http-context-builder-imp
 
 export interface GraphqlContext extends HttpContext {
   communityId: string;
+  memberId: string;
 }
 
 export class GraphqlContextBuilder extends HttpContextBuilderImpl implements GraphqlContext {;
@@ -27,5 +28,9 @@ export class GraphqlContextBuilder extends HttpContextBuilderImpl implements Gra
 
   get communityId(): string {
     return this._appContext.communityId;
+  }
+
+  get memberId(): string {
+    return this._appContext.memberId;
   }
 }

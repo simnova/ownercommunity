@@ -102,7 +102,7 @@ const property: Resolvers = {
       return PropertyMutationResolver(applicationServices.propertyDomainApi.propertyRemoveOwner(input));
     },
     propertyListingImageCreateAuthHeader: async (_, { input }, context) => {
-      const member = await getMemberForCurrentUser(context, context.communityId);
+      const member = await getMemberForCurrentUser(context);
       const result = await context.applicationServices.propertyBlobApi.propertyListingImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
         let propertyDbObj = await context.applicationServices.propertyDataApi.getPropertyByIdWithCommunityOwner(input.propertyId) as PropertyUpdateInput;
@@ -113,7 +113,7 @@ const property: Resolvers = {
       return result;
     },
     propertyFloorPlanImageCreateAuthHeader: async (_, { input }, context) => {
-      const member = await getMemberForCurrentUser(context, context.communityId);
+      const member = await getMemberForCurrentUser(context);
       const result = await context.applicationServices.propertyBlobApi.propertyFloorPlanImageCreateAuthHeader(input.propertyId, input.fileName, member.id, input.contentType, input.contentLength);
       if (result.status.success) {
         let propertyDbObj = await context.applicationServices.propertyDataApi.getPropertyByIdWithCommunityOwner(input.propertyId) as PropertyUpdateInput;

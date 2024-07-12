@@ -1,10 +1,4 @@
 
-query SharedPropertiesListingImageListContainerMemberForUser($userId: ObjectID!) {
-  memberForUser(userId: $userId) {
-    id
-  }
-}
-
 mutation SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutation($input: PropertyRemoveImageInput!) {
   propertyListingImageRemove(input: $input) {
     ...SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsField

@@ -4,11 +4,11 @@ query LoggedInUserRootContainerUserCurrentQuery {
   }
 }
 
-query LoggedInUserCommunityContainerUserCurrentQuery($communityId: ObjectID!) {
+query LoggedInUserCommunityContainerUserCurrentQuery {
   userCurrent {
     ...LoggedInUserContainerUserCurrentFields
   }
-  memberForCurrentUser(communityId: $communityId) {
+  memberForCurrentUser {
     profile {
       avatarDocumentId
     }

@@ -8,11 +8,14 @@ import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from './ev
 import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './events/handlers/property-updated-update-search-index';
 import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from './events/handlers/service-ticket-updated-update-search-index';
 import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-deleted-update-search-index';
+import { default as RegisterViolationTicketUpdatedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-updated-update-search-index';
+import { default as RegisterViolationTicketDeletedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-deleted-update-search-index';
 import { DatastoreDomain, DatastoreDomainInitializeable } from './infrastructure/datastore/interfaces';
 import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from './infrastructure/cognitive-search/interfaces';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { BlobStorageDomain } from './infrastructure/blob-storage/interfaces';
 import { VercelDomain } from './infrastructure/vercel/interfaces';
+import { PaymentDomain } from './infrastructure/cybersource/interfaces';
 
 const RegisterEventHandlers = (
   datastore: DatastoreDomain,
@@ -35,6 +38,8 @@ const RegisterEventHandlers = (
   RegisterPropertyUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.propertyUnitOfWork);
   RegisterServiceTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketUnitOfWork);
   RegisterServiceTicketDeletedUpdateSearchIndexHandler(cognitiveSearch);
+  RegisterViolationTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.violationTicketUnitOfWork);
+  RegisterViolationTicketDeletedUpdateSearchIndexHandler(cognitiveSearch);
 };
 
 const StopEventHandlers = () => {
@@ -51,6 +56,7 @@ CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitial
     private _datastoreImpl: DatastoreImpl,
     private _cognitiveSearchImpl: CognitiveSearchImpl,
     private _blobStorageImpl: BlobStorageDomain,
+    private _paymentImpl: PaymentDomain,
     private _vercelImpl: VercelDomain,
   ) {}
 

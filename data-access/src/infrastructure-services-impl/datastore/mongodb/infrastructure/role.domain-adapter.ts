@@ -1,11 +1,4 @@
-import {
-  Role,
-  Permissions,
-  CommunityPermissions,
-  PropertyPermissions,
-  ServicePermissions,
-  ServiceTicketPermissions,
-} from '../models/role';
+import { Role, Permissions, CommunityPermissions, PropertyPermissions, ServicePermissions, ServiceTicketPermissions, ViolationTicketPermissions } from '../models/role';
 import { Role as RoleDO, RoleProps } from '../../../../app/domain/contexts/community/role';
 import { MongooseDomainAdapter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -18,6 +11,7 @@ import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-e
 import { PropertyPermissionsProps } from '../../../../app/domain/contexts/community/property-permissions';
 import { ServicePermissionsProps } from '../../../../app/domain/contexts/community/service-permissions';
 import { ServiceTicketPermissionsProps } from '../../../../app/domain/contexts/community/service-ticket-permissions';
+import { ViolationTicketPermissionsProps } from '../../../../app/domain/contexts/community/violation-ticket-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext, Role, RoleDomainAdapter, RoleDO<RoleDomainAdapter>> {
   constructor() {
@@ -80,6 +74,10 @@ class PermissionsAdapter implements PermissionsProps {
 
   public get serviceTicketPermissions() {
     return new ServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions);
+  }
+
+  public get violationTicketPermissions() {
+    return new AdminTicketPermissionsAdapter(this.props.violationTicketPermissions);
   }
 }
 
@@ -187,6 +185,51 @@ class ServicePermissionsAdapter implements ServicePermissionsProps {
 
 class ServiceTicketPermissionsAdapter implements ServiceTicketPermissionsProps {
   constructor(public readonly props: ServiceTicketPermissions) {}
+  public get id() {
+    return this.props.id.valueOf().toString();
+  }
+
+  public get canCreateTickets() {
+    return this.props.canCreateTickets;
+  }
+  public set canCreateTickets(value) {
+    this.props.canCreateTickets = value;
+  }
+
+  public get canManageTickets() {
+    return this.props.canManageTickets;
+  }
+  public set canManageTickets(value) {
+    this.props.canManageTickets = value;
+  }
+
+  public get canAssignTickets() {
+    return this.props.canAssignTickets;
+  }
+  public set canAssignTickets(value) {
+    this.props.canAssignTickets = value;
+  }
+
+  public get canWorkOnTickets() {
+    return this.props.canWorkOnTickets;
+  }
+  public set canWorkOnTickets(value) {
+    this.props.canWorkOnTickets = value;
+  }
+
+  public get isEditingOwnTicket() {
+    return false;
+  }
+  public get isEditingAssignedTicket() {
+    return false;
+  }
+  public get isSystemAccount() {
+    return false;
+  }
+}
+
+class AdminTicketPermissionsAdapter implements ViolationTicketPermissionsProps {
+  constructor(public readonly props: ViolationTicketPermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }

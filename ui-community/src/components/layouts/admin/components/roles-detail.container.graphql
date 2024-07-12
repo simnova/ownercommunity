@@ -49,6 +49,12 @@ fragment AdminRolesDetailContainerRoleFields on Role {
       canManageProperties
       canEditOwnProperty
     }
+    violationTicketPermissions {
+      canCreateTickets
+      canManageTickets
+      canAssignTickets
+      canWorkOnTickets
+    }
   }
 
   id

@@ -12,6 +12,8 @@ import { PropertyDatastoreApplicationService } from './property.interface';
 import { ServiceDatastoreApplicationService } from './service.interface';
 // service-ticket
 import { ServiceTicketDatastoreApplicationService } from './service-ticket.interface';
+// violation-ticket
+import { ViolationTicketDatastoreApplicationService } from './violation-ticket.interface';
 
 export {
   UserDatastoreApplicationService as UserDataApi,
@@ -21,4 +23,5 @@ export {
   PropertyDatastoreApplicationService as PropertyDataApi,
   ServiceDatastoreApplicationService as ServiceDataApi,
   ServiceTicketDatastoreApplicationService as ServiceTicketDataApi,
+  ViolationTicketDatastoreApplicationService as ViolationTicketDataApi
 }

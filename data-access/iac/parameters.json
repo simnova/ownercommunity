@@ -9,7 +9,7 @@
                         "run": true,
                         "name": "pri-001",
                         "location": "eastus2",
-                        "sku": "B2",
+                        "sku": "B1",
                         "operatingSystem": "linux",
                         "tags": {
                             "environment": "dev",
@@ -19,8 +19,8 @@
                     {
                         "run": true,
                         "name": "sec-001",
-                        "location": "westus3",
-                        "sku": "B2",
+                        "location": "westus2",
+                        "sku": "B1",
                         "operatingSystem": "linux",
                         "tags": {
                             "environment": "dev",
@@ -39,7 +39,7 @@
                        "run": true,
                         "name": "pri",
                         "appServicePlanName": "oc-dev-asp-pri-001",
-                        "appServicePlanSku": "B2",
+                        "appServicePlanSku": "B1",
                         "location": "eastus2",
                         "storageAccountName": "ocdevstfunceastus2",
                         "functionApp": {
@@ -57,8 +57,8 @@
                        "run": true,
                         "name": "sec",
                         "appServicePlanName": "oc-dev-asp-sec-001",
-                        "appServicePlanSku": "B2",
-                        "location": "westus3",
+                        "appServicePlanSku": "B1",
+                        "location": "westus2",
                         "storageAccountName": "ocdevstfuncwestus3",
                         "functionApp": {
                             "maxOldSpaceSizeMB": "3072",

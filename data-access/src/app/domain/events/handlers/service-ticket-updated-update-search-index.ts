@@ -35,6 +35,7 @@ export default (
         assignedTo: serviceTicket.assignedTo?.memberName ?? '',
         assignedToId: serviceTicket.assignedTo?.id ?? '',
         description: serviceTicket.description,
+        ticketType: serviceTicket.ticketType,
         status: serviceTicket.status,
         priority: serviceTicket.priority,
         createdAt: createdDate,

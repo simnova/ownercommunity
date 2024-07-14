@@ -21,6 +21,7 @@ const RegisterEventHandlers = (
   datastore: DatastoreDomain,
   cognitiveSearch: CognitiveSearchDomain,
   blobStorage: BlobStorageDomain,
+  payment: PaymentDomain,
   vercel: VercelDomain
 ) => {
   // Register all event handlers
@@ -68,6 +69,7 @@ CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitial
       this._datastoreImpl,
       this._cognitiveSearchImpl,
       this._blobStorageImpl,
+      this._paymentImpl,
       this._vercelImpl
     );
     

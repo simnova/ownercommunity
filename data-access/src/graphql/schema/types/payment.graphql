@@ -2,7 +2,7 @@
 A payment object.
 """
 type Payment implements MongoBase {
-  paymentKey: String
+  paymentKeyId: String
 
   id: ObjectID!
   schemaVersion: String
@@ -13,5 +13,5 @@ type Payment implements MongoBase {
 }
 
 extend type Query {
-  paymentKey: String
+  paymentKeyId: String
 }

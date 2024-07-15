@@ -6782,7 +6782,7 @@
             "deprecationReason": null
           },
           {
-            "name": "paymentKey",
+            "name": "paymentKeyId",
             "description": null,
             "args": [],
             "type": {
@@ -8863,7 +8863,7 @@
             "deprecationReason": null
           },
           {
-            "name": "paymentKey",
+            "name": "paymentKeyId",
             "description": null,
             "args": [],
             "type": {

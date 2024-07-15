@@ -2,8 +2,8 @@ import { Resolvers } from '../builder/generated';
 
 const payment: Resolvers = {
   Query: {
-    paymentKey: async (_parent, _args, { applicationServices }, _info) => {
-      return await applicationServices.paymentApi.generateKey();
+    paymentKeyId: async (_parent, _args, context, _info) => {
+      return await context.applicationServices.paymentApi.generatePublicKey();
     },
   },
   Mutation: {

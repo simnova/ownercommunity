@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from '@react-pdf/renderer';
-import BarCodeFooter from './test-images/BarCodeFooter.png';
+import BarCodeFooter from '../test-images/BarCodeFooter.png';
 
 interface PdfHeaderProps {
   data: any;

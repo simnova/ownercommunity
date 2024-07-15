@@ -1,10 +1,9 @@
 import React from 'react';
 import pdfData from "./pdfRendererTest.json"
-import PdfEpicReportSignaturePage from './pdf-pages/PdfEpicReportSignaturePage';
-import PdfEIFBlankPage from './pdf-pages/PdfEIFBlankPage';
+import PdfEIFBlankPageV2 from './pdf-pages/PdfEIFBlankPagev2';
 
 export const PdfEpicReportContainer: React.FC<any> = () => {
-  return <PdfEIFBlankPage data={pdfData} />;
+  return <PdfEIFBlankPageV2 data={pdfData} />;
 };
 
 export default PdfEpicReportContainer;

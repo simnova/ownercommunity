@@ -1,3 +1,3 @@
 export interface PaymentApplicationService {
-  generateKey(): Promise<string>;
+  generatePublicKey(): Promise<string>;
 }

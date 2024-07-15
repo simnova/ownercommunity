@@ -8,7 +8,8 @@ import {
   BarsOutlined,
   ScheduleOutlined,
   ShopOutlined,
-  SearchOutlined
+  SearchOutlined,
+  WalletOutlined
 } from '@ant-design/icons';
 import { MemberProfile } from './pages/member-profile';
 import { Neighbors } from './pages/neighbors';
@@ -19,6 +20,7 @@ import { CommunityProperty } from './pages/community-property';
 import { PropertiesSearch } from './pages/properties-search';
 import { PageLayoutProps } from '../admin';
 import { Member } from '../../../generated';
+import Wallet from './pages/wallet';
 
 const pageLayouts: PageLayoutProps[] = [
   {
@@ -47,9 +49,11 @@ const pageLayouts: PageLayoutProps[] = [
     icon: <ScheduleOutlined />,
     id: 4,
     parent: 'ROOT',
-    hasPermissions: (member: Member) => (member?.role?.permissions?.serviceTicketPermissions?.canCreateTickets ||
-                                        member?.role?.permissions?.serviceTicketPermissions?.canWorkOnTickets || 
-                                        member?.role?.permissions?.serviceTicketPermissions?.canAssignTickets) ?? false
+    hasPermissions: (member: Member) =>
+      (member?.role?.permissions?.serviceTicketPermissions?.canCreateTickets ||
+        member?.role?.permissions?.serviceTicketPermissions?.canWorkOnTickets ||
+        member?.role?.permissions?.serviceTicketPermissions?.canAssignTickets) ??
+      false
   },
   {
     path: '/community/:communityId/member/:memberId/listings/*',
@@ -71,6 +75,13 @@ const pageLayouts: PageLayoutProps[] = [
     icon: <SearchOutlined />,
     id: 7,
     parent: 'ROOT'
+  },
+  {
+    path: '/community/:communityId/member/:memberId/wallet/*',
+    title: 'Wallet',
+    icon: <WalletOutlined />,
+    id: 8,
+    parent: 'ROOT'
   }
 ];
 
@@ -87,6 +98,7 @@ export const Members: React.FC<any> = (_props) => {
           <Route path="/properties/*" element={<Properties />} />
           <Route path="/service-tickets/*" element={<ServiceTickets />} />
           <Route path="/propertiesSearch/*" element={<PropertiesSearch />} />
+          <Route path="/wallet/*" element={<Wallet />} />
         </Route>
       </Routes>
     </BlobToLocalStorage>

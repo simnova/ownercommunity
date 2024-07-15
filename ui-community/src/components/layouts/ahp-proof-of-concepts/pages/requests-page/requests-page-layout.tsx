@@ -1,7 +1,7 @@
 import { Button, Divider, Layout, Tabs } from 'antd';
 import { FC, Key, useEffect, useState } from 'react';
 import { Outlet, useMatch, useNavigate, useParams } from 'react-router-dom';
-import { SelectableListDataType, SelectableList } from '../components/selectable-list';
+import { SelectableListDataType, SelectableList } from '../../components/selectable-list';
 
 const { Header, Content, Footer, Sider } = Layout;
 const RequestType = {
@@ -65,8 +65,10 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
       if (archivedRequestRouteMatch.params['*']) {
         onAnArchivedRequestSelected(Number(archivedRequestRouteMatch.params['*']));
       }
+    } else {
+      setCurrentRequestTypeTabKey(RequestType.ACTIVE.key);
     }
-  }, []);
+  }, [activeRequestRouteMatch, archivedRequestRouteMatch]);
 
   const onAnActiveRequestSelected = (selectedRowKey: Key) => {
     setSelectedActiveRequest(DummyActiveRequests.find((r) => r.key === selectedRowKey));
@@ -78,13 +80,13 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
   };
 
   const onRequestTypeChange = (requestType: string) => {
+    // clear selected request
     setSelectedActiveRequest(undefined);
     setSelectedArchivedRequest(undefined);
+    // navigate to the selected request
     if (requestType === RequestType.ACTIVE.key) {
-      setCurrentRequestTypeTabKey(RequestType.ACTIVE.key);
       navigate('/ahp-proof-of-concepts/requests/active');
     } else if (requestType === RequestType.ARCHIVED.key) {
-      setCurrentRequestTypeTabKey(RequestType.ARCHIVED.key);
       navigate('/ahp-proof-of-concepts/requests/archived');
     }
   };

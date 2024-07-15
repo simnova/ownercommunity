@@ -1,7 +1,7 @@
 import { HomeOutlined, SettingOutlined } from '@ant-design/icons';
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { RequestRoutes } from './pages/requests/request-routes';
+import { RequestsPage } from './pages/requests-page';
 import { AHPPOCSectionLayout } from './section-layout';
 
 export interface PageLayoutProps {
@@ -26,7 +26,7 @@ export const AHPProofOfConcepts: FC<AHPProofOfConceptsProps> = (props) => {
   return (
     <Routes>
       <Route path="" element={<AHPPOCSectionLayout pageLayouts={pageLayouts} />}>
-        <Route path="requests/*" element={<RequestRoutes />} />
+        <Route path="requests/*" element={<RequestsPage />} />
         <Route path="settings" element={<>Settings</>} />
       </Route>
     </Routes>

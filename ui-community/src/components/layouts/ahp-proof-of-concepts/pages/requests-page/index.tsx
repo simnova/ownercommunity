@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { RequestsPageLayout } from '../requests-page-layout';
-import { RequestsPageRoutes } from '../requests-page-routes';
+import { RequestsPageLayout } from './requests-page-layout';
+import { RequestsPageRoutes } from './requests-page-routes';
 
-interface RequestRoutesProps {}
-export const RequestRoutes: FC<RequestRoutesProps> = (props) => {
+interface RequestsPageProps {}
+export const RequestsPage: FC<RequestsPageProps> = (props) => {
   return (
     <Routes>
       <Route path="" element={<RequestsPageLayout />}>

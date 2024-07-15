@@ -7,23 +7,23 @@ export interface CybersourceBase {
   getCustomerPaymentInstruments(customerId: string, offset?: number, limit?: number): Promise<CustomerPaymentInstrumentsResponse>;
   deleteCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>;
   setDefaultCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<CustomerPaymentResponse>;
-  processPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
+  processPayment(clientReferenceCode: string, paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
   refundPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
-  voidPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
+  voidPayment(clientReferenceCode: string, amount: number): Promise<PaymentTransactionResponse>;
 }
 
 export interface CustomerProfile {
   customerId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
+  billingFirstName: string;
+  billingLastName: string;
+  billingEmail: string;
+  billingPhone: string;
+  billingAddressLine1: string;
+  billingAddressLine2: string;
+  billingCity: string;
+  billingState: string;
+  billingPostalCode: string;
+  billingCountry: string;
 }
 
 export interface PaymentTransactionResponse {

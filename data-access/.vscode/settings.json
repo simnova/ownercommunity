@@ -13,6 +13,7 @@
         "lucaspaganini",
         "maxlength",
         "memorydb",
+        "cybersource",
         "seedwork"
     ],
     "sonarlint.connectedMode.project": {

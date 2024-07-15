@@ -81,7 +81,8 @@ export const Admin: React.FC<any> = (_props) => {
       icon: <ScheduleOutlined />,
       id: 7,
       parent: 'ROOT',
-      hasPermissions: (member: Member) => member?.role?.permissions?.serviceTicketPermissions?.canManageTickets ?? false
+      hasPermissions: (member: Member) => (member?.role?.permissions?.serviceTicketPermissions?.canManageTickets || 
+                                          member?.role?.permissions?.violationTicketPermissions?.canManageTickets) ?? false
     }
   ];
 

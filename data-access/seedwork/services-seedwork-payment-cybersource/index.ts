@@ -123,8 +123,9 @@ export class Cybersource implements CybersourceBase {
     const instance = new cybersource.PaymentsApi(this._configObject, this._cybersourceClient);
 
     // create a new ClientReferenceInformation object used for reconciliation purposes (search)
+    const clientReferenceCode = randomUUID();
     let clientReferenceInformation = new cybersource.Ptsv2paymentsClientReferenceInformation();
-    clientReferenceInformation.code = randomUUID();
+    clientReferenceInformation.code = clientReferenceCode;
     clientReferenceInformation.applicationName = this._applicationName;
 
     // create a new OrderInformationAmountDetails object
@@ -133,15 +134,15 @@ export class Cybersource implements CybersourceBase {
     orderInformationAmountDetails.currency = 'USD';
 
     let orderInformationBillTo = new cybersource.Ptsv2paymentsOrderInformationBillTo();
-    orderInformationBillTo.firstName = customerProfile.firstName;
-    orderInformationBillTo.lastName = customerProfile.lastName;
-    orderInformationBillTo.address1 = customerProfile.addressLine1;
-    orderInformationBillTo.address2 = customerProfile.addressLine2;
-    orderInformationBillTo.locality = customerProfile.city;
-    orderInformationBillTo.administrativeArea = customerProfile.state;
-    orderInformationBillTo.postalCode = customerProfile.postalCode;
-    orderInformationBillTo.country = customerProfile.country;
-    orderInformationBillTo.email = customerProfile.email;
+    orderInformationBillTo.firstName = customerProfile.billingFirstName;
+    orderInformationBillTo.lastName = customerProfile.billingLastName;
+    orderInformationBillTo.address1 = customerProfile.billingAddressLine1;
+    orderInformationBillTo.address2 = customerProfile.billingAddressLine2;
+    orderInformationBillTo.locality = customerProfile.billingCity;
+    orderInformationBillTo.administrativeArea = customerProfile.billingState;
+    orderInformationBillTo.postalCode = customerProfile.billingPostalCode;
+    orderInformationBillTo.country = customerProfile.billingCountry;
+    orderInformationBillTo.email = customerProfile.billingEmail;
 
     let orderInformation = new cybersource.Ptsv2paymentsOrderInformation();
     orderInformation.amountDetails = orderInformationAmountDetails;
@@ -217,15 +218,15 @@ export class Cybersource implements CybersourceBase {
     orderInformationAmountDetails.currency = 'USD';
 
     let orderInformationBillTo = new cybersource.Ptsv2paymentsOrderInformationBillTo();
-    orderInformationBillTo.firstName = customerProfile.firstName;
-    orderInformationBillTo.lastName = customerProfile.lastName;
-    orderInformationBillTo.address1 = customerProfile.addressLine1;
-    orderInformationBillTo.address2 = customerProfile.addressLine2;
-    orderInformationBillTo.locality = customerProfile.city;
-    orderInformationBillTo.administrativeArea = customerProfile.state;
-    orderInformationBillTo.postalCode = customerProfile.postalCode;
-    orderInformationBillTo.country = customerProfile.country;
-    orderInformationBillTo.email = customerProfile.email;
+    orderInformationBillTo.firstName = customerProfile.billingFirstName;
+    orderInformationBillTo.lastName = customerProfile.billingLastName;
+    orderInformationBillTo.address1 = customerProfile.billingAddressLine1;
+    orderInformationBillTo.address2 = customerProfile.billingAddressLine2;
+    orderInformationBillTo.locality = customerProfile.billingCity;
+    orderInformationBillTo.administrativeArea = customerProfile.billingState;
+    orderInformationBillTo.postalCode = customerProfile.billingPostalCode;
+    orderInformationBillTo.country = customerProfile.billingCountry;
+    orderInformationBillTo.email = customerProfile.billingEmail;
 
     let orderInformation = new cybersource.Ptsv2paymentsOrderInformation();
     orderInformation.amountDetails = orderInformationAmountDetails;
@@ -365,20 +366,12 @@ export class Cybersource implements CybersourceBase {
     });
   }
 
-  /**
-   * Process a payment in the Cybersource API
-   * @param {string} paymentInstrumentId The payment instrument ID to be used for the payment
-   * @param {number} amount The amount to be used for the payment
-   * @returns {Promise<PaymentTransactionResponse>} The response from the Cybersource API
-   * @throws {Error} If an error occurs in processing the payment
-   * full details: https://developer.cybersource.com/api-reference-assets/index.html#payment-requests
-   * */
-  async processPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse> {
+  async processPayment(clientReferenceCode: string, paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse> {
     const instance = new cybersource.PaymentsApi(this._configObject, this._cybersourceClient);
 
     // create a new ClientReferenceInformation object used for reconciliation purposes (search)
     let clientReferenceInformation = new cybersource.Ptsv2paymentsClientReferenceInformation();
-    clientReferenceInformation.code = randomUUID();
+    clientReferenceInformation.code = clientReferenceCode;
     clientReferenceInformation.applicationName = this._applicationName;
 
     // create a new OrderInformationAmountDetails object
@@ -418,21 +411,9 @@ export class Cybersource implements CybersourceBase {
     });
   }
 
-  /**
-   * Refund a payment in the Cybersource API
-   * @param {string} paymentInstrumentId The payment instrument ID to be used for the refund
-   * @param {number} amount The amount to be used for the refund
-   * @returns {Promise<PaymentTransactionResponse>} The response from the Cybersource API
-   * @throws {Error} If an error occurs in refunding the payment
-   * full details: https://developer.cybersource.com/api-reference-assets/index.html#payment-requests
-   * */
-  async refundPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse> {
-    const instance = new cybersource.PaymentsApi(this._configObject, this._cybersourceClient);
 
-    // create a new ClientReferenceInformation object used for reconciliation purposes (search)
-    let clientReferenceInformation = new cybersource.Ptsv2paymentsClientReferenceInformation();
-    clientReferenceInformation.code = randomUUID();
-    clientReferenceInformation.applicationName = this._applicationName;
+  async refundPayment(clientReferenceCode: string, amount: number): Promise<PaymentTransactionResponse> {
+    const instance = new cybersource.RefundApi(this._configObject, this._cybersourceClient);
 
     // create a new OrderInformationAmountDetails object
     let orderInformationAmountDetails = new cybersource.Ptsv2paymentsOrderInformationAmountDetails();
@@ -444,81 +425,70 @@ export class Cybersource implements CybersourceBase {
 
     // create a new ProcessingInformation object
     let processingInformation = new cybersource.Ptsv2paymentsProcessingInformation();
-    processingInformation.actionList = ['REFUND']; // Actions to refund payment
+    processingInformation.capture = true; // Capture the payment
 
-    // create a new PaymentInformation object
-    let paymentInformation = new cybersource.Ptsv2paymentsPaymentInformation();
-    let paymentInfoInstrument = new cybersource.Ptsv2paymentsPaymentInformationPaymentInstrument();
-    paymentInfoInstrument.id = paymentInstrumentId;
-    paymentInformation.paymentInstrument = paymentInfoInstrument;
-
-    // create a new CreatePaymentRequest object
-    let createPaymentRequest = new cybersource.CreatePaymentRequest();
-    createPaymentRequest.clientReferenceInformation = clientReferenceInformation;
-    createPaymentRequest.orderInformation = orderInformation;
-    createPaymentRequest.processingInformation = processingInformation;
-    createPaymentRequest.paymentInformation = paymentInformation;
+    // create a new RefundCaptureRequest object
+    let refundCaptureRequest = new cybersource.RefundCaptureRequest();
+    refundCaptureRequest.reason = 'Refund';
+    refundCaptureRequest.orderInformation = orderInformation;
+    refundCaptureRequest.processingInformation = processingInformation;
 
     return new Promise((resolve, reject) => {
-      instance.createPayment(createPaymentRequest, (error, data, response) => {
+      instance.refundCapture(refundCaptureRequest, clientReferenceCode, (error, data, response) => {
         if (!error) {
+          console.log('Refund response: ', JSON.stringify(data));
           resolve(data as PaymentTransactionResponse);
         } else {
+          console.log('Refund error: ', error.message);
           reject(new Error(error.message || 'Unknown error occurred in refunding payment'));
         }
       });
     });
   }
 
-  /**
-   * Void a payment in the Cybersource API
-   * @param {string} paymentInstrumentId The payment instrument ID to be used for the void
-   * @param {number} amount The amount to be used for the void
-   * @returns {Promise<PaymentTransactionResponse>} The response from the Cybersource API
-   * @throws {Error} If an error occurs in voiding the payment
-   * full details: https://developer.cybersource.com/api-reference-assets/index.html#payment-requests
-   * */
-  async voidPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse> {
-    const instance = new cybersource.PaymentsApi(this._configObject, this._cybersourceClient);
+  async voidPayment(clientReferenceCode: string, amount: number): Promise<PaymentTransactionResponse> {
+    const instance = new cybersource.VoidApi(this._configObject, this._cybersourceClient);
 
     // create a new ClientReferenceInformation object used for reconciliation purposes (search)
     let clientReferenceInformation = new cybersource.Ptsv2paymentsClientReferenceInformation();
-    clientReferenceInformation.code = randomUUID();
+    clientReferenceInformation.code = clientReferenceCode;
     clientReferenceInformation.applicationName = this._applicationName;
 
-    // create a new OrderInformationAmountDetails object
-    let orderInformationAmountDetails = new cybersource.Ptsv2paymentsOrderInformationAmountDetails();
-    orderInformationAmountDetails.totalAmount = amount.toString();
-    orderInformationAmountDetails.currency = 'USD';
-
-    let orderInformation = new cybersource.Ptsv2paymentsOrderInformation();
-    orderInformation.amountDetails = orderInformationAmountDetails;
-
-    // create a new ProcessingInformation object
-    let processingInformation = new cybersource.Ptsv2paymentsProcessingInformation();
-    processingInformation.actionList = ['VOID']; // Actions to void payment
-
-    // create a new PaymentInformation object
-    let paymentInformation = new cybersource.Ptsv2paymentsPaymentInformation();
-    let paymentInfoInstrument = new cybersource.Ptsv2paymentsPaymentInformationPaymentInstrument();
-    paymentInfoInstrument.id = paymentInstrumentId;
-    paymentInformation.paymentInstrument = paymentInfoInstrument;
-
-    // create a new CreatePaymentRequest object
-    let createPaymentRequest = new cybersource.CreatePaymentRequest();
-    createPaymentRequest.clientReferenceInformation = clientReferenceInformation;
-    createPaymentRequest.orderInformation = orderInformation;
-    createPaymentRequest.processingInformation = processingInformation;
-    createPaymentRequest.paymentInformation = paymentInformation;
+    // create a new VoidCaptureRequest object
+    let voidCaptureRequest = new cybersource.VoidCaptureRequest();
+    voidCaptureRequest.clientReferenceInformation = clientReferenceInformation;
 
     return new Promise((resolve, reject) => {
-      instance.createPayment(createPaymentRequest, (error, data, response) => {
+      instance.voidCapture(voidCaptureRequest, clientReferenceCode, (error, data, response) => {
         if (!error) {
+          console.log('Void data: ', JSON.stringify(data));
+          console.log('Void response: ', JSON.stringify(response));
           resolve(data as PaymentTransactionResponse);
         } else {
           reject(new Error(error.message || 'Unknown error occurred in voiding payment'));
         }
       });
+    });
+  }
+
+  async searchTransactionsByReferenceCode(referenceCode: string): Promise<any> {
+    const instance = new cybersource.SearchTransactionsApi(this._configObject, this._cybersourceClient);
+
+    let searchRequest = new cybersource.CreateSearchRequest();
+    searchRequest.query = `clientReferenceInformation.code:${referenceCode}`;
+    searchRequest.offset = 0;
+    searchRequest.limit = 2000;
+    searchRequest.sort = 'id:asc,submitTimeUtc:desc';
+    searchRequest.save = false;
+
+    return new Promise((resolve, reject) => {
+      instance.createSearch(searchRequest, (error, data, response) => {
+          if (!error) {
+            resolve(data);
+          } else {
+            reject(new Error(error.message || 'Unknown error occurred in searching transactions'));
+          }
+        });
     });
   }
 }

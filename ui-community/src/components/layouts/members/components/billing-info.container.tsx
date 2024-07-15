@@ -14,20 +14,16 @@ interface TokenOptions {
 }
 type Callback = (err: any, token: string) => void;
 
-export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props) => {
+export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
   // TODO: Add env var into vite env
-  const ownerCommunityUrl = import.meta.env.VITE_SELF_HOSTED_CYBERSOURCE_URL ?? 'missing-owner-community-url';
+  //const ownerCommunityUrl = import.meta.env.VITE_SELF_HOSTED_CYBERSOURCE_URL ?? 'missing-owner-community-url';
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [cardNumberValidationHelpText, setCardNumberValidationHelpText] = useState<string>('');
   const [securityCodeValidationHelpText, setSecurityCodeValidationHelpText] = useState<string>('');
   const [isCardContainerLoaded, setIsCardContainerLoaded] = useState(false);
   const [flexMicroform, setFlexMicroform] = useState<any>(null);
   const [isMicroformScriptLoaded, setScriptLoaded] = useState(false);
-  const {
-    data: cybersource,
-    loading: cybersourceLoading,
-    error: cybersourceError
-  } = useQuery(SharedPaymentContainerPaymentKeyIdDocument);
+  const { data: cybersource } = useQuery(SharedPaymentContainerPaymentKeyIdDocument);
 
   const createToken = (expirationMonth: string, expirationYear: string, callBack: Callback): void => {
     const options: TokenOptions = {

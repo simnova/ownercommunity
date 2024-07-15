@@ -43,16 +43,6 @@ type MicroformDetails = {
   message: string;
 };
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 19 }
-  }
-};
 
 export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
   const [form] = Form.useForm();
@@ -227,7 +217,7 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
     setFormValues({ ...formValues, [Object.keys(changedValue)[0]]: Object.values(changedValue)[0] });
   };
 
-  const onFinish = (values: CustomerInfoFormSchema) => {
+  const onFinish = () => {
     onCreateToken();
   };
   return (

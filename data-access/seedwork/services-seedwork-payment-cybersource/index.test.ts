@@ -116,9 +116,10 @@ test.skip('cybersource: set default customer payment instrument', async () => {
 });
 
 test.skip('cybersource: process payment', async () => {
+  const clientReferenceCode = 'TC55971_4';
   const paymentInstrumentId = '1D29E9E8A73A6A8AE063AF598E0AB009';
   const amount: number = 100.55;
-  const response: PaymentTransactionResponse = await cybersource.processPayment(paymentInstrumentId, amount);
+  const response: PaymentTransactionResponse = await cybersource.processPayment(clientReferenceCode, paymentInstrumentId, amount);
 
   expect(response).toBeDefined();
   expect(response.status).toBe('AUTHORIZED');
@@ -129,15 +130,18 @@ test.skip('cybersource: process payment', async () => {
 });
 
 test.skip('cybersource: refund payment', async () => {
-  const paymentInstrumentId = '1D29E9E8A73A6A8AE063AF598E0AB009';
-  const amount: number = 99.99;
-  const response: PaymentTransactionResponse = await cybersource.refundPayment(paymentInstrumentId, amount);
+  const clientReferenceCode = 'TC55971_4';
+  const amount: number = 100.55;
+  const response: PaymentTransactionResponse = await cybersource.refundPayment(clientReferenceCode, amount);
 
   expect(response).toBeDefined();
   expect(response.status).toBe('AUTHORIZED');
-  expect(response.orderInformation.amountDetails.authorizedAmount).toBe(amount.toString());
-  expect(response.processorInformation.approvalCode).toEqual('888888');
-  expect(response.processorInformation.transactionId).toBeDefined();
+  //expect(response.orderInformation.amountDetails.authorizedAmount).toBe(amount.toString());
+  //expect(response.processorInformation.approvalCode).toEqual('888888');
+  //expect(response.processorInformation.transactionId).toBeDefined();
+  // expect below
+  // refundId: refundResponse.id,
+  // responseCode: refundResponse.processorInformation.responseCode
 });
 
 test.skip('cybersource: void payment', async () => {

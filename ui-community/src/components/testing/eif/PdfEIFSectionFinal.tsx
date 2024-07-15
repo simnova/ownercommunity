@@ -9,7 +9,7 @@ interface PdfDisclaimersProps {
   data: any;
 }
 
-export const PdfEIFSection: React.FC<PdfDisclaimersProps> = (props) => {
+export const PdfEIFSectionFinal: React.FC<PdfDisclaimersProps> = (props) => {
   const styles = StyleSheet.create({
     text: {
       fontSize: '7px'
@@ -39,4 +39,4 @@ export const PdfEIFSection: React.FC<PdfDisclaimersProps> = (props) => {
     </View>
   );
 };
-export default PdfEIFSection;
+export default PdfEIFSectionFinal;

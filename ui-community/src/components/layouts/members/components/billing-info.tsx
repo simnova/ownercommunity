@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Button, DatePicker } from 'antd';
+import { Form, Button, DatePicker, Input, Select, Checkbox } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import axios from 'axios';
+import { Country, State, City } from 'country-state-city';
 
 interface BillingInfoProps {
   errorMessage: string;
@@ -13,6 +14,16 @@ interface BillingInfoProps {
   setSecurityCodeValidationHelpText: React.Dispatch<React.SetStateAction<string>>;
   onCardNumberContainerLoaded: () => void;
   createToken: (expirationMonth: string, expirationYear: string, callBack: any) => void;
+}
+
+interface CustomerInfoFormSchema {
+  billToFirstName: string;
+  billToLastName: string;
+  billToEmail: string;
+  billToAddressLine1: string;
+  billToAddressCountry: string;
+  billToAddressState: string;
+  billToAddressCity: string;
 }
 
 const MonthPicker = DatePicker.MonthPicker;
@@ -48,7 +59,18 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
   const [expirationMonth, setExpirationMonth] = useState('');
   const [expirationYear, setExpirationYear] = useState('');
   const [paymentToken, setPaymentToken] = useState('');
-
+  let country = Country.getCountryByCode('US');
+  const initialFormState = {
+    billToFirstName: '',
+    billToLastName: '',
+    billToEmail: '',
+    billToAddressLine1: '',
+    billToAddressCountry: '',
+    billToAddressState: '',
+    billToAddressCity: ''
+  };
+  const [formValues, setFormValues] = useState<CustomerInfoFormSchema>(initialFormState);
+  console.log(formValues);
   useEffect(() => {
     props.onCardNumberContainerLoaded();
   }, []);
@@ -101,11 +123,13 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
       }
 
       form.validateFields().then((_values) => {
+        console.log('Token_Values===>', _values);
         if (token) {
           console.log('Payment Token', token);
           setPaymentToken(token);
         }
       });
+      setFormValues(initialFormState);
     });
   };
 
@@ -199,71 +223,157 @@ export const BillingInfo: React.FC<BillingInfoProps> = (props) => {
       <></>
     );
   };
+  const onValuesChange = (changedValue: CustomerInfoFormSchema) => {
+    setFormValues({ ...formValues, [Object.keys(changedValue)[0]]: Object.values(changedValue)[0] });
+  };
 
+  const onFinish = (values: CustomerInfoFormSchema) => {
+    onCreateToken();
+  };
   return (
     <>
       <ErrorMessage />
-      <Form form={form} name="basic" initialValues={{ remember: true }}>
+      <Form
+        form={form}
+        onValuesChange={onValuesChange}
+        onFinish={onFinish}
+        layout="vertical"
+        name="basic"
+        initialValues={{ remember: true }}
+      >
+        <h3>Add Payment Method</h3>
+        <div className="flex gap-4">
+          <Form.Item name={'billToForename'} className="w-full" label="First Name:" required>
+            <Input placeholder="Enter first name" />
+          </Form.Item>
+          <Form.Item name="billToSurname" className="w-full" label="Last Name:" required>
+            <Input placeholder="Enter last name" />
+          </Form.Item>
+        </div>
         <Form.Item
-          label={
-            <div>
-              <span style={{ color: 'red' }}>* </span>Card Number
-            </div>
-          }
+          className="ant-form-item-control-input-content"
+          label="Card Number:"
           name="cardNumber"
           validateStatus="error" //error{red} validating{black} warning{yellow}
           help={props.cardNumberValidationHelpText}
-          style={{ borderRadius: '6px' }}
+          required
         >
           <div id="card-number-container"></div>
         </Form.Item>
-
-        <Form.Item
-          label={'Card Expiration Date:'}
-          required={true}
-          style={{ marginTop: '2px', width: '100%' }}
-          name="expirationMonthPicker"
-          rules={[{ required: true, message: 'Please enter the expiration date as shown on the card.' }]}
-        >
-          <MonthPicker
-            id="expirationMonthPicker"
+        <div className="flex gap-1">
+          <Form.Item
+            label={'Card Expiration Date:'}
+            required={true}
             name="expirationMonthPicker"
-            placeholder="Month-Year"
-            format="MM-YYYY"
-            onChange={(date: any) => onChangeExpYear(date)}
-            disabledDate={(current: any) => {
-              return current && current < dayjs().endOf('day').subtract(1, 'day');
-            }}
-          ></MonthPicker>
-        </Form.Item>
+            rules={[{ required: true, message: 'Please enter the expiration date as shown on the card.' }]}
+          >
+            <MonthPicker
+              id="expirationMonthPicker"
+              name="expirationMonthPicker"
+              placeholder="Month-Year"
+              format="MM-YYYY"
+              onChange={(date: any) => onChangeExpYear(date)}
+              disabledDate={(current: any) => {
+                return current && current < dayjs().endOf('day').subtract(1, 'day');
+              }}
+            ></MonthPicker>
+          </Form.Item>
 
-        <Form.Item
-          label={
-            <div>
-              <span style={{ color: 'red' }}>* </span> Card Security Code
+          <Form.Item
+            label="Security Code:"
+            name="securityCode"
+            validateStatus="error"
+            required
+            help={props.securityCodeValidationHelpText}
+          >
+            <div id="securityCode-container"></div>
+          </Form.Item>
+        </div>
+        <Form.Item name="billToAddressCountry" label="Country:" className="w-full" required>
+          <Select options={[country!]} fieldNames={{ value: 'isoCode', label: 'name' }} placeholder="Select country" />
+        </Form.Item>
+        {formValues.billToAddressCountry && (
+          <div>
+            <Form.Item name="billToAddressLine1" label="Address Line 1:" required>
+              <Input placeholder="Enter address line 1" />
+            </Form.Item>
+            <Form.Item name="billToAddressLine2" label="Address Line 2: (optional)">
+              <Input placeholder="Enter address line 2" />
+            </Form.Item>
+            <div className="flex gap-4">
+              <Form.Item name="billToAddressState" label="State / Province:" className="w-full" required>
+                <Select
+                  placeholder="Select state / province"
+                  options={State.getStatesOfCountry(formValues.billToAddressCountry)}
+                  fieldNames={{ value: 'isoCode', label: 'name' }}
+                />
+              </Form.Item>
+              <Form.Item name="billToAddressCity" label="City:" className="w-full" required>
+                <Select
+                  placeholder="Select city"
+                  options={City.getCitiesOfState(formValues.billToAddressCountry, formValues.billToAddressState)}
+                  fieldNames={{ value: 'name', label: 'name' }}
+                />
+              </Form.Item>
+              <Form.Item name="postalCode" label="Zip / Postal Code:" className="w-full" required>
+                <Input placeholder="Enter zip / postal code" />
+              </Form.Item>
             </div>
-          }
-          name="securityCode"
-          validateStatus="error"
-          help={props.securityCodeValidationHelpText}
-        >
-          <div id="securityCode-container"></div>
-        </Form.Item>
-
+            <div className="flex gap-4">
+              <Form.Item
+                className="w-full"
+                name="billToEmail"
+                label="Email:"
+                rules={[
+                  {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!'
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your E-mail!'
+                  }
+                ]}
+              >
+                <Input placeholder="Enter email" />
+              </Form.Item>
+              <Form.Item
+                className="w-full"
+                name="phone"
+                label="Phone Number:"
+                rules={[{ required: true, message: 'Please input your phone number!' }]}
+              >
+                <Input
+                  placeholder="Enter phone number"
+                  addonBefore={
+                    <Select disabled={Boolean(country?.phonecode)} value={country?.phonecode} style={{ width: 70 }}>
+                      <Select.Option value={country?.phonecode}>+{country?.phonecode}</Select.Option>
+                    </Select>
+                  }
+                  maxLength={10}
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
+            </div>
+            <Form.Item label="Set as a primary card for:" name="agreement" valuePropName="checked">
+              <Checkbox>Payment</Checkbox>
+            </Form.Item>
+          </div>
+        )}
         <Button type="primary" htmlType="submit" onClick={() => onCreateToken()}>
-          {'Save Card and get Payment Token'}
-        </Button> <br /> <br />
-
+          {'Save Card'}
+        </Button>{' '}
+        <br /> <br />
         <Button onClick={() => onCreateCustomer()}>{'Create Customer'}</Button> <br /> <br />
-
-        <Button onClick={() => onGetCustomerPaymentInstruments()}>{'Get Customer Payment Instruments'}</Button> <br /> <br />
-
-        <Button onClick={() => onAddCustomerPaymentInstrument()}>{'Add Customer Payment Instrument'}</Button> <br /> <br />
-
-        <Button onClick={() => onDeleteCustomerPaymentInstrument()}>{'Delete Customer Payment Instrument'}</Button> <br /> <br />
-
+        <Button onClick={() => onGetCustomerPaymentInstruments()}>
+          {'Get Customer Payment Instruments'}
+        </Button> <br /> <br />
+        <Button onClick={() => onAddCustomerPaymentInstrument()}>
+          {'Add Customer Payment Instrument'}
+        </Button> <br /> <br />
+        <Button onClick={() => onDeleteCustomerPaymentInstrument()}>{'Delete Customer Payment Instrument'}</Button>{' '}
+        <br /> <br />
         <Button onClick={() => onProcessPaymentWithPaymentInstrument()}>{'Process Payment'}</Button> <br /> <br />
-
         <Button onClick={() => onUpdateCustomerDefaultPaymentInstrument()}>
           {'Update Customer Default Payment Instrument'}
         </Button>

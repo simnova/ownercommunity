@@ -1,10 +1,8 @@
+import { HomeOutlined, SettingOutlined } from '@ant-design/icons';
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { RequestRoutes } from './pages/requests/request-routes';
 import { AHPPOCSectionLayout } from './section-layout';
-import { HomeOutlined, SettingOutlined } from '@ant-design/icons';
-import { SelectableList } from './components/selectable-list';
-import { RequestsPageLayout } from './pages/requests-page-layout';
-import { RequestRoutes } from './pages/request-routes';
 
 export interface PageLayoutProps {
   path: string;

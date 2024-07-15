@@ -51,22 +51,28 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
   const [selectedActiveRequest, setSelectedActiveRequest] = useState<SelectableListDataType | undefined>();
   const [selectedArchivedRequest, setSelectedArchivedRequest] = useState<SelectableListDataType | undefined>();
 
+  const [currentRequestTypeTabKey, setCurrentRequestTypeTabKey] = useState<string | undefined>(undefined);
+
   // set selected request based on request type and request id
   useEffect(() => {
-    console.log('activeRequestRouteMatch', activeRequestRouteMatch);
-    console.log('archivedRequestRouteMatch', archivedRequestRouteMatch);
-    if (activeRequestRouteMatch && activeRequestRouteMatch.params['*']) {
-      onActiveRequestSelected(Number(activeRequestRouteMatch.params['*']));
-    } else if (archivedRequestRouteMatch && archivedRequestRouteMatch.params['*']) {
-      onArchivedRequestSelected(Number(archivedRequestRouteMatch.params['*']));
+    if (activeRequestRouteMatch) {
+      setCurrentRequestTypeTabKey(RequestType.ACTIVE.key);
+      if (activeRequestRouteMatch.params['*']) {
+        onAnActiveRequestSelected(Number(activeRequestRouteMatch.params['*']));
+      }
+    } else if (archivedRequestRouteMatch) {
+      setCurrentRequestTypeTabKey(RequestType.ARCHIVED.key);
+      if (archivedRequestRouteMatch.params['*']) {
+        onAnArchivedRequestSelected(Number(archivedRequestRouteMatch.params['*']));
+      }
     }
   }, []);
 
-  const onActiveRequestSelected = (selectedRowKey: Key) => {
+  const onAnActiveRequestSelected = (selectedRowKey: Key) => {
     setSelectedActiveRequest(DummyActiveRequests.find((r) => r.key === selectedRowKey));
     navigate(`/ahp-proof-of-concepts/requests/active/${selectedRowKey}`);
   };
-  const onArchivedRequestSelected = (selectedRowKey: Key) => {
+  const onAnArchivedRequestSelected = (selectedRowKey: Key) => {
     setSelectedArchivedRequest(DummyArchivedRequests.find((r) => r.key === selectedRowKey));
     navigate(`/ahp-proof-of-concepts/requests/archived/${selectedRowKey}`);
   };
@@ -75,11 +81,14 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
     setSelectedActiveRequest(undefined);
     setSelectedArchivedRequest(undefined);
     if (requestType === RequestType.ACTIVE.key) {
+      setCurrentRequestTypeTabKey(RequestType.ACTIVE.key);
       navigate('/ahp-proof-of-concepts/requests/active');
     } else if (requestType === RequestType.ARCHIVED.key) {
+      setCurrentRequestTypeTabKey(RequestType.ARCHIVED.key);
       navigate('/ahp-proof-of-concepts/requests/archived');
     }
   };
+
   return (
     <Layout style={{ minHeight: '100%' }} hasSider>
       {/* make new requests and request list area */}
@@ -96,20 +105,20 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
           tabBarStyle={{ paddingLeft: '20px', marginBottom: '0' }}
           type="card"
           onChange={onRequestTypeChange}
-          defaultActiveKey={activeRequestRouteMatch ? RequestType.ACTIVE.key : RequestType.ARCHIVED.key}
+          activeKey={currentRequestTypeTabKey}
         >
           <Tabs.TabPane key={RequestType.ACTIVE.key} tab={RequestType.ACTIVE.value}>
             <SelectableList
               data={DummyActiveRequests}
               selectedRecord={selectedActiveRequest}
-              onSelectChange={onActiveRequestSelected}
+              onSelectChange={onAnActiveRequestSelected}
             />
           </Tabs.TabPane>
           <Tabs.TabPane key={RequestType.ARCHIVED.key} tab={RequestType.ARCHIVED.value}>
             <SelectableList
               data={DummyArchivedRequests}
               selectedRecord={selectedArchivedRequest}
-              onSelectChange={onArchivedRequestSelected}
+              onSelectChange={onAnArchivedRequestSelected}
             />
           </Tabs.TabPane>
         </Tabs>

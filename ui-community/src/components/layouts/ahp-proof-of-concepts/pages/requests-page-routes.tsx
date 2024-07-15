@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import { ActiveRequestDetailsPage } from './active-request-details-page';
 import { ArchivedRequestDetailsPage } from './archived-request-details-page';
 
-interface RequestsPageProps {}
-export const RequestsPage: FC<RequestsPageProps> = (props) => {
+interface RequestsPageRoutesProps {}
+export const RequestsPageRoutes: FC<RequestsPageRoutesProps> = (props) => {
   console.log(location.pathname)
   return (
     <Routes>

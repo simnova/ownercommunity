@@ -24,7 +24,8 @@ const ApolloConnection: FC<any> = (props) => {
       console.log('auth-token',access_token);
       const returnHeaders = {...headers};
       if(access_token){ returnHeaders['Authorization'] = `Bearer ${access_token}`; }
-      if(localStorage.getItem('community') !== null){ returnHeaders['community'] = localStorage.getItem('community')?.replaceAll('"',''); }
+      const communityId = params['*']?.match(/community\/([\w\d]+)/)?.[1] ?? null;
+      if(communityId !== null){ returnHeaders['community'] = communityId; }
       const memberId = params['*']?.match(/(member|admin)\/([\w\d]+)/)?.[2] ?? null;
       if(memberId !== null){ returnHeaders['member'] = memberId; }
       console.log('returnHeaders',returnHeaders);

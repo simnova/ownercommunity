@@ -1,5 +1,5 @@
 // get iFrames
-frames = document.getElementsByTagName("iframe");
+let frames = document.getElementsByTagName("iframe");
 // for each frame set css properties
 for (let i = 0; i < frames.length; i++) {
   frames[i].style.borderRadius = "6px";

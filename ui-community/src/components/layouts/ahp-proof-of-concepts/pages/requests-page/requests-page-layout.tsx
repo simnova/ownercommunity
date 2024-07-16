@@ -47,6 +47,9 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
   const activeRequestRouteMatch = useMatch('/ahp-proof-of-concepts/requests/active/*');
   const archivedRequestRouteMatch = useMatch('/ahp-proof-of-concepts/requests/archived/*');
 
+  const selectedActiveRequestRouteMatch = useMatch('/ahp-proof-of-concepts/requests/active/:requestId/*');
+  const selectedArchivedRequestRouteMatch = useMatch('/ahp-proof-of-concepts/requests/archived/:requestId/*');
+
   const navigate = useNavigate();
   const [selectedActiveRequest, setSelectedActiveRequest] = useState<SelectableListDataType | undefined>();
   const [selectedArchivedRequest, setSelectedArchivedRequest] = useState<SelectableListDataType | undefined>();
@@ -57,13 +60,19 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
   useEffect(() => {
     if (activeRequestRouteMatch) {
       setCurrentRequestTypeTabKey(RequestType.ACTIVE.key);
-      if (activeRequestRouteMatch.params['*']) {
-        onAnActiveRequestSelected(Number(activeRequestRouteMatch.params['*']));
+      if (selectedActiveRequestRouteMatch) {
+        setSelectedActiveRequest(
+          DummyActiveRequests.find((r) => r.key.toString() === selectedActiveRequestRouteMatch.params['requestId'])
+        );
+        navigate(selectedActiveRequestRouteMatch.pathname);
       }
     } else if (archivedRequestRouteMatch) {
       setCurrentRequestTypeTabKey(RequestType.ARCHIVED.key);
-      if (archivedRequestRouteMatch.params['*']) {
-        onAnArchivedRequestSelected(Number(archivedRequestRouteMatch.params['*']));
+      if (selectedArchivedRequestRouteMatch) {
+        setSelectedArchivedRequest(
+          DummyArchivedRequests.find((r) => r.key.toString() === selectedArchivedRequestRouteMatch.params['requestId'])
+        );
+        navigate(selectedArchivedRequestRouteMatch.pathname);
       }
     } else {
       setCurrentRequestTypeTabKey(RequestType.ACTIVE.key);
@@ -72,7 +81,7 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
 
   const onAnActiveRequestSelected = (selectedRowKey: Key) => {
     setSelectedActiveRequest(DummyActiveRequests.find((r) => r.key === selectedRowKey));
-    navigate(`/ahp-proof-of-concepts/requests/active/${selectedRowKey}`);
+    navigate(`/ahp-proof-of-concepts/requests/active/${selectedRowKey}/chat`);
   };
   const onAnArchivedRequestSelected = (selectedRowKey: Key) => {
     setSelectedArchivedRequest(DummyArchivedRequests.find((r) => r.key === selectedRowKey));

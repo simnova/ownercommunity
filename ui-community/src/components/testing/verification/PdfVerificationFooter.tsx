@@ -25,7 +25,7 @@ export const PdfVerificationFooter: React.FC<PdfHeaderProps> = (props) => {
   return (
     <View style={styles.box}>
       <Text style={[styles.text]}>Doc ID: 123411</Text>
-      <Text style={[styles.text, { textAlign: 'center' }]}>
+      <Text style={[styles.text, { textAlign: 'center', fontFamily: "Libre Franklin Bold" }]}>
         This EIF must be completed and submitted to ECFMG by 18-Nov-2018
       </Text>
     </View>

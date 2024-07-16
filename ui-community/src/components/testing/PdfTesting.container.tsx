@@ -1,9 +1,9 @@
 import React from 'react';
 import pdfData from "./pdfRendererTest.json"
-import PdfEIFBlankPageV2 from './pdf-pages/PdfEIFBlankPageV2';
+import PdfVerificationBlankPage from './pdf-pages/PdfVerificationBlankPage';
 
 export const PdfTestingContainer: React.FC<any> = () => {
-  return <PdfEIFBlankPageV2 data={pdfData} />;
+  return <PdfVerificationBlankPage data={pdfData} />;
 };
 
 export default PdfTestingContainer;

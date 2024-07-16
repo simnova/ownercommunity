@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet } from '@react-pdf/renderer';
 
 interface PdfCredentialDetailsProps {
-  data: any
+  data: any;
 }
 
 export const PdfVerificationSignatureFooter: React.FC<PdfCredentialDetailsProps> = (props) => {
@@ -26,15 +26,17 @@ export const PdfVerificationSignatureFooter: React.FC<PdfCredentialDetailsProps>
     },
     text: {
       fontSize: '8px'
-    },
+    }
   });
 
   return (
     <>
-      <Text style={[styles.text, { textAlign: 'center', paddingTop: 25 }]}>
+      <Text style={[styles.text, { textAlign: 'center', paddingTop: 25, fontFamily: 'Libre Franklin Bold' }]}>
         Contact ECFMG at deansbox@ecfmg.org if you have any questions about this verification form.
       </Text>
-      <Text style={[styles.text, { marginTop: 80, marginLeft: 10 }]}>ECFMG Verification Request ID {props.data.requestId}</Text>
+      <Text style={[styles.text, { marginTop: 80, marginLeft: 10 }]}>
+        ECFMG Verification Request ID {props.data.requestId}
+      </Text>
     </>
   );
 };

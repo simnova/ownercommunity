@@ -1,6 +1,7 @@
 import React from 'react';
 import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
-import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-100.ttf';
+import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-500.ttf';
+import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf'
 import SealImage from '../test-images/SealImage.png';
 import PdfSignatureArea from '../pdf-signature/PdfSignatureArea';
 import PdfSignatureInstructions from '../pdf-signature/PdfSignatureInstructions';
@@ -16,7 +17,11 @@ interface PdfTemplateProps {
 Font.register({
   family: 'Libre Franklin',
   src: FontFranklinRegular,
-  fontWeight: 1600
+});
+
+Font.register({
+  family: 'Libre Franklin Bold',
+  src: FontFranklinBold,
 });
 
 export const PdfVerificationSignaturePage: React.FC<PdfTemplateProps> = (props) => {

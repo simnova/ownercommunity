@@ -8,8 +8,8 @@ export interface CybersourceBase {
   deleteCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>;
   setDefaultCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<CustomerPaymentResponse>;
   processPayment(clientReferenceCode: string, paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
-  refundPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
-  voidPayment(clientReferenceCode: string, amount: number): Promise<PaymentTransactionResponse>;
+  refundPayment(requestId: string, amount: number): Promise<RefundPaymentResponse>;
+  voidPayment(clientReferenceCode: string, requestId: string, amount: number): Promise<PaymentTransactionResponse>;
 }
 
 export interface CustomerProfile {
@@ -183,4 +183,25 @@ export interface CustomerPaymentInstrumentsResponse {
   _embedded: {
     paymentInstruments: PaymentInstrument[];
   };
+}
+
+export interface RefundPaymentResponse {
+  _links: {
+    self: {
+      href: string,
+      method: string
+    },
+    void: {
+      href: string,
+      method: string
+    }
+  },
+  id: string,
+  submitTimeUtc: string,
+  status: string,
+  reconciliationId: string,
+  clientReferenceInformation: { code: string },
+  refundAmountDetails: { refundAmount: string, currency: string },
+  processorInformation: { approvalCode: string, responseCode: string },
+  orderInformation: {}
 }

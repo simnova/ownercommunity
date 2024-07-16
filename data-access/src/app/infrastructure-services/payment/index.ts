@@ -4,6 +4,7 @@ import {
   CustomerPaymentInstrumentsResponse,
   CustomerPaymentResponse,
   CustomerPaymentInstrumentResponse,
+  RefundPaymentResponse
 } from '../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
 
 export interface PaymentInfrastructureService {
@@ -16,6 +17,6 @@ export interface PaymentInfrastructureService {
   deleteCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>;
   setDefaultCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<CustomerPaymentResponse>;
   processPayment(clientReferenceCode: string, paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
-  refundPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
-  voidPayment(clientReferenceCode: string, amount: number): Promise<PaymentTransactionResponse>;
+  refundPayment(paymentInstrumentId: string, amount: number): Promise<RefundPaymentResponse>;
+  voidPayment(clientReferenceCode: string, requestId: string, amount: number): Promise<PaymentTransactionResponse>;
 }

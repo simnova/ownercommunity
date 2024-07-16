@@ -385,7 +385,6 @@ export class Cybersource implements CybersourceBase {
 
     // create a new ProcessingInformation object
     let processingInformation = new cybersource.Ptsv2paymentsProcessingInformation();
-    //processingInformation.actionList = ['AUTHORIZE']; // Actions to authorize payment
     processingInformation.capture = true; // Capture the payment
 
     // create a new PaymentInformation object
@@ -437,10 +436,8 @@ export class Cybersource implements CybersourceBase {
     return new Promise((resolve, reject) => {
       instance.refundCapture(refundCaptureRequest, requestId, (error, data, response) => {
         if (!error) {
-          console.log('Refund response: ', JSON.stringify(data));
           resolve(data as RefundPaymentResponse);
         } else {
-          console.log('Refund error: ', error.message);
           reject(new Error(error.message || 'Unknown error occurred in refunding payment'));
         }
       });
@@ -462,11 +459,8 @@ export class Cybersource implements CybersourceBase {
     return new Promise((resolve, reject) => {
       instance.voidCapture(voidCaptureRequest, requestId, (error, data, response) => {
         if (!error) {
-          console.log('Void data: ', JSON.stringify(data));
-          console.log('Void response: ', JSON.stringify(response));
           resolve(data as PaymentTransactionResponse);
         } else {
-          console.log('Void error: ', error);
           reject(new Error(error.message || 'Unknown error occurred in voiding payment'));
         }
       });

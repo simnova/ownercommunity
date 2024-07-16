@@ -1,6 +1,7 @@
 import React from 'react';
 import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
-import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-100.ttf';
+import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-500.ttf';
+import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf'
 import PdfEIFSection from '../eif/PdfEIFSection';
 import PdfFooterV2 from '../pdf-footers-and-headers/PdfFooterV2';
 import PdfHeaderV2 from '../pdf-footers-and-headers/PdfHeaderV2';
@@ -12,7 +13,11 @@ interface PdfTemplateProps {
 Font.register({
   family: 'Libre Franklin',
   src: FontFranklinRegular,
-  fontWeight: 1600
+});
+
+Font.register({
+  family: 'Libre Franklin Bold',
+  src: FontFranklinBold,
 });
 
 export const PdfEIFBlankPageV2: React.FC<PdfTemplateProps> = (props) => {

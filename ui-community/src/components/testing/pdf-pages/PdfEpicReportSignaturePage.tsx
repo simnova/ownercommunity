@@ -1,14 +1,15 @@
 import React from 'react';
 import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
-import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-100.ttf';
+import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-500.ttf';
+import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf'
 import SignatureImage from '../test-images/SignatureImage.png';
 import SealImage from '../test-images/SealImage.png';
 import PdfSignatureArea from '../pdf-signature/PdfSignatureArea';
-import PdfSignatureFooter from '../pdf-signature/PdfSignatureFooter';
+import PdfSignatureFooter from '../pdf-footers-and-headers/PdfSignatureFooter';
 import PdfSignatureInformation from '../pdf-signature/PdfSignatureInformation';
 import PdfSignatureInstructions from '../pdf-signature/PdfSignatureInstructions';
 import PdfSignatureReason from '../pdf-signature/PdfSignatureReason';
-import PdfHeader from '../pdf-signature/PdfHeader';
+import PdfHeader from '../pdf-footers-and-headers/PdfHeader';
 
 interface PdfTemplateProps {
   data: any;
@@ -17,7 +18,11 @@ interface PdfTemplateProps {
 Font.register({
   family: 'Libre Franklin',
   src: FontFranklinRegular,
-  fontWeight: 1600
+});
+
+Font.register({
+  family: 'Libre Franklin Bold',
+  src: FontFranklinBold,
 });
 
 export const PdfEpicReportSignaturePage: React.FC<PdfTemplateProps> = (props) => {

@@ -9,6 +9,10 @@ export const PdfIdentificationCertification: React.FC<PdfDisclaimersProps> = (pr
     text: {
       fontSize: '7px'
     },
+    title: {
+      fontFamily: 'Libre Franklin Bold',
+      fontSize: '7px'
+    },
     leftColumn: {
       flexDirection: 'row'
     },
@@ -28,7 +32,7 @@ export const PdfIdentificationCertification: React.FC<PdfDisclaimersProps> = (pr
       width: '45%',
       height: '1px',
       border: 0,
-      borderTop: '1px solid #ccc',
+      borderTop: '0.75px solid black',
       padding: 0,
       color: '#00FFFF',
       marginRight: 10,
@@ -52,12 +56,14 @@ export const PdfIdentificationCertification: React.FC<PdfDisclaimersProps> = (pr
 
   return (
     <View style={styles.box}>
+      <Text style={[styles.title]}>
+        CERTIFICATION OF IDENTIFICATION BY OFFICIAL (To be completed by official)
+      </Text>
       <Text style={[styles.text, { paddingBottom: 10 }]}>
-        CERTIFICATION OF IDENTIFICATION BY OFFICIAL (To be completed by official){'\n'}I certify that on the date set
-        forth below the individual named above did appear personally before me and that I did identify this applicant
-        by: (a) comparing his/her physical appearence with the photograph printed here to, (b) comparing his/her
-        physical appearence with the passport photograph, and (c) comparing his/her original passport with the copy of
-        the attached passport.
+        I certify that on the date set forth below the individual named above did appear personally before me and that I
+        did identify this applicant by: (a) comparing his/her physical appearence with the photograph printed here to,
+        (b) comparing his/her physical appearence with the passport photograph, and (c) comparing his/her original
+        passport with the copy of the attached passport.
       </Text>
       <Text style={[styles.text, { paddingBottom: 10 }]}>
         The statements in this document are subscribed and sworn to before me by the individual on this{' '}

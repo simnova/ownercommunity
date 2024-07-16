@@ -15,6 +15,7 @@ export const PdfHeaderV2: React.FC<PdfHeaderProps> = (props) => {
       fontSize: '9px',
       width: '100%',
       textAlign: 'center',
+      fontFamily: "Libre Franklin Bold"
     },
     leftColumn: {
       flexDirection: 'row',

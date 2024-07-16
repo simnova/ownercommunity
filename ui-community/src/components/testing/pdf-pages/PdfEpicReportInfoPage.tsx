@@ -1,10 +1,11 @@
 import React from 'react';
 import { Document, Page, Text, StyleSheet, Font } from '@react-pdf/renderer';
-import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-100.ttf';
-import PdfCandidateDetails from '../PdfCandidateDetails';
-import PdfCredentialDetails from '../PdfCredentialDetails';
-import PdfDisclaimers from '../PdfDisclaimers';
-import PdfTitleSection from '../PdfTitleSection';
+import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-200.ttf';
+import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-600.ttf'
+import PdfCandidateDetails from '../epic/PdfCandidateDetails';
+import PdfCredentialDetails from '../epic/PdfCredentialDetails';
+import PdfDisclaimers from '../epic/PdfDisclaimers';
+import PdfTitleSection from '../epic/PdfTitleSection';
 
 interface PdfTemplateProps {
   data: any;
@@ -13,20 +14,23 @@ interface PdfTemplateProps {
 Font.register({
   family: 'Libre Franklin',
   src: FontFranklinRegular,
-  fontWeight: 1600
+});
+
+Font.register({
+  family: 'Libre Franklin Bold',
+  src: FontFranklinBold,
 });
 
 export const PdfEpicReportInfoPage: React.FC<PdfTemplateProps> = (props) => {
   const styles = StyleSheet.create({
     page: {
-      fontFamily: 'Libre Franklin',
+      fontFamily: 'Libre Franklin Bold',
       color: 'black'
     },
     divider: {
       height: '1px',
       border: 0,
       borderTop: '1px solid #ccc',
-      margin: '1em 0',
       padding: 0,
       color: '#00FFFF',
       marginLeft: 20,

@@ -7,12 +7,19 @@ interface PdfCredentialDetailsProps {
 export const PdfSignatureInformation: React.FC<PdfCredentialDetailsProps> = (props) => {
   const styles = StyleSheet.create({
     text: {
+      fontSize: '8px',
+      fontFamily: 'Libre Franklin Bold'
+    },
+    subText: {
       fontSize: '8px'
     },
     leftColumn: {
       flexDirection: 'row',
       paddingRight: 20,
       paddingLeft: 20
+    },
+    label: {
+      flexDirection: 'row'
     },
     row: {
       width: '100%'
@@ -32,12 +39,24 @@ export const PdfSignatureInformation: React.FC<PdfCredentialDetailsProps> = (pro
       </Text>
       <View style={styles.leftColumn}>
         <View style={styles.row}>
-          <Text style={styles.text}>Name on Document: &nbsp; {props.data.nameOnDocument}</Text>
-          <Text style={styles.text}>Name of Record: &nbsp; {props.data.typeOfCredential}</Text>
+          <View style={styles.label}>
+            <Text style={styles.text}>Name on Document: &nbsp; </Text>
+            <Text style={styles.subText}>{props.data.nameOnDocument}</Text>
+          </View>
+          <View style={styles.label}>
+            <Text style={styles.text}>Name of Record: &nbsp; </Text>
+            <Text style={styles.subText}>{props.data.typeOfCredential}</Text>
+          </View>
         </View>
         <View style={styles.row}>
-          <Text style={styles.text}>Date of Birth: &nbsp; {props.data.dateOfBirth}</Text>
-          <Text style={styles.text}>Applicant ID: &nbsp; {props.data.epicId}</Text>
+          <View style={styles.label}>
+            <Text style={styles.text}>Date of Birth: &nbsp; </Text>
+            <Text style={styles.subText}>{props.data.dateOfBirth}</Text>
+          </View>
+          <View style={styles.label}>
+            <Text style={styles.text}>Applicant ID: &nbsp; </Text>
+            <Text style={styles.subText}>{props.data.epicId}</Text>
+          </View>
         </View>
       </View>
     </>

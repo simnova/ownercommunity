@@ -5,7 +5,7 @@ interface PdfHeaderProps {
   data: any;
 }
 
-export const PdfTitleSection: React.FC<PdfHeaderProps> = (props) => {
+export const PdfHeader: React.FC<PdfHeaderProps> = (props) => {
   const styles = StyleSheet.create({
     image: {
       width: '60%',
@@ -58,4 +58,4 @@ export const PdfTitleSection: React.FC<PdfHeaderProps> = (props) => {
     </View>
   );
 };
-export default PdfTitleSection;
+export default PdfHeader;

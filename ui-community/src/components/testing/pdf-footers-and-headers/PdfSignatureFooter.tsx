@@ -25,7 +25,8 @@ export const PdfSignatureFooter: React.FC<PdfCredentialDetailsProps> = (props) =
       marginTop: 20
     },
     text: {
-      fontSize: '8px'
+      fontSize: '8px',
+      fontFamily: "Libre Franklin Bold"
     },
   });
 

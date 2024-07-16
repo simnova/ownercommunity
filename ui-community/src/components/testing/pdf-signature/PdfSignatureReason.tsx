@@ -10,7 +10,8 @@ export const PdfSignatureReason: React.FC<PdfCredentialDetailsProps> = (props) =
       fontSize: '8px',
       paddingRight: 20,
       paddingLeft: 20,
-      paddingTop: 10
+      paddingTop: 10,
+      fontFamily: "Libre Franklin Bold"
     },
     divider: {
       height: '1px',

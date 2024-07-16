@@ -18,7 +18,7 @@ export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = (props) => {
       width: '100%'
     },
     bannertext: {
-      fontSize: 10,
+      fontSize: "12px",
       backgroundColor: '#d3d3d3',
       marginBottom: '10px',
       padding: '2.5px'

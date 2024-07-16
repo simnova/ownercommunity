@@ -28,7 +28,7 @@ export const PdfApplicantCertification: React.FC<PdfDisclaimersProps> = (props) 
       width: '45%',
       height: '1px',
       border: 0,
-      borderTop: '1px solid #ccc',
+      borderTop: '0.75px solid black',
       padding: 0,
       color: '#00FFFF',
       marginRight: 10,
@@ -38,7 +38,7 @@ export const PdfApplicantCertification: React.FC<PdfDisclaimersProps> = (props) 
 
   return (
     <View style={styles.box}>
-      <Text style={[styles.text, { paddingBottom: 10 }]}>
+      <Text style={[styles.text, { paddingBottom: 10, fontFamily: 'Libre Franklin Bold' }]}>
         APPLICANT RELEASE OF INFORMATION AND CERTIFICATION (To be completed by physician){'\n'}
         Release of Information Authorization{'\n'}
       </Text>
@@ -68,7 +68,7 @@ export const PdfApplicantCertification: React.FC<PdfDisclaimersProps> = (props) 
         I HAVE READ, UNDERSTOOD AND AGREE TO THIS RELEASE OF INFORMATION AUTHORIZATION AND I INTEND TO BE LEGALLY BOUND
         BY IT.
       </Text>
-      <Text style={[styles.text]}>Certification</Text>
+      <Text style={[styles.text, { fontFamily: 'Libre Franklin Bold' }]}>Certification</Text>
       <Text style={[styles.text, { paddingBottom: 10 }]}>
         I certify that I am the individual named above, am represented in the attached photograph, the attached passport
         is a copy of the passport that was issued to me, and that the signature below is my signature.

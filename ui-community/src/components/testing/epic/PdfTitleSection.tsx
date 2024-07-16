@@ -31,7 +31,7 @@ export const PdfTitleSection: React.FC<PdfHeaderProps> = (props) => {
       width: '100%'
     },
     bannertext: {
-      fontSize: 12,
+      fontSize: "10px",
       backgroundColor: '#d3d3d3',
       marginBottom: '10px',
       padding: '2.5px'
@@ -49,8 +49,8 @@ export const PdfTitleSection: React.FC<PdfHeaderProps> = (props) => {
         >
           {props.data.documentTitle}
         </Text>
-        <Text style={styles.title}>Verification Report</Text>
-        <Text style={styles.bannertext}>{props.data.nameOnDocument}</Text>
+        <Text style={[styles.title, {fontFamily: "Libre Franklin Bold"}]}>VERIFICATION REPORT</Text>
+        <Text style={[styles.bannertext, {fontFamily: "Libre Franklin Bold"}]}>{props.data.nameOnDocument}</Text>
         <View>
           <Text style={styles.text}>Report Issued: &nbsp; {props.data.reportIssued}</Text>
           <Text style={styles.text}>Issued To: &nbsp; {props.data.issuedOn}</Text>

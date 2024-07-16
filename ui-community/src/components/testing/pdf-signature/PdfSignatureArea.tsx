@@ -7,7 +7,8 @@ interface PdfCredentialDetailsProps {
 export const PdfSignatureArea: React.FC<PdfCredentialDetailsProps> = (props) => {
   const styles = StyleSheet.create({
     text: {
-      fontSize: '8px'
+      fontSize: '8px',
+      fontFamily: "Libre Franklin Bold"
     },
     leftColumn: {
       flexDirection: 'row',

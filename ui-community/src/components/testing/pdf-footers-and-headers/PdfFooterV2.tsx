@@ -12,7 +12,8 @@ export const PdfFooterV2: React.FC<PdfHeaderProps> = (props) => {
       width: '100%',
       marginTop: 5,
       marginBottom: 5,
-      textAlign: "center"
+      textAlign: 'center',
+      fontFamily: 'Libre Franklin Bold'
     },
     box: {
       width: '90%',
@@ -24,7 +25,7 @@ export const PdfFooterV2: React.FC<PdfHeaderProps> = (props) => {
 
   return (
     <View style={styles.box}>
-        <Text style={styles.text}>This EIF must be completed and submitted to ECFMG by 18-Nov-2018</Text>
+      <Text style={styles.text}>This EIF must be completed and submitted to ECFMG by 18-Nov-2018</Text>
     </View>
   );
 };

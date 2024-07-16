@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client';
 import { SharedPaymentContainerPaymentKeyIdDocument } from '../../../../generated';
 import { useEffect, useState } from 'react';
 import { BillingInfo } from './billing-info';
+import { Skeleton } from 'antd';
 
 interface BillingInfoContainerProps {
   data: any;
@@ -13,18 +14,16 @@ interface TokenOptions {
 }
 type Callback = (err: any, token: string) => void;
 
-export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props) => {
+export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
+  // TODO: Add env var into vite env
+  //const ownerCommunityUrl = import.meta.env.VITE_SELF_HOSTED_CYBERSOURCE_URL ?? 'missing-owner-community-url';
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [cardNumberValidationHelpText, setCardNumberValidationHelpText] = useState<string>('');
   const [securityCodeValidationHelpText, setSecurityCodeValidationHelpText] = useState<string>('');
   const [isCardContainerLoaded, setIsCardContainerLoaded] = useState(false);
   const [flexMicroform, setFlexMicroform] = useState<any>(null);
   const [isMicroformScriptLoaded, setScriptLoaded] = useState(false);
-  const {
-    data: cybersource,
-    loading: cybersourceLoading,
-    error: cybersourceError
-  } = useQuery(SharedPaymentContainerPaymentKeyIdDocument);
+  const { data: cybersource } = useQuery(SharedPaymentContainerPaymentKeyIdDocument);
 
   const createToken = (expirationMonth: string, expirationYear: string, callBack: Callback): void => {
     const options: TokenOptions = {
@@ -69,7 +68,11 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props)
 
       // Create fields
       const number = microform.createField('number', { placeholder: 'Enter card number' });
-      const securityCode = microform.createField('securityCode', { maxLength: 4, placeholder: '•••' });
+      const securityCode = microform.createField('securityCode', {
+        maxLength: 4,
+        placeholder: '••••',
+        type: 'password'
+      });
 
       // Add event listeners
       number.on('change', function (data: any) {
@@ -90,10 +93,14 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props)
   // useEffect to load the microform script
   useEffect(() => {
     if (cybersource) {
+      console.log(`${window.location.origin.toString()}/scripts/microform-css.js`);
       let microformScript: HTMLScriptElement = document.createElement('script');
+      let cssScript: HTMLScriptElement = document.createElement('script');
+      cssScript.src = `${window.location.origin.toString()}/scripts/microform-css.js`;
       microformScript.src = 'https://flex.cybersource.com/cybersource/assets/microform/0.11/flex-microform.min.js';
       microformScript.async = true;
       document.body.appendChild(microformScript);
+      document.body.appendChild(cssScript);
       microformScript.onload = () => {
         console.log('script loaded');
         createFlexObj(cybersource?.paymentKeyId || '', async function (data: any, field: string) {
@@ -112,13 +119,23 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = (props)
         });
       };
 
+      cssScript.defer = true;
+      cssScript.onload = () => {
+        console.log('css loaded');
+        setScriptLoaded(true);
+      };
+
       return () => {
-        console.log('script removed');
+        console.log('scripts removed');
         document.body.removeChild(microformScript);
+        document.body.removeChild(cssScript);
       };
     }
   }, [cybersource]);
 
+  if (!isMicroformScriptLoaded && !isCardContainerLoaded && !cybersource) {
+    return <Skeleton active />;
+  }
   return (
     <BillingInfo
       errorMessage={errorMessage}

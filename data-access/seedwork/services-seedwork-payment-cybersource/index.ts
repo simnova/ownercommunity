@@ -8,6 +8,7 @@ import {
   CustomerPaymentInstrumentsResponse,
   CustomerPaymentResponse,
   CustomerPaymentInstrumentResponse,
+  RefundPaymentResponse
 } from '../services-seedwork-payment-cybersource-interfaces';
 
 export class Cybersource implements CybersourceBase {
@@ -412,7 +413,7 @@ export class Cybersource implements CybersourceBase {
   }
 
 
-  async refundPayment(clientReferenceCode: string, amount: number): Promise<PaymentTransactionResponse> {
+  async refundPayment(requestId: string, amount: number): Promise<RefundPaymentResponse> {
     const instance = new cybersource.RefundApi(this._configObject, this._cybersourceClient);
 
     // create a new OrderInformationAmountDetails object
@@ -434,10 +435,10 @@ export class Cybersource implements CybersourceBase {
     refundCaptureRequest.processingInformation = processingInformation;
 
     return new Promise((resolve, reject) => {
-      instance.refundCapture(refundCaptureRequest, clientReferenceCode, (error, data, response) => {
+      instance.refundCapture(refundCaptureRequest, requestId, (error, data, response) => {
         if (!error) {
           console.log('Refund response: ', JSON.stringify(data));
-          resolve(data as PaymentTransactionResponse);
+          resolve(data as RefundPaymentResponse);
         } else {
           console.log('Refund error: ', error.message);
           reject(new Error(error.message || 'Unknown error occurred in refunding payment'));
@@ -446,7 +447,7 @@ export class Cybersource implements CybersourceBase {
     });
   }
 
-  async voidPayment(clientReferenceCode: string, amount: number): Promise<PaymentTransactionResponse> {
+  async voidPayment(clientReferenceCode: string, requestId: string, amount: number): Promise<PaymentTransactionResponse> {
     const instance = new cybersource.VoidApi(this._configObject, this._cybersourceClient);
 
     // create a new ClientReferenceInformation object used for reconciliation purposes (search)
@@ -459,12 +460,13 @@ export class Cybersource implements CybersourceBase {
     voidCaptureRequest.clientReferenceInformation = clientReferenceInformation;
 
     return new Promise((resolve, reject) => {
-      instance.voidCapture(voidCaptureRequest, clientReferenceCode, (error, data, response) => {
+      instance.voidCapture(voidCaptureRequest, requestId, (error, data, response) => {
         if (!error) {
           console.log('Void data: ', JSON.stringify(data));
           console.log('Void response: ', JSON.stringify(response));
           resolve(data as PaymentTransactionResponse);
         } else {
+          console.log('Void error: ', error);
           reject(new Error(error.message || 'Unknown error occurred in voiding payment'));
         }
       });

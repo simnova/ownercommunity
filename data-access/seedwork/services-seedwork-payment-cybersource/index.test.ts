@@ -3,6 +3,7 @@ import {
   CustomerPaymentInstrumentsResponse,
   PaymentTransactionResponse,
   CustomerPaymentInstrumentResponse,
+  RefundPaymentResponse
 } from '../services-seedwork-payment-cybersource-interfaces';
 import { Cybersource } from './index';
 
@@ -130,24 +131,22 @@ test.skip('cybersource: process payment', async () => {
 });
 
 test.skip('cybersource: refund payment', async () => {
-  const clientReferenceCode = 'TC55971_4';
+  const requestId = '7210836357566150004953'; // 7210836357566150004953
   const amount: number = 100.55;
-  const response: PaymentTransactionResponse = await cybersource.refundPayment(clientReferenceCode, amount);
+  const response: RefundPaymentResponse = await cybersource.refundPayment(requestId, amount);
 
   expect(response).toBeDefined();
-  expect(response.status).toBe('AUTHORIZED');
-  //expect(response.orderInformation.amountDetails.authorizedAmount).toBe(amount.toString());
-  //expect(response.processorInformation.approvalCode).toEqual('888888');
-  //expect(response.processorInformation.transactionId).toBeDefined();
-  // expect below
-  // refundId: refundResponse.id,
-  // responseCode: refundResponse.processorInformation.responseCode
+  expect(response.status).toBe('PENDING');
+  expect(response.processorInformation.responseCode).toBe('100');
+  expect(response.refundAmountDetails.refundAmount).toBe(amount.toString());
 });
 
 test.skip('cybersource: void payment', async () => {
-  const paymentInstrumentId = '1D29E9E8A73A6A8AE063AF598E0AB009';
+  // payments can only be voided if Cybersource has not already submitted the payment to the payment processor
+  const clientReferenceCode = 'TC55971_4';
+  const requestId = '7206168236136411104008';
   const amount: number = 199.99;
-  const response: PaymentTransactionResponse = await cybersource.voidPayment(paymentInstrumentId, amount);
+  const response: PaymentTransactionResponse = await cybersource.voidPayment(clientReferenceCode, requestId, amount);
 
   expect(response).toBeDefined();
   expect(response.status).toBe('AUTHORIZED');

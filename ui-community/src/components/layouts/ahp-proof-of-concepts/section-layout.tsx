@@ -20,7 +20,7 @@ export const AHPPOCSectionLayout: FC<AHPPOCSectionLayoutProps> = (props) => {
             height: '30px',
             width: '30px',
             borderRadius: '15px',
-            border: '1px solid black',
+            border: '1px solid white',
             textAlign: 'center',
             lineHeight: '30px'
           }}
@@ -30,6 +30,7 @@ export const AHPPOCSectionLayout: FC<AHPPOCSectionLayoutProps> = (props) => {
         <Space>
           <div>John Doe</div>
           <Button
+            style={{ color: 'white' }}
             type="link"
             onClick={() => {
               navigation('/');
@@ -44,7 +45,13 @@ export const AHPPOCSectionLayout: FC<AHPPOCSectionLayoutProps> = (props) => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header
-        style={{ background: 'white', border: '1px solid black', display: 'flex', justifyContent: 'space-between' }}
+        style={{
+          background: '#3f4373',
+          border: '1px solid black',
+          display: 'flex',
+          justifyContent: 'space-between',
+          color: 'white'
+        }}
       >
         <HeaderLeftCorner />
         <HeaderRightCorner />

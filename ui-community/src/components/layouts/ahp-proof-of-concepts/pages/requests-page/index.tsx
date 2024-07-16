@@ -4,7 +4,7 @@ import { RequestsPageLayout } from './requests-page-layout';
 import { RequestsPageRoutes } from './requests-page-routes';
 
 interface RequestsPageProps {}
-export const RequestsPage: FC<RequestsPageProps> = (props) => {
+export const RequestsPage: FC<RequestsPageProps> = (_props) => {
   return (
     <Routes>
       <Route path="" element={<RequestsPageLayout />}>

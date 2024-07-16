@@ -1,9 +1,9 @@
 import { Button, Divider, Layout, Tabs } from 'antd';
 import { FC, Key, useEffect, useState } from 'react';
-import { Outlet, useMatch, useNavigate, useParams } from 'react-router-dom';
-import { SelectableListDataType, SelectableList } from '../../components/selectable-list';
+import { Outlet, useMatch, useNavigate } from 'react-router-dom';
+import { SelectableList, SelectableListDataType } from '../../components/selectable-list';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 const RequestType = {
   ACTIVE: { key: 'active', value: 'Active' },
   ARCHIVED: { key: 'archived', value: 'Archived' }
@@ -43,7 +43,7 @@ const DummyArchivedRequests: SelectableListDataType[] = [
   }
 ];
 interface RequestsPageLayoutProps {}
-export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (props) => {
+export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (_props) => {
   const activeRequestRouteMatch = useMatch('/ahp-proof-of-concepts/requests/active/*');
   const archivedRequestRouteMatch = useMatch('/ahp-proof-of-concepts/requests/archived/*');
 

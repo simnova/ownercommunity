@@ -22,7 +22,7 @@ const pageLayouts: PageLayoutProps[] = [
   }
 ];
 interface AHPProofOfConceptsProps {}
-export const AHPProofOfConcepts: FC<AHPProofOfConceptsProps> = (props) => {
+export const AHPProofOfConcepts: FC<AHPProofOfConceptsProps> = (_props) => {
   return (
     <Routes>
       <Route path="" element={<AHPPOCSectionLayout pageLayouts={pageLayouts} />}>

@@ -4,7 +4,7 @@ import { ActiveRequestDetailsPage } from './active-requests-details-page';
 import { ArchivedRequestDetailsPage } from './archived-request-details-page';
 
 interface RequestsPageRoutesProps {}
-export const RequestsPageRoutes: FC<RequestsPageRoutesProps> = (props) => {
+export const RequestsPageRoutes: FC<RequestsPageRoutesProps> = (_props) => {
   console.log(location.pathname);
   return (
     <Routes>

@@ -29,7 +29,7 @@ const pageLayouts: PageLayoutProps[] = [
 ];
 
 interface ActiveRequestDetailsPageProps {}
-export const ActiveRequestDetailsPage: FC<ActiveRequestDetailsPageProps> = (props) => {
+export const ActiveRequestDetailsPage: FC<ActiveRequestDetailsPageProps> = (_props) => {
   return (
     <Routes>
       <Route path="" element={<ActiveRequestDetailsPageLayout pageLayouts={pageLayouts} />}>

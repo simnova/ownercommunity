@@ -1,26 +1,28 @@
 import { PageHeader } from '@ant-design/pro-layout';
 import { Col, Menu, Row, theme } from 'antd';
-import { BillingInfoContainer } from '../../shared/components/billing-info.container';
+import { BillingInfoContainer } from '../components/billing-info.container';
 import { SubPageLayout } from '../sub-page-layout';
-
-import { GrTransaction } from 'react-icons/gr';
-import { UserOutlined } from '@ant-design/icons';
-import { Link, Route, Routes, matchRoutes } from 'react-router-dom';
-import WalletCustomerInfoContainer from '../components/wallet-customer-info.container';
+import { CreditCardOutlined } from '@ant-design/icons';
+import { Link, Route, Routes, matchRoutes, useLocation } from 'react-router-dom';
 
 const Wallet: React.FC = () => {
+  const location = useLocation();
+
   const {
     token: { colorTextBase }
   } = theme.useToken();
 
   const pages = [
-    { id: '1', path: 'wallet/', title: 'Customer Info', icon: <UserOutlined /> },
-    { id: '2', path: 'wallet/billing-info', title: 'Billing Info', icon: <GrTransaction /> }
+    {
+      id: '1',
+      path: '/community/:communityId/member/:memberId/wallet/billing-info',
+      title: 'Billing Info',
+      icon: <CreditCardOutlined />
+    }
   ];
 
   const matchedPages = matchRoutes(pages, location);
   const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.id.toString()) : [];
-
   return (
     <SubPageLayout
       fixedHeader={false}
@@ -45,17 +47,13 @@ const Wallet: React.FC = () => {
       >
         <Col span={6}>
           <Menu mode="inline" selectedKeys={matchedIds}>
-            <Menu.Item key="1" icon={<UserOutlined />}>
-              <Link to="">Customer Info</Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<GrTransaction />}>
+            <Menu.Item key="1" icon={<CreditCardOutlined />}>
               <Link to="billing-info">Billing Info</Link>
             </Menu.Item>
           </Menu>
         </Col>
         <Col span={18} style={{ paddingLeft: '24px' }}>
           <Routes>
-            <Route path="" element={<WalletCustomerInfoContainer />} />
             <Route path="/billing-info" element={<BillingInfoContainer data={undefined} />} />
           </Routes>
         </Col>

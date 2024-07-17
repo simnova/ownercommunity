@@ -21,7 +21,7 @@ const DummyArchivedRequests: SelectableListDataType[] = [
 
 interface ArchivedRequestListContainerProps {}
 
-export const ArchivedRequestListContainer: FC<ArchivedRequestListContainerProps> = (props) => {
+export const ArchivedRequestListContainer: FC<ArchivedRequestListContainerProps> = (_props) => {
   const navigate = useNavigate();
 
   const [selectedArchivedRequest, setSelectedArchivedRequest] = useState<SelectableListDataType | undefined>();

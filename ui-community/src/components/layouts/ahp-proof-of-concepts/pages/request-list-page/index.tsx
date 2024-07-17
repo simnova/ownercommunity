@@ -4,30 +4,42 @@ import { PageLayoutProps } from '../../../admin';
 import { ActiveRequestListContainer } from './components/active-request-list.container';
 import { ArchivedRequestListContainer } from './components/archived-request-list.container';
 import { RequestListPageLayout } from './request-list-page-layout';
+import { AHPFirstRouteLayer, AHPRootRouteLayer } from '../..';
 
-const pageLayouts: PageLayoutProps[] = [
-  { path: '/ahp-proof-of-concepts/requests/active/*', title: 'Active', icon: <></>, id: 'ROOT' },
-  {
-    path: '/ahp-proof-of-concepts/requests/archived/*',
-    title: 'Archived',
-    icon: <></>,
-    id: '1',
-    parent: 'ROOT'
-  }
-];
+export const AHPSecondRouteLayer = {
+  Active: 'active',
+  Archived: 'archived'
+};
 
 interface RequestListPageProps {}
 
 export const RequestListPage: FC<RequestListPageProps> = (_props) => {
   const navigate = useNavigate();
 
-  const rootRoute = useMatch('/ahp-proof-of-concepts/requests');
-  // redirect to (default) active requests if root route is accessed
+  const rootRoute = useMatch(`/${AHPRootRouteLayer}/${AHPFirstRouteLayer.Cases}`);
+
+  // redirect to (default) active cases if cases route is accessed
   useEffect(() => {
     if (rootRoute) {
-      navigate('/ahp-proof-of-concepts/requests/active');
+      navigate('active');
     }
   }, [rootRoute]);
+
+  const pageLayouts: PageLayoutProps[] = [
+    {
+      path: `/${AHPRootRouteLayer}/${AHPFirstRouteLayer.Cases}/${AHPSecondRouteLayer.Active}/*`,
+      title: 'Active',
+      icon: <></>,
+      id: 'ROOT'
+    },
+    {
+      path: `/${AHPRootRouteLayer}/${AHPFirstRouteLayer.Cases}/${AHPSecondRouteLayer.Archived}/*`,
+      title: 'Archived',
+      icon: <></>,
+      id: '1',
+      parent: 'ROOT'
+    }
+  ];
 
   return (
     <Routes>

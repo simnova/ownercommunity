@@ -1,6 +1,8 @@
 import { FC, Key, useEffect, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { SelectableList, SelectableListDataType } from '../../../components/selectable-list';
+import { AHPFirstRouteLayer, AHPRootRouteLayer } from '../../..';
+ import { AHPSecondRouteLayer } from '..';
 
 const DummyActiveRequests: SelectableListDataType[] = [
   {
@@ -25,7 +27,7 @@ export const ActiveRequestListContainer: FC<ActiveRequestListContainerProps> = (
   const navigate = useNavigate();
 
   const [selectedActiveRequest, setSelectedActiveRequest] = useState<SelectableListDataType | undefined>();
-  const selectedActiveRequestRouteMatch = useMatch('/ahp-proof-of-concepts/requests/active/:requestId/*');
+  const selectedActiveRequestRouteMatch = useMatch(`/${AHPRootRouteLayer}/${AHPFirstRouteLayer.Cases}/${AHPSecondRouteLayer.Active}/:requestId/*`);
 
   // set selected request based on request type and request id
   useEffect(() => {
@@ -40,7 +42,7 @@ export const ActiveRequestListContainer: FC<ActiveRequestListContainerProps> = (
 
   const onAnActiveRequestSelected = (selectedRowKey: Key) => {
     setSelectedActiveRequest(DummyActiveRequests.find((r) => r.key === selectedRowKey));
-    navigate(`/ahp-proof-of-concepts/requests/active/${selectedRowKey}/chat`);
+    navigate(`${selectedRowKey}/chat`);
   };
 
   return (

@@ -1,6 +1,8 @@
 import { FC, Key, useEffect, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { SelectableList, SelectableListDataType } from '../../../components/selectable-list';
+import { AHPFirstRouteLayer, AHPRootRouteLayer } from '../../..';
+import { AHPSecondRouteLayer } from '..';
 
 const DummyArchivedRequests: SelectableListDataType[] = [
   {
@@ -25,7 +27,7 @@ export const ArchivedRequestListContainer: FC<ArchivedRequestListContainerProps>
   const navigate = useNavigate();
 
   const [selectedArchivedRequest, setSelectedArchivedRequest] = useState<SelectableListDataType | undefined>();
-  const selectedArchivedRequestRouteMatch = useMatch('/ahp-proof-of-concepts/requests/archived/:requestId');
+  const selectedArchivedRequestRouteMatch = useMatch(`/${AHPRootRouteLayer}/${AHPFirstRouteLayer.Cases}/${AHPSecondRouteLayer.Archived}/:requestId`);
 
   // set selected request based on request type and request id
   useEffect(() => {
@@ -40,8 +42,8 @@ export const ArchivedRequestListContainer: FC<ArchivedRequestListContainerProps>
 
   const onAnArchivedRequestSelected = (selectedRowKey: Key) => {
     setSelectedArchivedRequest(DummyArchivedRequests.find((r) => r.key === selectedRowKey));
-    navigate(`/ahp-proof-of-concepts/requests/archived/${selectedRowKey}`);
-  };
+    navigate(`${selectedRowKey}`);
+  };  
 
   return (
     <SelectableList

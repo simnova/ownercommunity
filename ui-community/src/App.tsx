@@ -7,11 +7,11 @@ import { Members } from './components/layouts/members';
 import { Root } from './components/layouts/root';
 import { AuthLanding } from './components/shared/auth-landing';
 import RequireAuth from './components/shared/require-auth';
-import { AHPProofOfConcepts } from './components/layouts/ahp-proof-of-concepts';
+import { AHPProofOfConcepts, AHPRootRouteLayer } from './components/layouts/ahp-proof-of-concepts';
 
 function App() {
   const authSection = (
-    <RequireAuth  forceLogin={true}>
+    <RequireAuth forceLogin={true}>
       <AuthLanding />
     </RequireAuth>
   );
@@ -34,16 +34,14 @@ function App() {
     </RequireAuth>
   );
 
-  const ahpProofOfConceptsSection = (
-    <AHPProofOfConcepts />
-  );
+  const ahpProofOfConceptsSection = <AHPProofOfConcepts />;
 
   return (
     <Routes>
       <Route path="*" element={rootSection}></Route>
       <Route path="/community/*" element={communitySection} />
       <Route path="/login" element={authSection} />
-      <Route path="/ahp-proof-of-concepts/*" element={ahpProofOfConceptsSection} />
+      <Route path={`/${AHPRootRouteLayer}/*`} element={ahpProofOfConceptsSection} />
     </Routes>
   );
 }

@@ -1,6 +1,6 @@
 export interface CybersourceBase {
   generatePublicKey(): Promise<string>;
-  createCustomerProfile(customerProfile: CustomerProfile, paymentToken: string): Promise<PaymentTransactionResponse>;
+  createCustomerProfile(customerProfile: CustomerProfile, paymentTokenInfo: PaymentTokenInfo): Promise<PaymentTransactionResponse>;
   getCustomerProfile(customerId: string): Promise<CustomerPaymentResponse>;
   addCustomerPaymentInstrument(customerProfile: CustomerProfile, paymentTokenInfo: PaymentTokenInfo): Promise<PaymentTransactionResponse>;
   getCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<CustomerPaymentInstrumentResponse>;

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { ActiveRequestDetailsPageLayout } from './active-request-details-page-layout';
-import { PageLayoutProps } from '../../../../shared/components/menu-component';
+import { PageLayoutProps } from '../../../../../shared/components/menu-component';
 
 const pageLayouts: PageLayoutProps[] = [
   { path: '/ahp-proof-of-concepts/requests/active/:requestId/chat', title: 'Chat', icon: <></>, id: 'ROOT' },

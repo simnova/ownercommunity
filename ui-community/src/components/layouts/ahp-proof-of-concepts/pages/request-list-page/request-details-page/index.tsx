@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { ActiveRequestDetailsPage } from './active-requests-details-page';
+import { ActiveRequestDetailsPage } from './active-request-details-page';
 import { ArchivedRequestDetailsPage } from './archived-request-details-page';
 
-interface RequestsPageRoutesProps {}
-export const RequestsPageRoutes: FC<RequestsPageRoutesProps> = (_props) => {
+interface RequestDetailsPageProps {}
+export const RequestDetailsPage: FC<RequestDetailsPageProps> = (_props) => {
   return (
     <Routes>
       <Route path="active/:requestId/*" element={<ActiveRequestDetailsPage />} />

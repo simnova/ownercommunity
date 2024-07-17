@@ -242,11 +242,18 @@ export class Cybersource implements CybersourceBase {
 
     // create a new TokenInformation object
     let tokenInformation = new cybersource.Ptsv2paymentsTokenInformation();
-    tokenInformation.transientTokenJwt = paymentTokenInfo.paymentToken;
 
     // create a new PaymentInformation object
     tokenInformation.paymentInstrument = new cybersource.Ptsv2paymentsTokenInformationPaymentInstrument();
-    tokenInformation.paymentInstrument.default = paymentTokenInfo.isDefault; // Set the default payment instrument
+
+    // Ensure paymentTokenInfo and its properties are not null or undefined
+    if (paymentTokenInfo && paymentTokenInfo.paymentToken && typeof paymentTokenInfo.isDefault !== 'undefined') {
+        tokenInformation.transientTokenJwt = paymentTokenInfo.paymentToken;    
+        tokenInformation.paymentInstrument.default = paymentTokenInfo.isDefault; // Set the default payment instrument
+    } else {
+        // Handle the case where paymentTokenInfo or its properties are null or undefined
+        console.error('paymentTokenInfo or its required properties are null or undefined');
+    }
 
     // create a new PaymentInformation object
     let paymentInformation = new cybersource.Ptsv2paymentsPaymentInformation();

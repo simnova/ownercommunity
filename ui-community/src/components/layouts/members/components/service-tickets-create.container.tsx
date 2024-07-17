@@ -13,6 +13,7 @@ import { ServiceTicketsCreate } from '../../shared/components/service-tickets-cr
 interface ServiceTicketsCreateContainerProps {
   data: {
     communityId: string;
+    memberId: string;
   };
 }
 
@@ -30,7 +31,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
     loading: propertyLoading,
     error: propertyError
   } = useQuery(MembersServiceTicketsCreateContainerPropertiesDocument, {
-    variables: { communityId: props.data.communityId }
+    variables: { id: props.data.memberId }
   });
   const [serviceTicketCreate] = useMutation(MembersServiceTicketsCreateContainerServiceTicketCreateDocument, {
     update(cache, { data }) {
@@ -84,7 +85,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
   if (memberData && propertyData) {
     const data = {
       members: memberData.membersByCommunityId,
-      properties: propertyData.propertiesForCurrentUserByCommunityId
+      properties: propertyData.propertiesByOwnerId
     };
 
     return <ServiceTicketsCreate data={data as any} onSave={handleCreate} />;

@@ -20,32 +20,8 @@ export class PropertyDataApiImpl
     return PropertyModel.find().exec();
   }
 
-  async getPropertiesForCurrentUserByCommunityId(communityId: string, userId: string): Promise<PropertyData[]> {
-    let result = await MemberModel.aggregate<PropertyData>([
-      {
-        $match: {
-          community: new Types.ObjectId(communityId),
-          'accounts.user': new Types.ObjectId(userId),
-        },
-      },
-      {
-        $lookup: {
-          from: 'properties',
-          localField: '_id',
-          foreignField: 'owner',
-          as: 'p',
-        },
-      },
-      {
-        $unwind: {
-          path: '$p',
-        },
-      },
-      {
-        $replaceWith: '$p',
-      },
-    ]).exec();
-    return result.map((r) => PropertyModel.hydrate(r));
+  async getPropertiesByOwnerId(ownerId: string): Promise<PropertyData[]> {
+    return this.findByFields({ community: this.context.communityId, owner: ownerId });
   }
   async getPropertyByIdWithCommunityOwner(propertyId: string): Promise<PropertyData> {
     return this.model.findById(propertyId).populate(['community', 'owner']).exec();

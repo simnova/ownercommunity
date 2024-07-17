@@ -8924,18 +8924,18 @@
             "deprecationReason": null
           },
           {
-            "name": "propertiesForCurrentUserByCommunityId",
+            "name": "propertiesByOwnerId",
             "description": null,
             "args": [
               {
-                "name": "communityId",
+                "name": "ownerId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "ID",
+                    "name": "ObjectID",
                     "ofType": null
                   }
                 },

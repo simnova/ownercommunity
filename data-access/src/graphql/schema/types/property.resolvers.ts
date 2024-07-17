@@ -52,9 +52,8 @@ const property: Resolvers = {
     propertiesByCommunityId: async (_, { communityId }, context) => {
       return (await context.applicationServices.propertyDataApi.getPropertiesByCommunityId(communityId)) as Property[];
     },
-    propertiesForCurrentUserByCommunityId: async (_, _args, context) => {
-      const user = await context.applicationServices.userDataApi.getUserByExternalId(context.verifiedUser.verifiedJWT.sub);
-      return (await context.applicationServices.propertyDataApi.getPropertiesForCurrentUserByCommunityId(context.communityId, user.id)) as Property[];
+    propertiesByOwnerId: async (_, { ownerId }, context) => {
+      return (await context.applicationServices.propertyDataApi.getPropertiesByOwnerId(ownerId)) as Property[];
     },
     getAllPropertyTags: async (_, _args, context) => {
       const properties = (await context.applicationServices.propertyDataApi.getAllProperties()) as Property[];

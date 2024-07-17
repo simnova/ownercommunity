@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { arePageLayoutsLoaded, usePageLayouts } from '../../editor/page-layout';
 import CmsPage from './cms-page';
 import { Header } from './components/header';
+import { useCallback } from 'react';
 
 export const SectionLayout: React.FC<any> = () => {
   const [pageLayouts] = usePageLayouts();
@@ -12,9 +13,9 @@ export const SectionLayout: React.FC<any> = () => {
     return <div>Site not found</div>;
   }
 
-  const navigateToAhpProofOfConcept = () => {
-    navigate('/ahp-proof-of-concepts/requests');
-  };
+  const navigateToAhpProofOfConcept = useCallback(() => {  
+    navigate('/ahp-proof-of-concepts/requests');  
+  }, []); 
 
   return (
     <div>

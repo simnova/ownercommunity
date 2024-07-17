@@ -77,7 +77,12 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (_props) => {
     } else {
       setCurrentRequestTypeTabKey(RequestType.ACTIVE.key);
     }
-  }, [activeRequestRouteMatch, archivedRequestRouteMatch]);
+  }, [
+    activeRequestRouteMatch,
+    archivedRequestRouteMatch,
+    selectedActiveRequestRouteMatch,
+    selectedArchivedRequestRouteMatch
+  ]);
 
   const onAnActiveRequestSelected = (selectedRowKey: Key) => {
     setSelectedActiveRequest(DummyActiveRequests.find((r) => r.key === selectedRowKey));
@@ -97,7 +102,7 @@ export const RequestsPageLayout: FC<RequestsPageLayoutProps> = (_props) => {
       navigate('/ahp-proof-of-concepts/requests/active');
     } else if (requestType === RequestType.ARCHIVED.key) {
       navigate('/ahp-proof-of-concepts/requests/archived');
-    }
+    } 
   };
 
   return (

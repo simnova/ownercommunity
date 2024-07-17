@@ -20,6 +20,9 @@ interface SelectableListProps {
 }
 export const SelectableList: FC<SelectableListProps> = (props) => {
   const onRowChange = (selectedRowKeys: React.Key[]) => {
+    if (selectedRowKeys.length === 0) {
+      return;
+    }
     props.onSelectChange(selectedRowKeys[0]);
   };
 

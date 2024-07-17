@@ -122,7 +122,7 @@ export class Cybersource implements CybersourceBase {
    * @throws {Error} If an error occurs in creating the customer profile
    * full details: https://developer.cybersource.com/api-reference-assets/index.html#payments
    * */
-  async createCustomerProfile(customerProfile: CustomerProfile, paymentToken: string): Promise<PaymentTransactionResponse> {
+  async createCustomerProfile(customerProfile: CustomerProfile, paymentTokenInfo: PaymentTokenInfo): Promise<PaymentTransactionResponse> {
     const instance = new cybersource.PaymentsApi(this._configObject, this._cybersourceClient);
 
     // create a new ClientReferenceInformation object used for reconciliation purposes (search)
@@ -158,7 +158,18 @@ export class Cybersource implements CybersourceBase {
 
     // create a new TokenInformation object
     let tokenInformationObj = new cybersource.Ptsv2paymentsTokenInformation();
-    tokenInformationObj.transientTokenJwt = paymentToken;
+
+    // create a new PaymentInformation object
+    tokenInformationObj.paymentInstrument = new cybersource.Ptsv2paymentsTokenInformationPaymentInstrument();
+
+    // Ensure paymentTokenInfo and its properties are not null or undefined
+    if (paymentTokenInfo && paymentTokenInfo.paymentToken && typeof paymentTokenInfo.isDefault !== 'undefined') {
+      tokenInformationObj.transientTokenJwt = paymentTokenInfo.paymentToken;
+      tokenInformationObj.paymentInstrument.default = paymentTokenInfo.isDefault; // Set the default payment instrument
+    } else {
+      // Handle the case where paymentTokenInfo or its properties are null or undefined
+      throw new Error('paymentTokenInfo or its required properties are null or undefined');
+    }
 
     // create a new CreatePaymentRequest object
     let createPaymentRequest = new cybersource.CreatePaymentRequest();

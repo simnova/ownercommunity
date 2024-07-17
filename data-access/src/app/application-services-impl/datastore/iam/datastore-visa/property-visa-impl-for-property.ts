@@ -6,7 +6,7 @@ export class PropertyVisaImplForProperty<root extends PropertyData> implements P
   constructor(private root: root, private member: MemberData) {}  
   
   determineIf(func:((permissions: PropertyPermissions) => boolean)) :  boolean {
-    const propertyPermissions = this.member.role.permissions.communityPermissions;
+    const propertyPermissions = this.member.role.permissions.propertyPermissions;
     if(!propertyPermissions) {
       console.log("Property Visa : no property permissions");
       return false;

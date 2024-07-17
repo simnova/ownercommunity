@@ -9,6 +9,8 @@ import {
   ViolationTicketUpdateInput,
   ViolationTicketChangeStatusInput
 } from '../../../../generated';
+import usePayModal from '../../../../hooks/usePayModal';
+import PaymentModal from './payment-modal';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -41,7 +43,9 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
 
   const currentStep = stepArray.findIndex((value) => value === props.data.violationTicket.status);
   const [modalVisible, setModalVisible] = useState(false);
-  const nextState = (stepArray[currentStep + 1]);
+  const nextState = stepArray[currentStep + 1];
+
+  const usePay = usePayModal();
 
   const priority = [
     {
@@ -108,10 +112,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               oldValue = `$ ${oldValue}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }
 
-            if(field === 'Penalty paid date') {
-                newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY h:mm A');
-                oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY h:mm A');
-          }
+            if (field === 'Penalty paid date') {
+              newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY h:mm A');
+              oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY h:mm A');
+            }
             return (
               <div className="flex gap-1">
                 <b>{field}:</b>
@@ -269,24 +273,25 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               }}
               onFinish={async () => {
                 setAssignFormLoading(true);
-                await props.onUpdate({
-                  violationTicketId: props.data.violationTicket.id,
-                  penaltyPaidDate: dayjs().toISOString()
-                });
+                // await props.onUpdate({
+                //   violationTicketId: props.data.violationTicket.id,
+                //   penaltyPaidDate: dayjs().toISOString()
+                // });
 
                 // TODO: The backend should be changing the status to PAID
-                await props.onChangeStatus({
-                  violationTicketId: props.data.violationTicket.id,
-                  status: nextState,
-                  activityDescription: 'Penalty paid'
-                });
+                // await props.onChangeStatus({
+                //   violationTicketId: props.data.violationTicket.id,
+                //   status: nextState,
+                //   activityDescription: 'Penalty paid'
+                // });
                 setAssignFormLoading(false);
               }}
             >
-              <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
+              <Button type="primary" onClick={usePay.onOpen}>
                 Pay now
               </Button>
             </Form>
+            <PaymentModal title="Pay Penalty" />
           </div>
         </div>
       )}

@@ -1,19 +1,20 @@
 export interface CybersourceBase {
   generatePublicKey(): Promise<string>;
-  createCustomerProfile(customerProfile: CustomerProfile, paymentToken: string): Promise<PaymentTransactionResponse>;
+  createCustomerProfile(customerProfile: CustomerProfile, paymentTokenInfo: PaymentTokenInfo): Promise<PaymentTransactionResponse>;
   getCustomerProfile(customerId: string): Promise<CustomerPaymentResponse>;
-  addCustomerPaymentInstrument(customerProfile: CustomerProfile, paymentToken: string): Promise<PaymentTransactionResponse>;
+  addCustomerPaymentInstrument(customerProfile: CustomerProfile, paymentTokenInfo: PaymentTokenInfo): Promise<PaymentTransactionResponse>;
   getCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<CustomerPaymentInstrumentResponse>;
   getCustomerPaymentInstruments(customerId: string, offset?: number, limit?: number): Promise<CustomerPaymentInstrumentsResponse>;
   deleteCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>;
   setDefaultCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<CustomerPaymentResponse>;
   processPayment(clientReferenceCode: string, paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
-  refundPayment(paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
-  voidPayment(clientReferenceCode: string, amount: number): Promise<PaymentTransactionResponse>;
+  refundPayment(transactionId: string, amount: number): Promise<RefundPaymentResponse>;
+  voidPayment(clientReferenceCode: string, transactionId: string): Promise<PaymentTransactionResponse>;
+  searchTransactions(clientReferenceCode: string): Promise<TransactionSearchResponse>;
 }
 
 export interface CustomerProfile {
-  customerId: string;
+  customerId?: string;
   billingFirstName: string;
   billingLastName: string;
   billingEmail: string;
@@ -24,6 +25,11 @@ export interface CustomerProfile {
   billingState: string;
   billingPostalCode: string;
   billingCountry: string;
+}
+
+export interface PaymentTokenInfo {
+  paymentToken: string;
+  isDefault: boolean;
 }
 
 export interface PaymentTransactionResponse {
@@ -70,6 +76,7 @@ export interface PaymentTransactionResponse {
     instrumentIdentifier: { id: string; state: string }; // state: 'ACTIVE'
     customer: { id: string };
   };
+  voidAmountDetails: { voidAmount: string; currency: string };
 }
 
 export interface PaymentInstrument {
@@ -182,5 +189,91 @@ export interface CustomerPaymentInstrumentsResponse {
   total: number;
   _embedded: {
     paymentInstruments: PaymentInstrument[];
+  };
+}
+
+export interface RefundPaymentResponse {
+  _links: {
+    self: {
+      href: string;
+      method: string;
+    };
+    void: {
+      href: string;
+      method: string;
+    };
+  };
+  id: string;
+  submitTimeUtc: string;
+  status: string;
+  reconciliationId: string;
+  clientReferenceInformation: { code: string };
+  refundAmountDetails: { refundAmount: string; currency: string };
+  processorInformation: { approvalCode: string; responseCode: string };
+  orderInformation: {};
+}
+
+export interface TransactionSearchResponse {
+  searchId: string;
+  save: boolean;
+  timezone: string;
+  query: string;
+  offset: number;
+  limit: number;
+  sort: string;
+  count: number;
+  totalCount: number;
+  submitTimeUtc: string;
+  _embedded: {
+    transactionSummaries: TransactionSummary[];
+  };
+  _links: {
+    self: {
+      href: string;
+      method: string;
+    };
+  };
+}
+
+export interface TransactionSummary {
+  id: string;
+  submitTimeUtc: string;
+  merchantId: string;
+  clientReferenceInformation: {
+    code: string;
+    applicationName: string;
+  };
+  orderInformation: {
+    billTo: {
+      firstName: string;
+      lastName: string;
+      address1: string;
+      email: string;
+      country: string;
+    };
+    amountDetails?: {
+      totalAmount: string;
+      currency: string;
+    };
+  };
+  paymentInformation: {
+    paymentType: {
+      type: string;
+      method: string;
+    };
+    card: {
+      suffix: string;
+      prefix: string;
+      type: string;
+    };
+  };
+  processingInformation: {
+    commerceIndicatorLabel: string;
+  };
+  _links: {
+    transactionDetail: {
+      href: string;
+      method: string;
+    };
   };
 }

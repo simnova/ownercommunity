@@ -81,6 +81,25 @@ export type Scalars = {
   Void: any;
 };
 
+export type AddPaymentInstrumentInput = {
+  billingAddressLine1?: InputMaybe<Scalars['String']>;
+  billingAddressLine2?: InputMaybe<Scalars['String']>;
+  billingCity?: InputMaybe<Scalars['String']>;
+  billingCountry?: InputMaybe<Scalars['String']>;
+  billingEmail?: InputMaybe<Scalars['String']>;
+  billingFirstName?: InputMaybe<Scalars['String']>;
+  billingLastName?: InputMaybe<Scalars['String']>;
+  billingPhone?: InputMaybe<Scalars['String']>;
+  billingPostalCode?: InputMaybe<Scalars['String']>;
+  billingState?: InputMaybe<Scalars['String']>;
+  paymentToken?: InputMaybe<Scalars['String']>;
+};
+
+export type AddPaymentInstrumentMutationResult = MutationResult & {
+  __typename?: 'AddPaymentInstrumentMutationResult';
+  status: MutationStatus;
+};
+
 export type AdditionalAmenities = MongoSubdocument & {
   __typename?: 'AdditionalAmenities';
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -149,6 +168,13 @@ export type AddressInput = {
   streetName: Scalars['String'];
   streetNameAndNumber: Scalars['String'];
   streetNumber: Scalars['String'];
+};
+
+export type AmountDetails = {
+  __typename?: 'AmountDetails';
+  authorizedAmount?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
+  totalAmount?: Maybe<Scalars['String']>;
 };
 
 export type BedroomDetails = MongoSubdocument & {
@@ -323,6 +349,12 @@ export type CustomViewInput = {
   name?: InputMaybe<Scalars['String']>;
   sortOrder?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
+};
+
+export type Cybersource = {
+  __typename?: 'Cybersource';
+  customerId: Scalars['String'];
+  transactions?: Maybe<Array<Maybe<Transaction>>>;
 };
 
 export type FacetDetail = {
@@ -575,6 +607,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
+  addPaymentInstrument: AddPaymentInstrumentMutationResult;
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
@@ -619,6 +652,11 @@ export type Mutation = {
   violationTicketCreate: ViolationTicketMutationResult;
   violationTicketDelete: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationAddPaymentInstrumentArgs = {
+  input: AddPaymentInstrumentInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -842,14 +880,9 @@ export type MutationStatus = {
 };
 
 /** A payment object. */
-export type Payment = MongoBase & {
+export type Payment = {
   __typename?: 'Payment';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  id: Scalars['ObjectID'];
-  paymentKeyId?: Maybe<Scalars['String']>;
-  schemaVersion?: Maybe<Scalars['String']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  cybersourcePublicKeyId?: Maybe<Scalars['String']>;
 };
 
 export type PermissionsInput = {
@@ -1032,6 +1065,7 @@ export type Query = {
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
+  cybersourcePublicKeyId?: Maybe<Scalars['String']>;
   getAllPropertyTags?: Maybe<Array<Maybe<Scalars['String']>>>;
   getMapSasToken?: Maybe<Scalars['String']>;
   member?: Maybe<Member>;
@@ -1041,7 +1075,6 @@ export type Query = {
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
-  paymentKeyId?: Maybe<Scalars['String']>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
@@ -1422,6 +1455,19 @@ export type ServiceUpdateInput = {
 
 export type Ticket = ServiceTicket | ViolationTicket;
 
+export type Transaction = {
+  __typename?: 'Transaction';
+  amountDetails?: Maybe<AmountDetails>;
+  clientReferenceCode?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  isSuccess?: Maybe<Scalars['Boolean']>;
+  reconciliationId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  successTimestamp?: Maybe<Scalars['DateTime']>;
+  transactionId?: Maybe<Scalars['String']>;
+  transactionTime?: Maybe<Scalars['DateTime']>;
+};
+
 export type User = MongoBase & {
   __typename?: 'User';
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -1530,6 +1576,11 @@ export type ViolationTicketUpdateInput = {
   violationTicketId: Scalars['ObjectID'];
 };
 
+export type Wallet = {
+  __typename?: 'Wallet';
+  cybersource?: Maybe<Cybersource>;
+};
+
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 
@@ -1603,12 +1654,15 @@ export type ResolversUnionParentTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   AccountNumber: ResolverTypeWrapper<Scalars['AccountNumber']>;
+  AddPaymentInstrumentInput: AddPaymentInstrumentInput;
+  AddPaymentInstrumentMutationResult: ResolverTypeWrapper<AddPaymentInstrumentMutationResult>;
   AdditionalAmenities: ResolverTypeWrapper<AdditionalAmenities>;
   AdditionalAmenitiesFilterInput: AdditionalAmenitiesFilterInput;
   AdditionalAmenitiesInput: AdditionalAmenitiesInput;
   AdditionalAmenitiesSearchResult: ResolverTypeWrapper<AdditionalAmenitiesSearchResult>;
   Address: ResolverTypeWrapper<Address>;
   AddressInput: AddressInput;
+  AmountDetails: ResolverTypeWrapper<AmountDetails>;
   BedroomDetails: ResolverTypeWrapper<BedroomDetails>;
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
@@ -1636,6 +1690,7 @@ export type ResolversTypes = ResolversObject<{
   CurrentUser: ResolverTypeWrapper<CurrentUser>;
   CustomView: ResolverTypeWrapper<CustomView>;
   CustomViewInput: CustomViewInput;
+  Cybersource: ResolverTypeWrapper<Cybersource>;
   DID: ResolverTypeWrapper<Scalars['DID']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
@@ -1699,7 +1754,6 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['Community']
     | ResolversTypes['CurrentUser']
     | ResolversTypes['Member']
-    | ResolversTypes['Payment']
     | ResolversTypes['Property']
     | ResolversTypes['Role']
     | ResolversTypes['Service']
@@ -1714,6 +1768,7 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['ServiceTicketPhoto'];
   Mutation: ResolverTypeWrapper<{}>;
   MutationResult:
+    | ResolversTypes['AddPaymentInstrumentMutationResult']
     | ResolversTypes['CommunityMutationResult']
     | ResolversTypes['MemberMutationResult']
     | ResolversTypes['PropertyMutationResult']
@@ -1802,6 +1857,7 @@ export type ResolversTypes = ResolversObject<{
   Time: ResolverTypeWrapper<Scalars['Time']>;
   TimeZone: ResolverTypeWrapper<Scalars['TimeZone']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
+  Transaction: ResolverTypeWrapper<Transaction>;
   URL: ResolverTypeWrapper<Scalars['URL']>;
   USCurrency: ResolverTypeWrapper<Scalars['USCurrency']>;
   UUID: ResolverTypeWrapper<Scalars['UUID']>;
@@ -1822,17 +1878,21 @@ export type ResolversTypes = ResolversObject<{
   ViolationTicketPermissionsInput: ViolationTicketPermissionsInput;
   ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
+  Wallet: ResolverTypeWrapper<Wallet>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   AccountNumber: Scalars['AccountNumber'];
+  AddPaymentInstrumentInput: AddPaymentInstrumentInput;
+  AddPaymentInstrumentMutationResult: AddPaymentInstrumentMutationResult;
   AdditionalAmenities: AdditionalAmenities;
   AdditionalAmenitiesFilterInput: AdditionalAmenitiesFilterInput;
   AdditionalAmenitiesInput: AdditionalAmenitiesInput;
   AdditionalAmenitiesSearchResult: AdditionalAmenitiesSearchResult;
   Address: Address;
   AddressInput: AddressInput;
+  AmountDetails: AmountDetails;
   BedroomDetails: BedroomDetails;
   BedroomDetailsInput: BedroomDetailsInput;
   BigInt: Scalars['BigInt'];
@@ -1859,6 +1919,7 @@ export type ResolversParentTypes = ResolversObject<{
   CurrentUser: CurrentUser;
   CustomView: CustomView;
   CustomViewInput: CustomViewInput;
+  Cybersource: Cybersource;
   DID: Scalars['DID'];
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
@@ -1922,7 +1983,6 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['Community']
     | ResolversParentTypes['CurrentUser']
     | ResolversParentTypes['Member']
-    | ResolversParentTypes['Payment']
     | ResolversParentTypes['Property']
     | ResolversParentTypes['Role']
     | ResolversParentTypes['Service']
@@ -1937,6 +1997,7 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['ServiceTicketPhoto'];
   Mutation: {};
   MutationResult:
+    | ResolversParentTypes['AddPaymentInstrumentMutationResult']
     | ResolversParentTypes['CommunityMutationResult']
     | ResolversParentTypes['MemberMutationResult']
     | ResolversParentTypes['PropertyMutationResult']
@@ -2025,6 +2086,7 @@ export type ResolversParentTypes = ResolversObject<{
   Time: Scalars['Time'];
   TimeZone: Scalars['TimeZone'];
   Timestamp: Scalars['Timestamp'];
+  Transaction: Transaction;
   URL: Scalars['URL'];
   USCurrency: Scalars['USCurrency'];
   UUID: Scalars['UUID'];
@@ -2045,6 +2107,7 @@ export type ResolversParentTypes = ResolversObject<{
   ViolationTicketPermissionsInput: ViolationTicketPermissionsInput;
   ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: Scalars['Void'];
+  Wallet: Wallet;
 }>;
 
 export type CacheControl22DirectiveArgs = {
@@ -2063,6 +2126,14 @@ export type CacheControl22DirectiveResolver<Result, Parent, ContextType = Graphq
 export interface AccountNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['AccountNumber'], any> {
   name: 'AccountNumber';
 }
+
+export type AddPaymentInstrumentMutationResultResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['AddPaymentInstrumentMutationResult'] = ResolversParentTypes['AddPaymentInstrumentMutationResult'],
+> = ResolversObject<{
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export type AdditionalAmenitiesResolvers<
   ContextType = GraphqlContext,
@@ -2104,6 +2175,16 @@ export type AddressResolvers<ContextType = GraphqlContext, ParentType extends Re
   streetName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   streetNameAndNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   streetNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type AmountDetailsResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['AmountDetails'] = ResolversParentTypes['AmountDetails'],
+> = ResolversObject<{
+  authorizedAmount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  totalAmount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2264,6 +2345,15 @@ export type CustomViewResolvers<ContextType = GraphqlContext, ParentType extends
   sortOrder?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CybersourceResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['Cybersource'] = ResolversParentTypes['Cybersource'],
+> = ResolversObject<{
+  customerId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  transactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2526,7 +2616,7 @@ export type MemberProfileResolvers<
 }>;
 
 export type MongoBaseResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['MongoBase'] = ResolversParentTypes['MongoBase']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'Community' | 'CurrentUser' | 'Member' | 'Payment' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Community' | 'CurrentUser' | 'Member' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'User', ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2549,6 +2639,7 @@ export type MongoSubdocumentResolvers<
 
 export type MutationResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  addPaymentInstrument?: Resolver<ResolversTypes['AddPaymentInstrumentMutationResult'], ParentType, ContextType, RequireFields<MutationAddPaymentInstrumentArgs, 'input'>>;
   communityCreate?: Resolver<Maybe<ResolversTypes['CommunityMutationResult']>, ParentType, ContextType, RequireFields<MutationCommunityCreateArgs, 'input'>>;
   communityPublicContentCreateAuthHeader?: Resolver<
     ResolversTypes['CommunityBlobContentAuthHeaderResult'],
@@ -2639,6 +2730,7 @@ export type MutationResultResolvers<
   ParentType extends ResolversParentTypes['MutationResult'] = ResolversParentTypes['MutationResult'],
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
+    | 'AddPaymentInstrumentMutationResult'
     | 'CommunityMutationResult'
     | 'MemberMutationResult'
     | 'PropertyMutationResult'
@@ -2696,12 +2788,7 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type PaymentResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Payment'] = ResolversParentTypes['Payment']> = ResolversObject<{
-  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
-  paymentKeyId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  cybersourcePublicKeyId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2842,6 +2929,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   communityByDomain?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByDomainArgs, 'domain'>>;
   communityByHandle?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByHandleArgs, 'handle'>>;
   communityById?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType, RequireFields<QueryCommunityByIdArgs, 'id'>>;
+  cybersourcePublicKeyId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   getAllPropertyTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   getMapSasToken?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   member?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType, RequireFields<QueryMemberArgs, 'id'>>;
@@ -2861,7 +2949,6 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
     ContextType,
     RequireFields<QueryMembersByUserExternalIdArgs, 'userExternalId'>
   >;
-  paymentKeyId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   properties?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
   propertiesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType, RequireFields<QueryPropertiesByCommunityIdArgs, 'communityId'>>;
   propertiesForCurrentUserByCommunityId?: Resolver<
@@ -3113,6 +3200,22 @@ export interface TimestampScalarConfig extends GraphQLScalarTypeConfig<Resolvers
   name: 'Timestamp';
 }
 
+export type TransactionResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['Transaction'] = ResolversParentTypes['Transaction'],
+> = ResolversObject<{
+  amountDetails?: Resolver<Maybe<ResolversTypes['AmountDetails']>, ParentType, ContextType>;
+  clientReferenceCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  isSuccess?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  reconciliationId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  successTimestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  transactionId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  transactionTime?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface UrlScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['URL'], any> {
   name: 'URL';
 }
@@ -3207,11 +3310,18 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'Void';
 }
 
+export type WalletResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Wallet'] = ResolversParentTypes['Wallet']> = ResolversObject<{
+  cybersource?: Resolver<Maybe<ResolversTypes['Cybersource']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   AccountNumber?: GraphQLScalarType;
+  AddPaymentInstrumentMutationResult?: AddPaymentInstrumentMutationResultResolvers<ContextType>;
   AdditionalAmenities?: AdditionalAmenitiesResolvers<ContextType>;
   AdditionalAmenitiesSearchResult?: AdditionalAmenitiesSearchResultResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
+  AmountDetails?: AmountDetailsResolvers<ContextType>;
   BedroomDetails?: BedroomDetailsResolvers<ContextType>;
   BigInt?: GraphQLScalarType;
   BlobAuthHeader?: BlobAuthHeaderResolvers<ContextType>;
@@ -3229,6 +3339,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   Currency?: GraphQLScalarType;
   CurrentUser?: CurrentUserResolvers<ContextType>;
   CustomView?: CustomViewResolvers<ContextType>;
+  Cybersource?: CybersourceResolvers<ContextType>;
   DID?: GraphQLScalarType;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
@@ -3322,6 +3433,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   Time?: GraphQLScalarType;
   TimeZone?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;
+  Transaction?: TransactionResolvers<ContextType>;
   URL?: GraphQLScalarType;
   USCurrency?: GraphQLScalarType;
   UUID?: GraphQLScalarType;
@@ -3334,6 +3446,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   ViolationTicketMutationResult?: ViolationTicketMutationResultResolvers<ContextType>;
   ViolationTicketPermissions?: ViolationTicketPermissionsResolvers<ContextType>;
   Void?: GraphQLScalarType;
+  Wallet?: WalletResolvers<ContextType>;
 }>;
 
 export type DirectiveResolvers<ContextType = GraphqlContext> = ResolversObject<{

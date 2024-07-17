@@ -1,17 +1,59 @@
 """
 A payment object.
 """
-type Payment implements MongoBase {
-  paymentKeyId: String
-
-  id: ObjectID!
-  schemaVersion: String
-  createdAt: DateTime
-  updatedAt: DateTime
-
-  tags: [String]
+type Payment {
+  cybersourcePublicKeyId: String
 }
 
 extend type Query {
-  paymentKeyId: String
+  cybersourcePublicKeyId: String
+}
+
+input AddPaymentInstrumentInput {
+  billingFirstName: String
+  billingLastName: String
+  billingEmail: String
+  billingPhone: String
+  billingAddressLine1: String
+  billingAddressLine2: String
+  billingCity: String
+  billingState: String
+  billingPostalCode: String
+  billingCountry: String
+  paymentToken: String
+}
+
+type AddPaymentInstrumentMutationResult implements MutationResult {
+  status: MutationStatus!
+}
+
+extend type Mutation {
+  addPaymentInstrument(input: AddPaymentInstrumentInput!): AddPaymentInstrumentMutationResult!
+}
+
+type AmountDetails {
+  totalAmount: String
+  authorizedAmount: String
+  currency: String
+}
+
+type Transaction {
+  id: ObjectID!
+  transactionId: String
+  clientReferenceCode: String
+  amountDetails: AmountDetails
+  status: String
+  reconciliationId: String
+  isSuccess: Boolean
+  transactionTime: DateTime
+  successTimestamp: DateTime
+}
+
+type Cybersource {
+  customerId: String!
+  transactions: [Transaction]
+}
+
+type Wallet {
+  cybersource: Cybersource
 }

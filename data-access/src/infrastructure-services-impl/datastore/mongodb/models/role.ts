@@ -3,13 +3,13 @@ import { Base } from '../../../../../seedwork/services-seedwork-datastore-mongod
 import * as Community from './community';
 
 export interface ServicePermissions {
-  id: ObjectId;
+  id?: ObjectId;
   canManageServices: boolean;
   isSystemAccount: false;
 }
 
 export interface ServiceTicketPermissions {
-  id: ObjectId;
+  id?: ObjectId;
   canCreateTickets: boolean;
   canManageTickets: boolean;
   canAssignTickets: boolean;
@@ -20,7 +20,7 @@ export interface ServiceTicketPermissions {
 }
 
 export interface ViolationTicketPermissions {
-  id: ObjectId;
+  id?: ObjectId;
   canCreateTickets: boolean;
   canManageTickets: boolean;
   canAssignTickets: boolean;
@@ -31,7 +31,7 @@ export interface ViolationTicketPermissions {
 }
 
 export interface PropertyPermissions {
-  id: ObjectId;
+  id?: ObjectId;
   canManageProperties: boolean;
   canEditOwnProperty: boolean;
   isEditingOwnProperty: false;

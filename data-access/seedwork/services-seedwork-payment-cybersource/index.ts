@@ -168,7 +168,8 @@ export class Cybersource implements CybersourceBase {
       tokenInformationObj.paymentInstrument.default = paymentTokenInfo.isDefault; // Set the default payment instrument
     } else {
       // Handle the case where paymentTokenInfo or its properties are null or undefined
-      throw new Error('paymentTokenInfo or its required properties are null or undefined');
+console.error('Error: paymentTokenInfo or its required properties are null or undefined');
+throw new Error('paymentTokenInfo or its required properties are null or undefined');
     }
 
     // create a new CreatePaymentRequest object

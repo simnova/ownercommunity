@@ -21,6 +21,7 @@ input AddPaymentInstrumentInput {
   billingPostalCode: String
   billingCountry: String
   paymentToken: String
+  isDefault: Boolean
 }
 
 type AddPaymentInstrumentMutationResult implements MutationResult {

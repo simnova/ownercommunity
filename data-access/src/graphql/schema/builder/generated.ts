@@ -92,6 +92,7 @@ export type AddPaymentInstrumentInput = {
   billingPhone?: InputMaybe<Scalars['String']>;
   billingPostalCode?: InputMaybe<Scalars['String']>;
   billingState?: InputMaybe<Scalars['String']>;
+  isDefault?: InputMaybe<Scalars['Boolean']>;
   paymentToken?: InputMaybe<Scalars['String']>;
 };
 

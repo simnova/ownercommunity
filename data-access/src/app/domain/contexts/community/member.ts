@@ -9,7 +9,14 @@ import { DomainExecutionContext } from '../domain-execution-context';
 import { Profile, ProfileEntityReference, ProfileProps } from './profile';
 import { CommunityVisa } from '../iam/domain-visa/community-visa';
 import { CustomView, CustomViewEntityReference, CustomViewProps } from './custom-view';
+import { TransactionProps } from './transaction';
+import { Wallet, WalletEntityReference } from './wallet';
+import { ValueObjectProps } from '../../../../../seedwork/domain-seedwork/value-object';
 
+export interface WalletProps extends ValueObjectProps {
+  customerId: string;
+  transactions: PropArray<TransactionProps>;
+}
 export interface MemberProps extends EntityProps {
   memberName: string;
   readonly community: CommunityProps;
@@ -22,14 +29,16 @@ export interface MemberProps extends EntityProps {
   readonly updatedAt: Date;
   readonly schemaVersion: string;
   readonly customViews: PropArray<CustomViewProps>;
+  readonly wallet: WalletProps;
 }
 
-export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'community' | 'setCommunityRef' | 'accounts' | 'role' | 'setRoleRef' | 'profile' | 'customViews'>> {
+export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'community' | 'setCommunityRef' | 'accounts' | 'role' | 'setRoleRef' | 'profile' | 'customViews' | 'wallet'>> {
   readonly community: CommunityEntityReference;
   readonly accounts: ReadonlyArray<AccountEntityReference>;
   readonly role: RoleEntityReference;
   readonly profile: ProfileEntityReference;
   readonly customViews: ReadonlyArray<CustomViewEntityReference>;
+  readonly wallet: WalletEntityReference;
 }
 
 export class Member<props extends MemberProps> extends AggregateRoot<props> implements MemberEntityReference {
@@ -71,6 +80,10 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   get customViews(): ReadonlyArray<CustomView> {
     return this.props.customViews.items.map((customView) => new CustomView(customView, this.context, this.visa));
   } // return customView as it's an embedded document not a reference (allows editing)
+
+  get wallet() {
+    return new Wallet(this.props.wallet);
+  }
 
   public static getNewInstance<props extends MemberProps>(newProps: props, name: string, community: CommunityEntityReference, context: DomainExecutionContext): Member<props> {
     let member = new Member(newProps, context);

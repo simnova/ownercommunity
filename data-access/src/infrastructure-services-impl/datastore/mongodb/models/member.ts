@@ -42,7 +42,7 @@ export interface Transaction extends SubdocumentBase{
   transactionId: string;
   clientReferenceCode: string;
   amountDetails: {
-    totalAmount: number;
+    amount: number;
     authorizedAmount: number;
     currency: string;
   };
@@ -62,7 +62,7 @@ const TransactionSchema = new Schema<Transaction, Model<Transaction>, Transactio
   transactionId: { type: String, required: true },
   clientReferenceCode: { type: String, required: true },
   amountDetails: {
-    totalAmount: { type: String, required: true },
+    amount: { type: String, required: true },
     authorizedAmount: { type: String, required: true },
     currency: { type: String, required: true },
   },
@@ -80,13 +80,8 @@ const TransactionSchema = new Schema<Transaction, Model<Transaction>, Transactio
 
 export interface Wallet extends NestedPath {
     customerId: string;
-    transactions: Transaction[];
+    transactions: Types.DocumentArray<Transaction>;
 }
-
-const WalletSchema = new Schema<Wallet, Model<Wallet>, Wallet>({
-    customerId: { type: String, required: true },
-    transactions: { type: [TransactionSchema], required: false, default: [] },
-});
 
 const CustomViewSchema = new Schema<CustomView, Model<CustomView>, CustomView>({
   name: { type: String, required: true, maxlength: 500 },
@@ -131,9 +126,11 @@ const schema = new Schema<Member, Model<Member>, Member>(
     community: { type: Schema.Types.ObjectId, ref: Community.CommunityModel.modelName, required: true, index: true },
     role: { type: Schema.Types.ObjectId, ref: Role.RoleModel.modelName, required: false, index: true },
     accounts: { type: [AccountSchema], required: false },
-    // wallet: { type: [WalletSchema], required: false },
     customViews: { type: [CustomViewSchema], required: false },
-    wallet: {type: WalletSchema, required: false},
+    wallet: { 
+      customerId: { type: String, required: true, maxlength: 50 },
+      transactions: { type: [TransactionSchema], required: false, default: [] },
+    },
     profile: {
       name: { type: String, required: false, maxlength: 500 },
       email: { type: String, required: false, match: Patterns.EMAIL_PATTERN, maxlength: 254 },

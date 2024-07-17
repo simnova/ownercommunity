@@ -1,4 +1,5 @@
 import { Resolvers } from '../builder/generated';
+import { getMemberForCurrentUser } from '../resolver-helper';
 
 const payment: Resolvers = {
   Query: {
@@ -7,10 +8,10 @@ const payment: Resolvers = {
     },
   },
   Mutation: {
-    // const member = await getMemberForCurrentUser(context);
-    // addPaymentInstrument: async (_parent, args, context, _info) => {
-
-    // }
+   addPaymentInstrument: async (_parent, { input }, context, _info) => {
+    const member = await getMemberForCurrentUser(context);
+    return await context.applicationServices.paymentApi.addPaymentInstrument(input, member.id);
+   }
   },
 };
 

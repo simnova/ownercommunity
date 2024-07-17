@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from '@react-pdf/renderer';
+
 interface PdfHeaderProps {
   data: any;
 }
@@ -31,7 +32,7 @@ export const PdfTitleSection: React.FC<PdfHeaderProps> = (props) => {
       width: '100%'
     },
     bannertext: {
-      fontSize: "10px",
+      fontSize: '10px',
       backgroundColor: '#d3d3d3',
       marginBottom: '10px',
       padding: '2.5px'
@@ -44,13 +45,13 @@ export const PdfTitleSection: React.FC<PdfHeaderProps> = (props) => {
       <View style={styles.row}>
         <Text
           style={{
-            fontSize: '12px',
+            fontSize: '12px'
           }}
         >
           {props.data.documentTitle}
         </Text>
-        <Text style={[styles.title, {fontFamily: "Libre Franklin Bold"}]}>VERIFICATION REPORT</Text>
-        <Text style={[styles.bannertext, {fontFamily: "Libre Franklin Bold"}]}>{props.data.nameOnDocument}</Text>
+        <Text style={[styles.title, { fontFamily: 'Libre Franklin Bold' }]}>VERIFICATION REPORT</Text>
+        <Text style={[styles.bannertext, { fontFamily: 'Libre Franklin Bold' }]}>{props.data.nameOnDocument}</Text>
         <View>
           <Text style={styles.text}>Report Issued: &nbsp; {props.data.reportIssued}</Text>
           <Text style={styles.text}>Issued To: &nbsp; {props.data.issuedOn}</Text>

@@ -15,7 +15,7 @@ export class MongoPropertyRepository<PropType extends PropertyProps>
   }
 
   async getById(id: string): Promise<PropertyDO<PropType>> {
-    let propertyDTO = await this.model.findById(id).populate('community').exec();
+    let propertyDTO = await this.model.findById(id).populate(['community', 'owner']).exec();
     return this.typeConverter.toDomain(propertyDTO, this.context);
   }
 

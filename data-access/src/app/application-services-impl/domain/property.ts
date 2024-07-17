@@ -36,9 +36,12 @@ export class PropertyDomainApiImpl
 
   async propertyUpdate(input: PropertyUpdateInput): Promise<PropertyData> {
     let propertyToReturn: PropertyData;
-
-    let mongoMember = await this.context.applicationServices.memberDataApi.getMemberById(input.owner?.id);
-    let memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    
+    let memberDo;
+    if (input.owner !== undefined) {
+      let mongoMember = await this.context.applicationServices.memberDataApi.getMemberById(input.owner?.id);
+      memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    }
 
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);

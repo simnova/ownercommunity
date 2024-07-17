@@ -79,6 +79,25 @@ export type Scalars = {
   Void: any;
 };
 
+export type AddPaymentInstrumentInput = {
+  billingAddressLine1?: InputMaybe<Scalars['String']>;
+  billingAddressLine2?: InputMaybe<Scalars['String']>;
+  billingCity?: InputMaybe<Scalars['String']>;
+  billingCountry?: InputMaybe<Scalars['String']>;
+  billingEmail?: InputMaybe<Scalars['String']>;
+  billingFirstName?: InputMaybe<Scalars['String']>;
+  billingLastName?: InputMaybe<Scalars['String']>;
+  billingPhone?: InputMaybe<Scalars['String']>;
+  billingPostalCode?: InputMaybe<Scalars['String']>;
+  billingState?: InputMaybe<Scalars['String']>;
+  paymentToken?: InputMaybe<Scalars['String']>;
+};
+
+export type AddPaymentInstrumentMutationResult = MutationResult & {
+  __typename?: 'AddPaymentInstrumentMutationResult';
+  status: MutationStatus;
+};
+
 export type AdditionalAmenities = MongoSubdocument & {
   __typename?: 'AdditionalAmenities';
   amenities?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -147,6 +166,13 @@ export type AddressInput = {
   streetName: Scalars['String'];
   streetNameAndNumber: Scalars['String'];
   streetNumber: Scalars['String'];
+};
+
+export type AmountDetails = {
+  __typename?: 'AmountDetails';
+  authorizedAmount?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
+  totalAmount?: Maybe<Scalars['String']>;
 };
 
 export type BedroomDetails = MongoSubdocument & {
@@ -321,6 +347,12 @@ export type CustomViewInput = {
   name?: InputMaybe<Scalars['String']>;
   sortOrder?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
+};
+
+export type Cybersource = {
+  __typename?: 'Cybersource';
+  customerId: Scalars['String'];
+  transactions?: Maybe<Array<Maybe<Transaction>>>;
 };
 
 export type FacetDetail = {
@@ -573,6 +605,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
+  addPaymentInstrument: AddPaymentInstrumentMutationResult;
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
@@ -617,6 +650,11 @@ export type Mutation = {
   violationTicketCreate: ViolationTicketMutationResult;
   violationTicketDelete: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationAddPaymentInstrumentArgs = {
+  input: AddPaymentInstrumentInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -840,14 +878,9 @@ export type MutationStatus = {
 };
 
 /** A payment object. */
-export type Payment = MongoBase & {
+export type Payment = {
   __typename?: 'Payment';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  id: Scalars['ObjectID'];
-  paymentKeyId?: Maybe<Scalars['String']>;
-  schemaVersion?: Maybe<Scalars['String']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  cybersourcePublicKeyId?: Maybe<Scalars['String']>;
 };
 
 export type PermissionsInput = {
@@ -1030,6 +1063,7 @@ export type Query = {
   communityByDomain?: Maybe<Community>;
   communityByHandle?: Maybe<Community>;
   communityById?: Maybe<Community>;
+  cybersourcePublicKeyId?: Maybe<Scalars['String']>;
   getAllPropertyTags?: Maybe<Array<Maybe<Scalars['String']>>>;
   getMapSasToken?: Maybe<Scalars['String']>;
   member?: Maybe<Member>;
@@ -1039,7 +1073,6 @@ export type Query = {
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
-  paymentKeyId?: Maybe<Scalars['String']>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
   propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
@@ -1420,6 +1453,19 @@ export type ServiceUpdateInput = {
 
 export type Ticket = ServiceTicket | ViolationTicket;
 
+export type Transaction = {
+  __typename?: 'Transaction';
+  amountDetails?: Maybe<AmountDetails>;
+  clientReferenceCode?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  isSuccess?: Maybe<Scalars['Boolean']>;
+  reconciliationId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  successTimestamp?: Maybe<Scalars['DateTime']>;
+  transactionId?: Maybe<Scalars['String']>;
+  transactionTime?: Maybe<Scalars['DateTime']>;
+};
+
 export type User = MongoBase & {
   __typename?: 'User';
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -1526,6 +1572,11 @@ export type ViolationTicketUpdateInput = {
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
+};
+
+export type Wallet = {
+  __typename?: 'Wallet';
+  cybersource?: Maybe<Cybersource>;
 };
 
 export type CommunityCreateContainerMutationCommunityCreateMutationVariables = Exact<{
@@ -3618,6 +3669,13 @@ export type SectionLayoutContainerMemberFieldsFragment = {
   } | null;
 };
 
+export type SharedPaymentContainercybersourcePublicKeyIdQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SharedPaymentContainercybersourcePublicKeyIdQuery = {
+  __typename?: 'Query';
+  cybersourcePublicKeyId?: string | null;
+};
+
 export type MemberPropertyByPropertyIdQueryVariables = Exact<{
   propertyId: Scalars['ObjectID'];
 }>;
@@ -4782,10 +4840,6 @@ export type MemberSiteCurrentMemberHasAdminRoleQuery = {
     role?: { __typename?: 'Role'; roleName: string } | null;
   } | null;
 };
-
-export type SharedPaymentContainerPaymentKeyIdQueryVariables = Exact<{ [key: string]: never }>;
-
-export type SharedPaymentContainerPaymentKeyIdQuery = { __typename?: 'Query'; paymentKeyId?: string | null };
 
 export type SharedMembersProfileContainerMemberQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -15669,6 +15723,23 @@ export const SectionLayoutContainerMemberByIdQueryDocument = {
   SectionLayoutContainerMemberByIdQueryQuery,
   SectionLayoutContainerMemberByIdQueryQueryVariables
 >;
+export const SharedPaymentContainercybersourcePublicKeyIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SharedPaymentContainercybersourcePublicKeyId' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'cybersourcePublicKeyId' } }]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPaymentContainercybersourcePublicKeyIdQuery,
+  SharedPaymentContainercybersourcePublicKeyIdQueryVariables
+>;
 export const MemberPropertyByPropertyIdDocument = {
   kind: 'Document',
   definitions: [
@@ -18165,20 +18236,6 @@ export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   MemberSiteCurrentMemberHasAdminRoleQuery,
   MemberSiteCurrentMemberHasAdminRoleQueryVariables
 >;
-export const SharedPaymentContainerPaymentKeyIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SharedPaymentContainerPaymentKeyId' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'paymentKeyId' } }]
-      }
-    }
-  ]
-} as unknown as DocumentNode<SharedPaymentContainerPaymentKeyIdQuery, SharedPaymentContainerPaymentKeyIdQueryVariables>;
 export const SharedMembersProfileContainerMemberDocument = {
   kind: 'Document',
   definitions: [

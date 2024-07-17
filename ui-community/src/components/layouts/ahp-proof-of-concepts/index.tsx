@@ -3,14 +3,9 @@ import { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { RequestsPage } from './pages/requests-page';
 import { AHPPOCSectionLayout } from './section-layout';
+import { PageLayoutProps } from '../shared/components/menu-component';
 
-export interface PageLayoutProps {
-  path: string;
-  title: string;
-  icon: React.JSX.Element;
-  id: string | number;
-  parent?: string;
-}
+
 const pageLayouts: PageLayoutProps[] = [
   { path: '/ahp-proof-of-concepts/requests/*', title: 'Requests', icon: <HomeOutlined />, id: 'ROOT' },
   {

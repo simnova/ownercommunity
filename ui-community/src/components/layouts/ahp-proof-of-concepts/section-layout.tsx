@@ -1,8 +1,7 @@
 import { Button, Layout, Space } from 'antd';
 import { FC } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { PageLayoutProps } from '.';
-import { MenuComponent } from '../shared/components/menu-component';
+import { MenuComponent, PageLayoutProps } from '../shared/components/menu-component';
 const { Header, Content, Sider } = Layout;
 
 interface AHPPOCSectionLayoutProps {

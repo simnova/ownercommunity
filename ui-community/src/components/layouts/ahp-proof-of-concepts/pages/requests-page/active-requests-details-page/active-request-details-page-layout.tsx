@@ -1,8 +1,7 @@
 import { Layout } from 'antd';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import { PageLayoutProps } from '../../..';
-import { MenuComponent } from '../../../../shared/components/menu-component';
+import { MenuComponent, PageLayoutProps } from '../../../../shared/components/menu-component';
 
 interface ActiveRequestDetailsPageLayoutProps {
   pageLayouts: PageLayoutProps[];

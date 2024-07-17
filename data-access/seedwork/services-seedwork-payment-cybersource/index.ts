@@ -248,11 +248,11 @@ export class Cybersource implements CybersourceBase {
 
     // Ensure paymentTokenInfo and its properties are not null or undefined
     if (paymentTokenInfo && paymentTokenInfo.paymentToken && typeof paymentTokenInfo.isDefault !== 'undefined') {
-        tokenInformation.transientTokenJwt = paymentTokenInfo.paymentToken;    
-        tokenInformation.paymentInstrument.default = paymentTokenInfo.isDefault; // Set the default payment instrument
+      tokenInformation.transientTokenJwt = paymentTokenInfo.paymentToken;
+      tokenInformation.paymentInstrument.default = paymentTokenInfo.isDefault; // Set the default payment instrument
     } else {
-        // Handle the case where paymentTokenInfo or its properties are null or undefined
-        console.error('paymentTokenInfo or its required properties are null or undefined');
+      // Handle the case where paymentTokenInfo or its properties are null or undefined
+      throw new Error('paymentTokenInfo or its required properties are null or undefined');
     }
 
     // create a new PaymentInformation object

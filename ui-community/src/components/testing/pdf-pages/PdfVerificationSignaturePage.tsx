@@ -6,7 +6,7 @@ import SealImage from '../test-images/SealImage.png';
 import PdfSignatureArea from '../pdf-signature/PdfSignatureArea';
 import PdfSignatureInstructions from '../pdf-signature/PdfSignatureInstructions';
 import PdfSignatureReason from '../pdf-signature/PdfSignatureReason';
-import PdfHeader from '../pdf-footers-and-headers/PdfHeader';
+import PdfHeader from '../epic/PdfHeader';
 import PdfVerificationSignatureFooter from '../verification/PdfVerificationSignatureFooter';
 import PdfVerificationSignatureInformation from '../verification/PdfVerificationSignatureInformation';
 

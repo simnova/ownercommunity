@@ -3,8 +3,8 @@ import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
 import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-500.ttf';
 import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf'
 import PdfEIFSection from '../eif/PdfEIFSection';
-import PdfFooterV2 from '../pdf-footers-and-headers/PdfFooterV2';
-import PdfHeaderV2 from '../pdf-footers-and-headers/PdfHeaderV2';
+import PdfFooterV2 from '../eif/PdfFooterV2';
+import PdfHeaderV2 from '../eif/PdfHeaderV2';
 
 interface PdfTemplateProps {
   data: any;
@@ -31,9 +31,9 @@ export const PdfEIFBlankPageV2: React.FC<PdfTemplateProps> = (props) => {
   return (
     <Document>
       <Page size={{ width: 11 * 72, height: 10 * 72 }} style={styles.page}>
-        <PdfHeaderV2 data={null} />
+        <PdfHeaderV2 data={props.data} />
         <PdfEIFSection data={props.data} />
-        <PdfFooterV2 data={null} />
+        <PdfFooterV2 data={props.data} />
       </Page>
     </Document>
   );

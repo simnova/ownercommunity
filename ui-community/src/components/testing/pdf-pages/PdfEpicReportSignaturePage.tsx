@@ -5,11 +5,11 @@ import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-fran
 import SignatureImage from '../test-images/SignatureImage.png';
 import SealImage from '../test-images/SealImage.png';
 import PdfSignatureArea from '../pdf-signature/PdfSignatureArea';
-import PdfSignatureFooter from '../pdf-footers-and-headers/PdfSignatureFooter';
+import PdfSignatureFooter from '../epic/PdfSignatureFooter';
 import PdfSignatureInformation from '../pdf-signature/PdfSignatureInformation';
 import PdfSignatureInstructions from '../pdf-signature/PdfSignatureInstructions';
 import PdfSignatureReason from '../pdf-signature/PdfSignatureReason';
-import PdfHeader from '../pdf-footers-and-headers/PdfHeader';
+import PdfHeader from '../epic/PdfHeader';
 
 interface PdfTemplateProps {
   data: any;

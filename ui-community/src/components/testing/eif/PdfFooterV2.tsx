@@ -25,7 +25,7 @@ export const PdfFooterV2: React.FC<PdfHeaderProps> = (props) => {
 
   return (
     <View style={styles.box}>
-      <Text style={styles.text}>This EIF must be completed and submitted to ECFMG by 18-Nov-2018</Text>
+      <Text style={styles.text}>This EIF must be completed and submitted to ECFMG by {props.data.submissionDate}</Text>
     </View>
   );
 };

@@ -15,5 +15,9 @@
   "statusOfCredential": "VERIFIED",
   "medicalSchool": "ECFMG University School of Medicine",
   "schoolLocation": "Philadelphia, USA",
-  "requestId": "12345"
+  "requestId": "12345",
+  "formTitle": "Electronic Portfolio of International Credentials (EPIC) IDENTIFICATION FORM",
+  "formSubTitle": "3624 Market Street, Philadelphia, PA 19104  (215) 966-3900 info@ecfmgepic.org",
+  "submissionDate": "18-Nov-2018",
+  "docId": "12345"
 }

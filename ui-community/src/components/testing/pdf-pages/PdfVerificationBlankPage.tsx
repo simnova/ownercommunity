@@ -2,7 +2,7 @@ import React from 'react';
 import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
 import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-500.ttf';
 import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf'
-import PdfHeaderV2 from '../pdf-footers-and-headers/PdfHeaderV2';
+import PdfHeaderV2 from '../eif/PdfHeaderV2';
 import PdfVerificationFooter from '../verification/PdfVerificationFooter';
 import PdfVerificationSection from '../verification/PdfVerificationSection';
 
@@ -32,9 +32,9 @@ export const PdfVerificationBlankPage: React.FC<PdfTemplateProps> = (props) => {
   return (
     <Document>
       <Page size={{ width: 11 * 72, height: 10 * 72 }} style={styles.page}>
-        <PdfHeaderV2 data={null} />
+        <PdfHeaderV2 data={props.data} />
         <PdfVerificationSection data={props.data}/>
-        <PdfVerificationFooter data={null} />
+        <PdfVerificationFooter data={props.data} />
       </Page>
     </Document>
   );

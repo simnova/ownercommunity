@@ -15,7 +15,7 @@ export const PdfHeaderV2: React.FC<PdfHeaderProps> = (props) => {
       fontSize: '9px',
       width: '100%',
       textAlign: 'center',
-      fontFamily: "Libre Franklin Bold"
+      fontFamily: 'Libre Franklin Bold'
     },
     leftColumn: {
       flexDirection: 'row',
@@ -39,15 +39,13 @@ export const PdfHeaderV2: React.FC<PdfHeaderProps> = (props) => {
 
   return (
     <>
-        <View style={styles.row}>
-          <View>
-            <Text style={styles.text}>
-              Electronic Portfolio of International Credentials (EPIC) IDENTIFICATION FORM
-            </Text>
-            <Text style={styles.text}>Educational Comission for Foreign Medical Graduates ECFMG© </Text>
-            <Text style={styles.text}>3624 Market Street, Philadelphia, PA 19104 (215) 966-3900 info@ecfmgpic.org</Text>
-          </View>
+      <View style={styles.row}>
+        <View>
+          <Text style={styles.text}>{props.data.formTitle}</Text>
+          <Text style={styles.text}>Educational Comission for Foreign Medical Graduates ECFMG© </Text>
+          <Text style={styles.text}>{props.data.formSubTitle}</Text>
         </View>
+      </View>
       <Text style={styles.divider}></Text>
     </>
   );

@@ -23,7 +23,7 @@ import { UserVisa } from './user-visa';
 import { UserVisaImplForUser } from './user-visa-impl-for-user';
 import { ViolationTicketEntityReference } from '../../violation-ticket/violation-ticket';
 import { ViolationTicketVisa } from './violation-ticket-visa';
-import { ViolationTicketVisaImplForViolationTicket } from './violation-visa-impl-for-community';
+import { ViolationTicketVisaImplForViolationTicket } from './violation-ticket-visa-impl-for-violation-ticket';
 import { ViolationTicketPermissions } from '../../violation-ticket/violation-ticket-permissions.spec';
 
 export const SystemUserId = 'system';

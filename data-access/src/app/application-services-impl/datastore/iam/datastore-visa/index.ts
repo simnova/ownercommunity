@@ -8,7 +8,7 @@ import { ServiceTicketVisa } from './service-ticket-visa';
 import { ServiceTicketVisaImplForServiceTicket } from './service-ticket-visa-impl-for-service-ticket';
 import { ViolationTicketVisa } from './violation-ticket-visa';
 import { ViolationTicketVisaImplForViolationTicket } from './violation-ticket-visa-impl-for-violation-ticket';
-import { CommunityData, CommunityPermissions, MemberData, PropertyData, PropertyPermissions, RoleData, ServiceData, ServicePermissions, ServiceTicketData, ServiceTicketPermissions, UserData, ViolationTicketData, ViolationTicketPermissions } from '../../../../external-dependencies/datastore';
+import { CommunityData, MemberData, Permissions, PropertyData, RoleData, ServiceData, ServiceTicketData, UserData, ViolationTicketData } from '../../../../external-dependencies/datastore';
 import { ServiceVisa } from './service-visa';
 import { ServiceVisaImplForService } from './service-visa-impl-for-service';
 
@@ -31,8 +31,8 @@ export class DatastoreVisaImpl implements DatastoreVisa {
     private readonly member: MemberData,
     // private readonly community: CommunityData = null
   ){
-    if(!member.accounts.find(account => account.user.id === user.id)){
-      throw new Error(`User ${user.id} is not a member of the community ${member.community.id}`);
+    if(!member.accounts.find(account => account.user.id === this.user.id)){
+      throw new Error(`User ${this.user.id} is not a member of the community ${member.community.id}`);
     }
   } 
 
@@ -103,74 +103,77 @@ export class SystemDatastoreVisaImpl implements DatastoreVisa {
   public static GetInstance(): DatastoreVisa {
     return new SystemDatastoreVisaImpl();
   }
-  private communityPermissionsForSystem: CommunityPermissions = {
-    canManageRolesAndPermissions: false,
-    canManageCommunitySettings: false,
-    canManageSiteContent: false,
-    canManageMembers: false,
-    canEditOwnMemberProfile: false,
-    canEditOwnMemberAccounts: false,
-    isEditingOwnMemberAccount: false,
-    isSystemAccount: false,
+
+  private readonly systemPermissions: Permissions = BuildSystemPermissions();
+
+  forCommunity(_root: CommunityData): CommunityVisa {
+    return {determineIf:  (func) => func(this.systemPermissions.communityPermissions) };
   }
 
-  private propertyPermissionsForSystem: PropertyPermissions = {
-    canManageProperties: false,
-    canEditOwnProperty: false,
-    isEditingOwnProperty: false,
-    isSystemAccount: false,
+  forMember(_root: MemberData): CommunityVisa {
+    return {determineIf:  (func) => func(this.systemPermissions.communityPermissions) };
   }
 
-  private servicePermissionsForSystem: ServicePermissions = {
-    canManageServices: false,
-    isSystemAccount: false,
+  forProperty(_root: PropertyData): PropertyVisa {
+    return {determineIf:  (func) => func(this.systemPermissions.propertyPermissions) };
   }
 
-  private serviceTicketPermissionsForSystem: ServiceTicketPermissions = {
-    canCreateTickets: false,
-    canManageTickets: false,
-    canAssignTickets: false,
-    canWorkOnTickets: false,
-    isEditingOwnTicket: false,
-    isEditingAssignedTicket: false,
-    isSystemAccount: false,
+  forRole(_root: RoleData): CommunityVisa {
+    return {determineIf: (func) => func(this.systemPermissions.communityPermissions) };
   }
 
-  private violationTicketPermissionsForSystem: ViolationTicketPermissions = {
-    canCreateTickets: false,
-    canManageTickets: false,
-    canAssignTickets: false,
-    canWorkOnTickets: false,
-    isEditingOwnTicket: false,
-    isEditingAssignedTicket: false,
-    isSystemAccount: false,
+  forService(_root: ServiceData): ServiceVisa {
+    return {determineIf:  (func) => func(this.systemPermissions.servicePermissions) };
   }
 
-  forCommunity(root: CommunityData): CommunityVisa {
-    return {determineIf:  (func) => func(this.communityPermissionsForSystem) };
+  forServiceTicket(_root: ServiceTicketData): ServiceTicketVisa {
+    return {determineIf:  (func) => func(this.systemPermissions.serviceTicketPermissions) };
   }
 
-  forMember(root: MemberData): CommunityVisa {
-    return {determineIf:  (func) => func(this.communityPermissionsForSystem) };
+  forViolationTicket(_root: ViolationTicketData): ViolationTicketVisa {
+    return {determineIf:  (func) => func(this.systemPermissions.violationTicketPermissions) };
   }
+}
 
-  forProperty(root: PropertyData): PropertyVisa {
-    return {determineIf:  (func) => func(this.propertyPermissionsForSystem) };
-  }
-
-  forRole(root: RoleData): CommunityVisa {
-    return {determineIf: (func) => func(this.communityPermissionsForSystem) };
-  }
-
-  forService(root: ServiceData): ServiceVisa {
-    return {determineIf:  (func) => func(this.servicePermissionsForSystem) };
-  }
-
-  forServiceTicket(root: ServiceTicketData): ServiceTicketVisa {
-    return {determineIf:  (func) => func(this.serviceTicketPermissionsForSystem) };
-  }
-
-  forViolationTicket(root: ViolationTicketData): ViolationTicketVisa {
-    return {determineIf:  (func) => func(this.violationTicketPermissionsForSystem) };
-  }
+const BuildSystemPermissions = (): Permissions => {
+  return {
+    servicePermissions: {
+      canManageServices: false,
+      isSystemAccount: false,
+    },
+    serviceTicketPermissions: {
+      canCreateTickets: false,
+      canManageTickets: false,
+      canAssignTickets: false,
+      canWorkOnTickets: false,
+      isEditingOwnTicket: false,
+      isEditingAssignedTicket: false,
+      isSystemAccount: false,
+    },
+    violationTicketPermissions: {
+      canCreateTickets: false,
+      canManageTickets: false,
+      canAssignTickets: false,
+      canWorkOnTickets: false,
+      isEditingOwnTicket: false,
+      isEditingAssignedTicket: false,
+      isSystemAccount: false,
+    },
+    propertyPermissions: {
+      canManageProperties: false,
+      canEditOwnProperty: false,
+      isEditingOwnProperty: false,
+      isSystemAccount: false,
+    },
+    communityPermissions: {
+      canManageRolesAndPermissions: false,
+      canManageCommunitySettings: false,
+      canManageSiteContent: false,
+      canManageMembers: false,
+      canEditOwnMemberProfile: false,
+      canEditOwnMemberAccounts: false,
+      isEditingOwnMemberAccount: false,
+      isSystemAccount: false,
+    }
+  };
 }

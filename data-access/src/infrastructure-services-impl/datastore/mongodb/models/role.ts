@@ -51,7 +51,7 @@ export interface CommunityPermissions {
 }
 
 export interface Permissions {
-  id: ObjectId;
+  id?: ObjectId;
   servicePermissions: ServicePermissions;
   serviceTicketPermissions: ServiceTicketPermissions;
   violationTicketPermissions: ViolationTicketPermissions;

@@ -113,11 +113,10 @@ export class Cybersource implements CybersourceBase {
   }
 
   /**
-   * Create a customer profile for the Cybersource API
-   *   - The customer profile is used to store the customer data
-   *   - The customer profile is created using the Cybersource API
-   * @param {CustomerProfile} customerProfile The customer profile to be created
-   * @param {string} paymentToken The payment token to be used for the customer profile
+   * Create a customer using the Cybersource API
+   * - Creates customer profile and links the customer's payment information with customer profile
+   * @param {CustomerProfile} customerProfile The customer profile to be used for the customer profile
+   * @param {PaymentTokenInfo} paymentTokenInfo The payment token to be used for the customer profile
    * @returns {Promise<PaymentTransactionResponse>} The response from the Cybersource API
    * @throws {Error} If an error occurs in creating the customer profile
    * full details: https://developer.cybersource.com/api-reference-assets/index.html#payments

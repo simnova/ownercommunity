@@ -1,6 +1,9 @@
-import { Badge, Button, Form, Modal, Radio, Space } from 'antd';
-import usePayModal from '../../../../hooks/usePayModal';
+import { Button, Form, Modal, Radio, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+
+import usePayModal from '../../../../hooks/usePayModal';
+
+import { CreditCardDisplay } from './payment-instruments-list';
 
 const cards = [
   {
@@ -10,7 +13,7 @@ const cards = [
   },
   {
     id: 2,
-    cardNumber: 'XXXXXXXXXXXX1234',
+    cardNumber: '5295932778292174',
     default: false
   },
   {
@@ -57,8 +60,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ title }) => {
               {cards.map((card) => (
                 <Radio key={card.id} value={card.cardNumber}>
                   <div className="flex gap-4 items-center">
-                    <span>{card.cardNumber}</span>
-                    {card.default && <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg">Default</Badge>}
+                    <CreditCardDisplay cardNumber={card.cardNumber} defaultCard={card.default} />
                   </div>
                 </Radio>
               ))}

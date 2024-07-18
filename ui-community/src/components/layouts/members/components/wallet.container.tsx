@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client';
 import { SharedPaymentContainercybersourcePublicKeyIdDocument } from '../../../../generated';
 import { useEffect, useState } from 'react';
-import { BillingInfo } from './billing-info';
+import Wallet from './wallet';
 import { Skeleton } from 'antd';
 
-interface BillingInfoContainerProps {
+interface WalletContainerProps {
   data: any;
 }
 
@@ -14,7 +14,7 @@ interface TokenOptions {
 }
 type Callback = (err: any, token: string) => void;
 
-export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
+export const WalletContainer: React.FC<WalletContainerProps> = () => {
   // TODO: Add env var into vite env
   //const ownerCommunityUrl = import.meta.env.VITE_SELF_HOSTED_CYBERSOURCE_URL ?? 'missing-owner-community-url';
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -137,15 +137,17 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
     return <Skeleton active />;
   }
   return (
-    <BillingInfo
-      errorMessage={errorMessage}
-      onSetErrorMessage={setErrorMessage}
-      cardNumberValidationHelpText={cardNumberValidationHelpText}
-      setCardNumberValidationHelpText={setCardNumberValidationHelpText}
-      securityCodeValidationHelpText={securityCodeValidationHelpText}
-      setSecurityCodeValidationHelpText={setSecurityCodeValidationHelpText}
-      onCardNumberContainerLoaded={onCardNumberContainerLoaded}
-      createToken={createToken}
+    <Wallet
+      addPaymentMethodProps={{
+        errorMessage,
+        onSetErrorMessage: setErrorMessage,
+        cardNumberValidationHelpText: cardNumberValidationHelpText,
+        setCardNumberValidationHelpText: setCardNumberValidationHelpText,
+        securityCodeValidationHelpText: securityCodeValidationHelpText,
+        setSecurityCodeValidationHelpText: setSecurityCodeValidationHelpText,
+        onCardNumberContainerLoaded: onCardNumberContainerLoaded,
+        createToken: createToken
+      }}
     />
   );
 };

@@ -66,7 +66,7 @@ const cards = [
   },
   {
     id: 3,
-    cardNumber: 'XXXXXXXXXXXX5678',
+    cardNumber: '6011347835311274',
     default: false
   }
 ];

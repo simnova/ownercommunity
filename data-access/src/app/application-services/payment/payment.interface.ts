@@ -1,6 +1,8 @@
-import { AddPaymentInstrumentInput, AddPaymentInstrumentMutationResult } from "../../external-dependencies/graphql-api";
+import { CustomerProfile, PaymentTokenInfo } from "../../../../seedwork/services-seedwork-payment-cybersource-interfaces";
+import { AddPaymentInstrumentInput } from "../../external-dependencies/graphql-api";
 
 export interface PaymentApplicationService {
   generatePublicKey(): Promise<string>;
-  addPaymentInstrument(paymentInstrument: AddPaymentInstrumentInput, memberId: string): Promise<AddPaymentInstrumentMutationResult>;
+  createCybersouceCustomer(paymentInstrument: AddPaymentInstrumentInput): Promise<string>
+  addPaymentInstrument(paymentInstrument: CustomerProfile, paymentTokenInfo: PaymentTokenInfo): Promise<boolean>
 }

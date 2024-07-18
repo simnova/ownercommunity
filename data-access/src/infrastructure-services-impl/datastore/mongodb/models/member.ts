@@ -128,7 +128,7 @@ const schema = new Schema<Member, Model<Member>, Member>(
     accounts: { type: [AccountSchema], required: false },
     customViews: { type: [CustomViewSchema], required: false },
     wallet: { 
-      customerId: { type: String, required: true, maxlength: 50 },
+      customerId: { type: String, required: false, maxlength: 50 },
       transactions: { type: [TransactionSchema], required: false, default: [] },
     },
     profile: {

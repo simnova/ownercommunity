@@ -6,7 +6,7 @@ type Member implements MongoBase {
   role: Role
   accounts: [MemberAccount]
   profile: MemberProfile
-
+  wallet: Wallet
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -61,6 +61,7 @@ extend type Query {
   membersAssignableToTickets: [Member]
   memberAssignableToViolationTickets(violationTicketId: ObjectID!): Member
   memberForCurrentUser: Member
+  cybersourcePublicKeyId: String
 }
 
 extend type Mutation {
@@ -72,6 +73,7 @@ extend type Mutation {
   memberProfileUpdate(input: MemberProfileUpdateInput!): MemberMutationResult!
   memberProfileAvatarCreateAuthHeader(input: MemberAvatarImageInput!): MemberAvatarImageAuthHeaderResult!
   memberProfileAvatarRemove(memberId: ObjectID!): MemberMutationResult!
+  memberAddPaymentInstrument(input: AddPaymentInstrumentInput!): MemberMutationResult!
 }
 
 type MemberMutationResult implements MutationResult {
@@ -147,4 +149,42 @@ type MemberAvatarImageAuthHeaderResult {
   status: MutationStatus!
   authHeader: BlobAuthHeader
   member: Member
+}
+
+type AmountDetails {
+  amount: Float
+  authorizedAmount: Float
+  currency: String
+}
+
+type Transaction {
+  id: ObjectID!
+  transactionId: String
+  clientReferenceCode: String
+  amountDetails: AmountDetails
+  status: String
+  reconciliationId: String
+  isSuccess: Boolean
+  transactionTime: DateTime
+  successTimestamp: DateTime
+}
+
+type Wallet {
+  customerId: String
+  transactions: [Transaction]
+}
+
+input AddPaymentInstrumentInput {
+  billingFirstName: String!
+  billingLastName: String!
+  billingEmail: String!
+  billingPhone: String!
+  billingAddressLine1: String!
+  billingAddressLine2: String
+  billingCity: String!
+  billingState: String!
+  billingPostalCode: String!
+  billingCountry: String!
+  paymentToken: String!
+  isDefault: Boolean!
 }

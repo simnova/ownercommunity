@@ -80,23 +80,18 @@ export type Scalars = {
 };
 
 export type AddPaymentInstrumentInput = {
-  billingAddressLine1?: InputMaybe<Scalars['String']>;
+  billingAddressLine1: Scalars['String'];
   billingAddressLine2?: InputMaybe<Scalars['String']>;
-  billingCity?: InputMaybe<Scalars['String']>;
-  billingCountry?: InputMaybe<Scalars['String']>;
-  billingEmail?: InputMaybe<Scalars['String']>;
-  billingFirstName?: InputMaybe<Scalars['String']>;
-  billingLastName?: InputMaybe<Scalars['String']>;
-  billingPhone?: InputMaybe<Scalars['String']>;
-  billingPostalCode?: InputMaybe<Scalars['String']>;
-  billingState?: InputMaybe<Scalars['String']>;
-  isDefault?: InputMaybe<Scalars['Boolean']>;
-  paymentToken?: InputMaybe<Scalars['String']>;
-};
-
-export type AddPaymentInstrumentMutationResult = MutationResult & {
-  __typename?: 'AddPaymentInstrumentMutationResult';
-  status: MutationStatus;
+  billingCity: Scalars['String'];
+  billingCountry: Scalars['String'];
+  billingEmail: Scalars['String'];
+  billingFirstName: Scalars['String'];
+  billingLastName: Scalars['String'];
+  billingPhone: Scalars['String'];
+  billingPostalCode: Scalars['String'];
+  billingState: Scalars['String'];
+  isDefault: Scalars['Boolean'];
+  paymentToken: Scalars['String'];
 };
 
 export type AdditionalAmenities = MongoSubdocument & {
@@ -171,9 +166,9 @@ export type AddressInput = {
 
 export type AmountDetails = {
   __typename?: 'AmountDetails';
-  authorizedAmount?: Maybe<Scalars['String']>;
+  amount?: Maybe<Scalars['Float']>;
+  authorizedAmount?: Maybe<Scalars['Float']>;
   currency?: Maybe<Scalars['String']>;
-  totalAmount?: Maybe<Scalars['String']>;
 };
 
 export type BedroomDetails = MongoSubdocument & {
@@ -350,12 +345,6 @@ export type CustomViewInput = {
   type?: InputMaybe<Scalars['String']>;
 };
 
-export type Cybersource = {
-  __typename?: 'Cybersource';
-  customerId: Scalars['String'];
-  transactions?: Maybe<Array<Maybe<Transaction>>>;
-};
-
 export type FacetDetail = {
   __typename?: 'FacetDetail';
   count?: Maybe<Scalars['Int']>;
@@ -483,6 +472,7 @@ export type Member = MongoBase & {
   role?: Maybe<Role>;
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  wallet?: Maybe<Wallet>;
 };
 
 export type MemberAccount = MongoSubdocument & {
@@ -606,7 +596,6 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** IGNORE: Dummy field necessary for the Mutation type to be valid */
   _empty?: Maybe<Scalars['String']>;
-  addPaymentInstrument: AddPaymentInstrumentMutationResult;
   communityCreate?: Maybe<CommunityMutationResult>;
   communityPublicContentCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
   communityPublicFileCreateAuthHeader: CommunityBlobContentAuthHeaderResult;
@@ -615,6 +604,7 @@ export type Mutation = {
   memberAccountAdd: MemberMutationResult;
   memberAccountEdit: MemberMutationResult;
   memberAccountRemove: MemberMutationResult;
+  memberAddPaymentInstrument: MemberMutationResult;
   memberCreate: MemberMutationResult;
   memberProfileAvatarCreateAuthHeader: MemberAvatarImageAuthHeaderResult;
   memberProfileAvatarRemove: MemberMutationResult;
@@ -651,11 +641,6 @@ export type Mutation = {
   violationTicketCreate: ViolationTicketMutationResult;
   violationTicketDelete: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
-};
-
-/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
-export type MutationAddPaymentInstrumentArgs = {
-  input: AddPaymentInstrumentInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -696,6 +681,11 @@ export type MutationMemberAccountEditArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberAccountRemoveArgs = {
   input: MemberAccountRemoveInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationMemberAddPaymentInstrumentArgs = {
+  input: AddPaymentInstrumentInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -876,12 +866,6 @@ export type MutationStatus = {
   __typename?: 'MutationStatus';
   errorMessage?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
-};
-
-/** A payment object. */
-export type Payment = {
-  __typename?: 'Payment';
-  cybersourcePublicKeyId?: Maybe<Scalars['String']>;
 };
 
 export type PermissionsInput = {
@@ -1577,7 +1561,8 @@ export type ViolationTicketUpdateInput = {
 
 export type Wallet = {
   __typename?: 'Wallet';
-  cybersource?: Maybe<Cybersource>;
+  customerId?: Maybe<Scalars['String']>;
+  transactions?: Maybe<Array<Maybe<Transaction>>>;
 };
 
 export type CommunityCreateContainerMutationCommunityCreateMutationVariables = Exact<{

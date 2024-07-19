@@ -4,6 +4,7 @@ import { CognitiveSearchInfrastructureService } from "./cognitive-search";
 import { BlobStorageInfrastructureService } from "./blob-storage";
 import { DatastoreInfrastructureService } from "./datastore";
 import { MapsInfrastructureService } from "./maps";
+import { PaymentInfrastructureService } from "./payment";
 
 export interface InfrastructureServices {
     vercel: VercelInfrastructureService;
@@ -12,4 +13,5 @@ export interface InfrastructureServices {
     blobStorage: BlobStorageInfrastructureService;
     datastore: DatastoreInfrastructureService;
     maps: MapsInfrastructureService;
+    payment: PaymentInfrastructureService;
 }

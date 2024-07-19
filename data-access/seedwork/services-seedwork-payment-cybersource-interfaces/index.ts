@@ -20,7 +20,7 @@ export interface CustomerProfile {
   billingEmail: string;
   billingPhone: string;
   billingAddressLine1: string;
-  billingAddressLine2: string;
+  billingAddressLine2?: string;
   billingCity: string;
   billingState: string;
   billingPostalCode: string;

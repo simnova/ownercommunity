@@ -1,23 +1,28 @@
 import { FC, Key, useEffect, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { SelectableList, SelectableListDataType } from '../../../components/selectable-list';
-import { AHPFirstRouteLayer, AHPRootRouteLayer } from '../../..';
-import { AHPSecondRouteLayer } from '..';
+import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../../..';
+import { AHPObjectStatusRouteLayer } from '..';
+import { AHPObjectIDRouteLayer } from '../request-details-page';
 
 const DummyArchivedRequests: SelectableListDataType[] = [
   {
     key: 1,
-    requestInitial: 'NO',
+    initials: 'NO',
     title: `Notary Case`,
     timestamp: '2021-09-01T00:00:00Z',
-    progress: 'Decision Rendered'
+    progress: 'Decision Rendered',
+    version: "1",
+    caseType: "Notary"
   },
   {
     key: 2,
-    requestInitial: 'ID',
+    initials: 'ID',
     title: `Identity Verification`,
     timestamp: '2021-09-01T00:00:00Z',
-    progress: 'Decision Rendered'
+    progress: 'Decision Rendered',
+    version: "1",
+    caseType: "Identity Verification"
   }
 ];
 
@@ -27,14 +32,14 @@ export const ArchivedRequestListContainer: FC<ArchivedRequestListContainerProps>
   const navigate = useNavigate();
 
   const [selectedArchivedRequest, setSelectedArchivedRequest] = useState<SelectableListDataType | undefined>();
-  const selectedArchivedRequestRouteMatch = useMatch(`/${AHPRootRouteLayer}/${AHPFirstRouteLayer.Cases}/${AHPSecondRouteLayer.Archived}/:requestId`);
+  const selectedArchivedRequestRouteMatch = useMatch(`/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Archived}/:${AHPObjectIDRouteLayer.CaseId}`);
 
   // set selected request based on request type and request id
   useEffect(() => {
     setSelectedArchivedRequest(undefined);
     if (selectedArchivedRequestRouteMatch) {
       setSelectedArchivedRequest(
-        DummyArchivedRequests.find((r) => r.key.toString() === selectedArchivedRequestRouteMatch.params['requestId'])
+        DummyArchivedRequests.find((r) => r.key.toString() === selectedArchivedRequestRouteMatch.params[AHPObjectIDRouteLayer.CaseId])
       );
       navigate(selectedArchivedRequestRouteMatch.pathname);
     }

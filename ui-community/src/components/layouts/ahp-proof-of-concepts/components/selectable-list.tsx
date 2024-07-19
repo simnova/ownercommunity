@@ -8,9 +8,11 @@ import './selectable-list.css';
 export interface SelectableListDataType {
   key: React.Key;
   title: string;
-  requestInitial: string;
+  initials: string;
   timestamp: string;
   progress: string;
+  version: string;
+  caseType: string;
 }
 
 interface SelectableListProps {

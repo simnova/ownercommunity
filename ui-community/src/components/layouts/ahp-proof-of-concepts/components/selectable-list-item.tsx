@@ -20,7 +20,7 @@ export const SelectableListItem: FC<SelectableListItemProps> = (props) => {
             lineHeight: ContentHeight
           }}
         >
-          <Typography.Text>{props.data.requestInitial.toUpperCase()}</Typography.Text>
+          <Typography.Text>{props.data.initials.toUpperCase()}</Typography.Text>
         </div>
       </Col>
 

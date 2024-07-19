@@ -5,9 +5,8 @@ import { PageLayoutProps } from '../shared/components/menu-component';
 import { RequestListPage } from './pages/request-list-page';
 import { AHPPOCSectionLayout } from './section-layout';
 
-
 export const AHPRootRouteLayer = 'ahp-proof-of-concepts';
-export const AHPFirstRouteLayer = {
+export const AHPObjectRouteLayer = {
   Cases: 'cases',
   Settings: 'settings'
 };
@@ -15,25 +14,24 @@ export const AHPFirstRouteLayer = {
 interface AHPProofOfConceptsProps {}
 export const AHPProofOfConcepts: FC<AHPProofOfConceptsProps> = (_props) => {
   const navigate = useNavigate();
-  const match = useMatch(`/${AHPRootRouteLayer}`)
+  const match = useMatch(`/${AHPRootRouteLayer}`);
 
   // redirect to (default) cases if root route is accessed
   useEffect(() => {
     if (match) {
-      navigate(AHPFirstRouteLayer.Cases)
+      navigate(AHPObjectRouteLayer.Cases);
     }
-  }, [match])
-  
+  }, [match]);
 
   const pageLayouts: PageLayoutProps[] = [
     {
-      path: `/${AHPRootRouteLayer}/${AHPFirstRouteLayer.Cases}/*`,
+      path: `/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}/*`,
       title: 'Cases',
       icon: <HomeOutlined />,
       id: 'ROOT'
     },
     {
-      path: `/${AHPRootRouteLayer}/${AHPFirstRouteLayer.Settings}`,
+      path: `/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Settings}`,
       title: 'Settings',
       icon: <SettingOutlined />,
       id: '1',
@@ -44,8 +42,8 @@ export const AHPProofOfConcepts: FC<AHPProofOfConceptsProps> = (_props) => {
   return (
     <Routes>
       <Route path="" element={<AHPPOCSectionLayout pageLayouts={pageLayouts} />}>
-        <Route path={`${AHPFirstRouteLayer.Cases}/*`} element={<RequestListPage />} />
-        <Route path={`${AHPFirstRouteLayer.Settings}`} element={<>Settings</>} />
+        <Route path={`${AHPObjectRouteLayer.Cases}/*`} element={<RequestListPage />} />
+        <Route path={`${AHPObjectRouteLayer.Settings}`} element={<>Settings</>} />
       </Route>
     </Routes>
   );

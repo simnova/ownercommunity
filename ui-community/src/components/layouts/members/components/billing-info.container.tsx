@@ -100,6 +100,7 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
       microformScript.src = 'https://flex.cybersource.com/cybersource/assets/microform/0.11/flex-microform.min.js';
       microformScript.async = true;
       document.body.appendChild(microformScript);
+      cssScript.defer = true;
       document.body.appendChild(cssScript);
       microformScript.onload = () => {
         console.log('script loaded');
@@ -119,7 +120,6 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
         });
       };
 
-      cssScript.defer = true;
       cssScript.onload = () => {
         console.log('css loaded');
         setScriptLoaded(true);

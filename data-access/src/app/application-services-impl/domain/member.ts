@@ -154,4 +154,14 @@ export class MemberDomainApiImpl
     });
     return memberToReturn;
   }
+
+  async memberAddWallet(memberId: string, customerId: string): Promise<MemberData> {
+    let memberToReturn: MemberData;
+    await this.withTransaction(async (repo) => {
+      let member = await repo.getById(memberId);
+      member.wallet.CustomerId = customerId;
+      memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
+    });
+    return memberToReturn;
+  }
 }

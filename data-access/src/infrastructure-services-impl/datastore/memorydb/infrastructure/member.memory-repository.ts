@@ -11,6 +11,9 @@ import { EntityProps } from "../../../../../seedwork/domain-seedwork/entity";
 import { MemoryBaseAdapter } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryPropArray } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
 import { MemoryRepositoryBase } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
+import { WalletProps } from "../../../../app/domain/contexts/community/wallet";
+import { PropArray } from "../../../../../seedwork/domain-seedwork/prop-array";
+import { TransactionProps } from "../../../../app/domain/contexts/community/transaction";
 
 
 class MemoryProfile implements ProfileProps {
@@ -43,6 +46,10 @@ class MemoryAccount extends MemoryBaseAdapter implements AccountProps {
   setCreatedByRef(createdBy: UserProps): void { this.createdBy = createdBy; };
 }
 
+class MemoryWallet implements WalletProps {
+  customerId: string;
+  transactions: PropArray<TransactionProps>;
+}
 class MemoryMember extends MemoryBaseAdapter implements MemberProps {
   memberName: string;
   community: CommunityProps;
@@ -64,6 +71,13 @@ class MemoryMember extends MemoryBaseAdapter implements MemberProps {
     }
     return this._profile;
   };
+  private _wallet: WalletProps;
+  get wallet() {
+    if(!this._wallet){
+      this._wallet = new MemoryWallet();
+    }
+    return this._wallet;
+  }
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;

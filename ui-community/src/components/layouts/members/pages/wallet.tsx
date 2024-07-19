@@ -15,7 +15,7 @@ const Wallet: React.FC = () => {
   const pages = [
     {
       id: '1',
-      path: '/community/:communityId/member/:memberId/wallet/billing-info',
+      path: '/community/:communityId/member/:memberId/wallet',
       title: 'Billing Info',
       icon: <CreditCardOutlined />
     }
@@ -48,13 +48,13 @@ const Wallet: React.FC = () => {
         <Col span={6}>
           <Menu mode="inline" selectedKeys={matchedIds}>
             <Menu.Item key="1" icon={<CreditCardOutlined />}>
-              <Link to="billing-info">Billing Info</Link>
+              <Link to="">Billing Info</Link>
             </Menu.Item>
           </Menu>
         </Col>
         <Col span={18} style={{ paddingLeft: '24px' }}>
           <Routes>
-            <Route path="/billing-info" element={<BillingInfoContainer data={undefined} />} />
+            <Route path="" element={<BillingInfoContainer data={undefined} />} />
           </Routes>
         </Col>
       </Row>

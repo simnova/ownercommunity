@@ -2,6 +2,7 @@ import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { Member as MemberDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
+import { CustomerProfile, PaymentTokenInfo } from '../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
 
 const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<MemberMutationResult> => {
   try {
@@ -73,6 +74,9 @@ const member: Resolvers = {
     memberForCurrentUser: async (_, _input, context) => {
       return getMemberForCurrentUser(context);
     },
+    cybersourcePublicKeyId: async (parent, _args, context) => {
+      return await context.applicationServices.paymentApi.generatePublicKey();
+    },
   },
   Mutation: {
     memberCreate: async (_, { input }, { applicationServices }) => {
@@ -111,6 +115,28 @@ const member: Resolvers = {
         return MemberMutationResolver(applicationServices.memberDomainApi.memberProfileUpdateAvatar(memberId, null));
       }
     },
+
+    memberAddPaymentInstrument: async (_, {input}, context) => {
+      const member = await getMemberForCurrentUser(context);
+      let cyberSourceCustomerId = member?.wallet?.customerId;
+      if(!cyberSourceCustomerId) {
+          cyberSourceCustomerId = await context.applicationServices.paymentApi.createCybersouceCustomer(input);
+          console.log('createCybersouceCustomerResponse', cyberSourceCustomerId)
+          if(cyberSourceCustomerId) {
+            return await MemberMutationResolver(context.applicationServices.memberDomainApi.memberAddWallet(member.id, cyberSourceCustomerId));
+          }
+      }
+
+      if(cyberSourceCustomerId) {
+        const paymentInstrumentPayload: CustomerProfile = {
+          ...input,
+          customerId: cyberSourceCustomerId,
+        };
+        const paymentTokenInfo: PaymentTokenInfo = {paymentToken: input.paymentToken, isDefault: input.isDefault}
+        await context.applicationServices.paymentApi.addPaymentInstrument(paymentInstrumentPayload, paymentTokenInfo);
+        return { status: { success: true }, member };
+      }
+    }
   },
 };
 

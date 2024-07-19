@@ -34,10 +34,54 @@ const AccountSchema = new Schema<Account, Model<Account>, Account>(
     createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true },
   },
   {
-    timestamps: true, 
+    timestamps: true,
     versionKey: 'version',
   }
 );
+export interface Transaction extends SubdocumentBase {
+  transactionId: string;
+  clientReferenceCode: string;
+  amountDetails: {
+    amount: number;
+    authorizedAmount: number;
+    currency: string;
+  };
+  status: string;
+  reconciliationId: string;
+  isSuccess: boolean;
+  transactionTime: Date;
+  successTimestamp: Date;
+  error: {
+    code: string;
+    message: string;
+    timestamp: Date;
+  };
+}
+
+const TransactionSchema = new Schema<Transaction, Model<Transaction>, Transaction>({
+  transactionId: { type: String, required: true },
+  clientReferenceCode: { type: String, required: true },
+  amountDetails: {
+    amount: { type: String, required: true },
+    authorizedAmount: { type: String, required: true },
+    currency: { type: String, required: true },
+  },
+  status: { type: String, required: true },
+  reconciliationId: { type: String, required: true },
+  isSuccess: { type: Boolean, required: true },
+  transactionTime: { type: Date, required: true },
+  successTimestamp: { type: Date, required: false },
+  error: {
+    code: { type: String, required: false },
+    message: { type: String, required: false },
+    timestamp: { type: Date, required: false },
+  },
+});
+
+export interface Wallet extends NestedPath {
+    customerId: string;
+    transactions: Types.DocumentArray<Transaction>;
+}
 
 const CustomViewSchema = new Schema<CustomView, Model<CustomView>, CustomView>({
   name: { type: String, required: true, maxlength: 500 },
@@ -65,6 +109,7 @@ export interface Member extends Base {
   memberName: string;
   community: PopulatedDoc<Community.Community> | ObjectId;
   accounts: Types.DocumentArray<Account>;
+  wallet: Wallet;
   customViews: Types.DocumentArray<CustomView>;
   role?: PopulatedDoc<Role.Role> | ObjectId;
   profile: Profile;
@@ -82,6 +127,10 @@ const schema = new Schema<Member, Model<Member>, Member>(
     role: { type: Schema.Types.ObjectId, ref: Role.RoleModel.modelName, required: false, index: true },
     accounts: { type: [AccountSchema], required: false },
     customViews: { type: [CustomViewSchema], required: false },
+    wallet: { 
+      customerId: { type: String, required: false, maxlength: 50 },
+      transactions: { type: [TransactionSchema], required: false, default: [] },
+    },
     profile: {
       name: { type: String, required: false, maxlength: 500 },
       email: { type: String, required: false, match: Patterns.EMAIL_PATTERN, maxlength: 254 },
@@ -96,7 +145,7 @@ const schema = new Schema<Member, Model<Member>, Member>(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
     versionKey: 'version',
     shardKey: { community: 1 },
   }

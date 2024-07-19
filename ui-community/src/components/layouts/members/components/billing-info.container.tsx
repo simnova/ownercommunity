@@ -99,8 +99,8 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
       cssScript.src = `${window.location.origin.toString()}/scripts/microform-css.js`;
       microformScript.src = 'https://flex.cybersource.com/cybersource/assets/microform/0.11/flex-microform.min.js';
       microformScript.async = true;
-      document.body.appendChild(microformScript);
       cssScript.defer = true;
+      document.body.appendChild(microformScript);
       document.body.appendChild(cssScript);
       microformScript.onload = () => {
         console.log('script loaded');

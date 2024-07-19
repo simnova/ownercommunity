@@ -57,12 +57,12 @@ export class PaymentApiImpl extends PaymentDataSource<AppContext> implements Pay
     await this.withCybersource(async (_passport, cybersource: Cybersource) => {
       cyberSourcePaymentInstrumentsResponse = await cybersource.getCustomerPaymentInstruments(customerId);
     });
-    response = cyberSourcePaymentInstrumentsResponse._embedded.paymentInstruments.map((paymentInstrument) => {
+    response = cyberSourcePaymentInstrumentsResponse?._embedded?.paymentInstruments.map((paymentInstrument) => {
       return {
-        cardNumber: paymentInstrument._embedded.instrumentIdentifier.card.number,
-        cardType: paymentInstrument.card.type,
-        paymentInstrumentId: paymentInstrument.id,
-        isDefault: paymentInstrument.default,
+        cardNumber: paymentInstrument?._embedded?.instrumentIdentifier?.card?.number,
+        cardType: paymentInstrument?.card?.type,
+        paymentInstrumentId: paymentInstrument?.id,
+        isDefault: paymentInstrument?.default,
       };
     });
     return response;

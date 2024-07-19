@@ -27,8 +27,8 @@ export class Wallet extends ValueObject<WalletProps> implements WalletEntityRefe
     return this.props.transactions.items.map((transaction) => new Transaction(transaction));
   }
 
-  requestAddTransaction(transaction: Transaction): void {
-    this.props.transactions.addItem(transaction.props);
+  requestAddTransaction(transaction: TransactionProps): void {
+    this.props.transactions.addItem(transaction);
   }
 
   requestNewTransaction() {

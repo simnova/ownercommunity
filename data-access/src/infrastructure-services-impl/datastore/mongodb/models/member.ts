@@ -38,7 +38,7 @@ const AccountSchema = new Schema<Account, Model<Account>, Account>(
     versionKey: 'version',
   }
 );
-export interface Transaction extends SubdocumentBase{
+export interface Transaction extends SubdocumentBase {
   transactionId: string;
   clientReferenceCode: string;
   amountDetails: {

@@ -82,6 +82,9 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   } // return customView as it's an embedded document not a reference (allows editing)
 
   get wallet() {
+    if (!this.props.wallet) {
+      return null;
+    }
     return new Wallet(this.props.wallet);
   }
 

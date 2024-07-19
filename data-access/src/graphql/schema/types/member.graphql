@@ -177,16 +177,16 @@ type Wallet {
 }
 
 input AddPaymentInstrumentInput {
-  billingFirstName: String
-  billingLastName: String
-  billingEmail: String
-  billingPhone: String
-  billingAddressLine1: String
-  billingAddressLine2: String!
-  billingCity: String
-  billingState: String
-  billingPostalCode: String
-  billingCountry: String
-  paymentToken: String
-  isDefault: Boolean
+  billingFirstName: String!
+  billingLastName: String!
+  billingEmail: String!
+  billingPhone: String!
+  billingAddressLine1: String!
+  billingAddressLine2: String
+  billingCity: String!
+  billingState: String!
+  billingPostalCode: String!
+  billingCountry: String!
+  paymentToken: String!
+  isDefault: Boolean!
 }

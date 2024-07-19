@@ -80,18 +80,18 @@ export type Scalars = {
 };
 
 export type AddPaymentInstrumentInput = {
-  billingAddressLine1?: InputMaybe<Scalars['String']>;
-  billingAddressLine2: Scalars['String'];
-  billingCity?: InputMaybe<Scalars['String']>;
-  billingCountry?: InputMaybe<Scalars['String']>;
-  billingEmail?: InputMaybe<Scalars['String']>;
-  billingFirstName?: InputMaybe<Scalars['String']>;
-  billingLastName?: InputMaybe<Scalars['String']>;
-  billingPhone?: InputMaybe<Scalars['String']>;
-  billingPostalCode?: InputMaybe<Scalars['String']>;
-  billingState?: InputMaybe<Scalars['String']>;
-  isDefault?: InputMaybe<Scalars['Boolean']>;
-  paymentToken?: InputMaybe<Scalars['String']>;
+  billingAddressLine1: Scalars['String'];
+  billingAddressLine2?: InputMaybe<Scalars['String']>;
+  billingCity: Scalars['String'];
+  billingCountry: Scalars['String'];
+  billingEmail: Scalars['String'];
+  billingFirstName: Scalars['String'];
+  billingLastName: Scalars['String'];
+  billingPhone: Scalars['String'];
+  billingPostalCode: Scalars['String'];
+  billingState: Scalars['String'];
+  isDefault: Scalars['Boolean'];
+  paymentToken: Scalars['String'];
 };
 
 export type AdditionalAmenities = MongoSubdocument & {

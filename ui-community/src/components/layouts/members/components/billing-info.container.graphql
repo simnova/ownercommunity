@@ -1,3 +1,3 @@
-query SharedPaymentContainerPaymentKeyId {
-  paymentKeyId
+query SharedPaymentContainercybersourcePublicKeyId {
+  cybersourcePublicKeyId
 }

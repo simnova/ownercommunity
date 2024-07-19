@@ -64,7 +64,7 @@ const serviceTicket: Resolvers = {
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketById(args.id)) as ServiceTicket;
     },
     serviceTicketsOpenByCommunity: async (_parent, _args, context, _info) => {
-      return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByCommunityId(context.communityId)) as ServiceTicket[];
+      return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByCommunityId(context.community?.id)) as ServiceTicket[];
     },
     serviceTicketsOpenByRequestor: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context);
@@ -76,7 +76,7 @@ const serviceTicket: Resolvers = {
     },
     serviceTicketsAssignedToCurrentUser: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context);
-      return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByAssignedTo(context.communityId, member.id)) as ServiceTicket[];
+      return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByAssignedTo(context.community?.id, member.id)) as ServiceTicket[];
     },
     // const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearchByCommunityId(null, communityId)
     //   return await context.applicationServices.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults) as ServiceTicket[]
@@ -84,7 +84,7 @@ const serviceTicket: Resolvers = {
       return (await context.applicationServices.serviceTicketDataApi.getServiceTicketsByCommunityId(communityId)) as Ticket[];
     },
     serviceTicketsSearchAdmin: async (_, { input }, context, info) => {
-      const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearchAdmin(input, context.communityId);
+      const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearchAdmin(input, context.community?.id);
       return await context.applicationServices.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults);
     },
     serviceTicketsSearch: async (_, { input }, context, info) => {

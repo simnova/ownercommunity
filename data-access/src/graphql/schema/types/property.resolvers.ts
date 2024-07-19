@@ -46,8 +46,8 @@ const property: Resolvers = {
       }
       return null;
     },
-    properties: async (_parent, _args, {applicationServices,communityId}, _info) => {
-      return (await applicationServices.propertyDataApi.getPropertiesByCommunityId(communityId)) as Property[];
+    properties: async (_parent, _args, {applicationServices, community }, _info) => {
+      return (await applicationServices.propertyDataApi.getPropertiesByCommunityId(community?.id)) as Property[];
     },
     propertiesByCommunityId: async (_, { communityId }, context) => {
       return (await context.applicationServices.propertyDataApi.getPropertiesByCommunityId(communityId)) as Property[];

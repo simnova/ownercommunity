@@ -9,13 +9,13 @@ export class MemberDataApiImpl
   implements MemberDataApi
 {
   async getMembers(): Promise<MemberData[]> {
-    return this.findByFields({ community: this.context.communityId });
+    return this.findByFields({ community: this.context.community?.id });
   }
   async getMembersByCommunityId(communityId: string): Promise<MemberData[]> {
     return this.findByFields({ community: communityId });
   }
   async getMembersAssignableToTickets(): Promise<MemberData[]> {
-    const communityId = this.context.communityId;
+    const communityId = this.context.community?.id;
     const result = await RoleModel.aggregate<MemberData>([
       {
         $match: {
@@ -45,7 +45,7 @@ export class MemberDataApiImpl
   }
 
   async getMemberAssignableToViolationTickets(violationTicketId: string): Promise<MemberData> {
-    const communityId = this.context.communityId;
+    const communityId = this.context.community?.id;
     const result = await ViolationTicketModel.aggregate([
       {
         $match: {

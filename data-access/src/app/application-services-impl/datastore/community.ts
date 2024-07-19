@@ -10,7 +10,7 @@ export class CommunityDataApiImpl
 {
 
   async getCurrentCommunity(): Promise<CommunityData> {
-    return this.findOneById(this.context.communityId);
+    return this.findOneById(this.context.community?.id);
   }
   async getCommunityById(id: string): Promise<CommunityData> {
     return this.findOneById(id);

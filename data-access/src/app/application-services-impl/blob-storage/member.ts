@@ -32,7 +32,7 @@ export class MemberBlobApiImpl
   }
 
   async memberProfileAvatarCreateAuthHeader(memberId: string, fileName: string, contentType: string, contentLength: number): Promise<MemberAvatarImageAuthHeaderResult> {
-    const blobContainerName = this.context.communityId;
+    const blobContainerName = this.context.community?.id;
     const blobDataStorageAccountName = process.env.BLOB_ACCOUNT_NAME;
 
     let headerResult: MemberAvatarImageAuthHeaderResult;
@@ -69,7 +69,7 @@ export class MemberBlobApiImpl
       let name: string = this.context.verifiedUser?.verifiedJWT?.name;
 
       const indexFields: Record<string, string> = {
-        communityId: this.context?.communityId, 
+        communityId: this.context?.community?.id, 
         transmissionStatus: 'pending', //always pending when uploading
         documentVersion: 'current',
         createdDate: new Date().toISOString(),

@@ -21,7 +21,7 @@ export class PropertyDataApiImpl
   }
 
   async getPropertiesByOwnerId(ownerId: string): Promise<PropertyData[]> {
-    return this.findByFields({ community: this.context.communityId, owner: ownerId });
+    return this.findByFields({ community: this.context.community?.id, owner: ownerId });
   }
   async getPropertyByIdWithCommunityOwner(propertyId: string): Promise<PropertyData> {
     return this.model.findById(propertyId).populate(['community', 'owner']).exec();

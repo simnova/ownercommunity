@@ -9,4 +9,5 @@ export interface MemberDomainApplicationService {
   memberAccountRemove(input: MemberAccountRemoveInput) : Promise<MemberData>;
   memberProfileUpdate(input: MemberProfileUpdateInput) : Promise<MemberData>;
   memberProfileUpdateAvatar(memberId: string, avatarDocumentId: string) : Promise<MemberData>;
+  memberAddWallet(memberId: string, customerId: string) : Promise<MemberData>;
 }

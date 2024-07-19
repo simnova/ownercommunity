@@ -19,6 +19,8 @@ import { AzMapsImpl } from '../../../../src/infrastructure-services-impl/maps/az
 import { DatastoreInfrastructureService } from '../../../../src/app/infrastructure-services/datastore';
 import { MemorydbDatastoreImpl } from '../../../../src/infrastructure-services-impl/datastore/memorydb/impl';
 import { IMemoryDatabase } from '../../../../src/infrastructure-services-impl/datastore/memorydb/memory-database';
+import { PaymentInfrastructureService } from '../../../../src/app/infrastructure-services/payment';
+import { CybersourceImpl } from '../../../../src/infrastructure-services-impl/payment/cybersource/impl';
 // import { MongoCommunityUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/community.mongo-uow';
 // import { MongoMemberUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/member.mongo-uow';
 // import { MongoRoleUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/role.mongo-uow';
@@ -26,18 +28,16 @@ import { IMemoryDatabase } from '../../../../src/infrastructure-services-impl/da
 // import { MongoServiceUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/service.uow';
 // import { MongoServiceTicketUnitOfWork } from '../infrastructure-impl/datastore/mongodb/infrastructure/service-ticket.uow';
 
-export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
+export class InfrastructureServicesBuilderBDD implements InfrastructureServices {
   private _vercel: VercelInfrastructureService;
   private _contentModerator: ContentModeratorInfrastructureService;
   private _cognitiveSearch: CognitiveSearchInfrastructureService;
   private _blobStorage: BlobStorageInfrastructureService;
   private _datastore: DatastoreInfrastructureService;
   private _maps: MapsInfrastructureService;
-  
-  constructor(
-    datastore: DatastoreInfrastructureService,
-    cognitiveSearch: CognitiveSearchInfrastructureService
-  ) {
+  private _payment: PaymentInfrastructureService;
+
+  constructor(datastore: DatastoreInfrastructureService, cognitiveSearch: CognitiveSearchInfrastructureService, payment: PaymentInfrastructureService) {
     // this._vercel = this.InitVercel();
     // this._contentModerator = this.InitContentModerator();
     // this._cognitiveSearch = this.InitCognitiveSearch(cognitiveSearch);
@@ -45,6 +45,7 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
     // this._blobStorage = this.InitBlobStorage();
     // this._datastore = this.InitDataStore(datastore);
     this._datastore = datastore;
+    this._payment = payment;
     // this._maps = this.InitMaps();
   }
 
@@ -63,6 +64,9 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
 
   public get datastore(): DatastoreInfrastructureService {
     return this._datastore;
+  }
+  public get payment(): PaymentInfrastructureService {
+    return this._payment;
   }
 
   public get maps(): MapsInfrastructureService {
@@ -112,7 +116,7 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
     //   propertyUnitOfWork: MongoPropertyUnitOfWork,
     //   serviceUnitOfWork: MongoServiceUnitOfWork,
     //   serviceTicketUnitOfWork: MongoServiceTicketUnitOfWork,
-    //   startup: 
+    //   startup:
     // };
   }
 
@@ -120,6 +124,9 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices{
     return new AzMapsImpl();
   }
 
+  private initPayment(): PaymentInfrastructureService {
+    return new CybersourceImpl();
+  }
   // private static instance: DomainInfrastructureImpl;
   // public static getInstance(): DomainInfrastructureImpl {
   //   if (!this.instance) {

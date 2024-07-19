@@ -1,4 +1,4 @@
-import { Member, Account, Profile, CustomView } from '../models/member';
+import { Member, Account, Profile, CustomView, Wallet, Transaction } from '../models/member';
 
 import { Member as MemberDO, MemberProps } from '../../../../app/domain/contexts/community/member';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
@@ -13,6 +13,8 @@ import { RoleEntityReference } from '../../../../app/domain/contexts/community/r
 import { ProfileProps } from '../../../../app/domain/contexts/community/profile';
 import { UserEntityReference } from '../../../../app/domain/contexts/user/user';
 import { CustomViewProps } from '../../../../app/domain/contexts/community/custom-view';
+import { WalletProps } from '../../../../app/domain/contexts/community/wallet';
+import { TransactionProps } from '../../../../app/domain/contexts/community/transaction';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {
   constructor() {
@@ -59,6 +61,13 @@ export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implement
 
   get customViews() {
     return new MongoosePropArray(this.doc.customViews, CustomViewDomainAdapter);
+  }
+
+  get wallet() {
+    if (!this.doc.wallet) {
+      this.doc.set('wallet', {});
+    }
+    return new WalletDomainAdapter(this.doc.wallet);
   }
 }
 
@@ -221,5 +230,91 @@ export class ProfileDomainAdapter implements ProfileProps {
   }
   set showProperties(showProperties) {
     this.props.showProperties = showProperties;
+  }
+}
+
+export class WalletDomainAdapter implements WalletProps {
+  constructor(public readonly doc: Wallet) {}
+
+  get customerId() {
+    return this.doc.customerId;
+  }
+  set customerId(customerId) {
+    this.doc.customerId = customerId;
+  }
+
+  get transactions() {
+    return new MongoosePropArray(this.doc.transactions, TransactionDomainAdapter);
+  }
+}
+
+export class TransactionDomainAdapter implements TransactionProps {
+  constructor(public readonly doc: Transaction) {}
+
+  get transactionId() {
+    return this.doc.transactionId;
+  }
+
+  set id(id) {
+    this.doc.id = id;
+  }
+  set transactionId(transactionId) {
+    this.doc.transactionId = transactionId;
+  }
+
+  get clientReferenceCode() {
+    return this.doc.clientReferenceCode;
+  }
+  set clientReferenceCode(clientReferenceCode) {
+    this.doc.clientReferenceCode = clientReferenceCode;
+  }
+
+  get amountDetails() {
+    return this.doc.amountDetails;
+  }
+  set amountDetails(amountDetails) {
+    this.doc.amountDetails = amountDetails;
+  }
+
+  get status() {
+    return this.doc.status;
+  }
+  set status(status) {
+    this.doc.status = status;
+  }
+
+  get reconciliationId() {
+    return this.doc.reconciliationId;
+  }
+  set reconciliationId(reconciliationId) {
+    this.doc.reconciliationId = reconciliationId;
+  }
+
+  get isSuccess() {
+    return this.doc.isSuccess;
+  }
+  set isSuccess(isSuccess) {
+    this.doc.isSuccess = isSuccess;
+  }
+
+  get transactionTime() {
+    return this.doc.transactionTime;
+  }
+  set transactionTime(transactionTime) {
+    this.doc.transactionTime = transactionTime;
+  }
+
+  get successTimestamp() {
+    return this.doc.successTimestamp;
+  }
+  set successTimestamp(successTimestamp) {
+    this.doc.successTimestamp = successTimestamp;
+  }
+
+  get error() {
+    return this.doc.error;
+  }
+  set error(error) {
+    this.doc.error = error;
   }
 }

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { SharedPaymentContainerPaymentKeyIdDocument } from '../../../../generated';
+import { SharedPaymentContainercybersourcePublicKeyIdDocument } from '../../../../generated';
 import { useEffect, useState } from 'react';
 import { BillingInfo } from './billing-info';
 import { Skeleton } from 'antd';
@@ -23,7 +23,7 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
   const [isCardContainerLoaded, setIsCardContainerLoaded] = useState(false);
   const [flexMicroform, setFlexMicroform] = useState<any>(null);
   const [isMicroformScriptLoaded, setScriptLoaded] = useState(false);
-  const { data: cybersource } = useQuery(SharedPaymentContainerPaymentKeyIdDocument);
+  const { data: cybersource } = useQuery(SharedPaymentContainercybersourcePublicKeyIdDocument);
 
   const createToken = (expirationMonth: string, expirationYear: string, callBack: Callback): void => {
     const options: TokenOptions = {
@@ -103,7 +103,7 @@ export const BillingInfoContainer: React.FC<BillingInfoContainerProps> = () => {
       document.body.appendChild(cssScript);
       microformScript.onload = () => {
         console.log('script loaded');
-        createFlexObj(cybersource?.paymentKeyId || '', async function (data: any, field: string) {
+        createFlexObj(cybersource?.cybersourcePublicKeyId || '', async function (data: any, field: string) {
           switch (field) {
             case 'number':
               if (data.valid === true) {

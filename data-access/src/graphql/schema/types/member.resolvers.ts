@@ -26,10 +26,15 @@ const member: Resolvers = {
       return parent.community;
     },
     role: async (parent, _args, context) => {
-      if (parent.role && isValidObjectId(parent.role.toString())) {
-        return (await context.applicationServices.roleDataApi.getRoleById(parent.role.toString())) as Role;
+      if (parent.role && isValidObjectId(parent.role.id)) {
+        const roleToReturn = await context.applicationServices.roleDataApi.getRoleById(parent.role.id) as Role;
+        return applyPermission<Role>(roleToReturn, (_role) => {
+          return context.passport.datastoreVisa.forRole(context.member.role).determineIf((permissions) => 
+            (permissions.canManageRolesAndPermissions && parent.community.toString() === context.member.community.toString()) ||
+            parent.id === context.member.id || 
+            permissions.isSystemAccount);
+        });
       }
-      return parent.role;
     },
     isAdmin: async (parent, _args, context) => {
       return (await context.applicationServices.memberDataApi.isAdmin(parent.id));
@@ -58,7 +63,14 @@ const member: Resolvers = {
         throw new Error('Unauthorized query: member');
       }
       if (id && isValidObjectId(id)) {
-        return (await context.applicationServices.memberDataApi.getMemberById(id)) as Member;
+        const memberToReturn = await context.applicationServices.memberDataApi.getMemberById(id) as Member;
+        return applyPermission<Member>(memberToReturn, (member) => {
+          return context.passport.datastoreVisa.forMember(context.member).determineIf((permissions) =>
+            (permissions.canManageMembers && context.member?.community.toString() === member.community.toString()) ||
+            (context.member.community.toString() === member?.community.toString()) ||  // unsure about this condition for members
+            permissions.isSystemAccount
+          );
+        });
       }
       return null;
     },
@@ -75,9 +87,9 @@ const member: Resolvers = {
           .forMember(context.member)
           .determineIf((permissions) => 
             // current member is admin and in the same community as queried members
-            (permissions.canManageMembers && context.member?.community.toString() === member.community.toString()) || 
+            (permissions.canManageMembers && context.member?.community.toString() === member?.community.toString()) || 
             // current member is in the same community as queried members and queried member's profile is public
-            (member.community.toString() === context.member?.community.toString() && member.profile?.showProfile )|| 
+            (member.community.toString() === context.member?.community.toString() && member?.profile?.showProfile )|| 
             // for system accounts
             permissions.isSystemAccount
           );

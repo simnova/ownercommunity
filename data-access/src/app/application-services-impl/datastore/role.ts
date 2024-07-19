@@ -8,10 +8,7 @@ export class RoleDataApiImpl extends CosmosDataSource<RoleData, AppContext>
 
   async getRoleById(id: string): Promise<RoleData> {
     const roles = await this.findByFields({ community: this.context.community?.id })
-    const roleToReturn = roles.find(role => role.id === id);
-    if(roleToReturn && this.applyPermissions(roleToReturn)){
-      return roleToReturn;
-    }
+    return roles.find(role => role.id === id);
   }
 
   async getRoles(): Promise<RoleData[]> {

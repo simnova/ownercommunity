@@ -355,7 +355,8 @@ throw new Error('paymentTokenInfo or its required properties are null or undefin
         if (!error) {
           resolve(true);
         } else {
-          reject(new Error(error.message || 'Unknown error occurred in deleting customer payment instrument'));
+          const errors = error?.response?.body?.errors.map((error) => error.message).join(', ');
+          reject(new Error(errors || 'Unknown error occurred in deleting customer payment instrument'));
         }
       });
     });

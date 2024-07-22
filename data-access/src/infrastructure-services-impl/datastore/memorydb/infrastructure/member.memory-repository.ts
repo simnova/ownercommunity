@@ -89,7 +89,7 @@ export class MemoryMemberRepository<PropType extends MemberProps, DomainType ext
 
   }
   async getAssignedToRole(roleId: string): Promise<Member<PropType>[]> {
-    const members = (await this.getAll())?.filter((member) => member.role.id === roleId);
-    return members;
+    return (await this.getAll())?.filter((member) => member.role.id === roleId);
+
   }
 }

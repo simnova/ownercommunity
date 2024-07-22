@@ -102,7 +102,6 @@ test.skip('cybersource: get customer payment instrument', async () => {
 test.skip('cybersource: get customer payment instruments', async () => {
   const customerId = '1CD4C5EE92E27A57E063AF598E0ACEC6';
   const response: CustomerPaymentInstrumentsResponse = await cybersource.getCustomerPaymentInstruments(customerId);
-
   expect(response).toBeDefined();
   expect(response.total).toBeGreaterThan(0);
   expect(response._embedded.paymentInstruments.length).toBeGreaterThan(0);

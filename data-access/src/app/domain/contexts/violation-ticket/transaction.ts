@@ -1,9 +1,13 @@
-import { Entity, EntityProps } from "../../../../../seedwork/domain-seedwork/entity";
-import * as ValueObjects from "./transaction.value-objects";
+import { Entity, EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
+import { DomainExecutionContext } from '../domain-execution-context';
+import { ViolationTicketVisa } from '../iam/domain-visa/violation-ticket-visa';
+import * as ValueObjects from './transaction.value-objects';
 
 export interface TransactionProps extends EntityProps {
   transactionId: string;
   clientReferenceCode: string;
+  type: string;
+  description: string;
   amountDetails: {
     amount: number;
     authorizedAmount: number;
@@ -24,19 +28,22 @@ export interface TransactionProps extends EntityProps {
 export interface TransactionReference extends Readonly<TransactionProps> {}
 
 export class Transaction extends Entity<TransactionProps> implements TransactionReference {
-  constructor(props: TransactionProps) {
+  constructor(props: TransactionProps, private context: DomainExecutionContext, visa: ViolationTicketVisa) {
     super(props);
   }
 
   get transactionId() {
     return this.props.transactionId;
   }
+
   get clientReferenceCode() {
     return this.props.clientReferenceCode;
   }
+
   get amountDetails() {
     return this.props.amountDetails;
   }
+
   get status() {
     return this.props.status;
   }
@@ -56,6 +63,14 @@ export class Transaction extends Entity<TransactionProps> implements Transaction
     return this.props.error;
   }
 
+  get description() {
+    return this.props.description;
+  }
+
+  get type() {
+    return this.props.type;
+  }
+
   // implementing setters  from TS 5.1
 
   set TransactionId(transactionId: ValueObjects.TransactionId) {
@@ -68,6 +83,14 @@ export class Transaction extends Entity<TransactionProps> implements Transaction
 
   set AmountDetails(amountDetails: ValueObjects.AmountDetails) {
     this.props.amountDetails = amountDetails.valueOf();
+  }
+
+  set Description(description: ValueObjects.Description) {
+    this.props.description = description.valueOf();
+  }
+
+  set Type(type: ValueObjects.Type) {
+    this.props.type = type.valueOf();
   }
 
   set Status(status: ValueObjects.Status) {

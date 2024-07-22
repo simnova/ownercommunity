@@ -465,6 +465,7 @@ export type Member = MongoBase & {
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']>;
   customViews?: Maybe<Array<Maybe<CustomView>>>;
+  cybersourceCustomerId?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   isAdmin?: Maybe<Scalars['Boolean']>;
   memberName?: Maybe<Scalars['String']>;
@@ -472,7 +473,6 @@ export type Member = MongoBase & {
   role?: Maybe<Role>;
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  wallet?: Maybe<Wallet>;
 };
 
 export type MemberAccount = MongoSubdocument & {
@@ -910,6 +910,12 @@ export type Point = {
 export type PointInput = {
   coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
   type?: InputMaybe<Scalars['String']>;
+};
+
+export type ProcessPaymentInput = {
+  paymentAmount: Scalars['Float'];
+  paymentInstrumentId: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
 };
 
 export type PropertiesSearchInput = {

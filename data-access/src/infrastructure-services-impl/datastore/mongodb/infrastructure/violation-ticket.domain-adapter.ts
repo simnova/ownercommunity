@@ -1,5 +1,5 @@
 import { ActivityDetail, Photo } from '../models/service-ticket';
-import { ViolationTicket } from '../models/violation-ticket';
+import { Transaction, ViolationTicket } from '../models/violation-ticket';
 import { ViolationTicket as ViolationTicketDO, ViolationTicketProps } from '../../../../app/domain/contexts/violation-ticket/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -15,6 +15,7 @@ import { PhotoProps } from '../../../../app/domain/contexts/service-ticket/photo
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from './service.domain-adapter';
 import { ServiceEntityReference } from '../../../../app/domain/contexts/service-ticket/service';
+import { TransactionProps } from '../../../../app/domain/contexts/violation-ticket/transaction';
 
 export class ViolationTicketConverter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -42,6 +43,11 @@ export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<Violatio
       return new PropertyDomainAdapter(this.doc.property);
     }
   }
+
+  get paymentTransactions() {
+    return new MongoosePropArray(this.doc.paymentTransactions, TransactionDomainAdapter);
+  }
+
   public setPropertyRef(property: PropertyEntityReference) {
     this.doc.set('property', property.id);
   }
@@ -133,20 +139,20 @@ export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<Violatio
     this.doc.penaltyAmount = penaltyAmount;
   }
 
-  get penaltyAmount () {
-    return this.doc.penaltyAmount;  
+  get penaltyAmount() {
+    return this.doc.penaltyAmount;
   }
 
   set penaltyPaidDate(penaltyPaidDate) {
     this.doc.penaltyPaidDate = penaltyPaidDate;
   }
 
-  get penaltyPaidDate () {
-    return this.doc.penaltyPaidDate;  
+  get penaltyPaidDate() {
+    return this.doc.penaltyPaidDate;
   }
 
   get ticketType() {
-    return this.doc.ticketType;  
+    return this.doc.ticketType;
   }
 }
 
@@ -202,5 +208,97 @@ export class PhotoDomainAdapter implements PhotoProps {
 
   getNewDocumentId(): string {
     return nanoid();
+  }
+}
+
+export class TransactionDomainAdapter implements TransactionProps {
+  constructor(public readonly doc: Transaction) {}
+
+  public get id(): string {
+    return this.doc.id.valueOf() as string;
+  }
+
+  get transactionId() {
+    return this.doc.transactionId;
+  }
+
+  get type() {
+    return this.doc.type;
+  }
+
+  set type(type) {
+    this.doc.type = type;
+  }
+
+  get description() {
+    return this.doc.description;
+  }
+
+  set description(description) {
+    this.doc.description = description;
+  }
+
+  set transactionId(transactionId) {
+    this.doc.transactionId = transactionId;
+  }
+
+  get clientReferenceCode() {
+    return this.doc.clientReferenceCode;
+  }
+
+  set clientReferenceCode(clientReferenceCode) {
+    this.doc.clientReferenceCode = clientReferenceCode;
+  }
+
+  get amountDetails() {
+    return this.doc.amountDetails;
+  }
+
+  set amountDetails(amountDetails) {
+    this.doc.amountDetails = amountDetails;
+  }
+
+  get status() {
+    return this.doc.status;
+  }
+
+  set status(status) {
+    this.doc.status = status;
+  }
+
+  get reconciliationId() {
+    return this.doc.reconciliationId;
+  }
+
+  set reconciliationId(reconciliationId) {
+    this.doc.reconciliationId = reconciliationId;
+  }
+
+  get isSuccess() {
+    return this.doc.isSuccess;
+  }
+  set isSuccess(isSuccess) {
+    this.doc.isSuccess = isSuccess;
+  }
+
+  get transactionTime() {
+    return this.doc.transactionTime;
+  }
+  set transactionTime(transactionTime) {
+    this.doc.transactionTime = transactionTime;
+  }
+
+  get successTimestamp() {
+    return this.doc.successTimestamp;
+  }
+  set successTimestamp(successTimestamp) {
+    this.doc.successTimestamp = successTimestamp;
+  }
+
+  get error() {
+    return this.doc.error;
+  }
+  set error(error) {
+    this.doc.error = error;
   }
 }

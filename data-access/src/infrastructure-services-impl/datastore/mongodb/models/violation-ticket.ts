@@ -56,6 +56,7 @@ export interface ViolationTicket extends Ticket {
   requestor: PopulatedDoc<Member.Member>;
   assignedTo?: PopulatedDoc<Member.Member>;
   service?: PopulatedDoc<Service.Service>;
+  paymentTransactions?: Types.DocumentArray<Transaction>;
   title: string;
   description: string;
   status: string;
@@ -71,6 +72,50 @@ export interface ViolationTicket extends Ticket {
   penaltyPaidDate: Date;
 }
 
+export interface Transaction extends SubdocumentBase {
+  transactionId: string;
+  description: string;
+  type: string;
+  clientReferenceCode: string;
+  amountDetails: {
+    amount: number;
+    authorizedAmount: number;
+    currency: string;
+  };
+  status: string;
+  reconciliationId: string;
+  isSuccess: boolean;
+  transactionTime: Date;
+  successTimestamp: Date;
+  error: {
+    code: string;
+    message: string;
+    timestamp: Date;
+  };
+}
+
+const TransactionSchema = new Schema<Transaction, Model<Transaction>, Transaction>({
+  transactionId: { type: String, required: true },
+  transactionTime: { type: Date, required: true },
+  description: { type: String, required: true },
+  type: { type: String, required: true, enum: ['PAYMENT', 'REFUND'] },
+  clientReferenceCode: { type: String, required: true },
+  amountDetails: {
+    amount: { type: String, required: true },
+    authorizedAmount: { type: String, required: true },
+    currency: { type: String, required: true },
+  },
+  status: { type: String, required: true },
+  reconciliationId: { type: String, required: true },
+  isSuccess: { type: Boolean, required: true },
+  successTimestamp: { type: Date, required: false },
+  error: {
+    code: { type: String, required: false },
+    message: { type: String, required: false },
+    timestamp: { type: Date, required: false },
+  },
+});
+
 const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>, ViolationTicket>(
   {
     schemaVersion: {
@@ -83,7 +128,7 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
     requestor: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true, index: true },
     assignedTo: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
     service: { type: Schema.Types.ObjectId, ref: Service.ServiceModel.modelName, required: false, index: true },
-
+    paymentTransactions: { type: [TransactionSchema], required: false, default: [] },
     title: {
       type: String,
       required: true,

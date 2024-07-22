@@ -1,4 +1,4 @@
-import { BlobDataSource } from './blob-data-source';
+import { BlobDataSource } from '../../data-sources/blob-data-source';
 import { CommunityConverter } from '../../external-dependencies/domain';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../external-dependencies/graphql-api';
 import { CommunityBlobApi } from '../../application-services/blob-storage';

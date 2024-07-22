@@ -1,7 +1,7 @@
 import { Property } from '../../domain/contexts/property/property';
 import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
 import { PropertyAddInput, PropertyAssignOwnerInput, PropertyRemoveOwnerInput, PropertyUpdateInput, PropertyDeleteInput } from '../../external-dependencies/graphql-api';
-import { DomainDataSource } from './domain-data-source';
+import { DomainDataSource } from '../../data-sources/domain-data-source';
 import { Amenities, Images } from '../../domain/contexts/property/listing-detail.value-objects';
 import { BedDescriptions } from '../../domain/contexts/property/bedroom-detail.value-objects';
 import { CommunityConverter, MemberConverter, PropertyConverter, PropertyDomainAdapter, PropertyRepository } from '../../external-dependencies/domain';

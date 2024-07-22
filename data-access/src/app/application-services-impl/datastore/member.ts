@@ -1,6 +1,6 @@
 import { MemberData, MemberModel, RoleModel, ViolationTicketModel } from '../../external-dependencies/datastore';
 import { Types } from 'mongoose';
-import { CosmosDataSource } from './cosmos-data-source';
+import { CosmosDataSource } from '../../data-sources/cosmos-data-source';
 import { MemberDataApi } from '../../application-services/datastore';
 import { AppContext } from '../../init/app-context-builder';
 

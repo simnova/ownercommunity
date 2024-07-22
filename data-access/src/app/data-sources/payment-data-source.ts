@@ -1,7 +1,7 @@
-import { DataSource, DataSourceConfig } from '../data-source';
-import { Cybersource } from '../../../../seedwork/services-seedwork-payment-cybersource';
-import { AppContext } from '../../init/app-context-builder';
-import { Passport } from '../../init/passport';
+import { DataSource, DataSourceConfig } from './data-source';
+import { Cybersource } from '../../../seedwork/services-seedwork-payment-cybersource';
+import { AppContext } from '../init/app-context-builder';
+import { Passport } from '../init/passport';
 
 export class PaymentDataSource<Context extends AppContext> extends DataSource<Context> {
   private _cybersource: Cybersource;

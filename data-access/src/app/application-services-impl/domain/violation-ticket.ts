@@ -3,7 +3,7 @@ import { Service } from '../../domain/contexts/service-ticket/service';
 import { Member } from '../../domain/contexts/community/member';
 import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
 import { ViolationTicketCreateInput, ViolationTicketUpdateInput, ViolationTicketDeleteInput, ViolationTicketAssignInput, ViolationTicketChangeStatusInput, ViolationTicketAddUpdateActivityInput } from '../../external-dependencies/graphql-api';
-import { DomainDataSource } from './domain-data-source';
+import { DomainDataSource } from '../../data-sources/domain-data-source';
 import { CommunityConverter, MemberConverter, PropertyConverter, ServiceConverter, ServiceDomainAdapter, ViolationTicketDomainAdapter, ViolationTicketRepository, ViolationTicketConverter } from '../../external-dependencies/domain';
 import { ViolationTicketData as ViolationTicketData, MemberData } from '../../external-dependencies/datastore';
 import { ViolationTicketDomainApi as ViolationTicketDomainApi } from '../../application-services/domain';

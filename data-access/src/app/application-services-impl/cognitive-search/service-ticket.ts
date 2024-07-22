@@ -1,4 +1,4 @@
-import { CognitiveSearchDataSource } from './cognitive-search-data-source';
+import { CognitiveSearchDataSource } from '../../data-sources/cognitive-search-data-source';
 import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../external-dependencies/graphql-api';
 import { ServiceTicketSearchApi } from '../../application-services/cognitive-search';
 import { AppContext } from '../../init/app-context-builder';

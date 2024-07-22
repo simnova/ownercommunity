@@ -1,4 +1,4 @@
-import { BlobDataSource } from './blob-data-source';
+import { BlobDataSource } from '../../data-sources/blob-data-source';
 import { PropertyConverter } from '../../external-dependencies/domain';
 import { MutationStatus, PropertyBlobFileAuthHeaderResult } from '../../external-dependencies/graphql-api';
 import { nanoid } from 'nanoid';

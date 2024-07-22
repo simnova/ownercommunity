@@ -1,4 +1,4 @@
-import { MapsDataSource } from './maps-data-source';
+import { MapsDataSource } from '../../data-sources/maps-data-source';
 import { PropertyMapsApi } from '../../application-services/maps';
 import { AppContext } from '../../init/app-context-builder';
 

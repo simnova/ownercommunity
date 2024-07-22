@@ -1,5 +1,5 @@
 import { isValidObjectId, Types } from 'mongoose';
-import { CosmosDataSource } from './cosmos-data-source';
+import { CosmosDataSource } from '../../data-sources/cosmos-data-source';
 import { CommunityDataApi } from '../../application-services/datastore';
 import { CommunityData, CommunityModel, UserModel, MemberModel } from '../../external-dependencies/datastore';
 import { AppContext } from '../../init/app-context-builder';

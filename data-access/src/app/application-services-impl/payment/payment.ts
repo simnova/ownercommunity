@@ -1,4 +1,4 @@
-import { PaymentDataSource } from './payment-data-source';
+import { PaymentDataSource } from '../../data-sources/payment-data-source';
 import { PaymentApi } from '../../application-services';
 import { AppContext } from '../../init/app-context-builder';
 import { AddPaymentInstrumentInput, PaymentInstrument } from '../../external-dependencies/graphql-api';

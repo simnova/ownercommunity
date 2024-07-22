@@ -1,7 +1,7 @@
 import { Role } from '../../domain/contexts/community/role';
 import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
 import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from '../../external-dependencies/graphql-api';
-import { DomainDataSource } from './domain-data-source';
+import { DomainDataSource } from '../../data-sources/domain-data-source';
 import { CommunityConverter, RoleConverter, RoleDomainAdapter, RoleRepository } from '../../external-dependencies/domain';
 import { RoleData } from '../../external-dependencies/datastore';
 import { RoleDomainApi } from '../../application-services/domain';

@@ -1,7 +1,7 @@
-import { DataSource } from "../data-source";
-import { CognitiveSearchInfrastructureService } from "../../infrastructure-services/cognitive-search";
-import { AppContext } from "../../init/app-context-builder";
-import { Passport } from "../../init/passport";
+import { DataSource } from "./data-source";
+import { CognitiveSearchInfrastructureService } from "../infrastructure-services/cognitive-search";
+import { AppContext } from "../init/app-context-builder";
+import { Passport } from "../init/passport";
 
 export class CognitiveSearchDataSource<Context extends AppContext> extends DataSource<Context> {
 

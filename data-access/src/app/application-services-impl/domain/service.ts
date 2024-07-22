@@ -1,7 +1,7 @@
 import { Service } from '../../domain/contexts/service-ticket/service';
 import { ReadOnlyDomainVisa } from '../../domain/contexts/iam/domain-visa';
 import { ServiceCreateInput, ServiceUpdateInput } from '../../external-dependencies/graphql-api';
-import { DomainDataSource } from './domain-data-source';
+import { DomainDataSource } from '../../data-sources/domain-data-source';
 import { CommunityConverter, ServiceConverter, ServiceDomainAdapter, ServiceRepository } from '../../external-dependencies/domain';
 import { ServiceData } from '../../external-dependencies/datastore';
 import { ServiceDomainApi } from '../../application-services/domain';

@@ -1,7 +1,7 @@
 import { Community } from '../../domain/contexts/community/community';
 import { ReadOnlyContext } from '../../domain/contexts/domain-execution-context';
 import { CommunityCreateInput, CommunityUpdateInput } from '../../external-dependencies/graphql-api';
-import { DomainDataSource } from './domain-data-source';
+import { DomainDataSource } from '../../data-sources/domain-data-source';
 import { CommunityConverter, CommunityDomainAdapter, CommunityRepository, UserConverter } from '../../external-dependencies/domain';
 import { CommunityData } from '../../external-dependencies/datastore';
 import { CommunityDomainApi } from '../../application-services/domain';

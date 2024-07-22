@@ -1,4 +1,4 @@
-import { CognitiveSearchDataSource } from './cognitive-search-data-source';
+import { CognitiveSearchDataSource } from '../../data-sources/cognitive-search-data-source';
 import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../external-dependencies/graphql-api';
 import dayjs from 'dayjs';
 import { PropertySearchApi } from '../../application-services/cognitive-search';

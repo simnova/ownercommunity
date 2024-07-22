@@ -1,4 +1,4 @@
-import { BlobDataSource } from './blob-data-source';
+import { BlobDataSource } from '../../data-sources/blob-data-source';
 import { MemberAvatarImageAuthHeaderResult, MutationStatus, BlobAuthHeader } from '../../external-dependencies/graphql-api';
 import { MemberConverter } from '../../external-dependencies/domain';
 import { MemberBlobApi } from '../../application-services/blob-storage';

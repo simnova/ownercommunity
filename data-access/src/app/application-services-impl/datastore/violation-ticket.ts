@@ -1,5 +1,5 @@
 import { ViolationTicketData } from '../../external-dependencies/datastore';
-import { CosmosDataSource } from './cosmos-data-source';
+import { CosmosDataSource } from '../../data-sources/cosmos-data-source';
 import { ViolationTicketDataApi } from '../../application-services/datastore';
 import { AppContext } from '../../init/app-context-builder';
 

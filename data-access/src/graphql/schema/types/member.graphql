@@ -6,7 +6,7 @@ type Member implements MongoBase {
   role: Role
   accounts: [MemberAccount]
   profile: MemberProfile
-  wallet: Wallet
+  cybersourceCustomerId: String
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -173,9 +173,13 @@ type Transaction {
 }
 
 type Wallet {
-  """Unique identifier for the customer"""
+  """
+  Unique identifier for the customer
+  """
   customerId: String
-  """List of transactions associated with the customer"""
+  """
+  List of transactions associated with the customer
+  """
   transactions: [Transaction]
 }
 

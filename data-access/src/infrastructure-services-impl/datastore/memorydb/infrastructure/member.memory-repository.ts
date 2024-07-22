@@ -85,8 +85,8 @@ export class MemoryMemberRepository<PropType extends MemberProps, DomainType ext
     return Member.getNewInstance(new MemoryMember() as unknown as PropType, name, community, this.context); // [MG-TBD]
   }
   async getById(id: string): Promise<Member<PropType>> {
-    const member = await this.get(id);
-    return member;
+    return await this.get(id);
+
   }
   async getAssignedToRole(roleId: string): Promise<Member<PropType>[]> {
     const members = (await this.getAll())?.filter((member) => member.role.id === roleId);

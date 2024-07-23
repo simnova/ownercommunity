@@ -16,6 +16,7 @@ import { ViolationTicketUpdatedEvent } from '../../events/types/violation-ticket
 import { ViolationTicketCreatedEvent } from '../../events/types/violation-ticket-created';
 import { ViolationTicketUpdateInput } from '../../../external-dependencies/graphql-api';
 import dayjs from 'dayjs';
+import { Transaction, TransactionProps } from './transaction';
 
 export interface ViolationTicketProps extends EntityProps {
   readonly community: CommunityProps;
@@ -30,6 +31,7 @@ export interface ViolationTicketProps extends EntityProps {
   setServiceRef(service: ServiceEntityReference): void;
   penaltyAmount: number;
   penaltyPaidDate: Date;
+  readonly paymentTransactions: PropArray<TransactionProps>;
   readonly ticketType?: string;
   title: string;
   description: string;
@@ -51,8 +53,6 @@ export interface ViolationTicketEntityReference
   extends Readonly<
     Omit<
       ViolationTicketProps,
-      | 'penaltyAmount'
-      | 'penaltyPaidDate'
       | 'community'
       | 'setCommunityRef'
       | 'property'
@@ -65,6 +65,7 @@ export interface ViolationTicketEntityReference
       | 'setServiceRef'
       | 'activityLog'
       | 'photos'
+      | 'paymentTransactions'
     >
   > {
   readonly community: CommunityEntityReference;
@@ -364,6 +365,27 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     return new ActivityDetail(activityDetail, this.context, this.visa);
   }
 
+  private requestNewPaymentTransaction(): Transaction {
+    let paymentTransaction = this.props.paymentTransactions.getNewItem();
+    return new Transaction(paymentTransaction, this.context, this.visa);
+  }
+
+  public requestAddPaymentTransaction(): Transaction {
+    if (
+      !this.isNew &&
+      !this.visa.determineIf(
+        (permissions) =>
+          permissions.isSystemAccount ||
+          (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
+          (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||
+          permissions.canManageTickets
+      )
+    ) {
+      throw new Error('Unauthorized');
+    }
+    return this.requestNewPaymentTransaction();
+  }
+
   public requestAddStatusUpdate(description: string, by: MemberEntityReference): void {
     if (
       !this.isNew &&
@@ -383,17 +405,17 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     activityDetail.ActivityDescription = description;
     activityDetail.ActivityBy = by;
   }
-  
+
   public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
     let penaltyPaidDateLog = null;
     let newPenaltyPaidDate = incomingPayload.penaltyPaidDate ? incomingPayload.penaltyPaidDate : '';
     let oldPenaltyPaidDate = this.penaltyPaidDate ? this.penaltyPaidDate : '';
     let activityMessage: string = `${this.requestor.memberName} made field changes: | `;
-    if(newPenaltyPaidDate && newPenaltyPaidDate !== oldPenaltyPaidDate && !oldPenaltyPaidDate) {
-      penaltyPaidDateLog = `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate).toISOString()}`
+    if (newPenaltyPaidDate && newPenaltyPaidDate !== oldPenaltyPaidDate && !oldPenaltyPaidDate) {
+      penaltyPaidDateLog = `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate).toISOString()}`;
     }
-    if(newPenaltyPaidDate && newPenaltyPaidDate !== oldPenaltyPaidDate && oldPenaltyPaidDate) {
-      penaltyPaidDateLog = `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate).toISOString()} %o ${dayjs(this.penaltyPaidDate).toISOString()}`
+    if (newPenaltyPaidDate && newPenaltyPaidDate !== oldPenaltyPaidDate && oldPenaltyPaidDate) {
+      penaltyPaidDateLog = `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate).toISOString()} %o ${dayjs(this.penaltyPaidDate).toISOString()}`;
     }
     const updateLogMessages = {
       title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} %o ${this.title}` : null,

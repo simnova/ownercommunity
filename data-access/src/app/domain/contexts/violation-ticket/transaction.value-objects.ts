@@ -1,4 +1,4 @@
-import { VOFloat, VOObject, VOString } from "@lucaspaganini/value-objects";
+import { VOFloat, VOObject, VOString } from '@lucaspaganini/value-objects';
 
 export class TransactionId extends VOString({ trim: true, maxLength: 500 }) {}
 export class ClientReferenceCode extends VOString({ trim: true, maxLength: 50 }) {}
@@ -15,6 +15,8 @@ export class Currency extends VOString({ trim: true, maxLength: 5 }) {}
 export class Transactions extends VOString({ trim: true, maxLength: 500 }) {}
 export class Transaction extends VOString({ trim: true, maxLength: 500 }) {}
 export class IsSuccess extends VOString({ trim: true, maxLength: 500 }) {}
+export class Description extends VOString({ trim: true, maxLength: 500 }) {}
+export class Type extends VOString({ trim: true, maxLength: 500 }) {}
 export class AmountDetails extends VOObject({
   amount: VOFloat(),
   authorizedAmount: VOFloat(),

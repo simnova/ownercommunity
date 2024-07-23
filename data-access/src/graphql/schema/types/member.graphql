@@ -6,7 +6,7 @@ type Member implements MongoBase {
   role: Role
   accounts: [MemberAccount]
   profile: MemberProfile
-  wallet: Wallet
+  cybersourceCustomerId: String
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -62,6 +62,7 @@ extend type Query {
   memberAssignableToViolationTickets(violationTicketId: ObjectID!): Member
   memberForCurrentUser: Member
   cybersourcePublicKeyId: String
+  memberPaymentInstruments: PaymentInstrumentResult
 }
 
 extend type Mutation {
@@ -74,6 +75,8 @@ extend type Mutation {
   memberProfileAvatarCreateAuthHeader(input: MemberAvatarImageInput!): MemberAvatarImageAuthHeaderResult!
   memberProfileAvatarRemove(memberId: ObjectID!): MemberMutationResult!
   memberAddPaymentInstrument(input: AddPaymentInstrumentInput!): MemberMutationResult!
+  memberSetDefaultPaymentInstrument(paymentInstrumentId: String!): MutationStatus!
+  memberDeletePaymentInstrument(paymentInstrumentId: String!): MutationStatus!
 }
 
 type MemberMutationResult implements MutationResult {
@@ -170,10 +173,26 @@ type Transaction {
 }
 
 type Wallet {
-  """Unique identifier for the customer"""
+  """
+  Unique identifier for the customer
+  """
   customerId: String
-  """List of transactions associated with the customer"""
+  """
+  List of transactions associated with the customer
+  """
   transactions: [Transaction]
+}
+
+type PaymentInstrument {
+  cardType: String
+  paymentInstrumentId: String
+  cardNumber: String
+  isDefault: Boolean
+}
+
+type PaymentInstrumentResult {
+  status: MutationStatus!
+  paymentInstruments: [PaymentInstrument]
 }
 
 input AddPaymentInstrumentInput {

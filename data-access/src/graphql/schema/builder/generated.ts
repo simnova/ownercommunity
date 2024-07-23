@@ -467,6 +467,7 @@ export type Member = MongoBase & {
   community?: Maybe<Community>;
   createdAt?: Maybe<Scalars['DateTime']>;
   customViews?: Maybe<Array<Maybe<CustomView>>>;
+  cybersourceCustomerId?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   isAdmin?: Maybe<Scalars['Boolean']>;
   memberName?: Maybe<Scalars['String']>;
@@ -474,7 +475,6 @@ export type Member = MongoBase & {
   role?: Maybe<Role>;
   schemaVersion?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  wallet?: Maybe<Wallet>;
 };
 
 export type MemberAccount = MongoSubdocument & {
@@ -608,9 +608,11 @@ export type Mutation = {
   memberAccountRemove: MemberMutationResult;
   memberAddPaymentInstrument: MemberMutationResult;
   memberCreate: MemberMutationResult;
+  memberDeletePaymentInstrument: MutationStatus;
   memberProfileAvatarCreateAuthHeader: MemberAvatarImageAuthHeaderResult;
   memberProfileAvatarRemove: MemberMutationResult;
   memberProfileUpdate: MemberMutationResult;
+  memberSetDefaultPaymentInstrument: MutationStatus;
   memberUpdate: MemberMutationResult;
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
@@ -696,6 +698,11 @@ export type MutationMemberCreateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationMemberDeletePaymentInstrumentArgs = {
+  paymentInstrumentId: Scalars['String'];
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberProfileAvatarCreateAuthHeaderArgs = {
   input: MemberAvatarImageInput;
 };
@@ -708,6 +715,11 @@ export type MutationMemberProfileAvatarRemoveArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberProfileUpdateArgs = {
   input: MemberProfileUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationMemberSetDefaultPaymentInstrumentArgs = {
+  paymentInstrumentId: Scalars['String'];
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -870,6 +882,20 @@ export type MutationStatus = {
   success: Scalars['Boolean'];
 };
 
+export type PaymentInstrument = {
+  __typename?: 'PaymentInstrument';
+  cardNumber?: Maybe<Scalars['String']>;
+  cardType?: Maybe<Scalars['String']>;
+  isDefault?: Maybe<Scalars['Boolean']>;
+  paymentInstrumentId?: Maybe<Scalars['String']>;
+};
+
+export type PaymentInstrumentResult = {
+  __typename?: 'PaymentInstrumentResult';
+  paymentInstruments?: Maybe<Array<Maybe<PaymentInstrument>>>;
+  status: MutationStatus;
+};
+
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
@@ -886,6 +912,12 @@ export type Point = {
 export type PointInput = {
   coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
   type?: InputMaybe<Scalars['String']>;
+};
+
+export type ProcessPaymentInput = {
+  paymentAmount: Scalars['Float'];
+  paymentInstrumentId: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
 };
 
 export type PropertiesSearchInput = {
@@ -1056,6 +1088,7 @@ export type Query = {
   member?: Maybe<Member>;
   memberAssignableToViolationTickets?: Maybe<Member>;
   memberForCurrentUser?: Maybe<Member>;
+  memberPaymentInstruments?: Maybe<PaymentInstrumentResult>;
   members?: Maybe<Array<Maybe<Member>>>;
   membersAssignableToTickets?: Maybe<Array<Maybe<Member>>>;
   membersByCommunityId?: Maybe<Array<Maybe<Member>>>;
@@ -1772,6 +1805,8 @@ export type ResolversTypes = ResolversObject<{
   NonPositiveFloat: ResolverTypeWrapper<Scalars['NonPositiveFloat']>;
   NonPositiveInt: ResolverTypeWrapper<Scalars['NonPositiveInt']>;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
+  PaymentInstrument: ResolverTypeWrapper<PaymentInstrument>;
+  PaymentInstrumentResult: ResolverTypeWrapper<PaymentInstrumentResult>;
   PermissionsInput: PermissionsInput;
   PhoneNumber: ResolverTypeWrapper<Scalars['PhoneNumber']>;
   Point: ResolverTypeWrapper<Point>;
@@ -1780,6 +1815,7 @@ export type ResolversTypes = ResolversObject<{
   PositiveFloat: ResolverTypeWrapper<Scalars['PositiveFloat']>;
   PositiveInt: ResolverTypeWrapper<Scalars['PositiveInt']>;
   PostalCode: ResolverTypeWrapper<Scalars['PostalCode']>;
+  ProcessPaymentInput: ProcessPaymentInput;
   PropertiesSearchInput: PropertiesSearchInput;
   PropertiesSearchOptions: PropertiesSearchOptions;
   Property: ResolverTypeWrapper<Property>;
@@ -1997,6 +2033,8 @@ export type ResolversParentTypes = ResolversObject<{
   NonPositiveFloat: Scalars['NonPositiveFloat'];
   NonPositiveInt: Scalars['NonPositiveInt'];
   ObjectID: Scalars['ObjectID'];
+  PaymentInstrument: PaymentInstrument;
+  PaymentInstrumentResult: PaymentInstrumentResult;
   PermissionsInput: PermissionsInput;
   PhoneNumber: Scalars['PhoneNumber'];
   Point: Point;
@@ -2005,6 +2043,7 @@ export type ResolversParentTypes = ResolversObject<{
   PositiveFloat: Scalars['PositiveFloat'];
   PositiveInt: Scalars['PositiveInt'];
   PostalCode: Scalars['PostalCode'];
+  ProcessPaymentInput: ProcessPaymentInput;
   PropertiesSearchInput: PropertiesSearchInput;
   PropertiesSearchOptions: PropertiesSearchOptions;
   Property: Property;
@@ -2517,6 +2556,7 @@ export type MemberResolvers<ContextType = GraphqlContext, ParentType extends Res
   community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   customViews?: Resolver<Maybe<Array<Maybe<ResolversTypes['CustomView']>>>, ParentType, ContextType>;
+  cybersourceCustomerId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   isAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   memberName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2524,7 +2564,6 @@ export type MemberResolvers<ContextType = GraphqlContext, ParentType extends Res
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  wallet?: Resolver<Maybe<ResolversTypes['Wallet']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2623,6 +2662,12 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   memberAccountRemove?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAccountRemoveArgs, 'input'>>;
   memberAddPaymentInstrument?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberAddPaymentInstrumentArgs, 'input'>>;
   memberCreate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberCreateArgs, 'input'>>;
+  memberDeletePaymentInstrument?: Resolver<
+    ResolversTypes['MutationStatus'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationMemberDeletePaymentInstrumentArgs, 'paymentInstrumentId'>
+  >;
   memberProfileAvatarCreateAuthHeader?: Resolver<
     ResolversTypes['MemberAvatarImageAuthHeaderResult'],
     ParentType,
@@ -2631,6 +2676,12 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   >;
   memberProfileAvatarRemove?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberProfileAvatarRemoveArgs, 'memberId'>>;
   memberProfileUpdate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberProfileUpdateArgs, 'input'>>;
+  memberSetDefaultPaymentInstrument?: Resolver<
+    ResolversTypes['MutationStatus'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationMemberSetDefaultPaymentInstrumentArgs, 'paymentInstrumentId'>
+  >;
   memberUpdate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberUpdateArgs, 'input'>>;
   propertyAdd?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAddArgs, 'input'>>;
   propertyAssignOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAssignOwnerArgs, 'input'>>;
@@ -2749,6 +2800,26 @@ export interface NonPositiveIntScalarConfig extends GraphQLScalarTypeConfig<Reso
 export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ObjectID'], any> {
   name: 'ObjectID';
 }
+
+export type PaymentInstrumentResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['PaymentInstrument'] = ResolversParentTypes['PaymentInstrument'],
+> = ResolversObject<{
+  cardNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  cardType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isDefault?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  paymentInstrumentId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PaymentInstrumentResultResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['PaymentInstrumentResult'] = ResolversParentTypes['PaymentInstrumentResult'],
+> = ResolversObject<{
+  paymentInstruments?: Resolver<Maybe<Array<Maybe<ResolversTypes['PaymentInstrument']>>>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export interface PhoneNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PhoneNumber'], any> {
   name: 'PhoneNumber';
@@ -2898,6 +2969,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
     RequireFields<QueryMemberAssignableToViolationTicketsArgs, 'violationTicketId'>
   >;
   memberForCurrentUser?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  memberPaymentInstruments?: Resolver<Maybe<ResolversTypes['PaymentInstrumentResult']>, ParentType, ContextType>;
   members?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
   membersAssignableToTickets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType>;
   membersByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Member']>>>, ParentType, ContextType, RequireFields<QueryMembersByCommunityIdArgs, 'communityId'>>;
@@ -3352,6 +3424,8 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   NonPositiveFloat?: GraphQLScalarType;
   NonPositiveInt?: GraphQLScalarType;
   ObjectID?: GraphQLScalarType;
+  PaymentInstrument?: PaymentInstrumentResolvers<ContextType>;
+  PaymentInstrumentResult?: PaymentInstrumentResultResolvers<ContextType>;
   PhoneNumber?: GraphQLScalarType;
   Point?: PointResolvers<ContextType>;
   Port?: GraphQLScalarType;

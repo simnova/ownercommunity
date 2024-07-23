@@ -79,3 +79,9 @@ input ViolationTicketAddUpdateActivityInput {
   violationTicketId: ObjectID!
   activityDescription: String!
 }
+
+input ProcessPaymentInput {
+  violationTicketId: ObjectID!
+  paymentAmount: Float!
+  paymentInstrumentId: String!
+}

@@ -1,10 +1,10 @@
 import { FC, useEffect } from 'react';
-import { Route, Routes, useMatch, useNavigate } from 'react-router-dom';
+import { Route, Routes, useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
+import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../..';
 import { PageLayoutProps } from '../../../admin';
 import { ActiveRequestListContainer } from './components/active-request-list.container';
 import { ArchivedRequestListContainer } from './components/archived-request-list.container';
 import { RequestListPageLayout } from './request-list-page-layout';
-import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../..';
 
 export const AHPObjectStatusRouteLayer = {
   Active: 'active',
@@ -15,6 +15,9 @@ interface RequestListPageProps {}
 
 export const RequestListPage: FC<RequestListPageProps> = (_props) => {
   const navigate = useNavigate();
+
+  const activeRoutes = useResolvedPath(AHPObjectStatusRouteLayer.Active + '/*');
+  const archivedRoutes = useResolvedPath(AHPObjectStatusRouteLayer.Archived + '/*');
 
   const rootRoute = useMatch(`/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}`);
 
@@ -27,13 +30,13 @@ export const RequestListPage: FC<RequestListPageProps> = (_props) => {
 
   const pageLayouts: PageLayoutProps[] = [
     {
-      path: `/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Active}/*`,
+      path: activeRoutes.pathname,
       title: 'Active',
       icon: <></>,
       id: 'ROOT'
     },
     {
-      path: `/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Archived}/*`,
+      path: archivedRoutes.pathname,
       title: 'Archived',
       icon: <></>,
       id: '1',

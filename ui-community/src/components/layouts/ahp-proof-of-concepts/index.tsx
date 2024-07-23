@@ -16,6 +16,7 @@ export const AHPProofOfConcepts: FC<AHPProofOfConceptsProps> = (_props) => {
   const navigate = useNavigate();
   const match = useMatch(`/${AHPRootRouteLayer}`);
 
+
   // redirect to (default) cases if root route is accessed
   useEffect(() => {
     if (match) {

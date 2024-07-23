@@ -1,4 +1,4 @@
-import { Badge, Divider } from 'antd';
+import { Badge, Card, Divider } from 'antd';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 
 const getCardType = (cardNumber: string) => {
@@ -63,11 +63,13 @@ export const CreditCardDisplay: React.FC<{ cardNumber: string; defaultCard?: boo
     <div className="flex gap-4 items-center">
       <div className="flex gap-6">
         {cardType !== undefined && (
-          <img
-            src={`/public/images/card-images/${cardType}.svg`}
-            alt={`${cardType} logo`}
-            className="h-8 w-8 border border-black"
-          />
+          <div className="p-1 rounded-md border-[1px] border-solid border-neutral-200">
+            <img
+              src={`/public/images/card-images/${cardType}.svg`}
+              alt={`${cardType} logo`}
+              className="w-8 border border-black p-0 m-0"
+            />
+          </div>
         )}
         <span>{maskAndFormatCardNumber(cardNumber)}</span>
         {/* <Cards number={cardNumber} name={''} cvc={''} expiry={''} /> */}

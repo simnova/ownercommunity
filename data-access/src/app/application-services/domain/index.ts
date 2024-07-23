@@ -1,7 +1,6 @@
 import { ViolationTicketUnitOfWork } from '../../domain/contexts/violation-ticket/violation-ticket.uow';
 import { ViolationTicketDomainApplicationService } from './violation-ticket.interface';
 // community
-import { CommunityDomainApplicationService } from "./community.interface";
 import { CommunityUnitOfWork } from "../../domain/contexts/community/community.uow";
 // role
 import { RoleDomainApplicationService } from "./role.interface";
@@ -23,7 +22,6 @@ import { PropertyDomainApplicationService } from "./property.interface";
 import { PropertyUnitOfWork } from "../../domain/contexts/property/property.uow";
 
 export {
-  CommunityDomainApplicationService as CommunityDomainApi,
   CommunityUnitOfWork,
   RoleDomainApplicationService as RoleDomainApi,
   RoleUnitOfWork,

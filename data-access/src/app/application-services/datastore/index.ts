@@ -1,7 +1,5 @@
 // user
 import { UserDatastoreApplicationService } from './user.interface';
-// community
-import { CommunityDatastoreApplicationService } from './community.interface';
 // member
 import { MemberDatastoreApplicationService } from './member.interface';
 // role
@@ -17,7 +15,6 @@ import { ViolationTicketDatastoreApplicationService } from './violation-ticket.i
 
 export {
   UserDatastoreApplicationService as UserDataApi,
-  CommunityDatastoreApplicationService as CommunityDataApi,
   MemberDatastoreApplicationService as MemberDataApi,
   RoleDatastoreApplicationService as RoleDataApi,
   PropertyDatastoreApplicationService as PropertyDataApi,

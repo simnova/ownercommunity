@@ -1,9 +1,17 @@
-import { BlobDataSource } from '../../data-sources/blob-data-source';
-import { CommunityConverter } from '../../external-dependencies/domain';
-import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../external-dependencies/graphql-api';
-import { CommunityBlobApi } from '../../application-services/blob-storage';
-import { AppContext } from '../../init/app-context-builder';
-import { BlobRequestSettings } from '../../../../seedwork/services-seedwork-blob-storage-interfaces';
+import { FileInfo, CommunityBlobContentAuthHeaderResult } from "../../../external-dependencies/graphql-api";
+import { BlobDataSource } from '../../../data-sources/blob-data-source';
+import { CommunityConverter } from '../../../external-dependencies/domain';
+import { AppContext } from '../../../init/app-context-builder';
+import { BlobRequestSettings } from '../../../../../seedwork/services-seedwork-blob-storage-interfaces';
+
+export interface CommunityBlobApi {
+  communityPublicFilesList(communityId: string): Promise<FileInfo[]>;
+  communityPublicFilesListByType(communityId: string, type: string): Promise<FileInfo[]>;
+  communityPublicFileCreateAuthHeader(communityId: string, fileName: string, contentType: string, contentLength: number): Promise<CommunityBlobContentAuthHeaderResult>;
+  communityPublicFileRemove(communityId: string, fileName: string): Promise<void>;
+  communityPublicContentCreateAuthHeader(communityId: string, contentType: string, contentLength: number): Promise<CommunityBlobContentAuthHeaderResult>;
+}
+
 
 export class CommunityBlobApiImpl 
   extends BlobDataSource<AppContext> 
@@ -12,7 +20,7 @@ export class CommunityBlobApiImpl
   public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {
     let result: FileInfo[] = [];
     await this.withStorage(async (passport, blobStorage) => {
-      let community = await this.context.applicationServices.communityDataApi.getCommunityById(communityId);
+      let community = await this.context.applicationServices.community.v1.dataApi.getCommunityById(communityId);
       let communityDO = new CommunityConverter().toDomain(community, { domainVisa: passport.domainVisa });
       if (!passport.domainVisa.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
         return;
@@ -56,7 +64,7 @@ export class CommunityBlobApiImpl
   public async communityPublicFileRemove(communityId: string, fileName: string): Promise<void> {
     const blobName = `public-files/${fileName}`;
     await this.withStorage(async (passport, blobStorage) => {
-      let community = await this.context.applicationServices.communityDataApi.getCommunityById(communityId);
+      let community = await this.context.applicationServices.community.v1.dataApi.getCommunityById(communityId);
       if (!community) {
         return;
       }
@@ -87,7 +95,7 @@ export class CommunityBlobApiImpl
   ) {
     let headerResult: CommunityBlobContentAuthHeaderResult;
     await this.withStorage(async (passport, blobStorage) => {
-      let community = await this.context.applicationServices.communityDataApi.getCommunityById(communityId);
+      let community = await this.context.applicationServices.community.v1.dataApi.getCommunityById(communityId);
       if (!community) {
         headerResult = { status: { success: false, errorMessage: `Community not found: ${communityId}` } } as CommunityBlobContentAuthHeaderResult;
         return;

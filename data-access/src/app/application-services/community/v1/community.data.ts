@@ -1,8 +1,17 @@
 import { isValidObjectId, Types } from 'mongoose';
-import { CosmosDataSource } from '../../data-sources/cosmos-data-source';
-import { CommunityDataApi } from '../../application-services/datastore';
-import { CommunityData, CommunityModel, UserModel, MemberModel } from '../../external-dependencies/datastore';
-import { AppContext } from '../../init/app-context-builder';
+import { CosmosDataSource } from '../../../data-sources/cosmos-data-source';
+import { CommunityData, CommunityModel, UserModel, MemberModel } from '../../../external-dependencies/datastore';
+import { AppContext } from '../../../init/app-context-builder';
+
+export interface CommunityDataApi {
+    getCurrentCommunity(): Promise<CommunityData>;
+    getCommunityById(communityId: string): Promise<CommunityData>;
+    getCommunityByHandle(handle: string): Promise<CommunityData>;
+    getCommunityByDomain(domain: string): Promise<CommunityData>;
+    getCommunityByHeader(header: string): Promise<CommunityData>;
+    userIsAdmin(communityId: string): Promise<boolean>;
+    getCommunitiesForCurrentUser(): Promise<CommunityData[]>;
+}
 
 export class CommunityDataApiImpl 
   extends CosmosDataSource<CommunityData, AppContext> 

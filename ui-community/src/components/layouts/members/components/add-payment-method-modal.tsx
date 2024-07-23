@@ -6,6 +6,14 @@ import { Country, State, City } from 'country-state-city';
 
 import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
 import dayjs from 'dayjs';
+import { AddPaymentInstrumentInput } from '../../../../generated';
+import { Callback, TokenOptions } from './add-payment-method-modal.container';
+
+type PaymentTokenFormFieldType = {
+  cardNumber?: string;
+  securityCode?: string;
+  expiration?: string;
+};
 
 enum STEPS {
   CARD_DETAILS = 0,
@@ -15,37 +23,82 @@ enum STEPS {
 }
 
 interface CustomerInfoFormSchema {
-  cardNumber?: string;
-  securityCode?: string;
-  expirationMonthPicker?: string;
-  billToForename?: string;
-  billToLastName?: string;
-  billToEmail?: string;
-  billToAddressLine1?: string;
-  billToAddressCountry?: string;
-  billToAddressState?: string;
-  billToAddressCity?: string;
+  billingFirstName: string;
+  billingLastName: string;
+  billingEmail: string;
+  billingPhone: string;
+  billingAddressLine1: string;
+  billingAddressLine2?: string;
+  billingCity: string;
+  billingState: string;
+  billingPostalCode: string;
+  billingCountry: string;
+  isDefault: boolean;
+  paymentToken: string;
 }
 
-interface AddPaymentMethodProps {}
+interface AddPaymentMethodProps {
+  onCreateToken: (tokenOption: TokenOptions, callBack: Callback) => void;
+  onAddPaymentMethod: (data: AddPaymentInstrumentInput) => void;
+}
 
-const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
+const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ onCreateToken }) => {
   const [step, setStep] = useState(STEPS.CARD_DETAILS);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
+  const [paymentToken, setPaymentToken] = useState('');
 
-  const initialFormState = {
-    cardNumber: undefined,
-    billToFirstName: undefined,
-    billToLastName: undefined,
-    billToEmail: undefined,
-    billToAddressLine1: undefined,
-    billToAddressCountry: undefined,
-    billToAddressState: undefined,
-    billToAddressCity: undefined
+  const useAddPaymentMethod = useAddPaymentMethodModal();
+
+  const onSubmitPaymentTokenForm = (data: PaymentTokenFormFieldType) => {
+    const tokenOption: TokenOptions = {
+      expirationMonth: dayjs(data.expiration).format('MM'),
+      expirationYear: dayjs(data.expiration).format('YYYY')
+    };
+
+    const callBack = async (error: any, token: any) => {
+      if (error) {
+      } else if (token) {
+        setPaymentToken(token);
+      }
+    };
+
+    onCreateToken(tokenOption, callBack);
   };
 
+  // const onCreateCustomer = async () => {
+  //   if (paymentToken !== '') {
+  //     await axios
+  //       .post('http://localhost:7071/api/cybersource/create-customer', {
+  //         paymentToken: paymentToken
+  //       })
+  //       .then((response) => {
+  //         console.log('CREATE CUSTOMER RESPONSE', response);
+  //       })
+  //       .catch((error) => {
+  //         console.log('CREATE CUSTOMER ERROR', error);
+  //       });
+  //   }
+  // };
+
+  const initialFormState: Partial<CustomerInfoFormSchema> = {
+    billingFirstName: undefined,
+    billingLastName: undefined,
+    billingEmail: undefined,
+    billingPhone: undefined,
+    billingAddressLine1: undefined,
+    billingAddressLine2: undefined,
+    billingCity: undefined,
+    billingState: undefined,
+    billingPostalCode: undefined,
+    billingCountry: undefined,
+    isDefault: false,
+    paymentToken: paymentToken
+  };
+
+  const [paymentTokenForm] = Form.useForm();
+
   const [form] = Form.useForm();
-  const [formValues, setFormValues] = useState<CustomerInfoFormSchema>(initialFormState);
+  const [formValues, setFormValues] = useState<Partial<CustomerInfoFormSchema>>(initialFormState);
   const formTitle = 'Add Payment Method';
   const onValuesChange = (changedValue: any) => {
     setFormValues({ ...formValues, ...changedValue });
@@ -53,7 +106,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
   const requiredFields = useMemo(() => {
     switch (step) {
       case STEPS.CARD_DETAILS:
-        return ['cardNumber', 'expirationMonthPicker', 'securityCode'];
+        return ['cardNumber', 'expiration', 'securityCode'];
       case STEPS.BILLING_ADDRESS:
         return [
           'billToForename',
@@ -70,17 +123,24 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
     }
   }, [step]);
 
-  const useAddPaymentMethod = useAddPaymentMethodModal();
-
   const action = useMemo(() => {
     let actionLabel = 'Next';
+
+    let onClick = () => setStep((value) => value + 1);
+
+    if (step === STEPS.CARD_DETAILS) {
+      onClick = () => {
+        onSubmitPaymentTokenForm(paymentTokenForm.getFieldsValue());
+        setStep((value) => value + 1);
+      };
+    }
 
     if (step === STEPS.REVIEW) {
       actionLabel = 'Add Payment Method';
     }
 
     return (
-      <Button type="primary" onClick={() => setStep((value) => value + 1)} disabled={isNextDisabled}>
+      <Button type="primary" onClick={onClick} disabled={isNextDisabled}>
         {actionLabel}
       </Button>
     );
@@ -96,7 +156,9 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
   useEffect(() => {
     const checkFieldsError = async () => {
       try {
-        await form.validateFields(requiredFields, { validateOnly: true });
+        if (step === STEPS.CARD_DETAILS) {
+          await paymentTokenForm.validateFields(requiredFields, { validateOnly: true });
+        } else await form.validateFields(requiredFields, { validateOnly: true });
         setIsNextDisabled(false);
       } catch (error) {
         setIsNextDisabled(true);
@@ -108,7 +170,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
   let bodyContent = (
     <>
       <p>Fill out your payment method details.</p>
-      <Form.Item
+      <Form.Item<PaymentTokenFormFieldType>
         // className="ant-form-item-control-input-content"
         label="Card Number:"
         name="cardNumber"
@@ -120,10 +182,10 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
       </Form.Item>
 
       <div className="flex items-start gap-4 w-full">
-        <Form.Item
+        <Form.Item<PaymentTokenFormFieldType>
           label={'Card Expiration Date:'}
           required={true}
-          name="expirationMonthPicker"
+          name="expiration"
           rules={[{ required: true, message: 'Please enter the expiration date as shown on the card.' }]}
         >
           <DatePicker.MonthPicker
@@ -138,7 +200,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
           ></DatePicker.MonthPicker>
         </Form.Item>
 
-        <Form.Item
+        <Form.Item<PaymentTokenFormFieldType>
           label="Security Code:"
           name="securityCode"
           rules={[{ required: true }]}
@@ -156,14 +218,14 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
       <>
         <p>Fill out your billing address details.</p>
         <Form.Item
-          name="billToForename"
+          name="billingFirstName"
           className="w-full"
           label="First Name:"
           rules={[{ required: true, message: 'Please enter your first name.' }]}
         >
           <Input placeholder="Enter first name" />
         </Form.Item>
-        <Form.Item name="billToSurname" className="w-full" label="Last Name:" required>
+        <Form.Item name="billingLastName" className="w-full" label="Last Name:" required>
           <Input placeholder="Enter last name" />
         </Form.Item>
 
@@ -188,21 +250,21 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
           <Form.Item name="billToAddressState" label="State / Province:" className="w-full" required>
             <Select
               placeholder="Select state / province"
-              options={State.getStatesOfCountry(formValues.billToAddressCountry)}
+              options={State.getStatesOfCountry(formValues.billingCountry)}
               showSearch
               filterOption={(input, option) => (option?.name ?? '').toLowerCase().includes(input.toLowerCase())}
               fieldNames={{ value: 'isoCode', label: 'name' }}
-              disabled={!formValues.billToAddressCountry}
+              disabled={!formValues.billingCountry}
             />
           </Form.Item>
           <Form.Item name="billToAddressCity" label="City:" className="w-full" required>
             <Select
               placeholder="Select city"
-              options={City.getCitiesOfState(formValues.billToAddressCountry!, formValues.billToAddressState!)}
+              options={City.getCitiesOfState(formValues.billingCountry!, formValues.billingState!)}
               showSearch
               filterOption={(input, option) => (option?.name ?? '').toLowerCase().includes(input.toLowerCase())}
               fieldNames={{ value: 'name', label: 'name' }}
-              disabled={!formValues.billToAddressCountry || formValues.billToAddressState === ''}
+              disabled={!formValues.billingCountry || formValues.billingState === ''}
             />
           </Form.Item>
           <Form.Item name="postalCode" label="Zip Code:" className="w-full">
@@ -214,7 +276,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
   }
 
   if (step === STEPS.CONTACT_INFO) {
-    const phoneCode = Country.getCountryByCode(formValues.billToAddressCountry!)?.phonecode;
+    const phoneCode = Country.getCountryByCode(formValues.billingCountry!)?.phonecode;
     bodyContent = (
       <>
         <Form.Item
@@ -287,21 +349,30 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({}) => {
     );
   }
 
+  const modalFooter = (
+    <div className="flex items-center justify-end gap-2">
+      {secondaryAction}
+      {action}
+    </div>
+  );
+
   return (
     <Modal
       open={useAddPaymentMethod.isOpen}
       onCancel={useAddPaymentMethod.onClose}
       title={formTitle}
-      footer={(_) => (
-        <div className="flex items-center justify-end gap-2">
-          {secondaryAction}
-          {action}
-        </div>
-      )}
+      footer={modalFooter}
+      centered
     >
-      <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
-        {bodyContent}
-      </Form>
+      {step === STEPS.CARD_DETAILS ? (
+        <Form form={paymentTokenForm} layout="vertical" onValuesChange={onValuesChange} onFinish={() => {}}>
+          {bodyContent}
+        </Form>
+      ) : (
+        <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
+          {bodyContent}
+        </Form>
+      )}
     </Modal>
   );
 };

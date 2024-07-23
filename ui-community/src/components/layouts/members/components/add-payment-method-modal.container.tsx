@@ -1,22 +1,21 @@
-import { useQuery } from '@apollo/client';
-import { SharedPaymentContainercybersourcePublicKeyIdDocument } from '../../../../generated';
+import { useMutation, useQuery } from '@apollo/client';
+import AddPaymentMethodModal from './add-payment-method-modal';
 import { useEffect, useState } from 'react';
-import Wallet from './wallet';
-import { Skeleton } from 'antd';
+import {
+  AddPaymentInstrumentInput,
+  MutationMemberAddPaymentInstrumentDocument,
+  SharedPaymentContainercybersourcePublicKeyIdDocument
+} from '../../../../generated';
+import { message } from 'antd';
 
-interface WalletContainerProps {
-  data: any;
-}
-
-interface TokenOptions {
+export interface TokenOptions {
   expirationMonth: string;
   expirationYear: string;
 }
-type Callback = (err: any, token: string) => void;
 
-export const WalletContainer: React.FC<WalletContainerProps> = () => {
-  // TODO: Add env var into vite env
-  //const ownerCommunityUrl = import.meta.env.VITE_SELF_HOSTED_CYBERSOURCE_URL ?? 'missing-owner-community-url';
+export type Callback = (err: any, token: string) => void;
+
+const AddPaymentMethodModalContainer = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [cardNumberValidationHelpText, setCardNumberValidationHelpText] = useState<string>('');
   const [securityCodeValidationHelpText, setSecurityCodeValidationHelpText] = useState<string>('');
@@ -25,13 +24,23 @@ export const WalletContainer: React.FC<WalletContainerProps> = () => {
   const [isMicroformScriptLoaded, setScriptLoaded] = useState(false);
   const { data: cybersource } = useQuery(SharedPaymentContainercybersourcePublicKeyIdDocument);
 
-  const createToken = (expirationMonth: string, expirationYear: string, callBack: Callback): void => {
-    const options: TokenOptions = {
-      expirationMonth: expirationMonth,
-      expirationYear: expirationYear
-    };
+  const [addPaymentInstrument] = useMutation(MutationMemberAddPaymentInstrumentDocument);
 
-    flexMicroform.createToken(options, function (error: any, token: any) {
+  const handleAddPaymentMethod = async (data: AddPaymentInstrumentInput) => {
+    try {
+      const response = await addPaymentInstrument({
+        variables: {
+          input: data
+        }
+      });
+      message.success(response.data?.memberAddPaymentInstrument.status.success);
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+  };
+
+  const createToken = (tokenOption: TokenOptions, callBack: Callback): void => {
+    flexMicroform.createToken(tokenOption, function (error: any, token: any) {
       if (error) {
         console.log('CREATE TOKEN ERROR', error);
       } else {
@@ -39,10 +48,6 @@ export const WalletContainer: React.FC<WalletContainerProps> = () => {
       }
       callBack(error, token);
     });
-  };
-
-  const onCardNumberContainerLoaded = () => {
-    setIsCardContainerLoaded(true);
   };
 
   const createFlexObj = (keyId: string, clearValidationText: (data: any, field: string) => void): void => {
@@ -90,7 +95,6 @@ export const WalletContainer: React.FC<WalletContainerProps> = () => {
     }
   };
 
-  // useEffect to load the microform script
   useEffect(() => {
     if (cybersource) {
       console.log(`${window.location.origin.toString()}/scripts/microform-css.js`);
@@ -133,21 +137,7 @@ export const WalletContainer: React.FC<WalletContainerProps> = () => {
     }
   }, [cybersource]);
 
-  if (!isMicroformScriptLoaded && !isCardContainerLoaded && !cybersource) {
-    return <Skeleton active />;
-  }
-  return (
-    <Wallet
-      addPaymentMethodProps={{
-        errorMessage,
-        onSetErrorMessage: setErrorMessage,
-        cardNumberValidationHelpText,
-        setCardNumberValidationHelpText,
-        securityCodeValidationHelpText,
-        setSecurityCodeValidationHelpText,
-        onCardNumberContainerLoaded,
-        createToken
-      }}
-    />
-  );
+  return <AddPaymentMethodModal onCreateToken={createToken} onAddPaymentMethod={handleAddPaymentMethod} />;
 };
+
+export default AddPaymentMethodModalContainer;

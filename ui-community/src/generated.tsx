@@ -3690,13 +3690,6 @@ export type SectionLayoutContainerMemberFieldsFragment = {
   } | null;
 };
 
-export type SharedPaymentContainercybersourcePublicKeyIdQueryVariables = Exact<{ [key: string]: never }>;
-
-export type SharedPaymentContainercybersourcePublicKeyIdQuery = {
-  __typename?: 'Query';
-  cybersourcePublicKeyId?: string | null;
-};
-
 export type MemberPropertyByPropertyIdQueryVariables = Exact<{
   propertyId: Scalars['ObjectID'];
 }>;
@@ -4849,6 +4842,25 @@ export type MemberViolationTicketsDetailContainerMemberFieldsFragment = {
   __typename?: 'Member';
   id: any;
   memberName?: string | null;
+};
+
+export type SharedPaymentContainercybersourcePublicKeyIdQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SharedPaymentContainercybersourcePublicKeyIdQuery = {
+  __typename?: 'Query';
+  cybersourcePublicKeyId?: string | null;
+};
+
+export type MutationMemberAddPaymentInstrumentMutationVariables = Exact<{
+  input: AddPaymentInstrumentInput;
+}>;
+
+export type MutationMemberAddPaymentInstrumentMutation = {
+  __typename?: 'Mutation';
+  memberAddPaymentInstrument: {
+    __typename?: 'MemberMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  };
 };
 
 export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{ [key: string]: never }>;
@@ -15744,23 +15756,6 @@ export const SectionLayoutContainerMemberByIdQueryDocument = {
   SectionLayoutContainerMemberByIdQueryQuery,
   SectionLayoutContainerMemberByIdQueryQueryVariables
 >;
-export const SharedPaymentContainercybersourcePublicKeyIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SharedPaymentContainercybersourcePublicKeyId' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'cybersourcePublicKeyId' } }]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  SharedPaymentContainercybersourcePublicKeyIdQuery,
-  SharedPaymentContainercybersourcePublicKeyIdQueryVariables
->;
 export const MemberPropertyByPropertyIdDocument = {
   kind: 'Document',
   definitions: [
@@ -18220,6 +18215,78 @@ export const MemberServiceTicketsDetailContainerViolationTicketDocument = {
 } as unknown as DocumentNode<
   MemberServiceTicketsDetailContainerViolationTicketQuery,
   MemberServiceTicketsDetailContainerViolationTicketQueryVariables
+>;
+export const SharedPaymentContainercybersourcePublicKeyIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SharedPaymentContainercybersourcePublicKeyId' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'cybersourcePublicKeyId' } }]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  SharedPaymentContainercybersourcePublicKeyIdQuery,
+  SharedPaymentContainercybersourcePublicKeyIdQueryVariables
+>;
+export const MutationMemberAddPaymentInstrumentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MutationMemberAddPaymentInstrument' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'AddPaymentInstrumentInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberAddPaymentInstrument' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MutationMemberAddPaymentInstrumentMutation,
+  MutationMemberAddPaymentInstrumentMutationVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',

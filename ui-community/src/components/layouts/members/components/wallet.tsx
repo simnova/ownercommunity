@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Button, DatePicker, Input, Select, Checkbox, Modal } from 'antd';
+import React from 'react';
+import { Button, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import axios from 'axios';
-import { Country, State, City } from 'country-state-city';
 import { PlusOutlined } from '@ant-design/icons';
 
-import AddPaymentMethodModal from './add-payment-method-modal';
+import AddPaymentMethodModalContainer from './add-payment-method-modal.container';
 import PaymentInstrumentList from './payment-instruments-list';
 
 import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
@@ -71,7 +69,7 @@ const cards = [
   }
 ];
 
-const Wallet: React.FC<WalletProps> = ({ addPaymentMethodProps }) => {
+const Wallet: React.FC<WalletProps> = () => {
   const useAddPaymentMethod = useAddPaymentMethodModal();
   return (
     <div>
@@ -81,8 +79,7 @@ const Wallet: React.FC<WalletProps> = ({ addPaymentMethodProps }) => {
           <PlusOutlined className="mr-1" /> Add Card
         </div>
       </Button>
-      {/* <AddPaymentMethod {...addPaymentMethodProps} /> */}
-      <AddPaymentMethodModal />
+      <AddPaymentMethodModalContainer />
     </div>
   );
 };

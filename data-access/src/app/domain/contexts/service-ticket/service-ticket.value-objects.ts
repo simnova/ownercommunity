@@ -5,7 +5,6 @@ export const StatusCodes = {
   Submitted: 'SUBMITTED',
   Assigned: 'ASSIGNED',
   InProgress: 'INPROGRESS',
-  Paid: 'PAID',
   Completed: 'COMPLETED',
   Closed: 'CLOSED',
 };

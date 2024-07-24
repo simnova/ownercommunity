@@ -1,10 +1,10 @@
-import { AccountProps } from '../../../../app/domain/contexts/community/account';
-import { CommunityEntityReference, CommunityProps } from '../../../../app/domain/contexts/community/community';
-import { CustomViewProps } from '../../../../app/domain/contexts/community/custom-view';
-import { Member, MemberProps } from '../../../../app/domain/contexts/community/member';
-import { MemberRepository } from '../../../../app/domain/contexts/community/member.repository';
-import { ProfileProps } from '../../../../app/domain/contexts/community/profile';
-import { RoleEntityReference, RoleProps } from '../../../../app/domain/contexts/community/role';
+import { AccountProps } from '../../../../app/domain/contexts/community/member/account';
+import { CommunityEntityReference, CommunityProps } from '../../../../app/domain/contexts/community/community/community';
+import { CustomViewProps } from '../../../../app/domain/contexts/community/member/custom-view';
+import { Member, MemberProps } from '../../../../app/domain/contexts/community/member/member';
+import { MemberRepository } from '../../../../app/domain/contexts/community/member/member.repository';
+import { ProfileProps } from '../../../../app/domain/contexts/community/member/profile';
+import { RoleEntityReference, RoleProps } from '../../../../app/domain/contexts/community/role/role';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 import { UserProps } from '../../../../app/domain/contexts/user/user';
 import { EntityProps } from '../../../../../seedwork/domain-seedwork/entity';

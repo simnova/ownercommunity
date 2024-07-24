@@ -1,7 +1,7 @@
 import { DomainVisaImpl, ReadOnlyDomainVisa } from '../domain/contexts/iam/domain-visa';
 import { UserEntityReference } from '../domain/contexts/user/user';
-import { MemberEntityReference } from '../domain/contexts/community/member';
-import { CommunityEntityReference } from '../domain/contexts/community/community';
+import { MemberEntityReference } from '../domain/contexts/community/member/member';
+import { CommunityEntityReference } from '../domain/contexts/community/community/community';
 import { ApplicationServices } from '../application-services';
 import { InfrastructureServices } from '../infrastructure-services';
 import { DomainImpl } from '../domain/domain-impl';

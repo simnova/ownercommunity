@@ -1,5 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { Role } from "../../domain/contexts/community/role";
+import { Role } from "../../domain/contexts/community/role/role";
 import { ReadOnlyDomainVisa } from "../../domain/contexts/iam/domain-visa";
 import { RoleData } from "../../external-dependencies/datastore";
 import { RoleDomainAdapter, CommunityConverter, RoleConverter, RoleRepository } from "../../external-dependencies/domain";

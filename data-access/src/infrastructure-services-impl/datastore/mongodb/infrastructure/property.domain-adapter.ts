@@ -1,6 +1,6 @@
 import { Property, ListingDetail, BedroomDetail, AdditionalAmenity, Location } from '../models/property';
-import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community';
-import { MemberEntityReference } from '../../../../app/domain/contexts/community/member';
+import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community/community';
+import { MemberEntityReference } from '../../../../app/domain/contexts/community/member/member';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 import { LocationProps } from '../../../../app/domain/contexts/property/location';
 import { Property as PropertyDO, PropertyProps } from '../../../../app/domain/contexts/property/property';

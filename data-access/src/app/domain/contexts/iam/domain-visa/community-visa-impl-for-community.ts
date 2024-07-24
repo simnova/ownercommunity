@@ -1,6 +1,6 @@
-import { CommunityEntityReference } from '../../community/community';
+import { CommunityEntityReference } from '../../community/community/community';
 import { CommunityPermissions } from "../../community/community-permissions.spec";
-import { MemberEntityReference } from '../../community/member';
+import { MemberEntityReference } from '../../community/member/member';
 import { CommunityVisa } from './community-visa';
 
 

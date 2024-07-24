@@ -1,7 +1,7 @@
 import { Cybersource } from "../../../../seedwork/services-seedwork-payment-cybersource";
 import { CustomerPaymentInstrumentsResponse, CustomerPaymentResponse, CustomerProfile, PaymentTokenInfo, PaymentTransactionResponse } from "../../../../seedwork/services-seedwork-payment-cybersource-interfaces";
 import { PaymentDataSource } from "../../data-sources/payment-data-source";
-import { TransactionProps } from "../../domain/contexts/violation-ticket/transaction";
+import { TransactionProps } from "../../domain/contexts/cases/violation-ticket/v1/transaction";
 import { AddPaymentInstrumentInput, PaymentInstrument } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
 

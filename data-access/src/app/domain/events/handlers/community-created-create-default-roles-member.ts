@@ -1,11 +1,11 @@
 import { CommunityCreatedEvent } from '../types/community-created';
 import { ReadOnlyContext, SystemExecutionContext } from '../../contexts/domain-execution-context';
-import { Role } from '../../contexts/community/role';
-import { AccountStatusCodes } from '../../contexts/community/account.value-objects';
-import { Community, CommunityProps } from '../../contexts/community/community';
-import { CommunityUnitOfWork } from '../../contexts/community/community.uow';
-import { RoleUnitOfWork } from '../../contexts/community/role.uow';
-import { MemberUnitOfWork } from '../../contexts/community/member.uow';
+import { Role } from '../../contexts/community/role/role';
+import { AccountStatusCodes } from '../../contexts/community/member/account.value-objects';
+import { Community, CommunityProps } from '../../contexts/community/community/community';
+import { CommunityUnitOfWork } from '../../contexts/community/community/community.uow';
+import { RoleUnitOfWork } from '../../contexts/community/role/role.uow';
+import { MemberUnitOfWork } from '../../contexts/community/member/member.uow';
 import { EventBusInstance } from '../event-bus';
 
 export default (

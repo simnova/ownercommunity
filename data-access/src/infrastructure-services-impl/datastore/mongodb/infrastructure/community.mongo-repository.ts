@@ -1,5 +1,5 @@
-import { Community as CommunityDO, CommunityProps } from '../../../../app/domain/contexts/community/community';
-import { CommunityRepository } from '../../../../app/domain/contexts/community/community.repository';
+import { Community as CommunityDO, CommunityProps } from '../../../../app/domain/contexts/community/community/community';
+import { CommunityRepository } from '../../../../app/domain/contexts/community/community/community.repository';
 import { Community } from '../models/community';
 import { MongoRepositoryBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';

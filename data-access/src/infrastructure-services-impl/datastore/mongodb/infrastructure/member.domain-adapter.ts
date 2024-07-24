@@ -1,18 +1,18 @@
 import { Member, Account, Profile, CustomView } from '../models/member';
 
-import { Member as MemberDO, MemberProps } from '../../../../app/domain/contexts/community/member';
+import { Member as MemberDO, MemberProps } from '../../../../app/domain/contexts/community/member/member';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { AccountProps } from '../../../../app/domain/contexts/community/account';
+import { AccountProps } from '../../../../app/domain/contexts/community/member/account';
 import { UserDomainAdapter } from './user.domain-adapter';
-import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community';
+import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { RoleDomainAdapter } from './role.domain-adapter';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
-import { RoleEntityReference } from '../../../../app/domain/contexts/community/role';
-import { ProfileProps } from '../../../../app/domain/contexts/community/profile';
+import { RoleEntityReference } from '../../../../app/domain/contexts/community/role/role';
+import { ProfileProps } from '../../../../app/domain/contexts/community/member/profile';
 import { UserEntityReference } from '../../../../app/domain/contexts/user/user';
-import { CustomViewProps } from '../../../../app/domain/contexts/community/custom-view';
+import { CustomViewProps } from '../../../../app/domain/contexts/community/member/custom-view';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {
   constructor() {

@@ -2,13 +2,13 @@ import retry from 'async-retry';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
-import { ViolationTicket, ViolationTicketProps } from '../../contexts/violation-ticket/violation-ticket';
+import { ViolationTicket, ViolationTicketProps } from '../../contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketUpdatedEvent } from '../types/violation-ticket-updated';
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
-import { ViolationTicketUnitOfWork } from '../../contexts/violation-ticket/violation-ticket.uow';
+import { ViolationTicketUnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { EventBusInstance } from '../event-bus';
-import { ViolationTicketRepository } from '../../contexts/violation-ticket/violation-ticket.repository';
+import { ViolationTicketRepository } from '../../contexts/cases/violation-ticket/v1/violation-ticket.repository';
 
 export default (cognitiveSearch: CognitiveSearchDomain, violationTicketUnitOfWork: ViolationTicketUnitOfWork) => {
   EventBusInstance.register(ViolationTicketUpdatedEvent, async (payload) => {

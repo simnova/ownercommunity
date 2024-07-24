@@ -1,1 +1,14 @@
-
+query MemberPaymentInstruments {
+  memberPaymentInstruments {
+    paymentInstruments {
+      paymentInstrumentId
+      cardNumber
+      cardType
+      isDefault
+    }
+    status {
+      errorMessage
+      success
+    }
+  }
+}

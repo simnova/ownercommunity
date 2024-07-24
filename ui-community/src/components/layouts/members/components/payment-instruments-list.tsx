@@ -1,5 +1,6 @@
-import { Badge, Card, Divider } from 'antd';
+import { Badge, Divider } from 'antd';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
+import { PaymentInstrument } from '../../../../generated';
 
 const getCardType = (cardNumber: string) => {
   const firstDigit = cardNumber.charAt(0);
@@ -33,28 +34,30 @@ const maskAndFormatCardNumber = (cardNumber: string) => {
   return formattedCardNumber;
 };
 
-interface paymentInstrumentListProps {
-  cards: {
-    id: number;
-    cardNumber: string;
-    default: boolean;
-  }[];
+interface PaymentInstrumentListProps {
+  paymentInstruments: PaymentInstrument[];
 }
 
-const PaymentInstrumentList: React.FC<paymentInstrumentListProps> = ({ cards }) => {
+const PaymentInstrumentList: React.FC<PaymentInstrumentListProps> = ({ paymentInstruments }) => {
   return (
     <div className="flex flex-col gap-4">
-      {cards.map((card, index) => (
+      {paymentInstruments.map((paymentInstrument, index) => (
         <>
-          <CreditCardDisplay key={card.id} cardNumber={card.cardNumber} defaultCard={card.default} />
-          {index !== cards.length - 1 && <Divider />}
+          {paymentInstrument?.cardNumber && (
+            <CreditCardDisplay
+              key={paymentInstrument.paymentInstrumentId}
+              cardNumber={paymentInstrument.cardNumber}
+              defaultCard={paymentInstrument?.isDefault}
+            />
+          )}
+          {index !== paymentInstruments.length - 1 && <Divider />}
         </>
       ))}
     </div>
   );
 };
 
-export const CreditCardDisplay: React.FC<{ cardNumber: string; defaultCard?: boolean }> = ({
+export const CreditCardDisplay: React.FC<{ cardNumber: string; defaultCard?: boolean | null }> = ({
   cardNumber,
   defaultCard
 }) => {

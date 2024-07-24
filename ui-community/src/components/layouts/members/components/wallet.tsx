@@ -8,9 +8,10 @@ import AddPaymentMethodModalContainer from './add-payment-method-modal.container
 import PaymentInstrumentList from './payment-instruments-list';
 
 import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
+import { PaymentInstrument, PaymentInstrumentResult } from '../../../../generated';
 
 interface WalletProps {
-  addPaymentMethodProps: AddPaymentMethodProps;
+  paymentInstrumentsResult: PaymentInstrumentResult;
 }
 
 interface AddPaymentMethodProps {
@@ -22,16 +23,6 @@ interface AddPaymentMethodProps {
   setSecurityCodeValidationHelpText: React.Dispatch<React.SetStateAction<string>>;
   onCardNumberContainerLoaded: () => void;
   createToken: (expirationMonth: string, expirationYear: string, callBack: any) => void;
-}
-
-interface CustomerInfoFormSchema {
-  billToFirstName: string;
-  billToLastName: string;
-  billToEmail: string;
-  billToAddressLine1: string;
-  billToAddressCountry: string;
-  billToAddressState: string;
-  billToAddressCity: string;
 }
 
 const MonthPicker = DatePicker.MonthPicker;
@@ -51,29 +42,14 @@ type MicroformDetails = {
   message: string;
 };
 
-const cards = [
-  {
-    id: 1,
-    cardNumber: '411111XXXXXX1111',
-    default: true
-  },
-  {
-    id: 2,
-    cardNumber: '5295932778292174',
-    default: false
-  },
-  {
-    id: 3,
-    cardNumber: '6011347835311274',
-    default: false
-  }
-];
-
-const Wallet: React.FC<WalletProps> = () => {
+const Wallet: React.FC<WalletProps> = ({ paymentInstrumentsResult }) => {
   const useAddPaymentMethod = useAddPaymentMethodModal();
+
+  const { paymentInstruments } = paymentInstrumentsResult;
+
   return (
     <div>
-      <PaymentInstrumentList cards={cards} />
+      {paymentInstruments && <PaymentInstrumentList paymentInstruments={paymentInstruments as PaymentInstrument[]} />}
       <Button type="primary" className="mt-4" onClick={useAddPaymentMethod.onOpen}>
         <div className="flex items-center">
           <PlusOutlined className="mr-1" /> Add Card

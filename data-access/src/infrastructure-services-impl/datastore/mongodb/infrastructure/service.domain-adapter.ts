@@ -1,10 +1,10 @@
 import { Service } from '../models/service';
-import { Service as ServiceDO, ServiceProps } from '../../../../app/domain/contexts/service-ticket/service';
+import { Service as ServiceDO, ServiceProps } from '../../../../app/domain/contexts/service/service';
 import { MongooseDomainAdapter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
 import { CommunityProps } from '../../../../app/domain/contexts/community/community';
-import { CommunityDomainAdapter } from './community.domain-adapter';
+import { CommunityDomainAdapter } from './community';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 
 export class ServiceConverter extends MongoTypeConverter<DomainExecutionContext, Service, ServiceDomainAdapter, ServiceDO<ServiceDomainAdapter>> {

@@ -3,17 +3,17 @@ import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/int
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
 import { ServiceTicketUpdatedEvent } from '../types/service-ticket-updated';
 import retry from 'async-retry';
-import { ServiceTicket, ServiceTicketProps } from '../../contexts/service-ticket/service-ticket';
 import dayjs from 'dayjs';
 import { EventBusInstance } from '../event-bus';
-import { ServiceTicketUnitOfWork } from '../../contexts/service-ticket/service-ticket.uow';
-import { ServiceTicketRepository } from '../../contexts/service-ticket/service-ticket.repository';
+import { ServiceTicketV1, ServiceTicketV1Props } from '../../contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1UnitOfWork } from '../../contexts/cases/service-ticket/v1/service-ticket.uow';
+import { ServiceTicketV1Repository } from '../../contexts/cases/service-ticket/v1/service-ticket.repository';
 
 const crypto = require('crypto');
 
 export default (
   cognitiveSearch: CognitiveSearchDomain,
-  serviceTicketUnitOfWork: ServiceTicketUnitOfWork
+  serviceTicketUnitOfWork: ServiceTicketV1UnitOfWork
 ) => { EventBusInstance.register(ServiceTicketUpdatedEvent, async (payload) => {
     console.log(`Service Ticket Updated - Search Index Integration: ${JSON.stringify(payload)} and ServiceTicketId: ${payload.id}`);
 
@@ -71,9 +71,9 @@ export default (
 
   async function updateSearchIndex(
     serviceTicketDoc: Partial<ServiceTicketIndexDocument>,
-    serviceTicket: ServiceTicket<ServiceTicketProps>,
+    serviceTicket: ServiceTicketV1<ServiceTicketV1Props>,
     hash: any,
-    repo: ServiceTicketRepository<ServiceTicketProps>,
+    repo: ServiceTicketV1Repository<ServiceTicketV1Props>,
   ) {
     await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
     await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, serviceTicketDoc);

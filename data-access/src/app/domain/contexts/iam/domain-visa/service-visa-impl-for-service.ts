@@ -1,6 +1,6 @@
 import { MemberEntityReference } from '../../community/member';
-import { ServiceEntityReference } from '../../service-ticket/service';
-import { ServicePermissions } from "../../service-ticket/service-permissions.spec";
+import { ServiceEntityReference } from '../../service/service';
+import { ServicePermissions } from "../../service/service-permissions.spec";
 import { ServiceVisa } from './service-visa';
 
 

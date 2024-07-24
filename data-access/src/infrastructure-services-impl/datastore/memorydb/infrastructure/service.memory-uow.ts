@@ -1,4 +1,4 @@
-import { Service, ServiceProps } from "../../../../app/domain/contexts/service-ticket/service";
+import { Service, ServiceProps } from "../../../../app/domain/contexts/service/service";
 import { MemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { MemoryServiceRepository } from "./service.memory-repository";

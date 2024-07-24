@@ -1,5 +1,5 @@
-import { Service as ServiceDO, ServiceProps } from '../../../../app/domain/contexts/service-ticket/service';
-import { ServiceRepository } from '../../../../app/domain/contexts/service-ticket/service.repository';
+import { Service as ServiceDO, ServiceProps } from '../../../../app/domain/contexts/service/service';
+import { ServiceRepository } from '../../../../app/domain/contexts/service/service.repository';
 import { Service } from '../models/service';
 import { MongoRepositoryBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';

@@ -2,17 +2,17 @@ import { CommunityEntityReference, CommunityProps } from "../../../../app/domain
 import { MemberEntityReference, MemberProps } from "../../../../app/domain/contexts/community/member";
 import { DomainExecutionContext } from "../../../../app/domain/contexts/domain-execution-context";
 import { PropertyEntityReference, PropertyProps } from "../../../../app/domain/contexts/property/property";
-import { ActivityDetailProps } from "../../../../app/domain/contexts/service-ticket/activity-detail";
-import { PhotoProps } from "../../../../app/domain/contexts/service-ticket/photo";
-import { ServiceEntityReference, ServiceProps } from "../../../../app/domain/contexts/service-ticket/service";
+import { ServiceEntityReference, ServiceProps } from "../../../../app/domain/contexts/service/service";
 import { MemoryBaseAdapter } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryPropArray } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
 import { MemoryRepositoryBase } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 import {v4 as uuidV4} from 'uuid';
-import { ViolationTicket, ViolationTicketProps } from "../../../../app/domain/contexts/violation-ticket/violation-ticket";
-import { ViolationTicketRepository } from "../../../../app/domain/contexts/violation-ticket/violation-ticket.repository";
+import { ViolationTicketV1, ViolationTicketV1Props } from "../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket";
+import { ViolationTicketV1Repository } from "../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository";
+import { ViolationTicketV1ActivityDetailProps } from "../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-activity-detail";
+import { ViolationTicketV1PhotoProps } from "../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-photo";
 
-class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailProps {
+class MemoryActivityDetail extends MemoryBaseAdapter implements ViolationTicketV1ActivityDetailProps {
   activityType: string;
   activityDescription: string;
   activityBy: MemberProps;
@@ -21,7 +21,7 @@ class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailPr
   };
 }
 
-class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {
+class MemoryPhoto extends MemoryBaseAdapter implements ViolationTicketV1PhotoProps {
   documentId: string;
   description: string;
   getNewDocumentId(): string {
@@ -29,7 +29,7 @@ class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {
   }
 }
 
-class MemoryViolationTicket extends MemoryBaseAdapter implements ViolationTicketProps  {
+class MemoryViolationTicket extends MemoryBaseAdapter implements ViolationTicketV1Props  {
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference) : void {
     this.community = community as CommunityProps;
@@ -57,11 +57,11 @@ class MemoryViolationTicket extends MemoryBaseAdapter implements ViolationTicket
   status: string;
   priority: number;
   ticketType?: string;
-  private _activityLog: ActivityDetailProps[] = [];
+  private _activityLog: ViolationTicketV1ActivityDetailProps[] = [];
   get activityLog() {
     return new MemoryPropArray(this._activityLog, MemoryActivityDetail);
   };
-  private _photos: PhotoProps[] = [];
+  private _photos: ViolationTicketV1PhotoProps[] = [];
   get photos() {
     return new MemoryPropArray(this._photos, MemoryPhoto);
   };
@@ -74,10 +74,10 @@ class MemoryViolationTicket extends MemoryBaseAdapter implements ViolationTicket
 }
 
 export class MemoryViolationTicketRepository<
-  PropType extends ViolationTicketProps, 
-  DomainType extends ViolationTicket<PropType>
+  PropType extends ViolationTicketV1Props, 
+  DomainType extends ViolationTicketV1<PropType>
   > extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType> 
-    implements ViolationTicketRepository<PropType> 
+    implements ViolationTicketV1Repository<PropType> 
     {
 
       async getNewInstance(
@@ -87,10 +87,10 @@ export class MemoryViolationTicketRepository<
         property: PropertyEntityReference,
         requestor: MemberEntityReference,
         penaltyAmount: number
-      ): Promise<ViolationTicket<PropType>> {
-        return ViolationTicket.getNewInstance(new MemoryViolationTicket as unknown as PropType, title, description, community, property, requestor, this.context, penaltyAmount); // [MG-TBD]
+      ): Promise<ViolationTicketV1<PropType>> {
+        return ViolationTicketV1.getNewInstance(new MemoryViolationTicket as unknown as PropType, title, description, community, property, requestor, this.context, penaltyAmount); // [MG-TBD]
       }
-      async getById(id: string): Promise<ViolationTicket<PropType>>{
+      async getById(id: string): Promise<ViolationTicketV1<PropType>>{
         return await this.get(id);
       }
   }

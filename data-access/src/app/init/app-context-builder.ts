@@ -4,8 +4,6 @@ import { MemberEntityReference } from '../domain/contexts/community/member';
 import { CommunityEntityReference } from '../domain/contexts/community/community';
 import { ApplicationServices } from '../application-services';
 import { InfrastructureServices } from '../infrastructure-services';
-import { DomainImpl } from '../domain/domain-impl';
-// import { DomainExecutionContext } from '../domain/contexts/domain-execution-context';
 import { CommunityData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
@@ -88,15 +86,15 @@ export class AppContextBuilder implements AppContext {
 
   private async setCommunityData(): Promise<void> {
     if (this._communityHeader) {
-      this._communityData = await this._applicationServices.communityDataApi.getCommunityByHeader(this._communityHeader);
+      this._communityData = await this._applicationServices.community.dataApi.getCommunityByHeader(this._communityHeader);
     }
   }
 
   private async setPassport(): Promise<void> {
     let userExternalId = this._verifiedUser?.verifiedJWT.sub;
     if (userExternalId && this._communityData) {
-      let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
-      let memberData = (await this._applicationServices.memberDataApi.getMemberByIdWithCommunityAccountRole(this._memberId));
+      let userData = await this._applicationServices.user.dataApi.getUserByExternalId(userExternalId);
+      let memberData = (await this._applicationServices.member.dataApi.getMemberByIdWithCommunityAccountRole(this._memberId));
       if(memberData && userData) {
         if (!(memberData.accounts.find((account) => account.user.id === userData.id && memberData.community.id === this._communityData.id))) {  
           throw new Error('user is not related to member');

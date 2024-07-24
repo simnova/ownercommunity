@@ -4,10 +4,10 @@ import { MemberEntityReference } from '../../community/member';
 import { RoleEntityReference } from '../../community/role';
 import { PropertyEntityReference } from '../../property/property';
 import { PropertyPermissions } from "../../property/property-permissions.spec";
-import { ServiceEntityReference } from '../../service-ticket/service';
-import { ServicePermissions } from "../../service-ticket/service-permissions.spec";
-import { ServiceTicketEntityReference } from '../../service-ticket/service-ticket';
-import { ServiceTicketPermissions } from "../../service-ticket/service-ticket-permissions.spec";
+import { ServiceEntityReference } from '../../service/service';
+import { ServicePermissions } from "../../service/service-permissions.spec";
+import { ServiceTicketV1EntityReference } from '../../cases/service-ticket/v1/service-ticket';
+import { ServiceTicketPermissions } from "../../cases/service-ticket/v1/service-ticket-permissions.spec";
 import { UserEntityReference } from '../../user/user';
 import { CommunityVisa } from './community-visa';
 import { CommunityVisaImplForCommunity } from './community-visa-impl-for-community';
@@ -21,10 +21,10 @@ import { ServiceTicketVisa } from './service-ticket-visa';
 import { ServiceTicketVisaImplForServiceTicket } from './service-ticket-visa-impl-for-service-ticket';
 import { UserVisa } from './user-visa';
 import { UserVisaImplForUser } from './user-visa-impl-for-user';
-import { ViolationTicketEntityReference } from '../../violation-ticket/violation-ticket';
+import { ViolationTicketV1EntityReference } from '../../cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketVisa } from './violation-ticket-visa';
 import { ViolationTicketVisaImplForViolationTicket } from './violation-visa-impl-for-community';
-import { ViolationTicketPermissions } from '../../violation-ticket/violation-ticket-permissions.spec';
+import { ViolationTicketPermissions } from '../../cases/violation-ticket/v1/violation-ticket-permissions.spec';
 
 export const SystemUserId = 'system';
 
@@ -36,8 +36,8 @@ export interface DomainVisa {
   forUser(root: UserEntityReference):  UserVisa;
   forProperty(root: PropertyEntityReference):  PropertyVisa;
   forService(root: ServiceEntityReference): ServiceVisa;
-  forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa;
-  forViolationTicket(root: ViolationTicketEntityReference): ViolationTicketVisa
+  forServiceTicket(root: ServiceTicketV1EntityReference): ServiceTicketVisa;
+  forViolationTicket(root: ViolationTicketV1EntityReference): ViolationTicketVisa
 }
 
 export class DomainVisaImpl implements DomainVisa {
@@ -71,10 +71,10 @@ export class DomainVisaImpl implements DomainVisa {
   forService(root: ServiceEntityReference): ServiceVisa {
     return new ServiceVisaImplForService(root,this.member);
   }
-  forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa {
+  forServiceTicket(root: ServiceTicketV1EntityReference): ServiceTicketVisa {
     return new ServiceTicketVisaImplForServiceTicket(root,this.member);
   }
-  forViolationTicket(root: ViolationTicketEntityReference): ViolationTicketVisa {
+  forViolationTicket(root: ViolationTicketV1EntityReference): ViolationTicketVisa {
     return new ViolationTicketVisaImplForViolationTicket(root,this.member);
   }
 }
@@ -107,10 +107,10 @@ export class ReadOnlyDomainVisa implements DomainVisa {
   forService(_root: ServiceEntityReference): ServiceVisa {
     return {determineIf:  () => false };
   }
-  forServiceTicket(_root: ServiceTicketEntityReference): ServiceTicketVisa {
+  forServiceTicket(_root: ServiceTicketV1EntityReference): ServiceTicketVisa {
     return {determineIf:  () => false }; 
   }
-  forViolationTicket(_root: ViolationTicketEntityReference): ViolationTicketVisa {
+  forViolationTicket(_root: ViolationTicketV1EntityReference): ViolationTicketVisa {
     return {determineIf:  () => false }; 
   }
 }
@@ -181,10 +181,10 @@ export class SystemDomainVisa implements DomainVisa {
   forService(root: ServiceEntityReference): ServiceVisa {
     return {determineIf:  (func) => func(this.servicePermissionsForSystem) };
   }
-  forServiceTicket(root: ServiceTicketEntityReference): ServiceTicketVisa {
+  forServiceTicket(root: ServiceTicketV1EntityReference): ServiceTicketVisa {
     return {determineIf:  (func) => func(this.serviceTicketPermissionsForSystem) };
   }
-  forViolationTicket(root: ViolationTicketEntityReference): ViolationTicketVisa {
+  forViolationTicket(root: ViolationTicketV1EntityReference): ViolationTicketVisa {
     return {determineIf:  (func) => func(this.violationTicketPermissionsForSystem) };
   }
 }

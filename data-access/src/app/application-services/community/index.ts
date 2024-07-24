@@ -1,15 +1,29 @@
 import { AppContext } from '../../init/app-context-builder';
-import { CommunityApiV1, CommunityApiV1Impl } from './v1';
+import { CommunityBlobApi, CommunityBlobApiImpl } from './community.blob';
+import { CommunityDataApi, CommunityDataApiImpl } from './community.data';
+import { CommunityDomainApi, CommunityDomainApiImpl } from './community.domain';
+import { CommunityVercelApi, CommunityVercelApiImpl } from './community.vercel';
+import { CommunityModel } from '../../external-dependencies/datastore';
+import { CommunityUnitOfWork } from '../../external-dependencies/domain';
 
 export interface CommunityApi { 
-  v1: CommunityApiV1,
+  blobApi: CommunityBlobApi,
+  dataApi: CommunityDataApi,
+  domainApi: CommunityDomainApi,
+  vercelApi: CommunityVercelApi,
 }
 
 export class CommunityApiImpl implements CommunityApi {
-    v1: CommunityApiV1;
+  blobApi: CommunityBlobApi;
+  dataApi: CommunityDataApi;
+  domainApi: CommunityDomainApi;
+  vercelApi: CommunityVercelApi;
 
   constructor(context: AppContext) {
-    this.v1 = new CommunityApiV1Impl(context);
+    this.blobApi = new CommunityBlobApiImpl({ context });
+    this.dataApi = new CommunityDataApiImpl({ modelOrCollection: CommunityModel, context });
+    this.domainApi = new CommunityDomainApiImpl({ unitOfWork: CommunityUnitOfWork, context });
+    this.vercelApi = new CommunityVercelApiImpl({ context });
   }
 
 }

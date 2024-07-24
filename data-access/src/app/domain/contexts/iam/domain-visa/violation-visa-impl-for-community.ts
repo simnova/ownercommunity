@@ -1,9 +1,9 @@
 import { MemberEntityReference } from '../../community/member';
-import { ViolationTicketEntityReference } from '../../violation-ticket/violation-ticket';
-import { ViolationTicketPermissions } from '../../violation-ticket/violation-ticket-permissions.spec';
-import { ViolationTicketVisa as ViolationTicketVisa } from './violation-ticket-visa';
+import { ViolationTicketV1EntityReference } from '../../cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketPermissions } from '../../cases/violation-ticket/v1/violation-ticket-permissions.spec';
+import { ViolationTicketVisa } from './violation-ticket-visa';
 
-export class ViolationTicketVisaImplForViolationTicket<root extends ViolationTicketEntityReference> implements ViolationTicketVisa {
+export class ViolationTicketVisaImplForViolationTicket<root extends ViolationTicketV1EntityReference> implements ViolationTicketVisa {
   constructor(private root: root, private member: MemberEntityReference) {}
 
   determineIf(func: (permissions: ViolationTicketPermissions) => boolean): boolean {

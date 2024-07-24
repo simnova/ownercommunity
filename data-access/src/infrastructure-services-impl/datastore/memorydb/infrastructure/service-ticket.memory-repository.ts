@@ -2,17 +2,17 @@ import { CommunityEntityReference, CommunityProps } from "../../../../app/domain
 import { MemberEntityReference, MemberProps } from "../../../../app/domain/contexts/community/member";
 import { DomainExecutionContext } from "../../../../app/domain/contexts/domain-execution-context";
 import { PropertyEntityReference, PropertyProps } from "../../../../app/domain/contexts/property/property";
-import { ActivityDetailProps } from "../../../../app/domain/contexts/service-ticket/activity-detail";
-import { PhotoProps } from "../../../../app/domain/contexts/service-ticket/photo";
-import { ServiceEntityReference, ServiceProps } from "../../../../app/domain/contexts/service-ticket/service";
-import { ServiceTicket, ServiceTicketProps } from "../../../../app/domain/contexts/service-ticket/service-ticket";
-import { ServiceTicketRepository } from "../../../../app/domain/contexts/service-ticket/service-ticket.repository";
+import { ServiceTicketV1ActivityDetailProps } from "../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-activity-detail";
+import { ServiceTicketV1PhotoProps } from "../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-photo";
+import { ServiceEntityReference, ServiceProps } from "../../../../app/domain/contexts/service/service";
+import { ServiceTicketV1, ServiceTicketV1Props } from "../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket";
+import { ServiceTicketV1Repository } from "../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.repository";
 import { MemoryBaseAdapter } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryPropArray } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
 import { MemoryRepositoryBase } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 import {v4 as uuidV4} from 'uuid';
 
-class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailProps {
+class MemoryActivityDetail extends MemoryBaseAdapter implements ServiceTicketV1ActivityDetailProps {
   activityType: string;
   activityDescription: string;
   activityBy: MemberProps;
@@ -21,7 +21,7 @@ class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailPr
   };
 }
 
-class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {
+class MemoryPhoto extends MemoryBaseAdapter implements ServiceTicketV1PhotoProps {
   documentId: string;
   description: string;
   getNewDocumentId(): string {
@@ -29,7 +29,7 @@ class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {
   }
 }
 
-class MemoryServiceTicket extends MemoryBaseAdapter implements ServiceTicketProps  {
+class MemoryServiceTicket extends MemoryBaseAdapter implements ServiceTicketV1Props  {
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference) : void {
     this.community = community as CommunityProps;
@@ -54,11 +54,11 @@ class MemoryServiceTicket extends MemoryBaseAdapter implements ServiceTicketProp
   description: string;
   status: string;
   priority: number;
-  private _activityLog: ActivityDetailProps[] = [];
+  private _activityLog: ServiceTicketV1ActivityDetailProps[] = [];
   get activityLog() {
     return new MemoryPropArray(this._activityLog, MemoryActivityDetail);
   };
-  private _photos: PhotoProps[] = [];
+  private _photos: ServiceTicketV1PhotoProps[] = [];
   get photos() {
     return new MemoryPropArray(this._photos, MemoryPhoto);
   };
@@ -71,10 +71,10 @@ class MemoryServiceTicket extends MemoryBaseAdapter implements ServiceTicketProp
 }
 
 export class MemoryServiceTicketRepository<
-  PropType extends ServiceTicketProps, 
-  DomainType extends ServiceTicket<PropType>
+  PropType extends ServiceTicketV1Props, 
+  DomainType extends ServiceTicketV1<PropType>
   > extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType> 
-    implements ServiceTicketRepository<PropType> 
+    implements ServiceTicketV1Repository<PropType> 
     {
 
       async getNewInstance(
@@ -83,10 +83,10 @@ export class MemoryServiceTicketRepository<
         community: CommunityEntityReference,
         property: PropertyEntityReference,
         requestor: MemberEntityReference
-      ): Promise<ServiceTicket<PropType>> {
-        return ServiceTicket.getNewInstance(new MemoryServiceTicket as unknown as PropType, title, description, community, property, requestor, this.context); // [MG-TBD]
+      ): Promise<ServiceTicketV1<PropType>> {
+        return ServiceTicketV1.getNewInstance(new MemoryServiceTicket as unknown as PropType, title, description, community, property, requestor, this.context); // [MG-TBD]
       }
-      async getById(id: string): Promise<ServiceTicket<PropType>>{
+      async getById(id: string): Promise<ServiceTicketV1<PropType>>{
         const serviceTicket = await this.get(id);
         return serviceTicket;
       }

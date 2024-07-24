@@ -8,8 +8,8 @@ import { CommunityUnitOfWork } from '../../../../src/app/domain/contexts/communi
 import { MemberUnitOfWork } from '../../../../src/app/domain/contexts/community/member.uow';
 import { RoleUnitOfWork } from '../../../../src/app/domain/contexts/community/role.uow';
 import { PropertyUnitOfWork } from '../../../../src/app/domain/contexts/property/property.uow';
-import { ServiceUnitOfWork } from '../../../../src/app/domain/contexts/service-ticket/service.uow';
-import { ServiceTicketUnitOfWork } from '../../../../src/app/domain/contexts/service-ticket/service-ticket.uow';
+import { ServiceUnitOfWork } from '../../../../src/app/domain/contexts/service/service.uow';
+import { ServiceTicketV1UnitOfWork } from '../../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.uow';
 import { IMemoryDatabase } from '../../../../src/infrastructure-services-impl/datastore/memorydb/memory-database';
 import { DatastoreInfrastructureService } from '../../../../src/app/infrastructure-services/datastore';
 import { CognitiveSearchInfrastructureService } from '../../../../src/app/infrastructure-services/cognitive-search';

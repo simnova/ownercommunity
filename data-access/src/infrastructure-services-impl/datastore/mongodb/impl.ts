@@ -1,9 +1,9 @@
 import { DatastoreInfrastructureService } from "../../../app/infrastructure-services/datastore";
-import { MongoCommunityUnitOfWork } from "./infrastructure/community.mongo-uow";
+import { MongoCommunityUnitOfWork } from "./infrastructure/community";
 import { MongoMemberUnitOfWork } from "./infrastructure/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "./infrastructure/property.mongo-uow";
 import { MongoRoleUnitOfWork } from "./infrastructure/role.mongo-uow";
-import { MongoServiceTicketUnitOfWork } from "./infrastructure/service-ticket.uow";
+import { MongoServiceTicketV1UnitOfWork } from "./infrastructure/service-ticket";
 import { MongoServiceUnitOfWork } from "./infrastructure/service.uow";
 import { MongoUserUnitOfWork } from "./infrastructure/user.uow";
 import { MongoViolationTicketUnitOfWork } from "./infrastructure/violation-ticket.uow";
@@ -42,8 +42,8 @@ export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
     return MongoServiceUnitOfWork
   }
 
-  get serviceTicketUnitOfWork(): typeof MongoServiceTicketUnitOfWork {
-    return MongoServiceTicketUnitOfWork
+  get serviceTicketUnitOfWork(): typeof MongoServiceTicketV1UnitOfWork {
+    return MongoServiceTicketV1UnitOfWork
   }
 
   get violationTicketUnitOfWork(): typeof MongoViolationTicketUnitOfWork {

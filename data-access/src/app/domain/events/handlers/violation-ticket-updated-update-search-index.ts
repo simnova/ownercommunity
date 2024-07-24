@@ -2,13 +2,13 @@ import retry from 'async-retry';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
-import { ViolationTicket, ViolationTicketProps } from '../../contexts/violation-ticket/violation-ticket';
+import { ViolationTicketV1, ViolationTicketV1Props } from '../../contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketUpdatedEvent } from '../types/violation-ticket-updated';
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
-import { ViolationTicketUnitOfWork } from '../../contexts/violation-ticket/violation-ticket.uow';
+import { ViolationTicketUnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { EventBusInstance } from '../event-bus';
-import { ViolationTicketRepository } from '../../contexts/violation-ticket/violation-ticket.repository';
+import { ViolationTicketV1Repository } from '../../contexts/cases/violation-ticket/v1/violation-ticket.repository';
 
 export default (cognitiveSearch: CognitiveSearchDomain, violationTicketUnitOfWork: ViolationTicketUnitOfWork) => {
   EventBusInstance.register(ViolationTicketUpdatedEvent, async (payload) => {
@@ -55,9 +55,9 @@ export default (cognitiveSearch: CognitiveSearchDomain, violationTicketUnitOfWor
 
   async function updateSearchIndex(
     listingDoc: Partial<ServiceTicketIndexDocument>,
-    violationTicket: ViolationTicket<ViolationTicketProps>,
+    violationTicket: ViolationTicketV1<ViolationTicketV1Props>,
     hash: any,
-    repo: ViolationTicketRepository<ViolationTicketProps>
+    repo: ViolationTicketV1Repository<ViolationTicketV1Props>
   ) {
     await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
     await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, listingDoc);
@@ -77,7 +77,7 @@ function generateHash(listingDoc: Partial<ServiceTicketIndexDocument>) {
   return hash;
 }
 
-function convertToIndexDocument(violationTicket: ViolationTicket<ViolationTicketProps>) {
+function convertToIndexDocument(violationTicket: ViolationTicketV1<ViolationTicketV1Props>) {
   const updatedDate = dayjs(violationTicket.updatedAt.toISOString().split('T')[0]).toISOString();
   const createdDate = dayjs(violationTicket.createdAt.toISOString().split('T')[0]).toISOString();
   const penaltyPaidDate = violationTicket?.penaltyPaidDate ? dayjs(violationTicket?.penaltyPaidDate?.toISOString().split('T')[0]).toISOString() : null;

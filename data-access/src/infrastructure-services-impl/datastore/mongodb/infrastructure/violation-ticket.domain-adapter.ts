@@ -1,33 +1,33 @@
 import { ActivityDetail, Photo } from '../models/service-ticket';
 import { ViolationTicket } from '../models/violation-ticket';
-import { ViolationTicket as ViolationTicketDO, ViolationTicketProps } from '../../../../app/domain/contexts/violation-ticket/violation-ticket';
+import { ViolationTicketV1 as ViolationTicketV1DO, ViolationTicketV1Props } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community';
-import { CommunityDomainAdapter } from './community.domain-adapter';
+import { CommunityDomainAdapter } from './community';
 import { PropertyDomainAdapter } from './property.domain-adapter';
 import { PropertyEntityReference } from '../../../../app/domain/contexts/property/property';
 import { MemberEntityReference } from '../../../../app/domain/contexts/community/member';
 import { MemberDomainAdapter } from './member.domain-adapter';
-import { ActivityDetailProps } from '../../../../app/domain/contexts/service-ticket/activity-detail';
-import { PhotoProps } from '../../../../app/domain/contexts/service-ticket/photo';
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from './service.domain-adapter';
-import { ServiceEntityReference } from '../../../../app/domain/contexts/service-ticket/service';
+import { ServiceEntityReference } from '../../../../app/domain/contexts/service/service';
+import { ViolationTicketV1ActivityDetailProps } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-activity-detail';
+import { ViolationTicketV1PhotoProps } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-photo';
 
 export class ViolationTicketConverter extends MongoTypeConverter<
   DomainExecutionContext,
   ViolationTicket,
   ViolationTicketDomainAdapter,
-  ViolationTicketDO<ViolationTicketDomainAdapter>
+  ViolationTicketV1DO<ViolationTicketDomainAdapter>
 > {
   constructor() {
-    super(ViolationTicketDomainAdapter, ViolationTicketDO);
+    super(ViolationTicketDomainAdapter, ViolationTicketV1DO);
   }
 }
 
-export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<ViolationTicket> implements ViolationTicketProps {
+export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<ViolationTicket> implements ViolationTicketV1Props {
   get community() {
     if (this.doc.community) {
       return new CommunityDomainAdapter(this.doc.community);
@@ -100,11 +100,11 @@ export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<Violatio
   }
 
   get activityLog() {
-    return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter);
+    return new MongoosePropArray(this.doc.activityLog, ViolationTicketV1ActivityDetailDomainAdapter);
   }
 
   get photos() {
-    return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter);
+    return new MongoosePropArray(this.doc.photos, ViolationTicketV1PhotoDomainAdapter);
   }
 
   get hash() {
@@ -150,7 +150,7 @@ export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<Violatio
   }
 }
 
-export class ActivityDetailDomainAdapter implements ActivityDetailProps {
+export class ViolationTicketV1ActivityDetailDomainAdapter implements ViolationTicketV1ActivityDetailProps {
   constructor(public readonly props: ActivityDetail) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
@@ -180,7 +180,7 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
   }
 }
 
-export class PhotoDomainAdapter implements PhotoProps {
+export class ViolationTicketV1PhotoDomainAdapter implements ViolationTicketV1PhotoProps {
   constructor(public readonly props: Photo) {}
   public get id(): string {
     return this.props.id.valueOf() as string;

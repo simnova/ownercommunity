@@ -6,7 +6,7 @@ import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-da
 import { AccountProps } from '../../../../app/domain/contexts/community/account';
 import { UserDomainAdapter } from './user.domain-adapter';
 import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community';
-import { CommunityDomainAdapter } from './community.domain-adapter';
+import { CommunityDomainAdapter } from './community';
 import { RoleDomainAdapter } from './role.domain-adapter';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 import { RoleEntityReference } from '../../../../app/domain/contexts/community/role';

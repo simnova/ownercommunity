@@ -6,7 +6,7 @@ import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-da
 import { CommunityProps } from '../../../../app/domain/contexts/community/community';
 import { CommunityPermissionsProps } from '../../../../app/domain/contexts/community/community-permissions';
 import { PermissionsProps } from '../../../../app/domain/contexts/community/permissions';
-import { CommunityDomainAdapter } from './community.domain-adapter';
+import { CommunityDomainAdapter } from './community';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 import { PropertyPermissionsProps } from '../../../../app/domain/contexts/community/property-permissions';
 import { ServicePermissionsProps } from '../../../../app/domain/contexts/community/service-permissions';

@@ -32,16 +32,16 @@ import { buildMemoryPropertyUnitOfWork } from "./infrastructure/property.memory-
 // import { MemoryPropertyDatastore } from "./infrastructure/property.memory-datastore";
 
 // service
-import { Service, ServiceProps } from "../../../app/domain/contexts/service-ticket/service";
+import { Service, ServiceProps } from "../../../app/domain/contexts/service/service";
 import { MemoryServiceRepository } from "./infrastructure/service.memory-repository";
 import { buildMemoryServiceUnitOfWork } from "./infrastructure/service.memory-uow";
 // import { MemoryServiceDatastore } from "./infrastructure/service.memory-datastore";
 
 // service-ticket
-import { ServiceTicket, ServiceTicketProps } from "../../../app/domain/contexts/service-ticket/service-ticket";
+import { ServiceTicketV1, ServiceTicketV1Props } from "../../../app/domain/contexts/cases/service-ticket/v1/service-ticket";
 import { MemoryServiceTicketRepository } from "./infrastructure/service-ticket.memory-repository";
 import { buildMemoryServiceTicketUnitOfWork } from "./infrastructure/service-ticket.memory-uow";
-import { ViolationTicket, ViolationTicketProps } from "../../../app/domain/contexts/violation-ticket/violation-ticket";
+import { ViolationTicketV1, ViolationTicketV1Props } from "../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket";
 import { MemoryViolationTicketRepository } from './infrastructure/violation-ticket.memory-repository';
 import { buildMemoryViolationTicketUnitOfWork } from './infrastructure/violation-ticket.memory-uow';
 // import { MemoryServiceTicketDatastore } from "./infrastructure/service-ticket.memory-datastore";
@@ -81,11 +81,11 @@ export interface IMemoryDatabase {
   serviceReadonlyMemoryStore: ReadOnlyMemoryStore<ServiceProps>;
   // serviceDatastore: MemoryServiceDatastore;
   // service-ticket
-  serviceTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>>;
-  serviceTicketReadonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketProps>;
+  serviceTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ServiceTicketV1<ServiceTicketV1Props>, MemoryServiceTicketRepository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>>;
+  serviceTicketReadonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketV1Props>;
   // serviceTicketDatastore: MemoryServiceTicketDatastore;
-  violationTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ViolationTicket<ViolationTicketProps>,MemoryViolationTicketRepository<ViolationTicketProps, ViolationTicket<ViolationTicketProps>>>;
-  violationTicketReadonlyMemoryStore: ReadOnlyMemoryStore<ViolationTicketProps>;
+  violationTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ViolationTicketV1<ViolationTicketV1Props>,MemoryViolationTicketRepository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>>;
+  violationTicketReadonlyMemoryStore: ReadOnlyMemoryStore<ViolationTicketV1Props>;
 }
 
 
@@ -273,49 +273,49 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
 
   // service-ticket
-  private _serviceTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>>;
-  private _serviceTicketMemoryStore: MemoryStore<ServiceTicketProps>;
+  private _serviceTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ServiceTicketV1<ServiceTicketV1Props>, MemoryServiceTicketRepository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>>;
+  private _serviceTicketMemoryStore: MemoryStore<ServiceTicketV1Props>;
   // private _serviceTicketMemoryDatastore: MemoryServiceTicketDatastore;
-  private get serviceTicketMemoryStore(): MemoryStore<ServiceTicketProps> {
+  private get serviceTicketMemoryStore(): MemoryStore<ServiceTicketV1Props> {
     if(!this._serviceTicketMemoryStore) {
-      this._serviceTicketMemoryStore = new MemoryStore<ServiceTicketProps>();
+      this._serviceTicketMemoryStore = new MemoryStore<ServiceTicketV1Props>();
     }
     return this._serviceTicketMemoryStore;
   }
-  // private buildServiceTicketMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketProps>): MemoryServiceTicketDatastore {
+  // private buildServiceTicketMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketV1Props>): MemoryServiceTicketDatastore {
   //   return new MemoryServiceTicketDatastore(JSON.parse(JSON.stringify(readonlyMemoryStore))); // [MG-TBD] - fix this temp workaround
   // }
-  public get serviceTicketUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ServiceTicket<ServiceTicketProps>, MemoryServiceTicketRepository<ServiceTicketProps, ServiceTicket<ServiceTicketProps>>> {
+  public get serviceTicketUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ServiceTicketV1<ServiceTicketV1Props>, MemoryServiceTicketRepository<ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>>> {
     if(!this._serviceTicketUnitOfWork) {
-      // this._serviceTicketMemoryStore = new MemoryStore<ServiceTicketProps>();
+      // this._serviceTicketMemoryStore = new MemoryStore<ServiceTicketV1Props>();
       this._serviceTicketUnitOfWork = buildMemoryServiceTicketUnitOfWork(this.serviceTicketMemoryStore);
     }
     return this._serviceTicketUnitOfWork;
   }
-  public get serviceTicketReadonlyMemoryStore(): ReadOnlyMemoryStore<ServiceTicketProps> {
+  public get serviceTicketReadonlyMemoryStore(): ReadOnlyMemoryStore<ServiceTicketV1Props> {
     return this._serviceTicketMemoryStore;
   }
 
   // violation-ticket
-  private _violationTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ViolationTicket<ViolationTicketProps>, MemoryViolationTicketRepository<ViolationTicketProps, ViolationTicket<ViolationTicketProps>>>;
-  private _violationTicketMemoryStore: MemoryStore<ViolationTicketProps>;
+  private _violationTicketUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ViolationTicketV1<ViolationTicketV1Props>, MemoryViolationTicketRepository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>>;
+  private _violationTicketMemoryStore: MemoryStore<ViolationTicketV1Props>;
   // private _serviceTicketMemoryDatastore: MemoryServiceTicketDatastore;
-  private get violationTicketMemoryStore(): MemoryStore<ViolationTicketProps> {
+  private get violationTicketMemoryStore(): MemoryStore<ViolationTicketV1Props> {
     if(!this._violationTicketMemoryStore) {
-      this._violationTicketMemoryStore = new MemoryStore<ViolationTicketProps>();
+      this._violationTicketMemoryStore = new MemoryStore<ViolationTicketV1Props>();
     }
     return this.violationTicketMemoryStore;
   }
-  // private buildServiceTicketMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketProps>): MemoryServiceTicketDatastore {
+  // private buildServiceTicketMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<ServiceTicketV1Props>): MemoryServiceTicketDatastore {
   //   return new MemoryServiceTicketDatastore(JSON.parse(JSON.stringify(readonlyMemoryStore))); // [MG-TBD] - fix this temp workaround
   // }
-  public get violationTicketUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ViolationTicket<ViolationTicketProps>, MemoryViolationTicketRepository<ViolationTicketProps, ViolationTicket<ViolationTicketProps>>> {
+  public get violationTicketUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, ViolationTicketV1<ViolationTicketV1Props>, MemoryViolationTicketRepository<ViolationTicketV1Props, ViolationTicketV1<ViolationTicketV1Props>>> {
     if(!this._violationTicketUnitOfWork) {
       this._violationTicketUnitOfWork = buildMemoryViolationTicketUnitOfWork(this.violationTicketMemoryStore);
     }
     return this._violationTicketUnitOfWork;
   }
-  public get violationTicketReadonlyMemoryStore(): ReadOnlyMemoryStore<ViolationTicketProps> {
+  public get violationTicketReadonlyMemoryStore(): ReadOnlyMemoryStore<ViolationTicketV1Props> {
     return this._violationTicketMemoryStore;
   }
   // public get serviceTicketDatastore(): MemoryServiceTicketDatastore {

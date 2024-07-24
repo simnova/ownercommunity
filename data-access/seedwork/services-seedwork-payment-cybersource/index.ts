@@ -408,14 +408,14 @@ export class Cybersource implements CybersourceBase {
     let patchCustomerPaymentInstrumentRequest = new cybersource.PatchPaymentInstrumentRequest();
 
     // create a card object
-    let card = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentCard();
+    const card = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentCard();
     card.expirationMonth = paymentInstrumentInfo.cardExpirationMonth;
     card.expirationYear = paymentInstrumentInfo.cardExpirationYear;
     card.type = paymentInstrumentInfo.cardType;
     patchCustomerPaymentInstrumentRequest.card = card;
 
     // create a billTo object
-    let billTo = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentBillTo();
+    const billTo = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentBillTo();
     billTo.firstName = customerProfile.billingFirstName;
     billTo.lastName = customerProfile.billingLastName;
     billTo.email = customerProfile.billingEmail;
@@ -429,7 +429,7 @@ export class Cybersource implements CybersourceBase {
     patchCustomerPaymentInstrumentRequest.billTo = billTo;
 
     // create an instrumentIdentifier object
-    let paymentInstrumentIdentifier = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentInstrumentIdentifier();
+    const paymentInstrumentIdentifier = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentInstrumentIdentifier();
     paymentInstrumentIdentifier.id = paymentInstrumentInfo.id;
     patchCustomerPaymentInstrumentRequest.instrumentIdentifier = paymentInstrumentIdentifier;
 

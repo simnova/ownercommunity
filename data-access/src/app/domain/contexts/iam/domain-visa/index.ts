@@ -1,13 +1,13 @@
-import { CommunityEntityReference } from '../../community/community';
+import { CommunityEntityReference } from '../../community/community/community';
 import { CommunityPermissions } from "../../community/community-permissions.spec";
-import { MemberEntityReference } from '../../community/member';
-import { RoleEntityReference } from '../../community/role';
+import { MemberEntityReference } from '../../community/member/member';
+import { RoleEntityReference } from '../../community/role/role';
 import { PropertyEntityReference } from '../../property/property';
 import { PropertyPermissions } from "../../property/property-permissions.spec";
-import { ServiceEntityReference } from '../../service-ticket/service';
-import { ServicePermissions } from "../../service-ticket/service-permissions.spec";
-import { ServiceTicketEntityReference } from '../../service-ticket/service-ticket';
-import { ServiceTicketPermissions } from "../../service-ticket/service-ticket-permissions.spec";
+import { ServiceEntityReference } from '../../community/service/service';
+import { ServicePermissions } from "../../community/service-permissions.spec";
+import { ServiceTicketEntityReference } from '../../cases/service-ticket/v1/service-ticket';
+import { ServiceTicketPermissions } from "../../cases/service-ticket/v1/service-ticket-permissions.spec";
 import { UserEntityReference } from '../../user/user';
 import { CommunityVisa } from './community-visa';
 import { CommunityVisaImplForCommunity } from './community-visa-impl-for-community';
@@ -21,10 +21,10 @@ import { ServiceTicketVisa } from './service-ticket-visa';
 import { ServiceTicketVisaImplForServiceTicket } from './service-ticket-visa-impl-for-service-ticket';
 import { UserVisa } from './user-visa';
 import { UserVisaImplForUser } from './user-visa-impl-for-user';
-import { ViolationTicketEntityReference } from '../../violation-ticket/violation-ticket';
+import { ViolationTicketEntityReference } from '../../cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketVisa } from './violation-ticket-visa';
 import { ViolationTicketVisaImplForViolationTicket } from './violation-visa-impl-for-community';
-import { ViolationTicketPermissions } from '../../violation-ticket/violation-ticket-permissions.spec';
+import { ViolationTicketPermissions } from '../../cases/violation-ticket/v1/violation-ticket-permissions.spec';
 
 export const SystemUserId = 'system';
 

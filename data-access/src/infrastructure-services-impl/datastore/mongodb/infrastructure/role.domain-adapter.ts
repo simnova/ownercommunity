@@ -1,9 +1,9 @@
 import { Role, Permissions, CommunityPermissions, PropertyPermissions, ServicePermissions, ServiceTicketPermissions, ViolationTicketPermissions } from '../models/role';
-import { Role as RoleDO, RoleProps } from '../../../../app/domain/contexts/community/role';
+import { Role as RoleDO, RoleProps } from '../../../../app/domain/contexts/community/role/role';
 import { MongooseDomainAdapter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
-import { CommunityProps } from '../../../../app/domain/contexts/community/community';
+import { CommunityProps } from '../../../../app/domain/contexts/community/community/community';
 import { CommunityPermissionsProps } from '../../../../app/domain/contexts/community/community-permissions';
 import { PermissionsProps } from '../../../../app/domain/contexts/community/permissions';
 import { CommunityDomainAdapter } from './community.domain-adapter';

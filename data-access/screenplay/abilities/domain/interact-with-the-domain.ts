@@ -2,14 +2,14 @@ import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes 
 import { IMemoryDatabase, MemoryDatabase } from '../../../src/infrastructure-services-impl/datastore/memorydb/memory-database';
 import { ReadOnlyMemoryStore } from '../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store';
 import { BaseDomainExecutionContext } from '../../../seedwork/domain-seedwork/base-domain-execution-context';
-import { CommunityRepository } from '../../../src/app/domain/contexts/community/community.repository';
-import { CommunityEntityReference, CommunityProps } from '../../../src/app/domain/contexts/community/community';
+import { CommunityRepository } from '../../../src/app/domain/contexts/community/community/community.repository';
+import { CommunityEntityReference, CommunityProps } from '../../../src/app/domain/contexts/community/community/community';
 import { UserRepository } from '../../../src/app/domain/contexts/user/user.repository';
 import { UserEntityReference, UserProps } from '../../../src/app/domain/contexts/user/user';
-import { RoleRepository } from '../../../src/app/domain/contexts/community/role.repository';
-import { RoleProps } from '../../../src/app/domain/contexts/community/role';
-import { MemberRepository } from '../../../src/app/domain/contexts/community/member.repository';
-import { Member, MemberEntityReference, MemberProps } from '../../../src/app/domain/contexts/community/member';
+import { RoleRepository } from '../../../src/app/domain/contexts/community/role/role.repository';
+import { RoleProps } from '../../../src/app/domain/contexts/community/role/role';
+import { MemberRepository } from '../../../src/app/domain/contexts/community/member/member.repository';
+import { Member, MemberEntityReference, MemberProps } from '../../../src/app/domain/contexts/community/member/member';
 import { DomainExecutionContext } from '../../../src/app/domain/contexts/domain-execution-context';
 // import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
 import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
@@ -25,8 +25,8 @@ import { PropertyRepository } from '../../../src/app/domain/contexts/property/pr
 import { PropertyProps } from '../../../src/app/domain/contexts/property/property';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { MemorydbDatastoreImpl } from '../../../src/infrastructure-services-impl/datastore/memorydb/impl';
-import { ServiceTicketRepository } from '../../../src/app/domain/contexts/service-ticket/service-ticket.repository';
-import { ServiceTicketProps } from '../../../src/app/domain/contexts/service-ticket/service-ticket';
+import { ServiceTicketRepository } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
+import { ServiceTicketProps } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { CybersourceImpl } from '../../../src/infrastructure-services-impl/payment/cybersource/impl';
 
 export interface InteractWithTheDomainAsUnregisteredUser {

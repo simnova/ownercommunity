@@ -1,10 +1,10 @@
 import { DomainDataSource } from '../../../data-sources/domain-data-source';
-import { Member } from '../../../domain/contexts/community/member';
+import { Member } from '../../../domain/contexts/community/member/member';
 import { ReadOnlyDomainVisa } from '../../../domain/contexts/iam/domain-visa';
-import { Service } from '../../../domain/contexts/service-ticket/service';
-import { TransactionProps } from '../../../domain/contexts/violation-ticket/transaction';
-import { ViolationTicket } from '../../../domain/contexts/violation-ticket/violation-ticket';
-import { StatusCodes } from '../../../domain/contexts/violation-ticket/violation-ticket.value-objects';
+import { Service } from '../../../domain/contexts/community/service/service';
+import { TransactionProps } from '../../../domain/contexts/cases/violation-ticket/v1/transaction';
+import { ViolationTicket } from '../../../domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { StatusCodes } from '../../../domain/contexts/cases/violation-ticket/v1/violation-ticket.value-objects';
 import { MemberData, ViolationTicketData } from '../../../external-dependencies/datastore';
 import { ViolationTicketDomainAdapter, CommunityConverter, PropertyConverter, ViolationTicketRepository, MemberConverter, ServiceDomainAdapter, ServiceConverter, ViolationTicketConverter } from '../../../external-dependencies/domain';
 import {

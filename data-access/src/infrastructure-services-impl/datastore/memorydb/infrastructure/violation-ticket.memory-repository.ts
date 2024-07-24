@@ -1,17 +1,17 @@
-import { CommunityEntityReference, CommunityProps } from '../../../../app/domain/contexts/community/community';
-import { MemberEntityReference, MemberProps } from '../../../../app/domain/contexts/community/member';
+import { CommunityEntityReference, CommunityProps } from '../../../../app/domain/contexts/community/community/community';
+import { MemberEntityReference, MemberProps } from '../../../../app/domain/contexts/community/member/member';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 import { PropertyEntityReference, PropertyProps } from '../../../../app/domain/contexts/property/property';
-import { ActivityDetailProps } from '../../../../app/domain/contexts/service-ticket/activity-detail';
-import { PhotoProps } from '../../../../app/domain/contexts/service-ticket/photo';
-import { ServiceEntityReference, ServiceProps } from '../../../../app/domain/contexts/service-ticket/service';
+import { ActivityDetailProps } from '../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
+import { PhotoProps } from '../../../../app/domain/contexts/cases/service-ticket/v1/photo';
+import { ServiceEntityReference, ServiceProps } from '../../../../app/domain/contexts/community/service/service';
 import { MemoryBaseAdapter } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
 import { MemoryPropArray } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
 import { MemoryRepositoryBase } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
 import { v4 as uuidV4 } from 'uuid';
-import { ViolationTicket, ViolationTicketProps } from '../../../../app/domain/contexts/violation-ticket/violation-ticket';
-import { ViolationTicketRepository } from '../../../../app/domain/contexts/violation-ticket/violation-ticket.repository';
-import { TransactionProps } from '../../../../app/domain/contexts/violation-ticket/transaction';
+import { ViolationTicket, ViolationTicketProps } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketRepository } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
+import { TransactionProps } from '../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
 
 class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailProps {
   activityType: string;

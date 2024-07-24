@@ -1,4 +1,4 @@
-import { ViolationTicket, ViolationTicketProps } from "../../../../app/domain/contexts/violation-ticket/violation-ticket";
+import { ViolationTicket, ViolationTicketProps } from "../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket";
 import { MemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 import { MemoryUnitOfWork } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-unit-of-work";
 import { InProcEventBusInstance, NodeEventBusInstance } from "../../../../../seedwork/event-bus-seedwork-node";

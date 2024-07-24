@@ -1,6 +1,6 @@
 import { EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
-import { Community, CommunityEntityReference, CommunityProps } from '../community/community';
-import { Member, MemberEntityReference, MemberProps } from '../community/member';
+import { Community, CommunityEntityReference, CommunityProps } from '../community/community/community';
+import { Member, MemberEntityReference, MemberProps } from '../community/member/member';
 import { DomainExecutionContext } from '../domain-execution-context';
 import * as ValueObjects from './property.value-objects';
 import { ListingDetails, ListingDetailProps, ListingDetailsEntityReference } from './listing-detail';

@@ -1,8 +1,8 @@
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
-import { Member } from "../../../domain/contexts/community/member";
+import { Member } from "../../../domain/contexts/community/member/member";
 import { ReadOnlyDomainVisa } from "../../../domain/contexts/iam/domain-visa";
-import { Service } from "../../../domain/contexts/service-ticket/service";
-import { ServiceTicket } from "../../../domain/contexts/service-ticket/service-ticket";
+import { Service } from "../../../domain/contexts/community/service/service";
+import { ServiceTicket } from "../../../domain/contexts/cases/service-ticket/v1/service-ticket";
 import { MemberData, ServiceTicketData } from "../../../external-dependencies/datastore";
 import { ServiceTicketDomainAdapter, CommunityConverter, PropertyConverter, MemberConverter, ServiceTicketRepository, ServiceDomainAdapter, ServiceConverter, ServiceTicketConverter } from "../../../external-dependencies/domain";
 import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketDeleteInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput } from "../../../external-dependencies/graphql-api";

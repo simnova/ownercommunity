@@ -1,9 +1,9 @@
 import { Service } from '../models/service';
-import { Service as ServiceDO, ServiceProps } from '../../../../app/domain/contexts/service-ticket/service';
+import { Service as ServiceDO, ServiceProps } from '../../../../app/domain/contexts/community/service/service';
 import { MongooseDomainAdapter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
-import { CommunityProps } from '../../../../app/domain/contexts/community/community';
+import { CommunityProps } from '../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from './community.domain-adapter';
 import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
 

@@ -1,5 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { Community } from "../../domain/contexts/community/community";
+import { Community } from "../../domain/contexts/community/community/community";
 import { ReadOnlyContext } from "../../domain/contexts/domain-execution-context";
 import { CommunityData } from "../../external-dependencies/datastore";
 import { CommunityDomainAdapter, UserConverter, CommunityConverter, CommunityRepository } from "../../external-dependencies/domain";

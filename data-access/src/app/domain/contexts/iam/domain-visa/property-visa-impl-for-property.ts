@@ -1,4 +1,4 @@
-import { MemberEntityReference } from '../../community/member';
+import { MemberEntityReference } from '../../community/member/member';
 import { PropertyEntityReference } from '../../property/property';
 import { PropertyPermissions } from "../../property/property-permissions.spec";
 import { PropertyVisa } from './property-visa';

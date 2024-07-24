@@ -1,0 +1,11 @@
+.selectable-list {
+  width: 300px;
+}
+.selectable-list .ant-table-thead {
+  display: none;
+  width: 50%;
+}
+
+.selectable-list.without-selection-column .ant-table-selection-column  {
+  display: none;
+}

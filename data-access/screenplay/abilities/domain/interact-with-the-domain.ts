@@ -297,22 +297,22 @@ export class InteractWithTheDomain
 
   // service ticket
   public async actOnServiceTicket(func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
   public async readServiceTicketDb(func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
+    return await func(InteractWithTheDomain._database.serviceTicketV1ReadonlyMemoryStore);
   }
 
   // service
   public async actOnService(func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
   public async readServiceDb(func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
+    return await func(InteractWithTheDomain._database.serviceTicketV1ReadonlyMemoryStore);
   }
 
   public async logSearchDatabase() {

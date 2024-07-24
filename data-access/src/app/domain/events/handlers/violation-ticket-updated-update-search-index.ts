@@ -5,12 +5,12 @@ import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/int
 import { ViolationTicketV1, ViolationTicketV1Props } from '../../contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketUpdatedEvent } from '../types/violation-ticket-updated';
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
-import { ViolationTicketUnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
+import { ViolationTicketV1UnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { EventBusInstance } from '../event-bus';
 import { ViolationTicketV1Repository } from '../../contexts/cases/violation-ticket/v1/violation-ticket.repository';
 
-export default (cognitiveSearch: CognitiveSearchDomain, violationTicketUnitOfWork: ViolationTicketUnitOfWork) => {
+export default (cognitiveSearch: CognitiveSearchDomain, violationTicketUnitOfWork: ViolationTicketV1UnitOfWork) => {
   EventBusInstance.register(ViolationTicketUpdatedEvent, async (payload) => {
     // add logging: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples-dev/logSample.ts
 

@@ -33,9 +33,9 @@ export {
 } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket';
 
 // violation-ticket
-export { MongoViolationTicketUnitOfWork as ViolationTicketUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket.uow';
-export { ViolationTicketDomainAdapter, ViolationTicketConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket.domain-adapter';
-export { MongoViolationTicketRepository as ViolationTicketRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket.mongo-repository';
+export { MongoViolationTicketV1UnitOfWork as ViolationTicketUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket/v1/violation-ticket.uow';
+export { ViolationTicketV1DomainAdapter as ViolationTicketDomainAdapter, ViolationTicketV1Converter as ViolationTicketConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket/v1/violation-ticket.domain-adapter';
+export { MongoViolationTicketV1Repository as ViolationTicketRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket/v1/violation-ticket.mongo-repository';
 
 // user
 export { MongoUserUnitOfWork as UserUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/user.uow';

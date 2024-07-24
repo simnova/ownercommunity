@@ -1,33 +1,33 @@
-import { ActivityDetail, Photo } from '../models/service-ticket';
-import { ViolationTicket } from '../models/violation-ticket';
-import { ViolationTicketV1 as ViolationTicketV1DO, ViolationTicketV1Props } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
-import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
-import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community';
-import { CommunityDomainAdapter } from './community';
-import { PropertyDomainAdapter } from './property.domain-adapter';
-import { PropertyEntityReference } from '../../../../app/domain/contexts/property/property';
-import { MemberEntityReference } from '../../../../app/domain/contexts/community/member';
-import { MemberDomainAdapter } from './member.domain-adapter';
+import { ActivityDetail, Photo } from '../../../models/service-ticket';
+import { ViolationTicket } from '../../../models/violation-ticket';
+import { ViolationTicketV1 as ViolationTicketV1DO, ViolationTicketV1Props } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { DomainExecutionContext } from '../../../../../../app/domain/contexts/domain-execution-context';
+import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community';
+import { CommunityDomainAdapter } from '../../community';
+import { PropertyDomainAdapter } from '../../property.domain-adapter';
+import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property';
+import { MemberEntityReference } from '../../../../../../app/domain/contexts/community/member';
+import { MemberDomainAdapter } from '../../member.domain-adapter';
 import { nanoid } from 'nanoid';
-import { ServiceDomainAdapter } from './service.domain-adapter';
-import { ServiceEntityReference } from '../../../../app/domain/contexts/service/service';
-import { ViolationTicketV1ActivityDetailProps } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-activity-detail';
-import { ViolationTicketV1PhotoProps } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-photo';
+import { ServiceDomainAdapter } from '../../service.domain-adapter';
+import { ServiceEntityReference } from '../../../../../../app/domain/contexts/service/service';
+import { ViolationTicketV1ActivityDetailProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-activity-detail';
+import { ViolationTicketV1PhotoProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-photo';
 
-export class ViolationTicketConverter extends MongoTypeConverter<
+export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ViolationTicket,
-  ViolationTicketDomainAdapter,
-  ViolationTicketV1DO<ViolationTicketDomainAdapter>
+  ViolationTicketV1DomainAdapter,
+  ViolationTicketV1DO<ViolationTicketV1DomainAdapter>
 > {
   constructor() {
-    super(ViolationTicketDomainAdapter, ViolationTicketV1DO);
+    super(ViolationTicketV1DomainAdapter, ViolationTicketV1DO);
   }
 }
 
-export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<ViolationTicket> implements ViolationTicketV1Props {
+export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<ViolationTicket> implements ViolationTicketV1Props {
   get community() {
     if (this.doc.community) {
       return new CommunityDomainAdapter(this.doc.community);

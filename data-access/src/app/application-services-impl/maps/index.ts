@@ -1,1 +1,0 @@
-export { PropertyMapsApiImpl } from './property';

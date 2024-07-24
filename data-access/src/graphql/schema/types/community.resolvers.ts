@@ -18,61 +18,61 @@ const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Pr
 const community: Resolvers = {
   Community: {
     roles: async (_rootObj: Community, _, { applicationServices }) => {
-      return (await applicationServices.roleDataApi.getRoles()) as Role[];
+      return (await applicationServices.role.dataApi.getRoles()) as Role[];
     },
     files: async (rootObj: Community, _, { applicationServices }) => {
-      return applicationServices.communityBlobApi.communityPublicFilesList(rootObj.id);
+      return applicationServices.community.blobApi.communityPublicFilesList(rootObj.id);
     },
     filesByType: async (rootObj: Community, { type }, { applicationServices }) => {
-      return applicationServices.communityBlobApi.communityPublicFilesListByType(rootObj.id, type);
+      return applicationServices.community.blobApi.communityPublicFilesListByType(rootObj.id, type);
     },
     domainStatus: async (rootObj: Community, _, { applicationServices }) => {
-      return applicationServices.communityVercelApi.getDomainDetails(rootObj.domain);
+      return applicationServices.community.vercelApi.getDomainDetails(rootObj.domain);
     },
     userIsAdmin: async (rootObj: Community, _args, { applicationServices }) => {
-      return applicationServices.communityDataApi.userIsAdmin(rootObj.id);
+      return applicationServices.community.dataApi.userIsAdmin(rootObj.id);
     },
   },
   Query: {
     community: async (_, _args, { applicationServices }) => {
-      return (await applicationServices.communityDataApi.getCurrentCommunity()) as Community;
+      return (await applicationServices.community.dataApi.getCurrentCommunity()) as Community;
     },
     communityById: async (_, { id }, { applicationServices }) => {
-      return (await applicationServices.communityDataApi.getCommunityById(id)) as Community;
+      return (await applicationServices.community.dataApi.getCommunityById(id)) as Community;
     },
     communityByHandle: async (_, { handle }, { applicationServices }) => {
-      return (await applicationServices.communityDataApi.getCommunityByHandle(handle)) as Community;
+      return (await applicationServices.community.dataApi.getCommunityByHandle(handle)) as Community;
     },
     communityByDomain: async (_, { domain }, { applicationServices }) => {
-      return (await applicationServices.communityDataApi.getCommunityByDomain(domain)) as Community;
+      return (await applicationServices.community.dataApi.getCommunityByDomain(domain)) as Community;
     },
     communities: async (_, _args, { applicationServices }) => {
-      return (await applicationServices.communityDataApi.getCommunitiesForCurrentUser()) as Community[];
+      return (await applicationServices.community.dataApi.getCommunitiesForCurrentUser()) as Community[];
     },
   },
   Mutation: {
     communityCreate: async (_, { input }, { applicationServices }) => {
-      return CommunityMutationResolver(applicationServices.communityDomainApi.communityCreate(input));
+      return CommunityMutationResolver(applicationServices.community.domainApi.communityCreate(input));
     },
     communityUpdate: async (_, { input }, { applicationServices }) => {
-      return CommunityMutationResolver(applicationServices.communityDomainApi.communityUpdate(input));
+      return CommunityMutationResolver(applicationServices.community.domainApi.communityUpdate(input));
     },
     communityPublicFileCreateAuthHeader: async (_, { input }, { applicationServices }) => {
-      let result = await applicationServices.communityBlobApi.communityPublicFileCreateAuthHeader(input.communityId, input.fileName, input.contentType, input.contentLength);
+      let result = await applicationServices.community.blobApi.communityPublicFileCreateAuthHeader(input.communityId, input.fileName, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
-      result.community = (await applicationServices.communityDataApi.getCommunityById(input.communityId)) as Community;
+      result.community = (await applicationServices.community.dataApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
     communityPublicContentCreateAuthHeader: async (_, { input }, { applicationServices }) => {
-      let result = await applicationServices.communityBlobApi.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
+      let result = await applicationServices.community.blobApi.communityPublicContentCreateAuthHeader(input.communityId, input.contentType, input.contentLength);
       console.log(`communityPublicContentCreateAuthHeader: ${JSON.stringify(result)}`);
-      result.community = (await applicationServices.communityDataApi.getCommunityById(input.communityId)) as Community;
+      result.community = (await applicationServices.community.dataApi.getCommunityById(input.communityId)) as Community;
       return result;
     },
     communityPublicFileRemove: async (_, { input }, { applicationServices }) => {
-      let result = await applicationServices.communityBlobApi.communityPublicFileRemove(input.communityId, input.fileName);
+      let result = await applicationServices.community.blobApi.communityPublicFileRemove(input.communityId, input.fileName);
       console.log(`communityPublicFileRemove: ${JSON.stringify(result)}`);
-      return CommunityMutationResolver(applicationServices.communityDataApi.getCommunityById(input.communityId)); // as Community;
+      return CommunityMutationResolver(applicationServices.community.dataApi.getCommunityById(input.communityId)); // as Community;
       //return result;
     },
   },

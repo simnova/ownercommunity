@@ -21,30 +21,30 @@ const member: Resolvers = {
   Member: {
     community: async (parent, _args, context) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;
+        return (await context.applicationServices.community.dataApi.getCommunityById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
     role: async (parent, _args, context) => {
       if (parent.role && isValidObjectId(parent.role.toString())) {
-        return (await context.applicationServices.roleDataApi.getRoleById(parent.role.toString())) as Role;
+        return (await context.applicationServices.role.dataApi.getRoleById(parent.role.toString())) as Role;
       }
       return parent.role;
     },
     isAdmin: async (parent, _args, context) => {
-      return await context.applicationServices.memberDataApi.isAdmin(parent.id);
+      return await context.applicationServices.member.dataApi.isAdmin(parent.id);
     },
   },
   MemberAccount: {
     user: async (parent, _args, context) => {
       if (parent.user && isValidObjectId(parent.user.toString())) {
-        return (await context.applicationServices.userDataApi.getUserById(parent.user.toString())) as User;
+        return (await context.applicationServices.user.dataApi.getUserById(parent.user.toString())) as User;
       }
       return parent.user;
     },
     createdBy: async (parent, _args, context) => {
       if (parent.createdBy && isValidObjectId(parent.createdBy.toString())) {
-        return (await context.applicationServices.userDataApi.getUserById(parent.createdBy.toString())) as User;
+        return (await context.applicationServices.user.dataApi.getUserById(parent.createdBy.toString())) as User;
       }
       return parent.createdBy;
     },
@@ -52,35 +52,35 @@ const member: Resolvers = {
   Query: {
     member: async (_parent, { id }, context) => {
       if (id && isValidObjectId(id)) {
-        return (await context.applicationServices.memberDataApi.getMemberById(id)) as Member;
+        return (await context.applicationServices.member.dataApi.getMemberById(id)) as Member;
       }
       return null;
     },
     members: async (_, _input, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMembers()) as Member[];
+      return (await applicationServices.member.dataApi.getMembers()) as Member[];
     },
     membersByCommunityId: async (_, { communityId }, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMembersByCommunityId(communityId)) as Member[];
+      return (await applicationServices.member.dataApi.getMembersByCommunityId(communityId)) as Member[];
     },
     membersByUserExternalId: async (_, { userExternalId }, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMembersByUserExternalId(userExternalId)) as Member[];
+      return (await applicationServices.member.dataApi.getMembersByUserExternalId(userExternalId)) as Member[];
     },
     membersAssignableToTickets: async (_, _input, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMembersAssignableToTickets()) as Member[];
+      return (await applicationServices.member.dataApi.getMembersAssignableToTickets()) as Member[];
     },
     memberAssignableToViolationTickets: async (_, { violationTicketId }, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMemberAssignableToViolationTickets(violationTicketId)) as Member;
+      return (await applicationServices.member.dataApi.getMemberAssignableToViolationTickets(violationTicketId)) as Member;
     },
     memberForCurrentUser: async (_, _input, context) => {
       return getMemberForCurrentUser(context);
     },
     cybersourcePublicKeyId: async (parent, _args, { applicationServices }) => {
-      return await applicationServices.paymentApi.generatePublicKey();
+      return await applicationServices.payment.cybersourceApi.generatePublicKey();
     },
     memberPaymentInstruments: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context);
       if (member?.cybersourceCustomerId) {
-        const paymentInstruments = await context.applicationServices.paymentApi.getPaymentInstruments(member.cybersourceCustomerId);
+        const paymentInstruments = await context.applicationServices.payment.cybersourceApi.getPaymentInstruments(member.cybersourceCustomerId);
         return { status: { success: true }, paymentInstruments };
       }
       return { status: { success: false }, paymentInstruments: [] };
@@ -88,39 +88,39 @@ const member: Resolvers = {
   },
   Mutation: {
     memberCreate: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberCreate(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberCreate(input));
     },
     memberUpdate: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberUpdate(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberUpdate(input));
     },
     memberAccountAdd: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountAdd(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberAccountAdd(input));
     },
     memberAccountEdit: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountEdit(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberAccountEdit(input));
     },
     memberAccountRemove: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountRemove(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberAccountRemove(input));
     },
     memberProfileUpdate: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberProfileUpdate(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberProfileUpdate(input));
     },
     memberProfileAvatarCreateAuthHeader: async (_, { input }, { applicationServices }) => {
-      const result = await applicationServices.memberBlobApi.memberProfileAvatarCreateAuthHeader(input.memberId, input.fileName, input.contentType, input.contentLength);
+      const result = await applicationServices.member.blobApi.memberProfileAvatarCreateAuthHeader(input.memberId, input.fileName, input.contentType, input.contentLength);
       if (result.status.success) {
-        result.member = (await applicationServices.memberDomainApi.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
+        result.member = (await applicationServices.member.domainApi.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
       }
       return result;
     },
     memberProfileAvatarRemove: async (_, { memberId }, { applicationServices }) => {
       const result = {
-        status: await applicationServices.memberBlobApi.memberProfileAvatarRemove(memberId),
+        status: await applicationServices.member.blobApi.memberProfileAvatarRemove(memberId),
       } as MemberMutationResult;
 
       if (!result.status.success) {
         return result;
       } else {
-        return MemberMutationResolver(applicationServices.memberDomainApi.memberProfileUpdateAvatar(memberId, null));
+        return MemberMutationResolver(applicationServices.member.domainApi.memberProfileUpdateAvatar(memberId, null));
       }
     },
 
@@ -128,10 +128,10 @@ const member: Resolvers = {
       const member = await getMemberForCurrentUser(context);
       let cybersourceCustomerId = member?.cybersourceCustomerId;
       if (!cybersourceCustomerId) {
-        cybersourceCustomerId = await context.applicationServices.paymentApi.createCybersouceCustomer(input);
+        cybersourceCustomerId = await context.applicationServices.payment.cybersourceApi.createCybersouceCustomer(input);
         console.log('createCybersouceCustomerResponse', cybersourceCustomerId);
         if (cybersourceCustomerId) {
-          return await MemberMutationResolver(context.applicationServices.memberDomainApi.memberUpdate({id: member.id, cybersourceCustomerId}));
+          return await MemberMutationResolver(context.applicationServices.member.domainApi.memberUpdate({id: member.id, cybersourceCustomerId}));
         }
       }
 
@@ -141,7 +141,7 @@ const member: Resolvers = {
           customerId: cybersourceCustomerId,
         };
         const paymentTokenInfo: PaymentTokenInfo = { paymentToken: input.paymentToken, isDefault: input.isDefault };
-        await context.applicationServices.paymentApi.addPaymentInstrument(paymentInstrumentPayload, paymentTokenInfo);
+        await context.applicationServices.payment.cybersourceApi.addPaymentInstrument(paymentInstrumentPayload, paymentTokenInfo);
         return { status: { success: true }, member };
       }
     },
@@ -151,7 +151,7 @@ const member: Resolvers = {
       const member = await getMemberForCurrentUser(context);
       const cybersourceCustomerId = member?.cybersourceCustomerId;
       if (cybersourceCustomerId) {
-        status = await context.applicationServices.paymentApi.setDefaultPaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
+        status = await context.applicationServices.payment.cybersourceApi.setDefaultPaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
         return { success: status, errorMessage: '' };
       }
     },
@@ -162,7 +162,7 @@ const member: Resolvers = {
       try {
         const cybersourceCustomerId = member?.cybersourceCustomerId;
         if (cybersourceCustomerId) {
-          response = await context.applicationServices.paymentApi.deletePaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
+          response = await context.applicationServices.payment.cybersourceApi.deletePaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
           return { success: response };
         }
       } catch (error) {

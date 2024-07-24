@@ -26,6 +26,7 @@ import { ViolationTicketData as ViolationTicketData, MemberData } from '../../ex
 import { ViolationTicketDomainApi as ViolationTicketDomainApi } from '../../application-services/domain';
 import { AppContext } from '../../init/app-context-builder';
 import { TransactionProps } from '../../domain/contexts/violation-ticket/transaction';
+import { StatusCodes } from '../../domain/contexts/violation-ticket/violation-ticket.value-objects';
 
 type PropType = ViolationTicketDomainAdapter;
 type DomainType = ViolationTicket<PropType>;
@@ -158,12 +159,12 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
       let violationTicket = await repo.getById(input.violationTicketId);
 
       // perform validation for is payment already received
-      if (violationTicket.status === 'PAID') {
+      if (violationTicket.status === StatusCodes.Paid) {
         throw new Error('Payment already received');
       }
 
       // perform validation to check status of ticket
-      if (violationTicket.status !== 'ASSIGNED') {
+      if (violationTicket.status !== StatusCodes.Assigned) {
         throw new Error('Ticket is not in a valid state to process payment');
       }
 
@@ -193,12 +194,12 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
 
       // update ticket transaction details
       transaction.Amount = response?.amountDetails?.amount;
-      transaction.AuthorizedAmount = response.amountDetails.authorizedAmount;
-      transaction.Currency = response.amountDetails.currency;
-      transaction.ClientReferenceCode = response.clientReferenceCode;
-      transaction.Status = response.status;
-      transaction.TransactionId = response.transactionId;
-      transaction.ReconciliationId = response.reconciliationId;
+      transaction.AuthorizedAmount = response?.amountDetails?.authorizedAmount;
+      transaction.Currency = response?.amountDetails?.currency;
+      transaction.ClientReferenceCode = response?.clientReferenceCode;
+      transaction.Status = response?.status;
+      transaction.TransactionId = response?.transactionId;
+      transaction.ReconciliationId = response?.reconciliationId;
       transaction.Description = transactionDescription;
       transaction.Type = transactionType;
       if(response?.error) {
@@ -208,7 +209,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
       }
       transaction.SuccessTimestamp = response?.successTimestamp;
       transaction.TransactionTime = response?.transactionTime;
-      transaction.IsSuccess = response.isSuccess;
+      transaction.IsSuccess = response?.isSuccess;
       violationTicket.PenaltyPaidDate = new Date();
       // save the transaction details
       violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));

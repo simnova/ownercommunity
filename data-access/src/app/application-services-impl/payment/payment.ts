@@ -120,7 +120,7 @@ export class PaymentApiImpl extends PaymentDataSource<AppContext> implements Pay
       },
       reconciliationId: response?.reconciliationId,
       isSuccess: response?.status === 'AUTHORIZED',
-      transactionTime: !paymentTransactionError ? new Date(response?.submitTimeUtc) : null,
+      transactionTime: paymentTransactionError ? null : new Date(response?.submitTimeUtc),
       successTimestamp: new Date(),
       error: paymentTransactionError ? {
         code: paymentTransactionError?.code,

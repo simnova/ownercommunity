@@ -2,9 +2,9 @@ import { FC, useEffect } from 'react';
 import { Route, Routes, useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../..';
 import { PageLayoutProps } from '../../../admin';
-import { ActiveRequestListContainer } from './components/active-request-list.container';
-import { ArchivedRequestListContainer } from './components/archived-request-list.container';
-import { RequestListPageLayout } from './request-list-page-layout';
+import { ActiveCaseListContainer } from './components/active-case-list.container';
+import { ArchivedCaseListContainer } from './components/archived-case-list.container';
+import { CaseListPageLayout } from './request-list-page-layout';
 
 export const AHPObjectStatusRouteLayer = {
   Active: 'active',
@@ -46,9 +46,9 @@ export const RequestListPage: FC<RequestListPageProps> = (_props) => {
 
   return (
     <Routes>
-      <Route path="" element={<RequestListPageLayout pageLayouts={pageLayouts} />}>
-        <Route path={`${AHPObjectStatusRouteLayer.Active}/*`} element={<ActiveRequestListContainer />} />
-        <Route path={`${AHPObjectStatusRouteLayer.Archived}/*`} element={<ArchivedRequestListContainer />} />
+      <Route path="" element={<CaseListPageLayout pageLayouts={pageLayouts} />}>
+        <Route path={`${AHPObjectStatusRouteLayer.Active}/*`} element={<ActiveCaseListContainer />} />
+        <Route path={`${AHPObjectStatusRouteLayer.Archived}/*`} element={<ArchivedCaseListContainer />} />
       </Route>
     </Routes>
   );

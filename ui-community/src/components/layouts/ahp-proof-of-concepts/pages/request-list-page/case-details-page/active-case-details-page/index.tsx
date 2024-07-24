@@ -4,16 +4,23 @@ import { AHPObjectIDRouteLayer } from '..';
 import { AHPObjectStatusRouteLayer } from '../..';
 import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../../../..';
 import { PageLayoutProps } from '../../../../../shared/components/menu-component';
-import { ActiveRequestDetailsPageLayout } from './active-request-details-page-layout';
+import { ActiveCaseDetailsPageLayout } from './active-case-details-page-layout';
 
-interface ActiveRequestDetailsPageProps {}
-export const ActiveRequestDetailsPage: FC<ActiveRequestDetailsPageProps> = (_props) => {
+export const AHPActiveCaseDetailsLayer = {
+  Chat: 'chat',
+  Application: 'application',
+  Files: 'files',
+  Transactions: 'transactions'
+};
+
+interface ActiveCaseDetailsPageProps {}
+export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) => {
   const navigate = useNavigate();
   const params = useParams();
-  const chatRoute = useResolvedPath('chat');
-  const applicationRoute = useResolvedPath('application');
-  const filesRoute = useResolvedPath('files');
-  const transactionsRoute = useResolvedPath('transactions');
+  const chatRoute = useResolvedPath(AHPActiveCaseDetailsLayer.Chat);
+  const applicationRoute = useResolvedPath(AHPActiveCaseDetailsLayer.Application);
+  const filesRoute = useResolvedPath(AHPActiveCaseDetailsLayer.Files);
+  const transactionsRoute = useResolvedPath(AHPActiveCaseDetailsLayer.Transactions);
 
   const match = useMatch(
     `/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Active}/:${AHPObjectIDRouteLayer.CaseId}`
@@ -22,7 +29,7 @@ export const ActiveRequestDetailsPage: FC<ActiveRequestDetailsPageProps> = (_pro
   // redirect to (default) Chat if a case is selected
   useEffect(() => {
     if (match) {
-      navigate('chat');
+      navigate(AHPActiveCaseDetailsLayer.Chat);
     }
   }, [match]);
 
@@ -37,7 +44,7 @@ export const ActiveRequestDetailsPage: FC<ActiveRequestDetailsPageProps> = (_pro
       path: applicationRoute.pathname,
       title: 'Application',
       icon: <></>,
-      id: 'application',
+      id: AHPActiveCaseDetailsLayer.Application,
       parent: 'ROOT'
     },
     {
@@ -51,14 +58,14 @@ export const ActiveRequestDetailsPage: FC<ActiveRequestDetailsPageProps> = (_pro
       path: transactionsRoute.pathname,
       title: 'Transactions',
       icon: <></>,
-      id: 'transactions',
+      id: AHPActiveCaseDetailsLayer.Transactions,
       parent: 'ROOT'
     }
   ];
 
   return (
     <Routes>
-      <Route path="" element={<ActiveRequestDetailsPageLayout pageLayouts={pageLayouts} />}>
+      <Route path="" element={<ActiveCaseDetailsPageLayout pageLayouts={pageLayouts} />}>
         <Route path="chat" element={<>Chat for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
         <Route path="application" element={<>Application for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
         <Route path="files" element={<>Files for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />

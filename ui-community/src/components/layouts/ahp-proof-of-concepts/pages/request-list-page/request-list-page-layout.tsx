@@ -2,14 +2,14 @@ import { Button, Divider, Layout } from 'antd';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { MenuComponent, PageLayoutProps } from '../../../shared/components/menu-component';
-import { RequestDetailsPage } from './request-details-page';
+import { CaseDetailsPage } from './case-details-page';
 
 const { Content, Sider } = Layout;
 
-interface RequestListPageLayoutProps {
+interface CaseListPageLayoutProps {
   pageLayouts: PageLayoutProps[];
 }
-export const RequestListPageLayout: FC<RequestListPageLayoutProps> = (props) => {
+export const CaseListPageLayout: FC<CaseListPageLayoutProps> = (props) => {
   return (
     <Layout style={{ minHeight: '100%' }} hasSider>
       {/* make new requests and request list area */}
@@ -27,7 +27,7 @@ export const RequestListPageLayout: FC<RequestListPageLayoutProps> = (props) => 
       </Sider>
       {/* request details area */}
       <Content style={{ background: 'white', padding: '10px' }}>
-        <RequestDetailsPage />
+        <CaseDetailsPage />
       </Content>
     </Layout>
   );

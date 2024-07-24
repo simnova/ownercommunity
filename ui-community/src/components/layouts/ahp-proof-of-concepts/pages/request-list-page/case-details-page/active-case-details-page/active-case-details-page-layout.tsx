@@ -3,10 +3,10 @@ import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { MenuComponent, PageLayoutProps } from '../../../../../shared/components/menu-component';
 
-interface ActiveRequestDetailsPageLayoutProps {
+interface ActiveCaseDetailsPageLayoutProps {
   pageLayouts: PageLayoutProps[];
 }
-export const ActiveRequestDetailsPageLayout: FC<ActiveRequestDetailsPageLayoutProps> = (props) => {
+export const ActiveCaseDetailsPageLayout: FC<ActiveCaseDetailsPageLayoutProps> = (props) => {
   return (
     <Layout>
       <Layout.Content style={{ minHeight: '100%', background: 'white' }}>

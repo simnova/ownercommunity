@@ -27,7 +27,7 @@ export class RoleDomainApiImpl
     }
 
     let roleToReturn: RoleData;
-    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
@@ -98,7 +98,7 @@ export class RoleDomainApiImpl
       throw new Error('Unauthorized:roleDeleteAndReassign');
     }
 
-    let mongoNewRole = await this.context.applicationServices.roleDataApi.getRoleById(input.roleToReassignTo);
+    let mongoNewRole = await this.context.applicationServices.role.dataApi.getRoleById(input.roleToReassignTo);
     let newROleDo = new RoleConverter().toDomain(mongoNewRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let roleToReturn: RoleData;
     await this.withTransaction(async (repo) => {

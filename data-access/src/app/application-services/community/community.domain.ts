@@ -24,7 +24,7 @@ export class CommunityDomainApiImpl
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized:communityCreate');
     }
-    let mongoUser = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let mongoUser = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let userDo = new UserConverter().toDomain(mongoUser, ReadOnlyContext());
 
     let communityToReturn: CommunityData;

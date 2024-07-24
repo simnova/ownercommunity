@@ -30,7 +30,7 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     }
 
     let memberToReturn: MemberData;
-    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
@@ -44,7 +44,7 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     let memberToReturn: MemberData;
     let roleDo;
     if (input.role !== undefined) {
-      let mongoRole = await this.context.applicationServices.roleDataApi.getRoleById(input.role);
+      let mongoRole = await this.context.applicationServices.role.dataApi.getRoleById(input.role);
       roleDo = new RoleConverter().toDomain(mongoRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     }
     await this.withTransaction(async (repo) => {
@@ -91,10 +91,10 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
   async memberAccountAdd(input: MemberAccountAddInput): Promise<MemberData> {
     let memberToReturn: MemberData;
 
-    let mongoUser = await this.context.applicationServices.userDataApi.getUserById(input.account.user);
+    let mongoUser = await this.context.applicationServices.user.dataApi.getUserById(input.account.user);
     let userDo = new UserConverter().toDomain(mongoUser, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
-    let currentMongoUser = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let currentMongoUser = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let currentUserDo = new UserConverter().toDomain(currentMongoUser, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {

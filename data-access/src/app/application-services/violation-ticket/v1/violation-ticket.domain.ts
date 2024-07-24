@@ -42,21 +42,21 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
 
     let violationTicketToReturn: ViolationTicketData;
     console.log(`violationTicketCreate:communityId`, this.context.communityId);
-    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
-    let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
+    let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);
     let propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     let member: MemberData;
 
-    member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
+    member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
 
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     let serviceDo: Service<ServiceDomainAdapter> | undefined = undefined;
     if (input.serviceId) {
-      let service = await this.context.applicationServices.serviceDataApi.getServiceById(input.serviceId);
+      let service = await this.context.applicationServices.service.dataApi.getServiceById(input.serviceId);
       serviceDo = new ServiceConverter().toDomain(service, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     }
 
@@ -79,7 +79,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
 
     let serviceDo: Service<ServiceDomainAdapter> | undefined = undefined;
     if (input.serviceId) {
-      let service = await this.context.applicationServices.serviceDataApi.getServiceById(input.serviceId);
+      let service = await this.context.applicationServices.service.dataApi.getServiceById(input.serviceId);
       serviceDo = new ServiceConverter().toDomain(service, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     }
 
@@ -87,7 +87,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
       let violationTicket = await repo.getById(input.violationTicketId);
       let propertyDo = null;
       if (input.propertyId && violationTicket.property.id !== input.propertyId) {
-        let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
+        let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);
         propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
         violationTicket.Property = propertyDo;
       }
@@ -119,7 +119,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
     let violationTicketToReturn: ViolationTicketData;
     let memberDo: Member<any> | undefined = undefined;
     if (input.assignedToId) {
-      let member = await this.context.applicationServices.memberDataApi.getMemberById(input.assignedToId);
+      let member = await this.context.applicationServices.member.dataApi.getMemberById(input.assignedToId);
       memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     }
     await this.withTransaction(async (repo) => {
@@ -131,7 +131,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
   }
 
   async violationTicketChangeStatus(input: ViolationTicketChangeStatusInput): Promise<ViolationTicketData> {
-    let member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
+    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let violationTicketToReturn: ViolationTicketData;
     await this.withTransaction(async (repo) => {
@@ -143,7 +143,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
   }
 
   async violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput): Promise<ViolationTicketData> {
-    let member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
+    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let violationTicketToReturn: ViolationTicketData;
     await this.withTransaction(async (repo) => {
@@ -179,7 +179,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
       let transactionType: string = 'PAYMENT';
       let transaction = violationTicket.requestAddPaymentTransaction();
       let clientReferenceCode = transaction.id;
-      const response: TransactionProps = await this.context.applicationServices.paymentApi.processPayment({
+      const response: TransactionProps = await this.context.applicationServices.payment.cybersourceApi.processPayment({
         id: violationTicket.id,
         paymentInstrumentId: input.paymentInstrumentId,
         amount: input.paymentAmount,
@@ -189,7 +189,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
       });
 
       // update ticket status
-      let member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
+      let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
       let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
       violationTicket.requestAddStatusTransition('PAID', 'Paid for violation ticket', memberDo);
 

@@ -32,24 +32,24 @@ export class ServiceTicketDomainApiImpl
     }
 
     let serviceTicketToReturn: ServiceTicketData;
-    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
-    let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
+    let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);
     let propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     let member: MemberData;
     if (input.requestorId === undefined) {
-      member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
+      member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
     } else {
       //use the supplied requestorId - TODO: check that the current user is an admin
-      member = await this.context.applicationServices.memberDataApi.getMemberById(input.requestorId);
+      member = await this.context.applicationServices.member.dataApi.getMemberById(input.requestorId);
     }
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     let serviceDo: Service<ServiceDomainAdapter> | undefined = undefined;
     if (input.serviceId) {
-      let service = await this.context.applicationServices.serviceDataApi.getServiceById(input.serviceId);
+      let service = await this.context.applicationServices.service.dataApi.getServiceById(input.serviceId);
       serviceDo = new ServiceConverter().toDomain(service, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     }
 
@@ -75,14 +75,14 @@ export class ServiceTicketDomainApiImpl
 
     let serviceDo: Service<ServiceDomainAdapter> | undefined = undefined;
     if (input.serviceId) {
-      let service = await this.context.applicationServices.serviceDataApi.getServiceById(input.serviceId);
+      let service = await this.context.applicationServices.service.dataApi.getServiceById(input.serviceId);
       serviceDo = new ServiceConverter().toDomain(service, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     }
 
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
       if (serviceTicket.property.id !== input.propertyId) {
-        let property = await this.context.applicationServices.propertyDataApi.getPropertyById(input.propertyId);
+        let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);
         let propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
         serviceTicket.Property = (propertyDo);
       }
@@ -114,7 +114,7 @@ export class ServiceTicketDomainApiImpl
     let serviceTicketToReturn: ServiceTicketData;
     let memberDo: Member<any> | undefined = undefined;
     if (input.assignedToId) {
-      let member = await this.context.applicationServices.memberDataApi.getMemberById(input.assignedToId);
+      let member = await this.context.applicationServices.member.dataApi.getMemberById(input.assignedToId);
       memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     }
     await this.withTransaction(async (repo) => {
@@ -126,8 +126,8 @@ export class ServiceTicketDomainApiImpl
   }
 
   async serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<ServiceTicketData> {
-    let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
+    let user = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let serviceTicketToReturn: ServiceTicketData;
     await this.withTransaction(async (repo) => {
@@ -139,8 +139,8 @@ export class ServiceTicketDomainApiImpl
   }
 
   async serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<ServiceTicketData> {
-    let user = await this.context.applicationServices.userDataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.applicationServices.memberDataApi.getMemberById(this.context.memberId);
+    let user = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let serviceTicketToReturn: ServiceTicketData;
     await this.withTransaction(async (repo) => {

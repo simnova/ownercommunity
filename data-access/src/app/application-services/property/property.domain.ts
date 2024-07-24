@@ -31,7 +31,7 @@ export class PropertyDomainApiImpl
     }
 
     let propertyToReturn: PropertyData;
-    let community = await this.context.applicationServices.communityDataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
@@ -44,7 +44,7 @@ export class PropertyDomainApiImpl
   async propertyUpdate(input: PropertyUpdateInput): Promise<PropertyData> {
     let propertyToReturn: PropertyData;
 
-    let mongoMember = await this.context.applicationServices.memberDataApi.getMemberById(input.owner?.id);
+    let mongoMember = await this.context.applicationServices.member.dataApi.getMemberById(input.owner?.id);
     let memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
@@ -153,7 +153,7 @@ export class PropertyDomainApiImpl
 
   async propertyAssignOwner(input: PropertyAssignOwnerInput): Promise<PropertyData> {
     let propertyToReturn: PropertyData;
-    let mongoMember = await this.context.applicationServices.memberDataApi.getMemberById(input.ownerId);
+    let mongoMember = await this.context.applicationServices.member.dataApi.getMemberById(input.ownerId);
     let memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);

@@ -21,61 +21,61 @@ const serviceTicket: Resolvers = {
   ViolationTicket: {
     community: async (parent, args, context, info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;
+        return (await context.applicationServices.community.dataApi.getCommunityById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
     property: async (parent, args, context, info) => {
       if (parent.property && isValidObjectId(parent.property.toString())) {
-        return (await context.applicationServices.propertyDataApi.getPropertyById(parent.property.toString())) as Property;
+        return (await context.applicationServices.property.dataApi.getPropertyById(parent.property.toString())) as Property;
       }
       return parent.property;
     },
     requestor: async (parent, args, context, info) => {
       if (parent.requestor && isValidObjectId(parent.requestor.toString())) {
-        return (await context.applicationServices.memberDataApi.getMemberById(parent.requestor.toString())) as Member;
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.requestor.toString())) as Member;
       }
       return parent.requestor;
     },
     assignedTo: async (parent, args, context, info) => {
       if (parent.assignedTo && isValidObjectId(parent.assignedTo.toString())) {
-        return (await context.applicationServices.memberDataApi.getMemberById(parent.assignedTo.toString())) as Member;
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.assignedTo.toString())) as Member;
       }
       return parent.assignedTo;
     },
     service: async (parent, args, context, info) => {
       if(parent.service && isValidObjectId(parent.service.toString())){
-        return (await context.applicationServices.serviceDataApi.getServiceById(parent.service.toString())) as Service;
+        return (await context.applicationServices.service.dataApi.getServiceById(parent.service.toString())) as Service;
       }
       return parent.service;
     }
   },
   Query: {
     violationTicket: async (_parent, args, context, _info) => {
-      return (await context.applicationServices.violationTicketDataApi.getViolationTicketById(args.id)) as ViolationTicket;
+      return (await context.applicationServices.violationTicket.v1.dataApi.getViolationTicketById(args.id)) as ViolationTicket;
     },
   },
   Mutation: {
     violationTicketCreate: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketCreate(input));
+      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketCreate(input));
     },
     violationTicketUpdate: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketUpdate(input));
+      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketUpdate(input));
     },
     violationTicketDelete: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketDelete(input));
+      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketDelete(input));
     },
     violationTicketAssign: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketAssign(input));
+      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketAssign(input));
     },
     violationTicketChangeStatus: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketChangeStatus(input));
+      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketChangeStatus(input));
     },
     violationTicketAddUpdateActivity: async (_, { input }, { applicationServices }) => {
-      return  ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketAddUpdateActivity(input));
+      return  ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketAddUpdateActivity(input));
     },
     violationTicketProcessPayment: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketProcessPayment(input));
+      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketProcessPayment(input));
     }
   },
 };

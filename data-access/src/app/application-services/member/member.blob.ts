@@ -15,7 +15,7 @@ export class MemberBlobApiImpl
   async memberProfileAvatarRemove(memberId: string): Promise<MutationStatus> {
     let mutationResult: MutationStatus;
     await this.withStorage(async (passport, blobStorage) => {
-      let member = await this.context.applicationServices.memberDataApi.getMemberByIdWithCommunity(memberId);
+      let member = await this.context.applicationServices.member.dataApi.getMemberByIdWithCommunity(memberId);
       if (!member) {
         mutationResult = { success: false, errorMessage: `Member not found: ${memberId}` } as MutationStatus;
       }
@@ -38,7 +38,7 @@ export class MemberBlobApiImpl
 
     let headerResult: MemberAvatarImageAuthHeaderResult;
     await this.withStorage(async (passport, blobStorage) => {
-      let member = await this.context.applicationServices.memberDataApi.getMemberByIdWithCommunity(memberId);
+      let member = await this.context.applicationServices.member.dataApi.getMemberByIdWithCommunity(memberId);
       if (!member) {
         headerResult = { status: { success: false, errorMessage: `Member not found: ${memberId}` } } as MemberAvatarImageAuthHeaderResult;
         return;

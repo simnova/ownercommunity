@@ -12,7 +12,7 @@ export interface TokenOptions {
   expirationYear: string;
 }
 
-export type Callback = (err: any, token: string) => void;
+export type Callback = (err: any, token: string) => Promise<void>;
 
 const AddPaymentMethodModalContainer = () => {
   const { data: cybersource } = useQuery(SharedPaymentContainercybersourcePublicKeyIdDocument);
@@ -26,7 +26,7 @@ const AddPaymentMethodModalContainer = () => {
           input: data
         }
       });
-      message.success(response.data?.memberAddPaymentInstrument.status.success);
+      return response;
     } catch (error) {
       console.log('ERROR', error);
     }

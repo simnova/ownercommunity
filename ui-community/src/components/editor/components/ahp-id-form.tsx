@@ -28,28 +28,30 @@ AhpIdFormTop.craft = {
   }
 };
 const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
+  console.log('here we are');
   const {
     token: { colorBgContainer }
   } = theme.useToken();
-  useNode((state) => ({
-    selected: state.events.selected
+
+  const {
+    actions: { setProp }
+  } = useNode((state) => ({
+    selected: state.events.selected,
+    fileName: state.data.props.fileName,
+    blobPath: state.data.props.blobPath
   }));
+  console.log('next stop');
 
   const [uploadImage] = useMutation(AhpIdFormCommunityPublicFileCreateAuthHeaderDocument);
   const handleAuthorizeRequest = async (file: File): Promise<AuthResult> => {
-    const {
-      actions: { setProp },
-      fileName,
-      blobPath
-    } = useNode((node) => ({
-      fileName: node.data.props.fileName,
-      blobPath: node.data.props.blobPath
-    }));
+    console.log('the polar express');
 
     setProp((props: any) => {
       props.fileName = file.name;
       props.blobPath = `https://ownercommunity.blob.core.windows.net/${communityId}/public-files/${file.name}`;
     });
+
+    console.log('tickets please');
 
     return uploadImage({
       variables: {
@@ -70,16 +72,33 @@ const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
       });
   };
 
+  const downloadFile = () => {
+    const a = document.createElement('a');
+    a.href = blobPath;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  console.log('here data', blobPath, fileName);
   return (
     <Container background={colorBgContainer}>
-      <li
-        className=" cursor-pointer shadow rounded-lg p-8 relative "
+      <div
+        className=" shadow rounded-lg"
         style={{
-          backgroundColor: colorBgContainer
+          backgroundColor: colorBgContainer,
+          padding: 10
         }}
       >
-        <div>Hey how are doing susan?</div>
-        <Button type="link">{fileName}</Button>
+        <div>Hey how are you doing susan? Here is the upload for the document you requested.</div>
+        {fileName && blobPath ? (
+          <Button type="link" onClick={() => downloadFile()}>
+            {fileName}
+          </Button>
+        ) : (
+          <></>
+        )}
         <FileUploadButton
           authorizeRequest={handleAuthorizeRequest}
           blobPath={`https://ownercommunity.blob.core.windows.net/${communityId}`}
@@ -99,7 +118,7 @@ const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
           maxFileSizeBytes={10 * 1024 * 1024} // 10MB,
           maxWidthOrHeight={2048}
         />
-      </li>
+      </div>
     </Container>
   );
 };

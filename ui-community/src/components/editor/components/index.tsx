@@ -12,3 +12,4 @@ export * from './properties-listing';
 export * from './property-details';
 export * from './image-component';
 export * from './ahp-id-form';
+export * from './ahp-id-form-confirmation'

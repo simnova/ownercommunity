@@ -1617,13 +1617,18 @@ export type AhpIdFormCommunityPublicFileCreateAuthHeaderMutation = {
       metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
     } | null;
     status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
-    community?: {
-      __typename?: 'Community';
-      id: any;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-      files?: Array<{ __typename?: 'FileInfo'; name: string; size: number; type: string; url: string } | null> | null;
-    } | null;
+  };
+};
+
+export type AhpIdFormCommunityPublicFileRemoveMutationVariables = Exact<{
+  input: CommunityPublicFileRemoveInput;
+}>;
+
+export type AhpIdFormCommunityPublicFileRemoveMutation = {
+  __typename?: 'Mutation';
+  communityPublicFileRemove: {
+    __typename?: 'CommunityMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
   };
 };
 
@@ -10400,31 +10405,6 @@ export const AhpIdFormCommunityPublicFileCreateAuthHeaderDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
                     ]
                   }
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'community' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'files' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'size' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'url' } }
-                          ]
-                        }
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
-                    ]
-                  }
                 }
               ]
             }
@@ -10436,6 +10416,61 @@ export const AhpIdFormCommunityPublicFileCreateAuthHeaderDocument = {
 } as unknown as DocumentNode<
   AhpIdFormCommunityPublicFileCreateAuthHeaderMutation,
   AhpIdFormCommunityPublicFileCreateAuthHeaderMutationVariables
+>;
+export const AhpIdFormCommunityPublicFileRemoveDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AhpIdFormCommunityPublicFileRemove' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CommunityPublicFileRemoveInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'communityPublicFileRemove' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  AhpIdFormCommunityPublicFileRemoveMutation,
+  AhpIdFormCommunityPublicFileRemoveMutationVariables
 >;
 export const CommunityCreateContainerMutationCommunityCreateDocument = {
   kind: 'Document',

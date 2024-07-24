@@ -1,38 +1,39 @@
 import { useNode } from '@craftjs/core';
-import { Button, theme } from 'antd';
+import { Button, Input, Radio, Space, theme } from 'antd';
 import { Container } from './container';
 import { TextComponent } from './text-component';
 import { TextThing } from './text-thing';
 import { FileUploadButton } from '../../layouts/shared/components/file-upload-button';
 import { useMutation } from '@apollo/client';
 import { AuthResult } from '../../ui/molecules/azure-upload';
-import {
-  AhpIdFormCommunityPublicFileCreateAuthHeaderDocument,
-  AhpIdFormCommunityPublicFileRemoveDocument
-} from '../../../generated';
+import { AhpIdFormCommunityPublicFileCreateAuthHeaderDocument, AhpIdFormCommunityPublicFileRemoveDocument } from '../../../generated';
 import Title from 'antd/es/typography/Title';
-import { DeleteFilled, DeleteOutlined, DeleteTwoTone, FileTextOutlined } from '@ant-design/icons';
+import { DeleteFilled, FileTextOutlined } from '@ant-design/icons';
+import { func } from 'prop-types';
+import TextArea from 'antd/lib/input/TextArea';
 
-interface AhpIdFormProps {
+interface AhpIdFormConfirmationProps {
   fileName: string;
   blobPath: string;
+  value: number;
+  response: string;
 }
 
 const communityId = '669ff09eae443cf6818a5bed';
-const AhpIdFormTop = (props: any) => {
+const AhpIdFormConfirmationTop = (props: any) => {
   const {
     connectors: { connect }
   } = useNode();
   return <div ref={(ref) => connect(ref as HTMLDivElement)}>{props.children}</div>;
 };
 
-AhpIdFormTop.craft = {
+AhpIdFormConfirmationTop.craft = {
   rules: {
     canMoveIn: (incomingNodes: any[]) =>
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
+const AhpIdFormConfirmation: any = ({ fileName, blobPath, response, value, ...props }: AhpIdFormConfirmationProps) => {
   const {
     token: { colorBgContainer }
   } = theme.useToken();
@@ -42,11 +43,25 @@ const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
   } = useNode((state) => ({
     selected: state.events.selected,
     fileName: state.data.props.fileName,
-    blobPath: state.data.props.blobPath
+    blobPath: state.data.props.blobPath,
+    value: state.data.props.value,
+    response: state.data.props.response
   }));
 
-  const [communityPublicFileRemove] = useMutation(AhpIdFormCommunityPublicFileRemoveDocument);
+  const handleRadioChange = (value: number) => {
+    setProp((props: any) => {
+      props.value = value;
+    });
+  };
+
+  const handleInputChange = (response: string) => {
+    setProp((props: any) => {
+      props.response = response;
+    });
+  };
+
   const [uploadImage] = useMutation(AhpIdFormCommunityPublicFileCreateAuthHeaderDocument);
+  const [communityPublicFileRemove] = useMutation(AhpIdFormCommunityPublicFileRemoveDocument);
   const handleAuthorizeRequest = async (file: File): Promise<AuthResult> => {
     return uploadImage({
       variables: {
@@ -91,6 +106,7 @@ const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
       });
   };
 
+
   const downloadFile = async () => {
     const blob = await (await fetch(blobPath)).blob();
     const blobUrl = URL.createObjectURL(blob);
@@ -118,7 +134,7 @@ const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
             marginBottom: 10
           }}
         >
-          ID Form Review: Completed
+          Does your ID Form look Accurate?
         </Title>
         <div style={{ marginBottom: 10 }}>
           {fileName && blobPath ? (
@@ -132,6 +148,9 @@ const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
           <FileUploadButton
             authorizeRequest={handleAuthorizeRequest}
             blobPath={`https://ownercommunity.blob.core.windows.net/${communityId}`}
+            onRemoveRequested={() => {
+              throw new Error('Not implemented');
+            }}
             permittedContentTypes={[
               'image/jpeg',
               'image/png',
@@ -156,17 +175,34 @@ const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
           ) : (
             <></>
           )}
+          <div style={{marginTop: 10}}>
+            <Radio.Group value={value} onChange={(e: any) => handleRadioChange(e.target.value)}>
+              <Space direction="vertical">
+                <Radio value={1}>Yes, my ID form is accurate</Radio>
+                <Radio value={2}>No, it needs some corrections</Radio>
+                <TextArea
+                  onChange={(e: any) => handleInputChange(e.target.value)}
+                  style={{
+                    width: 400,
+                    marginLeft: 10
+                  }}
+                  value={response}
+                  autoSize
+                />
+              </Space>
+            </Radio.Group>
+          </div>
         </div>
       </div>
     </Container>
   );
 };
 
-AhpIdForm.craft = {
+AhpIdFormConfirmation.craft = {
   props: {
     bgColor: '#ffffff',
     padding: 0
   }
 };
 
-export { AhpIdForm, AhpIdFormTop };
+export { AhpIdFormConfirmation, AhpIdFormConfirmationTop };

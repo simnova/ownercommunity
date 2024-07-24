@@ -64,7 +64,7 @@ export class CommunityBlobApiImpl
       if (!passport.domainVisa.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
         return;
       }
-      await blobStorage.deleteBlob(communityId, blobName);
+      await blobStorage.deleteBlob(blobName, communityId);
     });
   }
 

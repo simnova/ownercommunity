@@ -17,17 +17,14 @@ mutation AhpIdFormCommunityPublicFileCreateAuthHeader($input: CommunityBlobFileI
       success
       errorMessage
     }
-    community {
-      files {
-        name
-        size
-        type
-        url
-      }
+  }
+}
 
-      id
-      createdAt
-      updatedAt
-    }
+mutation AhpIdFormCommunityPublicFileRemove($input: CommunityPublicFileRemoveInput!) {
+  communityPublicFileRemove(input: $input) {
+    status {
+      success
+      errorMessage
+    }   
   }
 }

@@ -62,6 +62,10 @@ export const Toolbox: React.FC<any> = () => {
           {
             name: 'AhpIdForm',
             component: <CmsComponents.AhpIdForm />
+          },
+          {
+            name: 'AhpIdFormConfirmation',
+            component: <CmsComponents.AhpIdFormConfirmation />
           }
         ]
       },

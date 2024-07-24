@@ -5,7 +5,6 @@ import {
   MutationMemberAddPaymentInstrumentDocument,
   SharedPaymentContainercybersourcePublicKeyIdDocument
 } from '../../../../generated';
-import { message } from 'antd';
 
 export interface TokenOptions {
   expirationMonth: string;

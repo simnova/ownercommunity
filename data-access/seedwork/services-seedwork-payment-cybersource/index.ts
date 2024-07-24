@@ -10,6 +10,7 @@ import {
   CustomerPaymentInstrumentResponse,
   RefundPaymentResponse,
   PaymentTokenInfo,
+  PaymentInstrumentInfo,
   TransactionSearchResponse,
 } from '../services-seedwork-payment-cybersource-interfaces';
 
@@ -162,13 +163,13 @@ export class Cybersource implements CybersourceBase {
     tokenInformationObj.paymentInstrument = new cybersource.Ptsv2paymentsTokenInformationPaymentInstrument();
 
     // Ensure paymentTokenInfo and its properties are not null or undefined
-    if (paymentTokenInfo && paymentTokenInfo.paymentToken && typeof paymentTokenInfo.isDefault !== 'undefined') {
+    if (paymentTokenInfo?.paymentToken && typeof paymentTokenInfo?.isDefault !== 'undefined') {
       tokenInformationObj.transientTokenJwt = paymentTokenInfo.paymentToken;
       tokenInformationObj.paymentInstrument.default = paymentTokenInfo.isDefault; // Set the default payment instrument
     } else {
       // Handle the case where paymentTokenInfo or its properties are null or undefined
-console.error('Error: paymentTokenInfo or its required properties are null or undefined');
-throw new Error('paymentTokenInfo or its required properties are null or undefined');
+      console.error('Error: paymentTokenInfo or its required properties are null or undefined');
+      throw new Error('paymentTokenInfo or its required properties are null or undefined');
     }
 
     // create a new CreatePaymentRequest object
@@ -258,7 +259,7 @@ throw new Error('paymentTokenInfo or its required properties are null or undefin
     tokenInformation.paymentInstrument = new cybersource.Ptsv2paymentsTokenInformationPaymentInstrument();
 
     // Ensure paymentTokenInfo and its properties are not null or undefined
-    if (paymentTokenInfo && paymentTokenInfo.paymentToken && typeof paymentTokenInfo.isDefault !== 'undefined') {
+    if (paymentTokenInfo?.paymentToken && typeof paymentTokenInfo?.isDefault !== 'undefined') {
       tokenInformation.transientTokenJwt = paymentTokenInfo.paymentToken;
       tokenInformation.paymentInstrument.default = paymentTokenInfo.isDefault; // Set the default payment instrument
     } else {
@@ -378,7 +379,7 @@ throw new Error('paymentTokenInfo or its required properties are null or undefin
     let defaultPaymentInstrument = new cybersource.Tmsv2customersDefaultPaymentInstrument();
     defaultPaymentInstrument.id = paymentInstrumentId;
 
-    var customerUpdateRequest = new cybersource.PatchCustomerRequest();
+    let customerUpdateRequest = new cybersource.PatchCustomerRequest();
     customerUpdateRequest.defaultPaymentInstrument = defaultPaymentInstrument;
 
     return new Promise((resolve, reject) => {
@@ -387,6 +388,57 @@ throw new Error('paymentTokenInfo or its required properties are null or undefin
           resolve(data as CustomerPaymentResponse);
         } else {
           reject(new Error(error.message || 'Unknown error occurred in setting default customer payment instrument'));
+        }
+      });
+    });
+  }
+
+  /**
+   * Update a customer payment instrument in the Cybersource API
+   * @param {CustomerProfile} customerProfile The customer profile to be used for the payment instrument
+   * @param {PaymentInstrumentInfo} paymentInstrumentInfo The payment instrument information to be used for the payment instrument
+   * @returns {Promise<CustomerPaymentInstrumentResponse>} The response from the Cybersource API
+   * @throws {Error} If an error occurs in updating the customer payment instrument
+   * full details: https://developer.cybersource.com/api-reference-assets/index.html#token-management_customer-payment-instrument_update-a-customer-payment-instrument
+   * */
+  async updateCustomerPaymentInstrument(customerProfile: CustomerProfile, paymentInstrumentInfo: PaymentInstrumentInfo): Promise<CustomerPaymentInstrumentResponse> {
+    let options: { [key: string]: any } = {};
+    const instance = new cybersource.PaymentInstrumentApi(this._configObject, this._cybersourceClient);
+
+    let patchCustomerPaymentInstrumentRequest = new cybersource.PatchPaymentInstrumentRequest();
+
+    // create a card object
+    const card = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentCard();
+    card.expirationMonth = paymentInstrumentInfo.cardExpirationMonth;
+    card.expirationYear = paymentInstrumentInfo.cardExpirationYear;
+    card.type = paymentInstrumentInfo.cardType;
+    patchCustomerPaymentInstrumentRequest.card = card;
+
+    // create a billTo object
+    const billTo = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentBillTo();
+    billTo.firstName = customerProfile.billingFirstName;
+    billTo.lastName = customerProfile.billingLastName;
+    billTo.email = customerProfile.billingEmail;
+    billTo.phoneNumber = customerProfile.billingPhone;
+    billTo.address1 = customerProfile.billingAddressLine1;
+    billTo.address2 = customerProfile.billingAddressLine2;
+    billTo.locality = customerProfile.billingCity;
+    billTo.administrativeArea = customerProfile.billingState;
+    billTo.postalCode = customerProfile.billingPostalCode;
+    billTo.country = customerProfile.billingCountry;
+    patchCustomerPaymentInstrumentRequest.billTo = billTo;
+
+    // create an instrumentIdentifier object
+    const paymentInstrumentIdentifier = new cybersource.Tmsv2customersEmbeddedDefaultPaymentInstrumentInstrumentIdentifier();
+    paymentInstrumentIdentifier.id = paymentInstrumentInfo.id;
+    patchCustomerPaymentInstrumentRequest.instrumentIdentifier = paymentInstrumentIdentifier;
+
+    return new Promise((resolve, reject) => {
+      instance.patchPaymentInstrument(paymentInstrumentInfo.paymentInstrumentId, patchCustomerPaymentInstrumentRequest, options, function (error, data, response) {
+        if (!error) {
+          resolve(data as CustomerPaymentInstrumentResponse);
+        } else {
+          reject(new Error(error.message || 'Unknown error occurred in updating customer payment instrument'));
         }
       });
     });

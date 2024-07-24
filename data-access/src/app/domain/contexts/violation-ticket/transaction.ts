@@ -81,10 +81,23 @@ export class Transaction extends Entity<TransactionProps> implements Transaction
     this.props.clientReferenceCode = clientReferenceCode.valueOf();
   }
 
-  set AmountDetails(amountDetails: ValueObjects.AmountDetails) {
-    this.props.amountDetails = amountDetails.valueOf();
+  // set AmountDetails(amountDetails: ValueObjects.AmountDetails) {
+  //   this.props.amountDetails.amount = amountDetails.amount.valueOf();
+  //   this.props.amountDetails.authorizedAmount = amountDetails.authorizedAmount.valueOf();
+  //   this.props.amountDetails.currency = amountDetails.currency.valueOf();
+  // }
+
+  set Amount(amount: ValueObjects.AmountDetails["amount"]) {
+    this.props.amountDetails.amount = amount.valueOf();
   }
 
+  set AuthorizedAmount(authorizedAmount: ValueObjects.AmountDetails["authorizedAmount"]) {
+    this.props.amountDetails.authorizedAmount = authorizedAmount.valueOf();
+  }
+
+  set Currency(currency: ValueObjects.AmountDetails["currency"]) {
+    this.props.amountDetails.currency = currency.valueOf();
+  }
   set Description(description: ValueObjects.Description) {
     this.props.description = description.valueOf();
   }
@@ -113,9 +126,15 @@ export class Transaction extends Entity<TransactionProps> implements Transaction
     this.props.successTimestamp = successTimestamp;
   }
 
-  set Error(error: ValueObjects.Error) {
-    this.props.error.timestamp = error.timestamp;
-    this.props.error.code = error.code.valueOf();
-    this.props.error.message = error.message.valueOf();
+  set ErrorTimestamp(errorTimestamp: Date) {
+    this.props.error.timestamp = errorTimestamp; 
+  }
+
+  set ErrorCode(errorCode: ValueObjects.Error['code']) {
+    this.props.error.code = errorCode.valueOf();  
+  }
+
+  set ErrorMessage(errorMessage: ValueObjects.Error['message']) {
+    this.props.error.message = errorMessage.valueOf();
   }
 }

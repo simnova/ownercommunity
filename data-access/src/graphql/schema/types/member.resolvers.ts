@@ -131,7 +131,7 @@ const member: Resolvers = {
         cybersourceCustomerId = await context.applicationServices.paymentApi.createCybersouceCustomer(input);
         console.log('createCybersouceCustomerResponse', cybersourceCustomerId);
         if (cybersourceCustomerId) {
-          return await MemberMutationResolver(context.applicationServices.memberDomainApi.memberAddWallet(member.id, cybersourceCustomerId));
+          return await MemberMutationResolver(context.applicationServices.memberDomainApi.memberUpdate({id: member.id, cybersourceCustomerId}));
         }
       }
 

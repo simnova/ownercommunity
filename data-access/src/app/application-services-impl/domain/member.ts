@@ -47,6 +47,7 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     }
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.id);
+      member.CyberSourceCustomerId = input?.cybersourceCustomerId;
       if (input.memberName !== undefined) member.MemberName = input.memberName;
       if (roleDo !== undefined) member.Role = roleDo;
       if (input.customViews !== undefined) {
@@ -154,16 +155,6 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
       profile.ShowLocation = input.profile.showLocation;
       profile.ShowProfile = input.profile.showProfile;
       profile.ShowProperties = input.profile.showProperties;
-      memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
-    });
-    return memberToReturn;
-  }
-
-  async memberAddWallet(memberId: string, customerId: string): Promise<MemberData> {
-    let memberToReturn: MemberData;
-    await this.withTransaction(async (repo) => {
-      let member = await repo.getById(memberId);
-      member.CyberSourceCustomerId = customerId;
       memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;

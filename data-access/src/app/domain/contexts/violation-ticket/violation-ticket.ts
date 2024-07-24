@@ -6,7 +6,7 @@ import { Service, ServiceEntityReference, ServiceProps } from '../service-ticket
 import { AggregateRoot } from '../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../domain-execution-context';
 import * as ActivityDetailValueObjects from '../service-ticket/activity-detail.value-objects';
-import * as ValueObjects from '../service-ticket/service-ticket.value-objects';
+import * as ValueObjects from './violation-ticket.value-objects';
 import { PropArray } from '../../../../../seedwork/domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from '../service-ticket/activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from '../service-ticket/photo';
@@ -17,6 +17,7 @@ import { ViolationTicketCreatedEvent } from '../../events/types/violation-ticket
 import { ViolationTicketUpdateInput } from '../../../external-dependencies/graphql-api';
 import dayjs from 'dayjs';
 import { Transaction, TransactionProps } from './transaction';
+import { PenaltyAmount } from './violation-ticket.value-objects';
 
 export interface ViolationTicketProps extends EntityProps {
   readonly community: CommunityProps;
@@ -188,7 +189,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     [ValueObjects.StatusCodes.Submitted, [ValueObjects.StatusCodes.Draft, ValueObjects.StatusCodes.Assigned]],
     [ValueObjects.StatusCodes.Assigned, [ValueObjects.StatusCodes.Submitted, ValueObjects.StatusCodes.Paid]],
     [ValueObjects.StatusCodes.Paid, [ValueObjects.StatusCodes.Assigned, ValueObjects.StatusCodes.Closed]],
-    [ValueObjects.StatusCodes.Closed, [ValueObjects.StatusCodes.InProgress]],
+    [ValueObjects.StatusCodes.Closed, [ValueObjects.StatusCodes.Assigned]],
   ]);
   private readonly statusMappings = new Map<string, string>([
     [ValueObjects.StatusCodes.Draft, ActivityDetailValueObjects.ActivityTypeCodes.Created],
@@ -269,21 +270,21 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     this.props.description = new ValueObjects.Description(description).valueOf();
   }
 
-  set Status(statusCode: ValueObjects.StatusCode) {
+  set Status(statusCode: string) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount)) {
       throw new Error('Unauthorized5');
     }
-    this.props.status = statusCode.valueOf();
+    this.props.status = new ValueObjects.StatusCode(statusCode).valueOf();
   }
 
-  set Priority(priority: ValueObjects.Priority) {
+  set Priority(priority: number) {
     if (
       !this.isNew &&
       !this.visa.determineIf((permissions) => permissions.isSystemAccount || (permissions.canCreateTickets && permissions.isEditingOwnTicket) || permissions.canManageTickets)
     ) {
       throw new Error('Unauthorized6');
     }
-    this.props.priority = priority.valueOf();
+    this.props.priority = new ValueObjects.Priority(priority).valueOf();
   }
 
   set Hash(hash: string) {
@@ -344,7 +345,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     ) {
       throw new Error('Unauthorized3b');
     }
-    this.props.penaltyAmount = penaltyAmount;
+    this.props.penaltyAmount = new ValueObjects.PenaltyAmount(penaltyAmount).valueOf();
   }
 
   set PenaltyPaidDate(penaltyPaidDate: Date) {
@@ -407,16 +408,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
   }
 
   public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
-    let penaltyPaidDateLog = null;
-    let newPenaltyPaidDate = incomingPayload.penaltyPaidDate ? incomingPayload.penaltyPaidDate : '';
-    let oldPenaltyPaidDate = this.penaltyPaidDate ? this.penaltyPaidDate : '';
     let activityMessage: string = `${this.requestor.memberName} made field changes: | `;
-    if (newPenaltyPaidDate && newPenaltyPaidDate !== oldPenaltyPaidDate && !oldPenaltyPaidDate) {
-      penaltyPaidDateLog = `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate).toISOString()}`;
-    }
-    if (newPenaltyPaidDate && newPenaltyPaidDate !== oldPenaltyPaidDate && oldPenaltyPaidDate) {
-      penaltyPaidDateLog = `Penalty paid date: %n ${dayjs(incomingPayload.penaltyPaidDate).toISOString()} %o ${dayjs(this.penaltyPaidDate).toISOString()}`;
-    }
     const updateLogMessages = {
       title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} %o ${this.title}` : null,
       description:
@@ -425,7 +417,6 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
         incomingPayload.penaltyAmount && incomingPayload.penaltyAmount !== this.penaltyAmount
           ? `Penalty amount: %n $${incomingPayload.penaltyAmount} %o $${this.penaltyAmount}`
           : null,
-      penaltyPaidDate: penaltyPaidDateLog,
       priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority: %n ${incomingPayload.priority} %o ${this.priority}` : null,
       property: incomingPayload.propertyId && incomingPayload.propertyId !== this.property.id ? `Property: %n ${propertyDo?.propertyName}` : null,
     };

@@ -567,6 +567,7 @@ export type MemberProfileUpdateInput = {
 
 export type MemberUpdateInput = {
   customViews?: InputMaybe<Array<InputMaybe<CustomViewInput>>>;
+  cybersourceCustomerId?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   memberName?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Scalars['ObjectID']>;
@@ -642,6 +643,7 @@ export type Mutation = {
   violationTicketChangeStatus: ViolationTicketMutationResult;
   violationTicketCreate: ViolationTicketMutationResult;
   violationTicketDelete: ViolationTicketMutationResult;
+  violationTicketProcessPayment: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
 };
 
@@ -866,6 +868,11 @@ export type MutationViolationTicketDeleteArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketProcessPaymentArgs = {
+  input: ViolationTicketProcessPaymentInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationViolationTicketUpdateArgs = {
   input: ViolationTicketUpdateInput;
 };
@@ -894,6 +901,13 @@ export type PaymentInstrumentResult = {
   status: MutationStatus;
 };
 
+export type PaymentTransactionError = {
+  __typename?: 'PaymentTransactionError';
+  code?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  timestamp?: Maybe<Scalars['DateTime']>;
+};
+
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
@@ -910,12 +924,6 @@ export type Point = {
 export type PointInput = {
   coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
   type?: InputMaybe<Scalars['String']>;
-};
-
-export type ProcessPaymentInput = {
-  paymentAmount: Scalars['Float'];
-  paymentInstrumentId: Scalars['String'];
-  violationTicketId: Scalars['ObjectID'];
 };
 
 export type PropertiesSearchInput = {
@@ -1475,6 +1483,7 @@ export type Transaction = {
   __typename?: 'Transaction';
   amountDetails?: Maybe<AmountDetails>;
   clientReferenceCode?: Maybe<Scalars['String']>;
+  error?: Maybe<PaymentTransactionError>;
   id: Scalars['ObjectID'];
   isSuccess?: Maybe<Scalars['Boolean']>;
   reconciliationId?: Maybe<Scalars['String']>;
@@ -1518,6 +1527,7 @@ export type ViolationTicket = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  paymentTransactions?: Maybe<Array<Maybe<Transaction>>>;
   penaltyAmount?: Maybe<Scalars['Float']>;
   penaltyPaidDate?: Maybe<Scalars['DateTime']>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
@@ -1581,23 +1591,20 @@ export type ViolationTicketPermissionsInput = {
   canWorkOnTickets: Scalars['Boolean'];
 };
 
+export type ViolationTicketProcessPaymentInput = {
+  paymentAmount: Scalars['Float'];
+  paymentInstrumentId: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
+};
+
 export type ViolationTicketUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
   penaltyAmount?: InputMaybe<Scalars['Float']>;
-  penaltyPaidDate?: InputMaybe<Scalars['DateTime']>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
-};
-
-export type Wallet = {
-  __typename?: 'Wallet';
-  /** Unique identifier for the customer */
-  customerId?: Maybe<Scalars['String']>;
-  /** List of transactions associated with the customer */
-  transactions?: Maybe<Array<Maybe<Transaction>>>;
 };
 
 export type CommunityCreateContainerMutationCommunityCreateMutationVariables = Exact<{

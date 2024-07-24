@@ -74,6 +74,9 @@ const serviceTicket: Resolvers = {
     violationTicketAddUpdateActivity: async (_, { input }, { applicationServices }) => {
       return  ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketAddUpdateActivity(input));
     },
+    violationTicketProcessPayment: async (_, { input }, { applicationServices }) => {
+      return ViolationTicketMutationResolver(applicationServices.violationTicketDomainApi.violationTicketProcessPayment(input));
+    }
   },
 };
 

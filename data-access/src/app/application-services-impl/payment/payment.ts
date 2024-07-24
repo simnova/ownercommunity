@@ -8,8 +8,18 @@ import {
   CustomerPaymentResponse,
   CustomerProfile,
   PaymentTokenInfo,
+  PaymentTransactionResponse
 } from '../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
+import { TransactionProps } from '../../domain/contexts/violation-ticket/transaction';
 
+export interface ProcessPaymentParams {
+  id: string;
+  clientReferenceCode: string;
+  paymentInstrumentId: string;
+  amount: number;
+  type: string;
+  description: string;
+}
 export class PaymentApiImpl extends PaymentDataSource<AppContext> implements PaymentApi {
   public async generatePublicKey(): Promise<string> {
     let key: string = '';
@@ -82,5 +92,43 @@ export class PaymentApiImpl extends PaymentDataSource<AppContext> implements Pay
       response = await cybersource.deleteCustomerPaymentInstrument(customerId, paymentInstrumentId);
     });
     return response;
+  }
+
+  public async processPayment(processPaymentParams: ProcessPaymentParams): Promise<TransactionProps> {
+    let response: PaymentTransactionResponse = null;
+    let paymentTransaction : TransactionProps = null;
+    let paymentTransactionError: any = null;
+    try {
+      await this.withCybersource(async (_passport, cybersource: Cybersource) => {
+        response = await cybersource.processPayment(processPaymentParams.clientReferenceCode, processPaymentParams.paymentInstrumentId, processPaymentParams.amount);
+      });
+    } catch (error) {
+      paymentTransactionError = error;
+    }
+
+    paymentTransaction = {
+      id: processPaymentParams.id,
+      type: processPaymentParams.type,
+      description: processPaymentParams.description,
+      transactionId: response?.id,
+      status: response?.status,
+      clientReferenceCode: response?.clientReferenceInformation?.code,
+      amountDetails: {
+        amount: parseFloat(response?.orderInformation?.amountDetails?.totalAmount),
+        authorizedAmount: parseFloat(response?.orderInformation?.amountDetails?.authorizedAmount),
+        currency: response?.orderInformation?.amountDetails?.currency,
+      },
+      reconciliationId: response?.reconciliationId,
+      isSuccess: response?.status === 'AUTHORIZED',
+      transactionTime: paymentTransactionError ? null : new Date(response?.submitTimeUtc),
+      successTimestamp: new Date(),
+      error: paymentTransactionError ? {
+        code: paymentTransactionError?.code,
+        message: paymentTransactionError?.message,
+        timestamp: new Date(),
+      } : null,
+    };
+
+    return paymentTransaction;
   }
 }

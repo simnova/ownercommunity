@@ -569,6 +569,7 @@ export type MemberProfileUpdateInput = {
 
 export type MemberUpdateInput = {
   customViews?: InputMaybe<Array<InputMaybe<CustomViewInput>>>;
+  cybersourceCustomerId?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   memberName?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Scalars['ObjectID']>;
@@ -644,6 +645,7 @@ export type Mutation = {
   violationTicketChangeStatus: ViolationTicketMutationResult;
   violationTicketCreate: ViolationTicketMutationResult;
   violationTicketDelete: ViolationTicketMutationResult;
+  violationTicketProcessPayment: ViolationTicketMutationResult;
   violationTicketUpdate: ViolationTicketMutationResult;
 };
 
@@ -868,6 +870,11 @@ export type MutationViolationTicketDeleteArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketProcessPaymentArgs = {
+  input: ViolationTicketProcessPaymentInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationViolationTicketUpdateArgs = {
   input: ViolationTicketUpdateInput;
 };
@@ -896,6 +903,13 @@ export type PaymentInstrumentResult = {
   status: MutationStatus;
 };
 
+export type PaymentTransactionError = {
+  __typename?: 'PaymentTransactionError';
+  code?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  timestamp?: Maybe<Scalars['DateTime']>;
+};
+
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
@@ -912,12 +926,6 @@ export type Point = {
 export type PointInput = {
   coordinates?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
   type?: InputMaybe<Scalars['String']>;
-};
-
-export type ProcessPaymentInput = {
-  paymentAmount: Scalars['Float'];
-  paymentInstrumentId: Scalars['String'];
-  violationTicketId: Scalars['ObjectID'];
 };
 
 export type PropertiesSearchInput = {
@@ -1477,6 +1485,7 @@ export type Transaction = {
   __typename?: 'Transaction';
   amountDetails?: Maybe<AmountDetails>;
   clientReferenceCode?: Maybe<Scalars['String']>;
+  error?: Maybe<PaymentTransactionError>;
   id: Scalars['ObjectID'];
   isSuccess?: Maybe<Scalars['Boolean']>;
   reconciliationId?: Maybe<Scalars['String']>;
@@ -1520,6 +1529,7 @@ export type ViolationTicket = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  paymentTransactions?: Maybe<Array<Maybe<Transaction>>>;
   penaltyAmount?: Maybe<Scalars['Float']>;
   penaltyPaidDate?: Maybe<Scalars['DateTime']>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
@@ -1583,23 +1593,20 @@ export type ViolationTicketPermissionsInput = {
   canWorkOnTickets: Scalars['Boolean'];
 };
 
+export type ViolationTicketProcessPaymentInput = {
+  paymentAmount: Scalars['Float'];
+  paymentInstrumentId: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
+};
+
 export type ViolationTicketUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
   penaltyAmount?: InputMaybe<Scalars['Float']>;
-  penaltyPaidDate?: InputMaybe<Scalars['DateTime']>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
-};
-
-export type Wallet = {
-  __typename?: 'Wallet';
-  /** Unique identifier for the customer */
-  customerId?: Maybe<Scalars['String']>;
-  /** List of transactions associated with the customer */
-  transactions?: Maybe<Array<Maybe<Transaction>>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -1807,6 +1814,7 @@ export type ResolversTypes = ResolversObject<{
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
   PaymentInstrument: ResolverTypeWrapper<PaymentInstrument>;
   PaymentInstrumentResult: ResolverTypeWrapper<PaymentInstrumentResult>;
+  PaymentTransactionError: ResolverTypeWrapper<PaymentTransactionError>;
   PermissionsInput: PermissionsInput;
   PhoneNumber: ResolverTypeWrapper<Scalars['PhoneNumber']>;
   Point: ResolverTypeWrapper<Point>;
@@ -1815,7 +1823,6 @@ export type ResolversTypes = ResolversObject<{
   PositiveFloat: ResolverTypeWrapper<Scalars['PositiveFloat']>;
   PositiveInt: ResolverTypeWrapper<Scalars['PositiveInt']>;
   PostalCode: ResolverTypeWrapper<Scalars['PostalCode']>;
-  ProcessPaymentInput: ProcessPaymentInput;
   PropertiesSearchInput: PropertiesSearchInput;
   PropertiesSearchOptions: PropertiesSearchOptions;
   Property: ResolverTypeWrapper<Property>;
@@ -1896,9 +1903,9 @@ export type ResolversTypes = ResolversObject<{
   ViolationTicketMutationResult: ResolverTypeWrapper<ViolationTicketMutationResult>;
   ViolationTicketPermissions: ResolverTypeWrapper<ViolationTicketPermissions>;
   ViolationTicketPermissionsInput: ViolationTicketPermissionsInput;
+  ViolationTicketProcessPaymentInput: ViolationTicketProcessPaymentInput;
   ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
-  Wallet: ResolverTypeWrapper<Wallet>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -2035,6 +2042,7 @@ export type ResolversParentTypes = ResolversObject<{
   ObjectID: Scalars['ObjectID'];
   PaymentInstrument: PaymentInstrument;
   PaymentInstrumentResult: PaymentInstrumentResult;
+  PaymentTransactionError: PaymentTransactionError;
   PermissionsInput: PermissionsInput;
   PhoneNumber: Scalars['PhoneNumber'];
   Point: Point;
@@ -2043,7 +2051,6 @@ export type ResolversParentTypes = ResolversObject<{
   PositiveFloat: Scalars['PositiveFloat'];
   PositiveInt: Scalars['PositiveInt'];
   PostalCode: Scalars['PostalCode'];
-  ProcessPaymentInput: ProcessPaymentInput;
   PropertiesSearchInput: PropertiesSearchInput;
   PropertiesSearchOptions: PropertiesSearchOptions;
   Property: Property;
@@ -2124,9 +2131,9 @@ export type ResolversParentTypes = ResolversObject<{
   ViolationTicketMutationResult: ViolationTicketMutationResult;
   ViolationTicketPermissions: ViolationTicketPermissions;
   ViolationTicketPermissionsInput: ViolationTicketPermissionsInput;
+  ViolationTicketProcessPaymentInput: ViolationTicketProcessPaymentInput;
   ViolationTicketUpdateInput: ViolationTicketUpdateInput;
   Void: Scalars['Void'];
-  Wallet: Wallet;
 }>;
 
 export type CacheControl22DirectiveArgs = {
@@ -2737,6 +2744,12 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   >;
   violationTicketCreate?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketCreateArgs, 'input'>>;
   violationTicketDelete?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketDeleteArgs, 'input'>>;
+  violationTicketProcessPayment?: Resolver<
+    ResolversTypes['ViolationTicketMutationResult'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationViolationTicketProcessPaymentArgs, 'input'>
+  >;
   violationTicketUpdate?: Resolver<ResolversTypes['ViolationTicketMutationResult'], ParentType, ContextType, RequireFields<MutationViolationTicketUpdateArgs, 'input'>>;
 }>;
 
@@ -2818,6 +2831,16 @@ export type PaymentInstrumentResultResolvers<
 > = ResolversObject<{
   paymentInstruments?: Resolver<Maybe<Array<Maybe<ResolversTypes['PaymentInstrument']>>>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PaymentTransactionErrorResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['PaymentTransactionError'] = ResolversParentTypes['PaymentTransactionError'],
+> = ResolversObject<{
+  code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  timestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -3236,6 +3259,7 @@ export type TransactionResolvers<
 > = ResolversObject<{
   amountDetails?: Resolver<Maybe<ResolversTypes['AmountDetails']>, ParentType, ContextType>;
   clientReferenceCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['PaymentTransactionError']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   isSuccess?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   reconciliationId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -3301,6 +3325,7 @@ export type ViolationTicketResolvers<
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  paymentTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType>;
   penaltyAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   penaltyPaidDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketPhoto']>>>, ParentType, ContextType>;
@@ -3339,12 +3364,6 @@ export type ViolationTicketPermissionsResolvers<
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void';
 }
-
-export type WalletResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Wallet'] = ResolversParentTypes['Wallet']> = ResolversObject<{
-  customerId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  transactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
 
 export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   AccountNumber?: GraphQLScalarType;
@@ -3426,6 +3445,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   ObjectID?: GraphQLScalarType;
   PaymentInstrument?: PaymentInstrumentResolvers<ContextType>;
   PaymentInstrumentResult?: PaymentInstrumentResultResolvers<ContextType>;
+  PaymentTransactionError?: PaymentTransactionErrorResolvers<ContextType>;
   PhoneNumber?: GraphQLScalarType;
   Point?: PointResolvers<ContextType>;
   Port?: GraphQLScalarType;
@@ -3476,7 +3496,6 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   ViolationTicketMutationResult?: ViolationTicketMutationResultResolvers<ContextType>;
   ViolationTicketPermissions?: ViolationTicketPermissionsResolvers<ContextType>;
   Void?: GraphQLScalarType;
-  Wallet?: WalletResolvers<ContextType>;
 }>;
 
 export type DirectiveResolvers<ContextType = GraphqlContext> = ResolversObject<{

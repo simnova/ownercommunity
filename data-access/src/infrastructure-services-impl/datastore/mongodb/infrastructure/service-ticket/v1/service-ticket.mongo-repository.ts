@@ -5,7 +5,7 @@ import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seed
 import { DomainExecutionContext } from '../../../../../../app/domain/contexts/domain-execution-context';
 import { MemberEntityReference } from '../../../../../../app/domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
-import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property';
+import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property/property';
 
 export class MongoServiceTicketV1Repository<PropType extends ServiceTicketV1Props>
   extends MongoRepositoryBase<DomainExecutionContext, ServiceTicket, PropType, ServiceTicketDO<PropType>>

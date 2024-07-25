@@ -4,8 +4,8 @@ import { ReadOnlyMemoryStore } from '../../../seedwork/services-seedwork-datasto
 import { BaseDomainExecutionContext } from '../../../seedwork/domain-seedwork/base-domain-execution-context';
 import { CommunityRepository } from '../../../src/app/domain/contexts/community/community/community.repository';
 import { CommunityEntityReference, CommunityProps } from '../../../src/app/domain/contexts/community/community/community';
-import { UserRepository } from '../../../src/app/domain/contexts/user/user.repository';
-import { UserEntityReference, UserProps } from '../../../src/app/domain/contexts/user/user';
+import { UserRepository } from '../../../src/app/domain/contexts/user/user/user.repository';
+import { UserEntityReference, UserProps } from '../../../src/app/domain/contexts/user/user/user';
 import { RoleRepository } from '../../../src/app/domain/contexts/community/role/role.repository';
 import { RoleProps } from '../../../src/app/domain/contexts/community/role/role';
 import { MemberRepository } from '../../../src/app/domain/contexts/community/member/member.repository';
@@ -15,14 +15,14 @@ import { DomainExecutionContext } from '../../../src/app/domain/contexts/domain-
 import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
 import { DomainImplBDD } from './io/test/domain-impl-bdd';
 import { ReadOnlyContext, SystemExecutionContext } from '../../../src/app/domain/contexts/domain-execution-context';
-import { DomainVisaImpl } from '../../../src/app/domain/contexts/iam/domain-visa';
+import { DomainVisaImpl } from '../../../src/app/domain/contexts/domain-visa';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
 import { NotepadType } from '../../actors';
 import { MemoryCognitiveSearchImpl } from '../../../src/infrastructure-services-impl/cognitive-search/in-memory/impl';
-import { PropertyRepository } from '../../../src/app/domain/contexts/property/property.repository';
-import { PropertyProps } from '../../../src/app/domain/contexts/property/property';
+import { PropertyRepository } from '../../../src/app/domain/contexts/property/property/property.repository';
+import { PropertyProps } from '../../../src/app/domain/contexts/property/property/property';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { MemorydbDatastoreImpl } from '../../../src/infrastructure-services-impl/datastore/memorydb/impl';
 import { ServiceTicketV1Repository } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';

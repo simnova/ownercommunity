@@ -1,7 +1,7 @@
 import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
-import { ViolationTicketVisa } from '../../../iam/domain-visa/violation-ticket-visa';
 import * as ValueObjects from './transaction.value-objects';
+import { ViolationTicketV1Visa } from './violation-ticket.visa';
 
 export interface TransactionProps extends EntityProps {
   transactionId: string;
@@ -28,7 +28,7 @@ export interface TransactionProps extends EntityProps {
 export interface TransactionReference extends Readonly<TransactionProps> {}
 
 export class Transaction extends Entity<TransactionProps> implements TransactionReference {
-  constructor(props: TransactionProps, private context: DomainExecutionContext, visa: ViolationTicketVisa) {
+  constructor(props: TransactionProps, private context: DomainExecutionContext, visa: ViolationTicketV1Visa) {
     super(props);
   }
 

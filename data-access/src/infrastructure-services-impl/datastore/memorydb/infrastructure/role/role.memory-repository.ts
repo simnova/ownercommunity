@@ -1,5 +1,5 @@
 import { CommunityEntityReference, CommunityProps } from "../../../../../app/domain/contexts/community/community/community";
-import { PermissionsProps } from "../../../../../app/domain/contexts/community/permissions";
+import { PermissionsProps } from "../../../../../app/domain/contexts/community/role/permissions";
 import { Role, RoleProps } from "../../../../../app/domain/contexts/community/role/role";
 import { RoleRepository } from "../../../../../app/domain/contexts/community/role/role.repository";
 import { DomainExecutionContext } from "../../../../../app/domain/contexts/domain-execution-context";

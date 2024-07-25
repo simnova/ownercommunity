@@ -9,7 +9,7 @@ import { MemoryCommunityRepository } from "./infrastructure/community/community.
 import { buildMemoryCommunityUnitOfWork } from "./infrastructure/community/community.memory-uow"
 // import { MemoryCommunityDatastore } from "./infrastructure/community.memory-datastore";
 // user
-import { User, UserProps } from "../../../app/domain/contexts/user/user";
+import { User, UserProps } from "../../../app/domain/contexts/user/user/user";
 import { MemoryUserRepository } from "./infrastructure/user/user.memory-repository";
 import { buildMemoryUserUnitOfWork } from "./infrastructure/user/user.memory-uow";
 // import { MemoryUserDatastore } from "./infrastructure/user.memory-datastore";
@@ -26,7 +26,7 @@ import { buildMemoryMemberUnitOfWork } from "./infrastructure/member/member.memo
 // import { MemoryMemberDatastore } from "./infrastructure/member.memory-datastore";
 
 // property
-import { Property, PropertyProps } from "../../../app/domain/contexts/property/property";
+import { Property, PropertyProps } from "../../../app/domain/contexts/property/property/property";
 import { MemoryPropertyRepository } from "./infrastructure/property/property.memory-repository";
 import { buildMemoryPropertyUnitOfWork } from "./infrastructure/property/property.memory-uow";
 // import { MemoryPropertyDatastore } from "./infrastructure/property.memory-datastore";

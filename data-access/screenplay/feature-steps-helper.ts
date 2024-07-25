@@ -1,5 +1,5 @@
 import { DomainExecutionContext } from "../src/app/domain/contexts/domain-execution-context";
-import { SystemDomainVisa } from "../src/app/domain/contexts/iam/domain-visa";
+import { SystemDomainVisa } from "../src/app/domain/contexts/domain-visa";
 
 export const generateEnumRegexFromInterface = (interfaceObj: Record<string, boolean>): RegExp => {
   const enumValues = Object.keys(interfaceObj);

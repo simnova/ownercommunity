@@ -2,7 +2,7 @@ import { DomainDataSource } from "../../data-sources/domain-data-source";
 import { CustomViewFilters, CustomViewColumnsToDisplay } from "../../domain/contexts/community/member/custom-view.value-objects";
 import { Member } from "../../domain/contexts/community/member/member";
 import { Interests } from "../../domain/contexts/community/member/profile.value-objects";
-import { ReadOnlyDomainVisa } from "../../domain/contexts/iam/domain-visa";
+import { ReadOnlyDomainVisa } from "../../domain/contexts/domain-visa";
 import { MemberData } from "../../external-dependencies/datastore";
 import { MemberDomainAdapter, CommunityConverter, MemberConverter, RoleConverter, UserConverter, MemberRepository } from "../../external-dependencies/domain";
 import { MemberAccountAddInput, MemberAccountEditInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput } from "../../external-dependencies/graphql-api";

@@ -1,7 +1,7 @@
 import { ServiceTicketV1, ServiceTicketV1Props } from './service-ticket';
 import { Repository } from '../../../../../../../seedwork/domain-seedwork/repository';
 import { CommunityEntityReference } from '../../../community/community/community';
-import { PropertyEntityReference } from '../../../property/property';
+import { PropertyEntityReference } from '../../../property/property/property';
 import { MemberEntityReference } from '../../../community/member/member';
 
 export interface ServiceTicketV1Repository<props extends ServiceTicketV1Props> extends Repository<ServiceTicketV1<props>> {

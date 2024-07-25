@@ -44,7 +44,7 @@ export class ServiceTicketV1DataApiImpl
     return (await Promise.all(serviceTickets.map((ticket) => ticket)))
       .map((ticket) => converter.toDomain(ticket, context.passport))
       .filter((ticket) => context.passport.domainVisa
-        .forServiceTicket(ticket)
+        .forServiceTicketV1(ticket)
         .determineIf(
           (permissions) => permissions.canManageTickets ||
             permissions.canAssignTickets ||

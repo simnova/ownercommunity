@@ -1,8 +1,8 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { ReadOnlyDomainVisa } from "../../domain/contexts/iam/domain-visa";
-import { BedDescriptions } from "../../domain/contexts/property/bedroom-detail.value-objects";
-import { Amenities, Images } from "../../domain/contexts/property/listing-detail.value-objects";
-import { Property } from "../../domain/contexts/property/property";
+import { ReadOnlyDomainVisa } from "../../domain/contexts/domain-visa";
+import { BedDescriptions } from "../../domain/contexts/property/property/bedroom-detail.value-objects";
+import { Amenities, Images } from "../../domain/contexts/property/property/listing-detail.value-objects";
+import { Property } from "../../domain/contexts/property/property/property";
 import { PropertyData } from "../../external-dependencies/datastore";
 import { PropertyDomainAdapter, CommunityConverter, PropertyConverter, MemberConverter, PropertyRepository } from "../../external-dependencies/domain";
 import { PropertyAddInput, PropertyAssignOwnerInput, PropertyDeleteInput, PropertyRemoveOwnerInput, PropertyUpdateInput } from "../../external-dependencies/graphql-api";

@@ -1,6 +1,6 @@
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { Member } from "../../../domain/contexts/community/member/member";
-import { ReadOnlyDomainVisa } from "../../../domain/contexts/iam/domain-visa";
+import { ReadOnlyDomainVisa } from "../../../domain/contexts/domain-visa";
 import { Service } from "../../../domain/contexts/community/service/service";
 import { ServiceTicketV1 } from "../../../domain/contexts/cases/service-ticket/v1/service-ticket";
 import { MemberData, ServiceTicketData } from "../../../external-dependencies/datastore";

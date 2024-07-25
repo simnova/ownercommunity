@@ -1,7 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Route, Routes, useMatch, useNavigate, useParams, useResolvedPath } from 'react-router-dom';
 import { AHPObjectIDRouteLayer } from '..';
-import { AHPObjectStatusRouteLayer } from '../..';
 import { PageLayoutProps } from '../../../../../shared/components/menu-component';
 import { ActiveCaseDetailsPageLayout } from './active-case-details-page-layout';
 import { ActiveCaseChatPage } from './active-case/active-case-chat-page';
@@ -25,11 +24,6 @@ export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) =>
   // redirect to (default) Chat if a case is selected
   const rootRoutePath = useResolvedPath('');
   const match = useMatch(rootRoutePath.pathname);
-  useEffect(() => {
-    if (match) {
-      navigate(AHPObjectStatusRouteLayer.Active);
-    }
-  }, [match]);
   useEffect(() => {
     if (match) {
       navigate(AHPActiveCaseDetailsLayer.Chat);

@@ -27,11 +27,11 @@ const Breadcrumbs: React.FC = () => {
   const caseStatusDropdownMenuItems: MenuProps['items'] = [
     {
       key: 'active',
-      label: <Link to="/ahp-proof-of-concepts/cases/active">Active</Link>
+      label: <Link to="cases/active">Active</Link>
     },
     {
       key: 'archived',
-      label: <Link to="/ahp-proof-of-concepts/cases/archived">Archived</Link>
+      label: <Link to="cases/archived">Archived</Link>
     }
   ];
 

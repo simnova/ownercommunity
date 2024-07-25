@@ -1,9 +1,9 @@
-import { Community as CommunityDO, CommunityProps } from '../../../../app/domain/contexts/community/community/community';
-import { CommunityRepository } from '../../../../app/domain/contexts/community/community/community.repository';
-import { Community } from '../models/community';
-import { MongoRepositoryBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
-import { UserEntityReference } from '../../../../app/domain/contexts/user/user';
+import { Community as CommunityDO, CommunityProps } from '../../../../../app/domain/contexts/community/community/community';
+import { CommunityRepository } from '../../../../../app/domain/contexts/community/community/community.repository';
+import { Community } from '../../models/community';
+import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
+import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
+import { UserEntityReference } from '../../../../../app/domain/contexts/user/user';
 
 export class MongoCommunityRepository<PropType extends CommunityProps>
   extends MongoRepositoryBase<DomainExecutionContext, Community, PropType, CommunityDO<PropType>>

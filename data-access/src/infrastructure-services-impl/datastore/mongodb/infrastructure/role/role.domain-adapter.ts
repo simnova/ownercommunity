@@ -1,17 +1,17 @@
-import { Role, Permissions, CommunityPermissions, PropertyPermissions, ServicePermissions, ServiceTicketPermissions, ViolationTicketPermissions } from '../models/role';
-import { Role as RoleDO, RoleProps } from '../../../../app/domain/contexts/community/role/role';
-import { MongooseDomainAdapter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { Role, Permissions, CommunityPermissions, PropertyPermissions, ServicePermissions, ServiceTicketPermissions, ViolationTicketPermissions } from '../../models/role';
+import { Role as RoleDO, RoleProps } from '../../../../../app/domain/contexts/community/role/role';
+import { MongooseDomainAdapter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
-import { CommunityProps } from '../../../../app/domain/contexts/community/community/community';
-import { CommunityPermissionsProps } from '../../../../app/domain/contexts/community/community-permissions';
-import { PermissionsProps } from '../../../../app/domain/contexts/community/permissions';
-import { CommunityDomainAdapter } from './community.domain-adapter';
-import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
-import { PropertyPermissionsProps } from '../../../../app/domain/contexts/community/property-permissions';
-import { ServicePermissionsProps } from '../../../../app/domain/contexts/community/service-permissions';
-import { ServiceTicketPermissionsProps } from '../../../../app/domain/contexts/community/service-ticket-permissions';
-import { ViolationTicketPermissionsProps } from '../../../../app/domain/contexts/community/violation-ticket-permissions';
+import { CommunityProps } from '../../../../../app/domain/contexts/community/community/community';
+import { CommunityPermissionsProps } from '../../../../../app/domain/contexts/community/community-permissions';
+import { PermissionsProps } from '../../../../../app/domain/contexts/community/permissions';
+import { CommunityDomainAdapter } from '../community/community.domain-adapter';
+import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
+import { PropertyPermissionsProps } from '../../../../../app/domain/contexts/community/property-permissions';
+import { ServicePermissionsProps } from '../../../../../app/domain/contexts/community/service-permissions';
+import { ServiceTicketPermissionsProps } from '../../../../../app/domain/contexts/community/service-ticket-permissions';
+import { ViolationTicketPermissionsProps } from '../../../../../app/domain/contexts/community/violation-ticket-permissions';
 
 export class RoleConverter extends MongoTypeConverter<DomainExecutionContext, Role, RoleDomainAdapter, RoleDO<RoleDomainAdapter>> {
   constructor() {

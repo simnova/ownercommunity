@@ -1,12 +1,12 @@
 import { DatastoreInfrastructureService } from "../../../app/infrastructure-services/datastore";
-import { MongoCommunityUnitOfWork } from "./infrastructure/community.mongo-uow";
-import { MongoMemberUnitOfWork } from "./infrastructure/member.mongo-uow";
-import { MongoPropertyUnitOfWork } from "./infrastructure/property.mongo-uow";
-import { MongoRoleUnitOfWork } from "./infrastructure/role.mongo-uow";
-import { MongoServiceTicketUnitOfWork } from "./infrastructure/service-ticket.uow";
-import { MongoServiceUnitOfWork } from "./infrastructure/service.uow";
-import { MongoUserUnitOfWork } from "./infrastructure/user.uow";
-import { MongoViolationTicketUnitOfWork } from "./infrastructure/violation-ticket.uow";
+import { MongoCommunityUnitOfWork } from "./infrastructure/community/community.mongo-uow";
+import { MongoMemberUnitOfWork } from "./infrastructure/member/member.mongo-uow";
+import { MongoPropertyUnitOfWork } from "./infrastructure/property/property.mongo-uow";
+import { MongoRoleUnitOfWork } from "./infrastructure/role/role.mongo-uow";
+import { MongoServiceTicketUnitOfWork } from "./infrastructure/service-ticket/v1/service-ticket.uow";
+import { MongoServiceUnitOfWork } from "./infrastructure/service/service.uow";
+import { MongoUserUnitOfWork } from "./infrastructure/user/user.uow";
+import { MongoViolationTicketUnitOfWork } from "./infrastructure/violation-ticket/v1/violation-ticket.uow";
 
 export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
 

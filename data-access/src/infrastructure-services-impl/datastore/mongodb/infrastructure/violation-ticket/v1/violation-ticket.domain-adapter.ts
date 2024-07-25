@@ -1,21 +1,21 @@
-import { ActivityDetail, Photo } from '../models/service-ticket';
-import { Transaction, ViolationTicket } from '../models/violation-ticket';
-import { ViolationTicket as ViolationTicketDO, ViolationTicketProps } from '../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
-import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
-import { CommunityEntityReference } from '../../../../app/domain/contexts/community/community/community';
-import { CommunityDomainAdapter } from './community.domain-adapter';
-import { PropertyDomainAdapter } from './property.domain-adapter';
-import { PropertyEntityReference } from '../../../../app/domain/contexts/property/property';
-import { MemberEntityReference } from '../../../../app/domain/contexts/community/member/member';
-import { MemberDomainAdapter } from './member.domain-adapter';
-import { ActivityDetailProps } from '../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
-import { PhotoProps } from '../../../../app/domain/contexts/cases/service-ticket/v1/photo';
+import { ActivityDetail, Photo } from '../../../models/service-ticket';
+import { Transaction, ViolationTicket } from '../../../models/violation-ticket';
+import { ViolationTicket as ViolationTicketDO, ViolationTicketProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { DomainExecutionContext } from '../../../../../../app/domain/contexts/domain-execution-context';
+import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
+import { CommunityDomainAdapter } from '../../community/community.domain-adapter';
+import { PropertyDomainAdapter } from '../../property/property.domain-adapter';
+import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property';
+import { MemberEntityReference } from '../../../../../../app/domain/contexts/community/member/member';
+import { MemberDomainAdapter } from '../../member/member.domain-adapter';
+import { ActivityDetailProps } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
+import { PhotoProps } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { nanoid } from 'nanoid';
-import { ServiceDomainAdapter } from './service.domain-adapter';
-import { ServiceEntityReference } from '../../../../app/domain/contexts/community/service/service';
-import { TransactionProps } from '../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
+import { ServiceDomainAdapter } from '../../service/service.domain-adapter';
+import { ServiceEntityReference } from '../../../../../../app/domain/contexts/community/service/service';
+import { TransactionProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
 
 export class ViolationTicketConverter extends MongoTypeConverter<
   DomainExecutionContext,

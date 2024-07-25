@@ -1,8 +1,8 @@
-import { User } from '../models/user';
-import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
-import { User as UserDO, UserProps } from '../../../../app/domain/contexts/user/user';
-import { MongooseDomainAdapter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { User } from '../../models/user';
+import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
+import { User as UserDO, UserProps } from '../../../../../app/domain/contexts/user/user';
+import { MongooseDomainAdapter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
 export class UserConverter extends MongoTypeConverter<DomainExecutionContext, User, UserDomainAdapter, UserDO<UserDomainAdapter>> {
   constructor() {

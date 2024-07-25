@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { ChatMessages } from './chat-messages';
 import { ChatMessager } from './chat-messager';
 import { ChatMessagesContainer } from './chat-messages.container';
 

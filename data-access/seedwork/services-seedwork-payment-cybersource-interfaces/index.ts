@@ -7,6 +7,7 @@ export interface CybersourceBase {
   getCustomerPaymentInstruments(customerId: string, offset?: number, limit?: number): Promise<CustomerPaymentInstrumentsResponse>;
   deleteCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>;
   setDefaultCustomerPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<CustomerPaymentResponse>;
+  updateCustomerPaymentInstrument(customerProfile: CustomerProfile, paymentInstrumentInfo: PaymentInstrumentInfo): Promise<CustomerPaymentInstrumentResponse>;
   processPayment(clientReferenceCode: string, paymentInstrumentId: string, amount: number): Promise<PaymentTransactionResponse>;
   refundPayment(transactionId: string, amount: number): Promise<RefundPaymentResponse>;
   voidPayment(clientReferenceCode: string, transactionId: string): Promise<PaymentTransactionResponse>;
@@ -30,6 +31,14 @@ export interface CustomerProfile {
 export interface PaymentTokenInfo {
   paymentToken: string;
   isDefault: boolean;
+}
+
+export interface PaymentInstrumentInfo {
+  id: string;
+  paymentInstrumentId: string;
+  cardType: string;
+  cardExpirationMonth: string;
+  cardExpirationYear: string;
 }
 
 export interface PaymentTransactionResponse {
@@ -89,6 +98,7 @@ export interface PaymentInstrument {
     };
   };
   id: string;
+  object: string; // 'paymentInstrument'
   default: boolean;
   state: string; // 'ACTIVE'
   card: {
@@ -109,6 +119,7 @@ export interface PaymentInstrument {
     postalCode: string;
     country: string;
     email: string;
+    phoneNumber: string;
   };
   processingInformation: {
     billPaymentProgramEnabled: boolean;
@@ -145,7 +156,7 @@ export interface PaymentInstrument {
         };
       };
       metadata: {
-        creator: string;
+        creator: string; // 'ecfmg_faimer'
       };
     };
   };

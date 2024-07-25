@@ -6,8 +6,8 @@ import { default as RegisterCommunityDomainUpdatedUpdateVercel } from '../../../
 import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from '../../../../../src/app/domain/events/handlers/community-white-label-domain-updated-update-domain-blob';
 import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from '../../../../../src/app/domain/events/handlers/property-deleted-update-search-index';
 import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from '../../../../../src/app/domain/events/handlers/property-updated-update-search-index';
-import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from '../../../../../src/app/domain/events/handlers/service-ticket-updated-update-search-index';
-import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from '../../../../../src/app/domain/events/handlers/service-ticket-deleted-update-search-index';
+import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from '../../../../../src/app/domain/events/handlers/service-ticket-v1-updated-update-search-index';
+import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from '../../../../../src/app/domain/events/handlers/service-ticket-v1-deleted-update-search-index';
 import { DatastoreDomain, DatastoreDomainInitializeable } from '../../../../../src/app/domain/infrastructure/datastore/interfaces';
 import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from '../../../../../src/app/domain/infrastructure/cognitive-search/interfaces';
 import { NodeEventBusInstance } from '../../../../../seedwork/event-bus-seedwork-node';

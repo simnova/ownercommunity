@@ -2,7 +2,6 @@ import { FC, useEffect } from 'react';
 import { Route, Routes, useMatch, useNavigate, useParams, useResolvedPath } from 'react-router-dom';
 import { AHPObjectIDRouteLayer } from '..';
 import { AHPObjectStatusRouteLayer } from '../..';
-import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../../../..';
 import { PageLayoutProps } from '../../../../../shared/components/menu-component';
 import { ActiveCaseDetailsPageLayout } from './active-case-details-page-layout';
 import { ActiveCaseChatPage } from './active-case/active-case-chat-page';
@@ -18,16 +17,19 @@ interface ActiveCaseDetailsPageProps {}
 export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) => {
   const navigate = useNavigate();
   const params = useParams();
-  const chatRoute = useResolvedPath(AHPActiveCaseDetailsLayer.Chat);
-  const applicationRoute = useResolvedPath(AHPActiveCaseDetailsLayer.Application);
-  const filesRoute = useResolvedPath(AHPActiveCaseDetailsLayer.Files);
-  const transactionsRoute = useResolvedPath(AHPActiveCaseDetailsLayer.Transactions);
-
-  const match = useMatch(
-    `/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Active}/:${AHPObjectIDRouteLayer.CaseId}`
-  );
+  const chatRoutePath = useResolvedPath(AHPActiveCaseDetailsLayer.Chat);
+  const applicationRoutePath = useResolvedPath(AHPActiveCaseDetailsLayer.Application);
+  const filesRoutePath = useResolvedPath(AHPActiveCaseDetailsLayer.Files);
+  const transactionsRoutePath = useResolvedPath(AHPActiveCaseDetailsLayer.Transactions);
 
   // redirect to (default) Chat if a case is selected
+  const rootRoutePath = useResolvedPath('');
+  const match = useMatch(rootRoutePath.pathname);
+  useEffect(() => {
+    if (match) {
+      navigate(AHPObjectStatusRouteLayer.Active);
+    }
+  }, [match]);
   useEffect(() => {
     if (match) {
       navigate(AHPActiveCaseDetailsLayer.Chat);
@@ -36,27 +38,27 @@ export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) =>
 
   const pageLayouts: PageLayoutProps[] = [
     {
-      path: chatRoute.pathname,
+      path: chatRoutePath.pathname,
       title: 'Chat',
       icon: <></>,
       id: 'ROOT'
     },
     {
-      path: applicationRoute.pathname,
+      path: applicationRoutePath.pathname,
       title: 'Application',
       icon: <></>,
       id: AHPActiveCaseDetailsLayer.Application,
       parent: 'ROOT'
     },
     {
-      path: filesRoute.pathname,
+      path: filesRoutePath.pathname,
       title: 'Files',
       icon: <></>,
       id: 'files',
       parent: 'ROOT'
     },
     {
-      path: transactionsRoute.pathname,
+      path: transactionsRoutePath.pathname,
       title: 'Transactions',
       icon: <></>,
       id: AHPActiveCaseDetailsLayer.Transactions,

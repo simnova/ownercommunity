@@ -35,8 +35,7 @@ const Breadcrumbs: React.FC = () => {
     }
   ];
 
-
-  const extraBreadcrumbItems = pathSnippets.map((snippet, index) => {
+  const breadcrumbItems = pathSnippets.map((snippet, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
 
     if (snippet === 'active' || snippet === 'archived') {
@@ -49,20 +48,12 @@ const Breadcrumbs: React.FC = () => {
       );
     }
 
-
-
     return (
       <Breadcrumb.Item key={url}>
         <Link to={url}>{breadcrumbNameMap[snippet] || snippet}</Link>
       </Breadcrumb.Item>
     );
   });
-
-  const breadcrumbItems = [
-    <Breadcrumb.Item key="home">
-      <Link to="/">Home</Link>
-    </Breadcrumb.Item>
-  ].concat(extraBreadcrumbItems);
 
   return <Breadcrumb style={{ margin: '16px 0' }}>{breadcrumbItems}</Breadcrumb>;
 };

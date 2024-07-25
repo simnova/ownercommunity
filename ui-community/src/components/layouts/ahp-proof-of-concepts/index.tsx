@@ -1,6 +1,6 @@
 import { HomeOutlined, SettingOutlined } from '@ant-design/icons';
 import { FC, useEffect } from 'react';
-import { Route, Routes, useMatch, useNavigate } from 'react-router-dom';
+import { Route, Routes, useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { PageLayoutProps } from '../shared/components/menu-component';
 import { RequestListPage } from './pages/request-list-page';
 import { AHPPOCSectionLayout } from './section-layout';
@@ -14,10 +14,16 @@ export const AHPObjectRouteLayer = {
 interface AHPProofOfConceptsProps {}
 export const AHPProofOfConcepts: FC<AHPProofOfConceptsProps> = (_props) => {
   const navigate = useNavigate();
-  const match = useMatch(`/${AHPRootRouteLayer}`);
 
 
+  const casesRoutePath  = useResolvedPath(AHPObjectRouteLayer.Cases + '/*');
+  const settingsRoutePath = useResolvedPath(AHPObjectRouteLayer.Settings);
+
+
+  
   // redirect to (default) cases if root route is accessed
+  const rootRoutePath = useResolvedPath("");
+  const match = useMatch(rootRoutePath.pathname);
   useEffect(() => {
     if (match) {
       navigate(AHPObjectRouteLayer.Cases);
@@ -26,13 +32,13 @@ export const AHPProofOfConcepts: FC<AHPProofOfConceptsProps> = (_props) => {
 
   const pageLayouts: PageLayoutProps[] = [
     {
-      path: `/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}/*`,
+      path: `${casesRoutePath.pathname}`,
       title: 'Cases',
       icon: <HomeOutlined />,
       id: 'ROOT'
     },
     {
-      path: `/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Settings}`,
+      path: `${settingsRoutePath.pathname}`,
       title: 'Settings',
       icon: <SettingOutlined />,
       id: '1',

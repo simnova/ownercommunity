@@ -6,10 +6,10 @@ import { default as RegisterCommunityDomainUpdatedUpdateVercel } from './events/
 import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from './events/handlers/community-white-label-domain-updated-update-domain-blob';
 import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from './events/handlers/property-deleted-update-search-index';
 import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './events/handlers/property-updated-update-search-index';
-import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from './events/handlers/service-ticket-updated-update-search-index';
-import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-deleted-update-search-index';
-import { default as RegisterViolationTicketUpdatedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-updated-update-search-index';
-import { default as RegisterViolationTicketDeletedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-deleted-update-search-index';
+import { default as RegisterServiceTicketV1UpdatedUpdateSearchIndexHandler } from './events/handlers/service-ticket-v1-updated-update-search-index';
+import { default as RegisterServiceTicketV1DeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-v1-deleted-update-search-index';
+import { default as RegisterViolationTicketV1UpdatedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-v1-updated-update-search-index';
+import { default as RegisterViolationTicketV1DeletedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-v1-deleted-update-search-index';
 import { DatastoreDomain, DatastoreDomainInitializeable } from './infrastructure/datastore/interfaces';
 import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from './infrastructure/cognitive-search/interfaces';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
@@ -37,10 +37,10 @@ const RegisterEventHandlers = (
   RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler(blobStorage);
   RegisterPropertyDeletedUpdateSearchIndexHandler(cognitiveSearch);
   RegisterPropertyUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.propertyUnitOfWork);
-  RegisterServiceTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketUnitOfWork);
-  RegisterServiceTicketDeletedUpdateSearchIndexHandler(cognitiveSearch);
-  RegisterViolationTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.violationTicketUnitOfWork);
-  RegisterViolationTicketDeletedUpdateSearchIndexHandler(cognitiveSearch);
+  RegisterServiceTicketV1UpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketV1UnitOfWork);
+  RegisterServiceTicketV1DeletedUpdateSearchIndexHandler(cognitiveSearch);
+  RegisterViolationTicketV1UpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.violationTicketV1UnitOfWork);
+  RegisterViolationTicketV1DeletedUpdateSearchIndexHandler(cognitiveSearch);
 };
 
 const StopEventHandlers = () => {

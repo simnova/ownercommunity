@@ -26,22 +26,21 @@ function App() {
     <RequireAuth forceLogin={false}>
       <ApolloConnection AuthenticationIdentifier="account">
         <Routes>
+          <Route path="/" element={<Accounts />} />
           <Route path="/accounts/*" element={<Accounts />} />
           <Route path="/:communityId/admin/:memberId/*" element={<Admin />} />
           <Route path="/:communityId/member/:memberId/*" element={<Members />} />
+          <Route path={`/${AHPRootRouteLayer}/*`} element={<AHPProofOfConcepts />} />
         </Routes>
       </ApolloConnection>
     </RequireAuth>
   );
-
-  const ahpProofOfConceptsSection = <AHPProofOfConcepts />;
 
   return (
     <Routes>
       <Route path="*" element={rootSection}></Route>
       <Route path="/community/*" element={communitySection} />
       <Route path="/login" element={authSection} />
-      <Route path={`/${AHPRootRouteLayer}/*`} element={ahpProofOfConceptsSection} />
     </Routes>
   );
 }

@@ -1,7 +1,7 @@
 import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../domain-execution-context';
-import { CommunityVisa } from '../../iam/domain-visa/community-visa';
-import { User, UserEntityReference, UserProps } from '../../user/user';
+import { CommunityVisa } from "../community.visa";
+import { User, UserEntityReference, UserProps } from '../../user/user/user';
 import * as ValueObjects from './account.value-objects';
 
 export interface AccountPropValues extends EntityProps {

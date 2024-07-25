@@ -1,6 +1,6 @@
 import { EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../../../community/community/community';
-import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property';
+import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property/property';
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
@@ -10,7 +10,7 @@ import * as ValueObjects from './service-ticket.value-objects';
 import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
-import { ServiceTicketVisa } from '../../../iam/domain-visa/service-ticket-visa';
+import { ServiceTicketV1Visa } from './service-ticket.visa';
 import { ServiceTicketV1CreatedEvent } from '../../../../events/types/service-ticket-v1-created';
 import { ServiceTicketV1UpdatedEvent } from '../../../../events/types/service-ticket-v1-updated';
 import { ServiceTicketV1DeletedEvent } from '../../../../events/types/service-ticket-v1-deleted';
@@ -72,10 +72,10 @@ export interface ServiceTicketV1EntityReference
 
 export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props> implements ServiceTicketV1EntityReference {
   private isNew: boolean = false;
-  private readonly visa: ServiceTicketVisa;
+  private readonly visa: ServiceTicketV1Visa;
   constructor(props: props, private context: DomainExecutionContext) {
     super(props);
-    this.visa = context.domainVisa.forServiceTicket(this);
+    this.visa = context.domainVisa.forServiceTicketV1(this);
   }
 
   public static getNewInstance<props extends ServiceTicketV1Props>(

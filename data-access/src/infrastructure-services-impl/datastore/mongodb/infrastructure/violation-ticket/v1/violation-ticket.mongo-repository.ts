@@ -4,7 +4,7 @@ import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seed
 import { DomainExecutionContext } from '../../../../../../app/domain/contexts/domain-execution-context';
 import { MemberEntityReference } from '../../../../../../app/domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
-import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property';
+import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property/property';
 import { ViolationTicketV1Repository } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
 
 export class MongoViolationTicketV1Repository<PropType extends ViolationTicketV1Props>

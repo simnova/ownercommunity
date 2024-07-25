@@ -3,7 +3,7 @@ import { Community, CommunityProps, CommunityEntityReference } from '../communit
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../../domain-execution-context';
 import * as ValueObjects from './service.value-objects';
-import { ServiceVisa } from '../../iam/domain-visa/service-visa';
+import { ServiceVisa } from './service.visa';
 
 export interface ServiceProps extends EntityProps {
   readonly community: CommunityProps;

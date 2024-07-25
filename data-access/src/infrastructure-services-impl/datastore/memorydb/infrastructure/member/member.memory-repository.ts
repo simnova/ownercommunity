@@ -6,7 +6,7 @@ import { MemberRepository } from '../../../../../app/domain/contexts/community/m
 import { ProfileProps } from '../../../../../app/domain/contexts/community/member/profile';
 import { RoleEntityReference, RoleProps } from '../../../../../app/domain/contexts/community/role/role';
 import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
-import { UserProps } from '../../../../../app/domain/contexts/user/user';
+import { UserProps } from '../../../../../app/domain/contexts/user/user/user';
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { MemoryBaseAdapter } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
 import { MemoryPropArray } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';

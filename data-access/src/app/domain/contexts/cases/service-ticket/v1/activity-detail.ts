@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
-import { ServiceTicketVisa } from '../../../iam/domain-visa/service-ticket-visa';
+import { ServiceTicketV1Visa } from './service-ticket.visa';
 import { Member, MemberEntityReference, MemberProps } from '../../../community/member/member';
 import * as ValueObjects from './activity-detail.value-objects';
 
@@ -18,7 +18,7 @@ export interface ActivityDetailEntityReference extends Readonly<Omit<ActivityDet
 }
 
 export class ActivityDetail extends Entity<ActivityDetailProps> implements ActivityDetailEntityReference {
-  constructor(props: ActivityDetailProps, private context: DomainExecutionContext, private readonly visa: ServiceTicketVisa) {
+  constructor(props: ActivityDetailProps, private context: DomainExecutionContext, private readonly visa: ServiceTicketV1Visa) {
     super(props);
   }
 

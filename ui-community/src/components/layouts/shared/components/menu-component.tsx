@@ -5,8 +5,15 @@ import { Member } from '../../../../generated';
 
 const { SubMenu } = Menu;
 
+export interface PageLayoutProps {
+  path: string;
+  title: string;
+  icon: React.JSX.Element;
+  id: string | number;
+  parent?: string;
+}
 interface TextProp {
-  pageLayouts: any;
+  pageLayouts: PageLayoutProps[];
   theme: MenuTheme | undefined;
   mode: MenuMode | undefined;
   memberData?: Member;
@@ -48,15 +55,11 @@ export const MenuComponent = ({ pageLayouts, ...props }: TextProp) => {
 
   const topMenu = () => {
     const root = pageLayouts.find((x: any) => x.id === 'ROOT') as any;
-    const matchedPages = matchRoutes(pageLayouts, location);
+    const matchedPages = matchRoutes(pageLayouts as any, location);
     const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.id.toString()) : [];
+    console.log(matchedPages)
     return (
-      <Menu
-        theme={props.theme}
-        mode={props.mode}
-        defaultSelectedKeys={matchedIds}
-        selectedKeys={matchedIds}
-      >
+      <Menu theme={props.theme} mode={props.mode} defaultSelectedKeys={matchedIds} selectedKeys={matchedIds}>
         <Menu.Item key="ROOT" icon={root.icon}>
           <Link to={createPath(root.path)}>{root.title}</Link>
         </Menu.Item>

@@ -1,17 +1,17 @@
-import { CommunityEntityReference, CommunityProps } from "../../../../app/domain/contexts/community/community/community";
-import { MemberEntityReference, MemberProps } from "../../../../app/domain/contexts/community/member/member";
-import { DomainExecutionContext } from "../../../../app/domain/contexts/domain-execution-context";
-import { AdditionalAmenityProps } from "../../../../app/domain/contexts/property/additional-amenity";
-import { AddressProps } from "../../../../app/domain/contexts/property/address";
-import { BedroomDetailProps } from "../../../../app/domain/contexts/property/bedroom-detail";
-import { ListingDetailProps } from "../../../../app/domain/contexts/property/listing-detail";
-import { LocationProps } from "../../../../app/domain/contexts/property/location";
-import { PositionProps } from "../../../../app/domain/contexts/property/position";
-import { Property, PropertyProps } from "../../../../app/domain/contexts/property/property";
-import { PropertyRepository } from "../../../../app/domain/contexts/property/property.repository";
-import { MemoryBaseAdapter } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
-import { MemoryPropArray } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
-import { MemoryRepositoryBase } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
+import { CommunityEntityReference, CommunityProps } from "../../../../../app/domain/contexts/community/community/community";
+import { MemberEntityReference, MemberProps } from "../../../../../app/domain/contexts/community/member/member";
+import { DomainExecutionContext } from "../../../../../app/domain/contexts/domain-execution-context";
+import { AdditionalAmenityProps } from "../../../../../app/domain/contexts/property/additional-amenity";
+import { AddressProps } from "../../../../../app/domain/contexts/property/address";
+import { BedroomDetailProps } from "../../../../../app/domain/contexts/property/bedroom-detail";
+import { ListingDetailProps } from "../../../../../app/domain/contexts/property/listing-detail";
+import { LocationProps } from "../../../../../app/domain/contexts/property/location";
+import { PositionProps } from "../../../../../app/domain/contexts/property/position";
+import { Property, PropertyProps } from "../../../../../app/domain/contexts/property/property";
+import { PropertyRepository } from "../../../../../app/domain/contexts/property/property.repository";
+import { MemoryBaseAdapter } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
+import { MemoryPropArray } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
+import { MemoryRepositoryBase } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 
 class MemoryAdditionalAmenity extends MemoryBaseAdapter implements AdditionalAmenityProps {
   category: string;

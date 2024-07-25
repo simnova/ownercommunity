@@ -1,10 +1,10 @@
-import { CommunityEntityReference, CommunityProps } from "../../../../app/domain/contexts/community/community/community";
-import { PermissionsProps } from "../../../../app/domain/contexts/community/permissions";
-import { Role, RoleProps } from "../../../../app/domain/contexts/community/role/role";
-import { RoleRepository } from "../../../../app/domain/contexts/community/role/role.repository";
-import { DomainExecutionContext } from "../../../../app/domain/contexts/domain-execution-context";
-import { MemoryBaseAdapter } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
-import { MemoryRepositoryBase } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
+import { CommunityEntityReference, CommunityProps } from "../../../../../app/domain/contexts/community/community/community";
+import { PermissionsProps } from "../../../../../app/domain/contexts/community/permissions";
+import { Role, RoleProps } from "../../../../../app/domain/contexts/community/role/role";
+import { RoleRepository } from "../../../../../app/domain/contexts/community/role/role.repository";
+import { DomainExecutionContext } from "../../../../../app/domain/contexts/domain-execution-context";
+import { MemoryBaseAdapter } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
+import { MemoryRepositoryBase } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 
 
 export class MemoryCommunityPermissions extends MemoryBaseAdapter {

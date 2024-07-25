@@ -1,16 +1,16 @@
-import { AccountProps } from '../../../../app/domain/contexts/community/member/account';
-import { CommunityEntityReference, CommunityProps } from '../../../../app/domain/contexts/community/community/community';
-import { CustomViewProps } from '../../../../app/domain/contexts/community/member/custom-view';
-import { Member, MemberProps } from '../../../../app/domain/contexts/community/member/member';
-import { MemberRepository } from '../../../../app/domain/contexts/community/member/member.repository';
-import { ProfileProps } from '../../../../app/domain/contexts/community/member/profile';
-import { RoleEntityReference, RoleProps } from '../../../../app/domain/contexts/community/role/role';
-import { DomainExecutionContext } from '../../../../app/domain/contexts/domain-execution-context';
-import { UserProps } from '../../../../app/domain/contexts/user/user';
-import { EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
-import { MemoryBaseAdapter } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
-import { MemoryPropArray } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
-import { MemoryRepositoryBase } from '../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
+import { AccountProps } from '../../../../../app/domain/contexts/community/member/account';
+import { CommunityEntityReference, CommunityProps } from '../../../../../app/domain/contexts/community/community/community';
+import { CustomViewProps } from '../../../../../app/domain/contexts/community/member/custom-view';
+import { Member, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
+import { MemberRepository } from '../../../../../app/domain/contexts/community/member/member.repository';
+import { ProfileProps } from '../../../../../app/domain/contexts/community/member/profile';
+import { RoleEntityReference, RoleProps } from '../../../../../app/domain/contexts/community/role/role';
+import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
+import { UserProps } from '../../../../../app/domain/contexts/user/user';
+import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { MemoryBaseAdapter } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
+import { MemoryPropArray } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
+import { MemoryRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
 
 class MemoryProfile implements ProfileProps {
   name: string;

@@ -1,6 +1,5 @@
 import { FC, useEffect } from 'react';
 import { Route, Routes, useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
-import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../..';
 import { PageLayoutProps } from '../../../admin';
 import { ActiveCaseListContainer } from './components/active-case-list.container';
 import { ArchivedCaseListContainer } from './components/archived-case-list.container';
@@ -20,7 +19,7 @@ export const RequestListPage: FC<RequestListPageProps> = (_props) => {
   const archivedRoutePath = useResolvedPath(AHPObjectStatusRouteLayer.Archived + '/*');
 
   // redirect to (default) active cases if cases route is accessed
-  const rootRoutePath = useResolvedPath("");
+  const rootRoutePath = useResolvedPath('');
   const match = useMatch(rootRoutePath.pathname);
   useEffect(() => {
     if (match) {

@@ -2,7 +2,6 @@ import { FC, useEffect } from 'react';
 import { Route, Routes, useMatch, useNavigate, useParams, useResolvedPath } from 'react-router-dom';
 import { AHPObjectIDRouteLayer } from '..';
 import { AHPObjectStatusRouteLayer } from '../..';
-import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../../../..';
 import { PageLayoutProps } from '../../../../../shared/components/menu-component';
 import { ActiveCaseDetailsPageLayout } from './active-case-details-page-layout';
 import { ChatPage } from './chat-page';

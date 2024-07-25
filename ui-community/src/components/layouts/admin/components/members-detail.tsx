@@ -17,7 +17,6 @@ export interface MembersDetailProps {
 export const MembersDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
-  const [selectedRoleId, setSelectedRoleId] = React.useState<string | null>(props.data.member?.role?.id ?? null);
   const params = useParams();
 
   const navigate = useNavigate();

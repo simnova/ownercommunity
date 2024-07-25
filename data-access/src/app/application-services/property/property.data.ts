@@ -1,6 +1,5 @@
-import { Types } from "mongoose";
 import { CosmosDataSource } from "../../data-sources/cosmos-data-source";
-import { MemberModel, PropertyData, PropertyModel } from "../../external-dependencies/datastore";
+import { PropertyData, PropertyModel } from "../../external-dependencies/datastore";
 import { AppContext } from "../../init/app-context-builder";
 
 export interface PropertyDataApi {

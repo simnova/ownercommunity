@@ -3,7 +3,7 @@ import { Button, Checkbox, Modal } from 'antd';
 import { FC, useState } from 'react';
 
 interface RequestFeedbackButtonProps {}
-export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => {
+export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {

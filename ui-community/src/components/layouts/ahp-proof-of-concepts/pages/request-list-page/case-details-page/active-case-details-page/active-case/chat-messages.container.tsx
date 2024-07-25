@@ -13,38 +13,38 @@ export const ChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
     {
       embedding: '',
       sentBy: 'external',
-      message: 'Please do not contact me again.',
+      message: 'Hello I am no longer interested in following through with this.',
       createdAt: '04-March-24 9:12 AM EST'
     },
     {
       embedding: '',
       sentBy: 'external',
-      message: 'I am no longer interested.',
+      message: 'Please close this matter.',
       createdAt: '04-March-24 9:24 AM EST'
     },
     {
       embedding: '',
       sentBy: 'internal',
-      message: ':(',
+      message: 'Alright give me a second.',
       createdAt: '04-March-24 9:25 AM EST'
     },
     {
       embedding: '',
       sentBy: 'internal',
       message:
-        'Are you sure you arent interested in any more offers? Please Please Please Please Please Please Please Please Please Please Please Please Please Please',
+        'I am going to need some information from you to cancel this please given me a second to go through our records and check what is missing.',
       createdAt: '04-March-24 9:25 AM EST'
     },
     {
       embedding: '',
       sentBy: 'external',
-      message: 'はい、どうぞ、それは素晴らしいことです。もう金を払いたくない、とても破産している。',
+      message: 'Is there a problem? Want to make sure there is nothing to worry about if this information is missing from my records or anything else.',
       createdAt: '04-March-24 9:24 AM EST'
     },
     {
       embedding: '',
       sentBy: 'internal',
-      message: 'Wait what',
+      message: 'No worries at all, just give me half an hour to look into it!',
       createdAt: '04-March-24 9:25 AM EST'
     }
   ];

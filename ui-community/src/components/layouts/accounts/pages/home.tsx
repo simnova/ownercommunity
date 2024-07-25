@@ -1,10 +1,16 @@
+import { Button, Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { CommunityListContainer } from '../components/community-list.container';
-import { Typography } from 'antd';
-import { SubPageLayout } from '../sub-page-layout';
 import { UserInfoContainer } from '../components/user-info.container';
+import { SubPageLayout } from '../sub-page-layout';
+import { AHPRootRouteLayer } from '../../ahp-proof-of-concepts';
 const { Title } = Typography;
 
 export const Home: React.FC<any> = () => {
+  const navigate = useNavigate();
+  const onNavigateToAHP = () => {
+    navigate(`/community/${AHPRootRouteLayer}`);
+  }
   return (
     <SubPageLayout
       fixedHeader={false}
@@ -17,9 +23,11 @@ export const Home: React.FC<any> = () => {
       <br />
       <br />
       <UserInfoContainer />
+      <Button type="primary" onClick={onNavigateToAHP}>AHP Proof of Concepts</Button>
       <br />
       <br />
       <CommunityListContainer />
+
     </SubPageLayout>
   );
 };

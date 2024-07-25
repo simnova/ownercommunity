@@ -38,7 +38,7 @@ const Breadcrumbs: React.FC = () => {
   const breadcrumbItems = pathSnippets.map((snippet, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
 
-    if (snippet === `${AHPObjectStatusRouteLayer.Active}` || snippet === `${AHPObjectStatusRouteLayer.Archived}`) {
+    if ([`${AHPObjectStatusRouteLayer.Active}`, `${AHPObjectStatusRouteLayer.Archived}`].includes(snippet)) {
       return (
         <Breadcrumb.Item key={url}>
           <Dropdown menu={{ items: caseStatusDropdownMenuItems }} placement="bottomLeft">

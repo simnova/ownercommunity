@@ -3,11 +3,11 @@ import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/int
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
 import { ServiceTicketUpdatedEvent } from '../types/service-ticket-updated';
 import retry from 'async-retry';
-import { ServiceTicket, ServiceTicketProps } from '../../contexts/service-ticket/service-ticket';
+import { ServiceTicket, ServiceTicketProps } from '../../contexts/cases/service-ticket/v1/service-ticket';
 import dayjs from 'dayjs';
 import { EventBusInstance } from '../event-bus';
-import { ServiceTicketUnitOfWork } from '../../contexts/service-ticket/service-ticket.uow';
-import { ServiceTicketRepository } from '../../contexts/service-ticket/service-ticket.repository';
+import { ServiceTicketUnitOfWork } from '../../contexts/cases/service-ticket/v1/service-ticket.uow';
+import { ServiceTicketRepository } from '../../contexts/cases/service-ticket/v1/service-ticket.repository';
 
 const crypto = require('crypto');
 

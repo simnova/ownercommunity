@@ -1,90 +1,46 @@
-import { ApplicationServices,
-  CommunityBlobApi,
-  MemberBlobApi,
-  PropertyBlobApi,
-  PropertySearchApi,
-  ServiceTicketSearchApi,
-  UserDataApi,
-  RoleDataApi,
-  ServiceDataApi,
-  ServiceTicketDataApi,
-  ViolationTicketDataApi,
-  MemberDataApi,
-  CommunityDataApi,
-  PropertyDataApi,
-  UserDomainApi,
-  CommunityDomainApi,
-  MemberDomainApi,
-  RoleDomainApi,
-  PropertyDomainApi,
-  ServiceDomainApi,
-  ServiceTicketDomainApi,
-  PropertyMapsApi,
-  CommunityVercelApi,
+import { 
+  ApplicationServices,
+  CommunityApi,
+  MemberApi,
+  PropertyApi,
+  ServiceTicketApi,
   PaymentApi,
+  ViolationTicketApi,
+  ServiceApi,
+  RoleApi,
+  UserApi,
 } from "../application-services";
-import { UserModel, CommunityModel, RoleModel, PropertyModel, MemberModel, ServiceModel, ServiceTicketModel, ViolationTicketModel } from "../external-dependencies/datastore";
-import { ViolationTicketUnitOfWork, CommunityUnitOfWork, MemberUnitOfWork, PropertyUnitOfWork, RoleUnitOfWork, ServiceTicketUnitOfWork, ServiceUnitOfWork, UserUnitOfWork } from "../external-dependencies/domain";
-import { CommunityBlobApiImpl, MemberBlobApiImpl, PropertyBlobApiImpl} from '../application-services-impl/blob-storage';
-import { PropertySearchApiImpl, ServiceTicketSearchApiImpl } from '../application-services-impl/cognitive-search';
-import { UserDataApiImpl, RoleDataApiImpl, ServiceDataApiImpl, ServiceTicketDataApiImpl, ViolationTicketDataApiImpl, MemberDataApiImpl, CommunityDataApiImpl, PropertyDataApiImpl } from '../application-services-impl/datastore';
-import { UserDomainApiImpl, RoleDomainApiImpl, ServiceDomainApiImpl, ServiceTicketDomainApiImpl, MemberDomainApiImpl, CommunityDomainApiImpl, PropertyDomainApiImpl, ViolationTicketDomainApiImpl } from "../application-services-impl/domain";
-import { PropertyMapsApiImpl } from "../application-services-impl/maps";
-import { CommunityVercelApiImpl } from "../application-services-impl/vercel";
 import { AppContext } from "./app-context-builder";
-import { ViolationTicketDomainApi } from "../application-services/domain";
-import { PaymentApiImpl } from "../application-services-impl/payment";
-
+import { CommunityApiImpl } from "../application-services/community";
+import { MemberApiImpl } from "../application-services/member";
+import { PropertyApiImpl } from "../application-services/property";
+import { RoleApiImpl } from "../application-services/role";
+import { ServiceApiImpl } from "../application-services/service";
+import { ServiceTicketApiImpl } from "../application-services/service-ticket";
+import { UserApiImpl } from "../application-services/user";
+import { ViolationTicketApiImpl } from "../application-services/violation-ticket";
+import { PaymentApiImpl } from "../application-services/payment";
+;
 export class ApplicationServicesBuilder implements ApplicationServices {
-  communityBlobApi: CommunityBlobApi;
-  memberBlobApi: MemberBlobApi;
-  propertyBlobApi: PropertyBlobApi;
-  propertySearchApi: PropertySearchApi;
-  serviceTicketSearchApi: ServiceTicketSearchApi;
-  userDataApi: UserDataApi;
-  roleDataApi: RoleDataApi;
-  serviceDataApi: ServiceDataApi;
-  serviceTicketDataApi: ServiceTicketDataApi;
-  violationTicketDataApi: ViolationTicketDataApi;
-  memberDataApi: MemberDataApi;
-  communityDataApi: CommunityDataApi;
-  propertyDataApi: PropertyDataApi;
-  userDomainApi: UserDomainApi;
-  communityDomainApi: CommunityDomainApi;
-  memberDomainApi: MemberDomainApi;
-  roleDomainApi: RoleDomainApi;
-  propertyDomainApi: PropertyDomainApi;
-  serviceDomainApi: ServiceDomainApi;
-  serviceTicketDomainApi: ServiceTicketDomainApi;
-  violationTicketDomainApi: ViolationTicketDomainApi;
-  propertyMapApi: PropertyMapsApi;
-  communityVercelApi: CommunityVercelApi;
-  paymentApi: PaymentApi;
+  community: CommunityApi;
+  member: MemberApi;
+  property: PropertyApi;
+  serviceTicket: ServiceTicketApi;
+  violationTicket: ViolationTicketApi;
+  service: ServiceApi;
+  role: RoleApi;
+  user: UserApi;
+  payment: PaymentApi;
 
   constructor(context: AppContext) {
-    this.communityBlobApi = new CommunityBlobApiImpl({ context });
-    this.memberBlobApi = new MemberBlobApiImpl({ context });
-    this.propertyBlobApi = new PropertyBlobApiImpl({ context });
-    this.propertySearchApi = new PropertySearchApiImpl({ context });
-    this.serviceTicketSearchApi = new ServiceTicketSearchApiImpl({ context });
-    this.userDataApi = new UserDataApiImpl({ modelOrCollection: UserModel, context });
-    this.roleDataApi = new RoleDataApiImpl({ modelOrCollection: RoleModel, context });
-    this.serviceDataApi = new ServiceDataApiImpl({ modelOrCollection: ServiceModel, context });
-    this.serviceTicketDataApi = new ServiceTicketDataApiImpl({ modelOrCollection: ServiceTicketModel, context });
-    this.violationTicketDataApi = new ViolationTicketDataApiImpl({ modelOrCollection: ViolationTicketModel, context });
-    this.memberDataApi = new MemberDataApiImpl({ modelOrCollection: MemberModel, context });
-    this.communityDataApi = new CommunityDataApiImpl({ modelOrCollection: CommunityModel, context });
-    this.propertyDataApi = new PropertyDataApiImpl({ modelOrCollection: PropertyModel, context });
-    this.userDomainApi = new UserDomainApiImpl({ unitOfWork: UserUnitOfWork, context });
-    this.communityDomainApi = new CommunityDomainApiImpl({ unitOfWork: CommunityUnitOfWork, context });
-    this.memberDomainApi = new MemberDomainApiImpl({ unitOfWork: MemberUnitOfWork, context });
-    this.roleDomainApi = new RoleDomainApiImpl({ unitOfWork: RoleUnitOfWork, context });
-    this.propertyDomainApi = new PropertyDomainApiImpl({ unitOfWork: PropertyUnitOfWork, context });
-    this.serviceDomainApi = new ServiceDomainApiImpl({ unitOfWork: ServiceUnitOfWork, context });
-    this.serviceTicketDomainApi = new ServiceTicketDomainApiImpl({ unitOfWork: ServiceTicketUnitOfWork, context });
-    this.violationTicketDomainApi = new ViolationTicketDomainApiImpl({ unitOfWork: ViolationTicketUnitOfWork, context });
-    this.propertyMapApi = new PropertyMapsApiImpl({ context });
-    this.communityVercelApi = new CommunityVercelApiImpl({ context });
-    this.paymentApi = new PaymentApiImpl({ context });
+    this.community = new CommunityApiImpl(context);
+    this.member = new MemberApiImpl(context);
+    this.property = new PropertyApiImpl(context);
+    this.serviceTicket = new ServiceTicketApiImpl(context);
+    this.violationTicket = new ViolationTicketApiImpl(context);
+    this.service = new ServiceApiImpl(context);
+    this.role = new RoleApiImpl(context);
+    this.user = new UserApiImpl(context);
+    this.payment = new PaymentApiImpl(context);
   }
 }

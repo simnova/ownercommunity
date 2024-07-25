@@ -5,6 +5,7 @@ import { AHPObjectStatusRouteLayer } from '../..';
 import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../../../..';
 import { PageLayoutProps } from '../../../../../shared/components/menu-component';
 import { ActiveCaseDetailsPageLayout } from './active-case-details-page-layout';
+import { ActiveCaseChatPage } from './active-case/active-case-chat-page';
 
 export const AHPActiveCaseDetailsLayer = {
   Chat: 'chat',
@@ -66,7 +67,7 @@ export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) =>
   return (
     <Routes>
       <Route path="" element={<ActiveCaseDetailsPageLayout pageLayouts={pageLayouts} />}>
-        <Route path="chat" element={<>Chat for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
+        <Route path="chat" element={<ActiveCaseChatPage />} />
         <Route path="application" element={<>Application for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
         <Route path="files" element={<>Files for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
         <Route path="transactions" element={<>Transactions for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />

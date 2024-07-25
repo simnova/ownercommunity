@@ -11,7 +11,7 @@ import { RoleDomainAdapter } from '../role/role.domain-adapter';
 import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
 import { RoleEntityReference } from '../../../../../app/domain/contexts/community/role/role';
 import { ProfileProps } from '../../../../../app/domain/contexts/community/member/profile';
-import { UserEntityReference } from '../../../../../app/domain/contexts/user/user';
+import { UserEntityReference } from '../../../../../app/domain/contexts/user/user/user';
 import { CustomViewProps } from '../../../../../app/domain/contexts/community/member/custom-view';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {

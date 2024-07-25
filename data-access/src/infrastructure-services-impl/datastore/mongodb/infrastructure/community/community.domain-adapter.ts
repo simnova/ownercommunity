@@ -3,7 +3,7 @@ import { Community as CommunityDO, CommunityProps } from '../../../../../app/dom
 import { MongooseDomainAdapter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
-import { UserEntityReference, UserProps } from '../../../../../app/domain/contexts/user/user';
+import { UserEntityReference, UserProps } from '../../../../../app/domain/contexts/user/user/user';
 import { UserDomainAdapter } from '../user/user.domain-adapter';
 
 export class CommunityConverter extends MongoTypeConverter<DomainExecutionContext, Community, CommunityDomainAdapter, CommunityDO<CommunityDomainAdapter>> {

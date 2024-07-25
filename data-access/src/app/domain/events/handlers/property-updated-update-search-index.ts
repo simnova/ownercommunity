@@ -5,14 +5,14 @@ import retry from 'async-retry';
 import crypto from 'crypto';
 import dayjs from 'dayjs';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
-import { Property, PropertyProps } from '../../contexts/property/property';
+import { Property, PropertyProps } from '../../contexts/property/property/property';
 import { PropertyUpdatedEvent } from '../types/property-updated';
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
 // import { PropertyUnitOfWork } from '../../../domain-impl/services/datastore/mongodb/infrastructure/property.mongo-uow';
-import { PropertyUnitOfWork } from '../../contexts/property/property.uow';
+import { PropertyUnitOfWork } from '../../contexts/property/property/property.uow';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../infrastructure/cognitive-search/property-search-index-format';
 import { EventBusInstance } from '../event-bus';
-import { PropertyRepository } from '../../contexts/property/property.repository';
+import { PropertyRepository } from '../../contexts/property/property/property.repository';
 
 export default (
   cognitiveSearch: CognitiveSearchDomain,

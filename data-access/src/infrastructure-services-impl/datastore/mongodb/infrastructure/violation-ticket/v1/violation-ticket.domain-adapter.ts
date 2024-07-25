@@ -7,7 +7,7 @@ import { DomainExecutionContext } from '../../../../../../app/domain/contexts/do
 import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from '../../community/community.domain-adapter';
 import { PropertyDomainAdapter } from '../../property/property.domain-adapter';
-import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property';
+import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property/property';
 import { MemberEntityReference } from '../../../../../../app/domain/contexts/community/member/member';
 import { MemberDomainAdapter } from '../../member/member.domain-adapter';
 import { ActivityDetailProps } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';

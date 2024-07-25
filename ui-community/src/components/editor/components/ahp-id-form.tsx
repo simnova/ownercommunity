@@ -11,7 +11,7 @@ import {
   AhpIdFormCommunityPublicFileRemoveDocument
 } from '../../../generated';
 import Title from 'antd/es/typography/Title';
-import { DeleteFilled, DeleteOutlined, DeleteTwoTone, FileTextOutlined } from '@ant-design/icons';
+import { DeleteFilled, FileTextOutlined } from '@ant-design/icons';
 
 interface AhpIdFormProps {
   fileName: string;
@@ -32,7 +32,7 @@ AhpIdFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpIdForm: any = ({ fileName, blobPath, ...props }: AhpIdFormProps) => {
+const AhpIdForm: any = ({ fileName, blobPath }: AhpIdFormProps) => {
   const {
     token: { colorBgContainer }
   } = theme.useToken();

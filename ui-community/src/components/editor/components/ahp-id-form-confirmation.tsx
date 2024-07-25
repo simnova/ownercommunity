@@ -1,5 +1,5 @@
 import { useNode } from '@craftjs/core';
-import { Button, Input, Radio, Space, theme } from 'antd';
+import { Button, Radio, Space, theme } from 'antd';
 import { Container } from './container';
 import { TextComponent } from './text-component';
 import { TextThing } from './text-thing';
@@ -42,7 +42,6 @@ const AhpIdFormConfirmation: any = ({
   response,
   value,
   submitted,
-  ...props
 }: AhpIdFormConfirmationProps) => {
   const {
     token: { colorBgContainer }

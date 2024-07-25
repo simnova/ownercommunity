@@ -1,5 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { User } from "../../domain/contexts/user/user";
+import { User } from "../../domain/contexts/user/user/user";
 import { UserData } from "../../external-dependencies/datastore";
 import { UserDomainAdapter, UserConverter, UserRepository } from "../../external-dependencies/domain";
 import { UserUpdateInput } from "../../external-dependencies/graphql-api";

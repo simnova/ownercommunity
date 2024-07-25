@@ -1,5 +1,5 @@
-import { DomainVisaImpl, ReadOnlyDomainVisa } from '../domain/contexts/iam/domain-visa';
-import { UserEntityReference } from '../domain/contexts/user/user';
+import { DomainVisaImpl, ReadOnlyDomainVisa } from '../domain/contexts/domain-visa';
+import { UserEntityReference } from '../domain/contexts/user/user/user';
 import { MemberEntityReference } from '../domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../domain/contexts/community/community/community';
 import { ApplicationServices } from '../application-services';

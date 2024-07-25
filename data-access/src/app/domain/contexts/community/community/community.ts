@@ -3,8 +3,8 @@ import { CommunityDomainUpdatedEvent } from '../../../events/types/community-dom
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../domain-execution-context';
-import { CommunityVisa } from '../../iam/domain-visa/community-visa';
-import { User, UserEntityReference, UserProps } from '../../user/user';
+import { CommunityVisa } from "../community.visa";
+import { User, UserEntityReference, UserProps } from '../../user/user/user';
 import * as ValueObjects from './community.value-objects';
 
 export interface CommunityProps extends EntityProps {

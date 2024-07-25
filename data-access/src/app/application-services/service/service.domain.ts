@@ -1,5 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { ReadOnlyDomainVisa } from "../../domain/contexts/iam/domain-visa";
+import { ReadOnlyDomainVisa } from "../../domain/contexts/domain-visa";
 import { Service } from "../../domain/contexts/community/service/service";
 import { ServiceData } from "../../external-dependencies/datastore";
 import { ServiceDomainAdapter, CommunityConverter, ServiceConverter, ServiceRepository } from "../../external-dependencies/domain";

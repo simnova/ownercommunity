@@ -1,6 +1,6 @@
 import { EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../../../community/community/community';
-import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property';
+import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property/property';
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
@@ -10,7 +10,6 @@ import * as ValueObjects from './violation-ticket.value-objects';
 import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-array';
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from '../../service-ticket/v1/activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from '../../service-ticket/v1/photo';
-import { ViolationTicketVisa as ViolationTicketVisa } from '../../../iam/domain-visa/violation-ticket-visa';
 import { ViolationTicketV1DeletedEvent } from '../../../../events/types/violation-ticket-v1-deleted';
 import { ViolationTicketV1UpdatedEvent } from '../../../../events/types/violation-ticket-v1-updated';
 import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violation-ticket-v1-created';
@@ -18,6 +17,7 @@ import { ViolationTicketUpdateInput } from '../../../../../external-dependencies
 import dayjs from 'dayjs';
 import { Transaction, TransactionProps } from './transaction';
 import { PenaltyAmount } from './violation-ticket.value-objects';
+import { ViolationTicketV1Visa } from './violation-ticket.visa';
 
 export interface ViolationTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
@@ -80,10 +80,10 @@ export interface ViolationTicketV1EntityReference
 
 export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props> implements ViolationTicketV1EntityReference {
   private isNew: boolean = false;
-  private readonly visa: ViolationTicketVisa;
+  private readonly visa: ViolationTicketV1Visa;
   constructor(props: props, private context: DomainExecutionContext) {
     super(props);
-    this.visa = context.domainVisa.forViolationTicket(this);
+    this.visa = context.domainVisa.forViolationTicketV1(this);
   }
 
   public static getNewInstance<props extends ViolationTicketV1Props>(

@@ -37,9 +37,9 @@ const RegisterEventHandlers = (
   RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler(blobStorage);
   RegisterPropertyDeletedUpdateSearchIndexHandler(cognitiveSearch);
   RegisterPropertyUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.propertyUnitOfWork);
-  RegisterServiceTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketUnitOfWork);
+  RegisterServiceTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketV1UnitOfWork);
   RegisterServiceTicketDeletedUpdateSearchIndexHandler(cognitiveSearch);
-  RegisterViolationTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.violationTicketUnitOfWork);
+  RegisterViolationTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.violationTicketV1UnitOfWork);
   RegisterViolationTicketDeletedUpdateSearchIndexHandler(cognitiveSearch);
 };
 

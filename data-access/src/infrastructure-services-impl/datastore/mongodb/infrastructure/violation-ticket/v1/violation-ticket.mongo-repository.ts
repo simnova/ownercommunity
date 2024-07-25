@@ -1,15 +1,15 @@
-import { ViolationTicket as ViolationTicketDO, ViolationTicketProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicket } from '../../../models/violation-ticket';
 import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../app/domain/contexts/domain-execution-context';
 import { MemberEntityReference } from '../../../../../../app/domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
 import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property';
-import { ViolationTicketRepository } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
+import { ViolationTicketV1Repository } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
 
-export class MongoViolationTicketRepository<PropType extends ViolationTicketProps>
+export class MongoViolationTicketV1Repository<PropType extends ViolationTicketV1Props>
   extends MongoRepositoryBase<DomainExecutionContext, ViolationTicket, PropType, ViolationTicketDO<PropType>>
-  implements ViolationTicketRepository<PropType>
+  implements ViolationTicketV1Repository<PropType>
 {
   async getNewInstance(
     title: string,

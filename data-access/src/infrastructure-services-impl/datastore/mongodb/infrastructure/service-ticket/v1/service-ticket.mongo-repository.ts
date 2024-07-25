@@ -1,5 +1,5 @@
-import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
-import { ServiceTicketRepository } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
+import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1Repository } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
 import { ServiceTicket } from '../../../models/service-ticket';
 import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../../app/domain/contexts/domain-execution-context';
@@ -7,9 +7,9 @@ import { MemberEntityReference } from '../../../../../../app/domain/contexts/com
 import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
 import { PropertyEntityReference } from '../../../../../../app/domain/contexts/property/property';
 
-export class MongoServiceTicketRepository<PropType extends ServiceTicketProps>
+export class MongoServiceTicketV1Repository<PropType extends ServiceTicketV1Props>
   extends MongoRepositoryBase<DomainExecutionContext, ServiceTicket, PropType, ServiceTicketDO<PropType>>
-  implements ServiceTicketRepository<PropType>
+  implements ServiceTicketV1Repository<PropType>
 {
   async getNewInstance(
     title: string,

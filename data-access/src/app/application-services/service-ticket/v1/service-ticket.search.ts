@@ -3,7 +3,7 @@ import { SearchDocumentsResult } from '../../../../../seedwork/services-seedwork
 import { CognitiveSearchDataSource } from "../../../data-sources/cognitive-search-data-source";
 import { AppContext } from "../../../init/app-context-builder";
 
-export interface ServiceTicketSearchApi {
+export interface ServiceTicketV1SearchApi {
   serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
   serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput, communityId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
   getServiceTicketsSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>): Promise<ServiceTicketsSearchResult>;
@@ -16,7 +16,7 @@ const ServiceTicketFilterNames = {
   Priority: 'priority',
   CommunityId: 'communityId',
 };
-export class ServiceTicketSearchApiImpl extends CognitiveSearchDataSource<AppContext> implements ServiceTicketSearchApi {
+export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppContext> implements ServiceTicketV1SearchApi {
   private getFilterString(filter: ServiceTicketsSearchFilterDetail, memberId: string): string {
     let filterStrings = [];
     filterStrings.push(`(requestorId eq '${memberId}') or (assignedToId eq '${memberId}')`);

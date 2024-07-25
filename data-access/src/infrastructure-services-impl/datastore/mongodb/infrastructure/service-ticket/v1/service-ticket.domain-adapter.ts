@@ -1,5 +1,5 @@
 import { ActivityDetail, ServiceTicket, Photo } from '../../../models/service-ticket';
-import { ServiceTicket as ServiceTicketDO, ServiceTicketProps } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../../app/domain/contexts/domain-execution-context';
@@ -15,18 +15,18 @@ import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../service/service.domain-adapter';
 import { ServiceEntityReference } from '../../../../../../app/domain/contexts/community/service/service';
 
-export class ServiceTicketConverter extends MongoTypeConverter<
+export class ServiceTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ServiceTicket,
-  ServiceTicketDomainAdapter,
-  ServiceTicketDO<ServiceTicketDomainAdapter>
+  ServiceTicketV1DomainAdapter,
+  ServiceTicketDO<ServiceTicketV1DomainAdapter>
 > {
   constructor() {
-    super(ServiceTicketDomainAdapter, ServiceTicketDO);
+    super(ServiceTicketV1DomainAdapter, ServiceTicketDO);
   }
 }
 
-export class ServiceTicketDomainAdapter extends MongooseDomainAdapter<ServiceTicket> implements ServiceTicketProps {
+export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceTicket> implements ServiceTicketV1Props {
   get community() {
     if (this.doc.community) {
       return new CommunityDomainAdapter(this.doc.community);

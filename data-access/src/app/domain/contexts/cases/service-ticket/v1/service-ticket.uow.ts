@@ -1,7 +1,7 @@
 import { UnitOfWork } from '../../../../../../../seedwork/domain-seedwork/unit-of-work';
 import { DomainExecutionContext } from '../../../domain-execution-context';
-import { ServiceTicket, ServiceTicketProps } from './service-ticket';
-import { ServiceTicketRepository } from './service-ticket.repository';
+import { ServiceTicketV1, ServiceTicketV1Props } from './service-ticket';
+import { ServiceTicketV1Repository } from './service-ticket.repository';
 
-export interface ServiceTicketUnitOfWork extends UnitOfWork<DomainExecutionContext, ServiceTicketProps, ServiceTicket<ServiceTicketProps>, ServiceTicketRepository<ServiceTicketProps>> {
+export interface ServiceTicketV1UnitOfWork extends UnitOfWork<DomainExecutionContext, ServiceTicketV1Props, ServiceTicketV1<ServiceTicketV1Props>, ServiceTicketV1Repository<ServiceTicketV1Props>> {
 }

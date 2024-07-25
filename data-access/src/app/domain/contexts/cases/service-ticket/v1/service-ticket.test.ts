@@ -1,4 +1,4 @@
-import { ServiceTicket, ServiceTicketProps } from './service-ticket';
+import { ServiceTicketV1, ServiceTicketV1Props } from './service-ticket';
 import { ActivityDetailProps } from './activity-detail';
 import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-array';
 import { CommunityEntityReference } from '../../../community/community/community';
@@ -24,7 +24,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
           } as Partial<DomainVisa>) as any)
       } as Partial<DomainExecutionContext>) as any
     );
-    const serviceTicketProps = jest.mocked<ServiceTicketProps>(
+    const serviceTicketProps = jest.mocked<ServiceTicketV1Props>(
       ({
         activityLog : jest.mocked<PropArray<ActivityDetailProps>>(({
           getNewItem : jest.fn(() => jest.mocked<ActivityDetailProps>({setActivityByRef : jest.fn()} as any)),
@@ -41,7 +41,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
       
       // Act
       const creatingInvalidServiceTicket = () => { 
-        ServiceTicket.getNewInstance(
+        ServiceTicketV1.getNewInstance(
           serviceTicketProps,
           givenInvalidTitle,
           givenValidDescription,
@@ -62,7 +62,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
       
       // Act
       const creatingInvalidServiceTicket = () => { 
-        ServiceTicket.getNewInstance(
+        ServiceTicketV1.getNewInstance(
           serviceTicketProps,
           givenInvalidTitle,
           givenValidDescription,
@@ -83,7 +83,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
       
       // Act
       const creatingInvalidServiceTicket = () => { 
-        ServiceTicket.getNewInstance(
+        ServiceTicketV1.getNewInstance(
           serviceTicketProps,
           givenValidTitle,
           givenInvalidDescription,
@@ -104,7 +104,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
       
       // Act
       const creatingInvalidServiceTicket = () => { 
-        ServiceTicket.getNewInstance(
+        ServiceTicketV1.getNewInstance(
           serviceTicketProps,
           givenValidTitle,
           givenValidDescription,

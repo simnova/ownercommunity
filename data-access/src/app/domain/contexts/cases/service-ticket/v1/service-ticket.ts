@@ -15,7 +15,7 @@ import { ServiceTicketCreatedEvent } from '../../../../events/types/service-tick
 import { ServiceTicketUpdatedEvent } from '../../../../events/types/service-ticket-updated';
 import { ServiceTicketDeletedEvent } from '../../../../events/types/service-ticket-deleted';
 
-export interface ServiceTicketProps extends EntityProps {
+export interface ServiceTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
   readonly property: PropertyProps;
@@ -43,10 +43,10 @@ export interface ServiceTicketProps extends EntityProps {
   updateIndexFailedDate: Date; // failure
 }
 
-export interface ServiceTicketEntityReference
+export interface ServiceTicketV1EntityReference
   extends Readonly<
     Omit<
-      ServiceTicketProps,
+      ServiceTicketV1Props,
       | 'community'
       | 'setCommunityRef'
       | 'property'
@@ -70,7 +70,7 @@ export interface ServiceTicketEntityReference
   readonly photos: ReadonlyArray<PhotoEntityReference>;
 }
 
-export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRoot<props> implements ServiceTicketEntityReference {
+export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props> implements ServiceTicketV1EntityReference {
   private isNew: boolean = false;
   private readonly visa: ServiceTicketVisa;
   constructor(props: props, private context: DomainExecutionContext) {
@@ -78,7 +78,7 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     this.visa = context.domainVisa.forServiceTicket(this);
   }
 
-  public static getNewInstance<props extends ServiceTicketProps>(
+  public static getNewInstance<props extends ServiceTicketV1Props>(
     newProps: props,
     title: string,
     description: string,
@@ -86,8 +86,8 @@ export class ServiceTicket<props extends ServiceTicketProps> extends AggregateRo
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
     context: DomainExecutionContext
-  ): ServiceTicket<props> {
-    let serviceTicket = new ServiceTicket(newProps, context);
+  ): ServiceTicketV1<props> {
+    let serviceTicket = new ServiceTicketV1(newProps, context);
     serviceTicket.MarkAsNew();
     serviceTicket.isNew = true;
     serviceTicket.Title = title;

@@ -19,7 +19,7 @@ import dayjs from 'dayjs';
 import { Transaction, TransactionProps } from './transaction';
 import { PenaltyAmount } from './violation-ticket.value-objects';
 
-export interface ViolationTicketProps extends EntityProps {
+export interface ViolationTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
   readonly property: PropertyProps;
@@ -50,10 +50,10 @@ export interface ViolationTicketProps extends EntityProps {
   updateIndexFailedDate: Date; // failure
 }
 
-export interface ViolationTicketEntityReference
+export interface ViolationTicketV1EntityReference
   extends Readonly<
     Omit<
-      ViolationTicketProps,
+      ViolationTicketV1Props,
       | 'community'
       | 'setCommunityRef'
       | 'property'
@@ -78,7 +78,7 @@ export interface ViolationTicketEntityReference
   readonly photos: ReadonlyArray<PhotoEntityReference>;
 }
 
-export class ViolationTicket<props extends ViolationTicketProps> extends AggregateRoot<props> implements ViolationTicketEntityReference {
+export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props> implements ViolationTicketV1EntityReference {
   private isNew: boolean = false;
   private readonly visa: ViolationTicketVisa;
   constructor(props: props, private context: DomainExecutionContext) {
@@ -86,7 +86,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     this.visa = context.domainVisa.forViolationTicket(this);
   }
 
-  public static getNewInstance<props extends ViolationTicketProps>(
+  public static getNewInstance<props extends ViolationTicketV1Props>(
     newProps: props,
     title: string,
     description: string,
@@ -96,8 +96,8 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     context: DomainExecutionContext,
     penaltyAmount?: number,
     penaltyPaidDate?: Date
-  ): ViolationTicket<props> {
-    let violationTicket = new ViolationTicket(newProps, context);
+  ): ViolationTicketV1<props> {
+    let violationTicket = new ViolationTicketV1(newProps, context);
     violationTicket.MarkAsNew();
     violationTicket.isNew = true;
     violationTicket.Title = title;

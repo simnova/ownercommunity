@@ -1,10 +1,10 @@
 import { MemberEntityReference } from '../../community/member/member';
-import { ServiceTicketEntityReference } from '../../cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1EntityReference } from '../../cases/service-ticket/v1/service-ticket';
 import { ServiceTicketPermissions } from "../../cases/service-ticket/v1/service-ticket-permissions.spec";
 import { ServiceTicketVisa } from './service-ticket-visa';
 
 
-export class ServiceTicketVisaImplForServiceTicket<root extends ServiceTicketEntityReference> implements ServiceTicketVisa {
+export class ServiceTicketVisaImplForServiceTicket<root extends ServiceTicketV1EntityReference> implements ServiceTicketVisa {
   constructor(private root: root, private member: MemberEntityReference) {
   }
 

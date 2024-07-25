@@ -6,9 +6,10 @@ import { Empty, Skeleton } from 'antd';
 
 interface PaymentModalContainerProps {
   title: string;
+  onPayment: (paymentInstrumentId: string) => Promise<void>;
 }
 
-export const PaymentModalContainer: React.FC<PaymentModalContainerProps> = ({ title }) => {
+export const PaymentModalContainer: React.FC<PaymentModalContainerProps> = ({ title, onPayment }) => {
   const {
     data: paymentInstruments,
     error: paymentInstrumentsError,
@@ -28,7 +29,11 @@ export const PaymentModalContainer: React.FC<PaymentModalContainerProps> = ({ ti
       {paymentInstrumentsError || !paymentInstruments || !paymentInstruments?.memberPaymentInstruments ? (
         <Empty />
       ) : (
-        <PaymentModal title={title} paymentInstrumentsResult={paymentInstruments?.memberPaymentInstruments} />
+        <PaymentModal
+          title={title}
+          paymentInstrumentsResult={paymentInstruments?.memberPaymentInstruments}
+          onPayment={onPayment}
+        />
       )}
     </>
   );

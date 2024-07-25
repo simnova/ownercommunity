@@ -25,13 +25,12 @@ export interface ViolationTicketsDetailProps {
   onUpdate: (violationTicket: ViolationTicketUpdateInput) => void;
   onChangeStatus: (changeStatusInput: ViolationTicketChangeStatusInput) => Promise<void>;
   onAddUpdateActivity: (values: ViolationTicketAddUpdateActivityInput) => Promise<void>;
+  onPayment: (violationTicketId: string, paymentAmount: number, paymentInstrumentId: string) => Promise<void>;
 }
 
 export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [changeStatusForm] = Form.useForm();
   const [changeStatusFormLoading, setChangeStatusFormLoading] = useState(false);
-
-  const [assignFormLoading, setAssignFormLoading] = useState(false);
 
   const [editDraftForm] = Form.useForm();
   const [editDraftFormLoading, setEditDraftFormLoading] = useState(false);
@@ -148,6 +147,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     ['CLOSED', { state: 'Closed', description: 'Work has been completed' }]
   ]);
 
+  const handlePayment = async (paymentInstrumentId: string) => {
+    await props.onPayment(props.data.violationTicket.id, props.data.violationTicket.penaltyAmount, paymentInstrumentId);
+  };
+
   return (
     <div>
       <div style={{ margin: '0', padding: 24, backgroundColor: 'white' }}>
@@ -255,6 +258,11 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Updated At">
             {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
           </Descriptions.Item>
+          {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.paymentTransactions && (
+            <Descriptions.Item label="Payment Transaction ID">
+              {props.data.violationTicket.paymentTransactions?.[0]?.transactionId}
+            </Descriptions.Item>
+          )}
         </Descriptions>
       </div>
       {props.data.violationTicket.status === 'ASSIGNED' && (
@@ -262,36 +270,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white', width: '50%' }}>
             <Title level={5}>Pay Penalty</Title>
             <br />
-            <Form
-              layout="vertical"
-              form={editDraftForm}
-              initialValues={{
-                ...props.data.violationTicket,
-                penaltyPaidDate: props.data.violationTicket.penaltyPaidDate
-                  ? dayjs(props.data.violationTicket.penaltyPaidDate)
-                  : undefined
-              }}
-              onFinish={async () => {
-                setAssignFormLoading(true);
-                // await props.onUpdate({
-                //   violationTicketId: props.data.violationTicket.id,
-                //   penaltyPaidDate: dayjs().toISOString()
-                // });
-
-                // TODO: The backend should be changing the status to PAID
-                // await props.onChangeStatus({
-                //   violationTicketId: props.data.violationTicket.id,
-                //   status: nextState,
-                //   activityDescription: 'Penalty paid'
-                // });
-                setAssignFormLoading(false);
-              }}
-            >
-              <Button type="primary" onClick={usePay.onOpen}>
-                Pay now
-              </Button>
-            </Form>
-            <PaymentModalContainer title="Pay violation fee" />
+            <Button type="primary" onClick={usePay.onOpen}>
+              Pay now
+            </Button>
+            <PaymentModalContainer title="Pay violation fee" onPayment={handlePayment} />
           </div>
         </div>
       )}

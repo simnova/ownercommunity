@@ -130,7 +130,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               oldValue = `$ ${oldValue}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }
 
-            if(field === 'Penalty paid date') {
+            if (field === 'Penalty paid date') {
               if (dayjs(newValue).isValid()) {
                 newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY h:mm A');
               }
@@ -138,7 +138,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               if (dayjs(oldValue).isValid()) {
                 oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY h:mm A');
               }
-          }
+            }
             return (
               <div className="flex gap-1">
                 <b>{field}:</b>
@@ -384,6 +384,11 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Updated At">
             {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
           </Descriptions.Item>
+          {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.paymentTransactions && (
+            <Descriptions.Item label="Payment Transaction ID">
+              {props.data.violationTicket.paymentTransactions?.[0]?.transactionId}
+            </Descriptions.Item>
+          )}
         </Descriptions>
       </div>
       <div style={{ padding: 24, minHeight: '100%', backgroundColor: 'white' }}>

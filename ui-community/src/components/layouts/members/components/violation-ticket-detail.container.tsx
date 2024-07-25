@@ -16,7 +16,8 @@ import {
   ViolationTicketChangeStatusInput,
   AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument,
   AdminViolationTicketsDetailContainerViolationAssignDocument,
-  AdminViolationTicketsDetailContainerAddUpdateActivityDocument
+  AdminViolationTicketsDetailContainerAddUpdateActivityDocument,
+  MemberViolationTicketProcessPaymentDocument
 } from '../../../../generated';
 
 import { ViolationTicketsDetail } from './violation-ticket-detail';
@@ -33,9 +34,54 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
   const navigate = useNavigate();
 
   const [violationTicketUpdate] = useMutation(AdminViolationTicketsDetailContainerViolationTicketUpdateDocument);
-  const [violationTicketChangeStatus] = useMutation(AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument);
+  const [violationTicketChangeStatus] = useMutation(
+    AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument
+  );
   const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationAssignDocument);
   const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerAddUpdateActivityDocument);
+  const [violationTicketProcessPayment] = useMutation(MemberViolationTicketProcessPaymentDocument, {
+    update(cache, { data }) {
+      const updatedViolationTicket = data?.violationTicketProcessPayment.violationTicket;
+      const violationTicket = cache.readQuery({
+        query: AdminServiceTicketsDetailContainerViolationTicketDocument,
+        variables: {
+          id: props.data.id
+        }
+      })?.violationTicket;
+
+      if (violationTicket && updatedViolationTicket) {
+        cache.writeQuery({
+          query: AdminServiceTicketsDetailContainerViolationTicketDocument,
+          variables: {
+            id: props.data.id
+          },
+          data: {
+            violationTicket: {
+              ...updatedViolationTicket
+            }
+          }
+        });
+      }
+    }
+  });
+
+  const handlePayment = async (violationTicketId: string, paymentAmount: number, paymentInstrumentId: string) => {
+    try {
+      await violationTicketProcessPayment({
+        variables: {
+          input: {
+            violationTicketId,
+            paymentAmount,
+            paymentInstrumentId
+          }
+        }
+      });
+      message.success('Payment processed successfully.');
+    } catch (error) {
+      message.error(`Error processing payment on Violation Ticket : ${JSON.stringify(error)}`);
+    }
+  };
+
   const {
     data: memberData,
     loading: memberLoading,
@@ -182,6 +228,7 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
         onAssign={handleAssign}
         onAddUpdateActivity={handleAddUpdateActivity}
         onDelete={handleDelete}
+        onPayment={handlePayment}
       />
     );
   } else {

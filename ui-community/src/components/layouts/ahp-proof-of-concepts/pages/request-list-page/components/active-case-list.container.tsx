@@ -1,5 +1,5 @@
 import { FC, Key, useEffect, useState } from 'react';
-import { useMatch, useNavigate } from 'react-router-dom';
+import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { SelectableList, SelectableListDataType } from '../../../components/selectable-list';
 import { AHPObjectRouteLayer, AHPRootRouteLayer } from '../../..';
  import { AHPObjectStatusRouteLayer } from '..';
@@ -32,8 +32,9 @@ export const ActiveCaseListContainer: FC<ActiveCaseListContainerProps> = (_props
   const navigate = useNavigate();
 
   const [selectedActiveCase, setSelectedActiveCase] = useState<SelectableListDataType | undefined>();
-  const selectedActiveCaseRouteMatch = useMatch(`/${AHPRootRouteLayer}/${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Active}/:${AHPObjectIDRouteLayer.CaseId}/*`);
 
+  const activeCaseListRoutePath = useResolvedPath("");
+  const selectedActiveCaseRouteMatch = useMatch(`${activeCaseListRoutePath.pathname}/:${AHPObjectIDRouteLayer.CaseId}/*`);
   // set selected based on type and id
   useEffect(() => {
     setSelectedActiveCase(undefined);

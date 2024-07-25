@@ -64,7 +64,7 @@ const Breadcrumbs: React.FC = () => {
     </Breadcrumb.Item>
   ].concat(extraBreadcrumbItems);
 
-  return <Breadcrumb style={{ margin: '16px 0' }}>{breadcrumbItems}</Breadcrumb>;
+  return <Breadcrumb style={{ margin: '16px 0' }}>{extraBreadcrumbItems}</Breadcrumb>;
 };
 
 export default Breadcrumbs;

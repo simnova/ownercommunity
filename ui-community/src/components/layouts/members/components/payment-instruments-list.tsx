@@ -1,6 +1,7 @@
-import { Badge, Button, message } from 'antd';
-import { PaymentInstrument } from '../../../../generated';
+import { Badge, Button } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+
+import { PaymentInstrument } from '../../../../generated';
 
 const getCardType = (cardType: string) => {
   switch (cardType) {
@@ -56,8 +57,8 @@ export const PaymentInstrumentList: React.FC<PaymentInstrumentListProps> = ({
 
 interface CreditCardDisplayProps {
   paymentInstrument: PaymentInstrument;
-  onSetDefaultPaymentMethod: (paymentInstrumentId: string) => Promise<void>;
-  onDeletePaymentMethod: (paymentInstrumentId: string) => Promise<void>;
+  onSetDefaultPaymentMethod?: (paymentInstrumentId: string) => Promise<void>;
+  onDeletePaymentMethod?: (paymentInstrumentId: string) => Promise<void>;
 }
 
 export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
@@ -66,11 +67,15 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
   onDeletePaymentMethod
 }) => {
   const handleSetDefaultPaymentMethod = async () => {
-    await onSetDefaultPaymentMethod(paymentInstrument.paymentInstrumentId!);
+    if (onSetDefaultPaymentMethod) {
+      await onSetDefaultPaymentMethod(paymentInstrument.paymentInstrumentId!);
+    }
   };
 
   const handleDeletePaymentMethod = async () => {
-    await onDeletePaymentMethod(paymentInstrument.paymentInstrumentId!);
+    if (onDeletePaymentMethod) {
+      await onDeletePaymentMethod(paymentInstrument.paymentInstrumentId!);
+    }
   };
 
   if (paymentInstrument?.cardNumber && paymentInstrument?.cardType) {
@@ -94,12 +99,21 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
 
         {/* ACTIONS */}
         <div className="flex gap-2 ml-4">
-          <Button className="w-8 h-8 p-0" onClick={handleSetDefaultPaymentMethod}>
-            <EditOutlined />
-          </Button>
-          <Button className="w-8 h-8 p-0" onClick={handleDeletePaymentMethod} aria-label="delete-payment-method" danger>
-            <DeleteOutlined />
-          </Button>
+          {onSetDefaultPaymentMethod && (
+            <Button className="w-8 h-8 p-0" onClick={handleSetDefaultPaymentMethod}>
+              <EditOutlined />
+            </Button>
+          )}
+          {onDeletePaymentMethod && (
+            <Button
+              className="w-8 h-8 p-0"
+              onClick={handleDeletePaymentMethod}
+              aria-label="delete-payment-method"
+              danger
+            >
+              <DeleteOutlined />
+            </Button>
+          )}
         </div>
       </div>
     );

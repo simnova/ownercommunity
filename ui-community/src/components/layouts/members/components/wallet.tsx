@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Empty } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import AddPaymentMethodModalContainer from './add-payment-method-modal.container';
@@ -23,20 +23,27 @@ const Wallet: React.FC<WalletProps> = ({
 
   const { paymentInstruments } = paymentInstrumentsResult;
 
+  const addPaymentMethodButton = (
+    <Button type="primary" className="mt-8" onClick={useAddPaymentMethod.onOpen}>
+      <div className="flex items-center">
+        <PlusOutlined className="mr-1" /> Add Card
+      </div>
+    </Button>
+  );
+
   return (
     <div>
-      {paymentInstruments && (
+      <h2>Your Cards</h2>
+      {paymentInstruments && paymentInstruments?.length > 0 ? (
         <PaymentInstrumentList
           paymentInstruments={paymentInstruments as PaymentInstrument[]}
           onSetDefaultPaymentMethod={onSetDefaultPaymentMethod}
           onDeletePaymentMethod={onDeletePaymentMethod}
         />
+      ) : (
+        <Empty description="You don't have any payment methods setup yet." children={addPaymentMethodButton} />
       )}
-      <Button type="primary" className="mt-8" onClick={useAddPaymentMethod.onOpen}>
-        <div className="flex items-center">
-          <PlusOutlined className="mr-1" /> Add Card
-        </div>
-      </Button>
+      {paymentInstruments && paymentInstruments?.length > 0 && addPaymentMethodButton}
       <AddPaymentMethodModalContainer />
     </div>
   );

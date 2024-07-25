@@ -434,7 +434,6 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ cybersource, o
     const callBack = async (error: any, token: any) => {
       setIsPaymentTokenLoading(true);
       if (token) {
-        message.success('Payment token created successfully.', token);
         setPaymentToken(token);
         setStep((value) => value + 1);
       }

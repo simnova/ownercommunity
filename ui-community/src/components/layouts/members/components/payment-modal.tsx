@@ -1,38 +1,25 @@
 import { Button, Form, Modal, Radio, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
+import { PaymentInstrument, PaymentInstrumentResult } from '../../../../generated';
+
 import usePayModal from '../../../../hooks/usePayModal';
 
 import { CreditCardDisplay } from './payment-instruments-list';
-
-const cards = [
-  {
-    id: 1,
-    cardNumber: '411111XXXXXX1111',
-    default: true
-  },
-  {
-    id: 2,
-    cardNumber: '5295932778292174',
-    default: false
-  },
-  {
-    id: 3,
-    cardNumber: 'XXXXXXXXXXXX5678',
-    default: false
-  }
-];
+import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
 
 interface PaymentModalProps {
   title: string;
+  paymentInstrumentsResult: PaymentInstrumentResult;
 }
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ title }) => {
+export const PaymentModal: React.FC<PaymentModalProps> = ({ title, paymentInstrumentsResult }) => {
   const usePay = usePayModal();
+  const addPaymentMethod = useAddPaymentMethodModal();
   const [paymentForm] = Form.useForm();
 
   const addPaymentButton = (
-    <Button>
+    <Button onClick={addPaymentMethod.onOpen}>
       <div className="flex items-center">
         <PlusOutlined className="mr-1" /> Add Card
       </div>
@@ -40,36 +27,34 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ title }) => {
   );
 
   return (
-    <Modal
-      open={usePay.isOpen}
-      onCancel={usePay.onClose}
-      title={title}
-      centered
-      footer={(_, { OkBtn, CancelBtn }) => (
-        <div className="flex items-center justify-end gap-2">
-          {addPaymentButton}
-          <CancelBtn />
-          <OkBtn />
-        </div>
-      )}
-    >
+    <Modal open={usePay.isOpen} onCancel={usePay.onClose} title={title} centered footer={() => <div />}>
       <Form form={paymentForm}>
         <Form.Item label="Payment Method" name="paymentInstrument">
-          <Radio.Group>
+          <Radio.Group
+            defaultValue={(paymentInstrumentsResult.paymentInstruments as PaymentInstrument[]).find((i) => {
+              if (i.isDefault) {
+                return i.paymentInstrumentId;
+              }
+            })}
+          >
             <Space direction="vertical">
-              {cards.map((card) => (
-                <Radio key={card.id} value={card.cardNumber}>
+              {(paymentInstrumentsResult.paymentInstruments as PaymentInstrument[]).map((paymentInstrument) => (
+                <Radio key={paymentInstrument.paymentInstrumentId!} value={paymentInstrument?.paymentInstrumentId}>
                   <div className="flex gap-4 items-center">
-                    <CreditCardDisplay cardNumber={card.cardNumber} defaultCard={card.default} />
+                    <CreditCardDisplay paymentInstrument={paymentInstrument} />
                   </div>
                 </Radio>
               ))}
             </Space>
           </Radio.Group>
         </Form.Item>
+        <div className="flex items-center justify-end gap-2">
+          {addPaymentButton}
+          <Button type="primary" onClick={() => {}}>
+            Pay
+          </Button>
+        </div>
       </Form>
     </Modal>
   );
 };
-
-export default PaymentModal;

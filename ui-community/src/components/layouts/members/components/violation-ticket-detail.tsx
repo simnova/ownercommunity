@@ -10,7 +10,7 @@ import {
   ViolationTicketChangeStatusInput
 } from '../../../../generated';
 import usePayModal from '../../../../hooks/usePayModal';
-import PaymentModal from './payment-modal';
+import { PaymentModalContainer } from './payment-modal.container';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -291,7 +291,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 Pay now
               </Button>
             </Form>
-            <PaymentModal title="Pay Penalty" />
+            <PaymentModalContainer title="Pay violation fee" />
           </div>
         </div>
       )}

@@ -2,11 +2,11 @@ import { ServiceTicketV1, ServiceTicketV1Props } from './service-ticket';
 import { ActivityDetailProps } from './activity-detail';
 import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-array';
 import { CommunityEntityReference } from '../../../community/community/community';
-import { PropertyEntityReference } from '../../../property/property';
+import { PropertyEntityReference } from '../../../property/property/property';
 import { MemberEntityReference } from '../../../community/member/member';
 import { DomainExecutionContext } from '../../../domain-execution-context';
-import { ServiceTicketVisa } from '../../../iam/domain-visa/service-ticket-visa';
-import { DomainVisa } from '../../../iam/domain-visa';
+import { ServiceTicketV1Visa } from './service-ticket.visa';
+import { DomainVisa } from '../../../domain-visa';
 
 describe('domain.contexts.service-ticket::service-ticket', () => {
   describe('when creating a new service ticket', () => {
@@ -15,12 +15,12 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
     const givenValidCommunity = jest.mocked({} as CommunityEntityReference);
     const givenValidProperty = jest.mocked({} as PropertyEntityReference);
     const givenValidRequestor = jest.mocked({} as MemberEntityReference);
-    const serviceTicketVisaMock = jest.mocked({} as ServiceTicketVisa);
+    const serviceTicketVisaMock = jest.mocked({} as ServiceTicketV1Visa);
     const givenValidContext = jest.mocked<DomainExecutionContext>(
       ({
         domainVisa: jest.mocked<DomainVisa>(
           ({
-            forServiceTicket: jest.fn(() => serviceTicketVisaMock)
+            forServiceTicketV1: jest.fn(() => serviceTicketVisaMock)
           } as Partial<DomainVisa>) as any)
       } as Partial<DomainExecutionContext>) as any
     );

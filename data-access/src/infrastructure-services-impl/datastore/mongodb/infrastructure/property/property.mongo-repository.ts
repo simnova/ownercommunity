@@ -1,5 +1,5 @@
-import { Property as PropertyDO, PropertyProps } from '../../../../../app/domain/contexts/property/property';
-import { PropertyRepository } from '../../../../../app/domain/contexts/property/property.repository';
+import { Property as PropertyDO, PropertyProps } from '../../../../../app/domain/contexts/property/property/property';
+import { PropertyRepository } from '../../../../../app/domain/contexts/property/property/property.repository';
 import { Property } from '../../models/property';
 import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';

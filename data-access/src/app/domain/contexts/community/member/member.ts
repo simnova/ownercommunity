@@ -7,7 +7,7 @@ import { Account, AccountEntityReference, AccountProps } from './account';
 import { Role, RoleEntityReference, RoleProps } from '../role/role';
 import { DomainExecutionContext } from '../../domain-execution-context';
 import { Profile, ProfileEntityReference, ProfileProps } from './profile';
-import { CommunityVisa } from '../../iam/domain-visa/community-visa';
+import { CommunityVisa } from "../community.visa";
 import { CustomView, CustomViewEntityReference, CustomViewProps } from './custom-view';
 import { TransactionProps } from '../../cases/violation-ticket/v1/transaction';
 import { ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';

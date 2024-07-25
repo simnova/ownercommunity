@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
-import { ServiceTicketVisa } from '../../../iam/domain-visa/service-ticket-visa';
+import { ServiceTicketV1Visa } from './service-ticket.visa';
 
 export interface PhotoPropValues extends EntityProps {
   documentId: string;
@@ -16,7 +16,7 @@ export interface PhotoEntityReference extends Readonly<PhotoPropValues> {}
 export class Photo extends Entity<PhotoProps> implements PhotoEntityReference {
   constructor(props: PhotoProps,
     private context: DomainExecutionContext,
-    private readonly visa: ServiceTicketVisa) { super(props); }
+    private readonly visa: ServiceTicketV1Visa) { super(props); }
 
   get documentId() {return this.props.documentId;}
   get description() {return this.props.description;}

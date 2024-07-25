@@ -1,6 +1,6 @@
 import { Repository } from '../../../../../../../seedwork/domain-seedwork/repository';
 import { CommunityEntityReference } from '../../../community/community/community';
-import { PropertyEntityReference } from '../../../property/property';
+import { PropertyEntityReference } from '../../../property/property/property';
 import { MemberEntityReference } from '../../../community/member/member';
 import { ViolationTicketV1 , ViolationTicketV1Props } from './violation-ticket';
 

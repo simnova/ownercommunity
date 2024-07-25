@@ -17,13 +17,13 @@ const Payment: React.FC = () => {
   const pages = [
     {
       id: '1',
-      path: '/community/:communityId/member/:memberId/wallet',
+      path: '/community/:communityId/member/:memberId/payment/wallet',
       title: 'Billing Info',
       icon: <CreditCardOutlined />
     },
     {
       id: '2',
-      path: '/community/:communityId/member/:memberId/wallet/transactions',
+      path: '/community/:communityId/member/:memberId/payment/transactions',
       title: 'Transactions',
       icon: <GrTransaction />
     }

@@ -78,7 +78,7 @@ const pageLayouts: PageLayoutProps[] = [
   },
   {
     path: '/community/:communityId/member/:memberId/payment/*',
-    title: 'Wallet',
+    title: 'Payment',
     icon: <WalletOutlined />,
     id: 8,
     parent: 'ROOT'

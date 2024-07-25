@@ -12,3 +12,17 @@ query MemberPaymentInstruments {
     }
   }
 }
+
+mutation MemberDeletePaymentInstrument($input: String!) {
+  memberDeletePaymentInstrument(paymentInstrumentId: $input) {
+    success
+    errorMessage
+  }
+}
+
+mutation MemberSetDefaultPaymentInstrument($input: String!) {
+  memberSetDefaultPaymentInstrument(paymentInstrumentId: $input) {
+    success
+    errorMessage
+  }
+}

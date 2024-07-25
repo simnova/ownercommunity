@@ -4887,6 +4887,24 @@ export type MemberPaymentInstrumentsQuery = {
   } | null;
 };
 
+export type MemberDeletePaymentInstrumentMutationVariables = Exact<{
+  input: Scalars['String'];
+}>;
+
+export type MemberDeletePaymentInstrumentMutation = {
+  __typename?: 'Mutation';
+  memberDeletePaymentInstrument: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+};
+
+export type MemberSetDefaultPaymentInstrumentMutationVariables = Exact<{
+  input: Scalars['String'];
+}>;
+
+export type MemberSetDefaultPaymentInstrumentMutation = {
+  __typename?: 'Mutation';
+  memberSetDefaultPaymentInstrument: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+};
+
 export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MemberSiteCurrentMemberHasAdminRoleQuery = {
@@ -18360,6 +18378,89 @@ export const MemberPaymentInstrumentsDocument = {
     }
   ]
 } as unknown as DocumentNode<MemberPaymentInstrumentsQuery, MemberPaymentInstrumentsQueryVariables>;
+export const MemberDeletePaymentInstrumentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MemberDeletePaymentInstrument' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberDeletePaymentInstrument' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'paymentInstrumentId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberDeletePaymentInstrumentMutation, MemberDeletePaymentInstrumentMutationVariables>;
+export const MemberSetDefaultPaymentInstrumentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MemberSetDefaultPaymentInstrument' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberSetDefaultPaymentInstrument' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'paymentInstrumentId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberSetDefaultPaymentInstrumentMutation,
+  MemberSetDefaultPaymentInstrumentMutationVariables
+>;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',
   definitions: [

@@ -1,26 +1,17 @@
-import { Badge, Divider } from 'antd';
-import 'react-credit-cards-2/dist/es/styles-compiled.css';
+import { Badge, Button, message } from 'antd';
 import { PaymentInstrument } from '../../../../generated';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
-const getCardType = (cardNumber: string) => {
-  const firstDigit = cardNumber.charAt(0);
-  const firstTwoDigits = cardNumber.slice(0, 2);
-  const firstFourDigits = cardNumber.slice(0, 4);
-
-  if (firstDigit === '4') {
-    return 'visa';
-  } else if (firstTwoDigits >= '51' && firstTwoDigits <= '55') {
-    return 'master-card';
-  } else if (
-    firstFourDigits === '6011' ||
-    firstTwoDigits === '65' ||
-    (firstTwoDigits >= '64' && firstTwoDigits <= '65')
-  ) {
-    return 'discover';
-  } else if (firstTwoDigits === '34' || firstTwoDigits === '37') {
-    return 'american-express';
-  } else {
-    return undefined;
+const getCardType = (cardType: string) => {
+  switch (cardType) {
+    case '001':
+      return 'visa';
+    case '002':
+      return 'master-card';
+    case '003':
+      return 'american-express';
+    case '004':
+      return 'discover';
   }
 };
 
@@ -36,50 +27,83 @@ const maskAndFormatCardNumber = (cardNumber: string) => {
 
 interface PaymentInstrumentListProps {
   paymentInstruments: PaymentInstrument[];
+  onSetDefaultPaymentMethod: (paymentInstrumentId: string) => Promise<void>;
+  onDeletePaymentMethod: (paymentInstrumentId: string) => Promise<void>;
 }
 
-const PaymentInstrumentList: React.FC<PaymentInstrumentListProps> = ({ paymentInstruments }) => {
+export const PaymentInstrumentList: React.FC<PaymentInstrumentListProps> = ({
+  paymentInstruments,
+  onSetDefaultPaymentMethod,
+  onDeletePaymentMethod
+}) => {
   return (
-    <div className="flex flex-col gap-4">
-      {paymentInstruments.map((paymentInstrument, index) => (
+    <div className="flex flex-col space-y-4">
+      {paymentInstruments.map((paymentInstrument) => (
         <>
           {paymentInstrument?.cardNumber && (
             <CreditCardDisplay
               key={paymentInstrument.paymentInstrumentId}
-              cardNumber={paymentInstrument.cardNumber}
-              defaultCard={paymentInstrument?.isDefault}
+              paymentInstrument={paymentInstrument}
+              onSetDefaultPaymentMethod={onSetDefaultPaymentMethod}
+              onDeletePaymentMethod={onDeletePaymentMethod}
             />
           )}
-          {index !== paymentInstruments.length - 1 && <Divider />}
         </>
       ))}
     </div>
   );
 };
 
-export const CreditCardDisplay: React.FC<{ cardNumber: string; defaultCard?: boolean | null }> = ({
-  cardNumber,
-  defaultCard
+interface CreditCardDisplayProps {
+  paymentInstrument: PaymentInstrument;
+  onSetDefaultPaymentMethod: (paymentInstrumentId: string) => Promise<void>;
+  onDeletePaymentMethod: (paymentInstrumentId: string) => Promise<void>;
+}
+
+export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
+  paymentInstrument,
+  onSetDefaultPaymentMethod,
+  onDeletePaymentMethod
 }) => {
-  const cardType = getCardType(cardNumber);
-  return (
-    <div className="flex gap-4 items-center">
-      <div className="flex gap-6">
-        {cardType !== undefined && (
+  const handleSetDefaultPaymentMethod = async () => {
+    await onSetDefaultPaymentMethod(paymentInstrument.paymentInstrumentId!);
+  };
+
+  const handleDeletePaymentMethod = async () => {
+    await onDeletePaymentMethod(paymentInstrument.paymentInstrumentId!);
+  };
+
+  if (paymentInstrument?.cardNumber && paymentInstrument?.cardType) {
+    return (
+      <div className="flex items-center gap-4">
+        {paymentInstrument?.cardType && (
           <div className="p-1 rounded-md border-[1px] border-solid border-neutral-200">
             <img
-              src={`/public/images/card-images/${cardType}.svg`}
-              alt={`${cardType} logo`}
+              src={`/public/images/card-images/${getCardType(paymentInstrument.cardType)}.svg`}
+              alt={`${paymentInstrument.cardType} logo`}
               className="w-8 border border-black p-0 m-0"
             />
           </div>
         )}
-        <span>{maskAndFormatCardNumber(cardNumber)}</span>
-        {/* <Cards number={cardNumber} name={''} cvc={''} expiry={''} /> */}
-      </div>
-      {/* {defaultCard && <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg">Default</Badge>} */}
-    </div>
-  );
-};
 
-export default PaymentInstrumentList;
+        <span className="w-44">{maskAndFormatCardNumber(paymentInstrument.cardNumber)}</span>
+
+        <div className={`flex items-center ${paymentInstrument?.isDefault ? 'visible' : 'invisible'}`}>
+          <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg h-fit">Default</Badge>
+        </div>
+
+        {/* ACTIONS */}
+        <div className="flex gap-2 ml-4">
+          <Button className="w-8 h-8 p-0" onClick={handleSetDefaultPaymentMethod}>
+            <EditOutlined />
+          </Button>
+          <Button className="w-8 h-8 p-0" onClick={handleDeletePaymentMethod} aria-label="delete-payment-method" danger>
+            <DeleteOutlined />
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};

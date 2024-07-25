@@ -1,44 +1,9 @@
-import { Breadcrumb, Button, Layout, Space } from 'antd';
+import { Button, Layout, Space } from 'antd';
 import { FC } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { MenuComponent, PageLayoutProps } from '../shared/components/menu-component';
 import Breadcrumbs from './components/breadcrumbs';
 const { Header, Content, Sider } = Layout;
-
-const activeCaseSessionsDropdownItems = [
-  {
-    key: 'chat',
-    label: (
-      <Link target="_self" rel="noopener noreferrer" to={'chat'}>
-        Chat
-      </Link>
-    )
-  },
-  {
-    key: 'application',
-    label: (
-      <Link target="_self" rel="noopener noreferrer" to={'application'}>
-        Application
-      </Link>
-    )
-  },
-  {
-    key: 'files',
-    label: (
-      <Link target="_self" rel="noopener noreferrer" to={'files'}>
-        Files
-      </Link>
-    )
-  },
-  {
-    key: 'transactions',
-    label: (
-      <Link target="_self" rel="noopener noreferrer" to={'transactions'}>
-        Transactions
-      </Link>
-    )
-  }
-];
 
 interface AHPPOCSectionLayoutProps {
   pageLayouts: PageLayoutProps[];

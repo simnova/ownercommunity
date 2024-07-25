@@ -27,6 +27,25 @@ export const ChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
       sentBy: 'internal',
       message: ':(',
       createdAt: '04-March-24 9:25 AM EST'
+    },
+    {
+      embedding: '',
+      sentBy: 'internal',
+      message:
+        'Are you sure you arent interested in any more offers? Please Please Please Please Please Please Please Please Please Please Please Please Please Please',
+      createdAt: '04-March-24 9:25 AM EST'
+    },
+    {
+      embedding: '',
+      sentBy: 'external',
+      message: 'はい、お願いします',
+      createdAt: '04-March-24 9:24 AM EST'
+    },
+    {
+      embedding: '',
+      sentBy: 'internal',
+      message: 'Wait what',
+      createdAt: '04-March-24 9:25 AM EST'
     }
   ];
   return <ChatMessages data={testData} />;

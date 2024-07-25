@@ -3,10 +3,10 @@ import { Member } from '../../../domain/contexts/community/member/member';
 import { ReadOnlyDomainVisa } from '../../../domain/contexts/iam/domain-visa';
 import { Service } from '../../../domain/contexts/community/service/service';
 import { TransactionProps } from '../../../domain/contexts/cases/violation-ticket/v1/transaction';
-import { ViolationTicket } from '../../../domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketV1 } from '../../../domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { StatusCodes } from '../../../domain/contexts/cases/violation-ticket/v1/violation-ticket.value-objects';
 import { MemberData, ViolationTicketData } from '../../../external-dependencies/datastore';
-import { ViolationTicketDomainAdapter, CommunityConverter, PropertyConverter, ViolationTicketRepository, MemberConverter, ServiceDomainAdapter, ServiceConverter, ViolationTicketConverter } from '../../../external-dependencies/domain';
+import { ViolationTicketV1DomainAdapter, CommunityConverter, PropertyConverter, ViolationTicketV1Repository, MemberConverter, ServiceDomainAdapter, ServiceConverter, ViolationTicketV1Converter } from '../../../external-dependencies/domain';
 import {
   ViolationTicketCreateInput,
   ViolationTicketUpdateInput,
@@ -18,7 +18,7 @@ import {
 } from '../../../external-dependencies/graphql-api';
 import { AppContext } from '../../../init/app-context-builder';
 
-export interface ViolationTicketDomainApi {
+export interface ViolationTicketV1DomainApi {
   violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData>;
   violationTicketUpdate(input: ViolationTicketUpdateInput): Promise<ViolationTicketData>;
   violationTicketDelete(input: ViolationTicketDeleteInput): Promise<ViolationTicketData>;
@@ -29,11 +29,11 @@ export interface ViolationTicketDomainApi {
   // serviceTicketSubmit(input: ServiceTicketSubmitInput): Promise<ServiceTicketData>;
 }
 
-type PropType = ViolationTicketDomainAdapter;
-type DomainType = ViolationTicket<PropType>;
-type RepoType = ViolationTicketRepository<PropType>;
+type PropType = ViolationTicketV1DomainAdapter;
+type DomainType = ViolationTicketV1<PropType>;
+type RepoType = ViolationTicketV1Repository<PropType>;
 
-export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, ViolationTicketData, PropType, DomainType, RepoType> implements ViolationTicketDomainApi {
+export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext, ViolationTicketData, PropType, DomainType, RepoType> implements ViolationTicketV1DomainApi {
   async violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData> {
     console.log(`violationTicketCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
@@ -69,7 +69,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
         newViolationTicket.Service = serviceDo;
       }
 
-      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(newViolationTicket));
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(newViolationTicket));
     });
     return violationTicketToReturn;
   }
@@ -97,7 +97,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
       if (input.description) violationTicket.Description = input.description;
       if (input.priority) violationTicket.Priority = input.priority;
       if (input.penaltyAmount) violationTicket.PenaltyAmount = input.penaltyAmount;
-      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
       if (input.serviceId) {
         violationTicket.Service = serviceDo;
       }
@@ -110,7 +110,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
     await this.withTransaction(async (repo) => {
       let violationTicket = await repo.getById(input.violationTicketId);
       violationTicket.requestDelete();
-      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;
   }
@@ -125,7 +125,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
     await this.withTransaction(async (repo) => {
       let violationTicket = await repo.getById(input.violationTicketId);
       violationTicket.AssignedTo = memberDo;
-      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;
   }
@@ -137,7 +137,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
     await this.withTransaction(async (repo) => {
       let violationTicket = await repo.getById(input.violationTicketId);
       violationTicket.requestAddStatusTransition(input.status, input.activityDescription, memberDo);
-      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;
   }
@@ -149,7 +149,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
     await this.withTransaction(async (repo) => {
       let violationTicket = await repo.getById(input.violationTicketId);
       violationTicket.requestAddStatusUpdate(input.activityDescription, memberDo);
-      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;
   }
@@ -213,7 +213,7 @@ export class ViolationTicketDomainApiImpl extends DomainDataSource<AppContext, V
       transaction.IsSuccess = response?.isSuccess;
       violationTicket.PenaltyPaidDate = new Date();
       // save the transaction details
-      violationTicketToReturn = new ViolationTicketConverter().toPersistence(await repo.save(violationTicket));
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;
   }

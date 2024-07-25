@@ -1,17 +1,17 @@
-import { ServiceTicket, ServiceTicketProps } from './service-ticket';
+import { ServiceTicketV1, ServiceTicketV1Props } from './service-ticket';
 import { Repository } from '../../../../../../../seedwork/domain-seedwork/repository';
 import { CommunityEntityReference } from '../../../community/community/community';
 import { PropertyEntityReference } from '../../../property/property';
 import { MemberEntityReference } from '../../../community/member/member';
 
-export interface ServiceTicketRepository<props extends ServiceTicketProps> extends Repository<ServiceTicket<props>> {
+export interface ServiceTicketV1Repository<props extends ServiceTicketV1Props> extends Repository<ServiceTicketV1<props>> {
   getNewInstance(
     title: string,
     description: string,
     community: CommunityEntityReference,
     property: PropertyEntityReference,
     requestor: MemberEntityReference
-  ): Promise<ServiceTicket<props>>;
+  ): Promise<ServiceTicketV1<props>>;
 
-  getById(id: string): Promise<ServiceTicket<props>>
+  getById(id: string): Promise<ServiceTicketV1<props>>
 }

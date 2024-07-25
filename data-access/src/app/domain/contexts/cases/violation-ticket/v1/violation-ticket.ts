@@ -11,15 +11,15 @@ import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-ar
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from '../../service-ticket/v1/activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from '../../service-ticket/v1/photo';
 import { ViolationTicketVisa as ViolationTicketVisa } from '../../../iam/domain-visa/violation-ticket-visa';
-import { ViolationTicketDeletedEvent } from '../../../../events/types/violation-ticket-deleted';
-import { ViolationTicketUpdatedEvent } from '../../../../events/types/violation-ticket-updated';
-import { ViolationTicketCreatedEvent } from '../../../../events/types/violation-ticket-created';
+import { ViolationTicketV1DeletedEvent } from '../../../../events/types/violation-ticket-v1-deleted';
+import { ViolationTicketV1UpdatedEvent } from '../../../../events/types/violation-ticket-v1-updated';
+import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violation-ticket-v1-created';
 import { ViolationTicketUpdateInput } from '../../../../../external-dependencies/graphql-api';
 import dayjs from 'dayjs';
 import { Transaction, TransactionProps } from './transaction';
 import { PenaltyAmount } from './violation-ticket.value-objects';
 
-export interface ViolationTicketProps extends EntityProps {
+export interface ViolationTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
   readonly property: PropertyProps;
@@ -50,10 +50,10 @@ export interface ViolationTicketProps extends EntityProps {
   updateIndexFailedDate: Date; // failure
 }
 
-export interface ViolationTicketEntityReference
+export interface ViolationTicketV1EntityReference
   extends Readonly<
     Omit<
-      ViolationTicketProps,
+      ViolationTicketV1Props,
       | 'community'
       | 'setCommunityRef'
       | 'property'
@@ -78,7 +78,7 @@ export interface ViolationTicketEntityReference
   readonly photos: ReadonlyArray<PhotoEntityReference>;
 }
 
-export class ViolationTicket<props extends ViolationTicketProps> extends AggregateRoot<props> implements ViolationTicketEntityReference {
+export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props> implements ViolationTicketV1EntityReference {
   private isNew: boolean = false;
   private readonly visa: ViolationTicketVisa;
   constructor(props: props, private context: DomainExecutionContext) {
@@ -86,7 +86,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     this.visa = context.domainVisa.forViolationTicket(this);
   }
 
-  public static getNewInstance<props extends ViolationTicketProps>(
+  public static getNewInstance<props extends ViolationTicketV1Props>(
     newProps: props,
     title: string,
     description: string,
@@ -96,8 +96,8 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
     context: DomainExecutionContext,
     penaltyAmount?: number,
     penaltyPaidDate?: Date
-  ): ViolationTicket<props> {
-    let violationTicket = new ViolationTicket(newProps, context);
+  ): ViolationTicketV1<props> {
+    let violationTicket = new ViolationTicketV1(newProps, context);
     violationTicket.MarkAsNew();
     violationTicket.isNew = true;
     violationTicket.Title = title;
@@ -201,7 +201,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
 
   private MarkAsNew(): void {
     this.isNew = true;
-    this.addIntegrationEvent(ViolationTicketCreatedEvent, { id: this.props.id });
+    this.addIntegrationEvent(ViolationTicketV1CreatedEvent, { id: this.props.id });
   }
 
   // using set from TS 5.1
@@ -358,7 +358,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
       throw new Error('You do not have permission to delete this property');
     }
     super.isDeleted = true;
-    this.addIntegrationEvent(ViolationTicketDeletedEvent, { id: this.props.id });
+    this.addIntegrationEvent(ViolationTicketV1DeletedEvent, { id: this.props.id });
   }
 
   private requestNewActivityDetail(): ActivityDetail {
@@ -455,7 +455,7 @@ export class ViolationTicket<props extends ViolationTicketProps> extends Aggrega
 
   public override onSave(isModified: boolean): void {
     if (isModified && !super.isDeleted) {
-      this.addIntegrationEvent(ViolationTicketUpdatedEvent, { id: this.props.id });
+      this.addIntegrationEvent(ViolationTicketV1UpdatedEvent, { id: this.props.id });
     }
   }
 }

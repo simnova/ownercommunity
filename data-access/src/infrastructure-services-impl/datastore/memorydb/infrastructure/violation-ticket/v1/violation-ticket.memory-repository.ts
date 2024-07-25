@@ -9,8 +9,8 @@ import { MemoryBaseAdapter } from '../../../../../../../seedwork/services-seedwo
 import { MemoryPropArray } from '../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
 import { MemoryRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
 import { v4 as uuidV4 } from 'uuid';
-import { ViolationTicket, ViolationTicketProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
-import { ViolationTicketRepository } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
+import { ViolationTicketV1, ViolationTicketV1Props } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketV1Repository } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
 import { TransactionProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
 
 class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailProps {
@@ -52,7 +52,7 @@ class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {
   }
 }
 
-class MemoryViolationTicket extends MemoryBaseAdapter implements ViolationTicketProps {
+class MemoryViolationTicketV1 extends MemoryBaseAdapter implements ViolationTicketV1Props {
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void {
     this.community = community as CommunityProps;
@@ -100,9 +100,9 @@ class MemoryViolationTicket extends MemoryBaseAdapter implements ViolationTicket
   updateIndexFailedDate: Date; // failure
 }
 
-export class MemoryViolationTicketRepository<PropType extends ViolationTicketProps, DomainType extends ViolationTicket<PropType>>
+export class MemoryViolationTicketV1Repository<PropType extends ViolationTicketV1Props, DomainType extends ViolationTicketV1<PropType>>
   extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType>
-  implements ViolationTicketRepository<PropType>
+  implements ViolationTicketV1Repository<PropType>
 {
   async getNewInstance(
     title: string,
@@ -111,10 +111,10 @@ export class MemoryViolationTicketRepository<PropType extends ViolationTicketPro
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
     penaltyAmount: number
-  ): Promise<ViolationTicket<PropType>> {
-    return ViolationTicket.getNewInstance(new MemoryViolationTicket() as unknown as PropType, title, description, community, property, requestor, this.context, penaltyAmount); // [MG-TBD]
+  ): Promise<ViolationTicketV1<PropType>> {
+    return ViolationTicketV1.getNewInstance(new MemoryViolationTicketV1() as unknown as PropType, title, description, community, property, requestor, this.context, penaltyAmount); // [MG-TBD]
   }
-  async getById(id: string): Promise<ViolationTicket<PropType>> {
+  async getById(id: string): Promise<ViolationTicketV1<PropType>> {
     return await this.get(id);
   }
 }

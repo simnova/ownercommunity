@@ -1,22 +1,22 @@
 import { AppContext } from "../../../init/app-context-builder";
-import { ViolationTicketUnitOfWork } from "../../../external-dependencies/domain";
+import { ViolationTicketV1UnitOfWork } from "../../../external-dependencies/domain";
 import { ViolationTicketModel } from "../../../external-dependencies/datastore";
-import { ViolationTicketDataApi, ViolationTicketDataApiImpl } from "./violation-ticket.data";
-import { ViolationTicketDomainApi, ViolationTicketDomainApiImpl } from "./violation-ticket.domain";
+import { ViolationTicketV1DataApi, ViolationTicketV1DataApiImpl } from "./violation-ticket.data";
+import { ViolationTicketV1DomainApi, ViolationTicketV1DomainApiImpl } from "./violation-ticket.domain";
 
 export interface ViolationTicketV1Api {
-  domainApi: ViolationTicketDomainApi;
-  dataApi: ViolationTicketDataApi;
+  domainApi: ViolationTicketV1DomainApi;
+  dataApi: ViolationTicketV1DataApi;
 }
 
 export class ViolationTicketV1ApiImpl implements ViolationTicketV1Api {
-  domainApi: ViolationTicketDomainApi;
-  dataApi: ViolationTicketDataApi;
+  domainApi: ViolationTicketV1DomainApi;
+  dataApi: ViolationTicketV1DataApi;
 
 
   constructor(context: AppContext) {
-    this.domainApi = new ViolationTicketDomainApiImpl({ unitOfWork: ViolationTicketUnitOfWork, context });
-    this.dataApi = new ViolationTicketDataApiImpl({ modelOrCollection: ViolationTicketModel, context });
+    this.domainApi = new ViolationTicketV1DomainApiImpl({ unitOfWork: ViolationTicketV1UnitOfWork, context });
+    this.dataApi = new ViolationTicketV1DataApiImpl({ modelOrCollection: ViolationTicketModel, context });
   }
 
 }

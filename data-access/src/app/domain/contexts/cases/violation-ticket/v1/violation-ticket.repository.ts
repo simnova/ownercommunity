@@ -2,9 +2,9 @@ import { Repository } from '../../../../../../../seedwork/domain-seedwork/reposi
 import { CommunityEntityReference } from '../../../community/community/community';
 import { PropertyEntityReference } from '../../../property/property';
 import { MemberEntityReference } from '../../../community/member/member';
-import { ViolationTicket as ViolationTicket, ViolationTicketProps as ViolationTicketProps } from './violation-ticket';
+import { ViolationTicketV1 , ViolationTicketV1Props } from './violation-ticket';
 
-export interface ViolationTicketRepository<props extends ViolationTicketProps> extends Repository<ViolationTicket<props>> {
+export interface ViolationTicketV1Repository<props extends ViolationTicketV1Props> extends Repository<ViolationTicketV1<props>> {
   getNewInstance(
     title: string,
     description: string,
@@ -13,7 +13,7 @@ export interface ViolationTicketRepository<props extends ViolationTicketProps> e
     requestor: MemberEntityReference,
     penaltyAmount: number,
     penaltyPaidDate: Date
-  ): Promise<ViolationTicket<props>>;
+  ): Promise<ViolationTicketV1<props>>;
 
-  getById(id: string): Promise<ViolationTicket<props>>
+  getById(id: string): Promise<ViolationTicketV1<props>>
 }

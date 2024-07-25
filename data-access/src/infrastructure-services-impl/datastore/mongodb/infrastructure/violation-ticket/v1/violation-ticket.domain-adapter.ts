@@ -1,6 +1,6 @@
 import { ActivityDetail, Photo } from '../../../models/service-ticket';
 import { Transaction, ViolationTicket } from '../../../models/violation-ticket';
-import { ViolationTicket as ViolationTicketDO, ViolationTicketProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
+import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../../app/domain/contexts/domain-execution-context';
@@ -17,18 +17,18 @@ import { ServiceDomainAdapter } from '../../service/service.domain-adapter';
 import { ServiceEntityReference } from '../../../../../../app/domain/contexts/community/service/service';
 import { TransactionProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
 
-export class ViolationTicketConverter extends MongoTypeConverter<
+export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
   ViolationTicket,
-  ViolationTicketDomainAdapter,
-  ViolationTicketDO<ViolationTicketDomainAdapter>
+  ViolationTicketV1DomainAdapter,
+  ViolationTicketDO<ViolationTicketV1DomainAdapter>
 > {
   constructor() {
-    super(ViolationTicketDomainAdapter, ViolationTicketDO);
+    super(ViolationTicketV1DomainAdapter, ViolationTicketDO);
   }
 }
 
-export class ViolationTicketDomainAdapter extends MongooseDomainAdapter<ViolationTicket> implements ViolationTicketProps {
+export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<ViolationTicket> implements ViolationTicketV1Props {
   get community() {
     if (this.doc.community) {
       return new CommunityDomainAdapter(this.doc.community);

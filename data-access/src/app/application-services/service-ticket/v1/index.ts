@@ -1,25 +1,25 @@
 import { AppContext } from "../../../init/app-context-builder";
-import { ServiceTicketDataApi, ServiceTicketDataApiImpl } from "./service-ticket.data";
-import { ServiceTicketDomainApi, ServiceTicketDomainApiImpl } from "./service-ticket.domain";
-import { ServiceTicketUnitOfWork } from "../../../external-dependencies/domain";
+import { ServiceTicketV1DataApi, ServiceTicketV1DataApiImpl } from "./service-ticket.data";
+import { ServiceTicketV1DomainApi, ServiceTicketV1DomainApiImpl } from "./service-ticket.domain";
+import { ServiceTicketV1UnitOfWork } from "../../../external-dependencies/domain";
 import { ServiceTicketModel } from "../../../external-dependencies/datastore";
-import { ServiceTicketSearchApi, ServiceTicketSearchApiImpl } from "./service-ticket.search";
+import { ServiceTicketV1SearchApi, ServiceTicketV1SearchApiImpl } from "./service-ticket.search";
 
 export interface ServiceTicketV1Api {
-  domainApi: ServiceTicketDomainApi;
-  dataApi: ServiceTicketDataApi;
-  searchApi: ServiceTicketSearchApi;
+  domainApi: ServiceTicketV1DomainApi;
+  dataApi: ServiceTicketV1DataApi;
+  searchApi: ServiceTicketV1SearchApi;
 }
 
 export class ServiceTicketV1ApiImpl implements ServiceTicketV1Api {
-  domainApi: ServiceTicketDomainApi;
-  dataApi: ServiceTicketDataApi;
-  searchApi: ServiceTicketSearchApi;
+  domainApi: ServiceTicketV1DomainApi;
+  dataApi: ServiceTicketV1DataApi;
+  searchApi: ServiceTicketV1SearchApi;
 
   constructor(context: AppContext) {
-    this.domainApi = new ServiceTicketDomainApiImpl({ unitOfWork: ServiceTicketUnitOfWork, context });
-    this.dataApi = new ServiceTicketDataApiImpl({ modelOrCollection: ServiceTicketModel, context });
-    this.searchApi = new ServiceTicketSearchApiImpl({ context });
+    this.domainApi = new ServiceTicketV1DomainApiImpl({ unitOfWork: ServiceTicketV1UnitOfWork, context });
+    this.dataApi = new ServiceTicketV1DataApiImpl({ modelOrCollection: ServiceTicketModel, context });
+    this.searchApi = new ServiceTicketV1SearchApiImpl({ context });
   }
 
 }

@@ -5,8 +5,8 @@ import { PropertyEntityReference, PropertyProps } from "../../../../../../app/do
 import { ActivityDetailProps } from "../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail";
 import { PhotoProps } from "../../../../../../app/domain/contexts/cases/service-ticket/v1/photo";
 import { ServiceEntityReference, ServiceProps } from "../../../../../../app/domain/contexts/community/service/service";
-import { ServiceTicket, ServiceTicketProps } from "../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket";
-import { ServiceTicketRepository } from "../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.repository";
+import { ServiceTicketV1, ServiceTicketV1Props } from "../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket";
+import { ServiceTicketV1Repository } from "../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket.repository";
 import { MemoryBaseAdapter } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryPropArray } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
 import { MemoryRepositoryBase } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
@@ -29,7 +29,7 @@ class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {
   }
 }
 
-class MemoryServiceTicket extends MemoryBaseAdapter implements ServiceTicketProps  {
+class MemoryServiceTicketV1 extends MemoryBaseAdapter implements ServiceTicketV1Props  {
   community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference) : void {
     this.community = community as CommunityProps;
@@ -70,11 +70,11 @@ class MemoryServiceTicket extends MemoryBaseAdapter implements ServiceTicketProp
   updateIndexFailedDate: Date; // failure
 }
 
-export class MemoryServiceTicketRepository<
-  PropType extends ServiceTicketProps, 
-  DomainType extends ServiceTicket<PropType>
+export class MemoryServiceTicketV1Repository<
+  PropType extends ServiceTicketV1Props, 
+  DomainType extends ServiceTicketV1<PropType>
   > extends MemoryRepositoryBase<DomainExecutionContext, PropType, DomainType> 
-    implements ServiceTicketRepository<PropType> 
+    implements ServiceTicketV1Repository<PropType> 
     {
 
       async getNewInstance(
@@ -83,10 +83,10 @@ export class MemoryServiceTicketRepository<
         community: CommunityEntityReference,
         property: PropertyEntityReference,
         requestor: MemberEntityReference
-      ): Promise<ServiceTicket<PropType>> {
-        return ServiceTicket.getNewInstance(new MemoryServiceTicket as unknown as PropType, title, description, community, property, requestor, this.context); // [MG-TBD]
+      ): Promise<ServiceTicketV1<PropType>> {
+        return ServiceTicketV1.getNewInstance(new MemoryServiceTicketV1 as unknown as PropType, title, description, community, property, requestor, this.context); // [MG-TBD]
       }
-      async getById(id: string): Promise<ServiceTicket<PropType>>{
+      async getById(id: string): Promise<ServiceTicketV1<PropType>>{
         const serviceTicket = await this.get(id);
         return serviceTicket;
       }

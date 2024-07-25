@@ -1,24 +1,24 @@
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
-import { ServiceTicketUpdatedEvent } from '../types/service-ticket-updated';
+import { ServiceTicketV1UpdatedEvent } from '../types/service-ticket-v1-updated';
 import retry from 'async-retry';
-import { ServiceTicket, ServiceTicketProps } from '../../contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1, ServiceTicketV1Props } from '../../contexts/cases/service-ticket/v1/service-ticket';
 import dayjs from 'dayjs';
 import { EventBusInstance } from '../event-bus';
-import { ServiceTicketUnitOfWork } from '../../contexts/cases/service-ticket/v1/service-ticket.uow';
-import { ServiceTicketRepository } from '../../contexts/cases/service-ticket/v1/service-ticket.repository';
+import { ServiceTicketV1UnitOfWork } from '../../contexts/cases/service-ticket/v1/service-ticket.uow';
+import { ServiceTicketV1Repository } from '../../contexts/cases/service-ticket/v1/service-ticket.repository';
 
 const crypto = require('crypto');
 
 export default (
   cognitiveSearch: CognitiveSearchDomain,
-  serviceTicketUnitOfWork: ServiceTicketUnitOfWork
-) => { EventBusInstance.register(ServiceTicketUpdatedEvent, async (payload) => {
+  serviceTicketV1UnitOfWork: ServiceTicketV1UnitOfWork
+) => { EventBusInstance.register(ServiceTicketV1UpdatedEvent, async (payload) => {
     console.log(`Service Ticket Updated - Search Index Integration: ${JSON.stringify(payload)} and ServiceTicketId: ${payload.id}`);
 
     const context = SystemExecutionContext();
-    await serviceTicketUnitOfWork.withTransaction(context, async (repo) => {
+    await serviceTicketV1UnitOfWork.withTransaction(context, async (repo) => {
       let serviceTicket = await repo.getById(payload.id);
 
       const updatedDate = dayjs(serviceTicket.updatedAt.toISOString().split('T')[0]).toISOString();
@@ -71,9 +71,9 @@ export default (
 
   async function updateSearchIndex(
     serviceTicketDoc: Partial<ServiceTicketIndexDocument>,
-    serviceTicket: ServiceTicket<ServiceTicketProps>,
+    serviceTicket: ServiceTicketV1<ServiceTicketV1Props>,
     hash: any,
-    repo: ServiceTicketRepository<ServiceTicketProps>,
+    repo: ServiceTicketV1Repository<ServiceTicketV1Props>,
   ) {
     await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
     await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, serviceTicketDoc);

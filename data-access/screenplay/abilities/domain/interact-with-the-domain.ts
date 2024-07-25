@@ -25,8 +25,8 @@ import { PropertyRepository } from '../../../src/app/domain/contexts/property/pr
 import { PropertyProps } from '../../../src/app/domain/contexts/property/property';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { MemorydbDatastoreImpl } from '../../../src/infrastructure-services-impl/datastore/memorydb/impl';
-import { ServiceTicketRepository } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
-import { ServiceTicketProps } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1Repository } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
+import { ServiceTicketV1Props } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { CybersourceImpl } from '../../../src/infrastructure-services-impl/payment/cybersource/impl';
 
 export interface InteractWithTheDomainAsUnregisteredUser {
@@ -49,8 +49,8 @@ export interface InteractWithTheDomainAsCommunityMember {
   readUserDb: (func: (db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
   actOnProperty: (func: (repo: PropertyRepository<PropertyProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func: (db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
-  actOnServiceTicket: (func: (repo: ServiceTicketRepository<ServiceTicketProps>) => Promise<void>) => Promise<void>;
-  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>) => Promise<void>;
+  actOnServiceTicket: (func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>) => Promise<void>;
+  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>) => Promise<void>;
 }
 
 export interface InteractWithTheDomainAsReadOnly {
@@ -59,7 +59,7 @@ export interface InteractWithTheDomainAsReadOnly {
   readMemberDb: (func: (db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
   readUserDb: (func: (db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func: (db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
-  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>) => Promise<void>;
+  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>) => Promise<void>;
   logSearchDatabase: () => Promise<void>;
   logDatabase: () => Promise<void>;
 }
@@ -296,23 +296,23 @@ export class InteractWithTheDomain
   }
 
   // service ticket
-  public async actOnServiceTicket(func: (repo: ServiceTicketRepository<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+  public async actOnServiceTicket(func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
-  public async readServiceTicketDb(func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
+  public async readServiceTicketDb(func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.serviceTicketV1ReadonlyMemoryStore);
   }
 
   // service
-  public async actOnService(func: (repo: ServiceTicketRepository<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+  public async actOnService(func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
-  public async readServiceDb(func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
+  public async readServiceDb(func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.serviceTicketV1ReadonlyMemoryStore);
   }
 
   public async logSearchDatabase() {

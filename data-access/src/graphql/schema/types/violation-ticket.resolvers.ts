@@ -1,6 +1,7 @@
-import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, ViolationTicket } from '../builder/generated';
+import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, ViolationTicket, PaymentTransactionsResult } from '../builder/generated';
 import { ViolationTicket as ViolationTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/violation-ticket';
 import { isValidObjectId } from 'mongoose';
+import { getMemberForCurrentUser } from '../resolver-helper';
 
 const ViolationTicketMutationResolver = async (getViolationTicket: Promise<ViolationTicketDo>): Promise<ViolationTicketMutationResult> => {
   try {
@@ -54,6 +55,10 @@ const serviceTicket: Resolvers = {
     violationTicket: async (_parent, args, context, _info) => {
       return (await context.applicationServices.violationTicketDataApi.getViolationTicketById(args.id)) as ViolationTicket;
     },
+    violationTicketPaymentTransactions: async (_parent, _, context, _info) => {
+      const member = await getMemberForCurrentUser(context);
+      return (await context.applicationServices.violationTicketDataApi.getMemberPaymentTransactions(member.id)) as PaymentTransactionsResult[];
+    }
   },
   Mutation: {
     violationTicketCreate: async (_, { input }, { applicationServices }) => {

@@ -4970,9 +4970,7 @@ export type MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFra
   updatedAt?: any | null;
 };
 
-export type MemberTransactionsQueryVariables = Exact<{
-  memberId: Scalars['ID'];
-}>;
+export type MemberTransactionsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MemberTransactionsQuery = {
   __typename?: 'Query';
@@ -19020,13 +19018,6 @@ export const MemberTransactionsDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'MemberTransactions' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
-        }
-      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [

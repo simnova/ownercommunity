@@ -1,4 +1,4 @@
-query MemberTransactions($memberId: ID!) {
+query MemberTransactions {
   violationTicketPaymentTransactions {
     __typename
     amount

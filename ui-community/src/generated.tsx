@@ -4970,6 +4970,26 @@ export type MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFra
   updatedAt?: any | null;
 };
 
+export type MemberTransactionsQueryVariables = Exact<{
+  memberId: Scalars['ID'];
+}>;
+
+export type MemberTransactionsQuery = {
+  __typename?: 'Query';
+  violationTicketPaymentTransactions?: Array<{
+    __typename: 'PaymentTransactionsResult';
+    amount?: number | null;
+    currency?: string | null;
+    description?: string | null;
+    id: any;
+    isSuccess?: boolean | null;
+    status?: string | null;
+    successTimestamp?: any | null;
+    transactionId?: string | null;
+    type?: string | null;
+  } | null> | null;
+};
+
 export type MemberServiceTicketsDetailContainerViolationTicketQueryVariables = Exact<{
   id: Scalars['ObjectID'];
 }>;
@@ -18993,6 +19013,47 @@ export const MemberNameServiceTicketContainerDocument = {
     }
   ]
 } as unknown as DocumentNode<MemberNameServiceTicketContainerQuery, MemberNameServiceTicketContainerQueryVariables>;
+export const MemberTransactionsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberTransactions' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'memberId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'violationTicketPaymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberTransactionsQuery, MemberTransactionsQueryVariables>;
 export const MemberServiceTicketsDetailContainerViolationTicketDocument = {
   kind: 'Document',
   definitions: [

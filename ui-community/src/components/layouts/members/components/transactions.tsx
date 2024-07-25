@@ -1,4 +1,5 @@
 import { Table } from 'antd';
+
 import dayjs from 'dayjs';
 
 const columns = [
@@ -8,9 +9,9 @@ const columns = [
     key: 'transactionId'
   },
   {
-    title: 'Client Reference Code',
-    dataIndex: 'clientReferenceCode',
-    key: 'clientReferenceCode'
+    title: 'Reference Code',
+    dataIndex: 'id',
+    key: 'id'
   },
   {
     title: 'Status',
@@ -18,17 +19,35 @@ const columns = [
     key: 'status'
   },
   {
+    title: 'Amount',
+    dataIndex: ['amount', 'currency'],
+    key: 'amount',
+    render: (text: string, record: any) => `${record.amount} ${record.currency}`
+  },
+  {
+    title: 'Type',
+    dataIndex: 'type',
+    key: 'type'
+  },
+  {
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description'
+  },
+  {
     title: 'Timestamp',
-    dataIndex: 'transactionTime',
-    key: 'transactionTime',
+    dataIndex: 'successTimestamp',
+    key: 'successTimestamp',
     render: (text: string) => dayjs(text).toISOString()
   }
 ];
 
-interface TransactionsProps {}
+interface TransactionsProps {
+  transactions: any[];
+}
 
-const Transactions: React.FC<TransactionsProps> = ({}) => {
-  return <Table columns={columns} pagination={{ position: ['bottomRight'] }} />;
+const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
+  return <Table columns={columns} pagination={{ position: ['bottomRight'] }} dataSource={transactions} />;
 };
 
 export default Transactions;

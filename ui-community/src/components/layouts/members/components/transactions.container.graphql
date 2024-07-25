@@ -1,0 +1,14 @@
+query MemberTransactions($memberId: ID!) {
+  violationTicketPaymentTransactions {
+    __typename
+    amount
+    currency
+    description
+    id
+    isSuccess
+    status
+    successTimestamp
+    transactionId
+    type
+  }
+}

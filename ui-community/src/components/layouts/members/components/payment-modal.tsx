@@ -7,6 +7,7 @@ import usePayModal from '../../../../hooks/usePayModal';
 
 import { CreditCardDisplay } from './payment-instruments-list';
 import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
+import { useState } from 'react';
 
 type PaymentForm = {
   paymentInstrumentId: string;
@@ -19,6 +20,8 @@ interface PaymentModalProps {
 }
 
 export const PaymentModal: React.FC<PaymentModalProps> = ({ title, paymentInstrumentsResult, onPayment }) => {
+  const [processingPayment, setProcessingPayment] = useState(false);
+
   const usePay = usePayModal();
   const addPaymentMethod = useAddPaymentMethodModal();
   const [paymentForm] = Form.useForm();
@@ -36,9 +39,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ title, paymentInstru
       <Form
         form={paymentForm}
         onFinish={(values: PaymentForm) => {
-          onPayment(values.paymentInstrumentId).then(() => {
-            usePay.onClose();
-          });
+          setProcessingPayment(true);
+          onPayment(values.paymentInstrumentId)
+            .then(() => {
+              usePay.onClose();
+            })
+            .finally(() => {
+              setProcessingPayment(false);
+            });
         }}
       >
         <Form.Item<PaymentForm>
@@ -66,7 +74,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ title, paymentInstru
         </Form.Item>
         <div className="flex items-center justify-end gap-2">
           {addPaymentButton}
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={processingPayment}>
             Pay
           </Button>
         </div>

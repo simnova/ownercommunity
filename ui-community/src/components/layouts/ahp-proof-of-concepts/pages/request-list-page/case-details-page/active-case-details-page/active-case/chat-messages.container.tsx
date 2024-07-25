@@ -38,7 +38,7 @@ export const ChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
     {
       embedding: '',
       sentBy: 'external',
-      message: 'はい、お願いします',
+      message: 'はい、どうぞ、それは素晴らしいことです。もう金を払いたくない、とても破産している。',
       createdAt: '04-March-24 9:24 AM EST'
     },
     {

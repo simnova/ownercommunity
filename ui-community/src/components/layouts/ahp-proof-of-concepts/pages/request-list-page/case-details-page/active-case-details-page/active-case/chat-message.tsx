@@ -38,7 +38,7 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
       >
         <div
           style={{
-            width: '75%',
+            maxWidth: '75%',
             display: 'flex',
             flexDirection: props.sentBy === 'internal' ? 'row-reverse' : 'row',
             alignItems: 'center',

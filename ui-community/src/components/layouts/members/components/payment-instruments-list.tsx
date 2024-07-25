@@ -16,12 +16,22 @@ const getCardType = (cardType: string) => {
   }
 };
 
-const maskAndFormatCardNumber = (cardNumber: string) => {
+const maskAndFormatCardNumber = (cardNumber: string, cardType: string) => {
+  // Check if the card is an Amex card (15 digits)
+  const isAmex = cardType === '003';
+
   // Mask all digits except the last four
   const maskedCardNumber = cardNumber.slice(0, -4).replace(/\d/g, 'X') + cardNumber.slice(-4);
 
   // Add hyphens for readability
-  const formattedCardNumber = maskedCardNumber.replace(/(.{4})/g, '$1-').slice(0, -1);
+  let formattedCardNumber;
+  if (isAmex) {
+    // Format Amex card: XXXX XXXXXX XXXXX
+    formattedCardNumber = maskedCardNumber.replace(/(.{4})(.{6})(.{5})/, '$1-$2-$3');
+  } else {
+    // Format regular cards: XXXX XXXX XXXX XXXX
+    formattedCardNumber = maskedCardNumber.replace(/(.{4})/g, '$1-').slice(0, -1);
+  }
 
   return formattedCardNumber;
 };
@@ -91,30 +101,32 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
           </div>
         )}
 
-        <span className="w-44">{maskAndFormatCardNumber(paymentInstrument.cardNumber)}</span>
-
-        <div className={`flex items-center ${paymentInstrument?.isDefault ? 'visible' : 'invisible'}`}>
-          <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg h-fit">Default</Badge>
-        </div>
+        <span className="w-44">
+          {maskAndFormatCardNumber(paymentInstrument.cardNumber, paymentInstrument.cardType)}
+        </span>
 
         {/* ACTIONS */}
-        <div className="flex gap-2 ml-4">
-          {onSetDefaultPaymentMethod && (
-            <Button className="w-8 h-8 p-0" onClick={handleSetDefaultPaymentMethod}>
-              <EditOutlined />
-            </Button>
-          )}
-          {onDeletePaymentMethod && (
-            <Button
-              className="w-8 h-8 p-0"
-              onClick={handleDeletePaymentMethod}
-              aria-label="delete-payment-method"
-              danger
-            >
-              <DeleteOutlined />
-            </Button>
-          )}
-        </div>
+        {!paymentInstrument.isDefault ? (
+          <div className="flex gap-2">
+            {onSetDefaultPaymentMethod && (
+              <Button className="w-8 h-8 p-0" onClick={handleSetDefaultPaymentMethod}>
+                <EditOutlined />
+              </Button>
+            )}
+            {onDeletePaymentMethod && (
+              <Button
+                className="w-8 h-8 p-0"
+                onClick={handleDeletePaymentMethod}
+                aria-label="delete-payment-method"
+                danger
+              >
+                <DeleteOutlined />
+              </Button>
+            )}
+          </div>
+        ) : (
+          <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg h-fit">Default</Badge>
+        )}
       </div>
     );
   }

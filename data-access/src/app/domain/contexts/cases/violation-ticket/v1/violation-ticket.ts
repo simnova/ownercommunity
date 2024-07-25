@@ -11,9 +11,9 @@ import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-ar
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from '../../service-ticket/v1/activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from '../../service-ticket/v1/photo';
 import { ViolationTicketVisa as ViolationTicketVisa } from '../../../iam/domain-visa/violation-ticket-visa';
-import { ViolationTicketDeletedEvent } from '../../../../events/types/violation-ticket-deleted';
-import { ViolationTicketUpdatedEvent } from '../../../../events/types/violation-ticket-updated';
-import { ViolationTicketCreatedEvent } from '../../../../events/types/violation-ticket-created';
+import { ViolationTicketV1DeletedEvent } from '../../../../events/types/violation-ticket-v1-deleted';
+import { ViolationTicketV1UpdatedEvent } from '../../../../events/types/violation-ticket-v1-updated';
+import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violation-ticket-v1-created';
 import { ViolationTicketUpdateInput } from '../../../../../external-dependencies/graphql-api';
 import dayjs from 'dayjs';
 import { Transaction, TransactionProps } from './transaction';
@@ -201,7 +201,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
 
   private MarkAsNew(): void {
     this.isNew = true;
-    this.addIntegrationEvent(ViolationTicketCreatedEvent, { id: this.props.id });
+    this.addIntegrationEvent(ViolationTicketV1CreatedEvent, { id: this.props.id });
   }
 
   // using set from TS 5.1
@@ -358,7 +358,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
       throw new Error('You do not have permission to delete this property');
     }
     super.isDeleted = true;
-    this.addIntegrationEvent(ViolationTicketDeletedEvent, { id: this.props.id });
+    this.addIntegrationEvent(ViolationTicketV1DeletedEvent, { id: this.props.id });
   }
 
   private requestNewActivityDetail(): ActivityDetail {
@@ -455,7 +455,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
 
   public override onSave(isModified: boolean): void {
     if (isModified && !super.isDeleted) {
-      this.addIntegrationEvent(ViolationTicketUpdatedEvent, { id: this.props.id });
+      this.addIntegrationEvent(ViolationTicketV1UpdatedEvent, { id: this.props.id });
     }
   }
 }

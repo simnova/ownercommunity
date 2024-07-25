@@ -24,7 +24,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
           } as Partial<DomainVisa>) as any)
       } as Partial<DomainExecutionContext>) as any
     );
-    const serviceTicketProps = jest.mocked<ServiceTicketV1Props>(
+    const serviceTicketV1Props = jest.mocked<ServiceTicketV1Props>(
       ({
         activityLog : jest.mocked<PropArray<ActivityDetailProps>>(({
           getNewItem : jest.fn(() => jest.mocked<ActivityDetailProps>({setActivityByRef : jest.fn()} as any)),
@@ -42,7 +42,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
       // Act
       const creatingInvalidServiceTicket = () => { 
         ServiceTicketV1.getNewInstance(
-          serviceTicketProps,
+          serviceTicketV1Props,
           givenInvalidTitle,
           givenValidDescription,
           givenValidCommunity,
@@ -63,7 +63,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
       // Act
       const creatingInvalidServiceTicket = () => { 
         ServiceTicketV1.getNewInstance(
-          serviceTicketProps,
+          serviceTicketV1Props,
           givenInvalidTitle,
           givenValidDescription,
           givenValidCommunity,
@@ -84,7 +84,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
       // Act
       const creatingInvalidServiceTicket = () => { 
         ServiceTicketV1.getNewInstance(
-          serviceTicketProps,
+          serviceTicketV1Props,
           givenValidTitle,
           givenInvalidDescription,
           givenValidCommunity,
@@ -105,7 +105,7 @@ describe('domain.contexts.service-ticket::service-ticket', () => {
       // Act
       const creatingInvalidServiceTicket = () => { 
         ServiceTicketV1.getNewInstance(
-          serviceTicketProps,
+          serviceTicketV1Props,
           givenValidTitle,
           givenValidDescription,
           givenValidCommunity,

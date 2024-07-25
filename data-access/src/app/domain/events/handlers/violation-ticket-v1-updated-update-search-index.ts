@@ -3,20 +3,20 @@ import crypto from 'crypto';
 import dayjs from 'dayjs';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { ViolationTicketV1, ViolationTicketV1Props } from '../../contexts/cases/violation-ticket/v1/violation-ticket';
-import { ViolationTicketUpdatedEvent } from '../types/violation-ticket-updated';
+import { ViolationTicketV1UpdatedEvent } from '../types/violation-ticket-v1-updated';
 import { SystemExecutionContext } from '../../contexts/domain-execution-context';
 import { ViolationTicketV1UnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { EventBusInstance } from '../event-bus';
 import { ViolationTicketV1Repository } from '../../contexts/cases/violation-ticket/v1/violation-ticket.repository';
 
-export default (cognitiveSearch: CognitiveSearchDomain, violationTicketUnitOfWork: ViolationTicketV1UnitOfWork) => {
-  EventBusInstance.register(ViolationTicketUpdatedEvent, async (payload) => {
+export default (cognitiveSearch: CognitiveSearchDomain, violationTicketV1UnitOfWork: ViolationTicketV1UnitOfWork) => {
+  EventBusInstance.register(ViolationTicketV1UpdatedEvent, async (payload) => {
     // add logging: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples-dev/logSample.ts
 
     try {
       const context = SystemExecutionContext();
-      await violationTicketUnitOfWork.withTransaction(context, async (repo) => {
+      await violationTicketV1UnitOfWork.withTransaction(context, async (repo) => {
         let violationTicket = await repo.getById(payload.id);
         const violationTicketHash = violationTicket.hash;
 

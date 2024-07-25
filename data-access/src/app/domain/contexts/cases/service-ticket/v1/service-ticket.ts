@@ -11,9 +11,9 @@ import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-ar
 import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from './photo';
 import { ServiceTicketVisa } from '../../../iam/domain-visa/service-ticket-visa';
-import { ServiceTicketCreatedEvent } from '../../../../events/types/service-ticket-created';
-import { ServiceTicketUpdatedEvent } from '../../../../events/types/service-ticket-updated';
-import { ServiceTicketDeletedEvent } from '../../../../events/types/service-ticket-deleted';
+import { ServiceTicketV1CreatedEvent } from '../../../../events/types/service-ticket-v1-created';
+import { ServiceTicketV1UpdatedEvent } from '../../../../events/types/service-ticket-v1-updated';
+import { ServiceTicketV1DeletedEvent } from '../../../../events/types/service-ticket-v1-deleted';
 
 export interface ServiceTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
@@ -182,7 +182,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
 
   private MarkAsNew(): void {
     this.isNew = true;
-    this.addIntegrationEvent(ServiceTicketCreatedEvent, { id: this.props.id });
+    this.addIntegrationEvent(ServiceTicketV1CreatedEvent, { id: this.props.id });
   }
 
   // using set from TS 5.1
@@ -325,7 +325,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
       throw new Error('You do not have permission to delete this property');
     }
     super.isDeleted = true;
-    this.addIntegrationEvent(ServiceTicketDeletedEvent, { id: this.props.id });
+    this.addIntegrationEvent(ServiceTicketV1DeletedEvent, { id: this.props.id });
   }
 
   private requestNewActivityDetail(): ActivityDetail {
@@ -376,7 +376,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
 
   public override onSave(isModified: boolean): void {
     if (isModified && !super.isDeleted) {
-      this.addIntegrationEvent(ServiceTicketUpdatedEvent, { id: this.props.id });
+      this.addIntegrationEvent(ServiceTicketV1UpdatedEvent, { id: this.props.id });
     }
   }
 }

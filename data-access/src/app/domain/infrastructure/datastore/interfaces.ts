@@ -1,11 +1,11 @@
-import { ServiceTicketUnitOfWork } from '../../contexts/service-ticket/service-ticket.uow';
-import { CommunityUnitOfWork } from '../../contexts/community/community.uow';
-import { MemberUnitOfWork } from '../../contexts/community/member.uow';
-import { RoleUnitOfWork } from '../../contexts/community/role.uow';
+import { ServiceTicketV1UnitOfWork } from '../../contexts/cases/service-ticket/v1/service-ticket.uow';
+import { CommunityUnitOfWork } from '../../contexts/community/community/community.uow';
+import { MemberUnitOfWork } from '../../contexts/community/member/member.uow';
+import { RoleUnitOfWork } from '../../contexts/community/role/role.uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property.uow';
-import { ServiceUnitOfWork } from '../../contexts/service-ticket/service.uow';
+import { ServiceUnitOfWork } from '../../contexts/community/service/service.uow';
 import { UserUnitOfWork } from '../../contexts/user/user.uow';
-import { ViolationTicketUnitOfWork } from '../../contexts/violation-ticket/violation-ticket.uow';
+import { ViolationTicketV1UnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
 
 export interface DatastoreDomain {
   communityUnitOfWork: CommunityUnitOfWork;
@@ -13,9 +13,9 @@ export interface DatastoreDomain {
   roleUnitOfWork: RoleUnitOfWork;
   propertyUnitOfWork: PropertyUnitOfWork;
   serviceUnitOfWork: ServiceUnitOfWork;
-  serviceTicketUnitOfWork: ServiceTicketUnitOfWork;
   userUnitOfWork: UserUnitOfWork;
-  violationTicketUnitOfWork: ViolationTicketUnitOfWork;
+  serviceTicketV1UnitOfWork: ServiceTicketV1UnitOfWork;
+  violationTicketV1UnitOfWork: ViolationTicketV1UnitOfWork;
 }
 
 export interface DatastoreDomainInitializeable {

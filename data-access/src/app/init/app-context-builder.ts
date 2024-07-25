@@ -1,7 +1,7 @@
 import { DomainVisaImpl, ReadOnlyDomainVisa } from '../domain/contexts/iam/domain-visa';
 import { UserEntityReference } from '../domain/contexts/user/user';
-import { MemberEntityReference } from '../domain/contexts/community/member';
-import { CommunityEntityReference } from '../domain/contexts/community/community';
+import { MemberEntityReference } from '../domain/contexts/community/member/member';
+import { CommunityEntityReference } from '../domain/contexts/community/community/community';
 import { ApplicationServices } from '../application-services';
 import { InfrastructureServices } from '../infrastructure-services';
 import { CommunityData, MemberData } from '../external-dependencies/datastore';
@@ -87,18 +87,18 @@ export class AppContextBuilder implements AppContext {
 
   private async setCurrentData(): Promise<void> {
     if (this._communityHeader) {
-      this._communityData = await this._applicationServices.communityDataApi.getCommunityByHeader(this._communityHeader);
+      this._communityData = await this._applicationServices.community.dataApi.getCommunityByHeader(this._communityHeader);
     }
     if (this._memberHeader) {
-      this._memberData = await this._applicationServices.memberDataApi.getMemberById(this._memberHeader);
+      this._memberData = await this._applicationServices.member.dataApi.getMemberById(this._memberHeader);
     }
   }
 
   private async setPassport(): Promise<void> {
     let userExternalId = this._verifiedUser?.verifiedJWT.sub;
     if (userExternalId && this._communityData) {
-      let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
-      let memberData = (await this._applicationServices.memberDataApi.getMemberByIdWithCommunityAccountRole(this._memberHeader));
+      let userData = await this._applicationServices.user.dataApi.getUserByExternalId(userExternalId);
+      let memberData = (await this._applicationServices.member.dataApi.getMemberByIdWithCommunityAccountRole(this._memberHeader));
       if(memberData && userData) {
         if (!(memberData.accounts.find((account) => account.user.id === userData.id && memberData.community.id === this._communityData.id))) {  
           throw new Error('user is not related to member');

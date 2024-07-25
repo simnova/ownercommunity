@@ -1,5 +1,5 @@
 import { Actor, Interaction } from '@serenity-js/core';
-import { RoleEntityReference } from '../../src/app/domain/contexts/community/role';
+import { RoleEntityReference } from '../../src/app/domain/contexts/community/role/role';
 import { InteractWithTheDomain } from '../abilities/domain/interact-with-the-domain';
 import { RoleForCommunityInDb } from '../questions/role-for-community-in-db';
 

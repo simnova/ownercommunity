@@ -16,6 +16,7 @@ type ViolationTicket {
   penaltyPaidDate: DateTime
   ticketType: String
   activityLog: [ServiceTicketActivityDetail]
+  paymentTransactions: [Transaction]
 
   id: ObjectID!
   schemaVersion: String
@@ -43,7 +44,6 @@ input ViolationTicketUpdateInput {
   priority: Int
   serviceId: ObjectID
   penaltyAmount: Float
-  penaltyPaidDate: DateTime
 }
 
 type ViolationTicketMutationResult implements MutationResult {
@@ -58,6 +58,7 @@ extend type Mutation {
   violationTicketAssign(input: ViolationTicketAssignInput!): ViolationTicketMutationResult!
   violationTicketChangeStatus(input: ViolationTicketChangeStatusInput!): ViolationTicketMutationResult!
   violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput!): ViolationTicketMutationResult!
+  violationTicketProcessPayment(input: ViolationTicketProcessPaymentInput!): ViolationTicketMutationResult!
 }
 
 input ViolationTicketDeleteInput {
@@ -78,4 +79,35 @@ input ViolationTicketChangeStatusInput {
 input ViolationTicketAddUpdateActivityInput {
   violationTicketId: ObjectID!
   activityDescription: String!
+}
+
+input ViolationTicketProcessPaymentInput {
+  violationTicketId: ObjectID!
+  paymentAmount: Float!
+  paymentInstrumentId: String!
+}
+
+type Transaction {
+  id: ObjectID!
+  transactionId: String
+  clientReferenceCode: String
+  amountDetails: AmountDetails
+  status: String
+  reconciliationId: String
+  isSuccess: Boolean
+  transactionTime: DateTime
+  successTimestamp: DateTime
+  error: PaymentTransactionError
+}
+
+type AmountDetails {
+  amount: Float
+  authorizedAmount: Float
+  currency: String
+}
+
+type PaymentTransactionError {
+  code: String
+  message: String
+  timestamp: DateTime
 }

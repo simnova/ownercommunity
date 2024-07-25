@@ -1,6 +1,6 @@
 import { Entity, EntityProps } from '../../../../../seedwork/domain-seedwork/entity';
 import { CommunityVisa } from '../iam/domain-visa/community-visa';
-import { ViolationTicketPermissions as ViolationTicketPermissionsSpec } from '../violation-ticket/violation-ticket-permissions.spec';
+import { ViolationTicketPermissions as ViolationTicketPermissionsSpec } from '../cases/violation-ticket/v1/violation-ticket-permissions.spec';
 
 export interface ViolationTicketPermissionsProps extends ViolationTicketPermissionsSpec, EntityProps {}
 

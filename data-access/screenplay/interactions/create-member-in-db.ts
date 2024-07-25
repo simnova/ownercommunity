@@ -1,5 +1,5 @@
 import { Actor, Interaction } from '@serenity-js/core';
-import { CommunityEntityReference } from '../../src/app/domain/contexts/community/community';
+import { CommunityEntityReference } from '../../src/app/domain/contexts/community/community/community';
 import { InteractWithTheDomain } from '../abilities/domain/interact-with-the-domain';
 import { CommunityInDb } from '../questions/community-in-db';
 

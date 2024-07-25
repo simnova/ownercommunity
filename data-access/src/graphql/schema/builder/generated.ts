@@ -1103,7 +1103,7 @@ export type Query = {
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
-  propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesByOwnerId?: Maybe<Array<Maybe<Property>>>;
   propertiesSearch?: Maybe<PropertySearchResult>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
@@ -1167,8 +1167,8 @@ export type QueryPropertiesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
-  communityId: Scalars['ID'];
+export type QueryPropertiesByOwnerIdArgs = {
+  ownerId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -3004,12 +3004,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   >;
   properties?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
   propertiesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType, RequireFields<QueryPropertiesByCommunityIdArgs, 'communityId'>>;
-  propertiesForCurrentUserByCommunityId?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['Property']>>>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryPropertiesForCurrentUserByCommunityIdArgs, 'communityId'>
-  >;
+  propertiesByOwnerId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType, RequireFields<QueryPropertiesByOwnerIdArgs, 'ownerId'>>;
   propertiesSearch?: Resolver<Maybe<ResolversTypes['PropertySearchResult']>, ParentType, ContextType, RequireFields<QueryPropertiesSearchArgs, 'input'>>;
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType, RequireFields<QueryPropertyArgs, 'id'>>;
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;

@@ -4,8 +4,8 @@ query MembersServiceTicketsDetailContainerMembersAssignableToTickets {
   }
 }
 
-query MembersServiceTicketsDetailContainerProperties($communityId: ID!) {
-  propertiesForCurrentUserByCommunityId(communityId: $communityId) { 
+query MembersServiceTicketsDetailContainerProperties($id: ObjectID!) {
+  propertiesByOwnerId(ownerId: $id) { 
     ...MembersServiceTicketsDetailContainerPropertyFields
   }
 }

@@ -9,14 +9,14 @@ export const PropertiesListContainer: React.FC<any> = (props) => {
     loading: propertyLoading,
     error: propertyError
   } = useQuery(MembersPropertiesListContainerPropertiesDocument, {
-    variables: { communityId: props.data.communityId }
+    variables: { id: props.data.memberId }
   });
 
   return (
     <ComponentQueryLoader
       loading={propertyLoading}
-      hasData={propertyData?.propertiesForCurrentUserByCommunityId}
-      hasDataComponent={<PropertiesList data={propertyData?.propertiesForCurrentUserByCommunityId} />}
+      hasData={propertyData?.propertiesByOwnerId}
+      hasDataComponent={<PropertiesList data={propertyData?.propertiesByOwnerId} />}
       error={propertyError}
     />
   );

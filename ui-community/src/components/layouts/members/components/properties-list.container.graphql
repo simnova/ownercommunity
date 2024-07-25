@@ -1,5 +1,5 @@
-query MembersPropertiesListContainerProperties($communityId: ID!) {
-  propertiesForCurrentUserByCommunityId(communityId: $communityId) {
+query MembersPropertiesListContainerProperties($id: ObjectID!) {
+  propertiesByOwnerId(ownerId: $id) {
     ...MembersPropertiesListContainerPropertyFields
   }
 }

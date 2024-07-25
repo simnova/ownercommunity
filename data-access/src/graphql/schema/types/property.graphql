@@ -168,7 +168,7 @@ extend type Query {
   properties: [Property]
   property(id: ObjectID!): Property
   propertiesByCommunityId(communityId: ID!): [Property]
-  propertiesForCurrentUserByCommunityId(communityId: ID!): [Property]
+  propertiesByOwnerId(ownerId: ObjectID!): [Property]
   propertiesSearch(input: PropertiesSearchInput!): PropertySearchResult
   getMapSasToken: String
   getAllPropertyTags: [String]

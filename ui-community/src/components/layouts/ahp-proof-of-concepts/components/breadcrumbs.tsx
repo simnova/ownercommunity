@@ -26,19 +26,19 @@ const Breadcrumbs: React.FC = () => {
 
   const caseStatusDropdownMenuItems: MenuProps['items'] = [
     {
-      key: 'active',
-      label: <Link to="cases/active">Active</Link>
+      key: `${AHPObjectStatusRouteLayer.Active}`,
+      label: <Link to={`${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Active}`}>Active</Link>
     },
     {
-      key: 'archived',
-      label: <Link to="cases/archived">Archived</Link>
+      key: `${AHPObjectStatusRouteLayer.Archived}`,
+      label: <Link to={`${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Archived}`}>Archived</Link>
     }
   ];
 
   const breadcrumbItems = pathSnippets.map((snippet, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
 
-    if (snippet === 'active' || snippet === 'archived') {
+    if ([`${AHPObjectStatusRouteLayer.Active}`, `${AHPObjectStatusRouteLayer.Archived}`].includes(snippet)) {
       return (
         <Breadcrumb.Item key={url}>
           <Dropdown menu={{ items: caseStatusDropdownMenuItems }} placement="bottomLeft">

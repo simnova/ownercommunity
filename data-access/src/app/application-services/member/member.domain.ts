@@ -30,7 +30,7 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     }
 
     let memberToReturn: MemberData;
-    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
@@ -49,7 +49,7 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     }
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.id);
-      member.CyberSourceCustomerId = input?.cybersourceCustomerId;
+      if (input.cybersourceCustomerId !== undefined) member.CyberSourceCustomerId = input?.cybersourceCustomerId;
       if (input.memberName !== undefined) member.MemberName = input.memberName;
       if (roleDo !== undefined) member.Role = roleDo;
       if (input.customViews !== undefined) {

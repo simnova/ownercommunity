@@ -32,7 +32,7 @@ export class ServiceTicketV1DomainApiImpl
     }
 
     let serviceTicketToReturn: ServiceTicketData;
-    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);
@@ -40,7 +40,7 @@ export class ServiceTicketV1DomainApiImpl
 
     let member: MemberData;
     if (input.requestorId === undefined) {
-      member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
+      member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
     } else {
       //use the supplied requestorId - TODO: check that the current user is an admin
       member = await this.context.applicationServices.member.dataApi.getMemberById(input.requestorId);
@@ -127,7 +127,7 @@ export class ServiceTicketV1DomainApiImpl
 
   async serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<ServiceTicketData> {
     let user = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
+    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let serviceTicketToReturn: ServiceTicketData;
     await this.withTransaction(async (repo) => {
@@ -140,7 +140,7 @@ export class ServiceTicketV1DomainApiImpl
 
   async serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<ServiceTicketData> {
     let user = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.memberId);
+    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let serviceTicketToReturn: ServiceTicketData;
     await this.withTransaction(async (repo) => {

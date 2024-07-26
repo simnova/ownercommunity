@@ -1,7 +1,6 @@
-
-import { Visa } from '../../../../../../../seedwork/passport-seedwork/visa';
-import { MemberEntityReference } from '../../../community/member/member';
-import { ViolationTicketV1EntityReference } from './violation-ticket';
+import { Visa } from "../../../../../../../seedwork/passport-seedwork/visa";
+import { ViolationTicketV1EntityReference } from "../../../cases/violation-ticket/v1/violation-ticket";
+import { MemberEntityReference } from "../../../community/member/member";
 
 export interface ViolationTicketV1Permissions {
   canCreateTickets: boolean;

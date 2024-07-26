@@ -1101,7 +1101,7 @@ export type Query = {
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
-  propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesByOwnerId?: Maybe<Array<Maybe<Property>>>;
   propertiesSearch?: Maybe<PropertySearchResult>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
@@ -1165,8 +1165,8 @@ export type QueryPropertiesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
-  communityId: Scalars['ID'];
+export type QueryPropertiesByOwnerIdArgs = {
+  ownerId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1605,6 +1605,38 @@ export type ViolationTicketUpdateInput = {
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
+};
+
+export type AhpIdFormCommunityPublicFileCreateAuthHeaderMutationVariables = Exact<{
+  input: CommunityBlobFileInput;
+}>;
+
+export type AhpIdFormCommunityPublicFileCreateAuthHeaderMutation = {
+  __typename?: 'Mutation';
+  communityPublicFileCreateAuthHeader: {
+    __typename?: 'CommunityBlobContentAuthHeaderResult';
+    authHeader?: {
+      __typename?: 'BlobAuthHeader';
+      authHeader?: string | null;
+      blobPath?: string | null;
+      requestDate?: string | null;
+      indexTags?: Array<{ __typename?: 'BlobIndexTag'; name: string; value: string } | null> | null;
+      metadataFields?: Array<{ __typename?: 'BlobMetadataField'; name: string; value: string } | null> | null;
+    } | null;
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  };
+};
+
+export type AhpIdFormCommunityPublicFileRemoveMutationVariables = Exact<{
+  input: CommunityPublicFileRemoveInput;
+}>;
+
+export type AhpIdFormCommunityPublicFileRemoveMutation = {
+  __typename?: 'Mutation';
+  communityPublicFileRemove: {
+    __typename?: 'CommunityMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  };
 };
 
 export type CommunityCreateContainerMutationCommunityCreateMutationVariables = Exact<{
@@ -4149,12 +4181,12 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
 };
 
 export type MembersPropertiesListContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersPropertiesListContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
+  propertiesByOwnerId?: Array<{
     __typename?: 'Property';
     propertyName: string;
     propertyType?: string | null;
@@ -4185,16 +4217,12 @@ export type MembersServiceTicketsCreateContainerMembersQuery = {
 };
 
 export type MembersServiceTicketsCreateContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersServiceTicketsCreateContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
-    __typename?: 'Property';
-    id: any;
-    propertyName: string;
-  } | null> | null;
+  propertiesByOwnerId?: Array<{ __typename?: 'Property'; id: any; propertyName: string } | null> | null;
 };
 
 export type MembersServiceTicketsCreateContainerServiceTicketCreateMutationVariables = Exact<{
@@ -4273,16 +4301,12 @@ export type MembersServiceTicketsDetailContainerMembersAssignableToTicketsQuery 
 };
 
 export type MembersServiceTicketsDetailContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersServiceTicketsDetailContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
-    __typename?: 'Property';
-    id: any;
-    propertyName: string;
-  } | null> | null;
+  propertiesByOwnerId?: Array<{ __typename?: 'Property'; id: any; propertyName: string } | null> | null;
 };
 
 export type MembersServiceTicketsDetailContainerServiceTicketQueryVariables = Exact<{
@@ -10303,6 +10327,150 @@ export const LoggedInUserContainerUserCurrentFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<LoggedInUserContainerUserCurrentFieldsFragment, unknown>;
+export const AhpIdFormCommunityPublicFileCreateAuthHeaderDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AhpIdFormCommunityPublicFileCreateAuthHeader' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CommunityBlobFileInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'communityPublicFileCreateAuthHeader' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'authHeader' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'authHeader' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'blobPath' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'requestDate' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'indexTags' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'metadataFields' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'value' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  AhpIdFormCommunityPublicFileCreateAuthHeaderMutation,
+  AhpIdFormCommunityPublicFileCreateAuthHeaderMutationVariables
+>;
+export const AhpIdFormCommunityPublicFileRemoveDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AhpIdFormCommunityPublicFileRemove' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CommunityPublicFileRemoveInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'communityPublicFileRemove' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  AhpIdFormCommunityPublicFileRemoveMutation,
+  AhpIdFormCommunityPublicFileRemoveMutationVariables
+>;
 export const CommunityCreateContainerMutationCommunityCreateDocument = {
   kind: 'Document',
   definitions: [
@@ -16419,8 +16587,8 @@ export const MembersPropertiesListContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16428,12 +16596,12 @@ export const MembersPropertiesListContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {
@@ -16544,8 +16712,8 @@ export const MembersServiceTicketsCreateContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16553,12 +16721,12 @@ export const MembersServiceTicketsCreateContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {
@@ -16765,8 +16933,8 @@ export const MembersServiceTicketsDetailContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16774,12 +16942,12 @@ export const MembersServiceTicketsDetailContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {

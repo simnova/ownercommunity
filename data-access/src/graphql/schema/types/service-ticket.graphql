@@ -11,6 +11,7 @@ type ServiceTicket implements MongoBase {
   ticketType: String
   photos: [ServiceTicketPhoto]
   activityLog: [ServiceTicketActivityDetail]
+  messages: [ServiceTicketMessage]
 
   id: ObjectID!
   schemaVersion: String
@@ -26,6 +27,17 @@ type ServiceTicketActivityDetail implements MongoSubdocument {
   id: ObjectID!
   createdAt: DateTime
   updatedAt: DateTime
+}
+
+type ServiceTicketMessage {
+  sentBy: String!
+  initiatedBy: Member
+  message: String!
+  embedding: String
+
+  id: ObjectID!
+  createdAt: DateTime!
+  isHiddenFromApplicant: Boolean!
 }
 
 type ServiceTicketPhoto implements MongoSubdocument {
@@ -80,10 +92,20 @@ input ServiceTicketCreateInput {
 input ServiceTicketUpdateInput {
   serviceTicketId: ObjectID!
   propertyId: ObjectID
-  title: String!
-  description: String!
-  priority: Int!
+  title: String
+  description: String
+  priority: Int
   serviceId: ObjectID
+  messages: [ServiceTicketMessageInput]
+}
+
+input ServiceTicketMessageInput {
+  id: ObjectID
+  sentBy: String!
+  initiatedBy: ObjectID
+  message: String!
+  embedding: String
+  isHiddenFromApplicant: Boolean
 }
 
 input ServiceTicketAddPhotoInput {

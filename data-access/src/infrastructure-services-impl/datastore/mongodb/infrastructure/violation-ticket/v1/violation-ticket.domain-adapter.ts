@@ -1,5 +1,5 @@
 import { ActivityDetail, Photo } from '../../../models/service-ticket';
-import { Transaction, ViolationTicket } from '../../../models/violation-ticket';
+import { Transaction, ViolationTicket, ViolationTicketMessage } from '../../../models/violation-ticket';
 import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -16,6 +16,7 @@ import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../service/service.domain-adapter';
 import { ServiceEntityReference } from '../../../../../../app/domain/contexts/community/service/service';
 import { TransactionProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
+import { ViolationTicketMessageProps } from '../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-message';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -107,6 +108,10 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
 
   get activityLog() {
     return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter);
+  }
+
+  get messages() {
+    return new MongoosePropArray(this.doc.messages, ViolationTicketMessageDomainAdapter);
   }
 
   get photos() {
@@ -300,5 +305,56 @@ export class TransactionDomainAdapter implements TransactionProps {
   }
   set error(error) {
     this.doc.error = error;
+  }
+}
+
+export class ViolationTicketMessageDomainAdapter implements ViolationTicketMessageProps {
+  constructor(public readonly props: ViolationTicketMessage) {}
+  public get id(): string {
+    return this.props.id.valueOf() as string;
+  }
+
+  get sentBy() {
+    return this.props.sentBy;
+  }
+  set sentBy(sentBy) {
+    this.props.sentBy = sentBy;
+  }
+
+  get initiatedBy() {
+    if (this.props.initiatedBy) {
+      return new MemberDomainAdapter(this.props.initiatedBy);
+    }
+  }
+  public setInitiatedByRef(initiatedBy: MemberEntityReference) {
+    this.props.initiatedBy = initiatedBy['props']['doc'];
+  }
+
+  get message() {
+    return this.props.message;
+  }
+  set message(message) {
+    this.props.message = message;
+  }
+
+  get embedding() {
+    return this.props.embedding;
+  }
+  set embedding(embedding) {
+    this.props.embedding = embedding;
+  }
+
+  get createdAt() {
+    return this.props.createdAt;
+  }
+  set createdAt(createdAt) {
+    this.props.createdAt = createdAt;
+  }
+
+  get isHiddenFromApplicant() {
+    return this.props.isHiddenFromApplicant;
+  }
+  set isHiddenFromApplicant(isHiddenFromApplicant) {
+    this.props.isHiddenFromApplicant = isHiddenFromApplicant;
   }
 }

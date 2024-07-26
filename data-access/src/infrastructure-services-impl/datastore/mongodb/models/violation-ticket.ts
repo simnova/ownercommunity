@@ -1,5 +1,5 @@
-import { Schema, Model, Types, PopulatedDoc, model, ObjectId } from 'mongoose';
-import { Base, SubdocumentBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { Schema, Model, Types, PopulatedDoc, ObjectId } from 'mongoose';
+import { SubdocumentBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as Community from './community';
 import * as Property from './property';
 import * as Member from './member';
@@ -18,6 +18,25 @@ export interface Photo extends SubdocumentBase {
   documentId: string;
   description: string;
 }
+
+export interface ViolationTicketMessage extends SubdocumentBase {
+  id: ObjectId;
+  sentBy: string;
+  initiatedBy?: PopulatedDoc<Member.Member>;
+  message: string;
+  embedding?: string;
+  createdAt: Date;
+  isHiddenFromApplicant: boolean;
+}
+
+const ViolationTicketMessageSchema = new Schema<ViolationTicketMessage, Model<ViolationTicketMessage>, ViolationTicketMessage>({
+  sentBy: { type: String, required: true, enum: ['external', 'internal'] },
+  initiatedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
+  message: { type: String, required: true, maxlength: 2000 },
+  embedding: { type: String, required: false, maxlength: 2000 },
+  createdAt: { type: Date, default: Date.now },
+  isHiddenFromApplicant: { type: Boolean, required: true, default: false },
+});
 
 const ActivityDetailSchema = new Schema<ActivityDetail, Model<ActivityDetail>, ActivityDetail>(
   {
@@ -64,6 +83,7 @@ export interface ViolationTicket extends Ticket {
   ticketType?: string;
   discriminatorKey: string;
   activityLog: Types.DocumentArray<ActivityDetail>;
+  messages: Types.DocumentArray<ViolationTicketMessage>;
   photos: Types.DocumentArray<Photo>;
   hash: string;
   lastIndexed: Date;
@@ -153,6 +173,7 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
       max: 5,
     },
     activityLog: [ActivityDetailSchema],
+    messages: [ViolationTicketMessageSchema],
     photos: [PhotoSchema],
     hash: { type: String, required: false, maxlength: 100 },
     lastIndexed: { type: Date, required: false },

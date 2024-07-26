@@ -1,5 +1,5 @@
-import { Schema, model, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
-import { Base, SubdocumentBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { Schema, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
+import { SubdocumentBase } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as Community from './community';
 import * as Property from './property';
 import * as Member from './member';
@@ -32,6 +32,25 @@ const ActivityDetailSchema = new Schema<ActivityDetail, Model<ActivityDetail>, A
   }
 );
 
+export interface ServiceTicketMessage extends SubdocumentBase {
+  id: ObjectId;
+  sentBy: string;
+  initiatedBy?: PopulatedDoc<Member.Member>;
+  message: string;
+  embedding?: string;
+  createdAt: Date;
+  isHiddenFromApplicant: boolean;
+}
+
+const ServiceTicketMessageSchema = new Schema<ServiceTicketMessage, Model<ServiceTicketMessage>, ServiceTicketMessage>({
+  sentBy: { type: String, required: true, enum: ['external', 'internal'] },
+  initiatedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
+  message: { type: String, required: true, maxlength: 2000 },
+  embedding: { type: String, required: false, maxlength: 2000 },
+  createdAt: { type: Date, default: Date.now },
+  isHiddenFromApplicant: { type: Boolean, required: true, default: false },
+});
+
 export interface Photo extends SubdocumentBase {
   id: ObjectId;
   documentId: string;
@@ -61,6 +80,7 @@ export interface ServiceTicket extends Ticket {
   ticketType?: string;
   discriminatorKey: string;
   activityLog: Types.DocumentArray<ActivityDetail>;
+  messages: Types.DocumentArray<ServiceTicketMessage>;
   photos: Types.DocumentArray<Photo>;
   hash: string;
   lastIndexed: Date;
@@ -104,6 +124,7 @@ const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, Serv
       max: 5,
     },
     activityLog: [ActivityDetailSchema],
+    messages: [ServiceTicketMessageSchema],
     photos: [PhotoSchema],
     hash: { type: String, required: false, maxlength: 100 },
     lastIndexed: { type: Date, required: false },

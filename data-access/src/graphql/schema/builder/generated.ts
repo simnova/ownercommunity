@@ -1304,6 +1304,7 @@ export type ServiceTicket = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  messages?: Maybe<Array<Maybe<ServiceTicketMessage>>>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars['Int'];
   property?: Maybe<Property>;
@@ -1361,6 +1362,26 @@ export type ServiceTicketDeleteInput = {
   serviceTicketId: Scalars['ObjectID'];
 };
 
+export type ServiceTicketMessage = {
+  __typename?: 'ServiceTicketMessage';
+  createdAt: Scalars['DateTime'];
+  embedding?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  initiatedBy?: Maybe<Member>;
+  isHiddenFromApplicant: Scalars['Boolean'];
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
+};
+
+export type ServiceTicketMessageInput = {
+  embedding?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+  initiatedBy?: InputMaybe<Scalars['ObjectID']>;
+  isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
+};
+
 export type ServiceTicketMutationResult = MutationResult & {
   __typename?: 'ServiceTicketMutationResult';
   serviceTicket?: Maybe<ServiceTicket>;
@@ -1408,12 +1429,13 @@ export type ServiceTicketSubmitInput = {
 };
 
 export type ServiceTicketUpdateInput = {
-  description: Scalars['String'];
-  priority: Scalars['Int'];
+  description?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<Array<InputMaybe<ServiceTicketMessageInput>>>;
+  priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type ServiceTicketsResult = {
@@ -1529,6 +1551,7 @@ export type ViolationTicket = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  messages?: Maybe<Array<Maybe<ServiceTicketMessage>>>;
   paymentTransactions?: Maybe<Array<Maybe<Transaction>>>;
   penaltyAmount?: Maybe<Scalars['Float']>;
   penaltyPaidDate?: Maybe<Scalars['DateTime']>;
@@ -1601,6 +1624,7 @@ export type ViolationTicketProcessPaymentInput = {
 
 export type ViolationTicketUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<Array<InputMaybe<ServiceTicketMessageInput>>>;
   penaltyAmount?: InputMaybe<Scalars['Float']>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
@@ -1864,6 +1888,8 @@ export type ResolversTypes = ResolversObject<{
   ServiceTicketChangeStatusInput: ServiceTicketChangeStatusInput;
   ServiceTicketCreateInput: ServiceTicketCreateInput;
   ServiceTicketDeleteInput: ServiceTicketDeleteInput;
+  ServiceTicketMessage: ResolverTypeWrapper<ServiceTicketMessage>;
+  ServiceTicketMessageInput: ServiceTicketMessageInput;
   ServiceTicketMutationResult: ResolverTypeWrapper<ServiceTicketMutationResult>;
   ServiceTicketPermissions: ResolverTypeWrapper<ServiceTicketPermissions>;
   ServiceTicketPermissionsInput: ServiceTicketPermissionsInput;
@@ -2092,6 +2118,8 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceTicketChangeStatusInput: ServiceTicketChangeStatusInput;
   ServiceTicketCreateInput: ServiceTicketCreateInput;
   ServiceTicketDeleteInput: ServiceTicketDeleteInput;
+  ServiceTicketMessage: ServiceTicketMessage;
+  ServiceTicketMessageInput: ServiceTicketMessageInput;
   ServiceTicketMutationResult: ServiceTicketMutationResult;
   ServiceTicketPermissions: ServiceTicketPermissions;
   ServiceTicketPermissionsInput: ServiceTicketPermissionsInput;
@@ -3120,6 +3148,7 @@ export type ServiceTicketResolvers<
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  messages?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketMessage']>>>, ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketPhoto']>>>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
@@ -3143,6 +3172,20 @@ export type ServiceTicketActivityDetailResolvers<
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceTicketMessageResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['ServiceTicketMessage'] = ResolversParentTypes['ServiceTicketMessage'],
+> = ResolversObject<{
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  embedding?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  initiatedBy?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
+  isHiddenFromApplicant?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  sentBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -3320,6 +3363,7 @@ export type ViolationTicketResolvers<
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
+  messages?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketMessage']>>>, ParentType, ContextType>;
   paymentTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType>;
   penaltyAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   penaltyPaidDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -3467,6 +3511,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   ServiceMutationResult?: ServiceMutationResultResolvers<ContextType>;
   ServiceTicket?: ServiceTicketResolvers<ContextType>;
   ServiceTicketActivityDetail?: ServiceTicketActivityDetailResolvers<ContextType>;
+  ServiceTicketMessage?: ServiceTicketMessageResolvers<ContextType>;
   ServiceTicketMutationResult?: ServiceTicketMutationResultResolvers<ContextType>;
   ServiceTicketPermissions?: ServiceTicketPermissionsResolvers<ContextType>;
   ServiceTicketPhoto?: ServiceTicketPhotoResolvers<ContextType>;

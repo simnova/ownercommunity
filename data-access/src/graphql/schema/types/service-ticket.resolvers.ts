@@ -59,6 +59,14 @@ const serviceTicket: Resolvers = {
       return parent.activityBy;
     },
   },
+  ServiceTicketMessage: {
+    initiatedBy: async (parent, args, context, info) => {
+      if (parent.initiatedBy && isValidObjectId(parent.initiatedBy.toString())) {
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.initiatedBy.toString())) as Member;
+      }
+      return parent.initiatedBy;
+    }
+  },
   Query: {
     serviceTicket: async (_parent, args, context, _info) => {
       return (await context.applicationServices.serviceTicket.v1.dataApi.getServiceTicketById(args.id)) as ServiceTicket;

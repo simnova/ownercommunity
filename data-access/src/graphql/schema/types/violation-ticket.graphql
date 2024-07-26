@@ -16,6 +16,7 @@ type ViolationTicket {
   penaltyPaidDate: DateTime
   ticketType: String
   activityLog: [ServiceTicketActivityDetail]
+  messages: [ServiceTicketMessage]
   paymentTransactions: [Transaction]
 
   id: ObjectID!
@@ -44,6 +45,7 @@ input ViolationTicketUpdateInput {
   priority: Int
   serviceId: ObjectID
   penaltyAmount: Float
+  messages: [ServiceTicketMessageInput]
 }
 
 type ViolationTicketMutationResult implements MutationResult {

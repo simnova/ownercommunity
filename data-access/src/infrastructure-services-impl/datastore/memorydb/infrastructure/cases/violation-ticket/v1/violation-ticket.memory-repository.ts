@@ -12,9 +12,9 @@ import { v4 as uuidV4 } from 'uuid';
 import { ViolationTicketV1, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
 import { TransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
-import { ViolationTicketMessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-message';
+import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
 
-class MemoryViolationTicketMessage extends MemoryBaseAdapter implements ViolationTicketMessageProps {
+class MemoryViolationTicketV1Message extends MemoryBaseAdapter implements ViolationTicketV1MessageProps {
   sentBy: string;
   initiatedBy: MemberProps;
   setInitiatedByRef(initiatedBy: MemberEntityReference): void {
@@ -97,9 +97,9 @@ class MemoryViolationTicketV1 extends MemoryBaseAdapter implements ViolationTick
   get activityLog() {
     return new MemoryPropArray(this._activityLog, MemoryActivityDetail);
   }
-  private _messages: ViolationTicketMessageProps[] = [];
+  private _messages: ViolationTicketV1MessageProps[] = [];
   get messages() {
-    return new MemoryPropArray(this._messages, MemoryViolationTicketMessage);
+    return new MemoryPropArray(this._messages, MemoryViolationTicketV1Message);
   }
   private _photos: PhotoProps[] = [];
   get photos() {

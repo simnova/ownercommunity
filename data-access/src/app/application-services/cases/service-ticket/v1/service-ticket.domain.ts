@@ -3,7 +3,7 @@ import { Member } from "../../../../domain/contexts/community/member/member";
 import { ReadOnlyDomainVisa } from "../../../../domain/domain.visa";
 import { Service } from "../../../../domain/contexts/community/service/service";
 import { ServiceTicketV1 } from "../../../../domain/contexts/cases/service-ticket/v1/service-ticket";
-import { SentBy, Message, Embedding } from "../../../../domain/contexts/cases/service-ticket/v1/service-ticket-message.value-objects";
+import { SentBy, Message, Embedding } from "../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1-message.value-objects";
 import { MemberData, ServiceTicketData } from "../../../../external-dependencies/datastore";
 import { ServiceTicketV1DomainAdapter, CommunityConverter, PropertyConverter, MemberConverter, ServiceTicketV1Repository, ServiceDomainAdapter, ServiceConverter, ServiceTicketV1Converter } from "../../../../external-dependencies/domain";
 import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketDeleteInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput } from "../../../../external-dependencies/graphql-api";

@@ -2,9 +2,9 @@ import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwo
 import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { ServiceTicketV1Visa } from './service-ticket.visa';
 import { Member, MemberEntityReference, MemberProps } from '../../../community/member/member';
-import * as ValueObjects from './service-ticket-message.value-objects';
+import * as ValueObjects from './service-ticket-v1-message.value-objects';
 
-export interface ServiceTicketMessagePropValues extends EntityProps {
+export interface ServiceTicketV1MessagePropValues extends EntityProps {
   sentBy: string;
   readonly initiatedBy?: MemberProps;
   setInitiatedByRef: (initiatedBy: MemberEntityReference) => void;
@@ -14,14 +14,14 @@ export interface ServiceTicketMessagePropValues extends EntityProps {
   isHiddenFromApplicant: boolean;
 }
 
-export interface ServiceTicketMessageProps extends ServiceTicketMessagePropValues {}
+export interface ServiceTicketV1MessageProps extends ServiceTicketV1MessagePropValues {}
 
-export interface ServiceTicketMessageEntityReference extends Readonly<Omit<ServiceTicketMessagePropValues, 'initiatedBy' | 'setInitiatedByRef'>> {
+export interface ServiceTicketV1MessageEntityReference extends Readonly<Omit<ServiceTicketV1MessagePropValues, 'initiatedBy' | 'setInitiatedByRef'>> {
   readonly initiatedBy: MemberEntityReference;
 }
 
-export class ServiceTicketMessage extends Entity<ServiceTicketMessageProps> implements ServiceTicketMessageEntityReference {
-  constructor(props: ServiceTicketMessageProps, private context: DomainExecutionContext, private readonly visa: ServiceTicketV1Visa) {
+export class ServiceTicketV1Message extends Entity<ServiceTicketV1MessageProps> implements ServiceTicketV1MessageEntityReference {
+  constructor(props: ServiceTicketV1MessageProps, private context: DomainExecutionContext, private readonly visa: ServiceTicketV1Visa) {
     super(props);
   }
 

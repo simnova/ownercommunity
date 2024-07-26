@@ -10,7 +10,7 @@ import { PropertyEntityReference } from '../../../../../../../app/domain/context
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
 import { MemberDomainAdapter } from '../../../member/member.domain-adapter';
 import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
-import { ServiceTicketMessageProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-message';
+import { ServiceTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-message';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
@@ -104,7 +104,7 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
   }
 
   get messages() {
-    return new MongoosePropArray(this.doc.messages, ServiceTicketMessageDomainAdapter);
+    return new MongoosePropArray(this.doc.messages, ServiceTicketV1MessageDomainAdapter);
   }
 
   get photos() {
@@ -193,7 +193,7 @@ export class PhotoDomainAdapter implements PhotoProps {
   }
 }
 
-export class ServiceTicketMessageDomainAdapter implements ServiceTicketMessageProps {
+export class ServiceTicketV1MessageDomainAdapter implements ServiceTicketV1MessageProps {
   constructor(public readonly props: ServiceTicketMessage) {}
   public get id(): string {
     return this.props.id.valueOf() as string;

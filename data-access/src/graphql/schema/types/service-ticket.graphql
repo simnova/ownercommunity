@@ -11,7 +11,7 @@ type ServiceTicket implements MongoBase {
   ticketType: String
   photos: [ServiceTicketPhoto]
   activityLog: [ServiceTicketActivityDetail]
-  messages: [ServiceTicketMessage]
+  messages: [ServiceTicketV1Message]
 
   id: ObjectID!
   schemaVersion: String
@@ -29,7 +29,7 @@ type ServiceTicketActivityDetail implements MongoSubdocument {
   updatedAt: DateTime
 }
 
-type ServiceTicketMessage {
+type ServiceTicketV1Message {
   sentBy: String!
   initiatedBy: Member
   message: String!
@@ -96,10 +96,10 @@ input ServiceTicketUpdateInput {
   description: String
   priority: Int
   serviceId: ObjectID
-  messages: [ServiceTicketMessageInput]
+  messages: [ServiceTicketV1MessageInput]
 }
 
-input ServiceTicketMessageInput {
+input ServiceTicketV1MessageInput {
   id: ObjectID
   sentBy: String!
   initiatedBy: ObjectID

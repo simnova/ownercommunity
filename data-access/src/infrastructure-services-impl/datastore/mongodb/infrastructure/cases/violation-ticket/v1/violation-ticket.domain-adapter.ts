@@ -11,7 +11,7 @@ import { PropertyEntityReference } from '../../../../../../../app/domain/context
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
 import { MemberDomainAdapter } from '../../../member/member.domain-adapter';
 import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
-import { ViolationTicketMessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-message';
+import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
@@ -111,7 +111,7 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
   }
 
   get messages() {
-    return new MongoosePropArray(this.doc.messages, ViolationTicketMessageDomainAdapter);
+    return new MongoosePropArray(this.doc.messages, ViolationTicketV1MessageDomainAdapter);
   }
 
   get photos() {
@@ -308,7 +308,7 @@ export class TransactionDomainAdapter implements TransactionProps {
   }
 }
 
-export class ViolationTicketMessageDomainAdapter implements ViolationTicketMessageProps {
+export class ViolationTicketV1MessageDomainAdapter implements ViolationTicketV1MessageProps {
   constructor(public readonly props: ViolationTicketMessage) {}
   public get id(): string {
     return this.props.id.valueOf() as string;

@@ -16,13 +16,24 @@ type ViolationTicket {
   penaltyPaidDate: DateTime
   ticketType: String
   activityLog: [ServiceTicketActivityDetail]
-  messages: [ServiceTicketMessage]
+  messages: [ViolationTicketV1Message]
   paymentTransactions: [Transaction]
 
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
   updatedAt: DateTime
+}
+
+type ViolationTicketV1Message {
+  sentBy: String!
+  initiatedBy: Member
+  message: String!
+  embedding: String
+
+  id: ObjectID!
+  createdAt: DateTime!
+  isHiddenFromApplicant: Boolean!
 }
 
 extend type Query {
@@ -45,7 +56,16 @@ input ViolationTicketUpdateInput {
   priority: Int
   serviceId: ObjectID
   penaltyAmount: Float
-  messages: [ServiceTicketMessageInput]
+  messages: [ViolationTicketV1MessageInput]
+}
+
+input ViolationTicketV1MessageInput {
+  id: ObjectID
+  sentBy: String!
+  initiatedBy: ObjectID
+  message: String!
+  embedding: String
+  isHiddenFromApplicant: Boolean
 }
 
 type ViolationTicketMutationResult implements MutationResult {

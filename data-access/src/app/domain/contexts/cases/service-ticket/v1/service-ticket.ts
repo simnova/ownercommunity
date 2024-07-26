@@ -5,7 +5,7 @@ import { MemberEntityReference, Member, MemberProps } from '../../../community/m
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../../../../domain-execution-context';
-import * as MessageValueObjects from './service-ticket-message.value-objects';
+import * as MessageValueObjects from './service-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './service-ticket.value-objects';
 import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-array';
@@ -15,7 +15,7 @@ import { ServiceTicketV1Visa } from './service-ticket.visa';
 import { ServiceTicketV1CreatedEvent } from '../../../../events/types/service-ticket-v1-created';
 import { ServiceTicketV1UpdatedEvent } from '../../../../events/types/service-ticket-v1-updated';
 import { ServiceTicketV1DeletedEvent } from '../../../../events/types/service-ticket-v1-deleted';
-import { ServiceTicketMessage, ServiceTicketMessageEntityReference, ServiceTicketMessageProps } from './service-ticket-message';
+import { ServiceTicketV1Message, ServiceTicketV1MessageEntityReference, ServiceTicketV1MessageProps } from './service-ticket-v1-message';
 
 export interface ServiceTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
@@ -34,7 +34,7 @@ export interface ServiceTicketV1Props extends EntityProps {
   status: string;
   priority: number;
   readonly activityLog: PropArray<ActivityDetailProps>;
-  readonly messages: PropArray<ServiceTicketMessageProps>;
+  readonly messages: PropArray<ServiceTicketV1MessageProps>;
   readonly photos: PropArray<PhotoProps>;
 
   readonly createdAt: Date;
@@ -71,7 +71,7 @@ export interface ServiceTicketV1EntityReference
   readonly assignedTo: MemberEntityReference;
   readonly service: ServiceEntityReference;
   readonly activityLog: ReadonlyArray<ActivityDetailEntityReference>;
-  readonly messages: ReadonlyArray<ServiceTicketMessageEntityReference>;
+  readonly messages: ReadonlyArray<ServiceTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
 }
 
@@ -143,8 +143,8 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
   get activityLog(): ReadonlyArray<ActivityDetailEntityReference> {
     return this.props.activityLog.items.map((a) => new ActivityDetail(a, this.context, this.visa));
   }
-  get messages(): ReadonlyArray<ServiceTicketMessage> {
-    return this.props.messages.items.map((m) => new ServiceTicketMessage(m, this.context, this.visa));
+  get messages(): ReadonlyArray<ServiceTicketV1Message> {
+    return this.props.messages.items.map((m) => new ServiceTicketV1Message(m, this.context, this.visa));
   }
   get photos(): ReadonlyArray<PhotoEntityReference> {
     return this.props.photos.items.map((p) => new Photo(p, this.context, this.visa));
@@ -341,9 +341,9 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     return new ActivityDetail(activityDetail, this.context, this.visa);
   }
 
-  private requestNewMessage(): ServiceTicketMessage {
+  private requestNewMessage(): ServiceTicketV1Message {
     let message = this.props.messages.getNewItem();
-    return new ServiceTicketMessage(message, this.context, this.visa);
+    return new ServiceTicketV1Message(message, this.context, this.visa);
   }
 
   public requestAddMessage(message: string, sentBy: string, embedding?: string, initiatedBy?: MemberEntityReference): void {

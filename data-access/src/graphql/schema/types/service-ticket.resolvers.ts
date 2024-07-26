@@ -59,7 +59,7 @@ const serviceTicket: Resolvers = {
       return parent.activityBy;
     },
   },
-  ServiceTicketMessage: {
+  ServiceTicketV1Message: {
     initiatedBy: async (parent, args, context, info) => {
       if (parent.initiatedBy && isValidObjectId(parent.initiatedBy.toString())) {
         return (await context.applicationServices.member.dataApi.getMemberById(parent.initiatedBy.toString())) as Member;

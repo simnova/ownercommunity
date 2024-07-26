@@ -2,9 +2,9 @@ import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwo
 import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { Member, MemberEntityReference, MemberProps } from '../../../community/member/member';
-import * as ValueObjects from './violation-ticket-message.value-objects';
+import * as ValueObjects from './violation-ticket-v1-message.value-objects';
 
-export interface ViolationTicketMessagePropValues extends EntityProps {
+export interface ViolationTicketV1MessagePropValues extends EntityProps {
   sentBy: string;
   readonly initiatedBy?: MemberProps;
   setInitiatedByRef: (initiatedBy: MemberEntityReference) => void;
@@ -14,14 +14,14 @@ export interface ViolationTicketMessagePropValues extends EntityProps {
   isHiddenFromApplicant: boolean;
 }
 
-export interface ViolationTicketMessageProps extends ViolationTicketMessagePropValues {}
+export interface ViolationTicketV1MessageProps extends ViolationTicketV1MessagePropValues {}
 
-export interface ViolationTicketMessageEntityReference extends Readonly<Omit<ViolationTicketMessagePropValues, 'initiatedBy' | 'setInitiatedByRef'>> {
+export interface ViolationTicketV1MessageEntityReference extends Readonly<Omit<ViolationTicketV1MessagePropValues, 'initiatedBy' | 'setInitiatedByRef'>> {
   readonly initiatedBy: MemberEntityReference;
 }
 
-export class ViolationTicketMessage extends Entity<ViolationTicketMessageProps> implements ViolationTicketMessageEntityReference {
-  constructor(props: ViolationTicketMessageProps, private context: DomainExecutionContext, private readonly visa: ViolationTicketV1Visa) {
+export class ViolationTicketV1Message extends Entity<ViolationTicketV1MessageProps> implements ViolationTicketV1MessageEntityReference {
+  constructor(props: ViolationTicketV1MessageProps, private context: DomainExecutionContext, private readonly visa: ViolationTicketV1Visa) {
     super(props);
   }
 

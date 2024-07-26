@@ -11,9 +11,9 @@ import { MemoryBaseAdapter } from "../../../../../../../../seedwork/services-see
 import { MemoryPropArray } from "../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
 import { MemoryRepositoryBase } from "../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 import {v4 as uuidV4} from 'uuid';
-import { ServiceTicketMessageProps } from "../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-message";
+import { ServiceTicketV1MessageProps } from "../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-message";
 
-class MemoryServiceTicketMessage extends MemoryBaseAdapter implements ServiceTicketMessageProps {
+class MemoryServiceTicketV1Message extends MemoryBaseAdapter implements ServiceTicketV1MessageProps {
   sentBy: string;
   initiatedBy: MemberProps;
   setInitiatedByRef(initiatedBy: MemberEntityReference): void {
@@ -71,9 +71,9 @@ class MemoryServiceTicketV1 extends MemoryBaseAdapter implements ServiceTicketV1
   get activityLog() {
     return new MemoryPropArray(this._activityLog, MemoryActivityDetail);
   };
-  private _messages: ServiceTicketMessageProps[] = [];
+  private _messages: ServiceTicketV1MessageProps[] = [];
   get messages() {
-    return new MemoryPropArray(this._messages, MemoryServiceTicketMessage);
+    return new MemoryPropArray(this._messages, MemoryServiceTicketV1Message);
   };
   private _photos: PhotoProps[] = [];
   get photos() {

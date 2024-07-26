@@ -1,6 +1,6 @@
 import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../builder/generated';
 import { isValidObjectId } from 'mongoose';
-import { getMemberForCurrentUser } from '../resolver-helper';
+import { applyPermission, applyPermissionFilter, getMemberForCurrentUser } from '../resolver-helper';
 import { Member as MemberDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
 import { CustomerProfile, PaymentTokenInfo } from '../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
 
@@ -21,66 +21,129 @@ const member: Resolvers = {
   Member: {
     community: async (parent, _args, context) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;
+        return (await context.applicationServices.community.dataApi.getCommunityById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
     role: async (parent, _args, context) => {
-      if (parent.role && isValidObjectId(parent.role.toString())) {
-        return (await context.applicationServices.roleDataApi.getRoleById(parent.role.toString())) as Role;
+      if (parent.role && isValidObjectId(parent.role.id)) {
+        const roleToReturn = await context.applicationServices.role.dataApi.getRoleById(parent.role.id) as Role;
+        return applyPermission<Role>(roleToReturn, (_role) => {
+          return context.passport.datastoreVisa.forRole(context.member.role).determineIf((permissions) => 
+            (permissions.canManageRolesAndPermissions && parent.community.toString() === context.member.community.toString()) ||
+            parent.id === context.member.id || 
+            permissions.isSystemAccount);
+        });
       }
-      return parent.role;
     },
     isAdmin: async (parent, _args, context) => {
-      return await context.applicationServices.memberDataApi.isAdmin(parent.id);
+      return await context.applicationServices.member.dataApi.isAdmin(parent.id);
     },
   },
   MemberAccount: {
     user: async (parent, _args, context) => {
+      // if (!context.passport.datastoreVisa.forMember(member).determineIf((permissions) => permissions.canManageMembers || member.id === .id || permissions.isSystemAccount)) {
+      //   return null;
+      // }
       if (parent.user && isValidObjectId(parent.user.toString())) {
-        return (await context.applicationServices.userDataApi.getUserById(parent.user.toString())) as User;
+        return (await context.applicationServices.user.dataApi.getUserById(parent.user.toString())) as User;
       }
       return parent.user;
     },
     createdBy: async (parent, _args, context) => {
       if (parent.createdBy && isValidObjectId(parent.createdBy.toString())) {
-        return (await context.applicationServices.userDataApi.getUserById(parent.createdBy.toString())) as User;
+        return (await context.applicationServices.user.dataApi.getUserById(parent.createdBy.toString())) as User;
       }
       return parent.createdBy;
     },
   },
   Query: {
-    member: async (_parent, { id }, context) => {
+    member: async (_parent, {id}, context) => {
+      if (!context.verifiedUser) {
+        throw new Error('Unauthorized query: member');
+      }
       if (id && isValidObjectId(id)) {
-        return (await context.applicationServices.memberDataApi.getMemberById(id)) as Member;
+        const memberToReturn = await context.applicationServices.member.dataApi.getMemberById(id) as Member;
+        return applyPermission<Member>(memberToReturn, (member) => {
+          return context.passport.datastoreVisa.forMember(context.member).determineIf((permissions) =>
+            (permissions.canManageMembers && context.member?.community.toString() === member.community.toString()) ||
+            (context.member.community.toString() === member?.community.toString()) ||  // unsure about this condition for members
+            permissions.isSystemAccount
+          );
+        });
       }
       return null;
     },
-    members: async (_, _input, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMembers()) as Member[];
+    members: async (_, _input, context) => {
+      if (!context.passport.datastoreVisa.forMember(context.member).determineIf((permissions) => permissions.isSystemAccount)) {
+        throw new Error('Unauthorized query: members');
+      }
+      return (await context.applicationServices.member.dataApi.getMembers()) as Member[];
     },
-    membersByCommunityId: async (_, { communityId }, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMembersByCommunityId(communityId)) as Member[];
+    membersByCommunityId: async (_, { communityId }, context) => {
+      const membersToReturn = await context.applicationServices.member.dataApi.getMembersByCommunityId(communityId) as Member[];
+      return applyPermissionFilter<Member>(membersToReturn, (member) => {
+        return context.passport.datastoreVisa
+          .forMember(context.member)
+          .determineIf((permissions) => 
+            // current member is admin and in the same community as queried members
+            (permissions.canManageMembers && context.member?.community.toString() === member?.community.toString()) || 
+            // current member is in the same community as queried members and queried member's profile is public
+            (member.community.toString() === context.member?.community.toString() && member?.profile?.showProfile )|| 
+            // for system accounts
+            permissions.isSystemAccount
+          );
+      });
     },
-    membersByUserExternalId: async (_, { userExternalId }, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMembersByUserExternalId(userExternalId)) as Member[];
+    membersByUserExternalId: async (_, { userExternalId }, context) => {
+      if (!context.verifiedUser) {
+        throw new Error('Unauthorized query: membersByUserExternalId');
+      }
+      return (await context.applicationServices.member.dataApi.getMembersByUserExternalId(userExternalId)) as Member[];
     },
-    membersAssignableToTickets: async (_, _input, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMembersAssignableToTickets()) as Member[];
+    membersAssignableToTickets: async (_, _input, context) => {
+      const membersToReturn = await context.applicationServices.member.dataApi.getMembersAssignableToTickets() as Member[];
+      return applyPermissionFilter<Member>(membersToReturn, (member) => {
+        return context.passport.datastoreVisa
+          .forMember(context.member)
+          .determineIf((permissions) => 
+            (permissions.canManageMembers &&  context.member?.community.toString() === member.community.toString())|| 
+            (context.member.community?.id === member?.community?.id) ||  // unsure about this condition for members
+            permissions.isSystemAccount
+          );
+      });
     },
-    memberAssignableToViolationTickets: async (_, { violationTicketId }, { applicationServices }) => {
-      return (await applicationServices.memberDataApi.getMemberAssignableToViolationTickets(violationTicketId)) as Member;
+    memberAssignableToViolationTickets: async (_, { violationTicketId }, context) => {
+      const memberToReturn = await context.applicationServices.member.dataApi.getMemberAssignableToViolationTickets(violationTicketId) as Member;
+      return applyPermission<Member>(memberToReturn, (member) => {
+        return context.passport.datastoreVisa
+          .forMember(context.member)
+          .determineIf((permissions) => 
+            (permissions.canManageMembers &&  context.member?.community.toString() === member.community.toString())|| 
+            (context.member.community?.id === member?.community?.id) ||  // unsure about this condition for members
+            permissions.isSystemAccount
+          );
+      });
+
     },
     memberForCurrentUser: async (_, _input, context) => {
-      return getMemberForCurrentUser(context);
+      const memberToReturn = await getMemberForCurrentUser(context);
+      return applyPermission<Member>(memberToReturn, (member) => {
+        return context.passport.datastoreVisa
+          .forMember(context.member)
+          .determineIf((permissions) => 
+            (context.member?.id === member?.id) ||
+            permissions.isSystemAccount
+          );
+      });
     },
     cybersourcePublicKeyId: async (parent, _args, { applicationServices }) => {
-      return await applicationServices.paymentApi.generatePublicKey();
+      return await applicationServices.payment.cybersourceApi.generatePublicKey();
     },
     memberPaymentInstruments: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context);
-      if (member?.wallet?.customerId) {
-        const paymentInstruments = await context.applicationServices.paymentApi.getPaymentInstruments(member.wallet.customerId);
+      if (member?.cybersourceCustomerId) {
+        const paymentInstruments = await context.applicationServices.payment.cybersourceApi.getPaymentInstruments(member.cybersourceCustomerId);
         return { status: { success: true }, paymentInstruments };
       }
       return { status: { success: false }, paymentInstruments: [] };
@@ -88,60 +151,60 @@ const member: Resolvers = {
   },
   Mutation: {
     memberCreate: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberCreate(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberCreate(input));
     },
     memberUpdate: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberUpdate(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberUpdate(input));
     },
     memberAccountAdd: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountAdd(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberAccountAdd(input));
     },
     memberAccountEdit: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountEdit(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberAccountEdit(input));
     },
     memberAccountRemove: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberAccountRemove(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberAccountRemove(input));
     },
     memberProfileUpdate: async (_, { input }, { applicationServices }) => {
-      return MemberMutationResolver(applicationServices.memberDomainApi.memberProfileUpdate(input));
+      return MemberMutationResolver(applicationServices.member.domainApi.memberProfileUpdate(input));
     },
     memberProfileAvatarCreateAuthHeader: async (_, { input }, { applicationServices }) => {
-      const result = await applicationServices.memberBlobApi.memberProfileAvatarCreateAuthHeader(input.memberId, input.fileName, input.contentType, input.contentLength);
+      const result = await applicationServices.member.blobApi.memberProfileAvatarCreateAuthHeader(input.memberId, input.fileName, input.contentType, input.contentLength);
       if (result.status.success) {
-        result.member = (await applicationServices.memberDomainApi.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
+        result.member = (await applicationServices.member.domainApi.memberProfileUpdateAvatar(input.memberId, result.authHeader.blobName)) as any;
       }
       return result;
     },
     memberProfileAvatarRemove: async (_, { memberId }, { applicationServices }) => {
       const result = {
-        status: await applicationServices.memberBlobApi.memberProfileAvatarRemove(memberId),
+        status: await applicationServices.member.blobApi.memberProfileAvatarRemove(memberId),
       } as MemberMutationResult;
 
       if (!result.status.success) {
         return result;
       } else {
-        return MemberMutationResolver(applicationServices.memberDomainApi.memberProfileUpdateAvatar(memberId, null));
+        return MemberMutationResolver(applicationServices.member.domainApi.memberProfileUpdateAvatar(memberId, null));
       }
     },
 
     memberAddPaymentInstrument: async (_, { input }, context) => {
       const member = await getMemberForCurrentUser(context);
-      let cyberSourceCustomerId = member?.wallet?.customerId;
-      if (!cyberSourceCustomerId) {
-        cyberSourceCustomerId = await context.applicationServices.paymentApi.createCybersouceCustomer(input);
-        console.log('createCybersouceCustomerResponse', cyberSourceCustomerId);
-        if (cyberSourceCustomerId) {
-          return await MemberMutationResolver(context.applicationServices.memberDomainApi.memberAddWallet(member.id, cyberSourceCustomerId));
+      let cybersourceCustomerId = member?.cybersourceCustomerId;
+      if (!cybersourceCustomerId) {
+        cybersourceCustomerId = await context.applicationServices.payment.cybersourceApi.createCybersouceCustomer(input);
+        console.log('createCybersouceCustomerResponse', cybersourceCustomerId);
+        if (cybersourceCustomerId) {
+          return await MemberMutationResolver(context.applicationServices.member.domainApi.memberUpdate({id: member.id, cybersourceCustomerId}));
         }
       }
 
-      if (cyberSourceCustomerId) {
+      if (cybersourceCustomerId) {
         const paymentInstrumentPayload: CustomerProfile = {
           ...input,
-          customerId: cyberSourceCustomerId,
+          customerId: cybersourceCustomerId,
         };
         const paymentTokenInfo: PaymentTokenInfo = { paymentToken: input.paymentToken, isDefault: input.isDefault };
-        await context.applicationServices.paymentApi.addPaymentInstrument(paymentInstrumentPayload, paymentTokenInfo);
+        await context.applicationServices.payment.cybersourceApi.addPaymentInstrument(paymentInstrumentPayload, paymentTokenInfo);
         return { status: { success: true }, member };
       }
     },
@@ -149,9 +212,9 @@ const member: Resolvers = {
     memberSetDefaultPaymentInstrument: async (_, { paymentInstrumentId }, context) => {
       let status: boolean;
       const member = await getMemberForCurrentUser(context);
-      const cyberSourceCustomerId = member?.wallet?.customerId;
-      if (cyberSourceCustomerId) {
-        status = await context.applicationServices.paymentApi.setDefaultPaymentInstrument(cyberSourceCustomerId, paymentInstrumentId);
+      const cybersourceCustomerId = member?.cybersourceCustomerId;
+      if (cybersourceCustomerId) {
+        status = await context.applicationServices.payment.cybersourceApi.setDefaultPaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
         return { success: status, errorMessage: '' };
       }
     },
@@ -160,9 +223,9 @@ const member: Resolvers = {
       const member = await getMemberForCurrentUser(context);
       let response: boolean;
       try {
-        const cyberSourceCustomerId = member?.wallet?.customerId;
-        if (cyberSourceCustomerId) {
-          response = await context.applicationServices.paymentApi.deletePaymentInstrument(cyberSourceCustomerId, paymentInstrumentId);
+        const cybersourceCustomerId = member?.cybersourceCustomerId;
+        if (cybersourceCustomerId) {
+          response = await context.applicationServices.payment.cybersourceApi.deletePaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
           return { success: response };
         }
       } catch (error) {

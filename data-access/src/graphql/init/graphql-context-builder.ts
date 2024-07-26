@@ -1,13 +1,13 @@
 import { HttpRequest } from '@azure/functions';
 import { PortalTokenValidation } from '../../auth/portal-token-validation';
-import { Passport } from '../../app/init/passport';
-import { HttpContext, HttpContextBuilder } from '../../../seedwork/seedwork-az-function-handler_http/http-context-builder';
+import { HttpContext } from '../../../seedwork/seedwork-az-function-handler_http/http-context-builder';
 import { InfrastructureServicesBuilder } from '../../init/infrastructure-services-builder';
 import { HttpContextBuilderImpl } from '../../http/init/http-context-builder-impl';
+import { CommunityData, MemberData } from '../../app/external-dependencies/datastore';
 
 export interface GraphqlContext extends HttpContext {
-  communityId: string;
-  memberId: string;
+  community: CommunityData;
+  member: MemberData;
 }
 
 export class GraphqlContextBuilder extends HttpContextBuilderImpl implements GraphqlContext {;
@@ -26,11 +26,11 @@ export class GraphqlContextBuilder extends HttpContextBuilderImpl implements Gra
     this._req.headers.set('server', null); //hide microsoft server header
   }
 
-  get communityId(): string {
-    return this._appContext.communityId;
+  get community(): CommunityData {
+    return this._appContext.community;
   }
 
-  get memberId(): string {
-    return this._appContext.memberId;
+  get member(): MemberData {
+    return this._appContext.member;;
   }
 }

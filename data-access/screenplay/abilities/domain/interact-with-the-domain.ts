@@ -2,31 +2,31 @@ import { Ability, AbilityType, Actor, UsesAbilities, actorInTheSpotlight, notes 
 import { IMemoryDatabase, MemoryDatabase } from '../../../src/infrastructure-services-impl/datastore/memorydb/memory-database';
 import { ReadOnlyMemoryStore } from '../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store';
 import { BaseDomainExecutionContext } from '../../../seedwork/domain-seedwork/base-domain-execution-context';
-import { CommunityRepository } from '../../../src/app/domain/contexts/community/community.repository';
-import { CommunityEntityReference, CommunityProps } from '../../../src/app/domain/contexts/community/community';
-import { UserRepository } from '../../../src/app/domain/contexts/user/user.repository';
-import { UserEntityReference, UserProps } from '../../../src/app/domain/contexts/user/user';
-import { RoleRepository } from '../../../src/app/domain/contexts/community/role.repository';
-import { RoleProps } from '../../../src/app/domain/contexts/community/role';
-import { MemberRepository } from '../../../src/app/domain/contexts/community/member.repository';
-import { Member, MemberEntityReference, MemberProps } from '../../../src/app/domain/contexts/community/member';
+import { CommunityRepository } from '../../../src/app/domain/contexts/community/community/community.repository';
+import { CommunityEntityReference, CommunityProps } from '../../../src/app/domain/contexts/community/community/community';
+import { UserRepository } from '../../../src/app/domain/contexts/user/user/user.repository';
+import { UserEntityReference, UserProps } from '../../../src/app/domain/contexts/user/user/user';
+import { RoleRepository } from '../../../src/app/domain/contexts/community/role/role.repository';
+import { RoleProps } from '../../../src/app/domain/contexts/community/role/role';
+import { MemberRepository } from '../../../src/app/domain/contexts/community/member/member.repository';
+import { Member, MemberEntityReference, MemberProps } from '../../../src/app/domain/contexts/community/member/member';
 import { DomainExecutionContext } from '../../../src/app/domain/contexts/domain-execution-context';
 // import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
 import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
 import { DomainImplBDD } from './io/test/domain-impl-bdd';
 import { ReadOnlyContext, SystemExecutionContext } from '../../../src/app/domain/contexts/domain-execution-context';
-import { DomainVisaImpl } from '../../../src/app/domain/contexts/iam/domain-visa';
+import { DomainVisaImpl } from '../../../src/app/domain/contexts/domain-visa';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';
 import { NotepadType } from '../../actors';
 import { MemoryCognitiveSearchImpl } from '../../../src/infrastructure-services-impl/cognitive-search/in-memory/impl';
-import { PropertyRepository } from '../../../src/app/domain/contexts/property/property.repository';
-import { PropertyProps } from '../../../src/app/domain/contexts/property/property';
+import { PropertyRepository } from '../../../src/app/domain/contexts/property/property/property.repository';
+import { PropertyProps } from '../../../src/app/domain/contexts/property/property/property';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { MemorydbDatastoreImpl } from '../../../src/infrastructure-services-impl/datastore/memorydb/impl';
-import { ServiceTicketRepository } from '../../../src/app/domain/contexts/service-ticket/service-ticket.repository';
-import { ServiceTicketProps } from '../../../src/app/domain/contexts/service-ticket/service-ticket';
+import { ServiceTicketV1Repository } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket.repository';
+import { ServiceTicketV1Props } from '../../../src/app/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { CybersourceImpl } from '../../../src/infrastructure-services-impl/payment/cybersource/impl';
 
 export interface InteractWithTheDomainAsUnregisteredUser {
@@ -49,8 +49,8 @@ export interface InteractWithTheDomainAsCommunityMember {
   readUserDb: (func: (db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
   actOnProperty: (func: (repo: PropertyRepository<PropertyProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func: (db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
-  actOnServiceTicket: (func: (repo: ServiceTicketRepository<ServiceTicketProps>) => Promise<void>) => Promise<void>;
-  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>) => Promise<void>;
+  actOnServiceTicket: (func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>) => Promise<void>;
+  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>) => Promise<void>;
 }
 
 export interface InteractWithTheDomainAsReadOnly {
@@ -59,7 +59,7 @@ export interface InteractWithTheDomainAsReadOnly {
   readMemberDb: (func: (db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
   readUserDb: (func: (db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func: (db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
-  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>) => Promise<void>;
+  readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>) => Promise<void>;
   logSearchDatabase: () => Promise<void>;
   logDatabase: () => Promise<void>;
 }
@@ -296,23 +296,23 @@ export class InteractWithTheDomain
   }
 
   // service ticket
-  public async actOnServiceTicket(func: (repo: ServiceTicketRepository<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+  public async actOnServiceTicket(func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
-  public async readServiceTicketDb(func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
+  public async readServiceTicketDb(func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.serviceTicketV1ReadonlyMemoryStore);
   }
 
   // service
-  public async actOnService(func: (repo: ServiceTicketRepository<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.serviceTicketUnitOfWork.withTransaction(this.context, async (repo) => {
+  public async actOnService(func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.serviceTicketV1UnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
-  public async readServiceDb(func: (db: ReadOnlyMemoryStore<ServiceTicketProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.serviceTicketReadonlyMemoryStore);
+  public async readServiceDb(func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.serviceTicketV1ReadonlyMemoryStore);
   }
 
   public async logSearchDatabase() {

@@ -6,7 +6,7 @@ type Member implements MongoBase {
   role: Role
   accounts: [MemberAccount]
   profile: MemberProfile
-  wallet: Wallet
+  cybersourceCustomerId: String
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -91,6 +91,7 @@ input MemberUpdateInput {
   id: ObjectID!
   memberName: String
   role: ObjectID
+  cybersourceCustomerId: String
   customViews: [CustomViewInput]
 }
 
@@ -154,35 +155,10 @@ type MemberAvatarImageAuthHeaderResult {
   member: Member
 }
 
-type AmountDetails {
-  amount: Float
-  authorizedAmount: Float
-  currency: String
-}
-
-type Transaction {
-  id: ObjectID!
-  transactionId: String
-  clientReferenceCode: String
-  amountDetails: AmountDetails
-  status: String
-  reconciliationId: String
-  isSuccess: Boolean
-  transactionTime: DateTime
-  successTimestamp: DateTime
-}
-
-type Wallet {
-  """Unique identifier for the customer"""
-  customerId: String
-  """List of transactions associated with the customer"""
-  transactions: [Transaction]
-}
-
 type PaymentInstrument {
   cardType: String
   paymentInstrumentId: String
-  cardNumber: String
+  cardNumber: String # Masked card number
   isDefault: Boolean
 }
 

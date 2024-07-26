@@ -7,6 +7,7 @@ import {
   CustomerProfile,
   PaymentTokenInfo,
   TransactionSearchResponse,
+  PaymentInstrumentInfo,
 } from '../services-seedwork-payment-cybersource-interfaces';
 import { Cybersource } from './index';
 
@@ -96,6 +97,11 @@ test.skip('cybersource: get customer payment instrument', async () => {
 
   expect(response).toBeDefined();
   expect(response.billTo).toBeDefined();
+  expect(response.id).toBe(paymentInstrumentId);
+  expect(response.instrumentIdentifier.id).toBe('7010000000188591111');
+  expect(response.card.expirationMonth).toEqual('09');
+  expect(response.card.expirationYear).toEqual('2024');
+  expect(response.card.type).toEqual('001');
   expect(response._embedded.instrumentIdentifier.card.number).toEqual('411111XXXXXX1111');
 });
 
@@ -122,6 +128,40 @@ test.skip('cybersource: set default customer payment instrument', async () => {
 
   expect(response).toBeDefined();
   expect(response._embedded.defaultPaymentInstrument.id).toBe(paymentInstrumentId);
+});
+
+test.skip('cybersource: update customer payment instrument', async () => {
+  const paymentInstrumentInfo: PaymentInstrumentInfo = {
+    id: '7010000000188591111',
+    paymentInstrumentId: '1D29441D8058A16EE063AF598E0A710A',
+    cardType: 'visa',
+    cardExpirationMonth: '12',
+    cardExpirationYear: '2024',
+  };
+
+  const customerProfile: CustomerProfile = {
+    customerId: '1CD4C5EE92E27A57E063AF598E0ACEC6',
+    billingFirstName: 'Jane',
+    billingLastName: 'Smith',
+    billingEmail: 'JSmith@cybs.com',
+    billingPhone: '1234567890',
+    billingAddressLine1: '321 Main St',
+    billingAddressLine2: 'Apt 1',
+    billingCity: 'San Francisco',
+    billingState: 'CA',
+    billingPostalCode: '94107',
+    billingCountry: 'US',
+  };
+
+  const response: CustomerPaymentInstrumentResponse = await cybersource.updateCustomerPaymentInstrument(customerProfile, paymentInstrumentInfo);
+
+  expect(response).toBeDefined();
+  expect(response.billTo.firstName).toBe('Jane');
+  expect(response.billTo.lastName).toBe('Smith');
+  expect(response.card.expirationMonth).toBe('12');
+  expect(response.card.expirationYear).toBe('2024');
+  expect(response.card.type).toBe('visa');
+  expect(response.state).toBe('ACTIVE');
 });
 
 test.skip('cybersource: process payment', async () => {

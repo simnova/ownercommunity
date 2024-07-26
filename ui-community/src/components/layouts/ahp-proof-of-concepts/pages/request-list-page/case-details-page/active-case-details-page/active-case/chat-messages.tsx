@@ -3,7 +3,7 @@ import { ChatMessage } from './chat-message';
 
 interface ChatMessagesProps {
   data: {
-    embedding: string;
+    embedding?: JSX.Element;
     sentBy: string;
     message: string;
     createdAt: string;

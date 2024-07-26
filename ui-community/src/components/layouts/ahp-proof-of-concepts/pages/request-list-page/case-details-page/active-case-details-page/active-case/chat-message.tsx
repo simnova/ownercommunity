@@ -1,10 +1,12 @@
 import { Avatar } from 'antd';
 import { FC } from 'react';
+import * as CmsComponents from '../../../../../../../editor/components';
+import { Editor, Frame } from '@craftjs/core';
 
 interface ChatMessageProps {
   sentBy: string;
   message: string;
-  embedding: string;
+  embedding: JSX.Element;
   createdAt: string;
 }
 export const ChatMessage: FC<ChatMessageProps> = (props) => {
@@ -14,7 +16,7 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
     margin: '10px 5px',
     padding: '10px',
     color: 'black',
-    borderRadius: '5px',
+    borderRadius: '5px'
   };
   const applicantStyles = {
     border: '1px solid black',
@@ -26,6 +28,8 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
   };
 
   const placeHolderInitials = 'JM';
+
+  console.log("heyhey", props.embedding)
 
   return (
     <div>
@@ -50,9 +54,14 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
               marginRight: 10
             }}
           >
-            <Avatar style={{
-              marginLeft: 5
-            }}size="large">{props.sentBy === 'internal' ? 'Intealth' : placeHolderInitials}</Avatar>
+            <Avatar
+              style={{
+                marginLeft: 5
+              }}
+              size="large"
+            >
+              {props.sentBy === 'internal' ? 'Intealth' : placeHolderInitials}
+            </Avatar>
           </div>
           <div
             style={{
@@ -71,7 +80,16 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
             >
               {props.createdAt}
             </div>
-            <div style={props.sentBy === 'internal' ? caseWorkerStyles : applicantStyles}>{props.message}</div>
+            <div style={props.sentBy === 'internal' ? caseWorkerStyles : applicantStyles}>
+              {props.message}
+              {props.embedding && (
+                <Editor resolver={{ ...CmsComponents }}>
+                  <Frame>
+                    <CmsComponents.AhpIdFormConfirmation />
+                  </Frame>
+                </Editor>
+              )}
+            </div>
           </div>
         </div>
       </div>

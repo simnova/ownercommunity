@@ -29,8 +29,6 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
 
   const placeHolderInitials = 'JM';
 
-  console.log("heyhey", props.embedding)
-
   return (
     <div>
       <div

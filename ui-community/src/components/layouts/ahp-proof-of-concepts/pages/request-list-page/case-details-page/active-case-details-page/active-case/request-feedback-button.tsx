@@ -1,14 +1,21 @@
 import { FilePdfOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Modal } from 'antd';
-import { FC, useState } from 'react';
-import * as CmsComponents from '../../../../../../../editor/components';
+import { FC, useEffect, useState } from 'react';
 
 interface RequestFeedbackButtonProps {
-  updateEmbedding: (embeddingName: string | undefined, embedding: JSX.Element | undefined) => void;
+  updateEmbedding: (requests: any[]) => void;
 }
 export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [checkedBoxes, setCheckedBoxes] = useState<string[]>([]);
+  const [checkedBoxes, setCheckedBoxes] = useState<any[]>([]);
+
+  const valueMap: { [key: string]: string } = {
+    '1': 'Request Update Credential Type',
+    '2': 'Request Update Credential',
+    '3': 'Request Update Translation',
+    '4': 'Request Update Issuing Institution',
+    '5': 'Request Update Name on Document'
+  };
 
   const openModal = () => {
     setIsOpen(true);
@@ -16,69 +23,53 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
 
   const closeModal = () => {
     setIsOpen(false);
-    if (checkedBoxes.length !== 0) {
-      switch (checkedBoxes[0]) {
-        case '1':
-          props.updateEmbedding('Request Updated Credential Type', <CmsComponents.AhpIdFormConfirmation />);
-          return;
-        case '2':
-          props.updateEmbedding('Request Updated Credential', <CmsComponents.AhpIdFormConfirmation />);
-          return;
-        case '3':
-          props.updateEmbedding('Request Updated Translation', <CmsComponents.AhpIdFormConfirmation />);
-          return;
-        case '4':
-          props.updateEmbedding('Request Updated Issuing Institution', <CmsComponents.AhpIdFormConfirmation />);
-          return;
-        case '5':
-          props.updateEmbedding('Request Updated Name on Document', <CmsComponents.AhpIdFormConfirmation />);
-          return;
-        default:
-          props.updateEmbedding('', undefined);
-          return;
-      }
-    }
-    props.updateEmbedding('', undefined);
+    setCheckedBoxes([])
+    props.updateEmbedding(checkedBoxes);
   };
 
   const onCheck = (e: any) => {
-    console.log('checkboxdata', e.target.value, checkedBoxes);
-    if (checkedBoxes.length !== 0 && checkedBoxes.includes(e.target.value)) {
-      setCheckedBoxes([]);
-      return;
-    } else if (checkedBoxes.length !== 0) {
-      alert('Can only select one option.');
+    let tempCheckedBoxes = checkedBoxes.slice();
+    const index = tempCheckedBoxes.findIndex((x) => x.value === e.target.value);
+    if (index !== -1) {
+      tempCheckedBoxes.splice(index, 1);
+      setCheckedBoxes(tempCheckedBoxes);
       return;
     }
-
-    let tempCheckedBoxes = checkedBoxes;
-    tempCheckedBoxes = [e.target.value];
+    tempCheckedBoxes.push({
+      value: e.target.value,
+      message: valueMap[e.target.value]
+    });
     setCheckedBoxes(tempCheckedBoxes);
   };
 
+  const isChecked = (value: string) => {
+    const index = checkedBoxes.findIndex((x) => x.value === value)
+    return index !== -1 ? true : false
+  }
+  
   return (
     <>
       <Modal title="Request Update" open={isOpen} onCancel={closeModal} onOk={closeModal}>
         Request Applicant to:
         <br />
-        <Checkbox value={1} onClick={onCheck} checked={checkedBoxes.includes('1')}>
+        <Checkbox value={1} onClick={onCheck} checked={isChecked("1")}>
           {' '}
           add/update credential type
         </Checkbox>
         <br />
-        <Checkbox value={2} onClick={onCheck} checked={checkedBoxes.includes('2')}>
+        <Checkbox value={2} onClick={onCheck} checked={isChecked('2')}>
           add/update credential
         </Checkbox>
         <br />
-        <Checkbox value={3} onClick={onCheck} checked={checkedBoxes.includes('3')}>
+        <Checkbox value={3} onClick={onCheck} checked={isChecked('3')}>
           add/update credential translation
         </Checkbox>
         <br />
-        <Checkbox value={4} onClick={onCheck} checked={checkedBoxes.includes('4')}>
+        <Checkbox value={4} onClick={onCheck} checked={isChecked('4')}>
           add/update issuing institution
         </Checkbox>
         <br />
-        <Checkbox value={5} onClick={onCheck} checked={checkedBoxes.includes('5')}>
+        <Checkbox value={5} onClick={onCheck} checked={isChecked('5')}>
           add/update name on document
         </Checkbox>
       </Modal>

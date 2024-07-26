@@ -4,24 +4,25 @@ import { ChatComponentButton } from './chat-component-button';
 import { DollarOutlined, FilePdfOutlined } from '@ant-design/icons';
 import { Button, Tag } from 'antd';
 import { RequestFeedbackButton } from './request-feedback-button';
+import { remove } from 'lodash';
 
 interface ChatMessagerProps {}
 export const ChatMessager: FC<ChatMessagerProps> = () => {
   const [message, setMessage] = useState('');
-  const [embedding, setEmbedding] = useState<JSX.Element | undefined>(undefined);
-  const [embeddingName, setEmbeddingName] = useState<string | undefined>(undefined);
+  const [requests, setRequests] = useState<any[]>([]);
 
-  const updateEmbedding = (embeddingName: string | undefined, embedding: JSX.Element | undefined) => {
-    setEmbedding(embedding);
-    setEmbeddingName(embeddingName);
+  const updateEmbedding = (requests: any[]) => {
+    setRequests(requests);
   };
   const sendMessage = () => {
-    console.log('Heres the message: ', message, embedding);
+    console.log('Heres the message: ', message, requests);
   };
 
-  const removeEmbed = () => {
-    setEmbedding(undefined);
-    setEmbeddingName(undefined);
+  const removeRequest = (value: string) => {
+    let tempRequests = requests.slice();
+    const index = tempRequests.findIndex((x) => x.value === value);
+    tempRequests.splice(index, 1)
+    setRequests(tempRequests);
   };
 
   return (
@@ -39,11 +40,13 @@ export const ChatMessager: FC<ChatMessagerProps> = () => {
         >
           Message
         </div>
-        {embedding && embeddingName && (
-          <Tag onClose={removeEmbed} closable>
-            <FilePdfOutlined /> {embeddingName}
-          </Tag>
-        )}
+        {requests.map((request: any) => {
+          return (
+            <Tag onClose={() => removeRequest(request.value)} key={request.value} closable>
+              <FilePdfOutlined /> {request.message}
+            </Tag>
+          );
+        })}
         <TextArea
           style={{ borderRadius: '0px' }}
           autoSize={{

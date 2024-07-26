@@ -1,6 +1,12 @@
 import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { CommunityVisa } from "../community.visa";
-import { PropertyPermissions as PropertyPermissionsSpec } from "../../property/property/property.visa";
+
+export interface PropertyPermissionsSpec {
+  canManageProperties: boolean;
+  canEditOwnProperty: boolean;
+  isEditingOwnProperty: boolean;
+  isSystemAccount: boolean;
+}
 
 export interface PropertyPermissionsProps extends PropertyPermissionsSpec, EntityProps {}
 

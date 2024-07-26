@@ -1,24 +1,18 @@
 
 import { Visa } from '../../../../../../seedwork/passport-seedwork/visa';
 import { MemberEntityReference } from '../../community/member/member';
+import { PropertyPermissionsSpec } from '../../community/role/property-permissions';
 import { PropertyEntityReference } from './property';
 
-export interface PropertyPermissions {
-  canManageProperties: boolean;
-  canEditOwnProperty: boolean;
-  isEditingOwnProperty: boolean;
-  isSystemAccount: boolean;
-}
-
 export interface PropertyVisa extends Visa {
-  determineIf(func:((permissions:PropertyPermissions) => boolean)) :  boolean ;
+  determineIf(func:((permissions:PropertyPermissionsSpec) => boolean)) :  boolean ;
 }
 
 export class PropertyVisaImpl<root extends PropertyEntityReference> implements PropertyVisa {
   constructor(private root: root, private member: MemberEntityReference) {
   }
 
-  determineIf(func: ((permissions: PropertyPermissions) => boolean)): boolean {
+  determineIf(func: ((permissions: PropertyPermissionsSpec) => boolean)): boolean {
     //ensure that the member is a member of this community
     if (!this.member || this.member.community.id !== this.root.community.id) {
       console.log('member not part of community', this.member, this.root.community);
@@ -35,7 +29,7 @@ export class PropertyVisaImpl<root extends PropertyEntityReference> implements P
         value: (
           this.root.owner?.id && this.member.id === this.root.owner.id)
       } //overwrite isEditingOwnProperty based on user ownership
-    }) as PropertyPermissions;
+    }) as PropertyPermissionsSpec;
 
     console.log('updatedPermissions', updatedPermissions);
     return func(updatedPermissions);

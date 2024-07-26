@@ -1,29 +1,33 @@
-import { CommunityEntityReference } from './contexts/community/community/community';
-import { CommunityPermissions } from "./contexts/community/community.visa";
-import { MemberEntityReference } from './contexts/community/member/member';
-import { RoleEntityReference } from './contexts/community/role/role';
-import { PropertyEntityReference } from './contexts/property/property/property';
-import { PropertyPermissions } from "./contexts/property/property/property.visa";
-import { ServiceEntityReference } from './contexts/community/service/service';
-import { ServicePermissions } from "./contexts/community/service/service.visa";
-import { ServiceTicketV1EntityReference } from './contexts/cases/service-ticket/v1/service-ticket';
-import { ServiceTicketV1Permissions } from "./contexts/cases/service-ticket/v1/service-ticket.visa";
-import { UserEntityReference } from './contexts/user/user/user';
 import { CommunityVisa } from "./contexts/community/community.visa";
-import { CommunityVisaImplForCommunity } from './contexts/community/community/community.visa-impl.for-community';
+import { CommunityPermissionsSpec } from "./contexts/community/role/community-permissions";
+
+import { MemberEntityReference } from './contexts/community/member/member';
 import { CommunityVisaImplForMember } from './contexts/community/member/community.visa-impl.for-member';
-import { PropertyVisa } from './contexts/property/property/property.visa';
-import { PropertyVisaImpl } from './contexts/property/property/property.visa';
+
+import { RoleEntityReference } from './contexts/community/role/role';
 import { CommunityVisaImplForRole } from './contexts/community/role/community.visa-impl.for-role';
-import { ServiceVisa } from './contexts/community/service/service.visa';
-import { ServiceVisaImpl } from './contexts/community/service/service.visa';
-import { ServiceTicketV1Visa } from './contexts/cases/service-ticket/v1/service-ticket.visa';
-import { ServiceTicketV1VisaImpl } from './contexts/cases/service-ticket/v1/service-ticket.visa';
-import { UserVisa } from './contexts/user/user/user.visa';
-import { UserVisaImpl } from './contexts/user/user/user.visa';
+
+import { CommunityEntityReference } from './contexts/community/community/community';
+import { CommunityVisaImplForCommunity } from './contexts/community/community/community.visa-impl.for-community';
+
+import { PropertyEntityReference } from './contexts/property/property/property';
+import { PropertyVisa, PropertyVisaImpl } from './contexts/property/property/property.visa';
+import { PropertyPermissionsSpec } from './contexts/community/role/property-permissions';
+
+import { ServiceEntityReference } from './contexts/community/service/service';
+import { ServiceVisa, ServiceVisaImpl } from './contexts/community/service/service.visa';
+import { ServicePermissionsSpec } from './contexts/community/role/service-permissions';
+
+import { ServiceTicketV1EntityReference } from './contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1Visa, ServiceTicketV1VisaImpl } from './contexts/cases/service-ticket/v1/service-ticket.visa';
+import { ServiceTicketPermissionsSpec } from './contexts/community/role/service-ticket-permissions';
+
+import { UserEntityReference } from './contexts/user/user/user';
+import { UserVisa, UserVisaImpl } from './contexts/user/user/user.visa';
+
 import { ViolationTicketV1EntityReference } from './contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketV1Visa, ViolationTicketV1VisaImpl } from './contexts/cases/violation-ticket/v1/violation-ticket.visa';
-import { ViolationTicketV1Permissions } from "./contexts/cases/violation-ticket/v1/violation-ticket.visa";
+import { ViolationTicketPermissionsSpec } from './contexts/community/role/violation-ticket-permissions';
 
 export const SystemUserId = 'system';
 
@@ -121,7 +125,7 @@ export class SystemDomainVisa implements DomainVisa {
   public static GetInstance(): DomainVisa {
     return new SystemDomainVisa();
   }
-  private communityPermissionsForSystem: CommunityPermissions = {
+  private communityPermissionsForSystem: CommunityPermissionsSpec = {
     canManageRolesAndPermissions: false,
     canManageCommunitySettings: false,
     canManageSiteContent: false,
@@ -131,17 +135,17 @@ export class SystemDomainVisa implements DomainVisa {
     isEditingOwnMemberAccount: false,
     isSystemAccount: true,
   }
-  private propertyPermissionsForSystem: PropertyPermissions = {
+  private propertyPermissionsForSystem: PropertyPermissionsSpec = {
     canManageProperties: false,
     canEditOwnProperty: false,
     isEditingOwnProperty: false,
     isSystemAccount: true,
   }
-  private servicePermissionsForSystem: ServicePermissions = {
+  private servicePermissionsForSystem: ServicePermissionsSpec = {
     canManageServices: false,
     isSystemAccount: true,
   }
-  private serviceTicketPermissionsForSystem: ServiceTicketV1Permissions = {
+  private serviceTicketPermissionsForSystem: ServiceTicketPermissionsSpec = {
     canCreateTickets: false,
     canManageTickets: false,
     canAssignTickets: false,
@@ -150,7 +154,7 @@ export class SystemDomainVisa implements DomainVisa {
     isEditingAssignedTicket: false,
     isSystemAccount: true,
   }
-  private violationTicketPermissionsForSystem: ViolationTicketV1Permissions = {
+  private violationTicketPermissionsForSystem: ViolationTicketPermissionsSpec = {
     canCreateTickets: false,
     canManageTickets: false,
     canAssignTickets: false,

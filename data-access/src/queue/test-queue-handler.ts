@@ -4,7 +4,7 @@ export const TestQueueHandler = async (context: QueueContext): Promise<void> => 
     console.log('[TestQueueHandler] | Invocation ID ', context.invocationId);
     console.log('[TestQueueHandler] | Processing queue message: ', context.payload);
 
-    const community = await context.applicationServices.communityDataApi.getCommunityById(context.payload?.communityId);
+    const community = await context.applicationServices.community.dataApi.getCommunityById(context.payload?.communityId);
 
     if (community) {
       console.log('[TestQueueHandler] | Community Name: ', community.name);

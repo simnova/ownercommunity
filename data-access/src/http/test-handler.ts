@@ -4,7 +4,7 @@ export const testHandler = async (context: HttpContext) => {
   const email = context.req.headers.get('email');
   const memberId = context.req.headers.get('member');
 
-  const member = await context.applicationServices.memberDataApi.getMemberById(memberId);
+  const member = await context.applicationServices.member.dataApi.getMemberById(memberId);
   
   return {
     status: 200,

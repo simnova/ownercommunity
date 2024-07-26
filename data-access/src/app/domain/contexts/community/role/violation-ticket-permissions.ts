@@ -1,6 +1,15 @@
 import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { CommunityVisa } from "../community.visa";
-import { ViolationTicketV1Permissions as ViolationTicketPermissionsSpec } from "../../cases/violation-ticket/v1/violation-ticket.visa";
+
+export interface ViolationTicketPermissionsSpec {
+  canCreateTickets: boolean;
+  canManageTickets: boolean;
+  canAssignTickets: boolean;
+  canWorkOnTickets: boolean;
+  isEditingOwnTicket: boolean;
+  isEditingAssignedTicket: boolean;
+  isSystemAccount: boolean;
+}
 
 export interface ViolationTicketPermissionsProps extends ViolationTicketPermissionsSpec, EntityProps {}
 
@@ -63,3 +72,6 @@ export class ViolationTicketPermissions extends Entity<ViolationTicketPermission
 }
 
 export interface ViolationTicketPermissionsEntityReference extends Readonly<ViolationTicketPermissionsProps> {}
+
+
+

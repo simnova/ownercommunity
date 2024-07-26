@@ -1,6 +1,6 @@
 import { FilePdfOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Modal } from 'antd';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 
 interface RequestFeedbackButtonProps {
   updateEmbedding: (requests: any[]) => void;
@@ -10,11 +10,11 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
   const [checkedBoxes, setCheckedBoxes] = useState<any[]>([]);
 
   const valueMap: { [key: string]: string } = {
-    '1': 'Request Update Credential Type',
-    '2': 'Request Update Credential',
-    '3': 'Request Update Translation',
-    '4': 'Request Update Issuing Institution',
-    '5': 'Request Update Name on Document'
+    updateCredentialType: 'Request Update Credential Type',
+    updateCredential: 'Request Update Credential',
+    updateTranslation: 'Request Update Translation',
+    updateInstitution: 'Request Update Issuing Institution',
+    updatedName: 'Request Update Name on Document'
   };
 
   const openModal = () => {
@@ -23,8 +23,13 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
 
   const closeModal = () => {
     setIsOpen(false);
-    setCheckedBoxes([])
     props.updateEmbedding(checkedBoxes);
+    setCheckedBoxes([]);
+  };
+
+  const onCancel = () => {
+    setIsOpen(false);
+    setCheckedBoxes([]);
   };
 
   const onCheck = (e: any) => {
@@ -37,39 +42,46 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
     }
     tempCheckedBoxes.push({
       value: e.target.value,
-      message: valueMap[e.target.value]
+      message: valueMap[e.target.value],
+      icon: <FilePdfOutlined />
     });
     setCheckedBoxes(tempCheckedBoxes);
   };
 
   const isChecked = (value: string) => {
-    const index = checkedBoxes.findIndex((x) => x.value === value)
-    return index !== -1 ? true : false
-  }
-  
+    const index = checkedBoxes.findIndex((x) => x.value === value);
+    return index !== -1 ? true : false;
+  };
+
+  const footerButton = (
+    <Button onClick={closeModal} type="primary">
+      Create Request
+    </Button>
+  );
+
   return (
     <>
-      <Modal title="Request Update" open={isOpen} onCancel={closeModal} onOk={closeModal}>
+      <Modal title="Request Update" open={isOpen} onCancel={onCancel} footer={footerButton}>
         Request Applicant to:
         <br />
-        <Checkbox value={1} onClick={onCheck} checked={isChecked("1")}>
+        <Checkbox value={'updateCredentialType'} onClick={onCheck} checked={isChecked('updateCredentialType')}>
           {' '}
           add/update credential type
         </Checkbox>
         <br />
-        <Checkbox value={2} onClick={onCheck} checked={isChecked('2')}>
+        <Checkbox value={'updateCredential'} onClick={onCheck} checked={isChecked('updateCredential')}>
           add/update credential
         </Checkbox>
         <br />
-        <Checkbox value={3} onClick={onCheck} checked={isChecked('3')}>
+        <Checkbox value={'updateTranslation'} onClick={onCheck} checked={isChecked('updateTranslation')}>
           add/update credential translation
         </Checkbox>
         <br />
-        <Checkbox value={4} onClick={onCheck} checked={isChecked('4')}>
+        <Checkbox value={'updateInstitution'} onClick={onCheck} checked={isChecked('updateInstitution')}>
           add/update issuing institution
         </Checkbox>
         <br />
-        <Checkbox value={5} onClick={onCheck} checked={isChecked('5')}>
+        <Checkbox value={'updatedName'} onClick={onCheck} checked={isChecked('updatedName')}>
           add/update name on document
         </Checkbox>
       </Modal>

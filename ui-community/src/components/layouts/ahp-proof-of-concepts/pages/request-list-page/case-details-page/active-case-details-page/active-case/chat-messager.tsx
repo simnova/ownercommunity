@@ -1,10 +1,10 @@
 import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
-import { ChatComponentButton } from './chat-component-button';
-import { DollarOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { FilePdfOutlined } from '@ant-design/icons';
 import { Button, Tag } from 'antd';
 import { RequestFeedbackButton } from './request-feedback-button';
-import { remove } from 'lodash';
+import { RequestPaymentButton } from './request-payment-button';
+import { SendMoneyButton } from './send-money-button';
 
 interface ChatMessagerProps {}
 export const ChatMessager: FC<ChatMessagerProps> = () => {
@@ -21,7 +21,7 @@ export const ChatMessager: FC<ChatMessagerProps> = () => {
   const removeRequest = (value: string) => {
     let tempRequests = requests.slice();
     const index = tempRequests.findIndex((x) => x.value === value);
-    tempRequests.splice(index, 1)
+    tempRequests.splice(index, 1);
     setRequests(tempRequests);
   };
 
@@ -43,7 +43,7 @@ export const ChatMessager: FC<ChatMessagerProps> = () => {
         {requests.map((request: any) => {
           return (
             <Tag onClose={() => removeRequest(request.value)} key={request.value} closable>
-              <FilePdfOutlined /> {request.message}
+              {request.icon} {request.message}
             </Tag>
           );
         })}
@@ -64,8 +64,8 @@ export const ChatMessager: FC<ChatMessagerProps> = () => {
           }}
         >
           <RequestFeedbackButton updateEmbedding={updateEmbedding} />
-          <ChatComponentButton modal={<></>} icon={<DollarOutlined />} text={'Request Payment'} />
-          <ChatComponentButton modal={<></>} icon={<DollarOutlined />} text={'Send Money'} />
+          <RequestPaymentButton updateEmbedding={updateEmbedding} />
+          <SendMoneyButton updateEmbedding={updateEmbedding} />
         </div>
       </div>
       <Button

@@ -1,7 +1,7 @@
 import { Community, Member, Property, Resolvers, Service, ServiceTicket, Ticket, ServiceTicketMutationResult } from '../builder/generated';
 import { getMemberForCurrentUser } from '../resolver-helper';
 import { isValidObjectId } from 'mongoose';
-import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/service-ticket';
+import { ServiceTicket as ServiceTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/cases/service-ticket';
 
 const ServiceTicketMutationResolver = async (getServiceTicket: Promise<ServiceTicketDo>): Promise<ServiceTicketMutationResult> => {
   try {
@@ -61,59 +61,59 @@ const serviceTicket: Resolvers = {
   },
   Query: {
     serviceTicket: async (_parent, args, context, _info) => {
-      return (await context.applicationServices.serviceTicket.v1.dataApi.getServiceTicketById(args.id)) as ServiceTicket;
+      return (await context.applicationServices.cases.serviceTicket.v1.dataApi.getServiceTicketById(args.id)) as ServiceTicket;
     },
     serviceTicketsOpenByCommunity: async (_parent, _args, context, _info) => {
-      return (await context.applicationServices.serviceTicket.v1.dataApi.getServiceTicketsByCommunityId(context.communityId)) as ServiceTicket[];
+      return (await context.applicationServices.cases.serviceTicket.v1.dataApi.getServiceTicketsByCommunityId(context.communityId)) as ServiceTicket[];
     },
     serviceTicketsOpenByRequestor: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context);
-      return (await context.applicationServices.serviceTicket.v1.dataApi.getServiceTicketsOpenByRequestor(member.id)) as ServiceTicket[];
+      return (await context.applicationServices.cases.serviceTicket.v1.dataApi.getServiceTicketsOpenByRequestor(member.id)) as ServiceTicket[];
     },
     serviceTicketsClosedByRequestor: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context);
-      return (await context.applicationServices.serviceTicket.v1.dataApi.getServiceTicketsClosedByRequestor(member.id)) as ServiceTicket[];
+      return (await context.applicationServices.cases.serviceTicket.v1.dataApi.getServiceTicketsClosedByRequestor(member.id)) as ServiceTicket[];
     },
     serviceTicketsAssignedToCurrentUser: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context);
-      return (await context.applicationServices.serviceTicket.v1.dataApi.getServiceTicketsByAssignedTo(context.communityId, member.id)) as ServiceTicket[];
+      return (await context.applicationServices.cases.serviceTicket.v1.dataApi.getServiceTicketsByAssignedTo(context.communityId, member.id)) as ServiceTicket[];
     },
-    // const searchResults = await context.applicationServices.serviceTicketSearchApi.serviceTicketsSearchByCommunityId(null, communityId)
-    //   return await context.applicationServices.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults) as ServiceTicket[]
+    // const searchResults = await context.applicationServices.cases.serviceTicketSearchApi.serviceTicketsSearchByCommunityId(null, communityId)
+    //   return await context.applicationServices.cases.serviceTicketSearchApi.getServiceTicketsSearchResults(searchResults) as ServiceTicket[]
     serviceTicketsByCommunityId: async (_parent, { communityId }, context, _info) => {
-      return (await context.applicationServices.serviceTicket.v1.dataApi.getServiceTicketsByCommunityId(communityId)) as Ticket[];
+      return (await context.applicationServices.cases.serviceTicket.v1.dataApi.getServiceTicketsByCommunityId(communityId)) as Ticket[];
     },
     serviceTicketsSearchAdmin: async (_, { input }, context, info) => {
-      const searchResults = await context.applicationServices.serviceTicket.v1.searchApi.serviceTicketsSearchAdmin(input, context.communityId);
-      return await context.applicationServices.serviceTicket.v1.searchApi.getServiceTicketsSearchResults(searchResults);
+      const searchResults = await context.applicationServices.cases.serviceTicket.v1.searchApi.serviceTicketsSearchAdmin(input, context.communityId);
+      return await context.applicationServices.cases.serviceTicket.v1.searchApi.getServiceTicketsSearchResults(searchResults);
     },
     serviceTicketsSearch: async (_, { input }, context, info) => {
       const member = await getMemberForCurrentUser(context);
-      const searchResults = await context.applicationServices.serviceTicket.v1.searchApi.serviceTicketsSearch(input, member.id);
-      return await context.applicationServices.serviceTicket.v1.searchApi.getServiceTicketsSearchResults(searchResults);
+      const searchResults = await context.applicationServices.cases.serviceTicket.v1.searchApi.serviceTicketsSearch(input, member.id);
+      return await context.applicationServices.cases.serviceTicket.v1.searchApi.getServiceTicketsSearchResults(searchResults);
     },
   },
   Mutation: {
     serviceTicketCreate: async (_, { input }, { applicationServices }) => {
-      return ServiceTicketMutationResolver(applicationServices.serviceTicket.v1.domainApi.serviceTicketCreate(input));
+      return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketCreate(input));
     },
     serviceTicketUpdate: async (_, { input }, { applicationServices }) => {
-      return ServiceTicketMutationResolver(applicationServices.serviceTicket.v1.domainApi.serviceTicketUpdate(input));
+      return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketUpdate(input));
     },
     serviceTicketSubmit: async (_, { input }, { applicationServices }) => {
-      return ServiceTicketMutationResolver(applicationServices.serviceTicket.v1.domainApi.serviceTicketSubmit(input));
+      return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketSubmit(input));
     },
     serviceTicketAssign: async (_, { input }, { applicationServices }) => {
-      return ServiceTicketMutationResolver(applicationServices.serviceTicket.v1.domainApi.serviceTicketAssign(input));
+      return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketAssign(input));
     },
     serviceTicketAddUpdateActivity: async (_, { input }, { applicationServices }) => {
-      return ServiceTicketMutationResolver(applicationServices.serviceTicket.v1.domainApi.serviceTicketAddUpdateActivity(input));
+      return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketAddUpdateActivity(input));
     },
     serviceTicketChangeStatus: async (_, { input }, { applicationServices }) => {
-      return ServiceTicketMutationResolver(applicationServices.serviceTicket.v1.domainApi.serviceTicketChangeStatus(input));
+      return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketChangeStatus(input));
     },
     serviceTicketDelete: async (_, { input }, { applicationServices }) => {
-      return ServiceTicketMutationResolver(applicationServices.serviceTicket.v1.domainApi.serviceTicketDelete(input));
+      return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketDelete(input));
     },
   },
 };

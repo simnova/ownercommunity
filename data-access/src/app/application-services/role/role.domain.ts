@@ -27,7 +27,7 @@ export class RoleDomainApiImpl
     }
 
     let roleToReturn: RoleData;
-    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {

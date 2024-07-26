@@ -1101,7 +1101,7 @@ export type Query = {
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
-  propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesByOwnerId?: Maybe<Array<Maybe<Property>>>;
   propertiesSearch?: Maybe<PropertySearchResult>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
@@ -1165,8 +1165,8 @@ export type QueryPropertiesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
-  communityId: Scalars['ID'];
+export type QueryPropertiesByOwnerIdArgs = {
+  ownerId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -4181,12 +4181,12 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
 };
 
 export type MembersPropertiesListContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersPropertiesListContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
+  propertiesByOwnerId?: Array<{
     __typename?: 'Property';
     propertyName: string;
     propertyType?: string | null;
@@ -4217,16 +4217,12 @@ export type MembersServiceTicketsCreateContainerMembersQuery = {
 };
 
 export type MembersServiceTicketsCreateContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersServiceTicketsCreateContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
-    __typename?: 'Property';
-    id: any;
-    propertyName: string;
-  } | null> | null;
+  propertiesByOwnerId?: Array<{ __typename?: 'Property'; id: any; propertyName: string } | null> | null;
 };
 
 export type MembersServiceTicketsCreateContainerServiceTicketCreateMutationVariables = Exact<{
@@ -4305,16 +4301,12 @@ export type MembersServiceTicketsDetailContainerMembersAssignableToTicketsQuery 
 };
 
 export type MembersServiceTicketsDetailContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersServiceTicketsDetailContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
-    __typename?: 'Property';
-    id: any;
-    propertyName: string;
-  } | null> | null;
+  propertiesByOwnerId?: Array<{ __typename?: 'Property'; id: any; propertyName: string } | null> | null;
 };
 
 export type MembersServiceTicketsDetailContainerServiceTicketQueryVariables = Exact<{
@@ -16595,8 +16587,8 @@ export const MembersPropertiesListContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16604,12 +16596,12 @@ export const MembersPropertiesListContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {
@@ -16720,8 +16712,8 @@ export const MembersServiceTicketsCreateContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16729,12 +16721,12 @@ export const MembersServiceTicketsCreateContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {
@@ -16941,8 +16933,8 @@ export const MembersServiceTicketsDetailContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16950,12 +16942,12 @@ export const MembersServiceTicketsDetailContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {

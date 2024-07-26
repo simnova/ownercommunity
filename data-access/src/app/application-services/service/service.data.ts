@@ -13,12 +13,12 @@ export class ServiceDataApiImpl
   implements ServiceDataApi {
   async getServiceById(id: string): Promise<ServiceData> {
     return (
-      await this.findByFields({ id: id, community: this.context.communityId })
+      await this.findByFields({ id: id, community: this.context.community?.id })
     )?.[0];
   }
 
   async getServices(): Promise<ServiceData[]> {
-    return this.findByFields({ community: this.context.communityId });
+    return this.findByFields({ community: this.context.community?.id });
   }
 
   async getServicesByCommunityId(communityId: string): Promise<ServiceData[]> {

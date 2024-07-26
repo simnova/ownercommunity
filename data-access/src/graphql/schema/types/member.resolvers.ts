@@ -1,6 +1,6 @@
 import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../builder/generated';
 import { isValidObjectId } from 'mongoose';
-import { getMemberForCurrentUser } from '../resolver-helper';
+import { applyPermission, applyPermissionFilter, getMemberForCurrentUser } from '../resolver-helper';
 import { Member as MemberDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
 import { CustomerProfile, PaymentTokenInfo } from '../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
 
@@ -26,10 +26,15 @@ const member: Resolvers = {
       return parent.community;
     },
     role: async (parent, _args, context) => {
-      if (parent.role && isValidObjectId(parent.role.toString())) {
-        return (await context.applicationServices.role.dataApi.getRoleById(parent.role.toString())) as Role;
+      if (parent.role && isValidObjectId(parent.role.id)) {
+        const roleToReturn = await context.applicationServices.role.dataApi.getRoleById(parent.role.id) as Role;
+        return applyPermission<Role>(roleToReturn, (_role) => {
+          return context.passport.datastoreVisa.forRole(context.member.role).determineIf((permissions) => 
+            (permissions.canManageRolesAndPermissions && parent.community.toString() === context.member.community.toString()) ||
+            parent.id === context.member.id || 
+            permissions.isSystemAccount);
+        });
       }
-      return parent.role;
     },
     isAdmin: async (parent, _args, context) => {
       return await context.applicationServices.member.dataApi.isAdmin(parent.id);
@@ -37,6 +42,9 @@ const member: Resolvers = {
   },
   MemberAccount: {
     user: async (parent, _args, context) => {
+      // if (!context.passport.datastoreVisa.forMember(member).determineIf((permissions) => permissions.canManageMembers || member.id === .id || permissions.isSystemAccount)) {
+      //   return null;
+      // }
       if (parent.user && isValidObjectId(parent.user.toString())) {
         return (await context.applicationServices.user.dataApi.getUserById(parent.user.toString())) as User;
       }
@@ -50,29 +58,84 @@ const member: Resolvers = {
     },
   },
   Query: {
-    member: async (_parent, { id }, context) => {
+    member: async (_parent, {id}, context) => {
+      if (!context.verifiedUser) {
+        throw new Error('Unauthorized query: member');
+      }
       if (id && isValidObjectId(id)) {
-        return (await context.applicationServices.member.dataApi.getMemberById(id)) as Member;
+        const memberToReturn = await context.applicationServices.member.dataApi.getMemberById(id) as Member;
+        return applyPermission<Member>(memberToReturn, (member) => {
+          return context.passport.datastoreVisa.forMember(context.member).determineIf((permissions) =>
+            (permissions.canManageMembers && context.member?.community.toString() === member.community.toString()) ||
+            (context.member.community.toString() === member?.community.toString()) ||  // unsure about this condition for members
+            permissions.isSystemAccount
+          );
+        });
       }
       return null;
     },
-    members: async (_, _input, { applicationServices }) => {
-      return (await applicationServices.member.dataApi.getMembers()) as Member[];
+    members: async (_, _input, context) => {
+      if (!context.passport.datastoreVisa.forMember(context.member).determineIf((permissions) => permissions.isSystemAccount)) {
+        throw new Error('Unauthorized query: members');
+      }
+      return (await context.applicationServices.member.dataApi.getMembers()) as Member[];
     },
-    membersByCommunityId: async (_, { communityId }, { applicationServices }) => {
-      return (await applicationServices.member.dataApi.getMembersByCommunityId(communityId)) as Member[];
+    membersByCommunityId: async (_, { communityId }, context) => {
+      const membersToReturn = await context.applicationServices.member.dataApi.getMembersByCommunityId(communityId) as Member[];
+      return applyPermissionFilter<Member>(membersToReturn, (member) => {
+        return context.passport.datastoreVisa
+          .forMember(context.member)
+          .determineIf((permissions) => 
+            // current member is admin and in the same community as queried members
+            (permissions.canManageMembers && context.member?.community.toString() === member?.community.toString()) || 
+            // current member is in the same community as queried members and queried member's profile is public
+            (member.community.toString() === context.member?.community.toString() && member?.profile?.showProfile )|| 
+            // for system accounts
+            permissions.isSystemAccount
+          );
+      });
     },
-    membersByUserExternalId: async (_, { userExternalId }, { applicationServices }) => {
-      return (await applicationServices.member.dataApi.getMembersByUserExternalId(userExternalId)) as Member[];
+    membersByUserExternalId: async (_, { userExternalId }, context) => {
+      if (!context.verifiedUser) {
+        throw new Error('Unauthorized query: membersByUserExternalId');
+      }
+      return (await context.applicationServices.member.dataApi.getMembersByUserExternalId(userExternalId)) as Member[];
     },
-    membersAssignableToTickets: async (_, _input, { applicationServices }) => {
-      return (await applicationServices.member.dataApi.getMembersAssignableToTickets()) as Member[];
+    membersAssignableToTickets: async (_, _input, context) => {
+      const membersToReturn = await context.applicationServices.member.dataApi.getMembersAssignableToTickets() as Member[];
+      return applyPermissionFilter<Member>(membersToReturn, (member) => {
+        return context.passport.datastoreVisa
+          .forMember(context.member)
+          .determineIf((permissions) => 
+            (permissions.canManageMembers &&  context.member?.community.toString() === member.community.toString())|| 
+            (context.member.community?.id === member?.community?.id) ||  // unsure about this condition for members
+            permissions.isSystemAccount
+          );
+      });
     },
-    memberAssignableToViolationTickets: async (_, { violationTicketId }, { applicationServices }) => {
-      return (await applicationServices.member.dataApi.getMemberAssignableToViolationTickets(violationTicketId)) as Member;
+    memberAssignableToViolationTickets: async (_, { violationTicketId }, context) => {
+      const memberToReturn = await context.applicationServices.member.dataApi.getMemberAssignableToViolationTickets(violationTicketId) as Member;
+      return applyPermission<Member>(memberToReturn, (member) => {
+        return context.passport.datastoreVisa
+          .forMember(context.member)
+          .determineIf((permissions) => 
+            (permissions.canManageMembers &&  context.member?.community.toString() === member.community.toString())|| 
+            (context.member.community?.id === member?.community?.id) ||  // unsure about this condition for members
+            permissions.isSystemAccount
+          );
+      });
+
     },
     memberForCurrentUser: async (_, _input, context) => {
-      return getMemberForCurrentUser(context);
+      const memberToReturn = await getMemberForCurrentUser(context);
+      return applyPermission<Member>(memberToReturn, (member) => {
+        return context.passport.datastoreVisa
+          .forMember(context.member)
+          .determineIf((permissions) => 
+            (context.member?.id === member?.id) ||
+            permissions.isSystemAccount
+          );
+      });
     },
     cybersourcePublicKeyId: async (parent, _args, { applicationServices }) => {
       return await applicationServices.payment.cybersourceApi.generatePublicKey();

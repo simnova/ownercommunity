@@ -1,8 +1,8 @@
 
 import { CommunityPermissions, MemberData, RoleData } from "../../../../external-dependencies/datastore";
-import { RoleVisa } from './role-visa';
+import { CommunityVisa } from './community-visa';
 
-export class RoleVisaImplForRole<root extends RoleData> implements RoleVisa {
+export class CommunityVisaImplForRole<root extends RoleData> implements CommunityVisa {
   constructor(private root: root, private member: MemberData) {}  
   
   determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean {

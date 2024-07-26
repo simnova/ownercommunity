@@ -46,15 +46,14 @@ const property: Resolvers = {
       }
       return null;
     },
-    properties: async (_parent, _args, {applicationServices,communityId}, _info) => {
-      return (await applicationServices.property.dataApi.getPropertiesByCommunityId(communityId)) as Property[];
+    properties: async (_parent, _args, {applicationServices, community }, _info) => {
+      return (await applicationServices.property.dataApi.getPropertiesByCommunityId(community?.id)) as Property[];
     },
     propertiesByCommunityId: async (_, { communityId }, context) => {
       return (await context.applicationServices.property.dataApi.getPropertiesByCommunityId(communityId)) as Property[];
     },
-    propertiesForCurrentUserByCommunityId: async (_, _args, context) => {
-      const user = await context.applicationServices.user.dataApi.getUserByExternalId(context.verifiedUser.verifiedJWT.sub);
-      return (await context.applicationServices.property.dataApi.getPropertiesForCurrentUserByCommunityId(context.communityId, user.id)) as Property[];
+    propertiesByOwnerId: async (_, { ownerId }, context) => {
+      return (await context.applicationServices.property.dataApi.getPropertiesByOwnerId(ownerId)) as Property[];
     },
     getAllPropertyTags: async (_, _args, context) => {
       const properties = (await context.applicationServices.property.dataApi.getAllProperties()) as Property[];

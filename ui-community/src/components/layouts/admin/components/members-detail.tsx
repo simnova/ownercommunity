@@ -17,7 +17,6 @@ export interface MembersDetailProps {
 export const MembersDetail: React.FC<any> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
-  const [selectedRoleId, setSelectedRoleId] = React.useState<string | null>(props.data.member?.role?.id ?? null);
   const params = useParams();
 
   const navigate = useNavigate();
@@ -59,18 +58,14 @@ export const MembersDetail: React.FC<any> = (props) => {
             <Select
               allowClear={true}
               placeholder="Select a role"
-              options={props.data.roles}
-              fieldNames={{ label: 'roleName', value: 'id' }}
-              onChange={(value) => {
-                setSelectedRoleId(value);
-                form.setFieldsValue({ role: { id: value } });
-              }}
-              defaultValue={props.data.member?.role?.roleName ?? null}
+              options={props.data.roles.map((role: any) => ({ label: role.roleName, value: role.id }))}
+              defaultValue={props.data.member?.role?.id ?? null}
+              onChange={(value) => form.setFieldsValue({ role: { id: value } })}
             />
             <Button
-              disabled={!selectedRoleId}
+              disabled={!form.getFieldValue('role')}
               onClick={() =>
-                navigate(`/community/${params.communityId}/admin/${params.memberId}/roles/${selectedRoleId}`)
+                navigate(`/community/${params.communityId}/admin/${params.memberId}/roles/${form.getFieldValue('role')}`)
               }
               aria-label="Open Role Details"
             >

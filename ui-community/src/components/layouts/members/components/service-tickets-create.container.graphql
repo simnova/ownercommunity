@@ -4,8 +4,8 @@ query MembersServiceTicketsCreateContainerMembers($communityId: ID!) {
   }
 }
 
-query MembersServiceTicketsCreateContainerProperties($communityId: ID!) {
-  propertiesForCurrentUserByCommunityId(communityId: $communityId) {
+query MembersServiceTicketsCreateContainerProperties($id: ObjectID!) {
+  propertiesByOwnerId(ownerId: $id) {
     ...MembersServiceTicketsCreateContainerPropertyFields
   }
 }

@@ -10,12 +10,12 @@ import { RoleRepository } from '../../../src/app/domain/contexts/community/role/
 import { RoleProps } from '../../../src/app/domain/contexts/community/role/role';
 import { MemberRepository } from '../../../src/app/domain/contexts/community/member/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../src/app/domain/contexts/community/member/member';
-import { DomainExecutionContext } from '../../../src/app/domain/contexts/domain-execution-context';
+import { DomainExecutionContext } from '../../../src/app/domain/domain-execution-context';
 // import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
 import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
 import { DomainImplBDD } from './io/test/domain-impl-bdd';
-import { ReadOnlyContext, SystemExecutionContext } from '../../../src/app/domain/contexts/domain-execution-context';
-import { DomainVisaImpl } from '../../../src/app/domain/contexts/domain-visa';
+import { ReadOnlyContext, SystemExecutionContext } from '../../../src/app/domain/domain-execution-context';
+import { DomainVisaImpl } from '../../../src/app/domain/domain.visa';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';
 // import { getOrCreateUserForActor } from '../../helpers/get-or-create-user-for-actor';

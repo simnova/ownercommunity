@@ -1,8 +1,8 @@
 import { Community, CommunityProps } from './community';
 import { UserEntityReference } from '../../user/user/user';
-import { DomainExecutionContext } from '../../domain-execution-context';
+import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
-import { DomainVisa } from '../../domain-visa';
+import { DomainVisa } from '../../../domain.visa';
 import { CommunityCreatedEvent } from '../../../events/types/community-created';
 
 describe('domain.contexts.community::community', () => {

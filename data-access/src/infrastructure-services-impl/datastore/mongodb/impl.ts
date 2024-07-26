@@ -3,10 +3,10 @@ import { MongoCommunityUnitOfWork } from "./infrastructure/community/community.m
 import { MongoMemberUnitOfWork } from "./infrastructure/member/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "./infrastructure/property/property.mongo-uow";
 import { MongoRoleUnitOfWork } from "./infrastructure/role/role.mongo-uow";
-import { MongoServiceTicketV1UnitOfWork } from "./infrastructure/service-ticket/v1/service-ticket.uow";
+import { MongoServiceTicketV1UnitOfWork } from "./infrastructure/cases/service-ticket/v1/service-ticket.uow";
 import { MongoServiceUnitOfWork } from "./infrastructure/service/service.uow";
 import { MongoUserUnitOfWork } from "./infrastructure/user/user.uow";
-import { MongoViolationTicketV1UnitOfWork } from "./infrastructure/violation-ticket/v1/violation-ticket.uow";
+import { MongoViolationTicketV1UnitOfWork } from "./infrastructure/cases/violation-ticket/v1/violation-ticket.uow";
 
 export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
 

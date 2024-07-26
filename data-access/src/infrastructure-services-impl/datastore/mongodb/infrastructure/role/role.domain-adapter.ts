@@ -7,7 +7,7 @@ import { CommunityProps } from '../../../../../app/domain/contexts/community/com
 import { CommunityPermissionsProps } from '../../../../../app/domain/contexts/community/role/community-permissions';
 import { PermissionsProps } from '../../../../../app/domain/contexts/community/role/permissions';
 import { CommunityDomainAdapter } from '../community/community.domain-adapter';
-import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { PropertyPermissionsProps } from '../../../../../app/domain/contexts/community/role/property-permissions';
 import { ServicePermissionsProps } from '../../../../../app/domain/contexts/community/role/service-permissions';
 import { ServiceTicketPermissionsProps } from '../../../../../app/domain/contexts/community/role/service-ticket-permissions';

@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { ViolationTicketV1, ViolationTicketV1Props } from '../../contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketV1UpdatedEvent } from '../types/violation-ticket-v1-updated';
-import { SystemExecutionContext } from '../../contexts/domain-execution-context';
+import { SystemExecutionContext } from '../../domain-execution-context';
 import { ViolationTicketV1UnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { EventBusInstance } from '../event-bus';

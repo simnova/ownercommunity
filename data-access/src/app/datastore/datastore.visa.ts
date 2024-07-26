@@ -1,6 +1,6 @@
-import { RoleVisa } from './role-visa';
-import { RoleVisaImplForRole } from './role-visa-impl-for-role';
-import { CommunityPermissions, MemberData, RoleData, UserData } from '../../../../external-dependencies/datastore';
+import { RoleVisa } from './role/role.visa';
+import { RoleVisaImplForRole } from "./role/role.visa";
+import { CommunityPermissions, MemberData, RoleData, UserData } from '../external-dependencies/datastore';
 
 export const SystemUserId = 'system';
 

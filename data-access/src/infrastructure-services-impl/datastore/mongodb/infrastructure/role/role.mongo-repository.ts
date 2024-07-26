@@ -2,7 +2,7 @@ import { Role as RoleDO, RoleProps } from '../../../../../app/domain/contexts/co
 import { RoleRepository } from '../../../../../app/domain/contexts/community/role/role.repository';
 import { Role } from '../../models/role';
 import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
 
 export class MongoRoleRepository<PropType extends RoleProps>

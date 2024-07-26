@@ -1,5 +1,5 @@
 import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../domain-execution-context';
 import * as ValueObjects from './transaction.value-objects';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 

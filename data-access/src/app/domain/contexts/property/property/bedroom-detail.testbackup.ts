@@ -1,8 +1,5 @@
 
 import { PropertyPermissions } from "./property.visa";
-import { DomainExecutionContext } from "../../domain-execution-context";
-import { DomainVisa } from "../../domain-visa";
-import { PropertyVisa } from "./property.visa";
 import { BedroomDetail, BedroomDetailProps } from "./bedroom-detail";
 import _ from 'underscore';
 import {expect, jest, test} from '@jest/globals';

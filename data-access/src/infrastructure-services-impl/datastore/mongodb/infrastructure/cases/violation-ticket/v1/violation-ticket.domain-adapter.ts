@@ -3,7 +3,7 @@ import { Transaction, ViolationTicket } from '../../../../models/cases/violation
 import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { DomainExecutionContext } from '../../../../../../../app/domain/contexts/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../app/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from '../../../community/community.domain-adapter';
 import { PropertyDomainAdapter } from '../../../property/property.domain-adapter';

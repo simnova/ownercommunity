@@ -1,6 +1,6 @@
 import { DomainDataSource } from '../../../../data-sources/domain-data-source';
 import { Member } from '../../../../domain/contexts/community/member/member';
-import { ReadOnlyDomainVisa } from '../../../../domain/contexts/domain-visa';
+import { ReadOnlyDomainVisa } from '../../../../domain/domain.visa';
 import { Service } from '../../../../domain/contexts/community/service/service';
 import { TransactionProps } from '../../../../domain/contexts/cases/violation-ticket/v1/transaction';
 import { ViolationTicketV1 } from '../../../../domain/contexts/cases/violation-ticket/v1/violation-ticket';

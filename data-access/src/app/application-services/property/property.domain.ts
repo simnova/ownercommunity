@@ -1,5 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { ReadOnlyDomainVisa } from "../../domain/contexts/domain-visa";
+import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { BedDescriptions } from "../../domain/contexts/property/property/bedroom-detail.value-objects";
 import { Amenities, Images } from "../../domain/contexts/property/property/listing-detail.value-objects";
 import { Property } from "../../domain/contexts/property/property/property";

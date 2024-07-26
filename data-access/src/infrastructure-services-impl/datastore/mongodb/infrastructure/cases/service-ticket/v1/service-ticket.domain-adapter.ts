@@ -1,4 +1,4 @@
-import { ActivityDetail, ServiceTicket, Photo } from '../../../../models/cases/service-ticket';
+import { ActivityDetail, ServiceTicket, Photo, ServiceTicketMessage } from '../../../../models/cases/service-ticket';
 import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -10,6 +10,7 @@ import { PropertyEntityReference } from '../../../../../../../app/domain/context
 import { MemberEntityReference } from '../../../../../../../app/domain/contexts/community/member/member';
 import { MemberDomainAdapter } from '../../../member/member.domain-adapter';
 import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
+import { ServiceTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-message';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
@@ -102,6 +103,10 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
     return new MongoosePropArray(this.doc.activityLog, ActivityDetailDomainAdapter);
   }
 
+  get messages() {
+    return new MongoosePropArray(this.doc.messages, ServiceTicketV1MessageDomainAdapter);
+  }
+
   get photos() {
     return new MongoosePropArray(this.doc.photos, PhotoDomainAdapter);
   }
@@ -155,7 +160,7 @@ export class ActivityDetailDomainAdapter implements ActivityDetailProps {
 
   get activityBy() {
     if (this.props.activityBy) {
-      return new MemberDomainAdapter(this.props.activityBy);
+      return this.props.activityBy ? new MemberDomainAdapter(this.props.activityBy) : undefined;
     }
   }
   public setActivityByRef(activityBy: MemberEntityReference) {
@@ -185,5 +190,56 @@ export class PhotoDomainAdapter implements PhotoProps {
 
   getNewDocumentId(): string {
     return nanoid();
+  }
+}
+
+export class ServiceTicketV1MessageDomainAdapter implements ServiceTicketV1MessageProps {
+  constructor(public readonly props: ServiceTicketMessage) {}
+  public get id(): string {
+    return this.props.id.valueOf() as string;
+  }
+
+  get sentBy() {
+    return this.props.sentBy;
+  }
+  set sentBy(sentBy) {
+    this.props.sentBy = sentBy;
+  }
+
+  get initiatedBy() {
+    if (this.props.initiatedBy) {
+      return new MemberDomainAdapter(this.props.initiatedBy);
+    }
+  }
+  public setInitiatedByRef(initiatedBy: MemberEntityReference | undefined) {
+    this.props.set('initiatedBy', initiatedBy ? initiatedBy['props']['doc'] : undefined);
+  }
+
+  get message() {
+    return this.props.message;
+  }
+  set message(message) {
+    this.props.message = message;
+  }
+
+  get embedding() {
+    return this.props.embedding;
+  }
+  set embedding(embedding) {
+    this.props.embedding = embedding;
+  }
+
+  get createdAt() {
+    return this.props.createdAt;
+  }
+  set createdAt(createdAt) {
+    this.props.createdAt = createdAt;
+  }
+
+  get isHiddenFromApplicant() {
+    return this.props.isHiddenFromApplicant;
+  }
+  set isHiddenFromApplicant(isHiddenFromApplicant) {
+    this.props.isHiddenFromApplicant = isHiddenFromApplicant;
   }
 }

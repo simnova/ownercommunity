@@ -1302,6 +1302,7 @@ export type ServiceTicket = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  messages?: Maybe<Array<Maybe<ServiceTicketV1Message>>>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars['Int'];
   property?: Maybe<Property>;
@@ -1406,12 +1407,33 @@ export type ServiceTicketSubmitInput = {
 };
 
 export type ServiceTicketUpdateInput = {
-  description: Scalars['String'];
-  priority: Scalars['Int'];
+  description?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<Array<InputMaybe<ServiceTicketV1MessageInput>>>;
+  priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type ServiceTicketV1Message = {
+  __typename?: 'ServiceTicketV1Message';
+  createdAt: Scalars['DateTime'];
+  embedding?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  initiatedBy?: Maybe<Member>;
+  isHiddenFromApplicant: Scalars['Boolean'];
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
+};
+
+export type ServiceTicketV1MessageInput = {
+  embedding?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+  initiatedBy?: InputMaybe<Scalars['ObjectID']>;
+  isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
 };
 
 export type ServiceTicketsResult = {
@@ -1527,6 +1549,7 @@ export type ViolationTicket = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  messages?: Maybe<Array<Maybe<ViolationTicketV1Message>>>;
   paymentTransactions?: Maybe<Array<Maybe<Transaction>>>;
   penaltyAmount?: Maybe<Scalars['Float']>;
   penaltyPaidDate?: Maybe<Scalars['DateTime']>;
@@ -1599,12 +1622,33 @@ export type ViolationTicketProcessPaymentInput = {
 
 export type ViolationTicketUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<Array<InputMaybe<ViolationTicketV1MessageInput>>>;
   penaltyAmount?: InputMaybe<Scalars['Float']>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
+};
+
+export type ViolationTicketV1Message = {
+  __typename?: 'ViolationTicketV1Message';
+  createdAt: Scalars['DateTime'];
+  embedding?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  initiatedBy?: Maybe<Member>;
+  isHiddenFromApplicant: Scalars['Boolean'];
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
+};
+
+export type ViolationTicketV1MessageInput = {
+  embedding?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+  initiatedBy?: InputMaybe<Scalars['ObjectID']>;
+  isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
 };
 
 export type AhpIdFormCommunityPublicFileCreateAuthHeaderMutationVariables = Exact<{

@@ -5,6 +5,7 @@ import { Service } from '../../../../domain/contexts/community/service/service';
 import { TransactionProps } from '../../../../domain/contexts/cases/violation-ticket/v1/transaction';
 import { ViolationTicketV1 } from '../../../../domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { StatusCodes } from '../../../../domain/contexts/cases/violation-ticket/v1/violation-ticket.value-objects';
+import { SentBy, Embedding, Message } from '../../../../domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message.value-objects';
 import { MemberData, ViolationTicketData } from '../../../../external-dependencies/datastore';
 import { ViolationTicketV1DomainAdapter, CommunityConverter, PropertyConverter, ViolationTicketV1Repository, MemberConverter, ServiceDomainAdapter, ServiceConverter, ViolationTicketV1Converter } from '../../../../external-dependencies/domain';
 import {
@@ -97,10 +98,37 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       if (input.description) violationTicket.Description = input.description;
       if (input.priority) violationTicket.Priority = input.priority;
       if (input.penaltyAmount) violationTicket.PenaltyAmount = input.penaltyAmount;
-      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
       if (input.serviceId) {
         violationTicket.Service = serviceDo;
       }
+
+      if (input.messages !== undefined) {
+        for (const messageInput of input.messages) {
+          if (!messageInput.id) {
+            if (messageInput.initiatedBy !== undefined) {
+              let member = await this.context.applicationServices.member.dataApi.getMemberById(messageInput.initiatedBy);
+              let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+              if (memberDo) messageInput.initiatedBy = memberDo;
+            }
+            violationTicket.requestAddMessage(messageInput.message, messageInput.sentBy, messageInput?.embedding, messageInput?.initiatedBy);
+          } else {
+            let messageToUpdate = violationTicket.messages.find((m) => m.id === messageInput.id);
+            if (messageToUpdate) {
+              if (messageInput.sentBy !== undefined) messageToUpdate.SentBy = new SentBy(messageInput.sentBy);
+              if (messageInput.message !== undefined) messageToUpdate.Message = new Message(messageInput.message);
+              if (messageInput.embedding !== undefined) messageToUpdate.Embedding = new Embedding(messageInput.embedding);
+              if (messageInput.initiatedBy !== undefined) {
+                let member = await this.context.applicationServices.member.dataApi.getMemberById(messageInput.initiatedBy);
+                let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+                if (memberDo) messageToUpdate.InitiatedBy = memberDo;
+              }
+              if (messageInput.isHiddenFromApplicant !== undefined) messageToUpdate.IsHiddenFromApplicant = messageInput.isHiddenFromApplicant;
+            }
+          }
+        }
+      }
+
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;
   }

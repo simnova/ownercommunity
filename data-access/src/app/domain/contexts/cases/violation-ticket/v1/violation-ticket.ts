@@ -162,7 +162,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
   get activityLog(): ReadonlyArray<ActivityDetailEntityReference> {
     return this.props.activityLog.items.map((a) => new ActivityDetail(a, this.context, this.visa));
   }
-  get messages(): ReadonlyArray<ViolationTicketV1MessageEntityReference> {
+  get messages(): ReadonlyArray<ViolationTicketV1Message> {
     return this.props.messages.items.map((m) => new ViolationTicketV1Message(m, this.context, this.visa));
   }
   get photos(): ReadonlyArray<PhotoEntityReference> {

@@ -29,11 +29,11 @@ export { UserDomainAdapter, UserConverter } from '../../infrastructure-services-
 export { MongoUserRepository as UserRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/user/user.mongo-repository';
 
 // service-ticket
-export { MongoServiceTicketV1UnitOfWork as ServiceTicketV1UnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket/v1/service-ticket.uow';
-export { ServiceTicketV1DomainAdapter, ServiceTicketV1Converter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket/v1/service-ticket.domain-adapter';
-export { MongoServiceTicketV1Repository as ServiceTicketV1Repository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/service-ticket/v1/service-ticket.mongo-repository';
+export { MongoServiceTicketV1UnitOfWork as ServiceTicketV1UnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/service-ticket/v1/service-ticket.uow';
+export { ServiceTicketV1DomainAdapter, ServiceTicketV1Converter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/service-ticket/v1/service-ticket.domain-adapter';
+export { MongoServiceTicketV1Repository as ServiceTicketV1Repository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/service-ticket/v1/service-ticket.mongo-repository';
 
 // violation-ticket
-export { MongoViolationTicketV1UnitOfWork as ViolationTicketV1UnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket/v1/violation-ticket.uow';
-export {  ViolationTicketV1DomainAdapter, ViolationTicketV1Converter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket/v1/violation-ticket.domain-adapter';
-export { MongoViolationTicketV1Repository as ViolationTicketV1Repository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/violation-ticket/v1/violation-ticket.mongo-repository';
+export { MongoViolationTicketV1UnitOfWork as ViolationTicketV1UnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/violation-ticket/v1/violation-ticket.uow';
+export {  ViolationTicketV1DomainAdapter, ViolationTicketV1Converter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/violation-ticket/v1/violation-ticket.domain-adapter';
+export { MongoViolationTicketV1Repository as ViolationTicketV1Repository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/violation-ticket/v1/violation-ticket.mongo-repository';

@@ -1,5 +1,5 @@
 import { User } from '../../models/user';
-import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { User as UserDO, UserProps } from '../../../../../app/domain/contexts/user/user/user';
 import { MongooseDomainAdapter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';

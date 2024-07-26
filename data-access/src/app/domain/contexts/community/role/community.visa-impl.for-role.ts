@@ -1,5 +1,5 @@
 
-import { CommunityPermissions } from "../community.visa";
+import { CommunityPermissionsSpec } from "./community-permissions";
 import { MemberEntityReference } from '../member/member';
 import { RoleEntityReference } from './role';
 import { CommunityVisa } from "../community.visa";
@@ -7,7 +7,7 @@ import { CommunityVisa } from "../community.visa";
 export class CommunityVisaImplForRole<root extends RoleEntityReference> implements CommunityVisa {
   constructor(private root: root, private member: MemberEntityReference) {}  
   
-  determineIf(func:((permissions:CommunityPermissions) => boolean)) :  boolean {
+  determineIf(func:((permissions:CommunityPermissionsSpec) => boolean)) :  boolean {
     //ensure that the member is a member of the community
     if(!this.member || this.member.community.id !== this.root.community.id) {
       console.log("Role Visa : member is not a member of this community", this.member, this.root);
@@ -19,6 +19,6 @@ export class CommunityVisaImplForRole<root extends RoleEntityReference> implemen
       return false;
     }
     
-    return func(communityPermissions as CommunityPermissions);
+    return func(communityPermissions as CommunityPermissionsSpec);
   }
 }

@@ -1,6 +1,6 @@
 import { CommunityEntityReference, CommunityProps } from "../../../../../app/domain/contexts/community/community/community";
 import { MemberEntityReference, MemberProps } from "../../../../../app/domain/contexts/community/member/member";
-import { DomainExecutionContext } from "../../../../../app/domain/contexts/domain-execution-context";
+import { DomainExecutionContext } from "../../../../../app/domain/domain-execution-context";
 import { AdditionalAmenityProps } from "../../../../../app/domain/contexts/property/property/additional-amenity";
 import { AddressProps } from "../../../../../app/domain/contexts/property/property/address";
 import { BedroomDetailProps } from "../../../../../app/domain/contexts/property/property/bedroom-detail";

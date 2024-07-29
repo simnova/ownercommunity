@@ -1,5 +1,5 @@
 import { UnitOfWork } from '../../../../../../../seedwork/domain-seedwork/unit-of-work';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { ViolationTicketV1, ViolationTicketV1Props } from './violation-ticket';
 import { ViolationTicketV1Repository } from './violation-ticket.repository';
 

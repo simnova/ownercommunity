@@ -1,5 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { ReadOnlyDomainVisa } from "../../domain/contexts/domain-visa";
+import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { Service } from "../../domain/contexts/community/service/service";
 import { ServiceData } from "../../external-dependencies/datastore";
 import { ServiceDomainAdapter, CommunityConverter, ServiceConverter, ServiceRepository } from "../../external-dependencies/domain";
@@ -26,7 +26,7 @@ export class ServiceDomainApiImpl
     }
 
     let serviceToReturn: ServiceData;
-    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {

@@ -2,7 +2,7 @@ import { Property as PropertyDO, PropertyProps } from '../../../../../app/domain
 import { PropertyRepository } from '../../../../../app/domain/contexts/property/property/property.repository';
 import { Property } from '../../models/property';
 import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../../app/domain/contexts/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
 
 export class MongoPropertyRepository<PropType extends PropertyProps>
@@ -15,7 +15,7 @@ export class MongoPropertyRepository<PropType extends PropertyProps>
   }
 
   async getById(id: string): Promise<PropertyDO<PropType>> {
-    let propertyDTO = await this.model.findById(id).populate('community').exec();
+    let propertyDTO = await this.model.findById(id).populate(['community', 'owner']).exec();
     return this.typeConverter.toDomain(propertyDTO, this.context);
   }
 

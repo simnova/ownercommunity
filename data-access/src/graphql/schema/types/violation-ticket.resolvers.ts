@@ -1,5 +1,5 @@
 import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, ViolationTicket } from '../builder/generated';
-import { ViolationTicket as ViolationTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/violation-ticket';
+import { ViolationTicket as ViolationTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/cases/violation-ticket';
 import { isValidObjectId } from 'mongoose';
 
 const ViolationTicketMutationResolver = async (getViolationTicket: Promise<ViolationTicketDo>): Promise<ViolationTicketMutationResult> => {
@@ -50,32 +50,40 @@ const serviceTicket: Resolvers = {
       return parent.service;
     }
   },
+  ViolationTicketV1Message: {
+    initiatedBy: async (parent, args, context, info) => {
+      if(parent.initiatedBy && isValidObjectId(parent.initiatedBy.toString())){
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.initiatedBy.toString())) as Member;
+      }
+      return parent.initiatedBy;
+    }
+  },
   Query: {
     violationTicket: async (_parent, args, context, _info) => {
-      return (await context.applicationServices.violationTicket.v1.dataApi.getViolationTicketById(args.id)) as ViolationTicket;
+      return (await context.applicationServices.cases.violationTicket.v1.dataApi.getViolationTicketById(args.id)) as ViolationTicket;
     },
   },
   Mutation: {
     violationTicketCreate: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketCreate(input));
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketCreate(input));
     },
     violationTicketUpdate: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketUpdate(input));
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketUpdate(input));
     },
     violationTicketDelete: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketDelete(input));
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketDelete(input));
     },
     violationTicketAssign: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketAssign(input));
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketAssign(input));
     },
     violationTicketChangeStatus: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketChangeStatus(input));
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketChangeStatus(input));
     },
     violationTicketAddUpdateActivity: async (_, { input }, { applicationServices }) => {
-      return  ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketAddUpdateActivity(input));
+      return  ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketAddUpdateActivity(input));
     },
     violationTicketProcessPayment: async (_, { input }, { applicationServices }) => {
-      return ViolationTicketMutationResolver(applicationServices.violationTicket.v1.domainApi.violationTicketProcessPayment(input));
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketProcessPayment(input));
     }
   },
 };

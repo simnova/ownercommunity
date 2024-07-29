@@ -5,6 +5,7 @@ import { InfrastructureServices } from '../../app/infrastructure-services';
 import * as util from '../../../seedwork/auth-seedwork-oidc/util';
 import { AppContext, AppContextBuilder } from '../../app/init/app-context-builder';
 import { Passport } from '../../app/init/passport';
+import { CommunityData, MemberData } from '../../app/external-dependencies/datastore';
 
 export type VerifiedUser = {
   verifiedJWT: any;
@@ -13,8 +14,8 @@ export type VerifiedUser = {
 
 export interface GraphqlContext{
   verifiedUser: VerifiedUser;
-  communityId: string;
-  memberId: string;
+  community: CommunityData;
+  member: MemberData;
   passport: Passport;
   applicationServices: ApplicationServices;
   infrastructureServices: InfrastructureServices;
@@ -77,12 +78,12 @@ export class GraphqlContextBuilder implements GraphqlContext{
     return this._verifiedUser;
   }
 
-  public get communityId(): string {
-    return this._appContext.communityId;
+  public get community(): CommunityData {
+    return this._appContext.community;
   }
 
-  public get memberId(): string {
-    return this._appContext.memberId;
+  public get member(): MemberData {
+    return this._appContext.member;
   }
 
   public get passport(): Passport {

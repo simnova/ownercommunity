@@ -39,11 +39,11 @@ import { buildMemoryServiceUnitOfWork } from "./infrastructure/service/service.m
 
 // service-ticket
 import { ServiceTicketV1, ServiceTicketV1Props } from "../../../app/domain/contexts/cases/service-ticket/v1/service-ticket";
-import { MemoryServiceTicketV1Repository } from "./infrastructure/service-ticket/v1/service-ticket.memory-repository";
-import { buildMemoryServiceTicketV1UnitOfWork } from "./infrastructure/service-ticket/v1/service-ticket.memory-uow";
+import { MemoryServiceTicketV1Repository } from "./infrastructure/cases/service-ticket/v1/service-ticket.memory-repository";
+import { buildMemoryServiceTicketV1UnitOfWork } from "./infrastructure/cases/service-ticket/v1/service-ticket.memory-uow";
 import { ViolationTicketV1, ViolationTicketV1Props } from "../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket";
-import { MemoryViolationTicketV1Repository } from './infrastructure/violation-ticket/v1/violation-ticket.memory-repository';
-import { buildMemoryViolationTicketV1UnitOfWork } from './infrastructure/violation-ticket/v1/violation-ticket.memory-uow';
+import { MemoryViolationTicketV1Repository } from './infrastructure/cases/violation-ticket/v1/violation-ticket.memory-repository';
+import { buildMemoryViolationTicketV1UnitOfWork } from './infrastructure/cases/violation-ticket/v1/violation-ticket.memory-uow';
 // import { MemoryServiceTicketDatastore } from "./infrastructure/service-ticket.memory-datastore";
 
 // import { MemberDataStructure } from "../data-structures/member";

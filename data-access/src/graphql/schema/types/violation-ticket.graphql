@@ -16,6 +16,7 @@ type ViolationTicket {
   penaltyPaidDate: DateTime
   ticketType: String
   activityLog: [ServiceTicketActivityDetail]
+  messages: [ViolationTicketV1Message]
   paymentTransactions: [Transaction]
 
   id: ObjectID!
@@ -24,8 +25,20 @@ type ViolationTicket {
   updatedAt: DateTime
 }
 
+type ViolationTicketV1Message {
+  sentBy: String!
+  initiatedBy: Member
+  message: String!
+  embedding: String
+
+  id: ObjectID!
+  createdAt: DateTime!
+  isHiddenFromApplicant: Boolean!
+}
+
 extend type Query {
   violationTicket(id: ObjectID!): ViolationTicket
+  violationTicketPaymentTransactions: [PaymentTransactionsResult]
 }
 
 input ViolationTicketCreateInput {
@@ -44,6 +57,16 @@ input ViolationTicketUpdateInput {
   priority: Int
   serviceId: ObjectID
   penaltyAmount: Float
+  messages: [ViolationTicketV1MessageInput]
+}
+
+input ViolationTicketV1MessageInput {
+  id: ObjectID
+  sentBy: String!
+  initiatedBy: ObjectID
+  message: String!
+  embedding: String
+  isHiddenFromApplicant: Boolean
 }
 
 type ViolationTicketMutationResult implements MutationResult {
@@ -93,11 +116,25 @@ type Transaction {
   clientReferenceCode: String
   amountDetails: AmountDetails
   status: String
+  type: String
+  description: String
   reconciliationId: String
   isSuccess: Boolean
   transactionTime: DateTime
   successTimestamp: DateTime
   error: PaymentTransactionError
+}
+
+type PaymentTransactionsResult {
+  id: ObjectID!
+  transactionId: String
+  amount: Float
+  currency: String
+  status: String
+  isSuccess: Boolean
+  description: String
+  type: String
+  successTimestamp: DateTime
 }
 
 type AmountDetails {

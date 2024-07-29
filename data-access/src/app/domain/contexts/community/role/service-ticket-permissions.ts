@@ -1,6 +1,15 @@
 import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { CommunityVisa } from "../community.visa";
-import { ServiceTicketV1Permissions as ServiceTicketPermissionsSpec } from "../../cases/service-ticket/v1/service-ticket.visa";
+
+export interface ServiceTicketPermissionsSpec {
+  canCreateTickets: boolean;
+  canManageTickets: boolean;
+  canAssignTickets: boolean;
+  canWorkOnTickets: boolean;
+  isEditingOwnTicket: boolean;
+  isEditingAssignedTicket: boolean;
+  isSystemAccount: boolean;
+}
 
 export interface ServiceTicketPermissionsProps extends ServiceTicketPermissionsSpec, EntityProps {}
 
@@ -63,3 +72,4 @@ export class ServiceTicketPermissions extends Entity<ServiceTicketPermissionsPro
 }
 
 export interface ServiceTicketPermissionsEntityReference extends Readonly<ServiceTicketPermissionsProps> {}
+

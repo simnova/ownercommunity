@@ -1,5 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { ReadOnlyDomainVisa } from "../../domain/contexts/domain-visa";
+import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { BedDescriptions } from "../../domain/contexts/property/property/bedroom-detail.value-objects";
 import { Amenities, Images } from "../../domain/contexts/property/property/listing-detail.value-objects";
 import { Property } from "../../domain/contexts/property/property/property";
@@ -31,7 +31,7 @@ export class PropertyDomainApiImpl
     }
 
     let propertyToReturn: PropertyData;
-    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
@@ -43,10 +43,13 @@ export class PropertyDomainApiImpl
 
   async propertyUpdate(input: PropertyUpdateInput): Promise<PropertyData> {
     let propertyToReturn: PropertyData;
-
-    let mongoMember = await this.context.applicationServices.member.dataApi.getMemberById(input.owner?.id);
-    let memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
-
+    
+    let memberDo;
+    if (input.owner !== undefined) {
+      let mongoMember = await this.context.applicationServices.member.dataApi.getMemberById(input.owner?.id);
+      memberDo = new MemberConverter().toDomain(mongoMember, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    }
+    
     await this.withTransaction(async (repo) => {
       let property = await repo.getById(input.id);
       if (input.propertyName !== undefined) property.PropertyName = (input.propertyName);

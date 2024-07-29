@@ -3,7 +3,7 @@ import { Permissions, PermissionsEntityReference, PermissionsProps } from './per
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { CommunityVisa } from "../community.visa";
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext } from '../../domain-execution-context';
+import { DomainExecutionContext } from '../../../domain-execution-context';
 import { RoleDeletedReassignEvent } from '../../../events/types/role-deleted-reassign';
 
 export interface RoleProps extends EntityProps {

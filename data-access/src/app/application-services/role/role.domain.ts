@@ -1,6 +1,6 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
 import { Role } from "../../domain/contexts/community/role/role";
-import { ReadOnlyDomainVisa } from "../../domain/contexts/domain-visa";
+import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { RoleData } from "../../external-dependencies/datastore";
 import { RoleDomainAdapter, CommunityConverter, RoleConverter, RoleRepository } from "../../external-dependencies/domain";
 import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from "../../external-dependencies/graphql-api";
@@ -27,7 +27,7 @@ export class RoleDomainApiImpl
     }
 
     let roleToReturn: RoleData;
-    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.communityId);
+    let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {

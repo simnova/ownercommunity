@@ -24,7 +24,7 @@ export const PropertiesList: React.FC<any> = (_props) => {
         }
         />}
       >
-        <PropertiesListContainer data={{communityId:params.communityId}} />
+        <PropertiesListContainer data={{memberId:params.memberId}} />
     </SubPageLayout>
   )
 }

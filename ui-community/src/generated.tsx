@@ -908,6 +908,19 @@ export type PaymentTransactionError = {
   timestamp?: Maybe<Scalars['DateTime']>;
 };
 
+export type PaymentTransactionsResult = {
+  __typename?: 'PaymentTransactionsResult';
+  amount?: Maybe<Scalars['Float']>;
+  currency?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  isSuccess?: Maybe<Scalars['Boolean']>;
+  status?: Maybe<Scalars['String']>;
+  successTimestamp?: Maybe<Scalars['DateTime']>;
+  transactionId?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
@@ -1101,7 +1114,7 @@ export type Query = {
   membersByUserExternalId?: Maybe<Array<Maybe<Member>>>;
   properties?: Maybe<Array<Maybe<Property>>>;
   propertiesByCommunityId?: Maybe<Array<Maybe<Property>>>;
-  propertiesForCurrentUserByCommunityId?: Maybe<Array<Maybe<Property>>>;
+  propertiesByOwnerId?: Maybe<Array<Maybe<Property>>>;
   propertiesSearch?: Maybe<PropertySearchResult>;
   property?: Maybe<Property>;
   role?: Maybe<Role>;
@@ -1122,6 +1135,7 @@ export type Query = {
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
   violationTicket?: Maybe<ViolationTicket>;
+  violationTicketPaymentTransactions?: Maybe<Array<Maybe<PaymentTransactionsResult>>>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1165,8 +1179,8 @@ export type QueryPropertiesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
-export type QueryPropertiesForCurrentUserByCommunityIdArgs = {
-  communityId: Scalars['ID'];
+export type QueryPropertiesByOwnerIdArgs = {
+  ownerId: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1302,6 +1316,7 @@ export type ServiceTicket = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  messages?: Maybe<Array<Maybe<ServiceTicketV1Message>>>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars['Int'];
   property?: Maybe<Property>;
@@ -1406,12 +1421,33 @@ export type ServiceTicketSubmitInput = {
 };
 
 export type ServiceTicketUpdateInput = {
-  description: Scalars['String'];
-  priority: Scalars['Int'];
+  description?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<Array<InputMaybe<ServiceTicketV1MessageInput>>>;
+  priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type ServiceTicketV1Message = {
+  __typename?: 'ServiceTicketV1Message';
+  createdAt: Scalars['DateTime'];
+  embedding?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  initiatedBy?: Maybe<Member>;
+  isHiddenFromApplicant: Scalars['Boolean'];
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
+};
+
+export type ServiceTicketV1MessageInput = {
+  embedding?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+  initiatedBy?: InputMaybe<Scalars['ObjectID']>;
+  isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
 };
 
 export type ServiceTicketsResult = {
@@ -1483,6 +1519,7 @@ export type Transaction = {
   __typename?: 'Transaction';
   amountDetails?: Maybe<AmountDetails>;
   clientReferenceCode?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   error?: Maybe<PaymentTransactionError>;
   id: Scalars['ObjectID'];
   isSuccess?: Maybe<Scalars['Boolean']>;
@@ -1491,6 +1528,7 @@ export type Transaction = {
   successTimestamp?: Maybe<Scalars['DateTime']>;
   transactionId?: Maybe<Scalars['String']>;
   transactionTime?: Maybe<Scalars['DateTime']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type User = MongoBase & {
@@ -1527,6 +1565,7 @@ export type ViolationTicket = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  messages?: Maybe<Array<Maybe<ViolationTicketV1Message>>>;
   paymentTransactions?: Maybe<Array<Maybe<Transaction>>>;
   penaltyAmount?: Maybe<Scalars['Float']>;
   penaltyPaidDate?: Maybe<Scalars['DateTime']>;
@@ -1599,12 +1638,33 @@ export type ViolationTicketProcessPaymentInput = {
 
 export type ViolationTicketUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<Array<InputMaybe<ViolationTicketV1MessageInput>>>;
   penaltyAmount?: InputMaybe<Scalars['Float']>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
+};
+
+export type ViolationTicketV1Message = {
+  __typename?: 'ViolationTicketV1Message';
+  createdAt: Scalars['DateTime'];
+  embedding?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  initiatedBy?: Maybe<Member>;
+  isHiddenFromApplicant: Scalars['Boolean'];
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
+};
+
+export type ViolationTicketV1MessageInput = {
+  embedding?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+  initiatedBy?: InputMaybe<Scalars['ObjectID']>;
+  isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
 };
 
 export type AhpIdFormCommunityPublicFileCreateAuthHeaderMutationVariables = Exact<{
@@ -4181,12 +4241,12 @@ export type MembersPropertiesListSearchContainerPropertyResultFieldsFragment = {
 };
 
 export type MembersPropertiesListContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersPropertiesListContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
+  propertiesByOwnerId?: Array<{
     __typename?: 'Property';
     propertyName: string;
     propertyType?: string | null;
@@ -4217,16 +4277,12 @@ export type MembersServiceTicketsCreateContainerMembersQuery = {
 };
 
 export type MembersServiceTicketsCreateContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersServiceTicketsCreateContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
-    __typename?: 'Property';
-    id: any;
-    propertyName: string;
-  } | null> | null;
+  propertiesByOwnerId?: Array<{ __typename?: 'Property'; id: any; propertyName: string } | null> | null;
 };
 
 export type MembersServiceTicketsCreateContainerServiceTicketCreateMutationVariables = Exact<{
@@ -4305,16 +4361,12 @@ export type MembersServiceTicketsDetailContainerMembersAssignableToTicketsQuery 
 };
 
 export type MembersServiceTicketsDetailContainerPropertiesQueryVariables = Exact<{
-  communityId: Scalars['ID'];
+  id: Scalars['ObjectID'];
 }>;
 
 export type MembersServiceTicketsDetailContainerPropertiesQuery = {
   __typename?: 'Query';
-  propertiesForCurrentUserByCommunityId?: Array<{
-    __typename?: 'Property';
-    id: any;
-    propertyName: string;
-  } | null> | null;
+  propertiesByOwnerId?: Array<{ __typename?: 'Property'; id: any; propertyName: string } | null> | null;
 };
 
 export type MembersServiceTicketsDetailContainerServiceTicketQueryVariables = Exact<{
@@ -16595,8 +16647,8 @@ export const MembersPropertiesListContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16604,12 +16656,12 @@ export const MembersPropertiesListContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {
@@ -16720,8 +16772,8 @@ export const MembersServiceTicketsCreateContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16729,12 +16781,12 @@ export const MembersServiceTicketsCreateContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {
@@ -16941,8 +16993,8 @@ export const MembersServiceTicketsDetailContainerPropertiesDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } }
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
         }
       ],
       selectionSet: {
@@ -16950,12 +17002,12 @@ export const MembersServiceTicketsDetailContainerPropertiesDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'propertiesForCurrentUserByCommunityId' },
+            name: { kind: 'Name', value: 'propertiesByOwnerId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'communityId' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'communityId' } }
+                name: { kind: 'Name', value: 'ownerId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
               }
             ],
             selectionSet: {

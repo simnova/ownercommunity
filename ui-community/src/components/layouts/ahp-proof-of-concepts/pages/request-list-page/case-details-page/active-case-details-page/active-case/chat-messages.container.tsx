@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { ChatMessages } from './chat-messages';
+import * as CmsComponents from '../../../../../../../editor/components';
 
 interface ChatMessagesContainerProps {}
 export const ChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
@@ -42,9 +43,15 @@ export const ChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
       createdAt: '04-March-24 9:25 AM EST'
     },
     {
-      embedding: <></>,
+      embedding: <CmsComponents.AhpSendMoneyForm />,
       sentBy: 'internal',
       message: 'Here you go, go ahead and upload your document!',
+      createdAt: '04-March-24 9:27 AM EST'
+    },
+    {
+      embedding: <CmsComponents.AhpPaymentRequestForm />,
+      sentBy: 'internal',
+      message: 'Sorry that was meant to be a request, refunding that and sending this new form now.',
       createdAt: '04-March-24 9:27 AM EST'
     }
   ];

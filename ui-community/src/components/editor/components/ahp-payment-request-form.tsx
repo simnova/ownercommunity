@@ -3,8 +3,6 @@ import { TextComponent } from './text-component';
 import { TextThing } from './text-thing';
 import Title from 'antd/es/typography/Title';
 import { Button } from 'antd';
-import { BillingInfoContainer } from '../../layouts/members/components/billing-info.container';
-import { BillingInfo } from '../../layouts/members/components/billing-info';
 
 interface AhpIdFormConfirmationProps {
   fileName: string;
@@ -34,9 +32,9 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
     selected: state.events.selected
   }));
 
-  const isAdmin = true;
+  const isAdmin = false;
   const transctionStatus = {
-    completed: true,
+    completed: false,
     success: false
   };
 
@@ -57,7 +55,7 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
             background: '#D2F9D2'
           }}
         >
-          <div style={{ marginTop: 7 }}>30$ Sent Successfully</div> <Button>Download Reciept</Button>
+          <div style={{ marginTop: 7 }}>$30 Sent Successfully</div> <Button>Download Reciept</Button>
         </div>
       </div>
     ) : (
@@ -92,12 +90,17 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
       <br></br>
       Your card will be charged $30 if you approve this request
       {/* <BillingInfoContainer data={null} /> */}
-      <Button type={'primary'} style={{ marginTop: '15px', display: 'block', marginLeft: 'auto', marginRight: 0 }}>
-        Send $30
-      </Button>
+      <div style={{ justifyContent: 'space-between', display: 'flex' }}>
+        <Button type={'primary'} style={{ marginTop: '15px' }} danger>
+          Reject
+        </Button>
+        <Button type={'primary'} style={{ marginTop: '15px' }}>
+          Send $30
+        </Button>
+      </div>
     </div>
   );
-
+  //display: 'block', marginLeft: 'auto', marginRight: 0
   const caseWorkerView = transctionStatus.completed ? (
     transctionStatus.success ? (
       <div>
@@ -155,7 +158,7 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
           background: '#FFDBBB'
         }}
       >
-        Awaiting Applicant Response
+        <b> Awaiting Applicant Response</b>
         <br></br>
         <br></br>
         <b>Payment:</b> $30

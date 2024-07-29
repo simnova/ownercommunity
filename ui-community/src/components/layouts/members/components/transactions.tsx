@@ -22,7 +22,7 @@ const columns = [
     title: 'Amount',
     dataIndex: ['amount', 'currency'],
     key: 'amount',
-    render: (text: string, record: any) => `${record.currency === 'USD' ? '$' : ''}${record.amount}`
+    render: (_: string, record: any) => `${record.currency === 'USD' ? '$' : ''}${record.amount}`
   },
   {
     title: 'Type',

@@ -6,7 +6,7 @@ interface PayModalStore {
   onClose: () => void;
 }
 
-const usePayModal = create<PayModalStore>((set) => ({
+const usePayModal = create<PayModalStore>((set: any) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false })

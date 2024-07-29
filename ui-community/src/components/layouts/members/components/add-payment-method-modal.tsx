@@ -432,6 +432,10 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ cybersource, o
     };
 
     const callBack = async (error: any, token: any) => {
+      if (error) {
+        message.error('An error occurred while creating the payment token.');
+        return;
+      }
       setIsPaymentTokenLoading(true);
       if (token) {
         setPaymentToken(token);

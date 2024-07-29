@@ -38,6 +38,7 @@ type ViolationTicketV1Message {
 
 extend type Query {
   violationTicket(id: ObjectID!): ViolationTicket
+  violationTicketPaymentTransactions: [PaymentTransactionsResult]
 }
 
 input ViolationTicketCreateInput {
@@ -115,11 +116,25 @@ type Transaction {
   clientReferenceCode: String
   amountDetails: AmountDetails
   status: String
+  type: String
+  description: String
   reconciliationId: String
   isSuccess: Boolean
   transactionTime: DateTime
   successTimestamp: DateTime
   error: PaymentTransactionError
+}
+
+type PaymentTransactionsResult {
+  id: ObjectID!
+  transactionId: String
+  amount: Float
+  currency: String
+  status: String
+  isSuccess: Boolean
+  description: String
+  type: String
+  successTimestamp: DateTime
 }
 
 type AmountDetails {

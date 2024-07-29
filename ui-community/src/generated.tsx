@@ -908,6 +908,19 @@ export type PaymentTransactionError = {
   timestamp?: Maybe<Scalars['DateTime']>;
 };
 
+export type PaymentTransactionsResult = {
+  __typename?: 'PaymentTransactionsResult';
+  amount?: Maybe<Scalars['Float']>;
+  currency?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  isSuccess?: Maybe<Scalars['Boolean']>;
+  status?: Maybe<Scalars['String']>;
+  successTimestamp?: Maybe<Scalars['DateTime']>;
+  transactionId?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
@@ -1122,6 +1135,7 @@ export type Query = {
   userCurrent?: Maybe<CurrentUser>;
   users?: Maybe<Array<Maybe<User>>>;
   violationTicket?: Maybe<ViolationTicket>;
+  violationTicketPaymentTransactions?: Maybe<Array<Maybe<PaymentTransactionsResult>>>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1505,6 +1519,7 @@ export type Transaction = {
   __typename?: 'Transaction';
   amountDetails?: Maybe<AmountDetails>;
   clientReferenceCode?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   error?: Maybe<PaymentTransactionError>;
   id: Scalars['ObjectID'];
   isSuccess?: Maybe<Scalars['Boolean']>;
@@ -1513,6 +1528,7 @@ export type Transaction = {
   successTimestamp?: Maybe<Scalars['DateTime']>;
   transactionId?: Maybe<Scalars['String']>;
   transactionTime?: Maybe<Scalars['DateTime']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type User = MongoBase & {

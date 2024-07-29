@@ -1,5 +1,5 @@
 import { useNode } from '@craftjs/core';
-import { Button, Radio, Space, theme } from 'antd';
+import { Button, Radio, Space } from 'antd';
 import { TextComponent } from './text-component';
 import { TextThing } from './text-thing';
 import { FileUploadButton } from '../../layouts/shared/components/file-upload-button';

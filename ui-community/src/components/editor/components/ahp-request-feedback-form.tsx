@@ -2,12 +2,14 @@ import { useNode } from '@craftjs/core';
 import { TextComponent } from './text-component';
 import { TextThing } from './text-thing';
 
-interface AhpIdFormConfirmationProps {
-  fileName: string;
-  blobPath: string;
-  value: number;
-  response: string;
-  submitted: boolean;
+interface AhpRequestFeedbackFormProps {
+  changesRequested: {
+    credentialType: boolean;
+    credential: boolean;
+    credentialTranslation: boolean;
+    issuingInstitution: boolean;
+    nameOnDocument: boolean;
+  };
 }
 
 const AhpRequestFeedbackFormTop = (props: any) => {
@@ -23,48 +25,40 @@ AhpRequestFeedbackFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpRequestFeedbackForm: any = ({}: AhpIdFormConfirmationProps) => {
+const AhpRequestFeedbackForm: any = ({ changesRequested }: AhpRequestFeedbackFormProps) => {
   const {
-    actions: {  }
+    actions: {}
   } = useNode((state) => ({
     selected: state.events.selected
   }));
 
   const isAdmin = false;
-  const changesRequested = {
-    credentialType: true,
-    credential: false,
-    credentialTranslation: false,
-    issuingInstitution: true,
-    nameOnDocument: true
-  };
-
   const applicantView = (
     <div>
       Your application is unlocked, you can now update the:
       <br></br>
       <br></br>
-      {changesRequested.credentialType && (
+      {changesRequested?.credentialType && (
         <li>
           <b>Credential Type</b>
         </li>
       )}
-      {changesRequested.credential && (
+      {changesRequested?.credential && (
         <li>
           <b>Credential</b>
         </li>
       )}
-      {changesRequested.credentialTranslation && (
+      {changesRequested?.credentialTranslation && (
         <li>
           <b>Credential Translation</b>
         </li>
       )}
-      {changesRequested.issuingInstitution && (
+      {changesRequested?.issuingInstitution && (
         <li>
           <b>Issuing Institution</b>
         </li>
       )}
-      {changesRequested.nameOnDocument && (
+      {changesRequested?.nameOnDocument && (
         <li>
           <b>Name on Document</b>
         </li>
@@ -80,27 +74,27 @@ const AhpRequestFeedbackForm: any = ({}: AhpIdFormConfirmationProps) => {
       The applicants application has been opened and can now update the:
       <br></br>
       <br></br>
-      {changesRequested.credentialType && (
+      {changesRequested?.credentialType && (
         <li>
           <b>Credential Type</b>
         </li>
       )}
-      {changesRequested.credential && (
+      {changesRequested?.credential && (
         <li>
           <b>Credential</b>
         </li>
       )}
-      {changesRequested.credentialTranslation && (
+      {changesRequested?.credentialTranslation && (
         <li>
           <b>Credential Translation</b>
         </li>
       )}
-      {changesRequested.issuingInstitution && (
+      {changesRequested?.issuingInstitution && (
         <li>
           <b>Issuing Institution</b>
         </li>
       )}
-      {changesRequested.nameOnDocument && (
+      {changesRequested?.nameOnDocument && (
         <li>
           <b>Name on Document</b>
         </li>

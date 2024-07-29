@@ -4,12 +4,11 @@ import { TextThing } from './text-thing';
 import Title from 'antd/es/typography/Title';
 import { Button } from 'antd';
 
-interface AhpIdFormConfirmationProps {
-  fileName: string;
-  blobPath: string;
-  value: number;
-  response: string;
-  submitted: boolean;
+interface AhpPaymentRequestFormProps {
+  completed: boolean;
+  success: boolean;
+  amount: string;
+  reason: string;
 }
 
 const AhpPaymentRequestFormTop = (props: any) => {
@@ -25,21 +24,33 @@ AhpPaymentRequestFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
+const AhpPaymentRequestForm: any = ({ completed, success, amount, reason }: AhpPaymentRequestFormProps) => {
   const {
     actions: { setProp }
   } = useNode((state) => ({
-    selected: state.events.selected
+    selected: state.events.selected,
+    completed: state.data.props.completed,
+    success: false
   }));
 
   const isAdmin = false;
-  const transctionStatus = {
-    completed: false,
-    success: false
+
+  const rejectPayment = () => {
+    setProp((props: any) => {
+      props.completed = true;
+      props.success = false;
+    });
   };
 
-  const applicantView = transctionStatus.completed ? (
-    transctionStatus.success ? (
+  const sendPayment = () => {
+    setProp((props: any) => {
+      props.completed = true;
+      props.success = true;
+    });
+  };
+
+  const applicantView = completed ? (
+    success ? (
       <div>
         Your card was charged successfully, you can download your receipt if you wish, or you can visit the transactions
         tab to see your transactions and update your payment info.
@@ -55,12 +66,12 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
             background: '#D2F9D2'
           }}
         >
-          <div style={{ marginTop: 7 }}>$30 Sent Successfully</div> <Button>Download Reciept</Button>
+          <div style={{ marginTop: 7 }}>${amount} Sent Successfully</div> <Button>Download Reciept</Button>
         </div>
       </div>
     ) : (
       <div>
-        The request for $30 was declined.
+        The request for ${amount} was declined.
         <div
           style={{
             border: '1px solid black',
@@ -71,7 +82,7 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
             background: '#FFADB0'
           }}
         >
-          30$ Request Rejected
+          ${amount} Request Rejected
         </div>
       </div>
     )
@@ -85,27 +96,27 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
       >
         Payment Requested
       </Title>
-      Intealth requests $30 for Courier Fee
+      Intealth requests ${amount} for {reason}
       <br></br>
       <br></br>
-      Your card will be charged $30 if you approve this request
+      Your card will be charged ${amount} if you approve this request
       {/* <BillingInfoContainer data={null} /> */}
       <div style={{ justifyContent: 'space-between', display: 'flex' }}>
-        <Button type={'primary'} style={{ marginTop: '15px' }} danger>
+        <Button type={'primary'} style={{ marginTop: '15px' }} danger onClick={rejectPayment}>
           Reject
         </Button>
-        <Button type={'primary'} style={{ marginTop: '15px' }}>
-          Send $30
+        <Button type={'primary'} style={{ marginTop: '15px' }} onClick={sendPayment}>
+          Send ${amount}
         </Button>
       </div>
     </div>
   );
-  //display: 'block', marginLeft: 'auto', marginRight: 0
-  const caseWorkerView = transctionStatus.completed ? (
-    transctionStatus.success ? (
+  
+  const caseWorkerView = completed ? (
+    success ? (
       <div>
-        Applicant successfully sent a payment of $30, you can download your receipt if you wish, or you can visit the
-        transactions tab to see your transactions.
+        Applicant successfully sent a payment of ${amount}, you can download your receipt if you wish, or you can visit
+        the transactions tab to see your transactions.
         <div
           style={{
             border: '1px solid black',
@@ -118,12 +129,12 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
             background: '#D2F9D2'
           }}
         >
-          <div style={{ marginTop: 7 }}>30$ Received</div> <Button>Download Receipt</Button>
+          <div style={{ marginTop: 7 }}>${amount} Received</div> <Button>Download Receipt</Button>
         </div>
       </div>
     ) : (
       <div>
-        The request for $30 was declined by applicant.
+        The request for ${amount} was declined by applicant.
         <div
           style={{
             border: '1px solid black',
@@ -134,7 +145,7 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
             background: '#FFADB0'
           }}
         >
-          30$ Request Rejected
+          ${amount} Request Rejected
         </div>
       </div>
     )
@@ -161,9 +172,9 @@ const AhpPaymentRequestForm: any = ({}: AhpIdFormConfirmationProps) => {
         <b> Awaiting Applicant Response</b>
         <br></br>
         <br></br>
-        <b>Payment:</b> $30
+        <b>Payment:</b> ${amount}
         <br></br>
-        <b>Reason: </b> "Courier Fee"
+        <b>Reason: </b> "{reason}"
       </div>
     </div>
   );

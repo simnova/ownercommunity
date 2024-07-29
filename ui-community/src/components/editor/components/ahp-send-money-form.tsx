@@ -3,12 +3,9 @@ import { TextComponent } from './text-component';
 import { TextThing } from './text-thing';
 import { Button } from 'antd';
 
-interface AhpIdFormConfirmationProps {
-  fileName: string;
-  blobPath: string;
-  value: number;
-  response: string;
-  submitted: boolean;
+interface AhpSendMoneyFormProps {
+  amount: string;
+  reason: string;
 }
 
 const AhpSendMoneyFormTop = (props: any) => {
@@ -24,9 +21,9 @@ AhpSendMoneyFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpSendMoneyForm: any = ({}: AhpIdFormConfirmationProps) => {
+const AhpSendMoneyForm: any = ({ amount }: AhpSendMoneyFormProps) => {
   const {
-    actions: {  }
+    actions: {}
   } = useNode((state) => ({
     selected: state.events.selected
   }));
@@ -48,7 +45,7 @@ const AhpSendMoneyForm: any = ({}: AhpIdFormConfirmationProps) => {
           width: '100%'
         }}
       >
-        <div style={{ marginTop: 7 }}>$30 Received Successfully</div> <Button>Download Receipt</Button>
+        <div style={{ marginTop: 7 }}>${amount} Received Successfully</div> <Button>Download Receipt</Button>
       </div>
     </div>
   );
@@ -68,7 +65,7 @@ const AhpSendMoneyForm: any = ({}: AhpIdFormConfirmationProps) => {
           width: '100%'
         }}
       >
-        <div style={{ marginTop: 7 }}>$30 Sent Successfully</div> <Button>Download Receipt</Button>
+        <div style={{ marginTop: 7 }}>${amount} Sent Successfully</div> <Button>Download Receipt</Button>
       </div>
     </div>
   );

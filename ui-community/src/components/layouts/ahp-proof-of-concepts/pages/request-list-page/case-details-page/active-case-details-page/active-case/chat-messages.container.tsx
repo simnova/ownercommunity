@@ -43,19 +43,29 @@ export const ChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
       createdAt: '04-March-24 9:25 AM EST'
     },
     {
-      embedding: <CmsComponents.AhpSendMoneyForm />,
+      embedding: <CmsComponents.AhpSendMoneyForm amount={40} />,
       sentBy: 'internal',
       message: 'Here you go, go ahead and upload your document!',
       createdAt: '04-March-24 9:27 AM EST'
     },
     {
-      embedding: <CmsComponents.AhpPaymentRequestForm />,
+      embedding: <CmsComponents.AhpPaymentRequestForm amount={30} reason={'Courier Fee'} />,
       sentBy: 'internal',
       message: 'Sorry that was meant to be a request, refunding that and sending this new form now.',
       createdAt: '04-March-24 9:27 AM EST'
     },
     {
-      embedding: <CmsComponents.AhpRequestFeedbackForm />,
+      embedding: (
+        <CmsComponents.AhpRequestFeedbackForm
+          changesRequested={{
+            credentialType: true,
+            credential: true,
+            credentialTranslation: true,
+            issuingInstitution: true,
+            nameOnDocument: true
+          }}
+        />
+      ),
       sentBy: 'internal',
       message: 'Could you also fix a few things in your document please.',
       createdAt: '04-March-24 9:27 AM EST'

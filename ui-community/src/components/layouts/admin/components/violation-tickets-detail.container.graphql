@@ -40,11 +40,11 @@ mutation AdminViolationTicketsDetailContainerAddUpdateActivity($input: Violation
   }
 }
 
- mutation AdminViolationTicketDetailContainerViolationTicketDelete($input: ViolationTicketDeleteInput!) {
-   violationTicketDelete(input: $input) {
-     ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
-   }
- }
+mutation AdminViolationTicketDetailContainerViolationTicketDelete($input: ViolationTicketDeleteInput!) {
+  violationTicketDelete(input: $input) {
+    ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
 
 fragment AdminViolationTicketsDetailContainerViolationTicketMutationResultFields on ViolationTicketMutationResult {
   status {
@@ -92,6 +92,29 @@ fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationT
     id
     createdAt
     updatedAt
+  }
+  paymentTransactions {
+    __typename
+    amountDetails {
+      amount
+      authorizedAmount
+      currency
+    }
+    clientReferenceCode
+    description
+    error {
+      code
+      message
+      timestamp
+    }
+    id
+    isSuccess
+    reconciliationId
+    status
+    successTimestamp
+    transactionId
+    transactionTime
+    type
   }
   id
   penaltyAmount

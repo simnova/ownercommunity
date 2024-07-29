@@ -20,7 +20,7 @@ import { CommunityProperty } from './pages/community-property';
 import { PropertiesSearch } from './pages/properties-search';
 import { PageLayoutProps } from '../admin';
 import { Member } from '../../../generated';
-import Wallet from './pages/wallet';
+import Payment from './pages/payment';
 
 const pageLayouts: PageLayoutProps[] = [
   {
@@ -77,8 +77,8 @@ const pageLayouts: PageLayoutProps[] = [
     parent: 'ROOT'
   },
   {
-    path: '/community/:communityId/member/:memberId/wallet/*',
-    title: 'Wallet',
+    path: '/community/:communityId/member/:memberId/payment/wallet*',
+    title: 'Payment',
     icon: <WalletOutlined />,
     id: 8,
     parent: 'ROOT'
@@ -98,7 +98,7 @@ export const Members: React.FC<any> = (_props) => {
           <Route path="/properties/*" element={<Properties />} />
           <Route path="/service-tickets/*" element={<ServiceTickets />} />
           <Route path="/propertiesSearch/*" element={<PropertiesSearch />} />
-          <Route path="/wallet/*" element={<Wallet />} />
+          <Route path="/payment/*" element={<Payment />} />
         </Route>
       </Routes>
     </BlobToLocalStorage>

@@ -1,0 +1,12 @@
+query SharedPaymentContainercybersourcePublicKeyId {
+  cybersourcePublicKeyId
+}
+
+mutation MutationMemberAddPaymentInstrument($input: AddPaymentInstrumentInput!) {
+  memberAddPaymentInstrument(input: $input) {
+    status {
+      success
+      errorMessage
+    }
+  }
+}

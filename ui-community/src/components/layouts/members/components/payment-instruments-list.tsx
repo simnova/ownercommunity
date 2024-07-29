@@ -50,16 +50,12 @@ export const PaymentInstrumentList: React.FC<PaymentInstrumentListProps> = ({
   return (
     <div className="flex flex-col space-y-4">
       {paymentInstruments.map((paymentInstrument) => (
-        <>
-          {paymentInstrument?.cardNumber && (
-            <CreditCardDisplay
-              key={paymentInstrument.paymentInstrumentId}
-              paymentInstrument={paymentInstrument}
-              onSetDefaultPaymentMethod={onSetDefaultPaymentMethod}
-              onDeletePaymentMethod={onDeletePaymentMethod}
-            />
-          )}
-        </>
+        <CreditCardDisplay
+          key={paymentInstrument.paymentInstrumentId}
+          paymentInstrument={paymentInstrument}
+          onSetDefaultPaymentMethod={onSetDefaultPaymentMethod}
+          onDeletePaymentMethod={onDeletePaymentMethod}
+        />
       ))}
     </div>
   );

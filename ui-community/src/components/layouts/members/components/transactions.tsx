@@ -47,7 +47,7 @@ interface TransactionsProps {
 }
 
 const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
-  return <Table columns={columns} pagination={{ position: ['bottomRight'] }} dataSource={transactions} />;
+  return <Table columns={columns} pagination={{ position: ['bottomRight'] }} rowKey={(record) => record.transactionId} dataSource={transactions} />;
 };
 
 export default Transactions;

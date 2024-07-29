@@ -1,6 +1,16 @@
 import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { CommunityVisa } from "../community.visa";
-import { CommunityPermissions as CommunityPermissionsSpec } from "../community.visa";
+
+export interface CommunityPermissionsSpec {
+  canManageRolesAndPermissions: boolean;
+  canManageCommunitySettings: boolean;
+  canManageSiteContent: boolean;
+  canManageMembers: boolean;
+  canEditOwnMemberProfile: boolean;
+  canEditOwnMemberAccounts: boolean;
+  isEditingOwnMemberAccount: boolean;
+  isSystemAccount: boolean;
+}
 
 export interface CommunityPermissionsProps extends CommunityPermissionsSpec, EntityProps {}
 
@@ -85,3 +95,6 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
 }
 
 export interface CommunityPermissionsEntityReference extends Readonly<CommunityPermissionsProps> {}
+
+
+

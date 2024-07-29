@@ -1,13 +1,14 @@
-import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../domain/contexts/domain-visa';
+import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../domain/domain.visa';
 import { UserEntityReference } from '../domain/contexts/user/user/user';
 import { MemberEntityReference } from '../domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../domain/contexts/community/community/community';
 import { ApplicationServices } from '../application-services';
 import { InfrastructureServices } from '../infrastructure-services';
+// import { DomainExecutionContext } from '../domain/contexts/domain-execution-context';
 import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
-import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../application-services-impl/datastore/iam/datastore-visa';
+import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
 
 export type VerifiedUser = {
   verifiedJWT: any;

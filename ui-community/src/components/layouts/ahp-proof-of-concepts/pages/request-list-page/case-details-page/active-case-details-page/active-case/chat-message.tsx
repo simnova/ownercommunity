@@ -83,7 +83,7 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
               {props.embedding && (
                 <Editor resolver={{ ...CmsComponents }}>
                   <Frame>
-                    <CmsComponents.AhpIdFormConfirmation />
+                    <CmsComponents.AhpPaymentRequestForm/>
                   </Frame>
                 </Editor>
               )}

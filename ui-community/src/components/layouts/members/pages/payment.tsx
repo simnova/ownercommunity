@@ -53,7 +53,7 @@ const Payment: React.FC = () => {
           color: colorTextBase
         }}
       >
-        <Col span={6}>
+        <Col span={4}>
           <Menu mode="inline" selectedKeys={matchedIds}>
             <Menu.Item key="1" icon={<CreditCardOutlined />}>
               <Link to="wallet">Wallet</Link>

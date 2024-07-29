@@ -35,10 +35,10 @@ const columns = [
     key: 'description'
   },
   {
-    title: 'Timestamp',
+    title: 'Date',
     dataIndex: 'successTimestamp',
     key: 'successTimestamp',
-    render: (text: string) => dayjs(text).toISOString()
+    render: (text: string) => dayjs(text).format('DD-MMM-YYYY HH:mm A')
   }
 ];
 

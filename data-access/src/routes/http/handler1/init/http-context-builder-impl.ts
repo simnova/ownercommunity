@@ -1,11 +1,11 @@
 import { HttpRequest } from "@azure/functions";
-import { HttpContext, HttpContextBuilder } from "../../../seedwork/az-function-handler-seedwork-http/http-context-builder";
-import { AppContext, AppContextBuilder, VerifiedJwtPayloadType, VerifiedUser } from "../../app/init/app-context-builder";
-import { PortalTokenValidation } from "../../../seedwork/auth-seedwork-oidc/portal-token-validation";
-import * as util from '../../../seedwork/auth-seedwork-oidc/util';
-import { ApplicationServices } from "../../app/application-services";
-import { InfrastructureServices } from "../../app/infrastructure-services";
-import { Passport } from "../../app/init/passport";
+import { HttpContext, HttpContextBuilder } from "../../../../../seedwork/az-function-handler-seedwork-http/http-context-builder";
+import { AppContext, AppContextBuilder, VerifiedJwtPayloadType, VerifiedUser } from "../../../../app/init/app-context-builder";
+import { PortalTokenValidation } from "../../../../../seedwork/auth-seedwork-oidc/portal-token-validation";
+import * as util from '../../../../../seedwork/auth-seedwork-oidc/util';
+import { ApplicationServices } from "../../../../app/application-services";
+import { InfrastructureServices } from "../../../../app/infrastructure-services";
+import { Passport } from "../../../../app/init/passport";
 
 export class HttpContextBuilderImpl 
 extends HttpContextBuilder<InfrastructureServices, ApplicationServices, Passport, VerifiedJwtPayloadType, AppContext> 

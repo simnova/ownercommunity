@@ -1,9 +1,9 @@
 import { InvocationContext } from "@azure/functions";
-import { QueueContext, QueueContextBuilder } from "../../../seedwork/az-function-handler-seedwork-queue/queue-context-builder";
-import { AppContext, AppContextBuilder, VerifiedJwtPayloadType, VerifiedUser } from "../../app/init/app-context-builder";
-import { InfrastructureServices } from "../../app/infrastructure-services";
-import { ApplicationServices } from "../../app/application-services";
-import { Passport } from "../../app/init/passport";
+import { QueueContext, QueueContextBuilder } from "../../../../seedwork/az-function-handler-seedwork-queue/queue-context-builder";
+import { AppContext, AppContextBuilder, VerifiedJwtPayloadType } from "../../../app/init/app-context-builder";
+import { InfrastructureServices } from "../../../app/infrastructure-services";
+import { ApplicationServices } from "../../../app/application-services";
+import { Passport } from "../../../app/init/passport";
 
 export class QueueContextBuilderImpl
  extends QueueContextBuilder 

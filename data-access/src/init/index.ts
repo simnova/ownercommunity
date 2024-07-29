@@ -4,17 +4,17 @@ import { wrapFunctionHandler } from '../telemetry/wrapper';
 import { app } from '@azure/functions';
 import { CosmosDbConnection } from '../../seedwork/services-seedwork-datastore-mongodb/cosmos-db-connection';
 import { PortalTokenValidation } from '../../seedwork/auth-seedwork-oidc/portal-token-validation';
-import { ApolloServerRequestHandler } from '../graphql/init/apollo-server-request-handler';
-import { GraphqlContextBuilder as ApolloContext } from '../graphql/init/graphql-context-builder';
+import { ApolloServerRequestHandler } from '../routes/http/graphql/init/apollo-server-request-handler';
+import { GraphqlContextBuilder as ApolloContext } from '../routes/http/graphql/init/graphql-context-builder';
 import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
-import { TestHttpHandler } from '../http/test-handler';
-import { TestQueueHandler } from '../queue/test-queue-handler';
-import { TestTimerHandler } from '../timer/test-timer-handler';
-import { HttpContextBuilderImpl } from '../http/init/http-context-builder-impl';
-import { QueueContextBuilderImpl } from '../queue/init/queue-context-builder-impl';
-import { TimerContextBuilderImpl } from '../timer/init/timer-context-builder-impl';
+import { TestHttpHandler } from '../routes/http/handler1/test-handler';
+import { TestQueueHandler } from '../routes/storage-queue/handler1/test-queue-handler';
+import { TestTimerHandler } from '../routes/timer/handler1/test-timer-handler';
+import { HttpContextBuilderImpl } from '../routes/http/handler1/init/http-context-builder-impl';
+import { QueueContextBuilderImpl } from '../routes/storage-queue/init/queue-context-builder-impl';
+import { TimerContextBuilderImpl } from '../routes/timer/init/timer-context-builder-impl';
 import { DomainImpl } from '../app/domain/domain-impl';
 
 const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([['AccountPortal', 'ACCOUNT_PORTAL']]));

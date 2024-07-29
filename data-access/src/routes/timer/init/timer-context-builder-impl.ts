@@ -1,9 +1,9 @@
 import { InvocationContext, Timer } from "@azure/functions";
-import { TimerContext, TimerContextBuilder } from "../../../seedwork/az-function-handler-seedwork-timer/timer-context-builder";
-import { AppContext, AppContextBuilder, VerifiedJwtPayloadType } from "../../app/init/app-context-builder";
-import { InfrastructureServices } from "../../app/infrastructure-services";
-import { ApplicationServices } from "../../app/application-services";
-import { Passport } from "../../app/init/passport";
+import { TimerContext, TimerContextBuilder } from "../../../../seedwork/az-function-handler-seedwork-timer/timer-context-builder";
+import { AppContext, AppContextBuilder, VerifiedJwtPayloadType } from "../../../app/init/app-context-builder";
+import { InfrastructureServices } from "../../../app/infrastructure-services";
+import { ApplicationServices } from "../../../app/application-services";
+import { Passport } from "../../../app/init/passport";
 
 export type VerifiedJwtTimerPayloadType = {
   timerStuff: string;

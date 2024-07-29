@@ -1,11 +1,11 @@
 import { HttpRequest } from '@azure/functions';
-import { PortalTokenValidation } from '../../../seedwork/auth-seedwork-oidc/portal-token-validation';
-import { HttpContext, HttpContextBuilder } from '../../../seedwork/az-function-handler-seedwork-http/http-context-builder';
-import { CommunityData, MemberData } from '../../app/external-dependencies/datastore';
-import { ApplicationServices } from '../../app/application-services';
-import { Passport } from '../../app/init/passport';
-import { AppContext, AppContextBuilder, VerifiedJwtPayloadType } from '../../app/init/app-context-builder';
-import { InfrastructureServices } from '../../app/infrastructure-services';
+import { PortalTokenValidation } from '../../../../../seedwork/auth-seedwork-oidc/portal-token-validation';
+import { HttpContext, HttpContextBuilder } from '../../../../../seedwork/az-function-handler-seedwork-http/http-context-builder';
+import { CommunityData, MemberData } from '../../../../app/external-dependencies/datastore';
+import { ApplicationServices } from '../../../../app/application-services';
+import { Passport } from '../../../../app/init/passport';
+import { AppContext, AppContextBuilder, VerifiedJwtPayloadType } from '../../../../app/init/app-context-builder';
+import { InfrastructureServices } from '../../../../app/infrastructure-services';
 
 export interface GraphqlContext extends HttpContext<InfrastructureServices, ApplicationServices, Passport, VerifiedJwtPayloadType>  {
   community: CommunityData;

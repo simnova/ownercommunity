@@ -1,6 +1,5 @@
 import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
-import { FilePdfOutlined } from '@ant-design/icons';
 import { Button, Tag } from 'antd';
 import { RequestFeedbackButton } from './request-feedback-button';
 import { RequestPaymentButton } from './request-payment-button';

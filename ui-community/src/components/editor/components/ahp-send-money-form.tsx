@@ -26,7 +26,7 @@ AhpSendMoneyFormTop.craft = {
 };
 const AhpSendMoneyForm: any = ({}: AhpIdFormConfirmationProps) => {
   const {
-    actions: { setProp }
+    actions: {  }
   } = useNode((state) => ({
     selected: state.events.selected
   }));

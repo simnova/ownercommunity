@@ -24,12 +24,11 @@ const AddPaymentMethodModalContainer = () => {
 
   const handleAddPaymentMethod = async (data: AddPaymentInstrumentInput) => {
     try {
-      const response = await addPaymentInstrument({
+      return await addPaymentInstrument({
         variables: {
           input: data
         }
       });
-      return response;
     } catch (error) {
       console.log('ERROR', error);
     }

@@ -3,17 +3,17 @@ import { wrapFunctionHandler } from '../telemetry/wrapper';
 
 import { app } from '@azure/functions';
 import { CosmosDbConnection } from '../../seedwork/services-seedwork-datastore-mongodb/cosmos-db-connection';
-import { PortalTokenValidation } from '../auth/portal-token-validation';
+import { PortalTokenValidation } from '../../seedwork/auth-seedwork-oidc/portal-token-validation';
 import { ApolloServerRequestHandler } from '../graphql/init/apollo-server-request-handler';
 import { GraphqlContextBuilder as ApolloContext } from '../graphql/init/graphql-context-builder';
 import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
-import { testHandler } from '../http/test-handler';
+import { TestHttpHandler } from '../http/test-handler';
 import { TestQueueHandler } from '../queue/test-queue-handler';
 import { TestTimerHandler } from '../timer/test-timer-handler';
-import { QueueContextBuilderImpl } from '../queue/init/queue-context-builder-impl';
 import { HttpContextBuilderImpl } from '../http/init/http-context-builder-impl';
+import { QueueContextBuilderImpl } from '../queue/init/queue-context-builder-impl';
 import { TimerContextBuilderImpl } from '../timer/init/timer-context-builder-impl';
 import { DomainImpl } from '../app/domain/domain-impl';
 
@@ -54,7 +54,7 @@ app.http('graphql', {
   handler: wrapFunctionHandler(
     startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
       context: async ({ req }) => {
-        let context = new ApolloContext(req, portalTokenValidator, new InfrastructureServicesBuilder());
+        let context = new ApolloContext(req, portalTokenValidator, infrastructureServices);
         await context.init();
         return context;
       },
@@ -66,9 +66,9 @@ app.http('http-test', {
   methods: ['GET'],
   route: 'http-test',
   handler: async (req) => {
-    let context = new HttpContextBuilderImpl(req, portalTokenValidator, new InfrastructureServicesBuilder());
+    let context = new HttpContextBuilderImpl(req, portalTokenValidator, infrastructureServices);
     await context.init();
-    return testHandler(context);
+    return TestHttpHandler(context);
   }
 })
 
@@ -76,7 +76,7 @@ app.storageQueue('TestQueue', {
   queueName: 'test-queue',
   connection: 'QUEUE_STORAGE_URL',
   handler: async (queueItem, invocationContext) => {
-    let context = new QueueContextBuilderImpl(queueItem, invocationContext, new InfrastructureServicesBuilder());
+    let context = new QueueContextBuilderImpl(queueItem, invocationContext, infrastructureServices);
     await context.init();
     return TestQueueHandler(context);
   }
@@ -85,7 +85,7 @@ app.storageQueue('TestQueue', {
 app.timer('TimerTrigger', {
   schedule: "0 */5 * * * *",
   handler: async (timer, invocationContext) => {
-    let context = new TimerContextBuilderImpl(timer, invocationContext, new InfrastructureServicesBuilder());
+    let context = new TimerContextBuilderImpl(timer, invocationContext, infrastructureServices);
     await context.init();
     return TestTimerHandler(context);
   }

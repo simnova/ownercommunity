@@ -1,6 +1,9 @@
-import { QueueContext } from "../../seedwork/seedwork-az-function-handler_queue/queue-context-builder";
+import { QueueContext } from "../../seedwork/az-function-handler-seedwork-queue/queue-context-builder";
+import { ApplicationServices } from "../app/application-services";
+import { InfrastructureServices } from "../app/infrastructure-services";
+import { Passport } from "../app/init/passport";
 
-export const TestQueueHandler = async (context: QueueContext): Promise<void> => {
+export const TestQueueHandler = async (context: QueueContext<InfrastructureServices, ApplicationServices, Passport>): Promise<void> => {
     console.log('[TestQueueHandler] | Invocation ID ', context.invocationId);
     console.log('[TestQueueHandler] | Processing queue message: ', context.payload);
 

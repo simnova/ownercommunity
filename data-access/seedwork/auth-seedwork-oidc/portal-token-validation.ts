@@ -1,4 +1,4 @@
-import { OpenIdConfig, VerifiedTokenService } from '../../seedwork/auth-seedwork-oidc/verified-token-service';
+import { OpenIdConfig, VerifiedTokenService } from './verified-token-service';
 
  export class PortalTokenValidation {
   private tokenVerifier: VerifiedTokenService;
@@ -41,13 +41,13 @@ import { OpenIdConfig, VerifiedTokenService } from '../../seedwork/auth-seedwork
     this.tokenVerifier.Start();
   }
 
-  public async GetVerifiedUser (bearerToken:string): Promise<{verifiedJWT:any,openIdConfigKey:string}|null>{ 
+  public async GetVerifiedUser<VerifiedJwtPayloadType> (bearerToken:string): Promise<{verifiedJWT:VerifiedJwtPayloadType,openIdConfigKey:string}|null>{ 
     for await(let [openIdConfigKey] of this.tokenSettings){
       let verifedJWT = await this.tokenVerifier.GetVerifiedJwt(bearerToken,openIdConfigKey);
       console.log(`for ${openIdConfigKey} with bearerToken: ${bearerToken} verifiedJWT: ${JSON.stringify(verifedJWT)}`)
       if(verifedJWT){
         return {
-          verifiedJWT:verifedJWT.payload,
+          verifiedJWT:verifedJWT.payload as VerifiedJwtPayloadType,
           openIdConfigKey:openIdConfigKey
         }
       }

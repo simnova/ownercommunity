@@ -9,13 +9,23 @@ import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
 import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
+import { AppContextBase } from '../../../seedwork/az-function-handler-seedwork-base/base-app-context';
 
 export type VerifiedUser = {
-  verifiedJWT: any;
+  verifiedJWT: VerifiedJwtPayloadType;
   openIdConfigKey: string;
 };
 
-export interface AppContext{  // extends DomainExecutionContext {
+export interface VerifiedJwtPayloadType{
+  oid: string;
+  name: string;
+  given_name: string;
+  family_name: string;
+  email: string;
+  sub: string;
+}
+
+export interface AppContext extends AppContextBase<VerifiedUser, Passport, ApplicationServices, InfrastructureServices> {  // extends DomainExecutionContext {
   verifiedUser: VerifiedUser;
   member: MemberData;
   community: CommunityData;

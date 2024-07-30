@@ -20,13 +20,11 @@ export class TimerContextBuilderImpl
   protected async setVerifiedUser(): Promise<void> {
     this._verifiedUser = {
       verifiedJWT: {
-        oid: '',
-        name: '',
-        given_name: '',
-        family_name: '',
-        email: '',
-        sub: ''
-        // timerStuff: ''
+        name: this._timerName,
+        given_name: 'SYSTEM',
+        family_name: 'SYSTEM',
+        email: 'SYSTEM',
+        sub: 'SYSTEM'
       },
       openIdConfigKey: 'SYSTEM'
     };

@@ -14,6 +14,7 @@ export abstract class QueueContextBuilder
   implements QueueContext
   <InfrastructureServicesType, ApplicationServicesType, PassportType> {
   protected _verifiedUser: VerifiedUser<VerifiedJwtPayloadType>;
+  protected _queueName: string;
   private _payload: any;
   private _invocationId: string;
 
@@ -21,6 +22,7 @@ export abstract class QueueContextBuilder
     super(infrastructureServices);
     this._payload = JSON.parse(JSON.stringify(queueItem));
     this._invocationId = context.invocationId;
+    this._queueName = context.functionName;
   }
 
   get payload(): any {
@@ -29,6 +31,5 @@ export abstract class QueueContextBuilder
 
   get invocationId(): string {
     return this._invocationId;
-  
   }
 }

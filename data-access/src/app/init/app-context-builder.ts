@@ -17,7 +17,6 @@ export type VerifiedUser = {
 };
 
 export interface VerifiedJwtPayloadType{
-  oid: string;
   name: string;
   given_name: string;
   family_name: string;
@@ -107,7 +106,7 @@ export class AppContextBuilder implements AppContext {
 
   private async setPassport(): Promise<void> {
     let userExternalId = this._verifiedUser?.verifiedJWT.sub;
-    if (userExternalId && this._communityData) {
+    if (userExternalId && userExternalId !== "SYSTEM" && this._communityData) {
       let userData = await this._applicationServices.user.dataApi.getUserByExternalId(userExternalId);
       let memberData = (await this._applicationServices.member.dataApi.getMemberByIdWithCommunityAccountRole(this._memberHeader));
       if(memberData && userData) {

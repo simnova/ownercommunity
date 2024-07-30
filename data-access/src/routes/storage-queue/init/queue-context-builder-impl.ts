@@ -17,12 +17,11 @@ export class QueueContextBuilderImpl
   protected async setVerifiedUser(): Promise<void> {
     this._verifiedUser = {
       verifiedJWT: {
-        oid: '',
-        name: '',
-        given_name: '',
-        family_name: '',
-        email: '',
-        sub: ''
+        name: this._queueName,
+        given_name: 'SYSTEM',
+        family_name: 'SYSTEM',
+        email: 'SYSTEM',
+        sub: 'SYSTEM'
       },
       openIdConfigKey: 'SYSTEM'
     };

@@ -14,6 +14,7 @@ extends BaseContextBuilder
  implements TimerContext
  <InfrastructureServicesType, ApplicationServicesType, PassportType> {
   protected _verifiedUser: VerifiedUser<VerifiedJwtPayloadType>;
+  protected _timerName: string;
   private _timer: Timer;
   private _invocationId: string;
 
@@ -21,6 +22,7 @@ extends BaseContextBuilder
     super(infrastructureServices);
     this._timer = timer;
     this._invocationId = context.invocationId;
+    this._timerName = context.functionName;
   }
 
   get timer(): Timer {

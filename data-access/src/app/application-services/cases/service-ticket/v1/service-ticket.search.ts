@@ -117,6 +117,8 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
         searchMode: 'all',
         includeTotalCount: true,
         filter: filterString,
+        top: input.options.top,
+        skip: input.options.skip,
       });
     });
 

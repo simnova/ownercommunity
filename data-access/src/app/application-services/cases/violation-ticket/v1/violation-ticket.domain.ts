@@ -206,7 +206,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       let transactionType: string = 'PAYMENT';
       let transaction = violationTicket.requestAddPaymentTransaction();
       let clientReferenceCode = transaction.id;
-      const response: TransactionProps = await this.context.applicationServices.payment.cybersourceApi.processPayment({
+      const response: TransactionProps = await this.context.applicationServices.member.cybersourceApi.processPayment({
         id: violationTicket.id,
         paymentInstrumentId: input.paymentInstrumentId,
         amount: input.paymentAmount,

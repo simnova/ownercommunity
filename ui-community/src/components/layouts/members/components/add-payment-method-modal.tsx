@@ -71,8 +71,6 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({
 
   const useAddPaymentMethod = useAddPaymentMethodModal();
 
-  console.log('isDefaultPaymentMethod', isDefaultPaymentMethod);
-
   const initialFormState: Partial<CustomerInfoFormSchema> = {
     billingFirstName: undefined,
     billingLastName: undefined,

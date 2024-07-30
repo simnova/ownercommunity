@@ -6,7 +6,7 @@ import {
   MutationMemberAddPaymentInstrumentDocument,
   SharedPaymentContainercybersourcePublicKeyIdDocument
 } from '../../../../generated';
-import { Empty, Skeleton } from 'antd';
+import { Empty, Skeleton, message } from 'antd';
 
 export interface TokenOptions {
   expirationMonth: string;
@@ -44,7 +44,8 @@ const AddPaymentMethodModalContainer = () => {
   if (paymentInstrumentsLoading) {
     return <Skeleton active />;
   } else if (paymentInstrumentsError) {
-    return <Empty description="There was an error loading your payment methods!" />;
+    message.error('There was an error loading your payment methods!');
+    return null;
   }
 
   return (

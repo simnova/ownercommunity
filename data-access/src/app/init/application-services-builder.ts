@@ -3,7 +3,6 @@ import {
   CommunityApi,
   MemberApi,
   PropertyApi,
-  PaymentApi,
   ServiceApi,
   RoleApi,
   UserApi,
@@ -16,7 +15,6 @@ import { PropertyApiImpl } from "../application-services/property";
 import { RoleApiImpl } from "../application-services/role";
 import { ServiceApiImpl } from "../application-services/service";
 import { UserApiImpl } from "../application-services/user";
-import { PaymentApiImpl } from "../application-services/payment";
 import { CasesApiImpl } from "../application-services/cases";
 ;
 export class ApplicationServicesBuilder implements ApplicationServices {
@@ -27,7 +25,6 @@ export class ApplicationServicesBuilder implements ApplicationServices {
   service: ServiceApi;
   role: RoleApi;
   user: UserApi;
-  payment: PaymentApi;
 
   constructor(context: AppContext) {
     this.community = new CommunityApiImpl(context);
@@ -37,6 +34,5 @@ export class ApplicationServicesBuilder implements ApplicationServices {
     this.service = new ServiceApiImpl(context);
     this.role = new RoleApiImpl(context);
     this.user = new UserApiImpl(context);
-    this.payment = new PaymentApiImpl(context);
   }
 }

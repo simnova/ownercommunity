@@ -138,12 +138,12 @@ const member: Resolvers = {
       });
     },
     cybersourcePublicKeyId: async (parent, _args, { applicationServices }) => {
-      return await applicationServices.payment.cybersourceApi.generatePublicKey();
+      return await applicationServices.member.cybersourceApi.generatePublicKey();
     },
     memberPaymentInstruments: async (_, _args, context) => {
       const member = await getMemberForCurrentUser(context);
       if (member?.cybersourceCustomerId) {
-        const paymentInstruments = await context.applicationServices.payment.cybersourceApi.getPaymentInstruments(member.cybersourceCustomerId);
+        const paymentInstruments = await context.applicationServices.member.cybersourceApi.getPaymentInstruments(member.cybersourceCustomerId);
         return { status: { success: true }, paymentInstruments };
       }
       return { status: { success: false }, paymentInstruments: [] };
@@ -191,8 +191,8 @@ const member: Resolvers = {
       const member = await getMemberForCurrentUser(context);
       let cybersourceCustomerId = member?.cybersourceCustomerId;
       if (!cybersourceCustomerId) {
-        cybersourceCustomerId = await context.applicationServices.payment.cybersourceApi.createCybersouceCustomer(input);
-        console.log('createCybersouceCustomerResponse', cybersourceCustomerId);
+        cybersourceCustomerId = await context.applicationServices.member.cybersourceApi.createCybersourceCustomer(input);
+        console.log('createCybersourceCustomerResponse', cybersourceCustomerId);
         if (cybersourceCustomerId) {
           return await MemberMutationResolver(context.applicationServices.member.domainApi.memberUpdate({id: member.id, cybersourceCustomerId}));
         }
@@ -204,7 +204,7 @@ const member: Resolvers = {
           customerId: cybersourceCustomerId,
         };
         const paymentTokenInfo: PaymentTokenInfo = { paymentToken: input.paymentToken, isDefault: input.isDefault };
-        await context.applicationServices.payment.cybersourceApi.addPaymentInstrument(paymentInstrumentPayload, paymentTokenInfo);
+        await context.applicationServices.member.cybersourceApi.addPaymentInstrument(paymentInstrumentPayload, paymentTokenInfo);
         return { status: { success: true }, member };
       }
     },
@@ -214,7 +214,7 @@ const member: Resolvers = {
       const member = await getMemberForCurrentUser(context);
       const cybersourceCustomerId = member?.cybersourceCustomerId;
       if (cybersourceCustomerId) {
-        status = await context.applicationServices.payment.cybersourceApi.setDefaultPaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
+        status = await context.applicationServices.member.cybersourceApi.setDefaultPaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
         return { success: status, errorMessage: '' };
       }
     },
@@ -225,7 +225,7 @@ const member: Resolvers = {
       try {
         const cybersourceCustomerId = member?.cybersourceCustomerId;
         if (cybersourceCustomerId) {
-          response = await context.applicationServices.payment.cybersourceApi.deletePaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
+          response = await context.applicationServices.member.cybersourceApi.deletePaymentInstrument(cybersourceCustomerId, paymentInstrumentId);
           return { success: response };
         }
       } catch (error) {

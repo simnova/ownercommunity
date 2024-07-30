@@ -92,8 +92,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
         propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
         violationTicket.Property = propertyDo;
       }
-
-      violationTicket.detectValueChangeAndAddTicketActivityLogs(input, propertyDo);
+      
       if (input.title) violationTicket.Title = input.title;
       if (input.description) violationTicket.Description = input.description;
       if (input.priority) violationTicket.Priority = input.priority;

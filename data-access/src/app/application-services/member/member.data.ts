@@ -96,7 +96,6 @@ export class MemberDataApiImpl
         $replaceWith: '$m',
       },
     ]).exec();
-    console.log(`getMemberAssignableToViolationTickets`, result);
     return MemberModel.hydrate(result[0]);
   }
 

@@ -76,6 +76,8 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
         cardType: paymentInstrument?.card?.type,
         paymentInstrumentId: paymentInstrument?.id,
         isDefault: paymentInstrument?.default,
+        expirationMonth: paymentInstrument?.card?.expirationMonth,
+        expirationYear: paymentInstrument?.card?.expirationYear,
       };
     });
     return response;

@@ -384,6 +384,11 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Updated At">
             {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
           </Descriptions.Item>
+          {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.paymentTransactions && (
+            <Descriptions.Item label="Payment Transaction ID">
+              {props.data.violationTicket.paymentTransactions?.[0]?.transactionId}
+            </Descriptions.Item>
+          )}
         </Descriptions>
       </div>
       <div style={{ padding: 24, minHeight: '100%', backgroundColor: 'white' }}>

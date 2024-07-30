@@ -24,7 +24,7 @@ export const ServiceTicketsList: React.FC<any> = (_props) => {
           }}>Tickets</span>
         }
           extra={[
-            <Button type="primary" onClick={() => navigate('new')}>
+            <Button key="service-ticket-add-button" type="primary" onClick={() => navigate('new')}>
               Add New
             </Button>
           ]}

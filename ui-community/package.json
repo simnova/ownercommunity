@@ -46,7 +46,8 @@
     "react-router-dom": "^6.21.3",
     "stream-browserify": "^3.0.0",
     "uniqid": "^5.4.0",
-    "use-local-storage-state": "^13.0.0"
+    "use-local-storage-state": "^13.0.0",
+    "zustand": "^4.5.4"
   },
   "scripts": {
     "start": "vite",

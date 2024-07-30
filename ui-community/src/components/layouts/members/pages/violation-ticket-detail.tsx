@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { SubPageLayout } from '../sub-page-layout';
 import { ViolationTicketsDetailContainer } from '../components/violation-ticket-detail.container';
+import AddPaymentMethodModalContainer from '../components/add-payment-method-modal.container';
 
 export const ViolationTicketsDetail: React.FC<any> = () => {
   const params = useParams();
@@ -15,6 +16,7 @@ export const ViolationTicketsDetail: React.FC<any> = () => {
         key={params.id ?? ''}
         data={{ id: params.id ?? '', ticketType: params.ticketType ?? '', communityId: params.communityId ?? '' }}
       />
+      <AddPaymentMethodModalContainer />
     </SubPageLayout>
   );
 };

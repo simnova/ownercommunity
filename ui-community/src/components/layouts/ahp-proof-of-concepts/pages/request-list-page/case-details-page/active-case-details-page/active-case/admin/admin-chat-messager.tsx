@@ -1,20 +1,47 @@
 import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
 import { Button, Tag } from 'antd';
+import { useMutation } from '@apollo/client';
+import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../generated';
 import { RequestFeedbackButton } from './request-feedback-button';
 import { RequestPaymentButton } from './request-payment-button';
 import { SendMoneyButton } from './send-money-button';
 
-interface ChatMessagerProps {}
-export const ChatMessager: FC<ChatMessagerProps> = () => {
+interface ChatMessagerProps {
+  updateMessage: () => void;
+}
+
+export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
   const [message, setMessage] = useState('');
   const [requests, setRequests] = useState<any[]>([]);
+  const [updateServiceTicket] = useMutation(ChatMessagesContainerServiceTicketUpdateDocument, {
+    onCompleted: () => {}
+  });
 
   const updateEmbedding = (requests: any[]) => {
     setRequests(requests);
   };
-  const sendMessage = () => {
-    console.log('Heres the message: ', message, requests);
+  const sendMessage = async () => {
+    if (message === '') {
+      return;
+    }
+    await updateServiceTicket({
+      variables: {
+        input: {
+          serviceTicketId: '66a7eb82ef9aff668fe0d5b9',
+          messages: [
+            {
+              sentBy: 'internal',
+              message: message,
+              embedding: undefined
+            }
+          ]
+        }
+      }
+    });
+    setMessage('');
+    setRequests([]);
+    props.updateMessage();
   };
 
   const removeRequest = (value: string) => {
@@ -53,6 +80,7 @@ export const ChatMessager: FC<ChatMessagerProps> = () => {
             maxRows: 5
           }}
           onChange={(e: any) => setMessage(e.target.value)}
+          value={message}
         />
         <div
           style={{

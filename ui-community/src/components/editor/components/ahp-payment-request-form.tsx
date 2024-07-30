@@ -33,7 +33,7 @@ const AhpPaymentRequestForm: any = ({ completed, success, amount, reason }: AhpP
     success: false
   }));
 
-  const isAdmin = false;
+  const isAdmin = true;
 
   const rejectPayment = () => {
     setProp((props: any) => {
@@ -111,7 +111,7 @@ const AhpPaymentRequestForm: any = ({ completed, success, amount, reason }: AhpP
       </div>
     </div>
   );
-  
+
   const caseWorkerView = completed ? (
     success ? (
       <div>

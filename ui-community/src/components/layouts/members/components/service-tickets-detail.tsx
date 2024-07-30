@@ -31,6 +31,7 @@ import {
   ServiceTicketChangeStatusInput,
   ServiceTicketUpdateInput
 } from '../../../../generated';
+import { MemberChatMessagesContainer } from '../../ahp-proof-of-concepts/pages/request-list-page/case-details-page/active-case-details-page/active-case/member/member-chat-messages.container';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -257,6 +258,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           />
         </Steps>
       </div>
+      <MemberChatMessagesContainer />
       <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
         <Descriptions title="ServiceTicket Info" size={'small'} layout={'vertical'} labelStyle={{ fontSize: '10px' }}>
           <Descriptions.Item label="Id">{props.data.serviceTicket.id}</Descriptions.Item>

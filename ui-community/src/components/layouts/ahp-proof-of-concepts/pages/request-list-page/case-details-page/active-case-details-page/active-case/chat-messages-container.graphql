@@ -1,0 +1,30 @@
+query ChatMessagesContainerServiceTicket($serviceTicketId: ObjectID!) {
+  serviceTicket(id: $serviceTicketId) {
+    messages {
+      sentBy
+      message
+      id
+      embedding
+      createdAt
+    }
+  }
+}
+
+mutation ChatMessagesContainerServiceTicketUpdate($input: ServiceTicketUpdateInput!) {
+  serviceTicketUpdate(input: $input) {
+    serviceTicket {
+      id
+      messages {
+        message
+        createdAt
+        embedding
+        id
+        sentBy
+      }
+    }
+    status {
+      errorMessage
+      success
+    }
+  }
+}

@@ -3789,6 +3789,49 @@ export type SectionLayoutContainerMemberFieldsFragment = {
   } | null;
 };
 
+export type ChatMessagesContainerServiceTicketQueryVariables = Exact<{
+  serviceTicketId: Scalars['ObjectID'];
+}>;
+
+export type ChatMessagesContainerServiceTicketQuery = {
+  __typename?: 'Query';
+  serviceTicket?: {
+    __typename?: 'ServiceTicket';
+    messages?: Array<{
+      __typename?: 'ServiceTicketV1Message';
+      sentBy: string;
+      message: string;
+      id: any;
+      embedding?: string | null;
+      createdAt: any;
+    } | null> | null;
+  } | null;
+};
+
+export type ChatMessagesContainerServiceTicketUpdateMutationVariables = Exact<{
+  input: ServiceTicketUpdateInput;
+}>;
+
+export type ChatMessagesContainerServiceTicketUpdateMutation = {
+  __typename?: 'Mutation';
+  serviceTicketUpdate: {
+    __typename?: 'ServiceTicketMutationResult';
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      id: any;
+      messages?: Array<{
+        __typename?: 'ServiceTicketV1Message';
+        message: string;
+        createdAt: any;
+        embedding?: string | null;
+        id: any;
+        sentBy: string;
+      } | null> | null;
+    } | null;
+    status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
+  };
+};
+
 export type SharedPaymentContainercybersourcePublicKeyIdQueryVariables = Exact<{ [key: string]: never }>;
 
 export type SharedPaymentContainercybersourcePublicKeyIdQuery = {
@@ -15978,6 +16021,137 @@ export const SectionLayoutContainerMemberByIdQueryDocument = {
 } as unknown as DocumentNode<
   SectionLayoutContainerMemberByIdQueryQuery,
   SectionLayoutContainerMemberByIdQueryQueryVariables
+>;
+export const ChatMessagesContainerServiceTicketDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ChatMessagesContainerServiceTicket' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'serviceTicketId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicket' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'serviceTicketId' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'messages' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'sentBy' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'embedding' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<ChatMessagesContainerServiceTicketQuery, ChatMessagesContainerServiceTicketQueryVariables>;
+export const ChatMessagesContainerServiceTicketUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'ChatMessagesContainerServiceTicketUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'serviceTicket' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'messages' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'embedding' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'sentBy' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  ChatMessagesContainerServiceTicketUpdateMutation,
+  ChatMessagesContainerServiceTicketUpdateMutationVariables
 >;
 export const SharedPaymentContainercybersourcePublicKeyIdDocument = {
   kind: 'Document',

@@ -8,6 +8,7 @@ interface ChatMessageProps {
   message: string;
   embedding: JSX.Element;
   createdAt: string;
+  isAdmin: boolean;
 }
 export const ChatMessage: FC<ChatMessageProps> = (props) => {
   const caseWorkerStyles = {
@@ -35,14 +36,14 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
         style={{
           display: 'flex',
           width: '100%',
-          justifyContent: props.sentBy === 'internal' ? 'flex-end' : 'flex-start'
+          justifyContent: props.sentBy === 'internal' && props.isAdmin ? 'flex-end' : 'flex-start'
         }}
       >
         <div
           style={{
             maxWidth: '75%',
             display: 'flex',
-            flexDirection: props.sentBy === 'internal' ? 'row-reverse' : 'row',
+            flexDirection: props.sentBy === 'internal' && props.isAdmin ? 'row-reverse' : 'row',
             alignItems: 'center',
             justifyContent: 'flex-start'
           }}
@@ -58,7 +59,7 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
               }}
               size="large"
             >
-              {props.sentBy === 'internal' ? 'Intealth' : placeHolderInitials}
+              {props.sentBy === 'internal' && props.isAdmin ? 'Intealth' : placeHolderInitials}
             </Avatar>
           </div>
           <div
@@ -73,12 +74,12 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
                 marginTop: 10,
                 color: 'grey',
                 fontSize: '10px',
-                textAlign: props.sentBy === 'internal' ? 'right' : 'left'
+                textAlign: props.sentBy === 'internal' && props.isAdmin ? 'right' : 'left'
               }}
             >
               {props.createdAt}
             </div>
-            <div style={props.sentBy === 'internal' ? caseWorkerStyles : applicantStyles}>
+            <div style={props.sentBy === 'internal' && props.isAdmin ? caseWorkerStyles : applicantStyles}>
               {props.message}
               {props.embedding && (
                 <Editor resolver={{ ...CmsComponents }}>

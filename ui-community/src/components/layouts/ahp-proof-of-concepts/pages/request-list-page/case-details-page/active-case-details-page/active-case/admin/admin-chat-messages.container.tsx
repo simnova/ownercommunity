@@ -1,9 +1,40 @@
-import { FC } from 'react';
-import { ChatMessages } from './chat-messages';
-import * as CmsComponents from '../../../../../../../editor/components';
+import { FC, useEffect, useState } from 'react';
+import * as CmsComponents from '../../../../../../../../editor/components';
+import { ChatMessagesContainerServiceTicketDocument, ServiceTicket } from '../../../../../../../../../generated';
+import { ComponentQueryLoader } from '../../../../../../../../ui/molecules/component-query-loader';
+import { useLazyQuery } from '@apollo/client';
+import { AdminServiceTicketChatPage } from './admin-service-ticket-chat-page';
 
 interface ChatMessagesContainerProps {}
-export const ChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
+export const AdminChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
+  const [messageQuery] = useLazyQuery(ChatMessagesContainerServiceTicketDocument);
+
+  const [messageData, setMessageData] = useState<ServiceTicket>({} as ServiceTicket);
+  const [messageError, setMessageError] = useState<any>(undefined);
+  const [messageLoading, setMessageLoading] = useState<any>(undefined);
+
+  const getData = async () => {
+    const {
+      data: messageDataTemp,
+      loading: messageLoadingTemp,
+      error: messageErrorTemp
+    } = await messageQuery({
+      variables: { serviceTicketId: '66a7eb82ef9aff668fe0d5b9' },
+      fetchPolicy: 'network-only'
+    });
+    setMessageData(messageDataTemp?.serviceTicket as ServiceTicket);
+    setMessageError(messageLoadingTemp);
+    setMessageLoading(messageErrorTemp);
+  };
+
+  const reloadMessages = () => {
+    getData();
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   const testData = [
     {
       sentBy: 'internal',
@@ -71,5 +102,14 @@ export const ChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
       createdAt: '04-March-24 9:27 AM EST'
     }
   ];
-  return <ChatMessages data={testData} />;
+  return (
+    <ComponentQueryLoader
+      error={messageError}
+      loading={messageLoading}
+      hasData={messageData !== undefined}
+      hasDataComponent={
+        <AdminServiceTicketChatPage data={messageData as ServiceTicket} updateMessage={reloadMessages} />
+      }
+    />
+  );
 };

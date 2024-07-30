@@ -893,6 +893,8 @@ export type PaymentInstrument = {
   __typename?: 'PaymentInstrument';
   cardNumber?: Maybe<Scalars['String']>;
   cardType?: Maybe<Scalars['String']>;
+  expirationMonth?: Maybe<Scalars['String']>;
+  expirationYear?: Maybe<Scalars['String']>;
   isDefault?: Maybe<Scalars['Boolean']>;
   paymentInstrumentId?: Maybe<Scalars['String']>;
 };
@@ -2890,6 +2892,8 @@ export type PaymentInstrumentResolvers<
 > = ResolversObject<{
   cardNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cardType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  expirationMonth?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  expirationYear?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isDefault?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   paymentInstrumentId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

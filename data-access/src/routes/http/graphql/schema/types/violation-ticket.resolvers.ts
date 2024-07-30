@@ -1,5 +1,5 @@
 import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, ViolationTicket, PaymentTransactionsResult } from '../builder/generated';
-import { ViolationTicket as ViolationTicketDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/cases/violation-ticket';
+import { ViolationTicket as ViolationTicketDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/cases/violation-ticket';
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from '../resolver-helper';
 

@@ -1,4 +1,4 @@
-import { DomainVisaImpl, ReadOnlyDomainVisa } from '../domain/domain.visa';
+import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../domain/domain.visa';
 import { UserEntityReference } from '../domain/contexts/user/user/user';
 import { MemberEntityReference } from '../domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../domain/contexts/community/community/community';
@@ -8,10 +8,18 @@ import { InfrastructureServices } from '../infrastructure-services';
 import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
-import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl } from '../datastore/datastore.visa';
+import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
+
+export interface VerifiedJwtPayloadType{
+  name: string;
+  given_name: string;
+  family_name: string;
+  email: string;
+  sub: string;
+}
 
 export type VerifiedUser = {
-  verifiedJWT: any;
+  verifiedJWT: VerifiedJwtPayloadType;
   openIdConfigKey: string;
 };
 
@@ -22,10 +30,9 @@ export interface AppContext{  // extends DomainExecutionContext {
   passport: Passport;
   applicationServices: ApplicationServices;
   infrastructureServices: InfrastructureServices;
-  init(): Promise<void>;
 }
 
-export class AppContextBuilder implements AppContext {
+export abstract class AppContextBuilder implements AppContext {
   private _verifiedUser: VerifiedUser;
   private _communityHeader: string;
   private _memberHeader: string;
@@ -36,14 +43,8 @@ export class AppContextBuilder implements AppContext {
   private _infrastructureServices: InfrastructureServices;
 
   constructor(
-    verifiedUser: VerifiedUser, 
-    communityHeader: string,
-    memberHeader: string,
     infrastructureServices: InfrastructureServices
     ) {
-      this._verifiedUser = verifiedUser;
-      this._communityHeader = communityHeader;
-      this._memberHeader = memberHeader;
       this._applicationServices = new ApplicationServicesBuilder(this);
       this._infrastructureServices = infrastructureServices;
   }
@@ -72,7 +73,14 @@ export class AppContextBuilder implements AppContext {
     return this._infrastructureServices;
   }
 
-  async init(): Promise<void> {
+  protected async initializeAppContext(
+    verifiedUser: VerifiedUser, 
+    communityHeader: string,
+    memberHeader: string,
+  ): Promise<void> {
+    this._verifiedUser = verifiedUser;
+    this._communityHeader = communityHeader;
+    this._memberHeader = memberHeader;
     await this.setDefaultPassport();
     await this.setCurrentData();
     await this.setPassport();
@@ -96,6 +104,14 @@ export class AppContextBuilder implements AppContext {
   }
 
   private async setPassport(): Promise<void> {
+    if(this._verifiedUser?.openIdConfigKey === 'SYSTEM') {
+      this._passport = {
+        domainVisa: SystemDomainVisa.GetInstance(),
+        datastoreVisa: SystemDatastoreVisaImpl.GetInstance()
+      };
+      return;
+    }
+
     let userExternalId = this._verifiedUser?.verifiedJWT.sub;
     if (userExternalId && this._communityData) {
       let userData = await this._applicationServices.user.dataApi.getUserByExternalId(userExternalId);
@@ -111,4 +127,5 @@ export class AppContextBuilder implements AppContext {
       }
     }
   }
+
 }

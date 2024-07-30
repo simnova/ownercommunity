@@ -1,11 +1,11 @@
 
-import { EndUserRoleCommunityPermissions, MemberData, EndUserRoleData } from "../../external-dependencies/datastore";
-import { CommunityVisa } from './community.visa';
+import { MemberData, EndUserRoleData } from "../../external-dependencies/datastore";
+import { CommunityPermissions, CommunityVisa } from './community.visa';
 
 export class CommunityVisaImplForEndUserRole<root extends EndUserRoleData> implements CommunityVisa {
   constructor(private root: root, private member: MemberData) {}  
   
-  determineIf(func:((permissions:EndUserRoleCommunityPermissions) => boolean)) :  boolean {
+  determineIf(func:((permissions: CommunityPermissions) => boolean)) :  boolean {
     //ensure that the member is a member of the community
     // [TBD] - Temporarily commenting out this check as it is causing issues => need more discussion
     // if(!this.member || this.member.community.id !== this.root.community.id) {
@@ -18,6 +18,6 @@ export class CommunityVisaImplForEndUserRole<root extends EndUserRoleData> imple
       return false;
     }
 
-    return func(communityPermissions as EndUserRoleCommunityPermissions);
+    return func(communityPermissions as CommunityPermissions);
   }
 }

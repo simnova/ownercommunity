@@ -1,11 +1,11 @@
 
-import { StaffRoleCommunityPermissions, StaffRoleData, UserData } from "../../external-dependencies/datastore";
-import { CommunityVisa } from './community.visa';
+import { StaffRoleData, UserData } from "../../external-dependencies/datastore";
+import { CommunityVisa, CommunityPermissions } from './community.visa';
 
 export class CommunityVisaImplForStaffRole<root extends StaffRoleData> implements CommunityVisa {
   constructor(private root: root, private user: UserData) {}  
   
-  determineIf(func:((permissions:StaffRoleCommunityPermissions) => boolean)) :  boolean {
+  determineIf(func:((permissions: CommunityPermissions) => boolean)) :  boolean {
     //ensure that the member is a member of the community
     // [TBD] - Temporarily commenting out this check as it is causing issues => need more discussion
     // if(!this.member || this.member.community.id !== this.root.community.id) {
@@ -26,6 +26,6 @@ export class CommunityVisaImplForStaffRole<root extends StaffRoleData> implement
       canReIndexSearchCollections: true
     }
 
-    return func(communityPermissions as StaffRoleCommunityPermissions);
+    return func(communityPermissions as CommunityPermissions);
   }
 }

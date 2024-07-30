@@ -6,8 +6,8 @@ import { CommunityRepository } from '../../../src/app/domain/contexts/community/
 import { CommunityEntityReference, CommunityProps } from '../../../src/app/domain/contexts/community/community/community';
 import { UserRepository } from '../../../src/app/domain/contexts/user/user/user.repository';
 import { UserEntityReference, UserProps } from '../../../src/app/domain/contexts/user/user/user';
-import { RoleRepository } from '../../../src/app/domain/contexts/community/role/role.repository';
-import { RoleProps } from '../../../src/app/domain/contexts/community/role/role';
+import { EndUserRoleRepository } from '../../../src/app/domain/contexts/community/roles/end-user-role/end-user-role.repository';
+import { EndUserRoleProps } from '../../../src/app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { MemberRepository } from '../../../src/app/domain/contexts/community/member/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../src/app/domain/contexts/community/member/member';
 import { DomainExecutionContext } from '../../../src/app/domain/domain-execution-context';
@@ -41,8 +41,8 @@ export interface InteractWithTheDomainAsRegisteredUser {
 export interface InteractWithTheDomainAsCommunityMember {
   actOnCommunity: (func: (repo: CommunityRepository<CommunityProps>) => Promise<void>) => Promise<void>;
   readCommunityDb: (func: (db: ReadOnlyMemoryStore<CommunityProps>) => Promise<void>) => Promise<void>;
-  actOnRole: (func: (repo: RoleRepository<RoleProps>) => Promise<void>) => Promise<void>;
-  readRoleDb: (func: (db: ReadOnlyMemoryStore<RoleProps>) => Promise<void>) => Promise<void>;
+  actOnRole: (func: (repo: EndUserRoleRepository<EndUserRoleProps>) => Promise<void>) => Promise<void>;
+  readRoleDb: (func: (db: ReadOnlyMemoryStore<EndUserRoleProps>) => Promise<void>) => Promise<void>;
   actOnMember: (func: (repo: MemberRepository<MemberProps>) => Promise<void>) => Promise<void>;
   readMemberDb: (func: (db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
   actOnUser: (func: (repo: UserRepository<UserProps>) => Promise<void>) => Promise<void>;
@@ -55,7 +55,7 @@ export interface InteractWithTheDomainAsCommunityMember {
 
 export interface InteractWithTheDomainAsReadOnly {
   readCommunityDb: (func: (db: ReadOnlyMemoryStore<CommunityProps>) => Promise<void>) => Promise<void>;
-  readRoleDb: (func: (db: ReadOnlyMemoryStore<RoleProps>) => Promise<void>) => Promise<void>;
+  readRoleDb: (func: (db: ReadOnlyMemoryStore<EndUserRoleProps>) => Promise<void>) => Promise<void>;
   readMemberDb: (func: (db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
   readUserDb: (func: (db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func: (db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
@@ -266,13 +266,13 @@ export class InteractWithTheDomain
   }
 
   // role
-  public async actOnRole(func: (repo: RoleRepository<RoleProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.roleUnitOfWork.withTransaction(this.context, async (repo) => {
+  public async actOnRole(func: (repo: EndUserRoleRepository<EndUserRoleProps>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.endUserRoleUnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
-  public async readRoleDb(func: (db: ReadOnlyMemoryStore<RoleProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.roleReadonlyMemoryStore);
+  public async readRoleDb(func: (db: ReadOnlyMemoryStore<EndUserRoleProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.endUserRoleReadonlyMemoryStore);
   }
 
   // member

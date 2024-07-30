@@ -1,5 +1,5 @@
 import { Schema, Model, ObjectId } from 'mongoose';
-import { Role, RoleModel } from './role';
+import { Role, RoleModel, roleOptions } from './role';
 
 export interface StaffRoleServicePermissions {
   id?: ObjectId;
@@ -90,9 +90,7 @@ export const StaffRoleSchema = new Schema<StaffRole, Model<StaffRole>, StaffRole
       },
     },
   },
-  {
-    optimisticConcurrency: true,
-  }
+  roleOptions
 ).index({ roleName: 1 }, { unique: true });
 
 export const StaffRoleModel = RoleModel.discriminator('staff-roles', StaffRoleSchema);

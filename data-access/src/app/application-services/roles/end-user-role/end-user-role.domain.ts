@@ -1,32 +1,32 @@
-import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { Role } from "../../domain/contexts/community/role/role";
-import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
-import { RoleData } from "../../external-dependencies/datastore";
-import { RoleDomainAdapter, CommunityConverter, RoleConverter, RoleRepository } from "../../external-dependencies/domain";
-import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from "../../external-dependencies/graphql-api";
-import { AppContext } from "../../init/app-context-builder";
+import { DomainDataSource } from "../../../data-sources/domain-data-source";
+import { EndUserRole } from "../../../domain/contexts/community/roles/end-user-role/end-user-role";
+import { ReadOnlyDomainVisa } from "../../../domain/domain.visa";
+import { EndUserRoleData } from "../../../external-dependencies/datastore";
+import { EndUserRoleDomainAdapter, CommunityConverter, EndUserRoleConverter, EndUserRoleRepository } from "../../../external-dependencies/domain";
+import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from "../../../external-dependencies/graphql-api";
+import { AppContext } from "../../../init/app-context-builder";
 
-export interface RoleDomainApi {
-  roleAdd(input: RoleAddInput) : Promise<RoleData>;
-  roleUpdate(input: RoleUpdateInput) : Promise<RoleData>;
-  roleDeleteAndReassign(input: RoleDeleteAndReassignInput) : Promise<RoleData>;
+export interface EndUserRoleDomainApi {
+  roleAdd(input: RoleAddInput) : Promise<EndUserRoleData>;
+  roleUpdate(input: RoleUpdateInput) : Promise<EndUserRoleData>;
+  roleDeleteAndReassign(input: RoleDeleteAndReassignInput) : Promise<EndUserRoleData>;
 }
 
-type PropType = RoleDomainAdapter;
-type DomainType = Role<PropType>;
-type RepoType = RoleRepository<PropType>;
+type PropType = EndUserRoleDomainAdapter;
+type DomainType = EndUserRole<PropType>;
+type RepoType = EndUserRoleRepository<PropType>;
 
-export class RoleDomainApiImpl
-  extends DomainDataSource<AppContext, RoleData, PropType, DomainType, RepoType>
-  implements RoleDomainApi {
+export class EndUserRoleDomainApiImpl
+  extends DomainDataSource<AppContext, EndUserRoleData, PropType, DomainType, RepoType>
+  implements EndUserRoleDomainApi {
 
-  async roleAdd(input: RoleAddInput): Promise<RoleData> {
+  async roleAdd(input: RoleAddInput): Promise<EndUserRoleData> {
     console.log(`roleAdd`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized:roleCreate');
     }
 
-    let roleToReturn: RoleData;
+    let roleToReturn: EndUserRoleData;
     let community = await this.context.applicationServices.community.dataApi.getCommunityById(this.context.community?.id);
     let communityDo = new CommunityConverter().toDomain(community, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
@@ -50,18 +50,18 @@ export class RoleDomainApiImpl
       roleDo.permissions.serviceTicketPermissions.canAssignTickets = (input.permissions.serviceTicketPermissions.canAssignTickets);
       roleDo.permissions.serviceTicketPermissions.canWorkOnTickets = (input.permissions.serviceTicketPermissions.canWorkOnTickets);
 
-      roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo));
+      roleToReturn = new EndUserRoleConverter().toPersistence(await repo.save(roleDo));
     });
     return roleToReturn;
   }
 
-  async roleUpdate(input: RoleUpdateInput): Promise<RoleData> {
+  async roleUpdate(input: RoleUpdateInput): Promise<EndUserRoleData> {
     console.log(`roleUpdate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized:roleUpdate');
     }
 
-    let roleToReturn: RoleData;
+    let roleToReturn: EndUserRoleData;
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getById(input.id);
 
@@ -87,24 +87,24 @@ export class RoleDomainApiImpl
       roleDo.permissions.violationTicketPermissions.canManageTickets = (input.permissions.violationTicketPermissions.canManageTickets);
       roleDo.permissions.violationTicketPermissions.canWorkOnTickets = (input.permissions.violationTicketPermissions.canWorkOnTickets);
 
-      roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo));
+      roleToReturn = new EndUserRoleConverter().toPersistence(await repo.save(roleDo));
     });
     return roleToReturn;
   }
 
-  async roleDeleteAndReassign(input: RoleDeleteAndReassignInput): Promise<RoleData> {
+  async roleDeleteAndReassign(input: RoleDeleteAndReassignInput): Promise<EndUserRoleData> {
     console.log(`roleDeleteAndReassign`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized:roleDeleteAndReassign');
     }
 
-    let mongoNewRole = await this.context.applicationServices.role.dataApi.getRoleById(input.roleToReassignTo);
-    let newROleDo = new RoleConverter().toDomain(mongoNewRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
-    let roleToReturn: RoleData;
+    let mongoNewRole = await this.context.applicationServices.roles.endUserRole.dataApi.getRoleById(input.roleToReassignTo);
+    let newROleDo = new EndUserRoleConverter().toDomain(mongoNewRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let roleToReturn: EndUserRoleData;
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getById(input.roleToDelete);
       roleDo.deleteAndReassignTo = (newROleDo);
-      roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo));
+      roleToReturn = new EndUserRoleConverter().toPersistence(await repo.save(roleDo));
     });
     return roleToReturn;
   }

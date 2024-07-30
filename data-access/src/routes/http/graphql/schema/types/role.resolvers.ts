@@ -1,8 +1,8 @@
 import { Resolvers, Role, Community, RoleMutationResult } from '../builder/generated';
 import { isValidObjectId } from 'mongoose';
-import { Role as RoleDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/role';
+import { EndUserRole as EndUserRoleDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/roles/end-user-role';
 
-const RoleMutationResolver = async (getRole: Promise<RoleDo>): Promise<RoleMutationResult> => {
+const RoleMutationResolver = async (getRole: Promise<EndUserRoleDo>): Promise<RoleMutationResult> => {
   try {
     return {
       status: { success: true },
@@ -28,24 +28,24 @@ const role: Resolvers = {
   },
   Query: {
     role: async (_, { id }, { applicationServices }) => {
-      return (await applicationServices.role.dataApi.getRoleById(id)) as Role;
+      return (await applicationServices.roles.endUserRole.dataApi.getRoleById(id)) as Role;
     },
     roles: async (_, _args, { applicationServices }) => {
-      return (await applicationServices.role.dataApi.getRoles()) as Role[];
+      return (await applicationServices.roles.endUserRole.dataApi.getRoles()) as Role[];
     },
     rolesByCommunityId: async (_, { communityId }, { applicationServices }) => {
-      return (await applicationServices.role.dataApi.getRolesByCommunityId(communityId)) as Role[];
+      return (await applicationServices.roles.endUserRole.dataApi.getRolesByCommunityId(communityId)) as Role[];
     },
   },
   Mutation: {
     roleAdd(_parent, { input }, { applicationServices }) {
-      return RoleMutationResolver(applicationServices.role.domainApi.roleAdd(input));
+      return RoleMutationResolver(applicationServices.roles.endUserRole.domainApi.roleAdd(input));
     },
     roleUpdate(_parent, { input }, { applicationServices }) {
-      return RoleMutationResolver(applicationServices.role.domainApi.roleUpdate(input));
+      return RoleMutationResolver(applicationServices.roles.endUserRole.domainApi.roleUpdate(input));
     },
     roleDeleteAndReassign(_parent, { input }, { applicationServices }) {
-      return RoleMutationResolver(applicationServices.role.domainApi.roleDeleteAndReassign(input));
+      return RoleMutationResolver(applicationServices.roles.endUserRole.domainApi.roleDeleteAndReassign(input));
     },
   },
 };

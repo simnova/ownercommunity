@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { CosmosDataSource } from "../../data-sources/cosmos-data-source";
-import { MemberData, MemberModel, RoleModel, ViolationTicketModel } from "../../external-dependencies/datastore";
+import { MemberData, MemberModel, EndUserRoleModel, ViolationTicketModel } from "../../external-dependencies/datastore";
 import { AppContext } from "../../init/app-context-builder";
 
 export interface MemberDataApi {
@@ -26,7 +26,7 @@ export class MemberDataApiImpl
   }
   async getMembersAssignableToTickets(): Promise<MemberData[]> {
     const communityId = this.context.community?.id;
-    const result = await RoleModel.aggregate<MemberData>([
+    const result = await EndUserRoleModel.aggregate<MemberData>([
       {
         $match: {
           community: new Types.ObjectId(communityId),

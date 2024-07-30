@@ -1,4 +1,4 @@
-import { RoleProps } from "../../src/app/domain/contexts/community/role/role";
+import { EndUserRoleProps } from "../../src/app/domain/contexts/community/roles/end-user-role/end-user-role";
 
 // remove word before {. 
 // for example, description DuyTheOwner{actor} is the admin member of Community1{word} will be converted into "{actor} creates a new community named {word}."
@@ -13,7 +13,7 @@ export const DescriptionParser = (description: string) => {
   return result;
 };
 
-export const IsAdminRole = (role: RoleProps) => {
+export const IsAdminRole = (role: EndUserRoleProps) => {
   let result = false;
   if (
     role.roleName === 'admin' &&

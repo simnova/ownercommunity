@@ -8,6 +8,7 @@ import { ViolationTicketVisa, ViolationTicketVisaImplForViolationTicket } from '
 import { CommunityData, MemberData, StaffRolePermissions, EndUserRolePermissions, PropertyData, StaffRoleData, EndUserRoleData, ServiceData, ServiceTicketData, UserData, ViolationTicketData } from '../external-dependencies/datastore';
 import { ServiceVisa, ServiceVisaImplForService } from './service/service.visa';
 import { CommunityVisaImplForStaffRole } from './community/community.visa-impl.for-staff-role';
+import { CommunityPermissionsSpec } from '../domain/contexts/community/community.visa';
 
 export const SystemUserId = 'system';
 
@@ -124,12 +125,19 @@ export class SystemDatastoreVisaImpl implements DatastoreVisa {
     violationTicketPermissions: {}
   };
 
+  private readonly systemCommunityPermissions = {
+    ...this.systemEndUserRolePermissions.communityPermissions,
+    ...this.systemStaffRolePermissions.communityPermissions
+  };
+
+
+
   forCommunity(_root: CommunityData): CommunityVisa {
-    return {determineIf:  (func) => func(this.systemEndUserRolePermissions.communityPermissions) };
+    return {determineIf:  (func) => func(this.systemCommunityPermissions) };
   }
 
   forMember(_root: MemberData): CommunityVisa {
-    return {determineIf:  (func) => func(this.systemEndUserRolePermissions.communityPermissions) };
+    return {determineIf:  (func) => func(this.systemCommunityPermissions) };
   }
 
   forProperty(_root: PropertyData): PropertyVisa {
@@ -137,11 +145,11 @@ export class SystemDatastoreVisaImpl implements DatastoreVisa {
   }
 
   forEndUserRole(_root: EndUserRoleData): CommunityVisa {
-    return {determineIf: (func) => func(this.systemEndUserRolePermissions.communityPermissions) };
+    return {determineIf: (func) => func(this.systemCommunityPermissions) };
   }
   
   forStaffRole(_root: StaffRoleData): CommunityVisa {
-    return {determineIf: (func) => func(this.systemStaffRolePermissions.communityPermissions) };
+    return {determineIf: (func) => func(this.systemCommunityPermissions) };
   }
 
   forService(_root: ServiceData): ServiceVisa {

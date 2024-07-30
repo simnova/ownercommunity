@@ -1,17 +1,17 @@
-import { CosmosDataSource } from "../../data-sources/cosmos-data-source";
-import { RoleData } from "../../external-dependencies/datastore";
-import { AppContext } from "../../init/app-context-builder";
+import { CosmosDataSource } from "../../../data-sources/cosmos-data-source";
+import { EndUserRoleData } from "../../../external-dependencies/datastore";
+import { AppContext } from "../../../init/app-context-builder";
 
-export interface RoleDataApi {
-  getRoleById(id: string): Promise<RoleData>;
-  getRoles(): Promise<RoleData[]>;
-  getRolesByCommunityId(communityId: string): Promise<RoleData[]>;
+export interface EndUserRoleDataApi {
+  getRoleById(id: string): Promise<EndUserRoleData>;
+  getRoles(): Promise<EndUserRoleData[]>;
+  getRolesByCommunityId(communityId: string): Promise<EndUserRoleData[]>;
 }
 
-export class RoleDataApiImpl extends CosmosDataSource<RoleData, AppContext>
-  implements RoleDataApi {
+export class EndUserRoleDataApiImpl extends CosmosDataSource<EndUserRoleData, AppContext>
+  implements EndUserRoleDataApi {
 
-  async getRoleById(id: string): Promise<RoleData> {
+  async getRoleById(id: string): Promise<EndUserRoleData> {
     const roles = await this.findByFields({ community: this.context.community?.id });
     const roleToReturn = roles.find(role => role.id === id);
     if (roleToReturn && this.applyPermissions(roleToReturn)) {
@@ -19,19 +19,19 @@ export class RoleDataApiImpl extends CosmosDataSource<RoleData, AppContext>
     }
   }
 
-  async getRoles(): Promise<RoleData[]> {
+  async getRoles(): Promise<EndUserRoleData[]> {
     const rolesToReturn = await this.findByFields({ community: this.context.community?.id });
     rolesToReturn.filter(roleData => this.applyPermissions(roleData));
     return rolesToReturn;
   }
 
-  async getRolesByCommunityId(communityId: string): Promise<RoleData[]> {
+  async getRolesByCommunityId(communityId: string): Promise<EndUserRoleData[]> {
     const rolesToReturn = await this.findByFields({ community: communityId });
     rolesToReturn.filter(roleData => this.applyPermissions(roleData));
     return rolesToReturn;
   }
 
-  private applyPermissions(roleData: RoleData) {
+  private applyPermissions(roleData: EndUserRoleData) {
     if (this.context.passport.datastoreVisa.forEndUserRole(roleData).determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       return true;
     }

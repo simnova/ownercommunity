@@ -1,6 +1,6 @@
 import { Schema, Model, PopulatedDoc, ObjectId } from 'mongoose';
 import * as Community from '../community';
-import { Role, RoleModel } from './role';
+import { Role, RoleModel, roleOptions } from './role';
 
 export interface EndUserRoleServicePermissions {
   id?: ObjectId;
@@ -97,10 +97,7 @@ export const EndUserRoleSchema = new Schema<EndUserRole, Model<EndUserRole>, End
       },
     },
   },
-  {
-    optimisticConcurrency: true,
-    shardKey: { community: 1 },
-  }
+  roleOptions
 ).index({ roleName: 1, community: 1 }, { unique: true });
 
 export const EndUserRoleModel = RoleModel.discriminator('end-user-roles', EndUserRoleSchema);

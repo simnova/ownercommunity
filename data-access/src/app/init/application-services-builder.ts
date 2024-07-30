@@ -12,7 +12,7 @@ import { AppContext } from "./app-context-builder";
 import { CommunityApiImpl } from "../application-services/community";
 import { MemberApiImpl } from "../application-services/member";
 import { PropertyApiImpl } from "../application-services/property";
-import { RoleApiImpl } from "../application-services/role";
+import { RoleApiImpl } from "../application-services/roles";
 import { ServiceApiImpl } from "../application-services/service";
 import { UserApiImpl } from "../application-services/user";
 import { CasesApiImpl } from "../application-services/cases";
@@ -23,7 +23,7 @@ export class ApplicationServicesBuilder implements ApplicationServices {
   property: PropertyApi;
   cases: CasesApi;
   service: ServiceApi;
-  role: RoleApi;
+  roles: RoleApi;
   user: UserApi;
 
   constructor(context: AppContext) {
@@ -32,7 +32,7 @@ export class ApplicationServicesBuilder implements ApplicationServices {
     this.property = new PropertyApiImpl(context);
     this.cases = new CasesApiImpl(context);
     this.service = new ServiceApiImpl(context);
-    this.role = new RoleApiImpl(context);
+    this.roles = new RoleApiImpl(context);
     this.user = new UserApiImpl(context);
   }
 }

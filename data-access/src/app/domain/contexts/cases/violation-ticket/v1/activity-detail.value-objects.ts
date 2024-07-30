@@ -9,6 +9,7 @@ export const ActivityTypeCodes = {
   Assigned: 'ASSIGNED',
   Updated: 'UPDATED',
   InProgress: 'INPROGRESS',
+  Paid: 'PAID',
   Completed: 'COMPLETED',
   Closed: 'CLOSED'
 }

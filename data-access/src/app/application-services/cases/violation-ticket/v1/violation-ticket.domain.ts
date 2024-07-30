@@ -92,8 +92,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
         propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
         violationTicket.Property = propertyDo;
       }
-
-      violationTicket.detectValueChangeAndAddTicketActivityLogs(input, propertyDo);
+      
       if (input.title) violationTicket.Title = input.title;
       if (input.description) violationTicket.Description = input.description;
       if (input.priority) violationTicket.Priority = input.priority;
@@ -207,7 +206,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       let transactionType: string = 'PAYMENT';
       let transaction = violationTicket.requestAddPaymentTransaction();
       let clientReferenceCode = transaction.id;
-      const response: TransactionProps = await this.context.applicationServices.payment.cybersourceApi.processPayment({
+      const response: TransactionProps = await this.context.applicationServices.member.cybersourceApi.processPayment({
         id: violationTicket.id,
         paymentInstrumentId: input.paymentInstrumentId,
         amount: input.paymentAmount,

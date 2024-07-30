@@ -496,29 +496,28 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({
           onValuesChange={onValuesChange}
           onFinish={async () => {
             setIsAddingPaymentMethod(true);
-            const input = {
-              ...formValues,
-              paymentToken,
-              isDefault: isDefaultPaymentMethod
-            } as AddPaymentInstrumentInput;
-            console.log('FORM VALUES', input);
-            const response = await onAddPaymentMethod({
-              ...formValues,
-              paymentToken,
-              isDefault: isDefaultPaymentMethod
-            } as AddPaymentInstrumentInput);
 
-            if (response?.errors) {
+            try {
+              const response = await onAddPaymentMethod({
+                ...formValues,
+                paymentToken,
+                isDefault: isDefaultPaymentMethod
+              } as AddPaymentInstrumentInput);
+
+              if (response?.data?.memberAddPaymentInstrument.status.success) {
+                message.success('Payment method added successfully.');
+                form.resetFields();
+                // set stepstate to card details
+                setStep(STEPS.CARD_DETAILS);
+                document.getElementById('expirationMonthPicker')?.setAttribute('value', '');
+                paymentTokenForm.setFieldsValue({ expiration: undefined });
+                useAddPaymentMethod.onClose();
+              }
+            } catch (error) {
+              console.error('Error adding payment method', error);
               message.error('An error occurred while adding the payment method.');
-            } else if (response?.data?.memberAddPaymentInstrument.status.success) {
-              message.success('Payment method added successfully.');
-              form.resetFields();
-              // set stepstate to card details
-              setStep(STEPS.CARD_DETAILS);
-              document.getElementById('expirationMonthPicker')?.setAttribute('value', '');
-              paymentTokenForm.setFieldsValue({ expiration: undefined });
-              useAddPaymentMethod.onClose();
             }
+
             setIsAddingPaymentMethod(false);
           }}
         >

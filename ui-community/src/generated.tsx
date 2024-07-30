@@ -891,6 +891,8 @@ export type PaymentInstrument = {
   __typename?: 'PaymentInstrument';
   cardNumber?: Maybe<Scalars['String']>;
   cardType?: Maybe<Scalars['String']>;
+  expirationMonth?: Maybe<Scalars['String']>;
+  expirationYear?: Maybe<Scalars['String']>;
   isDefault?: Maybe<Scalars['Boolean']>;
   paymentInstrumentId?: Maybe<Scalars['String']>;
 };

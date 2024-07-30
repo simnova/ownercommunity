@@ -42,16 +42,16 @@ Shared structure for all Context Builder classes. Exists as a member field on th
 Abstract classes which are meant to serve as a generic template for Route Context Builders to extend based on the type of Azure Function being used. Currently, there are three types of Seedwork Context Builders: 
 
 - `HttpContextBuilder` 
-  - Location: `/seedwork/seedwork-az-function-handler_http/http-context-builder.ts`
+  - Location: `/seedwork/az-function-handler-seedwork-http/http-context-builder.ts`
 - `QueueContextBuilder` 
-  - Location: `/seedwork/seedwork-az-function-handler_http/http-context-builder.ts`
+  - Location: `/seedwork/az-function-handler-seedwork-queue/queue-context-builder.ts`
 - `TimerContextBuilder` 
-  - Location: `seedwork/seedwork-az-function-handler_timer/timer-context-builder.ts`
+  - Location: `/seedwork/az-function-handler-seedwork-timer/timer-context-builder.ts`
 
 The functions on the classes as well as the interfaces will be consistent across all projects. 
 There is also an additional class `BaseContextBuilder` which contains shared logic for all the Seedwork Context Builder classes and is extended by them.
 
-- `BaseContextBuilder` Location: `/seedwork/seedwork-az-function-handler_base/base-context-builder.ts`
+- `BaseContextBuilder` Location: `/seedwork/az-function-handler-seedwork-base/base-context-builder.ts`
 
 ### Route Context Builders
 These classes extend one of the Seedwork Context Builder classes depending on the type of Azure Function. Their implementation is specific to each project, depending on the use case and needs of that Azure Function. A common one we will be using in our projects is `GraphqlContextBuilder`, which extends the seedwork class `HttpContextBuilder`, since it is an HTTP Azure Function endpoint. 
@@ -140,7 +140,7 @@ For more involved Azure Functions which may require additional fields to be pres
 
 In this example, we will go through the `GraphqlContextBuilder` class to showcase how to extend the context interface as well as provide additional functionality on the context initialization.
 
-Since our GraphQL Azure Function is an HTTP endpoint, we implement the `GrapqhlContext` interface by extending the `HttpContext` interface, which provides some common fields needed for all HTTP contexts such as the `HttpRequest` object.
+Since our GraphQL Azure Function is an HTTP endpoint, we implement the `GraphqlContext` interface by extending the `HttpContext` interface, which provides some common fields needed for all HTTP contexts such as the `HttpRequest` object.
 
 ```typescript
 export interface GraphqlContext extends HttpContext {

@@ -1,16 +1,16 @@
-import { InvocationContext } from "@azure/functions";
-import { InfrastructureServices } from '../../app/infrastructure-services';
-import { AppContext, AppContextBuilder, VerifiedUser } from '../../app/init/app-context-builder';
+import { InvocationContext, Timer } from "@azure/functions";
+import { InfrastructureServices } from '../../../app/infrastructure-services';
+import { AppContext, AppContextBuilder, VerifiedUser } from '../../../app/init/app-context-builder';
 
 
-export interface QueueContext extends AppContext{
+export interface TimerContext extends AppContext{
   init(
-    queueItem: any, context: InvocationContext
+    timer: Timer, context: InvocationContext
   ): Promise<void>;
 }
 
-export class QueueContextBuilder extends AppContextBuilder implements QueueContext{
-  protected _queueName: string;
+export class TimerContextBuilder extends AppContextBuilder implements TimerContext{
+  protected _timerName: string;
 
   constructor(
     infrastructureServices: InfrastructureServices,
@@ -19,9 +19,9 @@ export class QueueContextBuilder extends AppContextBuilder implements QueueConte
   }
 
   public async init(
-    queueItem: any, context: InvocationContext 
+    timer: Timer, context: InvocationContext 
     ) {
-    this._queueName = context.functionName;
+    this._timerName = context.functionName;
     await this.setAppContext();
   }
   
@@ -37,7 +37,7 @@ export class QueueContextBuilder extends AppContextBuilder implements QueueConte
   private async getVerifiedUser(): Promise<VerifiedUser> {
     return {
         verifiedJWT: {
-          name: this._queueName,
+          name: this._timerName,
           given_name: 'SYSTEM',
           family_name: 'SYSTEM',
           email: 'SYSTEM',

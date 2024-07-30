@@ -48,8 +48,8 @@ app.http('graphql', {
   handler: wrapFunctionHandler(
     startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
       context: async ({ req }) => {
-        let context = new ApolloContext();
-        await context.init(req, portalTokenValidator, infrastructureServices);
+        let context = new ApolloContext(infrastructureServices, portalTokenValidator);
+        await context.init(req);
         return context;
       },
     })

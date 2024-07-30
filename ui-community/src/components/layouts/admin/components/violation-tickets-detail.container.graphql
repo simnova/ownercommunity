@@ -4,12 +4,6 @@ query AdminViolationTicketsDetailContainerMembersAssignableToTickets($violationT
   }
 }
 
-# query AdminServiceTicketsDetailContainerProperties {
-#   properties {
-#     ...AdminServiceTicketsDetailContainerPropertyFields
-#   }
-# }
-
 query AdminServiceTicketsDetailContainerViolationTicket($id: ObjectID!) {
   violationTicket(id: $id) {
     ...AdminViolationTicketsDetailContainerViolationTicketFields

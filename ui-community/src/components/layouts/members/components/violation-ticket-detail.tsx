@@ -111,10 +111,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               oldValue = `$ ${oldValue}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }
 
-            if(field === 'Penalty paid date') {
-                newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY h:mm A');
-                oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY h:mm A');
-          }
+            if (field === 'Penalty paid date') {
+              newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY h:mm A');
+              oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY h:mm A');
+            }
             return (
               <div className="flex gap-1">
                 <b>{field}:</b>
@@ -199,17 +199,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             <br />
             <div>
               <br />
-
-              {props.data.violationTicket.status === 'SUBMITTED' && nextState !== 'DRAFT' && (
-                <Form.Item name={['assignedTo', 'id']} label="Assigned To">
-                  <Select
-                    allowClear={true}
-                    placeholder="Select a Member"
-                    options={[props.data.members]}
-                    fieldNames={{ label: 'memberName', value: 'id' }}
-                  />
-                </Form.Item>
-              )}
             </div>
             <Form.Item name={['activityDescription']} label="Activity Description">
               <TextArea rows={4} placeholder="Reason for status change." maxLength={2000} />

@@ -160,6 +160,8 @@ type PaymentInstrument {
   paymentInstrumentId: String
   cardNumber: String # Masked card number
   isDefault: Boolean
+  expirationYear: String
+  expirationMonth: String
 }
 
 type PaymentInstrumentResult {

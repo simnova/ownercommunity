@@ -81,12 +81,6 @@ export class Transaction extends Entity<TransactionProps> implements Transaction
     this.props.clientReferenceCode = clientReferenceCode.valueOf();
   }
 
-  // set AmountDetails(amountDetails: ValueObjects.AmountDetails) {
-  //   this.props.amountDetails.amount = amountDetails.amount.valueOf();
-  //   this.props.amountDetails.authorizedAmount = amountDetails.authorizedAmount.valueOf();
-  //   this.props.amountDetails.currency = amountDetails.currency.valueOf();
-  // }
-
   set Amount(amount: ValueObjects.AmountDetails["amount"]) {
     this.props.amountDetails.amount = amount.valueOf();
   }
@@ -98,20 +92,20 @@ export class Transaction extends Entity<TransactionProps> implements Transaction
   set Currency(currency: ValueObjects.AmountDetails["currency"]) {
     this.props.amountDetails.currency = currency.valueOf();
   }
-  set Description(description: ValueObjects.Description) {
-    this.props.description = description.valueOf();
+  set Description(description: string) {
+    this.props.description = new ValueObjects.Description(description).valueOf();
   }
 
-  set Type(type: ValueObjects.Type) {
-    this.props.type = type.valueOf();
+  set Type(type: string) {
+    this.props.type = new ValueObjects.Type(type).valueOf();
   }
 
-  set Status(status: ValueObjects.Status) {
-    this.props.status = status.valueOf();
+  set Status(status: string) {
+    this.props.status = new ValueObjects.Status(status).valueOf();
   }
 
-  set ReconciliationId(reconciliationId: ValueObjects.ReconciliationId) {
-    this.props.reconciliationId = reconciliationId.valueOf();
+  set ReconciliationId(reconciliationId: string) {
+    this.props.reconciliationId = new ValueObjects.ReconciliationId(reconciliationId).valueOf();
   }
 
   set IsSuccess(isSuccess: boolean) {

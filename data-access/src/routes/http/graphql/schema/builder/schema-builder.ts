@@ -10,7 +10,7 @@ import { JsonFileLoader } from '@graphql-tools/json-file-loader';
 import * as Scalars from 'graphql-scalars';
 import { GraphqlContext } from '../../init/graphql-context-builder';
 
-const schema = loadSchemaSync('./src/graphql/schema/builder/graphql.schema.json', {
+const schema = loadSchemaSync('./src/routes/http/graphql/schema/builder/graphql.schema.json', {
   loaders: [new JsonFileLoader()],
 });
 

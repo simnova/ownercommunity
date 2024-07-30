@@ -1,7 +1,6 @@
 
-import { CommunityPermissionsSpec } from "../role/community-permissions";
 import { MemberEntityReference } from './member';
-import { CommunityVisa } from "../community.visa";
+import { CommunityVisa, CommunityPermissionsSpec } from "../community.visa";
 
 export class CommunityVisaImplForMember<root extends MemberEntityReference> implements CommunityVisa {
   constructor(private root: root, private member: MemberEntityReference) {}  

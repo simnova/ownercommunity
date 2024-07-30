@@ -4,7 +4,7 @@ import * as ValueObjects from './member.value-objects';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
 import { Account, AccountEntityReference, AccountProps } from './account';
-import { Role, RoleEntityReference, RoleProps } from '../role/role';
+import { EndUserRole, EndUserRoleEntityReference, EndUserRoleProps } from '../roles/end-user-role/end-user-role';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { Profile, ProfileEntityReference, ProfileProps } from './profile';
 import { CommunityVisa } from "../community.visa";
@@ -21,8 +21,8 @@ export interface MemberProps extends EntityProps {
   readonly community: CommunityProps;
   setCommunityRef: (community: CommunityEntityReference) => void;
   readonly accounts: PropArray<AccountProps>;
-  readonly role: RoleProps;
-  setRoleRef: (role: RoleEntityReference) => void;
+  readonly role: EndUserRoleProps;
+  setRoleRef: (role: EndUserRoleEntityReference) => void;
   readonly profile: ProfileProps;
   readonly createdAt: Date;
   readonly updatedAt: Date;
@@ -33,7 +33,7 @@ export interface MemberProps extends EntityProps {
 export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'community' | 'setCommunityRef' | 'accounts' | 'role' | 'setRoleRef' | 'profile' | 'customViews'>> {
   readonly community: CommunityEntityReference;
   readonly accounts: ReadonlyArray<AccountEntityReference>;
-  readonly role: RoleEntityReference;
+  readonly role: EndUserRoleEntityReference;
   readonly profile: ProfileEntityReference;
   readonly customViews: ReadonlyArray<CustomViewEntityReference>;
 }
@@ -63,8 +63,8 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   get accounts(): ReadonlyArray<Account> {
     return this.props.accounts.items.map((account) => new Account(account, this.context, this.visa));
   } // return account as it's an embedded document not a reference (allows editing)
-  get role(): RoleEntityReference {
-    return new Role(this.props.role, this.context);
+  get role(): EndUserRoleEntityReference {
+    return new EndUserRole(this.props.role, this.context);
   }
   get profile() {
     return new Profile(this.props.profile, this.visa);
@@ -108,7 +108,7 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
     this.props.setCommunityRef(community);
   }
 
-  set Role(role: RoleEntityReference) {
+  set Role(role: EndUserRoleEntityReference) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set role');
     }

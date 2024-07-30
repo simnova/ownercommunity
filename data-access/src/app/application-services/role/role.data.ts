@@ -32,7 +32,7 @@ export class RoleDataApiImpl extends CosmosDataSource<RoleData, AppContext>
   }
 
   private applyPermissions(roleData: RoleData) {
-    if (this.context.passport.datastoreVisa.forRole(roleData).determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
+    if (this.context.passport.datastoreVisa.forEndUserRole(roleData).determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       return true;
     }
     return false;

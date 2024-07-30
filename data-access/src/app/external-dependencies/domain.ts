@@ -8,10 +8,15 @@ export { MongoMemberUnitOfWork as MemberUnitOfWork } from '../../infrastructure-
 export { MemberDomainAdapter, MemberConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/member/member.domain-adapter';
 export { MongoMemberRepository as MemberRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/member/member.mongo-repository';
 
-// role
-export { MongoRoleUnitOfWork as RoleUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/role/role.mongo-uow';
-export { RoleDomainAdapter, RoleConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/role/role.domain-adapter';
-export { MongoRoleRepository as RoleRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/role/role.mongo-repository';
+// end user role
+export { MongoEndUserRoleUnitOfWork as EndUserRoleUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.mongo-uow';
+export { EndUserRoleDomainAdapter, EndUserRoleConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.domain-adapter';
+export { MongoEndUserRoleRepository as EndUserRoleRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.mongo-repository';
+
+// staff role
+export { MongoStaffRoleUnitOfWork as StaffRoleUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/staff-role/staff-role.mongo-uow';
+export { StaffRoleDomainAdapter, StaffRoleConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/staff-role/staff-role.domain-adapter';
+export { MongoStaffRoleRepository as StaffRoleRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/staff-role/staff-role.mongo-repository';
 
 // property
 export { MongoPropertyUnitOfWork as PropertyUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/property/property.mongo-uow';

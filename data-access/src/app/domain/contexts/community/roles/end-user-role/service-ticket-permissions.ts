@@ -1,20 +1,20 @@
-import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
-import { CommunityVisa } from "../community.visa";
+import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { CommunityVisa } from "../../community.visa";
 
-export interface ServiceTicketPermissionsSpec {
-  canCreateTickets: boolean;
-  canManageTickets: boolean;
-  canAssignTickets: boolean;
-  canWorkOnTickets: boolean;
-  isEditingOwnTicket: boolean;
-  isEditingAssignedTicket: boolean;
-  isSystemAccount: boolean;
+export interface EndUserRoleServiceTicketPermissionsSpec {
+  canCreateTickets?: boolean;
+  canManageTickets?: boolean;
+  canAssignTickets?: boolean;
+  canWorkOnTickets?: boolean;
+  isEditingOwnTicket?: boolean;
+  isEditingAssignedTicket?: boolean;
+  isSystemAccount?: boolean;
 }
 
-export interface ServiceTicketPermissionsProps extends ServiceTicketPermissionsSpec, EntityProps {}
+export interface EndUserRoleServiceTicketPermissionsProps extends EndUserRoleServiceTicketPermissionsSpec, EntityProps {}
 
-export class ServiceTicketPermissions extends Entity<ServiceTicketPermissionsProps> implements ServiceTicketPermissionsEntityReference {
-  constructor(props: ServiceTicketPermissionsProps, private visa: CommunityVisa) {
+export class EndUserRoleServiceTicketPermissions extends Entity<EndUserRoleServiceTicketPermissionsProps> implements EndUserRoleServiceTicketPermissionsEntityReference {
+  constructor(props: EndUserRoleServiceTicketPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }
 
@@ -71,5 +71,5 @@ export class ServiceTicketPermissions extends Entity<ServiceTicketPermissionsPro
   }
 }
 
-export interface ServiceTicketPermissionsEntityReference extends Readonly<ServiceTicketPermissionsProps> {}
+export interface EndUserRoleServiceTicketPermissionsEntityReference extends Readonly<EndUserRoleServiceTicketPermissionsProps> {}
 

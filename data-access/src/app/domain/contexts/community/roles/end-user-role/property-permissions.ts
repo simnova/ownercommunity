@@ -1,17 +1,17 @@
-import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
-import { CommunityVisa } from "../community.visa";
+import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { CommunityVisa } from "../../community.visa";
 
-export interface PropertyPermissionsSpec {
-  canManageProperties: boolean;
-  canEditOwnProperty: boolean;
-  isEditingOwnProperty: boolean;
-  isSystemAccount: boolean;
+export interface EndUserRolePropertyPermissionsSpec {
+  canManageProperties?: boolean;
+  canEditOwnProperty?: boolean;
+  isEditingOwnProperty?: boolean;
+  isSystemAccount?: boolean;
 }
 
-export interface PropertyPermissionsProps extends PropertyPermissionsSpec, EntityProps {}
+export interface EndUserRolePropertyPermissionsProps extends EndUserRolePropertyPermissionsSpec, EntityProps {}
 
-export class PropertyPermissions extends Entity<PropertyPermissionsProps> implements PropertyPermissionsEntityReference {
-  constructor(props: PropertyPermissionsProps, private visa: CommunityVisa) {
+export class EndUserRolePropertyPermissions extends Entity<EndUserRolePropertyPermissionsProps> implements EndUserRolePropertyPermissionsEntityReference {
+  constructor(props: EndUserRolePropertyPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }
 
@@ -45,4 +45,4 @@ export class PropertyPermissions extends Entity<PropertyPermissionsProps> implem
   }
 }
 
-export interface PropertyPermissionsEntityReference extends Readonly<PropertyPermissionsProps> {}
+export interface EndUserRolePropertyPermissionsEntityReference extends Readonly<EndUserRolePropertyPermissionsProps> {}

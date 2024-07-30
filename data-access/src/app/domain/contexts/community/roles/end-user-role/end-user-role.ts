@@ -1,33 +1,33 @@
-import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
-import { Permissions, PermissionsEntityReference, PermissionsProps } from './permissions';
-import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
-import { CommunityVisa } from "../community.visa";
-import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext } from '../../../domain-execution-context';
-import { RoleDeletedReassignEvent } from '../../../events/types/role-deleted-reassign';
+import { EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { EndUserRolePermissions, EndUserRolePermissionsEntityReference, EndUserRolePermissionsProps } from './end-user-role-permissions';
+import { Community, CommunityProps, CommunityEntityReference } from '../../community/community';
+import { CommunityVisa } from "../../community.visa";
+import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
+import { DomainExecutionContext } from '../../../../domain-execution-context';
+import { RoleDeletedReassignEvent } from '../../../../events/types/role-deleted-reassign';
 
-export interface RoleProps extends EntityProps {
+export interface EndUserRoleProps extends EntityProps {
   roleName: string;
   readonly community: CommunityProps;
   setCommunityRef: (community: CommunityEntityReference) => void;
   isDefault: boolean;
-  permissions: PermissionsProps;
+  permissions: EndUserRolePermissionsProps;
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly schemaVersion: string;
 }
 
-export interface RoleEntityReference extends Readonly<Omit<RoleProps, 'community' | 'setCommunityRef' | 'permissions'>> {
+export interface EndUserRoleEntityReference extends Readonly<Omit<EndUserRoleProps, 'community' | 'setCommunityRef' | 'permissions'>> {
   readonly community: CommunityEntityReference;
-  readonly permissions: PermissionsEntityReference;
+  readonly permissions: EndUserRolePermissionsEntityReference;
 }
 
-export class Role<props extends RoleProps> extends AggregateRoot<props> implements RoleEntityReference {
+export class EndUserRole<props extends EndUserRoleProps> extends AggregateRoot<props> implements EndUserRoleEntityReference {
   private isNew: boolean = false;
   private readonly visa: CommunityVisa;
   constructor(props: props, private context: DomainExecutionContext) {
     super(props);
-    this.visa = context.domainVisa.forRole(this);
+    this.visa = context.domainVisa.forEndUserRole(this);
   }
 
   get roleName() {
@@ -40,7 +40,7 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
     return this.props.isDefault;
   }
   get permissions() {
-    return new Permissions(this.props.permissions, this.visa);
+    return new EndUserRolePermissions(this.props.permissions, this.visa);
   }
   get createdAt() {
     return this.props.createdAt;
@@ -52,14 +52,14 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
     return this.props.schemaVersion;
   }
 
-  public static getNewInstance<props extends RoleProps>(
+  public static getNewInstance<props extends EndUserRoleProps>(
     newProps: props,
     roleName: string,
     isDefault: boolean,
     community: CommunityEntityReference,
     context: DomainExecutionContext
-  ): Role<props> {
-    const role = new Role(newProps, context);
+  ): EndUserRole<props> {
+    const role = new EndUserRole(newProps, context);
     role.isNew = true;
     role.roleName = roleName;
     role.setCommunity = community;
@@ -77,7 +77,7 @@ export class Role<props extends RoleProps> extends AggregateRoot<props> implemen
     this.props.setCommunityRef(community);
   }
 
-  set deleteAndReassignTo(roleRef: RoleEntityReference) {
+  set deleteAndReassignTo(roleRef: EndUserRoleEntityReference) {
     if (!this.isDeleted && !this.isDefault && !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('You do not have permission to delete this role');
     }

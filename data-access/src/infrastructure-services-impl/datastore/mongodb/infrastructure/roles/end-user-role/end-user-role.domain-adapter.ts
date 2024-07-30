@@ -1,25 +1,27 @@
-import { Role, Permissions, CommunityPermissions, PropertyPermissions, ServicePermissions, ServiceTicketPermissions, ViolationTicketPermissions } from '../../models/role';
-import { Role as RoleDO, RoleProps } from '../../../../../app/domain/contexts/community/role/role';
-import { MongooseDomainAdapter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
-import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
+import { EndUserRole, EndUserRolePermissions, EndUserRoleCommunityPermissions, EndUserRolePropertyPermissions, EndUserRoleServicePermissions, EndUserRoleServiceTicketPermissions, EndUserRoleViolationTicketPermissions } from '../../../models/roles/end-user-role';
+import { EndUserRole as EndUserRoleDO, EndUserRoleProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
+import { MongooseDomainAdapter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
+import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 
-import { CommunityProps } from '../../../../../app/domain/contexts/community/community/community';
-import { CommunityPermissionsProps } from '../../../../../app/domain/contexts/community/role/community-permissions';
-import { PermissionsProps } from '../../../../../app/domain/contexts/community/role/permissions';
-import { CommunityDomainAdapter } from '../community/community.domain-adapter';
-import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
-import { PropertyPermissionsProps } from '../../../../../app/domain/contexts/community/role/property-permissions';
-import { ServicePermissionsProps } from '../../../../../app/domain/contexts/community/role/service-permissions';
-import { ServiceTicketPermissionsProps } from '../../../../../app/domain/contexts/community/role/service-ticket-permissions';
-import { ViolationTicketPermissionsProps } from '../../../../../app/domain/contexts/community/role/violation-ticket-permissions';
+import { CommunityProps } from '../../../../../../app/domain/contexts/community/community/community';
 
-export class RoleConverter extends MongoTypeConverter<DomainExecutionContext, Role, RoleDomainAdapter, RoleDO<RoleDomainAdapter>> {
+import { CommunityDomainAdapter } from '../../community/community.domain-adapter';
+import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { EndUserRolePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-permissions';
+import { EndUserRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/community-permissions';
+import { EndUserRolePropertyPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/property-permissions';
+import { EndUserRoleServicePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/service-permissions';
+import { EndUserRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/service-ticket-permissions';
+import { EndUserRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/violation-ticket-permissions';
+
+
+export class EndUserRoleConverter extends MongoTypeConverter<DomainExecutionContext, EndUserRole, EndUserRoleDomainAdapter, EndUserRoleDO<EndUserRoleDomainAdapter>> {
   constructor() {
-    super(RoleDomainAdapter, RoleDO);
+    super(EndUserRoleDomainAdapter, EndUserRoleDO);
   }
 }
 
-export class RoleDomainAdapter extends MongooseDomainAdapter<Role> implements RoleProps {
+export class EndUserRoleDomainAdapter extends MongooseDomainAdapter<EndUserRole> implements EndUserRoleProps {
   get roleName() {
     return this.doc.roleName;
   }
@@ -46,43 +48,43 @@ export class RoleDomainAdapter extends MongooseDomainAdapter<Role> implements Ro
     this.doc.isDefault = isDefault;
   }
 
-  public get permissions(): PermissionsProps {
+  public get permissions(): EndUserRolePermissionsProps {
     if (!this.doc.permissions) {
       this.doc.set('permissions', {});
     }
-    return new PermissionsAdapter(this.doc.permissions);
+    return new EndUserRolePermissionsAdapter(this.doc.permissions);
   }
 }
 
-class PermissionsAdapter implements PermissionsProps {
-  constructor(public readonly props: Permissions) {}
+class EndUserRolePermissionsAdapter implements EndUserRolePermissionsProps {
+  constructor(public readonly props: EndUserRolePermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
 
   public get communityPermissions() {
-    return new CommunityPermissionsAdapter(this.props.communityPermissions);
+    return new EndUserRoleCommunityPermissionsAdapter(this.props.communityPermissions);
   }
 
   public get propertyPermissions() {
-    return new PropertyPermissionsAdapter(this.props.propertyPermissions);
+    return new EndUserRolePropertyPermissionsAdapter(this.props.propertyPermissions);
   }
 
   public get servicePermissions() {
-    return new ServicePermissionsAdapter(this.props.servicePermissions);
+    return new EndUserRoleServicePermissionsAdapter(this.props.servicePermissions);
   }
 
   public get serviceTicketPermissions() {
-    return new ServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions);
+    return new EndUserRoleServiceTicketPermissionsAdapter(this.props.serviceTicketPermissions);
   }
 
   public get violationTicketPermissions() {
-    return new AdminTicketPermissionsAdapter(this.props.violationTicketPermissions);
+    return new EndUserRoleAdminTicketPermissionsAdapter(this.props.violationTicketPermissions);
   }
 }
 
-class CommunityPermissionsAdapter implements CommunityPermissionsProps {
-  constructor(public readonly props: CommunityPermissions) {}
+class EndUserRoleCommunityPermissionsAdapter implements EndUserRoleCommunityPermissionsProps {
+  constructor(public readonly props: EndUserRoleCommunityPermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
@@ -137,8 +139,8 @@ class CommunityPermissionsAdapter implements CommunityPermissionsProps {
   }
 }
 
-class PropertyPermissionsAdapter implements PropertyPermissionsProps {
-  constructor(public readonly props: PropertyPermissions) {}
+class EndUserRolePropertyPermissionsAdapter implements EndUserRolePropertyPermissionsProps {
+  constructor(public readonly props: EndUserRolePropertyPermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
@@ -165,8 +167,8 @@ class PropertyPermissionsAdapter implements PropertyPermissionsProps {
   }
 }
 
-class ServicePermissionsAdapter implements ServicePermissionsProps {
-  constructor(public readonly props: ServicePermissions) {}
+class EndUserRoleServicePermissionsAdapter implements EndUserRoleServicePermissionsProps {
+  constructor(public readonly props: EndUserRoleServicePermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
@@ -183,8 +185,8 @@ class ServicePermissionsAdapter implements ServicePermissionsProps {
   }
 }
 
-class ServiceTicketPermissionsAdapter implements ServiceTicketPermissionsProps {
-  constructor(public readonly props: ServiceTicketPermissions) {}
+class EndUserRoleServiceTicketPermissionsAdapter implements EndUserRoleServiceTicketPermissionsProps {
+  constructor(public readonly props: EndUserRoleServiceTicketPermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }
@@ -228,8 +230,8 @@ class ServiceTicketPermissionsAdapter implements ServiceTicketPermissionsProps {
   }
 }
 
-class AdminTicketPermissionsAdapter implements ViolationTicketPermissionsProps {
-  constructor(public readonly props: ViolationTicketPermissions) {}
+class EndUserRoleAdminTicketPermissionsAdapter implements EndUserRoleViolationTicketPermissionsProps {
+  constructor(public readonly props: EndUserRoleViolationTicketPermissions) {}
   public get id() {
     return this.props.id.valueOf().toString();
   }

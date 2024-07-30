@@ -1,8 +1,11 @@
 
 import { Visa } from '../../../../../../seedwork/passport-seedwork/visa';
 import { MemberEntityReference } from '../member/member';
-import { ServicePermissionsSpec } from '../role/service-permissions';
+import { StaffRoleServicePermissionsSpec } from '../roles/staff-role/service-permissions';
+import { EndUserRoleServicePermissionsSpec } from '../roles/end-user-role/service-permissions';
 import { ServiceEntityReference } from './service';
+
+export interface ServicePermissionsSpec extends StaffRoleServicePermissionsSpec, EndUserRoleServicePermissionsSpec {}
 
 export interface ServiceVisa extends Visa {
   determineIf(func:((permissions:ServicePermissionsSpec) => boolean)) :  boolean ;

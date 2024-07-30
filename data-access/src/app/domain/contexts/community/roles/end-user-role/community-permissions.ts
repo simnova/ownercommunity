@@ -1,21 +1,21 @@
-import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
-import { CommunityVisa } from "../community.visa";
+import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { CommunityVisa } from "../../community.visa";
 
-export interface CommunityPermissionsSpec {
-  canManageRolesAndPermissions: boolean;
-  canManageCommunitySettings: boolean;
-  canManageSiteContent: boolean;
-  canManageMembers: boolean;
-  canEditOwnMemberProfile: boolean;
-  canEditOwnMemberAccounts: boolean;
-  isEditingOwnMemberAccount: boolean;
-  isSystemAccount: boolean;
+export interface EndUserRoleCommunityPermissionsSpec {
+  canManageRolesAndPermissions?: boolean;
+  canManageCommunitySettings?: boolean;
+  canManageSiteContent?: boolean;
+  canManageMembers?: boolean;
+  canEditOwnMemberProfile?: boolean;
+  canEditOwnMemberAccounts?: boolean;
+  isEditingOwnMemberAccount?: boolean;
+  isSystemAccount?: boolean;
 }
 
-export interface CommunityPermissionsProps extends CommunityPermissionsSpec, EntityProps {}
+export interface EndUserRoleCommunityPermissionsProps extends EndUserRoleCommunityPermissionsSpec, EntityProps {}
 
-export class CommunityPermissions extends Entity<CommunityPermissionsProps> implements CommunityPermissionsEntityReference {
-  constructor(props: CommunityPermissionsProps, private visa: CommunityVisa) {
+export class EndUserRoleCommunityPermissions extends Entity<EndUserRoleCommunityPermissionsProps> implements EndUserRoleCommunityPermissionsEntityReference {
+  constructor(props: EndUserRoleCommunityPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }
 
@@ -94,7 +94,7 @@ export class CommunityPermissions extends Entity<CommunityPermissionsProps> impl
   }
 }
 
-export interface CommunityPermissionsEntityReference extends Readonly<CommunityPermissionsProps> {}
+export interface EndUserRoleCommunityPermissionsEntityReference extends Readonly<EndUserRoleCommunityPermissionsProps> {}
 
 
 

@@ -1,6 +1,8 @@
 
 import { Visa } from '../../../../seedwork/passport-seedwork/visa';
-import { MemberData, PropertyData, PropertyPermissions } from '../../external-dependencies/datastore';
+import { MemberData, PropertyData, EndUserRolePropertyPermissions, StaffRolePropertyPermissions } from '../../external-dependencies/datastore';
+
+export type PropertyPermissions = StaffRolePropertyPermissions | EndUserRolePropertyPermissions;
 
 export interface PropertyVisa extends Visa {
   determineIf(func:((permissions: PropertyPermissions) => boolean)) : boolean;

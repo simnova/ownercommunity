@@ -1,20 +1,20 @@
-import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
-import { CommunityVisa } from "../community.visa";
+import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { CommunityVisa } from "../../community.visa";
 
-export interface ViolationTicketPermissionsSpec {
-  canCreateTickets: boolean;
-  canManageTickets: boolean;
-  canAssignTickets: boolean;
-  canWorkOnTickets: boolean;
-  isEditingOwnTicket: boolean;
-  isEditingAssignedTicket: boolean;
-  isSystemAccount: boolean;
+export interface EndUserRoleViolationTicketPermissionsSpec {
+  canCreateTickets?: boolean;
+  canManageTickets?: boolean;
+  canAssignTickets?: boolean;
+  canWorkOnTickets?: boolean;
+  isEditingOwnTicket?: boolean;
+  isEditingAssignedTicket?: boolean;
+  isSystemAccount?: boolean;
 }
 
-export interface ViolationTicketPermissionsProps extends ViolationTicketPermissionsSpec, EntityProps {}
+export interface EndUserRoleViolationTicketPermissionsProps extends EndUserRoleViolationTicketPermissionsSpec, EntityProps {}
 
-export class ViolationTicketPermissions extends Entity<ViolationTicketPermissionsProps> implements ViolationTicketPermissionsEntityReference {
-  constructor(props: ViolationTicketPermissionsProps, private visa: CommunityVisa) {
+export class EndUserRoleViolationTicketPermissions extends Entity<EndUserRoleViolationTicketPermissionsProps> implements EndUserRoleViolationTicketPermissionsEntityReference {
+  constructor(props: EndUserRoleViolationTicketPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }
 
@@ -71,7 +71,7 @@ export class ViolationTicketPermissions extends Entity<ViolationTicketPermission
   }
 }
 
-export interface ViolationTicketPermissionsEntityReference extends Readonly<ViolationTicketPermissionsProps> {}
+export interface EndUserRoleViolationTicketPermissionsEntityReference extends Readonly<EndUserRoleViolationTicketPermissionsProps> {}
 
 
 

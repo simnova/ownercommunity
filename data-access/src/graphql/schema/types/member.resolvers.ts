@@ -29,7 +29,7 @@ const member: Resolvers = {
       if (parent.role && isValidObjectId(parent.role.id)) {
         const roleToReturn = await context.applicationServices.role.dataApi.getRoleById(parent.role.id) as Role;
         return applyPermission<Role>(roleToReturn, (_role) => {
-          return context.passport.datastoreVisa.forRole(context.member.role).determineIf((permissions) => 
+          return context.passport.datastoreVisa.forEndUserRole(context.member.role).determineIf((permissions) => 
             (permissions.canManageRolesAndPermissions && parent.community.toString() === context.member.community.toString()) ||
             parent.id === context.member.id || 
             permissions.isSystemAccount);

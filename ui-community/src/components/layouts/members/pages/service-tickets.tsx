@@ -10,6 +10,7 @@ export const ServiceTickets: React.FC<any> = (_props) => {
       <Route path="" element={<ServiceTicketsList />} />
       <Route path="/new" element={<ServiceTicketsCreate />} />
       <Route path="/:id" element={<ServiceTicketsDetail />} />
+      <Route path="/ServiceTicketType/:id" element={<ServiceTicketsDetail />} />
       <Route path="/ViolationTicketType/:id" element={<ViolationTicketsDetail />} />
     </Routes>
   )

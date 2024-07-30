@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 
-import { Skeleton, message } from 'antd';
+import { Empty, Skeleton, message } from 'antd';
 
 import {
   AdminViolationTicketDetailContainerViolationTicketDeleteDocument,
@@ -17,7 +17,8 @@ import {
   AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument,
   AdminViolationTicketsDetailContainerViolationAssignDocument,
   AdminViolationTicketsDetailContainerAddUpdateActivityDocument,
-  MemberViolationTicketProcessPaymentDocument
+  MemberViolationTicketProcessPaymentDocument,
+  MemberServiceTicketsDetailContainerViolationTicketDocument
 } from '../../../../generated';
 
 import { ViolationTicketsDetail } from './violation-ticket-detail';
@@ -34,7 +35,9 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
   const navigate = useNavigate();
 
   const [violationTicketUpdate] = useMutation(AdminViolationTicketsDetailContainerViolationTicketUpdateDocument);
-  const [violationTicketChangeStatus] = useMutation(AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument);
+  const [violationTicketChangeStatus] = useMutation(
+    AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument
+  );
   const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationAssignDocument);
   const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerAddUpdateActivityDocument);
   const [violationTicketProcessPayment] = useMutation(MemberViolationTicketProcessPaymentDocument, {
@@ -81,16 +84,6 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
   };
 
   const {
-    data: memberData,
-    loading: memberLoading,
-    error: memberError
-  } = useQuery(AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument, {
-    variables: {
-      violationTicketId: props.data.id
-    }
-  });
-
-  const {
     data: propertyData,
     loading: propertyLoading,
     error: propertyError
@@ -100,7 +93,7 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     data: violationTicketData,
     loading: violationTicketLoading,
     error: violationTicketError
-  } = useQuery(AdminServiceTicketsDetailContainerViolationTicketDocument, {
+  } = useQuery(MemberServiceTicketsDetailContainerViolationTicketDocument, {
     variables: {
       id: props.data.id
     }
@@ -203,18 +196,13 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     }
   };
 
-  if (violationTicketLoading || memberLoading || propertyLoading) {
+  if (violationTicketLoading || propertyLoading) {
     return <Skeleton active />;
-  } else if (violationTicketError || memberError || propertyError) {
-    return <div>{JSON.stringify(violationTicketError ?? memberError ?? propertyError)}</div>;
-  } else if (
-    violationTicketData?.violationTicket &&
-    memberData?.memberAssignableToViolationTickets &&
-    propertyData?.properties
-  ) {
+  } else if (violationTicketError || propertyError) {
+    return <div>{JSON.stringify(violationTicketError ?? propertyError)}</div>;
+  } else if (violationTicketData?.violationTicket && propertyData?.properties) {
     const data = {
       violationTicket: violationTicketData.violationTicket,
-      members: memberData.memberAssignableToViolationTickets,
       properties: propertyData.properties
     };
     return (
@@ -230,6 +218,6 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
       />
     );
   } else {
-    return <div>No Data...</div>;
+    return <Empty />;
   }
 };

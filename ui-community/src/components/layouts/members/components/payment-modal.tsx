@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Radio, Space } from 'antd';
+import { Button, Empty, Form, Modal, Radio, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import { PaymentInstrument, PaymentInstrumentResult } from '../../../../generated';
@@ -26,6 +26,9 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ title, paymentInstru
   const addPaymentMethod = useAddPaymentMethodModal();
   const [paymentForm] = Form.useForm();
 
+  const paymentInstruments = paymentInstrumentsResult?.paymentInstruments as PaymentInstrument[] | undefined;
+  const defaultPaymentInstrument = paymentInstruments?.find((i) => i.isDefault);
+
   const addPaymentButton = (
     <Button onClick={addPaymentMethod.onOpen}>
       <div className="flex items-center">
@@ -36,49 +39,50 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ title, paymentInstru
 
   return (
     <Modal open={usePay.isOpen} onCancel={usePay.onClose} title={title} centered footer={() => <div />}>
-      <Form
-        form={paymentForm}
-        onFinish={(values: PaymentForm) => {
-          setProcessingPayment(true);
-          onPayment(values.paymentInstrumentId)
-            .then(() => {
-              usePay.onClose();
-            })
-            .finally(() => {
-              setProcessingPayment(false);
-            });
-        }}
-      >
-        <Form.Item<PaymentForm>
-          label="Payment Method"
-          name="paymentInstrumentId"
-          rules={[{ required: true, message: 'Please select a payment method' }]}
+      {paymentInstruments && paymentInstruments.length > 0 ? (
+        <Form
+          form={paymentForm}
+          onFinish={(values: PaymentForm) => {
+            setProcessingPayment(true);
+            onPayment(values.paymentInstrumentId)
+              .then(() => {
+                usePay.onClose();
+              })
+              .finally(() => {
+                setProcessingPayment(false);
+              });
+          }}
+          initialValues={{
+            paymentInstrumentId: defaultPaymentInstrument?.paymentInstrumentId || undefined
+          }}
         >
-          <Radio.Group
-            defaultValue={(paymentInstrumentsResult.paymentInstruments as PaymentInstrument[]).find((i) => {
-              if (i.isDefault) {
-                return i.paymentInstrumentId;
-              }
-            })}
+          <Form.Item<PaymentForm>
+            label="Payment Method"
+            name="paymentInstrumentId"
+            rules={[{ required: true, message: 'Please select a payment method' }]}
           >
-            <Space direction="vertical">
-              {(paymentInstrumentsResult.paymentInstruments as PaymentInstrument[]).map((paymentInstrument) => (
-                <Radio key={paymentInstrument.paymentInstrumentId!} value={paymentInstrument?.paymentInstrumentId}>
-                  <div className="flex gap-4 items-center">
-                    <CreditCardDisplay paymentInstrument={paymentInstrument} />
-                  </div>
-                </Radio>
-              ))}
-            </Space>
-          </Radio.Group>
-        </Form.Item>
-        <div className="flex items-center justify-end gap-2">
-          {addPaymentButton}
-          <Button type="primary" htmlType="submit" loading={processingPayment}>
-            Pay
-          </Button>
-        </div>
-      </Form>
+            <Radio.Group>
+              <Space direction="vertical">
+                {paymentInstruments?.map((paymentInstrument) => (
+                  <Radio key={paymentInstrument.paymentInstrumentId!} value={paymentInstrument?.paymentInstrumentId}>
+                    <div className="flex gap-4 items-center">
+                      <CreditCardDisplay paymentInstrument={paymentInstrument} />
+                    </div>
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+          </Form.Item>
+          <div className="flex items-center justify-end gap-2">
+            {addPaymentButton}
+            <Button type="primary" htmlType="submit" loading={processingPayment}>
+              Pay
+            </Button>
+          </div>
+        </Form>
+      ) : (
+        <Empty description="You don't have any payment methods setup yet." children={addPaymentButton} />
+      )}
     </Modal>
   );
 };

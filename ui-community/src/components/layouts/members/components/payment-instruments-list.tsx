@@ -2,6 +2,7 @@ import { Badge, Button } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import { PaymentInstrument } from '../../../../generated';
+import { useState } from 'react';
 
 const getCardType = (cardType: string) => {
   switch (cardType) {
@@ -72,6 +73,8 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
   onSetDefaultPaymentMethod,
   onDeletePaymentMethod
 }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const handleSetDefaultPaymentMethod = async () => {
     if (onSetDefaultPaymentMethod) {
       await onSetDefaultPaymentMethod(paymentInstrument.paymentInstrumentId!);
@@ -80,7 +83,9 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
 
   const handleDeletePaymentMethod = async () => {
     if (onDeletePaymentMethod) {
+      setIsDeleting(true);
       await onDeletePaymentMethod(paymentInstrument.paymentInstrumentId!);
+      setIsDeleting(false);
     }
   };
 
@@ -114,9 +119,10 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
                 className="w-8 h-8 p-0"
                 onClick={handleDeletePaymentMethod}
                 aria-label="delete-payment-method"
+                loading={isDeleting}
                 danger
               >
-                <DeleteOutlined />
+                {!isDeleting && <DeleteOutlined />}
               </Button>
             )}
           </div>

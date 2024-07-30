@@ -191,8 +191,8 @@ const member: Resolvers = {
       const member = await getMemberForCurrentUser(context);
       let cybersourceCustomerId = member?.cybersourceCustomerId;
       if (!cybersourceCustomerId) {
-        cybersourceCustomerId = await context.applicationServices.member.cybersourceApi.createCybersouceCustomer(input);
-        console.log('createCybersouceCustomerResponse', cybersourceCustomerId);
+        cybersourceCustomerId = await context.applicationServices.member.cybersourceApi.createCybersourceCustomer(input);
+        console.log('createCybersourceCustomerResponse', cybersourceCustomerId);
         if (cybersourceCustomerId) {
           return await MemberMutationResolver(context.applicationServices.member.domainApi.memberUpdate({id: member.id, cybersourceCustomerId}));
         }

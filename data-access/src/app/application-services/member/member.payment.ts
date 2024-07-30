@@ -7,7 +7,7 @@ import { AppContext } from "../../init/app-context-builder";
 
 export interface PaymentCybersourceApi {
   generatePublicKey(): Promise<string>;
-  createCybersouceCustomer(paymentInstrument: AddPaymentInstrumentInput): Promise<string>
+  createCybersourceCustomer(paymentInstrument: AddPaymentInstrumentInput): Promise<string>
   addPaymentInstrument(paymentInstrument: CustomerProfile, paymentTokenInfo: PaymentTokenInfo): Promise<boolean>
   getPaymentInstruments(customerId: string): Promise<PaymentInstrument[]>
   setDefaultPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>
@@ -46,7 +46,7 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
     };
   }
 
-  public async createCybersouceCustomer(paymentInstrument: AddPaymentInstrumentInput): Promise<string> {
+  public async createCybersourceCustomer(paymentInstrument: AddPaymentInstrumentInput): Promise<string> {
     const customerProfilePayload = this.buildCustomerProfilePayload(paymentInstrument);
     const paymentTokenInfo = this.buildPaymentTokenInfo(paymentInstrument);
     let response;

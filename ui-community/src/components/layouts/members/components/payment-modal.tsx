@@ -30,7 +30,10 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ title, paymentInstru
   const defaultPaymentInstrument = paymentInstruments?.find((i) => i.isDefault);
 
   const addPaymentButton = (
-    <Button onClick={addPaymentMethod.onOpen}>
+    <Button
+      onClick={addPaymentMethod.onOpen}
+      type={paymentInstruments && paymentInstruments.length > 0 ? 'default' : 'primary'}
+    >
       <div className="flex items-center">
         <PlusOutlined className="mr-1" /> Add Card
       </div>

@@ -107,28 +107,33 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
         </span>
 
         {/* ACTIONS */}
-        {!paymentInstrument.isDefault ? (
-          <div className="flex gap-2">
-            {onSetDefaultPaymentMethod && (
-              <Button className="w-8 h-8 p-0" onClick={handleSetDefaultPaymentMethod}>
-                <EditOutlined />
-              </Button>
-            )}
-            {onDeletePaymentMethod && (
-              <Button
-                className="w-8 h-8 p-0"
-                onClick={handleDeletePaymentMethod}
-                aria-label="delete-payment-method"
-                loading={isDeleting}
-                danger
-              >
-                {!isDeleting && <DeleteOutlined />}
-              </Button>
-            )}
-          </div>
-        ) : (
-          <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg h-fit">Default</Badge>
-        )}
+        <div className="flex gap-2">
+          {onSetDefaultPaymentMethod && (
+            <Button className="w-8 h-8 p-0" onClick={handleSetDefaultPaymentMethod}>
+              <EditOutlined />
+            </Button>
+          )}
+          {onDeletePaymentMethod && (
+            <Button
+              className="w-8 h-8 p-0"
+              onClick={handleDeletePaymentMethod}
+              aria-label="delete-payment-method"
+              loading={isDeleting}
+              danger
+              disabled={!!paymentInstrument.isDefault}
+            >
+              {!isDeleting && <DeleteOutlined />}
+            </Button>
+          )}
+        </div>
+
+        <div className="flex gap-1">
+          {paymentInstrument.isDefault && (
+            <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg h-fit">Default</Badge>
+          )}
+
+          {/* {true && <Badge className="bg-rose-500 text-white px-2 py-1 rounded-lg h-fit">Expired</Badge>} */}
+        </div>
       </div>
     );
   }

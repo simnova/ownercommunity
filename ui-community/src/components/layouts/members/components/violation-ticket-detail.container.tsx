@@ -5,7 +5,6 @@ import { Empty, Skeleton, message } from 'antd';
 
 import {
   AdminViolationTicketDetailContainerViolationTicketDeleteDocument,
-  AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument,
   AdminServiceTicketsDetailContainerPropertiesDocument,
   AdminServiceTicketsDetailContainerViolationTicketDocument,
   AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,

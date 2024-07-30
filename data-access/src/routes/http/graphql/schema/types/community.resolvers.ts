@@ -1,5 +1,5 @@
 import { Resolvers, Community, CommunityMutationResult, Role } from '../builder/generated';
-import { Community as CommunityDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/community';
+import { Community as CommunityDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/community';
 
 const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Promise<CommunityMutationResult> => {
   try {

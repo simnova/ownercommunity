@@ -1,8 +1,8 @@
 import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '../builder/generated';
 import { isValidObjectId } from 'mongoose';
 import { applyPermission, applyPermissionFilter, getMemberForCurrentUser } from '../resolver-helper';
-import { Member as MemberDo } from '../../../infrastructure-services-impl/datastore/mongodb/models/member';
-import { CustomerProfile, PaymentTokenInfo } from '../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
+import { Member as MemberDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/member';
+import { CustomerProfile, PaymentTokenInfo } from '../../../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
 
 const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<MemberMutationResult> => {
   try {

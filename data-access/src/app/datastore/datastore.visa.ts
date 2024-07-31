@@ -1,12 +1,14 @@
 import { CommunityVisa } from './community/community.visa';
 import { CommunityVisaImplForCommunity } from './community/community.visa-impl.for-community';
 import { CommunityVisaImplForMember } from './community/community.visa-impl.for-member';
-import { CommunityVisaImplForRole } from './community/community.visa-impl.for-role';
+import { CommunityVisaImplForEndUserRole } from './community/community.visa-impl.for-end-user-role';
 import { PropertyVisa, PropertyVisaImplForProperty } from './property/property.visa';
 import { ServiceTicketVisa, ServiceTicketVisaImplForServiceTicket } from './cases/service-ticket/service-ticket.visa';
 import { ViolationTicketVisa, ViolationTicketVisaImplForViolationTicket } from './cases/violation-ticket/violation-ticket.visa';
-import { CommunityData, MemberData, Permissions, PropertyData, RoleData, ServiceData, ServiceTicketData, UserData, ViolationTicketData } from '../external-dependencies/datastore';
+import { CommunityData, MemberData, StaffRolePermissions, EndUserRolePermissions, PropertyData, StaffRoleData, EndUserRoleData, ServiceData, ServiceTicketData, UserData, ViolationTicketData } from '../external-dependencies/datastore';
 import { ServiceVisa, ServiceVisaImplForService } from './service/service.visa';
+import { CommunityVisaImplForStaffRole } from './community/community.visa-impl.for-staff-role';
+import { CommunityPermissionsSpec } from '../domain/contexts/community/community.visa';
 
 export const SystemUserId = 'system';
 
@@ -14,7 +16,8 @@ export interface DatastoreVisa {
   forCommunity(root: CommunityData): CommunityVisa;
   forMember(root: MemberData): CommunityVisa;
   forProperty(root: PropertyData): PropertyVisa;
-  forRole(root: RoleData): CommunityVisa;
+  forEndUserRole(root: EndUserRoleData): CommunityVisa;
+  forStaffRole(root: StaffRoleData): CommunityVisa;
   forService(root: ServiceData): ServiceVisa;
   forServiceTicket(root: ServiceTicketData): ServiceTicketVisa;
   forViolationTicket(root: ViolationTicketData): ViolationTicketVisa
@@ -43,8 +46,12 @@ export class DatastoreVisaImpl implements DatastoreVisa {
     return new PropertyVisaImplForProperty(root,this.member);
   }
 
-  forRole(root: RoleData): CommunityVisa {
-    return new CommunityVisaImplForRole(root,this.member);
+  forEndUserRole(root: EndUserRoleData): CommunityVisa {
+    return new CommunityVisaImplForEndUserRole(root,this.member);
+  }
+
+  forStaffRole(root: StaffRoleData): CommunityVisa {
+    return new CommunityVisaImplForStaffRole(root,this.user);
   }
 
   forService(root: ServiceData): ServiceVisa {
@@ -76,8 +83,11 @@ export class ReadOnlyDatastoreVisaImpl implements DatastoreVisa {
   forProperty(_root: PropertyData): PropertyVisa {
     return {determineIf:  () => false };
   }
-  forRole(_root: RoleData): CommunityVisa {
+  forEndUserRole(_root: EndUserRoleData): CommunityVisa {
     return {determineIf:  () => false }; 
+  }
+  forStaffRole(_root: StaffRoleData): CommunityVisa {
+    return {determineIf:  () => false };
   }
   forService(_root: ServiceData): ServiceVisa {
     return {determineIf:  () => false };
@@ -99,38 +109,63 @@ export class SystemDatastoreVisaImpl implements DatastoreVisa {
     return new SystemDatastoreVisaImpl();
   }
 
-  private readonly systemPermissions: Permissions = BuildSystemPermissions();
+  private readonly systemEndUserRolePermissions: EndUserRolePermissions = BuildSystemPermissions();
+
+  private readonly systemStaffRolePermissions: StaffRolePermissions = {
+    communityPermissions: {
+      canManageStaffRolesAndPermissions: false,
+      canManageAllCommunities: false,
+      canDeleteCommunities: false,
+      canChangeCommunityOwner: false,
+      canReIndexSearchCollections: false,
+    },
+    propertyPermissions: {},
+    servicePermissions: {},
+    serviceTicketPermissions: {},
+    violationTicketPermissions: {}
+  };
+
+  private readonly systemCommunityPermissions = {
+    ...this.systemEndUserRolePermissions.communityPermissions,
+    ...this.systemStaffRolePermissions.communityPermissions
+  };
+
+
 
   forCommunity(_root: CommunityData): CommunityVisa {
-    return {determineIf:  (func) => func(this.systemPermissions.communityPermissions) };
+    return {determineIf:  (func) => func(this.systemCommunityPermissions) };
   }
 
   forMember(_root: MemberData): CommunityVisa {
-    return {determineIf:  (func) => func(this.systemPermissions.communityPermissions) };
+    return {determineIf:  (func) => func(this.systemCommunityPermissions) };
   }
 
   forProperty(_root: PropertyData): PropertyVisa {
-    return {determineIf:  (func) => func(this.systemPermissions.propertyPermissions) };
+    return {determineIf:  (func) => func(this.systemEndUserRolePermissions.propertyPermissions) };
   }
 
-  forRole(_root: RoleData): CommunityVisa {
-    return {determineIf: (func) => func(this.systemPermissions.communityPermissions) };
+  forEndUserRole(_root: EndUserRoleData): CommunityVisa {
+    return {determineIf: (func) => func(this.systemCommunityPermissions) };
+  }
+  
+  forStaffRole(_root: StaffRoleData): CommunityVisa {
+    return {determineIf: (func) => func(this.systemCommunityPermissions) };
   }
 
   forService(_root: ServiceData): ServiceVisa {
-    return {determineIf:  (func) => func(this.systemPermissions.servicePermissions) };
+    return {determineIf:  (func) => func(this.systemEndUserRolePermissions.servicePermissions) };
   }
 
   forServiceTicket(_root: ServiceTicketData): ServiceTicketVisa {
-    return {determineIf:  (func) => func(this.systemPermissions.serviceTicketPermissions) };
+    return {determineIf:  (func) => func(this.systemEndUserRolePermissions.serviceTicketPermissions) };
   }
 
   forViolationTicket(_root: ViolationTicketData): ViolationTicketVisa {
-    return {determineIf:  (func) => func(this.systemPermissions.violationTicketPermissions) };
+    return {determineIf:  (func) => func(this.systemEndUserRolePermissions.violationTicketPermissions) };
   }
 }
 
-const BuildSystemPermissions = (): Permissions => {
+const BuildSystemPermissions = (): EndUserRolePermissions => {
   return {
     servicePermissions: {
       canManageServices: false,

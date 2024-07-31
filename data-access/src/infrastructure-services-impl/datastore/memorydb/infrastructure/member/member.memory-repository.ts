@@ -4,7 +4,7 @@ import { CustomViewProps } from '../../../../../app/domain/contexts/community/me
 import { Member, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
 import { MemberRepository } from '../../../../../app/domain/contexts/community/member/member.repository';
 import { ProfileProps } from '../../../../../app/domain/contexts/community/member/profile';
-import { RoleEntityReference, RoleProps } from '../../../../../app/domain/contexts/community/role/role';
+import { EndUserRoleEntityReference, EndUserRoleProps } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { UserProps } from '../../../../../app/domain/contexts/user/user/user';
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
@@ -57,9 +57,9 @@ class MemoryMember extends MemoryBaseAdapter implements MemberProps {
   get accounts() {
     return new MemoryPropArray(this._accounts, MemoryAccount);
   }
-  role: RoleProps;
-  setRoleRef(role: RoleEntityReference): void {
-    this.role = role as RoleProps;
+  role: EndUserRoleProps;
+  setRoleRef(role: EndUserRoleEntityReference): void {
+    this.role = role as EndUserRoleProps;
   }
   private _profile: ProfileProps;
   get profile() {

@@ -2,7 +2,8 @@ import { DatastoreInfrastructureService } from "../../../app/infrastructure-serv
 import { MongoCommunityUnitOfWork } from "./infrastructure/community/community.mongo-uow";
 import { MongoMemberUnitOfWork } from "./infrastructure/member/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "./infrastructure/property/property.mongo-uow";
-import { MongoRoleUnitOfWork } from "./infrastructure/role/role.mongo-uow";
+import { MongoEndUserRoleUnitOfWork } from "./infrastructure/roles/end-user-role/end-user-role.mongo-uow";
+import { MongoStaffRoleUnitOfWork } from "./infrastructure/roles/staff-role/staff-role.mongo-uow";
 import { MongoServiceTicketV1UnitOfWork } from "./infrastructure/cases/service-ticket/v1/service-ticket.uow";
 import { MongoServiceUnitOfWork } from "./infrastructure/service/service.uow";
 import { MongoUserUnitOfWork } from "./infrastructure/user/user.uow";
@@ -30,8 +31,12 @@ export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
     return MongoMemberUnitOfWork
   }
 
-  get roleUnitOfWork(): typeof MongoRoleUnitOfWork {
-    return MongoRoleUnitOfWork
+  get endUserRoleUnitOfWork(): typeof MongoEndUserRoleUnitOfWork {
+    return MongoEndUserRoleUnitOfWork
+  }
+
+  get staffRoleUnitOfWork(): typeof MongoStaffRoleUnitOfWork {
+    return MongoStaffRoleUnitOfWork
   }
 
   get propertyUnitOfWork(): typeof MongoPropertyUnitOfWork {

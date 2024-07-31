@@ -1,8 +1,11 @@
 
 import { Visa } from '../../../../../../seedwork/passport-seedwork/visa';
 import { MemberEntityReference } from '../../community/member/member';
-import { PropertyPermissionsSpec } from '../../community/role/property-permissions';
+import { StaffRolePropertyPermissionsSpec } from '../../community/roles/staff-role/property-permissions';
+import { EndUserRolePropertyPermissionsSpec } from '../../community/roles/end-user-role/property-permissions';
 import { PropertyEntityReference } from './property';
+
+export interface PropertyPermissionsSpec extends StaffRolePropertyPermissionsSpec, EndUserRolePropertyPermissionsSpec {}
 
 export interface PropertyVisa extends Visa {
   determineIf(func:((permissions:PropertyPermissionsSpec) => boolean)) :  boolean ;

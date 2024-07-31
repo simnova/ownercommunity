@@ -23,7 +23,7 @@ const RegisterEventHandlers = (
   // Register all event handlers
   RegisterCommunityCreatedCreateDefaultRolesMemberHandler(
     datastore.communityUnitOfWork,
-    datastore.roleUnitOfWork,
+    datastore.endUserRoleUnitOfWork,
     datastore.memberUnitOfWork
   );
   // RegisterRoleDeletedReassignMemberNewRoleHandler();

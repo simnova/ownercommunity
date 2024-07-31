@@ -1,8 +1,11 @@
 
 import { Visa } from '../../../../../../../seedwork/passport-seedwork/visa';
 import { MemberEntityReference } from '../../../community/member/member';
-import { ServiceTicketPermissionsSpec } from '../../../community/role/service-ticket-permissions';
+import { StaffRoleServiceTicketPermissionsSpec } from '../../../community/roles/staff-role/service-ticket-permissions';
+import { EndUserRoleServiceTicketPermissionsSpec } from '../../../community/roles/end-user-role/service-ticket-permissions';
 import { ServiceTicketV1EntityReference } from './service-ticket';
+
+export interface ServiceTicketPermissionsSpec extends StaffRoleServiceTicketPermissionsSpec, EndUserRoleServiceTicketPermissionsSpec {}
 
 export interface ServiceTicketV1Visa extends Visa {
   determineIf(func:((permissions:ServiceTicketPermissionsSpec) => boolean)) :  boolean ;

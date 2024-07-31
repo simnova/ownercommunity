@@ -34,6 +34,6 @@ export const StaffUserSchema = new Schema<StaffUser, Model<StaffUser>, StaffUser
 
   },
   userOptions
-);
+).index({ email: 1 }, { unique: true });
 
 export const StaffUserModel = UserModel.discriminator('internal-staff', StaffUserSchema);

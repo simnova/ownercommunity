@@ -28,9 +28,9 @@ export class EndUserDomainApiImpl
       if (!domainObject || domainObject.externalId !== this.context.verifiedUser.verifiedJWT.sub) {
         throw new Error('Unauthorized');
       }
-      if (user.firstName !== undefined) domainObject.personalInformation.identityDetails.restOfName=(user.firstName);
-      if (user.lastName !== undefined) domainObject.personalInformation.identityDetails.lastName=(user.lastName);
-      if (user.email !== undefined) domainObject.personalInformation.contactInformation.email=(user.email);
+      if (user.personalInformation?.identityDetails?.restOfName !== undefined) domainObject.personalInformation.identityDetails.restOfName=(user.personalInformation?.identityDetails?.restOfName);
+      if (user.personalInformation?.identityDetails?.lastName !== undefined) domainObject.personalInformation.identityDetails.lastName=(user.personalInformation?.identityDetails?.lastName);
+      if (user.personalInformation?.contactInformation?.email !== undefined) domainObject.personalInformation.contactInformation.email=(user.personalInformation?.contactInformation?.email);
       result = (new EndUserConverter()).toPersistence(await repo.save(domainObject));
     });
     return result;

@@ -46,13 +46,13 @@ const member: Resolvers = {
       //   return null;
       // }
       if (parent.user && isValidObjectId(parent.user.toString())) {
-        return (await context.applicationServices.user.dataApi.getUserById(parent.user.toString())) as User;
+        return (await context.applicationServices.users.endUser.dataApi.getUserById(parent.user.toString())) as User;
       }
       return parent.user;
     },
     createdBy: async (parent, _args, context) => {
       if (parent.createdBy && isValidObjectId(parent.createdBy.toString())) {
-        return (await context.applicationServices.user.dataApi.getUserById(parent.createdBy.toString())) as User;
+        return (await context.applicationServices.users.endUser.dataApi.getUserById(parent.createdBy.toString())) as User;
       }
       return parent.createdBy;
     },

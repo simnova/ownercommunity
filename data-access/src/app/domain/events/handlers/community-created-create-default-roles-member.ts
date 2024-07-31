@@ -43,15 +43,15 @@ export default (
     role = await repo.save(role);
   });
 
-  const fullName = `${communityDo.createdBy.firstName?? ''} ${communityDo.createdBy.lastName?? ''}`;
+  const fullName = `${communityDo.createdBy.displayName}`;
 
   await memberUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     const member = await repo.getNewInstance(fullName, communityDo);
     member.Role=(role);
     const account = member.requestNewAccount();
     account.createdBy=communityDo.createdBy
-    account.firstName=communityDo.createdBy.firstName
-    account.lastName=communityDo.createdBy.lastName
+    account.firstName=communityDo.createdBy.personalInformation.identityDetails?.restOfName
+    account.lastName=communityDo.createdBy.personalInformation.identityDetails.lastName
     account.statusCode=AccountStatusCodes.Accepted
     account.user=communityDo.createdBy
     await repo.save(member);

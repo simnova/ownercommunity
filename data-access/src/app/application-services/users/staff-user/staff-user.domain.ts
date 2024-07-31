@@ -28,9 +28,9 @@ export class StaffUserDomainApiImpl
       if (!domainObject || domainObject.externalId !== this.context.verifiedUser.verifiedJWT.sub) {
         throw new Error('Unauthorized');
       }
-      if (user.firstName !== undefined) domainObject.FirstName=(user.firstName);
-      if (user.lastName !== undefined) domainObject.LastName=(user.lastName);
-      if (user.email !== undefined) domainObject.Email=(user.email);
+      if (user?.personalInformation?.identityDetails?.restOfName !== undefined) domainObject.FirstName=(user.personalInformation?.identityDetails?.restOfName);
+      if (user?.personalInformation?.identityDetails?.lastName !== undefined) domainObject.LastName=(user.personalInformation?.identityDetails?.lastName);
+      if (user?.personalInformation?.contactInformation?.email !== undefined) domainObject.Email=(user.personalInformation?.contactInformation?.email);
       result = (new StaffUserConverter()).toPersistence(await repo.save(domainObject));
     });
     return result;

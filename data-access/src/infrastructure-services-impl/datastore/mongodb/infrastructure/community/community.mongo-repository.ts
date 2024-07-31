@@ -3,13 +3,13 @@ import { CommunityRepository } from '../../../../../app/domain/contexts/communit
 import { Community } from '../../models/community';
 import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
-import { UserEntityReference } from '../../../../../app/domain/contexts/user/user/user';
+import { EndUserEntityReference } from '../../../../../app/domain/contexts/users/end-user/end-user';
 
 export class MongoCommunityRepository<PropType extends CommunityProps>
   extends MongoRepositoryBase<DomainExecutionContext, Community, PropType, CommunityDO<PropType>>
   implements CommunityRepository<PropType>
 {
-  async getNewInstance(name: string, user: UserEntityReference): Promise<CommunityDO<PropType>> {
+  async getNewInstance(name: string, user: EndUserEntityReference): Promise<CommunityDO<PropType>> {
     let adapter = this.typeConverter.toAdapter(new this.model());
     return CommunityDO.getNewInstance(adapter, name, user, this.context);
   }

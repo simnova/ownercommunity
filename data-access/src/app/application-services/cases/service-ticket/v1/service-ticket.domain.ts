@@ -155,7 +155,6 @@ export class ServiceTicketV1DomainApiImpl
   }
 
   async serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<ServiceTicketData> {
-    let user = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let serviceTicketToReturn: ServiceTicketData;
@@ -168,7 +167,6 @@ export class ServiceTicketV1DomainApiImpl
   }
 
   async serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<ServiceTicketData> {
-    let user = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let serviceTicketToReturn: ServiceTicketData;

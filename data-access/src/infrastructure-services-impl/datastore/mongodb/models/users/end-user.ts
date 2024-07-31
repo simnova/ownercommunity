@@ -54,6 +54,6 @@ export const EndUserSchema = new Schema<EndUser, Model<EndUser>, EndUser>(
     },
   },
   userOptions
-);
+).index({ "personalInformation.contactInformation.email": 1 }, { unique: true });
 
 export const EndUserModel = UserModel.discriminator('end-users', EndUserSchema);

@@ -1,4 +1,4 @@
-import { Resolvers, User, CurrentUser } from '../builder/generated';
+import { Resolvers, User } from '../builder/generated';
 import { cacheControlFromInfo } from '@apollo/cache-control-types';
 
 const user: Resolvers = {
@@ -8,17 +8,17 @@ const user: Resolvers = {
         console.log(`user found in context with JWT: ${JSON.stringify(context.verifiedUser.verifiedJWT)}`);
       }
       console.log(`Resolver>Query>user ${args.id}`);
-      return (await context.applicationServices.user.dataApi.getUserById(args.id)) as User;
+      return (await context.applicationServices.users.endUser.dataApi.getUserById(args.id)) as User;
     },
     users: async (parent, args, context, info) => {
       cacheControlFromInfo(info).setCacheHint({ maxAge: 60, scope: 'PUBLIC' }); //this works, but doesn't work when setting it with a directive
       console.log(`Resolver>Query>users`);
       console.log(`Context VerifiedUser value: ${JSON.stringify(context.verifiedUser)}`);
-      return (await context.applicationServices.user.dataApi.getUsers()) as User[];
+      return (await context.applicationServices.users.endUser.dataApi.getUsers()) as User[];
     },
     userCurrent: async (parent, args, context, info) => {
       console.log(`Resolver>Query>userCurrent`);
-      return (await context.applicationServices.user.domainApi.addUser()) as CurrentUser;
+      return (await context.applicationServices.users.endUser.domainApi.addUser()) as User;
     },
   },
   Mutation: {

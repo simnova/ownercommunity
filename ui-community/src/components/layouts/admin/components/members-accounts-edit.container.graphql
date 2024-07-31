@@ -34,7 +34,11 @@ fragment AdminMembersAccountEditContainerMembersFields on Member {
     lastName
     user {
       id
-      email
+      personalInformation {
+        contactInformation {
+          email
+        }
+      }
     }
     statusCode
 

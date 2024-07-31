@@ -8,10 +8,14 @@ import { Community, CommunityProps } from "../../../app/domain/contexts/communit
 import { MemoryCommunityRepository } from "./infrastructure/community/community.memory-repository";
 import { buildMemoryCommunityUnitOfWork } from "./infrastructure/community/community.memory-uow"
 // import { MemoryCommunityDatastore } from "./infrastructure/community.memory-datastore";
-// user
-import { User, UserProps } from "../../../app/domain/contexts/user/user/user";
-import { MemoryUserRepository } from "./infrastructure/user/user.memory-repository";
-import { buildMemoryUserUnitOfWork } from "./infrastructure/user/user.memory-uow";
+// staff user
+import { StaffUser, StaffUserProps } from "../../../app/domain/contexts/users/staff-user/staff-user";
+import { MemoryStaffUserRepository } from "./infrastructure/users/staff-user/staff-user.memory-repository";
+import { buildMemoryStaffUserUnitOfWork } from "./infrastructure/users/staff-user/staff-user.memory-uow";
+// end user
+import { EndUser, EndUserProps } from "../../../app/domain/contexts/users/end-user/end-user";
+import { MemoryEndUserRepository } from "./infrastructure/users/end-user/end-user.memory-repository";
+import { buildMemoryEndUserUnitOfWork } from "./infrastructure/users/end-user/end-user.memory-uow";
 // import { MemoryUserDatastore } from "./infrastructure/user.memory-datastore";
 // end user role
 import { EndUserRole, EndUserRoleProps } from "../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
@@ -65,8 +69,11 @@ export interface IMemoryDatabase {
   communityReadonlyMemoryStore: ReadOnlyMemoryStore<CommunityProps>;
   // communityDatastore: MemoryCommunityDatastore;
   // user
-  userUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
-  userReadonlyMemoryStore: ReadOnlyMemoryStore<UserProps>;
+  endUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>>;
+  endUserReadonlyMemoryStore: ReadOnlyMemoryStore<EndUserProps>;
+
+  staffUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>>;
+  staffUserReadonlyMemoryStore: ReadOnlyMemoryStore<StaffUserProps>;
   // userDatastore: MemoryUserDatastore;
   
   // end user role
@@ -132,28 +139,52 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
 
   // user
-  private _userUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
-  private _userMemoryStore: MemoryStore<UserProps>;
+  private _staffUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>>;
+  private _staffUserMemoryStore: MemoryStore<StaffUserProps>;
   // private _userMemoryDatastore: MemoryUserDatastore;
-  private get userMemoryStore(): MemoryStore<UserProps> {
-    if(!this._userMemoryStore) {
-      this._userMemoryStore = new MemoryStore<UserProps>();
+  private get staffUserMemoryStore(): MemoryStore<StaffUserProps> {
+    if(!this._staffUserMemoryStore) {
+      this._staffUserMemoryStore = new MemoryStore<StaffUserProps>();
     }
-    return this._userMemoryStore;
+    return this._staffUserMemoryStore;
   }
   // private buildUserMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<UserProps>): MemoryUserDatastore {
   //   return new MemoryUserDatastore(readonlyMemoryStore);
   // }
-  public get userUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>> {
-    if(!this._userUnitOfWork) {
+  public get staffUserUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>> {
+    if(!this._staffUserUnitOfWork) {
       // this._userMemoryStore = new MemoryStore<UserProps>();
-      this._userUnitOfWork = buildMemoryUserUnitOfWork(this.userMemoryStore);
+      this._staffUserUnitOfWork = buildMemoryStaffUserUnitOfWork(this.staffUserMemoryStore);
     }
-    return this._userUnitOfWork;
+    return this._staffUserUnitOfWork;
   }
-  public get userReadonlyMemoryStore(): ReadOnlyMemoryStore<UserProps> {
-    return this._userMemoryStore;
+  public get staffUserReadonlyMemoryStore(): ReadOnlyMemoryStore<StaffUserProps> {
+    return this._staffUserMemoryStore;
   }
+
+    // user
+    private _endUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>>;
+    private _endUserMemoryStore: MemoryStore<EndUserProps>;
+    // private _userMemoryDatastore: MemoryUserDatastore;
+    private get endUserMemoryStore(): MemoryStore<EndUserProps> {
+      if(!this._endUserMemoryStore) {
+        this._endUserMemoryStore = new MemoryStore<EndUserProps>();
+      }
+      return this._endUserMemoryStore;
+    }
+    // private buildUserMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<UserProps>): MemoryUserDatastore {
+    //   return new MemoryUserDatastore(readonlyMemoryStore);
+    // }
+    public get endUserUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>> {
+      if(!this._endUserUnitOfWork) {
+        // this._userMemoryStore = new MemoryStore<UserProps>();
+        this._endUserUnitOfWork = buildMemoryEndUserUnitOfWork(this.endUserMemoryStore);
+      }
+      return this._endUserUnitOfWork;
+    }
+    public get endUserReadonlyMemoryStore(): ReadOnlyMemoryStore<EndUserProps> {
+      return this._endUserMemoryStore;
+    }
   // public get userDatastore(): MemoryUserDatastore {
   //   if(!this._userMemoryDatastore) {
   //     this._userMemoryDatastore = this.buildUserMemoryDatastore(this.userReadonlyMemoryStore);

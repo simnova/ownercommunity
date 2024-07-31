@@ -2,7 +2,7 @@ import { DomainDataSource } from "../../data-sources/domain-data-source";
 import { Community } from "../../domain/contexts/community/community/community";
 import { ReadOnlyContext } from "../../domain/domain-execution-context";
 import { CommunityData } from "../../external-dependencies/datastore";
-import { CommunityDomainAdapter, UserConverter, CommunityConverter, CommunityRepository } from "../../external-dependencies/domain";
+import { CommunityDomainAdapter, EndUserConverter, CommunityConverter, CommunityRepository } from "../../external-dependencies/domain";
 import { CommunityCreateInput, CommunityUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
 
@@ -24,8 +24,8 @@ export class CommunityDomainApiImpl
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
       throw new Error('Unauthorized:communityCreate');
     }
-    let mongoUser = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let userDo = new UserConverter().toDomain(mongoUser, ReadOnlyContext());
+    let mongoUser = await this.context.applicationServices.users.endUser.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let userDo = new EndUserConverter().toDomain(mongoUser, ReadOnlyContext());
 
     let communityToReturn: CommunityData;
     await this.withTransaction(async (repo) => {

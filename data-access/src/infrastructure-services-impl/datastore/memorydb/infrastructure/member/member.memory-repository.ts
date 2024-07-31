@@ -6,7 +6,7 @@ import { MemberRepository } from '../../../../../app/domain/contexts/community/m
 import { ProfileProps } from '../../../../../app/domain/contexts/community/member/profile';
 import { EndUserRoleEntityReference, EndUserRoleProps } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
-import { UserProps } from '../../../../../app/domain/contexts/user/user/user';
+import { EndUserProps } from '../../../../../app/domain/contexts/users/end-user/end-user';
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { MemoryBaseAdapter } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter';
 import { MemoryPropArray } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
@@ -35,13 +35,13 @@ class MemoryCustomView extends MemoryBaseAdapter implements EntityProps {
 class MemoryAccount extends MemoryBaseAdapter implements AccountProps {
   firstName: string;
   lastName: string;
-  user: UserProps;
-  setUserRef(user: UserProps): void {
+  user: EndUserProps;
+  setUserRef(user: EndUserProps): void {
     this.user = user;
   }
   statusCode: string;
-  createdBy: UserProps;
-  setCreatedByRef(createdBy: UserProps): void {
+  createdBy: EndUserProps;
+  setCreatedByRef(createdBy: EndUserProps): void {
     this.createdBy = createdBy;
   }
 }

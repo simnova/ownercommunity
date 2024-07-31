@@ -314,16 +314,13 @@ export type CommunityUpdateInput = {
   whiteLabelDomain?: InputMaybe<Scalars['String']>;
 };
 
-export type CurrentUser = MongoBase & {
-  __typename?: 'CurrentUser';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  email?: Maybe<Scalars['EmailAddress']>;
-  externalId?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  id: Scalars['ObjectID'];
-  lastName?: Maybe<Scalars['String']>;
-  schemaVersion?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+export type ContactInformation = {
+  __typename?: 'ContactInformation';
+  email: Scalars['String'];
+};
+
+export type ContactInformationInput = {
+  email?: InputMaybe<Scalars['String']>;
 };
 
 export type CustomView = MongoSubdocument & {
@@ -382,6 +379,19 @@ export type GeographyPoint = {
 export type GeographyPointInput = {
   latitude?: InputMaybe<Scalars['Float']>;
   longitude?: InputMaybe<Scalars['Float']>;
+};
+
+export type IdentityDetails = {
+  __typename?: 'IdentityDetails';
+  lastName: Scalars['String'];
+  legalNameConsistsOfOneName: Scalars['Boolean'];
+  restOfName?: Maybe<Scalars['String']>;
+};
+
+export type IdentityDetailsInput = {
+  lastName?: InputMaybe<Scalars['String']>;
+  legalNameConsistsOfOneName?: InputMaybe<Scalars['Boolean']>;
+  restOfName?: InputMaybe<Scalars['String']>;
 };
 
 export type ListingDetails = {
@@ -949,6 +959,17 @@ export type PermissionsInput = {
   violationTicketPermissions: ViolationTicketPermissionsInput;
 };
 
+export type PersonalInformation = {
+  __typename?: 'PersonalInformation';
+  contactInformation?: Maybe<ContactInformation>;
+  identityDetails?: Maybe<IdentityDetails>;
+};
+
+export type PersonalInformationInput = {
+  contactInformation?: InputMaybe<ContactInformationInput>;
+  identityDetails?: InputMaybe<IdentityDetailsInput>;
+};
+
 export type Point = {
   __typename?: 'Point';
   coordinates?: Maybe<Array<Maybe<Scalars['Float']>>>;
@@ -1153,7 +1174,7 @@ export type Query = {
   serviceTicketsSearchAdmin?: Maybe<ServiceTicketsSearchResult>;
   servicesByCommunityId?: Maybe<Array<Maybe<Service>>>;
   user?: Maybe<User>;
-  userCurrent?: Maybe<CurrentUser>;
+  userCurrent?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
   violationTicket?: Maybe<ViolationTicket>;
   violationTicketPaymentTransactions?: Maybe<Array<Maybe<PaymentTransactionsResult>>>;
@@ -1554,13 +1575,14 @@ export type Transaction = {
 
 export type User = MongoBase & {
   __typename?: 'User';
+  accessBlocked?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  email?: Maybe<Scalars['EmailAddress']>;
+  displayName?: Maybe<Scalars['String']>;
   externalId?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
-  lastName?: Maybe<Scalars['String']>;
+  personalInformation?: Maybe<PersonalInformation>;
   schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -1571,10 +1593,9 @@ export type UserMutationResult = MutationResult & {
 };
 
 export type UserUpdateInput = {
-  email?: InputMaybe<Scalars['String']>;
-  firstName?: InputMaybe<Scalars['String']>;
+  displayName?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
-  lastName?: InputMaybe<Scalars['String']>;
+  personalInformation?: InputMaybe<PersonalInformationInput>;
 };
 
 /** An Violation ticket describes violation ticket type. */
@@ -1790,10 +1811,11 @@ export type ResolversTypes = ResolversObject<{
   CommunityPermissionsInput: CommunityPermissionsInput;
   CommunityPublicFileRemoveInput: CommunityPublicFileRemoveInput;
   CommunityUpdateInput: CommunityUpdateInput;
+  ContactInformation: ResolverTypeWrapper<ContactInformation>;
+  ContactInformationInput: ContactInformationInput;
   CountryCode: ResolverTypeWrapper<Scalars['CountryCode']>;
   Cuid: ResolverTypeWrapper<Scalars['Cuid']>;
   Currency: ResolverTypeWrapper<Scalars['Currency']>;
-  CurrentUser: ResolverTypeWrapper<CurrentUser>;
   CustomView: ResolverTypeWrapper<CustomView>;
   CustomViewInput: CustomViewInput;
   DID: ResolverTypeWrapper<Scalars['DID']>;
@@ -1822,6 +1844,8 @@ export type ResolversTypes = ResolversObject<{
   IPv6: ResolverTypeWrapper<Scalars['IPv6']>;
   ISBN: ResolverTypeWrapper<Scalars['ISBN']>;
   ISO8601Duration: ResolverTypeWrapper<Scalars['ISO8601Duration']>;
+  IdentityDetails: ResolverTypeWrapper<IdentityDetails>;
+  IdentityDetailsInput: IdentityDetailsInput;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
@@ -1857,7 +1881,6 @@ export type ResolversTypes = ResolversObject<{
   MemberUpdateInput: MemberUpdateInput;
   MongoBase:
     | ResolversTypes['Community']
-    | ResolversTypes['CurrentUser']
     | ResolversTypes['Member']
     | ResolversTypes['Property']
     | ResolversTypes['Role']
@@ -1897,6 +1920,8 @@ export type ResolversTypes = ResolversObject<{
   PaymentTransactionError: ResolverTypeWrapper<PaymentTransactionError>;
   PaymentTransactionsResult: ResolverTypeWrapper<PaymentTransactionsResult>;
   PermissionsInput: PermissionsInput;
+  PersonalInformation: ResolverTypeWrapper<PersonalInformation>;
+  PersonalInformationInput: PersonalInformationInput;
   PhoneNumber: ResolverTypeWrapper<Scalars['PhoneNumber']>;
   Point: ResolverTypeWrapper<Point>;
   PointInput: PointInput;
@@ -2024,10 +2049,11 @@ export type ResolversParentTypes = ResolversObject<{
   CommunityPermissionsInput: CommunityPermissionsInput;
   CommunityPublicFileRemoveInput: CommunityPublicFileRemoveInput;
   CommunityUpdateInput: CommunityUpdateInput;
+  ContactInformation: ContactInformation;
+  ContactInformationInput: ContactInformationInput;
   CountryCode: Scalars['CountryCode'];
   Cuid: Scalars['Cuid'];
   Currency: Scalars['Currency'];
-  CurrentUser: CurrentUser;
   CustomView: CustomView;
   CustomViewInput: CustomViewInput;
   DID: Scalars['DID'];
@@ -2056,6 +2082,8 @@ export type ResolversParentTypes = ResolversObject<{
   IPv6: Scalars['IPv6'];
   ISBN: Scalars['ISBN'];
   ISO8601Duration: Scalars['ISO8601Duration'];
+  IdentityDetails: IdentityDetails;
+  IdentityDetailsInput: IdentityDetailsInput;
   Int: Scalars['Int'];
   JSON: Scalars['JSON'];
   JSONObject: Scalars['JSONObject'];
@@ -2091,7 +2119,6 @@ export type ResolversParentTypes = ResolversObject<{
   MemberUpdateInput: MemberUpdateInput;
   MongoBase:
     | ResolversParentTypes['Community']
-    | ResolversParentTypes['CurrentUser']
     | ResolversParentTypes['Member']
     | ResolversParentTypes['Property']
     | ResolversParentTypes['Role']
@@ -2131,6 +2158,8 @@ export type ResolversParentTypes = ResolversObject<{
   PaymentTransactionError: PaymentTransactionError;
   PaymentTransactionsResult: PaymentTransactionsResult;
   PermissionsInput: PermissionsInput;
+  PersonalInformation: PersonalInformation;
+  PersonalInformationInput: PersonalInformationInput;
   PhoneNumber: Scalars['PhoneNumber'];
   Point: Point;
   PointInput: PointInput;
@@ -2418,6 +2447,14 @@ export type CommunityPermissionsResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ContactInformationResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['ContactInformation'] = ResolversParentTypes['ContactInformation'],
+> = ResolversObject<{
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface CountryCodeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['CountryCode'], any> {
   name: 'CountryCode';
 }
@@ -2429,21 +2466,6 @@ export interface CuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export interface CurrencyScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Currency'], any> {
   name: 'Currency';
 }
-
-export type CurrentUserResolvers<
-  ContextType = GraphqlContext,
-  ParentType extends ResolversParentTypes['CurrentUser'] = ResolversParentTypes['CurrentUser'],
-> = ResolversObject<{
-  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  email?: Resolver<Maybe<ResolversTypes['EmailAddress']>, ParentType, ContextType>;
-  externalId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
-  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
 
 export type CustomViewResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CustomView'] = ResolversParentTypes['CustomView']> = ResolversObject<{
   columnsToDisplay?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
@@ -2558,6 +2580,16 @@ export interface IsbnScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export interface Iso8601DurationScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ISO8601Duration'], any> {
   name: 'ISO8601Duration';
 }
+
+export type IdentityDetailsResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['IdentityDetails'] = ResolversParentTypes['IdentityDetails'],
+> = ResolversObject<{
+  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  legalNameConsistsOfOneName?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  restOfName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
@@ -2717,7 +2749,7 @@ export type MemberProfileResolvers<
 }>;
 
 export type MongoBaseResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['MongoBase'] = ResolversParentTypes['MongoBase']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'Community' | 'CurrentUser' | 'Member' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Community' | 'Member' | 'Property' | 'Role' | 'Service' | 'ServiceTicket' | 'User', ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2973,6 +3005,15 @@ export type PaymentTransactionsResultResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type PersonalInformationResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['PersonalInformation'] = ResolversParentTypes['PersonalInformation'],
+> = ResolversObject<{
+  contactInformation?: Resolver<Maybe<ResolversTypes['ContactInformation']>, ParentType, ContextType>;
+  identityDetails?: Resolver<Maybe<ResolversTypes['IdentityDetails']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface PhoneNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['PhoneNumber'], any> {
   name: 'PhoneNumber';
 }
@@ -3161,7 +3202,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   >;
   servicesByCommunityId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Service']>>>, ParentType, ContextType, RequireFields<QueryServicesByCommunityIdArgs, 'communityId'>>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  userCurrent?: Resolver<Maybe<ResolversTypes['CurrentUser']>, ParentType, ContextType>;
+  userCurrent?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   violationTicket?: Resolver<Maybe<ResolversTypes['ViolationTicket']>, ParentType, ContextType, RequireFields<QueryViolationTicketArgs, 'id'>>;
   violationTicketPaymentTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['PaymentTransactionsResult']>>>, ParentType, ContextType>;
@@ -3433,13 +3474,14 @@ export interface UnsignedIntScalarConfig extends GraphQLScalarTypeConfig<Resolve
 }
 
 export type UserResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  accessBlocked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  email?: Resolver<Maybe<ResolversTypes['EmailAddress']>, ParentType, ContextType>;
+  displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   externalId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
-  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  personalInformation?: Resolver<Maybe<ResolversTypes['PersonalInformation']>, ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -3540,10 +3582,10 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   CommunityDomainVerificationDetail?: CommunityDomainVerificationDetailResolvers<ContextType>;
   CommunityMutationResult?: CommunityMutationResultResolvers<ContextType>;
   CommunityPermissions?: CommunityPermissionsResolvers<ContextType>;
+  ContactInformation?: ContactInformationResolvers<ContextType>;
   CountryCode?: GraphQLScalarType;
   Cuid?: GraphQLScalarType;
   Currency?: GraphQLScalarType;
-  CurrentUser?: CurrentUserResolvers<ContextType>;
   CustomView?: CustomViewResolvers<ContextType>;
   DID?: GraphQLScalarType;
   Date?: GraphQLScalarType;
@@ -3567,6 +3609,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   IPv6?: GraphQLScalarType;
   ISBN?: GraphQLScalarType;
   ISO8601Duration?: GraphQLScalarType;
+  IdentityDetails?: IdentityDetailsResolvers<ContextType>;
   JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
   JWT?: GraphQLScalarType;
@@ -3605,6 +3648,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   PaymentInstrumentResult?: PaymentInstrumentResultResolvers<ContextType>;
   PaymentTransactionError?: PaymentTransactionErrorResolvers<ContextType>;
   PaymentTransactionsResult?: PaymentTransactionsResultResolvers<ContextType>;
+  PersonalInformation?: PersonalInformationResolvers<ContextType>;
   PhoneNumber?: GraphQLScalarType;
   Point?: PointResolvers<ContextType>;
   Port?: GraphQLScalarType;

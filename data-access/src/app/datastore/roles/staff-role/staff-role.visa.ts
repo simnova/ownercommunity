@@ -1,14 +1,14 @@
 
 import { Visa } from '../../../../../seedwork/passport-seedwork/visa';
 import { StaffRoleCommunityPermissions } from '../../../external-dependencies/datastore';
-import { UserData, StaffRoleData } from '../../../external-dependencies/datastore';
+import { EndUserData, StaffRoleData } from '../../../external-dependencies/datastore';
 
 export interface StaffRoleVisa extends Visa {
   determineIf(func:((permissions:StaffRoleCommunityPermissions) => boolean)) :  boolean ;
 }
 
 export class RoleVisaImplForStaffRole<root extends StaffRoleData> implements StaffRoleVisa {
-  constructor(private root: root, private user: UserData) { }
+  constructor(private root: root, private user: EndUserData) { }
 
   determineIf(func: ((permissions: StaffRoleCommunityPermissions) => boolean)): boolean {
     //ensure that the member is a member of the community

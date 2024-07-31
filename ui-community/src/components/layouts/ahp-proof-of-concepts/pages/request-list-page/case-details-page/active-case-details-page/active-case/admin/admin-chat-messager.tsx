@@ -6,12 +6,14 @@ import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../..
 import { RequestFeedbackButton } from './request-feedback-button';
 import { RequestPaymentButton } from './request-payment-button';
 import { SendMoneyButton } from './send-money-button';
+import { useParams } from 'react-router-dom';
 
 interface ChatMessagerProps {
   updateMessage: () => void;
 }
 
 export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
+  const params = useParams();
   const [message, setMessage] = useState('');
   const [requests, setRequests] = useState<any[]>([]);
   const [updateServiceTicket] = useMutation(ChatMessagesContainerServiceTicketUpdateDocument, {
@@ -67,7 +69,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
     await updateServiceTicket({
       variables: {
         input: {
-          serviceTicketId: '66a7eb82ef9aff668fe0d5b9',
+          serviceTicketId: params.id,
           messages: [
             {
               sentBy: 'internal',

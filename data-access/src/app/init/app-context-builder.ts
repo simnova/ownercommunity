@@ -1,14 +1,13 @@
 import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../domain/domain.visa';
-import { UserEntityReference } from '../domain/contexts/user/user/user';
 import { MemberEntityReference } from '../domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../domain/contexts/community/community/community';
 import { ApplicationServices } from '../application-services';
 import { InfrastructureServices } from '../infrastructure-services';
-// import { DomainExecutionContext } from '../domain/contexts/domain-execution-context';
 import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
 import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
+import { EndUserEntityReference } from '../domain/contexts/users/end-user/end-user';
 
 export interface VerifiedJwtPayloadType{
   name: string;
@@ -114,14 +113,14 @@ export abstract class AppContextBuilder implements AppContext {
 
     let userExternalId = this._verifiedUser?.verifiedJWT.sub;
     if (userExternalId && this._communityData) {
-      let userData = await this._applicationServices.user.dataApi.getUserByExternalId(userExternalId);
+      let userData = await this._applicationServices.users.endUser.dataApi.getUserByExternalId(userExternalId);
       let memberData = (await this._applicationServices.member.dataApi.getMemberByIdWithCommunityAccountRole(this._memberHeader));
       if(memberData && userData) {
         if (!(memberData.accounts.find((account) => account.user.id === userData.id && memberData.community.id === this._communityData.id))) {  
           throw new Error('user is not related to member');
         }
         this._passport = {
-          domainVisa :new DomainVisaImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference),
+          domainVisa :new DomainVisaImpl(userData as EndUserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference),
           datastoreVisa: new DatastoreVisaImpl(userData, memberData)
         }
       }

@@ -74,7 +74,7 @@ describe('domain.contexts.user', () => {
       
       // Act
       const updatingUserWithInvalidProperty = () => { 
-        user.contactInformation.email=(givenInvalidEmail);
+        user.personalInformation.contactInformation.email=(givenInvalidEmail);
       };
 
       // Assert

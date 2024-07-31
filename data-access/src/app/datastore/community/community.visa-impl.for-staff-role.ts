@@ -1,9 +1,9 @@
 
-import { StaffRoleData, UserData } from "../../external-dependencies/datastore";
+import { StaffRoleData, EndUserData } from "../../external-dependencies/datastore";
 import { CommunityVisa, CommunityPermissions } from './community.visa';
 
 export class CommunityVisaImplForStaffRole<root extends StaffRoleData> implements CommunityVisa {
-  constructor(private root: root, private user: UserData) {}  
+  constructor(private root: root, private user: EndUserData) {}  
   
   determineIf(func:((permissions: CommunityPermissions) => boolean)) :  boolean {
     //ensure that the member is a member of the community

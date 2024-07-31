@@ -13,9 +13,9 @@ export class MongoEndUserRepository<PropType extends EndUserProps>
     return this.typeConverter.toDomain(user, this.context);
   }
 
-  async getNewInstance(externalId: string, firstName: string, lastName: string): Promise<EndUserDO<PropType>> {
+  async getNewInstance(externalId: string, lastName: string, restOfName?: string): Promise<EndUserDO<PropType>> {
     let adapter = this.typeConverter.toAdapter(new this.model());
-    return EndUserDO.getNewUser(adapter, externalId, firstName, lastName); //no context needed for new user
+    return EndUserDO.getNewUser(adapter, externalId, lastName, restOfName); //no context needed for new user
   }
 
   async delete(id: string): Promise<void> {

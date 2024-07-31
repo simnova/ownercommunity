@@ -5,7 +5,8 @@ import { EndUserRoleUnitOfWork } from '../../contexts/community/roles/end-user-r
 import { StaffRoleUnitOfWork } from '../../contexts/community/roles/staff-role/staff-role.uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property/property.uow';
 import { ServiceUnitOfWork } from '../../contexts/community/service/service.uow';
-import { UserUnitOfWork } from '../../contexts/user/user/user.uow';
+import { EndUserUnitOfWork } from '../../contexts/users/end-user/end-user.uow';
+import { StaffUserUnitOfWork } from '../../contexts/users/staff-user/staff-user.uow';
 import { ViolationTicketV1UnitOfWork } from '../../contexts/cases/violation-ticket/v1/violation-ticket.uow';
 
 export interface DatastoreDomain {
@@ -15,7 +16,8 @@ export interface DatastoreDomain {
   staffRoleUnitOfWork: StaffRoleUnitOfWork;
   propertyUnitOfWork: PropertyUnitOfWork;
   serviceUnitOfWork: ServiceUnitOfWork;
-  userUnitOfWork: UserUnitOfWork;
+  endUserUnitOfWork: EndUserUnitOfWork;
+  staffUserUnitOfWork: StaffUserUnitOfWork;
   serviceTicketV1UnitOfWork: ServiceTicketV1UnitOfWork;
   violationTicketV1UnitOfWork: ViolationTicketV1UnitOfWork;
 }

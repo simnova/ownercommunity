@@ -257,7 +257,7 @@ export class InteractWithTheDomain
 
   // user
   public async actOnUser(func: (repo: UserRepository<UserProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.userUnitOfWork.withTransaction(this.context, async (repo) => {
+    InteractWithTheDomain._database.endUserUnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }

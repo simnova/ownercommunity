@@ -3,9 +3,9 @@ import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggreg
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './end-user.value-objects';
-import { CommunityVisa } from '../../community/community.visa';
 import { EndUserIdentityDetails, EndUserIdentityDetailsProps } from './end-user-identity-details';
 import { EndUserContactInformation, EndUserContactInformationProps } from './end-user-contact-information';
+import { EndUserVisa } from './end-user.visa';
 
 export interface EndUserProps extends EntityProps {
   identityDetails: EndUserIdentityDetailsProps;
@@ -24,8 +24,10 @@ export interface EndUserEntityReference extends Readonly<EndUserProps> {}
 
 export class EndUser<props extends EndUserProps> extends AggregateRoot<props> implements EndUserEntityReference  {
   private isNew: boolean = false;
-  private readonly visa: CommunityVisa;
-  constructor(props: props, context?:DomainExecutionContext) { super(props); }
+  private readonly visa: EndUserVisa;
+  constructor(props: props, context?:DomainExecutionContext) { super(props); 
+    this.visa = context.domainVisa.forEndUser(this);
+  }
 
   get id(): string {return this.props.id;}
   get identityDetails(): EndUserIdentityDetailsProps {
@@ -68,23 +70,29 @@ export class EndUser<props extends EndUserProps> extends AggregateRoot<props> im
     this.addIntegrationEvent(UserCreatedEvent,{userId: this.props.id});
   }
 
+  private validateVisa(): void {
+    if (!this.visa.determineIf((permissions) => permissions.isEditingOwnAccount)) {
+      throw new Error('Unauthorized');
+    }
+  }
+
   set DisplayName(displayName:string) {
+    this.validateVisa();
     this.props.displayName = (new ValueObjects.DisplayName(displayName)).valueOf();
   }
 
   set ExternalId(externalId:string) {
+    this.validateVisa();
     this.props.externalId = (new ValueObjects.ExternalId(externalId)).valueOf();
   }
 
   set AccessBlocked(accessBlocked:boolean) {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount)) {
-      throw new Error('Unauthorized');
-    }
+    this.validateVisa();
     this.props.accessBlocked = accessBlocked;
   }
 
   set Tags(tags:string[]) {
-    if (!this.visa.determineIf((permissions) => permissions.isEditingOwnMemberAccount))
+    this.validateVisa();
     this.props.tags = tags;
   }
 }

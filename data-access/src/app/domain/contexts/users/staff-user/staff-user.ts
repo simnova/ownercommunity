@@ -4,7 +4,7 @@ import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './staff-user.value-objects';
 import { StaffRoleEntityReference, StaffRoleProps } from '../../community/roles/staff-role/staff-role';
-import { CommunityVisa } from '../../community/community.visa';
+import { StaffUserVisa } from './staff-user.visa';
 
 export interface StaffUserProps extends EntityProps {
   readonly role: StaffRoleProps;
@@ -28,8 +28,11 @@ export interface StaffUserEntityReference extends Readonly<Omit<StaffUserProps, 
 
 export class StaffUser<props extends StaffUserProps> extends AggregateRoot<props> implements StaffUserEntityReference  {
   private isNew: boolean = false;
-  private readonly visa: CommunityVisa;
-  constructor(props: props, context?:DomainExecutionContext) { super(props); }
+  private readonly visa: StaffUserVisa;
+  constructor(props: props, context?:DomainExecutionContext) { 
+    super(props);
+    this.visa = context.domainVisa.forStaffUser(this);
+   }
 
   get id(): string {return this.props.id;}
   get role(): StaffRoleEntityReference {return this.props.role;}
@@ -64,42 +67,49 @@ export class StaffUser<props extends StaffUserProps> extends AggregateRoot<props
     this.addIntegrationEvent(UserCreatedEvent,{userId: this.props.id});
   }
 
-  set Role(role: StaffRoleEntityReference) {
-    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
+  private validateVisa(): void {
+    if (!this.visa.determineIf((permissions) => permissions.isEditingOwnAccount)) {
       throw new Error('Unauthorized');
     }
+  }
+
+  set Role(role: StaffRoleEntityReference) {
+    this.validateVisa();
     this.props.setRoleRef(role);
   }
 
   set FirstName(firstName:string) {
+    this.validateVisa();
     this.props.firstName = (new ValueObjects.FirstName(firstName)).valueOf();
   }
 
   set LastName(lastName:string) {
+    this.validateVisa();
     this.props.lastName = (new ValueObjects.LastName(lastName)).valueOf();
   }
 
   set Email(email:string) {
+    this.validateVisa();
     this.props.email = (new ValueObjects.Email(email)).valueOf();
   }
 
   set DisplayName(displayName:string) {
+    this.validateVisa();
     this.props.displayName = (new ValueObjects.DisplayName(displayName)).valueOf();
   }
 
   set ExternalId(externalId:string) {
+    this.validateVisa();
     this.props.externalId = (new ValueObjects.ExternalId(externalId)).valueOf();
   }
 
   set AccessBlocked(accessBlocked:boolean) {
-    if (!this.visa.determineIf((permissions) => permissions.isSystemAccount)) {
-      throw new Error('Unauthorized');
-    }
+    this.validateVisa();
     this.props.accessBlocked = accessBlocked;
   }
 
   set Tags(tags:string[]) {
-    if (!this.visa.determineIf((permissions) => permissions.isEditingOwnMemberAccount))
+    this.validateVisa();
     this.props.tags = tags;
   }
 }

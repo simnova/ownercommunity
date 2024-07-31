@@ -9,7 +9,7 @@ export interface EndUserVisa extends Visa{
   determineIf(func:((permissions:EndUserPermissionsSpec) => boolean)) :  boolean ;
 }
 
-export class UserVisaImpl<root extends EndUserEntityReference> implements EndUserVisa {
+export class EndUserVisaImpl<root extends EndUserEntityReference> implements EndUserVisa {
   constructor(private root: root, private user: EndUserEntityReference) {
   }
 

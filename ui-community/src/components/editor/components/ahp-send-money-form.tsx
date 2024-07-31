@@ -6,6 +6,7 @@ import { Button } from 'antd';
 interface AhpSendMoneyFormProps {
   amount: string;
   reason: string;
+  isAdmin: boolean;
 }
 
 const AhpSendMoneyFormTop = (props: any) => {
@@ -21,14 +22,12 @@ AhpSendMoneyFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpSendMoneyForm: any = ({ amount }: AhpSendMoneyFormProps) => {
+const AhpSendMoneyForm: any = ({ amount, reason, isAdmin }: AhpSendMoneyFormProps) => {
   const {
     actions: {}
   } = useNode((state) => ({
     selected: state.events.selected
   }));
-
-  const isAdmin = true;
 
   const applicantView = (
     <div>
@@ -45,7 +44,10 @@ const AhpSendMoneyForm: any = ({ amount }: AhpSendMoneyFormProps) => {
           width: '100%'
         }}
       >
-        <div style={{ marginTop: 7 }}>${amount} Received Successfully</div> <Button>Download Receipt</Button>
+        <div style={{ marginTop: 7 }}>
+          ${amount} Received Successfully for {reason}
+        </div>{' '}
+        <Button>Download Receipt</Button>
       </div>
     </div>
   );
@@ -65,7 +67,10 @@ const AhpSendMoneyForm: any = ({ amount }: AhpSendMoneyFormProps) => {
           width: '100%'
         }}
       >
-        <div style={{ marginTop: 7 }}>${amount} Sent Successfully</div> <Button>Download Receipt</Button>
+        <div style={{ marginTop: 7 }}>
+          ${amount} Sent Successfully for {reason}
+        </div>{' '}
+        <Button>Download Receipt</Button>
       </div>
     </div>
   );

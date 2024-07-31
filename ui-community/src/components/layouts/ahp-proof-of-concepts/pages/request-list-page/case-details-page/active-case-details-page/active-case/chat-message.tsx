@@ -6,7 +6,7 @@ import { Editor, Frame } from '@craftjs/core';
 interface ChatMessageProps {
   sentBy: string;
   message: string;
-  embedding: JSX.Element;
+  embedding: string | undefined;
   createdAt: string;
   isAdmin: boolean;
 }
@@ -29,6 +29,33 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
   };
 
   const placeHolderInitials = 'JM';
+  const toggle = (props.sentBy === 'internal' && props.isAdmin) || (props.sentBy === 'external' && !props.isAdmin);
+
+  const getEmbededComponent = () => {
+    if (props.embedding) {
+      const componentData = JSON.parse(props.embedding);
+      if (componentData.type === 'documentRequestType') {
+        return <CmsComponents.AhpRequestFeedbackForm changesRequested={componentData.changesRequested} isAdmin={props.isAdmin} />;
+      } else if (componentData.type === 'requestPayment') {
+        return (
+          <CmsComponents.AhpPaymentRequestForm
+            amount={componentData.amount}
+            reason={componentData.reason}
+            isAdmin={props.isAdmin}
+          />
+        );
+      } else if (componentData.type === 'sendMoney') {
+        return (
+          <CmsComponents.AhpSendMoneyForm
+            amount={componentData.amount}
+            reason={componentData.reason}
+            isAdmin={props.isAdmin}
+          />
+        );
+      }
+    }
+    return <></>;
+  };
 
   return (
     <div>
@@ -36,14 +63,14 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
         style={{
           display: 'flex',
           width: '100%',
-          justifyContent: props.sentBy === 'internal' && props.isAdmin ? 'flex-end' : 'flex-start'
+          justifyContent: toggle ? 'flex-end' : 'flex-start'
         }}
       >
         <div
           style={{
             maxWidth: '75%',
             display: 'flex',
-            flexDirection: props.sentBy === 'internal' && props.isAdmin ? 'row-reverse' : 'row',
+            flexDirection: toggle ? 'row-reverse' : 'row',
             alignItems: 'center',
             justifyContent: 'flex-start'
           }}
@@ -59,7 +86,7 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
               }}
               size="large"
             >
-              {props.sentBy === 'internal' && props.isAdmin ? 'Intealth' : placeHolderInitials}
+              {props.sentBy === 'internal' ? 'Intealth' : placeHolderInitials}
             </Avatar>
           </div>
           <div
@@ -74,18 +101,16 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
                 marginTop: 10,
                 color: 'grey',
                 fontSize: '10px',
-                textAlign: props.sentBy === 'internal' && props.isAdmin ? 'right' : 'left'
+                textAlign: toggle ? 'right' : 'left'
               }}
             >
               {props.createdAt}
             </div>
-            <div style={props.sentBy === 'internal' && props.isAdmin ? caseWorkerStyles : applicantStyles}>
+            <div style={toggle ? caseWorkerStyles : applicantStyles}>
               {props.message}
               {props.embedding && (
                 <Editor resolver={{ ...CmsComponents }}>
-                  <Frame>
-                    {props.embedding}
-                  </Frame>
+                  <Frame>{getEmbededComponent()}</Frame>
                 </Editor>
               )}
             </div>

@@ -23,6 +23,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
       {props?.data?.messages?.map((message: any) => {
         return (
           <ChatMessage
+            key={message.id}
             sentBy={message.sentBy}
             message={message.message}
             embedding={message.embedding}

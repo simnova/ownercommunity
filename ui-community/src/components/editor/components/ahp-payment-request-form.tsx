@@ -9,6 +9,7 @@ interface AhpPaymentRequestFormProps {
   success: boolean;
   amount: string;
   reason: string;
+  isAdmin: boolean
 }
 
 const AhpPaymentRequestFormTop = (props: any) => {
@@ -24,7 +25,7 @@ AhpPaymentRequestFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpPaymentRequestForm: any = ({ completed, success, amount, reason }: AhpPaymentRequestFormProps) => {
+const AhpPaymentRequestForm: any = ({ completed, success, amount, reason, isAdmin }: AhpPaymentRequestFormProps) => {
   const {
     actions: { setProp }
   } = useNode((state) => ({
@@ -32,8 +33,6 @@ const AhpPaymentRequestForm: any = ({ completed, success, amount, reason }: AhpP
     completed: state.data.props.completed,
     success: false
   }));
-
-  const isAdmin = true;
 
   const rejectPayment = () => {
     setProp((props: any) => {

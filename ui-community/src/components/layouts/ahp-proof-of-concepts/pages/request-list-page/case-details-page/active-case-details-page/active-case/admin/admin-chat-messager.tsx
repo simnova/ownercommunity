@@ -21,10 +21,49 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
   const updateEmbedding = (requests: any[]) => {
     setRequests(requests);
   };
+
   const sendMessage = async () => {
     if (message === '') {
       return;
     }
+    let embeddedData = undefined;
+    const documentRequestTypes = [
+      'updateCredentialType',
+      'updateCredential',
+      'updateTranslation',
+      'updateInstitution',
+      'updatedName'
+    ];
+
+    if (requests.length > 0) {
+      const mainRequest = requests[0];
+      if (mainRequest.value === 'sendMoney') {
+        embeddedData = JSON.stringify({
+          type: "sendMoney",
+          amount: mainRequest.amount,
+          reason: mainRequest.reason
+        });
+      } else if (mainRequest.value === 'requestPayment') {
+        embeddedData = JSON.stringify({
+          type: "requestPayment",
+          amount: mainRequest.amount,
+          reason: mainRequest.reason
+        });
+      } else if (documentRequestTypes.includes(mainRequest.value)) {
+        embeddedData = JSON.stringify({
+          type: "documentRequestType",
+          changesRequested: {
+            credentialType: requests.findIndex((x) => x.value === 'updateCredentialType') !== -1,
+            credential: requests.findIndex((x) => x.value === 'updateCredential') !== -1,
+            credentialTranslation: requests.findIndex((x) => x.value === 'updateTranslation') !== -1,
+            issuingInstitution: requests.findIndex((x) => x.value === 'updateInstitution') !== -1,
+            nameOnDocument: requests.findIndex((x) => x.value === 'updatedName') !== -1
+          }
+        });
+
+      }
+    }
+
     await updateServiceTicket({
       variables: {
         input: {
@@ -33,7 +72,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
             {
               sentBy: 'internal',
               message: message,
-              embedding: undefined
+              embedding: embeddedData
             }
           ]
         }

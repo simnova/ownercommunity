@@ -58,7 +58,6 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
       Create Request
     </Button>
   );
-
   return (
     <>
       <Modal title="Request Update" open={isOpen} onCancel={onCancel} footer={footerButton}>

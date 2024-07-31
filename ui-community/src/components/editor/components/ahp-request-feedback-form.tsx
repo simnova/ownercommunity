@@ -10,6 +10,7 @@ interface AhpRequestFeedbackFormProps {
     issuingInstitution: boolean;
     nameOnDocument: boolean;
   };
+  isAdmin: boolean;
 }
 
 const AhpRequestFeedbackFormTop = (props: any) => {
@@ -25,14 +26,13 @@ AhpRequestFeedbackFormTop.craft = {
       incomingNodes.every((incomingNode) => incomingNode.data.type === TextComponent || TextThing)
   }
 };
-const AhpRequestFeedbackForm: any = ({ changesRequested }: AhpRequestFeedbackFormProps) => {
+const AhpRequestFeedbackForm: any = ({ changesRequested, isAdmin }: AhpRequestFeedbackFormProps) => {
   const {
     actions: {}
   } = useNode((state) => ({
     selected: state.events.selected
   }));
 
-  const isAdmin = false;
   const applicantView = (
     <div>
       Your application is unlocked, you can now update the:

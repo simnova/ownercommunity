@@ -3,13 +3,11 @@ import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggreg
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './end-user.value-objects';
-import { EndUserIdentityDetails, EndUserIdentityDetailsProps } from './end-user-identity-details';
-import { EndUserContactInformation, EndUserContactInformationProps } from './end-user-contact-information';
 import { EndUserVisa } from './end-user.visa';
+import { EndUserPersonalInformation, EndUserPersonalInformationProps } from './end-user-personal-information';
 
 export interface EndUserProps extends EntityProps {
-  identityDetails: EndUserIdentityDetailsProps;
-  contactInformation: EndUserContactInformationProps;
+  personalInformation: EndUserPersonalInformationProps;
   
   displayName: string;
   externalId:string;
@@ -30,11 +28,8 @@ export class EndUser<props extends EndUserProps> extends AggregateRoot<props> im
   }
 
   get id(): string {return this.props.id;}
-  get identityDetails(): EndUserIdentityDetailsProps {
-    return new EndUserIdentityDetails(this.props.identityDetails);
-  }
-  get contactInformation(): EndUserContactInformationProps {
-    return new EndUserContactInformation(this.props.contactInformation);
+  get personalInformation(): EndUserPersonalInformationProps {
+    return new EndUserPersonalInformation(this.props.personalInformation);
   }
 
   get displayName(): string {return this.props.displayName;}
@@ -54,14 +49,14 @@ export class EndUser<props extends EndUserProps> extends AggregateRoot<props> im
     let user = new EndUser(newProps);
     user.ExternalId=(externalId);
     if (restOfName !== undefined) {
-      user.identityDetails.restOfName=(restOfName);
-      user.identityDetails.legalNameConsistsOfOneName=(false);
+      user.personalInformation.identityDetails.restOfName=(restOfName);
+      user.personalInformation.identityDetails.legalNameConsistsOfOneName=(false);
       user.DisplayName=(`${restOfName} ${lastName}`);
     } else {
-      user.identityDetails.legalNameConsistsOfOneName=(true);
+      user.personalInformation.identityDetails.legalNameConsistsOfOneName=(true);
       user.DisplayName=(lastName);
     }
-    user.identityDetails.lastName=(lastName);
+    user.personalInformation.identityDetails.lastName=(lastName);
     user.MarkAsNew();
     return user;
   }

@@ -172,10 +172,10 @@ type PaymentBillingInfo{
   lastName: String!
   address1: String!
   address2: String
-  locality: String!
-  administrativeArea: String!
-  postalCode: String!
-  country: String!
+  locality: String! # The city of billing address
+  administrativeArea: String! # The region or state of the billing address
+  postalCode: String! # The postal code of the billing address
+  country: String! # The country of the billing address
   email: String!
   phoneNumber: String!
 }

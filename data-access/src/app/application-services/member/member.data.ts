@@ -149,7 +149,7 @@ export class MemberDataApiImpl
 
   async isAdmin(memberId: string): Promise<boolean> {
     const result = await this.model.findById(memberId).populate('role').exec();
-    const p = result.role.permissions;
+    const p = result?.role?.permissions;
     return (
       p?.serviceTicketPermissions?.canWorkOnTickets ||
       p?.serviceTicketPermissions?.canManageTickets ||

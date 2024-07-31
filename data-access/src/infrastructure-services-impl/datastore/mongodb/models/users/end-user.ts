@@ -9,7 +9,7 @@ export interface EndUserContactInformation extends NestedPath {
 export interface EndUserIdentityDetails extends NestedPath {
   lastName: string;
   legalNameConsistsOfOneName: boolean;
-  restOfName: string;
+  restOfName?: string;
 }
 
 export interface EndUserPersonalInformation extends NestedPath {

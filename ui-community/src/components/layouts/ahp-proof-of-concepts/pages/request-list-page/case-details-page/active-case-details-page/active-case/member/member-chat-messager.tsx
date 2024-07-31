@@ -3,13 +3,14 @@ import { FC, useState } from 'react';
 import { Button } from 'antd';
 import { useMutation } from '@apollo/client';
 import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../generated';
-
+import { useParams } from 'react-router-dom';
 
 interface ChatMessagerProps {
   updateMessage: () => void;
 }
 
 export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
+  const params = useParams();
   const [message, setMessage] = useState('');
   const [updateServiceTicket] = useMutation(ChatMessagesContainerServiceTicketUpdateDocument);
 
@@ -20,7 +21,7 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
     await updateServiceTicket({
       variables: {
         input: {
-          serviceTicketId: '66a7eb82ef9aff668fe0d5b9',
+          serviceTicketId: params.id,
           messages: [
             {
               sentBy: 'external',

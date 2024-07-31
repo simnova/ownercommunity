@@ -162,6 +162,22 @@ type PaymentInstrument {
   isDefault: Boolean
   expirationYear: String
   expirationMonth: String
+  id: String
+  state: String
+  billTo: PaymentBillingInfo
+}
+
+type PaymentBillingInfo{
+  firstName: String!
+  lastName: String!
+  address1: String!
+  address2: String
+  locality: String!
+  administrativeArea: String!
+  postalCode: String!
+  country: String!
+  email: String!
+  phoneNumber: String!
 }
 
 type PaymentInstrumentResult {

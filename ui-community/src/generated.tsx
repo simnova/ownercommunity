@@ -887,14 +887,31 @@ export type MutationStatus = {
   success: Scalars['Boolean'];
 };
 
+export type PaymentBillingInfo = {
+  __typename?: 'PaymentBillingInfo';
+  address1: Scalars['String'];
+  address2?: Maybe<Scalars['String']>;
+  administrativeArea: Scalars['String'];
+  country: Scalars['String'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  locality: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  postalCode: Scalars['String'];
+};
+
 export type PaymentInstrument = {
   __typename?: 'PaymentInstrument';
+  billTo?: Maybe<PaymentBillingInfo>;
   cardNumber?: Maybe<Scalars['String']>;
   cardType?: Maybe<Scalars['String']>;
   expirationMonth?: Maybe<Scalars['String']>;
   expirationYear?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
   isDefault?: Maybe<Scalars['Boolean']>;
   paymentInstrumentId?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
 };
 
 export type PaymentInstrumentResult = {

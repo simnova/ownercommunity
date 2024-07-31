@@ -889,14 +889,31 @@ export type MutationStatus = {
   success: Scalars['Boolean'];
 };
 
+export type PaymentBillingInfo = {
+  __typename?: 'PaymentBillingInfo';
+  address1: Scalars['String'];
+  address2?: Maybe<Scalars['String']>;
+  administrativeArea: Scalars['String'];
+  country: Scalars['String'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  locality: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  postalCode: Scalars['String'];
+};
+
 export type PaymentInstrument = {
   __typename?: 'PaymentInstrument';
+  billTo?: Maybe<PaymentBillingInfo>;
   cardNumber?: Maybe<Scalars['String']>;
   cardType?: Maybe<Scalars['String']>;
   expirationMonth?: Maybe<Scalars['String']>;
   expirationYear?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
   isDefault?: Maybe<Scalars['Boolean']>;
   paymentInstrumentId?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
 };
 
 export type PaymentInstrumentResult = {
@@ -1874,6 +1891,7 @@ export type ResolversTypes = ResolversObject<{
   NonPositiveFloat: ResolverTypeWrapper<Scalars['NonPositiveFloat']>;
   NonPositiveInt: ResolverTypeWrapper<Scalars['NonPositiveInt']>;
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
+  PaymentBillingInfo: ResolverTypeWrapper<PaymentBillingInfo>;
   PaymentInstrument: ResolverTypeWrapper<PaymentInstrument>;
   PaymentInstrumentResult: ResolverTypeWrapper<PaymentInstrumentResult>;
   PaymentTransactionError: ResolverTypeWrapper<PaymentTransactionError>;
@@ -2107,6 +2125,7 @@ export type ResolversParentTypes = ResolversObject<{
   NonPositiveFloat: Scalars['NonPositiveFloat'];
   NonPositiveInt: Scalars['NonPositiveInt'];
   ObjectID: Scalars['ObjectID'];
+  PaymentBillingInfo: PaymentBillingInfo;
   PaymentInstrument: PaymentInstrument;
   PaymentInstrumentResult: PaymentInstrumentResult;
   PaymentTransactionError: PaymentTransactionError;
@@ -2886,16 +2905,36 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectID';
 }
 
+export type PaymentBillingInfoResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['PaymentBillingInfo'] = ResolversParentTypes['PaymentBillingInfo'],
+> = ResolversObject<{
+  address1?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  address2?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  administrativeArea?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  country?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  locality?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  phoneNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  postalCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type PaymentInstrumentResolvers<
   ContextType = GraphqlContext,
   ParentType extends ResolversParentTypes['PaymentInstrument'] = ResolversParentTypes['PaymentInstrument'],
 > = ResolversObject<{
+  billTo?: Resolver<Maybe<ResolversTypes['PaymentBillingInfo']>, ParentType, ContextType>;
   cardNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cardType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   expirationMonth?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   expirationYear?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isDefault?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   paymentInstrumentId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -3561,6 +3600,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   NonPositiveFloat?: GraphQLScalarType;
   NonPositiveInt?: GraphQLScalarType;
   ObjectID?: GraphQLScalarType;
+  PaymentBillingInfo?: PaymentBillingInfoResolvers<ContextType>;
   PaymentInstrument?: PaymentInstrumentResolvers<ContextType>;
   PaymentInstrumentResult?: PaymentInstrumentResultResolvers<ContextType>;
   PaymentTransactionError?: PaymentTransactionErrorResolvers<ContextType>;

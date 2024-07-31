@@ -3,6 +3,8 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import { PaymentInstrument } from '../../../../generated';
 import { useState } from 'react';
+import dayjs from 'dayjs';
+import useEditPaymentMethodModal from '../../../../hooks/useEditPaymentMethodModal';
 
 const getCardType = (cardType: string) => {
   switch (cardType) {
@@ -75,6 +77,13 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const useEditPaymentMethod = useEditPaymentMethodModal();
+
+  const today = dayjs();
+  const isExpired =
+    Number(paymentInstrument?.expirationMonth!) < today.month() &&
+    Number(paymentInstrument?.expirationYear!) < today.year();
+
   const handleSetDefaultPaymentMethod = async () => {
     if (onSetDefaultPaymentMethod) {
       await onSetDefaultPaymentMethod(paymentInstrument.paymentInstrumentId!);
@@ -109,7 +118,13 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
         {/* ACTIONS */}
         <div className="flex gap-2">
           {onSetDefaultPaymentMethod && (
-            <Button className="w-8 h-8 p-0" onClick={handleSetDefaultPaymentMethod}>
+            <Button
+              className="w-8 h-8 p-0"
+              onClick={() => {
+                useEditPaymentMethod.setPaymentInstrument(paymentInstrument);
+                useEditPaymentMethod.onOpen();
+              }}
+            >
               <EditOutlined />
             </Button>
           )}
@@ -132,7 +147,7 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
             <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg h-fit">Default</Badge>
           )}
 
-          {/* {true && <Badge className="bg-rose-500 text-white px-2 py-1 rounded-lg h-fit">Expired</Badge>} */}
+          {isExpired && <Badge className="bg-rose-500 text-white px-2 py-1 rounded-lg h-fit">Expired</Badge>}
         </div>
       </div>
     );

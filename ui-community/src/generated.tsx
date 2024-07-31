@@ -5779,6 +5779,8 @@ export type MemberPaymentInstrumentsQuery = {
       cardNumber?: string | null;
       cardType?: string | null;
       isDefault?: boolean | null;
+      expirationMonth?: string | null;
+      expirationYear?: string | null;
     } | null> | null;
     status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
   } | null;
@@ -20839,7 +20841,9 @@ export const MemberPaymentInstrumentsDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'paymentInstrumentId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'cardNumber' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'cardType' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'expirationMonth' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'expirationYear' } }
                     ]
                   }
                 },

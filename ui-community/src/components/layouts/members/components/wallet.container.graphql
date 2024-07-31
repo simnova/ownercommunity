@@ -5,6 +5,8 @@ query MemberPaymentInstruments {
       cardNumber
       cardType
       isDefault
+      expirationMonth
+      expirationYear
     }
     status {
       errorMessage

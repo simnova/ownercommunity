@@ -1,4 +1,11 @@
-import { ActivityDetail, ServiceTicket, Photo, ServiceTicketMessage } from '../../../../models/cases/service-ticket';
+import {
+  ActivityDetail,
+  ServiceTicket,
+  Photo,
+  ServiceTicketMessage,
+  ServiceTicketRevisionRequest,
+  ServiceTicketRevisionRequestChanges,
+} from '../../../../models/cases/service-ticket';
 import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -15,6 +22,8 @@ import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/servi
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
 import { ServiceEntityReference } from '../../../../../../../app/domain/contexts/community/service/service';
+import { ServiceTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
+import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
 
 export class ServiceTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -134,7 +143,13 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
   }
 
   get ticketType() {
-    return this.doc.ticketType;  
+    return this.doc.ticketType;
+  }
+
+  get revisionRequest() {
+    if (this.doc.revisionRequest) {
+      return new ServiceTicketRevisionRequestAdapater(this.doc.revisionRequest);
+    }
   }
 }
 
@@ -241,5 +256,72 @@ export class ServiceTicketV1MessageDomainAdapter implements ServiceTicketV1Messa
   }
   set isHiddenFromApplicant(isHiddenFromApplicant) {
     this.props.isHiddenFromApplicant = isHiddenFromApplicant;
+  }
+}
+
+export class ServiceTicketRevisionRequestAdapater implements ServiceTicketV1RevisionRequestProps {
+  constructor(public readonly doc: ServiceTicketRevisionRequest) {}
+
+  get requestedAt() {
+    return this.doc.requestedAt;
+  }
+
+  set requestedAt(requestedAt) {
+    this.doc.requestedAt = requestedAt;
+  }
+
+  get requestedBy() {
+    if (this.doc.requestedBy) {
+      return new MemberDomainAdapter(this.doc.requestedBy);
+    }
+  }
+
+  public setRequestedByRef(requestedBy: MemberEntityReference) {
+    this.doc.requestedBy = requestedBy['props']['doc'];
+  }
+
+  get revisionSubmittedAt() {
+    return this.doc.revisionSubmittedAt;
+  }
+
+  set revisionSubmittedAt(revisionSubmittedAt) {
+    this.doc.revisionSubmittedAt = revisionSubmittedAt;
+  }
+
+  get revisionSummary() {
+    return this.doc.revisionSummary;
+  }
+
+  set revisionSummary(revisionSummary) {
+    this.doc.revisionSummary = revisionSummary;
+  }
+
+  get requestedChanges() {
+    return new ServiceTicketV1RevisionRequestedChangesDomainAdapter(this.doc.requestedChanges);
+  }
+}
+
+export class ServiceTicketV1RevisionRequestedChangesDomainAdapter implements ServiceTicketV1RevisionRequestedChangesProps {
+  constructor(public readonly doc: ServiceTicketRevisionRequestChanges) {}
+  get requestUpdatedAssignment() {
+    return this.doc.requestUpdatedAssignment;
+  }
+  set RequestUpdatedAssignment(requestUpdatedAssignment: boolean) {
+    this.doc.requestUpdatedAssignment = requestUpdatedAssignment;
+  }
+
+  get requestUpdatedStatus() {
+    return this.doc.requestUpdatedStatus;
+  }
+  set RequestUpdatedStatus(requestUpdatedStatus: boolean) {
+    this.doc.requestUpdatedAssignment = requestUpdatedStatus;
+  }
+
+  get requestUpdatedProperty() {
+    return this.doc.requestUpdatedProperty;
+  }
+
+  set RequestUpdatedProperty(requestUpdatedProperty: boolean) {
+    this.doc.requestUpdatedAssignment = requestUpdatedProperty;
   }
 }

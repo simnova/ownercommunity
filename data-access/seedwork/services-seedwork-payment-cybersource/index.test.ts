@@ -103,6 +103,7 @@ test.skip('cybersource: get customer payment instrument', async () => {
   expect(response.card.expirationYear).toEqual('2024');
   expect(response.card.type).toEqual('001');
   expect(response._embedded.instrumentIdentifier.card.number).toEqual('411111XXXXXX1111');
+  expect(response.default).toBe(true);
 });
 
 test.skip('cybersource: get customer payment instruments', async () => {
@@ -111,6 +112,7 @@ test.skip('cybersource: get customer payment instruments', async () => {
   expect(response).toBeDefined();
   expect(response.total).toBeGreaterThan(0);
   expect(response._embedded.paymentInstruments.length).toBeGreaterThan(0);
+  expect(response._embedded.paymentInstruments[0].billTo.phoneNumber).toBeDefined();
 });
 
 test.skip('cybersource: delete customer payment instrument', async () => {

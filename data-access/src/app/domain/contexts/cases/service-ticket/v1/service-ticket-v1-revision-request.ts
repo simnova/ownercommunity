@@ -28,19 +28,19 @@ export class ServiceTicketV1RevisionRequest extends ValueObject<ServiceTicketV1R
     super(props);
   }
   get requestedAt() {
-    return this.requestedAt;
+    return this.props.requestedAt;
   }
   get requestedBy() {
     return new Member(this.props.requestedBy, this.context);
   }
   get revisionSummary() {
-    return this.revisionSummary;
+    return this.props.revisionSummary;
   }
   get requestedChanges() {
     return new ServiceTicketV1RevisionRequestedChanges(this.props.requestedChanges, this.visa);
   }
   get revisionSubmittedAt() {
-    return this.revisionSubmittedAt;
+    return this.props.revisionSubmittedAt;
   }
 
   private validateVisa(): void {

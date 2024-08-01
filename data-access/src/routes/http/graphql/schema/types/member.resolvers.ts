@@ -27,9 +27,9 @@ const member: Resolvers = {
     },
     role: async (parent, _args, context) => {
       if (parent.role && isValidObjectId(parent.role.id)) {
-        const roleToReturn = await context.applicationServices.role.dataApi.getRoleById(parent.role.id) as Role;
+        const roleToReturn = await context.applicationServices.roles.endUserRole.dataApi.getRoleById(parent.role.id) as Role;
         return applyPermission<Role>(roleToReturn, (_role) => {
-          return context.passport.datastoreVisa.forRole(context.member.role).determineIf((permissions) => 
+          return context.passport.datastoreVisa.forEndUserRole(context.member.role).determineIf((permissions) => 
             (permissions.canManageRolesAndPermissions && parent.community.toString() === context.member.community.toString()) ||
             parent.id === context.member.id || 
             permissions.isSystemAccount);
@@ -46,13 +46,13 @@ const member: Resolvers = {
       //   return null;
       // }
       if (parent.user && isValidObjectId(parent.user.toString())) {
-        return (await context.applicationServices.user.dataApi.getUserById(parent.user.toString())) as User;
+        return (await context.applicationServices.users.endUser.dataApi.getUserById(parent.user.toString())) as User;
       }
       return parent.user;
     },
     createdBy: async (parent, _args, context) => {
       if (parent.createdBy && isValidObjectId(parent.createdBy.toString())) {
-        return (await context.applicationServices.user.dataApi.getUserById(parent.createdBy.toString())) as User;
+        return (await context.applicationServices.users.endUser.dataApi.getUserById(parent.createdBy.toString())) as User;
       }
       return parent.createdBy;
     },

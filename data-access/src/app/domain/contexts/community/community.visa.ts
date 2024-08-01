@@ -1,5 +1,8 @@
 import { Visa } from "../../../../../seedwork/passport-seedwork/visa";
-import { CommunityPermissionsSpec } from "./role/community-permissions";
+import { StaffRoleCommunityPermissionsSpec } from "./roles/staff-role/community-permissions";
+import { EndUserRoleCommunityPermissionsSpec } from "./roles/end-user-role/community-permissions";
+
+export interface CommunityPermissionsSpec extends StaffRoleCommunityPermissionsSpec, EndUserRoleCommunityPermissionsSpec {}
 
 export interface CommunityVisa extends Visa {
   determineIf(func: ((permissions: CommunityPermissionsSpec) => boolean)): boolean;

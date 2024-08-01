@@ -1,5 +1,5 @@
 
-import { PropertyPermissionsSpec } from '../../community/role/property-permissions';
+import { PropertyPermissionsSpec } from '../../property/property/property.visa';
 import { BedroomDetail, BedroomDetailProps } from "./bedroom-detail";
 import _ from 'underscore';
 import {expect, jest, test} from '@jest/globals';

@@ -312,16 +312,13 @@ export type CommunityUpdateInput = {
   whiteLabelDomain?: InputMaybe<Scalars['String']>;
 };
 
-export type CurrentUser = MongoBase & {
-  __typename?: 'CurrentUser';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  email?: Maybe<Scalars['EmailAddress']>;
-  externalId?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  id: Scalars['ObjectID'];
-  lastName?: Maybe<Scalars['String']>;
-  schemaVersion?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+export type ContactInformation = {
+  __typename?: 'ContactInformation';
+  email: Scalars['String'];
+};
+
+export type ContactInformationInput = {
+  email?: InputMaybe<Scalars['String']>;
 };
 
 export type CustomView = MongoSubdocument & {
@@ -380,6 +377,19 @@ export type GeographyPoint = {
 export type GeographyPointInput = {
   latitude?: InputMaybe<Scalars['Float']>;
   longitude?: InputMaybe<Scalars['Float']>;
+};
+
+export type IdentityDetails = {
+  __typename?: 'IdentityDetails';
+  lastName: Scalars['String'];
+  legalNameConsistsOfOneName: Scalars['Boolean'];
+  restOfName?: Maybe<Scalars['String']>;
+};
+
+export type IdentityDetailsInput = {
+  lastName?: InputMaybe<Scalars['String']>;
+  legalNameConsistsOfOneName?: InputMaybe<Scalars['Boolean']>;
+  restOfName?: InputMaybe<Scalars['String']>;
 };
 
 export type ListingDetails = {
@@ -635,6 +645,12 @@ export type Mutation = {
   serviceTicketSubmit: ServiceTicketMutationResult;
   serviceTicketUpdate: ServiceTicketMutationResult;
   serviceUpdate: ServiceMutationResult;
+  staffRoleAdd: StaffRoleMutationResult;
+  staffRoleDeleteAndReassign: StaffRoleMutationResult;
+  staffRoleUpdate: StaffRoleMutationResult;
+  staffUserCreate: StaffUserMutationResult;
+  /** Allows the user to update their profile */
+  staffUserUpdate: StaffUserMutationResult;
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
@@ -838,6 +854,26 @@ export type MutationServiceUpdateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffRoleAddArgs = {
+  input: StaffRoleAddInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffRoleDeleteAndReassignArgs = {
+  input: StaffRoleDeleteAndReassignInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffRoleUpdateArgs = {
+  input: StaffRoleUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffUserUpdateArgs = {
+  input: StaffUserUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationUserUpdateArgs = {
   input: UserUpdateInput;
 };
@@ -887,14 +923,31 @@ export type MutationStatus = {
   success: Scalars['Boolean'];
 };
 
+export type PaymentBillingInfo = {
+  __typename?: 'PaymentBillingInfo';
+  billingAddressLine1?: Maybe<Scalars['String']>;
+  billingAddressLine2?: Maybe<Scalars['String']>;
+  billingCity?: Maybe<Scalars['String']>;
+  billingCountry?: Maybe<Scalars['String']>;
+  billingEmail?: Maybe<Scalars['String']>;
+  billingFirstName?: Maybe<Scalars['String']>;
+  billingLastName?: Maybe<Scalars['String']>;
+  billingPhone?: Maybe<Scalars['String']>;
+  billingPostalCode?: Maybe<Scalars['String']>;
+  billingState?: Maybe<Scalars['String']>;
+};
+
 export type PaymentInstrument = {
   __typename?: 'PaymentInstrument';
+  billTo?: Maybe<PaymentBillingInfo>;
   cardNumber?: Maybe<Scalars['String']>;
   cardType?: Maybe<Scalars['String']>;
   expirationMonth?: Maybe<Scalars['String']>;
   expirationYear?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
   isDefault?: Maybe<Scalars['Boolean']>;
   paymentInstrumentId?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
 };
 
 export type PaymentInstrumentResult = {
@@ -928,6 +981,17 @@ export type PermissionsInput = {
   propertyPermissions: PropertyPermissionsInput;
   serviceTicketPermissions: ServiceTicketPermissionsInput;
   violationTicketPermissions: ViolationTicketPermissionsInput;
+};
+
+export type PersonalInformation = {
+  __typename?: 'PersonalInformation';
+  contactInformation?: Maybe<ContactInformation>;
+  identityDetails?: Maybe<IdentityDetails>;
+};
+
+export type PersonalInformationInput = {
+  contactInformation?: InputMaybe<ContactInformationInput>;
+  identityDetails?: InputMaybe<IdentityDetailsInput>;
 };
 
 export type Point = {
@@ -1133,8 +1197,13 @@ export type Query = {
   serviceTicketsSearch?: Maybe<ServiceTicketsSearchResult>;
   serviceTicketsSearchAdmin?: Maybe<ServiceTicketsSearchResult>;
   servicesByCommunityId?: Maybe<Array<Maybe<Service>>>;
+  staffRole?: Maybe<StaffRole>;
+  staffRoles?: Maybe<Array<Maybe<StaffRole>>>;
+  staffUser?: Maybe<StaffUser>;
+  staffUserCurrent?: Maybe<StaffUser>;
+  staffUsers?: Maybe<Array<Maybe<StaffUser>>>;
   user?: Maybe<User>;
-  userCurrent?: Maybe<CurrentUser>;
+  userCurrent?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
   violationTicket?: Maybe<ViolationTicket>;
   violationTicketPaymentTransactions?: Maybe<Array<Maybe<PaymentTransactionsResult>>>;
@@ -1233,6 +1302,16 @@ export type QueryServiceTicketsSearchAdminArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServicesByCommunityIdArgs = {
   communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryStaffRoleArgs = {
+  id: Scalars['ObjectID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryStaffUserArgs = {
+  id: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1515,6 +1594,94 @@ export type ServiceUpdateInput = {
   serviceName?: InputMaybe<Scalars['String']>;
 };
 
+export type StaffCommunityPermissions = {
+  __typename?: 'StaffCommunityPermissions';
+  canChangeCommunityOwner: Scalars['Boolean'];
+  canDeleteCommunities: Scalars['Boolean'];
+  canManageAllCommunities: Scalars['Boolean'];
+  canManageStaffRolesAndPermissions: Scalars['Boolean'];
+  canReIndexSearchCollections: Scalars['Boolean'];
+};
+
+export type StaffCommunityPermissionsInput = {
+  canChangeCommunityOwner: Scalars['Boolean'];
+  canDeleteCommunities: Scalars['Boolean'];
+  canManageAllCommunities: Scalars['Boolean'];
+  canManageStaffRolesAndPermissions: Scalars['Boolean'];
+  canReIndexSearchCollections: Scalars['Boolean'];
+};
+
+export type StaffPermissions = {
+  __typename?: 'StaffPermissions';
+  communityPermissions: StaffCommunityPermissions;
+};
+
+export type StaffPermissionsInput = {
+  communityPermissions: StaffCommunityPermissionsInput;
+};
+
+export type StaffRole = MongoBase & {
+  __typename?: 'StaffRole';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  isDefault: Scalars['Boolean'];
+  permissions: StaffPermissions;
+  roleName: Scalars['String'];
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type StaffRoleAddInput = {
+  permissions: StaffPermissionsInput;
+  roleName: Scalars['String'];
+};
+
+export type StaffRoleDeleteAndReassignInput = {
+  roleToDelete: Scalars['ObjectID'];
+  roleToReassignTo: Scalars['ObjectID'];
+};
+
+export type StaffRoleMutationResult = MutationResult & {
+  __typename?: 'StaffRoleMutationResult';
+  role?: Maybe<StaffRole>;
+  status: MutationStatus;
+};
+
+export type StaffRoleUpdateInput = {
+  id: Scalars['ObjectID'];
+  permissions: StaffPermissionsInput;
+  roleName: Scalars['String'];
+};
+
+export type StaffUser = MongoBase & {
+  __typename?: 'StaffUser';
+  accessBlocked?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: Maybe<Scalars['String']>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type StaffUserMutationResult = MutationResult & {
+  __typename?: 'StaffUserMutationResult';
+  status: MutationStatus;
+  user?: Maybe<StaffUser>;
+};
+
+export type StaffUserUpdateInput = {
+  displayName?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: InputMaybe<Scalars['String']>;
+};
+
 export type Ticket = ServiceTicket | ViolationTicket;
 
 export type Transaction = {
@@ -1535,13 +1702,14 @@ export type Transaction = {
 
 export type User = MongoBase & {
   __typename?: 'User';
+  accessBlocked?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  email?: Maybe<Scalars['EmailAddress']>;
+  displayName?: Maybe<Scalars['String']>;
   externalId?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
-  lastName?: Maybe<Scalars['String']>;
+  personalInformation?: Maybe<PersonalInformation>;
   schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -1552,10 +1720,9 @@ export type UserMutationResult = MutationResult & {
 };
 
 export type UserUpdateInput = {
-  email?: InputMaybe<Scalars['String']>;
-  firstName?: InputMaybe<Scalars['String']>;
+  displayName?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
-  lastName?: InputMaybe<Scalars['String']>;
+  personalInformation?: InputMaybe<PersonalInformationInput>;
 };
 
 /** An Violation ticket describes violation ticket type. */
@@ -1801,20 +1968,24 @@ export type UserInfoContainerUserCurrentQueryQueryVariables = Exact<{ [key: stri
 export type UserInfoContainerUserCurrentQueryQuery = {
   __typename?: 'Query';
   userCurrent?: {
-    __typename: 'CurrentUser';
+    __typename: 'User';
     id: any;
     externalId?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
+    personalInformation?: {
+      __typename?: 'PersonalInformation';
+      identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+    } | null;
   } | null;
 };
 
 export type UserInfoContainerCurrentUserFieldsFragment = {
-  __typename: 'CurrentUser';
+  __typename: 'User';
   id: any;
   externalId?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
+  personalInformation?: {
+    __typename?: 'PersonalInformation';
+    identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+  } | null;
 };
 
 export type AdminCommunityDetailContainerCommunityQueryVariables = Exact<{
@@ -1902,7 +2073,14 @@ export type AdminMembersAccountsEditContainerMemberQuery = {
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
-      user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+      user?: {
+        __typename?: 'User';
+        id: any;
+        personalInformation?: {
+          __typename?: 'PersonalInformation';
+          contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+        } | null;
+      } | null;
     } | null> | null;
   } | null;
 };
@@ -1927,7 +2105,14 @@ export type AdminMembersAccountsEditContainerMemberAccountEditMutation = {
         id: any;
         createdAt?: any | null;
         updatedAt?: any | null;
-        user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+        user?: {
+          __typename?: 'User';
+          id: any;
+          personalInformation?: {
+            __typename?: 'PersonalInformation';
+            contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+          } | null;
+        } | null;
       } | null> | null;
     } | null;
   };
@@ -1953,7 +2138,14 @@ export type AdminMembersAccountsEditContainerMemberAccountRemoveMutation = {
         id: any;
         createdAt?: any | null;
         updatedAt?: any | null;
-        user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+        user?: {
+          __typename?: 'User';
+          id: any;
+          personalInformation?: {
+            __typename?: 'PersonalInformation';
+            contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+          } | null;
+        } | null;
       } | null> | null;
     } | null;
   };
@@ -1973,7 +2165,14 @@ export type AdminMembersAccountsEditContainerMemberMutationResultFieldsFragment 
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
-      user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+      user?: {
+        __typename?: 'User';
+        id: any;
+        personalInformation?: {
+          __typename?: 'PersonalInformation';
+          contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+        } | null;
+      } | null;
     } | null> | null;
   } | null;
 };
@@ -1989,7 +2188,14 @@ export type AdminMembersAccountEditContainerMembersFieldsFragment = {
     id: any;
     createdAt?: any | null;
     updatedAt?: any | null;
-    user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+    user?: {
+      __typename?: 'User';
+      id: any;
+      personalInformation?: {
+        __typename?: 'PersonalInformation';
+        contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+      } | null;
+    } | null;
   } | null> | null;
 };
 
@@ -2010,7 +2216,14 @@ export type AdminMembersAccountsListContainerMemberQuery = {
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
-      user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+      user?: {
+        __typename?: 'User';
+        id: any;
+        personalInformation?: {
+          __typename?: 'PersonalInformation';
+          contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+        } | null;
+      } | null;
     } | null> | null;
   } | null;
 };
@@ -2026,7 +2239,14 @@ export type AdminMembersAccountsListContainerMembersFieldsFragment = {
     id: any;
     createdAt?: any | null;
     updatedAt?: any | null;
-    user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+    user?: {
+      __typename?: 'User';
+      id: any;
+      personalInformation?: {
+        __typename?: 'PersonalInformation';
+        contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+      } | null;
+    } | null;
   } | null> | null;
 };
 
@@ -4190,7 +4410,14 @@ export type MemberSiteNeighborsListContainerQuery = {
     memberName?: string | null;
     accounts?: Array<{
       __typename?: 'MemberAccount';
-      user?: { __typename?: 'User'; id: any; firstName?: string | null } | null;
+      user?: {
+        __typename?: 'User';
+        id: any;
+        personalInformation?: {
+          __typename?: 'PersonalInformation';
+          identityDetails?: { __typename?: 'IdentityDetails'; restOfName?: string | null } | null;
+        } | null;
+      } | null;
     } | null> | null;
     profile?: {
       __typename?: 'MemberProfile';
@@ -4214,7 +4441,14 @@ export type MemberSiteNeighborsListContainerFieldsFragment = {
   memberName?: string | null;
   accounts?: Array<{
     __typename?: 'MemberAccount';
-    user?: { __typename?: 'User'; id: any; firstName?: string | null } | null;
+    user?: {
+      __typename?: 'User';
+      id: any;
+      personalInformation?: {
+        __typename?: 'PersonalInformation';
+        identityDetails?: { __typename?: 'IdentityDetails'; restOfName?: string | null } | null;
+      } | null;
+    } | null;
   } | null> | null;
   profile?: {
     __typename?: 'MemberProfile';
@@ -6240,11 +6474,13 @@ export type LoggedInUserRootContainerUserCurrentQueryQueryVariables = Exact<{ [k
 export type LoggedInUserRootContainerUserCurrentQueryQuery = {
   __typename?: 'Query';
   userCurrent?: {
-    __typename: 'CurrentUser';
+    __typename: 'User';
     id: any;
     externalId?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
+    personalInformation?: {
+      __typename?: 'PersonalInformation';
+      identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+    } | null;
   } | null;
 };
 
@@ -6253,11 +6489,13 @@ export type LoggedInUserCommunityContainerUserCurrentQueryQueryVariables = Exact
 export type LoggedInUserCommunityContainerUserCurrentQueryQuery = {
   __typename?: 'Query';
   userCurrent?: {
-    __typename: 'CurrentUser';
+    __typename: 'User';
     id: any;
     externalId?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
+    personalInformation?: {
+      __typename?: 'PersonalInformation';
+      identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+    } | null;
   } | null;
   memberForCurrentUser?: {
     __typename: 'Member';
@@ -6266,11 +6504,13 @@ export type LoggedInUserCommunityContainerUserCurrentQueryQuery = {
 };
 
 export type LoggedInUserContainerUserCurrentFieldsFragment = {
-  __typename: 'CurrentUser';
+  __typename: 'User';
   id: any;
   externalId?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
+  personalInformation?: {
+    __typename?: 'PersonalInformation';
+    identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+  } | null;
 };
 
 export const CommunityCreateContainerMutationCommunityCreateFieldsFragmentDoc = {
@@ -6370,14 +6610,32 @@ export const UserInfoContainerCurrentUserFieldsFragmentDoc = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'UserInfoContainerCurrentUserFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }
@@ -6500,7 +6758,23 @@ export const AdminMembersAccountEditContainerMembersFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -6576,7 +6850,23 @@ export const AdminMembersAccountsEditContainerMemberMutationResultFieldsFragment
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -6618,7 +6908,23 @@ export const AdminMembersAccountsListContainerMembersFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -8707,7 +9013,23 @@ export const MemberSiteNeighborsListContainerFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'identityDetails' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 }
@@ -10960,14 +11282,32 @@ export const LoggedInUserContainerUserCurrentFieldsFragmentDoc = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }
@@ -11338,14 +11678,32 @@ export const UserInfoContainerUserCurrentQueryDocument = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'UserInfoContainerCurrentUserFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }
@@ -11569,7 +11927,23 @@ export const AdminMembersAccountsEditContainerMemberDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -11654,7 +12028,23 @@ export const AdminMembersAccountsEditContainerMemberAccountEditDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -11773,7 +12163,23 @@ export const AdminMembersAccountsEditContainerMemberAccountRemoveDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -11889,7 +12295,23 @@ export const AdminMembersAccountsListContainerMemberDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -17192,7 +17614,23 @@ export const MemberSiteNeighborsListContainerDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'identityDetails' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 }
@@ -21766,14 +22204,32 @@ export const LoggedInUserRootContainerUserCurrentQueryDocument = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }
@@ -21827,14 +22283,32 @@ export const LoggedInUserCommunityContainerUserCurrentQueryDocument = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }

@@ -4,7 +4,7 @@ import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggreg
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
-import { User, UserEntityReference, UserProps } from '../../user/user/user';
+import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './community.value-objects';
 
 export interface CommunityProps extends EntityProps {
@@ -15,12 +15,12 @@ export interface CommunityProps extends EntityProps {
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly schemaVersion: string;
-  readonly createdBy: UserProps;
-  setCreatedByRef(user: UserEntityReference): void;
+  readonly createdBy: EndUserProps;
+  setCreatedByRef(user: EndUserEntityReference): void;
 }
 
 export interface CommunityEntityReference extends Readonly<Omit<CommunityProps, 'createdBy' | 'setCreatedByRef'>> {
-  readonly createdBy: UserEntityReference;
+  readonly createdBy: EndUserEntityReference;
 }
 
 export class Community<props extends CommunityProps> extends AggregateRoot<props> implements CommunityEntityReference {
@@ -46,8 +46,8 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
   get handle() {
     return this.props.handle;
   }
-  get createdBy(): UserEntityReference {
-    return new User(this.props.createdBy, this.context);
+  get createdBy(): EndUserEntityReference {
+    return new EndUser(this.props.createdBy);
   }
   get updatedAt() {
     return this.props.updatedAt;
@@ -62,7 +62,7 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
   public static getNewInstance<props extends CommunityProps>(
     newProps: props,
     communityName: string,
-    createdByUser: UserEntityReference,
+    createdByUser: EndUserEntityReference,
     context: DomainExecutionContext
   ): Community<props> {
     let community = new Community(newProps, context);
@@ -112,7 +112,7 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     this.props.handle = handle ? handle.valueOf() : null;
   }
 
-  set CreatedBy(createdBy: UserEntityReference) {
+  set CreatedBy(createdBy: EndUserEntityReference) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageCommunitySettings)) {
       throw new Error('You do not have permission to change the created by of this community');
     }

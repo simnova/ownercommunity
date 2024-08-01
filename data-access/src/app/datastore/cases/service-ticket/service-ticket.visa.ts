@@ -1,5 +1,7 @@
 import { Visa } from "../../../../../seedwork/passport-seedwork/visa";
-import { MemberData, ServiceTicketData, ServiceTicketPermissions } from "../../../external-dependencies/datastore";
+import { MemberData, ServiceTicketData, StaffRoleServiceTicketPermissions, EndUserRoleServiceTicketPermissions } from "../../../external-dependencies/datastore";
+
+export type ServiceTicketPermissions = StaffRoleServiceTicketPermissions | EndUserRoleServiceTicketPermissions;
 
 export interface ServiceTicketVisa extends Visa {
   determineIf(func:((permissions: ServiceTicketPermissions) => boolean)) : boolean;

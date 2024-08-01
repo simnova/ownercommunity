@@ -18,7 +18,7 @@ const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Pr
 const community: Resolvers = {
   Community: {
     roles: async (_rootObj: Community, _, { applicationServices }) => {
-      return (await applicationServices.role.dataApi.getRoles()) as Role[];
+      return (await applicationServices.roles.endUserRole.dataApi.getRoles()) as Role[];
     },
     files: async (rootObj: Community, _, { applicationServices }) => {
       return applicationServices.community.blobApi.communityPublicFilesList(rootObj.id);

@@ -1,18 +1,17 @@
 import { Member, Account, Profile, CustomView } from '../../models/member';
-
 import { Member as MemberDO, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { AccountProps } from '../../../../../app/domain/contexts/community/member/account';
-import { UserDomainAdapter } from '../user/user.domain-adapter';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from '../community/community.domain-adapter';
-import { RoleDomainAdapter } from '../role/role.domain-adapter';
+import { EndUserRoleDomainAdapter } from '../roles/end-user-role/end-user-role.domain-adapter';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
-import { RoleEntityReference } from '../../../../../app/domain/contexts/community/role/role';
+import { EndUserRoleEntityReference } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { ProfileProps } from '../../../../../app/domain/contexts/community/member/profile';
-import { UserEntityReference } from '../../../../../app/domain/contexts/user/user/user';
 import { CustomViewProps } from '../../../../../app/domain/contexts/community/member/custom-view';
+import { EndUserEntityReference } from '../../../../../app/domain/contexts/users/end-user/end-user';
+import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
 
 export class MemberConverter extends MongoTypeConverter<DomainExecutionContext, Member, MemberDomainAdapter, MemberDO<MemberDomainAdapter>> {
   constructor() {
@@ -40,6 +39,7 @@ export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implement
     if (this.doc.community) {
       return new CommunityDomainAdapter(this.doc.community);
     }
+    return undefined;
   }
   setCommunityRef(community: CommunityEntityReference) {
     this.doc.set('community', community.id);
@@ -51,10 +51,11 @@ export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implement
 
   get role() {
     if (this.doc.role) {
-      return new RoleDomainAdapter(this.doc.role);
+      return new EndUserRoleDomainAdapter(this.doc.role);
     }
+    return undefined;
   }
-  setRoleRef(role: RoleEntityReference) {
+  setRoleRef(role: EndUserRoleEntityReference) {
     this.doc.set('role', role.id);
   }
 
@@ -92,10 +93,11 @@ export class AccountDomainAdapter implements AccountProps {
 
   get user() {
     if (this.doc.user) {
-      return new UserDomainAdapter(this.doc.user);
+      return new EndUserDomainAdapter(this.doc.user);
     }
+    return undefined;
   }
-  setUserRef(user: UserEntityReference) {
+  setUserRef(user: EndUserEntityReference) {
     this.doc.set('user', user['props']['doc']);
   }
 
@@ -108,10 +110,11 @@ export class AccountDomainAdapter implements AccountProps {
 
   get createdBy() {
     if (this.doc.createdBy) {
-      return new UserDomainAdapter(this.doc.createdBy);
+      return new EndUserDomainAdapter(this.doc.createdBy);
     }
+    return undefined;
   }
-  setCreatedByRef(createdBy: UserEntityReference) {
+  setCreatedByRef(createdBy: EndUserEntityReference) {
     this.doc.set('createdBy', createdBy.id);
   }
 }

@@ -1,15 +1,15 @@
 import { Schema, model, Model, ObjectId, PopulatedDoc, Types } from 'mongoose';
 import { Base, SubdocumentBase, NestedPath, Patterns } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
-import * as User from './user';
+import * as EndUser from './users/end-user';
 import * as Community from './community';
-import * as Role from './role';
+import * as EndUserRole from './roles/end-user-role';
 
 export interface Account extends SubdocumentBase {
   firstName: string;
   lastName?: string;
-  user: PopulatedDoc<User.User> | ObjectId;
+  user: PopulatedDoc<EndUser.EndUser> | ObjectId;
   statusCode: string;
-  createdBy: PopulatedDoc<User.User> | ObjectId;
+  createdBy: PopulatedDoc<EndUser.EndUser> | ObjectId;
 }
 
 export interface CustomView extends SubdocumentBase {
@@ -24,14 +24,14 @@ const AccountSchema = new Schema<Account, Model<Account>, Account>(
   {
     firstName: { type: String, required: true, maxlength: 500 },
     lastName: { type: String, required: false, maxlength: 500 },
-    user: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true },
+    user: { type: Schema.Types.ObjectId, ref: EndUser.EndUserModel.modelName, required: false, index: true },
     statusCode: {
       type: String,
       enum: ['CREATED', 'ACCEPTED', 'REJECTED'],
       required: false,
       default: 'CREATED',
     },
-    createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true },
+    createdBy: { type: Schema.Types.ObjectId, ref: EndUser.EndUserModel.modelName, required: false, index: true },
   },
   {
     timestamps: true,
@@ -67,7 +67,7 @@ export interface Member extends Base {
   accounts: Types.DocumentArray<Account>;
   cybersourceCustomerId: string;
   customViews: Types.DocumentArray<CustomView>;
-  role?: PopulatedDoc<Role.Role> | ObjectId;
+  role?: PopulatedDoc<EndUserRole.EndUserRole> | ObjectId;
   profile: Profile;
 }
 
@@ -80,7 +80,7 @@ const schema = new Schema<Member, Model<Member>, Member>(
     },
     memberName: { type: String, required: true, maxlength: 200 },
     community: { type: Schema.Types.ObjectId, ref: Community.CommunityModel.modelName, required: true, index: true },
-    role: { type: Schema.Types.ObjectId, ref: Role.RoleModel.modelName, required: false, index: true },
+    role: { type: Schema.Types.ObjectId, ref: EndUserRole.EndUserRoleModel.modelName, required: false, index: true },
     accounts: { type: [AccountSchema], required: false },
     customViews: { type: [CustomViewSchema], required: false },
     cybersourceCustomerId: { type: String, required: false, maxlength: 50 },

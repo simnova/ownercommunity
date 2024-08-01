@@ -8,15 +8,24 @@ import { Community, CommunityProps } from "../../../app/domain/contexts/communit
 import { MemoryCommunityRepository } from "./infrastructure/community/community.memory-repository";
 import { buildMemoryCommunityUnitOfWork } from "./infrastructure/community/community.memory-uow"
 // import { MemoryCommunityDatastore } from "./infrastructure/community.memory-datastore";
-// user
-import { User, UserProps } from "../../../app/domain/contexts/user/user/user";
-import { MemoryUserRepository } from "./infrastructure/user/user.memory-repository";
-import { buildMemoryUserUnitOfWork } from "./infrastructure/user/user.memory-uow";
+// staff user
+import { StaffUser, StaffUserProps } from "../../../app/domain/contexts/users/staff-user/staff-user";
+import { MemoryStaffUserRepository } from "./infrastructure/users/staff-user/staff-user.memory-repository";
+import { buildMemoryStaffUserUnitOfWork } from "./infrastructure/users/staff-user/staff-user.memory-uow";
+// end user
+import { EndUser, EndUserProps } from "../../../app/domain/contexts/users/end-user/end-user";
+import { MemoryEndUserRepository } from "./infrastructure/users/end-user/end-user.memory-repository";
+import { buildMemoryEndUserUnitOfWork } from "./infrastructure/users/end-user/end-user.memory-uow";
 // import { MemoryUserDatastore } from "./infrastructure/user.memory-datastore";
-// role
-import { Role, RoleProps } from "../../../app/domain/contexts/community/role/role";
-import { MemoryRoleRepository } from "./infrastructure/role/role.memory-repository";
-import { buildMemoryRoleUnitOfWork } from "./infrastructure/role/role.memory-uow";
+// end user role
+import { EndUserRole, EndUserRoleProps } from "../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
+import { MemoryEndUserRoleRepository } from "./infrastructure/roles/end-user-role/end-user-role.memory-repository";
+import { buildMemoryEndUserRoleUnitOfWork } from "./infrastructure/roles/end-user-role/end-user-role.memory-uow";
+
+// staff role
+import { StaffRole, StaffRoleProps } from "../../../app/domain/contexts/community/roles/staff-role/staff-role";
+import { MemoryStaffRoleRepository } from "./infrastructure/roles/staff-role/staff-role.memory-repository";
+import { buildMemoryStaffRoleUnitOfWork } from "./infrastructure/roles/staff-role/staff-role.memory-uow";
 // import { MemoryRoleDatastore } from "./infrastructure/role.memory-datastore";
 
 // member
@@ -60,13 +69,20 @@ export interface IMemoryDatabase {
   communityReadonlyMemoryStore: ReadOnlyMemoryStore<CommunityProps>;
   // communityDatastore: MemoryCommunityDatastore;
   // user
-  userUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
-  userReadonlyMemoryStore: ReadOnlyMemoryStore<UserProps>;
+  endUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>>;
+  endUserReadonlyMemoryStore: ReadOnlyMemoryStore<EndUserProps>;
+
+  staffUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>>;
+  staffUserReadonlyMemoryStore: ReadOnlyMemoryStore<StaffUserProps>;
   // userDatastore: MemoryUserDatastore;
   
-  // role
-  roleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>>;
-  roleReadonlyMemoryStore: ReadOnlyMemoryStore<RoleProps>;
+  // end user role
+  endUserRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUserRole<EndUserRoleProps>, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>>;
+  endUserRoleReadonlyMemoryStore: ReadOnlyMemoryStore<EndUserRoleProps>;
+
+  // staff role
+  staffRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffRole<StaffRoleProps>, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>>;
+  staffRoleReadonlyMemoryStore: ReadOnlyMemoryStore<StaffRoleProps>;
   // roleDatastore: MemoryRoleDatastore;
   // member
   memberUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Member<MemberProps>, MemoryMemberRepository<MemberProps, Member<MemberProps>>>;
@@ -123,28 +139,52 @@ export class MemoryDatabase implements IMemoryDatabase{
   // }
 
   // user
-  private _userUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>>;
-  private _userMemoryStore: MemoryStore<UserProps>;
+  private _staffUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>>;
+  private _staffUserMemoryStore: MemoryStore<StaffUserProps>;
   // private _userMemoryDatastore: MemoryUserDatastore;
-  private get userMemoryStore(): MemoryStore<UserProps> {
-    if(!this._userMemoryStore) {
-      this._userMemoryStore = new MemoryStore<UserProps>();
+  private get staffUserMemoryStore(): MemoryStore<StaffUserProps> {
+    if(!this._staffUserMemoryStore) {
+      this._staffUserMemoryStore = new MemoryStore<StaffUserProps>();
     }
-    return this._userMemoryStore;
+    return this._staffUserMemoryStore;
   }
   // private buildUserMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<UserProps>): MemoryUserDatastore {
   //   return new MemoryUserDatastore(readonlyMemoryStore);
   // }
-  public get userUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, User<UserProps>, MemoryUserRepository<UserProps, User<UserProps>>> {
-    if(!this._userUnitOfWork) {
+  public get staffUserUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffUser<StaffUserProps>, MemoryStaffUserRepository<StaffUserProps, StaffUser<StaffUserProps>>> {
+    if(!this._staffUserUnitOfWork) {
       // this._userMemoryStore = new MemoryStore<UserProps>();
-      this._userUnitOfWork = buildMemoryUserUnitOfWork(this.userMemoryStore);
+      this._staffUserUnitOfWork = buildMemoryStaffUserUnitOfWork(this.staffUserMemoryStore);
     }
-    return this._userUnitOfWork;
+    return this._staffUserUnitOfWork;
   }
-  public get userReadonlyMemoryStore(): ReadOnlyMemoryStore<UserProps> {
-    return this._userMemoryStore;
+  public get staffUserReadonlyMemoryStore(): ReadOnlyMemoryStore<StaffUserProps> {
+    return this._staffUserMemoryStore;
   }
+
+    // user
+    private _endUserUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>>;
+    private _endUserMemoryStore: MemoryStore<EndUserProps>;
+    // private _userMemoryDatastore: MemoryUserDatastore;
+    private get endUserMemoryStore(): MemoryStore<EndUserProps> {
+      if(!this._endUserMemoryStore) {
+        this._endUserMemoryStore = new MemoryStore<EndUserProps>();
+      }
+      return this._endUserMemoryStore;
+    }
+    // private buildUserMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<UserProps>): MemoryUserDatastore {
+    //   return new MemoryUserDatastore(readonlyMemoryStore);
+    // }
+    public get endUserUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUser<EndUserProps>, MemoryEndUserRepository<EndUserProps, EndUser<EndUserProps>>> {
+      if(!this._endUserUnitOfWork) {
+        // this._userMemoryStore = new MemoryStore<UserProps>();
+        this._endUserUnitOfWork = buildMemoryEndUserUnitOfWork(this.endUserMemoryStore);
+      }
+      return this._endUserUnitOfWork;
+    }
+    public get endUserReadonlyMemoryStore(): ReadOnlyMemoryStore<EndUserProps> {
+      return this._endUserMemoryStore;
+    }
   // public get userDatastore(): MemoryUserDatastore {
   //   if(!this._userMemoryDatastore) {
   //     this._userMemoryDatastore = this.buildUserMemoryDatastore(this.userReadonlyMemoryStore);
@@ -152,29 +192,53 @@ export class MemoryDatabase implements IMemoryDatabase{
   //   return this._userMemoryDatastore;
   // }
   
-  // role
-  private _roleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>>;
-  private _roleMemoryStore: MemoryStore<RoleProps>;
+  // end user role
+  private _endUserRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUserRole<EndUserRoleProps>, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>>;
+  private _endUserRoleMemoryStore: MemoryStore<EndUserRoleProps>;
   // private _roleMemoryDatastore: MemoryRoleDatastore;
-  private get roleMemoryStore(): MemoryStore<RoleProps> {
-    if(!this._roleMemoryStore) {
-      this._roleMemoryStore = new MemoryStore<RoleProps>();
+  private get endUserRoleMemoryStore(): MemoryStore<EndUserRoleProps> {
+    if(!this._endUserRoleMemoryStore) {
+      this._endUserRoleMemoryStore = new MemoryStore<EndUserRoleProps>();
     }
-    return this._roleMemoryStore;
+    return this._endUserRoleMemoryStore;
   }
   // private buildRoleMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<RoleProps>): MemoryRoleDatastore {
   //   return new MemoryRoleDatastore(readonlyMemoryStore);
   // }
-  public get roleUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, Role<RoleProps>, MemoryRoleRepository<RoleProps, Role<RoleProps>>> {
-    if(!this._roleUnitOfWork) {
+  public get endUserRoleUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, EndUserRole<EndUserRoleProps>, MemoryEndUserRoleRepository<EndUserRoleProps, EndUserRole<EndUserRoleProps>>> {
+    if(!this._endUserRoleUnitOfWork) {
       // this._roleMemoryStore = new MemoryStore<RoleProps>();
-      this._roleUnitOfWork = buildMemoryRoleUnitOfWork(this.roleMemoryStore);
+      this._endUserRoleUnitOfWork = buildMemoryEndUserRoleUnitOfWork(this.endUserRoleMemoryStore);
     }
-    return this._roleUnitOfWork;
+    return this._endUserRoleUnitOfWork;
   }
-  public get roleReadonlyMemoryStore(): ReadOnlyMemoryStore<RoleProps> {
-    return this._roleMemoryStore;
+  public get endUserRoleReadonlyMemoryStore(): ReadOnlyMemoryStore<EndUserRoleProps> {
+    return this._endUserRoleMemoryStore;
   }
+
+    // staff role
+    private _staffRoleUnitOfWork: MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffRole<StaffRoleProps>, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>>;
+    private _staffRoleMemoryStore: MemoryStore<StaffRoleProps>;
+    // private _roleMemoryDatastore: MemoryRoleDatastore;
+    private get staffRoleMemoryStore(): MemoryStore<StaffRoleProps> {
+      if(!this._staffRoleMemoryStore) {
+        this._staffRoleMemoryStore = new MemoryStore<StaffRoleProps>();
+      }
+      return this._staffRoleMemoryStore;
+    }
+    // private buildRoleMemoryDatastore(readonlyMemoryStore: ReadOnlyMemoryStore<RoleProps>): MemoryRoleDatastore {
+    //   return new MemoryRoleDatastore(readonlyMemoryStore);
+    // }
+    public get staffRoleUnitOfWork(): MemoryUnitOfWork<BaseDomainExecutionContext, EntityProps, StaffRole<StaffRoleProps>, MemoryStaffRoleRepository<StaffRoleProps, StaffRole<StaffRoleProps>>> {
+      if(!this._staffRoleUnitOfWork) {
+        // this._roleMemoryStore = new MemoryStore<RoleProps>();
+        this._staffRoleUnitOfWork = buildMemoryStaffRoleUnitOfWork(this.staffRoleMemoryStore);
+      }
+      return this._staffRoleUnitOfWork;
+    }
+    public get staffRoleReadonlyMemoryStore(): ReadOnlyMemoryStore<StaffRoleProps> {
+      return this._staffRoleMemoryStore;
+    }
   // public get roleDatastore(): MemoryRoleDatastore {
   //   if(!this._roleMemoryDatastore) {
   //     this._roleMemoryDatastore = this.buildRoleMemoryDatastore(this.roleReadonlyMemoryStore);

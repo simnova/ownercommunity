@@ -22,9 +22,7 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Testing */
-    "types": ["vitest/globals",  "@testing-library/jest-dom"],
-    // Specify the root folders for TypeScript to look for type definitions
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "types": ["vitest/globals",  "@testing-library/jest-dom"]
   },
   "include": ["src", "tests/jest-setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

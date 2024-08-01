@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import * as Auth from 'react-oidc-context';
 import { AuthProvider } from 'react-oidc-context';
 import { MemoryRouter } from 'react-router-dom';
-import { oidcConfig } from '../../../config/odic-config';
+import { uiConfig } from '../../../config/odic-config';
 import App from '../../../App';
 import { act } from 'react-dom/test-utils';
 
@@ -70,7 +70,7 @@ const useQuerySpy = vi.spyOn(ApolloClient, 'useQuery');
 describe('given not authorized, when navigating to /community/admin', () => {
   it('should display Not Authorized', async () => {
     render(
-      <AuthProvider {...oidcConfig}>
+      <AuthProvider {...uiConfig}>
         <MemoryRouter initialEntries={['/community/admin']}>
           <App />
         </MemoryRouter>
@@ -96,7 +96,7 @@ describe('given a community named Reggie Main Test Complex when navigating to /c
     useQuerySpy.mockReturnValue(communityMockQueryValue as any);
 
     render(
-      <AuthProvider {...oidcConfig}>
+      <AuthProvider {...uiConfig}>
         <MemoryRouter initialEntries={['/community/12345abcd/admin']}>
           <App />
         </MemoryRouter>
@@ -121,7 +121,7 @@ describe('given a community named Reggie Main Test Complex when navigating to /c
     useQuerySpy.mockReturnValue(communityMockQueryValue as any);
 
     render(
-      <AuthProvider {...oidcConfig}>
+      <AuthProvider {...uiConfig}>
         <MemoryRouter initialEntries={['/community/12345abcd/admin']}>
           <App />
         </MemoryRouter>
@@ -151,7 +151,7 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
 
     await act(async () => {
       render(
-        <AuthProvider {...oidcConfig}>
+        <AuthProvider {...uiConfig}>
           <MemoryRouter initialEntries={['/community/12345abcd/admin/roles']}>
             <App />
           </MemoryRouter>
@@ -178,7 +178,7 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
 
     await act(async () => {
       render(
-        <AuthProvider {...oidcConfig}>
+        <AuthProvider {...uiConfig}>
           <MemoryRouter initialEntries={['/community/12345abcd/admin/roles']}>
             <App />
           </MemoryRouter>
@@ -212,7 +212,7 @@ describe('given a community named Reggie Main Test Complex when on /community/ad
 
     await act(async () => {
       render(
-        <AuthProvider {...oidcConfig}>
+        <AuthProvider {...uiConfig}>
           <MemoryRouter initialEntries={['/community/12345abcd/admin/roles/12345abcd']}>
             <App />
           </MemoryRouter>

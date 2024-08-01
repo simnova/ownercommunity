@@ -5781,6 +5781,19 @@ export type MemberPaymentInstrumentsQuery = {
       isDefault?: boolean | null;
       expirationMonth?: string | null;
       expirationYear?: string | null;
+      state?: string | null;
+      billTo?: {
+        __typename: 'PaymentBillingInfo';
+        address1: string;
+        address2?: string | null;
+        administrativeArea: string;
+        country: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+        locality: string;
+        postalCode: string;
+      } | null;
     } | null> | null;
     status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
   } | null;
@@ -20843,7 +20856,27 @@ export const MemberPaymentInstrumentsDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'cardType' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'expirationMonth' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'expirationYear' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'expirationYear' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'billTo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address1' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'address2' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'administrativeArea' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'locality' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },

@@ -7,6 +7,20 @@ query MemberPaymentInstruments {
       isDefault
       expirationMonth
       expirationYear
+      state
+      billTo {
+        __typename
+        address1
+        address2
+        administrativeArea
+        country
+        email
+        firstName
+        lastName
+        locality
+        # phoneNumber
+        postalCode
+      }
     }
     status {
       errorMessage

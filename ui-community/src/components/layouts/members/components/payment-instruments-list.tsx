@@ -79,10 +79,7 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
 
   const useEditPaymentMethod = useEditPaymentMethodModal();
 
-  const today = dayjs();
-  const isExpired =
-    Number(paymentInstrument?.expirationMonth!) < today.month() &&
-    Number(paymentInstrument?.expirationYear!) < today.year();
+  console.log('state', paymentInstrument.state);
 
   const handleSetDefaultPaymentMethod = async () => {
     if (onSetDefaultPaymentMethod) {
@@ -147,7 +144,9 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
             <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg h-fit">Default</Badge>
           )}
 
-          {isExpired && <Badge className="bg-rose-500 text-white px-2 py-1 rounded-lg h-fit">Expired</Badge>}
+          {paymentInstrument?.state !== 'ACTIVE' && (
+            <Badge className="bg-rose-500 text-white px-2 py-1 rounded-lg h-fit">Expired</Badge>
+          )}
         </div>
       </div>
     );

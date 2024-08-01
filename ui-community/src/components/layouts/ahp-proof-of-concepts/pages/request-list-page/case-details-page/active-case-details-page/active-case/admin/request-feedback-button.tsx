@@ -50,7 +50,7 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
 
   const isChecked = (value: string) => {
     const index = checkedBoxes.findIndex((x) => x.value === value);
-    return index !== -1 ? true : false;
+    return index !== -1;
   };
 
   const footerButton = (

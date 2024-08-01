@@ -13,6 +13,26 @@ import { ViolationTicketV1, ViolationTicketV1Props } from '../../../../../../../
 import { ViolationTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
 import { TransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
 import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
+import { ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
+import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
+
+class MemoryViolationTicketV1RevisionRequestedChanges implements ViolationTicketV1RevisionRequestedChangesProps {
+  requestUpdatedAssignment: boolean;
+  requestUpdatedStatus: boolean;
+  requestUpdatedProperty: boolean;
+  requestUpdatedPaymentTransaction: boolean;
+}
+
+class MemoryViolationTicketV1RevisionRequest implements ViolationTicketV1RevisionRequestProps {
+  requestedAt: Date;
+  requestedBy: MemberProps;
+  setRequestedByRef(requestedBy: MemberEntityReference): void {
+    this.requestedBy = requestedBy['props'] as MemberProps;
+  }
+  revisionSummary: string;
+  requestedChanges: MemoryViolationTicketV1RevisionRequestedChanges;
+  revisionSubmittedAt?: Date;
+}
 
 class MemoryViolationTicketV1Message extends MemoryBaseAdapter implements ViolationTicketV1MessageProps {
   sentBy: string;
@@ -109,6 +129,13 @@ class MemoryViolationTicketV1 extends MemoryBaseAdapter implements ViolationTick
   get paymentTransactions() {
     return new MemoryPropArray(this._paymentTransactions, MemoryPaymentTransaction);
   }
+  private _revisionRequest: ViolationTicketV1RevisionRequestProps;
+  get revisionRequest() {
+    if(!this._revisionRequest){
+      this._revisionRequest = new MemoryViolationTicketV1RevisionRequest();
+    }
+    return this._revisionRequest;
+  };
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;

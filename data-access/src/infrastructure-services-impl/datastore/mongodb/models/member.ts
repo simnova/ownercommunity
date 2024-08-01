@@ -34,7 +34,7 @@ const AccountSchema = new Schema<Account, Model<Account>, Account>(
     createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false, index: true },
   },
   {
-    timestamps: true, 
+    timestamps: true,
     versionKey: 'version',
   }
 );
@@ -65,6 +65,7 @@ export interface Member extends Base {
   memberName: string;
   community: PopulatedDoc<Community.Community> | ObjectId;
   accounts: Types.DocumentArray<Account>;
+  cybersourceCustomerId: string;
   customViews: Types.DocumentArray<CustomView>;
   role?: PopulatedDoc<Role.Role> | ObjectId;
   profile: Profile;
@@ -82,6 +83,7 @@ const schema = new Schema<Member, Model<Member>, Member>(
     role: { type: Schema.Types.ObjectId, ref: Role.RoleModel.modelName, required: false, index: true },
     accounts: { type: [AccountSchema], required: false },
     customViews: { type: [CustomViewSchema], required: false },
+    cybersourceCustomerId: { type: String, required: false, maxlength: 50 },
     profile: {
       name: { type: String, required: false, maxlength: 500 },
       email: { type: String, required: false, match: Patterns.EMAIL_PATTERN, maxlength: 254 },
@@ -96,7 +98,7 @@ const schema = new Schema<Member, Model<Member>, Member>(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
     versionKey: 'version',
     shardKey: { community: 1 },
   }

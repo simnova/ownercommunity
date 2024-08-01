@@ -4,8 +4,8 @@ query MembersServiceTicketsCreateContainerMembers($communityId: ID!) {
   }
 }
 
-query MembersServiceTicketsCreateContainerProperties($communityId: ID!) {
-  propertiesForCurrentUserByCommunityId(communityId: $communityId) {
+query MembersServiceTicketsCreateContainerProperties($id: ObjectID!) {
+  propertiesByOwnerId(ownerId: $id) {
     ...MembersServiceTicketsCreateContainerPropertyFields
   }
 }
@@ -38,7 +38,7 @@ fragment MembersServiceTicketsCreateContainerServiceTicketFields on ServiceTicke
   title
   status
   priority
-
+  ticketType
   id
   createdAt
   updatedAt

@@ -2,11 +2,11 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
-    AdminServiceTicketsCreateContainerMembersDocument,
-    AdminServiceTicketsCreateContainerPropertiesDocument,
-    AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
-    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-    ServiceTicketCreateInput
+  AdminServiceTicketsCreateContainerMembersDocument,
+  AdminServiceTicketsCreateContainerPropertiesDocument,
+  AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
+  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+  ServiceTicketCreateInput
 } from '../../../../generated';
 import { ServiceTicketsCreate } from '../../shared/components/service-tickets-create';
 
@@ -35,27 +35,27 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
     variables: { communityId: props.data.communityId }
   });
   const [serviceTicketCreate] = useMutation(
-    AdminServiceTicketsCreateContainerServiceTicketCreateDocument,
+    AdminServiceTicketsCreateContainerServiceTicketCreateDocument, 
     {
-      update(cache, { data }) {
-        // update the list with the new item
-        const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
-        const serviceTickets = cache.readQuery({
+    update(cache, { data }) {
+      // update the list with the new item
+      const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
+      const serviceTickets = cache.readQuery({
+        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+        variables: { communityId: props.data.communityId }
+      })?.serviceTicketsByCommunityId;
+      if (newServiceTicket && serviceTickets) {
+        cache.writeQuery({
           query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-          variables: { communityId: props.data.communityId }
-        })?.serviceTicketsByCommunityId;
-        if (newServiceTicket && serviceTickets) {
-          cache.writeQuery({
-            query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-            variables: { communityId: props.data.communityId },
-            data: {
-              serviceTicketsByCommunityId: [...serviceTickets, newServiceTicket]
-            }
-          });
-        }
+          variables: { communityId: props.data.communityId },
+          data: {
+            serviceTicketsByCommunityId: [...serviceTickets, newServiceTicket]
+          }
+        });
       }
     }
-  );
+  }
+);
 
   const handleCreate = async (values: ServiceTicketCreateInput) => {
     try {
@@ -64,8 +64,12 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
           input: values
         }
       });
+      const ticketDetails = {
+        ticketId: newServiceTicket.data?.serviceTicketCreate.serviceTicket?.id,
+        ticketType: newServiceTicket.data?.serviceTicketCreate.serviceTicket?.ticketType
+      }
       message.success('ServiceTicket Created');
-      navigate(`../${newServiceTicket.data?.serviceTicketCreate.serviceTicket?.id}`, {
+      navigate(`../${ticketDetails.ticketType}/${ticketDetails.ticketId}`, {
         replace: true
       });
     } catch (error) {

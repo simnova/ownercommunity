@@ -19,51 +19,41 @@ export const CommunitiesDropdown: React.FC<CommunitiesDropdownProps> = (props) =
 
   let items: MenuProps['items'] = [];
 
-  function isAdminMember(member: Member) {
-    return member?.community?.userIsAdmin;
-  }
-
-  const populateItems = (member: Member) => {
-    if (items?.[member?.community?.id] === null || items?.[member?.community?.id] === undefined) {
-      const memberProps = {
-        key: member?.community?.id,
+  const populateItems = (member: Member, itemsMap: { [key: string]: any }) => {
+    const communityId = member?.community?.id;
+    if (!communityId) return;
+  
+    // Initialize community in itemsMap if it doesn't exist
+    if (!itemsMap[communityId]) {
+      itemsMap[communityId] = {
+        key: communityId,
         label: member?.community?.name,
-        children: [
-          {
-            key: member?.id,
-            label: member?.memberName,
-            path: `/community/${member?.community?.id}/member/${member?.id}`
-          }
-        ]
+        children: []
       };
-      if (isAdminMember(member)) {
-        memberProps.children.push({
-          key: memberProps.key + '-admin',
-          label: member?.memberName + ' (Admin)',
-          path: `/community/${member?.community?.id}/admin/${member?.id}`
-        });
-      }
-      items?.push(memberProps);
-      return;
     }
-    
-    let tempCommunity: any = items?.[member?.community?.id];
-    tempCommunity.children.push({
+  
+    // Add member to the community's children
+    const memberItem = {
       key: member?.id,
       label: member?.memberName,
-      path: `/community/${member?.community?.id}/member/${member?.id}`
-    });
-    if (isAdminMember(member)) {
-      tempCommunity.children.push({
-        key: tempCommunity.key + '-admin',
-        label: member?.memberName + ' (Admin)',
-        path: `/community/${member?.community?.id}/admin/${member?.id}`
+      path: `/community/${communityId}/member/${member?.id}`
+    };
+    itemsMap[communityId].children.push(memberItem);
+  
+    // Add admin variant if applicable
+    if (member?.isAdmin) {
+      itemsMap[communityId].children.push({
+        key: `${member?.id}-admin`,
+        label: `${member?.memberName} (Admin)`,
+        path: `/community/${communityId}/admin/${member?.id}`
       });
     }
-    items[member?.community?.id] = tempCommunity;
   };
 
-  props.data.members?.forEach((member: Member) => populateItems(member));
+  const itemsMap: { [key: string]: any } = {};
+  props.data.members?.forEach((member: Member) => populateItems(member, itemsMap));
+
+  items = Object.values(itemsMap);
 
   const onMenuItemClicked = (e: any) => {
     setDropdownVisible(false);

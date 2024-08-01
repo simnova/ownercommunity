@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
-import { useParams } from 'react-router-dom';
 import { CustomViewOperation, SearchType } from '../../../../constants';
 import {
     CustomViewInput,
@@ -27,22 +26,19 @@ interface SearchDrawerContainerProps {
 }
 
 export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (props) => {
-  const params = useParams();
   const [updateCustomViews] = useMutation(SearchDrawerContainerCustomViewsUpdateDocument, {
     update(cache, { data }) {
       // update the list of custom views
       const newCustomViews = data?.memberUpdate.member?.customViews;
       const memberForCurrentUser = cache.readQuery({
         query: SearchDrawerContainerCustomViewsDocument,
-        variables: { communityId: params.communityId ?? '' }
       })?.memberForCurrentUser;
       if (newCustomViews && memberForCurrentUser) {
         cache.writeQuery({
           query: SearchDrawerContainerCustomViewsDocument,
-          variables: { communityId: params.communityId ?? '' },
           data: {
             memberForCurrentUser: {
-              id: memberForCurrentUser?.id,
+              id: memberForCurrentUser.id,
               customViews: newCustomViews
             }
           }
@@ -55,10 +51,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
     data: customViewsData,
     loading: customViewsLoading,
     error: customViewsError
-  } = useQuery(SearchDrawerContainerCustomViewsDocument, {
-    variables: { communityId: params.communityId ?? '' }
-    // fetchPolicy: 'cache-and-network'
-  });
+  } = useQuery(SearchDrawerContainerCustomViewsDocument);
 
   const handleUpdateCustomView = async (
     memberId: string,

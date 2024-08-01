@@ -17,7 +17,7 @@ export const ServiceTicketsDetail: React.FC<any> = (_props) => {
         />
       }
     >
-      <ServiceTicketsDetailContainer key={params.id ?? ''} data={{ id: params.id ?? '', communityId:params.communityId ?? '' }} />
+      <ServiceTicketsDetailContainer key={params.id ?? ''} data={{ id: params.id ?? '', communityId:params.communityId ?? '', memberId:params.memberId ?? '' }} />
     </SubPageLayout>
   );
 };

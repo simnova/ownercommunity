@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { MemberProfileContainerMemberForCurrentUserDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
@@ -13,25 +13,15 @@ export interface MemberProfileContainerProps {
 }
 
 export const MemberProfileContainer: React.FC<MemberProfileContainerProps> = (props) => {
-  const params = useParams();
-  const [memberId, setMemberId] = useState<string | undefined>(params.id);
+  const { memberId } = useParams();
 
   const {
     data: memberData,
     loading: memberLoading,
     error: memberError
   } = useQuery(MemberProfileContainerMemberForCurrentUserDocument, {
-    variables: {
-      communityId: props.data.communityId
-    },
     skip: props.isAdmin
   });
-
-  useEffect(() => {
-    if (memberData?.memberForCurrentUser?.id) {
-      setMemberId(memberData?.memberForCurrentUser?.id);
-    }
-  }, [memberData]);
 
   return (
     <ComponentQueryLoader

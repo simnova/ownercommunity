@@ -13,12 +13,11 @@ import { ServiceTicketsCreate } from '../../shared/components/service-tickets-cr
 interface ServiceTicketsCreateContainerProps {
   data: {
     communityId: string;
+    memberId: string;
   };
 }
 
-export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (
-  props
-) => {
+export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContainerProps> = (props) => {
   const navigate = useNavigate();
   const {
     data: memberData,
@@ -32,28 +31,25 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
     loading: propertyLoading,
     error: propertyError
   } = useQuery(MembersServiceTicketsCreateContainerPropertiesDocument, {
-    variables: { communityId: props.data.communityId }
+    variables: { id: props.data.memberId }
   });
-  const [serviceTicketCreate] = useMutation(
-    MembersServiceTicketsCreateContainerServiceTicketCreateDocument,
-    {
-      update(cache, { data }) {
-        // update the list with the new item
-        const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
-        const serviceTickets = cache.readQuery({
+  const [serviceTicketCreate] = useMutation(MembersServiceTicketsCreateContainerServiceTicketCreateDocument, {
+    update(cache, { data }) {
+      // update the list with the new item
+      const newServiceTicket = data?.serviceTicketCreate.serviceTicket;
+      const serviceTickets = cache.readQuery({
+        query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument
+      })?.serviceTicketsOpenByRequestor;
+      if (newServiceTicket && serviceTickets) {
+        cache.writeQuery({
           query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument,
-        })?.serviceTicketsOpenByRequestor;
-        if (newServiceTicket && serviceTickets) {
-          cache.writeQuery({
-            query: MembersServiceTicketsListContainerServiceTicketsOpenByRequestorDocument,
-            data: {
-              serviceTicketsOpenByRequestor: [...serviceTickets, newServiceTicket]
-            }
-          });
-        }
+          data: {
+            serviceTicketsOpenByRequestor: [...serviceTickets, newServiceTicket]
+          }
+        });
       }
     }
-  );
+  });
 
   const handleCreate = async (values: ServiceTicketCreateInput) => {
     try {
@@ -63,7 +59,12 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
         }
       });
       message.success('ServiceTicket Created');
-      navigate(`../${newServiceTicket.data?.serviceTicketCreate.serviceTicket?.id}`, {
+      const ticketDetails = {
+        ticketId: newServiceTicket.data?.serviceTicketCreate.serviceTicket?.id,
+        ticketType: newServiceTicket.data?.serviceTicketCreate.serviceTicket?.ticketType
+      }
+      message.success('ServiceTicket Created');
+      navigate(`../${ticketDetails.ticketType}/${ticketDetails.ticketId}`, {
         replace: true
       });
     } catch (error) {
@@ -84,7 +85,7 @@ export const ServiceTicketsCreateContainer: React.FC<ServiceTicketsCreateContain
   if (memberData && propertyData) {
     const data = {
       members: memberData.membersByCommunityId,
-      properties: propertyData.propertiesForCurrentUserByCommunityId
+      properties: propertyData.propertiesByOwnerId
     };
 
     return <ServiceTicketsCreate data={data as any} onSave={handleCreate} />;

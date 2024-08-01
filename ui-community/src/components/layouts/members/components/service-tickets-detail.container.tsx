@@ -22,6 +22,7 @@ export interface ServiceTicketsDetailContainerProps {
   data: {
     id: string;
     communityId: string;
+    memberId: string;
   };
 }
 
@@ -66,7 +67,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
     loading: propertyLoading,
     error: propertyError
   } = useQuery(MembersServiceTicketsDetailContainerPropertiesDocument, {
-    variables: { communityId: props.data.communityId }
+    variables: { id: props.data.memberId }
   });
 
   const {
@@ -149,7 +150,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
         }
       });
       message.success('Deleted');
-      navigate('../../');
+      navigate('../');
     } catch (error) {
       message.error(`Error deleting Service Ticket: ${JSON.stringify(error)}`);
     }
@@ -162,12 +163,12 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
   } else if (
     serviceTicketData?.serviceTicket &&
     memberData?.membersAssignableToTickets &&
-    propertyData?.propertiesForCurrentUserByCommunityId
+    propertyData?.propertiesByOwnerId
   ) {
     const data = {
       serviceTicket: serviceTicketData.serviceTicket,
       members: memberData.membersAssignableToTickets,
-      properties: propertyData.propertiesForCurrentUserByCommunityId
+      properties: propertyData.propertiesByOwnerId
     };
     return (
       <ServiceTicketsDetail

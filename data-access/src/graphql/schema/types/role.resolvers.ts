@@ -21,31 +21,31 @@ const role: Resolvers = {
   Role: {
     community: async (parent, _args, context, _info) => {
       if (parent.community && isValidObjectId(parent.community.toString())) {
-        return (await context.applicationServices.communityDataApi.getCommunityById(parent.community.toString())) as Community;
+        return (await context.applicationServices.community.dataApi.getCommunityById(parent.community.toString())) as Community;
       }
       return parent.community;
     },
   },
   Query: {
     role: async (_, { id }, { applicationServices }) => {
-      return (await applicationServices.roleDataApi.getRoleById(id)) as Role;
+      return (await applicationServices.role.dataApi.getRoleById(id)) as Role;
     },
     roles: async (_, _args, { applicationServices }) => {
-      return (await applicationServices.roleDataApi.getRoles()) as Role[];
+      return (await applicationServices.role.dataApi.getRoles()) as Role[];
     },
     rolesByCommunityId: async (_, { communityId }, { applicationServices }) => {
-      return (await applicationServices.roleDataApi.getRolesByCommunityId(communityId)) as Role[];
+      return (await applicationServices.role.dataApi.getRolesByCommunityId(communityId)) as Role[];
     },
   },
   Mutation: {
     roleAdd(_parent, { input }, { applicationServices }) {
-      return RoleMutationResolver(applicationServices.roleDomainApi.roleAdd(input));
+      return RoleMutationResolver(applicationServices.role.domainApi.roleAdd(input));
     },
     roleUpdate(_parent, { input }, { applicationServices }) {
-      return RoleMutationResolver(applicationServices.roleDomainApi.roleUpdate(input));
+      return RoleMutationResolver(applicationServices.role.domainApi.roleUpdate(input));
     },
     roleDeleteAndReassign(_parent, { input }, { applicationServices }) {
-      return RoleMutationResolver(applicationServices.roleDomainApi.roleDeleteAndReassign(input));
+      return RoleMutationResolver(applicationServices.role.domainApi.roleDeleteAndReassign(input));
     },
   },
 };

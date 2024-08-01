@@ -30,7 +30,7 @@ export const PropertiesList: React.FC<any> = (_props) => {
       <Helmet>
         <title>Properties</title>
       </Helmet>
-      <PropertiesListContainer data={{ communityId: params.communityId }} />
+      <PropertiesListContainer data={{ memberId: params.memberId }} />
     </SubPageLayout>
   );
 };

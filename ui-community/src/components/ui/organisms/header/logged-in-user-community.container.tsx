@@ -28,11 +28,7 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
           data: dataTemp,
           loading: loadingTemp,
           error: errorTemp
-        } = await memberQuery({
-          variables: {
-            communityId: params.communityId
-          }
-        });
+        } = await memberQuery();
         setData(dataTemp);
         setError(loadingTemp);
         setLoading(errorTemp);

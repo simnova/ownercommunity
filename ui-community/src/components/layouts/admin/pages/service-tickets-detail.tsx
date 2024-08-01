@@ -10,28 +10,14 @@ export const ServiceTicketsDetail: React.FC<any> = () => {
   const navigate = useNavigate();
 
   return (
-    <SubPageLayout
-      header={
-        <PageHeader
-          title="ServiceTicket Detail"
-          onBack={() => navigate(-1)}
-          // extra={[
-          //   <Button
-          //     type="primary"
-          //     onClick={() => {
-          //       navigate('./delete');
-          //     }}
-          //   >
-          //     Delete...
-          //   </Button>
-          // ]}
-        />
-      }
-    >
+    <SubPageLayout header={<PageHeader title="ServiceTicket Detail" onBack={() => navigate(-1)} />}>
       <Helmet>
         <title>Service Ticket Detail</title>
-    </Helmet>
-      <ServiceTicketsDetailContainer key={params.id ?? ''} data={{ id: params.id ?? '' , communityId:params.communityId ?? '' }} />
+      </Helmet>
+      <ServiceTicketsDetailContainer
+        key={params.id ?? ''}
+        data={{ id: params.id ?? '', ticketType: params.ticketType ?? '', communityId: params.communityId ?? '' }}
+      />
     </SubPageLayout>
   );
 };

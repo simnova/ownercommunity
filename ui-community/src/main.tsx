@@ -1,15 +1,15 @@
-import React, { useContext, FC } from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
 import { reactPlugin } from './components/shared/azure-monitor';
 
-import { BrowserRouter, useSearchParams } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.less';
 
 import { ConfigProvider } from 'antd';
-import { AuthProvider, useAuth } from 'react-oidc-context';
+import { useAuth } from 'react-oidc-context';
 import FeatureFlagProvider, { useFeatureFlags } from './components/shared/feature-flag-react-lite';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import featureFlagConfig from './config/feature-flag-config';

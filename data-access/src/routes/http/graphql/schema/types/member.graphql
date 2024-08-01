@@ -168,16 +168,16 @@ type PaymentInstrument {
 }
 
 type PaymentBillingInfo{
-  firstName: String!
-  lastName: String!
-  address1: String!
-  address2: String
-  locality: String! # The city of billing address
-  administrativeArea: String! # The region or state of the billing address
-  postalCode: String! # The postal code of the billing address
-  country: String! # The country of the billing address
-  email: String!
-  phoneNumber: String!
+  billingFirstName: String
+  billingLastName: String
+  billingAddressLine1: String
+  billingAddressLine2: String
+  billingCity: String # The city of billing address
+  billingState: String # The region or state of the billing address
+  billingPostalCode: String # The postal code of the billing address
+  billingCountry: String # The country of the billing address
+  billingEmail: String
+  billingPhone: String
 }
 
 type PaymentInstrumentResult {

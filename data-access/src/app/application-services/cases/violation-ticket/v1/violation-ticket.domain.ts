@@ -127,6 +127,37 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
         }
       }
 
+      if (input.revisionRequest !== undefined) {
+        if (input.revisionRequest?.requestedAt !== undefined) {
+          violationTicket.revisionRequest.RequestedAt = (input.revisionRequest.requestedAt);
+        }
+        if (input.revisionRequest?.requestedBy !== undefined) {
+          let member = await this.context.applicationServices.member.dataApi.getMemberById(input.revisionRequest.requestedBy);
+          let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+          violationTicket.revisionRequest.RequestedBy = memberDo;
+        }
+        if (input.revisionRequest?.revisionSummary !== undefined) {
+          violationTicket.revisionRequest.RevisionSummary = input.revisionRequest.revisionSummary;
+        }
+        if (input.revisionRequest?.requestedChanges !== undefined) {
+          if (input.revisionRequest?.requestedChanges?.requestUpdatedAssignment !== undefined) {
+            violationTicket.revisionRequest.requestedChanges.RequestUpdatedAssignment = input.revisionRequest.requestedChanges.requestUpdatedAssignment;
+          }
+          if (input.revisionRequest?.requestedChanges?.requestUpdatedProperty !== undefined) {
+            violationTicket.revisionRequest.requestedChanges.RequestUpdatedProperty = input.revisionRequest.requestedChanges.requestUpdatedProperty;
+          }
+          if (input.revisionRequest?.requestedChanges?.requestUpdatedStatus !== undefined) {
+            violationTicket.revisionRequest.requestedChanges.RequestUpdatedStatus = input.revisionRequest.requestedChanges.requestUpdatedStatus;
+          }
+          if (input.revisionRequest?.requestedChanges?.requestUpdatedPaymentTransaction !== undefined) {
+            violationTicket.revisionRequest.requestedChanges.RequestUpdatedPaymentTransaction = input.revisionRequest.requestedChanges.requestUpdatedPaymentTransaction;
+          }
+        }
+        if (input.revisionRequest?.revisionSubmittedAt !== undefined) {
+          violationTicket.revisionRequest.RevisionSubmittedAt = input.revisionRequest.revisionSubmittedAt;
+        }
+      }
+
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;

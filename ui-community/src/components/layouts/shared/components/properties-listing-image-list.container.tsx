@@ -1,12 +1,11 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { FC, useState } from 'react';
-import { LocalSettingsKeys } from '../../../../constants';
 import {
-    SharedPropertiesListingImageListContainerMemberForUserDocument,
     SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument
 } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { PropertiesListingImageList } from './properties-listing-image-list';
+import { useParams } from 'react-router-dom';
 
 interface PropertiesListingImageListContainerProps {
   data: {
@@ -16,16 +15,12 @@ interface PropertiesListingImageListContainerProps {
 }
 
 export const PropertiesListingImageListContainer: FC<PropertiesListingImageListContainerProps> = (props) => {
-  const userId = localStorage.getItem(LocalSettingsKeys.UserId);
+  const memberId = useParams().memberId ?? '';
   const [image, setImage] = useState<string | undefined>(undefined);
   const [propertyListingImageRemove] = useMutation(
     SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument
   );
-  const { loading, error, data } = useQuery(SharedPropertiesListingImageListContainerMemberForUserDocument, {
-    variables: {
-      userId: userId
-    }
-  });
+
 
   const handleRemoveImage = async () => {
     const blobName: string =
@@ -39,7 +34,7 @@ export const PropertiesListingImageListContainer: FC<PropertiesListingImageListC
       variables: {
         input: {
           propertyId: props.data.propertyId,
-          memberId: data?.memberForUser?.id,
+          memberId: memberId,
           blobName: blobName
         }
       }
@@ -53,17 +48,16 @@ export const PropertiesListingImageListContainer: FC<PropertiesListingImageListC
 
   return (
     <ComponentQueryLoader
-      loading={loading}
-      hasData={data?.memberForUser}
+      loading={false}
+      hasData={true}
       hasDataComponent={
         <PropertiesListingImageList
-          data={{ images: props?.data?.images ?? [], memberId: data?.memberForUser?.id }}
+          data={{ images: props?.data?.images ?? [], memberId: memberId }}
           image={image}
           setImage={setImage}
           handleRemoveImage={handleRemoveImage}
         />
       }
-      error={error}
     />
   );
 };

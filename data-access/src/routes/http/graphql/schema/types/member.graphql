@@ -1,0 +1,201 @@
+# @format
+
+type Member implements MongoBase {
+  memberName: String
+  community: Community
+  role: Role
+  accounts: [MemberAccount]
+  profile: MemberProfile
+  cybersourceCustomerId: String
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  customViews: [CustomView]
+  isAdmin: Boolean
+}
+
+type CustomView implements MongoSubdocument {
+  id: ObjectID!
+
+  name: String # The name of the custom view. e.g. "view 1"
+  type: String # "property" or "serviceTicket"
+  filters: [String] # ["Assigned to: Duy Nguyen", "Assigned to: Nick", "Assigned to: Richard", "Status: Created"]
+  sortOrder: String # "price desc" or "price asc"
+  columnsToDisplay: [String] # ["Title", "Requestor"]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MemberAccount implements MongoSubdocument {
+  firstName: String!
+  lastName: String
+  user: User
+  statusCode: String
+  createdBy: User
+
+  id: ObjectID!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MemberProfile {
+  name: String
+  email: String
+  bio: String
+  avatarDocumentId: String
+  interests: [String]
+  showInterests: Boolean
+  showEmail: Boolean
+  showProfile: Boolean
+  showLocation: Boolean
+  showProperties: Boolean
+}
+
+extend type Query {
+  member(id: ID!): Member
+  members: [Member]
+  membersByCommunityId(communityId: ID!): [Member]
+  membersByUserExternalId(userExternalId: String!): [Member]
+  membersAssignableToTickets: [Member]
+  memberAssignableToViolationTickets(violationTicketId: ObjectID!): Member
+  memberForCurrentUser: Member
+  cybersourcePublicKeyId: String
+  memberPaymentInstruments: PaymentInstrumentResult
+}
+
+extend type Mutation {
+  memberCreate(input: MemberCreateInput!): MemberMutationResult!
+  memberUpdate(input: MemberUpdateInput!): MemberMutationResult!
+  memberAccountAdd(input: MemberAccountAddInput!): MemberMutationResult!
+  memberAccountEdit(input: MemberAccountEditInput!): MemberMutationResult!
+  memberAccountRemove(input: MemberAccountRemoveInput!): MemberMutationResult!
+  memberProfileUpdate(input: MemberProfileUpdateInput!): MemberMutationResult!
+  memberProfileAvatarCreateAuthHeader(input: MemberAvatarImageInput!): MemberAvatarImageAuthHeaderResult!
+  memberProfileAvatarRemove(memberId: ObjectID!): MemberMutationResult!
+  memberAddPaymentInstrument(input: AddPaymentInstrumentInput!): MemberMutationResult!
+  memberSetDefaultPaymentInstrument(paymentInstrumentId: String!): MutationStatus!
+  memberDeletePaymentInstrument(paymentInstrumentId: String!): MutationStatus!
+}
+
+type MemberMutationResult implements MutationResult {
+  status: MutationStatus!
+  member: Member
+}
+
+input MemberCreateInput {
+  memberName: String!
+}
+input MemberUpdateInput {
+  id: ObjectID!
+  memberName: String
+  role: ObjectID
+  cybersourceCustomerId: String
+  customViews: [CustomViewInput]
+}
+
+input MemberAccountAddInput {
+  memberId: ObjectID!
+  account: MemberAccountCreateInput!
+}
+input MemberAccountEditInput {
+  memberId: ObjectID!
+  accountId: ObjectID!
+  firstName: String!
+  lastName: String
+}
+
+input MemberAccountCreateInput {
+  user: ObjectID!
+  firstName: String!
+  lastName: String
+}
+
+input MemberAccountRemoveInput {
+  memberId: ObjectID!
+  accountId: ObjectID!
+}
+
+input CustomViewInput {
+  id: ObjectID
+  name: String
+  type: String
+  filters: [String]
+  sortOrder: String
+  columnsToDisplay: [String]
+}
+
+input MemberProfileUpdateInput {
+  memberId: ObjectID!
+  profile: MemberProfileInput
+}
+
+input MemberProfileInput {
+  name: String
+  email: String
+  bio: String
+  interests: [String]
+  showInterests: Boolean
+  showEmail: Boolean
+  showProfile: Boolean
+  showLocation: Boolean
+  showProperties: Boolean
+}
+
+input MemberAvatarImageInput {
+  memberId: ObjectID!
+  contentType: String
+  contentLength: Int
+  fileName: String!
+}
+type MemberAvatarImageAuthHeaderResult {
+  status: MutationStatus!
+  authHeader: BlobAuthHeader
+  member: Member
+}
+
+type PaymentInstrument {
+  cardType: String
+  paymentInstrumentId: String
+  cardNumber: String # Masked card number
+  isDefault: Boolean
+  expirationYear: String
+  expirationMonth: String
+  id: String
+  state: String
+  billTo: PaymentBillingInfo
+}
+
+type PaymentBillingInfo{
+  firstName: String!
+  lastName: String!
+  address1: String!
+  address2: String
+  locality: String! # The city of billing address
+  administrativeArea: String! # The region or state of the billing address
+  postalCode: String! # The postal code of the billing address
+  country: String! # The country of the billing address
+  email: String!
+  phoneNumber: String!
+}
+
+type PaymentInstrumentResult {
+  status: MutationStatus!
+  paymentInstruments: [PaymentInstrument]
+}
+
+input AddPaymentInstrumentInput {
+  billingFirstName: String!
+  billingLastName: String!
+  billingEmail: String!
+  billingPhone: String!
+  billingAddressLine1: String!
+  billingAddressLine2: String
+  billingCity: String!
+  billingState: String!
+  billingPostalCode: String!
+  billingCountry: String!
+  paymentToken: String!
+  isDefault: Boolean!
+}

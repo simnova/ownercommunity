@@ -6,24 +6,28 @@ import { default as RegisterCommunityDomainUpdatedUpdateVercel } from './events/
 import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from './events/handlers/community-white-label-domain-updated-update-domain-blob';
 import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from './events/handlers/property-deleted-update-search-index';
 import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './events/handlers/property-updated-update-search-index';
-import { default as RegisterServiceTicketUpdatedUpdateSearchIndexHandler } from './events/handlers/service-ticket-updated-update-search-index';
-import { default as RegisterServiceTicketDeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-deleted-update-search-index';
+import { default as RegisterServiceTicketV1UpdatedUpdateSearchIndexHandler } from './events/handlers/service-ticket-v1-updated-update-search-index';
+import { default as RegisterServiceTicketV1DeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-v1-deleted-update-search-index';
+import { default as RegisterViolationTicketV1UpdatedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-v1-updated-update-search-index';
+import { default as RegisterViolationTicketV1DeletedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-v1-deleted-update-search-index';
 import { DatastoreDomain, DatastoreDomainInitializeable } from './infrastructure/datastore/interfaces';
 import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from './infrastructure/cognitive-search/interfaces';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { BlobStorageDomain } from './infrastructure/blob-storage/interfaces';
 import { VercelDomain } from './infrastructure/vercel/interfaces';
+import { PaymentDomain } from './infrastructure/cybersource/interfaces';
 
 const RegisterEventHandlers = (
   datastore: DatastoreDomain,
   cognitiveSearch: CognitiveSearchDomain,
   blobStorage: BlobStorageDomain,
+  payment: PaymentDomain,
   vercel: VercelDomain
 ) => {
   // Register all event handlers
   RegisterCommunityCreatedCreateDefaultRolesMemberHandler(
     datastore.communityUnitOfWork,
-    datastore.roleUnitOfWork,
+    datastore.endUserRoleUnitOfWork,
     datastore.memberUnitOfWork
   );
   RegisterRoleDeletedReassignMemberNewRoleHandler();
@@ -33,8 +37,10 @@ const RegisterEventHandlers = (
   RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler(blobStorage);
   RegisterPropertyDeletedUpdateSearchIndexHandler(cognitiveSearch);
   RegisterPropertyUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.propertyUnitOfWork);
-  RegisterServiceTicketUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketUnitOfWork);
-  RegisterServiceTicketDeletedUpdateSearchIndexHandler(cognitiveSearch);
+  RegisterServiceTicketV1UpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketV1UnitOfWork);
+  RegisterServiceTicketV1DeletedUpdateSearchIndexHandler(cognitiveSearch);
+  RegisterViolationTicketV1UpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.violationTicketV1UnitOfWork);
+  RegisterViolationTicketV1DeletedUpdateSearchIndexHandler(cognitiveSearch);
 };
 
 const StopEventHandlers = () => {
@@ -51,6 +57,7 @@ CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitial
     private _datastoreImpl: DatastoreImpl,
     private _cognitiveSearchImpl: CognitiveSearchImpl,
     private _blobStorageImpl: BlobStorageDomain,
+    private _paymentImpl: PaymentDomain,
     private _vercelImpl: VercelDomain,
   ) {}
 
@@ -62,6 +69,7 @@ CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitial
       this._datastoreImpl,
       this._cognitiveSearchImpl,
       this._blobStorageImpl,
+      this._paymentImpl,
       this._vercelImpl
     );
     

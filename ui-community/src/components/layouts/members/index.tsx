@@ -8,7 +8,8 @@ import {
   BarsOutlined,
   ScheduleOutlined,
   ShopOutlined,
-  SearchOutlined
+  SearchOutlined,
+  WalletOutlined
 } from '@ant-design/icons';
 import { MemberProfile } from './pages/member-profile';
 import { Neighbors } from './pages/neighbors';
@@ -19,6 +20,7 @@ import { CommunityProperty } from './pages/community-property';
 import { PropertiesSearch } from './pages/properties-search';
 import { PageLayoutProps } from '../admin';
 import { Member } from '../../../generated';
+import Payment from './pages/payment';
 
 const pageLayouts: PageLayoutProps[] = [
   {
@@ -43,13 +45,15 @@ const pageLayouts: PageLayoutProps[] = [
   },
   {
     path: '/community/:communityId/member/:memberId/service-tickets/*',
-    title: 'Service Tickets',
+    title: 'Tickets',
     icon: <ScheduleOutlined />,
     id: 4,
     parent: 'ROOT',
-    hasPermissions: (member: Member) => (member?.role?.permissions?.serviceTicketPermissions?.canCreateTickets ||
-                                        member?.role?.permissions?.serviceTicketPermissions?.canWorkOnTickets || 
-                                        member?.role?.permissions?.serviceTicketPermissions?.canAssignTickets) ?? false
+    hasPermissions: (member: Member) =>
+      (member?.role?.permissions?.serviceTicketPermissions?.canCreateTickets ||
+        member?.role?.permissions?.serviceTicketPermissions?.canWorkOnTickets ||
+        member?.role?.permissions?.serviceTicketPermissions?.canAssignTickets) ??
+      false
   },
   {
     path: '/community/:communityId/member/:memberId/listings/*',
@@ -71,6 +75,13 @@ const pageLayouts: PageLayoutProps[] = [
     icon: <SearchOutlined />,
     id: 7,
     parent: 'ROOT'
+  },
+  {
+    path: '/community/:communityId/member/:memberId/payment/wallet*',
+    title: 'Payment',
+    icon: <WalletOutlined />,
+    id: 8,
+    parent: 'ROOT'
   }
 ];
 
@@ -87,6 +98,7 @@ export const Members: React.FC<any> = (_props) => {
           <Route path="/properties/*" element={<Properties />} />
           <Route path="/service-tickets/*" element={<ServiceTickets />} />
           <Route path="/propertiesSearch/*" element={<PropertiesSearch />} />
+          <Route path="/payment/*" element={<Payment />} />
         </Route>
       </Routes>
     </BlobToLocalStorage>

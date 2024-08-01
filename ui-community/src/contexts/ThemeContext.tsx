@@ -89,8 +89,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const extractFromLocal = JSON.parse(localStorage.getItem('themeProp')!);
-    console.log('Printing extractFromLocal');
-    console.log(extractFromLocal);
     if (extractFromLocal && extractFromLocal.type === 'dark') {
       setTheme(
         {

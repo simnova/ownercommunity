@@ -1,8 +1,8 @@
 import { Actor, Interaction } from "@serenity-js/core";
 import { InteractWithTheDomain } from "../abilities/domain/interact-with-the-domain";
 import { CommunityInDb } from "../questions/community-in-db";
-import { CommunityEntityReference } from "../../src/app/domain/contexts/community/community";
-import { Role, RoleProps } from "../../src/app/domain/contexts/community/role";
+import { CommunityEntityReference } from "../../src/app/domain/contexts/community/community/community";
+import { EndUserRole, EndUserRoleProps } from "../../src/app/domain/contexts/community/roles/end-user-role/end-user-role";
 
 export const CreateRoleInDb = (
   communityName: string,
@@ -31,11 +31,11 @@ export const CreateRoleInDb = (
 }
   
 
-function getEverySetterOnObjectThatStartsWithCan(newRole: Role<RoleProps>, permissionType: string): string[] {
+function getEverySetterOnObjectThatStartsWithCan(newRole: EndUserRole<EndUserRoleProps>, permissionType: string): string[] {
   return listSetters(newRole.permissions[permissionType])?.filter(k => k.startsWith('can'));
 }
 
-function getEverySetterOnObjectThatEndsWithPermissions(newRole: Role<RoleProps>, inputPermissionTypes: string[]): string[] {
+function getEverySetterOnObjectThatEndsWithPermissions(newRole: EndUserRole<EndUserRoleProps>, inputPermissionTypes: string[]): string[] {
     return listGetters(newRole.permissions)?.filter(p => p.endsWith('Permissions'))?.filter(p => inputPermissionTypes.includes(p));
 }
 

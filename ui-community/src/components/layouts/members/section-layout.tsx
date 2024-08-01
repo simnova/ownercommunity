@@ -17,11 +17,7 @@ export const SectionLayout: React.FC<any> = (props) => {
   const params = useParams();
   const [data, setData] = useState<any>(null);
 
-  const [loadMemberRole] = useLazyQuery(MemberSiteCurrentMemberHasAdminRoleDocument, {
-    variables: {
-      communityId: communityId
-    }
-  });
+  const [loadMemberRole] = useLazyQuery(MemberSiteCurrentMemberHasAdminRoleDocument);
 
   useEffect(() => { 
     const fetchData = async () => {

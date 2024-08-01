@@ -1,5 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
-import { LoggedInUserCommunityContainerUserCurrentQueryDocument } from '../../../../generated';
+import { LoggedInUserCommunityContainerUserCurrentQueryDocument, LoggedInUserCommunityContainerUserCurrentQueryQuery } from '../../../../generated';
 
 import { useParams } from 'react-router-dom';
 import { ComponentQueryLoader } from '../../molecules/component-query-loader';
@@ -17,7 +17,7 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
   const params = useParams();
 
   const [memberQuery] = useLazyQuery(LoggedInUserCommunityContainerUserCurrentQueryDocument);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<LoggedInUserCommunityContainerUserCurrentQueryQuery|null>(null);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<any>(null);
 
@@ -28,12 +28,8 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
           data: dataTemp,
           loading: loadingTemp,
           error: errorTemp
-        } = await memberQuery({
-          variables: {
-            communityId: params.communityId
-          }
-        });
-        setData(dataTemp);
+        } = await memberQuery();
+        setData(dataTemp as LoggedInUserCommunityContainerUserCurrentQueryQuery);
         setError(loadingTemp);
         setLoading(errorTemp);
       } catch (e) {
@@ -52,8 +48,8 @@ export const LoggedInUserCommunityContainer: React.FC<HeaderPropTypes> = () => {
     const userData: LoggedInUserPropTypes = {
       data: {
         isLoggedIn: true,
-        firstName: data?.userCurrent?.firstName ?? '',
-        lastName: data?.userCurrent?.lastName ?? '',
+        firstName: data?.userCurrent?.personalInformation?.identityDetails?.restOfName ?? '',
+        lastName: data?.userCurrent?.personalInformation?.identityDetails?.lastName ?? '',
         notificationCount: 0,
         profileImage: data?.memberForCurrentUser?.profile?.avatarDocumentId
           ? `https://ownercommunity.blob.core.windows.net/${params.communityId}/${data.memberForCurrentUser.profile.avatarDocumentId}`

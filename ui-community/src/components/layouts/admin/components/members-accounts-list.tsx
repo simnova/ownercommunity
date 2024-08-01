@@ -35,7 +35,7 @@ export const MembersAccountsList: React.FC<any> = (props) => {
     },
     {
       title: "Email",
-      dataIndex: ['user', 'email'],
+      dataIndex: ['user', 'personalInformation', 'contactInformation', 'email'],
       key: "email"
     },
     {

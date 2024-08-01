@@ -146,6 +146,7 @@ export class Cybersource implements CybersourceBase {
     orderInformationBillTo.postalCode = customerProfile.billingPostalCode;
     orderInformationBillTo.country = customerProfile.billingCountry;
     orderInformationBillTo.email = customerProfile.billingEmail;
+    orderInformationBillTo.phoneNumber = customerProfile.billingPhone;
 
     let orderInformation = new cybersource.Ptsv2paymentsOrderInformation();
     orderInformation.amountDetails = orderInformationAmountDetails;

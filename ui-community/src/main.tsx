@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 
 import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
 import { reactPlugin } from './components/shared/azure-monitor';
@@ -44,9 +45,11 @@ function ConfigProviderWrapper() {
     >
       <MaintenanceMessageProvider maintenanceInfo={maintenanceInfo} auth={auth}>
         <ThemeProvider>
+        <HelmetProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
+          </HelmetProvider>
         </ThemeProvider>
       </MaintenanceMessageProvider>
     </ConfigProvider>

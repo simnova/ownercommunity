@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { SiteEditorFilesListContainer } from '../components/site-editor-files-list.container';
 import { SiteEditorFilesUploadContainer } from '../components/site-editor-files-upload.container';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const { Title } = Typography;
 
@@ -19,6 +20,9 @@ const SiteEditorFiles: React.FC = (_props) => {
   const resetUploadSuccess = () => setUploadSuccess(false);
   
   return <div style={{display: 'flex', flexDirection: 'column', flexGrow: 1}}>
+    <Helmet>
+        <title>Site Editor Files</title>
+    </Helmet>
     <Row>
       <Col span={24} style={{marginBottom: '24px'}}>
         <div className='inline-block'>

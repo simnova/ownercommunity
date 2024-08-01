@@ -927,16 +927,16 @@ export type MutationStatus = {
 
 export type PaymentBillingInfo = {
   __typename?: 'PaymentBillingInfo';
-  address1: Scalars['String'];
-  address2?: Maybe<Scalars['String']>;
-  administrativeArea: Scalars['String'];
-  country: Scalars['String'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  locality: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  postalCode: Scalars['String'];
+  billingAddressLine1?: Maybe<Scalars['String']>;
+  billingAddressLine2?: Maybe<Scalars['String']>;
+  billingCity?: Maybe<Scalars['String']>;
+  billingCountry?: Maybe<Scalars['String']>;
+  billingEmail?: Maybe<Scalars['String']>;
+  billingFirstName?: Maybe<Scalars['String']>;
+  billingLastName?: Maybe<Scalars['String']>;
+  billingPhone?: Maybe<Scalars['String']>;
+  billingPostalCode?: Maybe<Scalars['String']>;
+  billingState?: Maybe<Scalars['String']>;
 };
 
 export type PaymentInstrument = {
@@ -3151,16 +3151,16 @@ export type PaymentBillingInfoResolvers<
   ContextType = GraphqlContext,
   ParentType extends ResolversParentTypes['PaymentBillingInfo'] = ResolversParentTypes['PaymentBillingInfo'],
 > = ResolversObject<{
-  address1?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  address2?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  administrativeArea?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  country?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  locality?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  phoneNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  postalCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  billingAddressLine1?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingAddressLine2?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingCity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingCountry?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingEmail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingFirstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingLastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingPostalCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  billingState?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

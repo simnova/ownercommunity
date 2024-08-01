@@ -925,16 +925,16 @@ export type MutationStatus = {
 
 export type PaymentBillingInfo = {
   __typename?: 'PaymentBillingInfo';
-  address1: Scalars['String'];
-  address2?: Maybe<Scalars['String']>;
-  administrativeArea: Scalars['String'];
-  country: Scalars['String'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  locality: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  postalCode: Scalars['String'];
+  billingAddressLine1?: Maybe<Scalars['String']>;
+  billingAddressLine2?: Maybe<Scalars['String']>;
+  billingCity?: Maybe<Scalars['String']>;
+  billingCountry?: Maybe<Scalars['String']>;
+  billingEmail?: Maybe<Scalars['String']>;
+  billingFirstName?: Maybe<Scalars['String']>;
+  billingLastName?: Maybe<Scalars['String']>;
+  billingPhone?: Maybe<Scalars['String']>;
+  billingPostalCode?: Maybe<Scalars['String']>;
+  billingState?: Maybe<Scalars['String']>;
 };
 
 export type PaymentInstrument = {

@@ -1,8 +1,8 @@
 import { Cybersource } from "../../../../seedwork/services-seedwork-payment-cybersource";
-import { CustomerPaymentInstrumentsResponse, CustomerPaymentResponse, CustomerProfile, PaymentTokenInfo, PaymentTransactionResponse } from "../../../../seedwork/services-seedwork-payment-cybersource-interfaces";
+import { CustomerPaymentInstrumentsResponse, CustomerPaymentResponse, CustomerProfile, PaymentTokenInfo, PaymentInstrumentInfo, PaymentTransactionResponse, PaymentInstrument as PaymentInstrumentInterface } from "../../../../seedwork/services-seedwork-payment-cybersource-interfaces";
 import { PaymentDataSource } from "../../data-sources/payment-data-source";
 import { TransactionProps } from "../../domain/contexts/cases/violation-ticket/v1/transaction";
-import { AddPaymentInstrumentInput, PaymentInstrument } from "../../external-dependencies/graphql-api";
+import { AddPaymentInstrumentInput, PaymentBillingInfo, PaymentInstrument } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
 
 export interface PaymentCybersourceApi {
@@ -46,6 +46,21 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
     };
   }
 
+  private mapCybersourceToPaymentBillingInfo(paymentInstrument: PaymentInstrumentInterface): PaymentBillingInfo {
+    return {
+        billingAddressLine1: paymentInstrument?.billTo?.address1,
+        billingAddressLine2: paymentInstrument?.billTo?.address2,
+        billingCity: paymentInstrument?.billTo?.locality,
+        billingCountry: paymentInstrument?.billTo?.country,
+        billingEmail: paymentInstrument?.billTo?.email,
+        billingFirstName: paymentInstrument?.billTo?.firstName,
+        billingLastName: paymentInstrument?.billTo?.lastName,
+        billingPhone: paymentInstrument?.billTo?.phoneNumber,
+        billingPostalCode: paymentInstrument?.billTo?.postalCode,
+        billingState: paymentInstrument?.billTo?.administrativeArea
+    }
+  }
+
   public async createCybersourceCustomer(paymentInstrument: AddPaymentInstrumentInput): Promise<string> {
     const customerProfilePayload = this.buildCustomerProfilePayload(paymentInstrument);
     const paymentTokenInfo = this.buildPaymentTokenInfo(paymentInstrument);
@@ -64,6 +79,14 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
     return response.status === 'AUTHORIZED';
   }
 
+  public async updatePaymentInstrument(customerProfile: CustomerProfile, paymentInstrumentInfo: PaymentInstrumentInfo): Promise<boolean> {
+    let response;
+    await this.withCybersource(async (_passport, cybersource: Cybersource) => {
+      response = await cybersource.updateCustomerPaymentInstrument(customerProfile, paymentInstrumentInfo);
+    });
+    return response.status === 'AUTHORIZED';
+  }
+ 
   public async getPaymentInstruments(customerId: string): Promise<PaymentInstrument[]> {
     let response;
     let cyberSourcePaymentInstrumentsResponse: CustomerPaymentInstrumentsResponse;
@@ -71,6 +94,7 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
       cyberSourcePaymentInstrumentsResponse = await cybersource.getCustomerPaymentInstruments(customerId);
     });
     response = cyberSourcePaymentInstrumentsResponse?._embedded?.paymentInstruments.map((paymentInstrument) => {
+      const billDetails: PaymentBillingInfo = this.mapCybersourceToPaymentBillingInfo(paymentInstrument);  
       return {
         cardNumber: paymentInstrument?._embedded?.instrumentIdentifier?.card?.number,
         cardType: paymentInstrument?.card?.type,
@@ -80,7 +104,7 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
         expirationYear: paymentInstrument?.card?.expirationYear,
         id: paymentInstrument?.instrumentIdentifier?.id,
         state: paymentInstrument?.state,
-        billTo: paymentInstrument?.billTo
+        billTo: billDetails
       };
     });
     return response;

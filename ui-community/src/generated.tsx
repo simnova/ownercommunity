@@ -1742,6 +1742,7 @@ export type ViolationTicket = {
   priority: Scalars['Int'];
   property?: Maybe<Property>;
   requestor: Member;
+  revisionRequest?: Maybe<ViolationTicketV1RevisionRequest>;
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
@@ -1811,6 +1812,7 @@ export type ViolationTicketUpdateInput = {
   penaltyAmount?: InputMaybe<Scalars['Float']>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
+  revisionRequest?: InputMaybe<ViolationTicketV1RevisionRequestUpdateInput>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
@@ -1834,6 +1836,38 @@ export type ViolationTicketV1MessageInput = {
   isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
   message: Scalars['String'];
   sentBy: Scalars['String'];
+};
+
+export type ViolationTicketV1RevisionRequest = {
+  __typename?: 'ViolationTicketV1RevisionRequest';
+  requestedAt: Scalars['DateTime'];
+  requestedBy: Member;
+  requestedChanges: ViolationTicketV1RevisionRequestedChanges;
+  revisionSubmittedAt?: Maybe<Scalars['DateTime']>;
+  revisionSummary: Scalars['String'];
+};
+
+export type ViolationTicketV1RevisionRequestUpdateInput = {
+  requestedAt?: InputMaybe<Scalars['DateTime']>;
+  requestedBy?: InputMaybe<Scalars['ObjectID']>;
+  requestedChanges?: InputMaybe<ViolationTicketV1RevisionRequestedChangesUpdateInput>;
+  revisionSubmittedAt?: InputMaybe<Scalars['DateTime']>;
+  revisionSummary?: InputMaybe<Scalars['String']>;
+};
+
+export type ViolationTicketV1RevisionRequestedChanges = {
+  __typename?: 'ViolationTicketV1RevisionRequestedChanges';
+  requestUpdatedAssignment: Scalars['Boolean'];
+  requestUpdatedPaymentTransaction: Scalars['Boolean'];
+  requestUpdatedProperty: Scalars['Boolean'];
+  requestUpdatedStatus: Scalars['Boolean'];
+};
+
+export type ViolationTicketV1RevisionRequestedChangesUpdateInput = {
+  requestUpdatedAssignment?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedPaymentTransaction?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedProperty?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedStatus?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type AhpIdFormCommunityPublicFileCreateAuthHeaderMutationVariables = Exact<{

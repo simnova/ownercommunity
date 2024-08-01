@@ -22,16 +22,15 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
       cardNumber: paymentInstrument?.cardNumber,
       expiration: dayjs(`${paymentInstrument?.expirationMonth}-${paymentInstrument?.expirationYear}`, 'MM-YYYY'),
       isDefault: paymentInstrument?.isDefault,
-      billTo: {
-        billingFirstName: paymentInstrument?.billTo?.billingFirstName,
-        billingLastName: paymentInstrument?.billTo?.billingLastName,
-        billingCountry: paymentInstrument?.billTo?.billingCountry,
-        billingAddressLine1: paymentInstrument?.billTo?.billingAddressLine1,
-        billingAddressLine2: paymentInstrument?.billTo?.billingAddressLine2,
-        billingState: paymentInstrument?.billTo?.billingState,
-        billingCity: paymentInstrument?.billTo?.billingCity,
-        billingPostalCode: paymentInstrument?.billTo?.billingPostalCode
-      }
+      billingFirstName: paymentInstrument?.billTo?.billingFirstName,
+      billingLastName: paymentInstrument?.billTo?.billingLastName,
+      billingEmail: paymentInstrument?.billTo?.billingEmail,
+      billingCountry: paymentInstrument?.billTo?.billingCountry,
+      billingAddressLine1: paymentInstrument?.billTo?.billingAddressLine1,
+      billingAddressLine2: paymentInstrument?.billTo?.billingAddressLine2,
+      billingState: paymentInstrument?.billTo?.billingState,
+      billingCity: paymentInstrument?.billTo?.billingCity,
+      billingPostalCode: paymentInstrument?.billTo?.billingPostalCode
     };
     setInitialValues(newValues);
     form.setFieldsValue(newValues);
@@ -73,25 +72,32 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
 
   const billingInformation = (
     <>
-      <div className="flex gap-6">
-        <Form.Item
-          name={['billTo', 'billingFirstName']}
-          className="w-full"
-          label="First Name:"
-          rules={[{ required: true }]}
-        >
+      <div className="flex gap-6 h-fit">
+        <Form.Item name="billingFirstName" className="w-full" label="First Name" rules={[{ required: true }]}>
           <Input placeholder="Enter first name" />
         </Form.Item>
-        <Form.Item
-          name={['billTo', 'billingLastName']}
-          className="w-full"
-          label="Last Name:"
-          rules={[{ required: true }]}
-        >
+        <Form.Item name="billingLastName" className="w-full" label="Last Name" rules={[{ required: true }]}>
           <Input placeholder="Enter last name" />
         </Form.Item>
       </div>
-      <Form.Item name={['billTo', 'billingCountry']} label="Country:" className="w-full" rules={[{ required: true }]}>
+      <Form.Item
+        className="w-full"
+        name="billingEmail"
+        label="Email"
+        rules={[
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail.'
+          },
+          {
+            required: true,
+            message: 'Please input your E-mail.'
+          }
+        ]}
+      >
+        <Input placeholder="Enter email" />
+      </Form.Item>
+      <Form.Item name="billingCountry" label="Country" className="w-full" rules={[{ required: true }]}>
         <Select
           options={Country.getAllCountries()}
           fieldNames={{ value: 'isoCode', label: 'name' }}
@@ -100,45 +106,35 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
           placeholder="Select country"
         />
       </Form.Item>
-      <Form.Item name={['billTo', 'billingAddressLine1']} label="Address Line 1:" rules={[{ required: true }]}>
+      <Form.Item name="billingAddressLine1" label="Address Line 1" rules={[{ required: true }]}>
         <Input placeholder="Enter address line 1" />
       </Form.Item>
-      <Form.Item name={['billTo', 'billingAddressLine2']} label="Address Line 2: (optional)">
+      <Form.Item name="billingAddressLine2" label="Address Line 2 (optional)">
         <Input placeholder="Enter address line 2" />
       </Form.Item>
 
       <div className="flex gap-4">
-        <Form.Item
-          name={['billTo', 'billingState']}
-          label="State / Province:"
-          className="w-full"
-          rules={[{ required: true }]}
-        >
+        <Form.Item name="billingState" label="State / Province:" className="w-full" rules={[{ required: true }]}>
           <Select
             placeholder="Select state / province"
             options={State.getStatesOfCountry(values?.billingCountry)}
             showSearch
             filterOption={(input, option) => (option?.name ?? '').toLowerCase().includes(input.toLowerCase())}
             fieldNames={{ value: 'isoCode', label: 'name' }}
-            disabled={!values?.billTo?.billingCountry}
+            disabled={!values?.billingCountry}
           />
         </Form.Item>
-        <Form.Item name={['billTo', 'billingCity']} label="City:" className="w-full" rules={[{ required: true }]}>
+        <Form.Item name="billingCity" label="City" className="w-full" rules={[{ required: true }]}>
           <Select
             placeholder="Select city"
             options={City.getCitiesOfState(values?.billingCountry!, values?.billingState!)}
             showSearch
             filterOption={(input, option) => (option?.name ?? '').toLowerCase().includes(input.toLowerCase())}
             fieldNames={{ value: 'name', label: 'name' }}
-            disabled={!values?.billTo?.billingCountry || !values?.billTo?.billingState}
+            disabled={!values?.billingCountry || !values?.billingState}
           />
         </Form.Item>
-        <Form.Item
-          name={['billTo', 'billingPostalCode']}
-          label="Zip Code:"
-          className="w-full"
-          rules={[{ required: true }]}
-        >
+        <Form.Item name="billingPostalCode" label="Zip Code" className="w-full" rules={[{ required: true }]}>
           <Input placeholder="Enter zip / postal code" />
         </Form.Item>
       </div>
@@ -153,12 +149,19 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
         initialValues={initialValues}
         onFinish={(values) => {
           setIsSaving(true);
-          const { expiration, ...payload } = values;
-          payload.expirationMonth = expiration.format('MM');
-          payload.expirationYear = expiration.format('YYYY');
-          console.log(payload);
+          let { expiration, ...payload } = values;
+          payload = {
+            ...payload,
+            expirationMonth: expiration.format('MM'),
+            expirationYear: expiration.format('YYYY'),
+            paymentInstrumentId: paymentInstrument?.paymentInstrumentId,
+            cardNumber: paymentInstrument?.cardNumber,
+            cardType: paymentInstrument?.cardType
+          };
+          console.log(payload); // TODO: Remove console.log
           setIsSaving(false);
         }}
+        className="space-y-3"
       >
         <h3>Card Information</h3>
         {cardInformation}

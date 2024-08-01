@@ -4,6 +4,7 @@ import { Button, Checkbox, Descriptions, Form, Input } from 'antd';
 import dayjs from 'dayjs';
 
 import { Role, RoleAddInput, RoleUpdateInput } from '../../../../generated';
+import { Helmet } from 'react-helmet-async';
 
 export interface RolesDetailProps {
   data: Role;
@@ -24,6 +25,9 @@ export const RolesDetail: React.FC<any> = (props) => {
         <Descriptions.Item label="Created At">{dayjs(props.data.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
         <Descriptions.Item label="Updated At">{dayjs(props.data.createdAt).format('MM/DD/YYYY')}</Descriptions.Item>
       </Descriptions>
+      <Helmet>
+        <title>Create Role</title>
+      </Helmet>
       <Form
         layout="vertical"
         form={form}

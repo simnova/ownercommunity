@@ -1,0 +1,67 @@
+# @format
+
+type StaffRole implements MongoBase {
+  roleName: String!
+  isDefault: Boolean!
+  permissions: StaffPermissions!
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type StaffPermissions {
+  communityPermissions: StaffCommunityPermissions!
+}
+
+input StaffPermissionsInput {
+  communityPermissions: StaffCommunityPermissionsInput!
+}
+
+type StaffCommunityPermissions {
+  canManageStaffRolesAndPermissions: Boolean!
+  canManageAllCommunities: Boolean!
+  canDeleteCommunities: Boolean!
+  canChangeCommunityOwner: Boolean!
+  canReIndexSearchCollections: Boolean!
+}
+input StaffCommunityPermissionsInput {
+  canManageStaffRolesAndPermissions: Boolean!
+  canManageAllCommunities: Boolean!
+  canDeleteCommunities: Boolean!
+  canChangeCommunityOwner: Boolean!
+  canReIndexSearchCollections: Boolean!
+}
+
+extend type Query {
+  staffRoles: [StaffRole]
+  staffRole(id: ObjectID!): StaffRole
+}
+
+extend type Mutation {
+  staffRoleAdd(input: StaffRoleAddInput!): StaffRoleMutationResult!
+  staffRoleUpdate(input: StaffRoleUpdateInput!): StaffRoleMutationResult!
+  staffRoleDeleteAndReassign(input: StaffRoleDeleteAndReassignInput!): StaffRoleMutationResult!
+}
+
+type StaffRoleMutationResult implements MutationResult {
+  status: MutationStatus!
+  role: StaffRole
+}
+
+input StaffRoleAddInput {
+  roleName: String!
+  permissions: StaffPermissionsInput!
+}
+
+input StaffRoleUpdateInput {
+  id: ObjectID!
+  roleName: String!
+  permissions: StaffPermissionsInput!
+}
+
+input StaffRoleDeleteAndReassignInput {
+  roleToDelete: ObjectID!
+  roleToReassignTo: ObjectID!
+}

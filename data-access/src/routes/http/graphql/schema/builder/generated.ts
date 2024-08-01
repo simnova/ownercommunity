@@ -1404,6 +1404,7 @@ export type ServiceTicket = MongoBase & {
   priority: Scalars['Int'];
   property?: Maybe<Property>;
   requestor: Member;
+  revisionRequest?: Maybe<ServiceTicketV1RevisionRequest>;
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
@@ -1508,6 +1509,7 @@ export type ServiceTicketUpdateInput = {
   messages?: InputMaybe<Array<InputMaybe<ServiceTicketV1MessageInput>>>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
+  revisionRequest?: InputMaybe<ServiceTicketV1RevisionRequestUpdateInput>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
   title?: InputMaybe<Scalars['String']>;
@@ -1531,6 +1533,36 @@ export type ServiceTicketV1MessageInput = {
   isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
   message: Scalars['String'];
   sentBy: Scalars['String'];
+};
+
+export type ServiceTicketV1RevisionRequest = {
+  __typename?: 'ServiceTicketV1RevisionRequest';
+  requestedAt: Scalars['DateTime'];
+  requestedBy: Member;
+  requestedChanges: ServiceTicketV1RevisionRequestedChanges;
+  revisionSubmittedAt?: Maybe<Scalars['DateTime']>;
+  revisionSummary: Scalars['String'];
+};
+
+export type ServiceTicketV1RevisionRequestUpdateInput = {
+  requestedAt?: InputMaybe<Scalars['DateTime']>;
+  requestedBy?: InputMaybe<Scalars['ObjectID']>;
+  requestedChanges?: InputMaybe<ServiceTicketV1RevisionRequestedChangesUpdateInput>;
+  revisionSubmittedAt?: InputMaybe<Scalars['DateTime']>;
+  revisionSummary?: InputMaybe<Scalars['String']>;
+};
+
+export type ServiceTicketV1RevisionRequestedChanges = {
+  __typename?: 'ServiceTicketV1RevisionRequestedChanges';
+  requestUpdatedAssignment: Scalars['Boolean'];
+  requestUpdatedProperty: Scalars['Boolean'];
+  requestUpdatedStatus: Scalars['Boolean'];
+};
+
+export type ServiceTicketV1RevisionRequestedChangesUpdateInput = {
+  requestUpdatedAssignment?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedProperty?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedStatus?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ServiceTicketsResult = {
@@ -2147,6 +2179,10 @@ export type ResolversTypes = ResolversObject<{
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
   ServiceTicketV1Message: ResolverTypeWrapper<ServiceTicketV1Message>;
   ServiceTicketV1MessageInput: ServiceTicketV1MessageInput;
+  ServiceTicketV1RevisionRequest: ResolverTypeWrapper<ServiceTicketV1RevisionRequest>;
+  ServiceTicketV1RevisionRequestUpdateInput: ServiceTicketV1RevisionRequestUpdateInput;
+  ServiceTicketV1RevisionRequestedChanges: ResolverTypeWrapper<ServiceTicketV1RevisionRequestedChanges>;
+  ServiceTicketV1RevisionRequestedChangesUpdateInput: ServiceTicketV1RevisionRequestedChangesUpdateInput;
   ServiceTicketsResult: ResolverTypeWrapper<ServiceTicketsResult>;
   ServiceTicketsSearchFacets: ResolverTypeWrapper<ServiceTicketsSearchFacets>;
   ServiceTicketsSearchFilterDetail: ServiceTicketsSearchFilterDetail;
@@ -2405,6 +2441,10 @@ export type ResolversParentTypes = ResolversObject<{
   ServiceTicketUpdateInput: ServiceTicketUpdateInput;
   ServiceTicketV1Message: ServiceTicketV1Message;
   ServiceTicketV1MessageInput: ServiceTicketV1MessageInput;
+  ServiceTicketV1RevisionRequest: ServiceTicketV1RevisionRequest;
+  ServiceTicketV1RevisionRequestUpdateInput: ServiceTicketV1RevisionRequestUpdateInput;
+  ServiceTicketV1RevisionRequestedChanges: ServiceTicketV1RevisionRequestedChanges;
+  ServiceTicketV1RevisionRequestedChangesUpdateInput: ServiceTicketV1RevisionRequestedChangesUpdateInput;
   ServiceTicketsResult: ServiceTicketsResult;
   ServiceTicketsSearchFacets: ServiceTicketsSearchFacets;
   ServiceTicketsSearchFilterDetail: ServiceTicketsSearchFilterDetail;
@@ -3511,6 +3551,7 @@ export type ServiceTicketResolvers<
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;
   requestor?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
+  revisionRequest?: Resolver<Maybe<ResolversTypes['ServiceTicketV1RevisionRequest']>, ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -3586,6 +3627,28 @@ export type ServiceTicketV1MessageResolvers<
   isHiddenFromApplicant?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   sentBy?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceTicketV1RevisionRequestResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['ServiceTicketV1RevisionRequest'] = ResolversParentTypes['ServiceTicketV1RevisionRequest'],
+> = ResolversObject<{
+  requestedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  requestedBy?: Resolver<ResolversTypes['Member'], ParentType, ContextType>;
+  requestedChanges?: Resolver<ResolversTypes['ServiceTicketV1RevisionRequestedChanges'], ParentType, ContextType>;
+  revisionSubmittedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  revisionSummary?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ServiceTicketV1RevisionRequestedChangesResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['ServiceTicketV1RevisionRequestedChanges'] = ResolversParentTypes['ServiceTicketV1RevisionRequestedChanges'],
+> = ResolversObject<{
+  requestUpdatedAssignment?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  requestUpdatedProperty?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  requestUpdatedStatus?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -3983,6 +4046,8 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   ServiceTicketPhoto?: ServiceTicketPhotoResolvers<ContextType>;
   ServiceTicketPhotoAuthHeaderResult?: ServiceTicketPhotoAuthHeaderResultResolvers<ContextType>;
   ServiceTicketV1Message?: ServiceTicketV1MessageResolvers<ContextType>;
+  ServiceTicketV1RevisionRequest?: ServiceTicketV1RevisionRequestResolvers<ContextType>;
+  ServiceTicketV1RevisionRequestedChanges?: ServiceTicketV1RevisionRequestedChangesResolvers<ContextType>;
   ServiceTicketsResult?: ServiceTicketsResultResolvers<ContextType>;
   ServiceTicketsSearchFacets?: ServiceTicketsSearchFacetsResolvers<ContextType>;
   ServiceTicketsSearchResult?: ServiceTicketsSearchResultResolvers<ContextType>;

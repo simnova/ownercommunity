@@ -286,7 +286,6 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           />
         </Steps>
       </div>
-      <AdminChatMessagesContainer />
       <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
         <Descriptions title="ServiceTicket Info" size={'small'} layout={'vertical'} labelStyle={{ fontSize: '10px' }}>
           <Descriptions.Item label="Id">{props.data.serviceTicket.id}</Descriptions.Item>
@@ -433,6 +432,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           </Button>
         </Form>
       </div>
+      <AdminChatMessagesContainer />
     </div>
   );
 };

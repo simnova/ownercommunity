@@ -2,6 +2,7 @@ import { Avatar } from 'antd';
 import { FC } from 'react';
 import * as CmsComponents from '../../../../../../../editor/components';
 import { Editor, Frame } from '@craftjs/core';
+import dayjs from 'dayjs';
 
 interface ChatMessageProps {
   sentBy: string;
@@ -35,7 +36,12 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
     if (props.embedding) {
       const componentData = JSON.parse(props.embedding);
       if (componentData.type === 'documentRequestType') {
-        return <CmsComponents.AhpRequestFeedbackForm changesRequested={componentData.changesRequested} isAdmin={props.isAdmin} />;
+        return (
+          <CmsComponents.AhpRequestFeedbackForm
+            changesRequested={componentData.changesRequested}
+            isAdmin={props.isAdmin}
+          />
+        );
       } else if (componentData.type === 'requestPayment') {
         return (
           <CmsComponents.AhpPaymentRequestForm
@@ -104,7 +110,7 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
                 textAlign: toggle ? 'right' : 'left'
               }}
             >
-              {props.createdAt}
+              {dayjs(props.createdAt).format('MM/DD/YYYY hh:mm A').toString()}
             </div>
             <div style={toggle ? caseWorkerStyles : applicantStyles}>
               {props.message}

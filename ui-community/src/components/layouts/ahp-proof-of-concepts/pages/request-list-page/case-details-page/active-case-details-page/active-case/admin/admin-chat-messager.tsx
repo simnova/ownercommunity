@@ -24,6 +24,10 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
     setRequests(requests);
   };
 
+  function repeatEverySecond() {
+    setInterval(props.updateMessage, 60000);
+  }
+
   const sendMessage = async () => {
     if (message === '') {
       return;
@@ -41,19 +45,19 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
       const mainRequest = requests[0];
       if (mainRequest.value === 'sendMoney') {
         embeddedData = JSON.stringify({
-          type: "sendMoney",
+          type: 'sendMoney',
           amount: mainRequest.amount,
           reason: mainRequest.reason
         });
       } else if (mainRequest.value === 'requestPayment') {
         embeddedData = JSON.stringify({
-          type: "requestPayment",
+          type: 'requestPayment',
           amount: mainRequest.amount,
           reason: mainRequest.reason
         });
       } else if (documentRequestTypes.includes(mainRequest.value)) {
         embeddedData = JSON.stringify({
-          type: "documentRequestType",
+          type: 'documentRequestType',
           changesRequested: {
             credentialType: requests.findIndex((x) => x.value === 'updateCredentialType') !== -1,
             credential: requests.findIndex((x) => x.value === 'updateCredential') !== -1,
@@ -62,7 +66,6 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
             nameOnDocument: requests.findIndex((x) => x.value === 'updatedName') !== -1
           }
         });
-
       }
     }
 
@@ -91,6 +94,8 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
     tempRequests.splice(index, 1);
     setRequests(tempRequests);
   };
+
+  repeatEverySecond();
 
   return (
     <div style={{ gridColumn: 1, border: '1px solid black', borderTop: '0px', width: '75%', display: 'flex' }}>

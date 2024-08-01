@@ -1,12 +1,21 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { ChatMessage } from './chat-message';
 import { ServiceTicket } from '../../../../../../../../generated';
+
 
 interface ChatMessagesProps {
   data: ServiceTicket;
   isAdmin: boolean;
 }
 export const ChatMessages: FC<ChatMessagesProps> = (props) => {
+  const scrollToSection = () => {
+    document.getElementById('bottom')?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  };
+
+  useEffect(() => {
+    scrollToSection();
+  }, [props.data]);
+
   return (
     <div
       style={{
@@ -32,6 +41,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
           />
         );
       })}
+      <div id="bottom"></div>
     </div>
   );
 };

@@ -14,6 +14,10 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
   const [message, setMessage] = useState('');
   const [updateServiceTicket] = useMutation(ChatMessagesContainerServiceTicketUpdateDocument);
 
+  function repeatEverySecond() {
+    setInterval(props.updateMessage, 60000);
+  }
+
   const sendMessage = async () => {
     if (message === '') {
       return;
@@ -35,6 +39,8 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
     setMessage('');
     props.updateMessage();
   };
+
+  repeatEverySecond();
 
   return (
     <div style={{ gridColumn: 1, border: '1px solid black', borderTop: '0px', width: '75%', display: 'flex' }}>

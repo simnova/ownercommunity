@@ -4,11 +4,11 @@ query LoggedInUserRootContainerUserCurrentQuery {
   }
 }
 
-query LoggedInUserCommunityContainerUserCurrentQuery($communityId: ObjectID!) {
+query LoggedInUserCommunityContainerUserCurrentQuery {
   userCurrent {
     ...LoggedInUserContainerUserCurrentFields
   }
-  memberForCurrentUser(communityId: $communityId) {
+  memberForCurrentUser {
     profile {
       avatarDocumentId
     }
@@ -16,10 +16,14 @@ query LoggedInUserCommunityContainerUserCurrentQuery($communityId: ObjectID!) {
   }
 }
 
-fragment LoggedInUserContainerUserCurrentFields on CurrentUser {
+fragment LoggedInUserContainerUserCurrentFields on User {
   id
   externalId
-  firstName
-  lastName
+  personalInformation {
+    identityDetails {
+      lastName
+      restOfName
+    }
+  }
   __typename
 }

@@ -20,6 +20,12 @@ fragment SectionLayoutContainerMemberFields on Member {
       serviceTicketPermissions {
         canManageTickets
       }
+      violationTicketPermissions {
+        canManageTickets
+        canCreateTickets
+        canAssignTickets
+        canWorkOnTickets
+      }
     }
   }
   id

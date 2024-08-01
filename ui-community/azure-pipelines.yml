@@ -21,23 +21,24 @@ pr:
 
 variables:
 ## PROJECT SPECIFIC VARIABLES - start
-    PROJECT_NAME: 'ui'
+    PROJECT_NAME: 'ui-community'
+    SONARCLOUD_PROJECT_KEY: 'oc-ui'
+    SONARCLOUD_PROJECT_NAME: 'oc-ui'
     vmImageName: 'ubuntu-latest'
+## PROJECT SPECIFIC VARIABLES - end
     system.debug: true
     npm_config_cache: $(Pipeline.Workspace)/.npm
     SONAR_USER_HOME: $(Pipeline.Workspace)/.sonar
-    SONARCLOUD_PROJECT_KEY: 'oc-ui-community'
-    SONARCLOUD_PROJECT_NAME: 'oc-ui-community'
-    subscription: 'Azure DevOps Publishing Service Connection'
+    subscription: 'OwnerCommunity'
     #dev
     environmentNameDev: 'oc-dev'
-    ResourceGroupNameDev: 'corp-dev-rg'
-    destinationBlobContainerDev: 'ocdevstuicavaqbizf2s7le'
+    ResourceGroupNameDev: 'rg-owner-community'
+    destinationBlobContainerDev: 'ocdevstuicrjyobt6kbghbk'
     cdnProfileDev: 'cdn-dev-ms-standard'
-    cdnNameDev: 'oc-dev-cdne-uia-avaqbizf2s7le'
+    cdnNameDev: 'oc-dev-cdne-uia-rjyobt6kbghbk'
     #prod
     environmentNamePrd: 'oc-prd'
-    ResourceGroupNamePrd: 'corp-oc-rg'
+    ResourceGroupNamePrd: 'corp-prod-rg'
     destinationBlobContainerPrd: 'ocprdstuialbiusbw5zdgpc'
     cdnProfilePrd: 'cdn-prod-ms-standard'
     cdnNamePrd: 'oc-prd-cdne-uia-lbiusbw5zdgpc'
@@ -64,8 +65,8 @@ stages:
     - task: SonarCloudPrepare@1
       displayName: 'SonarCloud: Prepare analysis configuration'
       inputs:
-        SonarCloud: 'sonarcloudADO'
-        organization: 'ecfmg'
+        SonarCloud: 'SonarCloud'
+        organization: 'simnova'
         scannerMode: 'CLI'
         configMode: 'manual'
         cliProjectKey: $(SONARCLOUD_PROJECT_KEY)
@@ -81,20 +82,36 @@ stages:
         buildEnvSettings: 
           INLINE_RUNTIME_CHUNK: 'false'
           VITE_FUNCTION_ENDPOINT: $(VITE_FUNCTION_ENDPOINT_DEV)
+          VITE_APP_INSIGHTS_CONNECTION_STRING: $(VITE_APP_INSIGHTS_CONNECTION_STRING_DEV)
+          VITE_AAD_ACCOUNT_CLIENTID: $(VITE_AAD_ACCOUNT_CLIENTID_DEV)
+          VITE_AAD_ACCOUNT_AUTHORITY: $(VITE_AAD_ACCOUNT_AUTHORITY_DEV)
+          VITE_AAD_ACCOUNT_SCOPES: $(VITE_AAD_ACCOUNT_SCOPES_DEV)
+          VITE_AAD_REDIRECT_URI: $(VITE_AAD_REDIRECT_URI_DEV)
+          VITE_PORTAL_IDENTIFIER: $(VITE_PORTAL_IDENTIFIER)
+          VITE_FEATURE_FLAG_URL: $(VITE_FEATURE_FLAG_URL_DEV)
+          VITE_TIMEOUT_BEFORE_MAINTENANCE: $(VITE_TIMEOUT_BEFORE_MAINTENANCE_DEV)
 
-          
         # Publish chromatic
-    - task: Bash@3
-      condition: ne(variables['Build.Reason'], 'PullRequest')
-      displayName: 'chromatic build'
-      inputs:
-        targetType: 'inline'
-        script: |
-          npx chromatic --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --allow-console-errors
-        workingDirectory: 'ui'
-      env: 
-        NODE_OPTIONS: --max_old_space_size=16384   
-        VITE_MYINTEALTH_URL: $(VITE_MYINTEALTH_URL_DEV)
+    # - task: Bash@3
+    #   condition: ne(variables['Build.Reason'], 'PullRequest')
+    #   displayName: 'chromatic build'
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       npx chromatic --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --allow-console-errors
+    #     workingDirectory: 'ui'
+    #   env: 
+    #     NODE_OPTIONS: --max_old_space_size=16384   
+    #     INLINE_RUNTIME_CHUNK: 'false'
+    #     VITE_FUNCTION_ENDPOINT: $(VITE_FUNCTION_ENDPOINT_DEV)
+    #     VITE_APP_INSIGHTS_CONNECTION_STRING: $(VITE_APP_INSIGHTS_CONNECTION_STRING_DEV)
+    #     VITE_AAD_ACCOUNT_CLIENTID: $(VITE_AAD_ACCOUNT_CLIENTID_DEV)
+    #     VITE_AAD_ACCOUNT_AUTHORITY: $(VITE_AAD_ACCOUNT_AUTHORITY_DEV)
+    #     VITE_AAD_ACCOUNT_SCOPES: $(VITE_AAD_ACCOUNT_SCOPES_DEV)
+    #     VITE_AAD_REDIRECT_URI: $(VITE_AAD_REDIRECT_URI_DEV)
+    #     VITE_PORTAL_IDENTIFIER: $(VITE_PORTAL_IDENTIFIER)
+    #     VITE_FEATURE_FLAG_URL: $(VITE_FEATURE_FLAG_URL_DEV)
+    #     VITE_TIMEOUT_BEFORE_MAINTENANCE: $(VITE_TIMEOUT_BEFORE_MAINTENANCE_DEV)
 
     - task: SonarCloudAnalyze@1
       displayName: 'SonarCloud: Run analysis'
@@ -130,24 +147,16 @@ stages:
         buildEnvSettings: 
           INLINE_RUNTIME_CHUNK: 'false'
           VITE_FUNCTION_ENDPOINT: $(VITE_FUNCTION_ENDPOINT_PRD)
-          VITE_ACCEPT_REQUEST_EXPIRE_DAYS: $(VITE_ACCEPT_REQUEST_EXPIRE_DAYS_PRD)
+          VITE_APP_INSIGHTS_CONNECTION_STRING: $(VITE_APP_INSIGHTS_CONNECTION_STRING_PRD)
+          VITE_AAD_ACCOUNT_CLIENTID: $(VITE_AAD_ACCOUNT_CLIENTID_PRD)
+          VITE_AAD_ACCOUNT_AUTHORITY: $(VITE_AAD_ACCOUNT_AUTHORITY_PRD)
+          VITE_AAD_ACCOUNT_SCOPES: $(VITE_AAD_ACCOUNT_SCOPES_PRD)
+          VITE_AAD_REDIRECT_URI: $(VITE_AAD_REDIRECT_URI_PRD)
+          VITE_PORTAL_IDENTIFIER: $(VITE_PORTAL_IDENTIFIER)
           VITE_FEATURE_FLAG_URL: $(VITE_FEATURE_FLAG_URL_PRD)
-          VITE_GA_MEASUREMENT_ID: $(VITE_GA_MEASUREMENT_ID_PRD)
-          VITE_PORTAL_IDENTIFIER: $(VITE_PORTAL_IDENTIFIER_PRD)
-          VITE_B2C_CLIENTID: $(VITE_B2C_CLIENTID_PRD)
-          VITE_B2C_AUTHORITY: $(VITE_B2C_AUTHORITY_PRD)
-          VITE_B2C_REDIRECT_URI: $(VITE_B2C_REDIRECT_URI_PRD)
-          VITE_SELF_HOSTED_CYBERSOURCE_URL: $(VITE_SELF_HOSTED_CYBERSOURCE_URL_PRD)
-          VITE_APOLLO_POLLING_INTERVAL: $(VITE_APOLLO_POLLING_INTERVAL_PRD)
-          VITE_BLOB_STORAGE_CONFIG_URL: $(VITE_BLOB_STORAGE_CONFIG_URL_PRD)
-          VITE_B2C_SCOPE: $(VITE_B2C_SCOPE_PRD)
-          NODE_OPTIONS: --max_old_space_size=16384
-          VITE_NODE_ENVIRONMENT: $(VITE_NODE_ENVIRONMENT_PRD)
-          VITE_MYINTEALTH_URL: $(VITE_MYINTEALTH_URL_PRD)
-          VITE_IDLE_TIMER: $(VITE_IDLE_TIMER_PRD)
-          VITE_LOGOUT_TIMER: $(VITE_LOGOUT_TIMER_PRD)
           VITE_TIMEOUT_BEFORE_MAINTENANCE: $(VITE_TIMEOUT_BEFORE_MAINTENANCE_PRD)
-
+          VITE_BUILD_VERSION: $(Build.BuildId)
+          
     - task: PublishBuildArtifacts@1
       condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
       inputs:

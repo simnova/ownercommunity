@@ -4,7 +4,6 @@ import React from 'react';
 import { ServiceTicketCreateInput } from '../../../../generated';
 
 const { TextArea } = Input;
-
 export interface ServiceTicketsCreateProps {
   data: {
     members: any[];

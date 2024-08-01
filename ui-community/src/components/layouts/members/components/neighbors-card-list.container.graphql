@@ -9,8 +9,12 @@ fragment MemberSiteNeighborsListContainerFields on Member {
   memberName
   accounts {
     user {
-        id 
-        firstName
+      id 
+      personalInformation {
+        identityDetails {
+          restOfName
+        }
+      }
     }
   }
   profile {

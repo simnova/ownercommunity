@@ -1,0 +1,100 @@
+query MemberServiceTicketsDetailContainerViolationTicket($id: ObjectID!) {
+  violationTicket(id: $id) {
+    ...MemberViolationTicketsDetailContainerViolationTicketFields
+  }
+}
+
+fragment MemberViolationTicketsDetailContainerViolationTicketMutationResultFields on ViolationTicketMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  violationTicket {
+    ...MemberViolationTicketsDetailContainerViolationTicketFields
+  }
+}
+
+fragment MemberViolationTicketsDetailContainerViolationTicketFields on ViolationTicket {
+  title
+  property {
+    id
+    propertyName
+  }
+  requestor {
+    id
+    memberName
+  }
+  assignedTo {
+    id
+    memberName
+  }
+  title
+  description
+  status
+  priority
+  photos {
+    documentId
+    description
+
+    id
+    createdAt
+    updatedAt
+  }
+  activityLog {
+    activityType
+    activityDescription
+    activityBy {
+      id
+      memberName
+    }
+    id
+    createdAt
+    updatedAt
+  }
+  paymentTransactions {
+    __typename
+    amountDetails {
+      amount
+      authorizedAmount
+      currency
+    }
+    clientReferenceCode
+    description
+    error {
+      code
+      message
+      timestamp
+    }
+    id
+    isSuccess
+    reconciliationId
+    status
+    successTimestamp
+    transactionId
+    transactionTime
+    type
+  }
+  id
+  penaltyAmount
+  penaltyPaidDate
+  createdAt
+  updatedAt
+}
+
+fragment MemberViolationTicketsDetailContainerMemberFields on Member {
+  id
+  memberName
+}
+
+mutation MemberViolationTicketProcessPayment($input: ViolationTicketProcessPaymentInput!) {
+  violationTicketProcessPayment(input: $input) {
+    __typename
+    status {
+      success
+      errorMessage
+    }
+    violationTicket {
+      ...MemberViolationTicketsDetailContainerViolationTicketFields
+    }
+  }
+}

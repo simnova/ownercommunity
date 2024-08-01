@@ -7,9 +7,9 @@ query SharedCommunitiesDropdownContainerMembers($userExternalId: String!) {
 fragment SharedCommunitiesDropdownContainerMembersFields on Member {
   id
   memberName
+  isAdmin
   community {
     id
     name
-    userIsAdmin
   }
 }

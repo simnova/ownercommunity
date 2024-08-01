@@ -24,7 +24,7 @@ describe('given an empty array of communities', () => {
     const communityMockProps = [] as Community[];
     render(
       <RRD.MemoryRouter>
-        <CommunityList data={{ communities: communityMockProps }} />
+        <CommunityList data={{ communities: communityMockProps, members: [] }} />
       </RRD.MemoryRouter>
     );
     const header = screen.getByText('Navigate to a Community');
@@ -62,7 +62,8 @@ describe('given an array of communities', () => {
       <RRD.MemoryRouter>
         <CommunityList
           data={{
-            communities: communityMockProps
+            communities: communityMockProps,
+            members: []
           }}
         />
       </RRD.MemoryRouter>

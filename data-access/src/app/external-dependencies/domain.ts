@@ -8,10 +8,15 @@ export { MongoMemberUnitOfWork as MemberUnitOfWork } from '../../infrastructure-
 export { MemberDomainAdapter, MemberConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/member/member.domain-adapter';
 export { MongoMemberRepository as MemberRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/member/member.mongo-repository';
 
-// role
-export { MongoRoleUnitOfWork as RoleUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/role/role.mongo-uow';
-export { RoleDomainAdapter, RoleConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/role/role.domain-adapter';
-export { MongoRoleRepository as RoleRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/role/role.mongo-repository';
+// end user role
+export { MongoEndUserRoleUnitOfWork as EndUserRoleUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.mongo-uow';
+export { EndUserRoleDomainAdapter, EndUserRoleConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.domain-adapter';
+export { MongoEndUserRoleRepository as EndUserRoleRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/end-user-role/end-user-role.mongo-repository';
+
+// staff role
+export { MongoStaffRoleUnitOfWork as StaffRoleUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/staff-role/staff-role.mongo-uow';
+export { StaffRoleDomainAdapter, StaffRoleConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/staff-role/staff-role.domain-adapter';
+export { MongoStaffRoleRepository as StaffRoleRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/roles/staff-role/staff-role.mongo-repository';
 
 // property
 export { MongoPropertyUnitOfWork as PropertyUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/property/property.mongo-uow';
@@ -23,10 +28,15 @@ export { MongoServiceUnitOfWork as ServiceUnitOfWork } from '../../infrastructur
 export { ServiceDomainAdapter, ServiceConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/service/service.domain-adapter';
 export { MongoServiceRepository as ServiceRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/service/service.mongo-repository';
 
-// user
-export { MongoUserUnitOfWork as UserUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/user/user.uow';
-export { UserDomainAdapter, UserConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/user/user.domain-adapter';
-export { MongoUserRepository as UserRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/user/user.mongo-repository';
+// end user
+export { MongoEndUserUnitOfWork as EndUserUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/end-user/end-user.uow';
+export { EndUserDomainAdapter, EndUserConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/end-user/end-user.domain-adapter';
+export { MongoEndUserRepository as EndUserRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/end-user/end-user.mongo-repository';
+
+// staff user
+export { MongoStaffUserUnitOfWork as StaffUserUnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/staff-user/staff-user.uow';
+export { StaffUserDomainAdapter, StaffUserConverter } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/staff-user/staff-user.domain-adapter';
+export { MongoStaffUserRepository as StaffUserRepository } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/users/staff-user/staff-user.mongo-repository';
 
 // service-ticket
 export { MongoServiceTicketV1UnitOfWork as ServiceTicketV1UnitOfWork } from '../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/service-ticket/v1/service-ticket.uow';

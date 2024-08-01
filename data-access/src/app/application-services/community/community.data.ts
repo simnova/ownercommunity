@@ -1,6 +1,6 @@
 import { isValidObjectId, Types } from "mongoose";
 import { CosmosDataSource } from "../../data-sources/cosmos-data-source";
-import { CommunityData, CommunityModel, MemberModel, UserModel } from "../../external-dependencies/datastore";
+import { CommunityData, CommunityModel, MemberModel, EndUserModel } from "../../external-dependencies/datastore";
 import { AppContext } from "../../init/app-context-builder";
 
 export interface CommunityDataApi {
@@ -125,7 +125,7 @@ export class CommunityDataApiImpl
   async getCommunitiesForCurrentUser(): Promise<CommunityData[]> {
     const externalId = this.context.verifiedUser.verifiedJWT.sub;
     // starts from user (looking up by externalId), then find where they are a member, and then find the communities they are a member of
-    const result = await UserModel.aggregate<CommunityData>([
+    const result = await EndUserModel.aggregate<CommunityData>([
       {
         $match: {
           externalId: externalId,

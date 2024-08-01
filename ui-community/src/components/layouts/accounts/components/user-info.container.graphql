@@ -4,10 +4,14 @@ query UserInfoContainerUserCurrentQuery {
   }
 }
 
-fragment UserInfoContainerCurrentUserFields on CurrentUser {
+fragment UserInfoContainerCurrentUserFields on User {
   id
   externalId
-  firstName
-  lastName
+  personalInformation {
+    identityDetails {
+      lastName
+      restOfName
+    }
+  }
   __typename
 }

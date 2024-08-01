@@ -1,24 +1,24 @@
 import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
-import { User, UserEntityReference, UserProps } from '../../user/user/user';
+import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './account.value-objects';
 
 export interface AccountPropValues extends EntityProps {
   firstName: string;
   lastName: string;
-  user: UserProps;
-  setUserRef: (user: UserProps) => void;
+  user: EndUserProps;
+  setUserRef: (user: EndUserProps) => void;
   statusCode: string;
-  createdBy: UserProps;
-  setCreatedByRef: (createdBy: UserProps) => void;
+  createdBy: EndUserProps;
+  setCreatedByRef: (createdBy: EndUserProps) => void;
 }
 
 export interface AccountProps extends AccountPropValues {}
 
 export interface AccountEntityReference extends Readonly<Omit<AccountPropValues, 'user' | 'setUserRef' | 'createdBy' | 'setCreatedByRef'>> {
-  readonly user: UserEntityReference;
-  readonly createdBy: UserEntityReference;
+  readonly user: EndUserEntityReference;
+  readonly createdBy: EndUserEntityReference;
 }
 
 export class Account extends Entity<AccountProps> implements AccountEntityReference {
@@ -32,14 +32,14 @@ export class Account extends Entity<AccountProps> implements AccountEntityRefere
   get lastName(): string {
     return this.props.lastName;
   }
-  get user(): UserEntityReference {
-    return new User(this.props.user, this.context);
+  get user(): EndUserEntityReference {
+    return new EndUser(this.props.user);
   }
   get statusCode(): string {
     return this.props.statusCode;
   }
-  get createdBy(): UserEntityReference {
-    return new User(this.props.createdBy, this.context);
+  get createdBy(): EndUserEntityReference {
+    return new EndUser(this.props.createdBy);
   }
 
   private validateVisa() {
@@ -63,7 +63,7 @@ export class Account extends Entity<AccountProps> implements AccountEntityRefere
     this.props.lastName = lastName.valueOf();
   }
 
-  set user(user: UserProps) {
+  set user(user: EndUserProps) {
     this.validateVisa();
     this.props.setUserRef(user);
   }
@@ -75,7 +75,7 @@ export class Account extends Entity<AccountProps> implements AccountEntityRefere
     this.props.statusCode = statusCode.valueOf();
   }
 
-  set createdBy(createdBy: UserProps) {
+  set createdBy(createdBy: EndUserProps) {
     this.validateVisa();
     this.props.setCreatedByRef(createdBy);
   }

@@ -1,12 +1,12 @@
 
-import { PropertyPermissions } from "./property.visa";
+import { PropertyPermissionsSpec } from '../../property/property/property.visa';
 import { BedroomDetail, BedroomDetailProps } from "./bedroom-detail";
 import _ from 'underscore';
 import {expect, jest, test} from '@jest/globals';
 
-const mockVisa = jest.fn((mockPermissions: PropertyPermissions) => {
+const mockVisa = jest.fn((mockPermissions: PropertyPermissionsSpec) => {
     return {
-        determineIf: jest.fn((func:((permissions:PropertyPermissions) => boolean)) => {
+        determineIf: jest.fn((func:((permissions:PropertyPermissionsSpec) => boolean)) => {
             return func(mockPermissions);
         })
     };

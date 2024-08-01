@@ -3,6 +3,7 @@ import { Member } from "../../../../domain/contexts/community/member/member";
 import { ReadOnlyDomainVisa } from "../../../../domain/domain.visa";
 import { Service } from "../../../../domain/contexts/community/service/service";
 import { ServiceTicketV1 } from "../../../../domain/contexts/cases/service-ticket/v1/service-ticket";
+import { SentBy, Message, Embedding } from "../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1-message.value-objects";
 import { MemberData, ServiceTicketData } from "../../../../external-dependencies/datastore";
 import { ServiceTicketV1DomainAdapter, CommunityConverter, PropertyConverter, MemberConverter, ServiceTicketV1Repository, ServiceDomainAdapter, ServiceConverter, ServiceTicketV1Converter } from "../../../../external-dependencies/domain";
 import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketDeleteInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput } from "../../../../external-dependencies/graphql-api";
@@ -81,15 +82,43 @@ export class ServiceTicketV1DomainApiImpl
 
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
-      if (serviceTicket.property.id !== input.propertyId) {
+      if (serviceTicket.property.id !== input.propertyId && input.propertyId !== undefined) {
         let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);
         let propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
         serviceTicket.Property = (propertyDo);
       }
-      serviceTicket.Title = (input.title);
-      serviceTicket.Description = (input.description);
-      serviceTicket.Priority = (input.priority);
-      if (input.serviceId) { serviceTicket.Service = (serviceDo); }
+      if (input.title !== undefined) serviceTicket.Title = (input.title);
+      if (input.description !== undefined) serviceTicket.Description = (input.description);
+      if (input.priority !== undefined) serviceTicket.Priority = (input.priority);
+      if (input.serviceId !== undefined) { serviceTicket.Service = (serviceDo); }
+
+      if (input.messages !== undefined) {
+        for (const messageInput of input.messages) {
+          if (!messageInput.id) {
+            if (messageInput.initiatedBy !== undefined) {
+              let member = await this.context.applicationServices.member.dataApi.getMemberById(messageInput.initiatedBy);
+              let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+              if (memberDo) messageInput.initiatedBy = memberDo;
+            }
+            serviceTicket.requestAddMessage(messageInput.message, messageInput.sentBy, messageInput?.embedding, messageInput?.initiatedBy);
+          } else {
+            let messageToUpdate = serviceTicket.messages.find((m) => m.id === messageInput.id);
+            if (messageToUpdate) {
+              if (messageInput.sentBy !== undefined) messageToUpdate.SentBy = new SentBy(messageInput.sentBy);
+              if (messageInput.message !== undefined) messageToUpdate.Message = new Message(messageInput.message);
+              if (messageInput.embedding !== undefined) messageToUpdate.Embedding = new Embedding(messageInput.embedding);
+              if (messageInput.initiatedBy !== undefined) {
+                let member = await this.context.applicationServices.member.dataApi.getMemberById(messageInput.initiatedBy);
+                let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+                if (memberDo) messageToUpdate.InitiatedBy = memberDo;
+              }
+              if (messageInput.isHiddenFromApplicant !== undefined) messageToUpdate.IsHiddenFromApplicant = messageInput.isHiddenFromApplicant;
+            }
+          }
+        }
+      }
+
+
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;
@@ -126,7 +155,6 @@ export class ServiceTicketV1DomainApiImpl
   }
 
   async serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<ServiceTicketData> {
-    let user = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let serviceTicketToReturn: ServiceTicketData;
@@ -139,7 +167,6 @@ export class ServiceTicketV1DomainApiImpl
   }
 
   async serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<ServiceTicketData> {
-    let user = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
     let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let serviceTicketToReturn: ServiceTicketData;

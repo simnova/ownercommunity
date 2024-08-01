@@ -5,19 +5,18 @@ import { MemberEntityReference, Member, MemberProps } from '../../../community/m
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../../../../domain-execution-context';
-import * as ActivityDetailValueObjects from '../../service-ticket/v1/activity-detail.value-objects';
+import * as MessageValueObjects from './violation-ticket-v1-message.value-objects';
+import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './violation-ticket.value-objects';
 import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-array';
-import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from '../../service-ticket/v1/activity-detail';
+import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from '../../service-ticket/v1/photo';
 import { ViolationTicketV1DeletedEvent } from '../../../../events/types/violation-ticket-v1-deleted';
 import { ViolationTicketV1UpdatedEvent } from '../../../../events/types/violation-ticket-v1-updated';
 import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violation-ticket-v1-created';
-import { ViolationTicketUpdateInput } from '../../../../../external-dependencies/graphql-api';
-import dayjs from 'dayjs';
 import { Transaction, TransactionProps } from './transaction';
-import { PenaltyAmount } from './violation-ticket.value-objects';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
+import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
 
 export interface ViolationTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
@@ -39,6 +38,7 @@ export interface ViolationTicketV1Props extends EntityProps {
   status: string;
   priority: number;
   readonly activityLog: PropArray<ActivityDetailProps>;
+  readonly messages: PropArray<ViolationTicketV1MessageProps>;
   readonly photos: PropArray<PhotoProps>;
 
   readonly createdAt: Date;
@@ -65,6 +65,7 @@ export interface ViolationTicketV1EntityReference
       | 'service'
       | 'setServiceRef'
       | 'activityLog'
+      | 'messages'
       | 'photos'
       | 'paymentTransactions'
     >
@@ -75,6 +76,7 @@ export interface ViolationTicketV1EntityReference
   readonly assignedTo: MemberEntityReference;
   readonly service: ServiceEntityReference;
   readonly activityLog: ReadonlyArray<ActivityDetailEntityReference>;
+  readonly messages: ReadonlyArray<ViolationTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
 }
 
@@ -158,6 +160,9 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
   }
   get activityLog(): ReadonlyArray<ActivityDetailEntityReference> {
     return this.props.activityLog.items.map((a) => new ActivityDetail(a, this.context, this.visa));
+  }
+  get messages(): ReadonlyArray<ViolationTicketV1Message> {
+    return this.props.messages.items.map((m) => new ViolationTicketV1Message(m, this.context, this.visa));
   }
   get photos(): ReadonlyArray<PhotoEntityReference> {
     return this.props.photos.items.map((p) => new Photo(p, this.context, this.visa));
@@ -366,6 +371,11 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     return new ActivityDetail(activityDetail, this.context, this.visa);
   }
 
+  private requestNewMessage(): ViolationTicketV1Message {
+    let message = this.props.messages.getNewItem();
+    return new ViolationTicketV1Message(message, this.context, this.visa);
+  }
+
   private requestNewPaymentTransaction(): Transaction {
     let paymentTransaction = this.props.paymentTransactions.getNewItem();
     return new Transaction(paymentTransaction, this.context, this.visa);
@@ -407,28 +417,23 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     activityDetail.ActivityBy = by;
   }
 
-  public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
-    let activityMessage: string = `${this.requestor.memberName} made field changes: | `;
-    const updateLogMessages = {
-      title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} %o ${this.title}` : null,
-      description:
-        incomingPayload.description && incomingPayload.description !== this.description ? `Description: %n ${incomingPayload.description} %o ${this.description}` : null,
-      penaltyAmount:
-        incomingPayload.penaltyAmount && incomingPayload.penaltyAmount !== this.penaltyAmount
-          ? `Penalty amount: %n $${incomingPayload.penaltyAmount} %o $${this.penaltyAmount}`
-          : null,
-      priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority: %n ${incomingPayload.priority} %o ${this.priority}` : null,
-      property: incomingPayload.propertyId && incomingPayload.propertyId !== this.property.id ? `Property: %n ${propertyDo?.propertyName}` : null,
-    };
-    for (let key in updateLogMessages) {
-      if (!propertyDo) {
-        delete updateLogMessages.property;
-      }
-      if (updateLogMessages[key]) {
-        activityMessage += `${updateLogMessages[key]} | `;
-      }
+  public requestAddMessage(message: string, sentBy: string, embedding: string, initiatedBy?: MemberEntityReference): void {
+    if (
+      !this.visa.determineIf(
+        (permissions) =>
+          permissions.isSystemAccount ||
+          (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
+          (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||
+          permissions.canManageTickets
+      )
+    ) {
+      throw new Error('Unauthorized');
     }
-    this.requestAddStatusUpdate(activityMessage, this.requestor);
+    const newMessage = this.requestNewMessage();
+    newMessage.SentBy = new MessageValueObjects.SentBy(sentBy);
+    newMessage.Message = new MessageValueObjects.Message(message);
+    if (embedding !== undefined) newMessage.Embedding = new MessageValueObjects.Embedding(embedding);
+    if (initiatedBy !== undefined) newMessage.InitiatedBy = initiatedBy;
   }
 
   public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {

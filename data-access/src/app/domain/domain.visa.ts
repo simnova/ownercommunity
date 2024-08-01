@@ -1,29 +1,34 @@
-import { CommunityEntityReference } from './contexts/community/community/community';
-import { CommunityPermissions } from "./contexts/community/community.visa";
+import { CommunityVisa, CommunityPermissionsSpec } from "./contexts/community/community.visa";
+
 import { MemberEntityReference } from './contexts/community/member/member';
-import { RoleEntityReference } from './contexts/community/role/role';
-import { PropertyEntityReference } from './contexts/property/property/property';
-import { PropertyPermissions } from "./contexts/property/property/property.visa";
-import { ServiceEntityReference } from './contexts/community/service/service';
-import { ServicePermissions } from "./contexts/community/service/service.visa";
-import { ServiceTicketV1EntityReference } from './contexts/cases/service-ticket/v1/service-ticket';
-import { ServiceTicketV1Permissions } from "./contexts/cases/service-ticket/v1/service-ticket.visa";
-import { UserEntityReference } from './contexts/user/user/user';
-import { CommunityVisa } from "./contexts/community/community.visa";
-import { CommunityVisaImplForCommunity } from './contexts/community/community/community.visa-impl.for-community';
 import { CommunityVisaImplForMember } from './contexts/community/member/community.visa-impl.for-member';
-import { PropertyVisa } from './contexts/property/property/property.visa';
-import { PropertyVisaImpl } from './contexts/property/property/property.visa';
-import { CommunityVisaImplForRole } from './contexts/community/role/community.visa-impl.for-role';
-import { ServiceVisa } from './contexts/community/service/service.visa';
-import { ServiceVisaImpl } from './contexts/community/service/service.visa';
-import { ServiceTicketV1Visa } from './contexts/cases/service-ticket/v1/service-ticket.visa';
-import { ServiceTicketV1VisaImpl } from './contexts/cases/service-ticket/v1/service-ticket.visa';
-import { UserVisa } from './contexts/user/user/user.visa';
-import { UserVisaImpl } from './contexts/user/user/user.visa';
+
+import { StaffRoleEntityReference } from './contexts/community/roles/staff-role/staff-role';
+import { CommunityVisaImplForStaffRole } from './contexts/community/roles/staff-role/community.visa-impl.for-staff-role';
+
+import { EndUserRoleEntityReference } from "./contexts/community/roles/end-user-role/end-user-role";
+import { CommunityVisaImplForEndUserRole } from "./contexts/community/roles/end-user-role/community.visa-impl.for-role";
+
+import { CommunityEntityReference } from './contexts/community/community/community';
+import { CommunityVisaImplForCommunity } from './contexts/community/community/community.visa-impl.for-community';
+
+import { PropertyEntityReference } from './contexts/property/property/property';
+import { PropertyVisa, PropertyVisaImpl, PropertyPermissionsSpec } from './contexts/property/property/property.visa';
+
+import { ServiceEntityReference } from './contexts/community/service/service';
+import { ServiceVisa, ServiceVisaImpl, ServicePermissionsSpec } from './contexts/community/service/service.visa';
+
+import { ServiceTicketV1EntityReference } from './contexts/cases/service-ticket/v1/service-ticket';
+import { ServiceTicketV1Visa, ServiceTicketV1VisaImpl, ServiceTicketPermissionsSpec } from './contexts/cases/service-ticket/v1/service-ticket.visa';
+
+import { EndUserEntityReference } from './contexts/users/end-user/end-user';
+import { EndUserVisa, EndUserVisaImpl } from './contexts/users/end-user/end-user.visa';
+
+import { StaffUserEntityReference } from "./contexts/users/staff-user/staff-user";
+import { StaffUserVisa, StaffUserVisaImpl } from "./contexts/users/staff-user/staff-user.visa";
+
 import { ViolationTicketV1EntityReference } from './contexts/cases/violation-ticket/v1/violation-ticket';
-import { ViolationTicketV1Visa, ViolationTicketV1VisaImpl } from './contexts/cases/violation-ticket/v1/violation-ticket.visa';
-import { ViolationTicketV1Permissions } from "./contexts/cases/violation-ticket/v1/violation-ticket.visa";
+import { ViolationTicketV1Visa, ViolationTicketV1VisaImpl, ViolationTicketPermissionsSpec } from './contexts/cases/violation-ticket/v1/violation-ticket.visa';
 
 export const SystemUserId = 'system';
 
@@ -31,8 +36,10 @@ export interface DomainVisa {
   forMember(root:MemberEntityReference): CommunityVisa;
   forCommunity(root: CommunityEntityReference):  CommunityVisa;
   forCurrentCommunity(): CommunityVisa;
-  forRole(root: RoleEntityReference): CommunityVisa;
-  forUser(root: UserEntityReference):  UserVisa;
+  forStaffRole(root: StaffRoleEntityReference): CommunityVisa;
+  forEndUserRole(root: EndUserRoleEntityReference): CommunityVisa;
+  forEndUser(root: EndUserEntityReference):  EndUserVisa;
+  forStaffUser(root: StaffUserEntityReference): StaffUserVisa;
   forProperty(root: PropertyEntityReference):  PropertyVisa;
   forService(root: ServiceEntityReference): ServiceVisa;
   forServiceTicketV1(root: ServiceTicketV1EntityReference): ServiceTicketV1Visa;
@@ -41,7 +48,7 @@ export interface DomainVisa {
 
 export class DomainVisaImpl implements DomainVisa {
   constructor(
-    private readonly user: UserEntityReference, 
+    private readonly user: EndUserEntityReference|StaffUserEntityReference, 
     private readonly member: MemberEntityReference,
     private readonly community: CommunityEntityReference = null
   ){
@@ -58,12 +65,18 @@ export class DomainVisaImpl implements DomainVisa {
   forCurrentCommunity(): CommunityVisa {
     return this.forCommunity(this.community);
   }
-  forRole(root: RoleEntityReference): CommunityVisa {
-    return new CommunityVisaImplForRole(root,this.member);
+  forStaffRole(root: StaffRoleEntityReference): CommunityVisa {
+    return new CommunityVisaImplForStaffRole(root,this.user as StaffUserEntityReference);
   }
-  forUser(root: UserEntityReference):  UserVisa {
-    return new UserVisaImpl(root,this.user);
+  forEndUserRole(root: EndUserRoleEntityReference): CommunityVisa {
+    return new CommunityVisaImplForEndUserRole(root,this.member);
+  }
+  forEndUser(root: EndUserEntityReference):  EndUserVisa {
+    return new EndUserVisaImpl(root,this.user as EndUserEntityReference);
   }   
+  forStaffUser(root: StaffUserEntityReference): StaffUserVisa {
+    return new StaffUserVisaImpl(root, this.user as StaffUserEntityReference);
+  }
   forProperty(root: PropertyEntityReference):  PropertyVisa {
     return new PropertyVisaImpl(root,this.member);
   }
@@ -94,11 +107,17 @@ export class ReadOnlyDomainVisa implements DomainVisa {
   forCurrentCommunity(): CommunityVisa {
     return {determineIf:  () => false }; 
   }
-  forRole(_root: RoleEntityReference): CommunityVisa {
+  forStaffRole(_root: StaffRoleEntityReference): CommunityVisa {
     return {determineIf:  () => false }; 
   }
-  forUser(_root: UserEntityReference): UserVisa {
+  forEndUserRole(_root: EndUserRoleEntityReference): CommunityVisa {
     return {determineIf:  () => false }; 
+  }
+  forEndUser(_root: EndUserEntityReference): EndUserVisa {
+    return {determineIf:  () => false }; 
+  }
+  forStaffUser(_root: StaffUserEntityReference): StaffUserVisa {
+    return {determineIf:  () => false };
   }
   forProperty(_root: PropertyEntityReference): PropertyVisa {
     return {determineIf:  () => false }; 
@@ -121,7 +140,7 @@ export class SystemDomainVisa implements DomainVisa {
   public static GetInstance(): DomainVisa {
     return new SystemDomainVisa();
   }
-  private communityPermissionsForSystem: CommunityPermissions = {
+  private communityPermissionsForSystem: CommunityPermissionsSpec = {
     canManageRolesAndPermissions: false,
     canManageCommunitySettings: false,
     canManageSiteContent: false,
@@ -131,17 +150,17 @@ export class SystemDomainVisa implements DomainVisa {
     isEditingOwnMemberAccount: false,
     isSystemAccount: true,
   }
-  private propertyPermissionsForSystem: PropertyPermissions = {
+  private propertyPermissionsForSystem: PropertyPermissionsSpec = {
     canManageProperties: false,
     canEditOwnProperty: false,
     isEditingOwnProperty: false,
     isSystemAccount: true,
   }
-  private servicePermissionsForSystem: ServicePermissions = {
+  private servicePermissionsForSystem: ServicePermissionsSpec = {
     canManageServices: false,
     isSystemAccount: true,
   }
-  private serviceTicketPermissionsForSystem: ServiceTicketV1Permissions = {
+  private serviceTicketPermissionsForSystem: ServiceTicketPermissionsSpec = {
     canCreateTickets: false,
     canManageTickets: false,
     canAssignTickets: false,
@@ -150,7 +169,7 @@ export class SystemDomainVisa implements DomainVisa {
     isEditingAssignedTicket: false,
     isSystemAccount: true,
   }
-  private violationTicketPermissionsForSystem: ViolationTicketV1Permissions = {
+  private violationTicketPermissionsForSystem: ViolationTicketPermissionsSpec = {
     canCreateTickets: false,
     canManageTickets: false,
     canAssignTickets: false,
@@ -168,11 +187,17 @@ export class SystemDomainVisa implements DomainVisa {
   forCurrentCommunity(): CommunityVisa {
     return {determineIf:  (func) => func(this.communityPermissionsForSystem) };
   }
-  forRole(root: RoleEntityReference): CommunityVisa {
+  forStaffRole(root: StaffRoleEntityReference): CommunityVisa {
     return {determineIf: (func) => func(this.communityPermissionsForSystem) };
   }
-  forUser(root: UserEntityReference): UserVisa {
+  forEndUserRole(root: EndUserRoleEntityReference): CommunityVisa {
+    return {determineIf:  () => false };
+  }
+  forEndUser(root: EndUserEntityReference): EndUserVisa {
     return {determineIf:  () => false }; 
+  }
+  forStaffUser(root: StaffUserEntityReference): StaffUserVisa {
+    return {determineIf:  () => false };
   }
   forProperty(root: PropertyEntityReference): PropertyVisa {
     return {determineIf:  (func) => func(this.propertyPermissionsForSystem) };

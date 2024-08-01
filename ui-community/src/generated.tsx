@@ -312,16 +312,13 @@ export type CommunityUpdateInput = {
   whiteLabelDomain?: InputMaybe<Scalars['String']>;
 };
 
-export type CurrentUser = MongoBase & {
-  __typename?: 'CurrentUser';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  email?: Maybe<Scalars['EmailAddress']>;
-  externalId?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  id: Scalars['ObjectID'];
-  lastName?: Maybe<Scalars['String']>;
-  schemaVersion?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+export type ContactInformation = {
+  __typename?: 'ContactInformation';
+  email: Scalars['String'];
+};
+
+export type ContactInformationInput = {
+  email?: InputMaybe<Scalars['String']>;
 };
 
 export type CustomView = MongoSubdocument & {
@@ -380,6 +377,19 @@ export type GeographyPoint = {
 export type GeographyPointInput = {
   latitude?: InputMaybe<Scalars['Float']>;
   longitude?: InputMaybe<Scalars['Float']>;
+};
+
+export type IdentityDetails = {
+  __typename?: 'IdentityDetails';
+  lastName: Scalars['String'];
+  legalNameConsistsOfOneName: Scalars['Boolean'];
+  restOfName?: Maybe<Scalars['String']>;
+};
+
+export type IdentityDetailsInput = {
+  lastName?: InputMaybe<Scalars['String']>;
+  legalNameConsistsOfOneName?: InputMaybe<Scalars['Boolean']>;
+  restOfName?: InputMaybe<Scalars['String']>;
 };
 
 export type ListingDetails = {
@@ -635,6 +645,12 @@ export type Mutation = {
   serviceTicketSubmit: ServiceTicketMutationResult;
   serviceTicketUpdate: ServiceTicketMutationResult;
   serviceUpdate: ServiceMutationResult;
+  staffRoleAdd: StaffRoleMutationResult;
+  staffRoleDeleteAndReassign: StaffRoleMutationResult;
+  staffRoleUpdate: StaffRoleMutationResult;
+  staffUserCreate: StaffUserMutationResult;
+  /** Allows the user to update their profile */
+  staffUserUpdate: StaffUserMutationResult;
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
@@ -838,6 +854,26 @@ export type MutationServiceUpdateArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffRoleAddArgs = {
+  input: StaffRoleAddInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffRoleDeleteAndReassignArgs = {
+  input: StaffRoleDeleteAndReassignInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffRoleUpdateArgs = {
+  input: StaffRoleUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffUserUpdateArgs = {
+  input: StaffUserUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationUserUpdateArgs = {
   input: UserUpdateInput;
 };
@@ -887,12 +923,31 @@ export type MutationStatus = {
   success: Scalars['Boolean'];
 };
 
+export type PaymentBillingInfo = {
+  __typename?: 'PaymentBillingInfo';
+  billingAddressLine1?: Maybe<Scalars['String']>;
+  billingAddressLine2?: Maybe<Scalars['String']>;
+  billingCity?: Maybe<Scalars['String']>;
+  billingCountry?: Maybe<Scalars['String']>;
+  billingEmail?: Maybe<Scalars['String']>;
+  billingFirstName?: Maybe<Scalars['String']>;
+  billingLastName?: Maybe<Scalars['String']>;
+  billingPhone?: Maybe<Scalars['String']>;
+  billingPostalCode?: Maybe<Scalars['String']>;
+  billingState?: Maybe<Scalars['String']>;
+};
+
 export type PaymentInstrument = {
   __typename?: 'PaymentInstrument';
+  billTo?: Maybe<PaymentBillingInfo>;
   cardNumber?: Maybe<Scalars['String']>;
   cardType?: Maybe<Scalars['String']>;
+  expirationMonth?: Maybe<Scalars['String']>;
+  expirationYear?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
   isDefault?: Maybe<Scalars['Boolean']>;
   paymentInstrumentId?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
 };
 
 export type PaymentInstrumentResult = {
@@ -908,11 +963,35 @@ export type PaymentTransactionError = {
   timestamp?: Maybe<Scalars['DateTime']>;
 };
 
+export type PaymentTransactionsResult = {
+  __typename?: 'PaymentTransactionsResult';
+  amount?: Maybe<Scalars['Float']>;
+  currency?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  isSuccess?: Maybe<Scalars['Boolean']>;
+  status?: Maybe<Scalars['String']>;
+  successTimestamp?: Maybe<Scalars['DateTime']>;
+  transactionId?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
 export type PermissionsInput = {
   communityPermissions: CommunityPermissionsInput;
   propertyPermissions: PropertyPermissionsInput;
   serviceTicketPermissions: ServiceTicketPermissionsInput;
   violationTicketPermissions: ViolationTicketPermissionsInput;
+};
+
+export type PersonalInformation = {
+  __typename?: 'PersonalInformation';
+  contactInformation?: Maybe<ContactInformation>;
+  identityDetails?: Maybe<IdentityDetails>;
+};
+
+export type PersonalInformationInput = {
+  contactInformation?: InputMaybe<ContactInformationInput>;
+  identityDetails?: InputMaybe<IdentityDetailsInput>;
 };
 
 export type Point = {
@@ -1118,10 +1197,16 @@ export type Query = {
   serviceTicketsSearch?: Maybe<ServiceTicketsSearchResult>;
   serviceTicketsSearchAdmin?: Maybe<ServiceTicketsSearchResult>;
   servicesByCommunityId?: Maybe<Array<Maybe<Service>>>;
+  staffRole?: Maybe<StaffRole>;
+  staffRoles?: Maybe<Array<Maybe<StaffRole>>>;
+  staffUser?: Maybe<StaffUser>;
+  staffUserCurrent?: Maybe<StaffUser>;
+  staffUsers?: Maybe<Array<Maybe<StaffUser>>>;
   user?: Maybe<User>;
-  userCurrent?: Maybe<CurrentUser>;
+  userCurrent?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
   violationTicket?: Maybe<ViolationTicket>;
+  violationTicketPaymentTransactions?: Maybe<Array<Maybe<PaymentTransactionsResult>>>;
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1220,6 +1305,16 @@ export type QueryServicesByCommunityIdArgs = {
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryStaffRoleArgs = {
+  id: Scalars['ObjectID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryStaffUserArgs = {
+  id: Scalars['ObjectID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryUserArgs = {
   id: Scalars['ObjectID'];
 };
@@ -1302,6 +1397,7 @@ export type ServiceTicket = MongoBase & {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  messages?: Maybe<Array<Maybe<ServiceTicketV1Message>>>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars['Int'];
   property?: Maybe<Property>;
@@ -1406,12 +1502,33 @@ export type ServiceTicketSubmitInput = {
 };
 
 export type ServiceTicketUpdateInput = {
-  description: Scalars['String'];
-  priority: Scalars['Int'];
+  description?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<Array<InputMaybe<ServiceTicketV1MessageInput>>>;
+  priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type ServiceTicketV1Message = {
+  __typename?: 'ServiceTicketV1Message';
+  createdAt: Scalars['DateTime'];
+  embedding?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  initiatedBy?: Maybe<Member>;
+  isHiddenFromApplicant: Scalars['Boolean'];
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
+};
+
+export type ServiceTicketV1MessageInput = {
+  embedding?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+  initiatedBy?: InputMaybe<Scalars['ObjectID']>;
+  isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
 };
 
 export type ServiceTicketsResult = {
@@ -1477,12 +1594,101 @@ export type ServiceUpdateInput = {
   serviceName?: InputMaybe<Scalars['String']>;
 };
 
+export type StaffCommunityPermissions = {
+  __typename?: 'StaffCommunityPermissions';
+  canChangeCommunityOwner: Scalars['Boolean'];
+  canDeleteCommunities: Scalars['Boolean'];
+  canManageAllCommunities: Scalars['Boolean'];
+  canManageStaffRolesAndPermissions: Scalars['Boolean'];
+  canReIndexSearchCollections: Scalars['Boolean'];
+};
+
+export type StaffCommunityPermissionsInput = {
+  canChangeCommunityOwner: Scalars['Boolean'];
+  canDeleteCommunities: Scalars['Boolean'];
+  canManageAllCommunities: Scalars['Boolean'];
+  canManageStaffRolesAndPermissions: Scalars['Boolean'];
+  canReIndexSearchCollections: Scalars['Boolean'];
+};
+
+export type StaffPermissions = {
+  __typename?: 'StaffPermissions';
+  communityPermissions: StaffCommunityPermissions;
+};
+
+export type StaffPermissionsInput = {
+  communityPermissions: StaffCommunityPermissionsInput;
+};
+
+export type StaffRole = MongoBase & {
+  __typename?: 'StaffRole';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['ObjectID'];
+  isDefault: Scalars['Boolean'];
+  permissions: StaffPermissions;
+  roleName: Scalars['String'];
+  schemaVersion?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type StaffRoleAddInput = {
+  permissions: StaffPermissionsInput;
+  roleName: Scalars['String'];
+};
+
+export type StaffRoleDeleteAndReassignInput = {
+  roleToDelete: Scalars['ObjectID'];
+  roleToReassignTo: Scalars['ObjectID'];
+};
+
+export type StaffRoleMutationResult = MutationResult & {
+  __typename?: 'StaffRoleMutationResult';
+  role?: Maybe<StaffRole>;
+  status: MutationStatus;
+};
+
+export type StaffRoleUpdateInput = {
+  id: Scalars['ObjectID'];
+  permissions: StaffPermissionsInput;
+  roleName: Scalars['String'];
+};
+
+export type StaffUser = MongoBase & {
+  __typename?: 'StaffUser';
+  accessBlocked?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: Maybe<Scalars['String']>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type StaffUserMutationResult = MutationResult & {
+  __typename?: 'StaffUserMutationResult';
+  status: MutationStatus;
+  user?: Maybe<StaffUser>;
+};
+
+export type StaffUserUpdateInput = {
+  displayName?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: InputMaybe<Scalars['String']>;
+};
+
 export type Ticket = ServiceTicket | ViolationTicket;
 
 export type Transaction = {
   __typename?: 'Transaction';
   amountDetails?: Maybe<AmountDetails>;
   clientReferenceCode?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   error?: Maybe<PaymentTransactionError>;
   id: Scalars['ObjectID'];
   isSuccess?: Maybe<Scalars['Boolean']>;
@@ -1491,17 +1697,19 @@ export type Transaction = {
   successTimestamp?: Maybe<Scalars['DateTime']>;
   transactionId?: Maybe<Scalars['String']>;
   transactionTime?: Maybe<Scalars['DateTime']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type User = MongoBase & {
   __typename?: 'User';
+  accessBlocked?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  email?: Maybe<Scalars['EmailAddress']>;
+  displayName?: Maybe<Scalars['String']>;
   externalId?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
-  lastName?: Maybe<Scalars['String']>;
+  personalInformation?: Maybe<PersonalInformation>;
   schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -1512,10 +1720,9 @@ export type UserMutationResult = MutationResult & {
 };
 
 export type UserUpdateInput = {
-  email?: InputMaybe<Scalars['String']>;
-  firstName?: InputMaybe<Scalars['String']>;
+  displayName?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
-  lastName?: InputMaybe<Scalars['String']>;
+  personalInformation?: InputMaybe<PersonalInformationInput>;
 };
 
 /** An Violation ticket describes violation ticket type. */
@@ -1527,6 +1734,7 @@ export type ViolationTicket = {
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
   id: Scalars['ObjectID'];
+  messages?: Maybe<Array<Maybe<ViolationTicketV1Message>>>;
   paymentTransactions?: Maybe<Array<Maybe<Transaction>>>;
   penaltyAmount?: Maybe<Scalars['Float']>;
   penaltyPaidDate?: Maybe<Scalars['DateTime']>;
@@ -1599,12 +1807,33 @@ export type ViolationTicketProcessPaymentInput = {
 
 export type ViolationTicketUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<Array<InputMaybe<ViolationTicketV1MessageInput>>>;
   penaltyAmount?: InputMaybe<Scalars['Float']>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
+};
+
+export type ViolationTicketV1Message = {
+  __typename?: 'ViolationTicketV1Message';
+  createdAt: Scalars['DateTime'];
+  embedding?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  initiatedBy?: Maybe<Member>;
+  isHiddenFromApplicant: Scalars['Boolean'];
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
+};
+
+export type ViolationTicketV1MessageInput = {
+  embedding?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ObjectID']>;
+  initiatedBy?: InputMaybe<Scalars['ObjectID']>;
+  isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
+  message: Scalars['String'];
+  sentBy: Scalars['String'];
 };
 
 export type AhpIdFormCommunityPublicFileCreateAuthHeaderMutationVariables = Exact<{
@@ -1739,20 +1968,24 @@ export type UserInfoContainerUserCurrentQueryQueryVariables = Exact<{ [key: stri
 export type UserInfoContainerUserCurrentQueryQuery = {
   __typename?: 'Query';
   userCurrent?: {
-    __typename: 'CurrentUser';
+    __typename: 'User';
     id: any;
     externalId?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
+    personalInformation?: {
+      __typename?: 'PersonalInformation';
+      identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+    } | null;
   } | null;
 };
 
 export type UserInfoContainerCurrentUserFieldsFragment = {
-  __typename: 'CurrentUser';
+  __typename: 'User';
   id: any;
   externalId?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
+  personalInformation?: {
+    __typename?: 'PersonalInformation';
+    identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+  } | null;
 };
 
 export type AdminCommunityDetailContainerCommunityQueryVariables = Exact<{
@@ -1840,7 +2073,14 @@ export type AdminMembersAccountsEditContainerMemberQuery = {
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
-      user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+      user?: {
+        __typename?: 'User';
+        id: any;
+        personalInformation?: {
+          __typename?: 'PersonalInformation';
+          contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+        } | null;
+      } | null;
     } | null> | null;
   } | null;
 };
@@ -1865,7 +2105,14 @@ export type AdminMembersAccountsEditContainerMemberAccountEditMutation = {
         id: any;
         createdAt?: any | null;
         updatedAt?: any | null;
-        user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+        user?: {
+          __typename?: 'User';
+          id: any;
+          personalInformation?: {
+            __typename?: 'PersonalInformation';
+            contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+          } | null;
+        } | null;
       } | null> | null;
     } | null;
   };
@@ -1891,7 +2138,14 @@ export type AdminMembersAccountsEditContainerMemberAccountRemoveMutation = {
         id: any;
         createdAt?: any | null;
         updatedAt?: any | null;
-        user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+        user?: {
+          __typename?: 'User';
+          id: any;
+          personalInformation?: {
+            __typename?: 'PersonalInformation';
+            contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+          } | null;
+        } | null;
       } | null> | null;
     } | null;
   };
@@ -1911,7 +2165,14 @@ export type AdminMembersAccountsEditContainerMemberMutationResultFieldsFragment 
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
-      user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+      user?: {
+        __typename?: 'User';
+        id: any;
+        personalInformation?: {
+          __typename?: 'PersonalInformation';
+          contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+        } | null;
+      } | null;
     } | null> | null;
   } | null;
 };
@@ -1927,7 +2188,14 @@ export type AdminMembersAccountEditContainerMembersFieldsFragment = {
     id: any;
     createdAt?: any | null;
     updatedAt?: any | null;
-    user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+    user?: {
+      __typename?: 'User';
+      id: any;
+      personalInformation?: {
+        __typename?: 'PersonalInformation';
+        contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+      } | null;
+    } | null;
   } | null> | null;
 };
 
@@ -1948,7 +2216,14 @@ export type AdminMembersAccountsListContainerMemberQuery = {
       id: any;
       createdAt?: any | null;
       updatedAt?: any | null;
-      user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+      user?: {
+        __typename?: 'User';
+        id: any;
+        personalInformation?: {
+          __typename?: 'PersonalInformation';
+          contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+        } | null;
+      } | null;
     } | null> | null;
   } | null;
 };
@@ -1964,7 +2239,14 @@ export type AdminMembersAccountsListContainerMembersFieldsFragment = {
     id: any;
     createdAt?: any | null;
     updatedAt?: any | null;
-    user?: { __typename?: 'User'; id: any; email?: any | null } | null;
+    user?: {
+      __typename?: 'User';
+      id: any;
+      personalInformation?: {
+        __typename?: 'PersonalInformation';
+        contactInformation?: { __typename?: 'ContactInformation'; email: string } | null;
+      } | null;
+    } | null;
   } | null> | null;
 };
 
@@ -3367,6 +3649,31 @@ export type AdminServiceTicketsDetailContainerViolationTicketQuery = {
       updatedAt?: any | null;
       activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
     } | null> | null;
+    paymentTransactions?: Array<{
+      __typename: 'Transaction';
+      clientReferenceCode?: string | null;
+      description?: string | null;
+      id: any;
+      isSuccess?: boolean | null;
+      reconciliationId?: string | null;
+      status?: string | null;
+      successTimestamp?: any | null;
+      transactionId?: string | null;
+      transactionTime?: any | null;
+      type?: string | null;
+      amountDetails?: {
+        __typename?: 'AmountDetails';
+        amount?: number | null;
+        authorizedAmount?: number | null;
+        currency?: string | null;
+      } | null;
+      error?: {
+        __typename?: 'PaymentTransactionError';
+        code?: string | null;
+        message?: string | null;
+        timestamp?: any | null;
+      } | null;
+    } | null> | null;
   } | null;
 };
 
@@ -3409,6 +3716,31 @@ export type AdminViolationTicketsDetailContainerViolationTicketUpdateMutation = 
         createdAt?: any | null;
         updatedAt?: any | null;
         activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+      paymentTransactions?: Array<{
+        __typename: 'Transaction';
+        clientReferenceCode?: string | null;
+        description?: string | null;
+        id: any;
+        isSuccess?: boolean | null;
+        reconciliationId?: string | null;
+        status?: string | null;
+        successTimestamp?: any | null;
+        transactionId?: string | null;
+        transactionTime?: any | null;
+        type?: string | null;
+        amountDetails?: {
+          __typename?: 'AmountDetails';
+          amount?: number | null;
+          authorizedAmount?: number | null;
+          currency?: string | null;
+        } | null;
+        error?: {
+          __typename?: 'PaymentTransactionError';
+          code?: string | null;
+          message?: string | null;
+          timestamp?: any | null;
+        } | null;
       } | null> | null;
     } | null;
   };
@@ -3454,6 +3786,31 @@ export type AdminViolationTicketsDetailContainerViolationTicketChangeStatusMutat
         updatedAt?: any | null;
         activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
       } | null> | null;
+      paymentTransactions?: Array<{
+        __typename: 'Transaction';
+        clientReferenceCode?: string | null;
+        description?: string | null;
+        id: any;
+        isSuccess?: boolean | null;
+        reconciliationId?: string | null;
+        status?: string | null;
+        successTimestamp?: any | null;
+        transactionId?: string | null;
+        transactionTime?: any | null;
+        type?: string | null;
+        amountDetails?: {
+          __typename?: 'AmountDetails';
+          amount?: number | null;
+          authorizedAmount?: number | null;
+          currency?: string | null;
+        } | null;
+        error?: {
+          __typename?: 'PaymentTransactionError';
+          code?: string | null;
+          message?: string | null;
+          timestamp?: any | null;
+        } | null;
+      } | null> | null;
     } | null;
   };
 };
@@ -3497,6 +3854,31 @@ export type AdminViolationTicketsDetailContainerViolationAssignMutation = {
         createdAt?: any | null;
         updatedAt?: any | null;
         activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+      paymentTransactions?: Array<{
+        __typename: 'Transaction';
+        clientReferenceCode?: string | null;
+        description?: string | null;
+        id: any;
+        isSuccess?: boolean | null;
+        reconciliationId?: string | null;
+        status?: string | null;
+        successTimestamp?: any | null;
+        transactionId?: string | null;
+        transactionTime?: any | null;
+        type?: string | null;
+        amountDetails?: {
+          __typename?: 'AmountDetails';
+          amount?: number | null;
+          authorizedAmount?: number | null;
+          currency?: string | null;
+        } | null;
+        error?: {
+          __typename?: 'PaymentTransactionError';
+          code?: string | null;
+          message?: string | null;
+          timestamp?: any | null;
+        } | null;
       } | null> | null;
     } | null;
   };
@@ -3542,6 +3924,31 @@ export type AdminViolationTicketsDetailContainerAddUpdateActivityMutation = {
         updatedAt?: any | null;
         activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
       } | null> | null;
+      paymentTransactions?: Array<{
+        __typename: 'Transaction';
+        clientReferenceCode?: string | null;
+        description?: string | null;
+        id: any;
+        isSuccess?: boolean | null;
+        reconciliationId?: string | null;
+        status?: string | null;
+        successTimestamp?: any | null;
+        transactionId?: string | null;
+        transactionTime?: any | null;
+        type?: string | null;
+        amountDetails?: {
+          __typename?: 'AmountDetails';
+          amount?: number | null;
+          authorizedAmount?: number | null;
+          currency?: string | null;
+        } | null;
+        error?: {
+          __typename?: 'PaymentTransactionError';
+          code?: string | null;
+          message?: string | null;
+          timestamp?: any | null;
+        } | null;
+      } | null> | null;
     } | null;
   };
 };
@@ -3586,6 +3993,31 @@ export type AdminViolationTicketDetailContainerViolationTicketDeleteMutation = {
         updatedAt?: any | null;
         activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
       } | null> | null;
+      paymentTransactions?: Array<{
+        __typename: 'Transaction';
+        clientReferenceCode?: string | null;
+        description?: string | null;
+        id: any;
+        isSuccess?: boolean | null;
+        reconciliationId?: string | null;
+        status?: string | null;
+        successTimestamp?: any | null;
+        transactionId?: string | null;
+        transactionTime?: any | null;
+        type?: string | null;
+        amountDetails?: {
+          __typename?: 'AmountDetails';
+          amount?: number | null;
+          authorizedAmount?: number | null;
+          currency?: string | null;
+        } | null;
+        error?: {
+          __typename?: 'PaymentTransactionError';
+          code?: string | null;
+          message?: string | null;
+          timestamp?: any | null;
+        } | null;
+      } | null> | null;
     } | null;
   };
 };
@@ -3624,6 +4056,31 @@ export type AdminViolationTicketsDetailContainerViolationTicketMutationResultFie
       updatedAt?: any | null;
       activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
     } | null> | null;
+    paymentTransactions?: Array<{
+      __typename: 'Transaction';
+      clientReferenceCode?: string | null;
+      description?: string | null;
+      id: any;
+      isSuccess?: boolean | null;
+      reconciliationId?: string | null;
+      status?: string | null;
+      successTimestamp?: any | null;
+      transactionId?: string | null;
+      transactionTime?: any | null;
+      type?: string | null;
+      amountDetails?: {
+        __typename?: 'AmountDetails';
+        amount?: number | null;
+        authorizedAmount?: number | null;
+        currency?: string | null;
+      } | null;
+      error?: {
+        __typename?: 'PaymentTransactionError';
+        code?: string | null;
+        message?: string | null;
+        timestamp?: any | null;
+      } | null;
+    } | null> | null;
   } | null;
 };
 
@@ -3657,6 +4114,31 @@ export type AdminViolationTicketsDetailContainerViolationTicketFieldsFragment = 
     createdAt?: any | null;
     updatedAt?: any | null;
     activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+  } | null> | null;
+  paymentTransactions?: Array<{
+    __typename: 'Transaction';
+    clientReferenceCode?: string | null;
+    description?: string | null;
+    id: any;
+    isSuccess?: boolean | null;
+    reconciliationId?: string | null;
+    status?: string | null;
+    successTimestamp?: any | null;
+    transactionId?: string | null;
+    transactionTime?: any | null;
+    type?: string | null;
+    amountDetails?: {
+      __typename?: 'AmountDetails';
+      amount?: number | null;
+      authorizedAmount?: number | null;
+      currency?: string | null;
+    } | null;
+    error?: {
+      __typename?: 'PaymentTransactionError';
+      code?: string | null;
+      message?: string | null;
+      timestamp?: any | null;
+    } | null;
   } | null> | null;
 };
 
@@ -3734,6 +4216,18 @@ export type SharedPaymentContainercybersourcePublicKeyIdQueryVariables = Exact<{
 export type SharedPaymentContainercybersourcePublicKeyIdQuery = {
   __typename?: 'Query';
   cybersourcePublicKeyId?: string | null;
+};
+
+export type MutationMemberAddPaymentInstrumentMutationVariables = Exact<{
+  input: AddPaymentInstrumentInput;
+}>;
+
+export type MutationMemberAddPaymentInstrumentMutation = {
+  __typename?: 'Mutation';
+  memberAddPaymentInstrument: {
+    __typename?: 'MemberMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  };
 };
 
 export type MemberPropertyByPropertyIdQueryVariables = Exact<{
@@ -3916,7 +4410,14 @@ export type MemberSiteNeighborsListContainerQuery = {
     memberName?: string | null;
     accounts?: Array<{
       __typename?: 'MemberAccount';
-      user?: { __typename?: 'User'; id: any; firstName?: string | null } | null;
+      user?: {
+        __typename?: 'User';
+        id: any;
+        personalInformation?: {
+          __typename?: 'PersonalInformation';
+          identityDetails?: { __typename?: 'IdentityDetails'; restOfName?: string | null } | null;
+        } | null;
+      } | null;
     } | null> | null;
     profile?: {
       __typename?: 'MemberProfile';
@@ -3940,7 +4441,14 @@ export type MemberSiteNeighborsListContainerFieldsFragment = {
   memberName?: string | null;
   accounts?: Array<{
     __typename?: 'MemberAccount';
-    user?: { __typename?: 'User'; id: any; firstName?: string | null } | null;
+    user?: {
+      __typename?: 'User';
+      id: any;
+      personalInformation?: {
+        __typename?: 'PersonalInformation';
+        identityDetails?: { __typename?: 'IdentityDetails'; restOfName?: string | null } | null;
+      } | null;
+    } | null;
   } | null> | null;
   profile?: {
     __typename?: 'MemberProfile';
@@ -4766,6 +5274,24 @@ export type MemberServiceTicketsListContainerSearchServiceTicketsResultFieldsFra
   updatedAt?: any | null;
 };
 
+export type MemberTransactionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MemberTransactionsQuery = {
+  __typename?: 'Query';
+  violationTicketPaymentTransactions?: Array<{
+    __typename: 'PaymentTransactionsResult';
+    amount?: number | null;
+    currency?: string | null;
+    description?: string | null;
+    id: any;
+    isSuccess?: boolean | null;
+    status?: string | null;
+    successTimestamp?: any | null;
+    transactionId?: string | null;
+    type?: string | null;
+  } | null> | null;
+};
+
 export type MemberServiceTicketsDetailContainerViolationTicketQueryVariables = Exact<{
   id: Scalars['ObjectID'];
 }>;
@@ -4802,6 +5328,31 @@ export type MemberServiceTicketsDetailContainerViolationTicketQuery = {
       createdAt?: any | null;
       updatedAt?: any | null;
       activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+    } | null> | null;
+    paymentTransactions?: Array<{
+      __typename: 'Transaction';
+      clientReferenceCode?: string | null;
+      description?: string | null;
+      id: any;
+      isSuccess?: boolean | null;
+      reconciliationId?: string | null;
+      status?: string | null;
+      successTimestamp?: any | null;
+      transactionId?: string | null;
+      transactionTime?: any | null;
+      type?: string | null;
+      amountDetails?: {
+        __typename?: 'AmountDetails';
+        amount?: number | null;
+        authorizedAmount?: number | null;
+        currency?: string | null;
+      } | null;
+      error?: {
+        __typename?: 'PaymentTransactionError';
+        code?: string | null;
+        message?: string | null;
+        timestamp?: any | null;
+      } | null;
     } | null> | null;
   } | null;
 };
@@ -4840,6 +5391,31 @@ export type MemberViolationTicketsDetailContainerViolationTicketMutationResultFi
       updatedAt?: any | null;
       activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
     } | null> | null;
+    paymentTransactions?: Array<{
+      __typename: 'Transaction';
+      clientReferenceCode?: string | null;
+      description?: string | null;
+      id: any;
+      isSuccess?: boolean | null;
+      reconciliationId?: string | null;
+      status?: string | null;
+      successTimestamp?: any | null;
+      transactionId?: string | null;
+      transactionTime?: any | null;
+      type?: string | null;
+      amountDetails?: {
+        __typename?: 'AmountDetails';
+        amount?: number | null;
+        authorizedAmount?: number | null;
+        currency?: string | null;
+      } | null;
+      error?: {
+        __typename?: 'PaymentTransactionError';
+        code?: string | null;
+        message?: string | null;
+        timestamp?: any | null;
+      } | null;
+    } | null> | null;
   } | null;
 };
 
@@ -4874,12 +5450,141 @@ export type MemberViolationTicketsDetailContainerViolationTicketFieldsFragment =
     updatedAt?: any | null;
     activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
   } | null> | null;
+  paymentTransactions?: Array<{
+    __typename: 'Transaction';
+    clientReferenceCode?: string | null;
+    description?: string | null;
+    id: any;
+    isSuccess?: boolean | null;
+    reconciliationId?: string | null;
+    status?: string | null;
+    successTimestamp?: any | null;
+    transactionId?: string | null;
+    transactionTime?: any | null;
+    type?: string | null;
+    amountDetails?: {
+      __typename?: 'AmountDetails';
+      amount?: number | null;
+      authorizedAmount?: number | null;
+      currency?: string | null;
+    } | null;
+    error?: {
+      __typename?: 'PaymentTransactionError';
+      code?: string | null;
+      message?: string | null;
+      timestamp?: any | null;
+    } | null;
+  } | null> | null;
 };
 
 export type MemberViolationTicketsDetailContainerMemberFieldsFragment = {
   __typename?: 'Member';
   id: any;
   memberName?: string | null;
+};
+
+export type MemberViolationTicketProcessPaymentMutationVariables = Exact<{
+  input: ViolationTicketProcessPaymentInput;
+}>;
+
+export type MemberViolationTicketProcessPaymentMutation = {
+  __typename?: 'Mutation';
+  violationTicketProcessPayment: {
+    __typename: 'ViolationTicketMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+    violationTicket?: {
+      __typename?: 'ViolationTicket';
+      title: string;
+      description: string;
+      status: string;
+      priority: number;
+      id: any;
+      penaltyAmount?: number | null;
+      penaltyPaidDate?: any | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
+      requestor: { __typename?: 'Member'; id: any; memberName?: string | null };
+      assignedTo?: { __typename?: 'Member'; id: any; memberName?: string | null } | null;
+      photos?: Array<{
+        __typename?: 'ServiceTicketPhoto';
+        documentId: string;
+        description: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+      } | null> | null;
+      activityLog?: Array<{
+        __typename?: 'ServiceTicketActivityDetail';
+        activityType: string;
+        activityDescription: string;
+        id: any;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        activityBy: { __typename?: 'Member'; id: any; memberName?: string | null };
+      } | null> | null;
+      paymentTransactions?: Array<{
+        __typename: 'Transaction';
+        clientReferenceCode?: string | null;
+        description?: string | null;
+        id: any;
+        isSuccess?: boolean | null;
+        reconciliationId?: string | null;
+        status?: string | null;
+        successTimestamp?: any | null;
+        transactionId?: string | null;
+        transactionTime?: any | null;
+        type?: string | null;
+        amountDetails?: {
+          __typename?: 'AmountDetails';
+          amount?: number | null;
+          authorizedAmount?: number | null;
+          currency?: string | null;
+        } | null;
+        error?: {
+          __typename?: 'PaymentTransactionError';
+          code?: string | null;
+          message?: string | null;
+          timestamp?: any | null;
+        } | null;
+      } | null> | null;
+    } | null;
+  };
+};
+
+export type MemberPaymentInstrumentsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MemberPaymentInstrumentsQuery = {
+  __typename?: 'Query';
+  memberPaymentInstruments?: {
+    __typename?: 'PaymentInstrumentResult';
+    paymentInstruments?: Array<{
+      __typename?: 'PaymentInstrument';
+      paymentInstrumentId?: string | null;
+      cardNumber?: string | null;
+      cardType?: string | null;
+      isDefault?: boolean | null;
+    } | null> | null;
+    status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
+  } | null;
+};
+
+export type MemberDeletePaymentInstrumentMutationVariables = Exact<{
+  input: Scalars['String'];
+}>;
+
+export type MemberDeletePaymentInstrumentMutation = {
+  __typename?: 'Mutation';
+  memberDeletePaymentInstrument: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+};
+
+export type MemberSetDefaultPaymentInstrumentMutationVariables = Exact<{
+  input: Scalars['String'];
+}>;
+
+export type MemberSetDefaultPaymentInstrumentMutation = {
+  __typename?: 'Mutation';
+  memberSetDefaultPaymentInstrument: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
 };
 
 export type MemberSiteCurrentMemberHasAdminRoleQueryVariables = Exact<{ [key: string]: never }>;
@@ -5769,11 +6474,13 @@ export type LoggedInUserRootContainerUserCurrentQueryQueryVariables = Exact<{ [k
 export type LoggedInUserRootContainerUserCurrentQueryQuery = {
   __typename?: 'Query';
   userCurrent?: {
-    __typename: 'CurrentUser';
+    __typename: 'User';
     id: any;
     externalId?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
+    personalInformation?: {
+      __typename?: 'PersonalInformation';
+      identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+    } | null;
   } | null;
 };
 
@@ -5782,11 +6489,13 @@ export type LoggedInUserCommunityContainerUserCurrentQueryQueryVariables = Exact
 export type LoggedInUserCommunityContainerUserCurrentQueryQuery = {
   __typename?: 'Query';
   userCurrent?: {
-    __typename: 'CurrentUser';
+    __typename: 'User';
     id: any;
     externalId?: string | null;
-    firstName?: string | null;
-    lastName?: string | null;
+    personalInformation?: {
+      __typename?: 'PersonalInformation';
+      identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+    } | null;
   } | null;
   memberForCurrentUser?: {
     __typename: 'Member';
@@ -5795,11 +6504,13 @@ export type LoggedInUserCommunityContainerUserCurrentQueryQuery = {
 };
 
 export type LoggedInUserContainerUserCurrentFieldsFragment = {
-  __typename: 'CurrentUser';
+  __typename: 'User';
   id: any;
   externalId?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
+  personalInformation?: {
+    __typename?: 'PersonalInformation';
+    identityDetails?: { __typename?: 'IdentityDetails'; lastName: string; restOfName?: string | null } | null;
+  } | null;
 };
 
 export const CommunityCreateContainerMutationCommunityCreateFieldsFragmentDoc = {
@@ -5899,14 +6610,32 @@ export const UserInfoContainerCurrentUserFieldsFragmentDoc = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'UserInfoContainerCurrentUserFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }
@@ -6029,7 +6758,23 @@ export const AdminMembersAccountEditContainerMembersFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -6105,7 +6850,23 @@ export const AdminMembersAccountsEditContainerMemberMutationResultFieldsFragment
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -6147,7 +6908,23 @@ export const AdminMembersAccountsListContainerMembersFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -7723,6 +8500,50 @@ export const AdminViolationTicketsDetailContainerViolationTicketFieldsFragmentDo
               ]
             }
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
@@ -7851,6 +8672,50 @@ export const AdminViolationTicketsDetailContainerViolationTicketMutationResultFi
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
               ]
             }
           },
@@ -8148,7 +9013,23 @@ export const MemberSiteNeighborsListContainerFieldsFragmentDoc = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'identityDetails' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 }
@@ -9245,6 +10126,50 @@ export const MemberViolationTicketsDetailContainerViolationTicketFieldsFragmentD
               ]
             }
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
@@ -9373,6 +10298,50 @@ export const MemberViolationTicketsDetailContainerViolationTicketMutationResultF
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
               ]
             }
           },
@@ -10313,14 +11282,32 @@ export const LoggedInUserContainerUserCurrentFieldsFragmentDoc = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }
@@ -10691,14 +11678,32 @@ export const UserInfoContainerUserCurrentQueryDocument = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'UserInfoContainerCurrentUserFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }
@@ -10922,7 +11927,23 @@ export const AdminMembersAccountsEditContainerMemberDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -11007,7 +12028,23 @@ export const AdminMembersAccountsEditContainerMemberAccountEditDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -11126,7 +12163,23 @@ export const AdminMembersAccountsEditContainerMemberAccountRemoveDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -11242,7 +12295,23 @@ export const AdminMembersAccountsListContainerMemberDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'email' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'contactInformation' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'email' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },
@@ -14907,6 +15976,50 @@ export const AdminServiceTicketsDetailContainerViolationTicketDocument = {
               ]
             }
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
@@ -15047,6 +16160,50 @@ export const AdminViolationTicketsDetailContainerViolationTicketUpdateDocument =
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
               ]
             }
           },
@@ -15227,6 +16384,50 @@ export const AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocu
               ]
             }
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
@@ -15401,6 +16602,50 @@ export const AdminViolationTicketsDetailContainerViolationAssignDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
               ]
             }
           },
@@ -15581,6 +16826,50 @@ export const AdminViolationTicketsDetailContainerAddUpdateActivityDocument = {
               ]
             }
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
@@ -15755,6 +17044,50 @@ export const AdminViolationTicketDetailContainerViolationTicketDeleteDocument = 
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
               ]
             }
           },
@@ -15935,6 +17268,61 @@ export const SharedPaymentContainercybersourcePublicKeyIdDocument = {
 } as unknown as DocumentNode<
   SharedPaymentContainercybersourcePublicKeyIdQuery,
   SharedPaymentContainercybersourcePublicKeyIdQueryVariables
+>;
+export const MutationMemberAddPaymentInstrumentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MutationMemberAddPaymentInstrument' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'AddPaymentInstrumentInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberAddPaymentInstrument' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MutationMemberAddPaymentInstrumentMutation,
+  MutationMemberAddPaymentInstrumentMutationVariables
 >;
 export const MemberPropertyByPropertyIdDocument = {
   kind: 'Document',
@@ -16226,7 +17614,23 @@ export const MemberSiteNeighborsListContainerDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } }
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'personalInformation' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'identityDetails' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }]
+                              }
+                            }
+                          ]
+                        }
+                      }
                     ]
                   }
                 }
@@ -18259,6 +19663,40 @@ export const MemberNameServiceTicketContainerDocument = {
     }
   ]
 } as unknown as DocumentNode<MemberNameServiceTicketContainerQuery, MemberNameServiceTicketContainerQueryVariables>;
+export const MemberTransactionsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberTransactions' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'violationTicketPaymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberTransactionsQuery, MemberTransactionsQueryVariables>;
 export const MemberServiceTicketsDetailContainerViolationTicketDocument = {
   kind: 'Document',
   definitions: [
@@ -18383,6 +19821,50 @@ export const MemberServiceTicketsDetailContainerViolationTicketDocument = {
               ]
             }
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
@@ -18395,6 +19877,342 @@ export const MemberServiceTicketsDetailContainerViolationTicketDocument = {
 } as unknown as DocumentNode<
   MemberServiceTicketsDetailContainerViolationTicketQuery,
   MemberServiceTicketsDetailContainerViolationTicketQueryVariables
+>;
+export const MemberViolationTicketProcessPaymentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MemberViolationTicketProcessPayment' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicketProcessPaymentInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'violationTicketProcessPayment' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'violationTicket' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'MemberViolationTicketsDetailContainerViolationTicketFields' }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'MemberViolationTicketsDetailContainerViolationTicketFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ViolationTicket' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'property' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'propertyName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'requestor' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'assignedTo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'priority' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'photos' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityLog' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'activityType' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'activityDescription' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'activityBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'memberName' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentTransactions' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'amountDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'authorizedAmount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'currency' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'clientReferenceCode' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'error' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } }
+                    ]
+                  }
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reconciliationId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionTime' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+              ]
+            }
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberViolationTicketProcessPaymentMutation,
+  MemberViolationTicketProcessPaymentMutationVariables
+>;
+export const MemberPaymentInstrumentsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'MemberPaymentInstruments' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberPaymentInstruments' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentInstruments' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'paymentInstrumentId' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'cardNumber' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'cardType' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberPaymentInstrumentsQuery, MemberPaymentInstrumentsQueryVariables>;
+export const MemberDeletePaymentInstrumentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MemberDeletePaymentInstrument' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberDeletePaymentInstrument' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'paymentInstrumentId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MemberDeletePaymentInstrumentMutation, MemberDeletePaymentInstrumentMutationVariables>;
+export const MemberSetDefaultPaymentInstrumentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MemberSetDefaultPaymentInstrument' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberSetDefaultPaymentInstrument' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'paymentInstrumentId' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  MemberSetDefaultPaymentInstrumentMutation,
+  MemberSetDefaultPaymentInstrumentMutationVariables
 >;
 export const MemberSiteCurrentMemberHasAdminRoleDocument = {
   kind: 'Document',
@@ -20386,14 +22204,32 @@ export const LoggedInUserRootContainerUserCurrentQueryDocument = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }
@@ -20447,14 +22283,32 @@ export const LoggedInUserCommunityContainerUserCurrentQueryDocument = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'LoggedInUserContainerUserCurrentFields' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrentUser' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'personalInformation' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'identityDetails' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'restOfName' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } }
         ]
       }

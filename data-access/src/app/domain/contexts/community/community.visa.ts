@@ -1,17 +1,10 @@
 import { Visa } from "../../../../../seedwork/passport-seedwork/visa";
+import { StaffRoleCommunityPermissionsSpec } from "./roles/staff-role/community-permissions";
+import { EndUserRoleCommunityPermissionsSpec } from "./roles/end-user-role/community-permissions";
 
-export interface CommunityPermissions {
-  canManageRolesAndPermissions: boolean;
-  canManageCommunitySettings: boolean;
-  canManageSiteContent: boolean;
-  canManageMembers: boolean;
-  canEditOwnMemberProfile: boolean;
-  canEditOwnMemberAccounts: boolean;
-  isEditingOwnMemberAccount: boolean;
-  isSystemAccount: boolean;
-}
+export interface CommunityPermissionsSpec extends StaffRoleCommunityPermissionsSpec, EndUserRoleCommunityPermissionsSpec {}
 
 export interface CommunityVisa extends Visa {
-  determineIf(func: ((permissions: CommunityPermissions) => boolean)): boolean;
+  determineIf(func: ((permissions: CommunityPermissionsSpec) => boolean)): boolean;
 }
 

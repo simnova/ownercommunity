@@ -6,7 +6,7 @@ import { AuthProvider } from 'react-oidc-context';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Accounts } from '.';
 import App from '../../../App';
-import { oidcConfig } from '../../../config/odic-config';
+import { uiConfig } from '../../../config/odic-config';
 import { Community } from '../../../generated';
 import RequireAuth from '../../shared/require-auth';
 import { Members } from '../members';
@@ -74,7 +74,7 @@ const mockQueryValue = {
 describe('given not authorized, when navigating to community/accounts', () => {
   it('should display Not Authorized', async () => {
     render(
-      <AuthProvider {...oidcConfig}>
+      <AuthProvider {...uiConfig}>
         <MemoryRouter initialEntries={['/community/accounts']}>
           <App />
         </MemoryRouter>
@@ -103,7 +103,7 @@ describe('given authorized user with name Duy Nguyen and user id 123,', () => {
     
     await act(async () => {
       render(
-        <AuthProvider {...oidcConfig}>
+        <AuthProvider {...uiConfig}>
           <MemoryRouter initialEntries={['/community/accounts']}>
             <Routes>
               <Route

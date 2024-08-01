@@ -11,7 +11,10 @@ import { InfrastructureServicesBuilder } from './infrastructure-services-builder
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 import { DomainImpl } from '../app/domain/domain-impl';
 
-const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([['AccountPortal', 'ACCOUNT_PORTAL']]));
+const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([
+  ['AccountPortal', 'ACCOUNT_PORTAL'],
+  ['StaffPortal', 'STAFF_PORTAL'],
+]));
 
 async function init(infrastructureServices: InfrastructureServicesBuilder) {
   portalTokenValidator.Start();

@@ -1,0 +1,42 @@
+type StaffUser implements MongoBase {
+  externalId: String
+  displayName: String
+  firstName: String
+  lastName: String
+  email: String
+  accessBlocked: Boolean
+  tags: [String]
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+extend type Query {
+  staffUser(id: ObjectID!): StaffUser
+  staffUsers: [StaffUser]
+  staffUserCurrent: StaffUser
+}
+
+extend type Mutation {
+  staffUserCreate: StaffUserMutationResult!
+  """
+  Allows the user to update their profile
+  """
+  staffUserUpdate(input: StaffUserUpdateInput!): StaffUserMutationResult!
+}
+
+
+type StaffUserMutationResult implements MutationResult {
+  status: MutationStatus!
+  user: StaffUser
+}
+
+input StaffUserUpdateInput {
+  id: ObjectID!
+  displayName: String
+  firstName: String
+  lastName: String
+  email: String
+}

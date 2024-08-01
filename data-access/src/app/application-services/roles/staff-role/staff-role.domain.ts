@@ -2,14 +2,14 @@ import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { StaffRole } from "../../../domain/contexts/community/roles/staff-role/staff-role";
 import { ReadOnlyDomainVisa } from "../../../domain/domain.visa";
 import { StaffRoleData } from "../../../external-dependencies/datastore";
-import { StaffRoleDomainAdapter, CommunityConverter, StaffRoleConverter, StaffRoleRepository } from "../../../external-dependencies/domain";
-import { RoleAddInput, RoleDeleteAndReassignInput, RoleUpdateInput } from "../../../external-dependencies/graphql-api";
+import { StaffRoleDomainAdapter, StaffRoleConverter, StaffRoleRepository } from "../../../external-dependencies/domain";
+import { StaffRoleAddInput, StaffRoleDeleteAndReassignInput, StaffRoleUpdateInput } from "../../../external-dependencies/graphql-api";
 import { AppContext } from "../../../init/app-context-builder";
 
 export interface StaffRoleDomainApi {
-  roleAdd(input: RoleAddInput) : Promise<StaffRoleData>;
-  // roleUpdate(input: RoleUpdateInput) : Promise<RoleData>;
-  // roleDeleteAndReassign(input: RoleDeleteAndReassignInput) : Promise<RoleData>;
+  roleAdd(input: StaffRoleAddInput) : Promise<StaffRoleData>;
+  roleUpdate(input: StaffRoleUpdateInput) : Promise<StaffRoleData>;
+  roleDeleteAndReassign(input: StaffRoleDeleteAndReassignInput) : Promise<StaffRoleData>;
 }
 
 type PropType = StaffRoleDomainAdapter;
@@ -20,80 +20,79 @@ export class StaffRoleDomainApiImpl
   extends DomainDataSource<AppContext, StaffRoleData, PropType, DomainType, RepoType>
   implements StaffRoleDomainApi {
 
-  async roleAdd(input: RoleAddInput): Promise<StaffRoleData> {
-    console.log(`roleAdd`, this.context.verifiedUser);
-    if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
-      throw new Error('Unauthorized:roleCreate');
+  async roleAdd(input: StaffRoleAddInput): Promise<StaffRoleData> {
+    console.log(`staffRoleAdd`, this.context.verifiedUser);
+    if (this.context.verifiedUser.openIdConfigKey !== 'StaffPortal') {
+      throw new Error('Unauthorized:staffRoleCreate');
     }
 
-    let roleToReturn: StaffRoleData;
+    let staffRoleToReturn: StaffRoleData;
 
     await this.withTransaction(async (repo) => {
-      let roleDo = await repo.getNewInstance(input.roleName);
+      let staffRoleDo = await repo.getNewInstance(input.roleName);
 
       // this code is not correct, need to create new graphql inputs for staff roles
-      roleDo.permissions.communityPermissions.canManageStaffRolesAndPermissions = (input.permissions.communityPermissions.canManageRolesAndPermissions);
-      roleDo.permissions.communityPermissions.canManageAllCommunities = (input.permissions.communityPermissions.canManageCommunitySettings);
-      roleDo.permissions.communityPermissions.canDeleteCommunities = (input.permissions.communityPermissions.canManageSiteContent);
-      roleDo.permissions.communityPermissions.canChangeCommunityOwner = (input.permissions.communityPermissions.canManageMembers);
-      roleDo.permissions.communityPermissions.canReIndexSearchCollections = (input.permissions.communityPermissions.canEditOwnMemberProfile);
+      staffRoleDo.permissions.communityPermissions.canManageStaffRolesAndPermissions = (input.permissions.communityPermissions.canManageStaffRolesAndPermissions);
+      staffRoleDo.permissions.communityPermissions.canManageAllCommunities = (input.permissions.communityPermissions.canManageAllCommunities);
+      staffRoleDo.permissions.communityPermissions.canDeleteCommunities = (input.permissions.communityPermissions.canDeleteCommunities);
+      staffRoleDo.permissions.communityPermissions.canChangeCommunityOwner = (input.permissions.communityPermissions.canChangeCommunityOwner);
+      staffRoleDo.permissions.communityPermissions.canReIndexSearchCollections = (input.permissions.communityPermissions.canReIndexSearchCollections);
 
-      roleToReturn = new StaffRoleConverter().toPersistence(await repo.save(roleDo));
+      staffRoleToReturn = new StaffRoleConverter().toPersistence(await repo.save(staffRoleDo));
+    });
+    return staffRoleToReturn;
+  }
+
+  async roleUpdate(input: StaffRoleUpdateInput): Promise<StaffRoleData> {
+    console.log(`staffRoleUpdate`, this.context.verifiedUser);
+    if (this.context.verifiedUser.openIdConfigKey !== 'StaffPortal') {
+      throw new Error('Unauthorized:staffRoleUpdate');
+    }
+
+    let staffRoleToReturn: StaffRoleData;
+    await this.withTransaction(async (repo) => {
+      let staffRoleDo = await repo.getById(input.id);
+
+      staffRoleDo.roleName = (input.roleName);
+
+      staffRoleDo.permissions.communityPermissions.canManageStaffRolesAndPermissions = (input.permissions.communityPermissions.canManageStaffRolesAndPermissions);
+      staffRoleDo.permissions.communityPermissions.canManageAllCommunities = (input.permissions.communityPermissions.canManageAllCommunities);
+      staffRoleDo.permissions.communityPermissions.canDeleteCommunities = (input.permissions.communityPermissions.canDeleteCommunities);
+      staffRoleDo.permissions.communityPermissions.canChangeCommunityOwner = (input.permissions.communityPermissions.canChangeCommunityOwner);
+      staffRoleDo.permissions.communityPermissions.canReIndexSearchCollections = (input.permissions.communityPermissions.canReIndexSearchCollections);
+
+      // staffRoleDo.permissions.propertyPermissions.canManageProperties = (input.permissions.propertyPermissions.canManageProperties);
+      // staffRoleDo.permissions.propertyPermissions.canEditOwnProperty = (input.permissions.propertyPermissions.canEditOwnProperty);
+
+      // staffRoleDo.permissions.serviceTicketPermissions.canCreateTickets = (input.permissions.serviceTicketPermissions.canCreateTickets);
+      // staffRoleDo.permissions.serviceTicketPermissions.canManageTickets = (input.permissions.serviceTicketPermissions.canManageTickets);
+      // staffRoleDo.permissions.serviceTicketPermissions.canAssignTickets = (input.permissions.serviceTicketPermissions.canAssignTickets);
+      // staffRoleDo.permissions.serviceTicketPermissions.canWorkOnTickets = (input.permissions.serviceTicketPermissions.canWorkOnTickets);
+
+      // staffRoleDo.permissions.violationTicketPermissions.canAssignTickets = (input.permissions.violationTicketPermissions.canAssignTickets);
+      // staffRoleDo.permissions.violationTicketPermissions.canCreateTickets = (input.permissions.violationTicketPermissions.canCreateTickets);
+      // staffRoleDo.permissions.violationTicketPermissions.canManageTickets = (input.permissions.violationTicketPermissions.canManageTickets);
+      // staffRoleDo.permissions.violationTicketPermissions.canWorkOnTickets = (input.permissions.violationTicketPermissions.canWorkOnTickets);
+
+      staffRoleToReturn = new StaffRoleConverter().toPersistence(await repo.save(staffRoleDo));
+    });
+    return staffRoleToReturn;
+  }
+
+  async roleDeleteAndReassign(input: StaffRoleDeleteAndReassignInput): Promise<StaffRoleData> {
+    console.log(`roleDeleteAndReassign`, this.context.verifiedUser);
+    if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
+      throw new Error('Unauthorized:roleDeleteAndReassign');
+    }
+
+    let mongoNewRole = await this.context.applicationServices.roles.staffRole.dataApi.getRoleById(input.roleToReassignTo);
+    let newRoleDo = new StaffRoleConverter().toDomain(mongoNewRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let roleToReturn: StaffRoleData;
+    await this.withTransaction(async (repo) => {
+      let staffRoleDo = await repo.getById(input.roleToDelete);
+      staffRoleDo.deleteAndReassignTo = (newRoleDo);
+      roleToReturn = new StaffRoleConverter().toPersistence(await repo.save(staffRoleDo));
     });
     return roleToReturn;
   }
-
-  // async roleUpdate(input: RoleUpdateInput): Promise<RoleData> {
-  //   console.log(`roleUpdate`, this.context.verifiedUser);
-  //   if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
-  //     throw new Error('Unauthorized:roleUpdate');
-  //   }
-
-  //   let roleToReturn: RoleData;
-  //   await this.withTransaction(async (repo) => {
-  //     let roleDo = await repo.getById(input.id);
-
-  //     roleDo.roleName = (input.roleName);
-
-  //     roleDo.permissions.communityPermissions.canManageRolesAndPermissions = (input.permissions.communityPermissions.canManageRolesAndPermissions);
-  //     roleDo.permissions.communityPermissions.canManageCommunitySettings = (input.permissions.communityPermissions.canManageCommunitySettings);
-  //     roleDo.permissions.communityPermissions.canManageSiteContent = (input.permissions.communityPermissions.canManageSiteContent);
-  //     roleDo.permissions.communityPermissions.canManageMembers = (input.permissions.communityPermissions.canManageMembers);
-  //     roleDo.permissions.communityPermissions.canEditOwnMemberProfile = (input.permissions.communityPermissions.canEditOwnMemberProfile);
-  //     roleDo.permissions.communityPermissions.canEditOwnMemberAccounts = (input.permissions.communityPermissions.canEditOwnMemberAccounts);
-
-  //     roleDo.permissions.propertyPermissions.canManageProperties = (input.permissions.propertyPermissions.canManageProperties);
-  //     roleDo.permissions.propertyPermissions.canEditOwnProperty = (input.permissions.propertyPermissions.canEditOwnProperty);
-
-  //     roleDo.permissions.serviceTicketPermissions.canCreateTickets = (input.permissions.serviceTicketPermissions.canCreateTickets);
-  //     roleDo.permissions.serviceTicketPermissions.canManageTickets = (input.permissions.serviceTicketPermissions.canManageTickets);
-  //     roleDo.permissions.serviceTicketPermissions.canAssignTickets = (input.permissions.serviceTicketPermissions.canAssignTickets);
-  //     roleDo.permissions.serviceTicketPermissions.canWorkOnTickets = (input.permissions.serviceTicketPermissions.canWorkOnTickets);
-
-  //     roleDo.permissions.violationTicketPermissions.canAssignTickets = (input.permissions.violationTicketPermissions.canAssignTickets);
-  //     roleDo.permissions.violationTicketPermissions.canCreateTickets = (input.permissions.violationTicketPermissions.canCreateTickets);
-  //     roleDo.permissions.violationTicketPermissions.canManageTickets = (input.permissions.violationTicketPermissions.canManageTickets);
-  //     roleDo.permissions.violationTicketPermissions.canWorkOnTickets = (input.permissions.violationTicketPermissions.canWorkOnTickets);
-
-  //     roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo));
-  //   });
-  //   return roleToReturn;
-  // }
-
-  // async roleDeleteAndReassign(input: RoleDeleteAndReassignInput): Promise<RoleData> {
-  //   console.log(`roleDeleteAndReassign`, this.context.verifiedUser);
-  //   if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
-  //     throw new Error('Unauthorized:roleDeleteAndReassign');
-  //   }
-
-  //   let mongoNewRole = await this.context.applicationServices.role.dataApi.getRoleById(input.roleToReassignTo);
-  //   let newROleDo = new RoleConverter().toDomain(mongoNewRole, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
-  //   let roleToReturn: RoleData;
-  //   await this.withTransaction(async (repo) => {
-  //     let roleDo = await repo.getById(input.roleToDelete);
-  //     roleDo.deleteAndReassignTo = (newROleDo);
-  //     roleToReturn = new RoleConverter().toPersistence(await repo.save(roleDo));
-  //   });
-  //   return roleToReturn;
-  // }
 }

@@ -5784,15 +5784,16 @@ export type MemberPaymentInstrumentsQuery = {
       state?: string | null;
       billTo?: {
         __typename: 'PaymentBillingInfo';
-        address1: string;
-        address2?: string | null;
-        administrativeArea: string;
-        country: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-        locality: string;
-        postalCode: string;
+        billingAddressLine1?: string | null;
+        billingAddressLine2?: string | null;
+        billingCity?: string | null;
+        billingState?: string | null;
+        billingCountry?: string | null;
+        billingEmail?: string | null;
+        billingFirstName?: string | null;
+        billingLastName?: string | null;
+        billingPhone?: string | null;
+        billingPostalCode?: string | null;
       } | null;
     } | null> | null;
     status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
@@ -20865,15 +20866,16 @@ export const MemberPaymentInstrumentsDocument = {
                           kind: 'SelectionSet',
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'address1' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'address2' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'administrativeArea' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'locality' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } }
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingAddressLine1' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingAddressLine2' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingCity' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingState' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingCountry' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingEmail' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingFirstName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingLastName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingPhone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingPostalCode' } }
                           ]
                         }
                       }

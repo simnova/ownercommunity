@@ -10,16 +10,16 @@ query MemberPaymentInstruments {
       state
       billTo {
         __typename
-        address1
-        address2
-        administrativeArea
-        country
-        email
-        firstName
-        lastName
-        locality
-        # phoneNumber
-        postalCode
+        billingAddressLine1
+        billingAddressLine2
+        billingCity
+        billingState
+        billingCountry
+        billingEmail
+        billingFirstName
+        billingLastName
+        billingPhone
+        billingPostalCode
       }
     }
     status {

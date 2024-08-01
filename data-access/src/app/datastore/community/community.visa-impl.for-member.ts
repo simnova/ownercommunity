@@ -1,6 +1,6 @@
 
-import { CommunityPermissions, MemberData } from "../../external-dependencies/datastore";
-import { CommunityVisa } from './community.visa';
+import { MemberData } from "../../external-dependencies/datastore";
+import { CommunityVisa, CommunityPermissions } from './community.visa';
 
 export class CommunityVisaImplForMember<root extends MemberData> implements CommunityVisa {
   constructor(private root: root, private member: MemberData) {}  

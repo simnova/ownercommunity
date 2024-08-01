@@ -1,6 +1,8 @@
 
 import { Visa } from '../../../../../seedwork/passport-seedwork/visa';
-import { MemberData, ViolationTicketData, ViolationTicketPermissions } from '../../../external-dependencies/datastore';
+import { MemberData, ViolationTicketData, StaffRoleViolationTicketPermissions, EndUserRoleViolationTicketPermissions } from '../../../external-dependencies/datastore';
+
+export type ViolationTicketPermissions = StaffRoleViolationTicketPermissions | EndUserRoleViolationTicketPermissions;
 
 export interface ViolationTicketVisa extends Visa {
   determineIf(func:((permissions: ViolationTicketPermissions) => boolean)) : boolean;

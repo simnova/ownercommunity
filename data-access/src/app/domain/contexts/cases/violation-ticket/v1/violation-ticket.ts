@@ -6,15 +6,14 @@ import { Service, ServiceEntityReference, ServiceProps } from '../../../communit
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../../../../domain-execution-context';
 import * as MessageValueObjects from './violation-ticket-v1-message.value-objects';
-import * as ActivityDetailValueObjects from '../../service-ticket/v1/activity-detail.value-objects';
+import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './violation-ticket.value-objects';
 import { PropArray } from '../../../../../../../seedwork/domain-seedwork/prop-array';
-import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from '../../service-ticket/v1/activity-detail';
+import { ActivityDetail, ActivityDetailEntityReference, ActivityDetailProps } from './activity-detail';
 import { Photo, PhotoEntityReference, PhotoProps } from '../../service-ticket/v1/photo';
 import { ViolationTicketV1DeletedEvent } from '../../../../events/types/violation-ticket-v1-deleted';
 import { ViolationTicketV1UpdatedEvent } from '../../../../events/types/violation-ticket-v1-updated';
 import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violation-ticket-v1-created';
-import { ViolationTicketUpdateInput } from '../../../../../external-dependencies/graphql-api';
 import { Transaction, TransactionProps } from './transaction';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
@@ -435,30 +434,6 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     newMessage.Message = new MessageValueObjects.Message(message);
     if (embedding !== undefined) newMessage.Embedding = new MessageValueObjects.Embedding(embedding);
     if (initiatedBy !== undefined) newMessage.InitiatedBy = initiatedBy;
-  }
-
-  public detectValueChangeAndAddTicketActivityLogs(incomingPayload: ViolationTicketUpdateInput, propertyDo) {
-    let activityMessage: string = `${this.requestor.memberName} made field changes: | `;
-    const updateLogMessages = {
-      title: incomingPayload.title && incomingPayload.title !== this.title ? `Title: %n ${incomingPayload.title} %o ${this.title}` : null,
-      description:
-        incomingPayload.description && incomingPayload.description !== this.description ? `Description: %n ${incomingPayload.description} %o ${this.description}` : null,
-      penaltyAmount:
-        incomingPayload.penaltyAmount && incomingPayload.penaltyAmount !== this.penaltyAmount
-          ? `Penalty amount: %n $${incomingPayload.penaltyAmount} %o $${this.penaltyAmount}`
-          : null,
-      priority: incomingPayload.priority && incomingPayload.priority !== this.priority ? `Priority: %n ${incomingPayload.priority} %o ${this.priority}` : null,
-      property: incomingPayload.propertyId && incomingPayload.propertyId !== this.property.id ? `Property: %n ${propertyDo?.propertyName}` : null,
-    };
-    for (let key in updateLogMessages) {
-      if (!propertyDo) {
-        delete updateLogMessages.property;
-      }
-      if (updateLogMessages[key]) {
-        activityMessage += `${updateLogMessages[key]} | `;
-      }
-    }
-    this.requestAddStatusUpdate(activityMessage, this.requestor);
   }
 
   public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {

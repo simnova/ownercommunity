@@ -4,8 +4,8 @@ import { wrapFunctionHandler } from '../telemetry/wrapper';
 import { app } from '@azure/functions';
 import { CosmosDbConnection } from '../../seedwork/services-seedwork-datastore-mongodb/cosmos-db-connection';
 import { PortalTokenValidation } from '../auth/portal-token-validation';
-import { ApolloServerRequestHandler } from '../graphql/init/apollo-server-request-handler';
-import { GraphqlContextBuilder as ApolloContext } from '../graphql/init/graphql-context-builder';
+import { ApolloServerRequestHandler } from '../routes/http/graphql/init/apollo-server-request-handler';
+import { GraphqlContextBuilder as ApolloContext } from '../routes/http/graphql/init/graphql-context-builder';
 import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @as-integrations/azure-functions after PR is merged
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
@@ -48,8 +48,8 @@ app.http('graphql', {
   handler: wrapFunctionHandler(
     startServerAndCreateHandler(apolloServerRequestHandler.getServer(), {
       context: async ({ req }) => {
-        let context = new ApolloContext();
-        await context.init(req, portalTokenValidator, infrastructureServices);
+        let context = new ApolloContext(infrastructureServices, portalTokenValidator);
+        await context.init(req);
         return context;
       },
     })

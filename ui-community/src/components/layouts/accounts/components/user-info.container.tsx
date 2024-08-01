@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 
-import { LoggedInUserRootContainerUserCurrentQueryDocument } from '../../../../generated';
+import { LoggedInUserRootContainerUserCurrentQueryDocument, User } from '../../../../generated';
 import { UserInfo } from './user-info';
 
 export const UserInfoContainer: React.FC<any> = () => {
@@ -21,7 +21,7 @@ export const UserInfoContainer: React.FC<any> = () => {
 
   return (
     <div>
-      <UserInfo data={{userCurrent: data.userCurrent}} />
+      <UserInfo data={{userCurrent: data.userCurrent as User}} />
     </div>
   )
   

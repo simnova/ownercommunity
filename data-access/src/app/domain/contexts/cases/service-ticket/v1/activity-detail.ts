@@ -34,11 +34,11 @@ export class ActivityDetail extends Entity<ActivityDetailProps> implements Activ
 
   // using set from TS 5.1
 
-  set ActivityType(activityTypeCode: ValueObjects.ActivityTypeCode) {
-    this.props.activityType = activityTypeCode.valueOf();
+  set ActivityType(activityTypeCode: string) {
+    this.props.activityType = new ValueObjects.ActivityTypeCode(activityTypeCode).valueOf();
   }
-  set ActivityDescription(activityDescription: ValueObjects.Description) {
-    this.props.activityDescription = activityDescription.valueOf();
+  set ActivityDescription(activityDescription: string) {
+    this.props.activityDescription = new ValueObjects.Description(activityDescription).valueOf();
   }
 
   set ActivityBy(activityBy: MemberEntityReference) {

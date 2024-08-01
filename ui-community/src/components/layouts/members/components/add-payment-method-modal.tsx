@@ -44,18 +44,25 @@ interface CustomerInfoFormSchema {
 }
 
 interface AddPaymentMethodProps {
+  memberHasPaymentMethods: boolean;
   cybersource?: SharedPaymentContainercybersourcePublicKeyIdQuery;
   onAddPaymentMethod: (
     data: AddPaymentInstrumentInput
   ) => Promise<FetchResult<MutationMemberAddPaymentInstrumentMutation> | undefined>;
 }
 
-const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ cybersource, onAddPaymentMethod }) => {
+const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({
+  memberHasPaymentMethods,
+  cybersource,
+  onAddPaymentMethod
+}) => {
   const [hasMounted, setHasMounted] = useState(false);
   const [step, setStep] = useState(STEPS.CARD_DETAILS);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [paymentToken, setPaymentToken] = useState<string | undefined>(undefined);
-  const [isDefaultPaymentMethod, setIsDefaultPaymentMethod] = useState<boolean>(false);
+  const [isDefaultPaymentMethod, setIsDefaultPaymentMethod] = useState<boolean>(!memberHasPaymentMethods);
+
+  const [isAddingPaymentMethod, setIsAddingPaymentMethod] = useState<boolean>(false);
   const [isPaymentTokenLoading, setIsPaymentTokenLoading] = useState<boolean>(false);
 
   const [cardNumberValidationHelpText, setCardNumberValidationHelpText] = useState<string>('');
@@ -75,7 +82,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ cybersource, o
     billingState: undefined,
     billingPostalCode: undefined,
     billingCountry: undefined,
-    isDefault: false,
+    isDefault: !memberHasPaymentMethods,
     paymentToken: paymentToken
   };
 
@@ -290,7 +297,12 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ cybersource, o
         </Form.Item>
       </div>
       <Form.Item<PaymentTokenFormFieldType> name="isDefault">
-        <Checkbox value={isDefaultPaymentMethod} onChange={(e) => setIsDefaultPaymentMethod(e.target.checked)}>
+        <Checkbox
+          defaultChecked={!memberHasPaymentMethods}
+          value={isDefaultPaymentMethod}
+          onChange={(e) => setIsDefaultPaymentMethod(e.target.checked)}
+          disabled={!memberHasPaymentMethods}
+        >
           Deafult payment method
         </Checkbox>
       </Form.Item>
@@ -456,7 +468,13 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ cybersource, o
       centered
     >
       {step === STEPS.CARD_DETAILS && (
-        <Form form={paymentTokenForm} layout="vertical">
+        <Form
+          form={paymentTokenForm}
+          layout="vertical"
+          initialValues={{
+            isDefault: !memberHasPaymentMethods
+          }}
+        >
           {paymentTokenFormFields}
           <div className="flex justify-end">
             <Button
@@ -476,30 +494,31 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ cybersource, o
           form={form}
           layout="vertical"
           onValuesChange={onValuesChange}
-          initialValues={initialFormState}
           onFinish={async () => {
-            const input = {
-              ...formValues,
-              paymentToken,
-              isDefault: isDefaultPaymentMethod
-            } as AddPaymentInstrumentInput;
-            console.log('FORM VALUES', input);
-            const response = await onAddPaymentMethod({
-              ...formValues,
-              paymentToken,
-              isDefault: isDefaultPaymentMethod
-            } as AddPaymentInstrumentInput);
-            if (response?.errors) {
+            setIsAddingPaymentMethod(true);
+
+            try {
+              const response = await onAddPaymentMethod({
+                ...formValues,
+                paymentToken,
+                isDefault: isDefaultPaymentMethod
+              } as AddPaymentInstrumentInput);
+
+              if (response?.data?.memberAddPaymentInstrument.status.success) {
+                message.success('Payment method added successfully.');
+                form.resetFields();
+                // set stepstate to card details
+                setStep(STEPS.CARD_DETAILS);
+                document.getElementById('expirationMonthPicker')?.setAttribute('value', '');
+                paymentTokenForm.setFieldsValue({ expiration: undefined });
+                useAddPaymentMethod.onClose();
+              }
+            } catch (error) {
+              console.error('Error adding payment method', error);
               message.error('An error occurred while adding the payment method.');
-            } else if (response?.data?.memberAddPaymentInstrument.status.success) {
-              message.success('Payment method added successfully.');
-              form.resetFields();
-              // set stepstate to card details
-              setStep(STEPS.CARD_DETAILS);
-              document.getElementById('expirationMonthPicker')?.setAttribute('value', '');
-              paymentTokenForm.setFieldsValue({ expiration: undefined });
-              useAddPaymentMethod.onClose();
             }
+
+            setIsAddingPaymentMethod(false);
           }}
         >
           {bodyContent}
@@ -507,7 +526,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodProps> = ({ cybersource, o
           <div className="flex gap-2 justify-end mt-6">
             {modalFooter}
             {step === STEPS.REVIEW && (
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={isAddingPaymentMethod}>
                 Add Payment Method
               </Button>
             )}

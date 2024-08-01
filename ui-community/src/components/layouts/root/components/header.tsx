@@ -4,7 +4,7 @@ import styles from './header.module.css';
 
 export const Header: React.FC<any> = () => {
   const handleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_AAD_REDIRECT_URI}/login/`;
+    window.location.href = `${import.meta.env.VITE_AAD_B2C_REDIRECT_URI}/login/`;
   };
   const {
     token: { colorBgContainer }

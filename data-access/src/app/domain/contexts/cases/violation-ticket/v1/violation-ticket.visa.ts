@@ -1,7 +1,10 @@
 import { Visa } from "../../../../../../../seedwork/passport-seedwork/visa";
 import { ViolationTicketV1EntityReference } from "./violation-ticket";
 import { MemberEntityReference } from "../../../community/member/member";
-import { ViolationTicketPermissionsSpec } from "../../../community/role/violation-ticket-permissions";
+import { StaffRoleViolationTicketPermissionsSpec } from "../../../community/roles/staff-role/violation-ticket-permissions";
+import { EndUserRoleViolationTicketPermissionsSpec } from "../../../community/roles/end-user-role/violation-ticket-permissions";
+
+export interface ViolationTicketPermissionsSpec extends StaffRoleViolationTicketPermissionsSpec, EndUserRoleViolationTicketPermissionsSpec {}
 
 export interface ViolationTicketV1Visa extends Visa {
   determineIf(func:((permissions:ViolationTicketPermissionsSpec) => boolean)) :  boolean ;

@@ -3,20 +3,18 @@ import { CommunityApi } from "./community";
 import { MemberApi } from "./member";
 import { PropertyApi } from "./property";
 import { CasesApi } from "./cases";
-import { PaymentApi } from "./payment";
-import { RoleApi } from "./role";
-import { UserApi } from "./user";
+import { RoleApi } from "./roles";
 import { ServiceApi } from "./service";
+import { UsersApi } from "./users";
 
 export interface ApplicationServices {
   community: CommunityApi;
   member: MemberApi;
   property: PropertyApi;
   cases: CasesApi;
-  role: RoleApi;
-  user: UserApi;
+  roles: RoleApi;
+  users: UsersApi;
   service: ServiceApi;
-  payment: PaymentApi; 
 }
 
 export {
@@ -25,7 +23,6 @@ export {
   PropertyApi,
   CasesApi,
   RoleApi,
-  UserApi,
+  UsersApi,
   ServiceApi,
-  PaymentApi
 }

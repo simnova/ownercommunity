@@ -12,6 +12,7 @@ type ServiceTicket implements MongoBase {
   photos: [ServiceTicketPhoto]
   activityLog: [ServiceTicketActivityDetail]
   messages: [ServiceTicketV1Message]
+  revisionRequest: ServiceTicketV1RevisionRequest
 
   id: ObjectID!
   schemaVersion: String
@@ -38,6 +39,20 @@ type ServiceTicketV1Message {
   id: ObjectID!
   createdAt: DateTime!
   isHiddenFromApplicant: Boolean!
+}
+
+type ServiceTicketV1RevisionRequest {
+  requestedAt: DateTime!
+  requestedBy: Member!
+  revisionSummary: String!
+  requestedChanges: ServiceTicketV1RevisionRequestedChanges!
+  revisionSubmittedAt: DateTime
+}
+
+type ServiceTicketV1RevisionRequestedChanges {
+  requestUpdatedAssignment: Boolean!
+  requestUpdatedStatus: Boolean!
+  requestUpdatedProperty: Boolean!
 }
 
 type ServiceTicketPhoto implements MongoSubdocument {
@@ -97,6 +112,7 @@ input ServiceTicketUpdateInput {
   priority: Int
   serviceId: ObjectID
   messages: [ServiceTicketV1MessageInput]
+  revisionRequest: ServiceTicketV1RevisionRequestUpdateInput
 }
 
 input ServiceTicketV1MessageInput {
@@ -106,6 +122,20 @@ input ServiceTicketV1MessageInput {
   message: String!
   embedding: String
   isHiddenFromApplicant: Boolean
+}
+
+input ServiceTicketV1RevisionRequestUpdateInput {
+  requestedAt: DateTime
+  requestedBy: ObjectID
+  revisionSummary: String
+  requestedChanges: ServiceTicketV1RevisionRequestedChangesUpdateInput
+  revisionSubmittedAt: DateTime
+}
+
+input ServiceTicketV1RevisionRequestedChangesUpdateInput {
+  requestUpdatedAssignment: Boolean
+  requestUpdatedStatus: Boolean
+  requestUpdatedProperty: Boolean
 }
 
 input ServiceTicketAddPhotoInput {

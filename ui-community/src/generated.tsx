@@ -645,6 +645,9 @@ export type Mutation = {
   serviceTicketSubmit: ServiceTicketMutationResult;
   serviceTicketUpdate: ServiceTicketMutationResult;
   serviceUpdate: ServiceMutationResult;
+  staffUserCreate: StaffUserMutationResult;
+  /** Allows the user to update their profile */
+  staffUserUpdate: StaffUserMutationResult;
   userCreate: UserMutationResult;
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
@@ -845,6 +848,11 @@ export type MutationServiceTicketUpdateArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationServiceUpdateArgs = {
   input: ServiceUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationStaffUserUpdateArgs = {
+  input: StaffUserUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1171,6 +1179,9 @@ export type Query = {
   serviceTicketsSearch?: Maybe<ServiceTicketsSearchResult>;
   serviceTicketsSearchAdmin?: Maybe<ServiceTicketsSearchResult>;
   servicesByCommunityId?: Maybe<Array<Maybe<Service>>>;
+  staffUser?: Maybe<StaffUser>;
+  staffUserCurrent?: Maybe<StaffUser>;
+  staffUsers?: Maybe<Array<Maybe<StaffUser>>>;
   user?: Maybe<User>;
   userCurrent?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
@@ -1271,6 +1282,11 @@ export type QueryServiceTicketsSearchAdminArgs = {
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
 export type QueryServicesByCommunityIdArgs = {
   communityId: Scalars['ID'];
+};
+
+/**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
+export type QueryStaffUserArgs = {
+  id: Scalars['ObjectID'];
 };
 
 /**  Base Query Type definition - , all mutations will be defined in separate files extending this type  */
@@ -1551,6 +1567,35 @@ export type ServiceUpdateInput = {
   id: Scalars['ObjectID'];
   isActive?: InputMaybe<Scalars['Boolean']>;
   serviceName?: InputMaybe<Scalars['String']>;
+};
+
+export type StaffUser = MongoBase & {
+  __typename?: 'StaffUser';
+  accessBlocked?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: Maybe<Scalars['String']>;
+  schemaVersion?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type StaffUserMutationResult = MutationResult & {
+  __typename?: 'StaffUserMutationResult';
+  status: MutationStatus;
+  user?: Maybe<StaffUser>;
+};
+
+export type StaffUserUpdateInput = {
+  displayName?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  id: Scalars['ObjectID'];
+  lastName?: InputMaybe<Scalars['String']>;
 };
 
 export type Ticket = ServiceTicket | ViolationTicket;

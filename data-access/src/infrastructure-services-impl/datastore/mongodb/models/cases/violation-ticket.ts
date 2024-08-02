@@ -174,6 +174,7 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
     requestor: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true, index: true },
     assignedTo: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
     service: { type: Schema.Types.ObjectId, ref: Service.ServiceModel.modelName, required: false, index: true },
+<<<<<<< HEAD
     financeDetails: {
       serviceFee: { type: Number, required: true }, // violationTicket.penaltyAmount
       transactions: {
@@ -188,6 +189,7 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
         },
         required: false
       },
+    }
     revisionRequest: { 
       type: {
         requestedAt: { type: Date, required: true },
@@ -202,7 +204,7 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
         revisionSubmittedAt: { type: Date, required: false },
       },
       required: false,
-    },
+    }
     title: {
       type: String,
       required: true,

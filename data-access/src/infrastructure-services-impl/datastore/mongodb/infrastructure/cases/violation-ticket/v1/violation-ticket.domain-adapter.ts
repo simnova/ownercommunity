@@ -300,6 +300,9 @@ export class TransactionDomainAdapter implements TransactionsProps {
     return new SubmissionDomainAdapter(this.doc.submission);
   }
   
+  get adhocTransactions() {
+    return new MongoosePropArray(this.doc.adhocTransactions, AdhocTransactionDomainAdapter);
+  }
 }
 
 export class TransactionReferenceDomainAdapter implements TransactionReferenceProps {
@@ -347,10 +350,6 @@ export class SubmissionDomainAdapter implements SubmissionProps {
       this.doc.transactionReference = {}
     }
     return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
-  }
-
-  get adhocTransactions() {
-    return new MongoosePropArray(this.doc.adhocTransactions, AdhocTransactionDomainAdapter);
   }
 }
 

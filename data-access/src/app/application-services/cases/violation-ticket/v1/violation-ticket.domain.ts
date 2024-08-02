@@ -248,7 +248,6 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       violationTicket.financeDetails.transactions.submission.transactionReference.Vendor = response.vendor;
       violationTicket.financeDetails.transactions.submission.transactionReference.CompletedOn = response.completedOn;
       violationTicket.financeDetails.transactions.submission.Amount = response.authorizedAmount;
-
       // save the transaction details
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });

@@ -362,28 +362,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     let message = this.props.messages.getNewItem();
     return new ViolationTicketV1Message(message, this.context, this.visa);
   }
-
-  private requestAddNewAdhocTransaction(): AdhocTransactions {
-    let adhocTransaction = this.props.financeDetails.transactions.submission.adhocTransactions.getNewItem();
-    return new AdhocTransactions(adhocTransaction, this.context);
-  }
-
-  public requestAddAdhocTransaction(): AdhocTransactions {
-    if (
-      !this.isNew &&
-      !this.visa.determineIf(
-        (permissions) =>
-          permissions.isSystemAccount ||
-          (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
-          (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||
-          permissions.canManageTickets
-      )
-    ) {
-      throw new Error('Unauthorized');
-    }
-    return this.requestAddNewAdhocTransaction();
-  }
-
+  
   public requestAddStatusUpdate(description: string, by: MemberEntityReference): void {
     if (
       !this.isNew &&

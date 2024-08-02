@@ -131,10 +131,10 @@ export interface AdhocTransaction extends SubdocumentBase {
 export interface Submission extends NestedPath {
   amount: number;
   transactionReference?: TransactionReference;
-  adhocTransactions?: Types.DocumentArray<AdhocTransaction>;
 }
 export interface Transaction extends NestedPath {
   submission: Submission;
+  adhocTransactions?: Types.DocumentArray<AdhocTransaction>;
 }
 
 export interface FinanceDetails extends NestedPath {
@@ -184,8 +184,8 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
             referenceId: { type: String, required: true },
             completedOn: { type: Date, required: true },
           },
-          adhocTransactions: {type: [AdhocTransactionSchema], required: false},
         },
+        adhocTransactions: {type: [AdhocTransactionSchema], required: false},
         required: false
       },
     },

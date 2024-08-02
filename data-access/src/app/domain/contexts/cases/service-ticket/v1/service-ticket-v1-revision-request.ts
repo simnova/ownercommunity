@@ -72,7 +72,13 @@ export class ServiceTicketV1RevisionRequest extends ValueObject<ServiceTicketV1R
   }
 
   set RevisionSubmittedAt(revisionSubmittedAt: Date) {
-    this.validateVisa();
+    if (!this.visa.determineIf((permissions) => 
+      permissions.isEditingOwnTicket || 
+      (permissions.canManageTickets && permissions.isEditingAssignedTicket) ||
+      permissions.isSystemAccount
+    )) {
+      throw new Error('Unauthorized');
+    }
     this.props.revisionSubmittedAt = revisionSubmittedAt;
   }
 

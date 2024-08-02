@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Community, Member } from '../../../../generated';
 import { DownOutlined } from '@ant-design/icons';
 import { ChangeEvent, useState } from 'react';
-import TestPdfView from '../../../testing/TestPdfView';
 
 const { Title } = Typography;
 
@@ -116,7 +115,6 @@ export const CommunityList: React.FC<CommunityListProps> = (props) => {
           </Title>
         )}
       </div>
-      <TestPdfView/>
     </div>
   );
 };

@@ -17,7 +17,7 @@ import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
 import { ServiceEntityReference } from '../../../../../../../app/domain/contexts/community/service/service';
 import { TransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
-import { ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
+import { ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
 import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
@@ -52,11 +52,12 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
   }
 
   get revisionRequest() {
-    if (this.doc.revisionRequest) {
-      return new ViolationTicketV1RevisionRequestDomainAdapter(this.doc.revisionRequest);
+    if (!this.doc.revisionRequest) {
+      this.doc.set('revisionRequest', {});
     }
+    return new ViolationTicketV1RevisionRequestDomainAdapter(this.doc.revisionRequest);
   }
-
+  
   public setPropertyRef(property: PropertyEntityReference) {
     this.doc.set('property', property.id);
   }

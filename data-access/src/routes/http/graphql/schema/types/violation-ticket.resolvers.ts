@@ -59,6 +59,14 @@ const serviceTicket: Resolvers = {
       return parent.initiatedBy;
     }
   },
+  ViolationTicketV1RevisionRequest: {
+    requestedBy: async (parent, args, context, info) => {
+      if(parent.requestedBy && isValidObjectId(parent.requestedBy.toString())){
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.requestedBy.toString())) as Member;
+      }
+      return parent.requestedBy;
+    }
+  },
   Query: {
     violationTicket: async (_parent, args, context, _info) => {
       return (await context.applicationServices.cases.violationTicket.v1.dataApi.getViolationTicketById(args.id)) as ViolationTicket;

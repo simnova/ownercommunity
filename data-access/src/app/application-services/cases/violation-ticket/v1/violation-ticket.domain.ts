@@ -129,6 +129,8 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
 
       if (input.revisionRequest !== undefined) {
         if (input.revisionRequest?.requestedAt !== undefined) {
+          // clear revision submitted at if requested at is updated
+          input.revisionRequest.revisionSubmittedAt = null;
           violationTicket.revisionRequest.RequestedAt = (input.revisionRequest.requestedAt);
         }
         if (input.revisionRequest?.requestedBy !== undefined) {

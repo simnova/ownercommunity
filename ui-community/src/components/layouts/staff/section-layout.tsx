@@ -1,9 +1,13 @@
-import {Avatar, Button, Layout, Space } from "antd";
+import { Button, Layout } from "antd";
 import { Outlet } from 'react-router-dom';
 import { useAuth } from 'react-oidc-context';
 import { GetUserRoles, UserRoles } from '../../../constants';
 
-export const SectionLayout: React.FC<any> = () => {
+export interface SectionLayoutProps {
+  
+}
+
+export const SectionLayout: React.FC<SectionLayoutProps> = () => {
   const auth = useAuth();
   const userRoles = GetUserRoles();
 

@@ -26,7 +26,6 @@ import {
   ServiceTicketUpdateInput,
 } from '../../../../external-dependencies/graphql-api';
 import { AppContext } from '../../../../init/app-context-builder';
-import { ValueObject } from '../../../../../../seedwork/domain-seedwork/value-object';
 
 export interface ServiceTicketV1DomainApi {
   serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData>;

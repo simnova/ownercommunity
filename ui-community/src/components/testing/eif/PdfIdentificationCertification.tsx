@@ -4,7 +4,7 @@ interface PdfDisclaimersProps {
   data: any;
 }
 
-export const PdfIdentificationCertification: React.FC<PdfDisclaimersProps> = (props) => {
+export const PdfIdentificationCertification: React.FC<PdfDisclaimersProps> = () => {
   const styles = StyleSheet.create({
     text: {
       fontSize: '7px'

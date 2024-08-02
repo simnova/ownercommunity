@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from '@react-pdf/renderer';
+import { View, Text, StyleSheet } from '@react-pdf/renderer';
 interface PdfDisclaimersProps {
   data: any;
 }
 
-export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = (props) => {
+export const PdfDisclaimers: React.FC<PdfDisclaimersProps> = () => {
   const styles = StyleSheet.create({
     text: {
       fontSize: '10px',

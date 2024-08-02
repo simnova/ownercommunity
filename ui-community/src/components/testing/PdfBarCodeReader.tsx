@@ -1,4 +1,4 @@
-export const readBarCode = async (path: string) => {
+// export const readBarCode = async (path: string) => {
 
   // Quagga.decodeSingle(
   //   {
@@ -16,4 +16,4 @@ export const readBarCode = async (path: string) => {
   //     }
   //   }
   // );
-};
+// };

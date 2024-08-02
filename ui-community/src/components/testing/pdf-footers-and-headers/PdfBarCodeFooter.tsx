@@ -6,7 +6,7 @@ interface PdfHeaderProps {
   data: any;
 }
 
-export const PdfBarCodeFooter: React.FC<PdfHeaderProps> = (props) => {
+export const PdfBarCodeFooter: React.FC<PdfHeaderProps> = () => {
   const styles = StyleSheet.create({
     image: {
       width: '50%',

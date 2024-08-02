@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from '@react-pdf/renderer';
+import { View, Text, StyleSheet } from '@react-pdf/renderer';
 
 interface PdfHeaderProps {
   data: any;

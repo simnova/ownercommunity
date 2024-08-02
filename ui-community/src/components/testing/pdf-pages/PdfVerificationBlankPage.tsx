@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Document, Page, StyleSheet, Font } from '@react-pdf/renderer';
 import FontFranklinRegular from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-500.ttf';
 import FontFranklinBold from '../../../fonts/libre-franklin-v11-latin/libre-franklin-v11-latin-700.ttf';
 import PdfHeaderV2 from '../eif/PdfHeaderV2';
 import PdfVerificationFooter from '../verification/PdfVerificationFooter';
 import PdfVerificationSection from '../verification/PdfVerificationSection';
-import { readBarCode } from '../PdfBarCodeReader';
 
 interface PdfTemplateProps {
   data: any;

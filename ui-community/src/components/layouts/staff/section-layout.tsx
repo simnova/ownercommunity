@@ -20,7 +20,7 @@ export const SectionLayout: React.FC<SectionLayoutProps> = () => {
   return (
     <Layout className='site-layout' style={{ minHeight: '100vh' }}>
       <div className='text-right ml-3'>
-        <span className='text-sky-400 mr-3'>{' '}{accessToken.given_name} {accessToken.family_name}{' '}</span>
+        <span className='text-sky-400 mr-3'>{' '}{accessToken?.given_name} {accessToken?.family_name}{' '}</span>
         <Button style={{ margin: '5px 5px' }} onClick={() => handleLogout()}>Log Out</Button>
       </div>
       {userRoles.includes(UserRoles.Staff) ? (

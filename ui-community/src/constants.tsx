@@ -858,7 +858,7 @@ export const GetAccessToken = () => {
   }
 
   try {
-    const decodedJWT: any = token ? jwtDecode<DecodedJWT>(token) : {};
+    const decodedJWT: DecodedJWT = token ? jwtDecode<DecodedJWT>(token) : {};
     return decodedJWT;
   } catch (error) {
     console.error('error decoding jwt', error);

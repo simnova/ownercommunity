@@ -76,7 +76,7 @@ export interface ServiceTicketV1EntityReference
   readonly activityLog: ReadonlyArray<ActivityDetailEntityReference>;
   readonly messages: ReadonlyArray<ServiceTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
-  readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference
+  readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference;
 }
 
 export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props> implements ServiceTicketV1EntityReference {
@@ -107,9 +107,9 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     serviceTicket.Status = ValueObjects.StatusCodes.Draft;
     serviceTicket.Priority = 5;
     let newActivity = serviceTicket.requestNewActivityDetail();
-    newActivity.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Created);
-    newActivity.ActivityDescription=('Created');
-    newActivity.ActivityBy=(requestor);
+    newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
+    newActivity.ActivityDescription = 'Created';
+    newActivity.ActivityBy = requestor;
     serviceTicket.isNew = false;
     return serviceTicket;
   }
@@ -176,7 +176,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
   }
 
   get revisionRequest() {
-    return this.props.revisionRequest ? new ServiceTicketV1RevisionRequest(this.props.revisionRequest, this.context, this.visa): undefined
+    return this.props.revisionRequest ? new ServiceTicketV1RevisionRequest(this.props.revisionRequest, this.context, this.visa) : undefined;
   }
 
   private readonly validStatusTransitions = new Map<string, string[]>([
@@ -266,6 +266,7 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
     }
     this.props.description = new ValueObjects.Description(description).valueOf();
   }
+  
 
   set Status(statusCode: ValueObjects.StatusCode) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount)) {
@@ -390,9 +391,9 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
       throw new Error('Unauthorized7');
     }
     const activityDetail = this.requestNewActivityDetail();
-    activityDetail.ActivityType=(ActivityDetailValueObjects.ActivityTypeCodes.Updated);
-    activityDetail.ActivityDescription=(description);
-    activityDetail.ActivityBy=(by);
+    activityDetail.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Updated;
+    activityDetail.ActivityDescription = description;
+    activityDetail.ActivityBy = by;
   }
   public requestAddStatusTransition(newStatus: ValueObjects.StatusCode, description: string, by: MemberEntityReference): void {
     if (
@@ -411,9 +412,9 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
 
     this.props.status = newStatus.valueOf();
     const activityDetail = this.requestNewActivityDetail();
-    activityDetail.ActivityDescription=(description);
-    activityDetail.ActivityType=(this.statusMappings.get(newStatus.valueOf()));
-    activityDetail.ActivityBy=(by);
+    activityDetail.ActivityDescription = description;
+    activityDetail.ActivityType = this.statusMappings.get(newStatus.valueOf());
+    activityDetail.ActivityBy = by;
   }
 
   public override onSave(isModified: boolean): void {

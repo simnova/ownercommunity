@@ -285,8 +285,8 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     this.props.description = new ValueObjects.Description(description).valueOf();
   }
 
-  requestNewRevision(newRevisionRequest: ValueObjects.NewRevisionRequest, requestedBy: MemberEntityReference): void {
-    this.props.setRevisionRequestRef(ViolationTicketV1RevisionRequest.getNewInstance(this.props.revisionRequest, newRevisionRequest, requestedBy, this.context, this.visa));
+  requestNewRevision(): void {
+    this.props.setRevisionRequestRef(ViolationTicketV1RevisionRequest.getNewInstance(this.props.revisionRequest, this.context, this.visa));
   }
 
   set Status(statusCode: string) {

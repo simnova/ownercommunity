@@ -57,7 +57,7 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
     }
   }
   public setRevisionRequestRef(revisionRequest: ViolationTicketV1RevisionRequestEntityReference): void {
-    this.doc.set('revisionRequest', revisionRequest['props']);
+    this.doc.set('revisionRequest', revisionRequest);
   }
 
   public setPropertyRef(property: PropertyEntityReference) {

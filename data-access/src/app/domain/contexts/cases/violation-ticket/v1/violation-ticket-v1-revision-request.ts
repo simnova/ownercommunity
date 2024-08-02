@@ -6,7 +6,6 @@ import {
   ViolationTicketV1RevisionRequestedChangesEntityReference,
   ViolationTicketV1RevisionRequestedChangesProps,
 } from './violation-ticket-v1-revision-requested-changes';
-import { NewRevisionRequest } from './violation-ticket.value-objects';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 
 export interface ViolationTicketV1RevisionRequestProps extends ValueObjectProps {
@@ -47,19 +46,9 @@ export class ViolationTicketV1RevisionRequest extends ValueObject<ViolationTicke
 
   static getNewInstance(
     newProps: ViolationTicketV1RevisionRequestProps, 
-    newRevisionRequest: NewRevisionRequest,
-    memberDo: MemberEntityReference, 
     context: DomainExecutionContext, 
     visa: ViolationTicketV1Visa): ViolationTicketV1RevisionRequest {
-      let revisionRequest = new ViolationTicketV1RevisionRequest(newProps, context, visa);
-      revisionRequest.RequestedAt = newRevisionRequest.requestedAt;
-      revisionRequest.RequestedBy = memberDo;
-      revisionRequest.RevisionSummary = newRevisionRequest.revisionSummary.valueOf();
-      revisionRequest.requestedChanges.RequestUpdatedAssignment = newRevisionRequest.requestedChanges.requestUpdatedAssignment.valueOf();
-      revisionRequest.requestedChanges.RequestUpdatedStatus = newRevisionRequest.requestedChanges.requestUpdatedStatus.valueOf();
-      revisionRequest.requestedChanges.RequestUpdatedProperty = newRevisionRequest.requestedChanges.requestUpdatedProperty.valueOf();
-      revisionRequest.requestedChanges.RequestUpdatedPaymentTransaction = newRevisionRequest.requestedChanges.requestUpdatedPaymentTransaction.valueOf();
-      return revisionRequest;
+      return new ViolationTicketV1RevisionRequest(newProps, context, visa);
   }
 
   private validateVisa(): void {
@@ -84,12 +73,6 @@ export class ViolationTicketV1RevisionRequest extends ValueObject<ViolationTicke
   }
 
   set RevisionSubmittedAt(revisionSubmittedAt: Date) {
-    if (
-      !this.visa.determineIf(
-        (permissions) => permissions.isEditingOwnTicket || (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount
-      )
-    ) {
-      this.props.revisionSubmittedAt = revisionSubmittedAt;
-    }
+    this.props.revisionSubmittedAt = revisionSubmittedAt;
   }
 }

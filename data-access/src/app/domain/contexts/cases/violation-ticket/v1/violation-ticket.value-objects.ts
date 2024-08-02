@@ -1,5 +1,4 @@
-import { VOString, VOSet, VOInteger, VOObject, VOAny } from '@lucaspaganini/value-objects';
-import { DateTime } from 'graphql-scalars/typings/typeDefs';
+import { VOString, VOSet, VOInteger, VOObject, VOOptional } from '@lucaspaganini/value-objects';
 
 export const StatusCodes = {
   Draft: 'DRAFT',
@@ -26,5 +25,5 @@ export class NewRevisionRequest extends VOObject({
     requestUpdatedProperty: Boolean,
     requestUpdatedPaymentTransaction: Boolean 
   }),
-  revisionSubmittedAt: VOSet([DateTime, undefined]),
+  revisionSubmittedAt: VOOptional(Date),
 }) {}

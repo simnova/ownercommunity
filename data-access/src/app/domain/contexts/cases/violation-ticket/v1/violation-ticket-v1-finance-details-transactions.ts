@@ -19,10 +19,4 @@ export class Transactions extends ValueObject<TransactionsProps> implements Tran
   get submission() {
     return new Submission(this.props.submission, this.context);
   }
-
-  // implementing setters  from TS 
-
-  // set Submission(submission: SubmissionProps) {
-  //   new Submission(submission, this.context);
-  // }
 }

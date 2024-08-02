@@ -21,7 +21,6 @@ import { FinanceDetailProps } from '../../../../../../../app/domain/contexts/cas
 import { TransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
 import { SubmissionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission';
 import { TransactionReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission-transaction-reference';
-import { TransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
 import { ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
 import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
 
@@ -50,10 +49,6 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
     if (this.doc.property) {
       return new PropertyDomainAdapter(this.doc.property);
     }
-  }
-
-  get paymentTransactions() {
-    return new MongoosePropArray(this.doc.paymentTransactions, TransactionDomainAdapter);
   }
 
   get revisionRequest() {

@@ -29,8 +29,4 @@ export class FinanceDetails extends ValueObject<FinanceDetailProps> implements F
   set ServiceFee(serviceFee: number) {
     this.props.serviceFee = serviceFee;
   }
-
-  // set Transactions(transactions: TransactionsProps) {
-  //   new Transactions(transactions, this.context);
-  // }
 }

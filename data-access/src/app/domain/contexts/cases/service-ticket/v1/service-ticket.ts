@@ -16,6 +16,7 @@ import { ServiceTicketV1CreatedEvent } from '../../../../events/types/service-ti
 import { ServiceTicketV1UpdatedEvent } from '../../../../events/types/service-ticket-v1-updated';
 import { ServiceTicketV1DeletedEvent } from '../../../../events/types/service-ticket-v1-deleted';
 import { ServiceTicketV1Message, ServiceTicketV1MessageEntityReference, ServiceTicketV1MessageProps } from './service-ticket-v1-message';
+import { ServiceTicketV1RevisionRequest, ServiceTicketV1RevisionRequestEntityReference, ServiceTicketV1RevisionRequestProps } from './service-ticket-v1-revision-request';
 
 export interface ServiceTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
@@ -35,6 +36,7 @@ export interface ServiceTicketV1Props extends EntityProps {
   priority: number;
   readonly activityLog: PropArray<ActivityDetailProps>;
   readonly messages: PropArray<ServiceTicketV1MessageProps>;
+  readonly revisionRequest?: ServiceTicketV1RevisionRequestProps;
   readonly photos: PropArray<PhotoProps>;
 
   readonly createdAt: Date;
@@ -63,6 +65,7 @@ export interface ServiceTicketV1EntityReference
       | 'activityLog'
       | 'messages'
       | 'photos'
+      | 'revisionRequest'
     >
   > {
   readonly community: CommunityEntityReference;
@@ -73,6 +76,7 @@ export interface ServiceTicketV1EntityReference
   readonly activityLog: ReadonlyArray<ActivityDetailEntityReference>;
   readonly messages: ReadonlyArray<ServiceTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
+  readonly revisionRequest: ServiceTicketV1RevisionRequestEntityReference
 }
 
 export class ServiceTicketV1<props extends ServiceTicketV1Props> extends AggregateRoot<props> implements ServiceTicketV1EntityReference {
@@ -169,6 +173,10 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
 
   get updateIndexFailedDate() {
     return this.props.updateIndexFailedDate;
+  }
+
+  get revisionRequest() {
+    return this.props.revisionRequest ? new ServiceTicketV1RevisionRequest(this.props.revisionRequest, this.context, this.visa): undefined
   }
 
   private readonly validStatusTransitions = new Map<string, string[]>([

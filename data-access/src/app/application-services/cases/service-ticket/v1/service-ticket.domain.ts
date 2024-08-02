@@ -1,20 +1,37 @@
-import { DomainDataSource } from "../../../../data-sources/domain-data-source";
-import { Member } from "../../../../domain/contexts/community/member/member";
-import { ReadOnlyDomainVisa } from "../../../../domain/domain.visa";
-import { Service } from "../../../../domain/contexts/community/service/service";
-import { ServiceTicketV1 } from "../../../../domain/contexts/cases/service-ticket/v1/service-ticket";
-import { SentBy, Message, Embedding } from "../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1-message.value-objects";
-import { MemberData, ServiceTicketData } from "../../../../external-dependencies/datastore";
-import { ServiceTicketV1DomainAdapter, CommunityConverter, PropertyConverter, MemberConverter, ServiceTicketV1Repository, ServiceDomainAdapter, ServiceConverter, ServiceTicketV1Converter } from "../../../../external-dependencies/domain";
-import { ServiceTicketAddUpdateActivityInput, ServiceTicketAssignInput, ServiceTicketChangeStatusInput, ServiceTicketCreateInput, ServiceTicketDeleteInput, ServiceTicketSubmitInput, ServiceTicketUpdateInput } from "../../../../external-dependencies/graphql-api";
-import { AppContext } from "../../../../init/app-context-builder";
+import { DomainDataSource } from '../../../../data-sources/domain-data-source';
+import { Member } from '../../../../domain/contexts/community/member/member';
+import { ReadOnlyDomainVisa } from '../../../../domain/domain.visa';
+import { Service } from '../../../../domain/contexts/community/service/service';
+import { ServiceTicketV1 } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket';
+import { SentBy, Message, Embedding } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1-message.value-objects';
+import { MemberData, ServiceTicketData } from '../../../../external-dependencies/datastore';
+import {
+  ServiceTicketV1DomainAdapter,
+  CommunityConverter,
+  PropertyConverter,
+  MemberConverter,
+  ServiceTicketV1Repository,
+  ServiceDomainAdapter,
+  ServiceConverter,
+  ServiceTicketV1Converter,
+} from '../../../../external-dependencies/domain';
+import {
+  ServiceTicketAddUpdateActivityInput,
+  ServiceTicketAssignInput,
+  ServiceTicketChangeStatusInput,
+  ServiceTicketCreateInput,
+  ServiceTicketDeleteInput,
+  ServiceTicketSubmitInput,
+  ServiceTicketUpdateInput,
+} from '../../../../external-dependencies/graphql-api';
+import { AppContext } from '../../../../init/app-context-builder';
 
 export interface ServiceTicketV1DomainApi {
   serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData>;
-  serviceTicketUpdate(input: ServiceTicketUpdateInput) : Promise<ServiceTicketData>;
+  serviceTicketUpdate(input: ServiceTicketUpdateInput): Promise<ServiceTicketData>;
   serviceTicketDelete(input: ServiceTicketDeleteInput): Promise<ServiceTicketData>;
   serviceTicketSubmit(input: ServiceTicketSubmitInput): Promise<ServiceTicketData>;
-  serviceTicketAssign(input: ServiceTicketAssignInput): Promise<ServiceTicketData>
+  serviceTicketAssign(input: ServiceTicketAssignInput): Promise<ServiceTicketData>;
   serviceTicketAddUpdateActivity(input: ServiceTicketAddUpdateActivityInput): Promise<ServiceTicketData>;
   serviceTicketChangeStatus(input: ServiceTicketChangeStatusInput): Promise<ServiceTicketData>;
 }
@@ -23,9 +40,7 @@ type PropType = ServiceTicketV1DomainAdapter;
 type DomainType = ServiceTicketV1<PropType>;
 type RepoType = ServiceTicketV1Repository<PropType>;
 
-export class ServiceTicketV1DomainApiImpl
-  extends DomainDataSource<AppContext, ServiceTicketData, PropType, DomainType, RepoType>
-  implements ServiceTicketV1DomainApi {
+export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, ServiceTicketData, PropType, DomainType, RepoType> implements ServiceTicketV1DomainApi {
   async serviceTicketCreate(input: ServiceTicketCreateInput): Promise<ServiceTicketData> {
     console.log(`serviceTicketCreate`, this.context.verifiedUser);
     if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
@@ -58,13 +73,10 @@ export class ServiceTicketV1DomainApiImpl
     console.log(`serviceTicketCreate:requestorId`, input.requestorId);
 
     await this.withTransaction(async (repo) => {
-      let newServiceTicket = await repo.getNewInstance(
-        input.title,
-        input.description,
-        communityDo,
-        propertyDo,
-        memberDo);
-      if (input.serviceId) { newServiceTicket.Service = (serviceDo); }
+      let newServiceTicket = await repo.getNewInstance(input.title, input.description, communityDo, propertyDo, memberDo);
+      if (input.serviceId) {
+        newServiceTicket.Service = serviceDo;
+      }
 
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(newServiceTicket));
     });
@@ -85,12 +97,14 @@ export class ServiceTicketV1DomainApiImpl
       if (serviceTicket.property.id !== input.propertyId && input.propertyId !== undefined) {
         let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);
         let propertyDo = new PropertyConverter().toDomain(property, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
-        serviceTicket.Property = (propertyDo);
+        serviceTicket.Property = propertyDo;
       }
-      if (input.title !== undefined) serviceTicket.Title = (input.title);
-      if (input.description !== undefined) serviceTicket.Description = (input.description);
-      if (input.priority !== undefined) serviceTicket.Priority = (input.priority);
-      if (input.serviceId !== undefined) { serviceTicket.Service = (serviceDo); }
+      if (input.title !== undefined) serviceTicket.Title = input.title;
+      if (input.description !== undefined) serviceTicket.Description = input.description;
+      if (input.priority !== undefined) serviceTicket.Priority = input.priority;
+      if (input.serviceId !== undefined) {
+        serviceTicket.Service = serviceDo;
+      }
 
       if (input.messages !== undefined) {
         for (const messageInput of input.messages) {
@@ -117,7 +131,33 @@ export class ServiceTicketV1DomainApiImpl
           }
         }
       }
-
+      if (input.revisionRequest !== undefined) {
+        if (input.revisionRequest.requestedAt !== undefined) {
+          serviceTicket.revisionRequest.RequestedAt = input.revisionRequest.requestedAt;
+        }
+        if(input.revisionRequest.revisionSummary !== undefined) {
+          serviceTicket.revisionRequest.RevisionSummary = input.revisionRequest.revisionSummary;
+        }
+        if(input.revisionRequest.revisionSubmittedAt !== undefined) {
+          serviceTicket.revisionRequest.RevisionSubmittedAt = input.revisionRequest.revisionSubmittedAt;
+        }
+        if (input.revisionRequest.requestedBy !== undefined) {
+          let member = await this.context.applicationServices.member.dataApi.getMemberById(input.revisionRequest.requestedBy);
+          let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+          serviceTicket.revisionRequest.RequestedBy = memberDo;
+        }
+        if (input.revisionRequest.requestedChanges !== undefined) {
+          if (input.revisionRequest.requestedChanges.requestUpdatedAssignment !== undefined) {
+            serviceTicket.revisionRequest.requestedChanges.RequestUpdatedAssignment = input.revisionRequest.requestedChanges.requestUpdatedAssignment;
+          }
+          if (input.revisionRequest.requestedChanges.requestUpdatedStatus !== undefined) {
+            serviceTicket.revisionRequest.requestedChanges.RequestUpdatedStatus = input.revisionRequest.requestedChanges.requestUpdatedStatus;
+          }
+          if (input.revisionRequest.requestedChanges.requestUpdatedProperty !== undefined) {
+            serviceTicket.revisionRequest.requestedChanges.RequestUpdatedProperty = input.revisionRequest.requestedChanges.requestUpdatedProperty;
+          }
+        }
+      }
 
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(serviceTicket));
     });
@@ -148,7 +188,7 @@ export class ServiceTicketV1DomainApiImpl
     }
     await this.withTransaction(async (repo) => {
       let serviceTicket = await repo.getById(input.serviceTicketId);
-      serviceTicket.AssignedTo = (memberDo);
+      serviceTicket.AssignedTo = memberDo;
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(serviceTicket));
     });
     return serviceTicketToReturn;

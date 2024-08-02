@@ -94,38 +94,38 @@ stages:
         appName: ${{parameters.functionAppNamePri}}
         appSettings: '$(appSettingsPri)'
 
-  - deployment: Application_Deployment_Sec
-    displayName: Application Deployment (Secondary)
-    dependsOn: Infrastructure
-    environment: ${{parameters.environmentNameDevOps}}
-    pool:
-      vmImage: ${{parameters.vmImageName}}
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureFunctionApp@1
-            displayName: 'Azure Functions App Deploy: ${{parameters.functionAppNameSec}}'
-            inputs:
-              azureSubscription: ${{parameters.ServiceConnectionName}}
-              appType: 'functionAppLinux'
-              appName: ${{parameters.functionAppNameSec}}
-              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              runtimeStack: 'NODE|16'
-              deploymentMethod: 'runFromPackage'
+  # - deployment: Application_Deployment_Sec
+  #   displayName: Application Deployment (Secondary)
+  #   dependsOn: Infrastructure
+  #   environment: ${{parameters.environmentNameDevOps}}
+  #   pool:
+  #     vmImage: ${{parameters.vmImageName}}
+  #   strategy:
+  #     runOnce:
+  #       deploy:
+  #         steps:
+  #         - task: AzureFunctionApp@1
+  #           displayName: 'Azure Functions App Deploy: ${{parameters.functionAppNameSec}}'
+  #           inputs:
+  #             azureSubscription: ${{parameters.ServiceConnectionName}}
+  #             appType: 'functionAppLinux'
+  #             appName: ${{parameters.functionAppNameSec}}
+  #             package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+  #             runtimeStack: 'NODE|16'
+  #             deploymentMethod: 'runFromPackage'
               
 
-  - job: Application_Settings_Sec
-    displayName: Application Settings (Secondary)
-    dependsOn: Application_Deployment_Sec
-    pool:
-      vmImage: ${{parameters.vmImageName}}
-    steps:
-    - powershell: |
-        $output = Get-Content '$(Build.SourcesDirectory)/${{parameters.appSettingsJsonFileRelativePathSec}}'
-        Write-Host "##vso[task.setvariable variable=appSettingsSec]$($output)"
-    - task: AzureAppServiceSettings@1
-      inputs:
-        azureSubscription: ${{parameters.ServiceConnectionName}}
-        appName: ${{parameters.functionAppNameSec}}
-        appSettings: '$(appSettingsSec)'
+  # - job: Application_Settings_Sec
+  #   displayName: Application Settings (Secondary)
+  #   dependsOn: Application_Deployment_Sec
+  #   pool:
+  #     vmImage: ${{parameters.vmImageName}}
+  #   steps:
+  #   - powershell: |
+  #       $output = Get-Content '$(Build.SourcesDirectory)/${{parameters.appSettingsJsonFileRelativePathSec}}'
+  #       Write-Host "##vso[task.setvariable variable=appSettingsSec]$($output)"
+  #   - task: AzureAppServiceSettings@1
+  #     inputs:
+  #       azureSubscription: ${{parameters.ServiceConnectionName}}
+  #       appName: ${{parameters.functionAppNameSec}}
+  #       appSettings: '$(appSettingsSec)'

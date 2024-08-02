@@ -2,7 +2,6 @@ import type { SliderMarks } from 'antd/lib/slider';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
 import { AuthContextProps, useAuth } from 'react-oidc-context';
 import { jwtDecode } from 'jwt-decode';
-import { useMemo } from 'react';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',

@@ -30,10 +30,9 @@ export class ServiceTicketV1RevisionRequestedChanges
   }
 
   private validateVisa(): void {
-    // if (!this.visa.determineIf((permissions) => (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount)) {
-    //   throw new Error('Unauthorized');
-    // }
-    return
+    if (!this.visa.determineIf((permissions) => (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount)) {
+      throw new Error('Unauthorized');
+    }
   }
 
   set RequestUpdatedAssignment(requestUpdatedAssignment: boolean) {

@@ -370,11 +370,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Penalty Amount">
             {`$ ${props.data.violationTicket.penaltyAmount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </Descriptions.Item>
-          {props.data.violationTicket?.penaltyPaidDate && (
-            <Descriptions.Item label="Penalty Paid Date">
-              {dayjs(props.data.violationTicket.penaltyPaidDate).format('DD-MMM-YYYY h:mm A')}
-            </Descriptions.Item>
-          )}
           <Descriptions.Item label="Assigned To">
             {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
           </Descriptions.Item>
@@ -444,9 +439,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             form={editDraftForm}
             initialValues={{
               ...props.data.violationTicket,
-              penaltyPaidDate: props.data.violationTicket.penaltyPaidDate
-                ? dayjs(props.data.violationTicket.penaltyPaidDate)
-                : undefined
             }}
             onFinish={async (values) => {
               setEditDraftFormLoading(true);
@@ -457,7 +449,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 description: values.description,
                 priority: values.priority,
                 penaltyAmount: values.penaltyAmount,
-                penaltyPaidDate: values.penaltyPaidDate ? dayjs(values.penaltyPaidDate).toISOString() : undefined
               });
               setEditDraftFormLoading(false);
             }}

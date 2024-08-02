@@ -112,7 +112,6 @@ fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationT
   }
   id
   penaltyAmount
-  penaltyPaidDate
   createdAt
   updatedAt
 }

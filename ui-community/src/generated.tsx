@@ -1570,7 +1570,6 @@ export type ViolationTicket = {
   messages?: Maybe<Array<Maybe<ViolationTicketV1Message>>>;
   paymentTransactions?: Maybe<Array<Maybe<Transaction>>>;
   penaltyAmount?: Maybe<Scalars['Float']>;
-  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars['Int'];
   property?: Maybe<Property>;
@@ -3406,7 +3405,6 @@ export type AdminServiceTicketsDetailContainerViolationTicketQuery = {
     priority: number;
     id: any;
     penaltyAmount?: number | null;
-    penaltyPaidDate?: any | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -3474,7 +3472,6 @@ export type AdminViolationTicketsDetailContainerViolationTicketUpdateMutation = 
       priority: number;
       id: any;
       penaltyAmount?: number | null;
-      penaltyPaidDate?: any | null;
       createdAt?: any | null;
       updatedAt?: any | null;
       property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -3543,7 +3540,6 @@ export type AdminViolationTicketsDetailContainerViolationTicketChangeStatusMutat
       priority: number;
       id: any;
       penaltyAmount?: number | null;
-      penaltyPaidDate?: any | null;
       createdAt?: any | null;
       updatedAt?: any | null;
       property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -3612,7 +3608,6 @@ export type AdminViolationTicketsDetailContainerViolationAssignMutation = {
       priority: number;
       id: any;
       penaltyAmount?: number | null;
-      penaltyPaidDate?: any | null;
       createdAt?: any | null;
       updatedAt?: any | null;
       property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -3681,7 +3676,6 @@ export type AdminViolationTicketsDetailContainerAddUpdateActivityMutation = {
       priority: number;
       id: any;
       penaltyAmount?: number | null;
-      penaltyPaidDate?: any | null;
       createdAt?: any | null;
       updatedAt?: any | null;
       property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -3750,7 +3744,6 @@ export type AdminViolationTicketDetailContainerViolationTicketDeleteMutation = {
       priority: number;
       id: any;
       penaltyAmount?: number | null;
-      penaltyPaidDate?: any | null;
       createdAt?: any | null;
       updatedAt?: any | null;
       property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -3813,7 +3806,6 @@ export type AdminViolationTicketsDetailContainerViolationTicketMutationResultFie
     priority: number;
     id: any;
     penaltyAmount?: number | null;
-    penaltyPaidDate?: any | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -3872,7 +3864,6 @@ export type AdminViolationTicketsDetailContainerViolationTicketFieldsFragment = 
   priority: number;
   id: any;
   penaltyAmount?: number | null;
-  penaltyPaidDate?: any | null;
   createdAt?: any | null;
   updatedAt?: any | null;
   property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -5072,7 +5063,6 @@ export type MemberServiceTicketsDetailContainerViolationTicketQuery = {
     priority: number;
     id: any;
     penaltyAmount?: number | null;
-    penaltyPaidDate?: any | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -5134,7 +5124,6 @@ export type MemberViolationTicketsDetailContainerViolationTicketMutationResultFi
     priority: number;
     id: any;
     penaltyAmount?: number | null;
-    penaltyPaidDate?: any | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -5193,7 +5182,6 @@ export type MemberViolationTicketsDetailContainerViolationTicketFieldsFragment =
   priority: number;
   id: any;
   penaltyAmount?: number | null;
-  penaltyPaidDate?: any | null;
   createdAt?: any | null;
   updatedAt?: any | null;
   property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -5266,7 +5254,6 @@ export type MemberViolationTicketProcessPaymentMutation = {
       priority: number;
       id: any;
       penaltyAmount?: number | null;
-      penaltyPaidDate?: any | null;
       createdAt?: any | null;
       updatedAt?: any | null;
       property?: { __typename?: 'Property'; id: any; propertyName: string } | null;
@@ -8240,7 +8227,6 @@ export const AdminViolationTicketsDetailContainerViolationTicketFieldsFragmentDo
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -8415,7 +8401,6 @@ export const AdminViolationTicketsDetailContainerViolationTicketMutationResultFi
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -9850,7 +9835,6 @@ export const MemberViolationTicketsDetailContainerViolationTicketFieldsFragmentD
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -10025,7 +10009,6 @@ export const MemberViolationTicketsDetailContainerViolationTicketMutationResultF
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -15600,7 +15583,6 @@ export const AdminServiceTicketsDetailContainerViolationTicketDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -15787,7 +15769,6 @@ export const AdminViolationTicketsDetailContainerViolationTicketUpdateDocument =
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -16008,7 +15989,6 @@ export const AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocu
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -16229,7 +16209,6 @@ export const AdminViolationTicketsDetailContainerViolationAssignDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -16450,7 +16429,6 @@ export const AdminViolationTicketsDetailContainerAddUpdateActivityDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -16671,7 +16649,6 @@ export const AdminViolationTicketDetailContainerViolationTicketDeleteDocument = 
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -19429,7 +19406,6 @@ export const MemberServiceTicketsDetailContainerViolationTicketDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]
@@ -19634,7 +19610,6 @@ export const MemberViolationTicketProcessPaymentDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'penaltyAmount' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'penaltyPaidDate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } }
         ]

@@ -76,7 +76,6 @@ fragment MemberViolationTicketsDetailContainerViolationTicketFields on Violation
   }
   id
   penaltyAmount
-  penaltyPaidDate
   createdAt
   updatedAt
 }

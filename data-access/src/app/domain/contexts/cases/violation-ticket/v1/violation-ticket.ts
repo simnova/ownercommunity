@@ -17,6 +17,7 @@ import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violatio
 import { FinanceDetailEntityReference, FinanceDetailProps, FinanceDetails } from './finance-details';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
+import { ViolationTicketV1RevisionRequest, ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from './violation-ticket-v1-revision-request';
 import { AdhocTransactions } from './finance-details-adhoc-transactions';
 
 export interface ViolationTicketV1Props extends EntityProps {
@@ -31,6 +32,7 @@ export interface ViolationTicketV1Props extends EntityProps {
   readonly service: ServiceProps;
   setServiceRef(service: ServiceEntityReference): void;
   readonly financeDetails: FinanceDetailProps;
+  readonly revisionRequest?: ViolationTicketV1RevisionRequestProps; 
   readonly ticketType?: string;
   title: string;
   description: string;
@@ -67,6 +69,7 @@ export interface ViolationTicketV1EntityReference
       | 'messages'
       | 'photos'
       | 'financeDetails'
+      | 'revisionRequest'
     >
   > {
   readonly community: CommunityEntityReference;
@@ -77,6 +80,7 @@ export interface ViolationTicketV1EntityReference
   readonly activityLog: ReadonlyArray<ActivityDetailEntityReference>;
   readonly messages: ReadonlyArray<ViolationTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
+  readonly revisionRequest: ViolationTicketV1RevisionRequestEntityReference;
   readonly financeDetails: FinanceDetailEntityReference;
 }
 
@@ -140,6 +144,10 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
 
   get ticketType() {
     return this.props.ticketType;
+  }
+
+  get revisionRequest() {
+    return this.props.revisionRequest ? new ViolationTicketV1RevisionRequest(this.props.revisionRequest, this.context, this.visa) : undefined;
   }
 
   get status() {

@@ -6,8 +6,9 @@ import { MongoEndUserRoleUnitOfWork } from "./infrastructure/roles/end-user-role
 import { MongoStaffRoleUnitOfWork } from "./infrastructure/roles/staff-role/staff-role.mongo-uow";
 import { MongoServiceTicketV1UnitOfWork } from "./infrastructure/cases/service-ticket/v1/service-ticket.uow";
 import { MongoServiceUnitOfWork } from "./infrastructure/service/service.uow";
-import { MongoUserUnitOfWork } from "./infrastructure/user/user.uow";
 import { MongoViolationTicketV1UnitOfWork } from "./infrastructure/cases/violation-ticket/v1/violation-ticket.uow";
+import { MongoEndUserUnitOfWork } from "./infrastructure/users/end-user/end-user.uow";
+import { MongoStaffUserUnitOfWork } from "./infrastructure/users/staff-user/staff-user.uow";
 
 export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
 
@@ -19,8 +20,12 @@ export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
     console.log('MongodbDatastoreImpl shutdown');
   }
 
-  get userUnitOfWork(): typeof MongoUserUnitOfWork {
-    return MongoUserUnitOfWork
+  get endUserUnitOfWork(): typeof MongoEndUserUnitOfWork {
+    return MongoEndUserUnitOfWork
+  }
+
+  get staffUserUnitOfWork(): typeof MongoStaffUserUnitOfWork {
+    return MongoStaffUserUnitOfWork
   }
 
   get communityUnitOfWork(): typeof MongoCommunityUnitOfWork {

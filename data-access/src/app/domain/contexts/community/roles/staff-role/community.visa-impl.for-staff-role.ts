@@ -2,10 +2,10 @@
 import { StaffRoleCommunityPermissionsSpec } from "./community-permissions";
 import { StaffRoleEntityReference } from './staff-role';
 import { CommunityVisa } from "../../community.visa";
-import { UserEntityReference } from "../../../user/user/user";
+import { StaffUserEntityReference } from "../../../users/staff-user/staff-user";
 
 export class CommunityVisaImplForStaffRole<root extends StaffRoleEntityReference> implements CommunityVisa {
-  constructor(private root: root, private user: UserEntityReference) {}  
+  constructor(private root: root, private user: StaffUserEntityReference) {}  
   
   determineIf(func:((permissions:StaffRoleCommunityPermissionsSpec) => boolean)) :  boolean {
     //ensure that the member is a member of the community

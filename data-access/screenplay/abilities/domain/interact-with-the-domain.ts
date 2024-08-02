@@ -4,8 +4,8 @@ import { ReadOnlyMemoryStore } from '../../../seedwork/services-seedwork-datasto
 import { BaseDomainExecutionContext } from '../../../seedwork/domain-seedwork/base-domain-execution-context';
 import { CommunityRepository } from '../../../src/app/domain/contexts/community/community/community.repository';
 import { CommunityEntityReference, CommunityProps } from '../../../src/app/domain/contexts/community/community/community';
-import { UserRepository } from '../../../src/app/domain/contexts/user/user/user.repository';
-import { UserEntityReference, UserProps } from '../../../src/app/domain/contexts/user/user/user';
+import { EndUserRepository } from '../../../src/app/domain/contexts/users/end-user/end-user.repository';
+import { EndUserEntityReference, EndUserProps } from '../../../src/app/domain/contexts/users/end-user/end-user';
 import { EndUserRoleRepository } from '../../../src/app/domain/contexts/community/roles/end-user-role/end-user-role.repository';
 import { EndUserRoleProps } from '../../../src/app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { MemberRepository } from '../../../src/app/domain/contexts/community/member/member.repository';
@@ -45,8 +45,8 @@ export interface InteractWithTheDomainAsCommunityMember {
   readRoleDb: (func: (db: ReadOnlyMemoryStore<EndUserRoleProps>) => Promise<void>) => Promise<void>;
   actOnMember: (func: (repo: MemberRepository<MemberProps>) => Promise<void>) => Promise<void>;
   readMemberDb: (func: (db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
-  actOnUser: (func: (repo: UserRepository<UserProps>) => Promise<void>) => Promise<void>;
-  readUserDb: (func: (db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
+  actOnUser: (func: (repo: EndUserRepository<EndUserProps>) => Promise<void>) => Promise<void>;
+  readUserDb: (func: (db: ReadOnlyMemoryStore<EndUserProps>) => Promise<void>) => Promise<void>;
   actOnProperty: (func: (repo: PropertyRepository<PropertyProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func: (db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
   actOnServiceTicket: (func: (repo: ServiceTicketV1Repository<ServiceTicketV1Props>) => Promise<void>) => Promise<void>;
@@ -57,7 +57,7 @@ export interface InteractWithTheDomainAsReadOnly {
   readCommunityDb: (func: (db: ReadOnlyMemoryStore<CommunityProps>) => Promise<void>) => Promise<void>;
   readRoleDb: (func: (db: ReadOnlyMemoryStore<EndUserRoleProps>) => Promise<void>) => Promise<void>;
   readMemberDb: (func: (db: ReadOnlyMemoryStore<MemberProps>) => Promise<void>) => Promise<void>;
-  readUserDb: (func: (db: ReadOnlyMemoryStore<UserProps>) => Promise<void>) => Promise<void>;
+  readUserDb: (func: (db: ReadOnlyMemoryStore<EndUserProps>) => Promise<void>) => Promise<void>;
   readPropertyDb: (func: (db: ReadOnlyMemoryStore<PropertyProps>) => Promise<void>) => Promise<void>;
   readServiceTicketDb: (func: (db: ReadOnlyMemoryStore<ServiceTicketV1Props>) => Promise<void>) => Promise<void>;
   logSearchDatabase: () => Promise<void>;
@@ -72,7 +72,7 @@ export class InteractWithTheDomain
   private static _database: MemorydbDatastoreImpl;
   private static _searchDatabase: MemoryCognitiveSearchImpl;
   private static _cybersource: CybersourceImpl;
-  // private _user: UserEntityReference;
+  // private _user: EndUserEntityReference;
 
   // A static method is typically used to inject a client of a given interface
   // and instantiate the ability, for example:
@@ -125,7 +125,7 @@ export class InteractWithTheDomain
   public async asMemberOf(communityName: string): Promise<InteractWithTheDomainAsCommunityMember> {
     const actor = actorInTheSpotlight();
     const community: CommunityEntityReference = await this.getCommunityByName(communityName);
-    const user: UserEntityReference = await this.getOrCreateUserForActor(actor);
+    const user: EndUserEntityReference = await this.getOrCreateUserForActor(actor);
     const member: MemberEntityReference = await this.getMemberByUserAndCommunity(user.externalId, community.name);
     const passport = new DomainVisaImpl(user, member, community);
     return new InteractWithTheDomain({ domainVisa: passport });
@@ -136,12 +136,12 @@ export class InteractWithTheDomain
     return this.using(ReadOnlyContext());
   }
 
-  private async getOrCreateUserForActor(actor: Actor): Promise<UserEntityReference> {
+  private async getOrCreateUserForActor(actor: Actor): Promise<EndUserEntityReference> {
     const externalId = await notes<NotepadType>().get('user').externalId.answeredBy(actorInTheSpotlight());
     const firstName = await notes<NotepadType>().get('user').firstName.answeredBy(actorInTheSpotlight());
     const lastName = await notes<NotepadType>().get('user').lastName.answeredBy(actorInTheSpotlight());
 
-    let user: UserEntityReference;
+    let user: EndUserEntityReference;
     await InteractWithTheDomain.asReadOnly().readUserDb(async (db) => {
       user = db?.getAll()?.find((user) => user.externalId === externalId);
     });
@@ -149,7 +149,7 @@ export class InteractWithTheDomain
       return user;
     }
 
-    let newUser: UserEntityReference;
+    let newUser: EndUserEntityReference;
     await InteractWithTheDomain.as(actor).actOnUser(async (repo) => {
       const user = await repo.getNewInstance(externalId, firstName, lastName);
       newUser = await repo.save(user);
@@ -171,7 +171,7 @@ export class InteractWithTheDomain
   // public createCommunity = async (communityName: string): Promise<CommunityProps> => {
   //   let community: CommunityProps;
   //   await InteractWithTheDomain.asUser(actorInTheSpotlight()).actOnCommunity(async (repo) => {
-  //     const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+  //     const user: EndUserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
   //     const communityToBeSaved = await repo.getNewInstance(communityName, user);
   //     const savedCommunity = await repo.save(communityToBeSaved);
   //     community = savedCommunity['props'] as CommunityProps;
@@ -182,7 +182,7 @@ export class InteractWithTheDomain
   public getMyCommunities = async (): Promise<CommunityProps[]> => {
     let communities: CommunityProps[];
     await InteractWithTheDomain.asReadOnly().readMemberDb(async (db) => {
-      const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+      const user: EndUserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
       communities = db
         ?.getAll()
         ?.filter((c) => c.accounts.items.find((a) => a.user.externalId === user.externalId))
@@ -238,7 +238,7 @@ export class InteractWithTheDomain
   public async createCommunity(communityName: string): Promise<CommunityProps> {
     let community: CommunityProps;
     await InteractWithTheDomain._database.communityUnitOfWork.withTransaction(this.context, async (repo) => {
-      const user: UserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
+      const user: EndUserEntityReference = await this.getOrCreateUserForActor(actorInTheSpotlight());
       const communityToBeSaved = await repo.getNewInstance(communityName, user);
       const savedCommunity = await repo.save(communityToBeSaved);
       community = savedCommunity['props'];
@@ -256,13 +256,13 @@ export class InteractWithTheDomain
   }
 
   // user
-  public async actOnUser(func: (repo: UserRepository<UserProps>) => Promise<void>): Promise<void> {
-    InteractWithTheDomain._database.userUnitOfWork.withTransaction(this.context, async (repo) => {
+  public async actOnUser(func: (repo: EndUserRepository<EndUserProps>) => Promise<void>): Promise<void> {
+    InteractWithTheDomain._database.endUserUnitOfWork.withTransaction(this.context, async (repo) => {
       await func(repo);
     });
   }
-  public async readUserDb(func: (db: ReadOnlyMemoryStore<UserProps>) => Promise<void>): Promise<void> {
-    return await func(InteractWithTheDomain._database.userReadonlyMemoryStore);
+  public async readUserDb(func: (db: ReadOnlyMemoryStore<EndUserProps>) => Promise<void>): Promise<void> {
+    return await func(InteractWithTheDomain._database.endUserReadonlyMemoryStore);
   }
 
   // role

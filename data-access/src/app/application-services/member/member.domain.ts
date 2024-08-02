@@ -4,7 +4,7 @@ import { Member } from "../../domain/contexts/community/member/member";
 import { Interests } from "../../domain/contexts/community/member/profile.value-objects";
 import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { MemberData } from "../../external-dependencies/datastore";
-import { MemberDomainAdapter, CommunityConverter, MemberConverter, EndUserRoleConverter, UserConverter, MemberRepository } from "../../external-dependencies/domain";
+import { MemberDomainAdapter, CommunityConverter, MemberConverter, EndUserRoleConverter, EndUserConverter, MemberRepository } from "../../external-dependencies/domain";
 import { MemberAccountAddInput, MemberAccountEditInput, MemberAccountRemoveInput, MemberCreateInput, MemberProfileUpdateInput, MemberUpdateInput } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
 
@@ -91,11 +91,11 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
   async memberAccountAdd(input: MemberAccountAddInput): Promise<MemberData> {
     let memberToReturn: MemberData;
 
-    let mongoUser = await this.context.applicationServices.user.dataApi.getUserById(input.account.user);
-    let userDo = new UserConverter().toDomain(mongoUser, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let mongoUser = await this.context.applicationServices.users.endUser.dataApi.getUserById(input.account.user);
+    let userDo = new EndUserConverter().toDomain(mongoUser, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
-    let currentMongoUser = await this.context.applicationServices.user.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
-    let currentUserDo = new UserConverter().toDomain(currentMongoUser, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let currentMongoUser = await this.context.applicationServices.users.endUser.dataApi.getUserByExternalId(this.context.verifiedUser.verifiedJWT.sub);
+    let currentUserDo = new EndUserConverter().toDomain(currentMongoUser, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
 
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);

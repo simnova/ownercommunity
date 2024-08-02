@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { RolesDetailAddContainer } from '../components/roles-detail-add.container';
 import { RolesDetailContainer } from '../components/roles-detail.container';
 import { SubPageLayout } from '../sub-page-layout';
+import { Helmet } from 'react-helmet-async';
 
 export const RolesDetail: React.FC<any> = () => {
   const params = useParams();
@@ -39,6 +40,9 @@ export const RolesDetail: React.FC<any> = () => {
         />
       }
     >
+    <Helmet>
+        <title>Role Detail</title>
+    </Helmet>
       <RolesDetailContainer key={params.id ?? ''} data={{ id: params.id ?? '' }} />
     </SubPageLayout>
   );

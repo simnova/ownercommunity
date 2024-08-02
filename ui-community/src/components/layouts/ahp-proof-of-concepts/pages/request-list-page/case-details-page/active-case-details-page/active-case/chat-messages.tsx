@@ -1,15 +1,21 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { ChatMessage } from './chat-message';
+import { ServiceTicket } from '../../../../../../../../generated';
+
 
 interface ChatMessagesProps {
-  data: {
-    embedding: string;
-    sentBy: string;
-    message: string;
-    createdAt: string;
-  }[];
+  data: ServiceTicket;
+  isAdmin: boolean;
 }
 export const ChatMessages: FC<ChatMessagesProps> = (props) => {
+  const scrollToSection = () => {
+    document.getElementById('bottom')?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  };
+
+  useEffect(() => {
+    scrollToSection();
+  }, [props.data]);
+
   return (
     <div
       style={{
@@ -19,19 +25,23 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
         display: 'flex',
         flexDirection: 'column',
         overflowY: 'scroll',
-        maxHeight: "400px"
+        maxHeight: '400px',
+        minHeight: '400px'
       }}
     >
-      {props.data.map((message: any) => {
+      {props?.data?.messages?.map((message: any) => {
         return (
           <ChatMessage
+            key={message.id}
             sentBy={message.sentBy}
             message={message.message}
             embedding={message.embedding}
             createdAt={message.createdAt}
+            isAdmin={props.isAdmin}
           />
         );
       })}
+      <div id="bottom"></div>
     </div>
   );
 };

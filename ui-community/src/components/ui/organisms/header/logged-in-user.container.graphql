@@ -16,10 +16,14 @@ query LoggedInUserCommunityContainerUserCurrentQuery {
   }
 }
 
-fragment LoggedInUserContainerUserCurrentFields on CurrentUser {
+fragment LoggedInUserContainerUserCurrentFields on User {
   id
   externalId
-  firstName
-  lastName
+  personalInformation {
+    identityDetails {
+      lastName
+      restOfName
+    }
+  }
   __typename
 }

@@ -1,9 +1,9 @@
 import { Typography } from 'antd';
-import { CurrentUser } from '../../../../generated';
+import { User } from '../../../../generated';
 
 export interface CommunityListProps {
   data: {
-    userCurrent: CurrentUser;
+    userCurrent: User;
   };
 }
 

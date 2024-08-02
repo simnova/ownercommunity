@@ -3,8 +3,8 @@ import { Community as CommunityDO, CommunityProps } from '../../../../../app/dom
 import { MongooseDomainAdapter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
-import { UserEntityReference, UserProps } from '../../../../../app/domain/contexts/user/user/user';
-import { UserDomainAdapter } from '../user/user.domain-adapter';
+import { EndUserEntityReference, EndUserProps } from '../../../../../app/domain/contexts/users/end-user/end-user';
+import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
 
 export class CommunityConverter extends MongoTypeConverter<DomainExecutionContext, Community, CommunityDomainAdapter, CommunityDO<CommunityDomainAdapter>> {
   constructor() {
@@ -41,12 +41,13 @@ export class CommunityDomainAdapter extends MongooseDomainAdapter<Community> imp
     this.doc.handle = handle;
   }
 
-  get createdBy(): UserProps {
+  get createdBy(): EndUserProps {
     if (this.doc.createdBy) {
-      return new UserDomainAdapter(this.doc.createdBy);
+      return new EndUserDomainAdapter(this.doc.createdBy);
     }
+    return undefined;
   }
-  setCreatedByRef(user: UserEntityReference) {
+  setCreatedByRef(user: EndUserEntityReference) {
     this.doc.set('createdBy', user['props']['doc']);
   }
 }

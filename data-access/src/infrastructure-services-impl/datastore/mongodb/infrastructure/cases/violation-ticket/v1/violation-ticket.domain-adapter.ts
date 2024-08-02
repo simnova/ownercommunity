@@ -1,5 +1,5 @@
 import { ActivityDetail, Photo } from '../../../../models/cases/service-ticket';
-import { AdhocTransaction, FinanceDetails, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage } from '../../../../models/cases/violation-ticket';
+import { AdhocTransaction, FinanceDetails, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage, ViolationTicketRevisionRequest, ViolationTicketRevisionRequestedChanges } from '../../../../models/cases/violation-ticket';
 import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -21,6 +21,9 @@ import { FinanceDetailProps } from '../../../../../../../app/domain/contexts/cas
 import { TransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
 import { SubmissionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission';
 import { TransactionReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission-transaction-reference';
+import { TransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
+import { ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
+import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -46,6 +49,16 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
   get property() {
     if (this.doc.property) {
       return new PropertyDomainAdapter(this.doc.property);
+    }
+  }
+
+  get paymentTransactions() {
+    return new MongoosePropArray(this.doc.paymentTransactions, TransactionDomainAdapter);
+  }
+
+  get revisionRequest() {
+    if (this.doc.revisionRequest) {
+      return new ViolationTicketV1RevisionRequestDomainAdapter(this.doc.revisionRequest);
     }
   }
 
@@ -394,5 +407,75 @@ export class ViolationTicketV1MessageDomainAdapter implements ViolationTicketV1M
   }
   set isHiddenFromApplicant(isHiddenFromApplicant) {
     this.props.isHiddenFromApplicant = isHiddenFromApplicant;
+  }
+}
+
+export class ViolationTicketV1RevisionRequestDomainAdapter implements ViolationTicketV1RevisionRequestProps {
+  constructor(public readonly doc: ViolationTicketRevisionRequest) {}
+
+  get requestedAt() {
+    return this.doc.requestedAt;
+  }
+  set requestedAt(requestedAt) {
+    this.doc.requestedAt = requestedAt;
+  }
+
+  get requestedBy() {
+    if (this.doc.requestedBy) {
+      return new MemberDomainAdapter(this.doc.requestedBy);
+    }
+  }
+  public setRequestedByRef(requestedBy: MemberEntityReference) {
+    this.doc.requestedBy = requestedBy['props']['doc'];
+  }
+
+  get revisionSummary() {
+    return this.doc.revisionSummary;
+  }
+  set revisionSummary(revisionSummary) {
+    this.doc.revisionSummary = revisionSummary;
+  }
+
+  get requestedChanges() {
+    return new ViolationTicketV1RevisionRequestedChangesDomainAdapter(this.doc.requestedChanges);
+  }
+
+  get revisionSubmittedAt() {
+    return this.doc.revisionSubmittedAt;
+  }
+  set revisionSubmittedAt(revisionSubmittedAt) {
+    this.doc.revisionSubmittedAt = revisionSubmittedAt;
+  }
+}
+
+export class ViolationTicketV1RevisionRequestedChangesDomainAdapter implements ViolationTicketV1RevisionRequestedChangesProps {
+  constructor(public readonly doc: ViolationTicketRevisionRequestedChanges) {}
+
+  get requestUpdatedStatus() {
+    return this.doc.requestUpdatedStatus;
+  }
+  set requestUpdatedStatus(requestUpdatedStatus) {
+    this.doc.requestUpdatedStatus = requestUpdatedStatus;
+  }
+
+  get requestUpdatedAssignment() {
+    return this.doc.requestUpdatedAssignment;
+  }
+  set requestUpdatedAssignment(requestUpdatedAssignment) {
+    this.doc.requestUpdatedAssignment = requestUpdatedAssignment;
+  }
+
+  get requestUpdatedProperty() {
+    return this.doc.requestUpdatedProperty;
+  }
+  set requestUpdatedProperty(requestUpdatedProperty) {
+    this.doc.requestUpdatedProperty = requestUpdatedProperty;
+  }
+
+  get requestUpdatedPaymentTransaction() {
+    return this.doc.requestUpdatedPaymentTransaction;
+  }
+  set requestUpdatedPaymentTransaction(requestUpdatedPaymentTransaction) {
+    this.doc.requestUpdatedPaymentTransaction = requestUpdatedPaymentTransaction;
   }
 }

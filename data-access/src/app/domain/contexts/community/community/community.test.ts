@@ -1,5 +1,5 @@
 import { Community, CommunityProps } from './community';
-import { UserEntityReference } from '../../user/user/user';
+import { EndUserEntityReference } from '../../users/end-user/end-user';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import { DomainVisa } from '../../../domain.visa';
@@ -8,7 +8,7 @@ import { CommunityCreatedEvent } from '../../../events/types/community-created';
 describe('domain.contexts.community::community', () => {
   describe('when creating a new community', () => {
     const givenValidCommunityName = 'valid-community-name';
-    const givenValidCreatedBy = jest.mocked({} as UserEntityReference);
+    const givenValidCreatedBy = jest.mocked({} as EndUserEntityReference);
     const givenValidContext = jest.mocked({} as DomainExecutionContext);
     
     it('should reject an invalid Name', () => {

@@ -33,8 +33,8 @@ export const LoggedInUserRootContainer: React.FC<HeaderPropTypes> = () => {
     const userData: LoggedInUserPropTypes = {
       data: {
         isLoggedIn: true,
-        firstName: data?.userCurrent?.firstName ?? '',
-        lastName: data?.userCurrent?.lastName ?? '',
+        firstName: data?.userCurrent?.personalInformation?.identityDetails?.restOfName ?? '',
+        lastName: data?.userCurrent?.personalInformation?.identityDetails?.lastName ?? '',
         notificationCount: 0
       }
     };

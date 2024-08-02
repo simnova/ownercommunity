@@ -1,13 +1,13 @@
 import { Schema, model, Model, ObjectId, PopulatedDoc } from 'mongoose';
 import { Base } from '../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
-import * as User from './user';
+import * as EndUser from './users/end-user';
 
 export interface Community extends Base {
   name: string;
   domain: string;
   whiteLabelDomain: string;
   handle: string;
-  createdBy:PopulatedDoc<User.User> | ObjectId;
+  createdBy:PopulatedDoc<EndUser.EndUser> | ObjectId;
 }
 
 export const CommunityModel = model<Community>('Community',new Schema<Community, Model<Community>, Community>(
@@ -25,7 +25,7 @@ export const CommunityModel = model<Community>('Community',new Schema<Community,
       required: false, 
       maxlength: 50,
     },
-    createdBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: true},
+    createdBy: { type: Schema.Types.ObjectId, ref: EndUser.EndUserModel.modelName, required: true},
   },
 
   {

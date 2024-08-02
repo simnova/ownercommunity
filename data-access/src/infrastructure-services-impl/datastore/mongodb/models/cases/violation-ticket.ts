@@ -6,6 +6,21 @@ import * as Member from './../member';
 import * as Service from './../service';
 import { Ticket, TicketModel, ticketOptions } from './ticket';
 
+export interface ViolationTicketRevisionRequestedChanges extends NestedPath {
+  requestUpdatedAssignment: boolean;
+  requestUpdatedStatus: boolean;
+  requestUpdatedProperty: boolean;
+  requestUpdatedPaymentTransaction: boolean;
+}
+
+export interface ViolationTicketRevisionRequest extends NestedPath {
+  requestedAt: Date;
+  requestedBy: PopulatedDoc<Member.Member>;
+  revisionSummary: string;
+  requestedChanges: ViolationTicketRevisionRequestedChanges;
+  revisionSubmittedAt?: Date;
+}
+
 export interface ActivityDetail extends SubdocumentBase {
   id: ObjectId;
   activityType: string;
@@ -76,6 +91,7 @@ export interface ViolationTicket extends Ticket {
   assignedTo?: PopulatedDoc<Member.Member>;
   service?: PopulatedDoc<Service.Service>;
   financeDetails: FinanceDetails;
+  revisionRequest?: ViolationTicketRevisionRequest;
   title: string;
   description: string;
   status: string;
@@ -172,6 +188,20 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
         },
         required: false
       },
+    revisionRequest: { 
+      type: {
+        requestedAt: { type: Date, required: true },
+        requestedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true },
+        revisionSummary: { type: String, required: true },
+        requestedChanges: {
+          requestUpdatedAssignment: { type: Boolean, required: true },
+          requestUpdatedStatus: { type: Boolean, required: true },
+          requestUpdatedProperty: { type: Boolean, required: true },
+          requestUpdatedPaymentTransaction: { type: Boolean, required: true },
+        },
+        revisionSubmittedAt: { type: Date, required: false },
+      },
+      required: false,
     },
     title: {
       type: String,

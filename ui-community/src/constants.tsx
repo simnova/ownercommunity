@@ -1,6 +1,7 @@
 import type { SliderMarks } from 'antd/lib/slider';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
-import { AuthContextProps } from 'react-oidc-context';
+import { AuthContextProps, useAuth } from 'react-oidc-context';
+import { jwtDecode } from 'jwt-decode';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -822,4 +823,32 @@ export const HandleLogout = (auth: AuthContextProps, post_logout_redirect_uri?: 
     return;
   }
   auth.signoutRedirect();
+};
+
+export enum UserRoles {
+  Staff = 'OwnerCommunity.Staff',
+};
+
+export const GetUserRoles = () => {
+  const auth = useAuth();
+  const token = auth?.user?.access_token;
+
+  interface DecodedJWT {
+    roles?: string[];
+  }
+
+  if (!token) {
+    console.error('access token not found');
+    return [];
+  }
+
+  try {
+    const decodedJWT: any = token ? jwtDecode<DecodedJWT>(token) : {};
+    let userRoles: string[] = decodedJWT?.roles ?? [];
+
+    return userRoles;
+  } catch (error) {
+    console.error('error decoding jwt', error);
+    return [];
+  }
 };

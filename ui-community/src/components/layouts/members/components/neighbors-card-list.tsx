@@ -12,14 +12,12 @@ export const NeighborsCardList: React.FC<CardListProps> = (props) => {
   const generateCards = (data: any, _currentMemberId: string) => {
     return data.map((member: any) => {
       if (member.profile.showProfile) {
-        return <NeighborsCard profile={member.profile} />;
+        return <NeighborsCard profile={member.profile} key={member.id} />;
       }
     });
   };
 
   return (
-    <>
-      <div style={{ display: 'flex' }}>{generateCards(props.data, memberId ?? '')}</div>
-    </>
+    <div style={{ display: 'flex' }}>{generateCards(props.data, memberId ?? '')}</div>
   );
 };

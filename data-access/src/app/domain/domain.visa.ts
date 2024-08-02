@@ -1,5 +1,4 @@
-import { CommunityVisa } from "./contexts/community/community.visa";
-import { CommunityPermissionsSpec } from "./contexts/community/community.visa";
+import { CommunityVisa, CommunityPermissionsSpec } from "./contexts/community/community.visa";
 
 import { MemberEntityReference } from './contexts/community/member/member';
 import { CommunityVisaImplForMember } from './contexts/community/member/community.visa-impl.for-member';
@@ -22,8 +21,11 @@ import { ServiceVisa, ServiceVisaImpl, ServicePermissionsSpec } from './contexts
 import { ServiceTicketV1EntityReference } from './contexts/cases/service-ticket/v1/service-ticket';
 import { ServiceTicketV1Visa, ServiceTicketV1VisaImpl, ServiceTicketPermissionsSpec } from './contexts/cases/service-ticket/v1/service-ticket.visa';
 
-import { UserEntityReference } from './contexts/user/user/user';
-import { UserVisa, UserVisaImpl } from './contexts/user/user/user.visa';
+import { EndUserEntityReference } from './contexts/users/end-user/end-user';
+import { EndUserVisa, EndUserVisaImpl } from './contexts/users/end-user/end-user.visa';
+
+import { StaffUserEntityReference } from "./contexts/users/staff-user/staff-user";
+import { StaffUserVisa, StaffUserVisaImpl } from "./contexts/users/staff-user/staff-user.visa";
 
 import { ViolationTicketV1EntityReference } from './contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketV1Visa, ViolationTicketV1VisaImpl, ViolationTicketPermissionsSpec } from './contexts/cases/violation-ticket/v1/violation-ticket.visa';
@@ -36,7 +38,8 @@ export interface DomainVisa {
   forCurrentCommunity(): CommunityVisa;
   forStaffRole(root: StaffRoleEntityReference): CommunityVisa;
   forEndUserRole(root: EndUserRoleEntityReference): CommunityVisa;
-  forUser(root: UserEntityReference):  UserVisa;
+  forEndUser(root: EndUserEntityReference):  EndUserVisa;
+  forStaffUser(root: StaffUserEntityReference): StaffUserVisa;
   forProperty(root: PropertyEntityReference):  PropertyVisa;
   forService(root: ServiceEntityReference): ServiceVisa;
   forServiceTicketV1(root: ServiceTicketV1EntityReference): ServiceTicketV1Visa;
@@ -45,7 +48,7 @@ export interface DomainVisa {
 
 export class DomainVisaImpl implements DomainVisa {
   constructor(
-    private readonly user: UserEntityReference, 
+    private readonly user: EndUserEntityReference|StaffUserEntityReference, 
     private readonly member: MemberEntityReference,
     private readonly community: CommunityEntityReference = null
   ){
@@ -63,14 +66,17 @@ export class DomainVisaImpl implements DomainVisa {
     return this.forCommunity(this.community);
   }
   forStaffRole(root: StaffRoleEntityReference): CommunityVisa {
-    return new CommunityVisaImplForStaffRole(root,this.user);
+    return new CommunityVisaImplForStaffRole(root,this.user as StaffUserEntityReference);
   }
   forEndUserRole(root: EndUserRoleEntityReference): CommunityVisa {
     return new CommunityVisaImplForEndUserRole(root,this.member);
   }
-  forUser(root: UserEntityReference):  UserVisa {
-    return new UserVisaImpl(root,this.user);
+  forEndUser(root: EndUserEntityReference):  EndUserVisa {
+    return new EndUserVisaImpl(root,this.user as EndUserEntityReference);
   }   
+  forStaffUser(root: StaffUserEntityReference): StaffUserVisa {
+    return new StaffUserVisaImpl(root, this.user as StaffUserEntityReference);
+  }
   forProperty(root: PropertyEntityReference):  PropertyVisa {
     return new PropertyVisaImpl(root,this.member);
   }
@@ -107,8 +113,11 @@ export class ReadOnlyDomainVisa implements DomainVisa {
   forEndUserRole(_root: EndUserRoleEntityReference): CommunityVisa {
     return {determineIf:  () => false }; 
   }
-  forUser(_root: UserEntityReference): UserVisa {
+  forEndUser(_root: EndUserEntityReference): EndUserVisa {
     return {determineIf:  () => false }; 
+  }
+  forStaffUser(_root: StaffUserEntityReference): StaffUserVisa {
+    return {determineIf:  () => false };
   }
   forProperty(_root: PropertyEntityReference): PropertyVisa {
     return {determineIf:  () => false }; 
@@ -184,8 +193,11 @@ export class SystemDomainVisa implements DomainVisa {
   forEndUserRole(root: EndUserRoleEntityReference): CommunityVisa {
     return {determineIf:  () => false };
   }
-  forUser(root: UserEntityReference): UserVisa {
+  forEndUser(root: EndUserEntityReference): EndUserVisa {
     return {determineIf:  () => false }; 
+  }
+  forStaffUser(root: StaffUserEntityReference): StaffUserVisa {
+    return {determineIf:  () => false };
   }
   forProperty(root: PropertyEntityReference): PropertyVisa {
     return {determineIf:  (func) => func(this.propertyPermissionsForSystem) };

@@ -1,10 +1,24 @@
-import { Schema, model, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
-import { Base, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { Schema, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
+import { NestedPath, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as Community from './../community';
 import * as Property from './../property';
 import * as Member from './../member';
 import * as Service from './../service';
 import { Ticket, TicketModel, ticketOptions } from './ticket';
+
+export interface ServiceTicketRevisionRequestChanges extends NestedPath {
+  requestUpdatedAssignment: boolean;
+  requestUpdatedStatus: boolean;
+  requestUpdatedProperty: boolean;
+}
+
+export interface ServiceTicketRevisionRequest extends NestedPath {
+  requestedAt: Date;
+  requestedBy: PopulatedDoc<Member.Member>;
+  revisionSummary: string;
+  requestedChanges: ServiceTicketRevisionRequestChanges;
+  revisionSubmittedAt?: Date;
+}
 
 export interface ActivityDetail extends SubdocumentBase {
   id: ObjectId;
@@ -80,6 +94,7 @@ export interface ServiceTicket extends Ticket {
   ticketType?: string;
   discriminatorKey: string;
   activityLog: Types.DocumentArray<ActivityDetail>;
+  revisionRequest?: ServiceTicketRevisionRequest;
   messages: Types.DocumentArray<ServiceTicketMessage>;
   photos: Types.DocumentArray<Photo>;
   hash: string;
@@ -124,6 +139,20 @@ const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, Serv
       max: 5,
     },
     activityLog: [ActivityDetailSchema],
+    revisionRequest: {
+      type: {
+        requestedAt: { type: Date, required: true },
+        requestedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true },
+        revisionSummary: { type: String, required: true },
+        requestedChanges: {
+          requestUpdatedAssignment: { type: Boolean, required: true },
+          requestUpdatedStatus: { type: Boolean, required: true },
+          requestUpdatedProperty: { type: Boolean, required: true },
+        },
+        revisionSubmittedAt: {type: Date, required: false}
+      },
+      required: false,
+    },
     messages: [ServiceTicketMessageSchema],
     photos: [PhotoSchema],
     hash: { type: String, required: false, maxlength: 100 },

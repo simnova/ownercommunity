@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 
 import { AppInsightsContext } from '@microsoft/applicationinsights-react-js';
 import { reactPlugin } from './components/shared/azure-monitor';
@@ -9,11 +10,11 @@ import App from './App';
 import './index.less';
 
 import { ConfigProvider } from 'antd';
-import { AuthProvider, useAuth } from 'react-oidc-context';
+import { useAuth } from 'react-oidc-context';
 import FeatureFlagProvider, { useFeatureFlags } from './components/shared/feature-flag-react-lite';
 import MaintenanceMessageProvider from './components/shared/maintenance-message';
 import featureFlagConfig from './config/feature-flag-config';
-import { oidcConfig } from './config/odic-config';
+
 import { CachePurgeProvider } from './contexts/components/CachePurgeContext';
 import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 
@@ -44,9 +45,11 @@ function ConfigProviderWrapper() {
     >
       <MaintenanceMessageProvider maintenanceInfo={maintenanceInfo} auth={auth}>
         <ThemeProvider>
+        <HelmetProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
+          </HelmetProvider>
         </ThemeProvider>
       </MaintenanceMessageProvider>
     </ConfigProvider>
@@ -57,10 +60,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AppInsightsContext.Provider value={reactPlugin}>
       <FeatureFlagProvider config={featureFlagConfig}>
-        <CachePurgeProvider>
-          <AuthProvider {...oidcConfig}>
-            <ConfigProviderWrapper />
-          </AuthProvider>
+        <CachePurgeProvider>   
+          <ConfigProviderWrapper />
         </CachePurgeProvider>
       </FeatureFlagProvider>
     </AppInsightsContext.Provider>

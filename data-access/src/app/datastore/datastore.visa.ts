@@ -5,7 +5,7 @@ import { CommunityVisaImplForEndUserRole } from './community/community.visa-impl
 import { PropertyVisa, PropertyVisaImplForProperty } from './property/property.visa';
 import { ServiceTicketVisa, ServiceTicketVisaImplForServiceTicket } from './cases/service-ticket/service-ticket.visa';
 import { ViolationTicketVisa, ViolationTicketVisaImplForViolationTicket } from './cases/violation-ticket/violation-ticket.visa';
-import { CommunityData, MemberData, StaffRolePermissions, EndUserRolePermissions, PropertyData, StaffRoleData, EndUserRoleData, ServiceData, ServiceTicketData, EndUserData, ViolationTicketData } from '../external-dependencies/datastore';
+import { CommunityData, MemberData, StaffRolePermissions, EndUserRolePermissions, PropertyData, StaffRoleData, EndUserRoleData, ServiceData, ServiceTicketData, EndUserData, ViolationTicketData, StaffUserData } from '../external-dependencies/datastore';
 import { ServiceVisa, ServiceVisaImplForService } from './service/service.visa';
 import { CommunityVisaImplForStaffRole } from './community/community.visa-impl.for-staff-role';
 import { CommunityPermissionsSpec } from '../domain/contexts/community/community.visa';
@@ -25,7 +25,7 @@ export interface DatastoreVisa {
 
 export class DatastoreVisaImpl implements DatastoreVisa {
   constructor(
-    private readonly user: EndUserData, 
+    private readonly user: EndUserData|StaffUserData, 
     private readonly member: MemberData,
     // private readonly community: CommunityData = null
   ){
@@ -51,7 +51,7 @@ export class DatastoreVisaImpl implements DatastoreVisa {
   }
 
   forStaffRole(root: StaffRoleData): CommunityVisa {
-    return new CommunityVisaImplForStaffRole(root,this.user);
+    return new CommunityVisaImplForStaffRole(root,this.user as StaffUserData);
   }
 
   forService(root: ServiceData): ServiceVisa {

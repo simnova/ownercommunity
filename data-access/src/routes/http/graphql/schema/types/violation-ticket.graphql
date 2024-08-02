@@ -18,6 +18,7 @@ type ViolationTicket {
   activityLog: [ServiceTicketActivityDetail]
   messages: [ViolationTicketV1Message]
   paymentTransactions: [Transaction]
+  revisionRequest: ViolationTicketV1RevisionRequest
 
   id: ObjectID!
   schemaVersion: String
@@ -34,6 +35,21 @@ type ViolationTicketV1Message {
   id: ObjectID!
   createdAt: DateTime!
   isHiddenFromApplicant: Boolean!
+}
+
+type ViolationTicketV1RevisionRequest {
+  requestedAt: DateTime!
+  requestedBy: Member!
+  revisionSummary: String!
+  requestedChanges: ViolationTicketV1RevisionRequestedChanges!
+  revisionSubmittedAt: DateTime
+}
+
+type ViolationTicketV1RevisionRequestedChanges {
+  requestUpdatedAssignment: Boolean!
+  requestUpdatedStatus: Boolean!
+  requestUpdatedProperty: Boolean!
+  requestUpdatedPaymentTransaction: Boolean!
 }
 
 extend type Query {
@@ -58,6 +74,7 @@ input ViolationTicketUpdateInput {
   serviceId: ObjectID
   penaltyAmount: Float
   messages: [ViolationTicketV1MessageInput]
+  revisionRequest: ViolationTicketV1RevisionRequestUpdateInput
 }
 
 input ViolationTicketV1MessageInput {
@@ -67,6 +84,21 @@ input ViolationTicketV1MessageInput {
   message: String!
   embedding: String
   isHiddenFromApplicant: Boolean
+}
+
+input ViolationTicketV1RevisionRequestUpdateInput {
+  requestedAt: DateTime
+  requestedBy: ObjectID
+  revisionSummary: String
+  requestedChanges: ViolationTicketV1RevisionRequestedChangesUpdateInput
+  revisionSubmittedAt: DateTime
+}
+
+input ViolationTicketV1RevisionRequestedChangesUpdateInput {
+  requestUpdatedAssignment: Boolean
+  requestUpdatedStatus: Boolean
+  requestUpdatedProperty: Boolean
+  requestUpdatedPaymentTransaction: Boolean
 }
 
 type ViolationTicketMutationResult implements MutationResult {

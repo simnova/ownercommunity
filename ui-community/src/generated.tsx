@@ -925,16 +925,16 @@ export type MutationStatus = {
 
 export type PaymentBillingInfo = {
   __typename?: 'PaymentBillingInfo';
-  address1: Scalars['String'];
-  address2?: Maybe<Scalars['String']>;
-  administrativeArea: Scalars['String'];
-  country: Scalars['String'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  locality: Scalars['String'];
-  phoneNumber: Scalars['String'];
-  postalCode: Scalars['String'];
+  billingAddressLine1?: Maybe<Scalars['String']>;
+  billingAddressLine2?: Maybe<Scalars['String']>;
+  billingCity?: Maybe<Scalars['String']>;
+  billingCountry?: Maybe<Scalars['String']>;
+  billingEmail?: Maybe<Scalars['String']>;
+  billingFirstName?: Maybe<Scalars['String']>;
+  billingLastName?: Maybe<Scalars['String']>;
+  billingPhone?: Maybe<Scalars['String']>;
+  billingPostalCode?: Maybe<Scalars['String']>;
+  billingState?: Maybe<Scalars['String']>;
 };
 
 export type PaymentInstrument = {
@@ -1402,6 +1402,7 @@ export type ServiceTicket = MongoBase & {
   priority: Scalars['Int'];
   property?: Maybe<Property>;
   requestor: Member;
+  revisionRequest?: Maybe<ServiceTicketV1RevisionRequest>;
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
@@ -1506,6 +1507,7 @@ export type ServiceTicketUpdateInput = {
   messages?: InputMaybe<Array<InputMaybe<ServiceTicketV1MessageInput>>>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
+  revisionRequest?: InputMaybe<ServiceTicketV1RevisionRequestUpdateInput>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   serviceTicketId: Scalars['ObjectID'];
   title?: InputMaybe<Scalars['String']>;
@@ -1529,6 +1531,36 @@ export type ServiceTicketV1MessageInput = {
   isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
   message: Scalars['String'];
   sentBy: Scalars['String'];
+};
+
+export type ServiceTicketV1RevisionRequest = {
+  __typename?: 'ServiceTicketV1RevisionRequest';
+  requestedAt: Scalars['DateTime'];
+  requestedBy: Member;
+  requestedChanges: ServiceTicketV1RevisionRequestedChanges;
+  revisionSubmittedAt?: Maybe<Scalars['DateTime']>;
+  revisionSummary: Scalars['String'];
+};
+
+export type ServiceTicketV1RevisionRequestUpdateInput = {
+  requestedAt?: InputMaybe<Scalars['DateTime']>;
+  requestedBy?: InputMaybe<Scalars['ObjectID']>;
+  requestedChanges?: InputMaybe<ServiceTicketV1RevisionRequestedChangesUpdateInput>;
+  revisionSubmittedAt?: InputMaybe<Scalars['DateTime']>;
+  revisionSummary?: InputMaybe<Scalars['String']>;
+};
+
+export type ServiceTicketV1RevisionRequestedChanges = {
+  __typename?: 'ServiceTicketV1RevisionRequestedChanges';
+  requestUpdatedAssignment: Scalars['Boolean'];
+  requestUpdatedProperty: Scalars['Boolean'];
+  requestUpdatedStatus: Scalars['Boolean'];
+};
+
+export type ServiceTicketV1RevisionRequestedChangesUpdateInput = {
+  requestUpdatedAssignment?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedProperty?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedStatus?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ServiceTicketsResult = {
@@ -1742,6 +1774,7 @@ export type ViolationTicket = {
   priority: Scalars['Int'];
   property?: Maybe<Property>;
   requestor: Member;
+  revisionRequest?: Maybe<ViolationTicketV1RevisionRequest>;
   schemaVersion?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   status: Scalars['String'];
@@ -1811,6 +1844,7 @@ export type ViolationTicketUpdateInput = {
   penaltyAmount?: InputMaybe<Scalars['Float']>;
   priority?: InputMaybe<Scalars['Int']>;
   propertyId?: InputMaybe<Scalars['ObjectID']>;
+  revisionRequest?: InputMaybe<ViolationTicketV1RevisionRequestUpdateInput>;
   serviceId?: InputMaybe<Scalars['ObjectID']>;
   title?: InputMaybe<Scalars['String']>;
   violationTicketId: Scalars['ObjectID'];
@@ -1834,6 +1868,38 @@ export type ViolationTicketV1MessageInput = {
   isHiddenFromApplicant?: InputMaybe<Scalars['Boolean']>;
   message: Scalars['String'];
   sentBy: Scalars['String'];
+};
+
+export type ViolationTicketV1RevisionRequest = {
+  __typename?: 'ViolationTicketV1RevisionRequest';
+  requestedAt: Scalars['DateTime'];
+  requestedBy: Member;
+  requestedChanges: ViolationTicketV1RevisionRequestedChanges;
+  revisionSubmittedAt?: Maybe<Scalars['DateTime']>;
+  revisionSummary: Scalars['String'];
+};
+
+export type ViolationTicketV1RevisionRequestUpdateInput = {
+  requestedAt?: InputMaybe<Scalars['DateTime']>;
+  requestedBy?: InputMaybe<Scalars['ObjectID']>;
+  requestedChanges?: InputMaybe<ViolationTicketV1RevisionRequestedChangesUpdateInput>;
+  revisionSubmittedAt?: InputMaybe<Scalars['DateTime']>;
+  revisionSummary?: InputMaybe<Scalars['String']>;
+};
+
+export type ViolationTicketV1RevisionRequestedChanges = {
+  __typename?: 'ViolationTicketV1RevisionRequestedChanges';
+  requestUpdatedAssignment: Scalars['Boolean'];
+  requestUpdatedPaymentTransaction: Scalars['Boolean'];
+  requestUpdatedProperty: Scalars['Boolean'];
+  requestUpdatedStatus: Scalars['Boolean'];
+};
+
+export type ViolationTicketV1RevisionRequestedChangesUpdateInput = {
+  requestUpdatedAssignment?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedPaymentTransaction?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedProperty?: InputMaybe<Scalars['Boolean']>;
+  requestUpdatedStatus?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type AhpIdFormCommunityPublicFileCreateAuthHeaderMutationVariables = Exact<{

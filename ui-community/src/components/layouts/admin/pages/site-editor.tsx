@@ -7,6 +7,7 @@ import { SubPageLayout } from "../sub-page-layout";
 import { SiteEditorFiles } from './site-editor-files';
 import SiteEditorPageEditor from "./site-editor-page-editor";
 import { PageTree } from "./site-editor-page-tree";
+import { Helmet } from 'react-helmet-async';
 
 const { TabPane } = Tabs;
 
@@ -56,7 +57,10 @@ export const SiteEditor: React.FC<any> = () => {
           >
         </PageHeader>
       }
-    >        
+    >
+    <Helmet>
+        <title>Site Editor</title>
+    </Helmet>        
       <Routes>
         <Route path="page-editor" element={<SiteEditorPageEditor />} />
         <Route path="files" element={<SiteEditorFiles />} />

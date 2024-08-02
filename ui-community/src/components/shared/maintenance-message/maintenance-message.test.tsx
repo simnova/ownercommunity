@@ -15,7 +15,7 @@ import MaintenanceMessageProvider from '.';
 import App from '../../../App';
 import * as LocalData from '../../../components/editor/page-layout';
 import featureFlagConfig from '../../../config/feature-flag-config';
-import { oidcConfig } from '../../../config/odic-config';
+import { uiConfig } from '../../../config/odic-config';
 import { ThemeProvider } from '../../../contexts/ThemeContext';
 import FeatureFlagProvider from '../feature-flag-react-lite';
 
@@ -78,7 +78,7 @@ describe('given not in maintenance mode', () => {
     await act(async () => {
       render(
         <FeatureFlagProvider config={featureFlagConfig}>
-          <AuthProvider {...oidcConfig}>
+          <AuthProvider {...uiConfig}>
             <MaintenanceMessageProvider maintenanceInfo={notInMaintenanceModeInfo}>
               <ThemeProvider>
                 <MemoryRouter>
@@ -113,7 +113,7 @@ describe('given in impending mode', () => {
     await act(async () => {
       render(
         <FeatureFlagProvider config={featureFlagConfig}>
-          <AuthProvider {...oidcConfig}>
+          <AuthProvider {...uiConfig}>
             <MaintenanceMessageProvider maintenanceInfo={inImpendingModeInfo}>
               <ThemeProvider>
                 <MemoryRouter>
@@ -148,7 +148,7 @@ describe('given in maintenance mode', () => {
     await act(async () => {
       render(
         <FeatureFlagProvider config={featureFlagConfig}>
-          <AuthProvider {...oidcConfig}>
+          <AuthProvider {...uiConfig}>
             <MaintenanceMessageProvider maintenanceInfo={inMaintenanceModeInfo}>
               <ThemeProvider>
                 <MemoryRouter>

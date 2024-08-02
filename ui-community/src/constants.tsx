@@ -830,20 +830,8 @@ export enum UserRoles {
 };
 
 export const GetUserRoles = () => {
-  const auth = useAuth();
-  const token = auth?.user?.access_token;
-
-  interface DecodedJWT {
-    roles?: string[];
-  }
-
-  if (!token) {
-    console.error('access token not found');
-    return [];
-  }
-
   try {
-    const decodedJWT: any = token ? jwtDecode<DecodedJWT>(token) : {};
+    const decodedJWT = GetAccessToken();
     let userRoles: string[] = decodedJWT?.roles ?? [];
 
     return userRoles;
@@ -852,3 +840,28 @@ export const GetUserRoles = () => {
     return [];
   }
 };
+
+export const GetAccessToken = () => {
+  const auth = useAuth();
+  const token = auth?.user?.access_token;
+
+  interface DecodedJWT {
+    family_name?: string;
+    given_name?: string;
+    name?: string;
+    roles?: string[];
+  }
+
+  if (!token) {
+    console.error('access token not found');
+    return {};
+  }
+
+  try {
+    const decodedJWT: any = token ? jwtDecode<DecodedJWT>(token) : {};
+    return decodedJWT;
+  } catch (error) {
+    console.error('error decoding jwt', error);
+    return {};
+  }
+}

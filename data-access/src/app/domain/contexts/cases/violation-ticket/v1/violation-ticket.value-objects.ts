@@ -1,4 +1,4 @@
-import { VOString, VOSet, VOInteger, VOObject, VOOptional } from '@lucaspaganini/value-objects';
+import { VOString, VOSet, VOInteger } from '@lucaspaganini/value-objects';
 
 export const StatusCodes = {
   Draft: 'DRAFT',

@@ -59,7 +59,7 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     return this.props.schemaVersion;
   }
 
-  public static getNewInstance<props extends CommunityProps>(
+  public <props extends CommunityProps>(
     newProps: props,
     communityName: string,
     createdByUser: EndUserEntityReference,

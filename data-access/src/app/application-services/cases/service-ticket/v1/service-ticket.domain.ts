@@ -5,6 +5,7 @@ import { Service } from '../../../../domain/contexts/community/service/service';
 import { ServiceTicketV1 } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket';
 import { SentBy, Message, Embedding } from '../../../../domain/contexts/cases/service-ticket/v1/service-ticket-v1-message.value-objects';
 import { MemberData, ServiceTicketData } from '../../../../external-dependencies/datastore';
+
 import {
   ServiceTicketV1DomainAdapter,
   CommunityConverter,
@@ -132,32 +133,36 @@ export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, S
         }
       }
       if (input.revisionRequest !== undefined) {
-        if (input.revisionRequest.requestedAt !== undefined) {
-          serviceTicket.revisionRequest.RequestedAt = input.revisionRequest.requestedAt;
+
+        if (input.revisionRequest?.requestedAt !== undefined) {
+          // clear revision submitted at if requested at is updated
+          input.revisionRequest.revisionSubmittedAt = null;
+          serviceTicket.revisionRequest.RequestedAt = (input.revisionRequest.requestedAt);
         }
-        if(input.revisionRequest.revisionSummary !== undefined) {
-          serviceTicket.revisionRequest.RevisionSummary = input.revisionRequest.revisionSummary;
-        }
-        if(input.revisionRequest.revisionSubmittedAt !== undefined) {
-          serviceTicket.revisionRequest.RevisionSubmittedAt = input.revisionRequest.revisionSubmittedAt;
-        }
-        if (input.revisionRequest.requestedBy !== undefined) {
+        if (input.revisionRequest?.requestedBy !== undefined) {
           let member = await this.context.applicationServices.member.dataApi.getMemberById(input.revisionRequest.requestedBy);
           let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
           serviceTicket.revisionRequest.RequestedBy = memberDo;
         }
-        if (input.revisionRequest.requestedChanges !== undefined) {
-          if (input.revisionRequest.requestedChanges.requestUpdatedAssignment !== undefined) {
+        if (input.revisionRequest?.revisionSummary !== undefined) {
+          serviceTicket.revisionRequest.RevisionSummary = input.revisionRequest.revisionSummary;
+        }
+        if (input.revisionRequest?.requestedChanges !== undefined) {
+          if (input.revisionRequest?.requestedChanges?.requestUpdatedAssignment !== undefined) {
             serviceTicket.revisionRequest.requestedChanges.RequestUpdatedAssignment = input.revisionRequest.requestedChanges.requestUpdatedAssignment;
           }
-          if (input.revisionRequest.requestedChanges.requestUpdatedStatus !== undefined) {
-            serviceTicket.revisionRequest.requestedChanges.RequestUpdatedStatus = input.revisionRequest.requestedChanges.requestUpdatedStatus;
-          }
-          if (input.revisionRequest.requestedChanges.requestUpdatedProperty !== undefined) {
+          if (input.revisionRequest?.requestedChanges?.requestUpdatedProperty !== undefined) {
             serviceTicket.revisionRequest.requestedChanges.RequestUpdatedProperty = input.revisionRequest.requestedChanges.requestUpdatedProperty;
           }
+          if (input.revisionRequest?.requestedChanges?.requestUpdatedStatus !== undefined) {
+            serviceTicket.revisionRequest.requestedChanges.RequestUpdatedStatus = input.revisionRequest.requestedChanges.requestUpdatedStatus;
+          }
+        }
+        if (input.revisionRequest?.revisionSubmittedAt !== undefined) {
+          serviceTicket.revisionRequest.RevisionSubmittedAt = input.revisionRequest.revisionSubmittedAt;
         }
       }
+
 
       serviceTicketToReturn = new ServiceTicketV1Converter().toPersistence(await repo.save(serviceTicket));
     });

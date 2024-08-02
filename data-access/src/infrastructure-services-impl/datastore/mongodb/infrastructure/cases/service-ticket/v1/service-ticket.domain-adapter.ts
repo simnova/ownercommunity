@@ -22,7 +22,10 @@ import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/servi
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
 import { ServiceEntityReference } from '../../../../../../../app/domain/contexts/community/service/service';
-import { ServiceTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
+import {
+  ServiceTicketV1RevisionRequestEntityReference,
+  ServiceTicketV1RevisionRequestProps,
+} from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
 import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
 
 export class ServiceTicketV1Converter extends MongoTypeConverter<
@@ -53,6 +56,10 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
   }
   public setPropertyRef(property: PropertyEntityReference) {
     this.doc.set('property', property.id);
+  }
+
+  public setRevisionRequestRef(revisionRequest: ServiceTicketV1RevisionRequestEntityReference): void {
+    this.doc.set('revisionRequest', revisionRequest);
   }
 
   get requestor() {
@@ -147,9 +154,10 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
   }
 
   get revisionRequest() {
-    if (this.doc.revisionRequest) {
-      return new ServiceTicketRevisionRequestAdapater(this.doc.revisionRequest);
+    if (!this.doc.revisionRequest) {
+      this.doc.set('revisionRequest', {});
     }
+    return new ServiceTicketRevisionRequestAdapater(this.doc.revisionRequest);
   }
 }
 
@@ -303,25 +311,25 @@ export class ServiceTicketRevisionRequestAdapater implements ServiceTicketV1Revi
 
 export class ServiceTicketV1RevisionRequestedChangesDomainAdapter implements ServiceTicketV1RevisionRequestedChangesProps {
   constructor(public readonly doc: ServiceTicketRevisionRequestChanges) {}
-  get requestUpdatedAssignment() {
-    return this.doc.requestUpdatedAssignment;
-  }
-  set RequestUpdatedAssignment(requestUpdatedAssignment: boolean) {
-    this.doc.requestUpdatedAssignment = requestUpdatedAssignment;
-  }
 
   get requestUpdatedStatus() {
     return this.doc.requestUpdatedStatus;
   }
-  set RequestUpdatedStatus(requestUpdatedStatus: boolean) {
-    this.doc.requestUpdatedAssignment = requestUpdatedStatus;
+  set requestUpdatedStatus(requestUpdatedStatus) {
+    this.doc.requestUpdatedStatus = requestUpdatedStatus;
+  }
+
+  get requestUpdatedAssignment() {
+    return this.doc.requestUpdatedAssignment;
+  }
+  set requestUpdatedAssignment(requestUpdatedAssignment) {
+    this.doc.requestUpdatedAssignment = requestUpdatedAssignment;
   }
 
   get requestUpdatedProperty() {
     return this.doc.requestUpdatedProperty;
   }
-
-  set RequestUpdatedProperty(requestUpdatedProperty: boolean) {
-    this.doc.requestUpdatedAssignment = requestUpdatedProperty;
+  set requestUpdatedProperty(requestUpdatedProperty) {
+    this.doc.requestUpdatedProperty = requestUpdatedProperty;
   }
 }

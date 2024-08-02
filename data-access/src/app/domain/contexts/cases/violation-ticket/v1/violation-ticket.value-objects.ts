@@ -15,15 +15,3 @@ export class StatusCode extends VOSet(Object.values(StatusCodes)) {}
 export class Priority extends VOInteger({ min: 1, max: 5 }) {}
 export class PenaltyAmount extends VOInteger({ min: 1 }) {}
 export class PenaltyPaidDate extends VOString({ trim: true }) {}
-
-export class NewRevisionRequest extends VOObject({
-  requestedAt: Date,
-  revisionSummary: VOString({ trim: true }),
-  requestedChanges: VOObject({
-    requestUpdatedAssignment: Boolean,
-    requestUpdatedStatus: Boolean,
-    requestUpdatedProperty: Boolean,
-    requestUpdatedPaymentTransaction: Boolean 
-  }),
-  revisionSubmittedAt: VOOptional(Date),
-}) {}

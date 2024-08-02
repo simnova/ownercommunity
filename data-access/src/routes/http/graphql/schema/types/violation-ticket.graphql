@@ -1,0 +1,182 @@
+"""
+An Violation ticket describes violation ticket type.
+"""
+type ViolationTicket {
+  community: Community!
+  property: Property
+  requestor: Member!
+  assignedTo: Member
+  service: Service
+  title: String!
+  description: String!
+  status: String!
+  priority: Int!
+  photos: [ServiceTicketPhoto]
+  penaltyAmount: Float
+  penaltyPaidDate: DateTime
+  ticketType: String
+  activityLog: [ServiceTicketActivityDetail]
+  messages: [ViolationTicketV1Message]
+  paymentTransactions: [Transaction]
+  revisionRequest: ViolationTicketV1RevisionRequest
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ViolationTicketV1Message {
+  sentBy: String!
+  initiatedBy: Member
+  message: String!
+  embedding: String
+
+  id: ObjectID!
+  createdAt: DateTime!
+  isHiddenFromApplicant: Boolean!
+}
+
+type ViolationTicketV1RevisionRequest {
+  requestedAt: DateTime!
+  requestedBy: Member!
+  revisionSummary: String!
+  requestedChanges: ViolationTicketV1RevisionRequestedChanges!
+  revisionSubmittedAt: DateTime
+}
+
+type ViolationTicketV1RevisionRequestedChanges {
+  requestUpdatedAssignment: Boolean!
+  requestUpdatedStatus: Boolean!
+  requestUpdatedProperty: Boolean!
+  requestUpdatedPaymentTransaction: Boolean!
+}
+
+extend type Query {
+  violationTicket(id: ObjectID!): ViolationTicket
+  violationTicketPaymentTransactions: [PaymentTransactionsResult]
+}
+
+input ViolationTicketCreateInput {
+  propertyId: ObjectID!
+  title: String!
+  description: String!
+  serviceId: ObjectID
+  penaltyAmount: Float!
+}
+
+input ViolationTicketUpdateInput {
+  violationTicketId: ObjectID!
+  propertyId: ObjectID
+  title: String
+  description: String
+  priority: Int
+  serviceId: ObjectID
+  penaltyAmount: Float
+  messages: [ViolationTicketV1MessageInput]
+  revisionRequest: ViolationTicketV1RevisionRequestUpdateInput
+}
+
+input ViolationTicketV1MessageInput {
+  id: ObjectID
+  sentBy: String!
+  initiatedBy: ObjectID
+  message: String!
+  embedding: String
+  isHiddenFromApplicant: Boolean
+}
+
+input ViolationTicketV1RevisionRequestUpdateInput {
+  requestedAt: DateTime
+  requestedBy: ObjectID
+  revisionSummary: String
+  requestedChanges: ViolationTicketV1RevisionRequestedChangesUpdateInput
+  revisionSubmittedAt: DateTime
+}
+
+input ViolationTicketV1RevisionRequestedChangesUpdateInput {
+  requestUpdatedAssignment: Boolean
+  requestUpdatedStatus: Boolean
+  requestUpdatedProperty: Boolean
+  requestUpdatedPaymentTransaction: Boolean
+}
+
+type ViolationTicketMutationResult implements MutationResult {
+  status: MutationStatus!
+  violationTicket: ViolationTicket
+}
+
+extend type Mutation {
+  violationTicketCreate(input: ViolationTicketCreateInput!): ViolationTicketMutationResult!
+  violationTicketUpdate(input: ViolationTicketUpdateInput!): ViolationTicketMutationResult!
+  violationTicketDelete(input: ViolationTicketDeleteInput!): ViolationTicketMutationResult!
+  violationTicketAssign(input: ViolationTicketAssignInput!): ViolationTicketMutationResult!
+  violationTicketChangeStatus(input: ViolationTicketChangeStatusInput!): ViolationTicketMutationResult!
+  violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput!): ViolationTicketMutationResult!
+  violationTicketProcessPayment(input: ViolationTicketProcessPaymentInput!): ViolationTicketMutationResult!
+}
+
+input ViolationTicketDeleteInput {
+  violationTicketId: ObjectID!
+}
+
+input ViolationTicketAssignInput {
+  violationTicketId: ObjectID!
+  assignedToId: ObjectID
+}
+
+input ViolationTicketChangeStatusInput {
+  violationTicketId: ObjectID!
+  status: String!
+  activityDescription: String
+}
+
+input ViolationTicketAddUpdateActivityInput {
+  violationTicketId: ObjectID!
+  activityDescription: String!
+}
+
+input ViolationTicketProcessPaymentInput {
+  violationTicketId: ObjectID!
+  paymentAmount: Float!
+  paymentInstrumentId: String!
+}
+
+type Transaction {
+  id: ObjectID!
+  transactionId: String
+  clientReferenceCode: String
+  amountDetails: AmountDetails
+  status: String
+  type: String
+  description: String
+  reconciliationId: String
+  isSuccess: Boolean
+  transactionTime: DateTime
+  successTimestamp: DateTime
+  error: PaymentTransactionError
+}
+
+type PaymentTransactionsResult {
+  id: ObjectID!
+  transactionId: String
+  amount: Float
+  currency: String
+  status: String
+  isSuccess: Boolean
+  description: String
+  type: String
+  successTimestamp: DateTime
+}
+
+type AmountDetails {
+  amount: Float
+  authorizedAmount: Float
+  currency: String
+}
+
+type PaymentTransactionError {
+  code: String
+  message: String
+  timestamp: DateTime
+}

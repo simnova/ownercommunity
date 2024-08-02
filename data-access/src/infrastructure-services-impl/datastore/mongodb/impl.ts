@@ -1,11 +1,14 @@
 import { DatastoreInfrastructureService } from "../../../app/infrastructure-services/datastore";
-import { MongoCommunityUnitOfWork } from "./infrastructure/community.mongo-uow";
-import { MongoMemberUnitOfWork } from "./infrastructure/member.mongo-uow";
-import { MongoPropertyUnitOfWork } from "./infrastructure/property.mongo-uow";
-import { MongoRoleUnitOfWork } from "./infrastructure/role.mongo-uow";
-import { MongoServiceTicketUnitOfWork } from "./infrastructure/service-ticket.uow";
-import { MongoServiceUnitOfWork } from "./infrastructure/service.uow";
-import { MongoUserUnitOfWork } from "./infrastructure/user.uow";
+import { MongoCommunityUnitOfWork } from "./infrastructure/community/community.mongo-uow";
+import { MongoMemberUnitOfWork } from "./infrastructure/member/member.mongo-uow";
+import { MongoPropertyUnitOfWork } from "./infrastructure/property/property.mongo-uow";
+import { MongoEndUserRoleUnitOfWork } from "./infrastructure/roles/end-user-role/end-user-role.mongo-uow";
+import { MongoStaffRoleUnitOfWork } from "./infrastructure/roles/staff-role/staff-role.mongo-uow";
+import { MongoServiceTicketV1UnitOfWork } from "./infrastructure/cases/service-ticket/v1/service-ticket.uow";
+import { MongoServiceUnitOfWork } from "./infrastructure/service/service.uow";
+import { MongoViolationTicketV1UnitOfWork } from "./infrastructure/cases/violation-ticket/v1/violation-ticket.uow";
+import { MongoEndUserUnitOfWork } from "./infrastructure/users/end-user/end-user.uow";
+import { MongoStaffUserUnitOfWork } from "./infrastructure/users/staff-user/staff-user.uow";
 
 export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
 
@@ -17,8 +20,12 @@ export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
     console.log('MongodbDatastoreImpl shutdown');
   }
 
-  get userUnitOfWork(): typeof MongoUserUnitOfWork {
-    return MongoUserUnitOfWork
+  get endUserUnitOfWork(): typeof MongoEndUserUnitOfWork {
+    return MongoEndUserUnitOfWork
+  }
+
+  get staffUserUnitOfWork(): typeof MongoStaffUserUnitOfWork {
+    return MongoStaffUserUnitOfWork
   }
 
   get communityUnitOfWork(): typeof MongoCommunityUnitOfWork {
@@ -29,8 +36,12 @@ export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
     return MongoMemberUnitOfWork
   }
 
-  get roleUnitOfWork(): typeof MongoRoleUnitOfWork {
-    return MongoRoleUnitOfWork
+  get endUserRoleUnitOfWork(): typeof MongoEndUserRoleUnitOfWork {
+    return MongoEndUserRoleUnitOfWork
+  }
+
+  get staffRoleUnitOfWork(): typeof MongoStaffRoleUnitOfWork {
+    return MongoStaffRoleUnitOfWork
   }
 
   get propertyUnitOfWork(): typeof MongoPropertyUnitOfWork {
@@ -41,7 +52,11 @@ export class MongodbDatastoreImpl implements DatastoreInfrastructureService {
     return MongoServiceUnitOfWork
   }
 
-  get serviceTicketUnitOfWork(): typeof MongoServiceTicketUnitOfWork {
-    return MongoServiceTicketUnitOfWork
+  get serviceTicketV1UnitOfWork(): typeof MongoServiceTicketV1UnitOfWork {
+    return MongoServiceTicketV1UnitOfWork
+  }
+
+  get violationTicketV1UnitOfWork(): typeof MongoViolationTicketV1UnitOfWork {
+    return MongoViolationTicketV1UnitOfWork
   }
 }

@@ -6,7 +6,6 @@ import { MemberAccountAddInput } from '../../../../generated';
 export interface MembersAccountsAddProps {
   data: MemberAccountAddInput;
   onSave: (member: MemberAccountAddInput) => void;
-  onCheckUserId: (userId: string) => Promise<{success:boolean, errorMessage:string}>;
 }
 
 
@@ -14,16 +13,6 @@ export interface MembersAccountsAddProps {
 export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
-
-  const userIdNotAlreadyAssigned = async  (_: any, value:any) : Promise<void> => {
-console.log('value: ', value );
-    const result = await props.onCheckUserId(value);
-    if (!result.success) {
-      return Promise.reject(result.errorMessage);
-    } else {
-      return Promise.resolve();
-    }
-  }
 
   return (
     <div>
@@ -59,7 +48,6 @@ console.log('value: ', value );
           label="User ID"
           rules={[
             { required: true, message: 'User ID is required.' },
-            { validator: userIdNotAlreadyAssigned },
             
           ]}
         >

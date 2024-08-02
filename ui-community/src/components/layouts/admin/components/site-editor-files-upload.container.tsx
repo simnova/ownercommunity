@@ -8,6 +8,7 @@ export interface SiteEditorFilesUploadContainerProps {
   data : {
     communityId: string;
   }
+  onUploadSuccess: () => void;
 }
 
 export const SiteEditorFilesUploadContainer: React.FC<SiteEditorFilesUploadContainerProps> = (props) => {
@@ -31,6 +32,7 @@ export const SiteEditorFilesUploadContainer: React.FC<SiteEditorFilesUploadConta
     <SiteEditorFilesUpload
       authorizeRequest={handleAuthorizeRequest}
       blobPath={`https://ownercommunity.blob.core.windows.net/${props.data.communityId}`}
+      onSuccess={props.onUploadSuccess}
     />
   )
 

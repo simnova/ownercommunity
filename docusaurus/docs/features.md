@@ -62,5 +62,5 @@ The property search page enables members to explore available properties within 
 #### 1. Properties
 On the Properties page, users can view a list of all properties in their community.  By clicking on **'Edit'** next to a property, they'll be transferred to a "Property Detail" page where they'll have access to the property's general information, including the property ID, creation and last updated timestamp, as well as view and edit the Property name, owner, type, and select if the property is listed for rent, sale, lease, or in a directory. Additionally, administrators can navigate to the "Listing" tab, where they can view and edit property details, amenities, as well as Listing agent and Listing agent company information. Also available here is the "Location" tab, which enables administrators to view and edit the property's location.
 
-#### 2. Service Tickets
-Here, users view and edit all service tickets within their community. They can view and edit the progress of tickets, assign tickets, add updates to tickets, and delete tickets.
+#### 2. Tickets
+Here, users view and edit all service tickets and any violation tickets within their community. They can view and edit the progress of tickets, assign tickets, add updates to tickets, and delete tickets.

@@ -1,6 +1,3 @@
-import { DomainExecutionContext } from "../src/app/domain/contexts/domain-execution-context";
-import { SystemPassport } from "../src/app/domain/contexts/iam/passport";
-
 export const generateEnumRegexFromInterface = (interfaceObj: Record<string, boolean>): RegExp => {
   const enumValues = Object.keys(interfaceObj);
   const enumPattern = enumValues.join('|');

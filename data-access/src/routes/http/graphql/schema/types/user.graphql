@@ -1,0 +1,69 @@
+type User implements MongoBase {
+  externalId: String
+  displayName: String
+  accessBlocked: Boolean
+  tags: [String]
+
+  personalInformation: PersonalInformation
+
+  id: ObjectID!
+  schemaVersion: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type PersonalInformation {
+  identityDetails: IdentityDetails
+  contactInformation: ContactInformation
+}
+
+type IdentityDetails {
+  lastName: String!
+  legalNameConsistsOfOneName: Boolean!
+  restOfName: String
+}
+
+type ContactInformation {
+  email: String!
+}
+
+extend type Query {
+  user(id: ObjectID!): User
+  users: [User]
+  userCurrent: User
+}
+
+extend type Mutation {
+  userCreate: UserMutationResult!
+  """
+  Allows the user to update their profile
+  """
+  userUpdate(input: UserUpdateInput!): UserMutationResult!
+}
+
+
+type UserMutationResult implements MutationResult {
+  status: MutationStatus!
+  user: User
+}
+
+input UserUpdateInput {
+  id: ObjectID!
+  displayName: String
+  personalInformation: PersonalInformationInput
+}
+
+input PersonalInformationInput {
+  identityDetails: IdentityDetailsInput
+  contactInformation: ContactInformationInput
+}
+
+input IdentityDetailsInput {
+  lastName: String
+  legalNameConsistsOfOneName: Boolean
+  restOfName: String
+}
+
+input ContactInformationInput {
+  email: String
+}

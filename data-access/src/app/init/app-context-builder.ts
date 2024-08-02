@@ -1,46 +1,49 @@
-import { Passport, PassportImpl, ReadOnlyPassport } from '../domain/contexts/iam/passport';
-import { UserEntityReference } from '../domain/contexts/user/user';
-import { MemberEntityReference } from '../domain/contexts/community/member';
-import { CommunityEntityReference } from '../domain/contexts/community/community';
+import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../domain/domain.visa';
+import { MemberEntityReference } from '../domain/contexts/community/member/member';
+import { CommunityEntityReference } from '../domain/contexts/community/community/community';
 import { ApplicationServices } from '../application-services';
 import { InfrastructureServices } from '../infrastructure-services';
-import { DomainImpl } from '../domain/domain-impl';
-import { DomainExecutionContext } from '../domain/contexts/domain-execution-context';
-import { CommunityData } from '../external-dependencies/datastore';
+import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
+import { Passport } from './passport';
+import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
+import { EndUserEntityReference } from '../domain/contexts/users/end-user/end-user';
+
+export interface VerifiedJwtPayloadType{
+  name: string;
+  given_name: string;
+  family_name: string;
+  email: string;
+  sub: string;
+}
 
 export type VerifiedUser = {
-  verifiedJWT: any;
+  verifiedJWT: VerifiedJwtPayloadType;
   openIdConfigKey: string;
 };
 
-export interface AppContext extends DomainExecutionContext {
+export interface AppContext{  // extends DomainExecutionContext {
   verifiedUser: VerifiedUser;
-  communityId: string;
+  member: MemberData;
+  community: CommunityData;
   passport: Passport;
   applicationServices: ApplicationServices;
   infrastructureServices: InfrastructureServices;
-  init(): Promise<void>;
 }
 
-export class AppContextBuilder implements AppContext {
+export abstract class AppContextBuilder implements AppContext {
   private _verifiedUser: VerifiedUser;
   private _communityHeader: string;
-  private _memberId: string;
+  private _memberHeader: string;
   private _communityData: CommunityData;
+  private _memberData: MemberData;
   private _passport: Passport;
   private _applicationServices: ApplicationServices;
   private _infrastructureServices: InfrastructureServices;
 
   constructor(
-    verifiedUser: VerifiedUser, 
-    communityHeader: string,
-    memberId: string,
     infrastructureServices: InfrastructureServices
     ) {
-      this._verifiedUser = verifiedUser;
-      this._communityHeader = communityHeader;
-      this._memberId = memberId;
       this._applicationServices = new ApplicationServicesBuilder(this);
       this._infrastructureServices = infrastructureServices;
   }
@@ -49,8 +52,12 @@ export class AppContextBuilder implements AppContext {
     return this._verifiedUser;
   }
 
-  get communityId(): string {
-    return this._communityData.id;
+  get community(): CommunityData {
+    return this._communityData;
+  }
+
+  get member(): MemberData {
+    return this._memberData;
   }
 
   get passport(): Passport {
@@ -65,42 +72,59 @@ export class AppContextBuilder implements AppContext {
     return this._infrastructureServices;
   }
 
-  async init(): Promise<void> {
+  protected async initializeAppContext(
+    verifiedUser: VerifiedUser, 
+    communityHeader: string,
+    memberHeader: string,
+  ): Promise<void> {
+    this._verifiedUser = verifiedUser;
+    this._communityHeader = communityHeader;
+    this._memberHeader = memberHeader;
     await this.setDefaultPassport();
-    await this.setCommunityData();
+    await this.setCurrentData();
     await this.setPassport();
-    await this.initializeDomain();
     console.log(' app context initialized ...');
   }
 
-  private async initializeDomain() {
-    const DomainImplInstance = new DomainImpl(
-      this._infrastructureServices.datastore,
-      this._infrastructureServices.cognitiveSearch,
-      this._infrastructureServices.blobStorage,
-      this._infrastructureServices.vercel
-    );
-    await DomainImplInstance.startup();
-  }
-
   private async setDefaultPassport(): Promise<void> {
-    this._passport = ReadOnlyPassport.GetInstance();
+    this._passport = {
+      domainVisa: ReadOnlyDomainVisa.GetInstance(),
+      datastoreVisa: ReadOnlyDatastoreVisaImpl.GetInstance()
+    }
   }
 
-  private async setCommunityData(): Promise<void> {
+  private async setCurrentData(): Promise<void> {
     if (this._communityHeader) {
-      this._communityData = await this._applicationServices.communityDataApi.getCommunityByHeader(this._communityHeader);
+      this._communityData = await this._applicationServices.community.dataApi.getCommunityByHeader(this._communityHeader);
+    }
+    if (this._memberHeader) {
+      this._memberData = await this._applicationServices.member.dataApi.getMemberById(this._memberHeader);
     }
   }
 
   private async setPassport(): Promise<void> {
-    let userExternalId = this._verifiedUser.verifiedJWT.sub;
+    if(this._verifiedUser?.openIdConfigKey === 'SYSTEM') {
+      this._passport = {
+        domainVisa: SystemDomainVisa.GetInstance(),
+        datastoreVisa: SystemDatastoreVisaImpl.GetInstance()
+      };
+      return;
+    }
+
+    let userExternalId = this._verifiedUser?.verifiedJWT.sub;
     if (userExternalId && this._communityData) {
-      let userData = await this._applicationServices.userDataApi.getUserByExternalId(userExternalId);
-      let memberData = (await this._applicationServices.memberDataApi.getMemberByIdWithCommunityAccountRole(this._memberId));
+      let userData = await this._applicationServices.users.endUser.dataApi.getUserByExternalId(userExternalId);
+      let memberData = (await this._applicationServices.member.dataApi.getMemberByIdWithCommunityAccountRole(this._memberHeader));
       if(memberData && userData) {
-        this._passport = new PassportImpl(userData as UserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference);
+        if (!(memberData.accounts.find((account) => account.user.id === userData.id && memberData.community.id === this._communityData.id))) {  
+          throw new Error('user is not related to member');
+        }
+        this._passport = {
+          domainVisa :new DomainVisaImpl(userData as EndUserEntityReference, memberData as MemberEntityReference, this._communityData as CommunityEntityReference),
+          datastoreVisa: new DatastoreVisaImpl(userData, memberData)
+        }
       }
     }
   }
+
 }

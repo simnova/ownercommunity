@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Form, Input, Typography, theme } from 'antd';
+import { Helmet } from 'react-helmet-async';
 
 export const CommunityCreate: React.FC<any> = (props) => {
   const [form] = Form.useForm();
@@ -17,6 +18,9 @@ export const CommunityCreate: React.FC<any> = (props) => {
           color: colorTextBase
         }}
       >
+        <Helmet>
+        <title>Create A Community</title>
+      </Helmet>
         <Title level={3}>Creating your Community</Title>
         <p>
           Getting started with your community is only a few clicks away.

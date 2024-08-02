@@ -31,7 +31,6 @@ import {
   ServiceTicketChangeStatusInput,
   ServiceTicketUpdateInput
 } from '../../../../generated';
-
 const { Title } = Typography;
 const { TextArea } = Input;
 const { Step } = Steps;

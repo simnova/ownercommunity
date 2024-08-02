@@ -14,9 +14,10 @@ import { Photo, PhotoEntityReference, PhotoProps } from '../../service-ticket/v1
 import { ViolationTicketV1DeletedEvent } from '../../../../events/types/violation-ticket-v1-deleted';
 import { ViolationTicketV1UpdatedEvent } from '../../../../events/types/violation-ticket-v1-updated';
 import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violation-ticket-v1-created';
-import { Transaction, TransactionProps } from './transaction';
+import { FinanceDetailEntityReference, FinanceDetailProps, FinanceDetails } from './finance-details';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
+import { AdhocTransactions } from './finance-details-adhoc-transactions';
 
 export interface ViolationTicketV1Props extends EntityProps {
   readonly community: CommunityProps;
@@ -29,9 +30,7 @@ export interface ViolationTicketV1Props extends EntityProps {
   setAssignedToRef(assignedTo: MemberEntityReference): void;
   readonly service: ServiceProps;
   setServiceRef(service: ServiceEntityReference): void;
-  penaltyAmount: number;
-  penaltyPaidDate: Date;
-  readonly paymentTransactions: PropArray<TransactionProps>;
+  readonly financeDetails: FinanceDetailProps;
   readonly ticketType?: string;
   title: string;
   description: string;
@@ -67,7 +66,7 @@ export interface ViolationTicketV1EntityReference
       | 'activityLog'
       | 'messages'
       | 'photos'
-      | 'paymentTransactions'
+      | 'financeDetails'
     >
   > {
   readonly community: CommunityEntityReference;
@@ -78,6 +77,7 @@ export interface ViolationTicketV1EntityReference
   readonly activityLog: ReadonlyArray<ActivityDetailEntityReference>;
   readonly messages: ReadonlyArray<ViolationTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
+  readonly financeDetails: FinanceDetailEntityReference;
 }
 
 export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props> implements ViolationTicketV1EntityReference {
@@ -96,8 +96,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
     context: DomainExecutionContext,
-    penaltyAmount?: number,
-    penaltyPaidDate?: Date
+    penaltyAmount: number
   ): ViolationTicketV1<props> {
     let violationTicket = new ViolationTicketV1(newProps, context);
     violationTicket.MarkAsNew();
@@ -109,12 +108,11 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     violationTicket.Requestor = requestor;
     violationTicket.Status = ValueObjects.StatusCodes.Draft;
     violationTicket.Priority = 5;
-    violationTicket.PenaltyAmount = penaltyAmount;
-    violationTicket.PenaltyPaidDate = penaltyPaidDate;
     let newActivity = violationTicket.requestNewActivityDetail();
     newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
     newActivity.ActivityDescription = 'Created';
     newActivity.ActivityBy = requestor;
+    violationTicket.financeDetails.ServiceFee = penaltyAmount;
     return violationTicket;
   }
 
@@ -138,14 +136,6 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
   }
   get description() {
     return this.props.description;
-  }
-
-  get penaltyAmount() {
-    return this.props.penaltyAmount;
-  }
-
-  get penaltyPaidDate() {
-    return this.props?.penaltyPaidDate;
   }
 
   get ticketType() {
@@ -187,6 +177,10 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
 
   get updateIndexFailedDate() {
     return this.props.updateIndexFailedDate;
+  }
+
+  get financeDetails() {
+    return new FinanceDetails(this.props.financeDetails, this.context);
   }
 
   private readonly validStatusTransitions = new Map<string, string[]>([
@@ -343,21 +337,6 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     this.props.updateIndexFailedDate = updateIndexFailedDate;
   }
 
-  set PenaltyAmount(penaltyAmount: number) {
-    if (
-      !this.isNew &&
-      !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))
-    ) {
-      throw new Error('Unauthorized3b');
-    }
-    this.props.penaltyAmount = new ValueObjects.PenaltyAmount(penaltyAmount).valueOf();
-  }
-
-  set PenaltyPaidDate(penaltyPaidDate: Date) {
-    this.props.penaltyPaidDate = penaltyPaidDate;
-  }
-  //
-
   public requestDelete(): void {
     if (!this.isDeleted && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets)) {
       throw new Error('You do not have permission to delete this property');
@@ -376,12 +355,12 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     return new ViolationTicketV1Message(message, this.context, this.visa);
   }
 
-  private requestNewPaymentTransaction(): Transaction {
-    let paymentTransaction = this.props.paymentTransactions.getNewItem();
-    return new Transaction(paymentTransaction, this.context, this.visa);
+  private requestAddNewAdhocTransaction(): AdhocTransactions {
+    let adhocTransaction = this.props.financeDetails.transactions.submission.adhocTransactions.getNewItem();
+    return new AdhocTransactions(adhocTransaction, this.context);
   }
 
-  public requestAddPaymentTransaction(): Transaction {
+  public requestAddAdhocTransaction(): AdhocTransactions {
     if (
       !this.isNew &&
       !this.visa.determineIf(
@@ -394,7 +373,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     ) {
       throw new Error('Unauthorized');
     }
-    return this.requestNewPaymentTransaction();
+    return this.requestAddNewAdhocTransaction();
   }
 
   public requestAddStatusUpdate(description: string, by: MemberEntityReference): void {

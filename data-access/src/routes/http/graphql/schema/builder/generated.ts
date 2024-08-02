@@ -1572,7 +1572,6 @@ export type ViolationTicket = {
   messages?: Maybe<Array<Maybe<ViolationTicketV1Message>>>;
   paymentTransactions?: Maybe<Array<Maybe<Transaction>>>;
   penaltyAmount?: Maybe<Scalars['Float']>;
-  penaltyPaidDate?: Maybe<Scalars['DateTime']>;
   photos?: Maybe<Array<Maybe<ServiceTicketPhoto>>>;
   priority: Scalars['Int'];
   property?: Maybe<Property>;
@@ -3431,7 +3430,6 @@ export type ViolationTicketResolvers<
   messages?: Resolver<Maybe<Array<Maybe<ResolversTypes['ViolationTicketV1Message']>>>, ParentType, ContextType>;
   paymentTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType>;
   penaltyAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  penaltyPaidDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicketPhoto']>>>, ParentType, ContextType>;
   priority?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   property?: Resolver<Maybe<ResolversTypes['Property']>, ParentType, ContextType>;

@@ -1,5 +1,5 @@
 import { ActivityDetail, Photo } from '../../../../models/cases/service-ticket';
-import { Transaction, ViolationTicket, ViolationTicketMessage } from '../../../../models/cases/violation-ticket';
+import { AdhocTransaction, FinanceDetails, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage } from '../../../../models/cases/violation-ticket';
 import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -16,7 +16,11 @@ import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/servi
 import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
 import { ServiceEntityReference } from '../../../../../../../app/domain/contexts/community/service/service';
-import { TransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
+import { AdhocTransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions';
+import { FinanceDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details';
+import { TransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
+import { SubmissionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission';
+import { TransactionReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission-transaction-reference';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -45,10 +49,6 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
     }
   }
 
-  get paymentTransactions() {
-    return new MongoosePropArray(this.doc.paymentTransactions, TransactionDomainAdapter);
-  }
-
   public setPropertyRef(property: PropertyEntityReference) {
     this.doc.set('property', property.id);
   }
@@ -64,9 +64,10 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
 
   get assignedTo() {
     if (this.doc.assignedTo) {
-      return this.doc.assignedTo ? new MemberDomainAdapter(this.doc.assignedTo) : undefined;
+      return new MemberDomainAdapter(this.doc.assignedTo);
     }
   }
+
   public setAssignedToRef(assignedTo: MemberEntityReference) {
     this.doc.set('assignedTo', assignedTo ? assignedTo['props']['doc'] : null);
   }
@@ -140,24 +141,15 @@ export class ViolationTicketV1DomainAdapter extends MongooseDomainAdapter<Violat
     this.doc.updateIndexFailedDate = updateIndexFailedDate;
   }
 
-  set penaltyAmount(penaltyAmount) {
-    this.doc.penaltyAmount = penaltyAmount;
-  }
-
-  get penaltyAmount() {
-    return this.doc.penaltyAmount;
-  }
-
-  set penaltyPaidDate(penaltyPaidDate) {
-    this.doc.penaltyPaidDate = penaltyPaidDate;
-  }
-
-  get penaltyPaidDate() {
-    return this.doc.penaltyPaidDate;
-  }
-
   get ticketType() {
     return this.doc.ticketType;
+  }
+
+  get financeDetails() {
+    if (!this.doc.financeDetails) {
+      this.doc.set('financeDetails', {});
+    }
+    return new FinanceDetailDomainAdapter(this.doc.financeDetails);
   }
 }
 
@@ -216,95 +208,141 @@ export class PhotoDomainAdapter implements PhotoProps {
   }
 }
 
-export class TransactionDomainAdapter implements TransactionProps {
-  constructor(public readonly doc: Transaction) {}
+export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
+  constructor(public readonly doc: AdhocTransaction) {}
 
   public get id(): string {
     return this.doc.id.valueOf() as string;
   }
 
-  get transactionId() {
-    return this.doc.transactionId;
+  get amount() {
+    return this.doc.amount;
   }
 
-  get type() {
-    return this.doc.type;
+  get requestedOn() {
+    return this.doc.requestedOn;
+  }
+  get reason() {
+    return this.doc.reason;
+  }
+  get approval() {
+    return this.doc.approval;
+  }
+  get transactionReference() {
+    return this.doc.transactionReference;
+  }
+  get createdAt() {
+    return this.doc.createdAt;
+  }
+  get updatedAt() {
+    return this.doc.updatedAt;
   }
 
-  set type(type) {
-    this.doc.type = type;
+  get requestedBy() {
+    if (this.doc.requestedBy) {
+      return new (this.doc.requestedBy);
+    }
   }
 
-  get description() {
-    return this.doc.description;
+  // setters for AdhocTransaction
+  set amount(amount) {
+    this.doc.amount = amount;
   }
 
-  set description(description) {
-    this.doc.description = description;
+  public setRequestedByRef(requestedBy: MemberEntityReference) {
+    this.doc.requestedBy = requestedBy['props']['doc'];
   }
 
-  set transactionId(transactionId) {
-    this.doc.transactionId = transactionId;
+  set requestedOn(requestedOn) {
+    this.doc.requestedOn = requestedOn;
   }
 
-  get clientReferenceCode() {
-    return this.doc.clientReferenceCode;
+  set reason(reason) {
+    this.doc.reason = reason;
+  }
+}
+
+
+
+export class FinanceDetailDomainAdapter implements FinanceDetailProps {
+  constructor(public readonly doc: FinanceDetails) {}
+
+  get serviceFee() {
+    return this.doc.serviceFee;
   }
 
-  set clientReferenceCode(clientReferenceCode) {
-    this.doc.clientReferenceCode = clientReferenceCode;
+  get transactions() {
+    return new TransactionDomainAdapter(this.doc.transactions);
   }
 
-  get amountDetails() {
-    return this.doc.amountDetails;
+  // setters for FinanceDetails
+  set serviceFee(serviceFee) {
+    this.doc.serviceFee = serviceFee;
   }
 
-  set amountDetails(amountDetails) {
-    this.doc.amountDetails = amountDetails;
+  public setTransactions(transactions: TransactionsProps) {
+    this.doc.transactions = transactions['props']['doc'];
+  }
+}
+
+export class TransactionDomainAdapter implements TransactionsProps {
+  constructor(public readonly doc: Transaction) {}
+
+  get submission() {
+    return new SubmissionDomainAdapter(this.doc.submission);
+  }
+  
+}
+
+export class TransactionReferenceDomainAdapter implements TransactionReferenceProps {
+  constructor(public readonly doc: TransactionReference) {}
+
+  get referenceId() {
+    return this.doc.referenceId;
   }
 
-  get status() {
-    return this.doc.status;
+  get completedOn() {
+    return this.doc.completedOn;
   }
 
-  set status(status) {
-    this.doc.status = status;
+  get vendor() {
+    return this.doc.vendor;
   }
 
-  get reconciliationId() {
-    return this.doc.reconciliationId;
+  // setters for TransactionReference
+  set ReferenceId(referenceId) {
+    this.doc.referenceId = referenceId;
   }
 
-  set reconciliationId(reconciliationId) {
-    this.doc.reconciliationId = reconciliationId;
+  set CompletedOn(completedOn) {
+    this.doc.completedOn = completedOn;
   }
 
-  get isSuccess() {
-    return this.doc.isSuccess;
+  set Vendor(vendor) {
+    this.doc.vendor = vendor;
   }
-  set isSuccess(isSuccess) {
-    this.doc.isSuccess = isSuccess;
+}
+
+export class SubmissionDomainAdapter implements SubmissionProps {
+  constructor(public readonly doc: Submission) {}
+
+  get amount() {
+    return this.doc.amount;
   }
 
-  get transactionTime() {
-    return this.doc.transactionTime;
-  }
-  set transactionTime(transactionTime) {
-    this.doc.transactionTime = transactionTime;
+  set Amount(amount) {
+   this.doc.amount = amount;
   }
 
-  get successTimestamp() {
-    return this.doc.successTimestamp;
-  }
-  set successTimestamp(successTimestamp) {
-    this.doc.successTimestamp = successTimestamp;
+  get transactionReference() {
+    if(!this.doc.transactionReference) {
+      this.doc.transactionReference = {}
+    }
+    return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
   }
 
-  get error() {
-    return this.doc.error;
-  }
-  set error(error) {
-    this.doc.error = error;
+  get adhocTransactions() {
+    return new MongoosePropArray(this.doc.adhocTransactions, AdhocTransactionDomainAdapter);
   }
 }
 

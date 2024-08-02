@@ -13,7 +13,6 @@ type ViolationTicket {
   priority: Int!
   photos: [ServiceTicketPhoto]
   penaltyAmount: Float
-  penaltyPaidDate: DateTime
   ticketType: String
   activityLog: [ServiceTicketActivityDetail]
   messages: [ViolationTicketV1Message]

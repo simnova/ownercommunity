@@ -11,8 +11,9 @@ import { MemoryRepositoryBase } from '../../../../../../../../seedwork/services-
 import { v4 as uuidV4 } from 'uuid';
 import { ViolationTicketV1, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { ViolationTicketV1Repository } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket.repository';
-import { TransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/transaction';
+import { FinanceDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details';
 import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
+import { TransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
 
 class MemoryViolationTicketV1Message extends MemoryBaseAdapter implements ViolationTicketV1MessageProps {
   sentBy: string;
@@ -35,26 +36,9 @@ class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailPr
   }
 }
 
-class MemoryPaymentTransaction extends MemoryBaseAdapter implements TransactionProps {
-  transactionId: string;
-  clientReferenceCode: string;
-  type: string;
-  description: string;
-  amountDetails: {
-    amount: number;
-    authorizedAmount: number;
-    currency: string;
-  };
-  status: string;
-  reconciliationId: string;
-  isSuccess: boolean;
-  transactionTime: Date;
-  successTimestamp: Date;
-  error: {
-    code: string;
-    message: string;
-    timestamp: Date;
-  };
+class MemoryFinanceDetails extends MemoryBaseAdapter implements FinanceDetailProps {
+  serviceFee: number;
+  transactions: TransactionsProps
 }
 
 class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {
@@ -88,8 +72,6 @@ class MemoryViolationTicketV1 extends MemoryBaseAdapter implements ViolationTick
   }
   title: string;
   description: string;
-  penaltyAmount: number;
-  penaltyPaidDate: Date;
   status: string;
   priority: number;
   ticketType?: string;
@@ -105,9 +87,10 @@ class MemoryViolationTicketV1 extends MemoryBaseAdapter implements ViolationTick
   get photos() {
     return new MemoryPropArray(this._photos, MemoryPhoto);
   }
-  private _paymentTransactions: TransactionProps[] = [];
-  get paymentTransactions() {
-    return new MemoryPropArray(this._paymentTransactions, MemoryPaymentTransaction);
+
+  private _financeDetails: FinanceDetailProps;
+  get financeDetails() {
+    return this._financeDetails;
   }
   createdAt: Date;
   updatedAt: Date;

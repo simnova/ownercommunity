@@ -17,7 +17,7 @@ import { nanoid } from 'nanoid';
 import { ServiceDomainAdapter } from '../../../service/service.domain-adapter';
 import { ServiceEntityReference } from '../../../../../../../app/domain/contexts/community/service/service';
 import { AdhocTransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions';
-import { FinanceDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details';
+import { ViolationTicketV1FinanceDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details';
 import { TransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
 import { SubmissionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission';
 import { TransactionReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission-transaction-reference';
@@ -275,7 +275,7 @@ export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
 
 
 
-export class FinanceDetailDomainAdapter implements FinanceDetailProps {
+export class FinanceDetailDomainAdapter implements ViolationTicketV1FinanceDetailProps {
   constructor(public readonly doc: FinanceDetails) {}
 
   get serviceFee() {

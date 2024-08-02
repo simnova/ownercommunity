@@ -14,7 +14,7 @@ import { Photo, PhotoEntityReference, PhotoProps } from '../../service-ticket/v1
 import { ViolationTicketV1DeletedEvent } from '../../../../events/types/violation-ticket-v1-deleted';
 import { ViolationTicketV1UpdatedEvent } from '../../../../events/types/violation-ticket-v1-updated';
 import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violation-ticket-v1-created';
-import { FinanceDetailEntityReference, FinanceDetailProps, FinanceDetails } from './finance-details';
+import { ViolationTicketV1FinanceDetailEntityReference, ViolationTicketV1FinanceDetailProps, ViolationTicketV1FinanceDetails } from './violation-ticket-v1-finance-details';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
 import { ViolationTicketV1RevisionRequest, ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from './violation-ticket-v1-revision-request';
@@ -31,7 +31,7 @@ export interface ViolationTicketV1Props extends EntityProps {
   setAssignedToRef(assignedTo: MemberEntityReference): void;
   readonly service: ServiceProps;
   setServiceRef(service: ServiceEntityReference): void;
-  readonly financeDetails: FinanceDetailProps;
+  readonly financeDetails: ViolationTicketV1FinanceDetailProps;
   readonly revisionRequest?: ViolationTicketV1RevisionRequestProps; 
   readonly ticketType?: string;
   title: string;
@@ -81,7 +81,7 @@ export interface ViolationTicketV1EntityReference
   readonly messages: ReadonlyArray<ViolationTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
   readonly revisionRequest: ViolationTicketV1RevisionRequestEntityReference;
-  readonly financeDetails: FinanceDetailEntityReference;
+  readonly financeDetails: ViolationTicketV1FinanceDetailEntityReference;
 }
 
 export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props> implements ViolationTicketV1EntityReference {
@@ -188,7 +188,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
   }
 
   get financeDetails() {
-    return new FinanceDetails(this.props.financeDetails, this.context);
+    return new ViolationTicketV1FinanceDetails(this.props.financeDetails, this.context);
   }
 
   private readonly validStatusTransitions = new Map<string, string[]>([

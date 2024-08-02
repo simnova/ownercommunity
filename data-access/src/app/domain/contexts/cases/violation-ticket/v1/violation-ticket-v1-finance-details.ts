@@ -2,17 +2,17 @@ import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/dom
 import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { Transactions, TransactionsEntityReference, TransactionsProps } from './violation-ticket-v1-finance-details-transactions';
 
-export interface FinanceDetailProps extends ValueObjectProps {
+export interface ViolationTicketV1FinanceDetailProps extends ValueObjectProps {
   serviceFee: number;
   transactions: TransactionsProps
 }
 
-export interface FinanceDetailEntityReference extends Readonly<Omit<FinanceDetailProps, 'transactions'>> {
+export interface ViolationTicketV1FinanceDetailEntityReference extends Readonly<Omit<ViolationTicketV1FinanceDetailProps, 'transactions'>> {
   readonly transactions: TransactionsEntityReference;
 }
 
-export class FinanceDetails extends ValueObject<FinanceDetailProps> implements FinanceDetailEntityReference {
-  constructor(props: FinanceDetailProps, private readonly context: DomainExecutionContext) {
+export class ViolationTicketV1FinanceDetails extends ValueObject<ViolationTicketV1FinanceDetailProps> implements ViolationTicketV1FinanceDetailEntityReference {
+  constructor(props: ViolationTicketV1FinanceDetailProps, private readonly context: DomainExecutionContext) {
     super(props);
   }
 

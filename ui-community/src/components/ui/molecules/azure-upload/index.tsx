@@ -107,7 +107,6 @@ export const AzureUpload: React.FC<AzureUploadProps> = (props) => {
     const newFile = result.file;
 
     if (newFile) {
-      console.log("heyhey")
       const result = await props.authorizeRequest(newFile);
       if (result.isAuthorized) {
         //@ts-ignore

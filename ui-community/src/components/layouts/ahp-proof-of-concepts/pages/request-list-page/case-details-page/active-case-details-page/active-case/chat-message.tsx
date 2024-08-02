@@ -1,11 +1,15 @@
 import { Avatar } from 'antd';
 import { FC } from 'react';
+import * as CmsComponents from '../../../../../../../editor/components';
+import { Editor, Frame } from '@craftjs/core';
+import dayjs from 'dayjs';
 
 interface ChatMessageProps {
   sentBy: string;
   message: string;
-  embedding: string;
+  embedding: string | undefined;
   createdAt: string;
+  isAdmin: boolean;
 }
 export const ChatMessage: FC<ChatMessageProps> = (props) => {
   const caseWorkerStyles = {
@@ -14,7 +18,7 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
     margin: '10px 5px',
     padding: '10px',
     color: 'black',
-    borderRadius: '5px',
+    borderRadius: '5px'
   };
   const applicantStyles = {
     border: '1px solid black',
@@ -26,6 +30,38 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
   };
 
   const placeHolderInitials = 'JM';
+  const toggle = (props.sentBy === 'internal' && props.isAdmin) || (props.sentBy === 'external' && !props.isAdmin);
+
+  const getEmbededComponent = () => {
+    if (props.embedding) {
+      const componentData = JSON.parse(props.embedding);
+      if (componentData.type === 'documentRequestType') {
+        return (
+          <CmsComponents.AhpRequestFeedbackForm
+            changesRequested={componentData.changesRequested}
+            isAdmin={props.isAdmin}
+          />
+        );
+      } else if (componentData.type === 'requestPayment') {
+        return (
+          <CmsComponents.AhpPaymentRequestForm
+            amount={componentData.amount}
+            reason={componentData.reason}
+            isAdmin={props.isAdmin}
+          />
+        );
+      } else if (componentData.type === 'sendMoney') {
+        return (
+          <CmsComponents.AhpSendMoneyForm
+            amount={componentData.amount}
+            reason={componentData.reason}
+            isAdmin={props.isAdmin}
+          />
+        );
+      }
+    }
+    return <></>;
+  };
 
   return (
     <div>
@@ -33,14 +69,14 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
         style={{
           display: 'flex',
           width: '100%',
-          justifyContent: props.sentBy === 'internal' ? 'flex-end' : 'flex-start'
+          justifyContent: toggle ? 'flex-end' : 'flex-start'
         }}
       >
         <div
           style={{
             maxWidth: '75%',
             display: 'flex',
-            flexDirection: props.sentBy === 'internal' ? 'row-reverse' : 'row',
+            flexDirection: toggle ? 'row-reverse' : 'row',
             alignItems: 'center',
             justifyContent: 'flex-start'
           }}
@@ -50,9 +86,14 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
               marginRight: 10
             }}
           >
-            <Avatar style={{
-              marginLeft: 5
-            }}size="large">{props.sentBy === 'internal' ? 'Intealth' : placeHolderInitials}</Avatar>
+            <Avatar
+              style={{
+                marginLeft: 5
+              }}
+              size="large"
+            >
+              {props.sentBy === 'internal' ? 'Intealth' : placeHolderInitials}
+            </Avatar>
           </div>
           <div
             style={{
@@ -66,12 +107,19 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
                 marginTop: 10,
                 color: 'grey',
                 fontSize: '10px',
-                textAlign: props.sentBy === 'internal' ? 'right' : 'left'
+                textAlign: toggle ? 'right' : 'left'
               }}
             >
-              {props.createdAt}
+              {dayjs(props.createdAt).format('MM/DD/YYYY hh:mm A').toString()}
             </div>
-            <div style={props.sentBy === 'internal' ? caseWorkerStyles : applicantStyles}>{props.message}</div>
+            <div style={toggle ? caseWorkerStyles : applicantStyles}>
+              {props.message}
+              {props.embedding && (
+                <Editor resolver={{ ...CmsComponents }}>
+                  <Frame>{getEmbededComponent()}</Frame>
+                </Editor>
+              )}
+            </div>
           </div>
         </div>
       </div>

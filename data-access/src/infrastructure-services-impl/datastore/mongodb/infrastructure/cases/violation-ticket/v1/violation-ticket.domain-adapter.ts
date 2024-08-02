@@ -237,7 +237,10 @@ export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
     return this.doc.approval;
   }
   get transactionReference() {
-    return this.doc.transactionReference;
+    if(!this.doc.transactionReference) {
+      this.doc.transactionReference = {}
+    }
+    return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
   }
   get createdAt() {
     return this.doc.createdAt;
@@ -473,3 +476,4 @@ export class ViolationTicketV1RevisionRequestedChangesDomainAdapter implements V
     this.doc.requestUpdatedPaymentTransaction = requestUpdatedPaymentTransaction;
   }
 }
+

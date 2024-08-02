@@ -1,7 +1,7 @@
 import { Entity, EntityProps } from "../../../../../../../seedwork/domain-seedwork/entity";
-import { TransactionReference } from "../../../../../../infrastructure-services-impl/datastore/mongodb/models/cases/violation-ticket";
 import { DomainExecutionContext } from "../../../../domain-execution-context";
 import { Member, MemberEntityReference, MemberProps } from "../../../community/member/member";
+import { TransactionReference, TransactionReferenceProps } from "./violation-ticket-v1-finance-details-transactions-submission-transaction-reference";
 
 export interface AdhocTransactionsPropValues extends EntityProps { 
   amount: number;
@@ -14,7 +14,7 @@ export interface AdhocTransactionsPropValues extends EntityProps {
     isApplicantApproved: boolean;
     applicantRespondedAt: Date;
   };
-  transactionReference: TransactionReference;
+  readonly transactionReference: TransactionReferenceProps;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -55,7 +55,7 @@ export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements
   }
 
   get transactionReference(): TransactionReference {
-    return this.props.transactionReference;
+    return new TransactionReference(this.props.transactionReference, this.context);
   }
 
   get createdAt(): Date {
@@ -88,10 +88,6 @@ export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements
     applicantRespondedAt: Date;
   }) {
     this.props.approval = approval;
-  }
-
-  set transactionReference(transactionReference: TransactionReference) {
-    this.props.transactionReference = transactionReference;
   }
 
   set createdAt(createdAt: Date) {

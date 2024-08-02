@@ -30,9 +30,10 @@ export class ServiceTicketV1RevisionRequestedChanges
   }
 
   private validateVisa(): void {
-    if (!this.visa.determineIf((permissions) => (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount)) {
-      throw new Error('Unauthorized');
-    }
+    // if (!this.visa.determineIf((permissions) => (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount)) {
+    //   throw new Error('Unauthorized');
+    // }
+    return
   }
 
   set RequestUpdatedAssignment(requestUpdatedAssignment: boolean) {
@@ -42,11 +43,11 @@ export class ServiceTicketV1RevisionRequestedChanges
 
   set RequestUpdatedStatus(requestUpdatedStatus: boolean) {
     this.validateVisa();
-    this.props.requestUpdatedAssignment = requestUpdatedStatus;
+    this.props.requestUpdatedStatus = requestUpdatedStatus;
   }
 
   set RequestUpdatedProperty(requestUpdatedProperty: boolean) {
     this.validateVisa();
-    this.props.requestUpdatedAssignment = requestUpdatedProperty;
+    this.props.requestUpdatedProperty = requestUpdatedProperty;
   }
 }

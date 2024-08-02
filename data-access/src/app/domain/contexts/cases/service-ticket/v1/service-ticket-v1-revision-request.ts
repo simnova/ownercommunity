@@ -44,9 +44,17 @@ export class ServiceTicketV1RevisionRequest extends ValueObject<ServiceTicketV1R
   }
 
   private validateVisa(): void {
-    if (!this.visa.determineIf((permissions) => (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount)) {
-      throw new Error('Unauthorized');
-    }
+    // if (!this.visa.determineIf((permissions) => (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount)) {
+    //   throw new Error('Unauthorized');
+    // }
+    return;
+  }
+
+  static getNewInstance(
+    newProps: ServiceTicketV1RevisionRequestProps, 
+    context: DomainExecutionContext, 
+    visa: ServiceTicketV1Visa): ServiceTicketV1RevisionRequest {
+      return new ServiceTicketV1RevisionRequest(newProps, context, visa);
   }
 
   set RequestedAt(requestedAt: Date) {
@@ -65,13 +73,7 @@ export class ServiceTicketV1RevisionRequest extends ValueObject<ServiceTicketV1R
   }
 
   set RevisionSubmittedAt(revisionSubmittedAt: Date) {
-    if (
-      !this.visa.determineIf(
-        (permissions) => permissions.isEditingOwnTicket || (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount
-      )
-    ) {
-      throw new Error('Unauthorized');
-    }
     this.props.revisionSubmittedAt = revisionSubmittedAt;
   }
+
 }

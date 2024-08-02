@@ -12,7 +12,7 @@ import { MemoryPropArray } from '../../../../../../../../seedwork/services-seedw
 import { MemoryRepositoryBase } from '../../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
 import { v4 as uuidV4 } from 'uuid';
 import { ServiceTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-message';
-import { ServiceTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
+import { ServiceTicketV1RevisionRequestEntityReference, ServiceTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-request';
 import { ServiceTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket-v1-revision-requested-changes';
 class MemoryServiceTicketRevisionRequestChanges implements ServiceTicketV1RevisionRequestedChangesProps {
   requestUpdatedAssignment: boolean;
@@ -103,6 +103,9 @@ class MemoryServiceTicketV1 extends MemoryBaseAdapter implements ServiceTicketV1
       this._revisionRequest = new MemoryServiceTicketRevisionRequest();
     }
     return this._revisionRequest;
+  }
+  setRevisionRequestRef(revisionRequest: ServiceTicketV1RevisionRequestEntityReference): void {
+    this._revisionRequest = revisionRequest as unknown as ServiceTicketV1RevisionRequestProps;
   }
   createdAt: Date;
   updatedAt: Date;

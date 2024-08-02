@@ -37,7 +37,6 @@ export interface ServiceTicketV1Props extends EntityProps {
   readonly activityLog: PropArray<ActivityDetailProps>;
   readonly messages: PropArray<ServiceTicketV1MessageProps>;
   readonly revisionRequest?: ServiceTicketV1RevisionRequestProps;
-  setRevisionRequestRef(revisionRequest: ServiceTicketV1RevisionRequestEntityReference): void;
   readonly photos: PropArray<PhotoProps>;
 
   readonly createdAt: Date;
@@ -67,7 +66,6 @@ export interface ServiceTicketV1EntityReference
       | 'messages'
       | 'photos'
       | 'revisionRequest'
-      | 'setRevisionRequestRef'
     >
   > {
   readonly community: CommunityEntityReference;
@@ -267,10 +265,6 @@ export class ServiceTicketV1<props extends ServiceTicketV1Props> extends Aggrega
       throw new Error('Unauthorized4');
     }
     this.props.description = new ValueObjects.Description(description).valueOf();
-  }
-
-  requestNewRevision(): void {
-    this.props.setRevisionRequestRef(ServiceTicketV1RevisionRequest.getNewInstance(this.props.revisionRequest, this.context, this.visa));
   }
   
 

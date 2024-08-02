@@ -154,9 +154,10 @@ export class ServiceTicketV1DomainAdapter extends MongooseDomainAdapter<ServiceT
   }
 
   get revisionRequest() {
-    if (this.doc.revisionRequest) {
-      return new ServiceTicketRevisionRequestAdapater(this.doc.revisionRequest);
+    if (!this.doc.revisionRequest) {
+      this.doc.set('revisionRequest', {});
     }
+    return new ServiceTicketRevisionRequestAdapater(this.doc.revisionRequest);
   }
 }
 

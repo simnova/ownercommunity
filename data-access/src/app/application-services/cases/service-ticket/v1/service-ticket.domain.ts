@@ -134,10 +134,6 @@ export class ServiceTicketV1DomainApiImpl extends DomainDataSource<AppContext, S
       }
       if (input.revisionRequest !== undefined) {
 
-        if (serviceTicket?.revisionRequest === undefined) {
-          serviceTicket.requestNewRevision();
-        } 
-
         if (input.revisionRequest?.requestedAt !== undefined) {
           // clear revision submitted at if requested at is updated
           input.revisionRequest.revisionSubmittedAt = null;

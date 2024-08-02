@@ -12,8 +12,8 @@ interface CommunitiesDropdownContainerProps {
 }
 
 export const CommunitiesDropdownContainer: React.FC<CommunitiesDropdownContainerProps> = (_props) => {
-  const sessionStorageKey = `oidc.user:${import.meta.env.VITE_AAD_ACCOUNT_AUTHORITY}:${
-    import.meta.env.VITE_AAD_ACCOUNT_CLIENTID
+  const sessionStorageKey = `oidc.user:${import.meta.env.VITE_AAD_B2C_ACCOUNT_AUTHORITY}:${
+    import.meta.env.VITE_AAD_B2C_ACCOUNT_CLIENTID
   }`;
   const { id_token } = JSON.parse(sessionStorage.getItem(sessionStorageKey) as string);
 

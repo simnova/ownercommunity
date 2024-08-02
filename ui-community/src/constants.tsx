@@ -830,7 +830,7 @@ export enum UserRoles {
   Staff = 'OwnerCommunity.Staff',
 };
 
-export const GetUserRoles = useMemo(() => {
+export const GetUserRoles = () => {
   const auth = useAuth();
   const token = auth?.user?.access_token;
 
@@ -852,4 +852,4 @@ export const GetUserRoles = useMemo(() => {
     console.error('error decoding jwt', error);
     return [];
   }
-}, [useAuth]);
+};

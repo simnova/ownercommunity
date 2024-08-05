@@ -1,4 +1,4 @@
-import { ServiceTicket } from '../../../../../../../../../generated';
+import { ServiceTicket } from '../../../../../../../../../../generated';
 import { AdminChatMessager } from './admin-chat-messager';
 import { ChatMessages } from '../chat-messages';
 interface ServiceTicketChatPageProps {

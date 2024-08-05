@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ServiceTicket } from '../../../../../../../../../generated';
+import { ServiceTicket } from '../../../../../../../../../../generated';
 import { ChatMessages } from '../chat-messages';
 import { MemberChatMessager } from './member-chat-messager';
 

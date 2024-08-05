@@ -31,6 +31,7 @@ import {
   ServiceTicketChangeStatusInput,
   ServiceTicketUpdateInput
 } from '../../../../generated';
+import { AdminChatMessagesContainer } from '../../ahp-proof-of-concepts/pages/request-list-page/case-details-page/active-case-details-page/active-case/chat/admin/admin-chat-messages.container';
 const { Title } = Typography;
 const { TextArea } = Input;
 const { Step } = Steps;
@@ -191,6 +192,7 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
 
   return (
     <div>
+      <AdminChatMessagesContainer />
       <div style={{ margin: '0', padding: 24, backgroundColor: 'white' }}>
         <div style={{ marginBottom: '20px' }}>
           <div className="inline-block">

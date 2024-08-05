@@ -1,8 +1,9 @@
 import { Avatar } from 'antd';
 import { FC } from 'react';
-import * as CmsComponents from '../../../../../../../editor/components';
-import { Editor, Frame } from '@craftjs/core';
 import dayjs from 'dayjs';
+import RequestFeedbackForm from './admin/embedded/request-feedback-form';
+import PaymentRequestForm from './admin/embedded/payment-request-form';
+import SendMoneyForm from './admin/embedded/send-money-form';
 
 interface ChatMessageProps {
   sentBy: string;
@@ -36,28 +37,13 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
     if (props.embedding) {
       const componentData = JSON.parse(props.embedding);
       if (componentData.type === 'documentRequestType') {
-        return (
-          <CmsComponents.AhpRequestFeedbackForm
-            changesRequested={componentData.changesRequested}
-            isAdmin={props.isAdmin}
-          />
-        );
+        return <RequestFeedbackForm changesRequested={componentData.changesRequested} isAdmin={props.isAdmin} />;
       } else if (componentData.type === 'requestPayment') {
         return (
-          <CmsComponents.AhpPaymentRequestForm
-            amount={componentData.amount}
-            reason={componentData.reason}
-            isAdmin={props.isAdmin}
-          />
+          <PaymentRequestForm amount={componentData.amount} reason={componentData.reason} isAdmin={props.isAdmin} />
         );
       } else if (componentData.type === 'sendMoney') {
-        return (
-          <CmsComponents.AhpSendMoneyForm
-            amount={componentData.amount}
-            reason={componentData.reason}
-            isAdmin={props.isAdmin}
-          />
-        );
+        return <SendMoneyForm amount={componentData.amount} reason={componentData.reason} isAdmin={props.isAdmin} />;
       }
     }
     return <></>;
@@ -114,11 +100,7 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
             </div>
             <div style={toggle ? caseWorkerStyles : applicantStyles}>
               {props.message}
-              {props.embedding && (
-                <Editor resolver={{ ...CmsComponents }}>
-                  <Frame>{getEmbededComponent()}</Frame>
-                </Editor>
-              )}
+              {props.embedding && getEmbededComponent()}
             </div>
           </div>
         </div>

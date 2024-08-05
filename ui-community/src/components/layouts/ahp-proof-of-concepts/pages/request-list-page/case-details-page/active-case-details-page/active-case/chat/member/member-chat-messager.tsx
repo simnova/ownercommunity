@@ -2,7 +2,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
 import { Button } from 'antd';
 import { useMutation } from '@apollo/client';
-import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../generated';
+import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../../generated';
 import { useParams } from 'react-router-dom';
 
 interface ChatMessagerProps {

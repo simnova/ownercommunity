@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { ChatMessage } from './chat-message';
-import { ServiceTicket } from '../../../../../../../../generated';
+import { ServiceTicket } from '../../../../../../../../../generated';
 
 
 interface ChatMessagesProps {

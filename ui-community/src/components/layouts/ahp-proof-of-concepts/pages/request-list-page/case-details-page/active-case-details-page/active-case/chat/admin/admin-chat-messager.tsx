@@ -2,7 +2,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
 import { Button, Tag } from 'antd';
 import { useMutation } from '@apollo/client';
-import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../generated';
+import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../../generated';
 import { RequestFeedbackButton } from './request-feedback-button';
 import { RequestPaymentButton } from './request-payment-button';
 import { SendMoneyButton } from './send-money-button';

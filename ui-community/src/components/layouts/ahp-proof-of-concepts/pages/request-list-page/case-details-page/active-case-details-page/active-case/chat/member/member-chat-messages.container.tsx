@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ChatMessagesContainerServiceTicketDocument, ServiceTicket } from '../../../../../../../../../generated';
-import { ComponentQueryLoader } from '../../../../../../../../ui/molecules/component-query-loader';
+import { ChatMessagesContainerServiceTicketDocument, ServiceTicket } from '../../../../../../../../../../generated';
+import { ComponentQueryLoader } from '../../../../../../../../../ui/molecules/component-query-loader';
 import { useLazyQuery } from '@apollo/client';
 import { MemberServiceTicketChatPage } from './member-service-ticket-chat-page';
 import { useParams } from 'react-router-dom';

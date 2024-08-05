@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import Title from 'antd/es/typography/Title';
-import React, { useEffect, useState } from 'react';
-import { PaymentRequestFormrServiceTicketUpdateDocument } from '../../../../../../../../../../../generated';
+import React, { useState } from 'react';
+import { PaymentRequestFormServiceTicketUpdateDocument } from '../../../../../../../../../../../generated';
 import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
   const params = useParams();
   const [completed, setCompleted] = useState(props.completed);
   const [success, setSuccess] = useState(props.success);
-  const [updateServiceTicket] = useMutation(PaymentRequestFormrServiceTicketUpdateDocument);
+  const [updateServiceTicket] = useMutation(PaymentRequestFormServiceTicketUpdateDocument);
 
   const updateMessage = async (succeeded: boolean) => {
     const embeddedData = JSON.stringify({

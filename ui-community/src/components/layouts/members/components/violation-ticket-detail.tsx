@@ -11,6 +11,7 @@ import {
 } from '../../../../generated';
 import usePayModal from '../../../../hooks/usePayModal';
 import { PaymentModalContainer } from './payment-modal.container';
+import { MemberChatMessagesContainer } from '../../ahp-proof-of-concepts/pages/request-list-page/case-details-page/active-case-details-page/active-case/chat/member/member-chat-messages.container';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -153,6 +154,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
 
   return (
     <div>
+      <MemberChatMessagesContainer/>
       <div style={{ margin: '0', padding: 24, backgroundColor: 'white' }}>
         <div style={{ marginBottom: '20px' }}>
           <div className="inline-block">

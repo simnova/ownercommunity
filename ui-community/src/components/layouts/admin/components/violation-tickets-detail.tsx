@@ -36,6 +36,7 @@ import {
 } from '../../../../generated';
 
 import { LazyQueryResultTuple } from '@apollo/client';
+import { AdminChatMessagesContainer } from '../../ahp-proof-of-concepts/pages/request-list-page/case-details-page/active-case-details-page/active-case/chat/admin/admin-chat-messages.container';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -130,7 +131,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               oldValue = `$ ${oldValue}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }
 
-            if(field === 'Penalty paid date') {
+            if (field === 'Penalty paid date') {
               if (dayjs(newValue).isValid()) {
                 newValue = newValue === undefined ? '' : dayjs(newValue).format('DD-MMM-YYYY h:mm A');
               }
@@ -138,7 +139,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               if (dayjs(oldValue).isValid()) {
                 oldValue = oldValue === undefined ? '' : dayjs(oldValue).format('DD-MMM-YYYY h:mm A');
               }
-          }
+            }
             return (
               <div className="flex gap-1">
                 <b>{field}:</b>
@@ -266,6 +267,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
 
   return (
     <div>
+      <AdminChatMessagesContainer />
       <div style={{ margin: '0', padding: 24, backgroundColor: 'white' }}>
         <div style={{ marginBottom: '20px' }}>
           <div className="inline-block">

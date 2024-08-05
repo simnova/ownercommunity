@@ -10,7 +10,7 @@ interface RequestFeedbackFormProps {
 }
 
 const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
-  const [changesRequested, setChangesRequested] = useState(
+  const [changesRequested ] = useState(
     props.changesRequested
       ? props.changesRequested
       : {

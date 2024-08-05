@@ -10,9 +10,40 @@ query ChatMessagesContainerServiceTicket($serviceTicketId: ObjectID!) {
   }
 }
 
+query ChatMessagesContainerViolationTicket($violationTicketId: ObjectID!) {
+  violationTicket(id: $violationTicketId) {
+    messages {
+      sentBy
+      message
+      id
+      embedding
+      createdAt
+    }
+  }
+}
+
 mutation ChatMessagesContainerServiceTicketUpdate($input: ServiceTicketUpdateInput!) {
   serviceTicketUpdate(input: $input) {
     serviceTicket {
+      id
+      messages {
+        message
+        createdAt
+        embedding
+        id
+        sentBy
+      }
+    }
+    status {
+      errorMessage
+      success
+    }
+  }
+}
+
+mutation ChatMessagesContainerViolationTicketUpdate($input: ViolationTicketUpdateInput!) {
+  violationTicketUpdate(input: $input) {
+    violationTicket {
       id
       messages {
         message

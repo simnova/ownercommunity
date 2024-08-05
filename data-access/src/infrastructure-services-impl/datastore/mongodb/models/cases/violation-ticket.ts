@@ -1,5 +1,5 @@
-import { Schema, Model, Types, PopulatedDoc, model, ObjectId } from 'mongoose';
-import { Base, NestedPath, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { Schema, Model, Types, PopulatedDoc, ObjectId } from 'mongoose';
+import { NestedPath, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as Community from './../community';
 import * as Property from './../property';
 import * as Member from './../member';
@@ -175,11 +175,11 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
     assignedTo: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
     service: { type: Schema.Types.ObjectId, ref: Service.ServiceModel.modelName, required: false, index: true },
     financeDetails: {
-      serviceFee: { type: Number, required: true }, // violationTicket.penaltyAmount
+      serviceFee: { type: Number, required: true },
       transactions: {
         type: {
           submission: {
-            amount: { type: Number, required: true }, // this is authorized amount
+            amount: { type: Number, required: true },
             transactionReference: {
               vendor: { type: String, required: true },
               referenceId: { type: String, required: true },

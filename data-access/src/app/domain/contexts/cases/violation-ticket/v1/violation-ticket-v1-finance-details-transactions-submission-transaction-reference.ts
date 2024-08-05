@@ -1,6 +1,5 @@
 import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 import { DomainExecutionContext } from '../../../../domain-execution-context';
-import { Transactions, TransactionsProps } from './violation-ticket-v1-finance-details-transactions';
 
 export interface TransactionReferenceProps extends ValueObjectProps {
   referenceId: string;

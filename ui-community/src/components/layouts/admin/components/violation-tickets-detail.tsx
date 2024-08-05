@@ -368,7 +368,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Title">{props.data.violationTicket.title}</Descriptions.Item>
           <Descriptions.Item label="Status">{stateMap.get(props.data.violationTicket.status)?.state}</Descriptions.Item>
           <Descriptions.Item label="Penalty Amount">
-            {`$ ${props.data.violationTicket.penaltyAmount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            {`$ ${props.data.violationTicket.financeDetails.serviceFee}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           </Descriptions.Item>
           <Descriptions.Item label="Assigned To">
             {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
@@ -379,9 +379,9 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           <Descriptions.Item label="Updated At">
             {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
           </Descriptions.Item>
-          {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.paymentTransactions && (
+          {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.financeDetails && (
             <Descriptions.Item label="Payment Transaction ID">
-              {props.data.violationTicket.paymentTransactions?.[0]?.transactionId}
+              {props.data.violationTicket.financeDetails?.transactions?.submission?.transactionReference?.referenceId}
             </Descriptions.Item>
           )}
         </Descriptions>
@@ -441,6 +441,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               ...props.data.violationTicket,
             }}
             onFinish={async (values) => {
+              console.log(values);
               setEditDraftFormLoading(true);
               await props.onUpdate({
                 violationTicketId: props.data.violationTicket.id,
@@ -448,13 +449,13 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 title: values.title,
                 description: values.description,
                 priority: values.priority,
-                penaltyAmount: values.penaltyAmount,
+                penaltyAmount: values.financeDetails.serviceFee,
               });
               setEditDraftFormLoading(false);
             }}
           >
             <Form.Item name={['title']} label="Title" rules={[{ required: true, message: 'Title is required.' }]}>
-              <Input placeholder="Short title of the request" maxLength={200} />
+              <Input placeholder="Short title of the request" minLength={5} maxLength={200} />
             </Form.Item>
 
             <Form.Item
@@ -488,7 +489,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             </Form.Item>
             <div className="flex gap-2">
               <Form.Item
-                name={['penaltyAmount']}
+                name={['financeDetails', 'serviceFee']}
                 label="Penalty Amount"
                 rules={[{ required: true, message: 'Penalty amount is required for Violation Ticket.' }]}
               >

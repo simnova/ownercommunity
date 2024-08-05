@@ -286,7 +286,6 @@ export class FinanceDetailDomainAdapter implements ViolationTicketV1FinanceDetai
   get transactions() {
     if (!this.doc?.transactions) {
       this.doc.set('transactions', {});
-      return null
     }
     return new TransactionDomainAdapter(this.doc.transactions);
   }
@@ -299,6 +298,9 @@ export class TransactionDomainAdapter implements TransactionsProps {
   constructor(public readonly doc: FinanceDetails['transactions']) {}
 
   get submission() {
+    if (!this.doc?.submission) {
+      this.doc.set('submission', {});
+    }
     return new SubmissionDomainAdapter(this.doc.submission);
   }
   
@@ -326,15 +328,15 @@ export class TransactionReferenceDomainAdapter implements TransactionReferencePr
   }
 
   // setters for TransactionReference
-  set ReferenceId(referenceId) {
+  set referenceId(referenceId) {
     this.doc.referenceId = referenceId;
   }
 
-  set CompletedOn(completedOn) {
+  set completedOn(completedOn) {
     this.doc.completedOn = completedOn;
   }
 
-  set Vendor(vendor) {
+  set vendor(vendor) {
     this.doc.vendor = vendor;
   }
 }
@@ -346,11 +348,14 @@ export class SubmissionDomainAdapter implements SubmissionProps {
     return this.doc.amount;
   }
 
-  set Amount(amount) {
+  set amount(amount) {
    this.doc.amount = amount;
   }
 
   get transactionReference() {
+    if (!this.doc?.transactionReference) {
+      this.doc.set('transactionReference', {});
+    }
     return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
   }
 }

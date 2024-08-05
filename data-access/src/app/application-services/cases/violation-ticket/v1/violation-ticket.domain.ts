@@ -225,7 +225,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       }
 
       // perform validation for is payment amount is valid
-      if (input.paymentAmount !== violationTicket.financeDetails.ServiceFee) {
+      if (input.paymentAmount !== violationTicket.financeDetails.serviceFee) {
         throw new Error('Invalid payment amount');
       }
 

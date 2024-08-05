@@ -51,31 +51,20 @@ fragment MemberViolationTicketsDetailContainerViolationTicketFields on Violation
     createdAt
     updatedAt
   }
-  paymentTransactions {
-    __typename
-    amountDetails {
-      amount
-      authorizedAmount
-      currency
+  financeDetails {
+    serviceFee
+    transactions { 
+      submission { 
+        amount
+        transactionReference {
+          vendor
+          referenceId
+          completedOn
+        },
+      }
     }
-    clientReferenceCode
-    description
-    error {
-      code
-      message
-      timestamp
-    }
-    id
-    isSuccess
-    reconciliationId
-    status
-    successTimestamp
-    transactionId
-    transactionTime
-    type
   }
   id
-  penaltyAmount
   createdAt
   updatedAt
 }

@@ -33,13 +33,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
       return;
     }
     let embeddedData = undefined;
-    const documentRequestTypes = [
-      'updateCredentialType',
-      'updateCredential',
-      'updateTranslation',
-      'updateInstitution',
-      'updatedName'
-    ];
+    const documentRequestTypes = ['updateAssignment', 'updateProperty', 'updateStatus'];
 
     if (requests.length > 0) {
       const mainRequest = requests[0];
@@ -61,30 +55,41 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
         embeddedData = JSON.stringify({
           type: 'documentRequestType',
           changesRequested: {
-            credentialType: requests.findIndex((x) => x.value === 'updateCredentialType') !== -1,
-            credential: requests.findIndex((x) => x.value === 'updateCredential') !== -1,
-            credentialTranslation: requests.findIndex((x) => x.value === 'updateTranslation') !== -1,
-            issuingInstitution: requests.findIndex((x) => x.value === 'updateInstitution') !== -1,
-            nameOnDocument: requests.findIndex((x) => x.value === 'updatedName') !== -1
+            updateAssignment: requests.findIndex((x) => x.value === 'updateAssignment') !== -1,
+            updateProperty: requests.findIndex((x) => x.value === 'updateProperty') !== -1,
+            updateStatus: requests.findIndex((x) => x.value === 'updateStatus') !== -1
           }
         });
       }
     }
 
+    let input: any = {
+      serviceTicketId: params.id,
+      messages: [
+        {
+          sentBy: 'internal',
+          message: message,
+          embedding: embeddedData ?? ''
+        }
+      ]
+    };
+
+    if (documentRequestTypes.includes(requests[0].value)) {
+      input.revisionRequest = {
+        requestedChanges: {
+          requestUpdatedAssignment: requests.findIndex((x) => x.value === 'updateAssignment') !== -1,
+          requestUpdatedProperty: requests.findIndex((x) => x.value === 'updateProperty') !== -1,
+          requestUpdatedStatus: requests.findIndex((x) => x.value === 'updateStatus') !== -1
+        }
+      };
+    }
+    
     await updateServiceTicket({
       variables: {
-        input: {
-          serviceTicketId: params.id,
-          messages: [
-            {
-              sentBy: 'internal',
-              message: message,
-              embedding: embeddedData
-            }
-          ]
-        }
+        input: input
       }
     });
+
     setMessage('');
     setRequests([]);
     props.updateMessage();

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 interface RequestFeedbackFormProps {
   changesRequested?: {
-    requestUpdatedAssignment: boolean;
-    requestUpdatedProperty: boolean;
-    requestUpdatedStatus: boolean;
+    updateAssignment: boolean;
+    updateProperty: boolean;
+    updateStatus: boolean;
   };
   isAdmin: boolean;
 }
@@ -14,9 +14,9 @@ const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
     props.changesRequested
       ? props.changesRequested
       : {
-          requestUpdatedAssignment: false,
-          requestUpdatedProperty: false,
-          requestUpdatedStatus: false
+          updateAssignment: false,
+          updateProperty: false,
+          updateStatus: false
         }
   );
 
@@ -25,17 +25,17 @@ const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
       Your application is unlocked, you can now update the:
       <br></br>
       <br></br>
-      {changesRequested?.requestUpdatedAssignment && (
+      {changesRequested?.updateAssignment && (
         <li>
           <b>Document Assignment</b>
         </li>
       )}
-      {changesRequested?.requestUpdatedProperty && (
+      {changesRequested?.updateProperty && (
         <li>
           <b>Document Property</b>
         </li>
       )}
-      {changesRequested?.requestUpdatedStatus && (
+      {changesRequested?.updateStatus && (
         <li>
           <b>Document Status</b>
         </li>
@@ -51,17 +51,17 @@ const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
       The applicants application has been opened and can now update the:
       <br></br>
       <br></br>
-      {changesRequested?.requestUpdatedAssignment && (
+      {changesRequested?.updateAssignment && (
         <li>
           <b>Document Assignment</b>
         </li>
       )}
-      {changesRequested?.requestUpdatedProperty && (
+      {changesRequested?.updateProperty && (
         <li>
           <b>Document Property</b>
         </li>
       )}
-      {changesRequested?.requestUpdatedStatus && (
+      {changesRequested?.updateStatus && (
         <li>
           <b>Document Status</b>
         </li>

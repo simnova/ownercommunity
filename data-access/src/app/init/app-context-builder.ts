@@ -9,7 +9,7 @@ import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
 import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
-import { OpenIdConfigKeyEnum } from '../../auth/portal-token-validation';
+import { OpenIdConfigKeyEnum } from '../../../seedwork/auth-seedwork-oidc/portal-token-validation';
 
 export interface VerifiedJwtPayloadType{
   name: string;

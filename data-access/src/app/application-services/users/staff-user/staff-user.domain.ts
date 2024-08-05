@@ -1,4 +1,4 @@
-import { OpenIdConfigKeyEnum } from "../../../../auth/portal-token-validation";
+import { OpenIdConfigKeyEnum } from "../../../../../seedwork/auth-seedwork-oidc/portal-token-validation";
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { StaffUser } from "../../../domain/contexts/users/staff-user/staff-user";
 import { StaffUserData } from "../../../external-dependencies/datastore";

@@ -1,11 +1,14 @@
 import { StaffUser, StaffUserProps } from './staff-user';
 import { UserCreatedEvent } from '../../../events/types/user-created';
+import { DomainExecutionContext } from '../../../domain-execution-context';
 
 describe('domain.contexts.user', () => {
   describe('when creating a new user', () => {
     const givenValidExternalId = '9b5b121b-7726-460c-8ead-58378c9ab29e';
     const givenValidFirstName = 'John';
     const givenValidLastName = 'Doe';
+    const givenValidEmail = 'john.doe@email.com';
+    const context = jest.mocked({} as DomainExecutionContext);
 
     it('should reject an invalid externalId', () => {
       // Arrange
@@ -14,7 +17,7 @@ describe('domain.contexts.user', () => {
       
       // Act
       const creatingInvalidUser = () => { 
-        StaffUser.getNewUser(userProps,givenInvalidExternalId,givenValidFirstName,givenValidLastName) 
+        StaffUser.getNewUser(userProps,givenInvalidExternalId,givenValidFirstName,givenValidLastName, givenValidEmail, context); 
       };
 
       // Assert
@@ -28,7 +31,7 @@ describe('domain.contexts.user', () => {
       
       // Act
       const creatingInvalidUser = () => { 
-        StaffUser.getNewUser(userProps,givenValidExternalId,givenInvalidFirstName,givenValidLastName) 
+        StaffUser.getNewUser(userProps,givenValidExternalId,givenInvalidFirstName,givenValidLastName, givenValidEmail, context); 
       };
 
       // Assert
@@ -42,7 +45,7 @@ describe('domain.contexts.user', () => {
       
       // Act
       const creatingInvalidUser = () => { 
-        StaffUser.getNewUser(userProps,givenValidExternalId,givenValidFirstName,givenInvalidLastName) 
+        StaffUser.getNewUser(userProps,givenValidExternalId,givenValidFirstName,givenInvalidLastName, givenValidEmail, context); 
       };
 
       // Assert
@@ -55,7 +58,7 @@ describe('domain.contexts.user', () => {
       const userProps = jest.mocked({id:expectedNewId} as StaffUserProps);
       
       // Act
-      const user = StaffUser.getNewUser(userProps, givenValidExternalId, givenValidFirstName, givenValidLastName);
+      const user = StaffUser.getNewUser(userProps, givenValidExternalId, givenValidFirstName, givenValidLastName, givenValidEmail, context);
     
       // Assert
       const integrationEvent = user.getIntegrationEvents().find(e => e.aggregateId === expectedNewId && e instanceof UserCreatedEvent) as UserCreatedEvent;
@@ -69,7 +72,8 @@ describe('domain.contexts.user', () => {
     it('should reject an invalid email', () => {
       // Arrange
       const userProps = jest.mocked({} as StaffUserProps);
-      const user = new StaffUser(userProps);
+      const context = jest.mocked({} as DomainExecutionContext);
+      const user = new StaffUser(userProps, context);
       const givenInvalidEmail = 'bad-email';
       
       // Act

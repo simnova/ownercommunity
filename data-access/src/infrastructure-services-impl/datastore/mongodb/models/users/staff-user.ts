@@ -4,7 +4,7 @@ import { User, UserModel, userOptions } from "./user";
 import { Patterns } from "../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base";
 
 export interface StaffUser extends User {
-  role: PopulatedDoc<StaffRole.StaffRole> | ObjectId;
+  role?: PopulatedDoc<StaffRole.StaffRole> | ObjectId;
   firstName: string;
   lastName: string;
   email: string;
@@ -12,7 +12,7 @@ export interface StaffUser extends User {
 
 export const StaffUserSchema = new Schema<StaffUser, Model<StaffUser>, StaffUser>(
   {
-    role: { type: Schema.Types.ObjectId, ref: StaffRole.StaffRoleModel.modelName, required: true, index: true },
+    role: { type: Schema.Types.ObjectId, ref: StaffRole.StaffRoleModel.modelName, required: false },
     firstName: {
       type: String,
       required: false,

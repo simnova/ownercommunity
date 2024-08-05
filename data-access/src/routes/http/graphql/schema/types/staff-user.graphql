@@ -6,6 +6,7 @@ type StaffUser implements MongoBase {
   email: String
   accessBlocked: Boolean
   tags: [String]
+  role: StaffRole
 
   id: ObjectID!
   schemaVersion: String
@@ -39,4 +40,5 @@ input StaffUserUpdateInput {
   firstName: String
   lastName: String
   email: String
+  role: ObjectID
 }

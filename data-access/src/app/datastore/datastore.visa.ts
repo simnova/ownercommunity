@@ -38,7 +38,7 @@ export class DatastoreVisaImpl implements DatastoreVisa {
   } 
 
   forCommunity(root: CommunityData): CommunityVisa {
-    return new CommunityVisaImplForCommunity(root,this.member);
+    return new CommunityVisaImplForCommunity(root,this.member,this.user);
   }
 
   forMember(root: MemberData): CommunityVisa {

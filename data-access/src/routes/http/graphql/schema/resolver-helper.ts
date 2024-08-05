@@ -14,6 +14,7 @@ export const applyPermission = async <T>(doc: T, predicate: (doc: T) => boolean)
   if (predicate(doc)) {
     return doc;
   }
+  return null;
 }
 
 export const applyPermissionFilter = async <T>(docs: T[], predicate: (doc: T) => boolean): Promise<T[]> => {

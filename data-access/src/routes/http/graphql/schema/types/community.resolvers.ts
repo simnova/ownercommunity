@@ -1,5 +1,7 @@
 import { Resolvers, Community, CommunityMutationResult, Role } from '../builder/generated';
 import { Community as CommunityDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/community';
+import { OpenIdConfigKeyEnum } from '../../../../../../seedwork/auth-seedwork-oidc/portal-token-validation';
+import { applyPermission, applyPermissionFilter } from '../resolver-helper';
 
 const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Promise<CommunityMutationResult> => {
   try {
@@ -34,11 +36,20 @@ const community: Resolvers = {
     },
   },
   Query: {
-    community: async (_, _args, { applicationServices }) => {
-      return (await applicationServices.community.dataApi.getCurrentCommunity()) as Community;
+    community: async (_, _args, { applicationServices, passport, member }) => {
+      const communityToReturn = await applicationServices.community.dataApi.getCurrentCommunity() as Community;
+      return applyPermission<Community>(communityToReturn, (community) => {
+        return passport.datastoreVisa.forCommunity(community as CommunityDo).determineIf((_permissions) => member.community.id === community.id)
+      });
     },
-    communityById: async (_, { id }, { applicationServices }) => {
-      return (await applicationServices.community.dataApi.getCommunityById(id)) as Community;
+    communityById: async (_, { id }, { applicationServices, passport, member }) => {
+      const communityToReturn = await applicationServices.community.dataApi.getCommunityById(id) as Community;
+      return applyPermission<Community>(communityToReturn, (community) => {
+        return passport.datastoreVisa.forCommunity(community as CommunityDo).determineIf((permissions) => 
+          permissions.canManageAllCommunities ||
+          member.community.id === community.id
+        )
+      });
     },
     communityByHandle: async (_, { handle }, { applicationServices }) => {
       return (await applicationServices.community.dataApi.getCommunityByHandle(handle)) as Community;
@@ -46,7 +57,14 @@ const community: Resolvers = {
     communityByDomain: async (_, { domain }, { applicationServices }) => {
       return (await applicationServices.community.dataApi.getCommunityByDomain(domain)) as Community;
     },
-    communities: async (_, _args, { applicationServices }) => {
+    communities: async (_, _args, { applicationServices, verifiedUser, passport }) => {
+      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) {
+        const communitiesToReturn = await applicationServices.community.dataApi.getAllCommunities() as Community[];
+        return applyPermissionFilter<Community>(communitiesToReturn, (community) => {
+          return passport.datastoreVisa.forCommunity(community as CommunityDo)
+            .determineIf((permissions) => permissions.canManageAllCommunities)
+        });
+      }
       return (await applicationServices.community.dataApi.getCommunitiesForCurrentUser()) as Community[];
     },
   },

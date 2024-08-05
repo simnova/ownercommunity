@@ -29,7 +29,10 @@ export class DatastoreVisaImpl implements DatastoreVisa {
     private readonly member: MemberData,
     // private readonly community: CommunityData = null
   ){
-    if(!member.accounts.find(account => account.user.id === this.user.id)){
+    if (!user) {
+      throw new Error("User is required");
+    }
+    if(member !== null && !member.accounts.find(account => account.user.id === this.user.id)){
       throw new Error(`User ${this.user.id} is not a member of the community ${member.community.id}`);
     }
   } 

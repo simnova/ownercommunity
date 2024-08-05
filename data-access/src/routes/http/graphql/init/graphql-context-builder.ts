@@ -44,7 +44,7 @@ export class GraphqlContextBuilder extends AppContextBuilder implements GraphqlC
     let bearerToken = util.ExtractBearerToken(this._req);
     if (bearerToken) {
       console.log('[BearerToken] ', bearerToken);
-      let verifiedUser: VerifiedUser = await this._portalTokenValidator.GetVerifiedUser(bearerToken);
+      let verifiedUser: VerifiedUser = await this._portalTokenValidator.GetVerifiedJwt(bearerToken);
       console.log('Decorating context with verified user:', JSON.stringify(verifiedUser));
       if (verifiedUser) {
         return verifiedUser;

@@ -9,6 +9,7 @@ import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
 import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
+import { OpenIdConfigKeyEnum } from '../../auth/portal-token-validation';
 
 export interface VerifiedJwtPayloadType{
   name: string;
@@ -16,11 +17,13 @@ export interface VerifiedJwtPayloadType{
   family_name: string;
   email: string;
   sub: string;
+  oid?: string;
+  unique_name?: string;
 }
 
 export type VerifiedUser = {
   verifiedJWT: VerifiedJwtPayloadType;
-  openIdConfigKey: string;
+  openIdConfigKey: OpenIdConfigKeyEnum;
 };
 
 export interface AppContext{  // extends DomainExecutionContext {
@@ -104,7 +107,7 @@ export abstract class AppContextBuilder implements AppContext {
   }
 
   private async setPassport(): Promise<void> {
-    if(this._verifiedUser?.openIdConfigKey === 'SYSTEM') {
+    if(this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.SYSTEM) {
       this._passport = {
         domainVisa: SystemDomainVisa.GetInstance(),
         datastoreVisa: SystemDatastoreVisaImpl.GetInstance()
@@ -112,15 +115,15 @@ export abstract class AppContextBuilder implements AppContext {
       return;
     }
 
-    if (this._verifiedUser?.openIdConfigKey === 'StaffPortal') {
-      console.log("I'm staff!");
-      let userData = await this._applicationServices.users.staffUser.dataApi.getUserByExternalId(this._verifiedUser.verifiedJWT.sub);
+    if (this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) {
+      let userData = await this._applicationServices.users.staffUser.dataApi.getUserByExternalId(this._verifiedUser.verifiedJWT.oid);
       if(userData) {
         this._passport = {
           domainVisa: new DomainVisaImpl(userData as StaffUserEntityReference, null, null),
           datastoreVisa: new DatastoreVisaImpl(userData, null)
         }
       }
+      return;
     }
 
     let userExternalId = this._verifiedUser?.verifiedJWT.sub;

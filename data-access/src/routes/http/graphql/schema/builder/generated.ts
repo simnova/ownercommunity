@@ -1697,6 +1697,7 @@ export type StaffUser = MongoBase & {
   firstName?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   lastName?: Maybe<Scalars['String']>;
+  role?: Maybe<StaffRole>;
   schemaVersion?: Maybe<Scalars['String']>;
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -1714,6 +1715,7 @@ export type StaffUserUpdateInput = {
   firstName?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   lastName?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Scalars['ObjectID']>;
 };
 
 export type Ticket = ServiceTicket | ViolationTicket;
@@ -3745,6 +3747,7 @@ export type StaffUserResolvers<ContextType = GraphqlContext, ParentType extends 
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['StaffRole']>, ParentType, ContextType>;
   schemaVersion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;

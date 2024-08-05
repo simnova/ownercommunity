@@ -1,3 +1,4 @@
+import { OpenIdConfigKeyEnum } from "../../../../auth/portal-token-validation";
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { StaffUser } from "../../../domain/contexts/users/staff-user/staff-user";
 import { StaffUserData } from "../../../external-dependencies/datastore";
@@ -39,14 +40,14 @@ export class StaffUserDomainApiImpl
 
   async addUser(): Promise<StaffUserData> {
     console.log(`addUser`, this.context.verifiedUser);
-    if (this.context.verifiedUser.openIdConfigKey !== 'AccountPortal') {
+    if (this.context.verifiedUser.openIdConfigKey !== OpenIdConfigKeyEnum.STAFF_PORTAL) {
       throw new Error('Unauthorized 99');
     }
 
-    let userExternalId = this.context.verifiedUser.verifiedJWT.sub;
+    let userExternalId = this.context.verifiedUser.verifiedJWT?.oid;
     let userFirstName = this.context.verifiedUser.verifiedJWT.given_name;
     let userLastName = this.context.verifiedUser.verifiedJWT.family_name;
-    let userEmail = this.context.verifiedUser.verifiedJWT.email;
+    let userEmail = this.context.verifiedUser.verifiedJWT?.unique_name;
 
     let userToReturn: StaffUserData;
     await this.withTransaction(async (repo) => {
@@ -58,10 +59,8 @@ export class StaffUserDomainApiImpl
         let newUser = await repo.getNewInstance(
           userExternalId,
           userFirstName,
-          userLastName);
-        if (userEmail) {
-          newUser.Email=(userEmail);
-        }
+          userLastName,
+          userEmail);
         userToReturn = userConverter.toPersistence(await repo.save(newUser));
       }
     });

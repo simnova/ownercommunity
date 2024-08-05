@@ -3,11 +3,13 @@ import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggreg
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './staff-user.value-objects';
-import { StaffRoleEntityReference, StaffRoleProps } from '../../community/roles/staff-role/staff-role';
+import { StaffRole, StaffRoleEntityReference, StaffRoleProps } from '../../community/roles/staff-role/staff-role';
 import { StaffUserVisa } from './staff-user.visa';
+import { StaffUserCreatedEvent } from '../../../events/types/staff-user-created';
+import { ReadOnlyDomainVisa } from '../../../domain.visa';
 
 export interface StaffUserProps extends EntityProps {
-  readonly role: StaffRoleProps;
+  readonly role?: StaffRoleProps;
   setRoleRef: (role: StaffRoleEntityReference) => void;
   firstName?: string;
   lastName?: string;
@@ -29,13 +31,13 @@ export interface StaffUserEntityReference extends Readonly<Omit<StaffUserProps, 
 export class StaffUser<props extends StaffUserProps> extends AggregateRoot<props> implements StaffUserEntityReference  {
   private isNew: boolean = false;
   private readonly visa: StaffUserVisa;
-  constructor(props: props, context?:DomainExecutionContext) { 
+  constructor(props: props, private readonly context:DomainExecutionContext) { 
     super(props);
     this.visa = context.domainVisa.forStaffUser(this);
    }
 
   get id(): string {return this.props.id;}
-  get role(): StaffRoleEntityReference {return this.props.role;}
+  get role(): StaffRoleEntityReference {return this.props.role ? new StaffRole(this.props.role, this.context) : undefined;}
   get firstName(): string {return this.props.firstName;}
   get lastName(): string {return this.props.lastName;}
   get email(): string {return this.props.email;}
@@ -48,33 +50,35 @@ export class StaffUser<props extends StaffUserProps> extends AggregateRoot<props
   get createdAt(): Date {return this.props.createdAt;}
   get schemaVersion(): string {return this.props.schemaVersion;}
 
-  public static getReadOnlyUser<readonlyProps extends StaffUserProps> (props:readonlyProps): StaffUserEntityReference{
-    return new StaffUser(props);
-  }
-
-  public static getNewUser<props extends StaffUserProps> (newProps:props,externalId:string,firstName:string,lastName:string): StaffUser<props> {
+  public static getNewUser<props extends StaffUserProps> (newProps:props,externalId:string,firstName:string,lastName:string, email:string, context: DomainExecutionContext): StaffUser<props> {
     newProps.externalId = externalId;
-    let user = new StaffUser(newProps);
-    user.ExternalId=(externalId);
+    let user = new StaffUser(newProps, context);
+    user.MarkAsNew();
     user.FirstName=(firstName);
     user.LastName=(lastName);
     user.DisplayName=(`${firstName} ${lastName}`);
-    user.MarkAsNew();
+    user.Email=(email);
+    user.isNew = false;
     return user;
   }
 
   private MarkAsNew(): void {
-    this.addIntegrationEvent(UserCreatedEvent,{userId: this.props.id});
+    this.isNew = true;
+    this.addIntegrationEvent(StaffUserCreatedEvent, { 
+      externalId: this.props.externalId 
+    });
   }
 
   private validateVisa(): void {
-    if (!this.visa.determineIf((permissions) => permissions.isEditingOwnAccount)) {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isEditingOwnAccount)) {
       throw new Error('Unauthorized');
     }
   }
 
   set Role(role: StaffRoleEntityReference) {
-    this.validateVisa();
+    if (!this.visa.determineIf((permissions) => permissions.isEditingOwnAccount || permissions.isSystemAccount)) {
+      throw new Error('Unauthorized');
+    }
     this.props.setRoleRef(role);
   }
 

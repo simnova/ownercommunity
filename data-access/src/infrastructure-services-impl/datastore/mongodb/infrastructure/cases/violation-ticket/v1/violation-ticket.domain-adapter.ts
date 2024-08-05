@@ -238,7 +238,7 @@ export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
   }
   get transactionReference() {
     if(!this.doc.transactionReference) {
-      this.doc.transactionReference = {}
+      this.doc.set('transactionReference', {});
     }
     return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
   }
@@ -283,27 +283,28 @@ export class FinanceDetailDomainAdapter implements ViolationTicketV1FinanceDetai
   }
 
   get transactions() {
+    if (!this.doc?.transactions) {
+      this.doc.set('transactions', {});
+      return null
+    }
     return new TransactionDomainAdapter(this.doc.transactions);
   }
-
-  // setters for FinanceDetails
   set serviceFee(serviceFee) {
     this.doc.serviceFee = serviceFee;
-  }
-
-  public setTransactions(transactions: TransactionsProps) {
-    this.doc.transactions = transactions['props']['doc'];
   }
 }
 
 export class TransactionDomainAdapter implements TransactionsProps {
-  constructor(public readonly doc: Transaction) {}
+  constructor(public readonly doc: FinanceDetails['transactions']) {}
 
   get submission() {
     return new SubmissionDomainAdapter(this.doc.submission);
   }
   
   get adhocTransactions() {
+    if (!this.doc.adhocTransactions) {
+      this.doc.set('adhocTransactions', []);
+    }
     return new MongoosePropArray(this.doc.adhocTransactions, AdhocTransactionDomainAdapter);
   }
 }
@@ -349,9 +350,6 @@ export class SubmissionDomainAdapter implements SubmissionProps {
   }
 
   get transactionReference() {
-    if(!this.doc.transactionReference) {
-      this.doc.transactionReference = {}
-    }
     return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
   }
 }

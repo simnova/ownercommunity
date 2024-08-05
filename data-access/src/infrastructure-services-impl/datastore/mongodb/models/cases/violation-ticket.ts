@@ -107,9 +107,9 @@ export interface ViolationTicket extends Ticket {
 }
 
 export interface TransactionReference {
-  vendor?: string;
-  referenceId?: string;
-  completedOn?: Date;
+  vendor: string;
+  referenceId: string;
+  completedOn: Date;
 }
 
 export interface AdhocTransaction extends SubdocumentBase {
@@ -123,14 +123,14 @@ export interface AdhocTransaction extends SubdocumentBase {
     isApplicantApproved: boolean;
     applicantRespondedAt: Date;
   };
-  transactionReference: TransactionReference;
+  transactionReference?: TransactionReference;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface Submission extends NestedPath {
   amount: number;
-  transactionReference?: TransactionReference;
+  transactionReference: TransactionReference;
 }
 export interface Transaction extends NestedPath {
   submission: Submission;
@@ -139,7 +139,7 @@ export interface Transaction extends NestedPath {
 
 export interface FinanceDetails extends NestedPath {
   serviceFee: number;
-  transactions: Transaction;
+  transactions?: Transaction;
 }
 
 const AdhocTransactionSchema = new Schema<AdhocTransaction, Model<AdhocTransaction>, AdhocTransaction>({
@@ -177,19 +177,19 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
     financeDetails: {
       serviceFee: { type: Number, required: true }, // violationTicket.penaltyAmount
       transactions: {
-        submission: {
-          amount: { type: Number, required: true }, // it is authorized amount
-          transactionReference: {
-            vendor: { type: String, required: true },
-            referenceId: { type: String, required: true },
-            completedOn: { type: Date, required: true },
+        type: {
+          submission: {
+            amount: { type: Number, required: true }, // this is authorized amount
+            transactionReference: {
+              vendor: { type: String, required: true },
+              referenceId: { type: String, required: true },
+              completedOn: { type: Date, required: true },
+            },
           },
-        },
-        adhocTransactions: {type: [AdhocTransactionSchema], required: false},
-        required: false
-      },
+          adhocTransactions: { type: [AdhocTransactionSchema], required: false },
+        }, required: false },
     },
-    revisionRequest: { 
+    revisionRequest: {
       type: {
         requestedAt: { type: Date, required: true },
         requestedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true },

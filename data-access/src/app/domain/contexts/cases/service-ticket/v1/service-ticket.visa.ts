@@ -31,7 +31,7 @@ export class ServiceTicketV1VisaImpl<root extends ServiceTicketV1EntityReference
       isEditingOwnTicket: {
         value: (this.member.id === this.root.requestor.id)
       },
-      isEditingAssignedTickets: {
+      isEditingAssignedTicket: {
         value: (
           this.root.assignedTo?.id &&
           this.member.id === this.root.assignedTo.id)

@@ -14,7 +14,7 @@ import { ViolationTicketV1Repository } from '../../../../../../../app/domain/con
 import { ViolationTicketV1FinanceDetailProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details';
 import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message';
 import { TransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
-import { ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
+import { ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
 import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
 
 class MemoryViolationTicketV1RevisionRequestedChanges implements ViolationTicketV1RevisionRequestedChangesProps {
@@ -119,6 +119,9 @@ class MemoryViolationTicketV1 extends MemoryBaseAdapter implements ViolationTick
     }
     return this._revisionRequest;
   };
+  setRevisionRequestRef(revisionRequest: ViolationTicketV1RevisionRequestEntityReference): void {
+    this._revisionRequest = revisionRequest as unknown as ViolationTicketV1RevisionRequestProps;
+  }
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;

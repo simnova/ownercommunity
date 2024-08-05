@@ -42,11 +42,11 @@ export class ServiceTicketV1RevisionRequestedChanges
 
   set RequestUpdatedStatus(requestUpdatedStatus: boolean) {
     this.validateVisa();
-    this.props.requestUpdatedAssignment = requestUpdatedStatus;
+    this.props.requestUpdatedStatus = requestUpdatedStatus;
   }
 
   set RequestUpdatedProperty(requestUpdatedProperty: boolean) {
     this.validateVisa();
-    this.props.requestUpdatedAssignment = requestUpdatedProperty;
+    this.props.requestUpdatedProperty = requestUpdatedProperty;
   }
 }

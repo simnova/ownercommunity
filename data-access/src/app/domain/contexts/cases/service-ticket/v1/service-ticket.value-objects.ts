@@ -1,4 +1,5 @@
-import { VOString, VOSet, VOInteger } from '@lucaspaganini/value-objects';
+import { VOString, VOSet, VOInteger, VOObject, VOOptional } from '@lucaspaganini/value-objects';
+import { DateTime } from 'graphql-scalars/typings/typeDefs';
 
 export const StatusCodes = {
   Draft: 'DRAFT',

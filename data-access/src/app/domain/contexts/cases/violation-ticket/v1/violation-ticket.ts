@@ -18,7 +18,6 @@ import { ViolationTicketV1FinanceDetailEntityReference, ViolationTicketV1Finance
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
 import { ViolationTicketV1RevisionRequest, ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from './violation-ticket-v1-revision-request';
-import { AdhocTransactions } from './finance-details-adhoc-transactions';
 
 export interface ViolationTicketV1Props extends EntityProps {
   readonly community: CommunityProps;

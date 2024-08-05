@@ -73,7 +73,11 @@ export class ViolationTicketV1RevisionRequest extends ValueObject<ViolationTicke
   }
 
   set RevisionSubmittedAt(revisionSubmittedAt: Date) {
-    if (!this.visa.determineIf((permissions) => permissions.isEditingOwnTicket || (permissions.canManageTickets && permissions.isEditingAssignedTicket))) {
+    if (!this.visa.determineIf((permissions) => 
+      permissions.isEditingOwnTicket || 
+      (permissions.canManageTickets && permissions.isEditingAssignedTicket) ||
+      permissions.isSystemAccount
+    )) {
       throw new Error('Unauthorized');
     }
     this.props.revisionSubmittedAt = revisionSubmittedAt;

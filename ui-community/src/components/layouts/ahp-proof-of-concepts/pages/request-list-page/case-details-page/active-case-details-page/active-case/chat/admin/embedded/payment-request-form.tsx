@@ -1,25 +1,65 @@
 import { Button } from 'antd';
 import Title from 'antd/es/typography/Title';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { PaymentRequestFormrServiceTicketUpdateDocument } from '../../../../../../../../../../../generated';
+import { useMutation } from '@apollo/client';
+import { useParams } from 'react-router-dom';
 
 interface PaymentRequestFormProps {
   amount: number;
   reason: string;
   isAdmin: boolean;
+  message: {
+    id: string;
+    message: string;
+    sentBy: string;
+  };
+  completed: boolean;
+  success: boolean;
 }
 
 const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
-  const [completed, setCompleted] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const params = useParams();
+  const [completed, setCompleted] = useState(props.completed);
+  const [success, setSuccess] = useState(props.success);
+  const [updateServiceTicket] = useMutation(PaymentRequestFormrServiceTicketUpdateDocument);
 
-  const rejectPayment = () => {
-    setCompleted(true);
-    setSuccess(false);
+  const updateMessage = async (succeeded: boolean) => {
+    const embeddedData = JSON.stringify({
+      type: 'requestPayment',
+      amount: props.amount,
+      reason: props.reason,
+      completed: true,
+      success: succeeded
+    });
+
+    await updateServiceTicket({
+      variables: {
+        input: {
+          serviceTicketId: params.id,
+          messages: [
+            {
+              id: props.message.id,
+              embedding: embeddedData,
+              message: props.message.message,
+              sentBy: props.message.sentBy
+            }
+          ]
+        }
+      }
+    });
   };
 
-  const sendPayment = () => {
+  const rejectPayment = async () => {
+    setCompleted(true);
+    setSuccess(false);
+    await updateMessage(false);
+  };
+
+  const sendPayment = async () => {
     setCompleted(true);
     setSuccess(true);
+    await updateMessage(true);
   };
 
   const applicantView = completed ? (

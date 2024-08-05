@@ -6,6 +6,7 @@ import PaymentRequestForm from './admin/embedded/payment-request-form';
 import SendMoneyForm from './admin/embedded/send-money-form';
 
 interface ChatMessageProps {
+  id: string;
   sentBy: string;
   message: string;
   embedding: string | undefined;
@@ -40,7 +41,18 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
         return <RequestFeedbackForm changesRequested={componentData.changesRequested} isAdmin={props.isAdmin} />;
       } else if (componentData.type === 'requestPayment') {
         return (
-          <PaymentRequestForm amount={componentData.amount} reason={componentData.reason} isAdmin={props.isAdmin} />
+          <PaymentRequestForm
+            amount={componentData.amount}
+            reason={componentData.reason}
+            isAdmin={props.isAdmin}
+            message={{
+              id: props.id,
+              message: props.message,
+              sentBy: props.sentBy
+            }}
+            success={componentData.success}
+            completed={componentData.completed}
+          />
         );
       } else if (componentData.type === 'sendMoney') {
         return <SendMoneyForm amount={componentData.amount} reason={componentData.reason} isAdmin={props.isAdmin} />;

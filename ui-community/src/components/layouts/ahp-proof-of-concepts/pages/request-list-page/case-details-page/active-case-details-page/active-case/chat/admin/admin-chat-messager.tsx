@@ -53,7 +53,9 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
         embeddedData = JSON.stringify({
           type: 'requestPayment',
           amount: mainRequest.amount,
-          reason: mainRequest.reason
+          reason: mainRequest.reason,
+          completed: false,
+          success: false
         });
       } else if (documentRequestTypes.includes(mainRequest.value)) {
         embeddedData = JSON.stringify({

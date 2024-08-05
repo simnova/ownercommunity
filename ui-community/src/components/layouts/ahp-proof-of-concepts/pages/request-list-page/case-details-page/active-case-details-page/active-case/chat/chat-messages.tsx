@@ -2,7 +2,6 @@ import { FC, useEffect } from 'react';
 import { ChatMessage } from './chat-message';
 import { ServiceTicket } from '../../../../../../../../../generated';
 
-
 interface ChatMessagesProps {
   data: ServiceTicket;
   isAdmin: boolean;
@@ -32,7 +31,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
       {props?.data?.messages?.map((message: any) => {
         return (
           <ChatMessage
-            key={message.id}
+            id={message.id}
             sentBy={message.sentBy}
             message={message.message}
             embedding={message.embedding}

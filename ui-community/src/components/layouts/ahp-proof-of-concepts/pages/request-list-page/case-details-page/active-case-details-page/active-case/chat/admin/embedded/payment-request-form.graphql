@@ -1,0 +1,15 @@
+mutation PaymentRequestFormrServiceTicketUpdate($input: ServiceTicketUpdateInput!) {
+  serviceTicketUpdate(input: $input) {
+    serviceTicket {
+      id
+      messages {
+        embedding
+        id
+      }
+    }
+    status {
+      errorMessage
+      success
+    }
+  }
+}

@@ -4277,6 +4277,23 @@ export type SectionLayoutContainerMemberFieldsFragment = {
   } | null;
 };
 
+export type PaymentRequestFormrServiceTicketUpdateMutationVariables = Exact<{
+  input: ServiceTicketUpdateInput;
+}>;
+
+export type PaymentRequestFormrServiceTicketUpdateMutation = {
+  __typename?: 'Mutation';
+  serviceTicketUpdate: {
+    __typename?: 'ServiceTicketMutationResult';
+    serviceTicket?: {
+      __typename?: 'ServiceTicket';
+      id: any;
+      messages?: Array<{ __typename?: 'ServiceTicketV1Message'; embedding?: string | null; id: any } | null> | null;
+    } | null;
+    status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
+  };
+};
+
 export type ChatMessagesContainerServiceTicketQueryVariables = Exact<{
   serviceTicketId: Scalars['ObjectID'];
 }>;
@@ -17360,6 +17377,82 @@ export const SectionLayoutContainerMemberByIdQueryDocument = {
 } as unknown as DocumentNode<
   SectionLayoutContainerMemberByIdQueryQuery,
   SectionLayoutContainerMemberByIdQueryQueryVariables
+>;
+export const PaymentRequestFormrServiceTicketUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'PaymentRequestFormrServiceTicketUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ServiceTicketUpdateInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'serviceTicketUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'serviceTicket' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'messages' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'embedding' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  PaymentRequestFormrServiceTicketUpdateMutation,
+  PaymentRequestFormrServiceTicketUpdateMutationVariables
 >;
 export const ChatMessagesContainerServiceTicketDocument = {
   kind: 'Document',

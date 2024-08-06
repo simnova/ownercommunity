@@ -91,7 +91,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
           ]
         };
 
-    if (documentRequestTypes.includes(requests[0].value)) {
+    if (requests.length > 0 && documentRequestTypes.includes(requests[0].value)) {
       input.revisionRequest = {
         requestedChanges: {
           requestUpdatedAssignment: requests.findIndex((x) => x.value === 'updateAssignment') !== -1,

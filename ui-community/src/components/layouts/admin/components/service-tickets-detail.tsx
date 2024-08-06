@@ -19,6 +19,8 @@ import {
   Space,
   Steps,
   Table,
+  Tabs,
+  TabsProps,
   Typography
 } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
@@ -190,9 +192,177 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
     </Menu>
   );
 
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: 'Details',
+      children: (
+        <>
+          <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
+            <Descriptions
+              title="ServiceTicket Info"
+              size={'small'}
+              layout={'vertical'}
+              labelStyle={{ fontSize: '10px' }}
+            >
+              <Descriptions.Item label="Id">{props.data.serviceTicket.id}</Descriptions.Item>
+              <Descriptions.Item label="Status">
+                {stateMap.get(props.data.serviceTicket.status)?.state}
+              </Descriptions.Item>
+              <Descriptions.Item label="Assigned To">
+                {props.data.serviceTicket.assignedTo ? props.data.serviceTicket.assignedTo.memberName : ''}
+              </Descriptions.Item>
+              <Descriptions.Item label="Created At">
+                {dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}
+              </Descriptions.Item>
+              <Descriptions.Item label="Updated At">
+                {dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}
+              </Descriptions.Item>
+            </Descriptions>
+          </div>
+          <div style={{ padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
+            <Button type="primary" danger onClick={props.onDelete}>
+              Delete Ticket
+            </Button>
+          </div>
+          {assignStages.includes(props.data.serviceTicket.status) && (
+            <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
+              <Title level={5}>Ticket Assignment</Title>
+              <br />
+              <Form
+                layout="vertical"
+                form={assignForm}
+                initialValues={props.data.serviceTicket}
+                onFinish={(values) => {
+                  setAssignFormLoading(true);
+                  console.log('values', values);
+                  props.onAssign({
+                    serviceTicketId: props.data.serviceTicket.id,
+                    assignedToId: values.assignedTo.id
+                  });
+                  setAssignFormLoading(false);
+                }}
+              >
+                <Form.Item name={['assignedTo', 'id']} label="Assigned To">
+                  <Select
+                    allowClear={true}
+                    placeholder="Select a Member"
+                    options={props.data.members}
+                    fieldNames={{ label: 'memberName', value: 'id' }}
+                    style={{ width: '35%' }}
+                  />
+                </Form.Item>
+                <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
+                  Save Assignment
+                </Button>
+              </Form>
+            </div>
+          )}
+          {props.data.serviceTicket.status === 'DRAFT' && (
+            <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
+              <Title level={5}>Edit Draft Ticket</Title>
+              <br />
+              <Form
+                layout="vertical"
+                form={editDraftForm}
+                initialValues={props.data.serviceTicket}
+                onFinish={(values) => {
+                  setEditDraftFormLoading(true);
+                  console.log('values', values);
+                  props.onUpdate({
+                    serviceTicketId: props.data.serviceTicket.id,
+                    propertyId: values.property.id,
+                    title: values.title,
+                    description: values.description,
+                    priority: values.priority
+                  });
+                  setEditDraftFormLoading(false);
+                }}
+              >
+                <Form.Item name={['title']} label="Title" rules={[{ required: true, message: 'Title is required.' }]}>
+                  <Input placeholder="Short title of the request" maxLength={200} />
+                </Form.Item>
+
+                <Form.Item
+                  name={['description']}
+                  label="Description"
+                  rules={[{ required: true, message: 'Description is required.' }]}
+                >
+                  <TextArea placeholder="Description of the request" maxLength={2000} />
+                </Form.Item>
+
+                <Form.Item name={['property', 'id']} label="Property">
+                  <Select
+                    allowClear={true}
+                    placeholder="Select a Property"
+                    options={props.data.properties}
+                    fieldNames={{ label: 'propertyName', value: 'id' }}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name={['priority']}
+                  label="Priority"
+                  rules={[{ required: true, message: 'Priority is required.' }]}
+                >
+                  <Select allowClear={false} placeholder="Select a Priority">
+                    <Select.Option value={1}>1-Critical</Select.Option>
+                    <Select.Option value={2}>2-High</Select.Option>
+                    <Select.Option value={3}>3-Normal</Select.Option>
+                    <Select.Option value={4}>4-Low</Select.Option>
+                    <Select.Option value={5}>5-No Rush</Select.Option>
+                  </Select>
+                </Form.Item>
+                <Space>
+                  <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
+                    Save Draft
+                  </Button>
+                </Space>
+              </Form>
+            </div>
+          )}
+          <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
+            <Title level={5}>Activity Log</Title>
+            <br />
+            <Table
+              columns={columns}
+              dataSource={props.data.serviceTicket.activityLog}
+              rowKey={(record: any) => record.id}
+            />
+            <Form
+              layout="vertical"
+              form={addUpdateActivityForm}
+              onFinish={async (values) => {
+                setAddUpdateActivityFormLoading(true);
+                console.log('values', values);
+                await props.onAddUpdateActivity({
+                  serviceTicketId: props.data.serviceTicket.id,
+                  activityDescription: values.activityDescription
+                });
+                addUpdateActivityForm.resetFields();
+                setAddUpdateActivityFormLoading(false);
+              }}
+            >
+              <Form.Item name={['activityDescription']} label="Activity Description">
+                <TextArea rows={4} placeholder="Add an update to the ticket." maxLength={2000} />
+              </Form.Item>
+              <Button type="primary" htmlType="submit" value={'save'} loading={addUpdateActivityFormLoading}>
+                Add Activity Update
+              </Button>
+            </Form>
+          </div>
+        </>
+      )
+    },
+    {
+      key: '2',
+      label: 'Chat',
+      children: <AdminChatMessagesContainer />
+    }
+  ];
+
   return (
-    <div>
-      <AdminChatMessagesContainer />
+    <>
       <div style={{ margin: '0', padding: 24, backgroundColor: 'white' }}>
         <div style={{ marginBottom: '20px' }}>
           <div className="inline-block">
@@ -286,152 +456,8 @@ export const ServiceTicketsDetail: React.FC<any> = (props) => {
           />
         </Steps>
       </div>
-      <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-        <Descriptions title="ServiceTicket Info" size={'small'} layout={'vertical'} labelStyle={{ fontSize: '10px' }}>
-          <Descriptions.Item label="Id">{props.data.serviceTicket.id}</Descriptions.Item>
-          <Descriptions.Item label="Status">{stateMap.get(props.data.serviceTicket.status)?.state}</Descriptions.Item>
-          <Descriptions.Item label="Assigned To">
-            {props.data.serviceTicket.assignedTo ? props.data.serviceTicket.assignedTo.memberName : ''}
-          </Descriptions.Item>
-          <Descriptions.Item label="Created At">
-            {dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}
-          </Descriptions.Item>
-          <Descriptions.Item label="Updated At">
-            {dayjs(props.data.serviceTicket.createdAt).format('MM/DD/YYYY')}
-          </Descriptions.Item>
-        </Descriptions>
-      </div>
-      <div style={{ padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-        <Button type="primary" danger onClick={props.onDelete}>
-          Delete Ticket
-        </Button>
-      </div>
-      {assignStages.includes(props.data.serviceTicket.status) && (
-        <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-          <Title level={5}>Ticket Assignment</Title>
-          <br />
-          <Form
-            layout="vertical"
-            form={assignForm}
-            initialValues={props.data.serviceTicket}
-            onFinish={(values) => {
-              setAssignFormLoading(true);
-              console.log('values', values);
-              props.onAssign({
-                serviceTicketId: props.data.serviceTicket.id,
-                assignedToId: values.assignedTo.id
-              });
-              setAssignFormLoading(false);
-            }}
-          >
-            <Form.Item name={['assignedTo', 'id']} label="Assigned To">
-              <Select
-                allowClear={true}
-                placeholder="Select a Member"
-                options={props.data.members}
-                fieldNames={{ label: 'memberName', value: 'id' }}
-                style={{ width: '35%' }}
-              />
-            </Form.Item>
-            <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
-              Save Assignment
-            </Button>
-          </Form>
-        </div>
-      )}
-      {props.data.serviceTicket.status === 'DRAFT' && (
-        <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-          <Title level={5}>Edit Draft Ticket</Title>
-          <br />
-          <Form
-            layout="vertical"
-            form={editDraftForm}
-            initialValues={props.data.serviceTicket}
-            onFinish={(values) => {
-              setEditDraftFormLoading(true);
-              console.log('values', values);
-              props.onUpdate({
-                serviceTicketId: props.data.serviceTicket.id,
-                propertyId: values.property.id,
-                title: values.title,
-                description: values.description,
-                priority: values.priority
-              });
-              setEditDraftFormLoading(false);
-            }}
-          >
-            <Form.Item name={['title']} label="Title" rules={[{ required: true, message: 'Title is required.' }]}>
-              <Input placeholder="Short title of the request" maxLength={200} />
-            </Form.Item>
 
-            <Form.Item
-              name={['description']}
-              label="Description"
-              rules={[{ required: true, message: 'Description is required.' }]}
-            >
-              <TextArea placeholder="Description of the request" maxLength={2000} />
-            </Form.Item>
-
-            <Form.Item name={['property', 'id']} label="Property">
-              <Select
-                allowClear={true}
-                placeholder="Select a Property"
-                options={props.data.properties}
-                fieldNames={{ label: 'propertyName', value: 'id' }}
-              />
-            </Form.Item>
-
-            <Form.Item
-              name={['priority']}
-              label="Priority"
-              rules={[{ required: true, message: 'Priority is required.' }]}
-            >
-              <Select allowClear={false} placeholder="Select a Priority">
-                <Select.Option value={1}>1-Critical</Select.Option>
-                <Select.Option value={2}>2-High</Select.Option>
-                <Select.Option value={3}>3-Normal</Select.Option>
-                <Select.Option value={4}>4-Low</Select.Option>
-                <Select.Option value={5}>5-No Rush</Select.Option>
-              </Select>
-            </Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit" value={'save'} loading={editDraftFormLoading}>
-                Save Draft
-              </Button>
-            </Space>
-          </Form>
-        </div>
-      )}
-      <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-        <Title level={5}>Activity Log</Title>
-        <br />
-        <Table
-          columns={columns}
-          dataSource={props.data.serviceTicket.activityLog}
-          rowKey={(record: any) => record.id}
-        />
-        <Form
-          layout="vertical"
-          form={addUpdateActivityForm}
-          onFinish={async (values) => {
-            setAddUpdateActivityFormLoading(true);
-            console.log('values', values);
-            await props.onAddUpdateActivity({
-              serviceTicketId: props.data.serviceTicket.id,
-              activityDescription: values.activityDescription
-            });
-            addUpdateActivityForm.resetFields();
-            setAddUpdateActivityFormLoading(false);
-          }}
-        >
-          <Form.Item name={['activityDescription']} label="Activity Description">
-            <TextArea rows={4} placeholder="Add an update to the ticket." maxLength={2000} />
-          </Form.Item>
-          <Button type="primary" htmlType="submit" value={'save'} loading={addUpdateActivityFormLoading}>
-            Add Activity Update
-          </Button>
-        </Form>
-      </div>
-    </div>
+      <Tabs defaultActiveKey="1" items={items} />
+    </>
   );
 };

@@ -3,7 +3,6 @@ import { Route, Routes, useMatch, useNavigate, useParams, useResolvedPath } from
 import { AHPObjectIDRouteLayer } from '..';
 import { PageLayoutProps } from '../../../../../shared/components/menu-component';
 import { ActiveCaseDetailsPageLayout } from './active-case-details-page-layout';
-import { AdminChatMessagesContainer } from './active-case/admin/admin-chat-messages.container';
 
 export const AHPActiveCaseDetailsLayer = {
   Chat: 'chat',
@@ -63,7 +62,7 @@ export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) =>
   return (
     <Routes>
       <Route path="" element={<ActiveCaseDetailsPageLayout pageLayouts={pageLayouts} />}>
-        <Route path="chat" element={<AdminChatMessagesContainer />} />
+        <Route path="chat" element={<></>} />
         <Route path="application" element={<>Application for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
         <Route path="files" element={<>Files for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
         <Route path="transactions" element={<>Transactions for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />

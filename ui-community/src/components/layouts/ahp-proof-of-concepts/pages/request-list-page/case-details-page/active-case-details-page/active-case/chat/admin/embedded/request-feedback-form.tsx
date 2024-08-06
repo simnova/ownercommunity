@@ -10,14 +10,12 @@ interface RequestFeedbackFormProps {
 }
 
 const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
-  const [changesRequested ] = useState(
-    props.changesRequested
-      ? props.changesRequested
-      : {
-          updateAssignment: false,
-          updateProperty: false,
-          updateStatus: false
-        }
+  const [changesRequested] = useState(
+    props.changesRequested || {
+      updateAssignment: false,
+      updateProperty: false,
+      updateStatus: false
+    }
   );
 
   const applicantView = (

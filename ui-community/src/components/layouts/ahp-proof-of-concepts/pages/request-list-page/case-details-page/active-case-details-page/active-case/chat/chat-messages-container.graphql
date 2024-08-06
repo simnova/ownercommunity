@@ -1,5 +1,6 @@
 query ChatMessagesContainerServiceTicket($serviceTicketId: ObjectID!) {
   serviceTicket(id: $serviceTicketId) {
+    id
     messages {
       sentBy
       message
@@ -12,6 +13,7 @@ query ChatMessagesContainerServiceTicket($serviceTicketId: ObjectID!) {
 
 query ChatMessagesContainerViolationTicket($violationTicketId: ObjectID!) {
   violationTicket(id: $violationTicketId) {
+    id
     messages {
       sentBy
       message

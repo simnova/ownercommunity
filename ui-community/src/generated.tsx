@@ -4319,6 +4319,7 @@ export type ChatMessagesContainerServiceTicketQuery = {
   __typename?: 'Query';
   serviceTicket?: {
     __typename?: 'ServiceTicket';
+    id: any;
     messages?: Array<{
       __typename?: 'ServiceTicketV1Message';
       sentBy: string;
@@ -4338,6 +4339,7 @@ export type ChatMessagesContainerViolationTicketQuery = {
   __typename?: 'Query';
   violationTicket?: {
     __typename?: 'ViolationTicket';
+    id: any;
     messages?: Array<{
       __typename?: 'ViolationTicketV1Message';
       sentBy: string;
@@ -17620,6 +17622,7 @@ export const ChatMessagesContainerServiceTicketDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'messages' },
@@ -17672,6 +17675,7 @@ export const ChatMessagesContainerViolationTicketDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'messages' },

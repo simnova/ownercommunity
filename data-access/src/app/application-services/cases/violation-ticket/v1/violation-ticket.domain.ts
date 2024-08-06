@@ -86,7 +86,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
 
     await this.withTransaction(async (repo) => {
       let violationTicket = await repo.getById(input.violationTicketId);
-      if(input.penaltyAmount) violationTicket.financeDetails.ServiceFee = input.penaltyAmount;
+      if(input.penaltyAmount !== null && input.penaltyAmount !== undefined)  {violationTicket.financeDetails.ServiceFee = input.penaltyAmount;}
       let propertyDo = null;
       if (input.propertyId && violationTicket.property.id !== input.propertyId) {
         let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);

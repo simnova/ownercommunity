@@ -1,7 +1,10 @@
 import { Button } from 'antd';
 import Title from 'antd/es/typography/Title';
 import React, { useState } from 'react';
-import { PaymentRequestFormServiceTicketUpdateDocument } from '../../../../../../../../../../../generated';
+import {
+  PaymentRequestFormServiceTicketUpdateDocument,
+  PaymentRequestFormViolationTicketUpdateDocument
+} from '../../../../../../../../../../../generated';
 import { useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
@@ -20,9 +23,12 @@ interface PaymentRequestFormProps {
 
 const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
   const params = useParams();
+  const isServiceTicket = window.location.href.indexOf('ServiceTicketType') > -1;
   const [completed, setCompleted] = useState(props.completed);
   const [success, setSuccess] = useState(props.success);
-  const [updateServiceTicket] = useMutation(PaymentRequestFormServiceTicketUpdateDocument);
+  const [updateServiceTicket] = useMutation(
+    isServiceTicket ? PaymentRequestFormServiceTicketUpdateDocument : PaymentRequestFormViolationTicketUpdateDocument
+  );
 
   const updateMessage = async (succeeded: boolean) => {
     const embeddedData = JSON.stringify({
@@ -32,10 +38,9 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
       completed: true,
       success: succeeded
     });
-
-    await updateServiceTicket({
-      variables: {
-        input: {
+    
+    const input: any = isServiceTicket
+      ? {
           serviceTicketId: params.id,
           messages: [
             {
@@ -46,6 +51,21 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
             }
           ]
         }
+      : {
+          violationTicketId: params.id,
+          messages: [
+            {
+              id: props.message.id,
+              embedding: embeddedData,
+              message: props.message.message,
+              sentBy: props.message.sentBy
+            }
+          ]
+        };
+
+    await updateServiceTicket({
+      variables: {
+        input: input
       }
     });
   };

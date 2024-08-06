@@ -2,7 +2,10 @@ import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
 import { Button } from 'antd';
 import { useMutation } from '@apollo/client';
-import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../../generated';
+import {
+  ChatMessagesContainerServiceTicketUpdateDocument,
+  ChatMessagesContainerViolationTicketUpdateDocument
+} from '../../../../../../../../../../generated';
 import { useParams } from 'react-router-dom';
 
 interface ChatMessagerProps {
@@ -11,10 +14,15 @@ interface ChatMessagerProps {
 
 export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
   const params = useParams();
+  const isServiceTicket = window.location.href.indexOf('ServiceTicketType') > -1;
   const [message, setMessage] = useState('');
-  const [updateServiceTicket] = useMutation(ChatMessagesContainerServiceTicketUpdateDocument);
+  const [updateServiceTicket] = useMutation(
+    isServiceTicket
+      ? ChatMessagesContainerServiceTicketUpdateDocument
+      : ChatMessagesContainerViolationTicketUpdateDocument
+  );
 
-  function repeatEverySecond() {
+  function repeatEveryMinute() {
     setInterval(props.updateMessage, 60000);
   }
 
@@ -22,9 +30,8 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
     if (message === '') {
       return;
     }
-    await updateServiceTicket({
-      variables: {
-        input: {
+    const input: any = isServiceTicket
+      ? {
           serviceTicketId: params.id,
           messages: [
             {
@@ -34,13 +41,27 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
             }
           ]
         }
+      : {
+          violationTicketId: params.id,
+          messages: [
+            {
+              sentBy: 'external',
+              message: message,
+              embedding: undefined
+            }
+          ]
+        };
+
+    await updateServiceTicket({
+      variables: {
+        input: input
       }
     });
     setMessage('');
     props.updateMessage();
   };
 
-  repeatEverySecond();
+  repeatEveryMinute();
 
   return (
     <div style={{ gridColumn: 1, border: '1px solid black', borderTop: '0px', width: '75%', display: 'flex' }}>

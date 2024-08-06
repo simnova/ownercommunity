@@ -2,7 +2,10 @@ import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
 import { Button, Tag } from 'antd';
 import { useMutation } from '@apollo/client';
-import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../../generated';
+import {
+  ChatMessagesContainerServiceTicketUpdateDocument,
+  ChatMessagesContainerViolationTicketUpdateDocument
+} from '../../../../../../../../../../generated';
 import { RequestFeedbackButton } from './request-feedback-button';
 import { RequestPaymentButton } from './request-payment-button';
 import { SendMoneyButton } from './send-money-button';
@@ -14,17 +17,20 @@ interface ChatMessagerProps {
 
 export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
   const params = useParams();
+  const isServiceTicket = window.location.href.indexOf('ServiceTicketType') > -1;
   const [message, setMessage] = useState('');
   const [requests, setRequests] = useState<any[]>([]);
-  const [updateServiceTicket] = useMutation(ChatMessagesContainerServiceTicketUpdateDocument, {
-    onCompleted: () => {}
-  });
+  const [updateServiceTicket] = useMutation(
+    isServiceTicket
+      ? ChatMessagesContainerServiceTicketUpdateDocument
+      : ChatMessagesContainerViolationTicketUpdateDocument
+  );
 
   const updateEmbedding = (requests: any[]) => {
     setRequests(requests);
   };
 
-  function repeatEverySecond() {
+  function repeatEveryMinute() {
     setInterval(props.updateMessage, 60000);
   }
 
@@ -63,16 +69,27 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
       }
     }
 
-    let input: any = {
-      serviceTicketId: params.id,
-      messages: [
-        {
-          sentBy: 'internal',
-          message: message,
-          embedding: embeddedData ?? ''
+    let input: any = isServiceTicket
+      ? {
+          serviceTicketId: params.id,
+          messages: [
+            {
+              sentBy: 'internal',
+              message: message,
+              embedding: embeddedData ?? ''
+            }
+          ]
         }
-      ]
-    };
+      : {
+          violationTicketId: params.id,
+          messages: [
+            {
+              sentBy: 'internal',
+              message: message,
+              embedding: embeddedData ?? ''
+            }
+          ]
+        };
 
     if (documentRequestTypes.includes(requests[0].value)) {
       input.revisionRequest = {
@@ -83,7 +100,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
         }
       };
     }
-    
+
     await updateServiceTicket({
       variables: {
         input: input
@@ -102,7 +119,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
     setRequests(tempRequests);
   };
 
-  repeatEverySecond();
+  repeatEveryMinute();
 
   return (
     <div style={{ gridColumn: 1, border: '1px solid black', borderTop: '0px', width: '75%', display: 'flex' }}>

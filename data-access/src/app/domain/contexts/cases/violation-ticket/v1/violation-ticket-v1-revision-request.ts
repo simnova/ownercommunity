@@ -44,6 +44,13 @@ export class ViolationTicketV1RevisionRequest extends ValueObject<ViolationTicke
     return this.props.revisionSubmittedAt;
   }
 
+  static getNewInstance(
+    newProps: ViolationTicketV1RevisionRequestProps, 
+    context: DomainExecutionContext, 
+    visa: ViolationTicketV1Visa): ViolationTicketV1RevisionRequest {
+      return new ViolationTicketV1RevisionRequest(newProps, context, visa);
+  }
+
   private validateVisa(): void {
     if (!this.visa.determineIf((permissions) => (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount)) {
       throw new Error('Unauthorized');
@@ -66,12 +73,13 @@ export class ViolationTicketV1RevisionRequest extends ValueObject<ViolationTicke
   }
 
   set RevisionSubmittedAt(revisionSubmittedAt: Date) {
-    if (
-      !this.visa.determineIf(
-        (permissions) => permissions.isEditingOwnTicket || (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount
-      )
-    ) {
-      this.props.revisionSubmittedAt = revisionSubmittedAt;
+    if (!this.visa.determineIf((permissions) => 
+      permissions.isEditingOwnTicket || 
+      (permissions.canManageTickets && permissions.isEditingAssignedTicket) ||
+      permissions.isSystemAccount
+    )) {
+      throw new Error('Unauthorized');
     }
+    this.props.revisionSubmittedAt = revisionSubmittedAt;
   }
 }

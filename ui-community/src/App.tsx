@@ -22,7 +22,7 @@ function App() {
   );
 
   const rootSection = (
-    <AuthProvider>
+    <AuthProvider {...uiConfig}>
       <ApolloConnection AuthenticationIdentifier="account">
         <Root />
       </ApolloConnection>

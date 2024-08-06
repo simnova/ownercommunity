@@ -1,13 +1,15 @@
 import { DomainVisaImpl, ReadOnlyDomainVisa, SystemDomainVisa } from '../domain/domain.visa';
 import { MemberEntityReference } from '../domain/contexts/community/member/member';
 import { CommunityEntityReference } from '../domain/contexts/community/community/community';
+import {StaffUserEntityReference } from '../domain/contexts/users/staff-user/staff-user';
+import { EndUserEntityReference } from '../domain/contexts/users/end-user/end-user';
 import { ApplicationServices } from '../application-services';
 import { InfrastructureServices } from '../infrastructure-services';
 import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
 import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
-import { EndUserEntityReference } from '../domain/contexts/users/end-user/end-user';
+import { OpenIdConfigKeyEnum } from '../../../seedwork/auth-seedwork-oidc/portal-token-validation';
 
 export interface VerifiedJwtPayloadType{
   name: string;
@@ -15,11 +17,13 @@ export interface VerifiedJwtPayloadType{
   family_name: string;
   email: string;
   sub: string;
+  oid?: string;
+  unique_name?: string;
 }
 
 export type VerifiedUser = {
   verifiedJWT: VerifiedJwtPayloadType;
-  openIdConfigKey: string;
+  openIdConfigKey: OpenIdConfigKeyEnum;
 };
 
 export interface AppContext{  // extends DomainExecutionContext {
@@ -103,11 +107,22 @@ export abstract class AppContextBuilder implements AppContext {
   }
 
   private async setPassport(): Promise<void> {
-    if(this._verifiedUser?.openIdConfigKey === 'SYSTEM') {
+    if(this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.SYSTEM) {
       this._passport = {
         domainVisa: SystemDomainVisa.GetInstance(),
         datastoreVisa: SystemDatastoreVisaImpl.GetInstance()
       };
+      return;
+    }
+
+    if (this._verifiedUser?.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) {
+      let userData = await this._applicationServices.users.staffUser.dataApi.getUserByExternalId(this._verifiedUser.verifiedJWT.oid);
+      if(userData) {
+        this._passport = {
+          domainVisa: new DomainVisaImpl(userData as StaffUserEntityReference, null, null),
+          datastoreVisa: new DatastoreVisaImpl(userData, null)
+        }
+      }
       return;
     }
 

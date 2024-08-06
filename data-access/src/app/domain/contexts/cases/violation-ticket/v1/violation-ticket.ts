@@ -33,7 +33,7 @@ export interface ViolationTicketV1Props extends EntityProps {
   penaltyAmount: number;
   penaltyPaidDate: Date;
   readonly paymentTransactions: PropArray<TransactionProps>;
-  readonly revisionRequest?: ViolationTicketV1RevisionRequestProps; 
+  readonly revisionRequest?: ViolationTicketV1RevisionRequestProps;
   readonly ticketType?: string;
   title: string;
   description: string;

@@ -1,4 +1,10 @@
-import { OpenIdConfig, VerifiedTokenService } from '../../seedwork/auth-seedwork-oidc/verified-token-service';
+import { OpenIdConfig, VerifiedTokenService } from "./verified-token-service";
+
+export enum OpenIdConfigKeyEnum {
+  ACCOUNT_PORTAL = 'AccountPortal',
+  STAFF_PORTAL = 'StaffPortal',
+  SYSTEM = 'System',
+}
 
  export class PortalTokenValidation {
   private tokenVerifier: VerifiedTokenService;
@@ -20,9 +26,11 @@ import { OpenIdConfig, VerifiedTokenService } from '../../seedwork/auth-seedwork
       this.tokenSettings.set(
         portalKey,
         {
-          oidcEndpoint: this.tryGetConfigValue(envPrefix + '_OIDC_ENDPOINT'),    
+          oidcEndpoint: this.tryGetConfigValue(envPrefix + '_OIDC_ENDPOINT'),   
+          clockTolerance: this.tryGetConfigValueWithDefault(envPrefix + '_OIDC_CLOCK_TOLERANCE', '5 minutes'), 
           audience: this.tryGetConfigValue(envPrefix + '_OIDC_AUDIENCE'),
-          issuerUrl: this.tryGetConfigValue(envPrefix + '_OIDC_ISSUER')
+          issuerUrl: this.tryGetConfigValue(envPrefix + '_OIDC_ISSUER'),
+          ignoreIssuer: this.tryGetConfigValueWithDefault(envPrefix + '_OIDC_IGNORE_ISSUER', 'false') === 'true',
         } as OpenIdConfig
       );
     }
@@ -37,21 +45,30 @@ import { OpenIdConfig, VerifiedTokenService } from '../../seedwork/auth-seedwork
     }
   }
 
+  public tryGetConfigValueWithDefault(configKey:string, defaultValue: string){
+    if(process.env.hasOwnProperty(configKey)){
+      return process.env[configKey];
+    }else{
+      return defaultValue;
+    }
+  }
+
   public Start(){
     this.tokenVerifier.Start();
   }
 
-  public async GetVerifiedUser (bearerToken:string): Promise<{verifiedJWT:any,openIdConfigKey:string}|null>{ 
+  public async GetVerifiedJwt (bearerToken:string): Promise<{verifiedJWT:any,openIdConfigKey:OpenIdConfigKeyEnum}|null>{ 
     for await(let [openIdConfigKey] of this.tokenSettings){
-      let verifedJWT = await this.tokenVerifier.GetVerifiedJwt(bearerToken,openIdConfigKey);
-      console.log(`for ${openIdConfigKey} with bearerToken: ${bearerToken} verifiedJWT: ${JSON.stringify(verifedJWT)}`)
-      if(verifedJWT){
+      let verifiedJWT = await this.tokenVerifier.GetVerifiedJwt(bearerToken,openIdConfigKey);
+      // console.log(`for ${openIdConfigKey} with bearerToken: ${bearerToken} verifiedJWT: ${JSON.stringify(verifiedJWT)}`)
+      if(verifiedJWT){
         return {
-          verifiedJWT:verifedJWT.payload,
-          openIdConfigKey:openIdConfigKey
+          verifiedJWT:verifiedJWT.payload,
+          openIdConfigKey:openIdConfigKey as OpenIdConfigKeyEnum
         }
       }
     }
+    
     return null;
   }
 

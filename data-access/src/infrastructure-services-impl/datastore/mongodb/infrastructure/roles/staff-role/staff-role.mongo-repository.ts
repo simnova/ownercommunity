@@ -17,4 +17,9 @@ export class MongoStaffRoleRepository<PropType extends StaffRoleProps>
     const adapter = this.typeConverter.toAdapter(new this.model());
     return StaffRoleDO.getNewInstance(adapter, name, false, this.context);
   }
+
+  async getByRoleName(roleName: string): Promise<StaffRoleDO<PropType>> {
+    const mongoRole = await this.model.findOne({ roleName });
+    return this.typeConverter.toDomain(mongoRole, this.context);
+  }
 }

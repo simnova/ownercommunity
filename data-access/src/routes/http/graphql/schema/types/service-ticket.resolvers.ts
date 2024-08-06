@@ -65,7 +65,15 @@ const serviceTicket: Resolvers = {
         return (await context.applicationServices.member.dataApi.getMemberById(parent.initiatedBy.toString())) as Member;
       }
       return parent.initiatedBy;
-    }
+    },
+  },
+  ServiceTicketV1RevisionRequest: {
+    requestedBy: async (parent, args, context, info) => {
+      if (parent.requestedBy && isValidObjectId(parent.requestedBy.toString())) {
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.requestedBy.toString())) as Member;
+      }
+      return parent.requestedBy;
+    },
   },
   Query: {
     serviceTicket: async (_parent, args, context, _info) => {

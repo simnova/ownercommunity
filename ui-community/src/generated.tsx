@@ -1695,6 +1695,7 @@ export type StaffUser = MongoBase & {
   firstName?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   lastName?: Maybe<Scalars['String']>;
+  role?: Maybe<StaffRole>;
   schemaVersion?: Maybe<Scalars['String']>;
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -1712,6 +1713,7 @@ export type StaffUserUpdateInput = {
   firstName?: InputMaybe<Scalars['String']>;
   id: Scalars['ObjectID'];
   lastName?: InputMaybe<Scalars['String']>;
+  role?: InputMaybe<Scalars['ObjectID']>;
 };
 
 export type Ticket = ServiceTicket | ViolationTicket;
@@ -6555,6 +6557,53 @@ export type SearchDrawerContainerCustomViewsFieldsFragment = {
   } | null> | null;
 };
 
+export type StaffSectionLayoutContainerUserCurrentQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type StaffSectionLayoutContainerUserCurrentQueryQuery = {
+  __typename?: 'Query';
+  staffUserCurrent?: {
+    __typename?: 'StaffUser';
+    id: any;
+    displayName?: string | null;
+    role?: {
+      __typename?: 'StaffRole';
+      id: any;
+      permissions: {
+        __typename?: 'StaffPermissions';
+        communityPermissions: {
+          __typename?: 'StaffCommunityPermissions';
+          canManageStaffRolesAndPermissions: boolean;
+          canManageAllCommunities: boolean;
+          canDeleteCommunities: boolean;
+          canChangeCommunityOwner: boolean;
+          canReIndexSearchCollections: boolean;
+        };
+      };
+    } | null;
+  } | null;
+};
+
+export type StaffSectionLayoutContainerUserCurrentQueryFieldsFragment = {
+  __typename?: 'StaffUser';
+  id: any;
+  displayName?: string | null;
+  role?: {
+    __typename?: 'StaffRole';
+    id: any;
+    permissions: {
+      __typename?: 'StaffPermissions';
+      communityPermissions: {
+        __typename?: 'StaffCommunityPermissions';
+        canManageStaffRolesAndPermissions: boolean;
+        canManageAllCommunities: boolean;
+        canDeleteCommunities: boolean;
+        canChangeCommunityOwner: boolean;
+        canReIndexSearchCollections: boolean;
+      };
+    };
+  } | null;
+};
+
 export type SharedCommunitiesDropdownContainerMembersQueryVariables = Exact<{
   userExternalId: Scalars['String'];
 }>;
@@ -11356,6 +11405,56 @@ export const SearchDrawerContainerCustomViewsMutationResultFieldsFragmentDoc = {
     }
   ]
 } as unknown as DocumentNode<SearchDrawerContainerCustomViewsMutationResultFieldsFragment, unknown>;
+export const StaffSectionLayoutContainerUserCurrentQueryFieldsFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'StaffSectionLayoutContainerUserCurrentQueryFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'StaffUser' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'communityPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageStaffRolesAndPermissions' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageAllCommunities' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canDeleteCommunities' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canChangeCommunityOwner' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canReIndexSearchCollections' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<StaffSectionLayoutContainerUserCurrentQueryFieldsFragment, unknown>;
 export const SharedCommunitiesDropdownContainerMembersFieldsFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -22348,6 +22447,82 @@ export const SearchDrawerContainerCustomViewsUpdateDocument = {
 } as unknown as DocumentNode<
   SearchDrawerContainerCustomViewsUpdateMutation,
   SearchDrawerContainerCustomViewsUpdateMutationVariables
+>;
+export const StaffSectionLayoutContainerUserCurrentQueryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'StaffSectionLayoutContainerUserCurrentQuery' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'staffUserCurrent' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'StaffSectionLayoutContainerUserCurrentQueryFields' }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'StaffSectionLayoutContainerUserCurrentQueryFields' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'StaffUser' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'role' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'communityPermissions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageStaffRolesAndPermissions' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canManageAllCommunities' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canDeleteCommunities' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canChangeCommunityOwner' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'canReIndexSearchCollections' } }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  StaffSectionLayoutContainerUserCurrentQueryQuery,
+  StaffSectionLayoutContainerUserCurrentQueryQueryVariables
 >;
 export const SharedCommunitiesDropdownContainerMembersDocument = {
   kind: 'Document',

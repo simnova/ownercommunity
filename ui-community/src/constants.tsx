@@ -2,7 +2,6 @@ import type { SliderMarks } from 'antd/lib/slider';
 import { FilterDetail, Member, ServiceTicketsSearchFilterDetail } from './generated';
 import { AuthContextProps, useAuth } from 'react-oidc-context';
 import { jwtDecode } from 'jwt-decode';
-import { useMemo } from 'react';
 
 export const LocalSettingsKeys = {
   SidebarCollapsed: 'sidebar-collapsed',
@@ -830,21 +829,9 @@ export enum UserRoles {
   Staff = 'OwnerCommunity.Staff',
 };
 
-export const GetUserRoles = useMemo(() => {
-  const auth = useAuth();
-  const token = auth?.user?.access_token;
-
-  interface DecodedJWT {
-    roles?: string[];
-  }
-
-  if (!token) {
-    console.error('access token not found');
-    return [];
-  }
-
+export const GetUserRoles = () => {
   try {
-    const decodedJWT: any = token ? jwtDecode<DecodedJWT>(token) : {};
+    const decodedJWT = GetAccessToken();
     let userRoles: string[] = decodedJWT?.roles ?? [];
 
     return userRoles;
@@ -852,4 +839,29 @@ export const GetUserRoles = useMemo(() => {
     console.error('error decoding jwt', error);
     return [];
   }
-}, [useAuth]);
+};
+
+export const GetAccessToken = () => {
+  const auth = useAuth();
+  const token = auth?.user?.access_token;
+
+  interface DecodedJWT {
+    family_name?: string;
+    given_name?: string;
+    name?: string;
+    roles?: string[];
+  }
+
+  if (!token) {
+    console.error('access token not found');
+    return {};
+  }
+
+  try {
+    const decodedJWT: DecodedJWT = token ? jwtDecode<DecodedJWT>(token) : {};
+    return decodedJWT;
+  } catch (error) {
+    console.error('error decoding jwt', error);
+    return {};
+  }
+}

@@ -10,11 +10,9 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
   const [checkedBoxes, setCheckedBoxes] = useState<any[]>([]);
 
   const valueMap: { [key: string]: string } = {
-    updateCredentialType: 'Request Update Credential Type',
-    updateCredential: 'Request Update Credential',
-    updateTranslation: 'Request Update Translation',
-    updateInstitution: 'Request Update Issuing Institution',
-    updatedName: 'Request Update Name on Document'
+    updateAssignment: 'Request Update to Assignment',
+    updateProperty: 'Request Update to Property',
+    updateStatus: 'Request Update to Status',
   };
 
   const openModal = () => {
@@ -63,25 +61,17 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
       <Modal title="Request Update" open={isOpen} onCancel={onCancel} footer={footerButton}>
         Request Applicant to:
         <br />
-        <Checkbox value={'updateCredentialType'} onClick={onCheck} checked={isChecked('updateCredentialType')}>
+        <Checkbox value={'updateAssignment'} onClick={onCheck} checked={isChecked('updateAssignment')}>
           {' '}
-          add/update credential type
+          add/update assignment
         </Checkbox>
         <br />
-        <Checkbox value={'updateCredential'} onClick={onCheck} checked={isChecked('updateCredential')}>
-          add/update credential
+        <Checkbox value={'updateProperty'} onClick={onCheck} checked={isChecked('updateProperty')}>
+          add/update property
         </Checkbox>
         <br />
-        <Checkbox value={'updateTranslation'} onClick={onCheck} checked={isChecked('updateTranslation')}>
-          add/update credential translation
-        </Checkbox>
-        <br />
-        <Checkbox value={'updateInstitution'} onClick={onCheck} checked={isChecked('updateInstitution')}>
-          add/update issuing institution
-        </Checkbox>
-        <br />
-        <Checkbox value={'updatedName'} onClick={onCheck} checked={isChecked('updatedName')}>
-          add/update name on document
+        <Checkbox value={'updateStatus'} onClick={onCheck} checked={isChecked('updateStatus')}>
+          add/update status
         </Checkbox>
       </Modal>
       <Button style={{ width: '100%', borderRadius: '0px' }} onClick={openModal}>

@@ -1,0 +1,31 @@
+mutation PaymentRequestFormServiceTicketUpdate($input: ServiceTicketUpdateInput!) {
+  serviceTicketUpdate(input: $input) {
+    serviceTicket {
+      id
+      messages {
+        embedding
+        id
+      }
+    }
+    status {
+      errorMessage
+      success
+    }
+  }
+}
+
+mutation PaymentRequestFormViolationTicketUpdate($input: ViolationTicketUpdateInput!) {
+  violationTicketUpdate(input: $input) {
+    violationTicket {
+      id
+      messages {
+        embedding
+        id
+      }
+    }
+    status {
+      errorMessage
+      success
+    }
+  }
+}

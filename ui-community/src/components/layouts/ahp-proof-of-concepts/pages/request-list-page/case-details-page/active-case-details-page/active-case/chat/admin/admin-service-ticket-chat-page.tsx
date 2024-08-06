@@ -1,8 +1,8 @@
-import { ServiceTicket } from '../../../../../../../../../generated';
 import { AdminChatMessager } from './admin-chat-messager';
 import { ChatMessages } from '../chat-messages';
+import { ServiceTicket, ViolationTicket } from '../../../../../../../../../../generated';
 interface ServiceTicketChatPageProps {
-  data: ServiceTicket;
+  data: ServiceTicket | ViolationTicket;
   updateMessage: () => void;
 }
 export const AdminServiceTicketChatPage: React.FC<ServiceTicketChatPageProps> = (props) => {

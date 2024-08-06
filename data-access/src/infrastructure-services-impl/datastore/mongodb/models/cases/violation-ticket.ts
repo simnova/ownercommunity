@@ -106,7 +106,7 @@ export interface ViolationTicket extends Ticket {
   updateIndexFailedDate: Date;
 }
 
-export interface TransactionReference {
+export interface TransactionReference extends NestedPath {
   vendor: string;
   referenceId: string;
   completedOn: Date;
@@ -133,7 +133,7 @@ export interface Submission extends NestedPath {
   transactionReference: TransactionReference;
 }
 export interface Transaction extends NestedPath {
-  submission: Submission;
+  submission?: Submission;
   adhocTransactions?: Types.DocumentArray<AdhocTransaction>;
 }
 
@@ -141,6 +141,12 @@ export interface FinanceDetails extends NestedPath {
   serviceFee: number;
   transactions?: Transaction;
 }
+
+const TransactionReferenceSchema = new Schema<TransactionReference, Model<TransactionReference>, TransactionReference>({
+  vendor: { type: String, required: false },
+  referenceId: { type: String, required: false },
+  completedOn: { type: Date, required: false },
+});
 
 const AdhocTransactionSchema = new Schema<AdhocTransaction, Model<AdhocTransaction>, AdhocTransaction>({
   amount: { type: Number, required: true },
@@ -152,15 +158,26 @@ const AdhocTransactionSchema = new Schema<AdhocTransaction, Model<AdhocTransacti
     isApplicantApproved: { type: Boolean, required: true },
     applicantRespondedAt: { type: Date, required: false },
   },
-  transactionReference: {
-    vendor: { type: String, required: true },
-    referenceId: { type: String, required: true },
-    completedOn: { type: Date, required: true },
-  },
+  transactionReference: { type: TransactionReferenceSchema, required: false,  _id: false },
   _id: { type: Schema.Types.ObjectId, required: true },
   createdAt: { type: Date, required: true },
   updatedAt: { type: Date, required: true },
 });
+
+const SubmissionSchema = new Schema<Submission, Model<Submission>, Submission>({
+  amount: { type: Number, required: false },
+  transactionReference: { type: TransactionReferenceSchema, required: true,  _id: false, default: {} },
+})
+
+const TransactionSchema = new Schema<Transaction, Model<Transaction>, Transaction>({
+  submission : { type: SubmissionSchema, required: false, _id: false, default: {} },
+  adhocTransactions: { type: [AdhocTransactionSchema], required: false },
+})
+
+const FinanceDetailSchema = new Schema<FinanceDetails, Model<FinanceDetails>, FinanceDetails>({
+  serviceFee: { type: Number, required: true },
+  transactions: { type: TransactionSchema, required: false, _id: false, default: {} },
+})
 
 const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>, ViolationTicket>(
   {
@@ -174,21 +191,7 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
     requestor: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true, index: true },
     assignedTo: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
     service: { type: Schema.Types.ObjectId, ref: Service.ServiceModel.modelName, required: false, index: true },
-    financeDetails: {
-      serviceFee: { type: Number, required: true },
-      transactions: {
-        type: {
-          submission: {
-            amount: { type: Number, required: true },
-            transactionReference: {
-              vendor: { type: String, required: true },
-              referenceId: { type: String, required: true },
-              completedOn: { type: Date, required: true },
-            },
-          },
-          adhocTransactions: { type: [AdhocTransactionSchema], required: false },
-        }, required: false },
-    },
+    financeDetails: { type: FinanceDetailSchema, required: true, _id: false },
     revisionRequest: {
       type: {
         requestedAt: { type: Date, required: true },

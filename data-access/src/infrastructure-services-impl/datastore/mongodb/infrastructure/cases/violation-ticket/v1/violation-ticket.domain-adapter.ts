@@ -283,24 +283,22 @@ export class FinanceDetailDomainAdapter implements ViolationTicketV1FinanceDetai
     return this.doc.serviceFee;
   }
 
+  set serviceFee(serviceFee) {
+    this.doc.serviceFee = serviceFee;
+  }
+  
   get transactions() {
     if (!this.doc?.transactions) {
       this.doc.set('transactions', {});
     }
     return new TransactionDomainAdapter(this.doc.transactions);
   }
-  set serviceFee(serviceFee) {
-    this.doc.serviceFee = serviceFee;
-  }
 }
 
 export class TransactionDomainAdapter implements TransactionsProps {
-  constructor(public readonly doc: FinanceDetails['transactions']) {}
+  constructor(public readonly doc: Transaction) {}
 
   get submission() {
-    if (!this.doc?.submission) {
-      this.doc.set('submission', {});
-    }
     return new SubmissionDomainAdapter(this.doc.submission);
   }
   
@@ -353,9 +351,6 @@ export class SubmissionDomainAdapter implements SubmissionProps {
   }
 
   get transactionReference() {
-    if (!this.doc?.transactionReference) {
-      this.doc.set('transactionReference', {});
-    }
     return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
   }
 }

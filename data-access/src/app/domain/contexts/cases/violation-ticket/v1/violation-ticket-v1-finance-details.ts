@@ -4,7 +4,7 @@ import { Transactions, TransactionsEntityReference, TransactionsProps } from './
 
 export interface ViolationTicketV1FinanceDetailProps extends ValueObjectProps {
   serviceFee: number;
-  transactions: TransactionsProps
+  readonly transactions: TransactionsProps
 }
 
 export interface ViolationTicketV1FinanceDetailEntityReference extends Readonly<Omit<ViolationTicketV1FinanceDetailProps, 'transactions'>> {
@@ -21,7 +21,7 @@ export class ViolationTicketV1FinanceDetails extends ValueObject<ViolationTicket
   }
 
   get transactions() {
-    return new Transactions(this.props.transactions, this.context);
+    return this.props.transactions ? new Transactions(this.props.transactions, this.context) : undefined;
   }
 
   // implementing setters  from TS 5.1

@@ -21,7 +21,7 @@ export class Transactions extends ValueObject<TransactionsProps> implements Tran
   }
 
   get submission() {
-    return new Submission(this.props.submission, this.context);
+    return this.props.submission ? new Submission(this.props.submission, this.context) : undefined;
   }
 
   get adhocTransactions(): ReadonlyArray<AdhocTransactions> {

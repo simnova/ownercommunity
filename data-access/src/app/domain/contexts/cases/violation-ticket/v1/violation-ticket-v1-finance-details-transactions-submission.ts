@@ -22,7 +22,7 @@ export class Submission extends ValueObject<SubmissionProps> implements Submissi
   }
 
   get transactionReference() {
-    return new TransactionReference(this.props.transactionReference, this.context);
+    return this.props.transactionReference ? new TransactionReference(this.props.transactionReference, this.context) : undefined;
   }
 
   // implementing setters  from TS 5.1

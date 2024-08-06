@@ -38,8 +38,8 @@ export class MemoryStaffUserRepository<
     }
   }
 
-  async getNewInstance(externalId: string, firstName: string, lastName: string): Promise<StaffUser<PropType>> {
-    return StaffUser.getNewUser(new MemoryStaffUser as unknown as PropType, externalId, firstName, lastName);
+  async getNewInstance(externalId: string, firstName: string, lastName: string, email: string): Promise<StaffUser<PropType>> {
+    return StaffUser.getNewUser(new MemoryStaffUser as unknown as PropType, externalId, firstName, lastName, email, this.context);
   }
 
   async delete(id: string): Promise<void> {

@@ -38,10 +38,6 @@ export class EndUser<props extends EndUserProps> extends AggregateRoot<props> im
   get createdAt(): Date {return this.props.createdAt;}
   get schemaVersion(): string {return this.props.schemaVersion;}
 
-  public static getReadOnlyUser<readonlyProps extends EndUserProps> (props:readonlyProps): EndUserEntityReference{
-    return new EndUser(props);
-  }
-
   public static getNewUser<props extends EndUserProps> (newProps:props,externalId:string,lastName:string,restOfName?:string): EndUser<props> {
     newProps.externalId = externalId;
     let user = new EndUser(newProps);

@@ -6,6 +6,7 @@ import { default as RegisterCommunityDomainUpdatedUpdateVercel } from './events/
 import { default as RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler } from './events/handlers/community-white-label-domain-updated-update-domain-blob';
 import { default as RegisterPropertyDeletedUpdateSearchIndexHandler } from './events/handlers/property-deleted-update-search-index';
 import { default as RegisterPropertyUpdatedUpdateSearchIndexHandler } from './events/handlers/property-updated-update-search-index';
+import { default as RegisterStaffUserCreatedCreateDefaultStaffRoleHandler } from './events/handlers/staff-user-created-create-default-staff-role';
 import { default as RegisterServiceTicketV1UpdatedUpdateSearchIndexHandler } from './events/handlers/service-ticket-v1-updated-update-search-index';
 import { default as RegisterServiceTicketV1DeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-v1-deleted-update-search-index';
 import { default as RegisterViolationTicketV1UpdatedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-v1-updated-update-search-index';
@@ -37,6 +38,7 @@ const RegisterEventHandlers = (
   RegisterCommunityWhiteLabelDomainUpdatedUpdateDomainBlobHandler(blobStorage);
   RegisterPropertyDeletedUpdateSearchIndexHandler(cognitiveSearch);
   RegisterPropertyUpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.propertyUnitOfWork);
+  RegisterStaffUserCreatedCreateDefaultStaffRoleHandler(datastore.staffRoleUnitOfWork, datastore.staffUserUnitOfWork);
   RegisterServiceTicketV1UpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.serviceTicketV1UnitOfWork);
   RegisterServiceTicketV1DeletedUpdateSearchIndexHandler(cognitiveSearch);
   RegisterViolationTicketV1UpdatedUpdateSearchIndexHandler(cognitiveSearch, datastore.violationTicketV1UnitOfWork);

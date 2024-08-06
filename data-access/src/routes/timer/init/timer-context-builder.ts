@@ -1,6 +1,7 @@
 import { InvocationContext, Timer } from "@azure/functions";
 import { InfrastructureServices } from '../../../app/infrastructure-services';
 import { AppContext, AppContextBuilder, VerifiedUser } from '../../../app/init/app-context-builder';
+import { OpenIdConfigKeyEnum } from "../../../../seedwork/auth-seedwork-oidc/portal-token-validation";
 
 
 export interface TimerContext extends AppContext{
@@ -43,7 +44,7 @@ export class TimerContextBuilder extends AppContextBuilder implements TimerConte
           email: 'SYSTEM',
           sub: 'SYSTEM'
         },
-        openIdConfigKey: 'SYSTEM'   // must be SYSTEM so that SystemVisas can be assigned in passport
+        openIdConfigKey: OpenIdConfigKeyEnum.SYSTEM  // must be SYSTEM so that SystemVisas can be assigned in passport
       };
   }
 

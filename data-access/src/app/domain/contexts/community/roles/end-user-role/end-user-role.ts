@@ -12,6 +12,7 @@ export interface EndUserRoleProps extends EntityProps {
   setCommunityRef: (community: CommunityEntityReference) => void;
   isDefault: boolean;
   permissions: EndUserRolePermissionsProps;
+  readonly roleType?: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly schemaVersion: string;
@@ -41,6 +42,9 @@ export class EndUserRole<props extends EndUserRoleProps> extends AggregateRoot<p
   }
   get permissions() {
     return new EndUserRolePermissions(this.props.permissions, this.visa);
+  }
+  get roleType() {
+    return this.props.roleType;
   }
   get createdAt() {
     return this.props.createdAt;

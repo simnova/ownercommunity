@@ -19,43 +19,70 @@ const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Pr
 
 const community: Resolvers = {
   Community: {
-    roles: async (_rootObj: Community, _, { applicationServices }) => {
-      return (await applicationServices.roles.endUserRole.dataApi.getRoles()) as Role[];
+    roles: async (rootObj: Community, _, { applicationServices, verifiedUser }) => {
+      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) {
+        return (await applicationServices.roles.endUserRole.dataApi.getRolesByCommunityId(rootObj.id.toString())) as Role[];
+      } else if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL || verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.SYSTEM) {
+        return (await applicationServices.roles.endUserRole.dataApi.getRoles()) as Role[];
+      }
+      return [];
     },
-    files: async (rootObj: Community, _, { applicationServices }) => {
-      return applicationServices.community.blobApi.communityPublicFilesList(rootObj.id);
+    files: async (rootObj: Community, _, { applicationServices, passport }) => {
+      if (passport.datastoreVisa.forCommunity(rootObj as CommunityDo).determineIf((permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
+        return applicationServices.community.blobApi.communityPublicFilesList(rootObj.id);
+      }
+      return [];
     },
-    filesByType: async (rootObj: Community, { type }, { applicationServices }) => {
-      return applicationServices.community.blobApi.communityPublicFilesListByType(rootObj.id, type);
+    filesByType: async (rootObj: Community, { type }, { applicationServices, passport }) => {
+      if (passport.datastoreVisa.forCommunity(rootObj as CommunityDo).determineIf((permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
+        return applicationServices.community.blobApi.communityPublicFilesListByType(rootObj.id, type);
+      }
+      return [];
     },
-    domainStatus: async (rootObj: Community, _, { applicationServices }) => {
-      return applicationServices.community.vercelApi.getDomainDetails(rootObj.domain);
+    domainStatus: async (rootObj: Community, _, { applicationServices, passport }) => {
+      if (passport.datastoreVisa.forCommunity(rootObj as CommunityDo).determineIf((permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
+            //ensure that the member is a member of the community
+        return applicationServices.community.vercelApi.getDomainDetails(rootObj.domain);
+      }
+      return null;
     },
-    userIsAdmin: async (rootObj: Community, _args, { applicationServices }) => {
-      return applicationServices.community.dataApi.userIsAdmin(rootObj.id);
+    userIsAdmin: async (rootObj: Community, _args, { applicationServices, verifiedUser }) => {
+      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL) {
+        return applicationServices.community.dataApi.userIsAdmin(rootObj.id);
+      }
+      return null;
     },
   },
   Query: {
-    community: async (_, _args, { applicationServices, passport, member }) => {
-      const communityToReturn = await applicationServices.community.dataApi.getCurrentCommunity() as Community;
-      return applyPermission<Community>(communityToReturn, (community) => {
-        return passport.datastoreVisa.forCommunity(community as CommunityDo).determineIf((_permissions) => member.community.id === community.id)
-      });
+    community: async (_, _args, { applicationServices, verifiedUser, passport, member }) => {
+      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL) {
+        const communityToReturn = await applicationServices.community.dataApi.getCurrentCommunity() as Community;
+        return applyPermission<Community>(communityToReturn, (community) => {
+          return passport.datastoreVisa.forCommunity(community as CommunityDo).determineIf((_permissions) => member.community.id === community.id)
+        });
+      }
+      return null;
     },
     communityById: async (_, { id }, { applicationServices, passport, member }) => {
       const communityToReturn = await applicationServices.community.dataApi.getCommunityById(id) as Community;
       return applyPermission<Community>(communityToReturn, (community) => {
         return passport.datastoreVisa.forCommunity(community as CommunityDo).determineIf((permissions) => 
           permissions.canManageAllCommunities ||
-          member.community.id === community.id
+          member?.community.toString() === community.id
         )
       });
     },
-    communityByHandle: async (_, { handle }, { applicationServices }) => {
-      return (await applicationServices.community.dataApi.getCommunityByHandle(handle)) as Community;
+    communityByHandle: async (_, { handle }, { applicationServices, verifiedUser }) => {
+      if (verifiedUser.openIdConfigKey in OpenIdConfigKeyEnum) {
+        return (await applicationServices.community.dataApi.getCommunityByHandle(handle)) as Community;
+      }
+      return null;
     },
-    communityByDomain: async (_, { domain }, { applicationServices }) => {
-      return (await applicationServices.community.dataApi.getCommunityByDomain(domain)) as Community;
+    communityByDomain: async (_, { domain }, { applicationServices, verifiedUser }) => {
+      if (verifiedUser.openIdConfigKey in OpenIdConfigKeyEnum) {
+        return (await applicationServices.community.dataApi.getCommunityByDomain(domain)) as Community;
+      }
+      return null;
     },
     communities: async (_, _args, { applicationServices, verifiedUser, passport }) => {
       if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) {

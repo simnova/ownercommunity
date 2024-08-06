@@ -50,7 +50,7 @@ export class DatastoreVisaImpl implements DatastoreVisa {
   }
 
   forEndUserRole(root: EndUserRoleData): CommunityVisa {
-    return new CommunityVisaImplForEndUserRole(root,this.member);
+    return new CommunityVisaImplForEndUserRole(root,this.member,this.user);
   }
 
   forStaffRole(root: StaffRoleData): CommunityVisa {

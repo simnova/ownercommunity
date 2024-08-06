@@ -3,6 +3,7 @@ import { isValidObjectId } from 'mongoose';
 import { applyPermission, applyPermissionFilter, getMemberForCurrentUser } from '../resolver-helper';
 import { Member as MemberDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/member';
 import { CustomerProfile, PaymentTokenInfo } from '../../../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
+import { EndUserRole as EndUserRoleDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/roles/end-user-role';
 
 const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<MemberMutationResult> => {
   try {
@@ -28,8 +29,8 @@ const member: Resolvers = {
     role: async (parent, _args, context) => {
       if (parent.role && isValidObjectId(parent.role.id)) {
         const roleToReturn = await context.applicationServices.roles.endUserRole.dataApi.getRoleById(parent.role.id) as Role;
-        return applyPermission<Role>(roleToReturn, (_role) => {
-          return context.passport.datastoreVisa.forEndUserRole(context.member.role).determineIf((permissions) => 
+        return applyPermission<Role>(roleToReturn, (role) => {
+          return context.passport.datastoreVisa.forEndUserRole(role as EndUserRoleDo).determineIf((permissions) => 
             (permissions.canManageRolesAndPermissions && parent.community.toString() === context.member.community.toString()) ||
             parent.id === context.member.id || 
             permissions.isSystemAccount);

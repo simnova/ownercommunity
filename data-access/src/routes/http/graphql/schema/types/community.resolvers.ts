@@ -1,7 +1,7 @@
 import { Resolvers, Community, CommunityMutationResult, Role } from '../builder/generated';
 import { Community as CommunityDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/community';
 import { OpenIdConfigKeyEnum } from '../../../../../../seedwork/auth-seedwork-oidc/portal-token-validation';
-import { applyPermission, applyPermissionFilter } from '../resolver-helper';
+import { applyPermission, applyPermissionFilter, checkAccountPortalAccess, checkAnyAccess, checkStaffPortalAccess, checkSystemAccess } from '../resolver-helper';
 
 const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Promise<CommunityMutationResult> => {
   try {
@@ -17,37 +17,40 @@ const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Pr
   }
 };
 
+const checkPermission = (passport, community, permissionCheck) => {  
+  return passport.datastoreVisa.forCommunity(community as CommunityDo).determineIf(permissionCheck);  
+};  
+
 const community: Resolvers = {
   Community: {
     roles: async (rootObj: Community, _, { applicationServices, verifiedUser }) => {
-      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) {
+      if (checkStaffPortalAccess(verifiedUser)) {
         return (await applicationServices.roles.endUserRole.dataApi.getRolesByCommunityId(rootObj.id.toString())) as Role[];
-      } else if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL || verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.SYSTEM) {
+      } else if (checkAccountPortalAccess(verifiedUser) || checkSystemAccess(verifiedUser)) {
         return (await applicationServices.roles.endUserRole.dataApi.getRoles()) as Role[];
       }
       return [];
     },
     files: async (rootObj: Community, _, { applicationServices, passport }) => {
-      if (passport.datastoreVisa.forCommunity(rootObj as CommunityDo).determineIf((permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
+      if (checkPermission(passport, rootObj, (permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
         return applicationServices.community.blobApi.communityPublicFilesList(rootObj.id);
       }
       return [];
     },
     filesByType: async (rootObj: Community, { type }, { applicationServices, passport }) => {
-      if (passport.datastoreVisa.forCommunity(rootObj as CommunityDo).determineIf((permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
+      if (checkPermission(passport, rootObj, (permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
         return applicationServices.community.blobApi.communityPublicFilesListByType(rootObj.id, type);
       }
       return [];
     },
-    domainStatus: async (rootObj: Community, _, { applicationServices, passport }) => {
-      if (passport.datastoreVisa.forCommunity(rootObj as CommunityDo).determineIf((permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
-            //ensure that the member is a member of the community
+    domainStatus: async (rootObj: Community, _, { applicationServices, passport, member }) => {
+      if (checkPermission(passport, rootObj, (permissions) => permissions.canManageAllCommunities || (permissions.canManageSiteContent && rootObj.id.toString() === member.community.toString()))) {
         return applicationServices.community.vercelApi.getDomainDetails(rootObj.domain);
       }
       return null;
     },
     userIsAdmin: async (rootObj: Community, _args, { applicationServices, verifiedUser }) => {
-      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL) {
+      if (checkAccountPortalAccess(verifiedUser)) {
         return applicationServices.community.dataApi.userIsAdmin(rootObj.id);
       }
       return null;
@@ -55,10 +58,10 @@ const community: Resolvers = {
   },
   Query: {
     community: async (_, _args, { applicationServices, verifiedUser, passport, member }) => {
-      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL) {
+      if (checkAccountPortalAccess(verifiedUser)) {
         const communityToReturn = await applicationServices.community.dataApi.getCurrentCommunity() as Community;
         return applyPermission<Community>(communityToReturn, (community) => {
-          return passport.datastoreVisa.forCommunity(community as CommunityDo).determineIf((_permissions) => member.community.id === community.id)
+          return checkPermission(passport, community, (_permissions) => member.community.id === community.id)
         });
       }
       return null;
@@ -66,38 +69,40 @@ const community: Resolvers = {
     communityById: async (_, { id }, { applicationServices, passport, member }) => {
       const communityToReturn = await applicationServices.community.dataApi.getCommunityById(id) as Community;
       return applyPermission<Community>(communityToReturn, (community) => {
-        return passport.datastoreVisa.forCommunity(community as CommunityDo).determineIf((permissions) => 
+        return checkPermission(passport, community, (permissions) => 
           permissions.canManageAllCommunities ||
           member?.community.toString() === community.id
         )
       });
     },
     communityByHandle: async (_, { handle }, { applicationServices, verifiedUser }) => {
-      if (verifiedUser.openIdConfigKey in OpenIdConfigKeyEnum) {
+      if (checkAnyAccess(verifiedUser)) {
         return (await applicationServices.community.dataApi.getCommunityByHandle(handle)) as Community;
       }
       return null;
     },
     communityByDomain: async (_, { domain }, { applicationServices, verifiedUser }) => {
-      if (verifiedUser.openIdConfigKey in OpenIdConfigKeyEnum) {
+      if (checkAnyAccess(verifiedUser)) {
         return (await applicationServices.community.dataApi.getCommunityByDomain(domain)) as Community;
       }
       return null;
     },
     communities: async (_, _args, { applicationServices, verifiedUser, passport }) => {
-      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.STAFF_PORTAL) {
+      if (checkStaffPortalAccess(verifiedUser)) {
         const communitiesToReturn = await applicationServices.community.dataApi.getAllCommunities() as Community[];
         return applyPermissionFilter<Community>(communitiesToReturn, (community) => {
           return passport.datastoreVisa.forCommunity(community as CommunityDo)
             .determineIf((permissions) => permissions.canManageAllCommunities)
         });
+      } else if (checkAccountPortalAccess(verifiedUser)) {
+        return (await applicationServices.community.dataApi.getCommunitiesForCurrentUser()) as Community[];
       }
-      return (await applicationServices.community.dataApi.getCommunitiesForCurrentUser()) as Community[];
+      return null;
     },
   },
   Mutation: {
     communityCreate: async (_, { input }, { applicationServices, verifiedUser }) => {
-      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL) {
+      if (checkAccountPortalAccess(verifiedUser)) {
         return CommunityMutationResolver(applicationServices.community.domainApi.communityCreate(input));
       }
       return { status: { success: false, errorMessage: 'User does not have permission to create community.' } } as CommunityMutationResult;

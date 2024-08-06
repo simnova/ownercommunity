@@ -1,0 +1,23 @@
+{
+  "documentTitle": "Final Medical Diploma",
+  "reportIssued": "19 July 2018",
+  "issuedOn": "Sample Regulatory Authority USA",
+  "inclusions": "Verification Report; Verified Credential; Verification Form",
+  "lastName": "Student",
+  "restOfName": "Jane Sample",
+  "generationalSuffix": "",
+  "dateOfBirth": "01 January 1980",
+  "gender": "Female",
+  "epicId": "C-SJ000003",
+  "applicantPhoto": "https://staticstorageuniquename.blob.core.windows.net/public/image%20(1).png?sp=r&st=2024-07-10T17:27:57Z&se=2024-07-31T01:27:57Z&spr=https&sv=2022-11-02&sr=b&sig=O0pFclYfrcVA5vwVFyLWzJX3II6gtM3ykciyJjlOLpY%3D",
+  "nameOnDocument": "Jane Sample Student",
+  "typeOfCredential": "Final Medical Diploma",
+  "statusOfCredential": "VERIFIED",
+  "medicalSchool": "ECFMG University School of Medicine",
+  "schoolLocation": "Philadelphia, USA",
+  "requestId": "12345",
+  "formTitle": "Electronic Portfolio of International Credentials (EPIC) IDENTIFICATION FORM",
+  "formSubTitle": "3624 Market Street, Philadelphia, PA 19104  (215) 966-3900 info@ecfmgepic.org",
+  "submissionDate": "18-Nov-2018",
+  "docId": "12345"
+}

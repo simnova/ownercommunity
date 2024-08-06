@@ -341,7 +341,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     {
       key: '2',
       label: 'Chat',
-      children: <MemberChatMessagesContainer />
+      children: <MemberChatMessagesContainer ticketType='ViolationTicketType'/>
     }
   ];
 

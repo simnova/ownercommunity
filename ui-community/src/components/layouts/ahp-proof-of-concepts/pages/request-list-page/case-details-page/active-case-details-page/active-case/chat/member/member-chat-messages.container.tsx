@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   ChatMessagesContainerServiceTicketDocument,
   ChatMessagesContainerViolationTicketDocument,
@@ -9,10 +9,13 @@ import { ComponentQueryLoader } from '../../../../../../../../../ui/molecules/co
 import { useLazyQuery } from '@apollo/client';
 import { MemberServiceTicketChatPage } from './member-service-ticket-chat-page';
 import { useParams } from 'react-router-dom';
+interface ChatMessagesContainerProps {
+  ticketType: string;
+}
 
-export const MemberChatMessagesContainer = () => {
+export const MemberChatMessagesContainer: FC<ChatMessagesContainerProps> = (props) => {
   const params = useParams();
-  const isServiceTicket = window.location.href.indexOf('ServiceTicketType') > -1;
+  const isServiceTicket = props.ticketType === 'ServiceTicketType';
   const [messageQuery] = useLazyQuery(
     isServiceTicket ? ChatMessagesContainerServiceTicketDocument : ChatMessagesContainerViolationTicketDocument
   );

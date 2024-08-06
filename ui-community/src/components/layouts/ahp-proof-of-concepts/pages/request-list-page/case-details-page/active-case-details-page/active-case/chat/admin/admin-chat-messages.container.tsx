@@ -10,10 +10,13 @@ import { useLazyQuery } from '@apollo/client';
 import { AdminServiceTicketChatPage } from './admin-service-ticket-chat-page';
 import { useParams } from 'react-router-dom';
 
-interface ChatMessagesContainerProps {}
-export const AdminChatMessagesContainer: FC<ChatMessagesContainerProps> = () => {
+interface ChatMessagesContainerProps {
+  ticketType: string;
+}
+
+export const AdminChatMessagesContainer: FC<ChatMessagesContainerProps> = (props) => {
   const params = useParams();
-  const isServiceTicket = window.location.href.indexOf('ServiceTicketType') > -1;
+  const isServiceTicket = props.ticketType === 'ServiceTicketType'
   const [messageQuery] = useLazyQuery(
     isServiceTicket ? ChatMessagesContainerServiceTicketDocument : ChatMessagesContainerViolationTicketDocument
   );

@@ -198,7 +198,7 @@ export class SystemDomainVisa implements DomainVisa {
     return {determineIf: (func) => func(this.communityPermissionsForSystem) };
   }
   forEndUserRole(root: EndUserRoleEntityReference): CommunityVisa {
-    return {determineIf:  () => false };
+    return {determineIf:  (func) => func(this.communityPermissionsForSystem) };
   }
   forEndUser(root: EndUserEntityReference): EndUserVisa {
     return {determineIf:  () => false }; 

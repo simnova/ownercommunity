@@ -96,8 +96,11 @@ const community: Resolvers = {
     },
   },
   Mutation: {
-    communityCreate: async (_, { input }, { applicationServices }) => {
-      return CommunityMutationResolver(applicationServices.community.domainApi.communityCreate(input));
+    communityCreate: async (_, { input }, { applicationServices, verifiedUser }) => {
+      if (verifiedUser.openIdConfigKey === OpenIdConfigKeyEnum.ACCOUNT_PORTAL) {
+        return CommunityMutationResolver(applicationServices.community.domainApi.communityCreate(input));
+      }
+      return { status: { success: false, errorMessage: 'User does not have permission to create community.' } } as CommunityMutationResult;
     },
     communityUpdate: async (_, { input }, { applicationServices }) => {
       return CommunityMutationResolver(applicationServices.community.domainApi.communityUpdate(input));

@@ -63,7 +63,7 @@ export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) =>
   return (
     <Routes>
       <Route path="" element={<ActiveCaseDetailsPageLayout pageLayouts={pageLayouts} />}>
-        <Route path="chat" element={<AdminChatMessagesContainer />} />
+        <Route path="chat" element={<></>} />
         <Route path="application" element={<>Application for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
         <Route path="files" element={<>Files for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
         <Route path="transactions" element={<>Transactions for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />

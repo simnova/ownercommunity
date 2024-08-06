@@ -3,7 +3,6 @@ import { Route, Routes, useMatch, useNavigate, useParams, useResolvedPath } from
 import { AHPObjectIDRouteLayer } from '..';
 import { PageLayoutProps } from '../../../../../shared/components/menu-component';
 import { ActiveCaseDetailsPageLayout } from './active-case-details-page-layout';
-import { AdminChatMessagesContainer } from './active-case/chat/admin/admin-chat-messages.container';
 
 export const AHPActiveCaseDetailsLayer = {
   Chat: 'chat',

@@ -241,16 +241,20 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
         amount: input.paymentAmount
       });
       // update ticket status
-      let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
-      let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
-      violationTicket.requestAddStatusTransition('PAID', 'Paid for violation ticket', memberDo);
-
-      // update ticket transaction details
-      violationTicket.financeDetails.transactions.submission.transactionReference.ReferenceId = response.referenceId;
-      violationTicket.financeDetails.transactions.submission.transactionReference.Vendor = response.vendor;
-      violationTicket.financeDetails.transactions.submission.transactionReference.CompletedOn = response.completedOn;
-      violationTicket.financeDetails.transactions.submission.Amount = response.authorizedAmount;
-      // save the transaction details
+      if(response && response.referenceId) {
+        let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
+        let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+        violationTicket.requestAddStatusTransition('PAID', 'Paid for violation ticket', memberDo);
+        
+        // update ticket transaction details
+        if(response.referenceId) {violationTicket.financeDetails.transactions.submission.transactionReference.ReferenceId = response.referenceId;};
+        violationTicket.financeDetails.transactions.submission.transactionReference.Vendor = response.vendor;
+        if(response.completedOn) {violationTicket.financeDetails.transactions.submission.transactionReference.CompletedOn = response.completedOn;};
+        if(response.authorizedAmount) {violationTicket.financeDetails.transactions.submission.Amount = response.authorizedAmount;};
+      } else {
+        throw new Error('Payment processing failed');
+      }
+        // save the transaction details
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;

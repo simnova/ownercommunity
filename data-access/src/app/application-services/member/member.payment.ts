@@ -11,7 +11,7 @@ export interface PaymentCybersourceApi {
   getPaymentInstruments(customerId: string): Promise<PaymentInstrument[]>
   setDefaultPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>
   deletePaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>
-  processPayment(processPaymentParams: ProcessPaymentParams): Promise<TransactionProps>
+  processPayment(processPaymentParams: ProcessPaymentParams): Promise<CybersourcePaymentTransactionResponse>
   updatePaymentInstrument(customerProfile: CustomerProfile, paymentInstrumentInfo: PaymentInstrumentInfo): Promise<boolean> 
 }
 

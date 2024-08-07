@@ -1,5 +1,5 @@
 import { DollarOutlined } from '@ant-design/icons';
-import { Button, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import { FC, useState } from 'react';
 
 interface SendMoneyButtonProps {
@@ -7,6 +7,7 @@ interface SendMoneyButtonProps {
 }
 export const SendMoneyButton: FC<SendMoneyButtonProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [paymentAmount, setPaymentAmount] = useState('');
   const [paymentReason, setPaymentReason] = useState('');
 
@@ -15,7 +16,7 @@ export const SendMoneyButton: FC<SendMoneyButtonProps> = (props) => {
   };
 
   const closeModal = () => {
-    setIsOpen(false);
+    setSecondModalOpen(false);
     props.updateEmbedding([
       {
         value: 'sendMoney',
@@ -29,19 +30,17 @@ export const SendMoneyButton: FC<SendMoneyButtonProps> = (props) => {
     setPaymentReason('');
   };
 
-  const handleCancel = () => {
+  const secondCheck = () => {
+    setSecondModalOpen(true);
     setIsOpen(false);
   };
 
-  const setPayment = (amount: string) => {
-    setPaymentAmount(amount);
+  const handleCancel = () => {
+    setIsOpen(false);
+    setSecondModalOpen(false);
   };
 
-  const setReason = (reason: string) => {
-    setPaymentReason(reason);
-  };
-
-  const footerButton = (
+  const endFooterButton = (
     <Button onClick={closeModal} type="primary">
       Create Request
     </Button>
@@ -49,12 +48,54 @@ export const SendMoneyButton: FC<SendMoneyButtonProps> = (props) => {
 
   return (
     <>
-      <Modal title="Send Money" footer={footerButton} open={isOpen} onCancel={handleCancel}>
+      <Modal title="Send Money" footer={null} open={isOpen} onCancel={handleCancel}>
+        <Form onFinish={secondCheck}>
+          <Form.Item
+            label="Amount"
+            name="amount"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the amount!'
+              }
+            ]}
+          >
+            <Input
+              type="number"
+              value={paymentAmount}
+              onChange={(e) => setPaymentAmount(e.target.value)}
+              placeholder="Enter Amount"
+              style={{
+                width: '35%'
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Reason"
+            name="reason"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the reason!'
+              }
+            ]}
+          >
+            <Input
+              value={paymentReason}
+              onChange={(e) => setPaymentReason(e.target.value)}
+              placeholder="Enter Reason"
+            />
+          </Form.Item>
+          <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+            <Button type="primary" htmlType="submit" style={{ marginTop: 10 }}>
+              Create Request
+            </Button>
+          </div>
+        </Form>
+      </Modal>
+      <Modal title="Request Payment" footer={endFooterButton} open={secondModalOpen} onCancel={handleCancel}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          How Much?
-          <Input style={{ width: '25%' }} onChange={(e: any) => setPayment(e.target.value)} />
-          For What?
-          <Input style={{ width: '50%' }} onChange={(e: any) => setReason(e.target.value)} />
+          Are you sure you want to send money for a total of ${paymentAmount} for reason "{paymentReason}"?
         </div>
       </Modal>
       <Button style={{ width: '100%', borderRadius: '0px' }} onClick={openModal}>

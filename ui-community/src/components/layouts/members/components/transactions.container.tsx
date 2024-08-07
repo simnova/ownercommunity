@@ -31,11 +31,12 @@ const TransactionsContainer: React.FC<TransactionsContainerProps> = () => {
         <Empty />
       ) : (
         <div>
+          <h1>Transaction Summary</h1>
           <Descriptions
-            title="Transaction Summary"
             size={'small'}
             layout={'vertical'}
             labelStyle={{ fontSize: '14px' }}
+            contentStyle={{ fontSize: '16px', fontWeight: 500 }}
             >
             {/* TODO: Calculate total received on basis of adhoc transaction negative amount*/}
             <Descriptions.Item label="Total Received">${0}</Descriptions.Item>

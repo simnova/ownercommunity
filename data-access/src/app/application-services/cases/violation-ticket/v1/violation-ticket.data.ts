@@ -57,6 +57,12 @@ export class ViolationTicketV1DataApiImpl
         }
       ])
       .exec();
-    return transactions.map((transaction) => ({ id: transaction._id, description: `Owner community requested $${transaction.amount} for violation ticket`, ...transaction }));
+
+      const generateDescription = (amount: number) => `Owner community requested $${amount} for violation ticket`;
+      return transactions.map((transaction) => ({
+        id: transaction._id,
+        description: generateDescription(transaction.amount),
+        ...transaction
+      }));
   }
 }

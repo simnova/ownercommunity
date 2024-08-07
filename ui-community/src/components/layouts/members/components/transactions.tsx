@@ -1,5 +1,4 @@
-import { Table } from 'antd';
-
+import { Badge, Button, Table } from 'antd';
 import dayjs from 'dayjs';
 
 const columns = [
@@ -18,7 +17,7 @@ const columns = [
     title: 'Activity',
     dataIndex: 'createdAt',
     key: 'createdAt',
-    render: (text: string) => `Sent ${dayjs(text).format('DD-MMM-YYYY')}`
+    render: (text: string) => <><Button>View Receipt</Button> <Badge>{`Sent ${dayjs(text).format('DD-MMM-YYYY')}`}</Badge></>
   }
 ];
 

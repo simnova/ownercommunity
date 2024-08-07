@@ -36,6 +36,9 @@ export const SubdocumentBaseOptions: SchemaOptions = BaseOptions;
  * While defining the Mongoose Schema, NestedPath object should be defined inline with the parent schema
  */
 export interface NestedPath extends Document {}
+export const NestedPathOptions : SchemaOptions = {
+  _id: false,
+}
 
 export const Patterns = {
   EMAIL_PATTERN: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,

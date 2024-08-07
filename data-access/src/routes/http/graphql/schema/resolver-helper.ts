@@ -1,5 +1,4 @@
-import { OpenIdConfigKeyEnum } from "../../../../../seedwork/auth-seedwork-oidc/portal-token-validation";
-import { VerifiedUser } from "../../../../app/init/app-context-builder";
+import { OpenIdConfigKeyEnum, VerifiedUser } from "../../../../app/init/app-context-builder";
 import { GraphqlContext } from "../init/graphql-context-builder";
 import { Member } from "./builder/generated";
 

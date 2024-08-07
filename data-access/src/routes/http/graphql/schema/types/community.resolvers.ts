@@ -1,6 +1,5 @@
 import { Resolvers, Community, CommunityMutationResult, Role } from '../builder/generated';
 import { Community as CommunityDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/community';
-import { OpenIdConfigKeyEnum } from '../../../../../../seedwork/auth-seedwork-oidc/portal-token-validation';
 import { applyPermission, applyPermissionFilter, checkAccountPortalAccess, checkAnyAccess, checkStaffPortalAccess, checkSystemAccess } from '../resolver-helper';
 
 const CommunityMutationResolver = async (getCommunity: Promise<CommunityDo>): Promise<CommunityMutationResult> => {

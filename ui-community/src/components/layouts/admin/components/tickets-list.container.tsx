@@ -1,6 +1,5 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import {
-  AdminServiceTicketsListContainerSearchServiceTicketsDocument,
   MemberNameServiceTicketContainerDocument,
   MemberServiceTicketsListContainerSearchServiceTicketsDocument
 } from '../../../../generated';
@@ -117,14 +116,7 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
         {JSON.stringify(searchServiceTicketsData, null, 2)}
       </pre>
     );
-    // return (
-    //   <ServiceTicketsList
-    //     data={searchServiceTicketsData?.serviceTicketsSearchAdmin}
-    //     handleSearch={handleSearch}
-    //     searchParams={searchParams}
-    //     setSearchParams={setSearchParams}
-    //   />
-    // );
+
     return (
       <>
         <div className="py-4">

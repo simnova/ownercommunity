@@ -305,6 +305,9 @@ export class ServiceTicketRevisionRequestAdapater implements ServiceTicketV1Revi
   }
 
   get requestedChanges() {
+    if (!this.doc.requestedChanges) {
+      this.doc.set('requestedChanges', {});
+    }
     return new ServiceTicketV1RevisionRequestedChangesDomainAdapter(this.doc.requestedChanges);
   }
 }

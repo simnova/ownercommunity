@@ -12,12 +12,10 @@ type ViolationTicket {
   status: String!
   priority: Int!
   photos: [ServiceTicketPhoto]
-  penaltyAmount: Float
-  penaltyPaidDate: DateTime
   ticketType: String
   activityLog: [ServiceTicketActivityDetail]
   messages: [ViolationTicketV1Message]
-  paymentTransactions: [Transaction]
+  financeDetails: FinanceDetails
   revisionRequest: ViolationTicketV1RevisionRequest
 
   id: ObjectID!
@@ -142,41 +140,47 @@ input ViolationTicketProcessPaymentInput {
   paymentInstrumentId: String!
 }
 
-type Transaction {
-  id: ObjectID!
-  transactionId: String
-  clientReferenceCode: String
-  amountDetails: AmountDetails
-  status: String
-  type: String
-  description: String
-  reconciliationId: String
-  isSuccess: Boolean
-  transactionTime: DateTime
-  successTimestamp: DateTime
-  error: PaymentTransactionError
+type FinanceDetails {
+  serviceFee: Float,
+  transactions: Transactions
+}
+
+type Transactions {
+  submission: Submission
+}
+
+type Submission {
+  amount: Float,
+  transactionReference: TransactionReference
+  adhocTransactions: [AdhocTransaction]
+}
+
+type AdhocTransaction {
+  amount: Float,
+  requestedBy: ObjectID,
+  requestedOn: DateTime,
+  reason: String,
+  approval: Approval,
+  transactionReference: TransactionReference
+}
+
+type Approval {
+  isApplicantApprovalRequired: Boolean,
+  isApplicantApproved: Boolean,
+  applicantRespondedAt: DateTime
+}
+
+type TransactionReference {
+  vendor: String,
+  referenceId: String,
+  completedOn: DateTime
 }
 
 type PaymentTransactionsResult {
   id: ObjectID!
-  transactionId: String
+  transactionReferenceId: String
   amount: Float
-  currency: String
-  status: String
-  isSuccess: Boolean
+  completedOn: DateTime
   description: String
-  type: String
-  successTimestamp: DateTime
-}
-
-type AmountDetails {
-  amount: Float
-  authorizedAmount: Float
-  currency: String
-}
-
-type PaymentTransactionError {
-  code: String
-  message: String
-  timestamp: DateTime
+  createdAt: DateTime
 }

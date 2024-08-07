@@ -1,18 +1,18 @@
 import { FilterOutlined } from '@ant-design/icons';
 import { useLazyQuery, useQuery } from '@apollo/client';
-import { Button, Drawer, Input, Skeleton, theme } from 'antd';
+import { Button, Drawer, Empty, Input, Skeleton, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
-    GetFilterFromServiceTicketQueryString,
-    SearchType,
-    ServiceTicketFilterNames,
-    ServiceTicketSearchParamKeys
+  GetFilterFromServiceTicketQueryString,
+  SearchType,
+  ServiceTicketFilterNames,
+  ServiceTicketSearchParamKeys
 } from '../../../../constants';
 import {
-    MemberNameServiceTicketContainerDocument,
-    MemberServiceTicketsListContainerSearchServiceTicketsDocument,
-    ServiceTicketsSearchFilterDetail
+  MemberNameServiceTicketContainerDocument,
+  MemberServiceTicketsListContainerSearchServiceTicketsDocument,
+  ServiceTicketsSearchFilterDetail
 } from '../../../../generated';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 import { ServiceTicketsList } from './tickets-list';
@@ -187,7 +187,7 @@ export const ServiceTicketsListContainer: React.FC<any> = () => {
         onChange={(e) => setSearchString(e.target.value)}
         enterButton
       />
-      <div>No Data...</div>
+      <Empty />
     </>
   );
 };

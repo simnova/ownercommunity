@@ -623,6 +623,7 @@ export type Mutation = {
   memberProfileUpdate: MemberMutationResult;
   memberSetDefaultPaymentInstrument: MutationStatus;
   memberUpdate: MemberMutationResult;
+  memberUpdatePaymentInstrument: MemberMutationResult;
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
   propertyDelete: PropertyMutationResult;
@@ -741,6 +742,11 @@ export type MutationMemberSetDefaultPaymentInstrumentArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberUpdateArgs = {
   input: MemberUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationMemberUpdatePaymentInstrumentArgs = {
+  input: UpdatePaymentInstrumentInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1732,6 +1738,25 @@ export type Transaction = {
   transactionId?: Maybe<Scalars['String']>;
   transactionTime?: Maybe<Scalars['DateTime']>;
   type?: Maybe<Scalars['String']>;
+};
+
+export type UpdatePaymentInstrumentInput = {
+  billingAddressLine1: Scalars['String'];
+  billingAddressLine2?: InputMaybe<Scalars['String']>;
+  billingCity: Scalars['String'];
+  billingCountry: Scalars['String'];
+  billingEmail: Scalars['String'];
+  billingFirstName: Scalars['String'];
+  billingLastName: Scalars['String'];
+  billingPhone: Scalars['String'];
+  billingPostalCode: Scalars['String'];
+  billingState: Scalars['String'];
+  cardType: Scalars['String'];
+  expirationMonth: Scalars['String'];
+  expirationYear: Scalars['String'];
+  id: Scalars['String'];
+  isDefault: Scalars['Boolean'];
+  paymentInstrumentId: Scalars['String'];
 };
 
 export type User = MongoBase & {

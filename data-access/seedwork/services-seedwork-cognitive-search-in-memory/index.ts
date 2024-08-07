@@ -44,6 +44,10 @@ export class MemoryCognitiveSearch implements IMemoryCognitiveSearch, CognitiveS
     this.searchCollectionIndexMap = new Map<string, MemoryCognitiveSearchCollection<any>>();
     this.searchCollectionIndexDefinitionMap = new Map<string, SearchIndex>();
   }
+  
+  deleteIndex(indexName: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 
   async createIndexIfNotExists(indexName: string, indexDefinition: SearchIndex): Promise<void> {
     if (this.searchCollectionIndexMap.has(indexName)) return;

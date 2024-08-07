@@ -10206,6 +10206,18 @@
             "deprecationReason": null
           },
           {
+            "name": "serviceTicketReIndex",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ServiceTicketsSearchResult",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "serviceTicketsAssignedToCurrentUser",
             "description": null,
             "args": [],

@@ -1,0 +1,8 @@
+mutation MutationUpdatePaymentInstrument($input: UpdatePaymentInstrumentInput!) {
+  memberUpdatePaymentInstrument(input: $input) {
+    status {
+      success
+      errorMessage
+    }
+  }
+}

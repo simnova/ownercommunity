@@ -7,15 +7,12 @@ import { ServiceTicketsList } from './tickets-list';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { SearchType, ServiceTicketSearchParamKeys } from '../../../../constants';
-import { Button, Drawer, Empty, Skeleton, theme } from 'antd';
+import { Button, Drawer, Empty, Skeleton } from 'antd';
 import Search from 'antd/es/input/Search';
 import { SearchDrawerContainer } from '../../shared/components/search-drawer.container';
 import { FilterOutlined } from '@ant-design/icons';
 
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
-  const {
-    token: { colorText }
-  } = theme.useToken();
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');

@@ -4412,6 +4412,18 @@ export type PropertyInformationFieldsFragment = {
   } | null;
 };
 
+export type MutationUpdatePaymentInstrumentMutationVariables = Exact<{
+  input: UpdatePaymentInstrumentInput;
+}>;
+
+export type MutationUpdatePaymentInstrumentMutation = {
+  __typename?: 'Mutation';
+  memberUpdatePaymentInstrument: {
+    __typename?: 'MemberMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  };
+};
+
 export type MemberSiteNeighborsListContainerQueryVariables = Exact<{
   communityId: Scalars['ID'];
 }>;
@@ -5531,10 +5543,27 @@ export type MemberPaymentInstrumentsQuery = {
     __typename?: 'PaymentInstrumentResult';
     paymentInstruments?: Array<{
       __typename?: 'PaymentInstrument';
+      id?: string | null;
       paymentInstrumentId?: string | null;
       cardNumber?: string | null;
       cardType?: string | null;
       isDefault?: boolean | null;
+      expirationMonth?: string | null;
+      expirationYear?: string | null;
+      state?: string | null;
+      billTo?: {
+        __typename: 'PaymentBillingInfo';
+        billingAddressLine1?: string | null;
+        billingAddressLine2?: string | null;
+        billingCity?: string | null;
+        billingState?: string | null;
+        billingCountry?: string | null;
+        billingEmail?: string | null;
+        billingFirstName?: string | null;
+        billingLastName?: string | null;
+        billingPhone?: string | null;
+        billingPostalCode?: string | null;
+      } | null;
     } | null> | null;
     status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
   } | null;
@@ -17749,6 +17778,58 @@ export const MemberPropertiesByCommunityIdDocument = {
     }
   ]
 } as unknown as DocumentNode<MemberPropertiesByCommunityIdQuery, MemberPropertiesByCommunityIdQueryVariables>;
+export const MutationUpdatePaymentInstrumentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MutationUpdatePaymentInstrument' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UpdatePaymentInstrumentInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberUpdatePaymentInstrument' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MutationUpdatePaymentInstrumentMutation, MutationUpdatePaymentInstrumentMutationVariables>;
 export const MemberSiteNeighborsListContainerDocument = {
   kind: 'Document',
   definitions: [
@@ -20286,10 +20367,34 @@ export const MemberPaymentInstrumentsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'paymentInstrumentId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'cardNumber' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'cardType' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'isDefault' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'expirationMonth' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'expirationYear' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'billTo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingAddressLine1' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingAddressLine2' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingCity' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingState' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingCountry' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingEmail' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingFirstName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingLastName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingPhone' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'billingPostalCode' } }
+                          ]
+                        }
+                      }
                     ]
                   }
                 },

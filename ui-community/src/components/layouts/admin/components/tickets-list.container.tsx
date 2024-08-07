@@ -105,18 +105,6 @@ export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   }
 
   if (searchServiceTicketsCalled && searchServiceTicketsData) {
-    let SearchResult = null;
-    SearchResult = (
-      <pre
-        className=" mt-2 p-2"
-        style={{
-          color: colorText
-        }}
-      >
-        {JSON.stringify(searchServiceTicketsData, null, 2)}
-      </pre>
-    );
-
     return (
       <>
         <div className="py-4">

@@ -7,7 +7,7 @@ import { PaymentInstrumentList } from './payment-instruments-list';
 
 import useAddPaymentMethodModal from '../../../../hooks/useAddPaymentMethodModal';
 import { PaymentInstrument, PaymentInstrumentResult } from '../../../../generated';
-import { EditPaymentMethodModal } from './edit-payment-method-modal';
+import { EditPaymentMethodModalContianer } from './edit-payment-modal.container';
 
 interface WalletProps {
   paymentInstrumentsResult: PaymentInstrumentResult;
@@ -46,7 +46,7 @@ const Wallet: React.FC<WalletProps> = ({
       )}
       {paymentInstruments && paymentInstruments?.length > 0 && addPaymentMethodButton}
       <AddPaymentMethodModalContainer />
-      <EditPaymentMethodModal />
+      <EditPaymentMethodModalContianer />
     </div>
   );
 };

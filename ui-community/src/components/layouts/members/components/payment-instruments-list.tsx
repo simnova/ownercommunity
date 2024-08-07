@@ -79,14 +79,6 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
 
   const useEditPaymentMethod = useEditPaymentMethodModal();
 
-  console.log(
-    'state',
-    paymentInstrument?.cardNumber,
-    paymentInstrument?.expirationMonth,
-    paymentInstrument?.expirationYear,
-    paymentInstrument.state
-  );
-
   const handleSetDefaultPaymentMethod = async () => {
     if (onSetDefaultPaymentMethod) {
       await onSetDefaultPaymentMethod(paymentInstrument.paymentInstrumentId!);
@@ -100,6 +92,10 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
       setIsDeleting(false);
     }
   };
+
+  const isExpired =
+    Number(paymentInstrument?.expirationMonth!) <= dayjs().month() &&
+    Number(paymentInstrument?.expirationYear!) <= dayjs().year();
 
   if (paymentInstrument?.cardNumber && paymentInstrument?.cardType) {
     return (
@@ -150,9 +146,7 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
             <Badge className="bg-blue-500 text-white px-2 py-1 rounded-lg h-fit">Default</Badge>
           )}
 
-          {paymentInstrument?.state !== 'ACTIVE' && (
-            <Badge className="bg-rose-500 text-white px-2 py-1 rounded-lg h-fit">Expired</Badge>
-          )}
+          {isExpired && <Badge className="bg-rose-500 text-white px-2 py-1 rounded-lg h-fit">Expired</Badge>}
         </div>
       </div>
     );

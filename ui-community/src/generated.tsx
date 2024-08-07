@@ -4613,6 +4613,18 @@ export type PropertyInformationFieldsFragment = {
   } | null;
 };
 
+export type MutationUpdatePaymentInstrumentMutationVariables = Exact<{
+  input: UpdatePaymentInstrumentInput;
+}>;
+
+export type MutationUpdatePaymentInstrumentMutation = {
+  __typename?: 'Mutation';
+  memberUpdatePaymentInstrument: {
+    __typename?: 'MemberMutationResult';
+    status: { __typename?: 'MutationStatus'; success: boolean; errorMessage?: string | null };
+  };
+};
+
 export type MemberSiteNeighborsListContainerQueryVariables = Exact<{
   communityId: Scalars['ID'];
 }>;
@@ -5775,6 +5787,7 @@ export type MemberPaymentInstrumentsQuery = {
     __typename?: 'PaymentInstrumentResult';
     paymentInstruments?: Array<{
       __typename?: 'PaymentInstrument';
+      id?: string | null;
       paymentInstrumentId?: string | null;
       cardNumber?: string | null;
       cardType?: string | null;
@@ -18302,6 +18315,58 @@ export const MemberPropertiesByCommunityIdDocument = {
     }
   ]
 } as unknown as DocumentNode<MemberPropertiesByCommunityIdQuery, MemberPropertiesByCommunityIdQueryVariables>;
+export const MutationUpdatePaymentInstrumentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'MutationUpdatePaymentInstrument' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UpdatePaymentInstrumentInput' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberUpdatePaymentInstrument' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<MutationUpdatePaymentInstrumentMutation, MutationUpdatePaymentInstrumentMutationVariables>;
 export const MemberSiteNeighborsListContainerDocument = {
   kind: 'Document',
   definitions: [
@@ -20852,6 +20917,7 @@ export const MemberPaymentInstrumentsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'paymentInstrumentId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'cardNumber' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'cardType' } },

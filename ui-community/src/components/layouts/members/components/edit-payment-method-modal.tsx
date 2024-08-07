@@ -1,13 +1,22 @@
-import { Button, Checkbox, DatePicker, Divider, Form, Input, Modal, Select } from 'antd';
-
-import useEditPaymentMethodModal from '../../../../hooks/useEditPaymentMethodModal';
-import dayjs from 'dayjs';
-import { City, Country, State } from 'country-state-city';
 import { useEffect, useState } from 'react';
 
-interface EditPaymentMethodModalProps {}
+import { FetchResult } from '@apollo/client';
+import { MutationUpdatePaymentInstrumentMutation, UpdatePaymentInstrumentInput } from '../../../../generated';
 
-export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () => {
+import { Button, Checkbox, DatePicker, Divider, Form, Input, message, Modal, Select } from 'antd';
+import { City, Country, State } from 'country-state-city';
+
+import dayjs from 'dayjs';
+
+import useEditPaymentMethodModal from '../../../../hooks/useEditPaymentMethodModal';
+
+interface EditPaymentMethodModalProps {
+  onUpdate: (
+    data: UpdatePaymentInstrumentInput
+  ) => Promise<FetchResult<MutationUpdatePaymentInstrumentMutation> | undefined>;
+}
+
+export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = ({ onUpdate }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [initialValues, setInitialValues] = useState<any>({});
 
@@ -15,16 +24,20 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
   const [form] = Form.useForm();
   const values = Form.useWatch([], form);
 
+  const phoneCode = Country.getCountryByCode(form.getFieldValue('billingCountry'))?.phonecode;
+
   const title = 'Edit Payment Method';
 
   useEffect(() => {
     const newValues = {
+      id: paymentInstrument?.id,
       cardNumber: paymentInstrument?.cardNumber,
       expiration: dayjs(`${paymentInstrument?.expirationMonth}-${paymentInstrument?.expirationYear}`, 'MM-YYYY'),
       isDefault: paymentInstrument?.isDefault,
       billingFirstName: paymentInstrument?.billTo?.billingFirstName,
       billingLastName: paymentInstrument?.billTo?.billingLastName,
       billingEmail: paymentInstrument?.billTo?.billingEmail,
+      billingPhone: paymentInstrument?.billTo?.billingPhone,
       billingCountry: paymentInstrument?.billTo?.billingCountry,
       billingAddressLine1: paymentInstrument?.billTo?.billingAddressLine1,
       billingAddressLine2: paymentInstrument?.billTo?.billingAddressLine2,
@@ -37,10 +50,9 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
   }, [paymentInstrument]);
 
   const cardInformation = (
-    <>
+    <div className="flex flex-col">
       <div className="flex gap-6">
         <Form.Item
-          // className="ant-form-item-control-input-content"
           label="Card Number:"
           name="cardNumber"
           rules={[{ required: true, message: 'Please provide the card number.' }]}
@@ -67,7 +79,7 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
       <Form.Item name="isDefault" valuePropName="checked">
         <Checkbox disabled={!!paymentInstrument?.isDefault}>Deafult payment method</Checkbox>
       </Form.Item>
-    </>
+    </div>
   );
 
   const billingInformation = (
@@ -96,6 +108,22 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
         ]}
       >
         <Input placeholder="Enter email" />
+      </Form.Item>
+      <Form.Item
+        className="w-full"
+        name="billingPhone"
+        label="Phone Number:"
+        rules={[{ required: true, message: 'Please input your phone number.' }]}
+      >
+        <Input
+          placeholder="Enter phone number"
+          addonBefore={
+            <Select disabled={Boolean(phoneCode)} value={phoneCode} style={{ width: 70 }}>
+              <Select.Option value={phoneCode}>+{phoneCode}</Select.Option>
+            </Select>
+          }
+          maxLength={10}
+        />
       </Form.Item>
       <Form.Item name="billingCountry" label="Country" className="w-full" rules={[{ required: true }]}>
         <Select
@@ -127,7 +155,7 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
         <Form.Item name="billingCity" label="City" className="w-full" rules={[{ required: true }]}>
           <Select
             placeholder="Select city"
-            options={City.getCitiesOfState(values?.billingCountry!, values?.billingState!)}
+            options={City.getCitiesOfState(values?.billingCountry, values?.billingState)}
             showSearch
             filterOption={(input, option) => (option?.name ?? '').toLowerCase().includes(input.toLowerCase())}
             fieldNames={{ value: 'name', label: 'name' }}
@@ -147,21 +175,28 @@ export const EditPaymentMethodModal: React.FC<EditPaymentMethodModalProps> = () 
         form={form}
         layout="vertical"
         initialValues={initialValues}
-        onFinish={(values) => {
+        onFinish={async (values) => {
           setIsSaving(true);
-          let { expiration, ...payload } = values;
+          let { expiration, cardNumber, ...payload } = values;
           payload = {
             ...payload,
             expirationMonth: expiration.format('MM'),
             expirationYear: expiration.format('YYYY'),
+            id: paymentInstrument?.id,
             paymentInstrumentId: paymentInstrument?.paymentInstrumentId,
-            cardNumber: paymentInstrument?.cardNumber,
             cardType: paymentInstrument?.cardType
           };
-          console.log(payload); // TODO: Remove console.log
-          setIsSaving(false);
+          try {
+            await onUpdate(payload);
+            onClose();
+            message.success('Payment method updated successfully!');
+          } catch {
+            message.error('There was an error updating the payment method.');
+          } finally {
+            setIsSaving(false);
+          }
         }}
-        className="space-y-3"
+        className="space-y-1"
       >
         <h3>Card Information</h3>
         {cardInformation}

@@ -79,12 +79,6 @@ export const CreditCardDisplay: React.FC<CreditCardDisplayProps> = ({
 
   const useEditPaymentMethod = useEditPaymentMethodModal();
 
-  const handleSetDefaultPaymentMethod = async () => {
-    if (onSetDefaultPaymentMethod) {
-      await onSetDefaultPaymentMethod(paymentInstrument.paymentInstrumentId!);
-    }
-  };
-
   const handleDeletePaymentMethod = async () => {
     if (onDeletePaymentMethod) {
       setIsDeleting(true);

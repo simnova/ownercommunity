@@ -2,7 +2,7 @@ import { HttpRequest } from '@azure/functions';
 import { PortalTokenValidation } from '../../../../../seedwork/auth-seedwork-oidc/portal-token-validation';
 import { InfrastructureServices } from '../../../../app/infrastructure-services';
 import * as util from '../../../../../seedwork/auth-seedwork-oidc/util';
-import { AppContext, AppContextBuilder, VerifiedUser } from '../../../../app/init/app-context-builder';
+import { AppContext, AppContextBuilder, OpenIdConfigKeyEnum, VerifiedUser } from '../../../../app/init/app-context-builder';
 
 export interface GraphqlContext extends AppContext{
   init(
@@ -44,7 +44,7 @@ export class GraphqlContextBuilder extends AppContextBuilder implements GraphqlC
     let bearerToken = util.ExtractBearerToken(this._req);
     if (bearerToken) {
       console.log('[BearerToken] ', bearerToken);
-      let verifiedUser: VerifiedUser = await this._portalTokenValidator.GetVerifiedJwt(bearerToken);
+      let verifiedUser: VerifiedUser = await this._portalTokenValidator.GetVerifiedJwt<OpenIdConfigKeyEnum>(bearerToken);
       console.log('Decorating context with verified user:', JSON.stringify(verifiedUser));
       if (verifiedUser) {
         return verifiedUser;

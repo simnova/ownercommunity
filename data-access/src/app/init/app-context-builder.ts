@@ -9,7 +9,12 @@ import { CommunityData, MemberData } from '../external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';
 import { DatastoreVisaImpl, ReadOnlyDatastoreVisaImpl, SystemDatastoreVisaImpl } from '../datastore/datastore.visa';
-import { OpenIdConfigKeyEnum } from '../../../seedwork/auth-seedwork-oidc/portal-token-validation';
+
+export enum OpenIdConfigKeyEnum {
+  ACCOUNT_PORTAL = 'AccountPortal',
+  STAFF_PORTAL = 'StaffPortal',
+  SYSTEM = 'System',
+}
 
 export interface VerifiedJwtPayloadType{
   name: string;

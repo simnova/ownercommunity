@@ -178,12 +178,9 @@ type TransactionReference {
 
 type PaymentTransactionsResult {
   id: ObjectID!
-  transactionId: String
+  transactionReferenceId: String
   amount: Float
-  currency: String
-  status: String
-  isSuccess: Boolean
+  completedOn: DateTime
   description: String
-  type: String
-  successTimestamp: DateTime
+  createdAt: DateTime
 }

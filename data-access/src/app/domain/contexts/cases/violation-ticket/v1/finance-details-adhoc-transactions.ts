@@ -66,23 +66,23 @@ export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements
     return this.props.updatedAt;
   }
 
-  set amount(amount: number) {
+  set Amount(amount: number) {
     this.props.amount = amount;
   }
 
-  set requestedBy(requestedBy: MemberEntityReference) {
+  set RequestedBy(requestedBy: MemberEntityReference) {
     this.props.setRequestedByRef(requestedBy);
   }
 
-  set requestedOn(requestedOn: Date) {
+  set RequestedOn(requestedOn: Date) {
     this.props.requestedOn = requestedOn;
   }
 
-  set reason(reason: string) {
+  set Reason(reason: string) {
     this.props.reason = reason;
   }
 
-  set approval(approval: {
+  set Approval(approval: {
     isApplicantApprovalRequired: boolean;
     isApplicantApproved: boolean;
     applicantRespondedAt: Date;
@@ -90,11 +90,11 @@ export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements
     this.props.approval = approval;
   }
 
-  set createdAt(createdAt: Date) {
+  set CreatedAt(createdAt: Date) {
     this.props.createdAt = createdAt;
   }
 
-  set updatedAt(updatedAt: Date) {
+  set UpdatedAt(updatedAt: Date) {
     this.props.updatedAt = updatedAt;
   }
 }

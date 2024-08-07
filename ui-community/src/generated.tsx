@@ -975,14 +975,11 @@ export type PaymentInstrumentResult = {
 export type PaymentTransactionsResult = {
   __typename?: 'PaymentTransactionsResult';
   amount?: Maybe<Scalars['Float']>;
-  currency?: Maybe<Scalars['String']>;
+  completedOn?: Maybe<Scalars['DateTime']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
-  isSuccess?: Maybe<Scalars['Boolean']>;
-  status?: Maybe<Scalars['String']>;
-  successTimestamp?: Maybe<Scalars['DateTime']>;
-  transactionId?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+  transactionReferenceId?: Maybe<Scalars['String']>;
 };
 
 export type PermissionsInput = {
@@ -5273,14 +5270,11 @@ export type MemberTransactionsQuery = {
   violationTicketPaymentTransactions?: Array<{
     __typename: 'PaymentTransactionsResult';
     amount?: number | null;
-    currency?: string | null;
     description?: string | null;
     id: any;
-    isSuccess?: boolean | null;
-    status?: string | null;
-    successTimestamp?: any | null;
-    transactionId?: string | null;
-    type?: string | null;
+    createdAt?: any | null;
+    completedOn?: any | null;
+    transactionReferenceId?: string | null;
   } | null> | null;
 };
 
@@ -19856,14 +19850,11 @@ export const MemberTransactionsDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'isSuccess' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'successTimestamp' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'transactionId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'completedOn' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'transactionReferenceId' } }
               ]
             }
           }

@@ -977,14 +977,11 @@ export type PaymentInstrumentResult = {
 export type PaymentTransactionsResult = {
   __typename?: 'PaymentTransactionsResult';
   amount?: Maybe<Scalars['Float']>;
-  currency?: Maybe<Scalars['String']>;
+  completedOn?: Maybe<Scalars['DateTime']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ObjectID'];
-  isSuccess?: Maybe<Scalars['Boolean']>;
-  status?: Maybe<Scalars['String']>;
-  successTimestamp?: Maybe<Scalars['DateTime']>;
-  transactionId?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+  transactionReferenceId?: Maybe<Scalars['String']>;
 };
 
 export type PermissionsInput = {
@@ -3271,14 +3268,11 @@ export type PaymentTransactionsResultResolvers<
   ParentType extends ResolversParentTypes['PaymentTransactionsResult'] = ResolversParentTypes['PaymentTransactionsResult'],
 > = ResolversObject<{
   amount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  completedOn?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ObjectID'], ParentType, ContextType>;
-  isSuccess?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  successTimestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  transactionId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  transactionReferenceId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

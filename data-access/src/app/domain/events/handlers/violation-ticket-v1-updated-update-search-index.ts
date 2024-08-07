@@ -80,7 +80,6 @@ function generateHash(listingDoc: Partial<ServiceTicketIndexDocument>) {
 function convertToIndexDocument(violationTicket: ViolationTicketV1<ViolationTicketV1Props>) {
   const updatedDate = dayjs(violationTicket.updatedAt.toISOString().split('T')[0]).toISOString();
   const createdDate = dayjs(violationTicket.createdAt.toISOString().split('T')[0]).toISOString();
-  const penaltyPaidDate = violationTicket?.penaltyPaidDate ? dayjs(violationTicket?.penaltyPaidDate?.toISOString().split('T')[0]).toISOString() : null;
 
   let listingDoc: Partial<ServiceTicketIndexDocument> = {
     id: violationTicket.id,
@@ -92,8 +91,6 @@ function convertToIndexDocument(violationTicket: ViolationTicketV1<ViolationTick
     assignedTo: violationTicket.assignedTo?.memberName ?? '',
     assignedToId: violationTicket.assignedTo?.id ?? '',
     description: violationTicket.description,
-    penaltyAmount: violationTicket.penaltyAmount,
-    penaltyPaidDate: penaltyPaidDate,
     ticketType: violationTicket.ticketType,
     status: violationTicket.status,
     priority: violationTicket.priority,

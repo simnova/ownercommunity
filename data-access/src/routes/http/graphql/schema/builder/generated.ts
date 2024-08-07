@@ -641,6 +641,7 @@ export type Mutation = {
   memberProfileUpdate: MemberMutationResult;
   memberSetDefaultPaymentInstrument: MutationStatus;
   memberUpdate: MemberMutationResult;
+  memberUpdatePaymentInstrument: MemberMutationResult;
   propertyAdd: PropertyMutationResult;
   propertyAssignOwner: PropertyMutationResult;
   propertyDelete: PropertyMutationResult;
@@ -759,6 +760,11 @@ export type MutationMemberSetDefaultPaymentInstrumentArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationMemberUpdateArgs = {
   input: MemberUpdateInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationMemberUpdatePaymentInstrumentArgs = {
+  input: UpdatePaymentInstrumentInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
@@ -1745,6 +1751,25 @@ export type Transactions = {
   submission?: Maybe<Submission>;
 };
 
+export type UpdatePaymentInstrumentInput = {
+  billingAddressLine1: Scalars['String'];
+  billingAddressLine2?: InputMaybe<Scalars['String']>;
+  billingCity: Scalars['String'];
+  billingCountry: Scalars['String'];
+  billingEmail: Scalars['String'];
+  billingFirstName: Scalars['String'];
+  billingLastName: Scalars['String'];
+  billingPhone: Scalars['String'];
+  billingPostalCode: Scalars['String'];
+  billingState: Scalars['String'];
+  cardType: Scalars['String'];
+  expirationMonth: Scalars['String'];
+  expirationYear: Scalars['String'];
+  id: Scalars['String'];
+  isDefault: Scalars['Boolean'];
+  paymentInstrumentId: Scalars['String'];
+};
+
 export type User = MongoBase & {
   __typename?: 'User';
   accessBlocked?: Maybe<Scalars['Boolean']>;
@@ -2225,6 +2250,7 @@ export type ResolversTypes = ResolversObject<{
   UUID: ResolverTypeWrapper<Scalars['UUID']>;
   UnsignedFloat: ResolverTypeWrapper<Scalars['UnsignedFloat']>;
   UnsignedInt: ResolverTypeWrapper<Scalars['UnsignedInt']>;
+  UpdatePaymentInstrumentInput: UpdatePaymentInstrumentInput;
   User: ResolverTypeWrapper<User>;
   UserMutationResult: ResolverTypeWrapper<UserMutationResult>;
   UserUpdateInput: UserUpdateInput;
@@ -2490,6 +2516,7 @@ export type ResolversParentTypes = ResolversObject<{
   UUID: Scalars['UUID'];
   UnsignedFloat: Scalars['UnsignedFloat'];
   UnsignedInt: Scalars['UnsignedInt'];
+  UpdatePaymentInstrumentInput: UpdatePaymentInstrumentInput;
   User: User;
   UserMutationResult: UserMutationResult;
   UserUpdateInput: UserUpdateInput;
@@ -3090,6 +3117,7 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
     RequireFields<MutationMemberSetDefaultPaymentInstrumentArgs, 'paymentInstrumentId'>
   >;
   memberUpdate?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberUpdateArgs, 'input'>>;
+  memberUpdatePaymentInstrument?: Resolver<ResolversTypes['MemberMutationResult'], ParentType, ContextType, RequireFields<MutationMemberUpdatePaymentInstrumentArgs, 'input'>>;
   propertyAdd?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAddArgs, 'input'>>;
   propertyAssignOwner?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyAssignOwnerArgs, 'input'>>;
   propertyDelete?: Resolver<ResolversTypes['PropertyMutationResult'], ParentType, ContextType, RequireFields<MutationPropertyDeleteArgs, 'input'>>;

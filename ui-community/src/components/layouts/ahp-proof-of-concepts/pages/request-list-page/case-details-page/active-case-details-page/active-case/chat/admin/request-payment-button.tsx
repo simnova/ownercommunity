@@ -98,7 +98,7 @@ export const RequestPaymentButton: FC<RequestPaymentButtonProps> = (props) => {
           Are you sure you want to put in a request of ${paymentAmount} for reason "{paymentReason}"?
         </div>
       </Modal>
-      <Button style={{ width: '100%', borderRadius: '0px' }} onClick={openModal}>
+      <Button style={{ width: '100%', borderRadius: '8px', marginRight: 10, marginBottom: 10, marginTop: 10 }} onClick={openModal}>
         <DollarOutlined /> Request Payment
       </Button>
     </>

@@ -98,7 +98,7 @@ export const SendMoneyButton: FC<SendMoneyButtonProps> = (props) => {
           Are you sure you want to send money for a total of ${paymentAmount} for reason "{paymentReason}"?
         </div>
       </Modal>
-      <Button style={{ width: '100%', borderRadius: '0px' }} onClick={openModal}>
+      <Button style={{ width: '100%', borderRadius: '8px', marginRight: 10, marginBottom: 10, marginTop: 10}} onClick={openModal}>
         <DollarOutlined /> Send Money
       </Button>
     </>

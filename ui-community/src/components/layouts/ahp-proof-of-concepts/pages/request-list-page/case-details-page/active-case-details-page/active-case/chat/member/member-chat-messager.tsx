@@ -64,7 +64,16 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
   repeatEveryMinute();
 
   return (
-    <div style={{ gridColumn: 1, border: '1px solid black', borderTop: '0px', width: '75%', display: 'flex' }}>
+    <div
+      style={{
+        gridColumn: 1,
+        borderRadius: '8px',
+        background: '#2a2e3608',
+        borderTop: '0px',
+        width: '75%',
+        display: 'flex'
+      }}
+    >
       <div
         style={{
           padding: '15px 20px',
@@ -76,7 +85,6 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
             paddingBottom: '10px'
           }}
         >
-          Message
         </div>
         <TextArea
           style={{ borderRadius: '0px' }}

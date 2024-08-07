@@ -74,7 +74,7 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
           add/update status
         </Checkbox>
       </Modal>
-      <Button style={{ width: '100%', borderRadius: '0px' }} onClick={openModal}>
+      <Button style={{ width: '100%', borderRadius: '8px', marginRight: 10, marginBottom: 10, marginTop: 10 }} onClick={openModal}>
         <FilePdfOutlined /> Request Feedback
       </Button>
     </>

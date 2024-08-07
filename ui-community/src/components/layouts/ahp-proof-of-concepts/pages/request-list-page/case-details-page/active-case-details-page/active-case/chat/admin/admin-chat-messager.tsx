@@ -1,6 +1,6 @@
 import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
-import { Button, Tag } from 'antd';
+import { Button, Tag, Form } from 'antd';
 import { useMutation } from '@apollo/client';
 import {
   ChatMessagesContainerServiceTicketUpdateDocument,
@@ -10,6 +10,7 @@ import { RequestFeedbackButton } from './request-feedback-button';
 import { RequestPaymentButton } from './request-payment-button';
 import { SendMoneyButton } from './send-money-button';
 import { useParams } from 'react-router-dom';
+import { SendOutlined } from '@ant-design/icons';
 
 interface ChatMessagerProps {
   updateMessage: () => void;
@@ -122,39 +123,37 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
   repeatEveryMinute();
 
   return (
-    <div style={{ gridColumn: 1, border: '1px solid black', borderTop: '0px', width: '75%', display: 'flex' }}>
+    <div
+      style={{
+        gridColumn: 1,
+        borderRadius: '8px',
+        background: '#2a2e3608',
+        borderTop: '0px',
+        width: '75%',
+        display: 'flex'
+      }}
+    >
       <div
         style={{
           padding: '15px 20px',
-          width: '85%'
+          width: '100%'
         }}
       >
-        <div
-          style={{
-            paddingBottom: '10px'
-          }}
-        >
-          Message
-        </div>
         {requests.map((request: any) => {
           return (
-            <Tag onClose={() => removeRequest(request.value)} key={request.value} closable>
+            <Tag
+              onClose={() => removeRequest(request.value)}
+              key={request.value}
+              closable
+              style={{ borderRadius: '8px' }}
+            >
               {request.icon} {request.message}
             </Tag>
           );
         })}
-        <TextArea
-          style={{ borderRadius: '0px' }}
-          autoSize={{
-            minRows: 3,
-            maxRows: 5
-          }}
-          onChange={(e: any) => setMessage(e.target.value)}
-          value={message}
-        />
         <div
           style={{
-            width: 'auto',
+            width: '50%',
             display: 'flex',
             justifyContent: 'space-evenly',
             alignContent: 'stretch'
@@ -164,16 +163,37 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
           <RequestPaymentButton updateEmbedding={updateEmbedding} />
           <SendMoneyButton updateEmbedding={updateEmbedding} />
         </div>
+        <div style={{ position: 'relative' }}>
+          <TextArea
+            style={{
+              borderRadius: '8px',
+              paddingRight: '40px',
+              width: '100%',
+              padding: '10px',
+              overflow: 'auto'
+            }}
+            autoSize={true}
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+            placeholder="Type a message..."
+          />
+          <Button
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '10px',
+              transform: 'translateY(-50%)',
+              border: 'none',
+              background: 'transparent',
+              cursor: 'pointer',
+              paddingLeft: 5
+            }}
+            onClick={sendMessage}
+          >
+            <SendOutlined />
+          </Button>
+        </div>
       </div>
-      <Button
-        style={{
-          marginTop: '40px',
-          marginLeft: '10px'
-        }}
-        onClick={sendMessage}
-      >
-        Send
-      </Button>
     </div>
   );
 };

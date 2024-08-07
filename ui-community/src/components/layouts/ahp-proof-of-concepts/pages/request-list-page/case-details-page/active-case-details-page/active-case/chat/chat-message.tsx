@@ -15,20 +15,18 @@ interface ChatMessageProps {
 }
 export const ChatMessage: FC<ChatMessageProps> = (props) => {
   const caseWorkerStyles = {
-    border: '1px solid black',
     background: '#d4d8f7',
     margin: '10px 5px',
-    padding: '10px',
+    padding: '8px',
     color: 'black',
-    borderRadius: '5px'
+    borderRadius: '8px'
   };
   const applicantStyles = {
-    border: '1px solid black',
     background: '#f6b8a2',
     margin: '10px 5px',
-    padding: '10px',
+    padding: '8px',
     color: 'black',
-    borderRadius: '5px'
+    borderRadius: '8px'
   };
 
   const placeHolderInitials = 'JM';

@@ -46,13 +46,14 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
     <div
       style={{
         gridColumn: 1,
-        border: '1px solid black',
+        background: '#2a2e3608',
         width: '75%',
         display: 'flex',
         flexDirection: 'column',
         overflowY: 'scroll',
         maxHeight: '400px',
-        minHeight: '500px'
+        minHeight: '500px',
+        borderRadius: '8px',
       }}
       ref={containerRef}
     >
@@ -73,10 +74,10 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
         icon={<DownOutlined />}
         onClick={scrollToSection}
         size={'small'}
-        style={{ width: '10%', position: 'fixed', borderRadius: '10px', color: 'black' }}
+        style={{ width: '10%', position: 'fixed', borderRadius: '8px', color: 'black', marginLeft: 10 }}
         hidden={!display}
       >
-        Back to bottom
+        Return to Bottom
       </Button>
       <div id="bottom"></div>
     </div>

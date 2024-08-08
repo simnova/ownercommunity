@@ -1,5 +1,5 @@
 import TextArea from 'antd/lib/input/TextArea';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button, Tag } from 'antd';
 import { useMutation } from '@apollo/client';
 import {
@@ -20,15 +20,15 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
   const params = useParams();
   const isServiceTicket = window.location.href.indexOf('ServiceTicketType') > -1;
   const [message, setMessage] = useState('');
-  const [requests, setRequests] = useState<any[]>([]);
+  const [request, setRequest] = useState<any>(null);
   const [updateServiceTicket] = useMutation(
     isServiceTicket
       ? ChatMessagesContainerServiceTicketUpdateDocument
       : ChatMessagesContainerViolationTicketUpdateDocument
   );
 
-  const updateEmbedding = (requests: any[]) => {
-    setRequests(requests);
+  const updateEmbedding = (request: any[]) => {
+    setRequest(request);
   };
 
   function repeatEveryMinute() {
@@ -47,31 +47,29 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
       return;
     }
     let embeddedData = undefined;
-    const documentRequestTypes = ['updateAssignment', 'updateProperty', 'updateStatus'];
 
-    if (requests.length > 0) {
-      const mainRequest = requests[0];
-      if (mainRequest.value === 'sendMoney') {
+    if (request) {
+      if (request.value === 'sendMoney') {
         embeddedData = JSON.stringify({
           type: 'sendMoney',
-          amount: mainRequest.amount,
-          reason: mainRequest.reason
+          amount: request.amount,
+          reason: request.reason
         });
-      } else if (mainRequest.value === 'requestPayment') {
+      } else if (request.value === 'requestPayment') {
         embeddedData = JSON.stringify({
           type: 'requestPayment',
-          amount: mainRequest.amount,
-          reason: mainRequest.reason,
+          amount: request.amount,
+          reason: request.reason,
           completed: false,
           success: false
         });
-      } else if (documentRequestTypes.includes(mainRequest.value)) {
+      } else if (request.value === 'documentRequestType') {
         embeddedData = JSON.stringify({
           type: 'documentRequestType',
           changesRequested: {
-            updateAssignment: requests.findIndex((x) => x.value === 'updateAssignment') !== -1,
-            updateProperty: requests.findIndex((x) => x.value === 'updateProperty') !== -1,
-            updateStatus: requests.findIndex((x) => x.value === 'updateStatus') !== -1
+            updateAssignment: request.updateAssignment,
+            updateProperty: request.updateProperty,
+            updateStatus: request.updateStatus
           }
         });
       }
@@ -99,12 +97,12 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
           ]
         };
 
-    if (requests.length > 0 && documentRequestTypes.includes(requests[0].value)) {
+    if (request && request.value === 'documentRequestType') {
       input.revisionRequest = {
         requestedChanges: {
-          requestUpdatedAssignment: requests.findIndex((x) => x.value === 'updateAssignment') !== -1,
-          requestUpdatedProperty: requests.findIndex((x) => x.value === 'updateProperty') !== -1,
-          requestUpdatedStatus: requests.findIndex((x) => x.value === 'updateStatus') !== -1
+          requestUpdatedAssignment: request.updatedAssignment,
+          requestUpdatedProperty: request.updatedProperty,
+          requestUpdatedStatus: request.updatedStatus
         }
       };
     }
@@ -116,16 +114,15 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
     });
 
     setMessage('');
-    setRequests([]);
+    setRequest(null);
     props.updateMessage();
   };
 
-  const removeRequest = (value: string) => {
-    let tempRequests = requests.slice();
-    const index = tempRequests.findIndex((x) => x.value === value);
-    tempRequests.splice(index, 1);
-    setRequests(tempRequests);
+  const removeRequest = () => {
+    setRequest(null);
   };
+
+  useEffect(() => {}, [request]);
 
   repeatEveryMinute();
 
@@ -146,18 +143,6 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
           width: '100%'
         }}
       >
-        {requests.map((request: any) => {
-          return (
-            <Tag
-              onClose={() => removeRequest(request.value)}
-              key={request.value}
-              closable
-              style={{ borderRadius: '8px' }}
-            >
-              {request.icon} {request.message}
-            </Tag>
-          );
-        })}
         <div
           style={{
             width: '50%',
@@ -174,10 +159,10 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
           <TextArea
             style={{
               borderRadius: '8px',
-              paddingRight: '40px',
+              paddingRight: '80px',
               width: '100%',
               padding: '10px',
-              overflow: 'auto'
+              paddingBottom: request !== null ? '60px' : '10px'
             }}
             onKeyDown={handleKeyDown}
             autoSize={true}
@@ -200,6 +185,16 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
           >
             <SendOutlined />
           </Button>
+          {request && (
+            <Tag
+              onClose={removeRequest}
+              key={request.value}
+              closable
+              style={{ borderRadius: '8px', position: 'absolute', bottom: 0, left: 0, margin: '10px' }}
+            >
+              {request.icon} {request.message}
+            </Tag>
+          )}
         </div>
       </div>
     </div>

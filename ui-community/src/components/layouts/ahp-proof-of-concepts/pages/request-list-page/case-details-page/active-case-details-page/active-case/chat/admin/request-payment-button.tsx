@@ -3,7 +3,7 @@ import { Button, Form, Input, Modal } from 'antd';
 import { FC, useState } from 'react';
 
 interface RequestPaymentButtonProps {
-  updateEmbedding: (requests: any[]) => void;
+  updateEmbedding: (requests: any) => void;
 }
 export const RequestPaymentButton: FC<RequestPaymentButtonProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ export const RequestPaymentButton: FC<RequestPaymentButtonProps> = (props) => {
 
   const closeModal = () => {
     setSecondModalOpen(false);
-    props.updateEmbedding([
+    props.updateEmbedding(
       {
         value: 'requestPayment',
         message: 'Request Payment',
@@ -25,7 +25,7 @@ export const RequestPaymentButton: FC<RequestPaymentButtonProps> = (props) => {
         amount: paymentAmount,
         icon: <DollarOutlined />
       }
-    ]);
+    );
     setPaymentAmount('');
     setPaymentReason('');
   };

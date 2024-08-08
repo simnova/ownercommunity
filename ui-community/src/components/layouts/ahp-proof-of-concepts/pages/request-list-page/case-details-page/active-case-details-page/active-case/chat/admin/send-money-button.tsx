@@ -3,7 +3,7 @@ import { Button, Form, Input, Modal } from 'antd';
 import { FC, useState } from 'react';
 
 interface SendMoneyButtonProps {
-  updateEmbedding: (requests: any[]) => void;
+  updateEmbedding: (requests: any) => void;
 }
 export const SendMoneyButton: FC<SendMoneyButtonProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ export const SendMoneyButton: FC<SendMoneyButtonProps> = (props) => {
 
   const closeModal = () => {
     setSecondModalOpen(false);
-    props.updateEmbedding([
+    props.updateEmbedding(
       {
         value: 'sendMoney',
         message: 'Send Money',
@@ -25,7 +25,7 @@ export const SendMoneyButton: FC<SendMoneyButtonProps> = (props) => {
         amount: paymentAmount,
         icon: <DollarOutlined />
       }
-    ]);
+    );
     setPaymentAmount('');
     setPaymentReason('');
   };

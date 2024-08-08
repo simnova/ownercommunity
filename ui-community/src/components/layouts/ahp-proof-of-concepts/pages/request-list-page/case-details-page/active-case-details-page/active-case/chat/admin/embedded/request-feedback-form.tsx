@@ -49,22 +49,23 @@ const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
       The applicants application has been opened and can now update the:
       <br></br>
       <br></br>
-      {changesRequested?.updateAssignment && (
-        <li>
-          <b>Document Assignment</b>
-        </li>
-      )}
-      {changesRequested?.updateProperty && (
-        <li>
-          <b>Document Property</b>
-        </li>
-      )}
-      {changesRequested?.updateStatus && (
-        <li>
-          <b>Document Status</b>
-        </li>
-      )}
-      <br></br>
+      <ul>
+        {changesRequested?.updateAssignment && (
+          <li>
+            <b>Document Assignment</b>
+          </li>
+        )}
+        {changesRequested?.updateProperty && (
+          <li>
+            <b>Document Property</b>
+          </li>
+        )}
+        {changesRequested?.updateStatus && (
+          <li>
+            <b>Document Status</b>
+          </li>
+        )}
+      </ul>
       <br></br>
       in the application tab.
     </div>
@@ -80,7 +81,8 @@ const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
         paddingRight: '20px',
         margin: 10,
         textAlign: 'left',
-        border: '1px solid #d9d9d9'
+        border: '1px solid #d9d9d9',
+        borderRadius: '8px'
       }}
     >
       {props.isAdmin ? caseWorkerView : applicantView}

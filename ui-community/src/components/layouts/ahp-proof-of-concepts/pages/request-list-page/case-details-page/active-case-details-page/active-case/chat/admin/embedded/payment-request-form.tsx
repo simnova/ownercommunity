@@ -231,7 +231,8 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
         paddingRight: '20px',
         margin: 10,
         textAlign: 'left',
-        border: '1px solid #d9d9d9'
+        border: '1px solid #d9d9d9',
+        borderRadius: '8px'
       }}
     >
       {props.isAdmin ? caseWorkerView : applicantView}

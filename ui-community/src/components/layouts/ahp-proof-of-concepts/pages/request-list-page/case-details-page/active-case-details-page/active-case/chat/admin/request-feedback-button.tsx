@@ -3,17 +3,19 @@ import { Button, Checkbox, Modal } from 'antd';
 import { FC, useState } from 'react';
 
 interface RequestFeedbackButtonProps {
-  updateEmbedding: (requests: any[]) => void;
+  updateEmbedding: (requests: any) => void;
 }
+
 export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [checkedBoxes, setCheckedBoxes] = useState<any[]>([]);
-
-  const valueMap: { [key: string]: string } = {
-    updateAssignment: 'Request Update to Assignment',
-    updateProperty: 'Request Update to Property',
-    updateStatus: 'Request Update to Status',
-  };
+  const [request, setRequest] = useState<any>({
+    value: 'documentRequestType',
+    message: 'Request Document Update',
+    updateAssignment: false,
+    updateProperty: false,
+    updateStatus: false,
+    icon: <FilePdfOutlined />
+  });
 
   const openModal = () => {
     setIsOpen(true);
@@ -21,34 +23,19 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
 
   const closeModal = () => {
     setIsOpen(false);
-    props.updateEmbedding(checkedBoxes);
-    setCheckedBoxes([]);
+    props.updateEmbedding(request);
   };
 
   const onCancel = () => {
     setIsOpen(false);
-    setCheckedBoxes([]);
   };
 
   const onCheck = (e: any) => {
-    let tempCheckedBoxes = checkedBoxes.slice();
-    const index = tempCheckedBoxes.findIndex((x) => x.value === e.target.value);
-    if (index !== -1) {
-      tempCheckedBoxes.splice(index, 1);
-      setCheckedBoxes(tempCheckedBoxes);
-      return;
-    }
-    tempCheckedBoxes.push({
-      value: e.target.value,
-      message: valueMap[e.target.value],
-      icon: <FilePdfOutlined />
-    });
-    setCheckedBoxes(tempCheckedBoxes);
-  };
-
-  const isChecked = (value: string) => {
-    const index = checkedBoxes.findIndex((x) => x.value === value);
-    return index !== -1;
+    const { value, checked } = e.target;
+    setRequest((prevRequest: any) => ({
+      ...prevRequest,
+      [value]: checked
+    }));
   };
 
   const footerButton = (
@@ -56,25 +43,28 @@ export const RequestFeedbackButton: FC<RequestFeedbackButtonProps> = (props) => 
       Create Request
     </Button>
   );
+
   return (
     <>
       <Modal title="Request Update" open={isOpen} onCancel={onCancel} footer={footerButton}>
         Request Applicant to:
         <br />
-        <Checkbox value={'updateAssignment'} onClick={onCheck} checked={isChecked('updateAssignment')}>
-          {' '}
+        <Checkbox value={'updateAssignment'} onChange={onCheck} checked={request.updateAssignment}>
           add/update assignment
         </Checkbox>
         <br />
-        <Checkbox value={'updateProperty'} onClick={onCheck} checked={isChecked('updateProperty')}>
+        <Checkbox value={'updateProperty'} onChange={onCheck} checked={request.updateProperty}>
           add/update property
         </Checkbox>
         <br />
-        <Checkbox value={'updateStatus'} onClick={onCheck} checked={isChecked('updateStatus')}>
+        <Checkbox value={'updateStatus'} onChange={onCheck} checked={request.updateStatus}>
           add/update status
         </Checkbox>
       </Modal>
-      <Button style={{ width: '100%', borderRadius: '8px', marginRight: 10, marginBottom: 10, marginTop: 10 }} onClick={openModal}>
+      <Button
+        style={{ width: '100%', borderRadius: '8px', marginRight: 10, marginBottom: 10, marginTop: 10 }}
+        onClick={openModal}
+      >
         <FilePdfOutlined /> Request Feedback
       </Button>
     </>

@@ -1,11 +1,5 @@
 import { OpenIdConfig, VerifiedTokenService } from "./verified-token-service";
 
-export enum OpenIdConfigKeyEnum {
-  ACCOUNT_PORTAL = 'AccountPortal',
-  STAFF_PORTAL = 'StaffPortal',
-  SYSTEM = 'System',
-}
-
  export class PortalTokenValidation {
   private tokenVerifier: VerifiedTokenService;
   private tokenSettings: Map<string,OpenIdConfig>;
@@ -57,14 +51,14 @@ export enum OpenIdConfigKeyEnum {
     this.tokenVerifier.Start();
   }
 
-  public async GetVerifiedJwt (bearerToken:string): Promise<{verifiedJWT:any,openIdConfigKey:OpenIdConfigKeyEnum}|null>{ 
+  public async GetVerifiedJwt<OpenIdConfigKeyEnumType> (bearerToken:string): Promise<{verifiedJWT:any,openIdConfigKey:OpenIdConfigKeyEnumType}|null>{ 
     for await(let [openIdConfigKey] of this.tokenSettings){
       let verifiedJWT = await this.tokenVerifier.GetVerifiedJwt(bearerToken,openIdConfigKey);
       // console.log(`for ${openIdConfigKey} with bearerToken: ${bearerToken} verifiedJWT: ${JSON.stringify(verifiedJWT)}`)
       if(verifiedJWT){
         return {
           verifiedJWT:verifiedJWT.payload,
-          openIdConfigKey:openIdConfigKey as OpenIdConfigKeyEnum
+          openIdConfigKey:openIdConfigKey as OpenIdConfigKeyEnumType
         }
       }
     }

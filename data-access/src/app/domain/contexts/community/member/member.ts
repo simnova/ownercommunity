@@ -9,11 +9,9 @@ import { DomainExecutionContext } from '../../../domain-execution-context';
 import { Profile, ProfileEntityReference, ProfileProps } from './profile';
 import { CommunityVisa } from "../community.visa";
 import { CustomView, CustomViewEntityReference, CustomViewProps } from './custom-view';
-import { TransactionProps } from '../../cases/violation-ticket/v1/transaction';
 import { ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';
 export interface WalletProps extends ValueObjectProps {
   customerId: string;
-  transactions: PropArray<TransactionProps>;
 }
 export interface MemberProps extends EntityProps {
   memberName: string;

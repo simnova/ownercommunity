@@ -11,8 +11,7 @@ export interface ViolationTicketV1Repository<props extends ViolationTicketV1Prop
     community: CommunityEntityReference,
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
-    penaltyAmount: number,
-    penaltyPaidDate: Date
+    penaltyAmount: number
   ): Promise<ViolationTicketV1<props>>;
 
   getById(id: string): Promise<ViolationTicketV1<props>>

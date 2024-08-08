@@ -40,10 +40,17 @@ export default (
     role.permissions.serviceTicketPermissions.canAssignTickets=(true);
     role.permissions.serviceTicketPermissions.canWorkOnTickets=(true);
 
+    role.permissions.violationTicketPermissions.canCreateTickets=(true);
+    role.permissions.violationTicketPermissions.canManageTickets=(true);
+    role.permissions.violationTicketPermissions.canAssignTickets=(true);
+    role.permissions.violationTicketPermissions.canWorkOnTickets=(true);
+
     role = await repo.save(role);
   });
 
-  const fullName = `${communityDo.createdBy.displayName}`;
+  const fullName = communityDo.createdBy.personalInformation?.identityDetails?.legalNameConsistsOfOneName ? 
+                  `${communityDo.createdBy.personalInformation?.identityDetails?.lastName}` :
+                  `${communityDo.createdBy.personalInformation?.identityDetails?.restOfName} ${communityDo.createdBy.personalInformation?.identityDetails?.lastName}`;
 
   await memberUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     const member = await repo.getNewInstance(fullName, communityDo);

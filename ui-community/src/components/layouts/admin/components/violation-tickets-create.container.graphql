@@ -32,7 +32,9 @@ fragment ViolationTicketsCreateContainerViolationTicketFields on ViolationTicket
   status
   priority
   status
-  penaltyAmount
+  financeDetails {
+    serviceFee
+  }
   ticketType
   property {
     id

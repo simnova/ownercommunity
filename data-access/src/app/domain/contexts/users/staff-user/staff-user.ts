@@ -19,6 +19,7 @@ export interface StaffUserProps extends EntityProps {
   externalId:string;
   accessBlocked: boolean;
   tags?: string[];
+  readonly userType?: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly schemaVersion: string;
@@ -46,6 +47,7 @@ export class StaffUser<props extends StaffUserProps> extends AggregateRoot<props
   get externalId(): string {return this.props.externalId;}
   get accessBlocked(): boolean {return this.props.accessBlocked;}
   get tags(): string[] {return this.props.tags;}
+  get userType(): string {return this.props.userType;}
   get updatedAt(): Date {return this.props.updatedAt;}
   get createdAt(): Date {return this.props.createdAt;}
   get schemaVersion(): string {return this.props.schemaVersion;}

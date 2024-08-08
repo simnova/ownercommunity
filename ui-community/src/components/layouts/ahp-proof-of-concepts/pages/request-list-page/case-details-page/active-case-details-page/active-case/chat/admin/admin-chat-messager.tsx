@@ -2,7 +2,10 @@ import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
 import { Button, Tag } from 'antd';
 import { useMutation } from '@apollo/client';
-import { ChatMessagesContainerServiceTicketUpdateDocument } from '../../../../../../../../../generated';
+import {
+  ChatMessagesContainerServiceTicketUpdateDocument,
+  ChatMessagesContainerViolationTicketUpdateDocument
+} from '../../../../../../../../../../generated';
 import { RequestFeedbackButton } from './request-feedback-button';
 import { RequestPaymentButton } from './request-payment-button';
 import { SendMoneyButton } from './send-money-button';
@@ -14,17 +17,20 @@ interface ChatMessagerProps {
 
 export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
   const params = useParams();
+  const isServiceTicket = window.location.href.indexOf('ServiceTicketType') > -1;
   const [message, setMessage] = useState('');
   const [requests, setRequests] = useState<any[]>([]);
-  const [updateServiceTicket] = useMutation(ChatMessagesContainerServiceTicketUpdateDocument, {
-    onCompleted: () => {}
-  });
+  const [updateServiceTicket] = useMutation(
+    isServiceTicket
+      ? ChatMessagesContainerServiceTicketUpdateDocument
+      : ChatMessagesContainerViolationTicketUpdateDocument
+  );
 
   const updateEmbedding = (requests: any[]) => {
     setRequests(requests);
   };
 
-  function repeatEverySecond() {
+  function repeatEveryMinute() {
     setInterval(props.updateMessage, 60000);
   }
 
@@ -33,13 +39,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
       return;
     }
     let embeddedData = undefined;
-    const documentRequestTypes = [
-      'updateCredentialType',
-      'updateCredential',
-      'updateTranslation',
-      'updateInstitution',
-      'updatedName'
-    ];
+    const documentRequestTypes = ['updateAssignment', 'updateProperty', 'updateStatus'];
 
     if (requests.length > 0) {
       const mainRequest = requests[0];
@@ -53,36 +53,60 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
         embeddedData = JSON.stringify({
           type: 'requestPayment',
           amount: mainRequest.amount,
-          reason: mainRequest.reason
+          reason: mainRequest.reason,
+          completed: false,
+          success: false
         });
       } else if (documentRequestTypes.includes(mainRequest.value)) {
         embeddedData = JSON.stringify({
           type: 'documentRequestType',
           changesRequested: {
-            credentialType: requests.findIndex((x) => x.value === 'updateCredentialType') !== -1,
-            credential: requests.findIndex((x) => x.value === 'updateCredential') !== -1,
-            credentialTranslation: requests.findIndex((x) => x.value === 'updateTranslation') !== -1,
-            issuingInstitution: requests.findIndex((x) => x.value === 'updateInstitution') !== -1,
-            nameOnDocument: requests.findIndex((x) => x.value === 'updatedName') !== -1
+            updateAssignment: requests.findIndex((x) => x.value === 'updateAssignment') !== -1,
+            updateProperty: requests.findIndex((x) => x.value === 'updateProperty') !== -1,
+            updateStatus: requests.findIndex((x) => x.value === 'updateStatus') !== -1
           }
         });
       }
     }
 
-    await updateServiceTicket({
-      variables: {
-        input: {
+    let input: any = isServiceTicket
+      ? {
           serviceTicketId: params.id,
           messages: [
             {
               sentBy: 'internal',
               message: message,
-              embedding: embeddedData
+              embedding: embeddedData ?? ''
             }
           ]
         }
+      : {
+          violationTicketId: params.id,
+          messages: [
+            {
+              sentBy: 'internal',
+              message: message,
+              embedding: embeddedData ?? ''
+            }
+          ]
+        };
+
+    if (requests.length > 0 && documentRequestTypes.includes(requests[0].value)) {
+      input.revisionRequest = {
+        requestedChanges: {
+          requestUpdatedAssignment: requests.findIndex((x) => x.value === 'updateAssignment') !== -1,
+          requestUpdatedProperty: requests.findIndex((x) => x.value === 'updateProperty') !== -1,
+          requestUpdatedStatus: requests.findIndex((x) => x.value === 'updateStatus') !== -1
+        }
+      };
+    }
+
+    await updateServiceTicket({
+      variables: {
+        input: input
       }
     });
+
     setMessage('');
     setRequests([]);
     props.updateMessage();
@@ -95,7 +119,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
     setRequests(tempRequests);
   };
 
-  repeatEverySecond();
+  repeatEveryMinute();
 
   return (
     <div style={{ gridColumn: 1, border: '1px solid black', borderTop: '0px', width: '75%', display: 'flex' }}>

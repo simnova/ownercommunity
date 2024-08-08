@@ -39,6 +39,7 @@ import {
 
 import { LazyQueryResultTuple } from '@apollo/client';
 import { AdminChatMessagesContainer } from '../../ahp-proof-of-concepts/pages/request-list-page/case-details-page/active-case-details-page/active-case/chat/admin/admin-chat-messages.container';
+import useRefundModal from '../../../../hooks/useRefundModal';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -80,6 +81,8 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [nextState, setNextState] = useState('');
 
   const [membersData, { data: memberData, loading: memberLoading }] = props.memberLazyQuery;
+
+  const useRefund = useRefundModal();
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -285,13 +288,8 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 {stateMap.get(props.data.violationTicket.status)?.state}
               </Descriptions.Item>
               <Descriptions.Item label="Penalty Amount">
-                {`$ ${props.data.violationTicket.penaltyAmount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                {`$ ${props.data.violationTicket.financeDetails.serviceFee}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </Descriptions.Item>
-              {props.data.violationTicket?.penaltyPaidDate && (
-                <Descriptions.Item label="Penalty Paid Date">
-                  {dayjs(props.data.violationTicket.penaltyPaidDate).format('DD-MMM-YYYY h:mm A')}
-                </Descriptions.Item>
-              )}
               <Descriptions.Item label="Assigned To">
                 {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
               </Descriptions.Item>
@@ -301,9 +299,12 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               <Descriptions.Item label="Updated At">
                 {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
               </Descriptions.Item>
-              {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.paymentTransactions && (
+              {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.financeDetails && (
                 <Descriptions.Item label="Payment Transaction ID">
-                  {props.data.violationTicket.paymentTransactions?.[0]?.transactionId}
+                  {
+                    props.data.violationTicket.financeDetails?.transactions?.submission?.transactionReference
+                      ?.referenceId
+                  }
                 </Descriptions.Item>
               )}
             </Descriptions>
@@ -313,6 +314,13 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               Delete Ticket
             </Button>
           </div>
+          {props.data.violationTicket.status === 'PAID' && (
+            <div className="px-6">
+              <Button type="primary" onClick={() => useRefund.onOpen(props.data.violationTicket?.id)}>
+                Initiate Refund
+              </Button>
+            </div>
+          )}
           {memberLoading ? (
             <div>
               <Skeleton active />
@@ -360,12 +368,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 layout="vertical"
                 form={editDraftForm}
                 initialValues={{
-                  ...props.data.violationTicket,
-                  penaltyPaidDate: props.data.violationTicket.penaltyPaidDate
-                    ? dayjs(props.data.violationTicket.penaltyPaidDate)
-                    : undefined
+                  ...props.data.violationTicket
                 }}
                 onFinish={async (values) => {
+                  console.log(values);
                   setEditDraftFormLoading(true);
                   await props.onUpdate({
                     violationTicketId: props.data.violationTicket.id,
@@ -373,14 +379,13 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                     title: values.title,
                     description: values.description,
                     priority: values.priority,
-                    penaltyAmount: values.penaltyAmount,
-                    penaltyPaidDate: values.penaltyPaidDate ? dayjs(values.penaltyPaidDate).toISOString() : undefined
+                    penaltyAmount: values.financeDetails.serviceFee
                   });
                   setEditDraftFormLoading(false);
                 }}
               >
                 <Form.Item name={['title']} label="Title" rules={[{ required: true, message: 'Title is required.' }]}>
-                  <Input placeholder="Short title of the request" maxLength={200} />
+                  <Input placeholder="Short title of the request" minLength={5} maxLength={200} />
                 </Form.Item>
 
                 <Form.Item
@@ -414,7 +419,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 </Form.Item>
                 <div className="flex gap-2">
                   <Form.Item
-                    name={['penaltyAmount']}
+                    name={['financeDetails', 'serviceFee']}
                     label="Penalty Amount"
                     rules={[{ required: true, message: 'Penalty amount is required for Violation Ticket.' }]}
                   >
@@ -474,13 +479,13 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     {
       key: '2',
       label: 'Chat',
-      children: <AdminChatMessagesContainer ticketType='ViolationTicketType'/>
+      children: <AdminChatMessagesContainer ticketType="ViolationTicketType" />
     }
   ];
 
   return (
     <>
-      <div style={{ margin: '0', padding: 24, backgroundColor: 'white' }}>
+      <div style={{ margin: '0', padding: 24 }}>
         <div style={{ marginBottom: '20px' }}>
           <div className="inline-block">
             <Title level={3}>Ticket Progress</Title>
@@ -576,190 +581,9 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           />
         </Steps>
       </div>
-      <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-        <Descriptions title="ServiceTicket Info" size={'small'} layout={'vertical'} labelStyle={{ fontSize: '10px' }}>
-          <Descriptions.Item label="Id">{props.data.violationTicket.id}</Descriptions.Item>
-          <Descriptions.Item label="Title">{props.data.violationTicket.title}</Descriptions.Item>
-          <Descriptions.Item label="Status">{stateMap.get(props.data.violationTicket.status)?.state}</Descriptions.Item>
-          <Descriptions.Item label="Penalty Amount">
-            {`$ ${props.data.violationTicket.financeDetails.serviceFee}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          </Descriptions.Item>
-          <Descriptions.Item label="Assigned To">
-            {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
-          </Descriptions.Item>
-          <Descriptions.Item label="Created At">
-            {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
-          </Descriptions.Item>
-          <Descriptions.Item label="Updated At">
-            {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
-          </Descriptions.Item>
-          {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.financeDetails && (
-            <Descriptions.Item label="Payment Transaction ID">
-              {props.data.violationTicket.financeDetails?.transactions?.submission?.transactionReference?.referenceId}
-            </Descriptions.Item>
-          )}
-        </Descriptions>
-      </div>
-      <div style={{ padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-        <Button type="primary" danger onClick={props.onDelete}>
-          Delete Ticket
-        </Button>
-      </div>
-      {memberLoading ? (
-        <div>
-          <Skeleton active />
-        </div>
-      ) : (
-        props.data.violationTicket.status === 'SUBMITTED' &&
-        memberData?.memberAssignableToViolationTickets && (
-          <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-            <Title level={5}>Ticket Assignment</Title>
-            <br />
-            <Form
-              layout="vertical"
-              form={assignForm}
-              onFinish={async (values) => {
-                setAssignFormLoading(true);
-                await props.onAssign({
-                  violationTicketId: props.data.violationTicket.id,
-                  assignedToId: values.assignedTo.id
-                });
-                setAssignFormLoading(false);
-              }}
-            >
-              <Form.Item name={['assignedTo', 'id']} label="Assigned To">
-                <Select
-                  allowClear={true}
-                  placeholder="Select a Member"
-                  options={[memberData?.memberAssignableToViolationTickets]}
-                  fieldNames={{ label: 'memberName', value: 'id' }}
-                  style={{ width: '35%' }}
-                  defaultValue={undefined}
-                />
-              </Form.Item>
-              <Button type="primary" htmlType="submit" value={'save'} loading={assignFormLoading}>
-                Save Assignment
-              </Button>
-            </Form>
-          </div>
-        )
-      )}
-      {props.data.violationTicket.status === 'DRAFT' && (
-        <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-          <Title level={5}>Edit Draft Ticket</Title>
-          <br />
-          <Form
-            layout="vertical"
-            form={editDraftForm}
-            initialValues={{
-              ...props.data.violationTicket,
-            }}
-            onFinish={async (values) => {
-              console.log(values);
-              setEditDraftFormLoading(true);
-              await props.onUpdate({
-                violationTicketId: props.data.violationTicket.id,
-                propertyId: values.property.id,
-                title: values.title,
-                description: values.description,
-                priority: values.priority,
-                penaltyAmount: values.financeDetails.serviceFee,
-              });
-              setEditDraftFormLoading(false);
-            }}
-          >
-            <Form.Item name={['title']} label="Title" rules={[{ required: true, message: 'Title is required.' }]}>
-              <Input placeholder="Short title of the request" minLength={5} maxLength={200} />
-            </Form.Item>
-
-            <Form.Item
-              name={['description']}
-              label="Description"
-              rules={[{ required: true, message: 'Description is required.' }]}
-            >
-              <TextArea placeholder="Description of the request" maxLength={2000} />
-            </Form.Item>
-
-            <Form.Item name={['property', 'id']} label="Property">
-              <Select
-                allowClear={true}
-                placeholder="Select a Property"
-                options={props.data.properties}
-                fieldNames={{ label: 'propertyName', value: 'id' }}
-              />
-            </Form.Item>
-
-            <Form.Item
-              name={['priority']}
-              label="Priority"
-              rules={[{ required: true, message: 'Priority is required.' }]}
-            >
-              <Select
-                allowClear={false}
-                placeholder="Select a Priority"
-                options={priority}
-                fieldNames={{ label: 'label', value: 'value' }}
-              />
-            </Form.Item>
-            <div className="flex gap-2">
-              <Form.Item
-                name={['financeDetails', 'serviceFee']}
-                label="Penalty Amount"
-                rules={[{ required: true, message: 'Penalty amount is required for Violation Ticket.' }]}
-              >
-                <InputNumber
-                  formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  parser={(value) => value?.replace(/\$\s?|(,*)/g, '') as unknown as number}
-                  className="w-fit"
-                />
-              </Form.Item>
-            </div>
-            <Space>
-              <Button
-                type="primary"
-                htmlType="submit"
-                value={'save'}
-                loading={editDraftFormLoading}
-                disabled={editDraftFormLoading}
-              >
-                Save Draft
-              </Button>
-            </Space>
-          </Form>
-        </div>
-      )}
-      <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
-        <Title level={5}>Activity Log</Title>
-        <br />
-        <Table
-          columns={columns}
-          dataSource={props.data.violationTicket.activityLog}
-          rowKey={(record: any) => record.id}
-        />
-        <Form
-          layout="vertical"
-          form={addUpdateActivityForm}
-          onFinish={async (values) => {
-            setAddUpdateActivityFormLoading(true);
-            await props.onAddUpdateActivity({
-              violationTicketId: props.data.violationTicket.id,
-              activityDescription: values.activityDescription
-            });
-            addUpdateActivityForm.resetFields();
-            setAddUpdateActivityFormLoading(false);
-          }}
-        >
-          <Form.Item name={['activityDescription']} label="Activity Description">
-            <TextArea rows={4} placeholder="Add an update to the ticket." maxLength={2000} />
-          </Form.Item>
-          <Button type="primary" htmlType="submit" value={'save'} loading={addUpdateActivityFormLoading}>
-            Add Activity Update
-          </Button>
-        </Form>
-      </div>
       <div>
-      <Tabs defaultActiveKey="1" items={items} />
-    </div>
+        <Tabs defaultActiveKey="1" items={items} />
+      </div>
     </>
   );
 };

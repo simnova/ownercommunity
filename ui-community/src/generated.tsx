@@ -164,6 +164,12 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
+export type AdhocPaymentRequestInput = {
+  amount: Scalars['Float'];
+  reason: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
+};
+
 export type AdhocTransaction = {
   __typename?: 'AdhocTransaction';
   amount?: Maybe<Scalars['Float']>;
@@ -672,6 +678,7 @@ export type Mutation = {
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
   violationTicketAddUpdateActivity: ViolationTicketMutationResult;
+  violationTicketAdhocPaymentRequest: PaymentRequest;
   violationTicketAssign: ViolationTicketMutationResult;
   violationTicketChangeStatus: ViolationTicketMutationResult;
   violationTicketCreate: ViolationTicketMutationResult;
@@ -906,6 +913,11 @@ export type MutationViolationTicketAddUpdateActivityArgs = {
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketAdhocPaymentRequestArgs = {
+  input: AdhocPaymentRequestInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationViolationTicketAssignArgs = {
   input: ViolationTicketAssignInput;
 };
@@ -975,6 +987,19 @@ export type PaymentInstrument = {
 export type PaymentInstrumentResult = {
   __typename?: 'PaymentInstrumentResult';
   paymentInstruments?: Maybe<Array<Maybe<PaymentInstrument>>>;
+  status: MutationStatus;
+};
+
+export type PaymentRequest = {
+  __typename?: 'PaymentRequest';
+  amount?: Maybe<Scalars['Float']>;
+  paymentRequestId?: Maybe<Scalars['ObjectID']>;
+  reason?: Maybe<Scalars['String']>;
+};
+
+export type PaymentRequestResult = {
+  __typename?: 'PaymentRequestResult';
+  paymentRequest?: Maybe<PaymentRequest>;
   status: MutationStatus;
 };
 

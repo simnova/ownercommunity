@@ -154,15 +154,13 @@ const AdhocTransactionSchema = new Schema<AdhocTransaction, Model<AdhocTransacti
   requestedOn: { type: Date, required: true },
   reason: { type: String, required: true },
   approval: {
-    isApplicantApprovalRequired: { type: Boolean, required: true },
-    isApplicantApproved: { type: Boolean, required: true },
+    isApplicantApprovalRequired: { type: Boolean, required: false },
+    isApplicantApproved: { type: Boolean, required: false },
     applicantRespondedAt: { type: Date, required: false },
   },
   transactionReference: { type: TransactionReferenceSchema, required: false,  _id: false },
   _id: { type: Schema.Types.ObjectId, required: true },
-  createdAt: { type: Date, required: true },
-  updatedAt: { type: Date, required: true },
-});
+}, {timestamps: true});
 
 const SubmissionSchema = new Schema<Submission, Model<Submission>, Submission>({
   amount: { type: Number, required: false },

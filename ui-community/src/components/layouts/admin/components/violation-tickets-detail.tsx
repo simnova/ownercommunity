@@ -39,6 +39,7 @@ import {
 
 import { LazyQueryResultTuple } from '@apollo/client';
 import { AdminChatMessagesContainer } from '../../ahp-proof-of-concepts/pages/request-list-page/case-details-page/active-case-details-page/active-case/chat/admin/admin-chat-messages.container';
+import useRefundModal from '../../../../hooks/useRefundModal';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -80,6 +81,8 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
   const [nextState, setNextState] = useState('');
 
   const [membersData, { data: memberData, loading: memberLoading }] = props.memberLazyQuery;
+
+  const useRefund = useRefundModal();
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -287,11 +290,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               <Descriptions.Item label="Penalty Amount">
                 {`$ ${props.data.violationTicket.financeDetails.serviceFee}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </Descriptions.Item>
-              {props.data.violationTicket?.penaltyPaidDate && (
-                <Descriptions.Item label="Penalty Paid Date">
-                  {dayjs(props.data.violationTicket.penaltyPaidDate).format('DD-MMM-YYYY h:mm A')}
-                </Descriptions.Item>
-              )}
               <Descriptions.Item label="Assigned To">
                 {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
               </Descriptions.Item>
@@ -301,9 +299,12 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               <Descriptions.Item label="Updated At">
                 {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
               </Descriptions.Item>
-              {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.paymentTransactions && (
+              {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.financeDetails && (
                 <Descriptions.Item label="Payment Transaction ID">
-                  {props.data.violationTicket.paymentTransactions?.[0]?.transactionId}
+                  {
+                    props.data.violationTicket.financeDetails?.transactions?.submission?.transactionReference
+                      ?.referenceId
+                  }
                 </Descriptions.Item>
               )}
             </Descriptions>
@@ -313,6 +314,13 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               Delete Ticket
             </Button>
           </div>
+          {props.data.violationTicket.status === 'PAID' && (
+            <div className="px-6">
+              <Button type="primary" onClick={() => useRefund.onOpen(props.data.violationTicket?.id)}>
+                Initiate Refund
+              </Button>
+            </div>
+          )}
           {memberLoading ? (
             <div>
               <Skeleton active />
@@ -360,12 +368,10 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 layout="vertical"
                 form={editDraftForm}
                 initialValues={{
-                  ...props.data.violationTicket,
-                  penaltyPaidDate: props.data.violationTicket.penaltyPaidDate
-                    ? dayjs(props.data.violationTicket.penaltyPaidDate)
-                    : undefined
+                  ...props.data.violationTicket
                 }}
                 onFinish={async (values) => {
+                  console.log(values);
                   setEditDraftFormLoading(true);
                   await props.onUpdate({
                     violationTicketId: props.data.violationTicket.id,
@@ -373,14 +379,13 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                     title: values.title,
                     description: values.description,
                     priority: values.priority,
-                    penaltyAmount: values.penaltyAmount,
-                    penaltyPaidDate: values.penaltyPaidDate ? dayjs(values.penaltyPaidDate).toISOString() : undefined
+                    penaltyAmount: values.financeDetails.serviceFee
                   });
                   setEditDraftFormLoading(false);
                 }}
               >
                 <Form.Item name={['title']} label="Title" rules={[{ required: true, message: 'Title is required.' }]}>
-                  <Input placeholder="Short title of the request" maxLength={200} />
+                  <Input placeholder="Short title of the request" minLength={5} maxLength={200} />
                 </Form.Item>
 
                 <Form.Item
@@ -474,13 +479,13 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     {
       key: '2',
       label: 'Chat',
-      children: <AdminChatMessagesContainer ticketType='ViolationTicketType'/>
+      children: <AdminChatMessagesContainer ticketType="ViolationTicketType" />
     }
   ];
 
   return (
     <>
-      <div style={{ margin: '0', padding: 24, backgroundColor: 'white' }}>
+      <div style={{ margin: '0', padding: 24 }}>
         <div style={{ marginBottom: '20px' }}>
           <div className="inline-block">
             <Title level={3}>Ticket Progress</Title>
@@ -577,8 +582,8 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
         </Steps>
       </div>
       <div>
-      <Tabs defaultActiveKey="1" items={items} />
-    </div>
+        <Tabs defaultActiveKey="1" items={items} />
+      </div>
     </>
   );
 };

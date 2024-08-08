@@ -1203,6 +1203,7 @@ export type Query = {
   serverDate?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   serviceTicket?: Maybe<ServiceTicket>;
+  serviceTicketReIndex?: Maybe<ServiceTicketsSearchResult>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsByCommunityId?: Maybe<Array<Maybe<Ticket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;
@@ -3482,6 +3483,7 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   serverDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   service?: Resolver<Maybe<ResolversTypes['Service']>, ParentType, ContextType, RequireFields<QueryServiceArgs, 'id'>>;
   serviceTicket?: Resolver<Maybe<ResolversTypes['ServiceTicket']>, ParentType, ContextType, RequireFields<QueryServiceTicketArgs, 'id'>>;
+  serviceTicketReIndex?: Resolver<Maybe<ResolversTypes['ServiceTicketsSearchResult']>, ParentType, ContextType>;
   serviceTicketsAssignedToCurrentUser?: Resolver<Maybe<Array<Maybe<ResolversTypes['ServiceTicket']>>>, ParentType, ContextType>;
   serviceTicketsByCommunityId?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Ticket']>>>,

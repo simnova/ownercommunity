@@ -108,6 +108,10 @@ const serviceTicket: Resolvers = {
       const searchResults = await context.applicationServices.cases.serviceTicket.v1.searchApi.serviceTicketsSearch(input, member.id);
       return await context.applicationServices.cases.serviceTicket.v1.searchApi.getServiceTicketsSearchResults(searchResults);
     },
+    serviceTicketReIndex: async (_, _args, context, info) => {
+      const searchResults = await context.applicationServices.cases.serviceTicket.v1.searchApi.reIndexServiceTickets();
+      return await context.applicationServices.cases.serviceTicket.v1.searchApi.getServiceTicketsSearchResults(searchResults);
+    }
   },
   Mutation: {
     serviceTicketCreate: async (_, { input }, { applicationServices }) => {
@@ -131,6 +135,7 @@ const serviceTicket: Resolvers = {
     serviceTicketDelete: async (_, { input }, { applicationServices }) => {
       return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketDelete(input));
     },
+    
   },
 };
 

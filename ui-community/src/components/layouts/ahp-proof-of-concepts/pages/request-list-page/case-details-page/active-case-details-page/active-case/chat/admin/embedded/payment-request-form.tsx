@@ -38,7 +38,7 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
       completed: true,
       success: succeeded
     });
-    
+
     const input: any = isServiceTicket
       ? {
           serviceTicketId: params.id,
@@ -89,11 +89,10 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
         tab to see your transactions and update your payment info.
         <div
           style={{
-            border: '1px solid black',
             margin: '10px 5px',
             padding: '10px',
             color: 'black',
-            borderRadius: '5px',
+            borderRadius: '8px',
             display: 'flex',
             justifyContent: 'space-between',
             background: '#D2F9D2'
@@ -107,11 +106,10 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
         The request for ${props.amount} was declined.
         <div
           style={{
-            border: '1px solid black',
             margin: '10px 5px',
             padding: '10px',
             color: 'black',
-            borderRadius: '5px',
+            borderRadius: '8px',
             background: '#FFADB0'
           }}
         >
@@ -152,11 +150,10 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
         visit the transactions tab to see your transactions.
         <div
           style={{
-            border: '1px solid black',
             margin: '10px 5px',
             padding: '10px',
             color: 'black',
-            borderRadius: '5px',
+            borderRadius: '8px',
             display: 'flex',
             justifyContent: 'space-between',
             background: '#D2F9D2'
@@ -170,11 +167,10 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
         The request for ${props.amount} was declined by applicant.
         <div
           style={{
-            border: '1px solid black',
             margin: '10px 5px',
             padding: '10px',
             color: 'black',
-            borderRadius: '5px',
+            borderRadius: '8px',
             background: '#FFADB0'
           }}
         >
@@ -194,11 +190,10 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
       </Title>
       <div
         style={{
-          border: '1px solid black',
           margin: '10px 5px',
           padding: '10px',
           color: 'black',
-          borderRadius: '5px',
+          borderRadius: '8px',
           background: '#FFDBBB'
         }}
       >
@@ -221,8 +216,8 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
         paddingLeft: '20px',
         paddingRight: '20px',
         margin: 10,
-        border: '1px solid black',
-        textAlign: 'left'
+        textAlign: 'left',
+        borderRadius: '8px'
       }}
     >
       {props.isAdmin ? caseWorkerView : applicantView}

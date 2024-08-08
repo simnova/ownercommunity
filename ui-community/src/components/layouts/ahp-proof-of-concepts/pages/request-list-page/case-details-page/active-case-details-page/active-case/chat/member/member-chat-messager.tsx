@@ -7,6 +7,7 @@ import {
   ChatMessagesContainerViolationTicketUpdateDocument
 } from '../../../../../../../../../../generated';
 import { useParams } from 'react-router-dom';
+import { SendOutlined } from '@ant-design/icons';
 
 interface ChatMessagerProps {
   updateMessage: () => void;
@@ -77,34 +78,40 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
       <div
         style={{
           padding: '15px 20px',
-          width: '85%'
+          width: '100%'
         }}
       >
-        <div
-          style={{
-            paddingBottom: '10px'
-          }}
-        >
+        <div style={{ position: 'relative' }}>
+          <TextArea
+            style={{
+              borderRadius: '8px',
+              paddingRight: '40px',
+              width: '100%',
+              padding: '10px',
+              overflow: 'auto'
+            }}
+            autoSize={true}
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+            placeholder="Type a message..."
+          />
+          <Button
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '10px',
+              transform: 'translateY(-50%)',
+              border: 'none',
+              background: 'transparent',
+              cursor: 'pointer',
+              paddingLeft: 5
+            }}
+            onClick={sendMessage}
+          >
+            <SendOutlined />
+          </Button>
         </div>
-        <TextArea
-          style={{ borderRadius: '0px' }}
-          autoSize={{
-            minRows: 3,
-            maxRows: 5
-          }}
-          onChange={(e: any) => setMessage(e.target.value)}
-          value={message}
-        />
       </div>
-      <Button
-        style={{
-          marginTop: '40px',
-          marginLeft: '10px'
-        }}
-        onClick={sendMessage}
-      >
-        Send
-      </Button>
     </div>
   );
 };

@@ -79,8 +79,8 @@ const RequestFeedbackForm: React.FC<RequestFeedbackFormProps> = (props) => {
         paddingLeft: '20px',
         paddingRight: '20px',
         margin: 10,
-        border: '1px solid black',
-        textAlign: 'left'
+        textAlign: 'left',
+        borderRadius: '8px'
       }}
     >
       {props.isAdmin ? caseWorkerView : applicantView}

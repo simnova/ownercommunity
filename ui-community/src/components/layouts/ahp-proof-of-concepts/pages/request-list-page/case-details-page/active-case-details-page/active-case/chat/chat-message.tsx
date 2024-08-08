@@ -108,12 +108,25 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
             >
               {dayjs(props.createdAt).format('MM/DD/YYYY hh:mm A').toString()}
             </div>
-            <div style={toggle ? caseWorkerStyles : applicantStyles}>
-              {props.message}
-              {props.embedding && getEmbededComponent()}
-            </div>
+            <div style={toggle ? caseWorkerStyles : applicantStyles}>{props.message}</div>
           </div>
         </div>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: toggle ? 'flex-end' : 'flex-start'
+        }}
+      >
+        {props.embedding && (
+          <div
+            style={{
+              maxWidth: '75%'
+            }}
+          >
+            {getEmbededComponent()}
+          </div>
+        )}
       </div>
     </div>
   );

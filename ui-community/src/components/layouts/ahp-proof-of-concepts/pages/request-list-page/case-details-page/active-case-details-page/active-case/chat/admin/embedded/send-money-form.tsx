@@ -8,16 +8,13 @@ interface SendMoneyFormProps {
 }
 
 const SendMoneyForm: React.FC<SendMoneyFormProps> = (props) => {
-  
   const applicantView = (
-    <div>
+    <div style={{ paddingRight: '30px' }}>
       <div
         style={{
-          border: '1px solid black',
-          margin: '10px 5px',
           padding: '10px',
           color: 'black',
-          borderRadius: '5px',
+          borderRadius: '8px',
           display: 'flex',
           justifyContent: 'space-between',
           background: '#D2F9D2',
@@ -36,15 +33,14 @@ const SendMoneyForm: React.FC<SendMoneyFormProps> = (props) => {
     <div>
       <div
         style={{
-          border: '1px solid black',
           margin: '10px 5px',
           padding: '10px',
           color: 'black',
-          borderRadius: '5px',
           display: 'flex',
           justifyContent: 'space-between',
           background: '#D2F9D2',
-          width: '100%'
+          width: '100%',
+          borderRadius: '8px'
         }}
       >
         <div style={{ marginTop: 7 }}>
@@ -55,7 +51,22 @@ const SendMoneyForm: React.FC<SendMoneyFormProps> = (props) => {
     </div>
   );
 
-  return <> {props.isAdmin ? caseWorkerView : applicantView}</>;
+  return (
+    <div
+      style={{
+        backgroundColor: 'white',
+        paddingTop: '20px',
+        paddingBottom: '20px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        margin: 10,
+        textAlign: 'left',
+        borderRadius: '8px'
+      }}
+    >
+      {props.isAdmin ? caseWorkerView : applicantView}{' '}
+    </div>
+  );
 };
 
 export default SendMoneyForm;

@@ -54,6 +54,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
         maxHeight: '400px',
         minHeight: '500px',
         borderRadius: '8px',
+        padding: 10
       }}
       ref={containerRef}
     >
@@ -70,7 +71,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
           />
         );
       })}
-      <Button
+      {/* <Button
         icon={<DownOutlined />}
         onClick={scrollToSection}
         size={'small'}
@@ -78,7 +79,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
         hidden={!display}
       >
         Return to Bottom
-      </Button>
+      </Button> */}
       <div id="bottom"></div>
     </div>
   );

@@ -266,7 +266,6 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
     let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
     let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
     let paymentRequestToReturn: PaymentRequest;
-    let violationTicketToSave: ViolationTicketData;
     await this.withTransaction(async (repo) => {
       let violationTicket = await repo.getById(input.violationTicketId);
       let adhocTransaction = violationTicket.financeDetails.transactions.requestAddNewAdhocTransaction();
@@ -274,7 +273,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       adhocTransaction.RequestedBy = memberDo;
       adhocTransaction.RequestedOn = new Date();
       adhocTransaction.Reason = input.reason;
-      violationTicketToSave = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
+      new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
       paymentRequestToReturn = {
         amount: adhocTransaction.amount,
         reason: adhocTransaction.reason,

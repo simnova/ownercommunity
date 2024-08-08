@@ -1226,6 +1226,7 @@ export type Query = {
   serverDate?: Maybe<Scalars['String']>;
   service?: Maybe<Service>;
   serviceTicket?: Maybe<ServiceTicket>;
+  serviceTicketReIndex?: Maybe<ServiceTicketsSearchResult>;
   serviceTicketsAssignedToCurrentUser?: Maybe<Array<Maybe<ServiceTicket>>>;
   serviceTicketsByCommunityId?: Maybe<Array<Maybe<Ticket>>>;
   serviceTicketsClosedByRequestor?: Maybe<Array<Maybe<ServiceTicket>>>;

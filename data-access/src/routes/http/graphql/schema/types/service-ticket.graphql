@@ -73,6 +73,8 @@ extend type Query {
   serviceTicketsByCommunityId(communityId: ID!): [Ticket]
   serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
   serviceTicketsSearch(input: ServiceTicketsSearchInput!): ServiceTicketsSearchResult
+  serviceTicketReIndex: ServiceTicketsSearchResult
+
 }
 
 extend type Mutation {

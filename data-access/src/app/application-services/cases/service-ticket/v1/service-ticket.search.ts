@@ -1,12 +1,17 @@
-import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from "../../../../external-dependencies/graphql-api";
+import dayjs from 'dayjs';
 import { SearchDocumentsResult } from '../../../../../../seedwork/services-seedwork-cognitive-search-interfaces';
-import { CognitiveSearchDataSource } from "../../../../data-sources/cognitive-search-data-source";
-import { AppContext } from "../../../../init/app-context-builder";
+import { CognitiveSearchDataSource } from '../../../../data-sources/cognitive-search-data-source';
+import { ReadOnlyContext } from '../../../../domain/domain-execution-context';
+import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../../../domain/infrastructure/cognitive-search/service-ticket-search-index-format';
+import { ServiceTicketV1UnitOfWork } from '../../../../external-dependencies/domain';
+import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../../../external-dependencies/graphql-api';
+import { AppContext } from '../../../../init/app-context-builder';
 
 export interface ServiceTicketV1SearchApi {
   serviceTicketsSearch(input: ServiceTicketsSearchInput, requestorId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
   serviceTicketsSearchAdmin(input: ServiceTicketsSearchInput, communityId: string): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
   getServiceTicketsSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>): Promise<ServiceTicketsSearchResult>;
+  reIndexServiceTickets(): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
 }
 
 const ServiceTicketFilterNames = {
@@ -143,5 +148,65 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
         assignedToId: searchResults?.facets?.assignedToId,
       },
     };
+  }
+
+  async reIndexServiceTickets():Promise<SearchDocumentsResult<Pick<unknown, never>>> {
+    // drop index, create a brand new index
+    await this.withSearch(async (_passport, searchService) => {
+      await searchService.deleteIndex(ServiceTicketIndexSpec.name);
+      await searchService.createIndexIfNotExists(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
+    });
+
+    const context = await ReadOnlyContext();
+    const ids = await this.context.applicationServices.service.dataApi.getAllIds();
+
+    await ServiceTicketV1UnitOfWork.withTransaction(context, async (repo) => {
+      const searchDocs: Partial<ServiceTicketIndexDocument>[] = [];
+
+      // loop through ids, get objects, convert to domain objects, convert to index document, update search index
+      for await (const id of ids) {
+        const doc = await repo.getById(id.id.toString());
+
+        const updatedDate = dayjs(doc.updatedAt.toISOString().split('T')[0]).toISOString();
+
+        const createdDate = dayjs(doc.createdAt.toISOString().split('T')[0]).toISOString();
+
+        let serviceTicketIndexDoc: Partial<ServiceTicketIndexDocument> = {
+          id: doc.id,
+          communityId: doc.community.id,
+          propertyId: doc.property.id,
+          title: doc.title,
+          requestor: doc.requestor.memberName,
+          requestorId: doc.requestor.id,
+          assignedTo: doc.assignedTo?.memberName ?? '',
+          assignedToId: doc.assignedTo?.id ?? '',
+          description: doc.description,
+          ticketType: doc.ticketType,
+          status: doc.status,
+          priority: doc.priority,
+          createdAt: createdDate,
+          updatedAt: updatedDate,
+        };
+
+        searchDocs.push(serviceTicketIndexDoc);
+        await this.withSearch(async (_passport, searchService) => {
+          await searchService.indexDocument(ServiceTicketIndexSpec.name, serviceTicketIndexDoc);
+        });
+      }
+    });
+
+    const searchInput = {
+      searchString: '',
+      options: {
+        filter: null,
+        facets: [],
+        // top: input.options?.top ?? 10,
+        // skip: input.options?.skip ?? 0,
+        // orderBy: input?.options?.orderBy ?? [],
+        // hideNullResults: input?.options?.hideNullResults ?? false,
+      },
+    } as ServiceTicketsSearchInput;
+
+    return this.serviceTicketsSearch(searchInput, '');
   }
 }

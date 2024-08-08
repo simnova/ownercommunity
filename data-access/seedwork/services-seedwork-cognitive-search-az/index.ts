@@ -75,6 +75,11 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
     searchClient.mergeOrUploadDocuments([document]);
   }
 
+  async deleteIndex(indexName: string): Promise<void> {
+    return this.client.deleteIndex(indexName);
+  }
+
+
   // async updateIndex(indexName: string) {
   //   const index = await this.client.getIndex(indexName);
   //   this.client.createOrUpdateIndex(index);

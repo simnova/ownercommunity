@@ -69,7 +69,7 @@ export const MemberChatMessager: FC<ChatMessagerProps> = (props) => {
       style={{
         gridColumn: 1,
         borderRadius: '8px',
-        background: '#2a2e3608',
+        background: '#2a2e360d',
         borderTop: '0px',
         width: '75%',
         display: 'flex'

@@ -19,14 +19,17 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
     margin: '10px 5px',
     padding: '8px',
     color: 'black',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    fontWeight: '12px'
   };
   const applicantStyles = {
-    background: '#f6b8a2',
+    // background: '#f6b8a2',
+    background: "white",
     margin: '10px 5px',
     padding: '8px',
     color: 'black',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    fontWeight: '12px'
   };
 
   const placeHolderInitials = 'JM';
@@ -108,25 +111,11 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
             >
               {dayjs(props.createdAt).format('MM/DD/YYYY hh:mm A').toString()}
             </div>
-            <div style={toggle ? caseWorkerStyles : applicantStyles}>{props.message}</div>
+            <div style={toggle ? caseWorkerStyles : applicantStyles}>
+              {props.message} {getEmbededComponent()}
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: toggle ? 'flex-end' : 'flex-start'
-        }}
-      >
-        {props.embedding && (
-          <div
-            style={{
-              maxWidth: '75%'
-            }}
-          >
-            {getEmbededComponent()}
-          </div>
-        )}
       </div>
     </div>
   );

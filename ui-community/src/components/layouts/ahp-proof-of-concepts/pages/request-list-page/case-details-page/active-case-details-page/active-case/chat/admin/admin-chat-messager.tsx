@@ -1,6 +1,6 @@
 import TextArea from 'antd/lib/input/TextArea';
 import { FC, useState } from 'react';
-import { Button, Tag, Form } from 'antd';
+import { Button, Tag } from 'antd';
 import { useMutation } from '@apollo/client';
 import {
   ChatMessagesContainerServiceTicketUpdateDocument,
@@ -34,6 +34,13 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
   function repeatEveryMinute() {
     setInterval(props.updateMessage, 60000);
   }
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
 
   const sendMessage = async () => {
     if (message === '') {
@@ -127,7 +134,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
       style={{
         gridColumn: 1,
         borderRadius: '8px',
-        background: '#2a2e3608',
+        background: '#2a2e360d',
         borderTop: '0px',
         width: '75%',
         display: 'flex'
@@ -172,6 +179,7 @@ export const AdminChatMessager: FC<ChatMessagerProps> = (props) => {
               padding: '10px',
               overflow: 'auto'
             }}
+            onKeyDown={handleKeyDown}
             autoSize={true}
             onChange={(e) => setMessage(e.target.value)}
             value={message}

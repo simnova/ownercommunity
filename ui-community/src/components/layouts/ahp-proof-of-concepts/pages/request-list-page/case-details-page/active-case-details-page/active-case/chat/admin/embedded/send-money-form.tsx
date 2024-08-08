@@ -21,10 +21,10 @@ const SendMoneyForm: React.FC<SendMoneyFormProps> = (props) => {
           width: '100%'
         }}
       >
-        <div style={{ marginTop: 7 }}>
-          ${props.amount} Received Successfully for {props.reason}
-        </div>{' '}
-        <Button>Download Receipt</Button>
+        <div style={{ marginTop: 7, marginRight: 10 }}>
+          ${props.amount} Received Successfully for "{props.reason}" 
+        </div>
+        <Button>Download Receipt</Button> 
       </div>
     </div>
   );
@@ -54,14 +54,7 @@ const SendMoneyForm: React.FC<SendMoneyFormProps> = (props) => {
   return (
     <div
       style={{
-        backgroundColor: 'white',
-        paddingTop: '20px',
-        paddingBottom: '20px',
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        margin: 10,
-        textAlign: 'left',
-        borderRadius: '8px'
+        padding: 5
       }}
     >
       {props.isAdmin ? caseWorkerView : applicantView}{' '}

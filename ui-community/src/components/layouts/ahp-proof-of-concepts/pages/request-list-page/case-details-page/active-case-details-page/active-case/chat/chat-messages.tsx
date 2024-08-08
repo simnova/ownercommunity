@@ -1,8 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { ChatMessage } from './chat-message';
 import { ServiceTicket, ViolationTicket } from '../../../../../../../../../generated';
-import { Button } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 
 interface ChatMessagesProps {
   data: ServiceTicket | ViolationTicket;
@@ -10,12 +10,15 @@ interface ChatMessagesProps {
 }
 export const ChatMessages: FC<ChatMessagesProps> = (props) => {
   const [display, setDisplay] = useState<boolean>(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+
+  const divRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
-    if (containerRef.current) {
-      const scrollY = containerRef.current.scrollTop;
-      if (scrollY < 1200) {
+    if (divRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = divRef.current;
+      const scrollableHeight = scrollHeight - clientHeight;
+      const scrolledPercentage = scrollTop / scrollableHeight;
+      if (scrolledPercentage < 0.7) {
         setDisplay(true);
       } else {
         setDisplay(false);
@@ -23,30 +26,22 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
     }
   };
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener('scroll', handleScroll);
-      handleScroll();
-      return () => {
-        container.removeEventListener('scroll', handleScroll);
-      };
+  const scrollToBottom = () => {
+    const div = divRef.current;
+    if (div) {
+      div.scrollTop = div.scrollHeight;
     }
-  }, []);
-
-  const scrollToSection = () => {
-    document.getElementById('bottom')?.scrollIntoView({ block: 'end' });
   };
 
   useEffect(() => {
-    scrollToSection();
+    scrollToBottom();
   }, [props.data]);
 
   return (
     <div
       style={{
         gridColumn: 1,
-        background: '#2a2e3608',
+        background: '#2a2e360d',
         width: '75%',
         display: 'flex',
         flexDirection: 'column',
@@ -56,7 +51,8 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
         borderRadius: '8px',
         padding: 10
       }}
-      ref={containerRef}
+      ref={divRef}
+      onScroll={handleScroll}
     >
       {props?.data?.messages?.map((message: any) => {
         return (
@@ -71,15 +67,22 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
           />
         );
       })}
-      {/* <Button
-        icon={<DownOutlined />}
-        onClick={scrollToSection}
+      <Button
+        onClick={scrollToBottom}
         size={'small'}
-        style={{ width: '10%', position: 'fixed', borderRadius: '8px', color: 'black', marginLeft: 10 }}
+        style={{
+          width: '10%',
+          position: 'fixed',
+          borderRadius: '8px',
+          color: 'black',
+          marginLeft: 10,
+          background: '#D3D3D380'
+        }}
         hidden={!display}
       >
         Return to Bottom
-      </Button> */}
+        <DownOutlined />
+      </Button>
       <div id="bottom"></div>
     </div>
   );

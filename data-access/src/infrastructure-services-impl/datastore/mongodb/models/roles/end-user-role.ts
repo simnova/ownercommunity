@@ -62,6 +62,10 @@ export interface EndUserRolePermissions {
 export interface EndUserRole extends Role {
   community: PopulatedDoc<Community.Community> | ObjectId;
   permissions: EndUserRolePermissions;
+
+  roleName: string;
+  roleType?: string;
+  isDefault: boolean;
 }
 
 export const EndUserRoleSchema = new Schema<EndUserRole, Model<EndUserRole>, EndUserRole>(
@@ -96,6 +100,9 @@ export const EndUserRoleSchema = new Schema<EndUserRole, Model<EndUserRole>, End
         canEditOwnProperty: { type: Boolean, required: true, default: false },
       },
     },
+    schemaVersion: { type: String, default: '1.0.0' },
+    roleName: { type: String, required: true, maxlength: 50 },
+    isDefault: { type: Boolean, required: true, default: false },
   },
   roleOptions
 ).index({ roleName: 1, community: 1 }, { unique: true });

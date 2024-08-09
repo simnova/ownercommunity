@@ -138,14 +138,15 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
     await this.withCybersource(async (_passport, cybersource: Cybersource) => {
       response = await cybersource.processPayment(processPaymentParams.clientReferenceCode, processPaymentParams.paymentInstrumentId, processPaymentParams.amount);
     });
-    if (response?.status != 'DECLINED') {
+    if (response?.status === 'APPROVED' || response?.status === 'AUTHORIZED'){
       return {
         authorizedAmount: parseFloat(response?.orderInformation?.amountDetails?.authorizedAmount),
         vendor: 'Cybersource',
         referenceId: response?.clientReferenceInformation?.code,
         completedOn: new Date(),
       };
+    } else {
+      throw new Error('Payment is declined');
     }
-    return;
   }
 }

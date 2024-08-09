@@ -1,13 +1,13 @@
-import { Entity, EntityProps } from "../../../../../../seedwork/domain-seedwork/entity";
+import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
 import { Email } from "./end-user.value-objects";
 
-export interface EndUserContactInformationProps extends EntityProps {
+export interface EndUserContactInformationProps extends ValueObjectProps {
   email: string;
 }
 
 export interface EndUserContactInformationEntityReference extends Readonly<EndUserContactInformationProps> {}
 
-export class EndUserContactInformation extends Entity<EndUserContactInformationProps> implements EndUserContactInformationEntityReference {
+export class EndUserContactInformation extends ValueObject<EndUserContactInformationProps> implements EndUserContactInformationEntityReference {
   constructor(props: EndUserContactInformationProps) {
     super(props);
   }

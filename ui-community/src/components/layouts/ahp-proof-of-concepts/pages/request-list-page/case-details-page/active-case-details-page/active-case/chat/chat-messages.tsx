@@ -3,6 +3,7 @@ import { ChatMessage } from './chat-message';
 import { ServiceTicket, ViolationTicket } from '../../../../../../../../../generated';
 import { DownOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { debounce } from 'lodash';
 
 interface ChatMessagesProps {
   data: ServiceTicket | ViolationTicket;
@@ -13,7 +14,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = () => {
+  const handleScroll = debounce(() => {
     if (divRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = divRef.current;
       const scrollableHeight = scrollHeight - clientHeight;
@@ -24,7 +25,7 @@ export const ChatMessages: FC<ChatMessagesProps> = (props) => {
         setDisplay(false);
       }
     }
-  };
+  }, 50);
 
   const scrollToBottom = () => {
     const div = divRef.current;

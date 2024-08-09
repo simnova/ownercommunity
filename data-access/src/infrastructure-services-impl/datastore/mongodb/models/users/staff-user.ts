@@ -8,6 +8,12 @@ export interface StaffUser extends User {
   firstName: string;
   lastName: string;
   email: string;
+
+  displayName: string;
+  externalId: string;
+  userType?: string;
+  accessBlocked: boolean;
+  tags?: string[];
 }
 
 export const StaffUserSchema = new Schema<StaffUser, Model<StaffUser>, StaffUser>(
@@ -30,8 +36,40 @@ export const StaffUserSchema = new Schema<StaffUser, Model<StaffUser>, StaffUser
       unique: true,
       required: false,
       index: true,
+    },
+    schemaVersion: {
+      type: String,
+      default: '1.0.0',
+      required: false,
+    },
+    externalId: {
+      type: String,
+      match: Patterns.GUID_PATTERN,
+      minlength: [36, 'External ID must be 36 characters long'],
+      maxlength: [36, 'External ID must be 36 characters long'],
+      required: true,
+      index: true,
+      unique: true,
+    },
+    displayName: {
+      type: String,
+      required: true,
+      maxlength: 500,
+    },
+    discriminatorKey: {
+      type: String,
+      required: true,
+      default: 'userType',
+    },
+    accessBlocked: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    tags: {
+      type: [String],
+      required: false,
     }
-
   },
   userOptions
 ).index({ email: 1 }, { unique: true });

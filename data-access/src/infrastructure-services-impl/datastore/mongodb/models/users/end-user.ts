@@ -34,11 +34,50 @@ export const EndUserPersonalInformationType = {
 
 export interface EndUser extends User {
   personalInformation: EndUserPersonalInformation;
+
+  displayName: string;
+  externalId: string;
+  userType?: string;
+  accessBlocked: boolean;
+  tags?: string[];
 }
 
 export const EndUserSchema = new Schema<EndUser, Model<EndUser>, EndUser>(
   {
     personalInformation: { type: EndUserPersonalInformationType, required: true, ...NestedPathOptions },
+    schemaVersion: {
+      type: String,
+      default: '1.0.0',
+      required: false,
+    },
+    externalId: {
+      type: String,
+      match: Patterns.GUID_PATTERN,
+      minlength: [36, 'External ID must be 36 characters long'],
+      maxlength: [36, 'External ID must be 36 characters long'],
+      required: true,
+      index: true,
+      unique: true,
+    },
+    displayName: {
+      type: String,
+      required: true,
+      maxlength: 500,
+    },
+    discriminatorKey: {
+      type: String,
+      required: true,
+      default: 'userType',
+    },
+    accessBlocked: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    tags: {
+      type: [String],
+      required: false,
+    }
   },
   userOptions
 ).index({ "personalInformation.contactInformation.email": 1 }, { unique: true });

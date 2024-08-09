@@ -15,20 +15,22 @@ interface ChatMessageProps {
 }
 export const ChatMessage: FC<ChatMessageProps> = (props) => {
   const caseWorkerStyles = {
-    border: '1px solid black',
     background: '#d4d8f7',
     margin: '10px 5px',
-    padding: '10px',
+    padding: '8px',
     color: 'black',
-    borderRadius: '5px'
+    borderRadius: '8px',
+    fontWeight: '12px',
+    whiteSpace: 'pre-wrap'
   };
   const applicantStyles = {
-    border: '1px solid black',
-    background: '#f6b8a2',
+    background: 'white',
     margin: '10px 5px',
-    padding: '10px',
+    padding: '8px',
     color: 'black',
-    borderRadius: '5px'
+    borderRadius: '8px',
+    fontWeight: '12px',
+    whiteSpace: 'pre-wrap'
   };
 
   const placeHolderInitials = 'JM';
@@ -62,58 +64,60 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        width: '100%',
+        justifyContent: toggle ? 'flex-end' : 'flex-start'
+      }}
+    >
       <div
         style={{
+          maxWidth: '75%',
           display: 'flex',
-          width: '100%',
-          justifyContent: toggle ? 'flex-end' : 'flex-start'
+          flexDirection: toggle ? 'row-reverse' : 'row',
+          alignItems: 'flex-start'
         }}
       >
         <div
           style={{
-            maxWidth: '75%',
+            marginRight: 10,
             display: 'flex',
-            flexDirection: toggle ? 'row-reverse' : 'row',
             alignItems: 'center',
-            justifyContent: 'flex-start'
+            justifyContent: 'center',
+            transform: 'translateY(10px)'
+          }}
+        >
+          <Avatar
+            style={{
+              marginLeft: 5
+            }}
+            size="large"
+          >
+            {props.sentBy === 'internal' ? 'Intealth' : placeHolderInitials}
+          </Avatar>
+        </div>
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column'
           }}
         >
           <div
             style={{
-              marginRight: 10
+              marginTop: 10,
+              color: 'grey',
+              fontSize: '10px',
+              textAlign: toggle ? 'right' : 'left',
+              position: 'relative',
+              left: toggle ? '-5px' : '5px',
             }}
           >
-            <Avatar
-              style={{
-                marginLeft: 5
-              }}
-              size="large"
-            >
-              {props.sentBy === 'internal' ? 'Intealth' : placeHolderInitials}
-            </Avatar>
+            {dayjs(props.createdAt).format('MM/DD/YYYY hh:mm A').toString()}
           </div>
-          <div
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <div
-              style={{
-                marginTop: 10,
-                color: 'grey',
-                fontSize: '10px',
-                textAlign: toggle ? 'right' : 'left'
-              }}
-            >
-              {dayjs(props.createdAt).format('MM/DD/YYYY hh:mm A').toString()}
-            </div>
-            <div style={toggle ? caseWorkerStyles : applicantStyles}>
-              {props.message}
-              {props.embedding && getEmbededComponent()}
-            </div>
+          <div style={toggle ? caseWorkerStyles : applicantStyles}>
+            {props.message} {getEmbededComponent()}
           </div>
         </div>
       </div>

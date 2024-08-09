@@ -59,7 +59,7 @@ export class MemoryEndUserRepository<
   }
 
   async getNewInstance(externalId: string, lastName: string, restOfName?: string): Promise<EndUser<PropType>> {
-    return EndUser.getNewUser(new MemoryEndUser as unknown as PropType, externalId, lastName, restOfName);
+    return EndUser.getNewUser(new MemoryEndUser as unknown as PropType, externalId, lastName, this.context, restOfName);
   }
 
   async delete(id: string): Promise<void> {

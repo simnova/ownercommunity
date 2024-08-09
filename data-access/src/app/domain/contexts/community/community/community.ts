@@ -47,7 +47,7 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     return this.props.handle;
   }
   get createdBy(): EndUserEntityReference {
-    return new EndUser(this.props.createdBy);
+    return new EndUser(this.props.createdBy, this.context);
   }
   get updatedAt() {
     return this.props.updatedAt;

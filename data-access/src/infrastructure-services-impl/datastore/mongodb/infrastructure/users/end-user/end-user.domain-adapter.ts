@@ -3,8 +3,8 @@ import { DomainExecutionContext } from '../../../../../../app/domain/domain-exec
 import { EndUser as EndUserDO, EndUserProps } from '../../../../../../app/domain/contexts/users/end-user/end-user';
 import { MongooseDomainAdapter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { EndUserIdentityDetailsEntityReference, EndUserIdentityDetailsProps } from '../../../../../../app/domain/contexts/users/end-user/end-user-identity-details';
-import { EndUserPersonalInformationEntityReference, EndUserPersonalInformationProps } from '../../../../../../app/domain/contexts/users/end-user/end-user-personal-information';
+import { EndUserIdentityDetailsProps } from '../../../../../../app/domain/contexts/users/end-user/end-user-identity-details';
+import { EndUserPersonalInformationProps } from '../../../../../../app/domain/contexts/users/end-user/end-user-personal-information';
 import { EndUserContactInformationEntityReference } from '../../../../../../app/domain/contexts/users/end-user/end-user-contact-information';
 
 export class EndUserConverter extends MongoTypeConverter<DomainExecutionContext, EndUser, EndUserDomainAdapter, EndUserDO<EndUserDomainAdapter>> {
@@ -21,7 +21,10 @@ export class EndUserDomainAdapter extends MongooseDomainAdapter<EndUser> impleme
     this.doc.externalId = externalId;
   }
 
-  get personalInformation(): EndUserPersonalInformationEntityReference {
+  get personalInformation() {
+    if (!this.doc.personalInformation) {
+      this.doc.set('personalInformation', {});
+    }
     return new EndUserPersonalInformationDomainAdapter(this.doc.personalInformation);
   }
 
@@ -48,53 +51,56 @@ export class EndUserDomainAdapter extends MongooseDomainAdapter<EndUser> impleme
 }
 
 export class EndUserPersonalInformationDomainAdapter implements EndUserPersonalInformationProps {
-    constructor(public readonly doc: EndUserPersonalInformation) {}
-    public get id(): string { return this.doc.id; }
+    constructor(public readonly props: EndUserPersonalInformation) {}
 
-    get identityDetails(): EndUserIdentityDetailsEntityReference {
-        return new EndUserIdentityDetailsDomainAdapter(this.doc.identityDetails);
+    get identityDetails() {
+      if (!this.props.identityDetails) {
+        this.props.set('identityDetails', {});
+      }
+      return new EndUserIdentityDetailsDomainAdapter(this.props.identityDetails);
     }
 
-    get contactInformation(): EndUserContactInformationEntityReference {
-        return new EndUserContactInformationDomainAdapter(this.doc.contactInformation);
+    get contactInformation() {
+      if (!this.props.contactInformation) {
+        this.props.set('contactInformation', {});
+      }
+      return new EndUserContactInformationDomainAdapter(this.props.contactInformation);
     }
 }
 
 export class EndUserIdentityDetailsDomainAdapter implements EndUserIdentityDetailsProps {
-    constructor(public readonly doc: EndUserIdentityDetails) {}
-    public get id(): string { return this.doc.id; }
+    constructor(public readonly props: EndUserIdentityDetails) {}
 
-    get lastName(): string {
-      return this.doc.lastName;
+    get lastName() {
+      return this.props.lastName;
     }
     set lastName(lastName: string) {
-      this.doc.lastName = lastName;
+      this.props.lastName = lastName;
     }
 
-    get legalNameConsistsOfOneName(): boolean {
-        return this.doc.legalNameConsistsOfOneName;
+    get legalNameConsistsOfOneName() {
+        return this.props.legalNameConsistsOfOneName;
     }
     set legalNameConsistsOfOneName(legalNameConsistsOfOneName: boolean) {
-        this.doc.legalNameConsistsOfOneName = legalNameConsistsOfOneName;
+        this.props.legalNameConsistsOfOneName = legalNameConsistsOfOneName;
     }
 
-    get restOfName(): string {
-        return this.doc.restOfName;
+    get restOfName() {
+        return this.props.restOfName;
     }
     set restOfName(restOfName: string) {
-        this.doc.restOfName = restOfName;
+        this.props.restOfName = restOfName;
     }
 }
 
 export class EndUserContactInformationDomainAdapter implements EndUserContactInformationEntityReference {
-    constructor(public readonly doc: EndUserContactInformation) {}
-    public get id(): string { return this.doc.id; }
+    constructor(public readonly props: EndUserContactInformation) {}
 
-    get email(): string {
-        return this.doc.email;
+    get email() {
+        return this.props.email;
     }
     set email(email: string) {
-        this.doc.email = email;
+        this.props.email = email;
     }
 }
 

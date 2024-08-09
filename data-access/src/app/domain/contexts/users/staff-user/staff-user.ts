@@ -1,4 +1,3 @@
-import { UserCreatedEvent } from '../../../events/types/user-created';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
@@ -56,6 +55,7 @@ export class StaffUser<props extends StaffUserProps> extends AggregateRoot<props
     newProps.externalId = externalId;
     let user = new StaffUser(newProps, context);
     user.MarkAsNew();
+    user.ExternalId=(externalId);
     user.FirstName=(firstName);
     user.LastName=(lastName);
     user.DisplayName=(`${firstName} ${lastName}`);

@@ -1,34 +1,39 @@
 import { EndUser, EndUserProps } from './end-user';
-import { UserCreatedEvent } from '../../../events/types/user-created';
+import { EndUserCreatedEvent } from '../../../events/types/end-user-created';
+import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainVisa } from '../../../domain.visa';
+import { EndUserVisa } from './end-user.visa';
 
-describe('domain.contexts.user', () => {
-  describe('when creating a new user', () => {
+describe('domain.contexts.end-user', () => {
+  describe('when creating a new end user', () => {
+    const userProps = jest.mocked({ personalInformation: { contactInformation: {}, identityDetails: {} }} as EndUserProps);
     const givenValidExternalId = '9b5b121b-7726-460c-8ead-58378c9ab29e';
     const givenValidFirstName = 'John';
     const givenValidLastName = 'Doe';
+    const givenValidContext = jest.mocked({} as DomainExecutionContext);
+    givenValidContext.domainVisa = jest.mocked({} as DomainVisa);
+    givenValidContext.domainVisa.forEndUser = jest.fn(() => jest.mocked({} as EndUserVisa));
 
     it('should reject an invalid externalId', () => {
       // Arrange
-      const userProps = jest.mocked({} as EndUserProps);
       const givenInvalidExternalId = 'this-is-an-invalid-external-id';
       
       // Act
       const creatingInvalidUser = () => { 
-        EndUser.getNewUser(userProps,givenInvalidExternalId,givenValidFirstName,givenValidLastName) 
+        EndUser.getNewUser(userProps,givenInvalidExternalId,givenValidLastName, givenValidContext, givenValidFirstName) 
       };
 
       // Assert
       expect(creatingInvalidUser).toThrowError('Too short');
     });
 
-    it('should reject an invalid firstName', () => {
+    it('should reject an invalid restOfName', () => {
       // Arrange
-      const userProps = jest.mocked({} as EndUserProps);
-      const givenInvalidFirstName = 'U3edLYh3jCG6qVcJyp4VYbWVBHCD72tEWxveuKM52pp5VV77otbhztgp5HJrvRshhHxjxDTiWEsuskVBFKd2WosKOvBCvXHZMy0sE7iXzLA9q8m6vevUK0UUnUsImby5uuun3R1LbjsQucbLO9R1GLnvYBWBbvVbpT6Wycq4JDfJWfjamxLmCqxjlhFMyUDMm2XMvkKdBVfYVJ9zx13HInjGSliPOgY5Ab3gVTx0r7v6VJ5gOxfoe762uemL9u3LvNvQaR89UgopJEwIYe3UanhkqXshFxK9Ryk7C38KLRzrTqbsfLedIISlBlrGaIQlWw44ehMaFx1D7eupzO49NQn5gCMiZN3lVwK1P6Ipq2w8hLjDY17rjLYo9HIF1cTVXzIB01n7ecQfP5YB7nIAT8uFEV34RPRCS3OU6WSLuFkOeC1xb2ssMATDvRfBiuZr9yraH43jipwV3QE2g3q3FrTGvmhZrrjjjedmj0iqpRGGHZRN9z9jU';
+      const givenInvalidRestOfName = 'U3edLYh3jCG6qVcJyp4VYbWVBHCD72tEWxveuKM52pp5VV77otbhztgp5HJrvRshhHxjxDTiWEsuskVBFKd2WosKOvBCvXHZMy0sE7iXzLA9q8m6vevUK0UUnUsImby5uuun3R1LbjsQucbLO9R1GLnvYBWBbvVbpT6Wycq4JDfJWfjamxLmCqxjlhFMyUDMm2XMvkKdBVfYVJ9zx13HInjGSliPOgY5Ab3gVTx0r7v6VJ5gOxfoe762uemL9u3LvNvQaR89UgopJEwIYe3UanhkqXshFxK9Ryk7C38KLRzrTqbsfLedIISlBlrGaIQlWw44ehMaFx1D7eupzO49NQn5gCMiZN3lVwK1P6Ipq2w8hLjDY17rjLYo9HIF1cTVXzIB01n7ecQfP5YB7nIAT8uFEV34RPRCS3OU6WSLuFkOeC1xb2ssMATDvRfBiuZr9yraH43jipwV3QE2g3q3FrTGvmhZrrjjjedmj0iqpRGGHZRN9z9jU';
       
       // Act
       const creatingInvalidUser = () => { 
-        EndUser.getNewUser(userProps,givenValidExternalId,givenInvalidFirstName,givenValidLastName) 
+        EndUser.getNewUser(userProps,givenValidExternalId,givenValidLastName,givenValidContext,givenInvalidRestOfName) 
       };
 
       // Assert
@@ -37,50 +42,95 @@ describe('domain.contexts.user', () => {
 
     it('should reject an invalid lastName', () => {
       // Arrange
-      const userProps = jest.mocked({} as EndUserProps);
+      const userProps = jest.mocked({ personalInformation: { contactInformation: {}, identityDetails: {} }} as EndUserProps);
       const givenInvalidLastName = 'U3edLYh3jCG6qVcJyp4VYbWVBHCD72tEWxveuKM52pp5VV77otbhztgp5HJrvRshhHxjxDTiWEsuskVBFKd2WosKOvBCvXHZMy0sE7iXzLA9q8m6vevUK0UUnUsImby5uuun3R1LbjsQucbLO9R1GLnvYBWBbvVbpT6Wycq4JDfJWfjamxLmCqxjlhFMyUDMm2XMvkKdBVfYVJ9zx13HInjGSliPOgY5Ab3gVTx0r7v6VJ5gOxfoe762uemL9u3LvNvQaR89UgopJEwIYe3UanhkqXshFxK9Ryk7C38KLRzrTqbsfLedIISlBlrGaIQlWw44ehMaFx1D7eupzO49NQn5gCMiZN3lVwK1P6Ipq2w8hLjDY17rjLYo9HIF1cTVXzIB01n7ecQfP5YB7nIAT8uFEV34RPRCS3OU6WSLuFkOeC1xb2ssMATDvRfBiuZr9yraH43jipwV3QE2g3q3FrTGvmhZrrjjjedmj0iqpRGGHZRN9z9jU';
       
       // Act
       const creatingInvalidUser = () => { 
-        EndUser.getNewUser(userProps,givenValidExternalId,givenValidFirstName,givenInvalidLastName) 
+        EndUser.getNewUser(userProps,givenValidExternalId,givenInvalidLastName,givenValidContext,givenValidFirstName) 
       };
 
       // Assert
       expect(creatingInvalidUser).toThrowError('Too long');
     });
 
-    it('should raise a UserCreatedEvent', async () => {
+    it('should raise an EndUserCreatedEvent', async () => {
       // Arrange
       const expectedNewId = '12345';
-      const userProps = jest.mocked({id:expectedNewId} as EndUserProps);
+      const userProps = jest.mocked({id:expectedNewId, personalInformation: { contactInformation: {}, identityDetails: {} }} as EndUserProps);
       
       // Act
-      const user = EndUser.getNewUser(userProps, givenValidExternalId, givenValidFirstName, givenValidLastName);
+      const user = EndUser.getNewUser(userProps, givenValidExternalId, givenValidLastName, givenValidContext, givenValidFirstName);
     
       // Assert
-      const integrationEvent = user.getIntegrationEvents().find(e => e.aggregateId === expectedNewId && e instanceof UserCreatedEvent) as UserCreatedEvent;
+      const integrationEvent = user.getIntegrationEvents().find(e => e.aggregateId === expectedNewId && e instanceof EndUserCreatedEvent) as EndUserCreatedEvent;
       expect(integrationEvent.payload.userId).toBe(expectedNewId);
     
     });
 
+    it('should set legalNameConsistsOfOneName to true when restOfName is not provided', () => {
+      // Arrange
+      const userProps = jest.mocked({ personalInformation: { contactInformation: {}, identityDetails: {} }} as EndUserProps);
+      
+      // Act
+      const user = EndUser.getNewUser(userProps, givenValidExternalId, givenValidLastName, givenValidContext);
+    
+      // Assert
+      expect(user.personalInformation.identityDetails.legalNameConsistsOfOneName).toBe(true);
+    });
+
+    it('should set legalNameConsistsOfOneName to false when restOfName is provided', () => {
+      // Arrange
+      const userProps = jest.mocked({ personalInformation: { contactInformation: {}, identityDetails: {} }} as EndUserProps);
+      
+      // Act
+      const user = EndUser.getNewUser(userProps, givenValidExternalId, givenValidLastName, givenValidContext, givenValidFirstName);
+    
+      // Assert
+      expect(user.personalInformation.identityDetails.legalNameConsistsOfOneName).toBe(false);
+    });
+
   });
 
-  describe('when updating a user', () => {
+  describe('when updating an end user', () => {
     it('should reject an invalid email', () => {
       // Arrange
-      const userProps = jest.mocked({} as EndUserProps);
-      const user = new EndUser(userProps);
+      const userProps = jest.mocked({personalInformation: { contactInformation: {}, identityDetails: {} }} as EndUserProps);
+      const givenValidContext = jest.mocked({} as DomainExecutionContext);
+      givenValidContext.domainVisa = jest.mocked({} as DomainVisa);
+      givenValidContext.domainVisa.forEndUser = jest.fn(() => jest.mocked({} as EndUserVisa));
+
+      const user = new EndUser(userProps, givenValidContext);
       const givenInvalidEmail = 'bad-email';
       
       // Act
       const updatingUserWithInvalidProperty = () => { 
-        user.personalInformation.contactInformation.email=(givenInvalidEmail);
+        user.personalInformation.contactInformation.Email=(givenInvalidEmail);
       };
 
       // Assert
       expect(updatingUserWithInvalidProperty).toThrowError('Value doesn\'t match pattern');
     });
 
+    it('should update a valid email', () => {
+      // Arrange
+      const userProps = jest.mocked({personalInformation: { contactInformation: {} }} as EndUserProps);
+      const givenValidContext = jest.mocked({} as DomainExecutionContext);
+      givenValidContext.domainVisa = jest.mocked({} as DomainVisa);
+      givenValidContext.domainVisa.forEndUser = jest.fn(() => jest.mocked({} as EndUserVisa));
+
+      const user = new EndUser(userProps, givenValidContext);
+      const givenValidEmail = 'test@email.com';
+
+      // Act
+      const updatingUserWithValidProperty = () => {
+        user.personalInformation.contactInformation.Email=(givenValidEmail);
+      };
+
+      // Assert
+      expect(updatingUserWithValidProperty).not.toThrow();
+
+    });
   });
 
 });

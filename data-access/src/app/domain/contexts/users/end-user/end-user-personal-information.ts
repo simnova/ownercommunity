@@ -1,24 +1,27 @@
-import { Entity, EntityProps } from "../../../../../../seedwork/domain-seedwork/entity";
-import { EndUserContactInformation, EndUserContactInformationProps } from "./end-user-contact-information";
-import { EndUserIdentityDetails, EndUserIdentityDetailsProps } from "./end-user-identity-details";
+import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
+import { EndUserContactInformation, EndUserContactInformationEntityReference, EndUserContactInformationProps } from "./end-user-contact-information";
+import { EndUserIdentityDetails, EndUserIdentityDetailsEntityReference, EndUserIdentityDetailsProps } from "./end-user-identity-details";
 
-export interface EndUserPersonalInformationProps extends EntityProps {
-  identityDetails: EndUserIdentityDetailsProps;
-  contactInformation: EndUserContactInformationProps;
+export interface EndUserPersonalInformationProps extends ValueObjectProps {
+  readonly identityDetails: EndUserIdentityDetailsProps;
+  readonly contactInformation: EndUserContactInformationProps;
 }
 
-export interface EndUserPersonalInformationEntityReference extends Readonly<EndUserPersonalInformationProps> {}
+export interface EndUserPersonalInformationEntityReference extends Readonly<Omit<EndUserPersonalInformationProps, 'identityDetails' | 'contactInformation' >> {
+  readonly identityDetails: EndUserIdentityDetailsEntityReference;
+  readonly contactInformation: EndUserContactInformationEntityReference;
+}
 
-export class EndUserPersonalInformation extends Entity<EndUserPersonalInformationProps> implements EndUserPersonalInformationEntityReference{
+export class EndUserPersonalInformation extends ValueObject<EndUserPersonalInformationProps> implements EndUserPersonalInformationEntityReference{
   constructor(props: EndUserPersonalInformationProps) {
     super(props);
   }
 
-  get identityDetails(): EndUserIdentityDetailsProps {
+  get identityDetails() {
     return new EndUserIdentityDetails(this.props.identityDetails);
   }
 
-  get contactInformation(): EndUserContactInformationProps {
+  get contactInformation() {
     return new EndUserContactInformation(this.props.contactInformation);
   }
 }

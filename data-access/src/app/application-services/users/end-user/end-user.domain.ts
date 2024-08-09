@@ -28,9 +28,9 @@ export class EndUserDomainApiImpl
       if (!domainObject || domainObject.externalId !== this.context.verifiedUser.verifiedJWT.sub) {
         throw new Error('Unauthorized');
       }
-      if (user.personalInformation?.identityDetails?.restOfName !== undefined) domainObject.personalInformation.identityDetails.restOfName=(user.personalInformation?.identityDetails?.restOfName);
-      if (user.personalInformation?.identityDetails?.lastName !== undefined) domainObject.personalInformation.identityDetails.lastName=(user.personalInformation?.identityDetails?.lastName);
-      if (user.personalInformation?.contactInformation?.email !== undefined) domainObject.personalInformation.contactInformation.email=(user.personalInformation?.contactInformation?.email);
+      if (user.personalInformation?.identityDetails?.restOfName !== undefined) domainObject.personalInformation.identityDetails.RestOfName=(user.personalInformation?.identityDetails?.restOfName);
+      if (user.personalInformation?.identityDetails?.lastName !== undefined) domainObject.personalInformation.identityDetails.LastName=(user.personalInformation?.identityDetails?.lastName);
+      if (user.personalInformation?.contactInformation?.email !== undefined) domainObject.personalInformation.contactInformation.Email=(user.personalInformation?.contactInformation?.email);
       result = (new EndUserConverter()).toPersistence(await repo.save(domainObject));
     });
     return result;
@@ -60,7 +60,7 @@ export class EndUserDomainApiImpl
           userLastName,
           userRestOfName ? userLastName : undefined);
         if (userEmail) {
-          newUser.personalInformation.contactInformation.email=(userEmail);
+          newUser.personalInformation.contactInformation.Email=(userEmail);
         }
         userToReturn = userConverter.toPersistence(await repo.save(newUser));
       }

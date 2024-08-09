@@ -1,7 +1,7 @@
-import { Entity, EntityProps } from "../../../../../../seedwork/domain-seedwork/entity";
+import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
 import * as ValueObjects from './end-user.value-objects';
 
-export interface EndUserIdentityDetailsProps extends EntityProps {
+export interface EndUserIdentityDetailsProps extends ValueObjectProps {
   lastName: string;
   legalNameConsistsOfOneName: boolean;
   restOfName?: string;
@@ -9,7 +9,7 @@ export interface EndUserIdentityDetailsProps extends EntityProps {
 
 export interface EndUserIdentityDetailsEntityReference extends Readonly<EndUserIdentityDetailsProps> {}
 
-export class EndUserIdentityDetails extends Entity<EndUserIdentityDetailsProps> implements EndUserIdentityDetailsEntityReference {
+export class EndUserIdentityDetails extends ValueObject<EndUserIdentityDetailsProps> implements EndUserIdentityDetailsEntityReference {
   constructor(props: EndUserIdentityDetailsProps) {
     super(props);
   }

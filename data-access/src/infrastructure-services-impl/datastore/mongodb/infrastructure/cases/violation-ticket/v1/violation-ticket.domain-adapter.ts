@@ -336,7 +336,7 @@ export class RevenueRecognitionDomainAdapter implements RevenueRecognitionProps 
   }
 
   get decision() {
-    return new GlTransactionDomainAdapter(this.doc.decision);
+    return new GlTransactionDomainAdapter(this.doc.recognition);
   }
 }
 
@@ -369,6 +369,13 @@ export class GlTransactionDomainAdapter implements GlTransactionProps {
   }
   set recognitionDate(recognitionDate) {
     this.doc.recognitionDate = recognitionDate;
+  }
+
+  get completedOn() {
+    return this.doc.completedOn;
+  }
+  set completedOn(completedOn) {
+    this.doc.completedOn = completedOn;
   }
 }
 

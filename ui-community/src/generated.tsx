@@ -175,8 +175,9 @@ export type AdhocTransaction = {
   __typename?: 'AdhocTransaction';
   amount?: Maybe<Scalars['Float']>;
   approval?: Maybe<Approval>;
+  financeReference?: Maybe<FinanceReference>;
   reason?: Maybe<Scalars['String']>;
-  requestedBy?: Maybe<Scalars['ObjectID']>;
+  requestedBy?: Maybe<Member>;
   requestedOn?: Maybe<Scalars['DateTime']>;
   transactionReference?: Maybe<TransactionReference>;
 };
@@ -387,8 +388,16 @@ export type FilterDetail = {
 
 export type FinanceDetails = {
   __typename?: 'FinanceDetails';
+  revenueRecognition?: Maybe<RevenueRecognition>;
   serviceFee?: Maybe<Scalars['Float']>;
   transactions?: Maybe<Transactions>;
+};
+
+export type FinanceReference = {
+  __typename?: 'FinanceReference';
+  completedOn?: Maybe<Scalars['DateTime']>;
+  creditGlAccount?: Maybe<Scalars['String']>;
+  debitGlAccount?: Maybe<Scalars['String']>;
 };
 
 export type GeographyPoint = {
@@ -400,6 +409,14 @@ export type GeographyPoint = {
 export type GeographyPointInput = {
   latitude?: InputMaybe<Scalars['Float']>;
   longitude?: InputMaybe<Scalars['Float']>;
+};
+
+export type GlTransaction = {
+  __typename?: 'GlTransaction';
+  amount?: Maybe<Scalars['Float']>;
+  completedOn?: Maybe<Scalars['DateTime']>;
+  creditGlAccount?: Maybe<Scalars['String']>;
+  debitGlAccount?: Maybe<Scalars['String']>;
 };
 
 export type IdentityDetails = {
@@ -1350,6 +1367,12 @@ export type QueryViolationTicketArgs = {
   id: Scalars['ObjectID'];
 };
 
+export type RevenueRecognition = {
+  __typename?: 'RevenueRecognition';
+  decision?: Maybe<GlTransaction>;
+  submission?: Maybe<GlTransaction>;
+};
+
 export type Role = MongoBase & {
   __typename?: 'Role';
   community?: Maybe<Community>;
@@ -1744,7 +1767,6 @@ export type StaffUserUpdateInput = {
 
 export type Submission = {
   __typename?: 'Submission';
-  adhocTransactions?: Maybe<Array<Maybe<AdhocTransaction>>>;
   amount?: Maybe<Scalars['Float']>;
   transactionReference?: Maybe<TransactionReference>;
 };
@@ -1760,6 +1782,7 @@ export type TransactionReference = {
 
 export type Transactions = {
   __typename?: 'Transactions';
+  adhocTransactions?: Maybe<Array<Maybe<AdhocTransaction>>>;
   submission?: Maybe<Submission>;
 };
 

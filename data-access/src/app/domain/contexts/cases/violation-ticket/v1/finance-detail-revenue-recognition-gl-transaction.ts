@@ -6,6 +6,7 @@ export interface GlTransactionProps extends ValueObjectProps {
   creditGlAccount: string;
   amount: number;
   recognitionDate: Date;
+  completedOn?: Date;
 }
 
 export interface GlTransactionEntityReference extends Readonly<GlTransactionProps> {}
@@ -45,5 +46,13 @@ export class GlTransaction extends ValueObject<GlTransactionProps> implements Gl
 
   set RecognitionDate(recognitionDate: Date) {
     this.props.recognitionDate = recognitionDate;
+  }
+
+  get completedOn() {
+    return this.props.completedOn;
+  }
+
+  set CompletedOn(completedOn: Date) {
+    this.props.completedOn = completedOn;
   }
 }

@@ -198,6 +198,12 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
     await this.withTransaction(async (repo) => {
       let violationTicket = await repo.getById(input.violationTicketId);
       violationTicket.requestAddStatusTransition(input.status, input.activityDescription, memberDo);
+      if(input.status === StatusCodes.Closed) {
+        violationTicket.financeDetails.revenueRecognition.decision.Amount = violationTicket.financeDetails.revenueRecognition.submission.amount;
+        violationTicket.financeDetails.revenueRecognition.decision.RecognitionDate = new Date();
+        violationTicket.financeDetails.revenueRecognition.decision.CreditGlAccount = '029-0501-284';
+        violationTicket.financeDetails.revenueRecognition.decision.DebitGlAccount = '000-0100-000';
+      }
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;
@@ -252,6 +258,10 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
         violationTicket.financeDetails.transactions.submission.transactionReference.Vendor = response.vendor;
         if(response.completedOn) {violationTicket.financeDetails.transactions.submission.transactionReference.CompletedOn = response.completedOn;};
         if(response.authorizedAmount) {violationTicket.financeDetails.transactions.submission.Amount = response.authorizedAmount;};
+        violationTicket.financeDetails.revenueRecognition.submission.Amount = response.authorizedAmount;
+        violationTicket.financeDetails.revenueRecognition.submission.RecognitionDate = new Date();
+        violationTicket.financeDetails.revenueRecognition.submission.CreditGlAccount = '000-0100-000';
+        violationTicket.financeDetails.revenueRecognition.submission.DebitGlAccount = '029-0342-284';
       } else {
         throw new Error('Payment processing failed');
       }

@@ -87,29 +87,29 @@ export class Community<props extends CommunityProps> extends AggregateRoot<props
     this.props.name = new ValueObjects.Name(name).valueOf();
   }
 
-  set Domain(domain: ValueObjects.Domain) {
+  set Domain(domain: string) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageCommunitySettings)) {
       throw new Error('You do not have permission to change the domain of this community');
     }
     const oldDomain = this.props.domain;
-    if (oldDomain !== domain.valueOf()) {
-      this.props.domain = domain.valueOf();
-      this.addIntegrationEvent(CommunityDomainUpdatedEvent, { communityId: this.props.id, domain: domain.valueOf(), oldDomain: oldDomain });
+    if (this.props.domain !== domain) {
+      this.props.domain = new ValueObjects.Domain(domain).valueOf();
+      this.addIntegrationEvent(CommunityDomainUpdatedEvent, { communityId: this.props.id, domain, oldDomain: oldDomain });
     }
   }
 
-  set WhiteLabelDomain(whiteLabelDomain: ValueObjects.WhiteLabelDomain) {
+  set WhiteLabelDomain(whiteLabelDomain: string) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageCommunitySettings)) {
       throw new Error('You do not have permission to change the white label domain of this community');
     }
-    this.props.whiteLabelDomain = whiteLabelDomain ? whiteLabelDomain.valueOf() : null;
+    this.props.whiteLabelDomain = whiteLabelDomain ? new ValueObjects.WhiteLabelDomain(whiteLabelDomain).valueOf() : null;
   }
 
-  set Handle(handle: ValueObjects.Handle) {
+  set Handle(handle: string) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageCommunitySettings)) {
       throw new Error('You do not have permission to change the handle of this community');
     }
-    this.props.handle = handle ? handle.valueOf() : null;
+    this.props.handle = handle ? new ValueObjects.Handle(handle).valueOf() : null;
   }
 
   set CreatedBy(createdBy: EndUserEntityReference) {

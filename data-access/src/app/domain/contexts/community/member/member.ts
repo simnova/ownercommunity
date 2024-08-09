@@ -3,37 +3,34 @@ import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import * as ValueObjects from './member.value-objects';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
-import { Account, AccountEntityReference, AccountProps } from './account';
+import { MemberAccount, MemberAccountEntityReference, MemberAccountProps } from './member-account';
 import { EndUserRole, EndUserRoleEntityReference, EndUserRoleProps } from '../roles/end-user-role/end-user-role';
 import { DomainExecutionContext } from '../../../domain-execution-context';
-import { Profile, ProfileEntityReference, ProfileProps } from './profile';
+import { MemberProfile, MemberProfileEntityReference, MemberProfileProps } from './member-profile';
 import { CommunityVisa } from "../community.visa";
-import { CustomView, CustomViewEntityReference, CustomViewProps } from './custom-view';
-import { ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';
-export interface WalletProps extends ValueObjectProps {
-  customerId: string;
-}
+import { MemberCustomView, MemberCustomViewEntityReference, MemberCustomViewProps } from './member-custom-view';
+
 export interface MemberProps extends EntityProps {
   memberName: string;
   cybersourceCustomerId: string;
   readonly community: CommunityProps;
   setCommunityRef: (community: CommunityEntityReference) => void;
-  readonly accounts: PropArray<AccountProps>;
+  readonly accounts: PropArray<MemberAccountProps>;
   readonly role: EndUserRoleProps;
   setRoleRef: (role: EndUserRoleEntityReference) => void;
-  readonly profile: ProfileProps;
+  readonly profile: MemberProfileProps;
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly schemaVersion: string;
-  readonly customViews: PropArray<CustomViewProps>;
+  readonly customViews: PropArray<MemberCustomViewProps>;
 }
 
 export interface MemberEntityReference extends Readonly<Omit<MemberProps, 'community' | 'setCommunityRef' | 'accounts' | 'role' | 'setRoleRef' | 'profile' | 'customViews'>> {
   readonly community: CommunityEntityReference;
-  readonly accounts: ReadonlyArray<AccountEntityReference>;
+  readonly accounts: ReadonlyArray<MemberAccountEntityReference>;
   readonly role: EndUserRoleEntityReference;
-  readonly profile: ProfileEntityReference;
-  readonly customViews: ReadonlyArray<CustomViewEntityReference>;
+  readonly profile: MemberProfileEntityReference;
+  readonly customViews: ReadonlyArray<MemberCustomViewEntityReference>;
 }
 
 export class Member<props extends MemberProps> extends AggregateRoot<props> implements MemberEntityReference {
@@ -58,14 +55,14 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   get community(): CommunityEntityReference {
     return new Community(this.props.community, this.context);
   }
-  get accounts(): ReadonlyArray<Account> {
-    return this.props.accounts.items.map((account) => new Account(account, this.context, this.visa));
+  get accounts(): ReadonlyArray<MemberAccount> {
+    return this.props.accounts.items.map((account) => new MemberAccount(account, this.context, this.visa));
   } // return account as it's an embedded document not a reference (allows editing)
   get role(): EndUserRoleEntityReference {
     return new EndUserRole(this.props.role, this.context);
   }
   get profile() {
-    return new Profile(this.props.profile, this.visa);
+    return new MemberProfile(this.props.profile, this.visa);
   } // return profile as it's an embedded document not a reference (allows editing)
   get createdAt() {
     return this.props.createdAt;
@@ -77,8 +74,8 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
     return this.props.schemaVersion;
   }
 
-  get customViews(): ReadonlyArray<CustomView> {
-    return this.props.customViews.items.map((customView) => new CustomView(customView, this.context, this.visa));
+  get customViews(): ReadonlyArray<MemberCustomView> {
+    return this.props.customViews.items.map((customView) => new MemberCustomView(customView, this.context, this.visa));
   } // return customView as it's an embedded document not a reference (allows editing)
 
   public static getNewInstance<props extends MemberProps>(newProps: props, name: string, community: CommunityEntityReference, context: DomainExecutionContext): Member<props> {
@@ -91,15 +88,15 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
   }
   // using SET from TS 5.1
 
-  set MemberName(memberName: ValueObjects.MemberName) {
+  set MemberName(memberName: string) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set member name');
     }
-    this.props.memberName = memberName.valueOf();
+    this.props.memberName = new ValueObjects.MemberName(memberName).valueOf();
   }
 
-  set CyberSourceCustomerId(cybersourceCustomerId: ValueObjects.CyberSourceCustomerId) {
-    this.props.cybersourceCustomerId = cybersourceCustomerId.valueOf();
+  set CyberSourceCustomerId(cybersourceCustomerId: string) {
+    this.props.cybersourceCustomerId = new ValueObjects.CyberSourceCustomerId(cybersourceCustomerId).valueOf();
   }
   
   set Community(community: CommunityEntityReference) {
@@ -113,33 +110,27 @@ export class Member<props extends MemberProps> extends AggregateRoot<props> impl
     this.props.setRoleRef(role);
   }
 
-  public requestNewAccount(): Account {
+  public requestNewAccount(): MemberAccount {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set role');
     }
-    return new Account(this.props.accounts.getNewItem(), this.context, this.visa);
+    return new MemberAccount(this.props.accounts.getNewItem(), this.context, this.visa);
   }
-  public requestAddAccount(accountRef: AccountProps): void {
-    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
-      throw new Error('Cannot set role');
-    }
-    this.props.accounts.addItem(accountRef);
-  }
-  public requestRemoveAccount(accountRef: AccountProps): void {
+  public requestRemoveAccount(accountRef: MemberAccountProps): void {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set role');
     }
     this.props.accounts.removeItem(accountRef);
   }
   // CustomViews
-  public requestNewCustomView(): CustomView {
+  public requestNewCustomView(): MemberCustomView {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set custom view');
     }
-    return new CustomView(this.props.customViews.getNewItem(), this.context, this.visa);
+    return new MemberCustomView(this.props.customViews.getNewItem(), this.context, this.visa);
   }
 
-  public requestRemoveCustomView(customView: CustomView): void {
+  public requestRemoveCustomView(customView: MemberCustomView): void {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageMembers || permissions.isSystemAccount)) {
       throw new Error('Cannot set custom view');
     }

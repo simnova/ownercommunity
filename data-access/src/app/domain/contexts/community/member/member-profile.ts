@@ -1,8 +1,8 @@
 import { ValueObject, ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';
 import { CommunityVisa } from "../community.visa";
-import * as ValueObjects from './profile.value-objects';
+import * as ValueObjects from './member-profile.value-objects';
 
-export interface ProfileProps extends ValueObjectProps {
+export interface MemberProfileProps extends ValueObjectProps {
   name: string;
   email: string;
   bio: string;
@@ -15,10 +15,10 @@ export interface ProfileProps extends ValueObjectProps {
   showProperties: boolean;
 }
 
-export interface ProfileEntityReference extends Readonly<ProfileProps> {}
+export interface MemberProfileEntityReference extends Readonly<MemberProfileProps> {}
 
-export class Profile extends ValueObject<ProfileProps> implements ProfileEntityReference {
-  constructor(props: ProfileProps, private readonly visa: CommunityVisa) {
+export class MemberProfile extends ValueObject<MemberProfileProps> implements MemberProfileEntityReference {
+  constructor(props: MemberProfileProps, private readonly visa: CommunityVisa) {
     super(props);
   }
 
@@ -63,19 +63,19 @@ export class Profile extends ValueObject<ProfileProps> implements ProfileEntityR
 
   // it can't be called "name" as there is already name
   // property of this class so am calling is Name instead
-  set Name(name: ValueObjects.Name) {
+  set Name(name: string) {
     this.validateVisa();
-    this.props.name = name.valueOf();
+    this.props.name = new ValueObjects.Name(name).valueOf();
   }
 
-  set Email(email: ValueObjects.Email) {
+  set Email(email: string) {
     this.validateVisa();
-    this.props.email = email.valueOf();
+    this.props.email = new ValueObjects.Email(email).valueOf();
   }
 
-  set Bio(bio: ValueObjects.Bio) {
+  set Bio(bio: string) {
     this.validateVisa();
-    this.props.bio = bio.valueOf();
+    this.props.bio = new ValueObjects.Bio(bio).valueOf();
   }
 
   set AvatarDocumentId(avatarDocumentId: string) {
@@ -83,9 +83,9 @@ export class Profile extends ValueObject<ProfileProps> implements ProfileEntityR
     this.props.avatarDocumentId = avatarDocumentId;
   }
 
-  set Interests(interests: ValueObjects.Interests) {
+  set Interests(interests: string[]) {
     this.validateVisa();
-    this.props.interests = interests.valueOf();
+    this.props.interests = new ValueObjects.Interests(interests).valueOf();
   }
 
   set ShowInterests(showInterests: boolean) {

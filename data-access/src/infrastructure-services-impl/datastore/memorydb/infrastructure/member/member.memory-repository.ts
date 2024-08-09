@@ -1,9 +1,9 @@
-import { AccountProps } from '../../../../../app/domain/contexts/community/member/account';
+import { MemberAccountProps } from '../../../../../app/domain/contexts/community/member/member-account';
 import { CommunityEntityReference, CommunityProps } from '../../../../../app/domain/contexts/community/community/community';
-import { CustomViewProps } from '../../../../../app/domain/contexts/community/member/custom-view';
+import { MemberCustomViewProps } from '../../../../../app/domain/contexts/community/member/member-custom-view';
 import { Member, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
 import { MemberRepository } from '../../../../../app/domain/contexts/community/member/member.repository';
-import { ProfileProps } from '../../../../../app/domain/contexts/community/member/profile';
+import { MemberProfileProps } from '../../../../../app/domain/contexts/community/member/member-profile';
 import { EndUserRoleEntityReference, EndUserRoleProps } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { EndUserProps } from '../../../../../app/domain/contexts/users/end-user/end-user';
@@ -12,7 +12,7 @@ import { MemoryBaseAdapter } from '../../../../../../seedwork/services-seedwork-
 import { MemoryPropArray } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array';
 import { MemoryRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository';
 
-class MemoryProfile implements ProfileProps {
+class MemoryProfile implements MemberProfileProps {
   name: string;
   email: string;
   bio: string;
@@ -32,7 +32,7 @@ class MemoryCustomView extends MemoryBaseAdapter implements EntityProps {
   columnsToDisplay: string[];
 }
 
-class MemoryAccount extends MemoryBaseAdapter implements AccountProps {
+class MemoryAccount extends MemoryBaseAdapter implements MemberAccountProps {
   firstName: string;
   lastName: string;
   user: EndUserProps;
@@ -53,7 +53,7 @@ class MemoryMember extends MemoryBaseAdapter implements MemberProps {
   setCommunityRef(community: CommunityEntityReference): void {
     this.community = community as CommunityProps;
   }
-  private _accounts: AccountProps[] = [];
+  private _accounts: MemberAccountProps[] = [];
   get accounts() {
     return new MemoryPropArray(this._accounts, MemoryAccount);
   }
@@ -61,7 +61,7 @@ class MemoryMember extends MemoryBaseAdapter implements MemberProps {
   setRoleRef(role: EndUserRoleEntityReference): void {
     this.role = role as EndUserRoleProps;
   }
-  private _profile: ProfileProps;
+  private _profile: MemberProfileProps;
   get profile() {
     if (!this._profile) {
       this._profile = new MemoryProfile();
@@ -71,7 +71,7 @@ class MemoryMember extends MemoryBaseAdapter implements MemberProps {
   createdAt: Date;
   updatedAt: Date;
   schemaVersion: string;
-  private _customViews: CustomViewProps[] = [];
+  private _customViews: MemberCustomViewProps[] = [];
   get customViews() {
     return new MemoryPropArray(this._customViews, MemoryCustomView);
   }

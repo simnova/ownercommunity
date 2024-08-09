@@ -17,10 +17,10 @@ export const CreateAccountForMemberInDb = (firstName: string, lastName: string, 
         const currentUser = await (await UserInDb(currentUserExternalId)).answeredBy(actor);
 
         let account = member.requestNewAccount();
-        account.user = user;
-        account.firstName = firstName;
-        account.lastName = lastName;
-        account.createdBy = currentUser;
+        account.User = user;
+        account.FirstName = firstName;
+        account.LastName = lastName;
+        account.CreatedBy = currentUser;
         await repo.save(member);
       });
     }

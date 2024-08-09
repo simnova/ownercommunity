@@ -67,7 +67,7 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
 
   const handlePayment = async (violationTicketId: string, paymentAmount: number, paymentInstrumentId: string) => {
     try {
-      await violationTicketProcessPayment({
+      const result = await violationTicketProcessPayment({
         variables: {
           input: {
             violationTicketId,
@@ -76,8 +76,14 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
           }
         }
       });
-      message.success('Payment processed successfully.');
-    } catch (error) {
+      if (!result.data?.violationTicketProcessPayment.status.success) {
+        message.error(
+          `Payment error for Violation Ticket : ${result.data?.violationTicketProcessPayment.status.errorMessage}`
+        );
+      } else {
+          message.success('Payment processed successfully.');
+        }   
+  } catch (error) {
       message.error(`Error processing payment on Violation Ticket : ${JSON.stringify(error)}`);
     }
   };

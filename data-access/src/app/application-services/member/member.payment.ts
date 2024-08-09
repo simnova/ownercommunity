@@ -1,3 +1,4 @@
+
 import { Cybersource } from "../../../../seedwork/services-seedwork-payment-cybersource";
 import { CustomerPaymentInstrumentsResponse, CustomerPaymentResponse, CustomerProfile, PaymentTokenInfo, PaymentInstrumentInfo, PaymentTransactionResponse, PaymentInstrument as PaymentInstrumentInterface, CustomerPaymentInstrumentResponse } from "../../../../seedwork/services-seedwork-payment-cybersource-interfaces";
 import { PaymentDataSource } from "../../data-sources/payment-data-source";
@@ -137,12 +138,15 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
     await this.withCybersource(async (_passport, cybersource: Cybersource) => {
       response = await cybersource.processPayment(processPaymentParams.clientReferenceCode, processPaymentParams.paymentInstrumentId, processPaymentParams.amount);
     });
-
-    return {
-      authorizedAmount: parseFloat(response?.orderInformation?.amountDetails?.authorizedAmount),
-      vendor: 'Cybersource',
-      referenceId: response?.clientReferenceInformation?.code,
-      completedOn: new Date(),
-    };
+    if (response?.status === 'APPROVED' || response?.status === 'AUTHORIZED'){
+      return {
+        authorizedAmount: parseFloat(response?.orderInformation?.amountDetails?.authorizedAmount),
+        vendor: 'Cybersource',
+        referenceId: response?.clientReferenceInformation?.code,
+        completedOn: new Date(),
+      };
+    } else {
+      throw new Error('Payment is declined');
+    }
   }
 }

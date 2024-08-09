@@ -22,7 +22,7 @@ export class ViolationTicketV1FinanceDetails extends ValueObject<ViolationTicket
     return this.props.serviceFee;
   }
 
-  get transactions() {
+  get transactions(): Transactions {
     return this.props.transactions ? new Transactions(this.props.transactions, this.context) : undefined;
   }
 
@@ -32,7 +32,7 @@ export class ViolationTicketV1FinanceDetails extends ValueObject<ViolationTicket
     this.props.serviceFee = serviceFee;
   }
 
-  get revenueRecognition() {
+  get revenueRecognition(): RevenueRecognition {
     return this.props.revenueRecognition ? new RevenueRecognition(this.props.revenueRecognition, this.context) : undefined;
   }
 }

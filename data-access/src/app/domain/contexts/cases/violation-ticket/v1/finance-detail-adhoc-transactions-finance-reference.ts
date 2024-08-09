@@ -18,7 +18,7 @@ export class FinanceReference extends ValueObject<FinanceReferenceProps> impleme
     return this.props.debitGlAccount;
   }
 
-  set debitGlAccount(debitGlAccount: string) {
+  set DebitGlAccount(debitGlAccount: string) {
     this.props.debitGlAccount = debitGlAccount;
   }
 
@@ -26,7 +26,7 @@ export class FinanceReference extends ValueObject<FinanceReferenceProps> impleme
     return this.props.creditGlAccount;
   }
 
-  set creditGlAccount(creditGlAccount: string) {
+  set CreditGlAccount(creditGlAccount: string) {
     this.props.creditGlAccount = creditGlAccount;
   }
 
@@ -34,7 +34,7 @@ export class FinanceReference extends ValueObject<FinanceReferenceProps> impleme
     return this.props.completedOn;
   }
 
-  set completedOn(completedOn: Date) {
+  set CompletedOn(completedOn: Date) {
     this.props.completedOn = completedOn;
   }
 }

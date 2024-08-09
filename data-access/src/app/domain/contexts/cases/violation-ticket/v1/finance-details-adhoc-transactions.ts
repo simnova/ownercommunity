@@ -60,7 +60,7 @@ export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements
     return new TransactionReference(this.props.transactionReference, this.context);
   }
 
-  get financeReference(): FinanceReferenceProps {
+  get financeReference(): FinanceReference {
     return new FinanceReference(this.props.financeReference, this.context);
   }
 

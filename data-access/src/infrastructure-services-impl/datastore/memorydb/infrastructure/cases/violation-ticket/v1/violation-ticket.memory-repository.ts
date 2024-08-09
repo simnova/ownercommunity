@@ -16,6 +16,7 @@ import { ViolationTicketV1MessageProps } from '../../../../../../../app/domain/c
 import { TransactionsProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions';
 import { ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
 import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
+import { RevenueRecognitionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition';
 
 class MemoryViolationTicketV1RevisionRequestedChanges implements ViolationTicketV1RevisionRequestedChangesProps {
   requestUpdatedAssignment: boolean;
@@ -59,6 +60,7 @@ class MemoryActivityDetail extends MemoryBaseAdapter implements ActivityDetailPr
 class MemoryFinanceDetails extends MemoryBaseAdapter implements ViolationTicketV1FinanceDetailProps {
   serviceFee: number;
   transactions: TransactionsProps
+  revenueRecognition: RevenueRecognitionProps
 }
 
 class MemoryPhoto extends MemoryBaseAdapter implements PhotoProps {

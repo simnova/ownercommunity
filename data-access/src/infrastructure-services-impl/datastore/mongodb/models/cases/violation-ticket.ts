@@ -124,6 +124,7 @@ export interface AdhocTransaction extends SubdocumentBase {
     applicantRespondedAt: Date;
   };
   transactionReference?: TransactionReference;
+  financeReference?: FinanceReference;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -137,14 +138,43 @@ export interface Transaction extends NestedPath {
   adhocTransactions?: Types.DocumentArray<AdhocTransaction>;
 }
 
+export interface GlTransaction extends NestedPath {
+  debitGlAccount: string;
+  creditGlAccount: string;
+  amount: number;
+  recognitionDate: Date;
+  completedOn?: Date;
+}
+
+export interface Recognition extends NestedPath {
+
+} 
+export interface RevenueRecognition extends NestedPath {
+  submission?: GlTransaction,
+  recognition?: GlTransaction
+}
+
 export interface FinanceDetails extends NestedPath {
   serviceFee: number;
   transactions?: Transaction;
+  revenueRecognition?: RevenueRecognition;
+}
+
+export interface FinanceReference extends NestedPath {
+  debitGlAccount: string;
+  creditGlAccount: string;
+  completedOn?: Date;
 }
 
 const TransactionReferenceSchema = new Schema<TransactionReference, Model<TransactionReference>, TransactionReference>({
   vendor: { type: String, required: false },
   referenceId: { type: String, required: false },
+  completedOn: { type: Date, required: false },
+});
+
+const FinanceReference = new Schema<FinanceReference, Model<FinanceReference>, FinanceReference>({
+  debitGlAccount: { type: String, required: false },
+  creditGlAccount: { type: String, required: false },
   completedOn: { type: Date, required: false },
 });
 
@@ -159,6 +189,7 @@ const AdhocTransactionSchema = new Schema<AdhocTransaction, Model<AdhocTransacti
     applicantRespondedAt: { type: Date, required: false },
   },
   transactionReference: { type: TransactionReferenceSchema, required: false,  _id: false },
+  financeReference: { type: FinanceReference, required: false, _id: false },
   _id: { type: Schema.Types.ObjectId, required: true },
 }, {timestamps: true});
 
@@ -172,9 +203,23 @@ const TransactionSchema = new Schema<Transaction, Model<Transaction>, Transactio
   adhocTransactions: { type: [AdhocTransactionSchema], required: false },
 })
 
+const GlTransactionSchema = new Schema<GlTransaction, Model<GlTransaction>, GlTransaction>({
+  debitGlAccount: { type: String, required: false },
+  creditGlAccount: { type: String, required: false },
+  amount: { type: Number, required: false },
+  recognitionDate: { type: Date, required: false },
+  completedOn: { type: Date, required: false, default: null },
+})
+
+const RevenueRecognitionSchema = new Schema<RevenueRecognition, Model<RevenueRecognition>, RevenueRecognition>({
+  submission: { type: GlTransactionSchema, required: true, _id: false },
+  recognition: { type: GlTransactionSchema, required: true, _id: false },
+})
+
 const FinanceDetailSchema = new Schema<FinanceDetails, Model<FinanceDetails>, FinanceDetails>({
   serviceFee: { type: Number, required: true },
   transactions: { type: TransactionSchema, required: false, _id: false, default: {} },
+  revenueRecognition: {type: RevenueRecognitionSchema, required: false, _id: false, default: {} },
 })
 
 const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>, ViolationTicket>(

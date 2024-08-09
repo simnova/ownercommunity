@@ -177,8 +177,9 @@ export type AdhocTransaction = {
   __typename?: 'AdhocTransaction';
   amount?: Maybe<Scalars['Float']>;
   approval?: Maybe<Approval>;
+  financeReference?: Maybe<FinanceReference>;
   reason?: Maybe<Scalars['String']>;
-  requestedBy?: Maybe<Scalars['ObjectID']>;
+  requestedBy?: Maybe<Member>;
   requestedOn?: Maybe<Scalars['DateTime']>;
   transactionReference?: Maybe<TransactionReference>;
 };
@@ -389,8 +390,16 @@ export type FilterDetail = {
 
 export type FinanceDetails = {
   __typename?: 'FinanceDetails';
+  revenueRecognition?: Maybe<RevenueRecognition>;
   serviceFee?: Maybe<Scalars['Float']>;
   transactions?: Maybe<Transactions>;
+};
+
+export type FinanceReference = {
+  __typename?: 'FinanceReference';
+  completedOn?: Maybe<Scalars['DateTime']>;
+  creditGlAccount?: Maybe<Scalars['String']>;
+  debitGlAccount?: Maybe<Scalars['String']>;
 };
 
 export type GeographyPoint = {
@@ -402,6 +411,14 @@ export type GeographyPoint = {
 export type GeographyPointInput = {
   latitude?: InputMaybe<Scalars['Float']>;
   longitude?: InputMaybe<Scalars['Float']>;
+};
+
+export type GlTransaction = {
+  __typename?: 'GlTransaction';
+  amount?: Maybe<Scalars['Float']>;
+  completedOn?: Maybe<Scalars['DateTime']>;
+  creditGlAccount?: Maybe<Scalars['String']>;
+  debitGlAccount?: Maybe<Scalars['String']>;
 };
 
 export type IdentityDetails = {
@@ -1352,6 +1369,12 @@ export type QueryViolationTicketArgs = {
   id: Scalars['ObjectID'];
 };
 
+export type RevenueRecognition = {
+  __typename?: 'RevenueRecognition';
+  decision?: Maybe<GlTransaction>;
+  submission?: Maybe<GlTransaction>;
+};
+
 export type Role = MongoBase & {
   __typename?: 'Role';
   community?: Maybe<Community>;
@@ -1746,7 +1769,6 @@ export type StaffUserUpdateInput = {
 
 export type Submission = {
   __typename?: 'Submission';
-  adhocTransactions?: Maybe<Array<Maybe<AdhocTransaction>>>;
   amount?: Maybe<Scalars['Float']>;
   transactionReference?: Maybe<TransactionReference>;
 };
@@ -1762,6 +1784,7 @@ export type TransactionReference = {
 
 export type Transactions = {
   __typename?: 'Transactions';
+  adhocTransactions?: Maybe<Array<Maybe<AdhocTransaction>>>;
   submission?: Maybe<Submission>;
 };
 
@@ -2074,10 +2097,12 @@ export type ResolversTypes = ResolversObject<{
   FileInfo: ResolverTypeWrapper<FileInfo>;
   FilterDetail: FilterDetail;
   FinanceDetails: ResolverTypeWrapper<FinanceDetails>;
+  FinanceReference: ResolverTypeWrapper<FinanceReference>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GUID: ResolverTypeWrapper<Scalars['GUID']>;
   GeographyPoint: ResolverTypeWrapper<GeographyPoint>;
   GeographyPointInput: GeographyPointInput;
+  GlTransaction: ResolverTypeWrapper<GlTransaction>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
   HSLA: ResolverTypeWrapper<Scalars['HSLA']>;
   HexColorCode: ResolverTypeWrapper<Scalars['HexColorCode']>;
@@ -2199,6 +2224,7 @@ export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
   RGB: ResolverTypeWrapper<Scalars['RGB']>;
   RGBA: ResolverTypeWrapper<Scalars['RGBA']>;
+  RevenueRecognition: ResolverTypeWrapper<RevenueRecognition>;
   Role: ResolverTypeWrapper<Role>;
   RoleAddInput: RoleAddInput;
   RoleDeleteAndReassignInput: RoleDeleteAndReassignInput;
@@ -2341,10 +2367,12 @@ export type ResolversParentTypes = ResolversObject<{
   FileInfo: FileInfo;
   FilterDetail: FilterDetail;
   FinanceDetails: FinanceDetails;
+  FinanceReference: FinanceReference;
   Float: Scalars['Float'];
   GUID: Scalars['GUID'];
   GeographyPoint: GeographyPoint;
   GeographyPointInput: GeographyPointInput;
+  GlTransaction: GlTransaction;
   HSL: Scalars['HSL'];
   HSLA: Scalars['HSLA'];
   HexColorCode: Scalars['HexColorCode'];
@@ -2466,6 +2494,7 @@ export type ResolversParentTypes = ResolversObject<{
   Query: {};
   RGB: Scalars['RGB'];
   RGBA: Scalars['RGBA'];
+  RevenueRecognition: RevenueRecognition;
   Role: Role;
   RoleAddInput: RoleAddInput;
   RoleDeleteAndReassignInput: RoleDeleteAndReassignInput;
@@ -2623,8 +2652,9 @@ export type AdhocTransactionResolvers<
 > = ResolversObject<{
   amount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   approval?: Resolver<Maybe<ResolversTypes['Approval']>, ParentType, ContextType>;
+  financeReference?: Resolver<Maybe<ResolversTypes['FinanceReference']>, ParentType, ContextType>;
   reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  requestedBy?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
+  requestedBy?: Resolver<Maybe<ResolversTypes['Member']>, ParentType, ContextType>;
   requestedOn?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   transactionReference?: Resolver<Maybe<ResolversTypes['TransactionReference']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -2839,8 +2869,19 @@ export type FinanceDetailsResolvers<
   ContextType = GraphqlContext,
   ParentType extends ResolversParentTypes['FinanceDetails'] = ResolversParentTypes['FinanceDetails'],
 > = ResolversObject<{
+  revenueRecognition?: Resolver<Maybe<ResolversTypes['RevenueRecognition']>, ParentType, ContextType>;
   serviceFee?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   transactions?: Resolver<Maybe<ResolversTypes['Transactions']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type FinanceReferenceResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['FinanceReference'] = ResolversParentTypes['FinanceReference'],
+> = ResolversObject<{
+  completedOn?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  creditGlAccount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  debitGlAccount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -2854,6 +2895,17 @@ export type GeographyPointResolvers<
 > = ResolversObject<{
   latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type GlTransactionResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['GlTransaction'] = ResolversParentTypes['GlTransaction'],
+> = ResolversObject<{
+  amount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  completedOn?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  creditGlAccount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  debitGlAccount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -3543,6 +3595,15 @@ export interface RgbaScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'RGBA';
 }
 
+export type RevenueRecognitionResolvers<
+  ContextType = GraphqlContext,
+  ParentType extends ResolversParentTypes['RevenueRecognition'] = ResolversParentTypes['RevenueRecognition'],
+> = ResolversObject<{
+  decision?: Resolver<Maybe<ResolversTypes['GlTransaction']>, ParentType, ContextType>;
+  submission?: Resolver<Maybe<ResolversTypes['GlTransaction']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type RoleResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Role'] = ResolversParentTypes['Role']> = ResolversObject<{
   community?: Resolver<Maybe<ResolversTypes['Community']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -3834,7 +3895,6 @@ export type StaffUserMutationResultResolvers<
 }>;
 
 export type SubmissionResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Submission'] = ResolversParentTypes['Submission']> = ResolversObject<{
-  adhocTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['AdhocTransaction']>>>, ParentType, ContextType>;
   amount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   transactionReference?: Resolver<Maybe<ResolversTypes['TransactionReference']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -3870,6 +3930,7 @@ export type TransactionsResolvers<
   ContextType = GraphqlContext,
   ParentType extends ResolversParentTypes['Transactions'] = ResolversParentTypes['Transactions'],
 > = ResolversObject<{
+  adhocTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['AdhocTransaction']>>>, ParentType, ContextType>;
   submission?: Resolver<Maybe<ResolversTypes['Submission']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -4041,8 +4102,10 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   FacetDetail?: FacetDetailResolvers<ContextType>;
   FileInfo?: FileInfoResolvers<ContextType>;
   FinanceDetails?: FinanceDetailsResolvers<ContextType>;
+  FinanceReference?: FinanceReferenceResolvers<ContextType>;
   GUID?: GraphQLScalarType;
   GeographyPoint?: GeographyPointResolvers<ContextType>;
+  GlTransaction?: GlTransactionResolvers<ContextType>;
   HSL?: GraphQLScalarType;
   HSLA?: GraphQLScalarType;
   HexColorCode?: GraphQLScalarType;
@@ -4109,6 +4172,7 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   RGB?: GraphQLScalarType;
   RGBA?: GraphQLScalarType;
+  RevenueRecognition?: RevenueRecognitionResolvers<ContextType>;
   Role?: RoleResolvers<ContextType>;
   RoleMutationResult?: RoleMutationResultResolvers<ContextType>;
   RolePermissions?: RolePermissionsResolvers<ContextType>;

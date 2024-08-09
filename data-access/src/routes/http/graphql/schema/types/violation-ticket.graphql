@@ -17,7 +17,6 @@ type ViolationTicket {
   messages: [ViolationTicketV1Message]
   financeDetails: FinanceDetails
   revisionRequest: ViolationTicketV1RevisionRequest
-
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -142,38 +141,59 @@ input ViolationTicketProcessPaymentInput {
 }
 
 type FinanceDetails {
-  serviceFee: Float,
+  serviceFee: Float
   transactions: Transactions
+  revenueRecognition: RevenueRecognition
+}
+
+type RevenueRecognition {
+  submission: GlTransaction
+  decision: GlTransaction
+}
+
+type GlTransaction {
+  debitGlAccount: String
+  creditGlAccount: String
+  amount: Float
+  recognitionDate: DateTime
+  completedOn: DateTime
 }
 
 type Transactions {
   submission: Submission
-}
-
-type Submission {
-  amount: Float,
-  transactionReference: TransactionReference
   adhocTransactions: [AdhocTransaction]
 }
 
-type AdhocTransaction {
-  amount: Float,
-  requestedBy: ObjectID,
-  requestedOn: DateTime,
-  reason: String,
-  approval: Approval,
+type Submission {
+  amount: Float
   transactionReference: TransactionReference
 }
 
+type AdhocTransaction {
+  amount: Float
+  requestedBy: Member
+  requestedOn: DateTime
+  reason: String
+  approval: Approval
+  transactionReference: TransactionReference
+  financeReference: FinanceReference
+}
+
+type FinanceReference {
+  debitGlAccount: String
+  creditGlAccount: String
+  completedOn: DateTime
+}
+
 type Approval {
-  isApplicantApprovalRequired: Boolean,
-  isApplicantApproved: Boolean,
+  isApplicantApprovalRequired: Boolean
+  isApplicantApproved: Boolean
   applicantRespondedAt: DateTime
 }
 
 type TransactionReference {
-  vendor: String,
-  referenceId: String,
+  vendor: String
+  referenceId: String
   completedOn: DateTime
 }
 

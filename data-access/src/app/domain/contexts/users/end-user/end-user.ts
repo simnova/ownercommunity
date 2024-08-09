@@ -1,13 +1,13 @@
-import { UserCreatedEvent } from '../../../events/types/user-created';
+import { EndUserCreatedEvent } from '../../../events/types/end-user-created';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './end-user.value-objects';
 import { EndUserVisa } from './end-user.visa';
-import { EndUserPersonalInformation, EndUserPersonalInformationProps } from './end-user-personal-information';
+import { EndUserPersonalInformation, EndUserPersonalInformationEntityReference, EndUserPersonalInformationProps } from './end-user-personal-information';
 
 export interface EndUserProps extends EntityProps {
-  personalInformation: EndUserPersonalInformationProps;
+  readonly personalInformation: EndUserPersonalInformationProps;
   
   displayName: string;
   externalId:string;
@@ -19,15 +19,20 @@ export interface EndUserProps extends EntityProps {
   readonly schemaVersion: string;
 }
 
-export interface EndUserEntityReference extends Readonly<EndUserProps> {}
+export interface EndUserEntityReference extends Readonly<Omit<EndUserProps, 'personalInformation' >> {
+  readonly personalInformation: EndUserPersonalInformationEntityReference;
+}
 
 export class EndUser<props extends EndUserProps> extends AggregateRoot<props> implements EndUserEntityReference  {
   private isNew: boolean = false;
   private readonly visa: EndUserVisa;
-  constructor(props: props) { super(props); }
+  constructor(props: props, private readonly context: DomainExecutionContext) { 
+    super(props); 
+    this.visa = context.domainVisa.forEndUser(this);
+  }
 
   get id(): string {return this.props.id;}
-  get personalInformation(): EndUserPersonalInformationProps {
+  get personalInformation() {
     return new EndUserPersonalInformation(this.props.personalInformation);
   }
 
@@ -40,29 +45,31 @@ export class EndUser<props extends EndUserProps> extends AggregateRoot<props> im
   get createdAt(): Date {return this.props.createdAt;}
   get schemaVersion(): string {return this.props.schemaVersion;}
 
-  public static getNewUser<props extends EndUserProps> (newProps:props,externalId:string,lastName:string,restOfName?:string): EndUser<props> {
+  public static getNewUser<props extends EndUserProps> (newProps:props,externalId:string,lastName:string, context: DomainExecutionContext, restOfName?:string): EndUser<props> {
     newProps.externalId = externalId;
-    let user = new EndUser(newProps);
+    let user = new EndUser(newProps, context);
+    user.MarkAsNew();
     user.ExternalId=(externalId);
     if (restOfName !== undefined) {
-      user.personalInformation.identityDetails.restOfName=(restOfName);
-      user.personalInformation.identityDetails.legalNameConsistsOfOneName=(false);
+      user.personalInformation.identityDetails.RestOfName=(restOfName);
+      user.personalInformation.identityDetails.LegalNameConsistsOfOneName=(false);
       user.DisplayName=(`${restOfName} ${lastName}`);
     } else {
-      user.personalInformation.identityDetails.legalNameConsistsOfOneName=(true);
+      user.personalInformation.identityDetails.LegalNameConsistsOfOneName=(true);
       user.DisplayName=(lastName);
     }
-    user.personalInformation.identityDetails.lastName=(lastName);
-    user.MarkAsNew();
+    user.personalInformation.identityDetails.LastName=(lastName);
+    user.isNew = false;
     return user;
   }
 
   private MarkAsNew(): void {
-    this.addIntegrationEvent(UserCreatedEvent,{userId: this.props.id});
+    this.isNew = true;
+    this.addIntegrationEvent(EndUserCreatedEvent,{userId: this.props.id});
   }
 
   private validateVisa(): void {
-    if (!this.visa.determineIf((permissions) => permissions.isEditingOwnAccount)) {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isEditingOwnAccount)) {
       throw new Error('Unauthorized');
     }
   }

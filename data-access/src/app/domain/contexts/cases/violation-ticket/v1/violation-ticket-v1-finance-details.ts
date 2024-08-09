@@ -1,13 +1,15 @@
 import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 import { DomainExecutionContext } from '../../../../domain-execution-context';
+import { RevenueRecognition, RevenueRecognitionProps } from './finance-detail-revenue-recognition';
 import { Transactions, TransactionsEntityReference, TransactionsProps } from './violation-ticket-v1-finance-details-transactions';
 
 export interface ViolationTicketV1FinanceDetailProps extends ValueObjectProps {
   serviceFee: number;
   readonly transactions: TransactionsProps
+  readonly revenueRecognition: RevenueRecognitionProps
 }
 
-export interface ViolationTicketV1FinanceDetailEntityReference extends Readonly<Omit<ViolationTicketV1FinanceDetailProps, 'transactions'>> {
+export interface ViolationTicketV1FinanceDetailEntityReference extends Readonly<Omit<ViolationTicketV1FinanceDetailProps, 'transactions' | 'revenueRecognition'>> {
   readonly transactions: TransactionsEntityReference;
 }
 
@@ -28,5 +30,9 @@ export class ViolationTicketV1FinanceDetails extends ValueObject<ViolationTicket
 
   set ServiceFee(serviceFee: number) {
     this.props.serviceFee = serviceFee;
+  }
+
+  get revenueRecognition() {
+    return this.props.revenueRecognition ? new RevenueRecognition(this.props.revenueRecognition, this.context) : undefined;
   }
 }

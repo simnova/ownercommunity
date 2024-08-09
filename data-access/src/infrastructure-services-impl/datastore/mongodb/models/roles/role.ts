@@ -2,9 +2,6 @@ import { Schema, model, Model } from 'mongoose';
 import { Base } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 
 export interface Role extends Base {
-  roleName: string;
-  roleType?: string;
-  isDefault: boolean;
   discriminatorKey: string;
 }
 
@@ -15,12 +12,6 @@ export const roleOptions = {
   // versionKey: 'version',
 };
 
-const RoleSchema = new Schema<Role, Model<Role>, Role>({
-  schemaVersion: { type: String, default: '1.0.0' },
-  roleName: { type: String, required: true, maxlength: 50 },
-  roleType: { type: String, required: false, maxlength: 50 },
-  isDefault: { type: Boolean, required: true, default: false },
-  discriminatorKey: { type: String, required: true, default: 'roleType' },
-}, roleOptions);
+const RoleSchema = new Schema<Role, Model<Role>, Role>({}, roleOptions);
 
 export const RoleModel = model<Role>('Role', RoleSchema);

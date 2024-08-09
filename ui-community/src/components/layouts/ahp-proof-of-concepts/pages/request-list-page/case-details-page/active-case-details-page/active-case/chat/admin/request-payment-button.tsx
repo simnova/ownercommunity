@@ -1,5 +1,5 @@
 import { DollarOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal, Popconfirm } from 'antd';
 import { FC, useState } from 'react';
 
 interface RequestPaymentButtonProps {
@@ -7,7 +7,6 @@ interface RequestPaymentButtonProps {
 }
 export const RequestPaymentButton: FC<RequestPaymentButtonProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [paymentAmount, setPaymentAmount] = useState('');
   const [paymentReason, setPaymentReason] = useState('');
 
@@ -16,40 +15,29 @@ export const RequestPaymentButton: FC<RequestPaymentButtonProps> = (props) => {
   };
 
   const closeModal = () => {
-    setSecondModalOpen(false);
-    props.updateEmbedding(
-      {
-        value: 'requestPayment',
-        message: 'Request Payment',
-        reason: paymentReason,
-        amount: paymentAmount,
-        icon: <DollarOutlined />
-      }
-    );
+    if(paymentAmount === '' || paymentReason === '') {
+      return;
+    }
+    setIsOpen(false);
+    props.updateEmbedding({
+      value: 'requestPayment',
+      message: 'Request Payment',
+      reason: paymentReason,
+      amount: paymentAmount,
+      icon: <DollarOutlined />
+    });
     setPaymentAmount('');
     setPaymentReason('');
   };
 
-  const secondCheck = () => {
-    setSecondModalOpen(true);
-    setIsOpen(false);
-  };
-
   const handleCancel = () => {
     setIsOpen(false);
-    setSecondModalOpen(false);
   };
-
-  const endFooterButton = (
-    <Button onClick={closeModal} type="primary">
-      Create Request
-    </Button>
-  );
 
   return (
     <>
       <Modal title="Request Payment" footer={null} open={isOpen} onCancel={handleCancel}>
-        <Form onFinish={secondCheck}>
+        <Form>
           <Form.Item
             label="Amount"
             name="amount"
@@ -87,18 +75,22 @@ export const RequestPaymentButton: FC<RequestPaymentButtonProps> = (props) => {
             />
           </Form.Item>
           <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button type="primary" htmlType="submit" style={{ marginTop: 10 }}>
-              Create Request
-            </Button>
+            <Popconfirm
+              title="Are you sure?"
+              description="Are you sure you want to request payment for this amount?"
+              onConfirm={closeModal}
+            >
+              <Button type="primary" htmlType="submit" style={{ marginTop: 10 }}>
+                Create Request
+              </Button>
+            </Popconfirm>
           </div>
         </Form>
       </Modal>
-      <Modal title="Request Payment" footer={endFooterButton} open={secondModalOpen} onCancel={handleCancel}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          Are you sure you want to put in a request of ${paymentAmount} for reason "{paymentReason}"?
-        </div>
-      </Modal>
-      <Button style={{ width: '100%', borderRadius: '8px', marginRight: 10, marginBottom: 10, marginTop: 10 }} onClick={openModal}>
+      <Button
+        style={{ width: '100%', borderRadius: '8px', marginRight: 10, marginBottom: 10, marginTop: 10 }}
+        onClick={openModal}
+      >
         <DollarOutlined /> Request Payment
       </Button>
     </>

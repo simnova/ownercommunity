@@ -20,16 +20,17 @@ export const ChatMessage: FC<ChatMessageProps> = (props) => {
     padding: '8px',
     color: 'black',
     borderRadius: '8px',
-    fontWeight: '12px'
+    fontWeight: '12px',
+    whiteSpace: 'pre-wrap'
   };
   const applicantStyles = {
-    // background: '#f6b8a2',
     background: "white",
     margin: '10px 5px',
     padding: '8px',
     color: 'black',
     borderRadius: '8px',
-    fontWeight: '12px'
+    fontWeight: '12px',
+    whiteSpace: 'pre-wrap'
   };
 
   const placeHolderInitials = 'JM';

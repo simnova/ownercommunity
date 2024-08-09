@@ -1,9 +1,9 @@
 import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
-import * as ValueObjects from './custom-view.value-objects';
+import * as ValueObjects from './member-custom-view.value-objects';
 
-export interface CustomViewPropValues extends EntityProps {
+export interface MemberCustomViewProps extends EntityProps {
   name: string;
   type: string;
   filters: string[];
@@ -11,12 +11,10 @@ export interface CustomViewPropValues extends EntityProps {
   columnsToDisplay: string[];
 }
 
-export interface CustomViewProps extends CustomViewPropValues {}
+export interface MemberCustomViewEntityReference extends Readonly<MemberCustomViewProps> {}
 
-export interface CustomViewEntityReference extends Readonly<CustomViewPropValues> {}
-
-export class CustomView extends Entity<CustomViewProps> implements CustomViewEntityReference {
-  constructor(props: CustomViewProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) {
+export class MemberCustomView extends Entity<MemberCustomViewProps> implements MemberCustomViewEntityReference {
+  constructor(props: MemberCustomViewProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) {
     super(props);
   }
 
@@ -47,28 +45,28 @@ export class CustomView extends Entity<CustomViewProps> implements CustomViewEnt
   }
 
   // implementing setters  from TS 5.1
-  set name(name: ValueObjects.CustomViewName) {
+  set Name(name: string) {
     this.validateVisa();
-    this.props.name = name.valueOf();
+    this.props.name = new ValueObjects.CustomViewName(name).valueOf();
   }
 
-  set type(type: ValueObjects.CustomViewType) {
+  set Type(type: string) {
     this.validateVisa();
-    this.props.type = type.valueOf();
+    this.props.type = new ValueObjects.CustomViewType(type).valueOf();
   }
 
-  set order(sortOrder: ValueObjects.CustomViewSortOrder) {
+  set Order(sortOrder: string) {
     this.validateVisa();
-    this.props.sortOrder = sortOrder.valueOf();
+    this.props.sortOrder = new ValueObjects.CustomViewSortOrder(sortOrder).valueOf();
   }
 
-  set filters(filters: ValueObjects.CustomViewFilters) {
+  set Filters(filters: string[]) {
     this.validateVisa();
-    this.props.filters = filters.valueOf();
+    this.props.filters = new ValueObjects.CustomViewFilters(filters).valueOf();
   }
 
-  set columnsToDisplay(columnsToDisplay: ValueObjects.CustomViewColumnsToDisplay) {
+  set ColumnsToDisplay(columnsToDisplay: string[]) {
     this.validateVisa();
-    this.props.columnsToDisplay = columnsToDisplay.valueOf();
+    this.props.columnsToDisplay = new ValueObjects.CustomViewColumnsToDisplay(columnsToDisplay).valueOf();
   }
 }

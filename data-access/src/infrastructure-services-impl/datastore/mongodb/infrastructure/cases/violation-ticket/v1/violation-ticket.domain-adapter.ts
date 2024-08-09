@@ -1,5 +1,5 @@
 import { ActivityDetail, Photo } from '../../../../models/cases/service-ticket';
-import { AdhocTransaction, FinanceDetails, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage, ViolationTicketRevisionRequest, ViolationTicketRevisionRequestedChanges } from '../../../../models/cases/violation-ticket';
+import { AdhocTransaction, FinanceDetails, FinanceReference, GlTransaction, RevenueRecognition, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage, ViolationTicketRevisionRequest, ViolationTicketRevisionRequestedChanges } from '../../../../models/cases/violation-ticket';
 import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -23,6 +23,9 @@ import { SubmissionProps } from '../../../../../../../app/domain/contexts/cases/
 import { TransactionReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-finance-details-transactions-submission-transaction-reference';
 import { ViolationTicketV1RevisionRequestProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-request';
 import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-revision-requested-changes';
+import { RevenueRecognitionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition';
+import { GlTransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition-gl-transaction';
+import { FinanceReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-adhoc-transactions-finance-reference';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -243,6 +246,14 @@ export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
     }
     return new TransactionReferenceDomainAdapter(this.doc.transactionReference);
   }
+
+  get financeReference() {
+    if(!this.doc.financeReference) {
+      this.doc.set('financeReference', {});
+    }
+    return new FinanceReferenceDomainAdapter(this.doc.financeReference);
+  }
+
   get createdAt() {
     return this.doc.createdAt;
   }
@@ -293,6 +304,13 @@ export class FinanceDetailDomainAdapter implements ViolationTicketV1FinanceDetai
     }
     return new TransactionDomainAdapter(this.doc.transactions);
   }
+
+  get revenueRecognition() {
+    if (!this.doc?.revenueRecognition) {
+      this.doc.set('revenueRecognition', {});
+    }
+    return new RevenueRecognitionDomainAdapter(this.doc.revenueRecognition);
+  }
 }
 
 export class TransactionDomainAdapter implements TransactionsProps {
@@ -307,6 +325,50 @@ export class TransactionDomainAdapter implements TransactionsProps {
       this.doc.set('adhocTransactions', []);
     }
     return new MongoosePropArray(this.doc.adhocTransactions, AdhocTransactionDomainAdapter);
+  }
+}
+
+export class RevenueRecognitionDomainAdapter implements RevenueRecognitionProps {
+  constructor(public readonly doc: RevenueRecognition) {}
+
+  get submission() {
+    return new GlTransactionDomainAdapter(this.doc.submission);
+  }
+
+  get decision() {
+    return new GlTransactionDomainAdapter(this.doc.decision);
+  }
+}
+
+export class GlTransactionDomainAdapter implements GlTransactionProps {
+  constructor(public readonly doc: GlTransaction) {}
+
+  get debitGlAccount() {
+    return this.doc.debitGlAccount;
+  }
+  set debitGlAccount(debitGlAccount) {
+    this.doc.debitGlAccount = debitGlAccount;
+  }
+
+  get creditGlAccount() {
+    return this.doc.creditGlAccount;
+  }
+  set creditGlAccount(creditGlAccount) {
+    this.doc.creditGlAccount = creditGlAccount;
+  }
+
+  get amount() {
+    return this.doc.amount;
+  }
+  set amount(amount) {
+    this.doc.amount = amount;
+  }
+
+  get recognitionDate() {
+    return this.doc.recognitionDate;
+  }
+  set recognitionDate(recognitionDate) {
+    this.doc.recognitionDate = recognitionDate;
   }
 }
 
@@ -339,6 +401,30 @@ export class TransactionReferenceDomainAdapter implements TransactionReferencePr
   }
 }
 
+export class FinanceReferenceDomainAdapter implements FinanceReferenceProps {
+  constructor(public readonly doc: FinanceReference) {}
+
+  get debitGlAccount() {
+    return this.doc.debitGlAccount;
+  }
+  set debitGlAccount(debitGlAccount) {
+    this.doc.debitGlAccount = debitGlAccount;
+  }
+
+  get creditGlAccount() {
+    return this.doc.creditGlAccount;
+  }
+  set creditGlAccount(creditGlAccount) {
+    this.doc.creditGlAccount = creditGlAccount;
+  }
+
+  get completedOn() {
+    return this.doc.completedOn;
+  }
+  set completedOn(completedOn) {
+    this.doc.completedOn = completedOn;
+  }
+}
 export class SubmissionDomainAdapter implements SubmissionProps {
   constructor(public readonly doc: Submission) {}
 

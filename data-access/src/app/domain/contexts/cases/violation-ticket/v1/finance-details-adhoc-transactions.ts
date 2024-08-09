@@ -1,6 +1,7 @@
 import { Entity, EntityProps } from "../../../../../../../seedwork/domain-seedwork/entity";
 import { DomainExecutionContext } from "../../../../domain-execution-context";
 import { Member, MemberEntityReference, MemberProps } from "../../../community/member/member";
+import { FinanceReference, FinanceReferenceProps } from "./finance-detail-adhoc-transactions-finance-reference";
 import { TransactionReference, TransactionReferenceProps } from "./violation-ticket-v1-finance-details-transactions-submission-transaction-reference";
 
 export interface AdhocTransactionsPropValues extends EntityProps { 
@@ -15,13 +16,14 @@ export interface AdhocTransactionsPropValues extends EntityProps {
     applicantRespondedAt: Date;
   };
   readonly transactionReference: TransactionReferenceProps;
+  readonly financeReference: FinanceReferenceProps;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface AdhocTransactionsProps extends AdhocTransactionsPropValues {}
 
-export interface AdhocTransactionsEntityReference extends Readonly<Omit<AdhocTransactionsPropValues, 'requestedBy' | 'setRequestedByRef'>> {
+export interface AdhocTransactionsEntityReference extends Readonly<Omit<AdhocTransactionsPropValues, 'requestedBy' | 'setRequestedByRef' | 'transactionReference' | 'financeReference'>> {
   readonly requestedBy: MemberEntityReference;
 }
 
@@ -56,6 +58,10 @@ export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements
 
   get transactionReference(): TransactionReference {
     return new TransactionReference(this.props.transactionReference, this.context);
+  }
+
+  get financeReference(): FinanceReference {
+    return new FinanceReference(this.props.financeReference, this.context);
   }
 
   get createdAt(): Date {

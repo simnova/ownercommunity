@@ -87,32 +87,10 @@ fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationT
     createdAt
     updatedAt
   }
-  paymentTransactions {
-    __typename
-    amountDetails {
-      amount
-      authorizedAmount
-      currency
-    }
-    clientReferenceCode
-    description
-    error {
-      code
-      message
-      timestamp
-    }
-    id
-    isSuccess
-    reconciliationId
-    status
-    successTimestamp
-    transactionId
-    transactionTime
-    type
+  financeDetails {
+    serviceFee
   }
   id
-  penaltyAmount
-  penaltyPaidDate
   createdAt
   updatedAt
 }

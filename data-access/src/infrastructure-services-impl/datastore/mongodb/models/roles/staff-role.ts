@@ -57,6 +57,10 @@ export interface StaffRolePermissions {
 
 export interface StaffRole extends Role {
   permissions: StaffRolePermissions;
+
+  roleName: string;
+  roleType?: string;
+  isDefault: boolean;
 }
 
 export const StaffRoleSchema = new Schema<StaffRole, Model<StaffRole>, StaffRole>(
@@ -89,6 +93,9 @@ export const StaffRoleSchema = new Schema<StaffRole, Model<StaffRole>, StaffRole
         // canEditOwnProperty: { type: Boolean, required: true, default: false },
       },
     },
+    schemaVersion: { type: String, default: '1.0.0' },
+    roleName: { type: String, required: true, maxlength: 50 },
+    isDefault: { type: Boolean, required: true, default: false },
   },
   roleOptions
 ).index({ roleName: 1 }, { unique: true });

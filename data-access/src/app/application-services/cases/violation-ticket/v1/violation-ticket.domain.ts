@@ -2,7 +2,6 @@ import { DomainDataSource } from '../../../../data-sources/domain-data-source';
 import { Member } from '../../../../domain/contexts/community/member/member';
 import { ReadOnlyDomainVisa } from '../../../../domain/domain.visa';
 import { Service } from '../../../../domain/contexts/community/service/service';
-import { TransactionProps } from '../../../../domain/contexts/cases/violation-ticket/v1/transaction';
 import { ViolationTicketV1 } from '../../../../domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { StatusCodes } from '../../../../domain/contexts/cases/violation-ticket/v1/violation-ticket.value-objects';
 import { SentBy, Embedding, Message } from '../../../../domain/contexts/cases/violation-ticket/v1/violation-ticket-v1-message.value-objects';
@@ -16,8 +15,10 @@ import {
   ViolationTicketChangeStatusInput,
   ViolationTicketAddUpdateActivityInput,
   ViolationTicketProcessPaymentInput,
+  AdhocPaymentRequestInput,
 } from '../../../../external-dependencies/graphql-api';
 import { AppContext } from '../../../../init/app-context-builder';
+import { CybersourcePaymentTransactionResponse } from '../../../member/member.payment';
 
 export interface ViolationTicketV1DomainApi {
   violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData>;
@@ -27,7 +28,7 @@ export interface ViolationTicketV1DomainApi {
   violationTicketChangeStatus(input: ViolationTicketChangeStatusInput): Promise<ViolationTicketData>;
   violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput): Promise<ViolationTicketData>;
   violationTicketProcessPayment(input: ViolationTicketProcessPaymentInput): Promise<ViolationTicketData>;
-  // serviceTicketSubmit(input: ServiceTicketSubmitInput): Promise<ServiceTicketData>;
+  violationTicketAdhocPaymentRequest(input: AdhocPaymentRequestInput): Promise<ViolationTicketData>;
 }
 
 type PropType = ViolationTicketV1DomainAdapter;
@@ -86,6 +87,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
 
     await this.withTransaction(async (repo) => {
       let violationTicket = await repo.getById(input.violationTicketId);
+      if(input.penaltyAmount !== null && input.penaltyAmount !== undefined)  {violationTicket.financeDetails.ServiceFee = input.penaltyAmount;}
       let propertyDo = null;
       if (input.propertyId && violationTicket.property.id !== input.propertyId) {
         let property = await this.context.applicationServices.property.dataApi.getPropertyById(input.propertyId);
@@ -96,7 +98,6 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       if (input.title) violationTicket.Title = input.title;
       if (input.description) violationTicket.Description = input.description;
       if (input.priority) violationTicket.Priority = input.priority;
-      if (input.penaltyAmount) violationTicket.PenaltyAmount = input.penaltyAmount;
       if (input.serviceId) {
         violationTicket.Service = serviceDo;
       }
@@ -224,55 +225,53 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
         throw new Error('Payment already received');
       }
 
+      // perform validation for is payment amount is valid
+      if (input.paymentAmount !== violationTicket.financeDetails.serviceFee) {
+        throw new Error('Invalid payment amount');
+      }
+
       // perform validation to check status of ticket
       if (violationTicket.status !== StatusCodes.Assigned) {
         throw new Error('Ticket is not in a valid state to process payment');
       }
 
-      // perform validation for payment amount
-      if (violationTicket.penaltyAmount !== input.paymentAmount) {
-        throw new Error('Invalid payment amount');
-      }
-
       // perform payment processing
-      let transactionDescription: string = 'Payment for violation ticket';
-      let transactionType: string = 'PAYMENT';
-      let transaction = violationTicket.requestAddPaymentTransaction();
-      let clientReferenceCode = transaction.id;
-      const response: TransactionProps = await this.context.applicationServices.member.cybersourceApi.processPayment({
-        id: violationTicket.id,
+      const response: CybersourcePaymentTransactionResponse = await this.context.applicationServices.member.cybersourceApi.processPayment({
+        clientReferenceCode: violationTicket.id,
         paymentInstrumentId: input.paymentInstrumentId,
-        amount: input.paymentAmount,
-        type: transactionType,
-        description: transactionDescription,
-        clientReferenceCode,
+        amount: input.paymentAmount
       });
-
       // update ticket status
-      let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
-      let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
-      violationTicket.requestAddStatusTransition('PAID', 'Paid for violation ticket', memberDo);
-
-      // update ticket transaction details
-      transaction.Amount = response?.amountDetails?.amount;
-      transaction.AuthorizedAmount = response?.amountDetails?.authorizedAmount;
-      transaction.Currency = response?.amountDetails?.currency;
-      transaction.ClientReferenceCode = response?.clientReferenceCode;
-      transaction.Status = response?.status;
-      transaction.TransactionId = response?.transactionId;
-      transaction.ReconciliationId = response?.reconciliationId;
-      transaction.Description = transactionDescription;
-      transaction.Type = transactionType;
-      if (response?.error) {
-        transaction.ErrorCode = response?.error?.code;
-        transaction.ErrorMessage = response?.error?.message;
-        transaction.ErrorTimestamp = response?.error?.timestamp;
+      if(response && response.referenceId) {
+        let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
+        let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+        violationTicket.requestAddStatusTransition('PAID', 'Paid for violation ticket', memberDo);
+        
+        // update ticket transaction details
+        if(response.referenceId) {violationTicket.financeDetails.transactions.submission.transactionReference.ReferenceId = response.referenceId;};
+        violationTicket.financeDetails.transactions.submission.transactionReference.Vendor = response.vendor;
+        if(response.completedOn) {violationTicket.financeDetails.transactions.submission.transactionReference.CompletedOn = response.completedOn;};
+        if(response.authorizedAmount) {violationTicket.financeDetails.transactions.submission.Amount = response.authorizedAmount;};
+      } else {
+        throw new Error('Payment processing failed');
       }
-      transaction.SuccessTimestamp = response?.successTimestamp;
-      transaction.TransactionTime = response?.transactionTime;
-      transaction.IsSuccess = response?.isSuccess;
-      violationTicket.PenaltyPaidDate = new Date();
-      // save the transaction details
+        // save the transaction details
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
+    });
+    return violationTicketToReturn;
+  }
+
+  async violationTicketAdhocPaymentRequest(input: AdhocPaymentRequestInput): Promise<ViolationTicketData> {
+    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
+    let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let violationTicketToReturn : ViolationTicketData;
+    await this.withTransaction(async (repo) => {
+      let violationTicket = await repo.getById(input.violationTicketId);
+      let adhocTransaction = violationTicket.financeDetails.transactions.requestAddNewAdhocTransaction();
+      adhocTransaction.Amount = input.amount;
+      adhocTransaction.RequestedBy = memberDo;
+      adhocTransaction.RequestedOn = new Date();
+      adhocTransaction.Reason = input.reason;
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;

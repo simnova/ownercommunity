@@ -90,7 +90,7 @@ export class EndUserRole<props extends EndUserRoleProps> extends AggregateRoot<p
   }
 
   set isDefault(isDefault: boolean) {
-    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount)) {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('You do not have permission to update this role');
     }
     this.props.isDefault = isDefault;

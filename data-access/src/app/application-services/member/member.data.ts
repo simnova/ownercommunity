@@ -22,7 +22,7 @@ export class MemberDataApiImpl
     return this.findByFields({ community: this.context.community?.id });
   }
   async getMembersByCommunityId(communityId: string): Promise<MemberData[]> {
-    return this.findByFields({ community: communityId });
+    return await this.model.find({ community: communityId }).populate('role').exec();
   }
   async getMembersAssignableToTickets(): Promise<MemberData[]> {
     const communityId = this.context.community?.id;

@@ -285,7 +285,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 {stateMap.get(props.data.violationTicket.status)?.state}
               </Descriptions.Item>
               <Descriptions.Item label="Penalty Amount">
-                {`$ ${props.data.violationTicket.penaltyAmount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                {`$ ${props.data.violationTicket.financeDetails.serviceFee}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </Descriptions.Item>
               {props.data.violationTicket?.penaltyPaidDate && (
                 <Descriptions.Item label="Penalty Paid Date">
@@ -414,7 +414,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 </Form.Item>
                 <div className="flex gap-2">
                   <Form.Item
-                    name={['penaltyAmount']}
+                    name={['financeDetails', 'serviceFee']}
                     label="Penalty Amount"
                     rules={[{ required: true, message: 'Penalty amount is required for Violation Ticket.' }]}
                   >
@@ -576,7 +576,9 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
           />
         </Steps>
       </div>
+      <div>
       <Tabs defaultActiveKey="1" items={items} />
+    </div>
     </>
   );
 };

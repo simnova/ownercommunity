@@ -1,10 +1,9 @@
-import { OpenIdConfigKeyEnum } from "../../../../../seedwork/auth-seedwork-oidc/portal-token-validation";
 import { DomainDataSource } from "../../../data-sources/domain-data-source";
 import { StaffUser } from "../../../domain/contexts/users/staff-user/staff-user";
 import { StaffUserData } from "../../../external-dependencies/datastore";
 import { StaffUserDomainAdapter, StaffUserConverter, StaffUserRepository } from "../../../external-dependencies/domain";
 import { StaffUserUpdateInput } from "../../../external-dependencies/graphql-api";
-import { AppContext } from "../../../init/app-context-builder";
+import { AppContext, OpenIdConfigKeyEnum } from "../../../init/app-context-builder";
 
 export interface StaffUserDomainApi {
   addUser() : Promise<StaffUserData>;

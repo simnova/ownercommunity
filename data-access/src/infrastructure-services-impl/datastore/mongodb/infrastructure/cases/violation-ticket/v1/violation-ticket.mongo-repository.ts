@@ -24,7 +24,7 @@ export class MongoViolationTicketV1Repository<PropType extends ViolationTicketV1
   }
 
   async getById(id: string): Promise<ViolationTicketDO<PropType>> {
-    let member = await this.model.findById(id).populate(['community', 'property', 'requestor', 'assignedTo', 'service', 'penaltyAmount', 'penaltyPaidDate']).exec();
+    let member = await this.model.findById(id).populate(['community', 'property', 'requestor', 'assignedTo', 'service']).exec();
     return this.typeConverter.toDomain(member, this.context);
   }
 }

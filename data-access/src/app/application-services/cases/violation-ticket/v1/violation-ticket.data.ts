@@ -26,39 +26,43 @@ export class ViolationTicketV1DataApiImpl
       .aggregate([
         {
           $match: {
-            assignedTo: new Types.ObjectId(id),
-          },
-        },
-        {
-          $unwind: {
-            path: '$paymentTransactions',
-            preserveNullAndEmptyArrays: false,
-          },
-        },
-        {
-          $replaceRoot: {
-            newRoot: '$paymentTransactions',
-          },
+            $and: [
+              {
+                assignedTo: new Types.ObjectId(id)
+              },
+              {
+                "financeDetails.transactions.submission.amount":
+                  {
+                    $exists: 1
+                  }
+              }
+            ]
+          }
         },
         {
           $project: {
-            transactionId: 1,
-            status: 1,
-            type: 1,
-            description: 1,
-            successTimestamp: 1,
-            isSuccess: 1,
-            amount: '$amountDetails.amount',
-            currency: '$amountDetails.currency',
-          },
+            createdAt: 1,
+            amount:
+              "$financeDetails.transactions.submission.amount",
+            completedOn:
+              "$financeDetails.transactions.submission.transactionReference.completedOn",
+            transactionReferenceId:
+              "$financeDetails.transactions.submission.transactionReference.referenceId"
+          }
         },
         {
           $sort: {
-            successTimestamp: -1,
-          },
-        },
+            completedOn: -1
+          }
+        }
       ])
       .exec();
-    return transactions.map((transaction) => ({ id: transaction._id, ...transaction }));
+
+      const generateDescription = (amount: number) => `Owner community requested $${amount} for violation ticket`;
+      return transactions.map((transaction) => ({
+        id: transaction._id,
+        description: generateDescription(transaction.amount),
+        ...transaction
+      }));
   }
 }

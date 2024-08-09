@@ -33,13 +33,13 @@ export class Account extends Entity<AccountProps> implements AccountEntityRefere
     return this.props.lastName;
   }
   get user(): EndUserEntityReference {
-    return new EndUser(this.props.user);
+    return new EndUser(this.props.user, this.context);
   }
   get statusCode(): string {
     return this.props.statusCode;
   }
   get createdBy(): EndUserEntityReference {
-    return new EndUser(this.props.createdBy);
+    return new EndUser(this.props.createdBy, this.context);
   }
 
   private validateVisa() {

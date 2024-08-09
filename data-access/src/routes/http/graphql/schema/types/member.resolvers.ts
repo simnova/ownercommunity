@@ -2,7 +2,8 @@ import { Resolvers, Member, Community, Role, User, MemberMutationResult } from '
 import { isValidObjectId } from 'mongoose';
 import { applyPermission, applyPermissionFilter, getMemberForCurrentUser } from '../resolver-helper';
 import { Member as MemberDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/member';
-import { CustomerProfile, PaymentTokenInfo } from '../../../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
+import { CustomerProfile, PaymentTokenInfo, PaymentInstrumentInfo } from '../../../../../../seedwork/services-seedwork-payment-cybersource-interfaces';
+import { EndUserRole as EndUserRoleDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/roles/end-user-role';
 
 const MemberMutationResolver = async (getMember: Promise<MemberDo>): Promise<MemberMutationResult> => {
   try {
@@ -28,8 +29,8 @@ const member: Resolvers = {
     role: async (parent, _args, context) => {
       if (parent.role && isValidObjectId(parent.role.id)) {
         const roleToReturn = await context.applicationServices.roles.endUserRole.dataApi.getRoleById(parent.role.id) as Role;
-        return applyPermission<Role>(roleToReturn, (_role) => {
-          return context.passport.datastoreVisa.forEndUserRole(context.member.role).determineIf((permissions) => 
+        return applyPermission<Role>(roleToReturn, (role) => {
+          return context.passport.datastoreVisa.forEndUserRole(role as EndUserRoleDo).determineIf((permissions) => 
             (permissions.canManageRolesAndPermissions && parent.community.toString() === context.member.community.toString()) ||
             parent.id === context.member.id || 
             permissions.isSystemAccount);
@@ -207,6 +208,58 @@ const member: Resolvers = {
         await context.applicationServices.member.cybersourceApi.addPaymentInstrument(paymentInstrumentPayload, paymentTokenInfo);
         return { status: { success: true }, member };
       }
+    },
+    memberUpdatePaymentInstrument: async (_, { input }, context) => {    
+      try {
+        const member = await getMemberForCurrentUser(context);
+        if (!member) {
+          return { status: {success: false, message: 'Invalid member'}, member: null };
+        }
+        const cybersourceCustomerId = member?.cybersourceCustomerId;
+        if (!cybersourceCustomerId){
+          return { status: { success: false, message: 'Invalid customer' }, member: null };
+        }
+        const paymentInstrumentPayload: CustomerProfile = {
+          billingAddressLine1: input.billingAddressLine1,
+          billingAddressLine2: input.billingAddressLine2,
+          billingCity: input.billingCity,
+          billingState: input.billingState,
+          billingEmail: input.billingEmail,
+          billingFirstName: input.billingFirstName,
+          billingLastName: input.billingLastName,
+          billingPhone: input.billingPhone,
+          billingPostalCode: input.billingPostalCode,
+          billingCountry: input.billingCountry,
+          customerId: cybersourceCustomerId,
+        };
+        const getCardType = (cardType: string) => {
+          switch (cardType) {
+            case '001':
+              return "visa";
+            case '002':
+              return "mastercard";
+            case '003':
+              return "american express";
+            case '004':
+              return "discover";
+          }
+        };
+        const paymentInfo: PaymentInstrumentInfo = {
+          id: input.id,
+          paymentInstrumentId: input.paymentInstrumentId,
+          cardExpirationMonth: input.expirationMonth,
+          cardExpirationYear: input.expirationYear,
+          cardType: getCardType(input.cardType)      
+        }
+        const response = await context.applicationServices.member.cybersourceApi.updatePaymentInstrument(paymentInstrumentPayload, paymentInfo);
+        if (response && input.isDefault) {
+          await context.applicationServices.member.cybersourceApi.setDefaultPaymentInstrument(cybersourceCustomerId, paymentInfo.paymentInstrumentId);
+          return { status: {success: true}, member };   
+        }
+        return { status: {success: false, message: 'Payment update failed'}, member };    
+    } catch (error) {
+        return { status: {success: false, errorMessage:error.message}, member: null };
+      };
     },
 
     memberSetDefaultPaymentInstrument: async (_, { paymentInstrumentId }, context) => {

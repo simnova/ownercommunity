@@ -63,7 +63,7 @@ export class DomainVisaImpl implements DomainVisa {
     return new CommunityVisaImplForMember(root,this.member);
   }
   forCommunity(root: CommunityEntityReference): CommunityVisa {
-    return new CommunityVisaImplForCommunity(root,this.member);
+    return new CommunityVisaImplForCommunity(root,this.member, this.user);
   }
   forCurrentCommunity(): CommunityVisa {
     return this.forCommunity(this.community);
@@ -198,7 +198,7 @@ export class SystemDomainVisa implements DomainVisa {
     return {determineIf: (func) => func(this.communityPermissionsForSystem) };
   }
   forEndUserRole(root: EndUserRoleEntityReference): CommunityVisa {
-    return {determineIf:  () => false };
+    return {determineIf:  (func) => func(this.communityPermissionsForSystem) };
   }
   forEndUser(root: EndUserEntityReference): EndUserVisa {
     return {determineIf:  () => false }; 

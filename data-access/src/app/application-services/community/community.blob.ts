@@ -21,7 +21,7 @@ export class CommunityBlobApiImpl
     await this.withStorage(async (passport, blobStorage) => {
       let community = await this.context.applicationServices.community.dataApi.getCommunityById(communityId);
       let communityDO = new CommunityConverter().toDomain(community, { domainVisa: passport.domainVisa });
-      if (!passport.domainVisa.forCommunity(communityDO).determineIf((permissions) => permissions.canManageSiteContent)) {
+      if (!passport.domainVisa.forCommunity(communityDO).determineIf((permissions) => permissions.canManageAllCommunities || permissions.canManageSiteContent)) {
         return;
       }
       try {

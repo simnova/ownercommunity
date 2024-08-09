@@ -1,7 +1,7 @@
+
 import { Cybersource } from "../../../../seedwork/services-seedwork-payment-cybersource";
-import { CustomerPaymentInstrumentsResponse, CustomerPaymentResponse, CustomerProfile, PaymentTokenInfo, PaymentInstrumentInfo, PaymentTransactionResponse, PaymentInstrument as PaymentInstrumentInterface } from "../../../../seedwork/services-seedwork-payment-cybersource-interfaces";
+import { CustomerPaymentInstrumentsResponse, CustomerPaymentResponse, CustomerProfile, PaymentTokenInfo, PaymentInstrumentInfo, PaymentTransactionResponse, PaymentInstrument as PaymentInstrumentInterface, CustomerPaymentInstrumentResponse } from "../../../../seedwork/services-seedwork-payment-cybersource-interfaces";
 import { PaymentDataSource } from "../../data-sources/payment-data-source";
-import { TransactionProps } from "../../domain/contexts/cases/violation-ticket/v1/transaction";
 import { AddPaymentInstrumentInput, PaymentBillingInfo, PaymentInstrument } from "../../external-dependencies/graphql-api";
 import { AppContext } from "../../init/app-context-builder";
 
@@ -12,17 +12,23 @@ export interface PaymentCybersourceApi {
   getPaymentInstruments(customerId: string): Promise<PaymentInstrument[]>
   setDefaultPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>
   deletePaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean>
-  processPayment(processPaymentParams: ProcessPaymentParams): Promise<TransactionProps>
+  processPayment(processPaymentParams: ProcessPaymentParams): Promise<CybersourcePaymentTransactionResponse>
+  updatePaymentInstrument(customerProfile: CustomerProfile, paymentInstrumentInfo: PaymentInstrumentInfo): Promise<boolean> 
 }
 
 export interface ProcessPaymentParams {
-  id: string;
   clientReferenceCode: string;
   paymentInstrumentId: string;
   amount: number;
-  type: string;
-  description: string;
 }
+
+export interface CybersourcePaymentTransactionResponse {
+  authorizedAmount: number;
+  vendor: string;
+  referenceId: string;
+  completedOn: Date;
+}
+
 export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> implements PaymentCybersourceApi {
   public async generatePublicKey(): Promise<string> {
     let key: string = '';
@@ -79,14 +85,6 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
     return response.status === 'AUTHORIZED';
   }
 
-  public async updatePaymentInstrument(customerProfile: CustomerProfile, paymentInstrumentInfo: PaymentInstrumentInfo): Promise<boolean> {
-    let response;
-    await this.withCybersource(async (_passport, cybersource: Cybersource) => {
-      response = await cybersource.updateCustomerPaymentInstrument(customerProfile, paymentInstrumentInfo);
-    });
-    return response.status === 'AUTHORIZED';
-  }
- 
   public async getPaymentInstruments(customerId: string): Promise<PaymentInstrument[]> {
     let response;
     let cyberSourcePaymentInstrumentsResponse: CustomerPaymentInstrumentsResponse;
@@ -110,6 +108,14 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
     return response;
   }
 
+  public async updatePaymentInstrument(customerProfile: CustomerProfile, paymentInstrumentInfo: PaymentInstrumentInfo): Promise<boolean> {
+    let cyberSourcePaymentInstrumentsResponse: CustomerPaymentInstrumentResponse;
+    await this.withCybersource(async (_passport, cybersource: Cybersource) => {
+      cyberSourcePaymentInstrumentsResponse = await cybersource.updateCustomerPaymentInstrument(customerProfile, paymentInstrumentInfo);
+    });
+    return cyberSourcePaymentInstrumentsResponse?.state === 'ACTIVE';
+  }
+
   public async setDefaultPaymentInstrument(customerId: string, paymentInstrumentId: string): Promise<boolean> {
     let response: CustomerPaymentResponse;
     await this.withCybersource(async (_passport, cybersource: Cybersource) => {
@@ -126,41 +132,21 @@ export class PaymentCybersourceApiImpl extends PaymentDataSource<AppContext> imp
     return response;
   }
 
-  public async processPayment(processPaymentParams: ProcessPaymentParams): Promise<TransactionProps> {
+  public async processPayment(processPaymentParams: ProcessPaymentParams): Promise<CybersourcePaymentTransactionResponse> {
     let response: PaymentTransactionResponse = null;
-    let paymentTransaction: TransactionProps = null;
-    let paymentTransactionError: any = null;
-    try {
-      await this.withCybersource(async (_passport, cybersource: Cybersource) => {
-        response = await cybersource.processPayment(processPaymentParams.clientReferenceCode, processPaymentParams.paymentInstrumentId, processPaymentParams.amount);
-      });
-    } catch (error) {
-      paymentTransactionError = error;
-    }
 
-    paymentTransaction = {
-      id: processPaymentParams.id,
-      type: processPaymentParams.type,
-      description: processPaymentParams.description,
-      transactionId: response?.id,
-      status: response?.status,
-      clientReferenceCode: response?.clientReferenceInformation?.code,
-      amountDetails: {
-        amount: parseFloat(response?.orderInformation?.amountDetails?.totalAmount),
+    await this.withCybersource(async (_passport, cybersource: Cybersource) => {
+      response = await cybersource.processPayment(processPaymentParams.clientReferenceCode, processPaymentParams.paymentInstrumentId, processPaymentParams.amount);
+    });
+    if (response?.status === 'APPROVED' || response?.status === 'AUTHORIZED'){
+      return {
         authorizedAmount: parseFloat(response?.orderInformation?.amountDetails?.authorizedAmount),
-        currency: response?.orderInformation?.amountDetails?.currency,
-      },
-      reconciliationId: response?.reconciliationId,
-      isSuccess: response?.status === 'AUTHORIZED',
-      transactionTime: paymentTransactionError ? null : new Date(response?.submitTimeUtc),
-      successTimestamp: new Date(),
-      error: paymentTransactionError ? {
-        code: paymentTransactionError?.code,
-        message: paymentTransactionError?.message,
-        timestamp: new Date(),
-      } : null,
-    };
-
-    return paymentTransaction;
+        vendor: 'Cybersource',
+        referenceId: response?.clientReferenceInformation?.code,
+        completedOn: new Date(),
+      };
+    } else {
+      throw new Error('Payment is declined');
+    }
   }
 }

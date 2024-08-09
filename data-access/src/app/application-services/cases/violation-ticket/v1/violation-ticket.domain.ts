@@ -240,6 +240,9 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
         paymentInstrumentId: input.paymentInstrumentId,
         amount: input.paymentAmount
       });
+      if (!response) {
+        throw new Error('Payment processing failed')
+      }
       // update ticket status
       if(response && response.referenceId) {
         let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);

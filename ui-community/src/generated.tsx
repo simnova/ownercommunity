@@ -164,6 +164,7 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
+/** An AdhocPaymentRequestInput describes adhoc payment request input type. */
 export type AdhocPaymentRequestInput = {
   amount: Scalars['Float'];
   reason: Scalars['String'];
@@ -678,7 +679,7 @@ export type Mutation = {
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
   violationTicketAddUpdateActivity: ViolationTicketMutationResult;
-  violationTicketAdhocPaymentRequest: PaymentRequest;
+  violationTicketAdhocPaymentRequest: ViolationTicketMutationResult;
   violationTicketAssign: ViolationTicketMutationResult;
   violationTicketChangeStatus: ViolationTicketMutationResult;
   violationTicketCreate: ViolationTicketMutationResult;
@@ -987,19 +988,6 @@ export type PaymentInstrument = {
 export type PaymentInstrumentResult = {
   __typename?: 'PaymentInstrumentResult';
   paymentInstruments?: Maybe<Array<Maybe<PaymentInstrument>>>;
-  status: MutationStatus;
-};
-
-export type PaymentRequest = {
-  __typename?: 'PaymentRequest';
-  amount?: Maybe<Scalars['Float']>;
-  paymentRequestId?: Maybe<Scalars['ObjectID']>;
-  reason?: Maybe<Scalars['String']>;
-};
-
-export type PaymentRequestResult = {
-  __typename?: 'PaymentRequestResult';
-  paymentRequest?: Maybe<PaymentRequest>;
   status: MutationStatus;
 };
 

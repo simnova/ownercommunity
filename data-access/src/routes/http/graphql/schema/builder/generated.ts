@@ -166,6 +166,7 @@ export type AddressInput = {
   streetNumber: Scalars['String'];
 };
 
+/** An AdhocPaymentRequestInput describes adhoc payment request input type. */
 export type AdhocPaymentRequestInput = {
   amount: Scalars['Float'];
   reason: Scalars['String'];
@@ -680,7 +681,7 @@ export type Mutation = {
   /** Allows the user to update their profile */
   userUpdate: UserMutationResult;
   violationTicketAddUpdateActivity: ViolationTicketMutationResult;
-  violationTicketAdhocPaymentRequest: PaymentRequest;
+  violationTicketAdhocPaymentRequest: ViolationTicketMutationResult;
   violationTicketAssign: ViolationTicketMutationResult;
   violationTicketChangeStatus: ViolationTicketMutationResult;
   violationTicketCreate: ViolationTicketMutationResult;
@@ -989,19 +990,6 @@ export type PaymentInstrument = {
 export type PaymentInstrumentResult = {
   __typename?: 'PaymentInstrumentResult';
   paymentInstruments?: Maybe<Array<Maybe<PaymentInstrument>>>;
-  status: MutationStatus;
-};
-
-export type PaymentRequest = {
-  __typename?: 'PaymentRequest';
-  amount?: Maybe<Scalars['Float']>;
-  paymentRequestId?: Maybe<Scalars['ObjectID']>;
-  reason?: Maybe<Scalars['String']>;
-};
-
-export type PaymentRequestResult = {
-  __typename?: 'PaymentRequestResult';
-  paymentRequest?: Maybe<PaymentRequest>;
   status: MutationStatus;
 };
 
@@ -2179,8 +2167,6 @@ export type ResolversTypes = ResolversObject<{
   PaymentBillingInfo: ResolverTypeWrapper<PaymentBillingInfo>;
   PaymentInstrument: ResolverTypeWrapper<PaymentInstrument>;
   PaymentInstrumentResult: ResolverTypeWrapper<PaymentInstrumentResult>;
-  PaymentRequest: ResolverTypeWrapper<PaymentRequest>;
-  PaymentRequestResult: ResolverTypeWrapper<PaymentRequestResult>;
   PaymentTransactionsResult: ResolverTypeWrapper<PaymentTransactionsResult>;
   PermissionsInput: PermissionsInput;
   PersonalInformation: ResolverTypeWrapper<PersonalInformation>;
@@ -2448,8 +2434,6 @@ export type ResolversParentTypes = ResolversObject<{
   PaymentBillingInfo: PaymentBillingInfo;
   PaymentInstrument: PaymentInstrument;
   PaymentInstrumentResult: PaymentInstrumentResult;
-  PaymentRequest: PaymentRequest;
-  PaymentRequestResult: PaymentRequestResult;
   PaymentTransactionsResult: PaymentTransactionsResult;
   PermissionsInput: PermissionsInput;
   PersonalInformation: PersonalInformation;
@@ -3201,7 +3185,7 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
     RequireFields<MutationViolationTicketAddUpdateActivityArgs, 'input'>
   >;
   violationTicketAdhocPaymentRequest?: Resolver<
-    ResolversTypes['PaymentRequest'],
+    ResolversTypes['ViolationTicketMutationResult'],
     ParentType,
     ContextType,
     RequireFields<MutationViolationTicketAdhocPaymentRequestArgs, 'input'>
@@ -3325,25 +3309,6 @@ export type PaymentInstrumentResultResolvers<
   ParentType extends ResolversParentTypes['PaymentInstrumentResult'] = ResolversParentTypes['PaymentInstrumentResult'],
 > = ResolversObject<{
   paymentInstruments?: Resolver<Maybe<Array<Maybe<ResolversTypes['PaymentInstrument']>>>, ParentType, ContextType>;
-  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type PaymentRequestResolvers<
-  ContextType = GraphqlContext,
-  ParentType extends ResolversParentTypes['PaymentRequest'] = ResolversParentTypes['PaymentRequest'],
-> = ResolversObject<{
-  amount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  paymentRequestId?: Resolver<Maybe<ResolversTypes['ObjectID']>, ParentType, ContextType>;
-  reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type PaymentRequestResultResolvers<
-  ContextType = GraphqlContext,
-  ParentType extends ResolversParentTypes['PaymentRequestResult'] = ResolversParentTypes['PaymentRequestResult'],
-> = ResolversObject<{
-  paymentRequest?: Resolver<Maybe<ResolversTypes['PaymentRequest']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -4126,8 +4091,6 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   PaymentBillingInfo?: PaymentBillingInfoResolvers<ContextType>;
   PaymentInstrument?: PaymentInstrumentResolvers<ContextType>;
   PaymentInstrumentResult?: PaymentInstrumentResultResolvers<ContextType>;
-  PaymentRequest?: PaymentRequestResolvers<ContextType>;
-  PaymentRequestResult?: PaymentRequestResultResolvers<ContextType>;
   PaymentTransactionsResult?: PaymentTransactionsResultResolvers<ContextType>;
   PersonalInformation?: PersonalInformationResolvers<ContextType>;
   PhoneNumber?: GraphQLScalarType;

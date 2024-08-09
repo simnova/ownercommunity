@@ -15,6 +15,7 @@ import {
   ViolationTicketChangeStatusInput,
   ViolationTicketAddUpdateActivityInput,
   ViolationTicketProcessPaymentInput,
+  AdhocPaymentRequestInput,
 } from '../../../../external-dependencies/graphql-api';
 import { AppContext } from '../../../../init/app-context-builder';
 import { CybersourcePaymentTransactionResponse } from '../../../member/member.payment';
@@ -27,7 +28,7 @@ export interface ViolationTicketV1DomainApi {
   violationTicketChangeStatus(input: ViolationTicketChangeStatusInput): Promise<ViolationTicketData>;
   violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput): Promise<ViolationTicketData>;
   violationTicketProcessPayment(input: ViolationTicketProcessPaymentInput): Promise<ViolationTicketData>;
-  // serviceTicketSubmit(input: ServiceTicketSubmitInput): Promise<ServiceTicketData>;
+  violationTicketAdhocPaymentRequest(input: AdhocPaymentRequestInput): Promise<ViolationTicketData>;
 }
 
 type PropType = ViolationTicketV1DomainAdapter;
@@ -255,6 +256,22 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
         throw new Error('Payment processing failed');
       }
         // save the transaction details
+      violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
+    });
+    return violationTicketToReturn;
+  }
+
+  async violationTicketAdhocPaymentRequest(input: AdhocPaymentRequestInput): Promise<ViolationTicketData> {
+    let member = await this.context.applicationServices.member.dataApi.getMemberById(this.context.member?.id);
+    let memberDo = new MemberConverter().toDomain(member, { domainVisa: ReadOnlyDomainVisa.GetInstance() });
+    let violationTicketToReturn : ViolationTicketData;
+    await this.withTransaction(async (repo) => {
+      let violationTicket = await repo.getById(input.violationTicketId);
+      let adhocTransaction = violationTicket.financeDetails.transactions.requestAddNewAdhocTransaction();
+      adhocTransaction.Amount = input.amount;
+      adhocTransaction.RequestedBy = memberDo;
+      adhocTransaction.RequestedOn = new Date();
+      adhocTransaction.Reason = input.reason;
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;

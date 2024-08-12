@@ -199,10 +199,10 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       let violationTicket = await repo.getById(input.violationTicketId);
       violationTicket.requestAddStatusTransition(input.status, input.activityDescription, memberDo);
       if(input.status === StatusCodes.Closed) {
-        violationTicket.financeDetails.revenueRecognition.decision.Amount = violationTicket.financeDetails.revenueRecognition.submission.amount;
-        violationTicket.financeDetails.revenueRecognition.decision.RecognitionDate = new Date();
-        violationTicket.financeDetails.revenueRecognition.decision.CreditGlAccount = '029-0501-284';
-        violationTicket.financeDetails.revenueRecognition.decision.DebitGlAccount = '000-0100-000';
+        violationTicket.financeDetails.revenueRecognition.recognition.Amount = violationTicket.financeDetails.revenueRecognition.submission.amount;
+        violationTicket.financeDetails.revenueRecognition.recognition.RecognitionDate = new Date();
+        violationTicket.financeDetails.revenueRecognition.recognition.CreditGlAccount = '029-0501-284';
+        violationTicket.financeDetails.revenueRecognition.recognition.DebitGlAccount = '000-0100-000';
       }
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });

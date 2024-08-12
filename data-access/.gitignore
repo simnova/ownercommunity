@@ -23,6 +23,7 @@ project.lock.json
 appsettings.json
 local.settings.json
 
+__blobstorage__
 node_modules
 dist
 

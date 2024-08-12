@@ -7,7 +7,7 @@ import { StaffRoleEntityReference } from './contexts/community/roles/staff-role/
 import { CommunityVisaImplForStaffRole } from './contexts/community/roles/staff-role/community.visa-impl.for-staff-role';
 
 import { EndUserRoleEntityReference } from "./contexts/community/roles/end-user-role/end-user-role";
-import { CommunityVisaImplForEndUserRole } from "./contexts/community/roles/end-user-role/community.visa-impl.for-role";
+import { CommunityVisaImplForEndUserRole } from "./contexts/community/roles/end-user-role/community.visa-impl.for-end-user-role";
 
 import { CommunityEntityReference } from './contexts/community/community/community';
 import { CommunityVisaImplForCommunity } from './contexts/community/community/community.visa-impl.for-community';

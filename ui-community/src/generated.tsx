@@ -417,6 +417,7 @@ export type GlTransaction = {
   completedOn?: Maybe<Scalars['DateTime']>;
   creditGlAccount?: Maybe<Scalars['String']>;
   debitGlAccount?: Maybe<Scalars['String']>;
+  recognitionDate?: Maybe<Scalars['DateTime']>;
 };
 
 export type IdentityDetails = {
@@ -4172,6 +4173,17 @@ export type PaymentRequestFormViolationTicketUpdateMutation = {
     } | null;
     status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
   };
+};
+
+export type PaymentRequestPaymentInstrumentsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type PaymentRequestPaymentInstrumentsQuery = {
+  __typename?: 'Query';
+  memberPaymentInstruments?: {
+    __typename?: 'PaymentInstrumentResult';
+    paymentInstruments?: Array<{ __typename?: 'PaymentInstrument'; id?: string | null } | null> | null;
+    status: { __typename?: 'MutationStatus'; errorMessage?: string | null; success: boolean };
+  } | null;
 };
 
 export type ChatMessagesContainerServiceTicketQueryVariables = Exact<{
@@ -17245,6 +17257,49 @@ export const PaymentRequestFormViolationTicketUpdateDocument = {
   PaymentRequestFormViolationTicketUpdateMutation,
   PaymentRequestFormViolationTicketUpdateMutationVariables
 >;
+export const PaymentRequestPaymentInstrumentsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'PaymentRequestPaymentInstruments' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'memberPaymentInstruments' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentInstruments' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'status' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'errorMessage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'success' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<PaymentRequestPaymentInstrumentsQuery, PaymentRequestPaymentInstrumentsQueryVariables>;
 export const ChatMessagesContainerServiceTicketDocument = {
   kind: 'Document',
   definitions: [

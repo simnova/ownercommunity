@@ -419,6 +419,7 @@ export type GlTransaction = {
   completedOn?: Maybe<Scalars['DateTime']>;
   creditGlAccount?: Maybe<Scalars['String']>;
   debitGlAccount?: Maybe<Scalars['String']>;
+  recognitionDate?: Maybe<Scalars['DateTime']>;
 };
 
 export type IdentityDetails = {
@@ -2906,6 +2907,7 @@ export type GlTransactionResolvers<
   completedOn?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   creditGlAccount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   debitGlAccount?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  recognitionDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

@@ -3,10 +3,12 @@ import Title from 'antd/es/typography/Title';
 import React, { useState } from 'react';
 import {
   PaymentRequestFormServiceTicketUpdateDocument,
-  PaymentRequestFormViolationTicketUpdateDocument
+  PaymentRequestFormViolationTicketUpdateDocument,
+  PaymentRequestPaymentInstrumentsDocument
 } from '../../../../../../../../../../../generated';
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
+import { WalletContainer } from '../../../../../../../../../members/components/wallet.container';
 
 interface PaymentRequestFormProps {
   amount: number;
@@ -29,6 +31,7 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
   const [updateServiceTicket] = useMutation(
     isServiceTicket ? PaymentRequestFormServiceTicketUpdateDocument : PaymentRequestFormViolationTicketUpdateDocument
   );
+  const  { data: paymentInstruments } = useQuery(PaymentRequestPaymentInstrumentsDocument);
 
   const updateMessage = async (succeeded: boolean) => {
     const embeddedData = JSON.stringify({
@@ -123,6 +126,10 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
       );
     }
   } else {
+    const hidden = !(
+      paymentInstruments?.memberPaymentInstruments?.paymentInstruments?.length !== undefined &&
+      paymentInstruments?.memberPaymentInstruments?.paymentInstruments?.length > 0
+    );
     applicantView = (
       <div>
         <Title
@@ -137,12 +144,14 @@ const PaymentRequestForm: React.FC<PaymentRequestFormProps> = (props) => {
         <br></br>
         <br></br>
         Your card will be charged ${props.amount} if you approve this request
-        {/* <BillingInfoContainer data={null} /> */}
+        <WalletContainer data={undefined} />
+        <br></br>
+        <br></br>
         <div style={{ justifyContent: 'space-between', display: 'flex' }}>
           <Button type={'primary'} style={{ marginTop: '15px' }} danger onClick={rejectPayment}>
             Reject
           </Button>
-          <Button type={'primary'} style={{ marginTop: '15px' }} onClick={sendPayment}>
+          <Button type={'primary'} style={{ marginTop: '15px' }} onClick={sendPayment} disabled={hidden}>
             Send ${props.amount}
           </Button>
         </div>

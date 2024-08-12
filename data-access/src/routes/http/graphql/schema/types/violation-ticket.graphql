@@ -213,4 +213,5 @@ input AdhocPaymentRequestInput {
   violationTicketId: ObjectID!
   amount: Float!
   reason: String!
+  isApplicantApprovalRequired: Boolean!
 }

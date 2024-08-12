@@ -29,3 +29,15 @@ mutation PaymentRequestFormViolationTicketUpdate($input: ViolationTicketUpdateIn
     }
   }
 }
+
+query PaymentRequestPaymentInstruments {
+  memberPaymentInstruments {
+    paymentInstruments {
+      id      
+    }
+    status {
+      errorMessage
+      success
+    }
+  }
+}

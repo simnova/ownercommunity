@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 import { CommunityVisa } from "../../community.visa";
 
 export interface StaffRoleViolationTicketPermissionsSpec {
@@ -11,9 +11,9 @@ export interface StaffRoleViolationTicketPermissionsSpec {
   // isSystemAccount: boolean;
 }
 
-export interface StaffRoleViolationTicketPermissionsProps extends StaffRoleViolationTicketPermissionsSpec, EntityProps {}
+export interface StaffRoleViolationTicketPermissionsProps extends StaffRoleViolationTicketPermissionsSpec, ValueObjectProps {}
 
-export class StaffRoleViolationTicketPermissions extends Entity<StaffRoleViolationTicketPermissionsProps> implements StaffRoleViolationTicketPermissionsEntityReference {
+export class StaffRoleViolationTicketPermissions extends ValueObject<StaffRoleViolationTicketPermissionsProps> implements StaffRoleViolationTicketPermissionsEntityReference {
   constructor(props: StaffRoleViolationTicketPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }

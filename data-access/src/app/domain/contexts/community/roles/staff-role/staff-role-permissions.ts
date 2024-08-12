@@ -1,24 +1,29 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 import { StaffRoleCommunityPermissions, StaffRoleCommunityPermissionsEntityReference, StaffRoleCommunityPermissionsProps } from './community-permissions';
 import { CommunityVisa } from "../../community.visa";
-import { StaffRolePropertyPermissions, StaffRolePropertyPermissionsProps } from './property-permissions';
-import { StaffRoleServiceTicketPermissions, StaffRoleServiceTicketPermissionsProps } from './service-ticket-permissions';
-import { StaffRoleServicePermissions, StaffRoleServicePermissionsProps } from './service-permissions';
-import { StaffRoleViolationTicketPermissions, StaffRoleViolationTicketPermissionsProps } from './violation-ticket-permissions';
+import { StaffRolePropertyPermissions, StaffRolePropertyPermissionsEntityReference, StaffRolePropertyPermissionsProps } from './property-permissions';
+import { StaffRoleServiceTicketPermissions, StaffRoleServiceTicketPermissionsEntityReference, StaffRoleServiceTicketPermissionsProps } from './service-ticket-permissions';
+import { StaffRoleServicePermissions, StaffRoleServicePermissionsEntityReference, StaffRoleServicePermissionsProps } from './service-permissions';
+import { StaffRoleViolationTicketPermissions, StaffRoleViolationTicketPermissionsEntityReference, StaffRoleViolationTicketPermissionsProps } from './violation-ticket-permissions';
 
-export interface StaffRolePermissionsProps extends EntityProps {
-  communityPermissions: StaffRoleCommunityPermissionsProps;
-  propertyPermissions: StaffRolePropertyPermissionsProps;
-  serviceTicketPermissions: StaffRoleServiceTicketPermissionsProps;
-  servicePermissions: StaffRoleServicePermissionsProps;
-  violationTicketPermissions: StaffRoleViolationTicketPermissionsProps;
+export interface StaffRolePermissionsProps extends ValueObjectProps {
+  readonly communityPermissions: StaffRoleCommunityPermissionsProps;
+  readonly propertyPermissions: StaffRolePropertyPermissionsProps;
+  readonly serviceTicketPermissions: StaffRoleServiceTicketPermissionsProps;
+  readonly servicePermissions: StaffRoleServicePermissionsProps;
+  readonly violationTicketPermissions: StaffRoleViolationTicketPermissionsProps;
 }
 
-export interface StaffRolePermissionsEntityReference extends Readonly<Omit<StaffRolePermissionsProps, 'communityPermissions'>> {
+export interface StaffRolePermissionsEntityReference extends Readonly<Omit<StaffRolePermissionsProps, 
+  'communityPermissions' | 'propertyPermissions' | 'serviceTicketPermissions' | 'servicePermissions' | 'violationTicketPermissions' >> {
   readonly communityPermissions: StaffRoleCommunityPermissionsEntityReference;
+  readonly propertyPermissions: StaffRolePropertyPermissionsEntityReference;
+  readonly serviceTicketPermissions: StaffRoleServiceTicketPermissionsEntityReference;
+  readonly servicePermissions: StaffRoleServicePermissionsEntityReference;
+  readonly violationTicketPermissions: StaffRoleViolationTicketPermissionsEntityReference;
 }
 
-export class StaffRolePermissions extends Entity<StaffRolePermissionsProps> implements StaffRolePermissionsEntityReference {
+export class StaffRolePermissions extends ValueObject<StaffRolePermissionsProps> implements StaffRolePermissionsEntityReference {
   constructor(props: StaffRolePermissionsProps,private visa:CommunityVisa) { 
     super(props); 
   }

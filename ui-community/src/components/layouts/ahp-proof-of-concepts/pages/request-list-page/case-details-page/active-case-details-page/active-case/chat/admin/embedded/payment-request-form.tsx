@@ -6,7 +6,7 @@ import {
   PaymentRequestFormViolationTicketUpdateDocument,
   PaymentRequestPaymentInstrumentsDocument
 } from '../../../../../../../../../../../generated';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { WalletContainer } from '../../../../../../../../../members/components/wallet.container';
 

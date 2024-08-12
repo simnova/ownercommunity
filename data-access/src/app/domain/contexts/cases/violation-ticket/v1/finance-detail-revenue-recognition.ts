@@ -4,12 +4,12 @@ import { GlTransaction, GlTransactionProps } from './finance-detail-revenue-reco
 
 export interface RevenueRecognitionProps extends ValueObjectProps {
   readonly submission: GlTransactionProps
-  readonly decision: GlTransactionProps
+  readonly recognition: GlTransactionProps
 }
 
-export interface RevenueRecognitionEntityReference extends Readonly<Omit<RevenueRecognitionProps, 'submission' | 'decision'>> {
+export interface RevenueRecognitionEntityReference extends Readonly<Omit<RevenueRecognitionProps, 'submission' | 'recognition'>> {
   readonly submission: GlTransactionProps
-  readonly decision: GlTransactionProps
+  readonly recognition: GlTransactionProps
 }
 
 
@@ -23,7 +23,7 @@ export class RevenueRecognition extends ValueObject<RevenueRecognitionProps> imp
     return this.props.submission ? new GlTransaction(this.props.submission, this.context) : undefined;
   }
 
-  get decision() {
-    return this.props.decision ? new GlTransaction(this.props.decision, this.context) : undefined;
+  get recognition() {
+    return this.props.recognition ? new GlTransaction(this.props.recognition, this.context) : undefined;
   }
 }

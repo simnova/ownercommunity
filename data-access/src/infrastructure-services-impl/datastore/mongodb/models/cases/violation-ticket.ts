@@ -146,9 +146,6 @@ export interface GlTransaction extends NestedPath {
   completedOn?: Date;
 }
 
-export interface Recognition extends NestedPath {
-
-} 
 export interface RevenueRecognition extends NestedPath {
   submission?: GlTransaction,
   recognition?: GlTransaction
@@ -212,8 +209,8 @@ const GlTransactionSchema = new Schema<GlTransaction, Model<GlTransaction>, GlTr
 })
 
 const RevenueRecognitionSchema = new Schema<RevenueRecognition, Model<RevenueRecognition>, RevenueRecognition>({
-  submission: { type: GlTransactionSchema, required: true, _id: false },
-  recognition: { type: GlTransactionSchema, required: true, _id: false },
+  submission: { type: GlTransactionSchema, required: false, _id: false },
+  recognition: { type: GlTransactionSchema, required: false, _id: false },
 })
 
 const FinanceDetailSchema = new Schema<FinanceDetails, Model<FinanceDetails>, FinanceDetails>({

@@ -361,9 +361,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 form={editDraftForm}
                 initialValues={{
                   ...props.data.violationTicket,
-                  penaltyPaidDate: props.data.violationTicket.penaltyPaidDate
-                    ? dayjs(props.data.violationTicket.penaltyPaidDate)
-                    : undefined
                 }}
                 onFinish={async (values) => {
                   setEditDraftFormLoading(true);
@@ -373,8 +370,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                     title: values.title,
                     description: values.description,
                     priority: values.priority,
-                    penaltyAmount: values.penaltyAmount,
-                    penaltyPaidDate: values.penaltyPaidDate ? dayjs(values.penaltyPaidDate).toISOString() : undefined
+                    penaltyAmount: values.financeDetails.serviceFee,
                   });
                   setEditDraftFormLoading(false);
                 }}

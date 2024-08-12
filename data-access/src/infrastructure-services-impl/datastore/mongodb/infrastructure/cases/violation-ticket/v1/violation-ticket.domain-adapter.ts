@@ -332,10 +332,16 @@ export class RevenueRecognitionDomainAdapter implements RevenueRecognitionProps 
   constructor(public readonly doc: RevenueRecognition) {}
 
   get submission() {
+    if(!this.doc.submission) {
+      this.doc.set('submission', {});
+    }
     return new GlTransactionDomainAdapter(this.doc.submission);
   }
 
-  get decision() {
+  get recognition() {
+    if(!this.doc.recognition) {
+      this.doc.set('recognition', {});
+    }
     return new GlTransactionDomainAdapter(this.doc.recognition);
   }
 }

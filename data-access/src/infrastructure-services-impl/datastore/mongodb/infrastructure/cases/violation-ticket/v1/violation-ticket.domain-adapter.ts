@@ -1,5 +1,5 @@
 import { ActivityDetail, Photo } from '../../../../models/cases/service-ticket';
-import { AdhocTransaction, FinanceDetails, FinanceReference, GlTransaction, RevenueRecognition, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage, ViolationTicketRevisionRequest, ViolationTicketRevisionRequestedChanges } from '../../../../models/cases/violation-ticket';
+import { AdhocTransaction, Approval, FinanceDetails, FinanceReference, GlTransaction, RevenueRecognition, Submission, Transaction, TransactionReference, ViolationTicket, ViolationTicketMessage, ViolationTicketRevisionRequest, ViolationTicketRevisionRequestedChanges } from '../../../../models/cases/violation-ticket';
 import { ViolationTicketV1 as ViolationTicketDO, ViolationTicketV1Props } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/violation-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
@@ -26,6 +26,7 @@ import { ViolationTicketV1RevisionRequestedChangesProps } from '../../../../../.
 import { RevenueRecognitionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition';
 import { GlTransactionProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-revenue-recognition-gl-transaction';
 import { FinanceReferenceProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-detail-adhoc-transactions-finance-reference';
+import { ApprovalProps } from '../../../../../../../app/domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions-approval';
 
 export class ViolationTicketV1Converter extends MongoTypeConverter<
   DomainExecutionContext,
@@ -220,6 +221,33 @@ export class PhotoDomainAdapter implements PhotoProps {
   }
 }
 
+export class ApprovalDomainAdapter implements ApprovalProps {
+  constructor(public readonly props: Approval) {}
+
+  get isApplicantApprovalRequired() {
+    return this.props.isApplicantApprovalRequired;
+  }
+
+  set isApplicantApprovalRequired(isApplicantApprovalRequired) {
+    this.props.isApplicantApprovalRequired = isApplicantApprovalRequired;
+  }
+
+  get isApplicantApproved() {
+    return this.props.isApplicantApproved;
+  }
+
+  set isApplicantApproved(isApplicantApproved) {
+    this.props.isApplicantApproved = isApplicantApproved;
+  }
+
+  get applicantRespondedAt() {
+    return this.props.applicantRespondedAt;
+  }
+
+  set applicantRespondedAt(applicantRespondedAt) {
+    this.props.applicantRespondedAt = applicantRespondedAt;
+  }
+}
 export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
   constructor(public readonly doc: AdhocTransaction) {}
 
@@ -238,8 +266,12 @@ export class AdhocTransactionDomainAdapter implements AdhocTransactionsProps {
     return this.doc.reason;
   }
   get approval() {
-    return this.doc.approval;
+    if(!this.doc.approval) {
+      this.doc.set('approval', {});
+    }
+    return new ApprovalDomainAdapter(this.doc.approval);
   }
+
   get transactionReference() {
     if(!this.doc.transactionReference) {
       this.doc.set('transactionReference', {});

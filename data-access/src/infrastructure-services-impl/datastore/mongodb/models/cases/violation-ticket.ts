@@ -118,11 +118,7 @@ export interface AdhocTransaction extends SubdocumentBase {
   requestedBy: PopulatedDoc<Member.Member>;
   requestedOn: Date;
   reason: string;
-  approval: {
-    isApplicantApprovalRequired: boolean;
-    isApplicantApproved: boolean;
-    applicantRespondedAt: Date;
-  };
+  approval: Approval;
   transactionReference?: TransactionReference;
   financeReference?: FinanceReference;
   createdAt: Date;
@@ -175,16 +171,24 @@ const FinanceReference = new Schema<FinanceReference, Model<FinanceReference>, F
   completedOn: { type: Date, required: false },
 });
 
+export interface Approval extends NestedPath {
+  isApplicantApprovalRequired?: boolean;
+  isApplicantApproved?: boolean;
+  applicantRespondedAt?: Date;
+}
+
+const ApprovalSchema = new Schema<Approval, Model<Approval>, Approval>({
+  isApplicantApprovalRequired: { type: Boolean, required: false },
+  isApplicantApproved: { type: Boolean, required: false },
+  applicantRespondedAt: { type: Date, required: false },
+});
+
 const AdhocTransactionSchema = new Schema<AdhocTransaction, Model<AdhocTransaction>, AdhocTransaction>({
   amount: { type: Number, required: true },
   requestedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true },
   requestedOn: { type: Date, required: true },
   reason: { type: String, required: true },
-  approval: {
-    isApplicantApprovalRequired: { type: Boolean, required: false },
-    isApplicantApproved: { type: Boolean, required: false },
-    applicantRespondedAt: { type: Date, required: false },
-  },
+  approval: { type: ApprovalSchema, required: false, _id: false },
   transactionReference: { type: TransactionReferenceSchema, required: false,  _id: false },
   financeReference: { type: FinanceReference, required: false, _id: false },
   _id: { type: Schema.Types.ObjectId, required: true },

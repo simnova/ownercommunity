@@ -282,7 +282,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       adhocTransaction.RequestedBy = memberDo;
       adhocTransaction.RequestedOn = new Date();
       adhocTransaction.Reason = input.reason;
-      adhocTransaction.Approval.isApplicantApprovalRequired = input.isApplicantApprovalRequired;
+      adhocTransaction.approval.IsApplicantApprovalRequired = true;
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;

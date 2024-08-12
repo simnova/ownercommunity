@@ -243,7 +243,7 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
 
       // perform payment processing
       const response: CybersourcePaymentTransactionResponse = await this.context.applicationServices.member.cybersourceApi.processPayment({
-        clientReferenceCode: `955${violationTicket.id}`,
+        clientReferenceCode: violationTicket.id,
         paymentInstrumentId: input.paymentInstrumentId,
         amount: input.paymentAmount
       });

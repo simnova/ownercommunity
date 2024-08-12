@@ -58,9 +58,6 @@ export class EndUserRoleDomainAdapter extends MongooseDomainAdapter<EndUserRole>
 
 class EndUserRolePermissionsAdapter implements EndUserRolePermissionsProps {
   constructor(public readonly props: EndUserRolePermissions) {}
-  public get id() {
-    return this.props.id.valueOf().toString();
-  }
 
   public get communityPermissions() {
     return new EndUserRoleCommunityPermissionsAdapter(this.props.communityPermissions);
@@ -85,9 +82,6 @@ class EndUserRolePermissionsAdapter implements EndUserRolePermissionsProps {
 
 class EndUserRoleCommunityPermissionsAdapter implements EndUserRoleCommunityPermissionsProps {
   constructor(public readonly props: EndUserRoleCommunityPermissions) {}
-  public get id() {
-    return this.props.id.valueOf().toString();
-  }
 
   public get canManageRolesAndPermissions() {
     return this.props.canManageRolesAndPermissions;
@@ -141,9 +135,6 @@ class EndUserRoleCommunityPermissionsAdapter implements EndUserRoleCommunityPerm
 
 class EndUserRolePropertyPermissionsAdapter implements EndUserRolePropertyPermissionsProps {
   constructor(public readonly props: EndUserRolePropertyPermissions) {}
-  public get id() {
-    return this.props.id.valueOf().toString();
-  }
 
   public get canManageProperties() {
     return this.props.canManageProperties;
@@ -169,9 +160,6 @@ class EndUserRolePropertyPermissionsAdapter implements EndUserRolePropertyPermis
 
 class EndUserRoleServicePermissionsAdapter implements EndUserRoleServicePermissionsProps {
   constructor(public readonly props: EndUserRoleServicePermissions) {}
-  public get id() {
-    return this.props.id.valueOf().toString();
-  }
 
   public get canManageServices() {
     return this.props.canManageServices;
@@ -187,9 +175,6 @@ class EndUserRoleServicePermissionsAdapter implements EndUserRoleServicePermissi
 
 class EndUserRoleServiceTicketPermissionsAdapter implements EndUserRoleServiceTicketPermissionsProps {
   constructor(public readonly props: EndUserRoleServiceTicketPermissions) {}
-  public get id() {
-    return this.props.id.valueOf().toString();
-  }
 
   public get canCreateTickets() {
     return this.props.canCreateTickets;
@@ -232,9 +217,6 @@ class EndUserRoleServiceTicketPermissionsAdapter implements EndUserRoleServiceTi
 
 class EndUserRoleAdminTicketPermissionsAdapter implements EndUserRoleViolationTicketPermissionsProps {
   constructor(public readonly props: EndUserRoleViolationTicketPermissions) {}
-  public get id() {
-    return this.props.id.valueOf().toString();
-  }
 
   public get canCreateTickets() {
     return this.props.canCreateTickets;

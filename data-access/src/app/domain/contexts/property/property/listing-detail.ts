@@ -142,7 +142,7 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
 
   set RentHigh(rentHigh: number | null) {
     this.validateVisa();
-    this.props.rentHigh = rentHigh.valueOf();
+    this.props.rentHigh = new ValueObjects.RentHigh(rentHigh).valueOf();
   }
 
   set RentLow(rentLow: number | null) {
@@ -228,7 +228,7 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
 
   set ListingAgentEmail(listingAgentEmail: string | null) {
     this.validateVisa();
-    this.props.listingAgentEmail = new ValueObjects.Email(listingAgentEmail).valueOf();
+    this.props.listingAgentEmail = new ValueObjects.ListingAgentEmail(listingAgentEmail).valueOf();
   }
 
   set ListingAgentWebsite(listingAgentWebsite: string | null) {
@@ -248,7 +248,7 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
 
   set ListingAgentCompanyEmail(listingAgentCompanyEmail: string | null) {
     this.validateVisa();
-    this.props.listingAgentCompanyEmail = new ValueObjects.Email(listingAgentCompanyEmail).valueOf();
+    this.props.listingAgentCompanyEmail = new ValueObjects.ListingAgentCompanyEmail(listingAgentCompanyEmail).valueOf();
   }
 
   set ListingAgentCompanyWebsite(listingAgentCompanyWebsite: string | null) {

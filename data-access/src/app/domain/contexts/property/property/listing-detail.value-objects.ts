@@ -1,5 +1,6 @@
 import { VOString, VOArray, VOFloat, VOInteger, VOOptional } from '@lucaspaganini/value-objects';
 
+import { Email } from '../../value-objects';
 export { Email } from '../../value-objects';
 
 class PriceBase extends VOFloat({ min: 0 }) {}
@@ -42,6 +43,7 @@ export class FloorPlanImages extends VOOptional(FloorPlanImagesBase, [null]) {}
 
 class ListingAgentBase extends VOString({ trim: true, maxLength: 500 }) {}
 export class ListingAgent extends VOOptional(ListingAgentBase, [null]) {}
+export class ListingAgentEmail extends VOOptional(Email, [null]) {}
 class ListingAgentPhoneBase extends VOString({ trim: true, maxLength: 100 }) {}
 export class ListingAgentPhone extends VOOptional(ListingAgentPhoneBase, [null]) {}
 class ListingAgentWebsiteBase extends VOString({ trim: true, maxLength: 1000 }) {}
@@ -49,6 +51,7 @@ export class ListingAgentWebsite extends VOOptional(ListingAgentWebsiteBase, [nu
 
 class ListingAgentCompanyBase extends VOString({ trim: true, maxLength: 500 }) {}
 export class ListingAgentCompany extends VOOptional(ListingAgentCompanyBase, [null]) {}
+export class ListingAgentCompanyEmail extends VOOptional(Email, [null]) {}
 class ListingAgentCompanyPhoneBase extends VOString({ trim: true, maxLength: 100 }) {}
 export class ListingAgentCompanyPhone extends VOOptional(ListingAgentCompanyPhoneBase, [null]) {}
 class ListingAgentCompanyWebsiteBase extends VOString({ trim: true, maxLength: 1000 }) {}

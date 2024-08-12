@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from '@react-pdf/renderer';
+import { Text, StyleSheet } from '@react-pdf/renderer';
 
 interface PdfCredentialDetailsProps {}
 
-export const PdfSignatureReason: React.FC<PdfCredentialDetailsProps> = (props) => {
+export const PdfSignatureReason: React.FC<PdfCredentialDetailsProps> = () => {
   const styles = StyleSheet.create({
     title: {
       textDecoration: 'underline',

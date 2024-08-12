@@ -4,7 +4,7 @@ interface PdfCredentialDetailsProps {
   data: any;
 }
 
-export const PdfSignatureInstructions: React.FC<PdfCredentialDetailsProps> = (props) => {
+export const PdfSignatureInstructions: React.FC<PdfCredentialDetailsProps> = () => {
   const styles = StyleSheet.create({
     text: {
       fontSize: '8px',

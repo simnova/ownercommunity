@@ -1,16 +1,16 @@
 import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
 import { PropertyVisa } from './property.visa';
-import * as ValueObjects from './bedroom-detail.value-objects';
+import * as ValueObjects from './property-listing-detail-bedroom-detail.value-objects';
 
-export interface BedroomDetailProps extends EntityProps {
+export interface PropertyListingDetailBedroomDetailProps extends EntityProps {
   roomName: string;
   bedDescriptions: string[];
 }
 
-export interface BedroomDetailReference extends Readonly<BedroomDetailProps> {}
+export interface PropertyListingDetailBedroomDetailReference extends Readonly<PropertyListingDetailBedroomDetailProps> {}
 
-export class BedroomDetail extends Entity<BedroomDetailProps> implements BedroomDetailReference {
-  constructor(props: BedroomDetailProps, private readonly visa: PropertyVisa) { super(props); }
+export class PropertyListingDetailBedroomDetail extends Entity<PropertyListingDetailBedroomDetailProps> implements PropertyListingDetailBedroomDetailReference {
+  constructor(props: PropertyListingDetailBedroomDetailProps, private readonly visa: PropertyVisa) { super(props); }
 
   get id() {return this.props.id;}
   get roomName() {return this.props.roomName;}

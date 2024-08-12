@@ -1,36 +1,36 @@
 import { CommunityEntityReference, CommunityProps } from "../../../../../app/domain/contexts/community/community/community";
 import { MemberEntityReference, MemberProps } from "../../../../../app/domain/contexts/community/member/member";
 import { DomainExecutionContext } from "../../../../../app/domain/domain-execution-context";
-import { AdditionalAmenityProps } from "../../../../../app/domain/contexts/property/property/additional-amenity";
-import { AddressProps } from "../../../../../app/domain/contexts/property/property/address";
-import { BedroomDetailProps } from "../../../../../app/domain/contexts/property/property/bedroom-detail";
-import { ListingDetailProps } from "../../../../../app/domain/contexts/property/property/listing-detail";
-import { LocationProps } from "../../../../../app/domain/contexts/property/property/location";
-import { PositionProps } from "../../../../../app/domain/contexts/property/property/position";
+import { PropertyListingDetailAdditionalAmenityProps } from "../../../../../app/domain/contexts/property/property/property-listing-detail-additional-amenity";
+import { PropertyLocationAddressProps } from "../../../../../app/domain/contexts/property/property/property-location-address";
+import { PropertyListingDetailBedroomDetailProps } from "../../../../../app/domain/contexts/property/property/property-listing-detail-bedroom-detail";
+import { PropertyListingDetailProps } from "../../../../../app/domain/contexts/property/property/property-listing-detail";
+import { PropertyLocationProps } from "../../../../../app/domain/contexts/property/property/property-location";
+import { PropertyLocationPositionProps } from "../../../../../app/domain/contexts/property/property/property-location-position";
 import { Property, PropertyProps } from "../../../../../app/domain/contexts/property/property/property";
 import { PropertyRepository } from "../../../../../app/domain/contexts/property/property/property.repository";
 import { MemoryBaseAdapter } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryPropArray } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-prop-array";
 import { MemoryRepositoryBase } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
 
-class MemoryAdditionalAmenity extends MemoryBaseAdapter implements AdditionalAmenityProps {
+class MemoryAdditionalAmenity extends MemoryBaseAdapter implements PropertyListingDetailAdditionalAmenityProps {
   category: string;
   amenities: string[];
 }
 
-class MemoryBedroomDetail extends MemoryBaseAdapter implements BedroomDetailProps {
+class MemoryBedroomDetail extends MemoryBaseAdapter implements PropertyListingDetailBedroomDetailProps {
   roomName: string;
   bedDescriptions: string[];
 }
 
-class MemoryListingDetail implements ListingDetailProps {
+class MemoryListingDetail implements PropertyListingDetailProps {
   price: number;
   rentHigh: number;
   rentLow: number;
   lease: number;
   maxGuests: number;
   bedrooms: number;
-  private _bedroomDetails: BedroomDetailProps[] = [];
+  private _bedroomDetails: PropertyListingDetailBedroomDetailProps[] = [];
   get bedroomDetails() {
     return new MemoryPropArray(this._bedroomDetails, MemoryBedroomDetail);
   };
@@ -40,7 +40,7 @@ class MemoryListingDetail implements ListingDetailProps {
   lotSize: number;
   description: string;
   amenities: string[];
-  private _additionalAmenities: AdditionalAmenityProps[] = [];
+  private _additionalAmenities: PropertyListingDetailAdditionalAmenityProps[] = [];
   get additionalAmenities() {
     return new MemoryPropArray(this._additionalAmenities, MemoryAdditionalAmenity);
   };
@@ -59,12 +59,12 @@ class MemoryListingDetail implements ListingDetailProps {
   listingAgentCompanyAddress: string;
 }
 
-class MemoryPosition implements PositionProps {
+class MemoryPosition implements PropertyLocationPositionProps {
   type?: string;
   coordinates?: number[];
 }
 
-class MemoryAddress implements AddressProps {
+class MemoryAddress implements PropertyLocationAddressProps {
     streetNumber: string;
     streetName: string;
     municipality: string;
@@ -85,15 +85,15 @@ class MemoryAddress implements AddressProps {
     crossStreet: string;
 }
 
-class MemoryLocation implements LocationProps {
-  private _position: PositionProps;
+class MemoryLocation implements PropertyLocationProps {
+  private _position: PropertyLocationPositionProps;
   get position() {
     if(!this._position){
       this._position = new MemoryPosition();
     }
     return this._position;
   }
-  private _address: AddressProps;
+  private _address: PropertyLocationAddressProps;
   get address() {
     if(!this._address){
       this._address = new MemoryAddress();
@@ -107,7 +107,7 @@ class MemoryProperty extends MemoryBaseAdapter implements PropertyProps  {
   setCommunityRef(community: CommunityEntityReference) : void {
     this.community = community as CommunityProps;
   };
-  private _location: LocationProps;
+  private _location: PropertyLocationProps;
   get location() {
     if(!this._location){
       this._location = new MemoryLocation();
@@ -124,7 +124,7 @@ class MemoryProperty extends MemoryBaseAdapter implements PropertyProps  {
   listedForRent: boolean;
   listedForLease: boolean;
   listedInDirectory: boolean;
-  private _listingDetail: ListingDetailProps;
+  private _listingDetail: PropertyListingDetailProps;
   get listingDetail() {
     if(!this._listingDetail){
       this._listingDetail = new MemoryListingDetail();

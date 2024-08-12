@@ -3,8 +3,8 @@ import { Community, CommunityEntityReference, CommunityProps } from '../../commu
 import { Member, MemberEntityReference, MemberProps } from '../../community/member/member';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './property.value-objects';
-import { ListingDetails, ListingDetailProps, ListingDetailsEntityReference } from './listing-detail';
-import { Location, LocationEntityReference, LocationProps } from './location';
+import { PropertyListingDetail, PropertyListingDetailProps, PropertyListingDetailEntityReference } from './property-listing-detail';
+import { PropertyLocation, PropertyLocationEntityReference, PropertyLocationProps } from './property-location';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { PropertyVisa } from './property.visa';
 import { PropertyCreatedEvent } from '../../../events/types/property-created';
@@ -14,7 +14,7 @@ import { PropertyUpdatedEvent } from '../../../events/types/property-updated';
 export interface PropertyProps extends EntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
-  readonly location: LocationProps;
+  readonly location: PropertyLocationProps;
   readonly owner: MemberProps | undefined;
   setOwnerRef(owner: MemberEntityReference): void;
   propertyName: string;
@@ -23,7 +23,7 @@ export interface PropertyProps extends EntityProps {
   listedForRent: boolean;
   listedForLease: boolean;
   listedInDirectory: boolean;
-  readonly listingDetail: ListingDetailProps;
+  readonly listingDetail: PropertyListingDetailProps;
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
@@ -38,9 +38,9 @@ export interface PropertyProps extends EntityProps {
 
 export interface PropertyEntityReference extends Readonly<Omit<PropertyProps, 'community' | 'setCommunityRef' | 'location' | 'owner' | 'setOwnerRef' | 'listingDetail'>> {
   readonly community: CommunityEntityReference;
-  readonly location: LocationEntityReference;
+  readonly location: PropertyLocationEntityReference;
   readonly owner: MemberEntityReference;
-  readonly listingDetail: ListingDetailsEntityReference;
+  readonly listingDetail: PropertyListingDetailEntityReference;
 }
 
 export class Property<props extends PropertyProps> extends AggregateRoot<props> implements PropertyEntityReference {
@@ -69,7 +69,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     return new Community(this.props.community, this.context);
   }
   get location() {
-    return new Location(this.props.location, this.visa);
+    return new PropertyLocation(this.props.location, this.visa);
   }
   get owner(): MemberEntityReference | undefined {
     return this.props.owner ? new Member(this.props.owner, this.context) : undefined;
@@ -93,7 +93,7 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     return this.props.listedInDirectory;
   }
   get listingDetail() {
-    return new ListingDetails(this.props.listingDetail, this.visa);
+    return new PropertyListingDetail(this.props.listingDetail, this.visa);
   } //editable
   get createdAt() {
     return this.props.createdAt;

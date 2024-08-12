@@ -2,17 +2,17 @@ import { Property, ListingDetail, BedroomDetail, AdditionalAmenity, Location } f
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
 import { MemberEntityReference } from '../../../../../app/domain/contexts/community/member/member';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
-import { LocationProps } from '../../../../../app/domain/contexts/property/property/location';
+import { PropertyLocationProps } from '../../../../../app/domain/contexts/property/property/property-location';
 import { Property as PropertyDO, PropertyProps } from '../../../../../app/domain/contexts/property/property/property';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { CommunityDomainAdapter } from '../community/community.domain-adapter';
 import { MemberDomainAdapter } from '../member/member.domain-adapter';
-import { ListingDetailProps } from '../../../../../app/domain/contexts/property/property/listing-detail';
-import { BedroomDetailProps } from '../../../../../app/domain/contexts/property/property/bedroom-detail';
-import { AdditionalAmenityProps } from '../../../../../app/domain/contexts/property/property/additional-amenity';
-import { AddressProps } from '../../../../../app/domain/contexts/property/property/address';
-import { PositionProps } from '../../../../../app/domain/contexts/property/property/position';
+import { PropertyListingDetailProps } from '../../../../../app/domain/contexts/property/property/property-listing-detail';
+import { PropertyListingDetailBedroomDetailProps } from '../../../../../app/domain/contexts/property/property/property-listing-detail-bedroom-detail';
+import { PropertyListingDetailAdditionalAmenityProps } from '../../../../../app/domain/contexts/property/property/property-listing-detail-additional-amenity';
+import { PropertyLocationAddressProps } from '../../../../../app/domain/contexts/property/property/property-location-address';
+import { PropertyLocationPositionProps } from '../../../../../app/domain/contexts/property/property/property-location-position';
 
 export class PropertyConverter extends MongoTypeConverter<DomainExecutionContext, Property, PropertyDomainAdapter, PropertyDO<PropertyDomainAdapter>> {
   constructor() {
@@ -132,7 +132,7 @@ export class PropertyDomainAdapter extends MongooseDomainAdapter<Property> imple
   }
 }
 
-export class ListingDetailDomainAdapter implements ListingDetailProps {
+export class ListingDetailDomainAdapter implements PropertyListingDetailProps {
   constructor(public readonly props: ListingDetail) {}
 
   get price() {
@@ -319,7 +319,7 @@ export class ListingDetailDomainAdapter implements ListingDetailProps {
   }
 }
 
-export class BedroomDetailDomainAdapter implements BedroomDetailProps {
+export class BedroomDetailDomainAdapter implements PropertyListingDetailBedroomDetailProps {
   constructor(public readonly props: BedroomDetail) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
@@ -340,7 +340,7 @@ export class BedroomDetailDomainAdapter implements BedroomDetailProps {
   }
 }
 
-export class AdditionalAmenityDomainAdapter implements AdditionalAmenityProps {
+export class AdditionalAmenityDomainAdapter implements PropertyListingDetailAdditionalAmenityProps {
   constructor(public readonly props: AdditionalAmenity) {}
   public get id(): string {
     return this.props.id.valueOf() as string;
@@ -361,7 +361,7 @@ export class AdditionalAmenityDomainAdapter implements AdditionalAmenityProps {
   }
 }
 
-export class LocationDomainAdapter implements LocationProps {
+export class LocationDomainAdapter implements PropertyLocationProps {
   constructor(public readonly props: Location) {}
 
   get position() {
@@ -380,7 +380,7 @@ export class LocationDomainAdapter implements LocationProps {
   }
 }
 
-export class AddressDomainAdapter implements AddressProps {
+export class AddressDomainAdapter implements PropertyLocationAddressProps {
   constructor(public readonly props: Location['address']) {}
 
   get streetNumber(): string {
@@ -510,7 +510,7 @@ export class AddressDomainAdapter implements AddressProps {
   }
 }
 
-export class PositionDomainAdapter implements PositionProps {
+export class PositionDomainAdapter implements PropertyLocationPositionProps {
   constructor(public readonly props: Location['position']) {}
 
   get type(): string {

@@ -1,25 +1,25 @@
 import { ValueObject, ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';
 import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
-import { BedroomDetail, BedroomDetailProps, BedroomDetailReference } from './bedroom-detail';
-import { AdditionalAmenity, AdditionalAmenityProps, AdditionalAmenityReference } from './additional-amenity';
-import * as ValueObjects from './listing-detail.value-objects';
+import { PropertyListingDetailBedroomDetail, PropertyListingDetailBedroomDetailProps, PropertyListingDetailBedroomDetailReference } from './property-listing-detail-bedroom-detail';
+import { PropertyListingDetailAdditionalAmenity, PropertyListingDetailAdditionalAmenityProps, PropertyListingDetailAdditionalAmenityReference } from './property-listing-detail-additional-amenity';
+import * as ValueObjects from './property-listing-detail.value-objects';
 import { PropertyVisa } from './property.visa';
 
-export interface ListingDetailProps extends ValueObjectProps {
+export interface PropertyListingDetailProps extends ValueObjectProps {
   price: number;
   rentHigh: number;
   rentLow: number;
   lease: number;
   maxGuests: number;
   bedrooms: number;
-  readonly bedroomDetails: PropArray<BedroomDetailProps>;
+  readonly bedroomDetails: PropArray<PropertyListingDetailBedroomDetailProps>;
   bathrooms: number;
   squareFeet: number;
   yearBuilt: number;
   lotSize: number;
   description: string;
   amenities: string[];
-  readonly additionalAmenities: PropArray<AdditionalAmenityProps>;
+  readonly additionalAmenities: PropArray<PropertyListingDetailAdditionalAmenityProps>;
   images: string[];
   video: string;
   floorPlan: string;
@@ -35,13 +35,13 @@ export interface ListingDetailProps extends ValueObjectProps {
   listingAgentCompanyAddress: string;
 }
 
-export interface ListingDetailsEntityReference extends Readonly<Omit<ListingDetailProps, 'bedroomDetails' | 'additionalAmenities'>> {
-  bedroomDetails: ReadonlyArray<BedroomDetailReference>;
-  additionalAmenities: ReadonlyArray<AdditionalAmenityReference>;
+export interface PropertyListingDetailEntityReference extends Readonly<Omit<PropertyListingDetailProps, 'bedroomDetails' | 'additionalAmenities'>> {
+  bedroomDetails: ReadonlyArray<PropertyListingDetailBedroomDetailReference>;
+  additionalAmenities: ReadonlyArray<PropertyListingDetailAdditionalAmenityReference>;
 }
 
-export class ListingDetails extends ValueObject<ListingDetailProps> implements ListingDetailsEntityReference {
-  constructor(props: ListingDetailProps, private readonly visa: PropertyVisa) {
+export class PropertyListingDetail extends ValueObject<PropertyListingDetailProps> implements PropertyListingDetailEntityReference {
+  constructor(props: PropertyListingDetailProps, private readonly visa: PropertyVisa) {
     super(props);
   }
 
@@ -63,8 +63,8 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
   get bedrooms() {
     return this.props.bedrooms;
   }
-  get bedroomDetails(): ReadonlyArray<BedroomDetail> {
-    return this.props.bedroomDetails.items.map((bedroomDetail) => new BedroomDetail(bedroomDetail, this.visa));
+  get bedroomDetails(): ReadonlyArray<PropertyListingDetailBedroomDetail> {
+    return this.props.bedroomDetails.items.map((bedroomDetail) => new PropertyListingDetailBedroomDetail(bedroomDetail, this.visa));
   }
   get bathrooms() {
     return this.props.bathrooms;
@@ -84,8 +84,8 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
   get amenities() {
     return this.props.amenities;
   }
-  get additionalAmenities(): ReadonlyArray<AdditionalAmenity> {
-    return this.props.additionalAmenities.items.map((additionalAmenity) => new AdditionalAmenity(additionalAmenity, this.visa));
+  get additionalAmenities(): ReadonlyArray<PropertyListingDetailAdditionalAmenity> {
+    return this.props.additionalAmenities.items.map((additionalAmenity) => new PropertyListingDetailAdditionalAmenity(additionalAmenity, this.visa));
   }
   get images() {
     return this.props.images;
@@ -262,24 +262,24 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
   }
   //
 
-  requestRemoveBedroomDetails(bedroomDetails: BedroomDetail): void {
+  requestRemoveBedroomDetails(bedroomDetails: PropertyListingDetailBedroomDetail): void {
     this.validateVisa();
     this.props.bedroomDetails.removeItem(bedroomDetails.props);
   }
-  requestNewBedroom(): BedroomDetail {
+  requestNewBedroom(): PropertyListingDetailBedroomDetail {
     this.validateVisa();
-    return new BedroomDetail(this.props.bedroomDetails.getNewItem(), this.visa);
+    return new PropertyListingDetailBedroomDetail(this.props.bedroomDetails.getNewItem(), this.visa);
   }
 
-  requestNewAmenity(): AdditionalAmenity {
+  requestNewAmenity(): PropertyListingDetailAdditionalAmenity {
     this.validateVisa();
-    return new AdditionalAmenity(this.props.additionalAmenities.getNewItem(), this.visa);
+    return new PropertyListingDetailAdditionalAmenity(this.props.additionalAmenities.getNewItem(), this.visa);
   }
-  requestRemoveAdditionalAmenity(additionalAmenity: AdditionalAmenity): void {
+  requestRemoveAdditionalAmenity(additionalAmenity: PropertyListingDetailAdditionalAmenity): void {
     this.validateVisa();
     this.props.additionalAmenities.removeItem(additionalAmenity.props);
   }
-  requestAddAdditionalAmenity(additionalAmenity: AdditionalAmenity): void {
+  requestAddAdditionalAmenity(additionalAmenity: PropertyListingDetailAdditionalAmenity): void {
     this.validateVisa();
     this.props.additionalAmenities.addItem(additionalAmenity.props);
   }

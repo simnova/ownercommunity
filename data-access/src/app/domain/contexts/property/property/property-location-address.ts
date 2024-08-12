@@ -1,6 +1,6 @@
 import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
 
-export interface AddressProps extends ValueObjectProps {
+export interface PropertyLocationAddressProps extends ValueObjectProps {
     streetNumber: string;
     streetName: string;
     municipality: string;
@@ -21,10 +21,10 @@ export interface AddressProps extends ValueObjectProps {
     crossStreet: string;
 }
 
-export interface AddressEntityReference extends Readonly<AddressProps> {}
+export interface PropertyLocationAddressEntityReference extends Readonly<PropertyLocationAddressProps> {}
 
-export class Address extends ValueObject<AddressProps> implements AddressEntityReference {
-    constructor(props: AddressProps) {
+export class PropertyLocationAddress extends ValueObject<PropertyLocationAddressProps> implements PropertyLocationAddressEntityReference {
+    constructor(props: PropertyLocationAddressProps) {
         super(props);
     }
 

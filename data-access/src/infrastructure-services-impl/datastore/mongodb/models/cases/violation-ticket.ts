@@ -1,5 +1,5 @@
-import { Schema, Model, Types, PopulatedDoc, model, ObjectId } from 'mongoose';
-import { Base, NestedPath, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { Schema, Model, Types, PopulatedDoc, ObjectId } from 'mongoose';
+import { NestedPath, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as Community from './../community';
 import * as Property from './../property';
 import * as Member from './../member';
@@ -90,7 +90,7 @@ export interface ViolationTicket extends Ticket {
   requestor: PopulatedDoc<Member.Member>;
   assignedTo?: PopulatedDoc<Member.Member>;
   service?: PopulatedDoc<Service.Service>;
-  paymentTransactions?: Types.DocumentArray<Transaction>;
+  financeDetails: FinanceDetails;
   revisionRequest?: ViolationTicketRevisionRequest;
   title: string;
   description: string;
@@ -104,53 +104,123 @@ export interface ViolationTicket extends Ticket {
   hash: string;
   lastIndexed: Date;
   updateIndexFailedDate: Date;
-  penaltyAmount: number;
-  penaltyPaidDate: Date;
 }
 
-export interface Transaction extends SubdocumentBase {
-  transactionId: string;
-  description: string;
-  type: string;
-  clientReferenceCode: string;
-  amountDetails: {
-    amount: number;
-    authorizedAmount: number;
-    currency: string;
-  };
-  status: string;
-  reconciliationId: string;
-  isSuccess: boolean;
-  transactionTime: Date;
-  successTimestamp: Date;
-  error: {
-    code: string;
-    message: string;
-    timestamp: Date;
-  };
+export interface TransactionReference extends NestedPath {
+  vendor: string;
+  referenceId: string;
+  completedOn: Date;
 }
+
+export interface AdhocTransaction extends SubdocumentBase {
+  id: ObjectId;
+  amount: number;
+  requestedBy: PopulatedDoc<Member.Member>;
+  requestedOn: Date;
+  reason: string;
+  approval: {
+    isApplicantApprovalRequired: boolean;
+    isApplicantApproved: boolean;
+    applicantRespondedAt: Date;
+  };
+  transactionReference?: TransactionReference;
+  financeReference?: FinanceReference;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Submission extends NestedPath {
+  amount: number;
+  transactionReference: TransactionReference;
+}
+export interface Transaction extends NestedPath {
+  submission?: Submission;
+  adhocTransactions?: Types.DocumentArray<AdhocTransaction>;
+}
+
+export interface GlTransaction extends NestedPath {
+  debitGlAccount: string;
+  creditGlAccount: string;
+  amount: number;
+  recognitionDate: Date;
+  completedOn?: Date;
+}
+
+export interface Recognition extends NestedPath {
+
+} 
+export interface RevenueRecognition extends NestedPath {
+  submission?: GlTransaction,
+  recognition?: GlTransaction
+}
+
+export interface FinanceDetails extends NestedPath {
+  serviceFee: number;
+  transactions?: Transaction;
+  revenueRecognition?: RevenueRecognition;
+}
+
+export interface FinanceReference extends NestedPath {
+  debitGlAccount: string;
+  creditGlAccount: string;
+  completedOn?: Date;
+}
+
+const TransactionReferenceSchema = new Schema<TransactionReference, Model<TransactionReference>, TransactionReference>({
+  vendor: { type: String, required: false },
+  referenceId: { type: String, required: false },
+  completedOn: { type: Date, required: false },
+});
+
+const FinanceReference = new Schema<FinanceReference, Model<FinanceReference>, FinanceReference>({
+  debitGlAccount: { type: String, required: false },
+  creditGlAccount: { type: String, required: false },
+  completedOn: { type: Date, required: false },
+});
+
+const AdhocTransactionSchema = new Schema<AdhocTransaction, Model<AdhocTransaction>, AdhocTransaction>({
+  amount: { type: Number, required: true },
+  requestedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true },
+  requestedOn: { type: Date, required: true },
+  reason: { type: String, required: true },
+  approval: {
+    isApplicantApprovalRequired: { type: Boolean, required: false },
+    isApplicantApproved: { type: Boolean, required: false },
+    applicantRespondedAt: { type: Date, required: false },
+  },
+  transactionReference: { type: TransactionReferenceSchema, required: false,  _id: false },
+  financeReference: { type: FinanceReference, required: false, _id: false },
+  _id: { type: Schema.Types.ObjectId, required: true },
+}, {timestamps: true});
+
+const SubmissionSchema = new Schema<Submission, Model<Submission>, Submission>({
+  amount: { type: Number, required: false },
+  transactionReference: { type: TransactionReferenceSchema, required: true,  _id: false, default: {} },
+})
 
 const TransactionSchema = new Schema<Transaction, Model<Transaction>, Transaction>({
-  transactionId: { type: String, required: true },
-  transactionTime: { type: Date, required: true },
-  description: { type: String, required: true },
-  type: { type: String, required: true, enum: ['PAYMENT', 'REFUND'] },
-  clientReferenceCode: { type: String, required: true },
-  amountDetails: {
-    amount: { type: String, required: true },
-    authorizedAmount: { type: String, required: true },
-    currency: { type: String, required: true },
-  },
-  status: { type: String, required: true },
-  reconciliationId: { type: String, required: true },
-  isSuccess: { type: Boolean, required: true },
-  successTimestamp: { type: Date, required: false },
-  error: {
-    code: { type: String, required: false },
-    message: { type: String, required: false },
-    timestamp: { type: Date, required: false },
-  },
-});
+  submission : { type: SubmissionSchema, required: false, _id: false, default: {} },
+  adhocTransactions: { type: [AdhocTransactionSchema], required: false },
+})
+
+const GlTransactionSchema = new Schema<GlTransaction, Model<GlTransaction>, GlTransaction>({
+  debitGlAccount: { type: String, required: false },
+  creditGlAccount: { type: String, required: false },
+  amount: { type: Number, required: false },
+  recognitionDate: { type: Date, required: false },
+  completedOn: { type: Date, required: false, default: null },
+})
+
+const RevenueRecognitionSchema = new Schema<RevenueRecognition, Model<RevenueRecognition>, RevenueRecognition>({
+  submission: { type: GlTransactionSchema, required: true, _id: false },
+  recognition: { type: GlTransactionSchema, required: true, _id: false },
+})
+
+const FinanceDetailSchema = new Schema<FinanceDetails, Model<FinanceDetails>, FinanceDetails>({
+  serviceFee: { type: Number, required: true },
+  transactions: { type: TransactionSchema, required: false, _id: false, default: {} },
+  revenueRecognition: {type: RevenueRecognitionSchema, required: false, _id: false, default: {} },
+})
 
 const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>, ViolationTicket>(
   {
@@ -164,8 +234,8 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
     requestor: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true, index: true },
     assignedTo: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: false, index: true },
     service: { type: Schema.Types.ObjectId, ref: Service.ServiceModel.modelName, required: false, index: true },
-    paymentTransactions: { type: [TransactionSchema], required: false, default: [] },
-    revisionRequest: { 
+    financeDetails: { type: FinanceDetailSchema, required: true, _id: false },
+    revisionRequest: {
       type: {
         requestedAt: { type: Date, required: true },
         requestedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true },
@@ -209,14 +279,6 @@ const ViolationTicketSchema = new Schema<ViolationTicket, Model<ViolationTicket>
     hash: { type: String, required: false, maxlength: 100 },
     lastIndexed: { type: Date, required: false },
     updateIndexFailedDate: { type: Date, required: false },
-    penaltyAmount: {
-      type: Number,
-      required: true,
-    },
-    penaltyPaidDate: {
-      type: Date,
-      required: false,
-    },
   },
   ticketOptions
 );

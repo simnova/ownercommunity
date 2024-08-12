@@ -3,6 +3,7 @@ import { StaffUserEntityReference } from './staff-user';
 
 export interface StaffUserPermissionsSpec {
   isEditingOwnAccount?: boolean;
+  isSystemAccount?: boolean;
 }
 
 export interface StaffUserVisa extends Visa{

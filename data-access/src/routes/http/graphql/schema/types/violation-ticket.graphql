@@ -12,14 +12,11 @@ type ViolationTicket {
   status: String!
   priority: Int!
   photos: [ServiceTicketPhoto]
-  penaltyAmount: Float
-  penaltyPaidDate: DateTime
   ticketType: String
   activityLog: [ServiceTicketActivityDetail]
   messages: [ViolationTicketV1Message]
-  paymentTransactions: [Transaction]
+  financeDetails: FinanceDetails
   revisionRequest: ViolationTicketV1RevisionRequest
-
   id: ObjectID!
   schemaVersion: String
   createdAt: DateTime
@@ -114,6 +111,7 @@ extend type Mutation {
   violationTicketChangeStatus(input: ViolationTicketChangeStatusInput!): ViolationTicketMutationResult!
   violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput!): ViolationTicketMutationResult!
   violationTicketProcessPayment(input: ViolationTicketProcessPaymentInput!): ViolationTicketMutationResult!
+  violationTicketAdhocPaymentRequest(input: AdhocPaymentRequestInput!): ViolationTicketMutationResult!
 }
 
 input ViolationTicketDeleteInput {
@@ -142,41 +140,77 @@ input ViolationTicketProcessPaymentInput {
   paymentInstrumentId: String!
 }
 
-type Transaction {
-  id: ObjectID!
-  transactionId: String
-  clientReferenceCode: String
-  amountDetails: AmountDetails
-  status: String
-  type: String
-  description: String
-  reconciliationId: String
-  isSuccess: Boolean
-  transactionTime: DateTime
-  successTimestamp: DateTime
-  error: PaymentTransactionError
+type FinanceDetails {
+  serviceFee: Float
+  transactions: Transactions
+  revenueRecognition: RevenueRecognition
+}
+
+type RevenueRecognition {
+  submission: GlTransaction
+  decision: GlTransaction
+}
+
+type GlTransaction {
+  debitGlAccount: String
+  creditGlAccount: String
+  amount: Float
+  recognitionDate: DateTime
+  completedOn: DateTime
+}
+
+type Transactions {
+  submission: Submission
+  adhocTransactions: [AdhocTransaction]
+}
+
+type Submission {
+  amount: Float
+  transactionReference: TransactionReference
+}
+
+type AdhocTransaction {
+  amount: Float
+  requestedBy: Member
+  requestedOn: DateTime
+  reason: String
+  approval: Approval
+  transactionReference: TransactionReference
+  financeReference: FinanceReference
+}
+
+type FinanceReference {
+  debitGlAccount: String
+  creditGlAccount: String
+  completedOn: DateTime
+}
+
+type Approval {
+  isApplicantApprovalRequired: Boolean
+  isApplicantApproved: Boolean
+  applicantRespondedAt: DateTime
+}
+
+type TransactionReference {
+  vendor: String
+  referenceId: String
+  completedOn: DateTime
 }
 
 type PaymentTransactionsResult {
   id: ObjectID!
-  transactionId: String
+  transactionReferenceId: String
   amount: Float
-  currency: String
-  status: String
-  isSuccess: Boolean
+  completedOn: DateTime
   description: String
-  type: String
-  successTimestamp: DateTime
+  createdAt: DateTime
 }
 
-type AmountDetails {
-  amount: Float
-  authorizedAmount: Float
-  currency: String
-}
-
-type PaymentTransactionError {
-  code: String
-  message: String
-  timestamp: DateTime
+"""
+An AdhocPaymentRequestInput describes adhoc payment request input type.
+"""
+input AdhocPaymentRequestInput {
+  violationTicketId: ObjectID!
+  amount: Float!
+  reason: String!
 }

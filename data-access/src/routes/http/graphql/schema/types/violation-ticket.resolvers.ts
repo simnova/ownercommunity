@@ -1,4 +1,4 @@
-import {Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, ViolationTicket, PaymentTransactionsResult } from '../builder/generated';
+import { Community, Member, Property, Service, Resolvers, ViolationTicketMutationResult, ViolationTicket } from '../builder/generated';
 import { ViolationTicket as ViolationTicketDo } from '../../../../../infrastructure-services-impl/datastore/mongodb/models/cases/violation-ticket';
 import { isValidObjectId } from 'mongoose';
 import { getMemberForCurrentUser } from '../resolver-helper';
@@ -45,19 +45,35 @@ const serviceTicket: Resolvers = {
       return parent.assignedTo;
     },
     service: async (parent, args, context, info) => {
-      if(parent.service && isValidObjectId(parent.service.toString())){
+      if (parent.service && isValidObjectId(parent.service.toString())) {
         return (await context.applicationServices.service.dataApi.getServiceById(parent.service.toString())) as Service;
       }
       return parent.service;
-    }
+    },
   },
   ViolationTicketV1Message: {
     initiatedBy: async (parent, args, context, info) => {
-      if(parent.initiatedBy && isValidObjectId(parent.initiatedBy.toString())){
+      if (parent.initiatedBy && isValidObjectId(parent.initiatedBy.toString())) {
         return (await context.applicationServices.member.dataApi.getMemberById(parent.initiatedBy.toString())) as Member;
       }
       return parent.initiatedBy;
-    }
+    },
+  },
+  AdhocTransaction: {
+    requestedBy: async (parent, args, context, info) => {
+      if (parent.requestedBy && isValidObjectId(parent.requestedBy.toString())) {
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.requestedBy.toString())) as Member;
+      }
+      return parent.requestedBy;
+    },
+  },
+  ViolationTicketV1RevisionRequest: {
+    requestedBy: async (parent, args, context, info) => {
+      if (parent.requestedBy && isValidObjectId(parent.requestedBy.toString())) {
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.requestedBy.toString())) as Member;
+      }
+      return parent.requestedBy;
+    },
   },
   Query: {
     violationTicket: async (_parent, args, context, _info) => {
@@ -65,8 +81,8 @@ const serviceTicket: Resolvers = {
     },
     violationTicketPaymentTransactions: async (_parent, _, context, _info) => {
       const member = await getMemberForCurrentUser(context);
-      return (await context.applicationServices.cases.violationTicket.v1.dataApi.getMemberPaymentTransactions(member.id)) as PaymentTransactionsResult[];
-    }
+      return await context.applicationServices.cases.violationTicket.v1.dataApi.getMemberPaymentTransactions(member.id);
+    },
   },
   Mutation: {
     violationTicketCreate: async (_, { input }, { applicationServices }) => {
@@ -85,11 +101,14 @@ const serviceTicket: Resolvers = {
       return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketChangeStatus(input));
     },
     violationTicketAddUpdateActivity: async (_, { input }, { applicationServices }) => {
-      return  ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketAddUpdateActivity(input));
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketAddUpdateActivity(input));
     },
     violationTicketProcessPayment: async (_, { input }, { applicationServices }) => {
       return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketProcessPayment(input));
-    }
+    },
+    violationTicketAdhocPaymentRequest: async (_, { input }, { applicationServices }) => {
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketAdhocPaymentRequest(input));
+    },
   },
 };
 

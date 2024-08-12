@@ -9,6 +9,7 @@ export interface StaffRoleProps extends EntityProps {
   roleName: string;
   isDefault: boolean;
   permissions: StaffRolePermissionsProps;
+  readonly roleType?: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly schemaVersion: string;
@@ -34,6 +35,9 @@ export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props
   }
   get permissions() {
     return new StaffRolePermissions(this.props.permissions, this.visa);
+  }
+  get roleType() {
+    return this.props.roleType;
   }
   get createdAt() {
     return this.props.createdAt;
@@ -70,7 +74,7 @@ export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props
   }
 
   set isDefault(isDefault: boolean) {
-    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions)) {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('You do not have permission to update this role');
     }
     this.props.isDefault = isDefault;
@@ -78,7 +82,7 @@ export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props
 
   set roleName(roleName: string) {
     console.log('vis..', this.visa);
-    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions)) {
+    if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set role name');
     }
     this.props.roleName = roleName;

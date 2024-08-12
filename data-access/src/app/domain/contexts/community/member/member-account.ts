@@ -2,9 +2,9 @@ import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
-import * as ValueObjects from './account.value-objects';
+import * as ValueObjects from './member-account.value-objects';
 
-export interface AccountPropValues extends EntityProps {
+export interface MemberAccountProps extends EntityProps {
   firstName: string;
   lastName: string;
   user: EndUserProps;
@@ -14,15 +14,13 @@ export interface AccountPropValues extends EntityProps {
   setCreatedByRef: (createdBy: EndUserProps) => void;
 }
 
-export interface AccountProps extends AccountPropValues {}
-
-export interface AccountEntityReference extends Readonly<Omit<AccountPropValues, 'user' | 'setUserRef' | 'createdBy' | 'setCreatedByRef'>> {
+export interface MemberAccountEntityReference extends Readonly<Omit<MemberAccountProps, 'user' | 'setUserRef' | 'createdBy' | 'setCreatedByRef'>> {
   readonly user: EndUserEntityReference;
   readonly createdBy: EndUserEntityReference;
 }
 
-export class Account extends Entity<AccountProps> implements AccountEntityReference {
-  constructor(props: AccountProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) {
+export class MemberAccount extends Entity<MemberAccountProps> implements MemberAccountEntityReference {
+  constructor(props: MemberAccountProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) {
     super(props);
   }
 
@@ -33,13 +31,13 @@ export class Account extends Entity<AccountProps> implements AccountEntityRefere
     return this.props.lastName;
   }
   get user(): EndUserEntityReference {
-    return new EndUser(this.props.user);
+    return new EndUser(this.props.user, this.context);
   }
   get statusCode(): string {
     return this.props.statusCode;
   }
   get createdBy(): EndUserEntityReference {
-    return new EndUser(this.props.createdBy);
+    return new EndUser(this.props.createdBy, this.context);
   }
 
   private validateVisa() {
@@ -53,29 +51,29 @@ export class Account extends Entity<AccountProps> implements AccountEntityRefere
   }
 
   // using ts 5.1 setters
-  set firstName(firstName: ValueObjects.FirstName) {
+  set FirstName(firstName: string) {
     this.validateVisa();
-    this.props.firstName = firstName.valueOf();
+    this.props.firstName = new ValueObjects.FirstName(firstName).valueOf();
   }
 
-  set lastName(lastName: ValueObjects.LastName) {
+  set LastName(lastName: string) {
     this.validateVisa();
-    this.props.lastName = lastName.valueOf();
+    this.props.lastName = new ValueObjects.LastName(lastName).valueOf();
   }
 
-  set user(user: EndUserProps) {
+  set User(user: EndUserProps) {
     this.validateVisa();
     this.props.setUserRef(user);
   }
 
-  set statusCode(statusCode: ValueObjects.AccountStatusCode) {
+  set StatusCode(statusCode: string) {
     if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageMembers)) {
       throw new Error('You do not have permission to update this account');
     }
-    this.props.statusCode = statusCode.valueOf();
+    this.props.statusCode = new ValueObjects.AccountStatusCode(statusCode).valueOf();
   }
 
-  set createdBy(createdBy: EndUserProps) {
+  set CreatedBy(createdBy: EndUserProps) {
     this.validateVisa();
     this.props.setCreatedByRef(createdBy);
   }

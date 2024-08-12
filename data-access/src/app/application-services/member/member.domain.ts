@@ -1,7 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
-import { CustomViewFilters, CustomViewColumnsToDisplay } from "../../domain/contexts/community/member/custom-view.value-objects";
 import { Member } from "../../domain/contexts/community/member/member";
-import { Interests } from "../../domain/contexts/community/member/profile.value-objects";
 import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
 import { MemberData } from "../../external-dependencies/datastore";
 import { MemberDomainAdapter, CommunityConverter, MemberConverter, EndUserRoleConverter, EndUserConverter, MemberRepository } from "../../external-dependencies/domain";
@@ -59,20 +57,20 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
           // add new custom view
           if (!customView.id) {
             let newCustomView = member.requestNewCustomView();
-            newCustomView.name = customView.name;
-            newCustomView.type = customView.type;
-            newCustomView.filters = new CustomViewFilters(customView.filters ?? []);
-            newCustomView.order = customView.sortOrder ?? '';
-            newCustomView.columnsToDisplay = new CustomViewColumnsToDisplay(customView.columnsToDisplay ?? []);
+            newCustomView.Name = customView.name;
+            newCustomView.Type = customView.type;
+            newCustomView.Filters = customView.filters ?? [];
+            newCustomView.Order = customView.sortOrder ?? '';
+            newCustomView.ColumnsToDisplay = customView.columnsToDisplay ?? [];
           } else {
             // update existing custom view
             let systemCustomView = systemCustomViews.find((c) => c.id === customView.id);
             if (systemCustomView === undefined) throw new Error('Custom view not found');
-            systemCustomView.name = customView.name;
-            systemCustomView.type = customView.type;
-            systemCustomView.filters = new CustomViewFilters(customView.filters ?? []);
-            systemCustomView.order = customView.sortOrder ?? '';
-            systemCustomView.columnsToDisplay = new CustomViewColumnsToDisplay(customView.columnsToDisplay ?? []);
+            systemCustomView.Name = customView.name;
+            systemCustomView.Type = customView.type;
+            systemCustomView.Filters = customView.filters ?? [];
+            systemCustomView.Order = customView.sortOrder ?? '';
+            systemCustomView.ColumnsToDisplay = customView.columnsToDisplay ?? [];
           }
         });
         let customViewIds = updatedCustomViews.filter((x) => x.id !== undefined).map((x) => x.id);
@@ -100,10 +98,10 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let account = member.requestNewAccount();
-      account.user = userDo;
-      account.firstName = input.account.firstName;
-      account.lastName = input.account.lastName;
-      account.createdBy = currentUserDo;
+      account.User = (userDo);
+      account.FirstName = (input.account.firstName);
+      account.LastName = (input.account.lastName);
+      account.CreatedBy = (currentUserDo);
       memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;
@@ -114,8 +112,8 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let account = member.accounts.find((a) => a.id === input.accountId);
-      account.firstName = input.firstName;
-      account.lastName = input.lastName;
+      account.FirstName = (input.firstName);
+      if (input.lastName !== undefined) account.LastName = (input.lastName);
       memberToReturn = new MemberConverter().toPersistence(await repo.save(member));
     });
     return memberToReturn;
@@ -151,7 +149,7 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
       profile.Name = input.profile.name;
       profile.Email = input.profile.email;
       profile.Bio = input.profile.bio;
-      profile.Interests = new Interests(input.profile.interests);
+      profile.Interests = input.profile.interests;
       profile.ShowInterests = input.profile.showInterests;
       profile.ShowEmail = input.profile.showEmail;
       profile.ShowLocation = input.profile.showLocation;

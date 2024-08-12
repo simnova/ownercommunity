@@ -14,7 +14,7 @@ import { Photo, PhotoEntityReference, PhotoProps } from '../../service-ticket/v1
 import { ViolationTicketV1DeletedEvent } from '../../../../events/types/violation-ticket-v1-deleted';
 import { ViolationTicketV1UpdatedEvent } from '../../../../events/types/violation-ticket-v1-updated';
 import { ViolationTicketV1CreatedEvent } from '../../../../events/types/violation-ticket-v1-created';
-import { Transaction, TransactionProps } from './transaction';
+import { ViolationTicketV1FinanceDetailEntityReference, ViolationTicketV1FinanceDetailProps, ViolationTicketV1FinanceDetails } from './violation-ticket-v1-finance-details';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
 import { ViolationTicketV1RevisionRequest, ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from './violation-ticket-v1-revision-request';
@@ -30,9 +30,7 @@ export interface ViolationTicketV1Props extends EntityProps {
   setAssignedToRef(assignedTo: MemberEntityReference): void;
   readonly service: ServiceProps;
   setServiceRef(service: ServiceEntityReference): void;
-  penaltyAmount: number;
-  penaltyPaidDate: Date;
-  readonly paymentTransactions: PropArray<TransactionProps>;
+  readonly financeDetails: ViolationTicketV1FinanceDetailProps;
   readonly revisionRequest?: ViolationTicketV1RevisionRequestProps; 
   readonly ticketType?: string;
   title: string;
@@ -69,7 +67,7 @@ export interface ViolationTicketV1EntityReference
       | 'activityLog'
       | 'messages'
       | 'photos'
-      | 'paymentTransactions'
+      | 'financeDetails'
       | 'revisionRequest'
     >
   > {
@@ -82,6 +80,7 @@ export interface ViolationTicketV1EntityReference
   readonly messages: ReadonlyArray<ViolationTicketV1MessageEntityReference>;
   readonly photos: ReadonlyArray<PhotoEntityReference>;
   readonly revisionRequest: ViolationTicketV1RevisionRequestEntityReference;
+  readonly financeDetails: ViolationTicketV1FinanceDetailEntityReference;
 }
 
 export class ViolationTicketV1<props extends ViolationTicketV1Props> extends AggregateRoot<props> implements ViolationTicketV1EntityReference {
@@ -100,8 +99,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     property: PropertyEntityReference,
     requestor: MemberEntityReference,
     context: DomainExecutionContext,
-    penaltyAmount?: number,
-    penaltyPaidDate?: Date
+    penaltyAmount: number
   ): ViolationTicketV1<props> {
     let violationTicket = new ViolationTicketV1(newProps, context);
     violationTicket.MarkAsNew();
@@ -113,12 +111,11 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     violationTicket.Requestor = requestor;
     violationTicket.Status = ValueObjects.StatusCodes.Draft;
     violationTicket.Priority = 5;
-    violationTicket.PenaltyAmount = penaltyAmount;
-    violationTicket.PenaltyPaidDate = penaltyPaidDate;
     let newActivity = violationTicket.requestNewActivityDetail();
     newActivity.ActivityType = ActivityDetailValueObjects.ActivityTypeCodes.Created;
     newActivity.ActivityDescription = 'Created';
     newActivity.ActivityBy = requestor;
+    violationTicket.financeDetails.ServiceFee = penaltyAmount;
     return violationTicket;
   }
 
@@ -142,14 +139,6 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
   }
   get description() {
     return this.props.description;
-  }
-
-  get penaltyAmount() {
-    return this.props.penaltyAmount;
-  }
-
-  get penaltyPaidDate() {
-    return this.props?.penaltyPaidDate;
   }
 
   get ticketType() {
@@ -195,6 +184,10 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
 
   get updateIndexFailedDate() {
     return this.props.updateIndexFailedDate;
+  }
+
+  get financeDetails() {
+    return new ViolationTicketV1FinanceDetails(this.props.financeDetails, this.context);
   }
 
   private readonly validStatusTransitions = new Map<string, string[]>([
@@ -351,21 +344,6 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     this.props.updateIndexFailedDate = updateIndexFailedDate;
   }
 
-  set PenaltyAmount(penaltyAmount: number) {
-    if (
-      !this.isNew &&
-      !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets || (permissions.canCreateTickets && permissions.isEditingOwnTicket))
-    ) {
-      throw new Error('Unauthorized3b');
-    }
-    this.props.penaltyAmount = new ValueObjects.PenaltyAmount(penaltyAmount).valueOf();
-  }
-
-  set PenaltyPaidDate(penaltyPaidDate: Date) {
-    this.props.penaltyPaidDate = penaltyPaidDate;
-  }
-  //
-
   public requestDelete(): void {
     if (!this.isDeleted && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageTickets)) {
       throw new Error('You do not have permission to delete this property');
@@ -383,28 +361,7 @@ export class ViolationTicketV1<props extends ViolationTicketV1Props> extends Agg
     let message = this.props.messages.getNewItem();
     return new ViolationTicketV1Message(message, this.context, this.visa);
   }
-
-  private requestNewPaymentTransaction(): Transaction {
-    let paymentTransaction = this.props.paymentTransactions.getNewItem();
-    return new Transaction(paymentTransaction, this.context, this.visa);
-  }
-
-  public requestAddPaymentTransaction(): Transaction {
-    if (
-      !this.isNew &&
-      !this.visa.determineIf(
-        (permissions) =>
-          permissions.isSystemAccount ||
-          (permissions.canCreateTickets && permissions.isEditingOwnTicket) ||
-          (permissions.canWorkOnTickets && permissions.isEditingAssignedTicket) ||
-          permissions.canManageTickets
-      )
-    ) {
-      throw new Error('Unauthorized');
-    }
-    return this.requestNewPaymentTransaction();
-  }
-
+  
   public requestAddStatusUpdate(description: string, by: MemberEntityReference): void {
     if (
       !this.isNew &&

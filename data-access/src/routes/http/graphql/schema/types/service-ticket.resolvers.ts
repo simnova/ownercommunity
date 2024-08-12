@@ -65,7 +65,15 @@ const serviceTicket: Resolvers = {
         return (await context.applicationServices.member.dataApi.getMemberById(parent.initiatedBy.toString())) as Member;
       }
       return parent.initiatedBy;
-    }
+    },
+  },
+  ServiceTicketV1RevisionRequest: {
+    requestedBy: async (parent, args, context, info) => {
+      if (parent.requestedBy && isValidObjectId(parent.requestedBy.toString())) {
+        return (await context.applicationServices.member.dataApi.getMemberById(parent.requestedBy.toString())) as Member;
+      }
+      return parent.requestedBy;
+    },
   },
   Query: {
     serviceTicket: async (_parent, args, context, _info) => {
@@ -100,6 +108,10 @@ const serviceTicket: Resolvers = {
       const searchResults = await context.applicationServices.cases.serviceTicket.v1.searchApi.serviceTicketsSearch(input, member.id);
       return await context.applicationServices.cases.serviceTicket.v1.searchApi.getServiceTicketsSearchResults(searchResults);
     },
+    serviceTicketReIndex: async (_, _args, context, info) => {
+      const searchResults = await context.applicationServices.cases.serviceTicket.v1.searchApi.reIndexServiceTickets();
+      return await context.applicationServices.cases.serviceTicket.v1.searchApi.getServiceTicketsSearchResults(searchResults);
+    }
   },
   Mutation: {
     serviceTicketCreate: async (_, { input }, { applicationServices }) => {
@@ -123,6 +135,7 @@ const serviceTicket: Resolvers = {
     serviceTicketDelete: async (_, { input }, { applicationServices }) => {
       return ServiceTicketMutationResolver(applicationServices.cases.serviceTicket.v1.domainApi.serviceTicketDelete(input));
     },
+    
   },
 };
 

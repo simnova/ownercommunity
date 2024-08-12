@@ -2,13 +2,10 @@ query MemberTransactions {
   violationTicketPaymentTransactions {
     __typename
     amount
-    currency
     description
     id
-    isSuccess
-    status
-    successTimestamp
-    transactionId
-    type
+    createdAt
+    completedOn
+    transactionReferenceId
   }
 }

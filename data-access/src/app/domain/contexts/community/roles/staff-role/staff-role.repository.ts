@@ -4,4 +4,5 @@ import { Repository } from '../../../../../../../seedwork/domain-seedwork/reposi
 export interface StaffRoleRepository<props extends StaffRoleProps> extends Repository<StaffRole<props>> {
   getNewInstance(name: string): Promise<StaffRole<props>>;
   getById(id: string): Promise<StaffRole<props>>;
+  getByRoleName(roleName: string): Promise<StaffRole<props>>;
 }

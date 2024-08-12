@@ -77,6 +77,7 @@ extend type Mutation {
   memberAddPaymentInstrument(input: AddPaymentInstrumentInput!): MemberMutationResult!
   memberSetDefaultPaymentInstrument(paymentInstrumentId: String!): MutationStatus!
   memberDeletePaymentInstrument(paymentInstrumentId: String!): MutationStatus!
+  memberUpdatePaymentInstrument(input: UpdatePaymentInstrumentInput!): MemberMutationResult!
 }
 
 type MemberMutationResult implements MutationResult {
@@ -198,4 +199,23 @@ input AddPaymentInstrumentInput {
   billingCountry: String!
   paymentToken: String!
   isDefault: Boolean!
+}
+
+input UpdatePaymentInstrumentInput {
+  cardType: String!
+  paymentInstrumentId: String!
+  isDefault: Boolean!
+  expirationYear: String!
+  expirationMonth: String!
+  id: String!
+  billingFirstName: String!
+  billingLastName: String!
+  billingEmail: String!
+  billingPhone: String!
+  billingAddressLine1: String!
+  billingAddressLine2: String
+  billingCity: String!
+  billingState: String!
+  billingPostalCode: String!
+  billingCountry: String!
 }

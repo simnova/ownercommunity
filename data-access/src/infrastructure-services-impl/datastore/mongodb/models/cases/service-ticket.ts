@@ -1,5 +1,5 @@
 import { Schema, Model, PopulatedDoc, ObjectId, Types } from 'mongoose';
-import { NestedPath, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
+import { NestedPath, NestedPathOptions, SubdocumentBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/interfaces/base';
 import * as Community from './../community';
 import * as Property from './../property';
 import * as Member from './../member';
@@ -12,12 +12,26 @@ export interface ServiceTicketRevisionRequestChanges extends NestedPath {
   requestUpdatedProperty: boolean;
 }
 
+export const ServiceTicketRevisionRequestChangesType = {
+  requestUpdatedAssignment: { type: Boolean, required: true },
+  requestUpdatedStatus: { type: Boolean, required: true },
+  requestUpdatedProperty: { type: Boolean, required: true },
+}
+
 export interface ServiceTicketRevisionRequest extends NestedPath {
   requestedAt: Date;
   requestedBy: PopulatedDoc<Member.Member>;
   revisionSummary: string;
   requestedChanges: ServiceTicketRevisionRequestChanges;
   revisionSubmittedAt?: Date;
+}
+
+export const ServiceTicketRevisionRequestType = {
+  requestedAt: { type: Date, required: true },
+  requestedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true },
+  revisionSummary: { type: String, required: true },
+  requestedChanges: { type: ServiceTicketRevisionRequestChangesType, required: true, ...NestedPathOptions },
+  revisionSubmittedAt: {type: Date, required: false}
 }
 
 export interface ActivityDetail extends SubdocumentBase {
@@ -139,20 +153,7 @@ const ServiceTicketSchema = new Schema<ServiceTicket, Model<ServiceTicket>, Serv
       max: 5,
     },
     activityLog: [ActivityDetailSchema],
-    revisionRequest: {
-      type: {
-        requestedAt: { type: Date, required: true },
-        requestedBy: { type: Schema.Types.ObjectId, ref: Member.MemberModel.modelName, required: true },
-        revisionSummary: { type: String, required: true },
-        requestedChanges: {
-          requestUpdatedAssignment: { type: Boolean, required: true },
-          requestUpdatedStatus: { type: Boolean, required: true },
-          requestUpdatedProperty: { type: Boolean, required: true },
-        },
-        revisionSubmittedAt: {type: Date, required: false}
-      },
-      required: false,
-    },
+    revisionRequest: { type: ServiceTicketRevisionRequestType, required: false, ...NestedPathOptions },
     messages: [ServiceTicketMessageSchema],
     photos: [PhotoSchema],
     hash: { type: String, required: false, maxlength: 100 },

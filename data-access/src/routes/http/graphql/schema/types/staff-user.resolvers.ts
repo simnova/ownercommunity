@@ -1,7 +1,16 @@
-import { Resolvers, StaffUser } from '../builder/generated';
+import { isValidObjectId } from 'mongoose';
+import { Resolvers, StaffRole, StaffUser } from '../builder/generated';
 import { cacheControlFromInfo } from '@apollo/cache-control-types';
 
 const staffUser: Resolvers = {
+  StaffUser: {
+    role: async (parent, args, context, info) => {
+      if (parent.role && isValidObjectId(parent.role.toString())) {
+        return (await context.applicationServices.roles.staffRole.dataApi.getRoleById(parent.role.toString())) as StaffRole;
+      }
+      return parent.role;
+    },
+  },
   Query: {
     staffUser: async (parent, args, context, info) => {
       if (context.verifiedUser) {

@@ -16,7 +16,7 @@ export class StaffUserDataApiImpl
   }
 
   async getUserByExternalId(externalId: string): Promise<StaffUserData> {
-    return (await this.findByFields({ externalId: externalId }))[0];
+    return this.model.findOne({ externalId: externalId }).populate('role').exec();
   }
 
   async getUsers(): Promise<StaffUserData[]> {

@@ -42,6 +42,7 @@
     "rc-resize-observer": "^1.2.0",
     "react": "^18.2.0",
     "react-contenteditable": "^3.3.6",
+    "react-credit-cards-2": "^1.0.2",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.5",
     "react-icons": "^5.2.1",

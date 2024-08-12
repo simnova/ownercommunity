@@ -1,10 +1,27 @@
 query MemberPaymentInstruments {
   memberPaymentInstruments {
     paymentInstruments {
+      id
       paymentInstrumentId
       cardNumber
       cardType
       isDefault
+      expirationMonth
+      expirationYear
+      state
+      billTo {
+        __typename
+        billingAddressLine1
+        billingAddressLine2
+        billingCity
+        billingState
+        billingCountry
+        billingEmail
+        billingFirstName
+        billingLastName
+        billingPhone
+        billingPostalCode
+      }
     }
     status {
       errorMessage

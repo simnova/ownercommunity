@@ -1,0 +1,23 @@
+
+query StaffSectionLayoutContainerUserCurrentQuery {
+  staffUserCurrent {
+    ...StaffSectionLayoutContainerUserCurrentQueryFields
+  }
+}
+
+fragment StaffSectionLayoutContainerUserCurrentQueryFields on StaffUser {
+  id
+  displayName
+  role {
+    id
+    permissions {
+      communityPermissions {
+        canManageStaffRolesAndPermissions
+        canManageAllCommunities
+        canDeleteCommunities
+        canChangeCommunityOwner
+        canReIndexSearchCollections
+      }
+    }
+  }
+}

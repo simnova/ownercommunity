@@ -121,4 +121,9 @@ export class MemoryStaffRoleRepository<
       const role = await this.get(id);
       return role;
     }
+
+    async getByRoleName(roleName: string): Promise<StaffRole<PropType>>{
+      const role = (await this.getAll()).find((role) => role.roleType === "staff-roles" && role.roleName === roleName);
+      return role;
+    }
 }

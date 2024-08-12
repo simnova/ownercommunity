@@ -11,6 +11,7 @@ export interface CommunityDataApi {
     getCommunityByHeader(header: string): Promise<CommunityData>;
     userIsAdmin(communityId: string): Promise<boolean>;
     getCommunitiesForCurrentUser(): Promise<CommunityData[]>;
+    getAllCommunities(): Promise<CommunityData[]>;
 }
 
 export class CommunityDataApiImpl
@@ -28,6 +29,9 @@ export class CommunityDataApiImpl
   }
   async getCommunityByDomain(domain: string): Promise<CommunityData> {
     return this.findByFields({ domain: domain })?.[0];
+  }
+  async getAllCommunities(): Promise<CommunityData[]> {
+    return this.findByFields({ });
   }
   async getCommunityByHeader(header: string): Promise<CommunityData> {
     console.log(`getCommunityByHeader`, header);

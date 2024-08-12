@@ -2,14 +2,14 @@ import { Member, Account, Profile, CustomView } from '../../models/member';
 import { Member as MemberDO, MemberProps } from '../../../../../app/domain/contexts/community/member/member';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { AccountProps } from '../../../../../app/domain/contexts/community/member/account';
+import { MemberAccountProps } from '../../../../../app/domain/contexts/community/member/member-account';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from '../community/community.domain-adapter';
 import { EndUserRoleDomainAdapter } from '../roles/end-user-role/end-user-role.domain-adapter';
 import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
 import { EndUserRoleEntityReference } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
-import { ProfileProps } from '../../../../../app/domain/contexts/community/member/profile';
-import { CustomViewProps } from '../../../../../app/domain/contexts/community/member/custom-view';
+import { MemberProfileProps } from '../../../../../app/domain/contexts/community/member/member-profile';
+import { MemberCustomViewProps } from '../../../../../app/domain/contexts/community/member/member-custom-view';
 import { EndUserEntityReference } from '../../../../../app/domain/contexts/users/end-user/end-user';
 import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
 
@@ -71,7 +71,7 @@ export class MemberDomainAdapter extends MongooseDomainAdapter<Member> implement
   }
 }
 
-export class AccountDomainAdapter implements AccountProps {
+export class AccountDomainAdapter implements MemberAccountProps {
   constructor(public readonly doc: Account) {}
   public get id(): string {
     return this.doc.id.valueOf() as string;
@@ -119,7 +119,7 @@ export class AccountDomainAdapter implements AccountProps {
   }
 }
 
-export class CustomViewDomainAdapter implements CustomViewProps {
+export class CustomViewDomainAdapter implements MemberCustomViewProps {
   constructor(public readonly doc: CustomView) {}
   public get id(): string {
     return this.doc.id.valueOf() as string;
@@ -161,7 +161,7 @@ export class CustomViewDomainAdapter implements CustomViewProps {
   }
 }
 
-export class ProfileDomainAdapter implements ProfileProps {
+export class ProfileDomainAdapter implements MemberProfileProps {
   constructor(public readonly props: Profile) {}
 
   get name() {

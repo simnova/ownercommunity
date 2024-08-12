@@ -8,11 +8,11 @@ import { CommunityProps } from '../../../../../../app/domain/contexts/community/
 import { CommunityDomainAdapter } from '../../community/community.domain-adapter';
 import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
 import { EndUserRolePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-permissions';
-import { EndUserRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/community-permissions';
-import { EndUserRolePropertyPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/property-permissions';
-import { EndUserRoleServicePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/service-permissions';
-import { EndUserRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/service-ticket-permissions';
-import { EndUserRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/violation-ticket-permissions';
+import { EndUserRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-community-permissions';
+import { EndUserRolePropertyPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-property-permissions';
+import { EndUserRoleServicePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-service-permissions';
+import { EndUserRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-service-ticket-permissions';
+import { EndUserRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-violation-ticket-permissions';
 
 
 export class EndUserRoleConverter extends MongoTypeConverter<DomainExecutionContext, EndUserRole, EndUserRoleDomainAdapter, EndUserRoleDO<EndUserRoleDomainAdapter>> {

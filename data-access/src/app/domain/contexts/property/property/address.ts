@@ -1,5 +1,4 @@
 import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
-import { PropertyVisa } from "./property.visa";
 
 export interface AddressProps extends ValueObjectProps {
     streetNumber: string;
@@ -25,7 +24,7 @@ export interface AddressProps extends ValueObjectProps {
 export interface AddressEntityReference extends Readonly<AddressProps> {}
 
 export class Address extends ValueObject<AddressProps> implements AddressEntityReference {
-    constructor(props: AddressProps, private readonly visa: PropertyVisa) {
+    constructor(props: AddressProps) {
         super(props);
     }
 
@@ -100,15 +99,6 @@ export class Address extends ValueObject<AddressProps> implements AddressEntityR
     get crossStreet() {
         return this.props.crossStreet;
     }
-
-    private validateVisa(){
-        if(!this.visa.determineIf((permissions) => 
-          permissions.canManageProperties ||
-          (permissions.canEditOwnProperty && permissions.isEditingOwnProperty))) {
-          throw new Error('You do not have permission to update this listing');
-        }
-      }
-
     
 }
 

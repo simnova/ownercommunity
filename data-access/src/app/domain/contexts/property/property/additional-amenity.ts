@@ -29,13 +29,13 @@ export class AdditionalAmenity extends Entity<AdditionalAmenityProps> implements
 
   // using set from TS 5.1
 
-  set Category(category: ValueObjects.Category) {
+  set Category(category: string) {
     this.validateVisa();
-    this.props.category = category.valueOf();
+    this.props.category = new ValueObjects.Category(category).valueOf();
   }
 
-  set Amenities(amenities: ValueObjects.Amenities) {
+  set Amenities(amenities: string[]) {
     this.validateVisa();
-    this.props.amenities = amenities.valueOf();
+    this.props.amenities = new ValueObjects.Amenities(amenities).valueOf();
   }
 }

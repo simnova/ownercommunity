@@ -1,5 +1,4 @@
 import { ValueObject, ValueObjectProps } from "../../../../../../seedwork/domain-seedwork/value-object";
-import { PropertyVisa } from "./property.visa";
 
 export interface PositionProps extends ValueObjectProps {
     type?: string;
@@ -9,7 +8,7 @@ export interface PositionProps extends ValueObjectProps {
 export interface PositionEntityReference extends Readonly<PositionProps> {}
 
 export class Position extends ValueObject<PositionProps> implements PositionProps {
-    constructor(props: PositionProps, private readonly visa: PropertyVisa) {
+    constructor(props: PositionProps) {
         super(props);
     }
 

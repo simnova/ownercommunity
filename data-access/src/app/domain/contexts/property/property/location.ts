@@ -1,14 +1,17 @@
 import { ValueObject, ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';
 import { PropertyVisa } from './property.visa';
-import { Address, AddressProps } from './address';
-import { Position, PositionProps } from './position';
+import { Address, AddressEntityReference, AddressProps } from './address';
+import { Position, PositionEntityReference, PositionProps } from './position';
 
 export interface LocationProps extends ValueObjectProps {
-  position: PositionProps;
-  address: AddressProps;
+  readonly position: PositionProps;
+  readonly address: AddressProps;
 }
 
-export interface LocationEntityReference extends Readonly<LocationProps> {}
+export interface LocationEntityReference extends Readonly<Omit<LocationProps, 'position' | 'address'>> {
+  readonly position: PositionEntityReference;
+  readonly address: AddressEntityReference;
+}
 
 export class Location extends ValueObject<LocationProps> implements LocationEntityReference {
   constructor(props: LocationProps, private readonly visa: PropertyVisa) {
@@ -16,11 +19,11 @@ export class Location extends ValueObject<LocationProps> implements LocationEnti
   }
 
   get position() {
-    return new Position(this.props.position, this.visa);
+    return new Position(this.props.position);
   }
 
   get address() {
-    return new Address(this.props.address, this.visa);
+    return new Address(this.props.address);
   }
 
   private validateVisa() {

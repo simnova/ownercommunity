@@ -1,7 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
 import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
-import { BedDescriptions } from "../../domain/contexts/property/property/bedroom-detail.value-objects";
-import { Amenities } from "../../domain/contexts/property/property/additional-amenity.value-objects";
 import { Property } from "../../domain/contexts/property/property/property";
 import { PropertyData } from "../../external-dependencies/datastore";
 import { PropertyDomainAdapter, CommunityConverter, PropertyConverter, MemberConverter, PropertyRepository } from "../../external-dependencies/domain";
@@ -73,12 +71,12 @@ export class PropertyDomainApiImpl
             if (!updatedBedroom.id) {
               let newBedroom = property.listingDetail.requestNewBedroom();
               newBedroom.RoomName = (updatedBedroom.roomName);
-              newBedroom.BedDescriptions = (new BedDescriptions(updatedBedroom.bedDescriptions));
+              newBedroom.BedDescriptions = (updatedBedroom.bedDescriptions);
             } else {
               let systemBedroom = systemBedroomDetails.find((bedroom) => bedroom.id === updatedBedroom.id);
               if (systemBedroom === undefined) throw new Error('Bedroom not found');
               systemBedroom.RoomName = (updatedBedroom.roomName);
-              systemBedroom.BedDescriptions = (new BedDescriptions(updatedBedroom.bedDescriptions));
+              systemBedroom.BedDescriptions = (updatedBedroom.bedDescriptions);
             }
           });
           let updatedIds = updatedBedroomDetails.filter((x) => x.id !== undefined).map((x) => x.id);
@@ -100,12 +98,12 @@ export class PropertyDomainApiImpl
             if (!updatedAmenity.id) {
               let newAmenity = property.listingDetail.requestNewAmenity();
               newAmenity.Category = (updatedAmenity.category);
-              newAmenity.Amenities = (new Amenities(updatedAmenity.amenities));
+              newAmenity.Amenities = (updatedAmenity.amenities);
             } else {
               let systemAmenity = systemAdditionalAmenities.find((amenity) => amenity.id === updatedAmenity.id);
               if (systemAmenity === undefined) throw new Error('Amenity not found');
               systemAmenity.Category = (updatedAmenity.category);
-              systemAmenity.Amenities = (new Amenities(updatedAmenity.amenities));
+              systemAmenity.Amenities = (updatedAmenity.amenities);
             }
           });
           let updatedIds = updatedAdditionalAmenities.filter((x) => x.id !== undefined).map((x) => x.id);

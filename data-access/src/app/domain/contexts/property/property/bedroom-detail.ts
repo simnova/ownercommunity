@@ -12,6 +12,7 @@ export interface BedroomDetailReference extends Readonly<BedroomDetailProps> {}
 export class BedroomDetail extends Entity<BedroomDetailProps> implements BedroomDetailReference {
   constructor(props: BedroomDetailProps, private readonly visa: PropertyVisa) { super(props); }
 
+  get id() {return this.props.id;}
   get roomName() {return this.props.roomName;}
   get bedDescriptions() {return this.props.bedDescriptions;}
 
@@ -23,14 +24,14 @@ export class BedroomDetail extends Entity<BedroomDetailProps> implements Bedroom
     }
   }
   // using set from TS 5.1
-  set RoomName(roomName: ValueObjects.RoomName) {
+  set RoomName(roomName: string) {
     this.validateVisa();
-    this.props.roomName = roomName.valueOf();
+    this.props.roomName = new ValueObjects.RoomName(roomName).valueOf();
   }
 
-  set BedDescriptions(bedDescriptions: ValueObjects.BedDescriptions) {
+  set BedDescriptions(bedDescriptions: string[]) {
     this.validateVisa();
-    this.props.bedDescriptions = bedDescriptions.valueOf();
+    this.props.bedDescriptions = new ValueObjects.BedDescriptions(bedDescriptions).valueOf();
   }
 
   

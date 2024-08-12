@@ -10,6 +10,8 @@ import { startServerAndCreateHandler } from './func-v4'; // to be replaced by @a
 import { InfrastructureServicesBuilder } from './infrastructure-services-builder';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 import { DomainImpl } from '../app/domain/domain-impl';
+import { TimerContextBuilder } from '../routes/timer/init/timer-context-builder';
+import { ProcessGLTransactions } from '../routes/timer/gl-transaction';
 
 const portalTokenValidator = new PortalTokenValidation(new Map<string, string>([
   ['AccountPortal', 'ACCOUNT_PORTAL'],
@@ -57,4 +59,13 @@ app.http('graphql', {
       },
     })
   ),
+});
+
+app.timer('process-gl-transactions',{
+  schedule: tryGetEnvVar('SCHEDULE_GL_TRANSACTION'),
+  handler: async (timer, invocationContext) => {
+    let timerContext = new TimerContextBuilder(infrastructureServices);
+    await timerContext.init(timer, invocationContext);
+    return ProcessGLTransactions(timerContext);
+  }
 });

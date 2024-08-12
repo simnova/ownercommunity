@@ -167,6 +167,7 @@ export type AddressInput = {
 /** An AdhocPaymentRequestInput describes adhoc payment request input type. */
 export type AdhocPaymentRequestInput = {
   amount: Scalars['Float'];
+  isApplicantApprovalRequired: Scalars['Boolean'];
   reason: Scalars['String'];
   violationTicketId: Scalars['ObjectID'];
 };
@@ -417,6 +418,7 @@ export type GlTransaction = {
   completedOn?: Maybe<Scalars['DateTime']>;
   creditGlAccount?: Maybe<Scalars['String']>;
   debitGlAccount?: Maybe<Scalars['String']>;
+  recognitionDate?: Maybe<Scalars['DateTime']>;
 };
 
 export type IdentityDetails = {

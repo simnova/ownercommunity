@@ -68,7 +68,6 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
   get community(): CommunityEntityReference {
     return new Community(this.props.community, this.context);
   }
-  // get location():LocationEntityReference|undefined { return this.props.location? new Location(this.props.location, this.context):undefined; }
   get location() {
     return new Location(this.props.location, this.visa);
   }
@@ -144,18 +143,18 @@ export class Property<props extends PropertyProps> extends AggregateRoot<props> 
     this.props.setOwnerRef(owner);
   }
 
-  set PropertyName(propertyName: ValueObjects.PropertyName) {
+  set PropertyName(propertyName: string) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
       throw new Error('Unauthorized');
     }
-    this.props.propertyName = propertyName.valueOf();
+    this.props.propertyName = new ValueObjects.PropertyName(propertyName).valueOf();
   }
 
-  set PropertyType(propertyType: ValueObjects.PropertyType) {
+  set PropertyType(propertyType: string) {
     if (!this.visa.determineIf((permissions) => permissions.isSystemAccount || permissions.canManageProperties)) {
       throw new Error('Unauthorized');
     }
-    this.props.propertyType = propertyType?.valueOf();
+    this.props.propertyType = new ValueObjects.PropertyType(propertyType).valueOf();
   }
 
   set ListedForSale(listedForSale: boolean) {

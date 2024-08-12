@@ -89,7 +89,6 @@
     "graphql-scalars": "^1.14.1",
     "graphql-shield": "^7.6.5",
     "jose": "^4.5.0",
-    "jsbarcode": "^3.11.6",
     "jwk-to-pem": "^2.0.5",
     "moment": "^2.29.1",
     "mongoose": "^6.2.1",

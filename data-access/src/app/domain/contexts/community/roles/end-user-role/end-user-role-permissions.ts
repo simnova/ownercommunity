@@ -1,12 +1,12 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
 import { EndUserRoleCommunityPermissions, EndUserRoleCommunityPermissionsEntityReference, EndUserRoleCommunityPermissionsProps } from './community-permissions';
 import { CommunityVisa } from "../../community.visa";
 import { EndUserRolePropertyPermissions, EndUserRolePropertyPermissionsProps } from './property-permissions';
 import { EndUserRoleServiceTicketPermissions, EndUserRoleServiceTicketPermissionsProps } from './service-ticket-permissions';
 import { EndUserRoleServicePermissions, EndUserRoleServicePermissionsProps } from './service-permissions';
 import { EndUserRoleViolationTicketPermissions, EndUserRoleViolationTicketPermissionsProps } from './violation-ticket-permissions';
+import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 
-export interface EndUserRolePermissionsProps extends EntityProps {
+export interface EndUserRolePermissionsProps extends ValueObjectProps {
   communityPermissions: EndUserRoleCommunityPermissionsProps;
   propertyPermissions: EndUserRolePropertyPermissionsProps;
   serviceTicketPermissions: EndUserRoleServiceTicketPermissionsProps;
@@ -18,7 +18,7 @@ export interface EndUserRolePermissionsEntityReference extends Readonly<Omit<End
   readonly communityPermissions: EndUserRoleCommunityPermissionsEntityReference;
 }
 
-export class EndUserRolePermissions extends Entity<EndUserRolePermissionsProps> implements EndUserRolePermissionsEntityReference {
+export class EndUserRolePermissions extends ValueObject<EndUserRolePermissionsProps> implements EndUserRolePermissionsEntityReference {
   constructor(props: EndUserRolePermissionsProps,private visa:CommunityVisa) { 
     super(props); 
   }

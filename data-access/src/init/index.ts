@@ -61,7 +61,7 @@ app.http('graphql', {
   ),
 });
 
-app.timer('process-gl-transactions',{
+app.timer('process_gl_transactions',{
   schedule: tryGetEnvVar('SCHEDULE_GL_TRANSACTION'),
   handler: async (timer, invocationContext) => {
     let timerContext = new TimerContextBuilder(infrastructureServices);

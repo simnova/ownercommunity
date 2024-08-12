@@ -23,27 +23,27 @@ export default (
   let role: EndUserRole<any>;
   await roleUnitOfWork.withTransaction(SystemExecutionContext(), async (repo) => {
     role = await repo.getNewInstance('admin', communityDo);
-    role.isDefault=(true);
+    role.IsDefault=(true);
 
-    role.permissions.communityPermissions.canManageRolesAndPermissions=(true);
-    role.permissions.communityPermissions.canManageCommunitySettings=(true);
-    role.permissions.communityPermissions.canManageSiteContent=(true);
-    role.permissions.communityPermissions.canManageMembers=(true);
-    role.permissions.communityPermissions.canEditOwnMemberProfile=(true);
-    role.permissions.communityPermissions.canEditOwnMemberAccounts=(true);
+    role.permissions.communityPermissions.CanManageRolesAndPermissions=(true);
+    role.permissions.communityPermissions.CanManageCommunitySettings=(true);
+    role.permissions.communityPermissions.CanManageSiteContent=(true);
+    role.permissions.communityPermissions.CanManageMembers=(true);
+    role.permissions.communityPermissions.CanEditOwnMemberProfile=(true);
+    role.permissions.communityPermissions.CanEditOwnMemberAccounts=(true);
 
-    role.permissions.propertyPermissions.canManageProperties=(true);
-    role.permissions.propertyPermissions.canEditOwnProperty=(true);
+    role.permissions.propertyPermissions.CanManageProperties=(true);
+    role.permissions.propertyPermissions.CanEditOwnProperty=(true);
 
-    role.permissions.serviceTicketPermissions.canCreateTickets=(true);
-    role.permissions.serviceTicketPermissions.canManageTickets=(true);
-    role.permissions.serviceTicketPermissions.canAssignTickets=(true);
-    role.permissions.serviceTicketPermissions.canWorkOnTickets=(true);
+    role.permissions.serviceTicketPermissions.CanCreateTickets=(true);
+    role.permissions.serviceTicketPermissions.CanManageTickets=(true);
+    role.permissions.serviceTicketPermissions.CanAssignTickets=(true);
+    role.permissions.serviceTicketPermissions.CanWorkOnTickets=(true);
 
-    role.permissions.violationTicketPermissions.canCreateTickets=(true);
-    role.permissions.violationTicketPermissions.canManageTickets=(true);
-    role.permissions.violationTicketPermissions.canAssignTickets=(true);
-    role.permissions.violationTicketPermissions.canWorkOnTickets=(true);
+    role.permissions.violationTicketPermissions.CanCreateTickets=(true);
+    role.permissions.violationTicketPermissions.CanManageTickets=(true);
+    role.permissions.violationTicketPermissions.CanAssignTickets=(true);
+    role.permissions.violationTicketPermissions.CanWorkOnTickets=(true);
 
     role = await repo.save(role);
   });

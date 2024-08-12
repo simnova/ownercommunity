@@ -3,12 +3,12 @@ import { StaffRole as StaffRoleDO, StaffRoleProps } from '../../../../../../app/
 import { MongooseDomainAdapter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
 import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
-import { StaffRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/community-permissions';
+import { StaffRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-community-permissions';
 import { StaffRolePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-permissions';
-import { StaffRolePropertyPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/property-permissions';
-import { StaffRoleServicePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/service-permissions';
-import { StaffRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/service-ticket-permissions';
-import { StaffRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/violation-ticket-permissions';
+import { StaffRolePropertyPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-property-permissions';
+import { StaffRoleServicePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-service-permissions';
+import { StaffRoleServiceTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-service-ticket-permissions';
+import { StaffRoleViolationTicketPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-violation-ticket-permissions';
 
 export class StaffRoleConverter extends MongoTypeConverter<DomainExecutionContext, StaffRole, StaffRoleDomainAdapter, StaffRoleDO<StaffRoleDomainAdapter>> {
   constructor() {

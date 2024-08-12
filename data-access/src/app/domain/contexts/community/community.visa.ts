@@ -1,5 +1,5 @@
 import { Visa } from "../../../../../seedwork/passport-seedwork/visa";
-import { StaffRoleCommunityPermissionsSpec } from "./roles/staff-role/community-permissions";
+import { StaffRoleCommunityPermissionsSpec } from "./roles/staff-role/staff-role-community-permissions";
 import { EndUserRoleCommunityPermissionsSpec } from "./roles/end-user-role/community-permissions";
 
 export interface CommunityPermissionsSpec extends StaffRoleCommunityPermissionsSpec, EndUserRoleCommunityPermissionsSpec {}

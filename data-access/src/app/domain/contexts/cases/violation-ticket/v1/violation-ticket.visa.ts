@@ -1,7 +1,7 @@
 import { Visa } from "../../../../../../../seedwork/passport-seedwork/visa";
 import { ViolationTicketV1EntityReference } from "./violation-ticket";
 import { MemberEntityReference } from "../../../community/member/member";
-import { StaffRoleViolationTicketPermissionsSpec } from "../../../community/roles/staff-role/violation-ticket-permissions";
+import { StaffRoleViolationTicketPermissionsSpec } from "../../../community/roles/staff-role/staff-role-violation-ticket-permissions";
 import { EndUserRoleViolationTicketPermissionsSpec } from "../../../community/roles/end-user-role/violation-ticket-permissions";
 
 export interface ViolationTicketPermissionsSpec extends StaffRoleViolationTicketPermissionsSpec, EndUserRoleViolationTicketPermissionsSpec {}

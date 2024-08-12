@@ -1,10 +1,10 @@
 import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
-import { StaffRoleCommunityPermissions, StaffRoleCommunityPermissionsEntityReference, StaffRoleCommunityPermissionsProps } from './community-permissions';
+import { StaffRoleCommunityPermissions, StaffRoleCommunityPermissionsEntityReference, StaffRoleCommunityPermissionsProps } from './staff-role-community-permissions';
 import { CommunityVisa } from "../../community.visa";
-import { StaffRolePropertyPermissions, StaffRolePropertyPermissionsEntityReference, StaffRolePropertyPermissionsProps } from './property-permissions';
-import { StaffRoleServiceTicketPermissions, StaffRoleServiceTicketPermissionsEntityReference, StaffRoleServiceTicketPermissionsProps } from './service-ticket-permissions';
-import { StaffRoleServicePermissions, StaffRoleServicePermissionsEntityReference, StaffRoleServicePermissionsProps } from './service-permissions';
-import { StaffRoleViolationTicketPermissions, StaffRoleViolationTicketPermissionsEntityReference, StaffRoleViolationTicketPermissionsProps } from './violation-ticket-permissions';
+import { StaffRolePropertyPermissions, StaffRolePropertyPermissionsEntityReference, StaffRolePropertyPermissionsProps } from './staff-role-property-permissions';
+import { StaffRoleServiceTicketPermissions, StaffRoleServiceTicketPermissionsEntityReference, StaffRoleServiceTicketPermissionsProps } from './staff-role-service-ticket-permissions';
+import { StaffRoleServicePermissions, StaffRoleServicePermissionsEntityReference, StaffRoleServicePermissionsProps } from './staff-role-service-permissions';
+import { StaffRoleViolationTicketPermissions, StaffRoleViolationTicketPermissionsEntityReference, StaffRoleViolationTicketPermissionsProps } from './staff-role-violation-ticket-permissions';
 
 export interface StaffRolePermissionsProps extends ValueObjectProps {
   readonly communityPermissions: StaffRoleCommunityPermissionsProps;

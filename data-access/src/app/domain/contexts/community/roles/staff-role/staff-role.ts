@@ -82,7 +82,6 @@ export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props
   }
 
   set RoleName(roleName: string) {
-    console.log('vis..', this.visa);
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set role name');
     }

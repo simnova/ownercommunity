@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 import { CommunityVisa } from "../../community.visa";
 
 export interface EndUserRoleCommunityPermissionsSpec {
@@ -12,9 +12,9 @@ export interface EndUserRoleCommunityPermissionsSpec {
   isSystemAccount?: boolean;
 }
 
-export interface EndUserRoleCommunityPermissionsProps extends EndUserRoleCommunityPermissionsSpec, EntityProps {}
+export interface EndUserRoleCommunityPermissionsProps extends EndUserRoleCommunityPermissionsSpec, ValueObjectProps {}
 
-export class EndUserRoleCommunityPermissions extends Entity<EndUserRoleCommunityPermissionsProps> implements EndUserRoleCommunityPermissionsEntityReference {
+export class EndUserRoleCommunityPermissions extends ValueObject<EndUserRoleCommunityPermissionsProps> implements EndUserRoleCommunityPermissionsEntityReference {
   constructor(props: EndUserRoleCommunityPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }
@@ -46,47 +46,42 @@ export class EndUserRoleCommunityPermissions extends Entity<EndUserRoleCommunity
 
   // using setters from TS 5.1
 
-  set canManageRolesAndPermissions(value: boolean) {
-    if (
-      !this.visa.determineIf((permissions) => {
-        const value = permissions.canManageRolesAndPermissions || permissions.isSystemAccount;
-        return value;
-      })
-    ) {
+  set CanManageRolesAndPermissions(value: boolean) {
+    if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission1');
     }
     this.props.canManageRolesAndPermissions = value;
   }
 
-  set canManageCommunitySettings(value: boolean) {
+  set CanManageCommunitySettings(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission2');
     }
     this.props.canManageCommunitySettings = value;
   }
 
-  set canManageSiteContent(value: boolean) {
+  set CanManageSiteContent(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission3');
     }
     this.props.canManageSiteContent = value;
   }
 
-  set canManageMembers(value: boolean) {
+  set CanManageMembers(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canManageMembers = value;
   }
 
-  set canEditOwnMemberProfile(value: boolean) {
+  set CanEditOwnMemberProfile(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }
     this.props.canEditOwnMemberProfile = value;
   }
 
-  set canEditOwnMemberAccounts(value: boolean) {
+  set CanEditOwnMemberAccounts(value: boolean) {
     if (!this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }

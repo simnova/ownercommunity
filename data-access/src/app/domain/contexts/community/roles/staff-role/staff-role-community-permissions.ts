@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 import { CommunityVisa } from "../../community.visa";
 
 export interface StaffRoleCommunityPermissionsSpec {
@@ -9,9 +9,9 @@ export interface StaffRoleCommunityPermissionsSpec {
   canReIndexSearchCollections?: boolean;
 }
 
-export interface StaffRoleCommunityPermissionsProps extends StaffRoleCommunityPermissionsSpec, EntityProps {}
+export interface StaffRoleCommunityPermissionsProps extends StaffRoleCommunityPermissionsSpec, ValueObjectProps {}
 
-export class StaffRoleCommunityPermissions extends Entity<StaffRoleCommunityPermissionsProps> implements StaffRoleCommunityPermissionsEntityReference {
+export class StaffRoleCommunityPermissions extends ValueObject<StaffRoleCommunityPermissionsProps> implements StaffRoleCommunityPermissionsEntityReference {
   constructor(props: StaffRoleCommunityPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }
@@ -32,40 +32,36 @@ export class StaffRoleCommunityPermissions extends Entity<StaffRoleCommunityPerm
     return this.props.canReIndexSearchCollections;
   }
 
+  private validateVisa() {
+    if (!this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
+      throw new Error('Cannot set permission');
+    }
+  }
+
   // using setters from TS 5.1
 
-  set canManageStaffRolesAndPermissions(value: boolean) {
-    if (!this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
-      throw new Error('Cannot set permission1');
-    }
+  set CanManageStaffRolesAndPermissions(value: boolean) {
+    this.validateVisa();
     this.props.canManageStaffRolesAndPermissions = value;
   }
 
-  set canManageAllCommunities(value: boolean) {
-    if (!this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
-      throw new Error('Cannot set permission2');
-    }
+  set CanManageAllCommunities(value: boolean) {
+    this.validateVisa();
     this.props.canManageAllCommunities = value;
   }
 
-  set canDeleteCommunities(value: boolean) {
-    if (!this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
-      throw new Error('Cannot set permission3');
-    }
+  set CanDeleteCommunities(value: boolean) {
+    this.validateVisa();
     this.props.canDeleteCommunities = value;
   }
 
-  set canChangeCommunityOwner(value: boolean) {
-    if (!this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
-      throw new Error('Cannot set permission');
-    }
+  set CanChangeCommunityOwner(value: boolean) {
+    this.validateVisa();
     this.props.canChangeCommunityOwner = value;
   }
 
-  set canReIndexSearchCollections(value: boolean) {
-    if (!this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
-      throw new Error('Cannot set permission');
-    }
+  set CanReIndexSearchCollections(value: boolean) {
+    this.validateVisa();
     this.props.canReIndexSearchCollections = value;
   }
 }

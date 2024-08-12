@@ -1,5 +1,6 @@
 import { EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
 import { EndUserRolePermissions, EndUserRolePermissionsEntityReference, EndUserRolePermissionsProps } from './end-user-role-permissions';
+import * as ValueObjects from './end-user-role.value-objects';
 import { Community, CommunityProps, CommunityEntityReference } from '../../community/community';
 import { CommunityVisa } from "../../community.visa";
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
@@ -65,23 +66,23 @@ export class EndUserRole<props extends EndUserRoleProps> extends AggregateRoot<p
   ): EndUserRole<props> {
     const role = new EndUserRole(newProps, context);
     role.isNew = true;
-    role.roleName = roleName;
-    role.setCommunity = community;
-    role.isDefault = isDefault;
+    role.RoleName = roleName;
+    role.Community = community;
+    role.IsDefault = isDefault;
     role.isNew = false;
     return role;
   }
 
   // using setter from TS 5.1
 
-  private set setCommunity(community: CommunityEntityReference) {
+  private set Community(community: CommunityEntityReference) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('You do not have permission to update this role');
     }
     this.props.setCommunityRef(community);
   }
 
-  set deleteAndReassignTo(roleRef: EndUserRoleEntityReference) {
+  set DeleteAndReassignTo(roleRef: EndUserRoleEntityReference) {
     if (!this.isDeleted && !this.isDefault && !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('You do not have permission to delete this role');
     }
@@ -89,18 +90,17 @@ export class EndUserRole<props extends EndUserRoleProps> extends AggregateRoot<p
     this.addIntegrationEvent(RoleDeletedReassignEvent, { deletedRoleId: this.props.id, newRoleId: roleRef.id });
   }
 
-  set isDefault(isDefault: boolean) {
+  set IsDefault(isDefault: boolean) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('You do not have permission to update this role');
     }
     this.props.isDefault = isDefault;
   }
 
-  set roleName(roleName: string) {
-    console.log('vis..', this.visa);
+  set RoleName(roleName: string) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions)) {
       throw new Error('Cannot set role name');
     }
-    this.props.roleName = roleName;
+    this.props.roleName = new ValueObjects.RoleName(roleName).valueOf();
   }
 }

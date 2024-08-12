@@ -1,7 +1,7 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 import { CommunityVisa } from "../../community.visa";
 
-export interface StaffRoleViolationTicketPermissionsSpec {
+export interface StaffRoleServiceTicketPermissionsSpec {
   // canCreateTickets: boolean;
   // canManageTickets: boolean;
   // canAssignTickets: boolean;
@@ -11,10 +11,10 @@ export interface StaffRoleViolationTicketPermissionsSpec {
   // isSystemAccount: boolean;
 }
 
-export interface StaffRoleViolationTicketPermissionsProps extends StaffRoleViolationTicketPermissionsSpec, EntityProps {}
+export interface StaffRoleServiceTicketPermissionsProps extends StaffRoleServiceTicketPermissionsSpec, ValueObjectProps {}
 
-export class StaffRoleViolationTicketPermissions extends Entity<StaffRoleViolationTicketPermissionsProps> implements StaffRoleViolationTicketPermissionsEntityReference {
-  constructor(props: StaffRoleViolationTicketPermissionsProps, private visa: CommunityVisa) {
+export class StaffRoleServiceTicketPermissions extends ValueObject<StaffRoleServiceTicketPermissionsProps> implements StaffRoleServiceTicketPermissionsEntityReference {
+  constructor(props: StaffRoleServiceTicketPermissionsProps, private visa: CommunityVisa) {
     super(props);
   }
 
@@ -71,7 +71,5 @@ export class StaffRoleViolationTicketPermissions extends Entity<StaffRoleViolati
   // }
 }
 
-export interface StaffRoleViolationTicketPermissionsEntityReference extends Readonly<StaffRoleViolationTicketPermissionsProps> {}
-
-
+export interface StaffRoleServiceTicketPermissionsEntityReference extends Readonly<StaffRoleServiceTicketPermissionsProps> {}
 

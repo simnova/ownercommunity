@@ -1,8 +1,8 @@
 
 import { Visa } from '../../../../../../seedwork/passport-seedwork/visa';
 import { MemberEntityReference } from '../member/member';
-import { StaffRoleServicePermissionsSpec } from '../roles/staff-role/service-permissions';
-import { EndUserRoleServicePermissionsSpec } from '../roles/end-user-role/service-permissions';
+import { StaffRoleServicePermissionsSpec } from '../roles/staff-role/staff-role-service-permissions';
+import { EndUserRoleServicePermissionsSpec } from '../roles/end-user-role/end-user-role-service-permissions';
 import { ServiceEntityReference } from './service';
 
 export interface ServicePermissionsSpec extends StaffRoleServicePermissionsSpec, EndUserRoleServicePermissionsSpec {}

@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { ValueObject, ValueObjectProps } from '../../../../../../../seedwork/domain-seedwork/value-object';
 import { CommunityVisa } from "../../community.visa";
 
 export interface EndUserRoleServicePermissionsSpec {
@@ -6,9 +6,9 @@ export interface EndUserRoleServicePermissionsSpec {
   isSystemAccount?: boolean;
 }
 
-export interface EndUserRoleServicePermissionsProps extends EndUserRoleServicePermissionsSpec, EntityProps {}
+export interface EndUserRoleServicePermissionsProps extends EndUserRoleServicePermissionsSpec, ValueObjectProps {}
 
-export class EndUserRoleServicePermissions extends Entity<EndUserRoleServicePermissionsProps> implements EndUserRoleServicePermissionsEntityReference {
+export class EndUserRoleServicePermissions extends ValueObject<EndUserRoleServicePermissionsProps> implements EndUserRoleServicePermissionsEntityReference {
   constructor(props: EndUserRoleServicePermissionsProps,private visa:CommunityVisa) {super(props);}
 
   get canManageServices(): boolean {return this.props.canManageServices;}
@@ -16,7 +16,7 @@ export class EndUserRoleServicePermissions extends Entity<EndUserRoleServicePerm
 
   // using setters from TS 5.1
 
-  set canManageServices(value:boolean) {
+  set CanManageServices(value:boolean) {
     if(! this.visa.determineIf((permissions) => permissions.canManageRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set permission');
     }

@@ -1,26 +1,29 @@
 import { ValueObject, ValueObjectProps } from '../../../../../../seedwork/domain-seedwork/value-object';
 import { PropertyVisa } from './property.visa';
-import { Address, AddressProps } from './address';
-import { Position, PositionProps } from './position';
+import { PropertyLocationAddress, PropertyLocationAddressEntityReference, PropertyLocationAddressProps } from './property-location-address';
+import { PropertyLocationPosition, PropertyLocationPositionEntityReference, PropertyLocationPositionProps } from './property-location-position';
 
-export interface LocationProps extends ValueObjectProps {
-  position: PositionProps;
-  address: AddressProps;
+export interface PropertyLocationProps extends ValueObjectProps {
+  readonly position: PropertyLocationPositionProps;
+  readonly address: PropertyLocationAddressProps;
 }
 
-export interface LocationEntityReference extends Readonly<LocationProps> {}
+export interface PropertyLocationEntityReference extends Readonly<Omit<PropertyLocationProps, 'position' | 'address'>> {
+  readonly position: PropertyLocationPositionEntityReference;
+  readonly address: PropertyLocationAddressEntityReference;
+}
 
-export class Location extends ValueObject<LocationProps> implements LocationEntityReference {
-  constructor(props: LocationProps, private readonly visa: PropertyVisa) {
+export class PropertyLocation extends ValueObject<PropertyLocationProps> implements PropertyLocationEntityReference {
+  constructor(props: PropertyLocationProps, private readonly visa: PropertyVisa) {
     super(props);
   }
 
   get position() {
-    return new Position(this.props.position, this.visa);
+    return new PropertyLocationPosition(this.props.position);
   }
 
   get address() {
-    return new Address(this.props.address, this.visa);
+    return new PropertyLocationAddress(this.props.address);
   }
 
   private validateVisa() {
@@ -31,7 +34,7 @@ export class Location extends ValueObject<LocationProps> implements LocationEnti
 
   // using set from TS 5.1
 
-  set Address(address: AddressProps) {
+  set Address(address: PropertyLocationAddressProps) {
     this.validateVisa();
 
     this.props.address.country = address.country;
@@ -54,7 +57,7 @@ export class Location extends ValueObject<LocationProps> implements LocationEnti
     this.props.address.crossStreet = address.crossStreet;
   }
 
-  set Position(position: PositionProps) {
+  set Position(position: PropertyLocationPositionProps) {
     this.validateVisa();
     this.props.position.coordinates = position.coordinates;
   }

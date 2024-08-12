@@ -4,11 +4,12 @@ import { DomainExecutionContext } from "../../../../domain-execution-context";
 import { RoleDeletedReassignEvent } from "../../../../events/types/role-deleted-reassign";
 import { CommunityVisa } from "../../community.visa";
 import { StaffRolePermissionsProps, StaffRolePermissionsEntityReference, StaffRolePermissions } from "./staff-role-permissions";
+import * as ValueObjects from "./staff-role.value-objects";
 
 export interface StaffRoleProps extends EntityProps {
   roleName: string;
   isDefault: boolean;
-  permissions: StaffRolePermissionsProps;
+  readonly permissions: StaffRolePermissionsProps;
   readonly roleType?: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
@@ -57,15 +58,15 @@ export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props
   ): StaffRole<props> {
     const role = new StaffRole(newProps, context);
     role.isNew = true;
-    role.roleName = roleName;
-    role.isDefault = isDefault;
+    role.RoleName = roleName;
+    role.IsDefault = isDefault;
     role.isNew = false;
     return role;
   }
 
   // using setter from TS 5.1
 
-  set deleteAndReassignTo(roleRef: StaffRoleEntityReference) {
+  set DeleteAndReassignTo(roleRef: StaffRoleEntityReference) {
     if (!this.isDeleted && !this.isDefault && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions)) {
       throw new Error('You do not have permission to delete this role');
     }
@@ -73,18 +74,17 @@ export class StaffRole<props extends StaffRoleProps> extends AggregateRoot<props
     this.addIntegrationEvent(RoleDeletedReassignEvent, { deletedRoleId: this.props.id, newRoleId: roleRef.id });
   }
 
-  set isDefault(isDefault: boolean) {
+  set IsDefault(isDefault: boolean) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('You do not have permission to update this role');
     }
     this.props.isDefault = isDefault;
   }
 
-  set roleName(roleName: string) {
-    console.log('vis..', this.visa);
+  set RoleName(roleName: string) {
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.canManageStaffRolesAndPermissions || permissions.isSystemAccount)) {
       throw new Error('Cannot set role name');
     }
-    this.props.roleName = roleName;
+    this.props.roleName = new ValueObjects.RoleName(roleName).valueOf();
   }
 }

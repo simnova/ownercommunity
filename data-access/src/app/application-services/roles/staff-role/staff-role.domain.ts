@@ -31,12 +31,11 @@ export class StaffRoleDomainApiImpl
     await this.withTransaction(async (repo) => {
       let staffRoleDo = await repo.getNewInstance(input.roleName);
 
-      // this code is not correct, need to create new graphql inputs for staff roles
-      staffRoleDo.permissions.communityPermissions.canManageStaffRolesAndPermissions = (input.permissions.communityPermissions.canManageStaffRolesAndPermissions);
-      staffRoleDo.permissions.communityPermissions.canManageAllCommunities = (input.permissions.communityPermissions.canManageAllCommunities);
-      staffRoleDo.permissions.communityPermissions.canDeleteCommunities = (input.permissions.communityPermissions.canDeleteCommunities);
-      staffRoleDo.permissions.communityPermissions.canChangeCommunityOwner = (input.permissions.communityPermissions.canChangeCommunityOwner);
-      staffRoleDo.permissions.communityPermissions.canReIndexSearchCollections = (input.permissions.communityPermissions.canReIndexSearchCollections);
+      staffRoleDo.permissions.communityPermissions.CanManageStaffRolesAndPermissions = (input.permissions.communityPermissions.canManageStaffRolesAndPermissions);
+      staffRoleDo.permissions.communityPermissions.CanManageAllCommunities = (input.permissions.communityPermissions.canManageAllCommunities);
+      staffRoleDo.permissions.communityPermissions.CanDeleteCommunities = (input.permissions.communityPermissions.canDeleteCommunities);
+      staffRoleDo.permissions.communityPermissions.CanChangeCommunityOwner = (input.permissions.communityPermissions.canChangeCommunityOwner);
+      staffRoleDo.permissions.communityPermissions.CanReIndexSearchCollections = (input.permissions.communityPermissions.canReIndexSearchCollections);
 
       staffRoleToReturn = new StaffRoleConverter().toPersistence(await repo.save(staffRoleDo));
     });
@@ -53,13 +52,13 @@ export class StaffRoleDomainApiImpl
     await this.withTransaction(async (repo) => {
       let staffRoleDo = await repo.getById(input.id);
 
-      staffRoleDo.roleName = (input.roleName);
+      if (input?.roleName !== undefined) staffRoleDo.RoleName = (input.roleName);
 
-      staffRoleDo.permissions.communityPermissions.canManageStaffRolesAndPermissions = (input.permissions.communityPermissions.canManageStaffRolesAndPermissions);
-      staffRoleDo.permissions.communityPermissions.canManageAllCommunities = (input.permissions.communityPermissions.canManageAllCommunities);
-      staffRoleDo.permissions.communityPermissions.canDeleteCommunities = (input.permissions.communityPermissions.canDeleteCommunities);
-      staffRoleDo.permissions.communityPermissions.canChangeCommunityOwner = (input.permissions.communityPermissions.canChangeCommunityOwner);
-      staffRoleDo.permissions.communityPermissions.canReIndexSearchCollections = (input.permissions.communityPermissions.canReIndexSearchCollections);
+      staffRoleDo.permissions.communityPermissions.CanManageStaffRolesAndPermissions = (input.permissions.communityPermissions.canManageStaffRolesAndPermissions);
+      staffRoleDo.permissions.communityPermissions.CanManageAllCommunities = (input.permissions.communityPermissions.canManageAllCommunities);
+      staffRoleDo.permissions.communityPermissions.CanDeleteCommunities = (input.permissions.communityPermissions.canDeleteCommunities);
+      staffRoleDo.permissions.communityPermissions.CanChangeCommunityOwner = (input.permissions.communityPermissions.canChangeCommunityOwner);
+      staffRoleDo.permissions.communityPermissions.CanReIndexSearchCollections = (input.permissions.communityPermissions.canReIndexSearchCollections);
 
       // staffRoleDo.permissions.propertyPermissions.canManageProperties = (input.permissions.propertyPermissions.canManageProperties);
       // staffRoleDo.permissions.propertyPermissions.canEditOwnProperty = (input.permissions.propertyPermissions.canEditOwnProperty);
@@ -90,7 +89,7 @@ export class StaffRoleDomainApiImpl
     let roleToReturn: StaffRoleData;
     await this.withTransaction(async (repo) => {
       let staffRoleDo = await repo.getById(input.roleToDelete);
-      staffRoleDo.deleteAndReassignTo = (newRoleDo);
+      staffRoleDo.DeleteAndReassignTo = (newRoleDo);
       roleToReturn = new StaffRoleConverter().toPersistence(await repo.save(staffRoleDo));
     });
     return roleToReturn;

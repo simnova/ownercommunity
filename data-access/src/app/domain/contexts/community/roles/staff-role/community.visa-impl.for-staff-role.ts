@@ -1,5 +1,5 @@
 
-import { StaffRoleCommunityPermissionsSpec } from "./community-permissions";
+import { StaffRoleCommunityPermissionsSpec } from "./staff-role-community-permissions";
 import { StaffRoleEntityReference } from './staff-role';
 import { CommunityVisa } from "../../community.visa";
 import { StaffUserEntityReference } from "../../../users/staff-user/staff-user";

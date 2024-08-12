@@ -4,7 +4,6 @@ import { BedroomDetail, BedroomDetailProps, BedroomDetailReference } from './bed
 import { AdditionalAmenity, AdditionalAmenityProps, AdditionalAmenityReference } from './additional-amenity';
 import * as ValueObjects from './listing-detail.value-objects';
 import { PropertyVisa } from './property.visa';
-import { Images } from './listing-detail.value-objects';
 
 export interface ListingDetailProps extends ValueObjectProps {
   price: number;
@@ -136,130 +135,130 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
 
   // using set from TS 5.1
 
-  set Price(price: ValueObjects.Price | null) {
+  set Price(price: number | null) {
     this.validateVisa();
-    this.props.price = price?.valueOf();
+    this.props.price = new ValueObjects.Price(price).valueOf();
   }
 
-  set RentHigh(rentHigh: ValueObjects.RentHigh | null) {
+  set RentHigh(rentHigh: number | null) {
     this.validateVisa();
-    this.props.rentHigh = rentHigh?.valueOf();
+    this.props.rentHigh = rentHigh.valueOf();
   }
 
-  set RentLow(rentLow: ValueObjects.RentLow | null) {
+  set RentLow(rentLow: number | null) {
     this.validateVisa();
-    this.props.rentLow = rentLow?.valueOf();
+    this.props.rentLow = new ValueObjects.RentLow(rentLow).valueOf();
   }
 
-  set Lease(lease: ValueObjects.Lease | null) {
+  set Lease(lease: number | null) {
     this.validateVisa();
-    this.props.lease = lease?.valueOf();
+    this.props.lease = new ValueObjects.Lease(lease).valueOf();
   }
 
-  set MaxGuests(maxGuests: ValueObjects.MaxGuests | null) {
+  set MaxGuests(maxGuests: number | null) {
     this.validateVisa();
-    this.props.maxGuests = maxGuests?.valueOf();
+    this.props.maxGuests = new ValueObjects.MaxGuests(maxGuests).valueOf();
   }
 
-  set Bedrooms(bedrooms: ValueObjects.Bedrooms | null) {
+  set Bedrooms(bedrooms: number | null) {
     this.validateVisa();
-    this.props.bedrooms = bedrooms?.valueOf();
+    this.props.bedrooms = new ValueObjects.Bedrooms(bedrooms).valueOf();
   }
 
-  set Bathrooms(bathrooms: ValueObjects.Bathrooms | null) {
+  set Bathrooms(bathrooms: number | null) {
     this.validateVisa();
-    this.props.bathrooms = bathrooms?.valueOf();
+    this.props.bathrooms = new ValueObjects.Bathrooms(bathrooms).valueOf();
   }
 
-  set SquareFeet(squareFeet: ValueObjects.SquareFeet | null) {
+  set SquareFeet(squareFeet: number | null) {
     this.validateVisa();
-    this.props.squareFeet = squareFeet?.valueOf();
+    this.props.squareFeet = new ValueObjects.SquareFeet(squareFeet).valueOf();
   }
 
-  set YearBuilt(yearBuilt: ValueObjects.YearBuilt | null) {
+  set YearBuilt(yearBuilt: number | null) {
     this.validateVisa();
-    this.props.yearBuilt = yearBuilt?.valueOf();
+    this.props.yearBuilt = new ValueObjects.YearBuilt(yearBuilt).valueOf();
   }
 
-  set LotSize(lotSize: ValueObjects.LotSize | null) {
+  set LotSize(lotSize: number | null) {
     this.validateVisa();
-    this.props.lotSize = lotSize?.valueOf();
+    this.props.lotSize = new ValueObjects.LotSize(lotSize).valueOf();
   }
 
-  set Description(description: ValueObjects.Description | null) {
+  set Description(description: string | null) {
     this.validateVisa();
-    this.props.description = description?.valueOf();
+    this.props.description = new ValueObjects.Description(description).valueOf();
   }
 
-  set Amenities(amenities: ValueObjects.Amenities | null) {
+  set Amenities(amenities: string[] | null) {
     this.validateVisa();
-    this.props.amenities = amenities?.valueOf();
+    this.props.amenities = new ValueObjects.Amenities(amenities).valueOf();
   }
 
-  set Images(images: ValueObjects.Images | null) {
+  set Images(images: string[] | null) {
     this.validateVisa();
     //TODO: if any images are removed, remove them from blob storage as well as part of events.
-    this.props.images = images?.valueOf();
+    this.props.images = new ValueObjects.Images(images).valueOf();
   }
 
-  set Video(video: ValueObjects.Video | null) {
+  set Video(video: string | null) {
     this.validateVisa();
-    this.props.video = video?.valueOf();
+    this.props.video = new ValueObjects.Video(video).valueOf();
   }
 
-  set FloorPlan(floorPlan: ValueObjects.FloorPlan | null) {
+  set FloorPlan(floorPlan: string | null) {
     this.validateVisa();
-    this.props.floorPlan = floorPlan?.valueOf();
+    this.props.floorPlan = new ValueObjects.FloorPlan(floorPlan).valueOf();
   }
 
-  set FloorPlanImages(floorPlanImages: ValueObjects.FloorPlanImages | null) {
+  set FloorPlanImages(floorPlanImages: string[] | null) {
     this.validateVisa();
-    this.props.floorPlanImages = floorPlanImages?.valueOf();
+    this.props.floorPlanImages = new ValueObjects.FloorPlanImages(floorPlanImages).valueOf();
   }
 
-  set ListingAgent(listingAgent: ValueObjects.ListingAgent | null) {
+  set ListingAgent(listingAgent: string | null) {
     this.validateVisa();
-    this.props.listingAgent = listingAgent?.valueOf();
+    this.props.listingAgent = new ValueObjects.ListingAgent(listingAgent).valueOf();
   }
 
-  set ListingAgentPhone(listingAgentPhone: ValueObjects.ListingAgentPhone | null) {
+  set ListingAgentPhone(listingAgentPhone: string | null) {
     this.validateVisa();
-    this.props.listingAgentPhone = listingAgentPhone?.valueOf();
+    this.props.listingAgentPhone = new ValueObjects.ListingAgentPhone(listingAgentPhone).valueOf();
   }
 
-  set ListingAgentEmail(listingAgentEmail: ValueObjects.Email | null) {
+  set ListingAgentEmail(listingAgentEmail: string | null) {
     this.validateVisa();
-    this.props.listingAgentEmail = listingAgentEmail?.valueOf();
+    this.props.listingAgentEmail = new ValueObjects.Email(listingAgentEmail).valueOf();
   }
 
-  set ListingAgentWebsite(listingAgentWebsite: ValueObjects.ListingAgentWebsite | null) {
+  set ListingAgentWebsite(listingAgentWebsite: string | null) {
     this.validateVisa();
-    this.props.listingAgentWebsite = listingAgentWebsite?.valueOf();
+    this.props.listingAgentWebsite = new ValueObjects.ListingAgentWebsite(listingAgentWebsite).valueOf();
   }
 
-  set ListingAgentCompany(listingAgentCompany: ValueObjects.ListingAgentCompany | null) {
+  set ListingAgentCompany(listingAgentCompany: string | null) {
     this.validateVisa();
-    this.props.listingAgentCompany = listingAgentCompany?.valueOf();
+    this.props.listingAgentCompany = new ValueObjects.ListingAgentCompany(listingAgentCompany).valueOf();
   }
 
-  set ListingAgentCompanyPhone(listingAgentCompanyPhone: ValueObjects.ListingAgentCompanyPhone | null) {
+  set ListingAgentCompanyPhone(listingAgentCompanyPhone: string | null) {
     this.validateVisa();
-    this.props.listingAgentCompanyPhone = listingAgentCompanyPhone?.valueOf();
+    this.props.listingAgentCompanyPhone = new ValueObjects.ListingAgentCompanyPhone(listingAgentCompanyPhone).valueOf();
   }
 
-  set ListingAgentCompanyEmail(listingAgentCompanyEmail: ValueObjects.Email | null) {
+  set ListingAgentCompanyEmail(listingAgentCompanyEmail: string | null) {
     this.validateVisa();
-    this.props.listingAgentCompanyEmail = listingAgentCompanyEmail?.valueOf();
+    this.props.listingAgentCompanyEmail = new ValueObjects.Email(listingAgentCompanyEmail).valueOf();
   }
 
-  set ListingAgentCompanyWebsite(listingAgentCompanyWebsite: ValueObjects.ListingAgentCompanyWebsite | null) {
+  set ListingAgentCompanyWebsite(listingAgentCompanyWebsite: string | null) {
     this.validateVisa();
-    this.props.listingAgentCompanyWebsite = listingAgentCompanyWebsite?.valueOf();
+    this.props.listingAgentCompanyWebsite = new ValueObjects.ListingAgentCompanyWebsite(listingAgentCompanyWebsite).valueOf();
   }
 
-  set ListingAgentCompanyAddress(listingAgentCompanyAddress: ValueObjects.ListingAgentCompanyAddress | null) {
+  set ListingAgentCompanyAddress(listingAgentCompanyAddress: string | null) {
     this.validateVisa();
-    this.props.listingAgentCompanyAddress = listingAgentCompanyAddress?.valueOf();
+    this.props.listingAgentCompanyAddress = new ValueObjects.ListingAgentCompanyAddress(listingAgentCompanyAddress).valueOf();
   }
   //
 
@@ -288,10 +287,10 @@ export class ListingDetails extends ValueObject<ListingDetailProps> implements L
   requestRemoveImage(blobName: string) {
     if (blobName.includes('/listing-floor-plan-images/')) {
       const newFloorPlanImages = this.props.floorPlanImages.filter((image) => image !== blobName);
-      this.FloorPlanImages = new Images(newFloorPlanImages);
+      this.FloorPlanImages = newFloorPlanImages;
     } else {
       const newImages = this.props.images.filter((image) => image !== blobName);
-      this.Images = new Images(newImages);
+      this.Images = newImages;
     }
   }
 }

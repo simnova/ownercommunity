@@ -1,5 +1,5 @@
 
-import { EndUserRoleCommunityPermissionsSpec } from "./community-permissions";
+import { EndUserRoleCommunityPermissionsSpec } from "./end-user-role-community-permissions";
 import { MemberEntityReference } from '../../member/member';
 import { EndUserRoleEntityReference } from './end-user-role';
 import { CommunityVisa } from "../../community.visa";

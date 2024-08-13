@@ -35,20 +35,25 @@ export class EndUserRoleDomainApiImpl
         input.roleName,
         communityDo);
 
-      roleDo.permissions.communityPermissions.canManageRolesAndPermissions = (input.permissions.communityPermissions.canManageRolesAndPermissions);
-      roleDo.permissions.communityPermissions.canManageCommunitySettings = (input.permissions.communityPermissions.canManageCommunitySettings);
-      roleDo.permissions.communityPermissions.canManageSiteContent = (input.permissions.communityPermissions.canManageSiteContent);
-      roleDo.permissions.communityPermissions.canManageMembers = (input.permissions.communityPermissions.canManageMembers);
-      roleDo.permissions.communityPermissions.canEditOwnMemberProfile = (input.permissions.communityPermissions.canEditOwnMemberProfile);
-      roleDo.permissions.communityPermissions.canEditOwnMemberAccounts = (input.permissions.communityPermissions.canEditOwnMemberAccounts);
+      roleDo.permissions.communityPermissions.CanManageRolesAndPermissions = (input.permissions.communityPermissions.canManageRolesAndPermissions);
+      roleDo.permissions.communityPermissions.CanManageCommunitySettings = (input.permissions.communityPermissions.canManageCommunitySettings);
+      roleDo.permissions.communityPermissions.CanManageSiteContent = (input.permissions.communityPermissions.canManageSiteContent);
+      roleDo.permissions.communityPermissions.CanManageMembers = (input.permissions.communityPermissions.canManageMembers);
+      roleDo.permissions.communityPermissions.CanEditOwnMemberProfile = (input.permissions.communityPermissions.canEditOwnMemberProfile);
+      roleDo.permissions.communityPermissions.CanEditOwnMemberAccounts = (input.permissions.communityPermissions.canEditOwnMemberAccounts);
 
-      roleDo.permissions.propertyPermissions.canManageProperties = (input.permissions.propertyPermissions.canManageProperties);
-      roleDo.permissions.propertyPermissions.canEditOwnProperty = (input.permissions.propertyPermissions.canEditOwnProperty);
+      roleDo.permissions.propertyPermissions.CanManageProperties = (input.permissions.propertyPermissions.canManageProperties);
+      roleDo.permissions.propertyPermissions.CanEditOwnProperty = (input.permissions.propertyPermissions.canEditOwnProperty);
 
-      roleDo.permissions.serviceTicketPermissions.canCreateTickets = (input.permissions.serviceTicketPermissions.canCreateTickets);
-      roleDo.permissions.serviceTicketPermissions.canManageTickets = (input.permissions.serviceTicketPermissions.canManageTickets);
-      roleDo.permissions.serviceTicketPermissions.canAssignTickets = (input.permissions.serviceTicketPermissions.canAssignTickets);
-      roleDo.permissions.serviceTicketPermissions.canWorkOnTickets = (input.permissions.serviceTicketPermissions.canWorkOnTickets);
+      roleDo.permissions.serviceTicketPermissions.CanCreateTickets = (input.permissions.serviceTicketPermissions.canCreateTickets);
+      roleDo.permissions.serviceTicketPermissions.CanManageTickets = (input.permissions.serviceTicketPermissions.canManageTickets);
+      roleDo.permissions.serviceTicketPermissions.CanAssignTickets = (input.permissions.serviceTicketPermissions.canAssignTickets);
+      roleDo.permissions.serviceTicketPermissions.CanWorkOnTickets = (input.permissions.serviceTicketPermissions.canWorkOnTickets);
+
+      roleDo.permissions.violationTicketPermissions.CanCreateTickets = (input.permissions.violationTicketPermissions.canCreateTickets);
+      roleDo.permissions.violationTicketPermissions.CanManageTickets = (input.permissions.violationTicketPermissions.canManageTickets);
+      roleDo.permissions.violationTicketPermissions.CanAssignTickets = (input.permissions.violationTicketPermissions.canAssignTickets);
+      roleDo.permissions.violationTicketPermissions.CanWorkOnTickets = (input.permissions.violationTicketPermissions.canWorkOnTickets);
 
       roleToReturn = new EndUserRoleConverter().toPersistence(await repo.save(roleDo));
     });
@@ -65,27 +70,27 @@ export class EndUserRoleDomainApiImpl
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getById(input.id);
 
-      roleDo.roleName = (input.roleName);
+      roleDo.RoleName = (input.roleName);
 
-      roleDo.permissions.communityPermissions.canManageRolesAndPermissions = (input.permissions.communityPermissions.canManageRolesAndPermissions);
-      roleDo.permissions.communityPermissions.canManageCommunitySettings = (input.permissions.communityPermissions.canManageCommunitySettings);
-      roleDo.permissions.communityPermissions.canManageSiteContent = (input.permissions.communityPermissions.canManageSiteContent);
-      roleDo.permissions.communityPermissions.canManageMembers = (input.permissions.communityPermissions.canManageMembers);
-      roleDo.permissions.communityPermissions.canEditOwnMemberProfile = (input.permissions.communityPermissions.canEditOwnMemberProfile);
-      roleDo.permissions.communityPermissions.canEditOwnMemberAccounts = (input.permissions.communityPermissions.canEditOwnMemberAccounts);
+      roleDo.permissions.communityPermissions.CanManageRolesAndPermissions = (input.permissions.communityPermissions.canManageRolesAndPermissions);
+      roleDo.permissions.communityPermissions.CanManageCommunitySettings = (input.permissions.communityPermissions.canManageCommunitySettings);
+      roleDo.permissions.communityPermissions.CanManageSiteContent = (input.permissions.communityPermissions.canManageSiteContent);
+      roleDo.permissions.communityPermissions.CanManageMembers = (input.permissions.communityPermissions.canManageMembers);
+      roleDo.permissions.communityPermissions.CanEditOwnMemberProfile = (input.permissions.communityPermissions.canEditOwnMemberProfile);
+      roleDo.permissions.communityPermissions.CanEditOwnMemberAccounts = (input.permissions.communityPermissions.canEditOwnMemberAccounts);
 
-      roleDo.permissions.propertyPermissions.canManageProperties = (input.permissions.propertyPermissions.canManageProperties);
-      roleDo.permissions.propertyPermissions.canEditOwnProperty = (input.permissions.propertyPermissions.canEditOwnProperty);
+      roleDo.permissions.propertyPermissions.CanManageProperties = (input.permissions.propertyPermissions.canManageProperties);
+      roleDo.permissions.propertyPermissions.CanEditOwnProperty = (input.permissions.propertyPermissions.canEditOwnProperty);
 
-      roleDo.permissions.serviceTicketPermissions.canCreateTickets = (input.permissions.serviceTicketPermissions.canCreateTickets);
-      roleDo.permissions.serviceTicketPermissions.canManageTickets = (input.permissions.serviceTicketPermissions.canManageTickets);
-      roleDo.permissions.serviceTicketPermissions.canAssignTickets = (input.permissions.serviceTicketPermissions.canAssignTickets);
-      roleDo.permissions.serviceTicketPermissions.canWorkOnTickets = (input.permissions.serviceTicketPermissions.canWorkOnTickets);
+      roleDo.permissions.serviceTicketPermissions.CanCreateTickets = (input.permissions.serviceTicketPermissions.canCreateTickets);
+      roleDo.permissions.serviceTicketPermissions.CanManageTickets = (input.permissions.serviceTicketPermissions.canManageTickets);
+      roleDo.permissions.serviceTicketPermissions.CanAssignTickets = (input.permissions.serviceTicketPermissions.canAssignTickets);
+      roleDo.permissions.serviceTicketPermissions.CanWorkOnTickets = (input.permissions.serviceTicketPermissions.canWorkOnTickets);
 
-      roleDo.permissions.violationTicketPermissions.canAssignTickets = (input.permissions.violationTicketPermissions.canAssignTickets);
-      roleDo.permissions.violationTicketPermissions.canCreateTickets = (input.permissions.violationTicketPermissions.canCreateTickets);
-      roleDo.permissions.violationTicketPermissions.canManageTickets = (input.permissions.violationTicketPermissions.canManageTickets);
-      roleDo.permissions.violationTicketPermissions.canWorkOnTickets = (input.permissions.violationTicketPermissions.canWorkOnTickets);
+      roleDo.permissions.violationTicketPermissions.CanAssignTickets = (input.permissions.violationTicketPermissions.canAssignTickets);
+      roleDo.permissions.violationTicketPermissions.CanCreateTickets = (input.permissions.violationTicketPermissions.canCreateTickets);
+      roleDo.permissions.violationTicketPermissions.CanManageTickets = (input.permissions.violationTicketPermissions.canManageTickets);
+      roleDo.permissions.violationTicketPermissions.CanWorkOnTickets = (input.permissions.violationTicketPermissions.canWorkOnTickets);
 
       roleToReturn = new EndUserRoleConverter().toPersistence(await repo.save(roleDo));
     });
@@ -103,7 +108,7 @@ export class EndUserRoleDomainApiImpl
     let roleToReturn: EndUserRoleData;
     await this.withTransaction(async (repo) => {
       let roleDo = await repo.getById(input.roleToDelete);
-      roleDo.deleteAndReassignTo = (newROleDo);
+      roleDo.DeleteAndReassignTo = (newROleDo);
       roleToReturn = new EndUserRoleConverter().toPersistence(await repo.save(roleDo));
     });
     return roleToReturn;

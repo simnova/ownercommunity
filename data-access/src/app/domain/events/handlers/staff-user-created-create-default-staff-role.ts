@@ -18,13 +18,13 @@ export default (
     role = await repo.getByRoleName('admin');
     if (!role) {
       role = await repo.getNewInstance('admin');
-      role.isDefault=(true);
+      role.IsDefault=(true);
 
-      role.permissions.communityPermissions.canManageStaffRolesAndPermissions=(true);
-      role.permissions.communityPermissions.canManageAllCommunities=(true);
-      role.permissions.communityPermissions.canDeleteCommunities=(true);
-      role.permissions.communityPermissions.canChangeCommunityOwner=(true);
-      role.permissions.communityPermissions.canReIndexSearchCollections=(true);
+      role.permissions.communityPermissions.CanManageStaffRolesAndPermissions=(true);
+      role.permissions.communityPermissions.CanManageAllCommunities=(true);
+      role.permissions.communityPermissions.CanDeleteCommunities=(true);
+      role.permissions.communityPermissions.CanChangeCommunityOwner=(true);
+      role.permissions.communityPermissions.CanReIndexSearchCollections=(true);
 
       role = await repo.save(role);
     }

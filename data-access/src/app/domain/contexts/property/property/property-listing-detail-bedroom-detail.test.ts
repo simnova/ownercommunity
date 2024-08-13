@@ -1,6 +1,6 @@
 
-import { PropertyPermissionsSpec } from '../../property/property/property.visa';
-import { BedroomDetail, BedroomDetailProps } from "./bedroom-detail";
+import { PropertyPermissionsSpec } from './property.visa';
+import { PropertyListingDetailBedroomDetail, PropertyListingDetailBedroomDetailProps } from "./property-listing-detail-bedroom-detail";
 import _ from 'underscore';
 import {expect, jest, test} from '@jest/globals';
 
@@ -142,7 +142,7 @@ const runVOStringTestCases = (
 
 describe('Feature::domain.contexts.property.bedroom-detail', () => {
     describe('Given an empty Bedroom Detail', () => {
-        const emptyBedroomDetailProps = jest.mocked({} as BedroomDetailProps);
+        const emptyBedroomDetailProps = jest.mocked({} as PropertyListingDetailBedroomDetailProps);
         describe('When updating the roomName', () => {
             // permission::canManageProperties
             const validPermissionSet_canManageProperties = {
@@ -155,7 +155,7 @@ describe('Feature::domain.contexts.property.bedroom-detail', () => {
                 'roomName',
                 `And the user has ${getPermissionSetDescription(validPermissionSet_canManageProperties)}`,
                 (val) => {
-                    const creatingBedroomDetail = new BedroomDetail(emptyBedroomDetailProps, mockVisa(validPermissionSet_canManageProperties));
+                    const creatingBedroomDetail = new PropertyListingDetailBedroomDetail(emptyBedroomDetailProps, mockVisa(validPermissionSet_canManageProperties));
                     creatingBedroomDetail.RoomName = val;
                     return creatingBedroomDetail;
                 },
@@ -176,7 +176,7 @@ describe('Feature::domain.contexts.property.bedroom-detail', () => {
                 'roomName',
                 `And the user has ${getPermissionSetDescription(validPermissionSet_canEditOwnProperty_isEditingOwnProperty)}`,
                 (val) => {
-                    const creatingBedroomDetail = new BedroomDetail(emptyBedroomDetailProps, mockVisa(validPermissionSet_canEditOwnProperty_isEditingOwnProperty));
+                    const creatingBedroomDetail = new PropertyListingDetailBedroomDetail(emptyBedroomDetailProps, mockVisa(validPermissionSet_canEditOwnProperty_isEditingOwnProperty));
                     creatingBedroomDetail.RoomName = val;
                     return creatingBedroomDetail;
                 },
@@ -192,7 +192,7 @@ describe('Feature::domain.contexts.property.bedroom-detail', () => {
                 const testDescription = `Then I expect system to throw \'You do not have permission to update this listing\' for ${getPermissionSetDescription(invalidPermissionSet)}`;
                 it(testDescription, () => {
                    // Arrange
-                   const creatingBedroomDetail = new BedroomDetail(emptyBedroomDetailProps, mockVisa(invalidPermissionSet));
+                   const creatingBedroomDetail = new PropertyListingDetailBedroomDetail(emptyBedroomDetailProps, mockVisa(invalidPermissionSet));
                    const roomName = 'x'.repeat(1);
                    // Act
                    const settingValidRoomName = () => {

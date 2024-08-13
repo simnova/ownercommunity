@@ -58,8 +58,9 @@ export class EndUserDomainApiImpl
         let newUser = await repo.getNewInstance(
           userExternalId,
           userLastName,
-          userRestOfName ? userLastName : undefined);
+          userRestOfName);
         if (userEmail) {
+          newUser.Email=(userEmail);
           newUser.personalInformation.contactInformation.Email=(userEmail);
         }
         userToReturn = userConverter.toPersistence(await repo.save(newUser));

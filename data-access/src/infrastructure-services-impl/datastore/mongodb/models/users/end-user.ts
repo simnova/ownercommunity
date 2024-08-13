@@ -7,7 +7,7 @@ export interface EndUserContactInformation extends NestedPath {
 }
 
 export const EndUserContactInformationType = {
-  email: { type: String, match: Patterns.EMAIL_PATTERN, maxlength: 254, unique: true, required: true, index: true },
+  email: { type: String, match: Patterns.EMAIL_PATTERN, maxlength: 254, required: false},
 }
 
 export interface EndUserIdentityDetails extends NestedPath {
@@ -35,6 +35,7 @@ export const EndUserPersonalInformationType = {
 export interface EndUser extends User {
   personalInformation: EndUserPersonalInformation;
 
+  email?: string;
   displayName: string;
   externalId: string;
   userType?: string;
@@ -50,6 +51,7 @@ export const EndUserSchema = new Schema<EndUser, Model<EndUser>, EndUser>(
       default: '1.0.0',
       required: false,
     },
+    email: { type: String, match: Patterns.EMAIL_PATTERN, maxlength: 254, required: false },
     externalId: {
       type: String,
       match: Patterns.GUID_PATTERN,
@@ -64,11 +66,6 @@ export const EndUserSchema = new Schema<EndUser, Model<EndUser>, EndUser>(
       required: true,
       maxlength: 500,
     },
-    discriminatorKey: {
-      type: String,
-      required: true,
-      default: 'userType',
-    },
     accessBlocked: {
       type: Boolean,
       required: true,
@@ -80,6 +77,6 @@ export const EndUserSchema = new Schema<EndUser, Model<EndUser>, EndUser>(
     }
   },
   userOptions
-).index({ "personalInformation.contactInformation.email": 1 }, { unique: true });
+).index({ 'personalInformation.contactInformation.email': 1 }, { sparse: true });
 
 export const EndUserModel = UserModel.discriminator('end-users', EndUserSchema);

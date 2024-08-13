@@ -1,7 +1,5 @@
 import { DomainDataSource } from "../../data-sources/domain-data-source";
 import { ReadOnlyDomainVisa } from "../../domain/domain.visa";
-import { BedDescriptions } from "../../domain/contexts/property/property/bedroom-detail.value-objects";
-import { Amenities, Images } from "../../domain/contexts/property/property/listing-detail.value-objects";
 import { Property } from "../../domain/contexts/property/property/property";
 import { PropertyData } from "../../external-dependencies/datastore";
 import { PropertyDomainAdapter, CommunityConverter, PropertyConverter, MemberConverter, PropertyRepository } from "../../external-dependencies/domain";
@@ -73,12 +71,12 @@ export class PropertyDomainApiImpl
             if (!updatedBedroom.id) {
               let newBedroom = property.listingDetail.requestNewBedroom();
               newBedroom.RoomName = (updatedBedroom.roomName);
-              newBedroom.BedDescriptions = (new BedDescriptions(updatedBedroom.bedDescriptions));
+              newBedroom.BedDescriptions = (updatedBedroom.bedDescriptions);
             } else {
               let systemBedroom = systemBedroomDetails.find((bedroom) => bedroom.id === updatedBedroom.id);
               if (systemBedroom === undefined) throw new Error('Bedroom not found');
               systemBedroom.RoomName = (updatedBedroom.roomName);
-              systemBedroom.BedDescriptions = (new BedDescriptions(updatedBedroom.bedDescriptions));
+              systemBedroom.BedDescriptions = (updatedBedroom.bedDescriptions);
             }
           });
           let updatedIds = updatedBedroomDetails.filter((x) => x.id !== undefined).map((x) => x.id);
@@ -92,7 +90,7 @@ export class PropertyDomainApiImpl
         if (input.listingDetail.bathrooms !== undefined) property.listingDetail.Bathrooms = (input.listingDetail.bathrooms);
         if (input.listingDetail.squareFeet !== undefined) property.listingDetail.SquareFeet = (input.listingDetail.squareFeet);
         if (input.listingDetail.description !== undefined) property.listingDetail.Description = (input.listingDetail.description);
-        if (input.listingDetail.amenities !== undefined) property.listingDetail.Amenities = (new Amenities(input.listingDetail.amenities));
+        if (input.listingDetail.amenities !== undefined) property.listingDetail.Amenities = (input.listingDetail.amenities);
         if (input.listingDetail.additionalAmenities !== undefined) {
           let systemAdditionalAmenities = property.listingDetail.additionalAmenities;
           let updatedAdditionalAmenities = input.listingDetail.additionalAmenities;
@@ -100,12 +98,12 @@ export class PropertyDomainApiImpl
             if (!updatedAmenity.id) {
               let newAmenity = property.listingDetail.requestNewAmenity();
               newAmenity.Category = (updatedAmenity.category);
-              newAmenity.Amenities = (new Amenities(updatedAmenity.amenities));
+              newAmenity.Amenities = (updatedAmenity.amenities);
             } else {
               let systemAmenity = systemAdditionalAmenities.find((amenity) => amenity.id === updatedAmenity.id);
               if (systemAmenity === undefined) throw new Error('Amenity not found');
               systemAmenity.Category = (updatedAmenity.category);
-              systemAmenity.Amenities = (new Amenities(updatedAmenity.amenities));
+              systemAmenity.Amenities = (updatedAmenity.amenities);
             }
           });
           let updatedIds = updatedAdditionalAmenities.filter((x) => x.id !== undefined).map((x) => x.id);
@@ -115,10 +113,10 @@ export class PropertyDomainApiImpl
               property.listingDetail.requestRemoveAdditionalAmenity(systemAmenity);
             });
         }
-        if (input.listingDetail.images !== undefined) property.listingDetail.Images = (new Images(input.listingDetail.images));
+        if (input.listingDetail.images !== undefined) property.listingDetail.Images = (input.listingDetail.images);
         //todo video
         if (input.listingDetail.floorPlan !== undefined) property.listingDetail.FloorPlan = (input.listingDetail.floorPlan);
-        if (input.listingDetail.floorPlanImages !== undefined) property.listingDetail.FloorPlanImages = (new Images(input.listingDetail.floorPlanImages));
+        if (input.listingDetail.floorPlanImages !== undefined) property.listingDetail.FloorPlanImages = (input.listingDetail.floorPlanImages);
         if (input.listingDetail.listingAgent !== undefined) property.listingDetail.ListingAgent = (input.listingDetail.listingAgent);
         if (input.listingDetail.listingAgentPhone !== undefined) property.listingDetail.ListingAgentCompanyPhone = (input.listingDetail.listingAgentPhone);
         if (input.listingDetail.listingAgentEmail !== undefined) property.listingDetail.ListingAgentEmail = (input.listingDetail.listingAgentEmail);

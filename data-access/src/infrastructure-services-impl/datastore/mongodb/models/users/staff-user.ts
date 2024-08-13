@@ -33,9 +33,7 @@ export const StaffUserSchema = new Schema<StaffUser, Model<StaffUser>, StaffUser
       type: String,
       match: Patterns.EMAIL_PATTERN,
       maxlength: 254,
-      unique: true,
       required: false,
-      index: true,
     },
     schemaVersion: {
       type: String,
@@ -56,11 +54,6 @@ export const StaffUserSchema = new Schema<StaffUser, Model<StaffUser>, StaffUser
       required: true,
       maxlength: 500,
     },
-    discriminatorKey: {
-      type: String,
-      required: true,
-      default: 'userType',
-    },
     accessBlocked: {
       type: Boolean,
       required: true,
@@ -72,6 +65,6 @@ export const StaffUserSchema = new Schema<StaffUser, Model<StaffUser>, StaffUser
     }
   },
   userOptions
-).index({ email: 1 }, { unique: true });
+).index({ email: 1 }, { sparse: true });
 
 export const StaffUserModel = UserModel.discriminator('internal-staff', StaffUserSchema);

@@ -9,6 +9,7 @@ import { EndUserPersonalInformation, EndUserPersonalInformationEntityReference, 
 export interface EndUserProps extends EntityProps {
   readonly personalInformation: EndUserPersonalInformationProps;
   
+  email?: string;
   displayName: string;
   externalId:string;
   accessBlocked: boolean;
@@ -36,6 +37,7 @@ export class EndUser<props extends EndUserProps> extends AggregateRoot<props> im
     return new EndUserPersonalInformation(this.props.personalInformation);
   }
 
+  get email(): string {return this.props.email;}
   get displayName(): string {return this.props.displayName;}
   get externalId(): string {return this.props.externalId;}
   get accessBlocked(): boolean {return this.props.accessBlocked;}
@@ -72,6 +74,10 @@ export class EndUser<props extends EndUserProps> extends AggregateRoot<props> im
     if (!this.isNew && !this.visa.determineIf((permissions) => permissions.isEditingOwnAccount)) {
       throw new Error('Unauthorized');
     }
+  }
+
+  set Email(email:string) {
+    this.props.email = (new ValueObjects.Email(email)).valueOf();
   }
 
   set DisplayName(displayName:string) {

@@ -28,6 +28,13 @@ export class EndUserDomainAdapter extends MongooseDomainAdapter<EndUser> impleme
     return new EndUserPersonalInformationDomainAdapter(this.doc.personalInformation);
   }
 
+  get email() {
+    return this.doc.email;
+  }
+  set email(email) {
+    this.doc.email = email;
+  }
+
   get displayName() {
     return this.doc.displayName;
   }

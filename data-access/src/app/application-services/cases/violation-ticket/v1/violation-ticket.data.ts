@@ -65,4 +65,88 @@ export class ViolationTicketV1DataApiImpl
         ...transaction
       }));
   }
+
+  async getGlTransactions() {
+    let submissionTransactions = await this.model.aggregate([
+      {
+        $match: {
+          $and: [
+            {
+              "financeDetails.revenueRecognition.submission.completedOn":
+                {
+                  $exists: true,
+                  $eq: null
+                }
+            }
+          ]
+        }
+      },
+      {
+        $project: {
+          case: "$_id",
+          caseType: "$ticketType",
+          applicant: "$assignedTo",
+          transactionType: "submission",
+          amount:
+            "$financeDetails.transactions.submission.amount",
+          transactionReference: {
+            referenceId:
+              "$financeDetails.transactions.submission.transactionReference.referenceId",
+            vendor:
+              "$financeDetails.transactions.submission.transactionReference.vendor",
+            completedOn:
+              "$financeDetails.transactions.submission.transactionReference.completedOn"
+          },
+          financeReference: {
+            debitGLAccount:
+              "$financeDetails.revenueRecognition.submission.debitGlAccount",
+            creditGLAccount:
+              "$financeDetails.revenueRecognition.submission.creditGlAccount"
+          }
+        }
+      },
+    ]).exec();
+
+    let recognitionTransactions = await this.model.aggregate([
+      {
+        $match: {
+          $and: [
+            {
+              "financeDetails.revenueRecognition.recognition.completedOn":
+                {
+                  $exists: true,
+                  $eq: null
+                }
+            }
+          ]
+        }
+      },
+      {
+        $project: {
+          case: "$_id",
+          caseType: "$ticketType",
+          applicant: "$assignedTo",
+          transactionType: "recognition",
+          amount:
+            "$financeDetails.transactions.recognition.amount",
+          transactionReference: {
+            referenceId:
+              "$financeDetails.transactions.submission.transactionReference.referenceId",
+            vendor:
+              "$financeDetails.transactions.submission.transactionReference.vendor",
+            completedOn:
+              "$financeDetails.transactions.submission.transactionReference.completedOn"
+          },
+          financeReference: {
+            debitGLAccount:
+              "$financeDetails.revenueRecognition.recognition.debitGlAccount",
+            creditGLAccount:
+              "$financeDetails.revenueRecognition.recognition.creditGlAccount"
+          }
+        }
+      },
+    ]).exec();
+
+    // TODO: Write Aggregation pipeline to get ADHOC GL Transactions combine results for all 3 pipelines and then return
+  }
 }

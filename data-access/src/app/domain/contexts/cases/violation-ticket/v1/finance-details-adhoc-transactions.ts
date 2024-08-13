@@ -2,6 +2,7 @@ import { Entity, EntityProps } from "../../../../../../../seedwork/domain-seedwo
 import { DomainExecutionContext } from "../../../../domain-execution-context";
 import { Member, MemberEntityReference, MemberProps } from "../../../community/member/member";
 import { FinanceReference, FinanceReferenceProps } from "./finance-detail-adhoc-transactions-finance-reference";
+import { Approval, ApprovalProps } from "./finance-details-adhoc-transactions-approval";
 import { TransactionReference, TransactionReferenceProps } from "./violation-ticket-v1-finance-details-transactions-submission-transaction-reference";
 
 export interface AdhocTransactionsPropValues extends EntityProps { 
@@ -10,11 +11,7 @@ export interface AdhocTransactionsPropValues extends EntityProps {
   setRequestedByRef: (requestedBy: MemberEntityReference) => void;
   requestedOn: Date;
   reason: string;
-  approval: {
-    isApplicantApprovalRequired: boolean;
-    isApplicantApproved: boolean;
-    applicantRespondedAt: Date;
-  };
+  approval: ApprovalProps;
   readonly transactionReference: TransactionReferenceProps;
   readonly financeReference: FinanceReferenceProps;
   createdAt: Date;
@@ -23,7 +20,7 @@ export interface AdhocTransactionsPropValues extends EntityProps {
 
 export interface AdhocTransactionsProps extends AdhocTransactionsPropValues {}
 
-export interface AdhocTransactionsEntityReference extends Readonly<Omit<AdhocTransactionsPropValues, 'requestedBy' | 'setRequestedByRef' | 'transactionReference' | 'financeReference'>> {
+export interface AdhocTransactionsEntityReference extends Readonly<Omit<AdhocTransactionsPropValues, 'requestedBy' | 'setRequestedByRef' | 'transactionReference' | 'financeReference' | 'approval'>> {
   readonly requestedBy: MemberEntityReference;
 }
 
@@ -48,12 +45,8 @@ export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements
     return this.props.reason;
   }
 
-  get approval(): {
-    isApplicantApprovalRequired: boolean;
-    isApplicantApproved: boolean;
-    applicantRespondedAt: Date;
-  } {
-    return this.props.approval;
+  get approval() {
+    return new Approval(this.props.approval, this.context);
   }
 
   get transactionReference(): TransactionReference {
@@ -86,14 +79,6 @@ export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements
 
   set Reason(reason: string) {
     this.props.reason = reason;
-  }
-
-  set Approval(approval: {
-    isApplicantApprovalRequired: boolean;
-    isApplicantApproved: boolean;
-    applicantRespondedAt: Date;
-  }) {
-    this.props.approval = approval;
   }
 
   set CreatedAt(createdAt: Date) {

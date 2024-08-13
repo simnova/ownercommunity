@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { PropArray } from "../../../../../../../seedwork/domain-seedwork/prop-array";
 import { ValueObject, ValueObjectProps } from "../../../../../../../seedwork/domain-seedwork/value-object";
 import { DomainExecutionContext } from "../../../../domain-execution-context";
@@ -31,5 +32,13 @@ export class Transactions extends ValueObject<TransactionsProps> implements Tran
   public requestAddNewAdhocTransaction(): AdhocTransactions {
     let adhocTransaction = this.props.adhocTransactions.getNewItem();
     return new AdhocTransactions(adhocTransaction, this.context);
+  }
+
+  public getAdhocTransaction(id: string ): AdhocTransactions {
+    const transaction = this.props.adhocTransactions.items.find((transaction) => transaction.id === id);
+    if (transaction) {
+      return new AdhocTransactions(this.props.adhocTransactions.items.find((transaction) => transaction.id === id), this.context); 
+    }
+    return undefined;
   }
 }

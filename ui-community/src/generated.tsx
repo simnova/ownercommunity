@@ -167,8 +167,13 @@ export type AddressInput = {
 /** An AdhocPaymentRequestInput describes adhoc payment request input type. */
 export type AdhocPaymentRequestInput = {
   amount: Scalars['Float'];
-  isApplicantApprovalRequired: Scalars['Boolean'];
   reason: Scalars['String'];
+  violationTicketId: Scalars['ObjectID'];
+};
+
+export type AdhocPaymentRequestUpdateInput = {
+  adhocTransactionId: Scalars['ObjectID'];
+  isRequestApprovalRequired: Scalars['Boolean'];
   violationTicketId: Scalars['ObjectID'];
 };
 
@@ -699,6 +704,7 @@ export type Mutation = {
   userUpdate: UserMutationResult;
   violationTicketAddUpdateActivity: ViolationTicketMutationResult;
   violationTicketAdhocPaymentRequest: ViolationTicketMutationResult;
+  violationTicketAdhocPaymentRequestUpdate: ViolationTicketMutationResult;
   violationTicketAssign: ViolationTicketMutationResult;
   violationTicketChangeStatus: ViolationTicketMutationResult;
   violationTicketCreate: ViolationTicketMutationResult;
@@ -935,6 +941,11 @@ export type MutationViolationTicketAddUpdateActivityArgs = {
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
 export type MutationViolationTicketAdhocPaymentRequestArgs = {
   input: AdhocPaymentRequestInput;
+};
+
+/**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */
+export type MutationViolationTicketAdhocPaymentRequestUpdateArgs = {
+  input: AdhocPaymentRequestUpdateInput;
 };
 
 /**  Base Mutation Type definition - all mutations will be defined in separate files extending this type  */

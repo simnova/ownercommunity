@@ -112,6 +112,7 @@ extend type Mutation {
   violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput!): ViolationTicketMutationResult!
   violationTicketProcessPayment(input: ViolationTicketProcessPaymentInput!): ViolationTicketMutationResult!
   violationTicketAdhocPaymentRequest(input: AdhocPaymentRequestInput!): ViolationTicketMutationResult!
+  violationTicketAdhocPaymentRequestUpdate(input: AdhocPaymentRequestUpdateInput!): ViolationTicketMutationResult!
 }
 
 input ViolationTicketDeleteInput {
@@ -213,5 +214,13 @@ input AdhocPaymentRequestInput {
   violationTicketId: ObjectID!
   amount: Float!
   reason: String!
-  isApplicantApprovalRequired: Boolean!
+  #isApplicantApprovalRequired: Boolean!
 }
+
+input AdhocPaymentRequestUpdateInput {
+  violationTicketId: ObjectID!
+  adhocTransactionId: ObjectID!
+  isRequestApprovalRequired: Boolean!
+}
+
+

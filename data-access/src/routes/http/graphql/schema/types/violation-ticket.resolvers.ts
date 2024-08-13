@@ -109,6 +109,9 @@ const serviceTicket: Resolvers = {
     violationTicketAdhocPaymentRequest: async (_, { input }, { applicationServices }) => {
       return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketAdhocPaymentRequest(input));
     },
+    violationTicketAdhocPaymentRequestUpdate: async (_, { input }, { applicationServices }) => {
+      return ViolationTicketMutationResolver(applicationServices.cases.violationTicket.v1.domainApi.violationTicketAdhocPaymentRequestUpdate(input));
+    },
   },
 };
 

@@ -16,9 +16,15 @@ import {
   ViolationTicketAddUpdateActivityInput,
   ViolationTicketProcessPaymentInput,
   AdhocPaymentRequestInput,
+  AdhocPaymentRequestUpdateInput,
+  Approval,
 } from '../../../../external-dependencies/graphql-api';
 import { AppContext } from '../../../../init/app-context-builder';
 import { CybersourcePaymentTransactionResponse } from '../../../member/member.payment';
+import { time } from 'console';
+import { app } from '@azure/functions';
+import { AdhocTransactionsEntityReference, AdhocTransactionsPropValues } from '../../../../domain/contexts/cases/violation-ticket/v1/finance-details-adhoc-transactions';
+import { AdhocTransactionDomainAdapter } from '../../../../../infrastructure-services-impl/datastore/mongodb/infrastructure/cases/violation-ticket/v1/violation-ticket.domain-adapter';
 
 export interface ViolationTicketV1DomainApi {
   violationTicketCreate(input: ViolationTicketCreateInput): Promise<ViolationTicketData>;
@@ -29,6 +35,7 @@ export interface ViolationTicketV1DomainApi {
   violationTicketAddUpdateActivity(input: ViolationTicketAddUpdateActivityInput): Promise<ViolationTicketData>;
   violationTicketProcessPayment(input: ViolationTicketProcessPaymentInput): Promise<ViolationTicketData>;
   violationTicketAdhocPaymentRequest(input: AdhocPaymentRequestInput): Promise<ViolationTicketData>;
+  violationTicketAdhocPaymentRequestUpdate(input: AdhocPaymentRequestUpdateInput): Promise<ViolationTicketData>;
 }
 
 type PropType = ViolationTicketV1DomainAdapter;
@@ -282,10 +289,30 @@ export class ViolationTicketV1DomainApiImpl extends DomainDataSource<AppContext,
       adhocTransaction.RequestedBy = memberDo;
       adhocTransaction.RequestedOn = new Date();
       adhocTransaction.Reason = input.reason;
-      adhocTransaction.Approval.isApplicantApprovalRequired = input.isApplicantApprovalRequired;
+      //adhocTransaction.Approval.isApplicantApprovalRequired = input.
       violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
     });
     return violationTicketToReturn;
   }
-}
 
+  async violationTicketAdhocPaymentRequestUpdate(input: AdhocPaymentRequestUpdateInput): Promise<ViolationTicketData> {
+    let violationTicketToReturn : ViolationTicketData;
+    await this.withTransaction(async (repo) => {
+        let violationTicket = await repo.getById(input.violationTicketId);
+        let adhocTransaction = violationTicket.financeDetails.transactions.getAdhocTransaction(input.adhocTransactionId);
+        if (input.isRequestApprovalRequired) {
+          // if (!adhocTransaction.Approval) {
+          //   adhocTransaction.Approval = {
+          //     isApplicantApprovalRequired: false,
+          //     isApplicantApproved: false,
+          //     applicantRespondedAt: null
+          //   };
+          // }
+          adhocTransaction.Approval.isApplicantApproved = true;
+          adhocTransaction.Approval.applicantRespondedAt = new Date();
+          violationTicketToReturn = new ViolationTicketV1Converter().toPersistence(await repo.save(violationTicket));
+        }
+    });
+    return violationTicketToReturn;
+  }
+}

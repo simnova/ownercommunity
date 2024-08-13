@@ -147,6 +147,6 @@ export class ViolationTicketV1DataApiImpl
       },
     ]).exec();
 
-
+    // TODO: Write Aggregation pipeline to get ADHOC GL Transactions combine results for all 3 pipelines and then return
   }
 }

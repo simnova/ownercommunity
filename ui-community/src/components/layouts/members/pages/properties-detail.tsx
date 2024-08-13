@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useLocation, matchRoutes, useNavigate, RouteMatch } from 'react-router-dom';
+import { Routes, Route, Link, useLocation, matchRoutes, useNavigate, RouteMatch, useResolvedPath } from 'react-router-dom';
 import { PageHeader } from '@ant-design/pro-layout';
 import { Col, Menu, Row } from 'antd';
 import { ProfileOutlined, CompassOutlined, FileOutlined } from '@ant-design/icons';
@@ -13,23 +13,22 @@ import { Helmet } from 'react-helmet-async';
 export const PropertiesDetail: React.FC<any> = (_props) => {
   const location = useLocation();
   const navigate = useNavigate();
-
   const pages = [
     {
       id: '1',
-      path: 'community/:communityId/member/:userId/properties/:id/',
+      path: useResolvedPath('').pathname,
       title: 'General',
       icon: <ProfileOutlined />
     },
     {
       id: '2',
-      path: 'community/:communityId/member/:userId/properties/:id/listing/*',
+      path: useResolvedPath('listing').pathname,
       title: 'Listing',
       icon: <FileOutlined />
     },
     {
       id: '3',
-      path: 'community/:communityId/member/:userId/properties/:id/location/*',
+      path: useResolvedPath('location').pathname,
       title: 'Location',
       icon: <CompassOutlined />
     }

@@ -3,9 +3,6 @@ import type { MenuProps } from 'antd';
 import { Breadcrumb, Dropdown } from 'antd';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AHPObjectRouteLayer, AHPRootRouteLayer } from '..';
-import { AHPObjectStatusRouteLayer } from '../pages/request-list-page';
-import { AHPActiveCaseDetailsLayer } from '../pages/request-list-page/case-details-page/active-case-details-page';
 
 const Breadcrumbs: React.FC = () => {
   const location = useLocation();
@@ -13,32 +10,32 @@ const Breadcrumbs: React.FC = () => {
   const pathSnippets = location.pathname.split('/').filter((i) => i);
 
   const breadcrumbNameMap: { [key: string]: string | undefined } = {
-    [AHPRootRouteLayer]: 'AHP Proof of Concepts',
-    [AHPObjectRouteLayer.Cases]: 'Cases',
-    [AHPObjectRouteLayer.Settings]: 'Settings',
-    [AHPObjectStatusRouteLayer.Active]: 'Active',
-    [AHPObjectStatusRouteLayer.Archived]: 'Archived',
-    [AHPActiveCaseDetailsLayer.Application]: 'Application',
-    [AHPActiveCaseDetailsLayer.Chat]: 'Chat',
-    [AHPActiveCaseDetailsLayer.Files]: 'Files',
-    [AHPActiveCaseDetailsLayer.Transactions]: 'Transactions'
+    ["ahp-proof-of-concepts"]: 'AHP Proof of Concepts',
+    ["cases"]: 'Cases',
+    ["settings"]: 'Settings',
+    ["active"]: 'Active',
+    ["archived"]: 'Archived',
+    ["application"]: 'Application',
+    ["chat"]: 'Chat',
+    ["files"]: 'Files',
+    ["transactions"]: 'Transactions'
   };
 
   const caseStatusDropdownMenuItems: MenuProps['items'] = [
     {
-      key: `${AHPObjectStatusRouteLayer.Active}`,
-      label: <Link to={`${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Active}`}>Active</Link>
+      key: `active`,
+      label: <Link to={`cases/acive`}>Active</Link>
     },
     {
-      key: `${AHPObjectStatusRouteLayer.Archived}`,
-      label: <Link to={`${AHPObjectRouteLayer.Cases}/${AHPObjectStatusRouteLayer.Archived}`}>Archived</Link>
+      key: `archived`,
+      label: <Link to={`cases/archived`}>Archived</Link>
     }
   ];
 
   const breadcrumbItems = pathSnippets.map((snippet, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
 
-    if ([`${AHPObjectStatusRouteLayer.Active}`, `${AHPObjectStatusRouteLayer.Archived}`].includes(snippet)) {
+    if ([`active`, `archived`].includes(snippet)) {
       return (
         <Breadcrumb.Item key={url}>
           <Dropdown menu={{ items: caseStatusDropdownMenuItems }} placement="bottomLeft">

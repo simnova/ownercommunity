@@ -1,7 +1,6 @@
 import { FC, Key, useEffect, useState } from 'react';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { SelectableList, SelectableListDataType } from '../../../components/selectable-list';
-import { AHPObjectIDRouteLayer } from '../case-details-page';
 
 const DummyActiveCases: SelectableListDataType[] = [
   {
@@ -33,7 +32,7 @@ export const ActiveCaseListContainer: FC<ActiveCaseListContainerProps> = (_props
 
   const activeCaseListRoutePath = useResolvedPath('');
   const selectedActiveCaseRouteMatch = useMatch(
-    `${activeCaseListRoutePath.pathname}/:${AHPObjectIDRouteLayer.CaseId}/*`
+    `${activeCaseListRoutePath.pathname}/:caseId/*`
   );
   // set selected based on type and id
   useEffect(() => {
@@ -41,7 +40,7 @@ export const ActiveCaseListContainer: FC<ActiveCaseListContainerProps> = (_props
     if (selectedActiveCaseRouteMatch) {
       setSelectedActiveCase(
         DummyActiveCases.find(
-          (r) => r.key.toString() === selectedActiveCaseRouteMatch.params[AHPObjectIDRouteLayer.CaseId]
+          (r) => r.key.toString() === selectedActiveCaseRouteMatch.params['caseId']
         )
       );
       navigate(selectedActiveCaseRouteMatch.pathname);

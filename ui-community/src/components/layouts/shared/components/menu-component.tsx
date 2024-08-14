@@ -59,7 +59,7 @@ export const MenuComponent = ({ pageLayouts, ...props }: TextProp) => {
     const matchedIds = matchedPages ? matchedPages.map((x: any) => x.route.id.toString()) : [];
     console.log(matchedPages)
     return (
-      <Menu theme={props.theme} mode={props.mode} defaultSelectedKeys={matchedIds} selectedKeys={matchedIds}>
+      <Menu theme={props.theme} mode={props.mode} defaultSelectedKeys={matchedIds} selectedKeys={matchedIds} style={{ background: "transparent"}}>
         <Menu.Item key="ROOT" icon={root.icon}>
           <Link to={createPath(root.path)}>{root.title}</Link>
         </Menu.Item>

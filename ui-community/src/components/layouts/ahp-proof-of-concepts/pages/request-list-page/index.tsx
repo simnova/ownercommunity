@@ -5,25 +5,21 @@ import { ActiveCaseListContainer } from './components/active-case-list.container
 import { ArchivedCaseListContainer } from './components/archived-case-list.container';
 import { CaseListPageLayout } from './request-list-page-layout';
 
-export const AHPObjectStatusRouteLayer = {
-  Active: 'active',
-  Archived: 'archived'
-};
 
 interface RequestListPageProps {}
 
 export const RequestListPage: FC<RequestListPageProps> = (_props) => {
   const navigate = useNavigate();
 
-  const activeRoutePath = useResolvedPath(AHPObjectStatusRouteLayer.Active + '/*');
-  const archivedRoutePath = useResolvedPath(AHPObjectStatusRouteLayer.Archived + '/*');
+  const activeRoutePath = useResolvedPath('active/*');
+  const archivedRoutePath = useResolvedPath('archived/*');
 
   // redirect to (default) active cases if cases route is accessed
   const rootRoutePath = useResolvedPath('');
   const match = useMatch(rootRoutePath.pathname);
   useEffect(() => {
     if (match) {
-      navigate(AHPObjectStatusRouteLayer.Active);
+      navigate('active');
     }
   }, [match]);
 
@@ -46,8 +42,8 @@ export const RequestListPage: FC<RequestListPageProps> = (_props) => {
   return (
     <Routes>
       <Route path="" element={<CaseListPageLayout pageLayouts={pageLayouts} />}>
-        <Route path={`${AHPObjectStatusRouteLayer.Active}/*`} element={<ActiveCaseListContainer />} />
-        <Route path={`${AHPObjectStatusRouteLayer.Archived}/*`} element={<ArchivedCaseListContainer />} />
+        <Route path={`active/*`} element={<ActiveCaseListContainer />} />
+        <Route path={`archived/*`} element={<ArchivedCaseListContainer />} />
       </Route>
     </Routes>
   );

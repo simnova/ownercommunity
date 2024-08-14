@@ -52,6 +52,7 @@ export const SelectableList: FC<SelectableListProps> = (props) => {
             selectRow(record);
           }
         })}
+        style={{backgroundColor: "transparent"}}
         rowSelection={rowSelection}
         columns={columns}
         dataSource={props.data}

@@ -1,7 +1,6 @@
 import { FC, Key, useEffect, useState } from 'react';
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { SelectableList, SelectableListDataType } from '../../../components/selectable-list';
-import { AHPObjectIDRouteLayer } from '../case-details-page';
 
 const DummyArchivedCases: SelectableListDataType[] = [
   {
@@ -33,7 +32,7 @@ export const ArchivedCaseListContainer: FC<ArchivedCaseListContainerProps> = (_p
 
   const archivedCaseListRoutePath = useResolvedPath('');
   const selectedArchivedCaseRouteMatch = useMatch(
-    `${archivedCaseListRoutePath.pathname}/:${AHPObjectIDRouteLayer.CaseId}`
+    `${archivedCaseListRoutePath.pathname}/:caseId}`
   );
 
   // set selected based on type and id
@@ -42,7 +41,7 @@ export const ArchivedCaseListContainer: FC<ArchivedCaseListContainerProps> = (_p
     if (selectedArchivedCaseRouteMatch) {
       setSelectedArchivedCase(
         DummyArchivedCases.find(
-          (r) => r.key.toString() === selectedArchivedCaseRouteMatch.params[AHPObjectIDRouteLayer.CaseId]
+          (r) => r.key.toString() === selectedArchivedCaseRouteMatch.params['caseId}']
         )
       );
       navigate(selectedArchivedCaseRouteMatch.pathname);

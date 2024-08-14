@@ -11,13 +11,19 @@ interface CaseListPageLayoutProps {
 }
 export const CaseListPageLayout: FC<CaseListPageLayoutProps> = (props) => {
   return (
-    <Layout style={{ minHeight: '100%' }} hasSider>
+    <Layout style={{ minHeight: '100%', borderBottom: '1px solid #e6e6e6' }} hasSider>
       {/* make new requests and request list area */}
       <Sider
         width={300}
-        style={{ borderRight: '1px solid black', borderBottom: '1px solid black', textAlign: 'center' }}
+        style={{
+          borderRight: '1px solid  #e6e6e6',
+          textAlign: 'center',
+          background: 'transparent',
+          marginLeft: '-40px'
+        }}
         theme="light"
       >
+        <Divider style={{ margin: '15px 0 10px 0' }} />
         <Button type="primary" style={{ margin: '20px 0 5px' }}>
           New Request
         </Button>
@@ -26,7 +32,7 @@ export const CaseListPageLayout: FC<CaseListPageLayoutProps> = (props) => {
         <Outlet />
       </Sider>
       {/* request details area */}
-      <Content style={{ background: 'white', padding: '10px' }}>
+      <Content style={{ background: 'transparent', padding: '10px' }}>
         <CaseDetailsPage />
       </Content>
     </Layout>

@@ -8,7 +8,7 @@ import { Root } from './components/layouts/root';
 import { Staff } from './components/layouts/staff';
 import { AuthLanding } from './components/shared/auth-landing';
 import RequireAuth from './components/shared/require-auth';
-import { AHPProofOfConcepts, AHPRootRouteLayer } from './components/layouts/ahp-proof-of-concepts';
+import { AHPProofOfConcepts } from './components/layouts/ahp-proof-of-concepts';
 import { AuthProvider } from 'react-oidc-context';
 import { uiConfig, staffConfig } from './config/odic-config';
 
@@ -38,7 +38,7 @@ function App() {
             <Route path="/accounts/*" element={<Accounts />} />
             <Route path="/:communityId/admin/:memberId/*" element={<Admin />} />
             <Route path="/:communityId/member/:memberId/*" element={<Members />} />
-            <Route path={`/${AHPRootRouteLayer}/*`} element={<AHPProofOfConcepts />} />
+            <Route path={`/ahp-proof-of-concepts/*`} element={<AHPProofOfConcepts />} />
           </Routes>
         </ApolloConnection>
       </RequireAuth>

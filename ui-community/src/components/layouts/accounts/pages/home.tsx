@@ -4,13 +4,12 @@ import { CommunityListContainer } from '../components/community-list.container';
 import { UserInfoContainer } from '../components/user-info.container';
 import { Helmet } from 'react-helmet-async';
 import { SubPageLayout } from '../sub-page-layout';
-import { AHPRootRouteLayer } from '../../ahp-proof-of-concepts';
 const { Title } = Typography;
 
 export const Home: React.FC<any> = () => {
   const navigate = useNavigate();
   const onNavigateToAHP = () => {
-    navigate(`/community/${AHPRootRouteLayer}`);
+    navigate(`/community/ahp-proof-of-concepts/cases/active`);
   }
   return (
     <SubPageLayout

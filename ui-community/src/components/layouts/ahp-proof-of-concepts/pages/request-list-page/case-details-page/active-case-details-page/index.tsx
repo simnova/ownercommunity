@@ -1,31 +1,23 @@
 import { FC, useEffect } from 'react';
 import { Route, Routes, useMatch, useNavigate, useParams, useResolvedPath } from 'react-router-dom';
-import { AHPObjectIDRouteLayer } from '..';
 import { PageLayoutProps } from '../../../../../shared/components/menu-component';
 import { ActiveCaseDetailsPageLayout } from './active-case-details-page-layout';
-
-export const AHPActiveCaseDetailsLayer = {
-  Chat: 'chat',
-  Application: 'application',
-  Files: 'files',
-  Transactions: 'transactions'
-};
 
 interface ActiveCaseDetailsPageProps {}
 export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) => {
   const navigate = useNavigate();
   const params = useParams();
-  const chatRoutePath = useResolvedPath(AHPActiveCaseDetailsLayer.Chat);
-  const applicationRoutePath = useResolvedPath(AHPActiveCaseDetailsLayer.Application);
-  const filesRoutePath = useResolvedPath(AHPActiveCaseDetailsLayer.Files);
-  const transactionsRoutePath = useResolvedPath(AHPActiveCaseDetailsLayer.Transactions);
+  const chatRoutePath = useResolvedPath('chat');
+  const applicationRoutePath = useResolvedPath('application');
+  const filesRoutePath = useResolvedPath('files');
+  const transactionsRoutePath = useResolvedPath('transactions');
 
   // redirect to (default) Chat if a case is selected
   const rootRoutePath = useResolvedPath('');
   const match = useMatch(rootRoutePath.pathname);
   useEffect(() => {
     if (match) {
-      navigate(AHPActiveCaseDetailsLayer.Chat);
+      navigate('chat');
     }
   }, [match]);
 
@@ -40,7 +32,7 @@ export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) =>
       path: applicationRoutePath.pathname,
       title: 'Application',
       icon: <></>,
-      id: AHPActiveCaseDetailsLayer.Application,
+      id: 'application',
       parent: 'ROOT'
     },
     {
@@ -54,7 +46,7 @@ export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) =>
       path: transactionsRoutePath.pathname,
       title: 'Transactions',
       icon: <></>,
-      id: AHPActiveCaseDetailsLayer.Transactions,
+      id: 'transactions',
       parent: 'ROOT'
     }
   ];
@@ -63,9 +55,9 @@ export const ActiveCaseDetailsPage: FC<ActiveCaseDetailsPageProps> = (_props) =>
     <Routes>
       <Route path="" element={<ActiveCaseDetailsPageLayout pageLayouts={pageLayouts} />}>
         <Route path="chat" element={<></>} />
-        <Route path="application" element={<>Application for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
-        <Route path="files" element={<>Files for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
-        <Route path="transactions" element={<>Transactions for case id {params[AHPObjectIDRouteLayer.CaseId]}</>} />
+        <Route path="application" element={<>Application for case id {params['caseId']}</>} />
+        <Route path="files" element={<>Files for case id {params['caseId']}</>} />
+        <Route path="transactions" element={<>Transactions for case id {params['caseId']}</>} />
       </Route>
     </Routes>
   );

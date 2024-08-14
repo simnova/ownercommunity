@@ -2,26 +2,54 @@ import ProLayout from '@ant-design/pro-layout';
 import { Menu, Space, Button } from 'antd';
 import { Header, Footer, Content } from 'antd/es/layout/layout';
 import React from 'react';
-import { useNavigate, Link, useResolvedPath, Outlet } from 'react-router-dom';
+import { useNavigate, Link, useResolvedPath, Outlet, matchRoutes } from 'react-router-dom';
+import { HomeOutlined, SettingOutlined} from '@ant-design/icons';
 import { PageLayoutProps } from '../shared/components/menu-component';
 
 interface ProSectionLayoutProps {
-  pageLayouts: PageLayoutProps[];
 }
 
-const ProSectionLayout: React.FC<ProSectionLayoutProps> = ({ pageLayouts }) => {
+const ProSectionLayout: React.FC<ProSectionLayoutProps> = () => {
   const navigate = useNavigate();
 
-  const getKeyPath = () => {
-    if (location.pathname.includes('settings')) {
-      return 'settings';
-    }
-    return 'cases';
+  const casesRoutePath  = useResolvedPath('cases');
+  const settingsRoutePath = useResolvedPath('settings');
+
+  const matchPartialRoute = (currentPath: string, routePath: string) => {
+    return currentPath.startsWith(routePath);
   };
+  
+  const getMatchedPageIds = (pageLayouts: PageLayoutProps[], location: { pathname: string }) => {
+    const currentPath = location.pathname;
+  
+    return pageLayouts
+      .filter(layout => matchPartialRoute(currentPath, layout.path))
+      .map(layout => layout.id.toString());
+  };
+
+  const pageLayouts = [
+    {
+      path: `${casesRoutePath.pathname}`,
+      title: 'Cases',
+      icon: <HomeOutlined />,
+      id: '1'
+    },
+    {
+      path: `${settingsRoutePath.pathname}`,
+      title: 'Settings',
+      icon: <SettingOutlined />,
+      id: '2',
+      parent: 'ROOT'
+    }
+  ];
+  
+
+  const matchedIds = getMatchedPageIds(pageLayouts, location);
 
   const createMenuItems = () => {
     return pageLayouts.map(layout => (
       <Menu.Item
+        id={layout.id}
         key={layout.id}
         style={{
           padding: '16px 24px',
@@ -31,7 +59,7 @@ const ProSectionLayout: React.FC<ProSectionLayoutProps> = ({ pageLayouts }) => {
           textAlign: 'center',
           lineHeight: '1.2',
           borderRadius: '0',
-          backgroundColor: getKeyPath() === layout.id ? '#bec2f4' : 'transparent'
+          backgroundColor: matchedIds.includes(layout.id) ? '#d3d6f8' : 'transparent'
         }}
       >
         <Link to={useResolvedPath(layout.path).pathname}></Link>
@@ -107,7 +135,7 @@ const ProSectionLayout: React.FC<ProSectionLayoutProps> = ({ pageLayouts }) => {
               marginLeft: '-12px'
             }}
             theme="light"
-            selectedKeys={[getKeyPath()]}
+            selectedKeys={matchedIds}
           >
             {createMenuItems()}
           </Menu>
@@ -119,7 +147,6 @@ const ProSectionLayout: React.FC<ProSectionLayoutProps> = ({ pageLayouts }) => {
       >
         <Content
           style={{
-            // background: "white",
             height: '800px'
           }}
         >

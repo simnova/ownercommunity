@@ -2,7 +2,7 @@ import { BookOutlined, ProfileOutlined, SafetyOutlined, SettingOutlined } from '
 import { PageHeader } from '@ant-design/pro-layout';
 import { Col, Menu, Row, theme } from 'antd';
 
-import { Link, Route, Routes, matchRoutes, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, matchRoutes, useLocation, useResolvedPath } from 'react-router-dom';
 
 import { SubPageLayout } from '../sub-page-layout';
 import { SettingsGeneral } from './settings-general';
@@ -16,8 +16,8 @@ export const Settings: React.FC<any> = () => {
   const location = useLocation();
 
   const pages = [
-    { id: "1", path: 'community/:communityId/admin/:memberId/settings/', title: 'General', icon: <BookOutlined /> },
-    { id: "2", path: 'community/:communityId/admin/:memberId/settings/saml', title: 'Saml', icon: <SettingOutlined /> }
+    { id: "1", path: useResolvedPath('').pathname, title: 'General', icon: <BookOutlined /> },
+    { id: "2", path: useResolvedPath('saml').pathname, title: 'Saml', icon: <SettingOutlined /> }
   ];
 
   const matchedPages = matchRoutes(pages, location);

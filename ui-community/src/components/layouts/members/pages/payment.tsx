@@ -4,7 +4,7 @@ import { WalletContainer } from '../components/wallet.container';
 import { SubPageLayout } from '../sub-page-layout';
 import { CreditCardOutlined } from '@ant-design/icons';
 import { GrTransaction } from 'react-icons/gr';
-import { Link, Route, Routes, matchRoutes, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, matchRoutes, useLocation, useResolvedPath } from 'react-router-dom';
 import TransactionsContainer from '../components/transactions.container';
 
 const Payment: React.FC = () => {
@@ -17,13 +17,13 @@ const Payment: React.FC = () => {
   const pages = [
     {
       id: '1',
-      path: '/community/:communityId/member/:memberId/payment/wallet',
+      path: useResolvedPath('wallet').pathname,
       title: 'Billing Info',
       icon: <CreditCardOutlined />
     },
     {
       id: '2',
-      path: '/community/:communityId/member/:memberId/payment/transactions',
+      path: useResolvedPath('transactions').pathname,
       title: 'Transactions',
       icon: <GrTransaction />
     }

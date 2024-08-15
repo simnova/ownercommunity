@@ -1,7 +1,7 @@
 import { ClientSession, Document, Model } from 'mongoose';
 import { AggregateRoot } from '../../domain-seedwork/aggregate-root';
 import { DomainEvent } from '../../domain-seedwork/domain-event';
-import { EntityProps } from '../../domain-seedwork/entity';
+import { DomainEntityProps } from '../../domain-seedwork/domain-entity';
 import { EventBus } from '../../domain-seedwork/event-bus';
 import { BaseDomainExecutionContext } from '../../domain-seedwork/base-domain-execution-context';
 import { Repository } from '../../domain-seedwork/repository';
@@ -10,7 +10,7 @@ import { TypeConverter } from '../../domain-seedwork/type-converter';
 export abstract class MongoRepositoryBase<
   ContextType extends BaseDomainExecutionContext,
   MongoType extends Document,
-  PropType extends EntityProps,
+  PropType extends DomainEntityProps,
   DomainType extends AggregateRoot<PropType>
 > implements Repository<DomainType>
 {
@@ -64,7 +64,7 @@ export abstract class MongoRepositoryBase<
   static create<
     ContextType extends BaseDomainExecutionContext,
     MongoType extends Document,
-    PropType extends EntityProps,
+    PropType extends DomainEntityProps,
     DomainType extends AggregateRoot<PropType>,
     RepoType extends MongoRepositoryBase<ContextType, MongoType, PropType, DomainType>
   >(

@@ -1,15 +1,15 @@
-import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { PropertyVisa } from './property.visa';
 import * as ValueObjects from './property-listing-detail-additional-amenity.value-objects';
 
-export interface PropertyListingDetailAdditionalAmenityProps extends EntityProps {
+export interface PropertyListingDetailAdditionalAmenityProps extends DomainEntityProps {
   category: string;
   amenities: string[];
 }
 
 export interface PropertyListingDetailAdditionalAmenityReference extends Readonly<PropertyListingDetailAdditionalAmenityProps> {}
 
-export class PropertyListingDetailAdditionalAmenity extends Entity<PropertyListingDetailAdditionalAmenityProps> implements PropertyListingDetailAdditionalAmenityReference {
+export class PropertyListingDetailAdditionalAmenity extends DomainEntity<PropertyListingDetailAdditionalAmenityProps> implements PropertyListingDetailAdditionalAmenityReference {
   constructor(props: PropertyListingDetailAdditionalAmenityProps, private readonly visa: PropertyVisa) {
     super(props);
   }

@@ -1,12 +1,12 @@
 import { EndUserCreatedEvent } from '../../../events/types/end-user-created';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './end-user.value-objects';
 import { EndUserVisa } from './end-user.visa';
 import { EndUserPersonalInformation, EndUserPersonalInformationEntityReference, EndUserPersonalInformationProps } from './end-user-personal-information';
 
-export interface EndUserProps extends EntityProps {
+export interface EndUserProps extends DomainEntityProps {
   readonly personalInformation: EndUserPersonalInformationProps;
   
   email?: string;

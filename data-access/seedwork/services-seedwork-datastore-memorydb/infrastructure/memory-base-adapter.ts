@@ -1,5 +1,5 @@
 
-import { EntityProps } from "../../domain-seedwork/entity";
+import { DomainEntityProps } from "../../domain-seedwork/domain-entity";
 import { nanoid } from "nanoid";
 
 // export interface MemoryDocBase {
@@ -20,7 +20,7 @@ import { nanoid } from "nanoid";
 //   get schemaVersion() {return this.doc.schemaVersion;}
 // }
 
-export abstract class MemoryBaseAdapter implements EntityProps {
+export abstract class MemoryBaseAdapter implements DomainEntityProps {
     private _id: string;
     // set id(id: string) { 
     //   this._id = id; 

@@ -1,10 +1,10 @@
-import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './member-account.value-objects';
 
-export interface MemberAccountProps extends EntityProps {
+export interface MemberAccountProps extends DomainEntityProps {
   firstName: string;
   lastName: string;
   user: EndUserProps;
@@ -19,7 +19,7 @@ export interface MemberAccountEntityReference extends Readonly<Omit<MemberAccoun
   readonly createdBy: EndUserEntityReference;
 }
 
-export class MemberAccount extends Entity<MemberAccountProps> implements MemberAccountEntityReference {
+export class MemberAccount extends DomainEntity<MemberAccountProps> implements MemberAccountEntityReference {
   constructor(props: MemberAccountProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) {
     super(props);
   }

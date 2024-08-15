@@ -1,10 +1,10 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../../seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { ServiceTicketV1Visa } from './service-ticket.visa';
 import { Member, MemberEntityReference, MemberProps } from '../../../community/member/member';
 import * as ValueObjects from './service-ticket-v1-message.value-objects';
 
-export interface ServiceTicketV1MessagePropValues extends EntityProps {
+export interface ServiceTicketV1MessagePropValues extends DomainEntityProps {
   sentBy: string;
   readonly initiatedBy?: MemberProps;
   setInitiatedByRef: (initiatedBy: MemberEntityReference) => void;
@@ -20,7 +20,7 @@ export interface ServiceTicketV1MessageEntityReference extends Readonly<Omit<Ser
   readonly initiatedBy: MemberEntityReference;
 }
 
-export class ServiceTicketV1Message extends Entity<ServiceTicketV1MessageProps> implements ServiceTicketV1MessageEntityReference {
+export class ServiceTicketV1Message extends DomainEntity<ServiceTicketV1MessageProps> implements ServiceTicketV1MessageEntityReference {
   constructor(props: ServiceTicketV1MessageProps, private context: DomainExecutionContext, private readonly visa: ServiceTicketV1Visa) {
     super(props);
   }

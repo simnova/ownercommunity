@@ -1,4 +1,4 @@
-import { Entity, EntityProps } from './entity';
+import { DomainEntity, DomainEntityProps } from './domain-entity';
 import { CustomDomainEvent, DomainEvent } from './domain-event';
 
 export interface RootEventRegistry {
@@ -6,7 +6,7 @@ export interface RootEventRegistry {
   addIntegrationEvent<EventProps, T extends CustomDomainEvent<EventProps>>(event: new (aggregateId: string) => T, props: T['payload']);
 }
 
-export  class AggregateRoot<PropType extends EntityProps> extends Entity<PropType> implements RootEventRegistry {
+export  class AggregateRoot<PropType extends DomainEntityProps> extends DomainEntity<PropType> implements RootEventRegistry {
   private _isDeleted: boolean = false;
   public get isDeleted(): boolean {
     return this._isDeleted;

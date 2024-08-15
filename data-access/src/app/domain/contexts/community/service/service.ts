@@ -1,11 +1,11 @@
-import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './service.value-objects';
 import { ServiceVisa } from './service.visa';
 
-export interface ServiceProps extends EntityProps {
+export interface ServiceProps extends DomainEntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
   serviceName: string;

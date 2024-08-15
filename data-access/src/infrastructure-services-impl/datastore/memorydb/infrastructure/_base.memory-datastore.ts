@@ -1,4 +1,4 @@
-import { EntityProps } from "../../../../../seedwork/domain-seedwork/entity";
+import { DomainEntityProps } from "../../../../../seedwork/domain-seedwork/domain-entity";
 import { ReadOnlyMemoryStore } from "../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-store";
 
 export interface Fields {
@@ -15,7 +15,7 @@ export interface FindQueries<TData> {
   findByFields(fields: Fields): Promise<(TData | null | undefined)[]>;
 }
 
-export class BaseMemoryDatastore<PropType extends EntityProps> implements FindQueries<PropType> {
+export class BaseMemoryDatastore<PropType extends DomainEntityProps> implements FindQueries<PropType> {
   constructor(private readonly memoryStore: ReadOnlyMemoryStore<PropType>) {
   }
 

@@ -1,4 +1,4 @@
-import { EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntityProps } from '../../../../../../../seedwork/domain-seedwork/domain-entity';
 import { EndUserRolePermissions, EndUserRolePermissionsEntityReference, EndUserRolePermissionsProps } from './end-user-role-permissions';
 import * as ValueObjects from './end-user-role.value-objects';
 import { Community, CommunityProps, CommunityEntityReference } from '../../community/community';
@@ -7,7 +7,7 @@ import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/agg
 import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { RoleDeletedReassignEvent } from '../../../../events/types/role-deleted-reassign';
 
-export interface EndUserRoleProps extends EntityProps {
+export interface EndUserRoleProps extends DomainEntityProps {
   roleName: string;
   readonly community: CommunityProps;
   setCommunityRef: (community: CommunityEntityReference) => void;

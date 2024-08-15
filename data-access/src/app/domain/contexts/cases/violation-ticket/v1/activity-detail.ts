@@ -1,10 +1,10 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../../seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { Member, MemberEntityReference, MemberProps } from '../../../community/member/member';
 import * as ValueObjects from './activity-detail.value-objects';
 
-export interface ActivityDetailPropValues extends EntityProps {
+export interface ActivityDetailPropValues extends DomainEntityProps {
   activityType: string;
   activityDescription: string;
   readonly activityBy: MemberProps;
@@ -17,7 +17,7 @@ export interface ActivityDetailEntityReference extends Readonly<Omit<ActivityDet
   readonly activityBy: MemberEntityReference;
 }
 
-export class ActivityDetail extends Entity<ActivityDetailProps> implements ActivityDetailEntityReference {
+export class ActivityDetail extends DomainEntity<ActivityDetailProps> implements ActivityDetailEntityReference {
   constructor(props: ActivityDetailProps, private context: DomainExecutionContext, private readonly visa: ViolationTicketV1Visa) {
     super(props);
   }

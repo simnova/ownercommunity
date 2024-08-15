@@ -1,13 +1,13 @@
 import { CommunityCreatedEvent } from '../../../events/types/community-created';
 import { CommunityDomainUpdatedEvent } from '../../../events/types/community-domain-updated';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './community.value-objects';
 
-export interface CommunityProps extends EntityProps {
+export interface CommunityProps extends DomainEntityProps {
   name: string;
   domain: string;
   whiteLabelDomain: string;

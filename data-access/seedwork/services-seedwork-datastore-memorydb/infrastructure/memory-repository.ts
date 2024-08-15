@@ -1,5 +1,5 @@
 import { AggregateRoot } from "../../domain-seedwork/aggregate-root";
-import { EntityProps } from "../../domain-seedwork/entity";
+import { DomainEntityProps } from "../../domain-seedwork/domain-entity";
 import { Repository } from "../../domain-seedwork/repository";
 import { BaseDomainExecutionContext } from "../../domain-seedwork/base-domain-execution-context";
 import { EventBus } from "../../domain-seedwork/event-bus";
@@ -8,7 +8,7 @@ import { MemoryStore } from "./memory-store";
 
 export class MemoryRepositoryBase<
   ContextType extends BaseDomainExecutionContext,
-  PropType extends EntityProps,
+  PropType extends DomainEntityProps,
   DomainType extends AggregateRoot<PropType>,
   > implements Repository<DomainType> {
 
@@ -69,7 +69,7 @@ export class MemoryRepositoryBase<
 
   static create<
     ContextType extends BaseDomainExecutionContext,
-    PropType extends EntityProps,
+    PropType extends DomainEntityProps,
     DomainType extends AggregateRoot<PropType>,
     RepoType extends MemoryRepositoryBase<ContextType, PropType, DomainType>
   >(

@@ -1,11 +1,11 @@
-import { Entity, EntityProps } from "../../../../../../../seedwork/domain-seedwork/entity";
+import { DomainEntity, DomainEntityProps } from "../../../../../../../seedwork/domain-seedwork/domain-entity";
 import { DomainExecutionContext } from "../../../../domain-execution-context";
 import { Member, MemberEntityReference, MemberProps } from "../../../community/member/member";
 import { FinanceReference, FinanceReferenceProps } from "./finance-detail-adhoc-transactions-finance-reference";
 import { Approval, ApprovalProps } from "./finance-details-adhoc-transactions-approval";
 import { TransactionReference, TransactionReferenceProps } from "./violation-ticket-v1-finance-details-transactions-submission-transaction-reference";
 
-export interface AdhocTransactionsPropValues extends EntityProps { 
+export interface AdhocTransactionsPropValues extends DomainEntityProps { 
   amount: number;
   requestedBy: MemberProps;
   setRequestedByRef: (requestedBy: MemberEntityReference) => void;
@@ -24,7 +24,7 @@ export interface AdhocTransactionsEntityReference extends Readonly<Omit<AdhocTra
   readonly requestedBy: MemberEntityReference;
 }
 
-export class AdhocTransactions extends Entity<AdhocTransactionsProps> implements AdhocTransactionsEntityReference {
+export class AdhocTransactions extends DomainEntity<AdhocTransactionsProps> implements AdhocTransactionsEntityReference {
   constructor(props: AdhocTransactionsProps, private readonly context: DomainExecutionContext) {
     super(props);
   }

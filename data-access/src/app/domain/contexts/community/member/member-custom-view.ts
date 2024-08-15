@@ -1,9 +1,9 @@
-import { Entity, EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import * as ValueObjects from './member-custom-view.value-objects';
 
-export interface MemberCustomViewProps extends EntityProps {
+export interface MemberCustomViewProps extends DomainEntityProps {
   name: string;
   type: string;
   filters: string[];
@@ -13,7 +13,7 @@ export interface MemberCustomViewProps extends EntityProps {
 
 export interface MemberCustomViewEntityReference extends Readonly<MemberCustomViewProps> {}
 
-export class MemberCustomView extends Entity<MemberCustomViewProps> implements MemberCustomViewEntityReference {
+export class MemberCustomView extends DomainEntity<MemberCustomViewProps> implements MemberCustomViewEntityReference {
   constructor(props: MemberCustomViewProps, private readonly context: DomainExecutionContext, private readonly visa: CommunityVisa) {
     super(props);
   }

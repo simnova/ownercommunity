@@ -1,5 +1,5 @@
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../domain-execution-context';
 import * as ValueObjects from './staff-user.value-objects';
 import { StaffRole, StaffRoleEntityReference, StaffRoleProps } from '../../community/roles/staff-role/staff-role';
@@ -7,7 +7,7 @@ import { StaffUserVisa } from './staff-user.visa';
 import { StaffUserCreatedEvent } from '../../../events/types/staff-user-created';
 import { ReadOnlyDomainVisa } from '../../../domain.visa';
 
-export interface StaffUserProps extends EntityProps {
+export interface StaffUserProps extends DomainEntityProps {
   readonly role?: StaffRoleProps;
   setRoleRef: (role: StaffRoleEntityReference) => void;
   firstName?: string;

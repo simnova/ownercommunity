@@ -1,5 +1,5 @@
 import { Base } from '../interfaces/base';
-import { EntityProps } from '../../domain-seedwork/entity';
+import { DomainEntityProps } from '../../domain-seedwork/domain-entity';
 import { PropArray } from '../../domain-seedwork/prop-array';
 import mongoose from 'mongoose';
 
@@ -11,11 +11,11 @@ export abstract class MongooseDomainAdapter<T extends Base> implements MongooseD
   get schemaVersion() {return this.doc.schemaVersion;}
 }
 
-export interface MongooseDomainAdapterType<T extends Base> extends EntityProps {
+export interface MongooseDomainAdapterType<T extends Base> extends DomainEntityProps {
   readonly doc: T;
 }
 
-export class MongoosePropArray<propType extends EntityProps, docType extends mongoose.Document> implements PropArray<propType> {
+export class MongoosePropArray<propType extends DomainEntityProps, docType extends mongoose.Document> implements PropArray<propType> {
   constructor( protected docArray:mongoose.Types.DocumentArray<docType> ,protected adapter:new(doc:docType)=>propType) {}
   addItem(item: propType): propType {
     const itemId = this.docArray.push(item['doc']);

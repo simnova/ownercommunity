@@ -1,5 +1,5 @@
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import * as ValueObjects from './member.value-objects';
 import { Community, CommunityProps, CommunityEntityReference } from '../community/community';
 import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
@@ -10,7 +10,7 @@ import { MemberProfile, MemberProfileEntityReference, MemberProfileProps } from 
 import { CommunityVisa } from "../community.visa";
 import { MemberCustomView, MemberCustomViewEntityReference, MemberCustomViewProps } from './member-custom-view';
 
-export interface MemberProps extends EntityProps {
+export interface MemberProps extends DomainEntityProps {
   memberName: string;
   cybersourceCustomerId: string;
   readonly community: CommunityProps;

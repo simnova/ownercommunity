@@ -1,4 +1,4 @@
-import { EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntityProps } from '../../../../../../../seedwork/domain-seedwork/domain-entity';
 import { Community, CommunityProps, CommunityEntityReference } from '../../../community/community/community';
 import { Property, PropertyEntityReference, PropertyProps } from '../../../property/property/property';
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
@@ -19,7 +19,7 @@ import { ViolationTicketV1Visa } from './violation-ticket.visa';
 import { ViolationTicketV1Message, ViolationTicketV1MessageEntityReference, ViolationTicketV1MessageProps } from './violation-ticket-v1-message';
 import { ViolationTicketV1RevisionRequest, ViolationTicketV1RevisionRequestEntityReference, ViolationTicketV1RevisionRequestProps } from './violation-ticket-v1-revision-request';
 
-export interface ViolationTicketV1Props extends EntityProps {
+export interface ViolationTicketV1Props extends DomainEntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
   readonly property: PropertyProps;

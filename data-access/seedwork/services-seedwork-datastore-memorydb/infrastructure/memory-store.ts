@@ -1,12 +1,12 @@
-import { EntityProps } from "../../domain-seedwork/entity";
+import { DomainEntityProps } from "../../domain-seedwork/domain-entity";
 
 
-export interface ReadOnlyMemoryStore<PropType extends EntityProps> {
+export interface ReadOnlyMemoryStore<PropType extends DomainEntityProps> {
   get(id: string): PropType;
   getAll(): PropType[];
 }
 
-export class MemoryStore<PropType extends EntityProps>  implements ReadOnlyMemoryStore<PropType>{
+export class MemoryStore<PropType extends DomainEntityProps>  implements ReadOnlyMemoryStore<PropType>{
   private memoryStore: PropType[] = [];
 
   get(id: string): PropType {

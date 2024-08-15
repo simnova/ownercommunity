@@ -1,8 +1,8 @@
-export interface EntityProps {
+export interface DomainEntityProps {
   readonly id: string;
 }
 
-export abstract class Entity<PropType extends EntityProps> {
+export abstract class DomainEntity<PropType extends DomainEntityProps> {
   get id(): string {
     return this.props.id;
   }

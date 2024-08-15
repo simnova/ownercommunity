@@ -1,4 +1,4 @@
-import { EntityProps } from '../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
 import { Community, CommunityEntityReference, CommunityProps } from '../../community/community/community';
 import { Member, MemberEntityReference, MemberProps } from '../../community/member/member';
 import { DomainExecutionContext } from '../../../domain-execution-context';
@@ -11,7 +11,7 @@ import { PropertyCreatedEvent } from '../../../events/types/property-created';
 import { PropertyDeletedEvent } from '../../../events/types/property-deleted';
 import { PropertyUpdatedEvent } from '../../../events/types/property-updated';
 
-export interface PropertyProps extends EntityProps {
+export interface PropertyProps extends DomainEntityProps {
   readonly community: CommunityProps;
   setCommunityRef(community: CommunityEntityReference): void;
   readonly location: PropertyLocationProps;

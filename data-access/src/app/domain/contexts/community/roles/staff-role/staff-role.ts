@@ -1,12 +1,12 @@
 import { AggregateRoot } from "../../../../../../../seedwork/domain-seedwork/aggregate-root";
-import { EntityProps } from "../../../../../../../seedwork/domain-seedwork/entity";
+import { DomainEntityProps } from "../../../../../../../seedwork/domain-seedwork/domain-entity";
 import { DomainExecutionContext } from "../../../../domain-execution-context";
 import { RoleDeletedReassignEvent } from "../../../../events/types/role-deleted-reassign";
 import { CommunityVisa } from "../../community.visa";
 import { StaffRolePermissionsProps, StaffRolePermissionsEntityReference, StaffRolePermissions } from "./staff-role-permissions";
 import * as ValueObjects from "./staff-role.value-objects";
 
-export interface StaffRoleProps extends EntityProps {
+export interface StaffRoleProps extends DomainEntityProps {
   roleName: string;
   isDefault: boolean;
   readonly permissions: StaffRolePermissionsProps;

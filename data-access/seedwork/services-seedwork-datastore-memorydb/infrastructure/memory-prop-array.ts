@@ -1,7 +1,7 @@
-import { EntityProps } from "../../domain-seedwork/entity";
+import { DomainEntityProps } from "../../domain-seedwork/domain-entity";
 import { PropArray } from "../../domain-seedwork/prop-array";
 
-export class MemoryPropArray<propType extends EntityProps> implements PropArray<propType> {
+export class MemoryPropArray<propType extends DomainEntityProps> implements PropArray<propType> {
   constructor(protected itemArray: Array<propType>, protected classDefinition: new () => propType) { }
   addItem(itemToBeAdded: propType): propType {
     // const itemId = this.docArray.push(item['doc']);

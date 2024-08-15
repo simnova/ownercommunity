@@ -1,8 +1,8 @@
-import { Entity, EntityProps } from '../../../../../../../seedwork/domain-seedwork/entity';
+import { DomainEntity, DomainEntityProps } from '../../../../../../../seedwork/domain-seedwork/domain-entity';
 import { DomainExecutionContext } from '../../../../domain-execution-context';
 import { ServiceTicketV1Visa } from './service-ticket.visa';
 
-export interface PhotoPropValues extends EntityProps {
+export interface PhotoPropValues extends DomainEntityProps {
   documentId: string;
   description: string;
   getNewDocumentId(): string;
@@ -13,7 +13,7 @@ export interface PhotoProps extends PhotoPropValues {}
 export interface PhotoEntityReference extends Readonly<PhotoPropValues> {}
 
 
-export class Photo extends Entity<PhotoProps> implements PhotoEntityReference {
+export class Photo extends DomainEntity<PhotoProps> implements PhotoEntityReference {
   constructor(props: PhotoProps,
     private context: DomainExecutionContext,
     private readonly visa: ServiceTicketV1Visa) { super(props); }

@@ -3,12 +3,12 @@ import { AggregateRoot } from '../../domain-seedwork/aggregate-root';
 import mongoose, { ClientSession,Model,Document } from 'mongoose';
 import { MongoRepositoryBase } from './mongo-repository';
 import { TypeConverter } from '../../domain-seedwork/type-converter';
-import { EntityProps } from '../../domain-seedwork/entity';
+import { DomainEntityProps } from '../../domain-seedwork/domain-entity';
 import { EventBus } from '../../domain-seedwork/event-bus';
 import { DomainEvent } from '../../domain-seedwork/domain-event';
 import { BaseDomainExecutionContext } from '../../domain-seedwork/base-domain-execution-context';
 
-export class MongoUnitOfWork<ContextType extends BaseDomainExecutionContext, MongoType extends Document,PropType extends EntityProps, DomainType  extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<ContextType, MongoType,PropType,DomainType> > extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
+export class MongoUnitOfWork<ContextType extends BaseDomainExecutionContext, MongoType extends Document,PropType extends DomainEntityProps, DomainType  extends AggregateRoot<PropType>, RepoType extends MongoRepositoryBase<ContextType, MongoType,PropType,DomainType> > extends PersistanceUnitOfWork<ContextType,PropType,DomainType,RepoType> {
   async withTransaction(context:ContextType, func: (repository: RepoType) => Promise<void>): Promise<void> {
       let repoEvents: DomainEvent[] = [];
       console.log('withTransaction');

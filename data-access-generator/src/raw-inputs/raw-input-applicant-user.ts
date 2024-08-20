@@ -75,21 +75,18 @@ export interface ApplicantUserIdentityDetails extends NestedPath {
   acceptanceOf?: string;
   version: number;
   attestedOn?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
+
 }
   export interface ApplicantUserNameOnDocumentAsset extends SubdocumentBase {
   documentName?: string;
   uploadedAt?: Date;
-  createdAt?: Date;
   isDeleteRequested?: boolean;
 }
   
 export interface ApplicantUserPhone extends SubdocumentBase {
   phoneNumber?: string;
   phoneType?: string; // could be an enum
-  createdAt?: Date;
-  updatedAt?: Date;
+
 }
   export interface ApplicantUserPrimaryEducationalInformation extends SubdocumentBase {
   degreeTitle?: string;
@@ -99,7 +96,6 @@ export interface ApplicantUserPhone extends SubdocumentBase {
   graduationYear?: number; // Four digit year
   issuingInstitution?: string; // Entity reference
   otherIssuingInstitution?: ApplicantUserOtherIssuingInstitution;
-  createdAt?: Date;
-  updatedAt?: Date;
+
 }`,
 };

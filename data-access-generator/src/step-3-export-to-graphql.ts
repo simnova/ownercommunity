@@ -42,7 +42,7 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
               (field) =>
                 `${field.name}: ${InsertVersionMiddleOfComplexType(
                   modelSchemaInput,
-                  RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.type.includes("At"))
+                  RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.name.includes("At") && !field.name.includes("On"))
                 )}`
             )
             .join("\n ")}
@@ -63,7 +63,7 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
                 (field) =>
                   `${field.name}: ${InsertVersionMiddleOfComplexType(
                     modelSchemaInput,
-                    RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.type.includes("At"))
+                    RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.name.includes("At") && !field.name.includes("On"))
                   )}`
               )
               .join("\n")}
@@ -81,7 +81,7 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
                 (field) =>
                   `${field.name}: ${InsertVersionMiddleOfComplexType(
                     modelSchemaInput,
-                    RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.type.includes("At"))
+                    RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.name.includes("At") && !field.name.includes("On"))
                   )}`
               )
               .join("\n")}

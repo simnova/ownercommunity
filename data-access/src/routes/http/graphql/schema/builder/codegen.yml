@@ -4,7 +4,6 @@ overwrite: true
 schema:
   - './src/routes/http/graphql/schema/core/graphql-tools-scalars.ts'
   - './src/routes/http/graphql/schema/**/**.graphql'
-documents: '../ui-community/src/components/**/**.graphql'
 generates:
   ./src/routes/http/graphql/schema/builder/generated.ts:
     config:
@@ -71,6 +70,7 @@ generates:
     plugins:
       - 'introspection'
   ../ui-community/src/generated.tsx:
+    documents: '../ui-community/src/components/**/**.graphql'
     config:
       withHooks: true
       withHOC: false

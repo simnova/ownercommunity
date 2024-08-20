@@ -1,0 +1,24 @@
+
+export class DomainAdapterNameConverter extends MongoTypeConverter<DomainExecutionContext, DomainAdapterModelName, DomainAdapterNameDomainAdapter, DomainAdapterNameDO<DomainAdapterNameDomainAdapter>> {
+  constructor() {
+    super(DomainAdapterNameDomainAdapter, DomainAdapterNameDO);
+  }
+}
+
+export class DomainAdapterNameDomainAdapter extends MongooseDomainAdapter<DomainAdapterModelName> implements DomainAdapterNameProps {
+  // Primitive Fields Getters and Setters
+//PrimitiveFields
+  // Nested Path Fields Getters
+//NestedPathFields
+  // Populated Doc Fields Getters and Setters
+//PopulatedDocFields
+  // Document Array Fields Getters
+//DocumentArrayFields
+}
+
+// Nested Path Domain Adapters
+//NestedPathDomainAdapters
+
+// Document Array Domain Adapters
+//DocumentArrayDomainAdapters
+

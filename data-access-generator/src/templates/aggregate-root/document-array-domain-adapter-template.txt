@@ -1,0 +1,14 @@
+export class DocumentArrayDomainAdapterNameDomainAdapter implements DocumentArrayDomainAdapterNameProps {
+  constructor(public readonly props: DocumentArrayDomainAdapterModelName) {}
+  public get id(): string {
+    return this.props.id.valueOf() as string;
+  }
+  //Primitive Field Getters and Setters
+//PrimitiveFields
+  // Nested Path Getters
+//NestedPathFields
+  // Populated Doc Getters and Setters
+//PopulatedDocFields
+  // Document Array Getters
+//DocumentArrayFields
+}

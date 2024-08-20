@@ -1,0 +1,12 @@
+export class ValueObjectDomainAdapterNameDomainAdapter implements ValueObjectDomainAdapterNameProps {
+  constructor(public readonly doc: ValueObjectDomainAdapterModelName) {}
+  //Primitive Field Getters and Setters
+//PrimitiveFields
+  // Nested Path Getters
+//NestedPathFields
+  // Populated Doc Getters and Setters
+//PopulatedDocFields
+  // Document Array Getters
+//DocumentArrayFields
+  
+}

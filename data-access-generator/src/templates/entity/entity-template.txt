@@ -1,0 +1,49 @@
+export interface EntityNameProps extends DomainEntityProps {
+  // Primitive Fields
+//PrimitiveFieldsForEntityProps
+  // NestedPath Fields
+//NestedPathFieldsForEntityProps
+  // PopulateDoc Fields
+//PopulateDocFieldsForEntityProps
+  // DocumentArray Fields
+//DocumentArrayFieldsForEntityProps
+}
+
+//InterfaceLineForEntityReference
+//NestedPathEntityReferenceFields
+//PopulateDocEntityReferenceFields
+//DocumentArrayEntityReferenceFields
+}
+
+export class EntityName extends DomainEntity<EntityNameProps> implements EntityNameEntityReference {
+  constructor(props: EntityNameProps, private readonly context: DomainExecutionContext /*, private readonly visa: CommunityVisa */) {
+    super(props);
+  }
+  // Primitive Field Getters
+//PrimitiveFieldGetters
+  // NestedPath Field Getters
+//NestedPathFieldGetters
+  // PopulateDoc Field Getters
+//PopulateDocFieldGetters
+  // DocumentArray Field Getters
+//DocumentArrayFieldGetters
+
+  private validateVisa() {
+    // modify this to match the permissions required to perform the action
+
+    // if (
+    //   !this.visa.determineIf(
+    //     (permissions) => permissions.isSystemAccount || permissions.canManageMembers || (permissions.canEditOwnEntityNames && permissions.isEditingOwnEntityName)
+    //   )
+    // ) {
+    //   throw new Error('You do not have permission to update this account');
+    // }
+  }
+
+  // using ts 5.1 setters
+  // Primitive Field Setters
+//PrimitiveFieldSetters
+  // PopulatedDoc Field Setters
+//PopulateDocFieldSetters
+//DocumentArrayFieldSetters: added as needed
+}

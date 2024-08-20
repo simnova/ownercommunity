@@ -1,0 +1,5 @@
+export interface DomainRepositoryNameRepository<props extends DomainRepositoryNameProps> extends Repository<DomainRepositoryName<props>> {
+  getNewInstance(name: string): Promise<DomainRepositoryName<props>>;
+  getById(id: string): Promise<DomainRepositoryName<props>>;
+  getAll(): Promise<DomainRepositoryName<props>[]>
+}

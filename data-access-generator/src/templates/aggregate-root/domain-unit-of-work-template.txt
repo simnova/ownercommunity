@@ -1,0 +1,2 @@
+export interface DomainUOWNameUnitOfWork extends UnitOfWork<DomainExecutionContext, DomainUOWNameProps, DomainUOWName<DomainUOWNameProps>, DomainUOWNameRepository<DomainUOWNameProps>> {
+}

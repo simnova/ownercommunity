@@ -1,0 +1,63 @@
+export interface AggregateRootNameProps extends DomainEntityProps {
+  //Primitive Fields
+//PrimitiveFieldsForEntityProps
+  //Nested Path Fields
+//NestedPathFieldsForEntityProps
+  //Populated Doc Fields
+//PopulateDocFieldsForEntityProps
+  //Document Array Fields
+//DocumentArrayFieldsForEntityProps
+
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+}
+
+//InterfaceLineForEntityReference
+//NestedPathEntityReferenceFields
+//PopulateDocEntityReferenceFields
+//DocumentArrayEntityReferenceFields
+}
+
+export class AggregateRootName<props extends AggregateRootNameProps> 
+  extends AggregateRoot<props> implements AggregateRootNameEntityReference {
+  private isNew: boolean = false;
+  //private readonly visa: AggregateRootNameVisa;
+  constructor(props: props, private readonly context: DomainExecutionContext) { 
+    super(props);
+    //this.visa = context.domainVisa.forAggregateRootName(this);
+
+  }
+  public static getNewInstance<props extends AggregateRootNameProps>(newProps: props,
+    //inputs
+    context: DomainExecutionContext): AggregateRootName<props> {
+    let newInstance = new AggregateRootName(newProps, context);
+    newInstance.isNew = true;
+    //field assignments
+    newInstance.isNew = false;
+    return newInstance;
+  }
+
+  get id() {
+    return this.props.id;
+  }
+  get createdAt() {
+    return this.props.createdAt;
+  }
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
+  //Primitive Field Getters
+//PrimitiveFieldGetters
+  //Nested Path Field Getters
+//NestedPathFieldGetters
+  //Populate Doc Field Getters
+//PopulateDocFieldGetters
+  //Document Array Field Getters
+//DocumentArrayFieldGetters
+
+  //Primitive Field Setters
+//PrimitiveFieldSetters
+  //Populate Doc Field Setters
+//PopulateDocFieldSetters
+//DocumentArrayFieldSetters: added as needed
+}

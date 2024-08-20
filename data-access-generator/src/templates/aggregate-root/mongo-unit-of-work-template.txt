@@ -1,0 +1,1 @@
+export const MongoMongoUOWNameUnitOfWork = new MongoUnitOfWork(InProcEventBusInstance, NodeEventBusInstance, MongoUOWModelNameModel, new MongoUOWNameConverter(), MongoMongoUOWNameRepository);

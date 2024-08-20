@@ -1,0 +1,52 @@
+export interface ValueObjectNameProps extends ValueObjectProps {
+  // Primitive Fields
+//PrimitiveFieldsForValueObjectProps
+  // NestedPath Fields
+//NestedPathFieldsForValueObjectProps
+  // PopulateDoc Fields
+//PopulateDocFieldsForValueObjectProps
+  // DocumentArray Fields
+//DocumentArrayFieldsForValueObjectProps
+}
+
+//InterfaceLineForEntityReference
+//NestedPathEntityReferenceFields
+//PopulateDocEntityReferenceFields
+//DocumentArrayEntityReferenceFields
+}
+
+export class ValueObjectName extends ValueObject<ValueObjectNameProps> implements ValueObjectNameEntityReference {
+  constructor(props: ValueObjectNameProps, private readonly context: DomainExecutionContext /*, private readonly visa: ServiceTicketV1Visa */) {
+    super(props);
+  }
+  // Primitive Field Getters
+//PrimitiveFieldGetters
+  // NestedPath Field Getters
+//NestedPathFieldGetters
+  // PopulateDoc Field Getters
+//PopulateDocFieldGetters
+  // DocumentArray Field Getters
+//DocumentArrayFieldGetters
+
+  private validateVisa(): void {
+    // modify this to match the permissions required to perform the action
+    // if (!this.visa.determineIf((permissions) => (permissions.canManageTickets && permissions.isEditingAssignedTicket) || permissions.isSystemAccount)) {
+    //   throw new Error('Unauthorized');
+    // }
+  }
+
+  static getNewInstance(
+    newProps: ValueObjectNameProps, 
+    context: DomainExecutionContext, 
+    // visa: ServiceTicketV1Visa
+    ): ValueObjectName {
+      return new ValueObjectName(newProps, context
+        // , visa
+      );
+  }
+  // Primitive Field Setters
+//PrimitiveFieldSetters
+  // PopulatedDoc Field Setters
+//PopulateDocFieldSetters
+//DocumentArrayFieldSetters: added as needed
+}

@@ -2,7 +2,7 @@ import { RawInputFromModel } from "../common";
 
 export const rawInputStaffUser: RawInputFromModel = {
   aggregateRootDefinition: `export interface StaffUser extends User {
-  // role: PopulatedDoc<StaffRole.StaffRole> | ObjectId;
+  role: PopulatedDoc<StaffRole.StaffRole> | ObjectId;
   firstName?: string;
   lastName?: string;
   emailAddress?: string;
@@ -12,10 +12,7 @@ export const rawInputStaffUser: RawInputFromModel = {
   displayName: string;
   userType: string;
 
-  schemaVersion: string;
   externalId: string;
-
-  discriminatorKey: string;
 
 }`,
   complexSchemaTypeDefinitions:`export interface StaffUserSearch extends NestedPath {
@@ -25,3 +22,4 @@ export const rawInputStaffUser: RawInputFromModel = {
 }
 `,
 }
+

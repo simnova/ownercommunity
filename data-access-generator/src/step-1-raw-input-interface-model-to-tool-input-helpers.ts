@@ -34,6 +34,10 @@ const extractFields = (input: string) => {
   for (const match of rawFields) {
     const fieldName = match[1];
     const fieldType = match[2];
+    // ignore discriminatorKey
+    if (fieldName === "discriminatorKey") {
+      continue;
+    }
     if (isPrimitive(fieldType)) {
       fields.push({
         name: fieldName.replace("?", ""),
@@ -83,13 +87,6 @@ export function ExtractInputForAggregateRoot(input: string, version?: string) {
   const fields = extractFields(input);
 
   aggregateInputStructure.fields = fields;
-  const temp = JSON.stringify(aggregateInputStructure, null, 2)
-    .replace(/\"NestedPath\"/g, "SchemaTypeEnum.NestedPath")
-    .replace(/\"Primitive\"/g, "SchemaTypeEnum.Primitive")
-    .replace(/\"PopulatedDoc\"/g, "SchemaTypeEnum.PopulatedDoc")
-    .replace(/\"Types.DocumentArray\"/g, "SchemaTypeEnum.DocumentArray");
-  const varName = `const ${aggregateRootName}InputStructure = `;
-  // console.log(varName + temp);
 
   if (version) {
     aggregateInputStructure.version = version;
@@ -138,9 +135,12 @@ export const ExtractInputFor = (complexSchemaType: ComplexSchemaType, nestedPath
 export const ExtractFullAggregateRootInputStructure = (rawInput: RawInputFromModel) => {
   const aggregateRootInputStructure = ExtractInputForAggregateRoot(rawInput.aggregateRootDefinition, rawInput.version);
 
-
-  const nestedPaths = rawInput.complexSchemaTypeDefinitions ? ExtractInputFor(ComplexSchemaType.NestedPath ,rawInput.complexSchemaTypeDefinitions) : [];
-  const subdocumentBases = rawInput.complexSchemaTypeDefinitions ? ExtractInputFor(ComplexSchemaType.SubdocumentBase, rawInput.complexSchemaTypeDefinitions) : [];
+  const nestedPaths = rawInput.complexSchemaTypeDefinitions
+    ? ExtractInputFor(ComplexSchemaType.NestedPath, rawInput.complexSchemaTypeDefinitions)
+    : [];
+  const subdocumentBases = rawInput.complexSchemaTypeDefinitions
+    ? ExtractInputFor(ComplexSchemaType.SubdocumentBase, rawInput.complexSchemaTypeDefinitions)
+    : [];
 
   aggregateRootInputStructure.nestedPaths = nestedPaths;
   aggregateRootInputStructure.subdocumentBases = subdocumentBases;

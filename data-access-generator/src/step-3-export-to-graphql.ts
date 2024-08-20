@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { InsertVersionMiddleOfType as InsertVersionMiddleOfComplexType, ModelSchemaInputStructure, SchemaTypeEnum, toKebabCase } from "./common";
 
-const RefineGraphqlTypeFromModelType = (modelType: string, schemaType: SchemaTypeEnum) => {
+const RefineGraphqlTypeFromModelType = (modelType: string, schemaType: SchemaTypeEnum, isSimpleDate: boolean) => {
   if (schemaType === SchemaTypeEnum.Primitive) {
     switch (modelType) {
       case "string":
@@ -14,6 +14,9 @@ const RefineGraphqlTypeFromModelType = (modelType: string, schemaType: SchemaTyp
       case "boolean":
         return "Boolean";
       case "Date":
+        if (isSimpleDate) {
+          return "Date";
+        }
         return "DateTime";
       case "ObjectID":
         return "ObjectID";
@@ -35,7 +38,13 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
   let schema = `
     type ${baseWithVersion} implements MongoBase {
           ${modelSchemaInput.fields
-            .map((field) => `${field.name}: ${InsertVersionMiddleOfComplexType(modelSchemaInput, RefineGraphqlTypeFromModelType(field.type, field.schemaType!))}`)
+            .map(
+              (field) =>
+                `${field.name}: ${InsertVersionMiddleOfComplexType(
+                  modelSchemaInput,
+                  RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.type.includes("At"))
+                )}`
+            )
             .join("\n ")}
       id: ObjectID!
       schemaVersion: String
@@ -50,7 +59,13 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
     schema += `
       type ${nestedPathNameWithVersion} {
             ${nestedPath.fields
-              .map((field) => `${field.name}: ${InsertVersionMiddleOfComplexType(modelSchemaInput, RefineGraphqlTypeFromModelType(field.type, field.schemaType!))}`)
+              .map(
+                (field) =>
+                  `${field.name}: ${InsertVersionMiddleOfComplexType(
+                    modelSchemaInput,
+                    RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.type.includes("At"))
+                  )}`
+              )
               .join("\n")}
       }
     `;
@@ -62,7 +77,13 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
     schema += `
       type ${subDocumentNameWithVersion} implements MongoSubdocument {
             ${subDocument.fields
-              .map((field) => `${field.name}: ${InsertVersionMiddleOfComplexType(modelSchemaInput, RefineGraphqlTypeFromModelType(field.type,  field.schemaType!))}`)
+              .map(
+                (field) =>
+                  `${field.name}: ${InsertVersionMiddleOfComplexType(
+                    modelSchemaInput,
+                    RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.type.includes("At"))
+                  )}`
+              )
               .join("\n")}
 
         id: ObjectID!
@@ -74,7 +95,7 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
 
   const filename = toKebabCase(modelSchemaInput.name);
   const version = modelSchemaInput.version ? `v${modelSchemaInput.version}` : "";
-  const distFolder = path.join(__dirname, "../dist/graphql", filename, version);
+  const distFolder = path.join(__dirname, "../dist/graphql");
   if (!fs.existsSync(distFolder)) {
     fs.mkdirSync(distFolder, { recursive: true });
   }

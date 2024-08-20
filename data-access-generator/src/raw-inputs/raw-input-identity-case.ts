@@ -42,18 +42,18 @@ export const IdentityVerificationCaseCaseDetailsApplicationPhotoAssetsType = {
 
 export interface IdentityVerificationCaseCaseDetailsApplicationPassportDetails extends NestedPath {
   passportCountry: string;
-  passportNumber: number;
-  passportIssueDate: Date;
-  passportExpirationDate: Date;
+  passportNumber: string;
+  passportIssuedAt: Date;
+  passportExpiresAt: Date;
   isPassportExpirationDateVisible: boolean;
   isPassportInLatinCharacters: boolean;
 }
 
 export const IdentityVerificationCaseCaseDetailsApplicationPassportDetailsType = {
-  passportCountry: { type: String, required: true },
-  passportNumber: { type: Number, required: true },
-  passportIssueDate: { type: Date, required: true },
-  passportExpirationDate: { type: Date, required: true },
+  passportCountry: { type: String, required: true, minLength: 2, maxLength: 2 },
+  passportNumber: { type: String, required: true, maxLength: 9, pattern: '^[A-Z0-9]+$' }, 
+  passportIssuedAt: { type: Date, required: true },
+  passportExpiresAt: { type: Date, required: true },
   isPassportExpirationDateVisible: { type: Boolean, required: true },
   isPassportInLatinCharacters: { type: Boolean, required: true },
 }
@@ -117,7 +117,7 @@ export interface IdentityVerificationCaseCaseDetailsApplicationReviewNotaryAffir
 export const IdentityVerificationCaseCaseDetailsApplicationReviewNotaryAffirmationsAuditType = {
   completedAt: { type: Date, required: true },
   completedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: true },
-  result: { type: String, required: true },
+  result: { type: String, required: true, enum: ['pass', 'fail'] },
 }
 
 export interface IdentityVerificationCaseCaseDetailsApplicationReviewNotaryAffirmations extends NestedPath {
@@ -141,7 +141,7 @@ export interface IdentityVerificationCaseCaseDetailsApplicationReviewAffirmation
 export const IdentityVerificationCaseCaseDetailsApplicationReviewAffirmationsAuditType = {
   completedAt: { type: Date, required: true },
   completedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: true },
-  result: { type: String, required: true },
+  result: { type: String, required: true, enum: ['pass', 'fail'] },
 }
 
 export interface IdentityVerificationCaseCaseDetailsApplicationReviewAffirmations extends NestedPath {
@@ -168,7 +168,7 @@ export interface IdentityVerificationCaseCaseDetailsApplicationReviewDecision ex
 export const IdentityVerificationCaseCaseDetailsApplicationReviewDecisionType = {
   completedAt: { type: Date, required: true },
   completedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: true },
-  result: { type: String, required: true },
+  result: { type: String, required: true, enum: ['completed', 'rejected'] },
   rejectionReason: { type: String, required: false },
 }
 
@@ -327,9 +327,9 @@ export interface IdentityVerificationCaseMessage extends SubdocumentBase {
 
 export const IdentityVerificationCaseMessageSchema = new Schema<IdentityVerificationCaseMessage, Model<IdentityVerificationCaseMessage>, IdentityVerificationCaseMessage>(
   {
-    sentBy: { type: String, required: true },
+    sentBy: { type: String, required: true, enum: ["internal", "external"] },
     initiatedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: false },
-    message: { type: String, required: true },
+    message: { type: String, required: true, maxlength: 2000 },
     embedding: { type: String, required: false },
     isHiddenFromApplicant: { type: Boolean, required: true, default: false },
   },
@@ -339,25 +339,25 @@ export const IdentityVerificationCaseMessageSchema = new Schema<IdentityVerifica
 export interface IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionFinanceReference extends NestedPath {
   debitGlAccount: string;
   creditGlAccount: string;
-  completedOn: Date;
+  completedAt: Date;
 }
 
 export const IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionFinanceReferenceType = {
   debitGlAccount: { type: String, required: true },
   creditGlAccount: { type: String, required: true },
-  completedOn: { type: Date, required: true },
+  completedAt: { type: Date, required: true },
 }
 
 export interface IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionTransactionReference extends NestedPath {
   vendor: string;
   referenceId: string;
-  completedOn?: Date;
+  completedAt?: Date;
 }
 
 export const IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionTransactionReferenceType = {
   vendor: { type: String, required: true },
   referenceId: { type: String, required: true },
-  completedOn: { type: Date, required: false },
+  completedAt: { type: Date, required: false },
 }
 
 export interface IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionApproval extends NestedPath {
@@ -374,7 +374,7 @@ export const IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionA
 
 export interface IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransaction extends SubdocumentBase {
   amount: number;
-  requestedOn: Date;
+  requestedAt: Date;
   requestedBy: PopulatedDoc<StaffUser.StaffUser>;
   reason: string;
   approval?: IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionApproval;
@@ -385,7 +385,7 @@ export interface IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransact
 export const IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionSchema = new Schema<IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransaction, Model<IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransaction>, IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransaction>(
   {
     amount: { type: Number, required: true },
-    requestedOn: { type: Date, required: true },
+    requestedAt: { type: Date, required: true },
     requestedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: true },
     reason: { type: String, required: true },
     approval: { type: IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionApprovalType, required: false, ...NestedPathOptions },
@@ -398,13 +398,13 @@ export const IdentityVerificationCaseFinanceDetailsTransactionsAdhocTransactionS
 export interface IdentityVerificationCaseFinanceDetailsTransactionsSubmissionTransactionReference extends NestedPath {
   vendor: string;
   referenceId: string;
-  completedOn: Date;
+  completedAt: Date;
 }
 
 export const IdentityVerificationCaseFinanceDetailsTransactionsSubmissionTransactionReferenceType = {
   vendor: { type: String, required: true },
   referenceId: { type: String, required: true },
-  completedOn: { type: Date, required: true },
+  completedAt: { type: Date, required: true },
 }
 
 export interface IdentityVerificationCaseFinanceDetailsTransactionsSubmission extends NestedPath {
@@ -431,32 +431,32 @@ export interface IdentityVerificationCaseFinanceDetailsRevenueRecognitionSubmiss
   debitGlAccount: string;
   creditGlAccount: string;
   amount: number;
-  recognitionDate?: Date;
-  completedOn: Date;
+  recognizedAt?: Date;
+  completedAt: Date;
 }
 
 export const IdentityVerificationCaseFinanceDetailsRevenueRecognitionSubmissionType = {
   debitGlAccount: { type: String, required: true },
   creditGlAccount: { type: String, required: true },
   amount: { type: Number, required: true },
-  recognitionDate: { type: Date, required: false },
-  completedOn: { type: Date, required: true },
+  recognizedAt: { type: Date, required: false },
+  completedAt: { type: Date, required: true },
 }
 
 export interface IdentityVerificationCaseFinanceDetailsRevenueRecognitionRecognition extends NestedPath {
   debitGlAccount: string;
   creditGlAccount: string;
   amount: number;
-  recognitionDate?: Date;
-  completedOn: Date;
+  recognizedAt?: Date;
+  completedAt: Date;
 }
 
 export const IdentityVerificationCaseFinanceDetailsRevenueRecognitionRecognitionType = {
   debitGlAccount: { type: String, required: true },
   creditGlAccount: { type: String, required: true },
   amount: { type: Number, required: true },
-  recognitionDate: { type: Date, required: false },
-  completedOn: { type: Date, required: true },
+  recognizedAt: { type: Date, required: false },
+  completedAt: { type: Date, required: true },
 }
 
 export interface IdentityVerificationCaseFinanceDetailsRevenueRecognition extends NestedPath {
@@ -520,7 +520,7 @@ export interface IdentityVerificationCaseSearch extends NestedPath {
 }
 
 export const IdentityVerificationCaseSearchType = {
-  hash: { type: String, required: true },
+  hash: { type: String, required: true, maxLength: 44 },
   indexedAt: { type: Date, required: true },
   indexingFailedAt: { type: Date, required: false },
 }`

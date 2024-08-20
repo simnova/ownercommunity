@@ -13,28 +13,28 @@ import { GetDomainValueObjectDefinitions } from "./templates/value-object/value-
 
 export const DataAccessPainKiller = (inputStructure: ModelSchemaInputStructure) => {
   console.log("Killing pain...");
-  // Generate Domain Aggregate Root
+  // Generate Domain Aggregate Root file
   GetDomainAggregateRootDefinition(inputStructure);
 
-  // Generate Domain Repository Definition
+  // Generate Domain Repository file
   GetDomainRepositoryDefinition(inputStructure);
 
-  // Generate Domain UnitOfWork Definition
+  // Generate Domain UnitOfWork file
   GetDomainUnitOfWorkDefinition(inputStructure);
 
-  // Generate Mongo Repository Definition
+  // Generate Mongo Repository file
   GetMongoRepositoryDefinition(inputStructure);
 
-  // Generate Mongo UnitOfWork Definition
+  // Generate Mongo UnitOfWork file
   GetMongoUnitOfWorkDefinition(inputStructure);
 
-  // Generate Domain Adapter Definition
+  // Generate Domain Adapter file
   GetDomainAdapterDefinition(inputStructure);
 
-  // Generate Domain Context Value Object Definitions
+  // Generate Domain Context Value Object files
   GetDomainValueObjectDefinitions(inputStructure);
 
-  // Generate Domain Context DomainEntity Definitions
+  // Generate Domain Context DomainEntity files
   GetDomainEntityDefinitions(inputStructure);
   console.log("You should be good to go now!");
   console.log(chalk.yellow("Summary: "));

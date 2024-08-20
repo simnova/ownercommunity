@@ -2,7 +2,7 @@ import { RawInputFromModel } from "../common";
 
 export const rawInputEntity: RawInputFromModel = {
   aggregateRootDefinition: `export interface Entity extends Base {
-  entityName?: string;
+  entityName: string;
   entityLanguage?: string;
   isIssuingInstitution?: boolean;
   issuingInstitution?: EntityIssuingInstitution;
@@ -10,9 +10,8 @@ export const rawInputEntity: RawInputFromModel = {
   client?: EntityClient;
   address?: EntityAddressInfo;
 
-  createdBy?: string; // username
+  createdBy?: PopulatedDoc<StaffUser.StaffUser>;
   disabledAt?: Date;
-  schemaVersion: string;
 }`,
   complexSchemaTypeDefinitions: `
   export interface EntityAddressInfo extends NestedPath {

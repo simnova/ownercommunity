@@ -134,7 +134,7 @@ export const AggregateRootGeneratePrimitiveFieldGetters = (fields: Field[]) => {
   let result = "";
   fields.forEach((field) => {
     if (field.schemaType === SchemaTypeEnum.Primitive) {
-      result += `  get ${field.name}() {
+      result += `  get ${field.name}(): ${field.type} {
     return this.props.${field.name};
     }\n`;
     }
@@ -149,13 +149,13 @@ export const AggregateRootGenerateNestedPathFieldGetters = (aggregateRootInputSt
       const typeWithVersionIfAny = InsertVersionMiddleOfType(aggregateRootInputStructure, field.type);
 
       if (field.isRequired === false) {
-        result += `  get ${field.name}() {
+        result += `  get ${field.name}(): ${field.type} {
       return this.props.${field.name} ? new ${typeWithVersionIfAny}(this.props.${field.name}, this.context
       //, this.visa
       ) : undefined;
     }\n`;
       } else {
-        result += `  get ${field.name}() {
+        result += `  get ${field.name}(): ${field.type} {
       return new ${typeWithVersionIfAny}(this.props.${field.name}
       //, this.visa
       );

@@ -37,13 +37,13 @@ export class AggregateRootName<props extends AggregateRootNameProps>
     return newInstance;
   }
 
-  get id() {
+  get id(): string {
     return this.props.id;
   }
-  get createdAt() {
+  get createdAt(): Date {
     return this.props.createdAt;
   }
-  get updatedAt() {
+  get updatedAt(): Date {
     return this.props.updatedAt;
   }
   //Primitive Field Getters

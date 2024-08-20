@@ -149,13 +149,13 @@ export const AggregateRootGenerateNestedPathFieldGetters = (aggregateRootInputSt
       const typeWithVersionIfAny = InsertVersionMiddleOfType(aggregateRootInputStructure, field.type);
 
       if (field.isRequired === false) {
-        result += `  get ${field.name}(): ${field.type} {
+        result += `  get ${field.name}(): ${typeWithVersionIfAny} {
       return this.props.${field.name} ? new ${typeWithVersionIfAny}(this.props.${field.name}, this.context
       //, this.visa
       ) : undefined;
     }\n`;
       } else {
-        result += `  get ${field.name}(): ${field.type} {
+        result += `  get ${field.name}(): ${typeWithVersionIfAny} {
       return new ${typeWithVersionIfAny}(this.props.${field.name}
       //, this.visa
       );

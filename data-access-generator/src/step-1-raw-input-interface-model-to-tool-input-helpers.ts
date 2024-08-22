@@ -27,7 +27,7 @@ const extractDocumentArrayType = (type: string) => {
 
 // hash: string; => ["hash", "string"]
 const extractFields = (input: string) => {
-  const fieldsRegex = /(\w+\?*): (.+);/g;
+  const fieldsRegex = /(\w+\?*): ([^;]+)(?=;|$)/g;
   const rawFields = input.matchAll(fieldsRegex);
   const fields: Field[] = [];
 

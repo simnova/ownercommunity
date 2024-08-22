@@ -12,7 +12,7 @@ import { GetDomainEntityDefinitions } from "./templates/entity/entity-helpers";
 import { GetDomainValueObjectDefinitions } from "./templates/value-object/value-object-helpers";
 
 export const DataAccessPainKiller = (inputStructure: ModelSchemaInputStructure) => {
-  console.log("Killing pain...");
+  console.log("Killing pain for ", inputStructure.name, "...");
   // Generate Domain Aggregate Root file
   GetDomainAggregateRootDefinition(inputStructure);
 
@@ -36,9 +36,8 @@ export const DataAccessPainKiller = (inputStructure: ModelSchemaInputStructure) 
 
   // Generate Domain Context DomainEntity files
   GetDomainEntityDefinitions(inputStructure);
-  console.log("You should be good to go now!");
-  console.log(chalk.yellow("Summary: "));
-  console.log(chalk.blue("Aggregate Root Name:"), inputStructure.name);
+  console.log(chalk.blue("You should be good to go now!"))
+  console.log(chalk.blue("Summary: "));
   console.log(chalk.blue("Number of NestedPaths:"), inputStructure.nestedPaths?.length);
   console.log(chalk.blue("Number of SubdocumentBases:"), inputStructure.subdocumentBases?.length);
 };

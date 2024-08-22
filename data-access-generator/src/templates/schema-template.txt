@@ -1,0 +1,12 @@
+//Nested Path Type definitions
+//NestedPathTypeDefinitions
+
+//SubdocumentBase Definitions
+//SubdocumentBaseSchemaDefinitions
+
+export const ModelNameSchema = new Schema<ModelName, Model<ModelName>, ModelName>({
+  //FieldDefinitions
+  schemaVersion: { type: String, required: false, default: "1.0.0" },
+});
+
+export const ModelNameModel = model<ModelName>("ModelName", ModelNameSchema);

@@ -3,7 +3,7 @@ import { RawInputFromModel } from "../common";
 export const rawInputApplicantUser: RawInputFromModel = {
   aggregateRootDefinition: `
 export interface ApplicantUser extends User {
-  termsAndConditions?: Types.DocumentArray<ApplicantUserTermsAndConditions>
+  termsAndConditions?: Types.DocumentArray<ApplicantUserTermsAndCondition>;
   personalInformation?: ApplicantUserPersonalInformation;
   accessBlocked?: boolean;
   tags?: string[];
@@ -11,9 +11,9 @@ export interface ApplicantUser extends User {
   displayName?: string;
   userType?: string; // Discriminator key
   discriminatorKey: string;
-  schemaVersion: string;
   externalId: string;
   isProfileSubmitted?: boolean;
+  payment?: ApplicantUserPayment;
 }`,
   complexSchemaTypeDefinitions: `export interface ApplicantUserSearch extends NestedPath {
   hash?: string;

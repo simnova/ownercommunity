@@ -22,7 +22,7 @@ export class MongoosePropArray<propType extends DomainEntityProps, docType exten
     return this.docArray[itemId] as any as propType;
   }
   removeItem(item: propType): void {
-    this.docArray.pull({_id:item['doc']['_id'] } );
+    this.docArray.pull({_id:item['props']['_id'] } );
   }
   removeAll(): void {
     const ids = this.docArray.map((doc) => doc._id);

@@ -1,4 +1,4 @@
-import { ModelSchemaInputStructure, SchemaTypeEnum } from "./common";
+import { ModelSchemaInputStructure, RawInputFromModel, SchemaTypeEnum } from "./common";
 import { DataAccessPainKiller } from "./step-2-data-access-pain-killer";
 import { GenerateGraphQLSchema } from "./step-3-export-to-graphql";
 import { ExtractFullAggregateRootInputStructure } from "./step-1-raw-input-interface-model-to-tool-input-helpers";
@@ -6,29 +6,25 @@ import { rawInputApplicantUser } from "./raw-inputs/raw-input-applicant-user";
 import { rawInputEntity } from "./raw-inputs/raw-input-entity";
 import { rawInputIdentityCase } from "./raw-inputs/raw-input-identity-case";
 import { rawInputStaffUser } from "./raw-inputs/raw-input-staff-user";
+import { GenerateSchemaDefinitions } from "./step-4-generate-schema-definitions";
+import { rawInputCredentialVerificationCase } from "./raw-inputs/raw-input-credential-verification-case";
 
+const StartPainKilling = (rawInput: RawInputFromModel) => {
+  const entityInputStructure = ExtractFullAggregateRootInputStructure(rawInput);
+  DataAccessPainKiller(entityInputStructure);
+  GenerateGraphQLSchema(entityInputStructure);
+  GenerateSchemaDefinitions(entityInputStructure);
+};
 
+StartPainKilling(rawInputEntity);
 
+StartPainKilling(rawInputApplicantUser);
 
-const entityInputStructure = ExtractFullAggregateRootInputStructure(rawInputEntity);
-DataAccessPainKiller(entityInputStructure);
-GenerateGraphQLSchema(entityInputStructure);
+StartPainKilling(rawInputIdentityCase);
 
-const applicantUserInputStructure = ExtractFullAggregateRootInputStructure(rawInputApplicantUser);
-DataAccessPainKiller(applicantUserInputStructure);
-GenerateGraphQLSchema(applicantUserInputStructure);
+StartPainKilling(rawInputStaffUser);
 
-const idVerificationCaseInputStructure = ExtractFullAggregateRootInputStructure(rawInputIdentityCase);
-DataAccessPainKiller(idVerificationCaseInputStructure);
-GenerateGraphQLSchema(idVerificationCaseInputStructure);
-
-const staffUserInputStructure = ExtractFullAggregateRootInputStructure(rawInputStaffUser);
-DataAccessPainKiller(staffUserInputStructure);
-GenerateGraphQLSchema(staffUserInputStructure);
-
-
-
-
+StartPainKilling(rawInputCredentialVerificationCase);
 
 // (async () => {
 //   const module = await import("iso-639-2");

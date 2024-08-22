@@ -156,7 +156,7 @@ export const AggregateRootGenerateNestedPathFieldGetters = (aggregateRootInputSt
     }\n`;
       } else {
         result += `  get ${field.name}(): ${typeWithVersionIfAny} {
-      return new ${typeWithVersionIfAny}(this.props.${field.name}
+      return new ${typeWithVersionIfAny}(this.props.${field.name}, this.context
       //, this.visa
       );
     }\n`;

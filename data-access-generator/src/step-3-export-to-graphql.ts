@@ -2,9 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { InsertVersionMiddleOfType as InsertVersionMiddleOfComplexType, ModelSchemaInputStructure, SchemaTypeEnum, toKebabCase } from "./common";
 
-const RefineGraphqlTypeFromModelType = (modelType: string, schemaType: SchemaTypeEnum, isSimpleDate: boolean) => {
+const RefineGraphqlTypeFromModelType = (modelFieldType: string, schemaType: SchemaTypeEnum, isSimpleDate: boolean) => {
   if (schemaType === SchemaTypeEnum.Primitive) {
-    switch (modelType) {
+    switch (modelFieldType) {
       case "string":
         return "String";
       case "string[]":
@@ -21,15 +21,15 @@ const RefineGraphqlTypeFromModelType = (modelType: string, schemaType: SchemaTyp
       case "ObjectID":
         return "ObjectID";
       default:
-        return modelType;
+        return modelFieldType;
     }
   } else if (schemaType === SchemaTypeEnum.PopulatedDoc) {
-    return modelType;
+    return modelFieldType;
   } else if (schemaType === SchemaTypeEnum.DocumentArray) {
-    return `[${modelType}]`;
+    return `[${modelFieldType}]`;
   } else {
     // NestedPath
-    return modelType;
+    return modelFieldType;
   }
 };
 

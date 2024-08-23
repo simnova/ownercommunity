@@ -10,3 +10,8 @@ export const ModelNameSchema = new Schema<ModelName, Model<ModelName>, ModelName
 });
 
 export const ModelNameModel = model<ModelName>("ModelName", ModelNameSchema);
+
+// Be sure to:
+// 1. Remove unnecessary fields in the model schema
+// 2. Add enum constraints to fields (if any)
+// 3. Fix export Model clause (last line) for model containing discriminator key

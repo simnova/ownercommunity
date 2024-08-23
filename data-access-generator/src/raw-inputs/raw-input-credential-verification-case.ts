@@ -159,7 +159,7 @@ export interface CredentialVerificationCaseRevisionRequest extends NestedPath {
 }
 
 export interface CredentialVerificationCaseCaseHistory extends SubdocumentBase {
-  caseDetails?: CredentialVerificationCaseApplicationReview;
+  caseDetails?: CredentialVerificationCaseCaseDetails;
   revisionRequest?: CredentialVerificationCaseRevisionRequest;
 }
 

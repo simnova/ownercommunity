@@ -8,6 +8,7 @@ import { rawInputIdentityCase } from "./raw-inputs/raw-input-identity-case";
 import { rawInputStaffUser } from "./raw-inputs/raw-input-staff-user";
 import { GenerateSchemaDefinitions } from "./step-4-generate-schema-definitions";
 import { rawInputCredentialVerificationCase } from "./raw-inputs/raw-input-credential-verification-case";
+import { rawInputSendReportCase } from "./raw-inputs/send-report-case";
 
 const StartPainKilling = (rawInput: RawInputFromModel) => {
   const entityInputStructure = ExtractFullAggregateRootInputStructure(rawInput);
@@ -26,6 +27,7 @@ StartPainKilling(rawInputStaffUser);
 
 StartPainKilling(rawInputCredentialVerificationCase);
 
+StartPainKilling(rawInputSendReportCase);
 // (async () => {
 //   const module = await import("iso-639-2");
 //   const iso6392Languages = module.iso6392.reduce((acc, lang) => {

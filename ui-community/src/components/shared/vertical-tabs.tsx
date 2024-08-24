@@ -1,4 +1,4 @@
-import { Col, Menu, Row } from 'antd';
+import { Col, Menu, Row, theme } from 'antd';
 import { Link, Route, RouteObject, Routes, matchRoutes, useLocation, useResolvedPath } from 'react-router-dom';
 
 
@@ -17,8 +17,14 @@ export const VerticalTabs: React.FC<{pages: RouteDefinition[]}> = ({pages}) => {
   const matchedPages = matchRoutes(convertedRoutes,location)
   const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : [];
 
+  const {
+    token: { colorTextBase }
+  } = theme.useToken();
+
   return (
-    <Row wrap={false}>
+    <Row wrap={false}  style={{
+      color: colorTextBase
+    }}>
       <Col flex="none">
       <Menu mode="inline" selectedKeys={matchedIds}>
         {

@@ -4,7 +4,7 @@ import { WalletContainer } from '../components/wallet.container';
 import { SubPageLayout } from '../sub-page-layout';
 import { CreditCardOutlined } from '@ant-design/icons';
 import { GrTransaction } from 'react-icons/gr';
-import { Link, Route, Routes, matchRoutes, useLocation } from 'react-router-dom';
+import { Link, Route, Routes, matchRoutes, useLocation, useResolvedPath } from 'react-router-dom';
 import TransactionsContainer from '../components/transactions.container';
 
 const Payment: React.FC = () => {
@@ -14,16 +14,21 @@ const Payment: React.FC = () => {
     token: { colorTextBase }
   } = theme.useToken();
 
+  const pathLocations = {
+    wallet: '',
+    transactions: 'transactions'
+  };
+
   const pages = [
     {
       id: '1',
-      path: '/community/:communityId/member/:memberId/payment/wallet',
+      path: useResolvedPath(pathLocations.wallet).pathname,
       title: 'Billing Info',
       icon: <CreditCardOutlined />
     },
     {
       id: '2',
-      path: '/community/:communityId/member/:memberId/payment/transactions',
+      path: useResolvedPath(pathLocations.transactions).pathname,
       title: 'Transactions',
       icon: <GrTransaction />
     }
@@ -65,8 +70,8 @@ const Payment: React.FC = () => {
         </Col>
         <Col span={18} style={{ paddingLeft: '24px' }}>
           <Routes>
-            <Route path="/wallet" element={<WalletContainer data={undefined} />} />
-            <Route path="/transactions" element={<TransactionsContainer />} />
+            <Route path={pathLocations.wallet} element={<WalletContainer data={undefined} />} />
+            <Route path={pathLocations.transactions} element={<TransactionsContainer />} />
           </Routes>
         </Col>
       </Row>

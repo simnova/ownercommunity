@@ -1,5 +1,6 @@
 import { Col, Menu, Row, theme } from 'antd';
 import { Link, Route, RouteObject, Routes, matchRoutes, useLocation, useResolvedPath } from 'react-router-dom';
+import { useMemo } from 'react';
 
 
 export interface RouteDefinition {
@@ -13,7 +14,11 @@ export interface RouteDefinition {
 
 export const VerticalTabs: React.FC<{pages: RouteDefinition[]}> = ({pages}) => {
   const location = useLocation();
-  const convertedRoutes = pages.map((x) => {return {id: x.id, path:useResolvedPath(x.path).pathname} as RouteObject} )
+  const convertedRoutes = useMemo(() => {
+    return pages.map((x) => {
+      return { id: x.id, path: useResolvedPath(x.path).pathname} as RouteObject ;
+    });
+  }, [pages]);
   const matchedPages = matchRoutes(convertedRoutes,location)
   const matchedIds = matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : [];
 

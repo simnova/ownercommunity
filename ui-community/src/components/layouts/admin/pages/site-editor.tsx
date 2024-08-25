@@ -1,13 +1,14 @@
 import { PageHeader } from '@ant-design/pro-layout';
 import { Tabs, theme } from 'antd';
 
-import { Route, Routes, matchRoutes, useLocation, useNavigate, useParams, useResolvedPath } from "react-router-dom";
+import { Route, RouteObject, Routes, matchRoutes, useLocation, useNavigate, useParams, useResolvedPath } from "react-router-dom";
 import { SiteEditorContainer } from "../components/site-editor.container";
 import { SubPageLayout } from "../sub-page-layout";
 import { SiteEditorFiles } from './site-editor-files';
 import SiteEditorPageEditor from "./site-editor-page-editor";
 import { PageTree } from "./site-editor-page-tree";
 import { Helmet } from 'react-helmet-async';
+import { useMemo } from 'react';
 
 const { TabPane } = Tabs;
 
@@ -22,12 +23,13 @@ export const SiteEditor: React.FC<any> = () => {
   const location = useLocation();
   
   const pages = [
-    {id:'page-tree', path:useResolvedPath('page-tree').pathname, title:'Pages'},
-    {id:'page-editor', path:useResolvedPath('page-editor').pathname, title:'Editor'},
-    {id:'files', path:useResolvedPath('files').pathname, title:'Files'}
+    {id:'page-tree', path:'page-tree', title:'Pages'},
+    {id:'page-editor', path:'page-editor', title:'Editor'},
+    {id:'files', path:'files', title:'Files'}
   ]
 
-  const matchedPages = matchRoutes(pages, location);
+  const convertedRoutes = useMemo(() => pages.map((x) => {return {id: x.id, path: useResolvedPath(x.path).pathname} as RouteObject}), [pages]);
+  const matchedPages = matchRoutes(convertedRoutes, location);
   const selectedPage = (matchedPages ? matchedPages.map((x:any) => x.route.id.toString()) : ['page-tree'])[0];
 
   return (

@@ -74,6 +74,7 @@ export interface SendReportCaseCaseDetails extends NestedPath {
   initiatedByApplicant?: boolean;
   application?: SendReportCaseCaseDetailsApplication;
   applicationReview?: SendReportCaseCaseDetailsApplicationReview;
+  createdAt?: Date;
 }
 
 export interface SendReportCaseRevisionRequestRequestChanges extends NestedPath {

@@ -7,7 +7,7 @@ import {
   ScheduleOutlined,
   SettingOutlined
 } from '@ant-design/icons';
-import { Route, Routes, useParams, useResolvedPath } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import { BlobToLocalStorage } from '../../shared/blob-to-local-storage';
 import { Home } from './pages/home';
 import { Members } from './pages/members';
@@ -42,9 +42,9 @@ export const Admin: React.FC<any> = (_props) => {
   };
   
   const pageLayouts: PageLayoutProps[] = [
-    { path: useResolvedPath(pathLocations.home).pathname, title: 'Home', icon: <HomeOutlined />, id: 'ROOT' },
+    { path: pathLocations.home, title: 'Home', icon: <HomeOutlined />, id: 'ROOT' },
     {
-      path: useResolvedPath('settings/*').pathname,
+      path: pathLocations.settings,
       title: 'Settings',
       icon: <SettingOutlined />,
       id: 2,
@@ -53,7 +53,7 @@ export const Admin: React.FC<any> = (_props) => {
         member?.role?.permissions?.communityPermissions?.canManageCommunitySettings ?? false
     },
     {
-      path: useResolvedPath(pathLocations.siteEditor).pathname,
+      path: pathLocations.siteEditor,
       title: 'Site Editor',
       icon: <LayoutOutlined />,
       id: 3,
@@ -61,7 +61,7 @@ export const Admin: React.FC<any> = (_props) => {
       hasPermissions: (member: Member) => member?.role?.permissions?.communityPermissions?.canManageSiteContent ?? false
     },
     {
-      path: useResolvedPath(pathLocations.roles).pathname,
+      path: pathLocations.roles,
       title: 'Roles',
       icon: <SafetyOutlined />,
       id: 4,
@@ -70,7 +70,7 @@ export const Admin: React.FC<any> = (_props) => {
         member?.role?.permissions?.communityPermissions?.canManageRolesAndPermissions ?? false
     },
     {
-      path: useResolvedPath(pathLocations.members).pathname,
+      path: pathLocations.members,
       title: 'Members',
       icon: <ContactsOutlined />,
       id: 5,
@@ -78,7 +78,7 @@ export const Admin: React.FC<any> = (_props) => {
       hasPermissions: (member: Member) => member?.role?.permissions?.communityPermissions?.canManageMembers ?? false
     },
     {
-      path: useResolvedPath(pathLocations.properties).pathname,
+      path: pathLocations.properties,
       title: 'Properties',
       icon: <BarsOutlined />,
       id: 6,
@@ -86,7 +86,7 @@ export const Admin: React.FC<any> = (_props) => {
       hasPermissions: (member: Member) => member?.role?.permissions?.propertyPermissions?.canManageProperties ?? false
     },
     {
-      path: useResolvedPath(pathLocations.serviceTickets).pathname,
+      path: pathLocations.serviceTickets,
       title: 'Tickets',
       icon: <ScheduleOutlined />,
       id: 7,

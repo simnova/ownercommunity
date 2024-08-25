@@ -1,4 +1,4 @@
-import { Routes, Route, useParams, useResolvedPath } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { SectionLayout } from './section-layout';
 import { Home } from './pages/home';
 import {
@@ -38,27 +38,27 @@ const pathLocations = {
 
 const pageLayouts: PageLayoutProps[] = [
   {
-    path: useResolvedPath(pathLocations.home).pathname,
+    path: pathLocations.home,
     title: 'Home',
     icon: <HomeOutlined />,
     id: 'ROOT'
   },
   {
-    path: useResolvedPath(pathLocations.profile).pathname,
+    path: pathLocations.profile,
     title: 'Profile Settings',
     icon: <UserOutlined />,
     id: 2,
     parent: 'ROOT'
   },
   {
-    path: useResolvedPath(pathLocations.properties).pathname,
+    path: pathLocations.properties,
     title: 'Properties',
     icon: <BarsOutlined />,
     id: 3,
     parent: 'ROOT'
   },
   {
-    path: useResolvedPath(pathLocations.serviceTickets).pathname,
+    path: pathLocations.serviceTickets,
     title: 'Tickets',
     icon: <ScheduleOutlined />,
     id: 4,
@@ -70,28 +70,28 @@ const pageLayouts: PageLayoutProps[] = [
       false
   },
   {
-    path: useResolvedPath(pathLocations.listings).pathname,
+    path: pathLocations.listings,
     title: 'Listings',
     icon: <ShopOutlined />,
     id: 5,
     parent: 'ROOT'
   },
   {
-    path: useResolvedPath(pathLocations.neighbors).pathname,
+    path: pathLocations.neighbors,
     title: 'Neighbors',
     icon: <TeamOutlined />,
     id: 6,
     parent: 'ROOT'
   },
   {
-    path: useResolvedPath(pathLocations.propertiesSearch).pathname,
+    path: pathLocations.propertiesSearch,
     title: 'Property Search',
     icon: <SearchOutlined />,
     id: 7,
     parent: 'ROOT'
   },
   {
-    path: useResolvedPath(pathLocations.payment).pathname,
+    path: pathLocations.payment,
     title: 'Payment',
     icon: <WalletOutlined />,
     id: 8,

@@ -1,0 +1,38 @@
+
+    type Entity implements MongoBase {
+          entityName: String
+ entityLanguage: String
+ isIssuingInstitution: Boolean
+ issuingInstitution: EntityIssuingInstitution
+ isClient: Boolean
+ client: EntityClient
+ address: EntityAddressInfo
+ createdBy: StaffUser
+ disabledAt: DateTime
+      id: ObjectID!
+      schemaVersion: String
+      createdAt: DateTime
+      updatedAt: DateTime
+    }
+  
+      type EntityAddressInfo {
+            addressLine1: String
+addressLine2: String
+city: String
+stateOrProvince: String
+zipOrPostalCode: String
+country: String
+      }
+    
+      type EntityIssuingInstitution {
+            email: String
+phoneNumber: String
+address: EntityAddressInfo
+      }
+    
+      type EntityClient {
+            email: String
+phoneNumber: String
+address: EntityAddressInfo
+      }
+    

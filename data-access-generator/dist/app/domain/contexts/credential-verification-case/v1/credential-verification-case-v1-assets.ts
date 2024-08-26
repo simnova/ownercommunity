@@ -1,6 +1,5 @@
 export interface CredentialVerificationCaseV1AssetsProps extends ValueObjectProps {
   // Primitive Fields
-  arbitrary?: string;
 
   // NestedPath Fields
   readonly private: CredentialVerificationCaseV1AssetsPrivateProps;
@@ -23,9 +22,6 @@ export class CredentialVerificationCaseV1Assets extends ValueObject<CredentialVe
     super(props);
   }
   // Primitive Field Getters
-  get arbitrary() {
-    return this.props.arbitrary;
-    }
 
   // NestedPath Field Getters
   get private() {
@@ -54,9 +50,6 @@ export class CredentialVerificationCaseV1Assets extends ValueObject<CredentialVe
       );
   }
   // Primitive Field Setters
-  set Arbitrary(value: string) {
-    this.props.arbitrary = value;
-  }
 
   // PopulatedDoc Field Setters
 

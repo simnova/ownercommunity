@@ -740,6 +740,157 @@ export class SendReportCaseV1CaseDetailsApplicationDomainAdapter implements Send
   }
 
   
+}export class SendReportCaseV1FinanceDetailsFinanceConfigGLConfigSubmissionDomainAdapter implements SendReportCaseV1FinanceDetailsFinanceConfigGLConfigSubmissionProps {
+  constructor(public readonly doc: SendReportCaseFinanceDetailsFinanceConfigGLConfigSubmission) {}
+  //Primitive Field Getters and Setters
+  get amount() {
+    return this.doc.amount;
+  }
+  set amount(value: number) {
+    this.doc.amount = value;
+  }
+  get debitGlAccount() {
+    return this.doc.debitGlAccount;
+  }
+  set debitGlAccount(value: string) {
+    this.doc.debitGlAccount = value;
+  }
+  get creditGlAccount() {
+    return this.doc.creditGlAccount;
+  }
+  set creditGlAccount(value: string) {
+    this.doc.creditGlAccount = value;
+  }
+
+  // Nested Path Getters
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+
+  
+}export class SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRefundsDomainAdapter implements SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRefundsProps {
+  constructor(public readonly doc: SendReportCaseFinanceDetailsFinanceConfigGLConfigRefunds) {}
+  //Primitive Field Getters and Setters
+  get creditGlAccount() {
+    return this.doc.creditGlAccount;
+  }
+  set creditGlAccount(value: string) {
+    this.doc.creditGlAccount = value;
+  }
+  get debitGlAccount() {
+    return this.doc.debitGlAccount;
+  }
+  set debitGlAccount(value: string) {
+    this.doc.debitGlAccount = value;
+  }
+
+  // Nested Path Getters
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+
+  
+}export class SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRecognitionDomainAdapter implements SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRecognitionProps {
+  constructor(public readonly doc: SendReportCaseFinanceDetailsFinanceConfigGLConfigRecognition) {}
+  //Primitive Field Getters and Setters
+  get creditGlAccount() {
+    return this.doc.creditGlAccount;
+  }
+  set creditGlAccount(value: string) {
+    this.doc.creditGlAccount = value;
+  }
+  get debitGlAccount() {
+    return this.doc.debitGlAccount;
+  }
+  set debitGlAccount(value: string) {
+    this.doc.debitGlAccount = value;
+  }
+
+  // Nested Path Getters
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+
+  
+}export class SendReportCaseV1FinanceDetailsFinanceConfigGLConfigDomainAdapter implements SendReportCaseV1FinanceDetailsFinanceConfigGLConfigProps {
+  constructor(public readonly doc: SendReportCaseFinanceDetailsFinanceConfigGLConfig) {}
+  //Primitive Field Getters and Setters
+
+  // Nested Path Getters
+  get submission() {
+    if (!this.doc.submission) {
+      this.doc.set('submission', {});
+    }
+    return new SendReportCaseV1FinanceDetailsFinanceConfigGLConfigSubmissionDomainAdapter(this.doc.submission);
+  }
+  get refunds() {
+    if (!this.doc.refunds) {
+      this.doc.set('refunds', {});
+    }
+    return new SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRefundsDomainAdapter(this.doc.refunds);
+  }
+  get recognition() {
+    if (!this.doc.recognition) {
+      this.doc.set('recognition', {});
+    }
+    return new SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRecognitionDomainAdapter(this.doc.recognition);
+  }
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+  get additionalCharges() {
+    return new MongoosePropArray(this.doc.additionalCharges, SendReportCaseV1FinanceDetailsFinanceConfigGLConfigAdditionalChargeDomainAdapter);
+  }
+
+  
+}export class SendReportCaseV1FinanceDetailsFinanceConfigDomainAdapter implements SendReportCaseV1FinanceDetailsFinanceConfigProps {
+  constructor(public readonly doc: SendReportCaseFinanceDetailsFinanceConfig) {}
+  //Primitive Field Getters and Setters
+  get effectiveAt() {
+    return this.doc.effectiveAt;
+  }
+  set effectiveAt(value: Date) {
+    this.doc.effectiveAt = value;
+  }
+  get createdAt() {
+    return this.doc.createdAt;
+  }
+  set createdAt(value: Date) {
+    this.doc.createdAt = value;
+  }
+  get note() {
+    return this.doc.note;
+  }
+  set note(value: string) {
+    this.doc.note = value;
+  }
+
+  // Nested Path Getters
+  get glConfig() {
+    if (!this.doc.glConfig) {
+      this.doc.set('glConfig', {});
+    }
+    return new SendReportCaseV1FinanceDetailsFinanceConfigGLConfigDomainAdapter(this.doc.glConfig);
+  }
+
+  // Populated Doc Getters and Setters
+  get createdBy() {
+    if (this.doc.createdBy) {
+      return new StaffUserDomainAdapter(this.doc.createdBy);
+    }
+    return undefined;
+  }
+  setCreatedByRef(createdBy: StaffUserEntityReference) {
+          this.doc.set('createdBy', createdBy ? createdBy['props']['doc'] : null);
+        }
+
+  // Document Array Getters
+
+  
 }export class SendReportCaseV1FinanceDetailsDomainAdapter implements SendReportCaseV1FinanceDetailsProps {
   constructor(public readonly doc: SendReportCaseFinanceDetails) {}
   //Primitive Field Getters and Setters
@@ -751,6 +902,12 @@ export class SendReportCaseV1CaseDetailsApplicationDomainAdapter implements Send
   }
 
   // Nested Path Getters
+  get financeConfig() {
+    if (!this.doc.financeConfig) {
+      this.doc.set('financeConfig', {});
+    }
+    return new SendReportCaseV1FinanceDetailsFinanceConfigDomainAdapter(this.doc.financeConfig);
+  }
   get revenueRecognition() {
     if (!this.doc.revenueRecognition) {
       this.doc.set('revenueRecognition', {});
@@ -983,6 +1140,37 @@ export class SendReportCaseV1CaseHistoryDomainAdapter implements SendReportCaseV
   setRequestedByRef(requestedBy: StaffUserEntityReference) {
     this.props.set('requestedBy', requestedBy['props']['doc']);
   }
+
+  // Document Array Getters
+
+}export class SendReportCaseV1FinanceDetailsFinanceConfigGLConfigAdditionalChargeDomainAdapter implements SendReportCaseV1FinanceDetailsFinanceConfigGLConfigAdditionalChargeProps {
+  constructor(public readonly props: SendReportCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge) {}
+  public get id(): string {
+    return this.props.id.valueOf() as string;
+  }
+  //Primitive Field Getters and Setters
+  get type() {
+    return this.props.type;
+  }
+  set type(value: string) {
+    this.props.type = value;
+  }
+  get debitGlAccount() {
+    return this.props.debitGlAccount;
+  }
+  set debitGlAccount(value: string) {
+    this.props.debitGlAccount = value;
+  }
+  get creditGlAccount() {
+    return this.props.creditGlAccount;
+  }
+  set creditGlAccount(value: string) {
+    this.props.creditGlAccount = value;
+  }
+
+  // Nested Path Getters
+
+  // Populated Doc Getters and Setters
 
   // Document Array Getters
 

@@ -1,4 +1,4 @@
-//Nested Path Type definitions
+//Types and Schema for Nested Path and SubdocumentBase definitions
 export const EntityAddressInfoType = {
   addressLine1: { type: String, required: false},
 addressLine2: { type: String, required: false},
@@ -22,7 +22,6 @@ address: {type: EntityAddressInfoType,required: false, ...NestedPathOptions,},
 
 
 
-//SubdocumentBase Definitions
 
 
 export const EntitySchema = new Schema<Entity, Model<Entity>, Entity>({
@@ -40,8 +39,3 @@ disabledAt: { type: Date, required: false},
 });
 
 export const EntityModel = model<Entity>("Entity", EntitySchema);
-
-// Be sure to:
-// 1. Remove unnecessary fields in the model schema
-// 2. Add enum constraints to fields (if any)
-// 3. Fix export Model clause (last line) for model containing discriminator key

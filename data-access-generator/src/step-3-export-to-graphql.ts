@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { InsertVersionMiddleOfType as InsertVersionMiddleOfComplexType, ModelSchemaInputStructure, SchemaTypeEnum, toKebabCase } from "./common";
 
-const RefineGraphqlTypeFromModelType = (modelFieldType: string, schemaType: SchemaTypeEnum, isSimpleDate: boolean) => {
+const RefineGraphqlTypeFromModelType = (fieldName: string, modelFieldType: string, schemaType: SchemaTypeEnum) => {
   if (schemaType === SchemaTypeEnum.Primitive) {
     switch (modelFieldType) {
       case "string":
@@ -10,11 +10,14 @@ const RefineGraphqlTypeFromModelType = (modelFieldType: string, schemaType: Sche
       case "string[]":
         return "[String]";
       case "number":
+        if (fieldName.toLowerCase().includes("amount") || fieldName.toLowerCase().includes("fee")) {
+          return "Float";
+        }
         return "Int";
       case "boolean":
         return "Boolean";
       case "Date":
-        if (isSimpleDate) {
+        if (!fieldName.toLowerCase().includes("at") && !fieldName.includes("on")) {
           return "Date";
         }
         return "DateTime";
@@ -42,7 +45,7 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
               (field) =>
                 `${field.name}: ${InsertVersionMiddleOfComplexType(
                   modelSchemaInput,
-                  RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.name.includes("At") && !field.name.includes("On"))
+                  RefineGraphqlTypeFromModelType(field.name, field.type, field.schemaType!)
                 )}`
             )
             .join("\n ")}
@@ -63,7 +66,7 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
                 (field) =>
                   `${field.name}: ${InsertVersionMiddleOfComplexType(
                     modelSchemaInput,
-                    RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.name.includes("At") && !field.name.includes("On"))
+                    RefineGraphqlTypeFromModelType(field.name, field.type, field.schemaType!)
                   )}`
               )
               .join("\n")}
@@ -81,7 +84,7 @@ export const GenerateGraphQLSchema = (modelSchemaInput: ModelSchemaInputStructur
                 (field) =>
                   `${field.name}: ${InsertVersionMiddleOfComplexType(
                     modelSchemaInput,
-                    RefineGraphqlTypeFromModelType(field.type, field.schemaType!, !field.name.includes("At") && !field.name.includes("On"))
+                    RefineGraphqlTypeFromModelType(field.name, field.type, field.schemaType!)
                   )}`
               )
               .join("\n")}

@@ -99,7 +99,7 @@ verificationStatusReportHistory: [SendReportCaseV1AssetPrivateVerificationStatus
       type SendReportCaseV1FinanceDetailsRevenueRecognitionSubmission {
             debitGlAccount: String
 creditGlAccount: String
-amount: Int
+amount: Float
 recognizedAt: DateTime
 completedAt: DateTime
       }
@@ -107,7 +107,7 @@ completedAt: DateTime
       type SendReportCaseV1FinanceDetailsRevenueRecognitionRecognition {
             debitGlAccount: String
 creditGlAccount: String
-amount: Int
+amount: Float
 recognizedAt: DateTime
 completedAt: DateTime
       }
@@ -124,7 +124,7 @@ completedAt: DateTime
       }
     
       type SendReportCaseV1FinanceDetailsTransactionSubmission {
-            amount: Int
+            amount: Float
 transactionReference: SendReportCaseV1FinanceDetailsTransactionSubmissionTransactionReference
       }
     
@@ -151,8 +151,40 @@ completedAt: DateTime
 adhocTransactions: [SendReportCaseV1FinanceDetailsTransactionAdhocTransaction]
       }
     
+      type SendReportCaseV1FinanceDetailsFinanceConfigGLConfigSubmission {
+            amount: Float
+debitGlAccount: String
+creditGlAccount: String
+      }
+    
+      type SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRefunds {
+            creditGlAccount: String
+debitGlAccount: String
+      }
+    
+      type SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRecognition {
+            creditGlAccount: String
+debitGlAccount: String
+      }
+    
+      type SendReportCaseV1FinanceDetailsFinanceConfigGLConfig {
+            submission: SendReportCaseV1FinanceDetailsFinanceConfigGLConfigSubmission
+additionalCharges: [SendReportCaseV1FinanceDetailsFinanceConfigGLConfigAdditionalCharge]
+refunds: SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRefunds
+recognition: SendReportCaseV1FinanceDetailsFinanceConfigGLConfigRecognition
+      }
+    
+      type SendReportCaseV1FinanceDetailsFinanceConfig {
+            effectiveAt: DateTime
+glConfig: SendReportCaseV1FinanceDetailsFinanceConfigGLConfig
+createdAt: DateTime
+createdBy: StaffUser
+note: String
+      }
+    
       type SendReportCaseV1FinanceDetails {
-            serviceFee: Int
+            financeConfig: SendReportCaseV1FinanceDetailsFinanceConfig
+serviceFee: Float
 revenueRecognition: SendReportCaseV1FinanceDetailsRevenueRecognition
 transactions: SendReportCaseV1FinanceDetailsTransactions
       }
@@ -203,13 +235,23 @@ isHiddenFromApplicant: Boolean
       }
     
       type SendReportCaseV1FinanceDetailsTransactionAdhocTransaction implements MongoSubdocument {
-            amount: Int
+            amount: Float
 requestedAt: DateTime
 requestedBy: StaffUser
 reason: String
 approval: SendReportCaseV1FinanceDetailsTransactionAdhocTransactionApproval
 transactionReference: SendReportCaseV1FinanceDetailsTransactionAdhocTransactionTransactionReference
 financeReference: SendReportCaseV1FinanceDetailsTransactionAdhocTransactionFinanceReference
+
+        id: ObjectID!
+        createdAt: DateTime
+        updatedAt: DateTime
+      }
+    
+      type SendReportCaseV1FinanceDetailsFinanceConfigGLConfigAdditionalCharge implements MongoSubdocument {
+            type: String
+debitGlAccount: String
+creditGlAccount: String
 
         id: ObjectID!
         createdAt: DateTime

@@ -1,6 +1,5 @@
 export interface CredentialVerificationCaseV1ApplicationReviewProps extends ValueObjectProps {
   // Primitive Fields
-  createdAt?: Date;
 
   // NestedPath Fields
   readonly affirmations: CredentialVerificationCaseV1AffirmationsProps;
@@ -32,9 +31,6 @@ export class CredentialVerificationCaseV1ApplicationReview extends ValueObject<C
     super(props);
   }
   // Primitive Field Getters
-  get createdAt() {
-    return this.props.createdAt;
-    }
 
   // NestedPath Field Getters
   get affirmations() {
@@ -75,9 +71,6 @@ export class CredentialVerificationCaseV1ApplicationReview extends ValueObject<C
       );
   }
   // Primitive Field Setters
-  set CreatedAt(value: Date) {
-    this.props.createdAt = value;
-  }
 
   // PopulatedDoc Field Setters
   set CaseWorkerAssigned(caseWorkerAssigned: StaffUserEntityReference) {

@@ -1,6 +1,6 @@
 export interface CredentialVerificationCaseV1AuditProps extends ValueObjectProps {
   // Primitive Fields
-  completedOn?: Date;
+  completedAt?: Date;
   result?: string;
 
   // NestedPath Fields
@@ -25,8 +25,8 @@ export class CredentialVerificationCaseV1Audit extends ValueObject<CredentialVer
     super(props);
   }
   // Primitive Field Getters
-  get completedOn() {
-    return this.props.completedOn;
+  get completedAt() {
+    return this.props.completedAt;
     }
   get result() {
     return this.props.result;
@@ -59,8 +59,8 @@ export class CredentialVerificationCaseV1Audit extends ValueObject<CredentialVer
       );
   }
   // Primitive Field Setters
-  set CompletedOn(value: Date) {
-    this.props.completedOn = value;
+  set CompletedAt(value: Date) {
+    this.props.completedAt = value;
   }
   set Result(value: string) {
     this.props.result = value;

@@ -260,11 +260,11 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
 }export class CredentialVerificationCaseV1AuditDomainAdapter implements CredentialVerificationCaseV1AuditProps {
   constructor(public readonly doc: CredentialVerificationCaseAudit) {}
   //Primitive Field Getters and Setters
-  get completedOn() {
-    return this.doc.completedOn;
+  get completedAt() {
+    return this.doc.completedAt;
   }
-  set completedOn(value: Date) {
-    this.doc.completedOn = value;
+  set completedAt(value: Date) {
+    this.doc.completedAt = value;
   }
   get result() {
     return this.doc.result;
@@ -514,11 +514,11 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
 }export class CredentialVerificationCaseV1ApplicationReviewDecisionDomainAdapter implements CredentialVerificationCaseV1ApplicationReviewDecisionProps {
   constructor(public readonly doc: CredentialVerificationCaseApplicationReviewDecision) {}
   //Primitive Field Getters and Setters
-  get completedOn() {
-    return this.doc.completedOn;
+  get completedAt() {
+    return this.doc.completedAt;
   }
-  set completedOn(value: Date) {
-    this.doc.completedOn = value;
+  set completedAt(value: Date) {
+    this.doc.completedAt = value;
   }
   get result() {
     return this.doc.result;
@@ -552,12 +552,6 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
 }export class CredentialVerificationCaseV1ApplicationReviewDomainAdapter implements CredentialVerificationCaseV1ApplicationReviewProps {
   constructor(public readonly doc: CredentialVerificationCaseApplicationReview) {}
   //Primitive Field Getters and Setters
-  get createdAt() {
-    return this.doc.createdAt;
-  }
-  set createdAt(value: Date) {
-    this.doc.createdAt = value;
-  }
 
   // Nested Path Getters
   get affirmations() {
@@ -649,12 +643,6 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
 }export class CredentialVerificationCaseV1AssetsDomainAdapter implements CredentialVerificationCaseV1AssetsProps {
   constructor(public readonly doc: CredentialVerificationCaseAssets) {}
   //Primitive Field Getters and Setters
-  get arbitrary() {
-    return this.doc.arbitrary;
-  }
-  set arbitrary(value: string) {
-    this.doc.arbitrary = value;
-  }
 
   // Nested Path Getters
   get private() {
@@ -769,17 +757,17 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   set amount(value: number) {
     this.doc.amount = value;
   }
-  get recognitionDate() {
-    return this.doc.recognitionDate;
+  get recognizedAt() {
+    return this.doc.recognizedAt;
   }
-  set recognitionDate(value: Date) {
-    this.doc.recognitionDate = value;
+  set recognizedAt(value: Date) {
+    this.doc.recognizedAt = value;
   }
-  get completedOn() {
-    return this.doc.completedOn;
+  get completedAt() {
+    return this.doc.completedAt;
   }
-  set completedOn(value: Date) {
-    this.doc.completedOn = value;
+  set completedAt(value: Date) {
+    this.doc.completedAt = value;
   }
 
   // Nested Path Getters
@@ -810,17 +798,17 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   set amount(value: number) {
     this.doc.amount = value;
   }
-  get recognitionDate() {
-    return this.doc.recognitionDate;
+  get recognizedAt() {
+    return this.doc.recognizedAt;
   }
-  set recognitionDate(value: Date) {
-    this.doc.recognitionDate = value;
+  set recognizedAt(value: Date) {
+    this.doc.recognizedAt = value;
   }
-  get completedOn() {
-    return this.doc.completedOn;
+  get completedAt() {
+    return this.doc.completedAt;
   }
-  set completedOn(value: Date) {
-    this.doc.completedOn = value;
+  set completedAt(value: Date) {
+    this.doc.completedAt = value;
   }
 
   // Nested Path Getters
@@ -853,6 +841,157 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   // Document Array Getters
 
   
+}export class CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigSubmissionDomainAdapter implements CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigSubmissionProps {
+  constructor(public readonly doc: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigSubmission) {}
+  //Primitive Field Getters and Setters
+  get amount() {
+    return this.doc.amount;
+  }
+  set amount(value: number) {
+    this.doc.amount = value;
+  }
+  get debitGlAccount() {
+    return this.doc.debitGlAccount;
+  }
+  set debitGlAccount(value: string) {
+    this.doc.debitGlAccount = value;
+  }
+  get creditGlAccount() {
+    return this.doc.creditGlAccount;
+  }
+  set creditGlAccount(value: string) {
+    this.doc.creditGlAccount = value;
+  }
+
+  // Nested Path Getters
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+
+  
+}export class CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigRefundsDomainAdapter implements CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigRefundsProps {
+  constructor(public readonly doc: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRefunds) {}
+  //Primitive Field Getters and Setters
+  get creditGlAccount() {
+    return this.doc.creditGlAccount;
+  }
+  set creditGlAccount(value: string) {
+    this.doc.creditGlAccount = value;
+  }
+  get debitGlAccount() {
+    return this.doc.debitGlAccount;
+  }
+  set debitGlAccount(value: string) {
+    this.doc.debitGlAccount = value;
+  }
+
+  // Nested Path Getters
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+
+  
+}export class CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigRecognitionDomainAdapter implements CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigRecognitionProps {
+  constructor(public readonly doc: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRecognition) {}
+  //Primitive Field Getters and Setters
+  get creditGlAccount() {
+    return this.doc.creditGlAccount;
+  }
+  set creditGlAccount(value: string) {
+    this.doc.creditGlAccount = value;
+  }
+  get debitGlAccount() {
+    return this.doc.debitGlAccount;
+  }
+  set debitGlAccount(value: string) {
+    this.doc.debitGlAccount = value;
+  }
+
+  // Nested Path Getters
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+
+  
+}export class CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigDomainAdapter implements CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigProps {
+  constructor(public readonly doc: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfig) {}
+  //Primitive Field Getters and Setters
+
+  // Nested Path Getters
+  get submission() {
+    if (!this.doc.submission) {
+      this.doc.set('submission', {});
+    }
+    return new CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigSubmissionDomainAdapter(this.doc.submission);
+  }
+  get refunds() {
+    if (!this.doc.refunds) {
+      this.doc.set('refunds', {});
+    }
+    return new CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigRefundsDomainAdapter(this.doc.refunds);
+  }
+  get recognition() {
+    if (!this.doc.recognition) {
+      this.doc.set('recognition', {});
+    }
+    return new CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigRecognitionDomainAdapter(this.doc.recognition);
+  }
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+  get additionalCharges() {
+    return new MongoosePropArray(this.doc.additionalCharges, CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigAdditionalChargeDomainAdapter);
+  }
+
+  
+}export class CredentialVerificationCaseV1FinanceDetailsFinanceConfigDomainAdapter implements CredentialVerificationCaseV1FinanceDetailsFinanceConfigProps {
+  constructor(public readonly doc: CredentialVerificationCaseFinanceDetailsFinanceConfig) {}
+  //Primitive Field Getters and Setters
+  get effectiveAt() {
+    return this.doc.effectiveAt;
+  }
+  set effectiveAt(value: Date) {
+    this.doc.effectiveAt = value;
+  }
+  get createdAt() {
+    return this.doc.createdAt;
+  }
+  set createdAt(value: Date) {
+    this.doc.createdAt = value;
+  }
+  get note() {
+    return this.doc.note;
+  }
+  set note(value: string) {
+    this.doc.note = value;
+  }
+
+  // Nested Path Getters
+  get glConfig() {
+    if (!this.doc.glConfig) {
+      this.doc.set('glConfig', {});
+    }
+    return new CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigDomainAdapter(this.doc.glConfig);
+  }
+
+  // Populated Doc Getters and Setters
+  get createdBy() {
+    if (this.doc.createdBy) {
+      return new StaffUserDomainAdapter(this.doc.createdBy);
+    }
+    return undefined;
+  }
+  setCreatedByRef(createdBy: StaffUserEntityReference) {
+          this.doc.set('createdBy', createdBy ? createdBy['props']['doc'] : null);
+        }
+
+  // Document Array Getters
+
+  
 }export class CredentialVerificationCaseV1FinanceDetailsDomainAdapter implements CredentialVerificationCaseV1FinanceDetailsProps {
   constructor(public readonly doc: CredentialVerificationCaseFinanceDetails) {}
   //Primitive Field Getters and Setters
@@ -864,6 +1003,12 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   }
 
   // Nested Path Getters
+  get financeConfig() {
+    if (!this.doc.financeConfig) {
+      this.doc.set('financeConfig', {});
+    }
+    return new CredentialVerificationCaseV1FinanceDetailsFinanceConfigDomainAdapter(this.doc.financeConfig);
+  }
   get revenueRecognition() {
     if (!this.doc.revenueRecognition) {
       this.doc.set('revenueRecognition', {});
@@ -897,11 +1042,11 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   set referenceId(value: string) {
     this.doc.referenceId = value;
   }
-  get completedOn() {
-    return this.doc.completedOn;
+  get completedAt() {
+    return this.doc.completedAt;
   }
-  set completedOn(value: Date) {
-    this.doc.completedOn = value;
+  set completedAt(value: Date) {
+    this.doc.completedAt = value;
   }
 
   // Nested Path Getters
@@ -943,17 +1088,17 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   set isApplicantApprovalRequired(value: boolean) {
     this.doc.isApplicantApprovalRequired = value;
   }
-  get isAppplantApproved() {
-    return this.doc.isAppplantApproved;
+  get isApplicantApproved() {
+    return this.doc.isApplicantApproved;
   }
-  set isAppplantApproved(value: boolean) {
-    this.doc.isAppplantApproved = value;
+  set isApplicantApproved(value: boolean) {
+    this.doc.isApplicantApproved = value;
   }
-  get applicantRepondedAt() {
-    return this.doc.applicantRepondedAt;
+  get applicantRespondedAt() {
+    return this.doc.applicantRespondedAt;
   }
-  set applicantRepondedAt(value: Date) {
-    this.doc.applicantRepondedAt = value;
+  set applicantRespondedAt(value: Date) {
+    this.doc.applicantRespondedAt = value;
   }
 
   // Nested Path Getters
@@ -978,11 +1123,11 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   set creditGlAccount(value: string) {
     this.doc.creditGlAccount = value;
   }
-  get completedOn() {
-    return this.doc.completedOn;
+  get completedAt() {
+    return this.doc.completedAt;
   }
-  set completedOn(value: Date) {
-    this.doc.completedOn = value;
+  set completedAt(value: Date) {
+    this.doc.completedAt = value;
   }
 
   // Nested Path Getters
@@ -1086,12 +1231,6 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   set isCredentialInEnglish(value: boolean) {
     this.doc.isCredentialInEnglish = value;
   }
-  get sendDestination() {
-    return this.doc.sendDestination;
-  }
-  set sendDestination(value: string) {
-    this.doc.sendDestination = value;
-  }
 
   // Nested Path Getters
   get otherIssuingInstitution() {
@@ -1117,6 +1256,15 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
   setIssuingInstitutionRef(issuingInstitution: EntityEntityReference) {
           this.doc.set('issuingInstitution', issuingInstitution ? issuingInstitution['props']['doc'] : null);
         }
+  get sendDestination() {
+    if (this.doc.sendDestination) {
+      return new EntityDomainAdapter(this.doc.sendDestination);
+    }
+    return undefined;
+  }
+  setSendDestinationRef(sendDestination: EntityEntityReference) {
+          this.doc.set('sendDestination', sendDestination ? sendDestination['props']['doc'] : null);
+        }
 
   // Document Array Getters
 
@@ -1124,6 +1272,12 @@ export class CredentialVerificationCaseV1OtherIssuingInstitutionDomainAdapter im
 }export class CredentialVerificationCaseV1CaseDetailsDomainAdapter implements CredentialVerificationCaseV1CaseDetailsProps {
   constructor(public readonly doc: CredentialVerificationCaseCaseDetails) {}
   //Primitive Field Getters and Setters
+  get createdAt() {
+    return this.doc.createdAt;
+  }
+  set createdAt(value: Date) {
+    this.doc.createdAt = value;
+  }
 
   // Nested Path Getters
   get application() {
@@ -1246,6 +1400,37 @@ export class CredentialVerificationCaseV1AssetHistoryDomainAdapter implements Cr
 
   // Document Array Getters
 
+}export class CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigAdditionalChargeDomainAdapter implements CredentialVerificationCaseV1FinanceDetailsFinanceConfigGLConfigAdditionalChargeProps {
+  constructor(public readonly props: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge) {}
+  public get id(): string {
+    return this.props.id.valueOf() as string;
+  }
+  //Primitive Field Getters and Setters
+  get type() {
+    return this.props.type;
+  }
+  set type(value: string) {
+    this.props.type = value;
+  }
+  get debitGlAccount() {
+    return this.props.debitGlAccount;
+  }
+  set debitGlAccount(value: string) {
+    this.props.debitGlAccount = value;
+  }
+  get creditGlAccount() {
+    return this.props.creditGlAccount;
+  }
+  set creditGlAccount(value: string) {
+    this.props.creditGlAccount = value;
+  }
+
+  // Nested Path Getters
+
+  // Populated Doc Getters and Setters
+
+  // Document Array Getters
+
 }export class CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransactionsDomainAdapter implements CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransactionsProps {
   constructor(public readonly props: CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactions) {}
   public get id(): string {
@@ -1258,11 +1443,11 @@ export class CredentialVerificationCaseV1AssetHistoryDomainAdapter implements Cr
   set amount(value: number) {
     this.props.amount = value;
   }
-  get requestedOn() {
-    return this.props.requestedOn;
+  get requestedAt() {
+    return this.props.requestedAt;
   }
-  set requestedOn(value: Date) {
-    this.props.requestedOn = value;
+  set requestedAt(value: Date) {
+    this.props.requestedAt = value;
   }
   get reason() {
     return this.props.reason;
@@ -1310,11 +1495,11 @@ export class CredentialVerificationCaseV1AssetHistoryDomainAdapter implements Cr
     return this.props.id.valueOf() as string;
   }
   //Primitive Field Getters and Setters
-  get activity() {
-    return this.props.activity;
+  get activityType() {
+    return this.props.activityType;
   }
-  set activity(value: string) {
-    this.props.activity = value;
+  set activityType(value: string) {
+    this.props.activityType = value;
   }
   get description() {
     return this.props.description;

@@ -1,4 +1,4 @@
-//Nested Path Type definitions
+//Types and Schema for Nested Path and SubdocumentBase definitions
 export const SendReportCaseCaseDetailsApplicationType = {
   attestedAt: { type: Date, required: false},
 credential: { type: Schema.Types.ObjectId, ref: CredentialVerificationCase.CredentialVerificationCaseModel.modelName, required: false}
@@ -135,8 +135,42 @@ adhocTransactions: { type: [SendReportCaseFinanceDetailsTransactionAdhocTransact
 ,
 };
 
+export const SendReportCaseFinanceDetailsFinanceConfigGLConfigSubmissionType = {
+  amount: { type: Number, required: false},
+debitGlAccount: { type: String, required: false},
+creditGlAccount: { type: String, required: false},
+};
+
+export const SendReportCaseFinanceDetailsFinanceConfigGLConfigRefundsType = {
+  creditGlAccount: { type: String, required: false},
+debitGlAccount: { type: String, required: false},
+};
+
+export const SendReportCaseFinanceDetailsFinanceConfigGLConfigRecognitionType = {
+  creditGlAccount: { type: String, required: false},
+debitGlAccount: { type: String, required: false},
+};
+
+export const SendReportCaseFinanceDetailsFinanceConfigGLConfigType = {
+  submission: {type: SendReportCaseFinanceDetailsFinanceConfigGLConfigSubmissionType,required: false, ...NestedPathOptions,},
+additionalCharges: { type: [SendReportCaseFinanceDetailsFinanceConfigGLConfigAdditionalChargeSchema], required: false }
+,
+refunds: {type: SendReportCaseFinanceDetailsFinanceConfigGLConfigRefundsType,required: false, ...NestedPathOptions,},
+recognition: {type: SendReportCaseFinanceDetailsFinanceConfigGLConfigRecognitionType,required: false, ...NestedPathOptions,},
+};
+
+export const SendReportCaseFinanceDetailsFinanceConfigType = {
+  effectiveAt: { type: Date, required: false},
+glConfig: {type: SendReportCaseFinanceDetailsFinanceConfigGLConfigType,required: false, ...NestedPathOptions,},
+createdAt: { type: Date, required: false},
+createdBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: false}
+,
+note: { type: String, required: false},
+};
+
 export const SendReportCaseFinanceDetailsType = {
-  serviceFee: { type: Number, required: false},
+  financeConfig: {type: SendReportCaseFinanceDetailsFinanceConfigType,required: false, ...NestedPathOptions,},
+serviceFee: { type: Number, required: false},
 revenueRecognition: {type: SendReportCaseFinanceDetailsRevenueRecognitionType,required: false, ...NestedPathOptions,},
 transactions: {type: SendReportCaseFinanceDetailsTransactionsType,required: false, ...NestedPathOptions,},
 };
@@ -149,7 +183,6 @@ indexingFailedAt: { type: Date, required: false},
 
 
 
-//SubdocumentBase Definitions
 export const SendReportCaseCaseHistorySchema = new Schema<SendReportCaseCaseHistory, Model<SendReportCaseCaseHistory>, SendReportCaseCaseHistory>({
   caseDetails: {type: SendReportCaseCaseDetailsType,required: false, ...NestedPathOptions,},
 revisionRequest: {type: SendReportCaseRevisionRequestType,required: false, ...NestedPathOptions,},
@@ -185,6 +218,12 @@ reason: { type: String, required: false},
 approval: {type: SendReportCaseFinanceDetailsTransactionAdhocTransactionApprovalType,required: false, ...NestedPathOptions,},
 transactionReference: {type: SendReportCaseFinanceDetailsTransactionAdhocTransactionTransactionReferenceType,required: false, ...NestedPathOptions,},
 financeReference: {type: SendReportCaseFinanceDetailsTransactionAdhocTransactionFinanceReferenceType,required: false, ...NestedPathOptions,},
+});
+
+export const SendReportCaseFinanceDetailsFinanceConfigGLConfigAdditionalChargeSchema = new Schema<SendReportCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge, Model<SendReportCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge>, SendReportCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge>({
+  type: { type: String, required: false},
+debitGlAccount: { type: String, required: false},
+creditGlAccount: { type: String, required: false},
 });
 
 export const SendReportCaseActivityLogSchema = new Schema<SendReportCaseActivityLog, Model<SendReportCaseActivityLog>, SendReportCaseActivityLog>({
@@ -231,8 +270,3 @@ search: {type: SendReportCaseSearchType,required: false, ...NestedPathOptions,},
 });
 
 export const SendReportCaseModel = model<SendReportCase>("SendReportCase", SendReportCaseSchema);
-
-// Be sure to:
-// 1. Remove unnecessary fields in the model schema
-// 2. Add enum constraints to fields (if any)
-// 3. Fix export Model clause (last line) for model containing discriminator key

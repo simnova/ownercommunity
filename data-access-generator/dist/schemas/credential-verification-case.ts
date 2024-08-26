@@ -1,4 +1,4 @@
-//Nested Path Type definitions
+//Types and Schema for Nested Path and SubdocumentBase definitions
 export const CredentialVerificationCaseOtherIssuingInstitutionType = {
   institutionName: { type: String, required: false},
 addressLine1: { type: String, required: false},
@@ -27,7 +27,7 @@ translationVersion: { type: String, required: false},
 };
 
 export const CredentialVerificationCaseAuditType = {
-  completedOn: { type: Date, required: false},
+  completedAt: { type: Date, required: false},
 completedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: false}
 ,
 result: { type: String, required: false},
@@ -78,7 +78,7 @@ entitySuppliedCredential: {type: CredentialVerificationCaseEntitySuppliedCredent
 };
 
 export const CredentialVerificationCaseApplicationReviewDecisionType = {
-  completedOn: { type: Date, required: false},
+  completedAt: { type: Date, required: false},
 completedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: false}
 ,
 result: { type: String, required: false},
@@ -92,7 +92,6 @@ affirmations: {type: CredentialVerificationCaseAffirmationsType,required: false,
 verificationAffirmations: {type: CredentialVerificationCaseVerificationAffirmationsType,required: false, ...NestedPathOptions,},
 privateCaseDetails: {type: CredentialVerificationCasePrivateCaseDetailsType,required: false, ...NestedPathOptions,},
 decision: {type: CredentialVerificationCaseApplicationReviewDecisionType,required: false, ...NestedPathOptions,},
-createdAt: { type: Date, required: false},
 };
 
 export const CredentialVerificationCaseAssetsPrivateType = {
@@ -112,7 +111,6 @@ verificationComponentPacketHistory: { type: [CredentialVerificationCaseAssetHist
 
 export const CredentialVerificationCaseAssetsType = {
   private: {type: CredentialVerificationCaseAssetsPrivateType,required: false, ...NestedPathOptions,},
-arbitrary: { type: String, required: false},
 };
 
 export const CredentialVerificationCaseRequestedChangesType = {
@@ -135,16 +133,16 @@ export const CredentialVerificationCaseRevenueRecognitionSubmissionType = {
   debitGlAccount: { type: String, required: false},
 creditGlAccount: { type: String, required: false},
 amount: { type: Number, required: false},
-recognitionDate: { type: Date, required: false},
-completedOn: { type: Date, required: false},
+recognizedAt: { type: Date, required: false},
+completedAt: { type: Date, required: false},
 };
 
 export const CredentialVerificationCaseRevenueRecognitionRecognitionType = {
   debitGlAccount: { type: String, required: false},
 creditGlAccount: { type: String, required: false},
 amount: { type: Number, required: false},
-recognitionDate: { type: Date, required: false},
-completedOn: { type: Date, required: false},
+recognizedAt: { type: Date, required: false},
+completedAt: { type: Date, required: false},
 };
 
 export const CredentialVerificationCaseRevenueRecognitionType = {
@@ -152,8 +150,42 @@ export const CredentialVerificationCaseRevenueRecognitionType = {
 recognition: {type: CredentialVerificationCaseRevenueRecognitionRecognitionType,required: false, ...NestedPathOptions,},
 };
 
+export const CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigSubmissionType = {
+  amount: { type: Number, required: false},
+debitGlAccount: { type: String, required: false},
+creditGlAccount: { type: String, required: false},
+};
+
+export const CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRefundsType = {
+  creditGlAccount: { type: String, required: false},
+debitGlAccount: { type: String, required: false},
+};
+
+export const CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRecognitionType = {
+  creditGlAccount: { type: String, required: false},
+debitGlAccount: { type: String, required: false},
+};
+
+export const CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigType = {
+  submission: {type: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigSubmissionType,required: false, ...NestedPathOptions,},
+additionalCharges: { type: [CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigAdditionalChargeSchema], required: false }
+,
+refunds: {type: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRefundsType,required: false, ...NestedPathOptions,},
+recognition: {type: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRecognitionType,required: false, ...NestedPathOptions,},
+};
+
+export const CredentialVerificationCaseFinanceDetailsFinanceConfigType = {
+  effectiveAt: { type: Date, required: false},
+glConfig: {type: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigType,required: false, ...NestedPathOptions,},
+createdAt: { type: Date, required: false},
+createdBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: false}
+,
+note: { type: String, required: false},
+};
+
 export const CredentialVerificationCaseFinanceDetailsType = {
-  serviceFee: { type: Number, required: false},
+  financeConfig: {type: CredentialVerificationCaseFinanceDetailsFinanceConfigType,required: false, ...NestedPathOptions,},
+serviceFee: { type: Number, required: false},
 revenueRecognition: {type: CredentialVerificationCaseRevenueRecognitionType,required: false, ...NestedPathOptions,},
 transactions: {type: CredentialVerificationCaseFinanceDetailsTransactionsType,required: false, ...NestedPathOptions,},
 };
@@ -161,7 +193,7 @@ transactions: {type: CredentialVerificationCaseFinanceDetailsTransactionsType,re
 export const CredentialVerificationCaseTransactionReferenceType = {
   vendor: { type: String, required: false},
 referenceId: { type: String, required: false},
-completedOn: { type: Date, required: false},
+completedAt: { type: Date, required: false},
 };
 
 export const CredentialVerificationCaseFinanceDetailsTransactionSubmissionType = {
@@ -171,14 +203,14 @@ transactionReference: {type: CredentialVerificationCaseTransactionReferenceType,
 
 export const CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactionsApprovalType = {
   isApplicantApprovalRequired: { type: Boolean, required: false},
-isAppplantApproved: { type: Boolean, required: false},
-applicantRepondedAt: { type: Date, required: false},
+isApplicantApproved: { type: Boolean, required: false},
+applicantRespondedAt: { type: Date, required: false},
 };
 
 export const CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactionsFinanceReferenceType = {
   debitGlAccount: { type: String, required: false},
 creditGlAccount: { type: String, required: false},
-completedOn: { type: Date, required: false},
+completedAt: { type: Date, required: false},
 };
 
 export const CredentialVerificationCaseFinanceDetailsTransactionsType = {
@@ -205,17 +237,18 @@ issuingInstitution: { type: Schema.Types.ObjectId, ref: Entity.EntityModel.model
 ,
 otherIssuingInstitution: {type: CredentialVerificationCaseOtherIssuingInstitutionType,required: false, ...NestedPathOptions,},
 credentialAssets: {type: CredentialVerificationCaseCredentialAssetsType,required: false, ...NestedPathOptions,},
-sendDestination: { type: String, required: false},
+sendDestination: { type: Schema.Types.ObjectId, ref: Entity.EntityModel.modelName, required: false}
+,
 };
 
 export const CredentialVerificationCaseCaseDetailsType = {
   application: {type: CredentialVerificationCaseApplicationType,required: false, ...NestedPathOptions,},
 applicationReview: {type: CredentialVerificationCaseApplicationReviewType,required: false, ...NestedPathOptions,},
+createdAt: { type: Date, required: false},
 };
 
 
 
-//SubdocumentBase Definitions
 export const CredentialVerificationCaseAssetHistorySchema = new Schema<CredentialVerificationCaseAssetHistory, Model<CredentialVerificationCaseAssetHistory>, CredentialVerificationCaseAssetHistory>({
   assetVersion: { type: String, required: false},
 assetUploadedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: false}
@@ -236,9 +269,15 @@ embedding: { type: String, required: false},
 isHiddenFromApplicant: { type: Boolean, required: false},
 });
 
+export const CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigAdditionalChargeSchema = new Schema<CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge, Model<CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge>, CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge>({
+  type: { type: String, required: false},
+debitGlAccount: { type: String, required: false},
+creditGlAccount: { type: String, required: false},
+});
+
 export const CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactionsSchema = new Schema<CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactions, Model<CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactions>, CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactions>({
   amount: { type: Number, required: false},
-requestedOn: { type: Date, required: false},
+requestedAt: { type: Date, required: false},
 requestedBy: { type: Schema.Types.ObjectId, ref: StaffUser.StaffUserModel.modelName, required: false}
 ,
 reason: { type: String, required: false},
@@ -248,7 +287,7 @@ financeReference: {type: CredentialVerificationCaseFinanceDetailsTransactionAdho
 });
 
 export const CredentialVerificationCaseActivityLogSchema = new Schema<CredentialVerificationCaseActivityLog, Model<CredentialVerificationCaseActivityLog>, CredentialVerificationCaseActivityLog>({
-  activity: { type: String, required: false},
+  activityType: { type: String, required: false},
 activityBy: { type: Schema.Types.ObjectId, ref: User.UserModel.modelName, required: false}
 ,
 description: { type: String, required: false},
@@ -291,8 +330,3 @@ search: {type: CredentialVerificationCaseSearchType,required: false, ...NestedPa
 });
 
 export const CredentialVerificationCaseModel = model<CredentialVerificationCase>("CredentialVerificationCase", CredentialVerificationCaseSchema);
-
-// Be sure to:
-// 1. Remove unnecessary fields in the model schema
-// 2. Add enum constraints to fields (if any)
-// 3. Fix export Model clause (last line) for model containing discriminator key

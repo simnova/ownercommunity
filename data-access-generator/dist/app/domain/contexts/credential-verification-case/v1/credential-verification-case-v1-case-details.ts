@@ -1,5 +1,6 @@
 export interface CredentialVerificationCaseV1CaseDetailsProps extends ValueObjectProps {
   // Primitive Fields
+  createdAt?: Date;
 
   // NestedPath Fields
   readonly application: CredentialVerificationCaseV1ApplicationProps;
@@ -24,6 +25,9 @@ export class CredentialVerificationCaseV1CaseDetails extends ValueObject<Credent
     super(props);
   }
   // Primitive Field Getters
+  get createdAt() {
+    return this.props.createdAt;
+    }
 
   // NestedPath Field Getters
   get application() {
@@ -55,6 +59,9 @@ export class CredentialVerificationCaseV1CaseDetails extends ValueObject<Credent
       );
   }
   // Primitive Field Setters
+  set CreatedAt(value: Date) {
+    this.props.createdAt = value;
+  }
 
   // PopulatedDoc Field Setters
 

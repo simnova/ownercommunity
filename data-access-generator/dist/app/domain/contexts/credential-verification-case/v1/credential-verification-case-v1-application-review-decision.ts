@@ -1,6 +1,6 @@
 export interface CredentialVerificationCaseV1ApplicationReviewDecisionProps extends ValueObjectProps {
   // Primitive Fields
-  completedOn?: Date;
+  completedAt?: Date;
   result?: string;
   rejectionReason?: string;
 
@@ -26,8 +26,8 @@ export class CredentialVerificationCaseV1ApplicationReviewDecision extends Value
     super(props);
   }
   // Primitive Field Getters
-  get completedOn() {
-    return this.props.completedOn;
+  get completedAt() {
+    return this.props.completedAt;
     }
   get result() {
     return this.props.result;
@@ -63,8 +63,8 @@ export class CredentialVerificationCaseV1ApplicationReviewDecision extends Value
       );
   }
   // Primitive Field Setters
-  set CompletedOn(value: Date) {
-    this.props.completedOn = value;
+  set CompletedAt(value: Date) {
+    this.props.completedAt = value;
   }
   set Result(value: string) {
     this.props.result = value;

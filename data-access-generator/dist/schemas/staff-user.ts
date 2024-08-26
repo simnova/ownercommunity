@@ -1,4 +1,4 @@
-//Nested Path Type definitions
+//Types and Schema for Nested Path and SubdocumentBase definitions
 export const StaffUserSearchType = {
   hash: { type: String, required: false},
 indexedAt: { type: Date, required: false},
@@ -7,7 +7,6 @@ indexingFailedAt: { type: Date, required: false},
 
 
 
-//SubdocumentBase Definitions
 
 
 export const StaffUserSchema = new Schema<StaffUser, Model<StaffUser>, StaffUser>({
@@ -26,8 +25,3 @@ externalId: { type: String, required: false},
 });
 
 export const StaffUserModel = model<StaffUser>("StaffUser", StaffUserSchema);
-
-// Be sure to:
-// 1. Remove unnecessary fields in the model schema
-// 2. Add enum constraints to fields (if any)
-// 3. Fix export Model clause (last line) for model containing discriminator key

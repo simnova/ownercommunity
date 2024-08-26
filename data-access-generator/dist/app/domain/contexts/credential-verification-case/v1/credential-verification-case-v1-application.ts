@@ -7,7 +7,6 @@ export interface CredentialVerificationCaseV1ApplicationProps extends ValueObjec
   dateCredentialIssued?: Date;
   credentialType?: string;
   isCredentialInEnglish?: boolean;
-  sendDestination?: string;
 
   // NestedPath Fields
   readonly otherIssuingInstitution: CredentialVerificationCaseV1OtherIssuingInstitutionProps;
@@ -16,16 +15,19 @@ export interface CredentialVerificationCaseV1ApplicationProps extends ValueObjec
   // PopulateDoc Fields
   readonly issuingInstitution: EntityProps;
   setIssuingInstitutionRef(issuingInstitution: EntityEntityReference): void;
+  readonly sendDestination: EntityProps;
+  setSendDestinationRef(sendDestination: EntityEntityReference): void;
 
   // DocumentArray Fields
 
 }
 
-export interface CredentialVerificationCaseV1ApplicationEntityReference extends Readonly<Omit<CredentialVerificationCaseV1ApplicationProps, 'issuingInstitution' | 'setIssuingInstitutionRef' | 'otherIssuingInstitution' | 'credentialAssets'>> {
+export interface CredentialVerificationCaseV1ApplicationEntityReference extends Readonly<Omit<CredentialVerificationCaseV1ApplicationProps, 'issuingInstitution' | 'setIssuingInstitutionRef' | 'otherIssuingInstitution' | 'credentialAssets' | 'sendDestination' | 'setSendDestinationRef'>> {
   readonly otherIssuingInstitution: CredentialVerificationCaseV1OtherIssuingInstitutionEntityReference;
   readonly credentialAssets: CredentialVerificationCaseV1CredentialAssetsEntityReference;
 
   readonly issuingInstitution: EntityEntityReference;
+  readonly sendDestination: EntityEntityReference;
 
 
 }
@@ -56,9 +58,6 @@ export class CredentialVerificationCaseV1Application extends ValueObject<Credent
   get isCredentialInEnglish() {
     return this.props.isCredentialInEnglish;
     }
-  get sendDestination() {
-    return this.props.sendDestination;
-    }
 
   // NestedPath Field Getters
   get otherIssuingInstitution() {
@@ -71,6 +70,9 @@ export class CredentialVerificationCaseV1Application extends ValueObject<Credent
   // PopulateDoc Field Getters
   get issuingInstitution(): EntityEntityReference {
           return this.props.issuingInstitution ? new Entity(this.props.issuingInstitution, this.context) : undefined;
+        }
+  get sendDestination(): EntityEntityReference {
+          return this.props.sendDestination ? new Entity(this.props.sendDestination, this.context) : undefined;
         }
 
   // DocumentArray Field Getters
@@ -114,13 +116,13 @@ export class CredentialVerificationCaseV1Application extends ValueObject<Credent
   set IsCredentialInEnglish(value: boolean) {
     this.props.isCredentialInEnglish = value;
   }
-  set SendDestination(value: string) {
-    this.props.sendDestination = value;
-  }
 
   // PopulatedDoc Field Setters
   set IssuingInstitution(issuingInstitution: EntityEntityReference) {
     this.props.setIssuingInstitutionRef(issuingInstitution);
+  }
+  set SendDestination(sendDestination: EntityEntityReference) {
+    this.props.setSendDestinationRef(sendDestination);
   }
 
 //DocumentArrayFieldSetters: added as needed

@@ -1,6 +1,6 @@
 export interface CredentialVerificationCaseV1ActivityLogProps extends DomainEntityProps {
   // Primitive Fields
-  activity?: string;
+  activityType?: string;
   description?: string;
   metaData?: string;
   tags?: string[];
@@ -27,8 +27,8 @@ export class CredentialVerificationCaseV1ActivityLog extends DomainEntity<Creden
     super(props);
   }
   // Primitive Field Getters
-  get activity() {
-    return this.props.activity;
+  get activityType() {
+    return this.props.activityType;
     }
   get description() {
     return this.props.description;
@@ -64,8 +64,8 @@ export class CredentialVerificationCaseV1ActivityLog extends DomainEntity<Creden
 
   // using ts 5.1 setters
   // Primitive Field Setters
-  set Activity(value: string) {
-    this.props.activity = value;
+  set ActivityType(value: string) {
+    this.props.activityType = value;
   }
   set Description(value: string) {
     this.props.description = value;

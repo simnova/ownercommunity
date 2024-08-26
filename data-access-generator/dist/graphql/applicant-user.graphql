@@ -72,7 +72,7 @@ legalNameConsistsOfOneName: Boolean
 restOfName: String
 generationalSuffix: String
 gender: String
-dateOfBirth: Date
+dateOfBirth: DateTime
       }
     
       type ApplicantUserTermsAndConditions implements MongoSubdocument {
@@ -106,9 +106,9 @@ phoneType: String
     
       type ApplicantUserPrimaryEducationalInformation implements MongoSubdocument {
             degreeTitle: String
-attendanceStartDate: Date
-attendanceEndDate: Date
-dateDegreeIssued: Date
+attendanceStartDate: DateTime
+attendanceEndDate: DateTime
+dateDegreeIssued: DateTime
 graduationYear: Int
 issuingInstitution: String
 otherIssuingInstitution: ApplicantUserOtherIssuingInstitution

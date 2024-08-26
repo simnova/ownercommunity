@@ -1,7 +1,6 @@
-//Nested Path Type definitions
+//Types and Schema for Nested Path and SubdocumentBase definitions
 //NestedPathTypeDefinitions
 
-//SubdocumentBase Definitions
 //SubdocumentBaseSchemaDefinitions
 
 export const ModelNameSchema = new Schema<ModelName, Model<ModelName>, ModelName>({

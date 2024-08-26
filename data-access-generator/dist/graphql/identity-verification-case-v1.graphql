@@ -167,7 +167,7 @@ completedAt: DateTime
       }
     
       type IdentityVerificationCaseV1FinanceDetailsTransactionsSubmission {
-            amount: Int
+            amount: Float
 transactionReference: IdentityVerificationCaseV1FinanceDetailsTransactionsSubmissionTransactionReference
       }
     
@@ -179,7 +179,7 @@ adhocTransactions: [IdentityVerificationCaseV1FinanceDetailsTransactionsAdhocTra
       type IdentityVerificationCaseV1FinanceDetailsRevenueRecognitionSubmission {
             debitGlAccount: String
 creditGlAccount: String
-amount: Int
+amount: Float
 recognizedAt: DateTime
 completedAt: DateTime
       }
@@ -187,7 +187,7 @@ completedAt: DateTime
       type IdentityVerificationCaseV1FinanceDetailsRevenueRecognitionRecognition {
             debitGlAccount: String
 creditGlAccount: String
-amount: Int
+amount: Float
 recognizedAt: DateTime
 completedAt: DateTime
       }
@@ -198,7 +198,7 @@ recognition: IdentityVerificationCaseV1FinanceDetailsRevenueRecognitionRecogniti
       }
     
       type IdentityVerificationCaseV1FinanceDetails {
-            serviceFee: Int
+            serviceFee: Float
 revenueRecognition: IdentityVerificationCaseV1FinanceDetailsRevenueRecognition
 transactions: IdentityVerificationCaseV1FinanceDetailsTransactions
       }
@@ -258,7 +258,7 @@ isHiddenFromApplicant: Boolean
       }
     
       type IdentityVerificationCaseV1FinanceDetailsTransactionsAdhocTransaction implements MongoSubdocument {
-            amount: Int
+            amount: Float
 requestedAt: DateTime
 requestedBy: StaffUser
 reason: String

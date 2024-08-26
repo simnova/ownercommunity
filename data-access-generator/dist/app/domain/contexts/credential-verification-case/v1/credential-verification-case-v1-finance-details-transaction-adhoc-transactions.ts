@@ -1,7 +1,7 @@
 export interface CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransactionsProps extends DomainEntityProps {
   // Primitive Fields
   amount?: number;
-  requestedOn?: Date;
+  requestedAt?: Date;
   reason?: string;
 
   // NestedPath Fields
@@ -35,8 +35,8 @@ export class CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransacti
   get amount() {
     return this.props.amount;
     }
-  get requestedOn() {
-    return this.props.requestedOn;
+  get requestedAt() {
+    return this.props.requestedAt;
     }
   get reason() {
     return this.props.reason;
@@ -78,8 +78,8 @@ export class CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransacti
   set Amount(value: number) {
     this.props.amount = value;
   }
-  set RequestedOn(value: Date) {
-    this.props.requestedOn = value;
+  set RequestedAt(value: Date) {
+    this.props.requestedAt = value;
   }
   set Reason(value: string) {
     this.props.reason = value;

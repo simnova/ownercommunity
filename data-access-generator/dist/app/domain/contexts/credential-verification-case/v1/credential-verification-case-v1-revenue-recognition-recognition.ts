@@ -3,8 +3,8 @@ export interface CredentialVerificationCaseV1RevenueRecognitionRecognitionProps 
   debitGlAccount?: string;
   creditGlAccount?: string;
   amount?: number;
-  recognitionDate?: Date;
-  completedOn?: Date;
+  recognizedAt?: Date;
+  completedAt?: Date;
 
   // NestedPath Fields
 
@@ -34,11 +34,11 @@ export class CredentialVerificationCaseV1RevenueRecognitionRecognition extends V
   get amount() {
     return this.props.amount;
     }
-  get recognitionDate() {
-    return this.props.recognitionDate;
+  get recognizedAt() {
+    return this.props.recognizedAt;
     }
-  get completedOn() {
-    return this.props.completedOn;
+  get completedAt() {
+    return this.props.completedAt;
     }
 
   // NestedPath Field Getters
@@ -74,11 +74,11 @@ export class CredentialVerificationCaseV1RevenueRecognitionRecognition extends V
   set Amount(value: number) {
     this.props.amount = value;
   }
-  set RecognitionDate(value: Date) {
-    this.props.recognitionDate = value;
+  set RecognizedAt(value: Date) {
+    this.props.recognizedAt = value;
   }
-  set CompletedOn(value: Date) {
-    this.props.completedOn = value;
+  set CompletedAt(value: Date) {
+    this.props.completedAt = value;
   }
 
   // PopulatedDoc Field Setters

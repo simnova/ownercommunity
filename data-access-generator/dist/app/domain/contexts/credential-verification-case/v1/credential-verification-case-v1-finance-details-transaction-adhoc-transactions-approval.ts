@@ -1,8 +1,8 @@
 export interface CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransactionsApprovalProps extends ValueObjectProps {
   // Primitive Fields
   isApplicantApprovalRequired?: boolean;
-  isAppplantApproved?: boolean;
-  applicantRepondedAt?: Date;
+  isApplicantApproved?: boolean;
+  applicantRespondedAt?: Date;
 
   // NestedPath Fields
 
@@ -26,11 +26,11 @@ export class CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransacti
   get isApplicantApprovalRequired() {
     return this.props.isApplicantApprovalRequired;
     }
-  get isAppplantApproved() {
-    return this.props.isAppplantApproved;
+  get isApplicantApproved() {
+    return this.props.isApplicantApproved;
     }
-  get applicantRepondedAt() {
-    return this.props.applicantRepondedAt;
+  get applicantRespondedAt() {
+    return this.props.applicantRespondedAt;
     }
 
   // NestedPath Field Getters
@@ -60,11 +60,11 @@ export class CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransacti
   set IsApplicantApprovalRequired(value: boolean) {
     this.props.isApplicantApprovalRequired = value;
   }
-  set IsAppplantApproved(value: boolean) {
-    this.props.isAppplantApproved = value;
+  set IsApplicantApproved(value: boolean) {
+    this.props.isApplicantApproved = value;
   }
-  set ApplicantRepondedAt(value: Date) {
-    this.props.applicantRepondedAt = value;
+  set ApplicantRespondedAt(value: Date) {
+    this.props.applicantRespondedAt = value;
   }
 
   // PopulatedDoc Field Setters

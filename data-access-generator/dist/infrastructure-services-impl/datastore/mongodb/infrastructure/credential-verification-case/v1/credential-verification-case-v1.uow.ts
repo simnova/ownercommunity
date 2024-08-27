@@ -1,1 +1,0 @@
-export const MongoCredentialVerificationCaseV1UnitOfWork = new MongoUnitOfWork(InProcEventBusInstance, NodeEventBusInstance, CredentialVerificationCaseModel, new CredentialVerificationCaseV1Converter(), MongoCredentialVerificationCaseV1Repository);

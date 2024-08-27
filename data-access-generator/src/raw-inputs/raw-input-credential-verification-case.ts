@@ -58,7 +58,7 @@ export interface CredentialVerificationCaseEntitySuppliedCredential extends Nest
 }
 
 export interface CredentialVerificationCaseAudit extends NestedPath {
-  completedOn?: Date;
+  completedAt?: Date;
   completedBy: PopulatedDoc<StaffUser.StaffUser>;
   result?: string;
 }
@@ -108,7 +108,7 @@ export interface CredentialVerificationCasePrivateCaseDetails extends NestedPath
 }
 
 export interface CredentialVerificationCaseApplicationReviewDecision extends NestedPath {
-  completedOn?: Date;
+  completedAt?: Date;
   completedBy?: PopulatedDoc<StaffUser.StaffUser>;
   result?: string;
   rejectionReason?: string;
@@ -120,7 +120,6 @@ export interface CredentialVerificationCaseApplicationReview extends NestedPath 
   verificationAffirmations?: CredentialVerificationCaseVerificationAffirmations;
   privateCaseDetails?: CredentialVerificationCasePrivateCaseDetails;
   decision?: CredentialVerificationCaseApplicationReviewDecision;
-  createdAt?: Date;
 }
 
 export interface CredentialVerificationCaseAssetsPrivate extends NestedPath {
@@ -135,7 +134,6 @@ export interface CredentialVerificationCaseAssetsPrivate extends NestedPath {
 }
 export interface CredentialVerificationCaseAssets extends NestedPath {
   private?: CredentialVerificationCaseAssetsPrivate;
-  arbitrary?: string;
 }
 
 export interface CredentialVerificationCaseAssetHistory extends SubdocumentBase {
@@ -159,7 +157,7 @@ export interface CredentialVerificationCaseRevisionRequest extends NestedPath {
 }
 
 export interface CredentialVerificationCaseCaseHistory extends SubdocumentBase {
-  caseDetails?: CredentialVerificationCaseApplicationReview;
+  caseDetails?: CredentialVerificationCaseCaseDetails;
   revisionRequest?: CredentialVerificationCaseRevisionRequest;
 }
 
@@ -175,16 +173,16 @@ export interface CredentialVerificationCaseRevenueRecognitionSubmission extends 
   debitGlAccount?: string;
   creditGlAccount?: string;
   amount?: number;
-  recognitionDate?: Date;
-  completedOn?: Date;
+  recognizedAt?: Date;
+  completedAt?: Date;
 }
 
 export interface CredentialVerificationCaseRevenueRecognitionRecognition extends NestedPath {
   debitGlAccount?: string;
   creditGlAccount?: string;
   amount?: number;
-  recognitionDate?: Date;
-  completedOn?: Date;
+  recognizedAt?: Date;
+  completedAt?: Date;
 }
 
 export interface CredentialVerificationCaseRevenueRecognition extends NestedPath {
@@ -192,7 +190,43 @@ export interface CredentialVerificationCaseRevenueRecognition extends NestedPath
   recognition?: CredentialVerificationCaseRevenueRecognitionRecognition;
 }
 
+export interface CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigSubmission extends NestedPath {
+  amount: number;
+  debitGlAccount: string;
+  creditGlAccount: string;
+}
+
+export interface CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge extends SubdocumentBase {
+  type: string;
+  debitGlAccount: string;
+  creditGlAccount: string;
+}
+
+export interface CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRefunds extends NestedPath {
+  creditGlAccount: string;
+  debitGlAccount: string;
+}
+
+export interface CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRecognition extends NestedPath {
+  creditGlAccount: string;
+  debitGlAccount: string;
+}
+
+export interface CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfig extends NestedPath {
+  submission?: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigSubmission;
+  additionalCharges: Types.DocumentArray<CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigAdditionalCharge>;
+  refunds: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRefunds;
+  recognition: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfigRecognition;
+}
+export interface CredentialVerificationCaseFinanceDetailsFinanceConfig extends NestedPath {
+  effectiveAt?: Date;
+  glConfig?: CredentialVerificationCaseFinanceDetailsFinanceConfigGLConfig;
+  createdAt?: Date;
+  createdBy?: PopulatedDoc<StaffUser.StaffUser>;
+  note?: string;
+}
 export interface CredentialVerificationCaseFinanceDetails extends NestedPath {
+  financeConfig?: CredentialVerificationCaseFinanceDetailsFinanceConfig;
   serviceFee?: number;
   revenueRecognition?: CredentialVerificationCaseRevenueRecognition;
   transactions?: CredentialVerificationCaseFinanceDetailsTransactions;
@@ -201,7 +235,7 @@ export interface CredentialVerificationCaseFinanceDetails extends NestedPath {
 export interface CredentialVerificationCaseTransactionReference extends NestedPath {
   vendor?: string;
   referenceId?: string;
-  completedOn?: Date;
+  completedAt?: Date;
 }
 
 export interface CredentialVerificationCaseFinanceDetailsTransactionSubmission extends NestedPath {
@@ -211,19 +245,19 @@ export interface CredentialVerificationCaseFinanceDetailsTransactionSubmission e
 
 export interface CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactionsApproval extends NestedPath {
   isApplicantApprovalRequired?: boolean;
-  isAppplantApproved?: boolean;
-  applicantRepondedAt?: Date;
+  isApplicantApproved?: boolean;
+  applicantRespondedAt?: Date;
 }
 
 export interface CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactionsFinanceReference extends NestedPath {
   debitGlAccount?: string;
   creditGlAccount?: string;
-  completedOn?: Date;
+  completedAt?: Date;
 }
 
 export interface CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactions extends SubdocumentBase {
   amount?: number;
-  requestedOn?: Date;
+  requestedAt?: Date;
   requestedBy: PopulatedDoc<StaffUser.StaffUser>;
   reason?: string;
   approval?: CredentialVerificationCaseFinanceDetailsTransactionAdhocTransactionsApproval;
@@ -237,7 +271,7 @@ export interface CredentialVerificationCaseFinanceDetailsTransactions extends Ne
 }
 
 export interface CredentialVerificationCaseActivityLog extends SubdocumentBase {
-  activity?: string;
+  activityType?: string;
   activityBy?: PopulatedDoc<User.User>;
   description?: string;
   metaData?: string;
@@ -266,11 +300,12 @@ export interface CredentialVerificationCaseApplication extends NestedPath {
   issuingInstitution?: PopulatedDoc<Entity.Entity>;
   otherIssuingInstitution?: CredentialVerificationCaseOtherIssuingInstitution;
   credentialAssets?: CredentialVerificationCaseCredentialAssets;
-  sendDestination?: string;
+  sendDestination?: PopulatedDoc<Entity.Entity>;
 }
 
 export interface CredentialVerificationCaseCaseDetails extends NestedPath {
   application?: CredentialVerificationCaseApplication;
   applicationReview?: CredentialVerificationCaseApplicationReview;
+  createdAt?: Date;
 }`
 }

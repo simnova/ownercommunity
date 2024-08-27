@@ -1,0 +1,120 @@
+
+    type ApplicantUser implements MongoBase {
+          termsAndConditions: [ApplicantUserTermsAndCondition]
+ personalInformation: ApplicantUserPersonalInformation
+ accessBlocked: Boolean
+ tags: [String]
+ search: ApplicantUserSearch
+ displayName: String
+ userType: String
+ externalId: String
+ isProfileSubmitted: Boolean
+ payment: ApplicantUserPayment
+      id: ObjectID!
+      schemaVersion: String
+      createdAt: DateTime
+      updatedAt: DateTime
+    }
+  
+      type ApplicantUserSearch {
+            hash: String
+indexedAt: DateTime
+indexingFailedAt: DateTime
+      }
+    
+      type ApplicantUserPersonalInformation {
+            identityDetails: ApplicantUserIdentityDetails
+nameOnDocumentAssets: [ApplicantUserNameOnDocumentAsset]
+contactInformation: ApplicantUserContactInformation
+citizenship: ApplicantUserCitizenship
+professional: ApplicantUserProfessional
+applyingTo: [String]
+      }
+    
+      type ApplicantUserProfessional {
+            healthProfession: String
+citizenshipAtTimeEnteredMedicalInstitution: String
+primaryEducationalInformation: [ApplicantUserPrimaryEducationalInformation]
+      }
+    
+      type ApplicantUserOtherIssuingInstitution {
+            name: String
+addressLine1: String
+city: String
+stateOrProvince: String
+zipOrPostalCode: String
+country: String
+      }
+    
+      type ApplicantUserCitizenship {
+            currentCitizenOf: [String]
+      }
+    
+      type ApplicantUserContactInformation {
+            emailAddress: String
+primaryPhone: String
+phone: [ApplicantUserPhone]
+address: ApplicantUserAddress
+      }
+    
+      type ApplicantUserAddress {
+            streetAddressLine1: String
+streetAddressLine2: String
+city: String
+stateOrProvince: String
+zipOrPostalCode: String
+country: String
+      }
+    
+      type ApplicantUserIdentityDetails {
+            lastName: String
+legalNameConsistsOfOneName: Boolean
+restOfName: String
+generationalSuffix: String
+gender: String
+dateOfBirth: DateTime
+      }
+    
+      type ApplicantUserTermsAndConditions implements MongoSubdocument {
+            acceptanceOf: String
+version: Int
+attestedOn: DateTime
+
+        id: ObjectID!
+        createdAt: DateTime
+        updatedAt: DateTime
+      }
+    
+      type ApplicantUserNameOnDocumentAsset implements MongoSubdocument {
+            documentName: String
+uploadedAt: DateTime
+isDeleteRequested: Boolean
+
+        id: ObjectID!
+        createdAt: DateTime
+        updatedAt: DateTime
+      }
+    
+      type ApplicantUserPhone implements MongoSubdocument {
+            phoneNumber: String
+phoneType: String
+
+        id: ObjectID!
+        createdAt: DateTime
+        updatedAt: DateTime
+      }
+    
+      type ApplicantUserPrimaryEducationalInformation implements MongoSubdocument {
+            degreeTitle: String
+attendanceStartDate: DateTime
+attendanceEndDate: DateTime
+dateDegreeIssued: DateTime
+graduationYear: Int
+issuingInstitution: String
+otherIssuingInstitution: ApplicantUserOtherIssuingInstitution
+
+        id: ObjectID!
+        createdAt: DateTime
+        updatedAt: DateTime
+      }
+    

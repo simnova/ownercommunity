@@ -1,0 +1,1 @@
+export const MongoIdentityVerificationCaseV1UnitOfWork = new MongoUnitOfWork(InProcEventBusInstance, NodeEventBusInstance, IdentityVerificationCaseModel, new IdentityVerificationCaseV1Converter(), MongoIdentityVerificationCaseV1Repository);

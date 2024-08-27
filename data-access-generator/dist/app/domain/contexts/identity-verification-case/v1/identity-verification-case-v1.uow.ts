@@ -1,0 +1,2 @@
+export interface IdentityVerificationCaseV1UnitOfWork extends UnitOfWork<DomainExecutionContext, IdentityVerificationCaseV1Props, IdentityVerificationCaseV1<IdentityVerificationCaseV1Props>, IdentityVerificationCaseV1Repository<IdentityVerificationCaseV1Props>> {
+}

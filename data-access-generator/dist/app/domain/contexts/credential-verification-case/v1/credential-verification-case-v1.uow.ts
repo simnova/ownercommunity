@@ -1,0 +1,2 @@
+export interface CredentialVerificationCaseV1UnitOfWork extends UnitOfWork<DomainExecutionContext, CredentialVerificationCaseV1Props, CredentialVerificationCaseV1<CredentialVerificationCaseV1Props>, CredentialVerificationCaseV1Repository<CredentialVerificationCaseV1Props>> {
+}

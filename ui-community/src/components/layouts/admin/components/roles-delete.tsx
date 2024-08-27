@@ -2,14 +2,15 @@ import React from 'react';
 
 import { Button, Descriptions, Form, Select } from 'antd';
 import dayjs from 'dayjs';
+import { AdminRolesDeleteContainerRoleFieldsFragment, RoleDeleteAndReassignInput } from '../../../../generated';
 
 
 export interface RolesDeleteProps {
   data: {
-    roleToDelete: any;
-    roles: any[];
+    roleToDelete: AdminRolesDeleteContainerRoleFieldsFragment; 
+    roles: AdminRolesDeleteContainerRoleFieldsFragment[];
   };
-  onSelectReassignment: (role: any) => void;
+  onSelectReassignment: (role: RoleDeleteAndReassignInput) => void;
 }
 
 export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {

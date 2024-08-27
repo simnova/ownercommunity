@@ -1,16 +1,17 @@
-query AdminMembersListContainerMembers($communityId: ID!) {
+query AdminMembersListContainerMembersByCommunityId($communityId: ID!) {
   membersByCommunityId(communityId: $communityId) {
-    ...AdminMembersListContainerMembersFields
+    ...AdminMembersListContainerMemberFields
   }
 }
 
-fragment AdminMembersListContainerMembersFields on Member {
-  id
+fragment AdminMembersListContainerMemberFields on Member {
   memberName
   role {
-    id
     roleName
+    id
   }
+
+  id
   createdAt
   updatedAt
 }

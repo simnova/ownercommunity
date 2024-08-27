@@ -1,8 +1,13 @@
 import { Descriptions, Typography, theme } from 'antd';
+import { AdminCommunityDetailContainerCommunityFieldsFragment } from '../../../../generated';
 
 const { Text, Title } = Typography;
 
-export const CommunityDetail: React.FC<any> = (props) => {
+export interface CommunityDetailProps {
+  data: AdminCommunityDetailContainerCommunityFieldsFragment;
+}
+
+export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
   const whiteLabel = () => {
     if (props.data.whiteLabelDomain) {
       return (

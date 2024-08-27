@@ -32,18 +32,18 @@ fragment SharedPropertiesListingContainerPropertyFields on Property {
     maxGuests
     bedrooms
     bedroomDetails {
-      id
       bedDescriptions
       roomName
+      id
     }
     bathrooms
     squareFeet
     description
     amenities
     additionalAmenities {
-      id
       category
       amenities
+      id
     } 
     images
     video
@@ -61,13 +61,6 @@ fragment SharedPropertiesListingContainerPropertyFields on Property {
   }
 
   id
-  createdAt
-  updatedAt
-}
-
-fragment SharedPropertiesListingContainerMembersFields on Member {
-  id
-  memberName
   createdAt
   updatedAt
 }

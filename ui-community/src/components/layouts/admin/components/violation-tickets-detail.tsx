@@ -33,7 +33,7 @@ import {
   ViolationTicketAddUpdateActivityInput,
   ViolationTicketUpdateInput,
   ViolationTicketChangeStatusInput,
-  AdminViolationTicketsDetailContainerMembersAssignableToTicketsQuery,
+  AdminViolationTicketsDetailContainerMemberAssignableToTicketsQuery,
   Exact
 } from '../../../../generated';
 
@@ -53,7 +53,7 @@ export interface ViolationTicketsDetailProps {
   onChangeStatus: (changeStatusInput: ViolationTicketChangeStatusInput) => Promise<void>;
   onAddUpdateActivity: (values: ViolationTicketAddUpdateActivityInput) => Promise<void>;
   memberLazyQuery: LazyQueryResultTuple<
-    AdminViolationTicketsDetailContainerMembersAssignableToTicketsQuery,
+  AdminViolationTicketsDetailContainerMemberAssignableToTicketsQuery,
     Exact<{
       violationTicketId: any;
     }>

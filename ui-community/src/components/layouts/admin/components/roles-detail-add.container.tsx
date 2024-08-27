@@ -5,7 +5,8 @@ import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   AdminRolesDetailContainerRoleAddDocument,
-  AdminRolesListContainerRolesDocument,
+  AdminRolesListContainerRolesByCommunityIdDocument,
+  AdminRolesDetailContainerRoleFieldsFragment,
   RoleAddInput
 } from '../../../../generated';
 import { RolesDetail } from './roles-detail';
@@ -17,12 +18,12 @@ export const RolesDetailAddContainer: React.FC<any> = (props) => {
       // update the list with the new item
       const newRole = data?.roleAdd.role;
       const roles = cache.readQuery({
-        query: AdminRolesListContainerRolesDocument,
+        query: AdminRolesListContainerRolesByCommunityIdDocument,
         variables: { communityId: props.data.communityId }
       })?.rolesByCommunityId;
       if (newRole && roles) {
         cache.writeQuery({
-          query: AdminRolesListContainerRolesDocument,
+          query: AdminRolesListContainerRolesByCommunityIdDocument,
           variables: { communityId: props.data.communityId },
           data: {
             rolesByCommunityId: [...roles, newRole]
@@ -32,7 +33,7 @@ export const RolesDetailAddContainer: React.FC<any> = (props) => {
     }
   });
 
-  const defaultValues: RoleAddInput = {
+  const defaultValues: (RoleAddInput & AdminRolesDetailContainerRoleFieldsFragment) = {
     roleName: '',
     permissions: {
       communityPermissions: {
@@ -59,7 +60,9 @@ export const RolesDetailAddContainer: React.FC<any> = (props) => {
         canAssignTickets: false,
         canWorkOnTickets: false
       }
-    }
+    },
+    isDefault: false,
+    id: ''
   };
 
   const handleAdd = async (values: RoleAddInput) => {
@@ -76,5 +79,5 @@ export const RolesDetailAddContainer: React.FC<any> = (props) => {
     }
   };
 
-  return <RolesDetail onAdd={handleAdd} onUpdate={{}} data={defaultValues} />;
+  return <RolesDetail onAdd={handleAdd} onUpdate={() =>{}} data={defaultValues} />;
 };

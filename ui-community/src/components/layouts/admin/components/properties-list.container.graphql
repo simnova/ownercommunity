@@ -1,4 +1,4 @@
-query AdminPropertiesListContainerProperties($communityId: ID!) {
+query AdminPropertiesListContainerPropertiesByCommunityId($communityId: ID!) {
   propertiesByCommunityId(communityId: $communityId) {
     ...AdminPropertiesListContainerPropertyFields
   }

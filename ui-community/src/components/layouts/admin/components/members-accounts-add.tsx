@@ -8,8 +8,6 @@ export interface MembersAccountsAddProps {
   onSave: (member: MemberAccountAddInput) => void;
 }
 
-
-
 export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);

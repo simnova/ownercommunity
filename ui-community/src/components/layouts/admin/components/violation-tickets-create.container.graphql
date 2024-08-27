@@ -1,10 +1,10 @@
-query AdminServiceTicketsCreateContainerMembers($communityId: ID!) {
+query AdminViolationTicketsCreateContainerMembersByCommunityId($communityId: ID!) {
   membersByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsCreateContainerMemberFields
   }
 }
 
-query AdminServiceTicketsCreateContainerProperties($communityId: ID!) {
+query AdminViolationTicketsCreateContainerPropertiesByCommunityId($communityId: ID!) {
   propertiesByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsCreateContainerPropertyFields
   }
@@ -12,21 +12,21 @@ query AdminServiceTicketsCreateContainerProperties($communityId: ID!) {
 
 mutation AdminViolationTicketsCreateContainerViolationTicketCreate($input: ViolationTicketCreateInput!) {
   violationTicketCreate(input: $input) {
-    ...ViolationTicketsCreateMutationResultFields
+    ...AdminViolationTicketsCreateContainerMutationResultFields
   }
 }
 
-fragment ViolationTicketsCreateMutationResultFields on ViolationTicketMutationResult {
+fragment AdminViolationTicketsCreateContainerMutationResultFields on ViolationTicketMutationResult {
   status {
     success
     errorMessage
   }
   violationTicket {
-    ...ViolationTicketsCreateContainerViolationTicketFields
+    ...AdminViolationTicketsCreateContainerViolationTicketFields
   }
 }
 
-fragment ViolationTicketsCreateContainerViolationTicketFields on ViolationTicket {
+fragment AdminViolationTicketsCreateContainerViolationTicketFields on ViolationTicket {
   id
   title
   status
@@ -48,11 +48,12 @@ fragment ViolationTicketsCreateContainerViolationTicketFields on ViolationTicket
   updatedAt
 }
 
-fragment AdminServiceTicketsCreateContainerMemberFields on Member {
+fragment AdminViolationTicketsCreateContainerMemberFields on Member {
   id
   memberName
 }
-fragment AdminServiceTicketsCreateContainerPropertyFields on Property {
+
+fragment AdminViolationTicketsCreateContainerPropertyFields on Property {
   id
   propertyName
 }

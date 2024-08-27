@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import PropTypes from 'prop-types';
-import { AdminMembersAccountsListContainerMemberDocument } from "../../../../generated";
+import { AdminMembersAccountsListContainerMemberDocument, AdminMembersAccountsListContainerMemberFieldsFragment } from "../../../../generated";
 import { ComponentQueryLoader } from "../../../ui/molecules/component-query-loader";
 import { MembersAccountsList } from "./members-accounts-list";
 
@@ -29,7 +29,7 @@ export const MembersAccountsListContainer: React.FC<MembersAccountsListContainer
     <ComponentQueryLoader
       loading={memberLoading}
       hasData={memberData?.member}
-      hasDataComponent={<MembersAccountsList data={memberData?.member?.accounts} />}
+      hasDataComponent={<MembersAccountsList data={memberData?.member?.accounts as AdminMembersAccountsListContainerMemberFieldsFragment[]} />}
       error={memberError}
     />
   );  

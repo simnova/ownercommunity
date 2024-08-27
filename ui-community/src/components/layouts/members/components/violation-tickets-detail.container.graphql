@@ -1,20 +1,63 @@
-query MemberServiceTicketsDetailContainerViolationTicket($id: ObjectID!) {
+query MembersViolationTicketsDetailContainerViolationTicket($id: ObjectID!) {
   violationTicket(id: $id) {
-    ...MemberViolationTicketsDetailContainerViolationTicketFields
+    ...MembersViolationTicketsDetailContainerViolationTicketFields
   }
 }
 
-fragment MemberViolationTicketsDetailContainerViolationTicketMutationResultFields on ViolationTicketMutationResult {
+query MembersViolationTicketsDetailContainerProperties($id: ObjectID!) {
+  propertiesByOwnerId(ownerId: $id) { 
+    ...MembersViolationTicketsDetailContainerPropertyFields
+  }
+}
+
+mutation MembersViolationTicketsDetailContainerViolationTicketUpdate($input: ViolationTicketUpdateInput!) {
+  violationTicketUpdate(input: $input) {
+    ...MembersViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+mutation MembersViolationTicketsDetailContainerViolationTicketChangeStatus($input: ViolationTicketChangeStatusInput!) {
+  violationTicketChangeStatus(input: $input) {
+    ...MembersViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+mutation MembersViolationTicketsDetailContainerViolationTicketAssign($input: ViolationTicketAssignInput!) {
+  violationTicketAssign(input: $input) {
+    ...MembersViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+mutation MembersViolationTicketsDetailContainerViolationTicketAddUpdateActivity($input: ViolationTicketAddUpdateActivityInput!) {
+  violationTicketAddUpdateActivity(input: $input) {
+    ...MembersViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+mutation MembersViolationTicketsDetailContainerServiceTicketDelete($input: ViolationTicketDeleteInput!) {
+  violationTicketDelete(input: $input) {
+    ...MembersViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+mutation MembersViolationTicketsDetailContainerViolationTicketProcessPayment($input: ViolationTicketProcessPaymentInput!) {
+  violationTicketProcessPayment(input: $input) {
+    ...MembersViolationTicketsDetailContainerViolationTicketMutationResultFields
+  }
+}
+
+fragment MembersViolationTicketsDetailContainerViolationTicketMutationResultFields on ViolationTicketMutationResult {
+  __typename
   status {
     success
     errorMessage
   }
   violationTicket {
-    ...MemberViolationTicketsDetailContainerViolationTicketFields
+    ...MembersViolationTicketsDetailContainerViolationTicketFields
   }
 }
 
-fragment MemberViolationTicketsDetailContainerViolationTicketFields on ViolationTicket {
+fragment MembersViolationTicketsDetailContainerViolationTicketFields on ViolationTicket {
   title
   property {
     id
@@ -69,20 +112,7 @@ fragment MemberViolationTicketsDetailContainerViolationTicketFields on Violation
   updatedAt
 }
 
-fragment MemberViolationTicketsDetailContainerMemberFields on Member {
+fragment MembersViolationTicketsDetailContainerPropertyFields on Property {
   id
-  memberName
-}
-
-mutation MemberViolationTicketProcessPayment($input: ViolationTicketProcessPaymentInput!) {
-  violationTicketProcessPayment(input: $input) {
-    __typename
-    status {
-      success
-      errorMessage
-    }
-    violationTicket {
-      ...MemberViolationTicketsDetailContainerViolationTicketFields
-    }
-  }
+  propertyName
 }

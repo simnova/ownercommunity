@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
     AdminPropertiesAddContainerPropertyAddDocument,
-    AdminPropertiesListContainerPropertiesDocument,
+    AdminPropertiesListContainerPropertiesByCommunityIdDocument,
     PropertyAddInput
 } from '../../../../generated';
 import { PropertiesAdd } from './properties-add';
@@ -19,12 +19,12 @@ export const PropertiesAddContainer: React.FC<PropertiesAddContainerProps> = (pr
       // update the list with the new item - necessary for root objects
       const newProperty = data?.propertyAdd.property;
       const properties = cache.readQuery({
-        query: AdminPropertiesListContainerPropertiesDocument,
+        query: AdminPropertiesListContainerPropertiesByCommunityIdDocument,
         variables: { communityId: props.data.communityId }
       })?.propertiesByCommunityId;
       if (newProperty && properties) {
         cache.writeQuery({
-          query: AdminPropertiesListContainerPropertiesDocument,
+          query: AdminPropertiesListContainerPropertiesByCommunityIdDocument,
           variables: { communityId: props.data.communityId },
           data: {
             propertiesByCommunityId: [...properties, newProperty]

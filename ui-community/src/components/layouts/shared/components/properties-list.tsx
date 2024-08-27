@@ -1,10 +1,15 @@
-import { Button, Table } from 'antd';
+import { Button, Table, TableColumnsType } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { AdminPropertiesListContainerPropertyFieldsFragment, MembersPropertiesListContainerPropertyFieldsFragment } from '../../../../generated';
 
-export const PropertiesList: React.FC<any> = (props) => {
+export interface PropertiesListProps {
+  data: AdminPropertiesListContainerPropertyFieldsFragment[]|MembersPropertiesListContainerPropertyFieldsFragment[];
+}
+
+export const PropertiesList: React.FC<PropertiesListProps> = (props) => {
   const navigate = useNavigate();
-  const columns = [
+  const columns:TableColumnsType<AdminPropertiesListContainerPropertyFieldsFragment|MembersPropertiesListContainerPropertyFieldsFragment> = [
     {
       title: 'Action',
       dataIndex: 'id',

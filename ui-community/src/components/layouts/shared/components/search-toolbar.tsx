@@ -21,7 +21,7 @@ import {
   MemberMutationResult,
   MemberNameServiceTicketContainerQuery,
   MemberPropertiesGetAllTagsQuery,
-  SearchDrawerContainerCustomViewsQuery
+  SharedSearchDrawerContainerMemberForCurrentUserQuery
 } from '../../../../generated';
 import { PropertiesListSearchTags } from '../../members/components/properties-list-search-tags';
 import { ServiceTicketsSearchTags } from '../../members/components/service-tickets-search-tags';
@@ -32,7 +32,7 @@ const { Text } = Typography;
 interface SearchToolbarProps {
   type: SearchType;
   customData: MemberPropertiesGetAllTagsQuery | MemberNameServiceTicketContainerQuery;
-  customViewData: SearchDrawerContainerCustomViewsQuery;
+  customViewData: SharedSearchDrawerContainerMemberForCurrentUserQuery;
   handleUpdateCustomView: (
     memberId: string,
     customViews: CustomViewInput[],

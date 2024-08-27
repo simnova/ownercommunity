@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import {
   Community,
-  CommunityListContainerCommunitiesQueryDocument,
-  CommunityListContainerMembersByUserExternalIdQueryDocument,
+  AccountsCommunityListContainerCommunitiesDocument,
+  AccountsCommunityListContainerMembersByUserExternalIdDocument,
   Member
 } from '../../../../generated';
 import { CommunityList } from './community-list';
@@ -14,7 +14,7 @@ export const CommunityListContainer: React.FC<any> = () => {
     loading: communityLoading,
     error: communityError,
     data: communityData
-  } = useQuery(CommunityListContainerCommunitiesQueryDocument);
+  } = useQuery(AccountsCommunityListContainerCommunitiesDocument);
 
   // extract externalId from jwt token
   const sessionStorageKey = `oidc.user:${import.meta.env.VITE_AAD_B2C_ACCOUNT_AUTHORITY}:${
@@ -28,7 +28,7 @@ export const CommunityListContainer: React.FC<any> = () => {
     loading: membersLoading,
     error: membersError,
     data: membersData
-  } = useQuery(CommunityListContainerMembersByUserExternalIdQueryDocument, {
+  } = useQuery(AccountsCommunityListContainerMembersByUserExternalIdDocument, {
     variables: { userExternalId },
     fetchPolicy: 'network-only'
   });

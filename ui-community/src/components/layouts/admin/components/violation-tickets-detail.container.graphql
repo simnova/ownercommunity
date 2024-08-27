@@ -1,10 +1,10 @@
-query AdminViolationTicketsDetailContainerMembersAssignableToTickets($violationTicketId: ObjectID!) {
+query AdminViolationTicketsDetailContainerMemberAssignableToTickets($violationTicketId: ObjectID!) {
   memberAssignableToViolationTickets(violationTicketId: $violationTicketId) {
     ...AdminViolationTicketsDetailContainerMemberFields
   }
 }
 
-query AdminServiceTicketsDetailContainerViolationTicket($id: ObjectID!) {
+query AdminViolationTicketsDetailContainerViolationTicket($id: ObjectID!) {
   violationTicket(id: $id) {
     ...AdminViolationTicketsDetailContainerViolationTicketFields
   }
@@ -22,13 +22,13 @@ mutation AdminViolationTicketsDetailContainerViolationTicketChangeStatus($input:
   }
 }
 
-mutation AdminViolationTicketsDetailContainerViolationAssign($input: ViolationTicketAssignInput!) {
+mutation AdminViolationTicketsDetailContainerViolationTicketAssign($input: ViolationTicketAssignInput!) {
   violationTicketAssign(input: $input) {
     ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
   }
 }
 
-mutation AdminViolationTicketsDetailContainerAddUpdateActivity($input: ViolationTicketAddUpdateActivityInput!) {
+mutation AdminViolationTicketsDetailContainerViolationTicketAddUpdateActivity($input: ViolationTicketAddUpdateActivityInput!) {
   violationTicketAddUpdateActivity(input: $input) {
     ...AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
   }
@@ -53,16 +53,16 @@ fragment AdminViolationTicketsDetailContainerViolationTicketMutationResultFields
 fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationTicket {
   title
   property {
-    id
     propertyName
+    id
   }
   requestor {
-    id
     memberName
+    id
   }
   assignedTo {
-    id
     memberName
+    id
   }
   title
   description
@@ -80,9 +80,10 @@ fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationT
     activityType
     activityDescription
     activityBy {
-      id
       memberName
+      id
     }
+
     id
     createdAt
     updatedAt
@@ -90,16 +91,13 @@ fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationT
   financeDetails {
     serviceFee
   }
+
   id
   createdAt
   updatedAt
 }
 
 fragment AdminViolationTicketsDetailContainerMemberFields on Member {
-  id
   memberName
+  id
 }
-# fragment AdminServiceTicketsDetailContainerPropertyFields on Property {
-#   id
-#   propertyName
-# }

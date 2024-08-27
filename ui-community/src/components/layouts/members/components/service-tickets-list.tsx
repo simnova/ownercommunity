@@ -8,14 +8,14 @@ const { Content } = Layout;
 
 const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items `;
 
-interface SearchTicketsListProps {
+interface ServiceTicketsListProps {
   data: any;
   handleSearch: () => void;
   searchParams: URLSearchParams;
   setSearchParams: (searchParams: URLSearchParams) => void;
 }
 
-export const ServiceTicketsList: React.FC<SearchTicketsListProps> = (props) => {
+export const ServiceTicketsList: React.FC<ServiceTicketsListProps> = (props) => {
   const navigate = useNavigate();
 
   const handlePagination = (page: number) => {

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { MembersPropertiesListContainerPropertiesDocument } from '../../../../generated';
+import { MembersPropertiesListContainerPropertiesDocument, MembersPropertiesListContainerPropertyFieldsFragment } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { PropertiesList } from '../../shared/components/properties-list';
 
@@ -16,7 +16,7 @@ export const PropertiesListContainer: React.FC<any> = (props) => {
     <ComponentQueryLoader
       loading={propertyLoading}
       hasData={propertyData?.propertiesByOwnerId}
-      hasDataComponent={<PropertiesList data={propertyData?.propertiesByOwnerId} />}
+      hasDataComponent={<PropertiesList data={propertyData?.propertiesByOwnerId as MembersPropertiesListContainerPropertyFieldsFragment[]} />}
       error={propertyError}
     />
   );

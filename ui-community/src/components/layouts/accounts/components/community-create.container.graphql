@@ -1,24 +1,29 @@
-mutation CommunityCreateContainerMutationCommunityCreate ( $input: CommunityCreateInput!) {
+mutation AccountsCommunityCreateContainerCommunityCreate ( $input: CommunityCreateInput!) {
   communityCreate(input: $input) {
-    ...CommunityCreateContainerMutationCommunityCreateFields
+    ...AccountsCommunityCreateContainerCommunityCreateFields
   }
 }
 
-fragment CommunityCreateContainerMutationCommunityCreateFields on CommunityMutationResult {
+fragment AccountsCommunityCreateContainerCommunityCreateFields on CommunityMutationResult {
   status {
     success
     errorMessage
   }
   community {
-    name
-    domain
-    whiteLabelDomain
-    handle
-    publicContentBlobUrl
-
-    id
-    schemaVersion
-    createdAt
-    updatedAt
+    ...CommunityListContainerCommunityFields
   }
 }
+
+fragment CommunityListContainerCommunityFields on Community {
+  name
+  domain
+  whiteLabelDomain
+  handle
+  publicContentBlobUrl
+  
+  id
+  schemaVersion
+  createdAt
+  updatedAt
+}
+

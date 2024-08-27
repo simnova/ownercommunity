@@ -1,8 +1,12 @@
-query MemberSiteCurrentMemberHasAdminRole {
+query MembersSectionLayoutMemberForCurrentUser {
   memberForCurrentUser {
-    role {
-      roleName
-    }
-    isAdmin
+    ...MembersSectionLayoutMemberFields
   }
+}
+
+fragment MembersSectionLayoutMemberFields on Member {
+  role {
+    roleName
+  }
+  isAdmin
 }

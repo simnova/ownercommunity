@@ -3,16 +3,16 @@ import React from 'react';
 import { Button, Checkbox, Descriptions, Form, Input } from 'antd';
 import dayjs from 'dayjs';
 
-import { Role, RoleAddInput, RoleUpdateInput } from '../../../../generated';
+import { AdminRolesDetailContainerRoleFieldsFragment, RoleAddInput, RoleUpdateInput } from '../../../../generated';
 import { Helmet } from 'react-helmet-async';
 
 export interface RolesDetailProps {
-  data: Role;
+  data: AdminRolesDetailContainerRoleFieldsFragment ;
   onAdd: (role: RoleAddInput) => void;
   onUpdate: (role: RoleUpdateInput) => void;
 }
 
-export const RolesDetail: React.FC<any> = (props) => {
+export const RolesDetail: React.FC<RolesDetailProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
   return (

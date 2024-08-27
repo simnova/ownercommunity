@@ -6,13 +6,17 @@ query AdminSiteEditorFilesListContainerCommunityById($id: ID!) {
 
 mutation AdminSiteEditorFilesListContainerCommunityPublicFileRemove($input: CommunityPublicFileRemoveInput!) {
   communityPublicFileRemove(input: $input) {
-    status {
-      success
-      errorMessage
-    }   
-    community {
-      ...AdminSiteEditorFilesListContainerCommunityFields
-    } 
+    ...AdminSiteEditorFilesListContainerCommunityMutationResultFields
+  }
+}
+
+fragment AdminSiteEditorFilesListContainerCommunityMutationResultFields on CommunityMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  community {
+    ...AdminSiteEditorFilesListContainerCommunityFields
   }
 }
 

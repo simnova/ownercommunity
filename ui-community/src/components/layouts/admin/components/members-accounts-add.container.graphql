@@ -10,11 +10,11 @@ fragment AdminMembersAccountsAddContainerMemberMutationResultFields on MemberMut
     errorMessage
   }
   member {
-    ...AdminMembersAccountsAddContainerMember
+    ...AdminMembersAccountsAddContainerMemberFields
   }
 }
 
-fragment AdminMembersAccountsAddContainerMember on Member {
+fragment AdminMembersAccountsAddContainerMemberFields on Member {
   memberName
   
   id

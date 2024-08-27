@@ -3,7 +3,7 @@ import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import {
-    PropertyUpdateInput, SharedAddressLocationUpdateContainerDocument, SharedPropertiesLocationContainerPropertyDocument,
+    PropertyUpdateInput, SharedPropertiesLocationContainerPropertyUpdateDocument, SharedPropertiesLocationContainerPropertyDocument,
 } from '../../../../generated';
 import { PropertiesLocation } from './properties-location';
 
@@ -26,7 +26,7 @@ export type PropertiesLocationContainerPropTypes = PropTypes.InferProps<typeof C
 
 export const PropertiesLocationContainer: React.FC<PropertiesLocationContainerPropTypes> = () => {
   const params = useParams();
-  const [updateAddress] = useMutation(SharedAddressLocationUpdateContainerDocument);
+  const [updateAddress] = useMutation(SharedPropertiesLocationContainerPropertyUpdateDocument);
 
   const {
     data: propertyData,

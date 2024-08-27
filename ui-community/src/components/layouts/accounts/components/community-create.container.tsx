@@ -2,25 +2,25 @@ import { useMutation } from '@apollo/client';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
-  CommunityCreateContainerMutationCommunityCreateDocument,
+  AccountsCommunityCreateContainerCommunityCreateDocument,
   CommunityCreateInput,
-  CommunityListContainerCommunitiesQueryDocument,
+  AccountsCommunityListContainerCommunitiesDocument,
 } from '../../../../generated';
 import { CommunityCreate } from './community-create';
 
 export const CommunityCreateContainer: React.FC<any> = () => {
   const [createCommunity, { loading, error }] = useMutation(
-    CommunityCreateContainerMutationCommunityCreateDocument,
+    AccountsCommunityCreateContainerCommunityCreateDocument,
     {
       update(cache, { data }) {
         // update the list with the new item
         const newCommunity = data?.communityCreate?.community;
         const communities = cache.readQuery({
-          query: CommunityListContainerCommunitiesQueryDocument,
+          query: AccountsCommunityListContainerCommunitiesDocument,
         })?.communities;
         if (newCommunity && communities) {
           cache.writeQuery({
-            query: CommunityListContainerCommunitiesQueryDocument,
+            query: AccountsCommunityListContainerCommunitiesDocument,
             data: {
               communities: [...communities, newCommunity],
             },

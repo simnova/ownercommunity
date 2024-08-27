@@ -1,12 +1,16 @@
 import { Button, Table, TableColumnsType } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { Member } from "../../../../generated";
+import { AdminMembersListContainerMemberFieldsFragment } from "../../../../generated";
+
+export interface MembersListProps {
+  data: AdminMembersListContainerMemberFieldsFragment[];
+}
 
 
-export const MembersList: React.FC<any> = (props) => {
+export const MembersList: React.FC<MembersListProps> = (props) => {
   const navigate = useNavigate();
-  const columns:TableColumnsType<Member> = [
+  const columns:TableColumnsType<AdminMembersListContainerMemberFieldsFragment> = [
     {
       title: "Action",
       dataIndex: "id",

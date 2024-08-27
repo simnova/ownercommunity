@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client';
 
-import { LoggedInUserRootContainerUserCurrentQueryDocument, User } from '../../../../generated';
+import { AccountsUserInfoContainerUserCurrentDocument, User } from '../../../../generated';
 import { UserInfo } from './user-info';
 
 export const UserInfoContainer: React.FC<any> = () => {
 
-  const { loading, error, data} = useQuery(LoggedInUserRootContainerUserCurrentQueryDocument);
+  const { loading, error, data} = useQuery(AccountsUserInfoContainerUserCurrentDocument);
   
   if(error){
     return <div>Error : {JSON.stringify(error)}</div>
@@ -15,7 +15,7 @@ export const UserInfoContainer: React.FC<any> = () => {
     return <div>Loading...</div>
   } 
 
-  if (typeof data === 'undefined' || typeof data.userCurrent === 'undefined' || data.userCurrent === null ) {
+  if (!data?.userCurrent) {
     return <div>No Data...</div>
   }
 

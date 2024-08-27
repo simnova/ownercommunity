@@ -1,4 +1,4 @@
-query AdminSettingsGeneralContainerCommunity($id: ID!) {
+query AdminSettingsGeneralContainerCommunityById($id: ID!) {
   communityById(id: $id) {
     ...AdminSettingsGeneralContainerCommunityFields
   }
@@ -6,13 +6,17 @@ query AdminSettingsGeneralContainerCommunity($id: ID!) {
 
 mutation AdminSettingsGeneralContainerCommunityUpdate($input: CommunityUpdateInput!) {
   communityUpdate(input: $input) {
-    status {
-      success
-      errorMessage
-    }
-    community {
-      ...AdminSettingsGeneralContainerCommunityFields
-    }
+    ...AdminSettingsGeneralContainerCommunityMutationResultFields
+  }
+}
+
+fragment AdminSettingsGeneralContainerCommunityMutationResultFields on CommunityMutationResult {
+  status {
+    success
+    errorMessage
+  }
+  community {
+    ...AdminSettingsGeneralContainerCommunityFields
   }
 }
 

@@ -1,17 +1,18 @@
-query UserInfoContainerUserCurrentQuery {
+query AccountsUserInfoContainerUserCurrent {
   userCurrent { 
-      ...UserInfoContainerCurrentUserFields
+      ...AccountsUserInfoContainerUserFields
   }
 }
 
-fragment UserInfoContainerCurrentUserFields on User {
-  id
-  externalId
+fragment AccountsUserInfoContainerUserFields on User {
   personalInformation {
     identityDetails {
       lastName
       restOfName
     }
   }
+  externalId
+
+  id
   __typename
 }

@@ -3,8 +3,10 @@ import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
 import {
   AdminMembersDetailContainerMemberDocument,
+  AdminMembersDetailContainerMemberFieldsFragment,
   AdminMembersDetailContainerMemberUpdateDocument,
-  AdminMembersDetailContainerRolesDocument,
+  AdminMembersDetailContainerRoleFieldsFragment,
+  AdminMembersDetailContainerRolesByCommunityIdDocument,
   MemberUpdateInput
 } from '../../../../generated';
 import { MembersDetail } from './members-detail';
@@ -30,7 +32,7 @@ export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> =
     data: roleData,
     loading: roleLoading,
     error: roleError
-  } = useQuery(AdminMembersDetailContainerRolesDocument, {
+  } = useQuery(AdminMembersDetailContainerRolesByCommunityIdDocument, {
     variables: { communityId: props.data.communityId }
   });
   const [updateMember] = useMutation(AdminMembersDetailContainerMemberUpdateDocument);
@@ -73,8 +75,8 @@ export const MembersDetailContainer: React.FC<MembersDetailContainerPropTypes> =
       return <div>{JSON.stringify(memberError ?? roleError)}</div>;
     } else if (memberData?.member && roleData?.rolesByCommunityId) {
       const detailData = {
-        member: memberData.member,
-        roles: roleData.rolesByCommunityId
+        member: memberData.member as AdminMembersDetailContainerMemberFieldsFragment,
+        roles: roleData.rolesByCommunityId as AdminMembersDetailContainerRoleFieldsFragment[]
       };
       return <MembersDetail data={detailData} onSave={handleSave} />;
     } else {

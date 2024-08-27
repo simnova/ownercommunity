@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   AdminMembersCreateContainerMemberCreateDocument,
-  AdminMembersListContainerMembersDocument,
+  AdminMembersListContainerMembersByCommunityIdDocument,
   MemberCreateInput
 } from '../../../../generated';
 import { MembersCreate } from './members-create';
@@ -21,12 +21,12 @@ export const MembersCreateContainer: React.FC<MembersCreateContainerProps> = (pr
       // update the list with the new item
       const newMember = data?.memberCreate.member;
       const members = cache.readQuery({
-        query: AdminMembersListContainerMembersDocument,
+        query: AdminMembersListContainerMembersByCommunityIdDocument,
         variables: { communityId: props.data.communityId ?? '' }
       })?.membersByCommunityId;
       if (newMember && members) {
         cache.writeQuery({
-          query: AdminMembersListContainerMembersDocument,
+          query: AdminMembersListContainerMembersByCommunityIdDocument,
           variables: { communityId: props.data.communityId ?? '' },
           data: {
             membersByCommunityId: [...members, newMember]
@@ -54,5 +54,5 @@ export const MembersCreateContainer: React.FC<MembersCreateContainerProps> = (pr
     }
   };
 
-  return <MembersCreate onSave={handleSave} onUpdate={{}} data={defaultValues} />;
+  return <MembersCreate onSave={handleSave} data={defaultValues} />;
 };

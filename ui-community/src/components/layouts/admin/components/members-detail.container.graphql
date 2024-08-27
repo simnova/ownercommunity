@@ -3,19 +3,20 @@ query AdminMembersDetailContainerMember($id: ID!) {
     ...AdminMembersDetailContainerMemberFields
   }
 }
-query AdminMembersDetailContainerRoles($communityId: ID!) {
+
+query AdminMembersDetailContainerRolesByCommunityId($communityId: ID!) {
   rolesByCommunityId(communityId: $communityId) {
-    ...AdminMembersDetailContainerRolesFields
+    ...AdminMembersDetailContainerRoleFields
   }
 }
 
 mutation AdminMembersDetailContainerMemberUpdate($input: MemberUpdateInput!) {
   memberUpdate(input: $input) {
-    ...AdminMembersDetailContainerMutationFields
+    ...AdminMembersDetailContainerMemberMutationResultFields
   }
 }
 
-fragment AdminMembersDetailContainerMutationFields on MemberMutationResult {
+fragment AdminMembersDetailContainerMemberMutationResultFields on MemberMutationResult {
   status {
     success
     errorMessage
@@ -28,8 +29,8 @@ fragment AdminMembersDetailContainerMutationFields on MemberMutationResult {
 fragment AdminMembersDetailContainerMemberFields on Member {
   memberName
   role {
-    id
     roleName
+    id
   }
 
   id
@@ -37,7 +38,7 @@ fragment AdminMembersDetailContainerMemberFields on Member {
   updatedAt
 }
 
-fragment AdminMembersDetailContainerRolesFields on Role {
+fragment AdminMembersDetailContainerRoleFields on Role {
   roleName
   isDefault
 

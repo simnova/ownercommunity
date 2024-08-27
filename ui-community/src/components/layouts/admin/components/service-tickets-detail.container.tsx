@@ -3,14 +3,14 @@ import { Skeleton, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   AdminServiceTicketDetailContainerServiceTicketDeleteDocument,
-  AdminServiceTicketsDetailContainerAddUpdateActivityDocument,
+  AdminServiceTicketsDetailContainerServiceTicketAddUpdateActivityDocument,
   AdminServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
   AdminServiceTicketsDetailContainerPropertiesDocument,
-  AdminServiceTicketsDetailContainerServiceAssignDocument,
+  AdminServiceTicketsDetailContainerServiceTicketAssignDocument,
   AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument,
   AdminServiceTicketsDetailContainerServiceTicketDocument,
   AdminServiceTicketsDetailContainerServiceTicketUpdateDocument,
-  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+  AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
   ServiceTicketAddUpdateActivityInput,
   ServiceTicketAssignInput,
   ServiceTicketChangeStatusInput,
@@ -31,8 +31,8 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
 
   const [serviceTicketUpdate] = useMutation(AdminServiceTicketsDetailContainerServiceTicketUpdateDocument);
   const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument);
-  const [serviceTicketAssign] = useMutation(AdminServiceTicketsDetailContainerServiceAssignDocument);
-  const [serviceTicketAddUpdateActivity] = useMutation(AdminServiceTicketsDetailContainerAddUpdateActivityDocument);
+  const [serviceTicketAssign] = useMutation(AdminServiceTicketsDetailContainerServiceTicketAssignDocument);
+  const [serviceTicketAddUpdateActivity] = useMutation(AdminServiceTicketsDetailContainerServiceTicketAddUpdateActivityDocument);
   const {
     data: memberData,
     loading: memberLoading,
@@ -59,12 +59,12 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
     update(cache, { data }) {
       const deletedServiceTicket = data?.serviceTicketDelete.serviceTicket;
       const serviceTickets = cache.readQuery({
-        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+        query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
         variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
       if (deletedServiceTicket && serviceTickets) {
         cache.writeQuery({
-          query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+          query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
           variables: { communityId: props.data.communityId },
           data: {
             serviceTicketsByCommunityId: serviceTickets?.filter(

@@ -5,9 +5,10 @@ import { MemberCreateInput } from '../../../../generated';
 
 export interface MembersCreateProps {
   onSave: (member: MemberCreateInput) => void;
+  data: MemberCreateInput;
 }
 
-export const MembersCreate: React.FC<any> = (props) => {
+export const MembersCreate: React.FC<MembersCreateProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading,setFormLoading] = React.useState(false);
   return (
@@ -30,11 +31,11 @@ export const MembersCreate: React.FC<any> = (props) => {
             { required: true, message: 'Member name is required.' },
           ]}
         >
-          <Input placeholder='Member Name' maxLength={200} disabled={props.data.isDefault} />
+          <Input placeholder='Member Name' maxLength={200}  />
         </Form.Item>
 
 
-        <Button type="primary" htmlType="submit" value={'save'} disabled={props.data.isDefault} loading={formLoading}>
+        <Button type="primary" htmlType="submit" value={'save'} loading={formLoading}>
           Create Member
         </Button>
       </Form>

@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { message } from 'antd';
 import PropTypes from 'prop-types';
-import {
-    AdminSettingsGeneralContainerCommunityDocument,
+import { 
+    AdminSettingsGeneralContainerCommunityByIdDocument,
     AdminSettingsGeneralContainerCommunityUpdateDocument,
     CommunityUpdateInput
 } from '../../../../generated';
@@ -30,7 +30,7 @@ export const SettingsGeneralContainer: React.FC<SettingsGeneralContainerPropType
     data: communityData,
     loading: accountLoading,
     error: accountError
-  } = useQuery(AdminSettingsGeneralContainerCommunityDocument, {
+  } = useQuery(AdminSettingsGeneralContainerCommunityByIdDocument, {
     variables: { id: props.data.id ?? '' }
   });
 

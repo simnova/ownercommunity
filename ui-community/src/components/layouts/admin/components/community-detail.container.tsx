@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { AdminCommunityDetailContainerCommunityDocument } from '../../../../generated';
+import { AdminCommunityDetailContainerCommunityByIdDocument, AdminCommunityDetailContainerCommunityFieldsFragment } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { CommunityDetail } from './community-detail';
 
@@ -9,7 +9,7 @@ export const CommunityDetailContainer: React.FC<any> = (props) => {
     data: communityData,
     loading: communityLoading,
     error: communityError
-  } = useQuery(AdminCommunityDetailContainerCommunityDocument, {
+  } = useQuery(AdminCommunityDetailContainerCommunityByIdDocument, {
     variables: { id: props.data.id ?? '' }
   });
 
@@ -17,7 +17,7 @@ export const CommunityDetailContainer: React.FC<any> = (props) => {
     <ComponentQueryLoader
       loading={communityLoading}
       hasData={communityData}
-      hasDataComponent={<CommunityDetail data={communityData?.communityById} />}
+      hasDataComponent={<CommunityDetail data={communityData?.communityById as AdminCommunityDetailContainerCommunityFieldsFragment} />}
       error={communityError}
     />
   );

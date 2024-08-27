@@ -1,16 +1,16 @@
 import { Button, Table, TableColumnsType } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { Role } from "../../../../generated";
+import { AdminRolesListContainerRoleFieldsFragment} from "../../../../generated";
 
 export interface RolesListProps {
-  data: Role[];
+  data: AdminRolesListContainerRoleFieldsFragment[];
 }
 
 export const RolesList: React.FC<RolesListProps> = (props) => {
   const navigate = useNavigate();
   
-  const columns:TableColumnsType<Role> = [
+  const columns:TableColumnsType<AdminRolesListContainerRoleFieldsFragment> = [
     {
       title: "Action",
       dataIndex: "id",
@@ -25,7 +25,7 @@ export const RolesList: React.FC<RolesListProps> = (props) => {
       title: "Is Default",
       dataIndex: "isDefault",
       key: "isDefault",
-      render: (value: Role['isDefault']) => <span>{value?"true":"false"}</span>
+      render: (value: AdminRolesListContainerRoleFieldsFragment['isDefault']) => <span>{value?"true":"false"}</span>
     },
     {
       title: "Updated",
@@ -46,7 +46,7 @@ export const RolesList: React.FC<RolesListProps> = (props) => {
       <Table
         columns={columns}
         dataSource={props.data}
-        rowKey={(record: Role) => record.id}
+        rowKey={(record: AdminRolesListContainerRoleFieldsFragment) => record.id}
       />
     </div>
   )

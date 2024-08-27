@@ -1,4 +1,4 @@
-query AdminCommunityDetailContainerCommunity($id: ID!) {
+query AdminCommunityDetailContainerCommunityById($id: ID!) {
   communityById(id: $id) {
     ...AdminCommunityDetailContainerCommunityFields
   }
@@ -14,4 +14,5 @@ fragment AdminCommunityDetailContainerCommunityFields on Community {
   id
   createdAt
   updatedAt
+  __typename
 }

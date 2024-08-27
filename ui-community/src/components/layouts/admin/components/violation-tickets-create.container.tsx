@@ -2,10 +2,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
-  AdminServiceTicketsCreateContainerMembersDocument,
-  AdminServiceTicketsCreateContainerPropertiesDocument,
+  AdminViolationTicketsCreateContainerMembersByCommunityIdDocument,
+  AdminViolationTicketsCreateContainerPropertiesByCommunityIdDocument,
   AdminViolationTicketsCreateContainerViolationTicketCreateDocument,
-  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+  AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
   ViolationTicketCreateInput
 } from '../../../../generated';
 import { ViolationTicketsCreate } from '../../shared/components/violation-tickets-create';
@@ -23,7 +23,7 @@ export const ViolationTicketsCreateContainer: React.FC<ViolationTicketsCreateCon
     data: memberData,
     loading: memberLoading,
     error: memberError
-  } = useQuery(AdminServiceTicketsCreateContainerMembersDocument, {
+  } = useQuery(AdminViolationTicketsCreateContainerMembersByCommunityIdDocument, {
     variables: { communityId: props.data.communityId }
   });
 
@@ -31,7 +31,7 @@ export const ViolationTicketsCreateContainer: React.FC<ViolationTicketsCreateCon
     data: propertyData,
     loading: propertyLoading,
     error: propertyError
-  } = useQuery(AdminServiceTicketsCreateContainerPropertiesDocument, {
+  } = useQuery(AdminViolationTicketsCreateContainerPropertiesByCommunityIdDocument, {
     variables: { communityId: props.data.communityId }
   });
 
@@ -41,13 +41,13 @@ export const ViolationTicketsCreateContainer: React.FC<ViolationTicketsCreateCon
       const newViolationTicket = data?.violationTicketCreate.violationTicket;
 
       const tickets = cache.readQuery({
-        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+        query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
         variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
 
       if (newViolationTicket && tickets) {
         cache.writeQuery({
-          query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+          query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
           variables: { communityId: props.data.communityId },
           data: {
             serviceTicketsByCommunityId: [...tickets, newViolationTicket]

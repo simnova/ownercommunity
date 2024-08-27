@@ -1,16 +1,16 @@
-query CommunityListContainerCommunitiesQuery {
+query AccountsCommunityListContainerCommunities {
   communities {
-    ...CommunityListContainerCommunitiesFields
+    ...CommunityListContainerCommunityFields
   }
 }
 
-query CommunityListContainerMembersByUserExternalIdQuery($userExternalId: String!) {
+query AccountsCommunityListContainerMembersByUserExternalId($userExternalId: String!) {
   membersByUserExternalId(userExternalId: $userExternalId) {
-    ...CommunityListContainerMembersFields
+    ...CommunityListContainerMemberFields
   }
 }
 
-fragment CommunityListContainerMembersFields on Member {
+fragment CommunityListContainerMemberFields on Member {
   id
   memberName
   community {
@@ -19,12 +19,13 @@ fragment CommunityListContainerMembersFields on Member {
   isAdmin
 }
 
-fragment CommunityListContainerCommunitiesFields on Community {
+fragment CommunityListContainerCommunityFields on Community {
   name
   domain
   whiteLabelDomain
   handle
   publicContentBlobUrl
+  
   id
   schemaVersion
   createdAt

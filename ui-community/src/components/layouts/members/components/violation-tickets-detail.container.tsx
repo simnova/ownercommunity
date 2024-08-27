@@ -4,66 +4,40 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Empty, Skeleton, message } from 'antd';
 
 import {
-  AdminViolationTicketDetailContainerViolationTicketDeleteDocument,
-  AdminServiceTicketsDetailContainerPropertiesDocument,
-  AdminServiceTicketsDetailContainerViolationTicketDocument,
-  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
-  AdminViolationTicketsDetailContainerViolationTicketUpdateDocument,
   ViolationTicketAddUpdateActivityInput,
   ViolationTicketAssignInput,
   ViolationTicketUpdateInput,
   ViolationTicketChangeStatusInput,
-  AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument,
-  AdminViolationTicketsDetailContainerViolationAssignDocument,
-  AdminViolationTicketsDetailContainerAddUpdateActivityDocument,
-  MemberViolationTicketProcessPaymentDocument,
-  MemberServiceTicketsDetailContainerViolationTicketDocument
+  MembersViolationTicketsDetailContainerViolationTicketAddUpdateActivityDocument,
+  AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
+  MembersViolationTicketsDetailContainerViolationTicketAssignDocument,
+  MembersViolationTicketsDetailContainerViolationTicketUpdateDocument,
+  MembersViolationTicketsDetailContainerViolationTicketChangeStatusDocument,
+  MembersViolationTicketsDetailContainerViolationTicketProcessPaymentDocument,
+  MembersViolationTicketsDetailContainerViolationTicketDocument,
+  MembersViolationTicketsDetailContainerServiceTicketDeleteDocument,
+  MembersViolationTicketsDetailContainerPropertiesDocument
 } from '../../../../generated';
 
-import { ViolationTicketsDetail } from './violation-ticket-detail';
+import { ViolationTicketsDetail } from './violation-tickets-detail';
 
 export interface ViolationTicketsDetailContainerProps {
   data: {
     id: string;
     ticketType: string;
     communityId: string;
+    memberId: string;
   };
 }
 
 export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailContainerProps> = (props) => {
   const navigate = useNavigate();
 
-  const [violationTicketUpdate] = useMutation(AdminViolationTicketsDetailContainerViolationTicketUpdateDocument);
-  const [violationTicketChangeStatus] = useMutation(
-    AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument
-  );
-  const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationAssignDocument);
-  const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerAddUpdateActivityDocument);
-  const [violationTicketProcessPayment] = useMutation(MemberViolationTicketProcessPaymentDocument, {
-    update(cache, { data }) {
-      const updatedViolationTicket = data?.violationTicketProcessPayment.violationTicket;
-      const violationTicket = cache.readQuery({
-        query: AdminServiceTicketsDetailContainerViolationTicketDocument,
-        variables: {
-          id: props.data.id
-        }
-      })?.violationTicket;
-
-      if (violationTicket && updatedViolationTicket) {
-        cache.writeQuery({
-          query: AdminServiceTicketsDetailContainerViolationTicketDocument,
-          variables: {
-            id: props.data.id
-          },
-          data: {
-            violationTicket: {
-              ...updatedViolationTicket
-            }
-          }
-        });
-      }
-    }
-  });
+  const [violationTicketUpdate] = useMutation(MembersViolationTicketsDetailContainerViolationTicketUpdateDocument);
+  const [violationTicketChangeStatus] = useMutation(MembersViolationTicketsDetailContainerViolationTicketChangeStatusDocument);
+  const [violationTicketAssign] = useMutation(MembersViolationTicketsDetailContainerViolationTicketAssignDocument);
+  const [violationTicketAddUpdateActivity] = useMutation(MembersViolationTicketsDetailContainerViolationTicketAddUpdateActivityDocument);
+  const [violationTicketProcessPayment] = useMutation(MembersViolationTicketsDetailContainerViolationTicketProcessPaymentDocument);
 
   const handlePayment = async (violationTicketId: string, paymentAmount: number, paymentInstrumentId: string) => {
     try {
@@ -92,28 +66,28 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     data: propertyData,
     loading: propertyLoading,
     error: propertyError
-  } = useQuery(AdminServiceTicketsDetailContainerPropertiesDocument);
+  } = useQuery(MembersViolationTicketsDetailContainerPropertiesDocument, { variables: { id: props.data.memberId } });
 
   const {
     data: violationTicketData,
     loading: violationTicketLoading,
     error: violationTicketError
-  } = useQuery(MemberServiceTicketsDetailContainerViolationTicketDocument, {
+  } = useQuery(MembersViolationTicketsDetailContainerViolationTicketDocument, {
     variables: {
       id: props.data.id
     }
   });
 
-  const [deleteViolationTicket] = useMutation(AdminViolationTicketDetailContainerViolationTicketDeleteDocument, {
+  const [deleteViolationTicket] = useMutation(MembersViolationTicketsDetailContainerServiceTicketDeleteDocument, {
     update(cache, { data }) {
       const deletedViolationTicket = data?.violationTicketDelete.violationTicket;
       const tickets = cache.readQuery({
-        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+        query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
         variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
       if (deletedViolationTicket && tickets) {
         cache.writeQuery({
-          query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+          query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
           variables: { communityId: props.data.communityId },
           data: {
             serviceTicketsByCommunityId: tickets?.filter(
@@ -205,10 +179,10 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     return <Skeleton active />;
   } else if (violationTicketError || propertyError) {
     return <div>{JSON.stringify(violationTicketError ?? propertyError)}</div>;
-  } else if (violationTicketData?.violationTicket && propertyData?.properties) {
+  } else if (violationTicketData?.violationTicket && propertyData?.propertiesByOwnerId) {
     const data = {
       violationTicket: violationTicketData.violationTicket,
-      properties: propertyData.properties
+      properties: propertyData.propertiesByOwnerId
     };
     return (
       <ViolationTicketsDetail

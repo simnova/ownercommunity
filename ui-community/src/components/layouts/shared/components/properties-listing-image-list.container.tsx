@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { FC, useState } from 'react';
 import {
-    SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument
+  SharedPropertiesListingImageListContainerPropertyListingImageRemoveDocument
 } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { PropertiesListingImageList } from './properties-listing-image-list';
@@ -18,7 +18,7 @@ export const PropertiesListingImageListContainer: FC<PropertiesListingImageListC
   const memberId = useParams().memberId ?? '';
   const [image, setImage] = useState<string | undefined>(undefined);
   const [propertyListingImageRemove] = useMutation(
-    SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationDocument
+    SharedPropertiesListingImageListContainerPropertyListingImageRemoveDocument
   );
 
 

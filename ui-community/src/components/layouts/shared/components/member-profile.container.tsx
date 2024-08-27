@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { MemberProfileContainerMemberForCurrentUserDocument } from '../../../../generated';
+import { SharedMemberProfileContainerMemberForCurrentUserDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { MemberProfile } from './member-profile';
 
@@ -19,7 +19,7 @@ export const MemberProfileContainer: React.FC<MemberProfileContainerProps> = (pr
     data: memberData,
     loading: memberLoading,
     error: memberError
-  } = useQuery(MemberProfileContainerMemberForCurrentUserDocument, {
+  } = useQuery(SharedMemberProfileContainerMemberForCurrentUserDocument, {
     skip: props.isAdmin
   });
 

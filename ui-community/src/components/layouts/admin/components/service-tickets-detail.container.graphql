@@ -13,7 +13,6 @@ query AdminServiceTicketsDetailContainerProperties {
 query AdminServiceTicketsDetailContainerServiceTicket($id: ObjectID!) {
   serviceTicket(id: $id) {
     ...AdminServiceTicketsDetailContainerServiceTicketFields
-    ...AdminServiceTicketsDetailContainerAdminTicketFields
   }
 }
 
@@ -22,18 +21,20 @@ mutation AdminServiceTicketsDetailContainerServiceTicketUpdate($input: ServiceTi
     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
   }
 }
+
 mutation AdminServiceTicketsDetailContainerServiceTicketChangeStatus($input: ServiceTicketChangeStatusInput!) {
   serviceTicketChangeStatus(input: $input) {
     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
   }
 }
-mutation AdminServiceTicketsDetailContainerServiceAssign($input: ServiceTicketAssignInput!) {
+
+mutation AdminServiceTicketsDetailContainerServiceTicketAssign($input: ServiceTicketAssignInput!) {
   serviceTicketAssign(input: $input) {
     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
   }
 }
 
-mutation AdminServiceTicketsDetailContainerAddUpdateActivity($input: ServiceTicketAddUpdateActivityInput!) {
+mutation AdminServiceTicketsDetailContainerServiceTicketAddUpdateActivity($input: ServiceTicketAddUpdateActivityInput!) {
   serviceTicketAddUpdateActivity(input: $input) {
     ...AdminServiceTicketsDetailContainerServiceTicketMutationResultFields
   }
@@ -58,16 +59,16 @@ fragment AdminServiceTicketsDetailContainerServiceTicketMutationResultFields on 
 fragment AdminServiceTicketsDetailContainerServiceTicketFields on ServiceTicket {
   title
   property {
-    id
     propertyName
+    id
   }
   requestor {
-    id
     memberName
+    id
   }
   assignedTo {
-    id
     memberName
+    id
   }
   title
   description
@@ -85,65 +86,26 @@ fragment AdminServiceTicketsDetailContainerServiceTicketFields on ServiceTicket 
     activityType
     activityDescription
     activityBy {
-      id
       memberName
+      id
     }
-    id
-    createdAt
-    updatedAt
-  }
-  id
-  createdAt
-  updatedAt
-}
-
-fragment AdminServiceTicketsDetailContainerAdminTicketFields on ServiceTicket {
-  title
-  property {
-    id
-    propertyName
-  }
-  requestor {
-    id
-    memberName
-  }
-  assignedTo {
-    id
-    memberName
-  }
-  title
-  description
-  status
-  priority
-  photos {
-    documentId
-    description
 
     id
     createdAt
     updatedAt
   }
-  activityLog {
-    activityType
-    activityDescription
-    activityBy {
-      id
-      memberName
-    }
-    id
-    createdAt
-    updatedAt
-  }
+
   id
   createdAt
   updatedAt
 }
 
 fragment AdminServiceTicketsDetailContainerMemberFields on Member {
-  id
   memberName
-}
-fragment AdminServiceTicketsDetailContainerPropertyFields on Property {
   id
+}
+
+fragment AdminServiceTicketsDetailContainerPropertyFields on Property {
   propertyName
+  id
 }

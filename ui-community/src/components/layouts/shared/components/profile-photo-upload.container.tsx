@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Button, Image, Skeleton } from 'antd';
 import React, { useEffect } from 'react';
 import {
-  SharedPhotoUploadContainerContainerMemberDocument,
+  SharedPhotoUploadContainerMemberDocument,
   SharedPhotoUploadContainerMemberProfileAvatarCreateAuthHeaderDocument,
   SharedPhotoUploadContainerMemberProfileAvatarRemoveDocument
 } from '../../../../generated';
@@ -24,7 +24,7 @@ export const ProfilePhotoUploadContainer: React.FC<ProfilePhotoUploadContainerPr
     data: memberData,
     loading: memberLoading,
     error: memberError
-  } = useQuery(SharedPhotoUploadContainerContainerMemberDocument, {
+  } = useQuery(SharedPhotoUploadContainerMemberDocument, {
     variables: {
       id: props.data.id
     }

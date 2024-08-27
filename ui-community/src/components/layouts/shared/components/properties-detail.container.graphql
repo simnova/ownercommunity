@@ -4,9 +4,9 @@ query SharedPropertiesDetailContainerProperty($id: ObjectID!) {
   }
 }
 
-query SharedPropertiesDetailContainerMembers($communityId: ID!) {
+query SharedPropertiesDetailContainerMembersByCommunity($communityId: ID!) {
   membersByCommunityId(communityId: $communityId) {
-    ...SharedPropertiesDetailContainerMembersFields
+    ...SharedPropertiesDetailContainerMemberFields
   }
 }
 
@@ -42,8 +42,8 @@ fragment SharedPropertiesDetailContainerPropertyFields on Property {
   listedInDirectory
 
   owner {
-    id
     memberName
+    id
   }
 
   id
@@ -51,9 +51,10 @@ fragment SharedPropertiesDetailContainerPropertyFields on Property {
   updatedAt
 }
 
-fragment SharedPropertiesDetailContainerMembersFields on Member {
-  id
+fragment SharedPropertiesDetailContainerMemberFields on Member {
   memberName
+
+  id
   createdAt
   updatedAt
 }

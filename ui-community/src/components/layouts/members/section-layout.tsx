@@ -5,7 +5,7 @@ import { MenuComponent } from '../shared/components/menu-component'
 import { useEffect, useState } from 'react';
 import { LocalSettingsKeys, handleToggler } from '../../../constants';
 import { useLazyQuery } from '@apollo/client';
-import { MemberSiteCurrentMemberHasAdminRoleDocument } from '../../../generated';
+import { MembersSectionLayoutMemberForCurrentUserDocument } from '../../../generated';
 import { CommunitiesDropdownContainer } from '../../ui/organisms/dropdown-menu/communities-dropdown-container';
 
 const { Sider, Header } = Layout;
@@ -17,7 +17,9 @@ export const SectionLayout: React.FC<any> = (props) => {
   const params = useParams();
   const [data, setData] = useState<any>(null);
 
-  const [loadMemberRole] = useLazyQuery(MemberSiteCurrentMemberHasAdminRoleDocument);
+
+  //TODO:Refactor this have data passed in through a container. (do not copy this pattern and use elsewhere)
+  const [loadMemberRole] = useLazyQuery(MembersSectionLayoutMemberForCurrentUserDocument);
 
   useEffect(() => { 
     const fetchData = async () => {

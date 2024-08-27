@@ -2,12 +2,15 @@ import { UsergroupAddOutlined } from '@ant-design/icons';
 import { Button, Table, TableColumnsType } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { Member } from "../../../../generated";
+import { AdminMembersAccountsListContainerMemberFieldsFragment } from "../../../../generated";
 
+export interface MembersAccountsListProps {
+  data: AdminMembersAccountsListContainerMemberFieldsFragment[];
+}
 
-export const MembersAccountsList: React.FC<any> = (props) => {
+export const MembersAccountsList: React.FC<MembersAccountsListProps> = (props) => {
   const navigate = useNavigate();
-  const columns:TableColumnsType<Member> = [
+  const columns:TableColumnsType<AdminMembersAccountsListContainerMemberFieldsFragment> = [
     {
       title: "Action",
       dataIndex: "id",

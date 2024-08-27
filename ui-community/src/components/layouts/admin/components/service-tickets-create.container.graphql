@@ -1,10 +1,10 @@
-query AdminServiceTicketsCreateContainerMembers($communityId: ID!) {
+query AdminServiceTicketsCreateContainerMembersByCommunityId($communityId: ID!) {
   membersByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsCreateContainerMemberFields
   }
 }
 
-query AdminServiceTicketsCreateContainerProperties($communityId: ID!) {
+query AdminServiceTicketsCreateContainerPropertiesByCommunityId($communityId: ID!) {
   propertiesByCommunityId(communityId: $communityId) {
     ...AdminServiceTicketsCreateContainerPropertyFields
   }
@@ -28,27 +28,29 @@ fragment AdminServiceTicketsCreateContainerServiceTicketMutationResultFields on 
 
 fragment AdminServiceTicketsCreateContainerServiceTicketFields on ServiceTicket {
   property {
-    id
     propertyName
+    id
   }
   requestor {
-    id
     memberName
+    id
   }
   title
   status
   priority
   ticketType
+  
   id
   createdAt
   updatedAt
 }
 
 fragment AdminServiceTicketsCreateContainerMemberFields on Member {
-  id
   memberName
-}
-fragment AdminServiceTicketsCreateContainerPropertyFields on Property {
   id
+}
+
+fragment AdminServiceTicketsCreateContainerPropertyFields on Property {
   propertyName
+  id
 }

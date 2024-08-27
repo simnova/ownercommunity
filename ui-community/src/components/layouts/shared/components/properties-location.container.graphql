@@ -1,28 +1,27 @@
 query SharedPropertiesLocationContainerProperty($propertyId: ObjectID!){
   property(id: $propertyId) {
-      mapSASToken
-      ...SharedAddressLocationContainerPropertyFields
+      ...SharedPropertiesLocationContainerPropertyPropertyFields
     }
 }
 
-mutation SharedAddressLocationUpdateContainer($input: PropertyUpdateInput!){
+mutation SharedPropertiesLocationContainerPropertyUpdate($input: PropertyUpdateInput!){
   propertyUpdate(input: $input) {
-    ...SharedAddressLocationContainerPropertyMutationResultFields
+    ...SharedPropertiesLocationContainerPropertyMutationResultFields
   }
 }
 
-fragment SharedAddressLocationContainerPropertyMutationResultFields on PropertyMutationResult {
+fragment SharedPropertiesLocationContainerPropertyMutationResultFields on PropertyMutationResult {
   status {
     success
     errorMessage
   }
   property {
-    ...SharedAddressLocationContainerPropertyFields
+    ...SharedPropertiesLocationContainerPropertyPropertyFields
   }
 }
 
-fragment SharedAddressLocationContainerPropertyFields on Property {
-  id
+fragment SharedPropertiesLocationContainerPropertyPropertyFields on Property {
+  mapSASToken
   location {
     address {
       country
@@ -48,4 +47,5 @@ fragment SharedAddressLocationContainerPropertyFields on Property {
       coordinates
     }
   }
+  id
 }

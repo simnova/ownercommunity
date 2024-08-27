@@ -1,6 +1,6 @@
 query AdminRolesDeleteContainerRoles {
   roles {
-    ...AdminRolesDeleteContainerRolesFields
+    ...AdminRolesDeleteContainerRoleFields
   }
 }
 
@@ -16,11 +16,11 @@ fragment AdminRolesDeleteContainerRoleMutationResultFields on RoleMutationResult
     errorMessage
   }
   role {
-    ...AdminRolesDeleteContainerRolesFields
+    ...AdminRolesDeleteContainerRoleFields
   }
 }
 
-fragment AdminRolesDeleteContainerRolesFields on Role {
+fragment AdminRolesDeleteContainerRoleFields on Role {
   roleName
   isDefault
 

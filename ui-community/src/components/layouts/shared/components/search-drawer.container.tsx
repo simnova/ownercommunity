@@ -7,8 +7,8 @@ import {
     MemberNameServiceTicketContainerQuery,
     MemberPropertiesGetAllTagsQuery,
     PropertySearchFacets,
-    SearchDrawerContainerCustomViewsDocument,
-    SearchDrawerContainerCustomViewsUpdateDocument
+    SharedSearchDrawerContainerMemberForCurrentUserDocument,
+    SharedSearchDrawerContainerMemberUpdateDocument
 } from '../../../../generated';
 import { ServiceTicketsSearchFilters } from '../../members/components/service-tickets-search-filters';
 import { SearchToolbar } from './search-toolbar';
@@ -26,16 +26,16 @@ interface SearchDrawerContainerProps {
 }
 
 export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (props) => {
-  const [updateCustomViews] = useMutation(SearchDrawerContainerCustomViewsUpdateDocument, {
+  const [updateCustomViews] = useMutation(SharedSearchDrawerContainerMemberUpdateDocument, {
     update(cache, { data }) {
       // update the list of custom views
       const newCustomViews = data?.memberUpdate.member?.customViews;
       const memberForCurrentUser = cache.readQuery({
-        query: SearchDrawerContainerCustomViewsDocument,
+        query: SharedSearchDrawerContainerMemberForCurrentUserDocument,
       })?.memberForCurrentUser;
       if (newCustomViews && memberForCurrentUser) {
         cache.writeQuery({
-          query: SearchDrawerContainerCustomViewsDocument,
+          query: SharedSearchDrawerContainerMemberForCurrentUserDocument,
           data: {
             memberForCurrentUser: {
               id: memberForCurrentUser.id,
@@ -51,7 +51,7 @@ export const SearchDrawerContainer: React.FC<SearchDrawerContainerProps> = (prop
     data: customViewsData,
     loading: customViewsLoading,
     error: customViewsError
-  } = useQuery(SearchDrawerContainerCustomViewsDocument);
+  } = useQuery(SharedSearchDrawerContainerMemberForCurrentUserDocument);
 
   const handleUpdateCustomView = async (
     memberId: string,

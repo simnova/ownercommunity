@@ -1,10 +1,10 @@
-query MemberProfileContainerMemberForCurrentUser {
+query SharedMemberProfileContainerMemberForCurrentUser {
   memberForCurrentUser {
-    ...MemberProfileContainerMemberForCurrentUserFields
+    ...SharedMemberProfileContainerMemberFields
   }
 }
 
-fragment MemberProfileContainerMemberForCurrentUserFields on Member {
+fragment SharedMemberProfileContainerMemberFields on Member {
   profile {
     avatarDocumentId
   }

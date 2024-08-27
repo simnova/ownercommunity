@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { AdminMembersListContainerMembersDocument } from '../../../../generated';
+import { AdminMembersListContainerMemberFieldsFragment, AdminMembersListContainerMembersByCommunityIdDocument } from '../../../../generated';
 import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
 import { MembersList } from './members-list';
 
@@ -14,7 +14,7 @@ export const MembersListContainer: React.FC<MembersListContainerProps> = (props)
     data: memberData,
     loading: memberLoading,
     error: memberError
-  } = useQuery(AdminMembersListContainerMembersDocument, {
+  } = useQuery(AdminMembersListContainerMembersByCommunityIdDocument, {
     variables: { communityId: props.data.communityId }
   });
 
@@ -22,7 +22,7 @@ export const MembersListContainer: React.FC<MembersListContainerProps> = (props)
     <ComponentQueryLoader
       loading={memberLoading}
       hasData={memberData?.membersByCommunityId}
-      hasDataComponent={<MembersList data={memberData?.membersByCommunityId} />}
+      hasDataComponent={<MembersList data={memberData?.membersByCommunityId as AdminMembersListContainerMemberFieldsFragment[]} />}
       error={memberError}
     />
   );

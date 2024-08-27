@@ -2,7 +2,7 @@ import { PageHeader } from '@ant-design/pro-layout';
 import { Button, theme } from 'antd';
 import { SubPageLayout } from '../sub-page-layout';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ServiceTicketsListContainer } from '../components/tickets-list.container';
+import { ServiceTicketsListContainer } from '../components/service-tickets-list.container';
 import { Helmet } from 'react-helmet-async';
 
 export const ServiceTicketsList: React.FC<any> = (_props) => {

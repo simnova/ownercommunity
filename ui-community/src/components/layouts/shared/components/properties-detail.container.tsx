@@ -6,11 +6,11 @@ import { Skeleton, message } from 'antd';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import {
-  AdminPropertiesListContainerPropertiesDocument,
-  PropertyUpdateInput,
-  SharedPropertiesDetailContainerMembersDocument,
-  SharedPropertiesDetailContainerPropertyDeleteDocument,
   SharedPropertiesDetailContainerPropertyDocument,
+  PropertyUpdateInput,
+  SharedPropertiesDetailContainerMembersByCommunityDocument,
+  SharedPropertiesDetailContainerPropertyDeleteDocument,
+  AdminPropertiesListContainerPropertiesByCommunityIdDocument,
   SharedPropertiesDetailContainerPropertyUpdateDocument
 } from '../../../../generated';
 import { PropertiesDetail } from './properties-detail';
@@ -42,12 +42,12 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
       // update the list by removing the deleted item - necessary for root objects
       const deletedProperty = data?.propertyDelete.property;
       const properties = cache.readQuery({
-        query: AdminPropertiesListContainerPropertiesDocument,
+        query: AdminPropertiesListContainerPropertiesByCommunityIdDocument,
         variables: { communityId: props.data.communityId }
       })?.propertiesByCommunityId;
       if (deletedProperty && properties) {
         cache.writeQuery({
-          query: AdminPropertiesListContainerPropertiesDocument,
+          query: AdminPropertiesListContainerPropertiesByCommunityIdDocument,
           variables: { communityId: props.data.communityId },
           data: {
             propertiesByCommunityId: properties?.filter((property) => property?.id !== deletedProperty.id)
@@ -61,7 +61,7 @@ export const PropertiesDetailContainer: React.FC<PropertiesDetailContainerPropTy
     data: memberData,
     loading: memberLoading,
     error: memberError
-  } = useQuery(SharedPropertiesDetailContainerMembersDocument, {
+  } = useQuery(SharedPropertiesDetailContainerMembersByCommunityDocument, {
     variables: { communityId: props.data.communityId }
   });
 

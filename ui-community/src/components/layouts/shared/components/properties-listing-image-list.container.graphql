@@ -1,16 +1,19 @@
-
-mutation SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutation($input: PropertyRemoveImageInput!) {
+mutation SharedPropertiesListingImageListContainerPropertyListingImageRemove($input: PropertyRemoveImageInput!) {
   propertyListingImageRemove(input: $input) {
-    ...SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsField
+    ...SharedPropertiesListingImageListContainerPropertyMutationResultFields
   }
 }
 
-fragment SharedPropertiesListingImageListContainerPropertyListingImageRemoveMutationsField on PropertyMutationResult {
+fragment SharedPropertiesListingImageListContainerPropertyMutationResultFields on PropertyMutationResult {
   status {
     success
     errorMessage
   }
   property {
-    id
+    ...SharedPropertiesListingImageListContainerPropertyFields
   }
+}
+
+fragment SharedPropertiesListingImageListContainerPropertyFields on Property {
+  id
 }

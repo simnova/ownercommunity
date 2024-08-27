@@ -1,27 +1,27 @@
 
-query SearchDrawerContainerCustomViews {
+query SharedSearchDrawerContainerMemberForCurrentUser {
   memberForCurrentUser {
-    ...SearchDrawerContainerCustomViewsFields
+    ...SharedSearchDrawerContainerMemberFields
   }
 }
 
-mutation SearchDrawerContainerCustomViewsUpdate($input: MemberUpdateInput!) {
+mutation SharedSearchDrawerContainerMemberUpdate($input: MemberUpdateInput!) {
   memberUpdate(input: $input) {
-    ...SearchDrawerContainerCustomViewsMutationResultFields
+    ...SharedSearchDrawerContainerMemberMutationResultFields
   }
 }
 
-fragment SearchDrawerContainerCustomViewsMutationResultFields on MemberMutationResult {
+fragment SharedSearchDrawerContainerMemberMutationResultFields on MemberMutationResult {
   status {
     success
     errorMessage
   }
   member {
-    ...SearchDrawerContainerCustomViewsFields
+    ...SharedSearchDrawerContainerMemberFields
   }
 }
 
-fragment SearchDrawerContainerCustomViewsFields on Member {
+fragment SharedSearchDrawerContainerMemberFields on Member {
   id
   customViews {
     id

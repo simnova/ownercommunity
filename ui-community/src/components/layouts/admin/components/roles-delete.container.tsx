@@ -3,8 +3,9 @@ import { Skeleton, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   AdminRolesDeleteContainerRoleDeleteAndReassignDocument,
+  AdminRolesDeleteContainerRoleFieldsFragment,
   AdminRolesDeleteContainerRolesDocument,
-  AdminRolesListContainerRolesDocument,
+  AdminRolesListContainerRolesByCommunityIdDocument,
   RoleDeleteAndReassignInput
 } from '../../../../generated';
 import { RolesDelete } from './roles-delete';
@@ -17,17 +18,18 @@ export interface RolesDeleteContainerProps {
 
 export const RolesDeleteContainer: React.FC<any> = (props) => {
   const navigate = useNavigate();
+
   const [roleDelete, { error: deleteError }] =
     useMutation(AdminRolesDeleteContainerRoleDeleteAndReassignDocument, {
       update(cache, { data }) {
         // update the list by removing the deleted item
         const deletedRole = data?.roleDeleteAndReassign.role;
         const roles = cache.readQuery({
-          query: AdminRolesListContainerRolesDocument
+          query: AdminRolesListContainerRolesByCommunityIdDocument
         })?.rolesByCommunityId;
         if (deletedRole && roles) {
           cache.writeQuery({
-            query: AdminRolesListContainerRolesDocument,
+            query: AdminRolesListContainerRolesByCommunityIdDocument,
             data: {
               rolesByCommunityId: roles?.filter((role) => role?.id !== deletedRole.id)
             }
@@ -35,6 +37,7 @@ export const RolesDeleteContainer: React.FC<any> = (props) => {
         }
       }
     });
+
   const {
     data: roleData,
     loading: roleLoading,
@@ -71,8 +74,8 @@ export const RolesDeleteContainer: React.FC<any> = (props) => {
     return <div>{JSON.stringify(roleError ?? deleteError)}</div>;
   } else if (roleData?.roles) {
     const reassignmentOptions = {
-      roleToDelete: roleData.roles.find((x) => x?.id === props.data.id),
-      roles: roleData.roles.filter((x) => x?.id !== props.data.id)
+      roleToDelete: roleData.roles.find((x) => x?.id === props.data.id) as AdminRolesDeleteContainerRoleFieldsFragment,
+      roles: roleData.roles.filter((x) => x?.id !== props.data.id) as AdminRolesDeleteContainerRoleFieldsFragment[]
     };
     if (reassignmentOptions.roleToDelete && reassignmentOptions.roles) {
       return <RolesDelete onSelectReassignment={handleReassignment} data={reassignmentOptions} />;

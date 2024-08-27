@@ -21,11 +21,13 @@ mutation MembersServiceTicketsDetailContainerServiceTicketUpdate($input: Service
     ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields
   }
 }
+
 mutation MembersServiceTicketsDetailContainerServiceTicketChangeStatus($input: ServiceTicketChangeStatusInput!) {
   serviceTicketChangeStatus(input: $input) {
     ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields
   }
 }
+
 mutation MembersServiceTicketsDetailContainerServiceAssign($input: ServiceTicketAssignInput!) {
   serviceTicketAssign(input: $input) {
     ...MembersServiceTicketsDetailContainerServiceTicketMutationResultFields

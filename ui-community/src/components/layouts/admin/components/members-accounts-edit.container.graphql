@@ -1,6 +1,6 @@
 query AdminMembersAccountsEditContainerMember($id: ID!) {
   member(id: $id) {
-    ...AdminMembersAccountEditContainerMembersFields
+    ...AdminMembersAccountEditContainerMemberFields
   }
 }
 
@@ -22,23 +22,22 @@ fragment AdminMembersAccountsEditContainerMemberMutationResultFields on MemberMu
     errorMessage
   }
   member {
-    ...AdminMembersAccountEditContainerMembersFields
+    ...AdminMembersAccountEditContainerMemberFields
   }
 }
 
-
-
-fragment AdminMembersAccountEditContainerMembersFields on Member {
+fragment AdminMembersAccountEditContainerMemberFields on Member {
   accounts {
     firstName
     lastName
     user {
-      id
       personalInformation {
         contactInformation {
           email
         }
       }
+
+      id
     }
     statusCode
 
@@ -46,6 +45,5 @@ fragment AdminMembersAccountEditContainerMembersFields on Member {
     createdAt
     updatedAt
   }
-
   id
 }

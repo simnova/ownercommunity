@@ -1,29 +1,37 @@
-mutation SharedPropertiesListingImageUploadContainerPropertyFloorPlanImageCreateAuthHeader($input: PropertyBlobFileInput!) {
+mutation SharedPropertiesFloorPlanUploadContainerPropertyFloorPlanImageCreateAuthHeader($input: PropertyBlobFileInput!) {
   propertyFloorPlanImageCreateAuthHeader(input: $input) {
-    authHeader {
-      authHeader
-      blobPath
-      requestDate
-      indexTags {
-        name
-        value
-      }
-      metadataFields {
-        name
-        value
-      }
-    }
-    status {
-      success
-      errorMessage
-    }   
-    property {
-      ...SharedPropertiesFloorPlanImageUploadContainerPropertyFields
-    } 
+    ...SharedPropertiesFloorPlanUploadContainerPropertyBlobFileAuthHeaderResultFields
   }
 }
 
-fragment SharedPropertiesFloorPlanImageUploadContainerPropertyFields on Property {
+fragment SharedPropertiesFloorPlanUploadContainerPropertyBlobFileAuthHeaderResultFields on PropertyBlobFileAuthHeaderResult {
+  status {
+    success
+    errorMessage
+  }
+  authHeader {
+    ...SharedPropertiesFloorPlanUploadContainerAuthHeaderFields
+  }
+  property {
+    ...SharedPropertiesFloorPlanUploadContainerPropertyFields
+  }
+}
+
+fragment SharedPropertiesFloorPlanUploadContainerAuthHeaderFields on BlobAuthHeader {
+  authHeader
+  blobPath
+  requestDate
+  indexTags {
+    name
+    value
+  }
+  metadataFields {
+    name
+    value
+  }
+}
+
+fragment SharedPropertiesFloorPlanUploadContainerPropertyFields on Property {
   listingDetail {
     floorPlanImages
   }

@@ -3,18 +3,18 @@ import React from 'react';
 import { Button, Descriptions, Form, Input, Select } from 'antd';
 import dayjs from 'dayjs';
 
-import { MemberUpdateInput } from '../../../../generated';
+import { MemberUpdateInput, AdminMembersDetailContainerMemberFieldsFragment, AdminMembersDetailContainerRoleFieldsFragment } from '../../../../generated';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export interface MembersDetailProps {
   data: {
-    member: any;
-    roles: any[];
+    member: AdminMembersDetailContainerMemberFieldsFragment;
+    roles: AdminMembersDetailContainerRoleFieldsFragment[];
   };
   onSave: (member: MemberUpdateInput) => void;
 }
 
-export const MembersDetail: React.FC<any> = (props) => {
+export const MembersDetail: React.FC<MembersDetailProps> = (props) => {
   const [form] = Form.useForm();
   const [formLoading, setFormLoading] = React.useState(false);
   const params = useParams();

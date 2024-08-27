@@ -1,25 +1,33 @@
 mutation AdminSiteEditorFilesUploadContainerCommunityPublicFileCreateAuthHeader($input: CommunityBlobFileInput!) {
   communityPublicFileCreateAuthHeader(input: $input) {
-    authHeader {
-      authHeader
-      blobPath
-      requestDate
-      indexTags {
-        name
-        value
-      }
-      metadataFields {
-        name
-        value
-      }
-    }
-    status {
-      success
-      errorMessage
-    }   
-    community {
-      ...AdminSiteEditorFilesUploadContainerCommunityFields
-    } 
+    ...AdminSiteEditorFilesUploadContainerCommunityMutationResultFields
+  }
+}
+
+fragment AdminSiteEditorFilesUploadContainerCommunityMutationResultFields on CommunityBlobContentAuthHeaderResult {
+  status {
+    success
+    errorMessage
+  }
+  community {
+    ...AdminSiteEditorFilesUploadContainerCommunityFields
+  }
+  authHeader {
+    ...AdminSiteEditorFilesUploadContainerBlobAuthHeaderFields
+  }
+}
+
+fragment AdminSiteEditorFilesUploadContainerBlobAuthHeaderFields on BlobAuthHeader {
+  authHeader
+  blobPath
+  requestDate
+  indexTags {
+    name
+    value
+  }
+  metadataFields {
+    name
+    value
   }
 }
 

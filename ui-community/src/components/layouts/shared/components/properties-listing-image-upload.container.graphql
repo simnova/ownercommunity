@@ -1,25 +1,33 @@
 mutation SharedPropertiesListingImageUploadContainerPropertyListingImageCreateAuthHeader($input: PropertyBlobFileInput!) {
   propertyListingImageCreateAuthHeader(input: $input) {
-    authHeader {
-      authHeader
-      blobPath
-      requestDate
-      indexTags {
-        name
-        value
-      }
-      metadataFields {
-        name
-        value
-      }
-    }
-    status {
-      success
-      errorMessage
-    }   
-    property {
-      ...SharedPropertiesListingImageUploadContainerPropertyFields
-    } 
+    ...SharedPropertiesListingImageUploadContainerPropertyBlobFileAuthHeaderResultFields
+  }
+}
+
+fragment SharedPropertiesListingImageUploadContainerPropertyBlobFileAuthHeaderResultFields on PropertyBlobFileAuthHeaderResult {
+  status {
+    success
+    errorMessage
+  }
+  authHeader {
+    ...SharedPropertiesListingImageUploadContainerAuthHeaderFields
+  }
+  property {
+    ...SharedPropertiesListingImageUploadContainerPropertyFields
+  }
+}
+
+fragment SharedPropertiesListingImageUploadContainerAuthHeaderFields on BlobAuthHeader {
+  authHeader
+  blobPath
+  requestDate
+  indexTags {
+    name
+    value
+  }
+  metadataFields {
+    name
+    value
   }
 }
 

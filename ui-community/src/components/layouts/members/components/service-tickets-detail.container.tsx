@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Skeleton, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
-    AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+  AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
     MembersServiceTicketDetailContainerServiceTicketDeleteDocument,
     MembersServiceTicketsDetailContainerAddUpdateActivityDocument,
     MembersServiceTicketsDetailContainerMembersAssignableToTicketsDocument,
@@ -45,16 +45,16 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
     update(cache, { data }) {
       const deletedServiceTicket = data?.serviceTicketDelete.serviceTicket;
       const serviceTickets = cache.readQuery({
-        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+        query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
         variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
       if (deletedServiceTicket && serviceTickets) {
         cache.writeQuery({
-          query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+          query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
           variables: { communityId: props.data.communityId },
           data: {
             serviceTicketsByCommunityId: serviceTickets?.filter(
-              (serviceTickets) => serviceTickets?.id !== deletedServiceTicket.id
+              (serviceTicket) => serviceTicket?.id !== deletedServiceTicket.id
             )
           }
         });

@@ -1,0 +1,67 @@
+query AdminServiceTicketsListContainerServiceTicketsByCommunityId($communityId: ID!) {
+  serviceTicketsByCommunityId(communityId: $communityId) {
+    ...AdminServiceTicketsListContainerServiceTicketFields
+    ...AdminServiceTicketsListContainerViolationTicketFields
+    }
+}
+
+query AdminServiceTicketsListContainerServiceTicketsSearchAdmin($input: ServiceTicketsSearchInput!) {
+  serviceTicketsSearchAdmin(input: $input) {
+    ...AdminServiceTicketServiceTicketsSearchSearchResultFields
+  }
+}
+
+fragment AdminServiceTicketsListContainerServiceTicketFields on ServiceTicket {
+  title
+  requestor {
+    memberName
+  }
+  assignedTo {
+    memberName
+  }
+  priority
+
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminServiceTicketsListContainerViolationTicketFields on ViolationTicket {
+  title
+  requestor {
+    memberName
+  }
+  assignedTo {
+    memberName
+  }
+  priority
+
+  id
+  createdAt
+  updatedAt
+}
+
+fragment AdminServiceTicketServiceTicketsSearchSearchResultFields on ServiceTicketsSearchResult {
+  serviceTicketsResults {
+    ...AdminServiceTicketsListContainerServiceTicketsResultFields
+  }
+  count
+}
+
+fragment AdminServiceTicketsListContainerServiceTicketsResultFields on ServiceTicketsResult {
+  communityId
+  propertyId
+  title
+  requestor
+  assignedTo
+  requestorId
+  assignedToId
+  description
+  status
+  priority
+  ticketType
+
+  id
+  createdAt
+  updatedAt
+}

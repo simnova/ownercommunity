@@ -3,7 +3,7 @@ import {
   MemberNameServiceTicketContainerDocument,
   MemberServiceTicketsListContainerSearchServiceTicketsDocument
 } from '../../../../generated';
-import { ServiceTicketsList } from './tickets-list';
+import { ServiceTicketsList } from './service-tickets-list';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { SearchType, ServiceTicketSearchParamKeys } from '../../../../constants';

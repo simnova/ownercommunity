@@ -1,26 +1,26 @@
-query SharedMembersProfileContainerMember($id: ID!) {
+query SharedMemberProfileDetailsContainerMember($id: ID!) {
   member(id: $id) {
-    ...SharedMembersProfileContainerMemberFields
+    ...SharedMemberProfileDetailsContainerMemberFields
   }
 }
 
-mutation SharedMembersProfileContainerMemberUpdate($input: MemberProfileUpdateInput!) {
+mutation SharedMemberProfileDetailsContainerMemberProfileUpdate($input: MemberProfileUpdateInput!) {
   memberProfileUpdate(input: $input) {
-    ...SharedMembersProfileContainerMutationFields
+    ...SharedMemberProfileDetailsContainerMemberMutationResultFields
   }
 }
 
-fragment SharedMembersProfileContainerMutationFields on MemberMutationResult {
+fragment SharedMemberProfileDetailsContainerMemberMutationResultFields on MemberMutationResult {
   status {
     success
     errorMessage
   }
   member {
-    ...SharedMembersProfileContainerMemberFields
+    ...SharedMemberProfileDetailsContainerMemberFields
   }
 }
 
-fragment SharedMembersProfileContainerMemberFields on Member {
+fragment SharedMemberProfileDetailsContainerMemberFields on Member {
   profile {
     name
     email
@@ -33,6 +33,7 @@ fragment SharedMembersProfileContainerMemberFields on Member {
     showProfile
     showProperties
   }
+
   id
   createdAt
   updatedAt

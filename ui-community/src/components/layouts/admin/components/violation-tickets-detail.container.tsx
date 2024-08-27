@@ -5,18 +5,18 @@ import { Skeleton, message } from 'antd';
 
 import {
   AdminViolationTicketDetailContainerViolationTicketDeleteDocument,
-  AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument,
+  AdminViolationTicketsDetailContainerMemberAssignableToTicketsDocument,
   AdminServiceTicketsDetailContainerPropertiesDocument,
-  AdminServiceTicketsDetailContainerViolationTicketDocument,
-  AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+  AdminViolationTicketsDetailContainerViolationTicketDocument,
+  AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
   AdminViolationTicketsDetailContainerViolationTicketUpdateDocument,
   ViolationTicketAddUpdateActivityInput,
   ViolationTicketAssignInput,
   ViolationTicketUpdateInput,
   ViolationTicketChangeStatusInput,
   AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument,
-  AdminViolationTicketsDetailContainerViolationAssignDocument,
-  AdminViolationTicketsDetailContainerAddUpdateActivityDocument
+  AdminViolationTicketsDetailContainerViolationTicketAssignDocument,
+  AdminViolationTicketsDetailContainerViolationTicketAddUpdateActivityDocument
 } from '../../../../generated';
 
 import { ViolationTicketsDetail } from './violation-tickets-detail';
@@ -34,10 +34,10 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
 
   const [violationTicketUpdate] = useMutation(AdminViolationTicketsDetailContainerViolationTicketUpdateDocument);
   const [violationTicketChangeStatus] = useMutation(AdminViolationTicketsDetailContainerViolationTicketChangeStatusDocument);
-  const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationAssignDocument);
-  const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerAddUpdateActivityDocument);
+  const [violationTicketAssign] = useMutation(AdminViolationTicketsDetailContainerViolationTicketAssignDocument);
+  const [violationTicketAddUpdateActivity] = useMutation(AdminViolationTicketsDetailContainerViolationTicketAddUpdateActivityDocument);
 
-  const membersLazyQuery = useLazyQuery(AdminViolationTicketsDetailContainerMembersAssignableToTicketsDocument, {
+  const membersLazyQuery = useLazyQuery(AdminViolationTicketsDetailContainerMemberAssignableToTicketsDocument, {
     fetchPolicy: 'network-only',
     variables: {
       violationTicketId: props.data.id
@@ -54,7 +54,7 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     data: violationTicketData,
     loading: violationTicketLoading,
     error: violationTicketError
-  } = useQuery(AdminServiceTicketsDetailContainerViolationTicketDocument, {
+  } = useQuery(AdminViolationTicketsDetailContainerViolationTicketDocument, {
     variables: {
       id: props.data.id
     }
@@ -64,12 +64,12 @@ export const ViolationTicketsDetailContainer: React.FC<ViolationTicketsDetailCon
     update(cache, { data }) {
       const deletedViolationTicket = data?.violationTicketDelete.violationTicket;
       const tickets = cache.readQuery({
-        query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+        query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
         variables: { communityId: props.data.communityId }
       })?.serviceTicketsByCommunityId;
       if (deletedViolationTicket && tickets) {
         cache.writeQuery({
-          query: AdminServiceTicketsListContainerServiceTicketsOpenByCommunityDocument,
+          query: AdminServiceTicketsListContainerServiceTicketsByCommunityIdDocument,
           variables: { communityId: props.data.communityId },
           data: {
             serviceTicketsByCommunityId: tickets?.filter(

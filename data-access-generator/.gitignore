@@ -25,6 +25,7 @@ local.settings.json
 
 node_modules
 dist
+/src/raw-inputs
 
 # Local python packages
 .python_packages/

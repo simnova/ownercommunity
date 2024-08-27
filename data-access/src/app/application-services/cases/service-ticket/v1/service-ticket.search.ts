@@ -48,6 +48,7 @@ export class ServiceTicketV1SearchApiImpl extends CognitiveSearchDataSource<AppC
       }
     }
 
+    
     return filterStrings.join(' and ');
   }
 

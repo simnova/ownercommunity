@@ -66,7 +66,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "clean": "rm -rf node_modules && rm -rf build",
-    "prebuild": "[ -f .env.local ] && dotenvx run --env-file=.env.local -- node generate-build-version.cjs || node generate-build-version.cjs",
+    "prebuild": "dotenvx run --env-file=.env.local -- node generate-build-version.cjs",
     "build:major": "node generate-build-version.cjs major && npm run build",
     "build:minor": "node generate-build-version.cjs minor && npm run build"
   },

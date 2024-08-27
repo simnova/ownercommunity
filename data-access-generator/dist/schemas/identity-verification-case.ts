@@ -1,4 +1,4 @@
-//Nested Path Type definitions
+//Types and Schema for Nested Path and SubdocumentBase definitions
 export const IdentityVerificationCaseCaseDetailsApplicationPhotoAssetsType = {
   photo: { type: String, required: false},
 photoUploadedAt: { type: Date, required: false},
@@ -195,7 +195,6 @@ indexingFailedAt: { type: Date, required: false},
 
 
 
-//SubdocumentBase Definitions
 export const IdentityVerificationCaseCaseHistorySchema = new Schema<IdentityVerificationCaseCaseHistory, Model<IdentityVerificationCaseCaseHistory>, IdentityVerificationCaseCaseHistory>({
   caseDetails: {type: IdentityVerificationCaseCaseDetailsType,required: false, ...NestedPathOptions,},
 revisionRequest: {type: IdentityVerificationCaseRevisionRequestType,required: false, ...NestedPathOptions,},
@@ -283,8 +282,3 @@ search: {type: IdentityVerificationCaseSearchType,required: false, ...NestedPath
 });
 
 export const IdentityVerificationCaseModel = model<IdentityVerificationCase>("IdentityVerificationCase", IdentityVerificationCaseSchema);
-
-// Be sure to:
-// 1. Remove unnecessary fields in the model schema
-// 2. Add enum constraints to fields (if any)
-// 3. Fix export Model clause (last line) for model containing discriminator key

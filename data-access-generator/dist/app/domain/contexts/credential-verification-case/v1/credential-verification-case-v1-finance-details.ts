@@ -3,6 +3,7 @@ export interface CredentialVerificationCaseV1FinanceDetailsProps extends ValueOb
   serviceFee?: number;
 
   // NestedPath Fields
+  readonly financeConfig: CredentialVerificationCaseV1FinanceDetailsFinanceConfigProps;
   readonly revenueRecognition: CredentialVerificationCaseV1RevenueRecognitionProps;
   readonly transactions: CredentialVerificationCaseV1FinanceDetailsTransactionsProps;
 
@@ -12,7 +13,8 @@ export interface CredentialVerificationCaseV1FinanceDetailsProps extends ValueOb
 
 }
 
-export interface CredentialVerificationCaseV1FinanceDetailsEntityReference extends Readonly<Omit<CredentialVerificationCaseV1FinanceDetailsProps, 'revenueRecognition' | 'transactions'>> {
+export interface CredentialVerificationCaseV1FinanceDetailsEntityReference extends Readonly<Omit<CredentialVerificationCaseV1FinanceDetailsProps, 'financeConfig' | 'revenueRecognition' | 'transactions'>> {
+  readonly financeConfig: CredentialVerificationCaseV1FinanceDetailsFinanceConfigEntityReference;
   readonly revenueRecognition: CredentialVerificationCaseV1RevenueRecognitionEntityReference;
   readonly transactions: CredentialVerificationCaseV1FinanceDetailsTransactionsEntityReference;
 
@@ -30,6 +32,9 @@ export class CredentialVerificationCaseV1FinanceDetails extends ValueObject<Cred
     }
 
   // NestedPath Field Getters
+  get financeConfig() {
+      return this.props.financeConfig ? new CredentialVerificationCaseV1FinanceDetailsFinanceConfig(this.props.financeConfig, this.context) : undefined;
+    }
   get revenueRecognition() {
       return this.props.revenueRecognition ? new CredentialVerificationCaseV1RevenueRecognition(this.props.revenueRecognition, this.context) : undefined;
     }

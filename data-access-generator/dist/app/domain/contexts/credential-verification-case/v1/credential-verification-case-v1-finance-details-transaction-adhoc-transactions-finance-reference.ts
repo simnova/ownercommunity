@@ -2,7 +2,7 @@ export interface CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTrans
   // Primitive Fields
   debitGlAccount?: string;
   creditGlAccount?: string;
-  completedOn?: Date;
+  completedAt?: Date;
 
   // NestedPath Fields
 
@@ -29,8 +29,8 @@ export class CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransacti
   get creditGlAccount() {
     return this.props.creditGlAccount;
     }
-  get completedOn() {
-    return this.props.completedOn;
+  get completedAt() {
+    return this.props.completedAt;
     }
 
   // NestedPath Field Getters
@@ -63,8 +63,8 @@ export class CredentialVerificationCaseV1FinanceDetailsTransactionAdhocTransacti
   set CreditGlAccount(value: string) {
     this.props.creditGlAccount = value;
   }
-  set CompletedOn(value: Date) {
-    this.props.completedOn = value;
+  set CompletedAt(value: Date) {
+    this.props.completedAt = value;
   }
 
   // PopulatedDoc Field Setters

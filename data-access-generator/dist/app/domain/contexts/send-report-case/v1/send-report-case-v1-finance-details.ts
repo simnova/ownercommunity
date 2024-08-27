@@ -3,6 +3,7 @@ export interface SendReportCaseV1FinanceDetailsProps extends ValueObjectProps {
   serviceFee?: number;
 
   // NestedPath Fields
+  readonly financeConfig: SendReportCaseV1FinanceDetailsFinanceConfigProps;
   readonly revenueRecognition: SendReportCaseV1FinanceDetailsRevenueRecognitionProps;
   readonly transactions: SendReportCaseV1FinanceDetailsTransactionsProps;
 
@@ -12,7 +13,8 @@ export interface SendReportCaseV1FinanceDetailsProps extends ValueObjectProps {
 
 }
 
-export interface SendReportCaseV1FinanceDetailsEntityReference extends Readonly<Omit<SendReportCaseV1FinanceDetailsProps, 'revenueRecognition' | 'transactions'>> {
+export interface SendReportCaseV1FinanceDetailsEntityReference extends Readonly<Omit<SendReportCaseV1FinanceDetailsProps, 'financeConfig' | 'revenueRecognition' | 'transactions'>> {
+  readonly financeConfig: SendReportCaseV1FinanceDetailsFinanceConfigEntityReference;
   readonly revenueRecognition: SendReportCaseV1FinanceDetailsRevenueRecognitionEntityReference;
   readonly transactions: SendReportCaseV1FinanceDetailsTransactionsEntityReference;
 
@@ -30,6 +32,9 @@ export class SendReportCaseV1FinanceDetails extends ValueObject<SendReportCaseV1
     }
 
   // NestedPath Field Getters
+  get financeConfig() {
+      return this.props.financeConfig ? new SendReportCaseV1FinanceDetailsFinanceConfig(this.props.financeConfig, this.context) : undefined;
+    }
   get revenueRecognition() {
       return new SendReportCaseV1FinanceDetailsRevenueRecognition(this.props.revenueRecognition, this.context
       //, this.visa

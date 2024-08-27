@@ -1,4 +1,4 @@
-//Nested Path Type definitions
+//Types and Schema for Nested Path and SubdocumentBase definitions
 export const ApplicantUserSearchType = {
   hash: { type: String, required: false},
 indexedAt: { type: Date, required: false},
@@ -63,7 +63,6 @@ dateOfBirth: { type: Date, required: false},
 
 
 
-//SubdocumentBase Definitions
 export const ApplicantUserTermsAndConditionsSchema = new Schema<ApplicantUserTermsAndConditions, Model<ApplicantUserTermsAndConditions>, ApplicantUserTermsAndConditions>({
   acceptanceOf: { type: String, required: false},
 version: { type: Number, required: false},
@@ -109,8 +108,3 @@ payment: {type: ApplicantUserPaymentType,required: false, ...NestedPathOptions,}
 });
 
 export const ApplicantUserModel = model<ApplicantUser>("ApplicantUser", ApplicantUserSchema);
-
-// Be sure to:
-// 1. Remove unnecessary fields in the model schema
-// 2. Add enum constraints to fields (if any)
-// 3. Fix export Model clause (last line) for model containing discriminator key

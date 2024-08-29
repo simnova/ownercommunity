@@ -1,10 +1,9 @@
-import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential } from '@azure/identity';
-import { SearchIndexClient, SearchClient, SearchIndex, SearchDocumentsResult } from '@azure/search-documents';
-import { CognitiveSearchBase } from '../services-seedwork-cognitive-search-interfaces';
+import { DefaultAzureCredential, DefaultAzureCredentialOptions, TokenCredential } from "@azure/identity";
+import { SearchIndexClient, SearchClient, SearchIndex, SearchDocumentsResult, AzureKeyCredential } from "@azure/search-documents";
+import { CognitiveSearchBase } from "../services-seedwork-cognitive-search-interfaces";
 
 export class AzCognitiveSearch implements CognitiveSearchBase {
   private client: SearchIndexClient;
-  private searchClients: Map<string, SearchClient<unknown>> = new Map<string, SearchClient<unknown>>();
 
   tryGetEnvVar(envVar: string): string {
     const value = process.env[envVar];
@@ -13,54 +12,56 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
     }
     return value;
   }
+
   constructor(searchKey: string, endpoint: string) {
-    let credentials : TokenCredential;
-    
-    if(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"){
+    let credentials: TokenCredential;
+    if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
       credentials = new DefaultAzureCredential();
     } else if (process.env.MANAGED_IDENTITY_CLIENT_ID !== undefined) {
       credentials = new DefaultAzureCredential({ ManangedIdentityClientId: process.env.MANAGED_IDENTITY_CLIENT_ID } as DefaultAzureCredentialOptions);
     } else {
       credentials = new DefaultAzureCredential();
     }
-
     this.client = new SearchIndexClient(endpoint, credentials);
   }
 
-  async createIndexIfNotExists(indexName: string, indexDefinition: SearchIndex): Promise<void> {
-    if (this.searchClients.has(indexName)) return;
-    let index : SearchIndex;
-    try {
-      index = await this.client.getIndex(indexName);
-      console.log(`Index ${index.name} already exists`);
-    } catch (err) {
-      console.log(`Index ${indexName} does not exist error ${JSON.stringify(err)} thrown, creating it...`);
-      index = await this.client.createIndex(indexDefinition);
-      console.log(`Index ${index.name} created`);
+  // check if index exists
+  async indexExists(indexName: string): Promise<boolean> {
+    const indexes = await this.client.listIndexesNames();
+    for await (const name of indexes) {
+      if (name === indexName) {
+        return true;
+      }
     }
-    this.searchClients.set(indexName, this.client.getSearchClient(indexName));
+    return false;
   }
 
-  async createOrUpdateIndex(indexName: string, indexDefinition: SearchIndex): Promise<void> {
-    if (this.searchClients.has(indexName)) return;
-    let index : SearchIndex;
-    try{
-      index = await this.client.getIndex(indexName);
-    } catch (err) {
-      console.log(`Index ${indexName} does not exist error ${JSON.stringify(err)} thrown, creating it...`);
-      index = await this.client.createIndex(indexDefinition);
-      console.log(`Index ${index.name} created`);
+  async createIndexIfNotExists(indexName: string, indexDefinition: SearchIndex): Promise<void> {
+    const indexExists = await this.indexExists(indexName);
+    if (!indexExists) {
+      await this.client.createIndex(indexDefinition);
+      console.log(`Index ${indexName} created`);
     }
-   
-    index = await this.client.createOrUpdateIndex(indexDefinition);
-    console.log(`Index ${index.name} updated`);
- 
-    this.searchClients.set(indexName, this.client.getSearchClient(indexName));
+  }
+
+  async createOrUpdateIndexDefinition(indexName: string, indexDefinition: SearchIndex): Promise<void> {
+    try {
+      const indexExists = await this.indexExists(indexName);
+      if (!indexExists) {
+        await this.client.createIndex(indexDefinition);
+      } else {
+        await this.client.createOrUpdateIndex(indexDefinition);
+        console.log(`Index ${indexName} updated`);
+      }
+    } catch (error) {
+      throw new Error(`Failed to create or update index ${indexName}: ${error.message}`);
+    }
   }
 
   async search(indexName: string, searchText: string, options?: any): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-    const result = await this.client.getSearchClient(indexName).search(searchText, options);
-    console.log('search result', result);
+    let searchClient = this.client.getSearchClient(indexName);
+    const result = await searchClient.search(searchText, options);
+    console.log("search result", result);
     return result;
   }
 
@@ -69,16 +70,13 @@ export class AzCognitiveSearch implements CognitiveSearchBase {
   }
 
   async indexDocument(indexName: string, document: any): Promise<void> {
-    //return this.searchClients.get(indexName)!.indexDocuments([document]);
-    const searchClient = this.searchClients.get(indexName);
-
+    const searchClient = this.client.getSearchClient(indexName);
     searchClient.mergeOrUploadDocuments([document]);
   }
 
   async deleteIndex(indexName: string): Promise<void> {
     return this.client.deleteIndex(indexName);
   }
-
 
   // async updateIndex(indexName: string) {
   //   const index = await this.client.getIndex(indexName);

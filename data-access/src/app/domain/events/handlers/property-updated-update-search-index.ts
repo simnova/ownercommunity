@@ -1,23 +1,19 @@
 import { GeographyPoint } from '@azure/search-documents';
 import { SpanStatusCode, trace } from '@opentelemetry/api';
 import { SeverityNumber, logs } from '@opentelemetry/api-logs';
-import retry from 'async-retry';
-import crypto from 'crypto';
 import dayjs from 'dayjs';
-import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
 import { Property, PropertyProps } from '../../contexts/property/property/property';
-import { PropertyUpdatedEvent } from '../types/property-updated';
 import { SystemExecutionContext } from '../../domain-execution-context';
+import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
+import { PropertyUpdatedEvent } from '../types/property-updated';
 // import { PropertyUnitOfWork } from '../../../domain-impl/services/datastore/mongodb/infrastructure/property.mongo-uow';
 import { PropertyUnitOfWork } from '../../contexts/property/property/property.uow';
 import { PropertyListingIndexDocument, PropertyListingIndexSpec } from '../../infrastructure/cognitive-search/property-search-index-format';
 import { EventBusInstance } from '../event-bus';
-import { PropertyRepository } from '../../contexts/property/property/property.repository';
+import { generateHash, updateSearchIndexWithRetry } from './update-search-index-helpers';
 
-export default (
-  cognitiveSearch: CognitiveSearchDomain,
-  propertyUnitOfWork: PropertyUnitOfWork
-) => { EventBusInstance.register(PropertyUpdatedEvent, async (payload) => {
+export default (cognitiveSearch: CognitiveSearchDomain, propertyUnitOfWork: PropertyUnitOfWork) => {
+  EventBusInstance.register(PropertyUpdatedEvent, async (payload) => {
     const tracer = trace.getTracer('PG:data-access');
     tracer.startActiveSpan('updateSearchIndex', async (span) => {
       // add logging: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry-exporter/samples-dev/logSample.ts
@@ -34,46 +30,33 @@ export default (
         });
 
         // console.log(`Property Updated - Search Index Integration: ${JSON.stringify(payload)} and PropertyId: ${payload.id}`);
-
         const context = SystemExecutionContext();
         await propertyUnitOfWork.withTransaction(context, async (repo) => {
-          let property = await repo.getById(payload.id);
-          const propertyHash = property.hash;
+          let updatedProperty = await repo.getById(payload.id);
+          let indexDoc = convertToIndexDocument(updatedProperty);
+          const newHash = generateHash(indexDoc);
 
-          let listingDoc: Partial<PropertyListingIndexDocument> = convertToIndexDocument(property);
-
-          const hash = generateHash(listingDoc);
-
-          const maxAttempt = 3;
-
-          if (property.hash === hash) {
-            console.log(`Updated Property hash [${hash}] is same as previous hash [[${propertyHash}]]`);
-            span.addEvent(`Updated Property hash [${hash}] is same as previous hash [[${propertyHash}]]`);
+          if (updatedProperty.hash === newHash) {
+            console.log(`Updated Property hash [${newHash}] is same as previous hash [[${updatedProperty.hash}]]`);
+            span.addEvent(`Updated Property hash [${newHash}] is same as previous hash [[${updatedProperty.hash}]]`);
             span.setStatus({ code: SpanStatusCode.OK, message: 'Index update skipped' });
           } else {
-            console.log(`Updated Property hash [${hash}] is different from previous hash [[${propertyHash}]]`);
+            console.log(`Updated Property hash [${newHash}] is different from previous hash [[${updatedProperty.hash}]]`);
             span.addEvent('Property hash is different from previous hash');
-            await retry(
-              async (failedCB, currentAttempt) => {
-                if (currentAttempt > maxAttempt) {
-                  span.setStatus({ code: SpanStatusCode.ERROR, message: 'Index update failed' });
-                  property.UpdateIndexFailedDate = new Date();
-                  property.Hash = hash;
-                  await repo.save(property);
-                  console.log('Index update failed: ', property.updateIndexFailedDate);
-                } else {
-                  span.addEvent('Index update attempt: ' + currentAttempt);
-                  await updateSearchIndex(listingDoc, property, hash, repo);
-                }
-              },
-              {
-                retries: maxAttempt,
-              }
-            );
+            try {
+              const indexedAt = await updateSearchIndexWithRetry(cognitiveSearch, PropertyListingIndexSpec, indexDoc, 3);
+              updatedProperty.LastIndexed = indexedAt;
+              updatedProperty.Hash = newHash;
+            } catch (error) {
+              span.setStatus({ code: SpanStatusCode.ERROR, message: 'Index update failed' });
+              updatedProperty.UpdateIndexFailedDate = new Date();
+              console.log('Index update failed: ', updatedProperty.UpdateIndexFailedDate);
+            }
+            await repo.save(updatedProperty);
+
             span.setStatus({ code: SpanStatusCode.OK, message: 'Index update successful' });
           }
         });
-
         span.end();
       } catch (ex) {
         span.recordException(ex);
@@ -83,31 +66,7 @@ export default (
       }
     });
   });
-
-  async function updateSearchIndex(
-    listingDoc: Partial<PropertyListingIndexDocument>,
-    property: Property<PropertyProps>,
-    hash: any,
-    repo: PropertyRepository<PropertyProps>
-  ) {
-    await cognitiveSearch.createOrUpdateIndex(PropertyListingIndexSpec.name, PropertyListingIndexSpec);
-    await cognitiveSearch.indexDocument(PropertyListingIndexSpec.name, listingDoc);
-    console.log(`Property Updated - Index Updated: ${JSON.stringify(listingDoc)}`);
-
-    property.LastIndexed = new Date();
-    property.Hash = hash;
-    await repo.save(property);
-    console.log('Index update successful: ', property.lastIndexed);
-  }
 };
-
-function generateHash(listingDoc: Partial<PropertyListingIndexDocument>) {
-  const listingDocCopy = JSON.parse(JSON.stringify(listingDoc));
-  delete listingDocCopy.updatedAt;
-  const hash = crypto.createHash('sha256').update(JSON.stringify(listingDocCopy)).digest('base64');
-  return hash;
-}
-
 function convertToIndexDocument(property: Property<PropertyProps>) {
   const updatedAdditionalAmenities = property.listingDetail?.additionalAmenities?.map((additionalAmenity) => {
     return { category: additionalAmenity.category, amenities: additionalAmenity.amenities };

@@ -1,12 +1,12 @@
-import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from "../../external-dependencies/graphql-api";
+import { FilterDetail, PropertiesSearchInput, PropertySearchResult } from '../../external-dependencies/graphql-api';
 import { SearchDocumentsResult } from '../../../../seedwork/services-seedwork-cognitive-search-interfaces';
-import dayjs from "dayjs";
-import { CognitiveSearchDataSource } from "../../data-sources/cognitive-search-data-source";
-import { AppContext } from "../../init/app-context-builder";
+import dayjs from 'dayjs';
+import { CognitiveSearchDataSource } from '../../data-sources/cognitive-search-data-source';
+import { AppContext } from '../../init/app-context-builder';
+import { PropertyListingIndexSpec } from '../../domain/infrastructure/cognitive-search/property-search-index-format';
 
 export interface PropertySearchApi {
-  propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>>;
-  getPropertiesSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>, input: PropertiesSearchInput): Promise<PropertySearchResult>;
+  propertiesSearch(input: PropertiesSearchInput): Promise<PropertySearchResult>;
 }
 
 const PropertyFilterNames = {
@@ -20,9 +20,7 @@ const PropertyFilterNames = {
   SquareFeet: 'squareFeet',
   Tags: 'tags',
 };
-export class PropertySearchApiImpl
-  extends CognitiveSearchDataSource<AppContext>
-  implements PropertySearchApi {
+export class PropertySearchApiImpl extends CognitiveSearchDataSource<AppContext> implements PropertySearchApi {
   private getFilterString(filter: FilterDetail): string {
     let filterStrings = [];
 
@@ -116,18 +114,28 @@ export class PropertySearchApiImpl
     return filterString;
   }
 
-  async propertiesSearch(input: PropertiesSearchInput): Promise<SearchDocumentsResult<Pick<unknown, never>>> {
-    let searchString = '';
-    if (!input.options.filter?.position) {
-      searchString = input.searchString.trim();
-    }
-
-    console.log(`Resolver>Query>propertiesSearch: ${searchString}`);
-    let filterString = this.getFilterString(input.options.filter);
-    console.log('filterString: ', filterString);
-
+  async propertiesSearch(input: PropertiesSearchInput): Promise<PropertySearchResult> {
+   
     let searchResults: SearchDocumentsResult<Pick<unknown, never>>;
     await this.withSearch(async (_passport, searchService) => {
+      // for the first time, create the index
+      const indexExists = await searchService.indexExists(PropertyListingIndexSpec.name);
+      if (!indexExists) {
+        console.log(`Index ${PropertyListingIndexSpec.name} does not exist, creating it...`);
+        await searchService.createIndexIfNotExists(PropertyListingIndexSpec.name, PropertyListingIndexSpec);
+        return undefined;
+      }
+
+      let searchString = '';
+      if (!input.options.filter?.position) {
+        searchString = input.searchString.trim();
+      }
+  
+      console.log(`Resolver>Query>propertiesSearch: ${searchString}`);
+      let filterString = this.getFilterString(input.options.filter);
+      console.log('filterString: ', filterString);
+  
+
       searchResults = await searchService.search('property-listings', searchString, {
         queryType: 'full',
         searchMode: 'all',
@@ -141,10 +149,11 @@ export class PropertySearchApiImpl
     });
 
     console.log(`Resolver>Query>propertiesSearch ${JSON.stringify(searchResults)}`);
-    return searchResults;
+    const results = this.convertToGraphqlResponse(searchResults, input);
+    return results;
   }
 
-  async getPropertiesSearchResults(searchResults: SearchDocumentsResult<Pick<unknown, never>>, input: PropertiesSearchInput): Promise<PropertySearchResult> {
+  private async convertToGraphqlResponse(searchResults: SearchDocumentsResult<Pick<unknown, never>>, input: PropertiesSearchInput): Promise<PropertySearchResult> {
     let results = [];
     for await (const result of searchResults?.results ?? []) {
       results.push(result.document);

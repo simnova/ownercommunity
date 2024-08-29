@@ -59,7 +59,7 @@ export default (cognitiveSearch: CognitiveSearchDomain, violationTicketV1UnitOfW
     hash: any,
     repo: ViolationTicketV1Repository<ViolationTicketV1Props>
   ) {
-    await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
+    await cognitiveSearch.createOrUpdateIndexDefinition(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
     await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, listingDoc);
     console.log(`Violation Ticket - Index Updated: ${JSON.stringify(listingDoc)}`);
 

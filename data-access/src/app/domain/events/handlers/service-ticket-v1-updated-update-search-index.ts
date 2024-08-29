@@ -75,7 +75,7 @@ export default (
     hash: any,
     repo: ServiceTicketV1Repository<ServiceTicketV1Props>,
   ) {
-    await cognitiveSearch.createOrUpdateIndex(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
+    await cognitiveSearch.createOrUpdateIndexDefinition(ServiceTicketIndexSpec.name, ServiceTicketIndexSpec);
     await cognitiveSearch.indexDocument(ServiceTicketIndexSpec.name, serviceTicketDoc);
     console.log(`Service Ticket Updated - Index Updated: ${JSON.stringify(serviceTicketDoc)}`);
 

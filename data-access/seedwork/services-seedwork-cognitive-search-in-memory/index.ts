@@ -11,6 +11,7 @@ export interface IMemoryCognitiveSearch {
   deleteDocument(indexName: string, document: any): Promise<void>;
   indexDocument(indexName: string, document: any): Promise<void>;
   search(indexName: string, searchText: string, options?: any): Promise<any>;
+  indexExists(indexName: string): Promise<boolean>;
   logSearchCollectionIndexMap(): void;
 }
 
@@ -84,4 +85,8 @@ export class MemoryCognitiveSearch implements IMemoryCognitiveSearch, CognitiveS
       console.log(`Index: ${key} |  Documents: ${JSON.stringify(value)}`);
     }
   } 
+
+  async indexExists(indexName: string): Promise<boolean> {
+    return this.searchCollectionIndexMap.has(indexName);
+  }
 }

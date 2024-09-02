@@ -138,8 +138,8 @@ stages:
       displayName: 'SonarCloud: Break the build if it does not pass the Quality'
       condition: and(succeeded(), eq(${{parameters.disableSonarCloudTasks}}, False))
       inputs:
-        SonarCloud: ${{parameters.SonarCloud}}
-        organization: ${{parameters.SonarCloud_organization}}
+        SonarCloud: 'SonarCloud'
+        organization: 'simnova'
 
 - stage: build_prd_stage
   displayName: Build prd Stage

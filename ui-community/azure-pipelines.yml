@@ -23,6 +23,7 @@ variables:
 ## PROJECT SPECIFIC VARIABLES - start
     PROJECT_NAME: 'ui-community'
     disableSonarCloudTasks: 'false'
+    # SonarCloud configuration 
     SonarCloud: 'SonarCloud'
     SonarCloud_organization: 'simnova'
     SONARCLOUD_PROJECT_KEY: 'oc-ui'
@@ -138,7 +139,7 @@ stages:
     # SonarCloud: Break the build if it doesn't pass the Quality Gate
     - task: sonarcloud-buildbreaker@2
       displayName: 'SonarCloud: Break the build if it does not pass the Quality'
-      condition: and(succeeded(), eq(${{parameters.disableSonarCloudTasks}}, False))
+      condition: and(succeeded(), eq($(disableSonarCloudTasks), False))
       inputs:
         SonarCloud: $(SonarCloud)
         organization: $(SonarCloud_organization)

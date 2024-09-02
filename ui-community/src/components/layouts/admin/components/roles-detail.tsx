@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Button, Checkbox, Descriptions, Form, Input } from 'antd';
 import dayjs from 'dayjs';
 
@@ -13,8 +12,8 @@ export interface RolesDetailProps {
 }
 
 export const RolesDetail: React.FC<RolesDetailProps> = (props) => {
-  const [form] = Form.useForm();
-  const [formLoading, setFormLoading] = React.useState(false);
+  const [form] = Form.useForm<RoleAddInput|RoleUpdateInput>();
+  const [formLoading, setFormLoading] = React.useState<boolean>(false);
   return (
     <div>
       <Descriptions title="Role Info" size={'small'} layout={'vertical'}>
@@ -35,10 +34,10 @@ export const RolesDetail: React.FC<RolesDetailProps> = (props) => {
         onFinish={(values) => {
           setFormLoading(true);
           if (props.data?.id) {
-            values.id = props.data!.id;
-            props.onUpdate(values);
+            (values as RoleUpdateInput).id = props.data!.id;
+            props.onUpdate(values as RoleUpdateInput);
           } else {
-            props.onAdd(values);
+            props.onAdd(values as RoleAddInput);
           }
           setFormLoading(false);
         }}

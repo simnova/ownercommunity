@@ -1,7 +1,7 @@
-import { Button, Table, TableColumnsType } from "antd";
-import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
-import { AdminRolesListContainerRoleFieldsFragment} from "../../../../generated";
+import { Button, Table, TableColumnsType } from 'antd';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import { AdminRolesListContainerRoleFieldsFragment} from '../../../../generated';
 
 export interface RolesListProps {
   data: AdminRolesListContainerRoleFieldsFragment[];

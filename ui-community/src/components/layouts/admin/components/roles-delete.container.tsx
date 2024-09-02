@@ -61,8 +61,6 @@ export const RolesDeleteContainer: React.FC<any> = (props) => {
           message.error(`Error Deleting role: ${res.data?.roleDeleteAndReassign.status.errorMessage}`);
         }
       });
-      
-      
     } catch (error) {
       message.error(`Error Deleting role: ${JSON.stringify(error)}`);
     }
@@ -78,7 +76,7 @@ export const RolesDeleteContainer: React.FC<any> = (props) => {
       roles: roleData.roles.filter((x) => x?.id !== props.data.id) as AdminRolesDeleteContainerRoleFieldsFragment[]
     };
     if (reassignmentOptions.roleToDelete && reassignmentOptions.roles) {
-      return <RolesDelete onSelectReassignment={handleReassignment} data={reassignmentOptions} />;
+      return <RolesDelete data={reassignmentOptions} onSelectReassignment={handleReassignment} />;
     } else {
       return <div>No Data...</div>;
     }

@@ -1,8 +1,8 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { Skeleton, message } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
-import { AdminMembersAccountsEditContainerMemberAccountEditDocument, AdminMembersAccountsEditContainerMemberAccountRemoveDocument, AdminMembersAccountsEditContainerMemberDocument, MemberAccountEditInput } from "../../../../generated";
-import { MembersAccountsEdit } from "./members-accounts-edit";
+import { useMutation, useQuery } from '@apollo/client';
+import { Skeleton, message } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AdminMembersAccountsEditContainerMemberAccountEditDocument, AdminMembersAccountsEditContainerMemberAccountRemoveDocument, AdminMembersAccountsEditContainerMemberDocument, MemberAccountEditInput } from '../../../../generated';
+import { MembersAccountsEdit } from './members-accounts-edit';
 
 export interface MembersAccountsEditContainerProps  {
   data: {
@@ -16,7 +16,6 @@ export const MembersAccountsEditContainer: React.FC<MembersAccountsEditContainer
   const [memberAccountEdit] = useMutation(AdminMembersAccountsEditContainerMemberAccountEditDocument);
   const [memberAccountRemove] = useMutation(AdminMembersAccountsEditContainerMemberAccountRemoveDocument);
 
-
   const { data: memberData, loading: memberLoading, error: memberError } = useQuery(AdminMembersAccountsEditContainerMemberDocument,{
     variables: {
       id: props.data.memberId
@@ -25,7 +24,6 @@ export const MembersAccountsEditContainer: React.FC<MembersAccountsEditContainer
 
   const handleRemove = async() => {
     try {
-
       await memberAccountRemove({
         variables: {
           input: {
@@ -39,7 +37,6 @@ export const MembersAccountsEditContainer: React.FC<MembersAccountsEditContainer
     } catch (error) {
       message.error(`Error Removing Member Account: ${JSON.stringify(error)}`);
     }
-
   }
 
   const handleSave = async (values: MemberAccountEditInput) => {
@@ -74,7 +71,7 @@ export const MembersAccountsEditContainer: React.FC<MembersAccountsEditContainer
         firstName: accountToEdit.firstName,
         lastName: accountToEdit.lastName,
       }
-      return <MembersAccountsEdit onSave={handleSave} onRemove={handleRemove} data={defaultValues} />
+      return <MembersAccountsEdit data={defaultValues} onSave={handleSave} onRemove={handleRemove}  />
     }else{
       return <div>Account not found for {params.accountId}</div>
     }

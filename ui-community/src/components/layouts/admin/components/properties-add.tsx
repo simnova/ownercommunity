@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Button, Form, Input } from 'antd';
 import { PropertyAddInput } from '../../../../generated';
 
@@ -8,11 +7,11 @@ export interface PropertiesAddProps {
 }
 
 export const PropertiesAdd: React.FC<PropertiesAddProps> = (props) => {
-  const [form] = Form.useForm();
-  const [formLoading,setFormLoading] = React.useState(false);
+  const [form] = Form.useForm<PropertyAddInput>();
+  const [formLoading,setFormLoading] = React.useState<boolean>(false);
+
   return (
     <div>
-
       <Form
         layout="vertical"
         form={form}

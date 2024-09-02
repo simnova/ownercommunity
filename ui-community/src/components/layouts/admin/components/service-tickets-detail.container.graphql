@@ -83,16 +83,7 @@ fragment AdminServiceTicketsDetailContainerServiceTicketFields on ServiceTicket 
     updatedAt
   }
   activityLog {
-    activityType
-    activityDescription
-    activityBy {
-      memberName
-      id
-    }
-
-    id
-    createdAt
-    updatedAt
+    ...AdminServiceTicketsDetailContainerServiceTicketActivityDetailFields
   }
 
   id
@@ -108,4 +99,17 @@ fragment AdminServiceTicketsDetailContainerMemberFields on Member {
 fragment AdminServiceTicketsDetailContainerPropertyFields on Property {
   propertyName
   id
+}
+
+fragment AdminServiceTicketsDetailContainerServiceTicketActivityDetailFields on ServiceTicketActivityDetail {
+  activityType
+  activityDescription
+  activityBy {
+    memberName
+    id
+  }
+
+  id
+  createdAt
+  updatedAt
 }

@@ -8,7 +8,8 @@ export interface CommunityDetailProps {
 }
 
 export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
-  const whiteLabel = () => {
+
+  const whiteLabelDetails = () => {
     if (props.data.whiteLabelDomain) {
       return (
         <Descriptions.Item label="White Label Name">
@@ -20,7 +21,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
     }
   };
 
-  const hasDomain = () => {
+  const domainDetails = () => {
     if (props.data.domain) {
       return (
         <Descriptions.Item label="Domain Name">
@@ -30,7 +31,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
     }
   };
 
-  const hasHandle = () => {
+  const handleDetails = () => {
     if (props.data.handle) {
       return (
         <Descriptions.Item label="Handle Name">
@@ -41,13 +42,15 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
       return <></>;
     }
   };
+
   const {
     token: { colorText, colorBgContainer }
   } = theme.useToken();
+
   return (
     <div>
       <div
-        className={' w-full p-5 mx-auto my-5 shadow-lg rounded-lg border border-1'}
+        className={'w-full p-5 mx-auto my-5 shadow-lg rounded-lg border border-1'}
         style={{
           color: colorText,
           backgroundColor: colorBgContainer
@@ -67,10 +70,11 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = (props) => {
         <Descriptions.Item label="Community Name">
           <Text strong data-testid="community-name">{props.data.name}</Text>
         </Descriptions.Item>
-        {whiteLabel()}
-        {hasDomain()}
-        {hasHandle()}
+        {whiteLabelDetails()}
+        {domainDetails()}
+        {handleDetails()}
       </Descriptions>
+
     </div>
   );
 };

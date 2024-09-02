@@ -1,8 +1,8 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
-import { AdminMembersAccountsListContainerMemberDocument, AdminMembersAccountsListContainerMemberFieldsFragment } from "../../../../generated";
-import { ComponentQueryLoader } from "../../../ui/molecules/component-query-loader";
-import { MembersAccountsList } from "./members-accounts-list";
+import { AdminMembersAccountsListContainerMemberDocument, AdminMembersAccountsListContainerMemberFieldsFragment } from '../../../../generated';
+import { ComponentQueryLoader } from '../../../ui/molecules/component-query-loader';
+import { MembersAccountsList } from './members-accounts-list';
 
 const ComponentPropTypes = {
   data: PropTypes.shape({
@@ -33,5 +33,4 @@ export const MembersAccountsListContainer: React.FC<MembersAccountsListContainer
       error={memberError}
     />
   );  
-
 };

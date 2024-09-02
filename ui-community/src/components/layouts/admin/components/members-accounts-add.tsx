@@ -9,12 +9,11 @@ export interface MembersAccountsAddProps {
 }
 
 export const MembersAccountsAdd: React.FC<MembersAccountsAddProps> = (props) => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<MemberAccountAddInput>();
   const [formLoading,setFormLoading] = React.useState(false);
 
   return (
     <div>
-
       <Form
         layout="vertical"
         form={form}

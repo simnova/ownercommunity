@@ -77,16 +77,7 @@ fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationT
     updatedAt
   }
   activityLog {
-    activityType
-    activityDescription
-    activityBy {
-      memberName
-      id
-    }
-
-    id
-    createdAt
-    updatedAt
+    ...AdminViolationTicketsDetailContainerServiceTicketActivityDetailFields
   }
   financeDetails {
     serviceFee
@@ -100,4 +91,17 @@ fragment AdminViolationTicketsDetailContainerViolationTicketFields on ViolationT
 fragment AdminViolationTicketsDetailContainerMemberFields on Member {
   memberName
   id
+}
+
+fragment AdminViolationTicketsDetailContainerServiceTicketActivityDetailFields on ServiceTicketActivityDetail {
+  activityType
+  activityDescription
+  activityBy {
+    memberName
+    id
+  }
+
+  id
+  createdAt
+  updatedAt
 }

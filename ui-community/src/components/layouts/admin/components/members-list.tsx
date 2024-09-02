@@ -1,12 +1,11 @@
-import { Button, Table, TableColumnsType } from "antd";
-import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
-import { AdminMembersListContainerMemberFieldsFragment } from "../../../../generated";
+import { Button, Table, TableColumnsType } from 'antd';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import { AdminMembersListContainerMemberFieldsFragment } from '../../../../generated';
 
 export interface MembersListProps {
   data: AdminMembersListContainerMemberFieldsFragment[];
 }
-
 
 export const MembersList: React.FC<MembersListProps> = (props) => {
   const navigate = useNavigate();
@@ -41,11 +40,12 @@ export const MembersList: React.FC<MembersListProps> = (props) => {
   ]
 
   return (
-  <div>
-    <Table
-      columns={columns}
-      dataSource={props.data}
-      rowKey={(record: any) => record.id}
-    />
-  </div>)
+    <div>
+      <Table
+        columns={columns}
+        dataSource={props.data}
+        rowKey={(record: AdminMembersListContainerMemberFieldsFragment) => record.id}
+      />
+    </div>
+  );
 }

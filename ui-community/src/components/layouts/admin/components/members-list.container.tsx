@@ -26,5 +26,4 @@ export const MembersListContainer: React.FC<MembersListContainerProps> = (props)
       error={memberError}
     />
   );
-
 };

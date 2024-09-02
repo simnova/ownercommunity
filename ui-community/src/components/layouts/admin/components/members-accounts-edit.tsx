@@ -12,7 +12,7 @@ export interface MembersAccountsEditProps {
 }
 
 export const MembersAccountsEdit: React.FC<MembersAccountsEditProps> = (props) => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<MemberAccountEditInput>();
   const [formLoading,setFormLoading] = React.useState(false);
   return (
     <div>
@@ -38,7 +38,6 @@ export const MembersAccountsEdit: React.FC<MembersAccountsEditProps> = (props) =
         <Form.Item
           name={["lastName"]}
           label="Last Name"
-
         >
           <Input placeholder='Last Name' maxLength={200}  />
         </Form.Item>

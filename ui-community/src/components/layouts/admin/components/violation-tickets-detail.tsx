@@ -1,41 +1,9 @@
-import {
-  DownOutlined,
-  FileOutlined,
-  FileProtectOutlined,
-  FileSyncOutlined,
-  FileTextOutlined,
-  SolutionOutlined
-} from '@ant-design/icons';
-import {
-  Button,
-  Descriptions,
-  Dropdown,
-  Form,
-  Input,
-  InputNumber,
-  Menu,
-  Modal,
-  Select,
-  Skeleton,
-  Space,
-  Steps,
-  Table,
-  Tabs,
-  TabsProps,
-  Typography
-} from 'antd';
+import { DownOutlined, FileOutlined, FileProtectOutlined, FileSyncOutlined, FileTextOutlined, SolutionOutlined } from '@ant-design/icons';
+import { Button, Descriptions, Dropdown, Form, Input, InputNumber, Menu, Modal, Select, Skeleton, Space,Steps, Table,Tabs, TabsProps, Typography } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
-import {
-  ViolationTicket,
-  ServiceTicketActivityDetail,
-  ViolationTicketAddUpdateActivityInput,
-  ViolationTicketUpdateInput,
-  ViolationTicketChangeStatusInput,
-  AdminViolationTicketsDetailContainerMemberAssignableToTicketsQuery,
-  Exact
-} from '../../../../generated';
+import {  ViolationTicketAddUpdateActivityInput, ViolationTicketUpdateInput,ViolationTicketChangeStatusInput, AdminViolationTicketsDetailContainerMemberAssignableToTicketsQuery, Exact, AdminViolationTicketsDetailContainerViolationTicketFieldsFragment, ViolationTicketAssignInput, AdminViolationTicketsDetailContainerServiceTicketActivityDetailFieldsFragment } from '../../../../generated';
 
 import { LazyQueryResultTuple } from '@apollo/client';
 import { AdminChatMessagesContainer } from '../../ahp-proof-of-concepts/pages/request-list-page/case-details-page/active-case-details-page/active-case/chat/admin/admin-chat-messages.container';
@@ -46,10 +14,12 @@ const { Step } = Steps;
 
 export interface ViolationTicketsDetailProps {
   data: {
-    violationTicket: ViolationTicket;
+    violationTicket: AdminViolationTicketsDetailContainerViolationTicketFieldsFragment;
     properties: any[];
   };
   onUpdate: (violationTicket: ViolationTicketUpdateInput) => void;
+  onAssign: (assignInput: ViolationTicketAssignInput) => void;  
+  onDelete: () => void;
   onChangeStatus: (changeStatusInput: ViolationTicketChangeStatusInput) => Promise<void>;
   onAddUpdateActivity: (values: ViolationTicketAddUpdateActivityInput) => Promise<void>;
   memberLazyQuery: LazyQueryResultTuple<
@@ -60,7 +30,7 @@ export interface ViolationTicketsDetailProps {
   >;
 }
 
-export const ViolationTicketsDetail: React.FC<any> = (props) => {
+export const ViolationTicketsDetail: React.FC<ViolationTicketsDetailProps> = (props) => {
   const [changeStatusForm] = Form.useForm();
   const [changeStatusFormLoading, setChangeStatusFormLoading] = useState(false);
 
@@ -92,7 +62,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
     }
   }, [nextState]);
 
-  const columns: ColumnsType<ServiceTicketActivityDetail> = [
+  const columns: ColumnsType<AdminViolationTicketsDetailContainerServiceTicketActivityDetailFieldsFragment> = [
     {
       title: 'Activity',
       dataIndex: 'activityType',
@@ -285,13 +255,8 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
                 {stateMap.get(props.data.violationTicket.status)?.state}
               </Descriptions.Item>
               <Descriptions.Item label="Penalty Amount">
-                {`$ ${props.data.violationTicket.financeDetails.serviceFee}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                {`$ ${props.data.violationTicket.financeDetails?.serviceFee}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </Descriptions.Item>
-              {props.data.violationTicket?.penaltyPaidDate && (
-                <Descriptions.Item label="Penalty Paid Date">
-                  {dayjs(props.data.violationTicket.penaltyPaidDate).format('DD-MMM-YYYY h:mm A')}
-                </Descriptions.Item>
-              )}
               <Descriptions.Item label="Assigned To">
                 {props.data.violationTicket.assignedTo ? props.data.violationTicket.assignedTo.memberName : ''}
               </Descriptions.Item>
@@ -301,11 +266,6 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
               <Descriptions.Item label="Updated At">
                 {dayjs(props.data.violationTicket.createdAt).format('MM/DD/YYYY')}
               </Descriptions.Item>
-              {props.data.violationTicket.status === 'PAID' && props.data.violationTicket?.paymentTransactions && (
-                <Descriptions.Item label="Payment Transaction ID">
-                  {props.data.violationTicket.paymentTransactions?.[0]?.transactionId}
-                </Descriptions.Item>
-              )}
             </Descriptions>
           </div>
           <div style={{ padding: 24, minHeight: '100%', backgroundColor: 'white' }}>
@@ -440,7 +400,7 @@ export const ViolationTicketsDetail: React.FC<any> = (props) => {
             <br />
             <Table
               columns={columns}
-              dataSource={props.data.violationTicket.activityLog}
+              dataSource={props.data.violationTicket.activityLog as AdminViolationTicketsDetailContainerServiceTicketActivityDetailFieldsFragment[]}
               rowKey={(record: any) => record.id}
             />
             <Form

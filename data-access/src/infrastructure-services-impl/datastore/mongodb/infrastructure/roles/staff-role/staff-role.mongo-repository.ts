@@ -2,7 +2,7 @@ import { StaffRoleRepository } from '../../../../../../app/domain/contexts/commu
 import { StaffRole as StaffRoleDO, StaffRoleProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role';
 import { StaffRole } from '../../../models/roles/staff-role';
 import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 
 export class MongoStaffRoleRepository<PropType extends StaffRoleProps>
   extends MongoRepositoryBase<DomainExecutionContext, StaffRole, PropType, StaffRoleDO<PropType>>

@@ -1,16 +1,16 @@
-import { VercelInfrastructureService } from '../app/infrastructure-services/vercel';
+import { VercelInfrastructureService } from '../../framework/infrastructure-services/vercel.infra.interface';
 import { VercelApiImpl } from '../infrastructure-services-impl/vercel/api/impl';
-import { CognitiveSearchInfrastructureService } from '../app/infrastructure-services/cognitive-search';
+import { CognitiveSearchInfrastructureService } from '../../framework/infrastructure-services/cognitive-search.infra.interface';
 import { AzCognitiveSearchImpl } from '../infrastructure-services-impl/cognitive-search/az/impl';
-import { DatastoreInfrastructureService } from '../app/infrastructure-services/datastore';
+import { DatastoreInfrastructureService } from '../../framework/infrastructure-services/domain.infra.interface';
 import { MongodbDatastoreImpl } from '../infrastructure-services-impl/datastore/mongodb/impl';
-import { BlobStorageInfrastructureService } from '../app/infrastructure-services/blob-storage';
+import { BlobStorageInfrastructureService } from '../../framework/infrastructure-services/blob-storage.infra.interface';
 import { AzBlobStorageImpl } from '../infrastructure-services-impl/blob-storage/az/impl';
-import { ContentModeratorInfrastructureService } from '../app/infrastructure-services/content-moderator';
+import { ContentModeratorInfrastructureService } from '../../framework/infrastructure-services/content-moderator.infra.interface';
 import { AzContentModeratorImpl } from '../infrastructure-services-impl/content-moderator/az/impl';
-import { InfrastructureServices } from '../app/infrastructure-services';
+import { InfrastructureServices } from '../../framework/infrastructure-services';
 import { AzMapsImpl } from '../infrastructure-services-impl/maps/az/impl';
-import { MapsInfrastructureService } from '../app/infrastructure-services/maps';
+import { MapsInfrastructureService } from '../../framework/infrastructure-services/maps.infra.interface';
 import { tryGetEnvVar } from '../../seedwork/utils/get-env-var';
 import { PaymentInfrastructureService } from '../app/infrastructure-services/payment';
 import { CybersourceImpl } from '../infrastructure-services-impl/payment/cybersource/impl';
@@ -47,7 +47,7 @@ export class InfrastructureServicesBuilder implements InfrastructureServices{
     return this._blobStorage;
   }
 
-  public get payment(): PaymentInfrastructureService {
+  public get cybersource(): PaymentInfrastructureService {
     return this._payment;
   } 
 

@@ -8,4 +8,10 @@ export interface CognitiveSearchBase {
   deleteDocument(indexName: string, document: any): Promise<void>;
   indexDocument(indexName: string, document: any): Promise<void>;
   deleteIndex(indexName: string): Promise<void>;
+  search(indexName: string, searchText: string, options?: any): Promise<any>;
+}
+
+export interface CognitiveSearchInitializeable {
+  startup(): Promise<void>;
+  shutdown(): Promise<void>;
 }

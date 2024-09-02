@@ -47,3 +47,8 @@ export interface BlobStorageBase {
   writeStreamToBlob(blobName: string, containerName: string, stream: internal.Readable, contentType: string): Promise<BlobUploadCommonResponse>;
   readStreamFromBlob(blobName: string, containerName: string): Promise<NodeJS.ReadableStream>;
 }
+
+export interface BlobStorageInitializeable {
+  startup(): Promise<void>;
+  shutdown(): Promise<void>;
+}

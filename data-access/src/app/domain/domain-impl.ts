@@ -11,11 +11,11 @@ import { default as RegisterServiceTicketV1UpdatedUpdateSearchIndexHandler } fro
 import { default as RegisterServiceTicketV1DeletedUpdateSearchIndexHandler } from './events/handlers/service-ticket-v1-deleted-update-search-index';
 import { default as RegisterViolationTicketV1UpdatedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-v1-updated-update-search-index';
 import { default as RegisterViolationTicketV1DeletedUpdateSearchIndexHandler } from './events/handlers/violation-ticket-v1-deleted-update-search-index';
-import { DatastoreDomain, DatastoreDomainInitializeable } from './infrastructure/datastore/interfaces';
-import { CognitiveSearchDomain, CognitiveSearchDomainInitializeable } from './infrastructure/cognitive-search/interfaces';
+import { DatastoreDomain, DatastoreInitializeable } from '../../../framework/domain/infrastructure/datastore.domain-infra.interface';
+import { CognitiveSearchDomain, CognitiveSearchInitializeable } from './infrastructure/cognitive-search/interfaces';
 import { NodeEventBusInstance } from '../../../seedwork/event-bus-seedwork-node';
 import { BlobStorageDomain } from './infrastructure/blob-storage/interfaces';
-import { VercelDomain } from './infrastructure/vercel/interfaces';
+import { VercelDomain } from '../../../framework/domain/infrastructure/vercel.domain-infra.interface';
 import { PaymentDomain } from './infrastructure/cybersource/interfaces';
 
 const RegisterEventHandlers = (
@@ -52,8 +52,8 @@ const StopEventHandlers = () => {
 
 
 export class DomainImpl<
-DatastoreImpl extends DatastoreDomain & DatastoreDomainInitializeable,
-CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitializeable
+DatastoreImpl extends DatastoreDomain & DatastoreInitializeable,
+CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchInitializeable
 >{
   constructor(
     private _datastoreImpl: DatastoreImpl,
@@ -85,11 +85,11 @@ CognitiveSearchImpl extends CognitiveSearchDomain & CognitiveSearchDomainInitial
     this._datastoreImpl.shutdown();
   }
 
-  public get datastore():  Omit<DatastoreImpl, keyof DatastoreDomainInitializeable> {
+  public get datastore():  Omit<DatastoreImpl, keyof DatastoreInitializeable> {
     return this._datastoreImpl;
   }
 
-  public get cognitiveSearch(): Omit<CognitiveSearchImpl, keyof CognitiveSearchDomainInitializeable> {
+  public get cognitiveSearch(): Omit<CognitiveSearchImpl, keyof CognitiveSearchInitializeable> {
     return this._cognitiveSearchImpl;
   }
 }

@@ -2,7 +2,7 @@ import { Community } from '../../models/community';
 import { Community as CommunityDO, CommunityProps } from '../../../../../app/domain/contexts/community/community/community';
 import { MongooseDomainAdapter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { EndUserEntityReference, EndUserProps } from '../../../../../app/domain/contexts/users/end-user/end-user';
 import { EndUserDomainAdapter } from '../users/end-user/end-user.domain-adapter';
 

@@ -1,5 +1,5 @@
 import { EndUser, EndUserContactInformation, EndUserIdentityDetails, EndUserPersonalInformation } from '../../../models/users/end-user';
-import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { EndUser as EndUserDO, EndUserProps } from '../../../../../../app/domain/contexts/users/end-user/end-user';
 import { MongooseDomainAdapter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';

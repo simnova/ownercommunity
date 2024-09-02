@@ -1,4 +1,4 @@
-import { DatastoreInfrastructureService } from "../../../app/infrastructure-services/datastore";
+import { DatastoreInfrastructureService } from "../../../../framework/infrastructure-services/domain.infra.interface";
 import { MongoCommunityUnitOfWork } from "./infrastructure/community/community.mongo-uow";
 import { MongoMemberUnitOfWork } from "./infrastructure/member/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "./infrastructure/property/property.mongo-uow";

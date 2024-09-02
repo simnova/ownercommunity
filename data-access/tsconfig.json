@@ -10,12 +10,14 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     // "moduleResolution": "node",
-    // "baseUrl": ".",
-    // "paths": {
-    //   "@seedwork/*": ["seedwork/*"],
-    //   "@app/*": ["app/*"],
-    //   "@features/*": ["features/*"],
-    //   "@screenplay/*": ["screenplay/*"],
-    // }
+    "baseUrl": ".",
+    "paths": {
+      "@app": ["./framework/index.ts"],
+      "@library/*": ["./seedwork/*"],
+      // "@seedwork/*": ["seedwork/*"],
+      // "@app/*": ["app/*"],
+      // "@features/*": ["features/*"],
+      // "@screenplay/*": ["screenplay/*"],
+    }
   }
 }

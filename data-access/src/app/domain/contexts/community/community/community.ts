@@ -2,7 +2,7 @@ import { CommunityCreatedEvent } from '../../../events/types/community-created';
 import { CommunityDomainUpdatedEvent } from '../../../events/types/community-domain-updated';
 import { AggregateRoot } from '../../../../../../seedwork/domain-seedwork/aggregate-root';
 import { DomainEntityProps } from '../../../../../../seedwork/domain-seedwork/domain-entity';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { CommunityVisa } from "../community.visa";
 import { EndUser, EndUserEntityReference, EndUserProps } from '../../users/end-user/end-user';
 import * as ValueObjects from './community.value-objects';

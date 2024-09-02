@@ -54,3 +54,8 @@ export interface APIResponse {
   success: boolean;
   error?: APIError;
 }
+
+export interface VercelInitializeable {
+  startup(): Promise<void>;
+  shutdown(): Promise<void>;
+}

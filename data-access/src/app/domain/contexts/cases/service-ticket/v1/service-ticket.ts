@@ -4,7 +4,7 @@ import { Property, PropertyEntityReference, PropertyProps } from '../../../prope
 import { MemberEntityReference, Member, MemberProps } from '../../../community/member/member';
 import { Service, ServiceEntityReference, ServiceProps } from '../../../community/service/service';
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext } from '../../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import * as MessageValueObjects from './service-ticket-v1-message.value-objects';
 import * as ActivityDetailValueObjects from './activity-detail.value-objects';
 import * as ValueObjects from './service-ticket.value-objects';

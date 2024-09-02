@@ -1,6 +1,6 @@
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../infrastructure/cognitive-search/service-ticket-search-index-format';
 import { CognitiveSearchDomain } from '../../infrastructure/cognitive-search/interfaces';
-import { SystemExecutionContext } from '../../domain-execution-context';
+import { SystemExecutionContext } from '../../../../../framework/domain/domain-execution-context';
 import { ServiceTicketV1UpdatedEvent } from '../types/service-ticket-v1-updated';
 import retry from 'async-retry';
 import { ServiceTicketV1, ServiceTicketV1Props } from '../../contexts/cases/service-ticket/v1/service-ticket';

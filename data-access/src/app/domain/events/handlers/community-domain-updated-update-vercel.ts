@@ -1,4 +1,4 @@
-import { VercelDomain } from '../../infrastructure/vercel/interfaces';
+import { VercelDomain } from '../../../../../framework/domain/infrastructure/vercel.domain-infra.interface';
 import { EventBusInstance } from '../event-bus';
 import { CommunityDomainUpdatedEvent } from '../types/community-domain-updated';
 

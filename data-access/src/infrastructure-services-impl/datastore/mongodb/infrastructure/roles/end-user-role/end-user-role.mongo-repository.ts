@@ -2,7 +2,7 @@ import { EndUserRole as EndUserRoleDO, EndUserRoleProps } from '../../../../../.
 import { EndUserRoleRepository } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role.repository';
 import { EndUserRole } from '../../../models/roles/end-user-role';
 import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../../app/domain/contexts/community/community/community';
 
 export class MongoEndUserRoleRepository<PropType extends EndUserRoleProps>

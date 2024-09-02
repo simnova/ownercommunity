@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { SearchDocumentsResult } from '../../../../../../seedwork/services-seedwork-cognitive-search-interfaces';
 import { CognitiveSearchDataSource } from '../../../../data-sources/cognitive-search-data-source';
-import { ReadOnlyContext } from '../../../../domain/domain-execution-context';
+import { ReadOnlyContext } from '../../../../../../framework/domain/domain-execution-context';
 import { ServiceTicketIndexDocument, ServiceTicketIndexSpec } from '../../../../domain/infrastructure/cognitive-search/service-ticket-search-index-format';
 import { ServiceTicketV1UnitOfWork } from '../../../../external-dependencies/domain';
 import { ServiceTicketsSearchFilterDetail, ServiceTicketsSearchInput, ServiceTicketsSearchResult } from '../../../../external-dependencies/graphql-api';

@@ -5,7 +5,7 @@ import { Community, CommunityProps, CommunityEntityReference } from '../communit
 import { PropArray } from '../../../../../../seedwork/domain-seedwork/prop-array';
 import { MemberAccount, MemberAccountEntityReference, MemberAccountProps } from './member-account';
 import { EndUserRole, EndUserRoleEntityReference, EndUserRoleProps } from '../roles/end-user-role/end-user-role';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { MemberProfile, MemberProfileEntityReference, MemberProfileProps } from './member-profile';
 import { CommunityVisa } from "../community.visa";
 import { MemberCustomView, MemberCustomViewEntityReference, MemberCustomViewProps } from './member-custom-view';

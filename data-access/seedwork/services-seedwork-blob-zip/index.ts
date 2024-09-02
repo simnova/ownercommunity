@@ -1,11 +1,11 @@
-import { BlobStorageDomain } from '../../src/app/domain/infrastructure/blob-storage/interfaces';
 import archiver from 'archiver';
 import internal from 'stream';
+import { BlobStorageBase } from '../services-seedwork-blob-storage-interfaces';
 
 
 export class BlobZip {
-  private readonly blobStorage: BlobStorageDomain;
-  public constructor(blobStorage: BlobStorageDomain) {
+  private readonly blobStorage: BlobStorageBase;
+  public constructor(blobStorage: BlobStorageBase) {
     this.blobStorage = blobStorage;
   }
 

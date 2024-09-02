@@ -1,6 +1,6 @@
 import { AggregateRoot } from "../../../../../../../seedwork/domain-seedwork/aggregate-root";
 import { DomainEntityProps } from "../../../../../../../seedwork/domain-seedwork/domain-entity";
-import { DomainExecutionContext } from "../../../../domain-execution-context";
+import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 import { RoleDeletedReassignEvent } from "../../../../events/types/role-deleted-reassign";
 import { CommunityVisa } from "../../community.visa";
 import { StaffRolePermissionsProps, StaffRolePermissionsEntityReference, StaffRolePermissions } from "./staff-role-permissions";

@@ -1,6 +1,6 @@
 import { Property, PropertyProps } from './property';
 import { EndUserEntityReference } from '../../users/end-user/end-user';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { PropertyVisa } from "./property.visa";
 import { DomainVisa } from '../../../domain.visa';
 import { PropertyCreatedEvent } from '../../../events/types/property-created';

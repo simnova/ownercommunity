@@ -1,5 +1,5 @@
 import { StaffRole, StaffRoleProps } from './staff-role';
-import { DomainExecutionContext } from '../../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { DomainVisa } from '../../../../domain.visa';
 import { CommunityVisa } from '../../community.visa';
 import { CommunityEntityReference } from '../../community/community';

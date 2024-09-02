@@ -6,7 +6,7 @@ import { MemberAccountProps } from '../../../../../app/domain/contexts/community
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from '../community/community.domain-adapter';
 import { EndUserRoleDomainAdapter } from '../roles/end-user-role/end-user-role.domain-adapter';
-import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { EndUserRoleEntityReference } from '../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { MemberProfileProps } from '../../../../../app/domain/contexts/community/member/member-profile';
 import { MemberCustomViewProps } from '../../../../../app/domain/contexts/community/member/member-custom-view';

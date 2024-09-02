@@ -1,5 +1,5 @@
 import { StaffUserCreatedEvent } from '../types/staff-user-created';
-import { SystemExecutionContext } from '../../domain-execution-context';
+import { SystemExecutionContext } from '../../../../../framework/domain/domain-execution-context';
 import { StaffRole } from '../../contexts/community/roles/staff-role/staff-role';
 import { StaffRoleUnitOfWork } from '../../contexts/community/roles/staff-role/staff-role.uow';
 import { StaffUserUnitOfWork } from '../../contexts/users/staff-user/staff-user.uow';

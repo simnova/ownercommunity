@@ -1,6 +1,6 @@
 import { CommunityEntityReference, CommunityProps } from '../../../../../../../app/domain/contexts/community/community/community';
 import { MemberEntityReference, MemberProps } from '../../../../../../../app/domain/contexts/community/member/member';
-import { DomainExecutionContext } from '../../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
 import { PropertyEntityReference, PropertyProps } from '../../../../../../../app/domain/contexts/property/property/property';
 import { ActivityDetailProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/activity-detail';
 import { PhotoProps } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/photo';

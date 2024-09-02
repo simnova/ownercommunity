@@ -6,7 +6,7 @@
 // import { MemberUnitOfWork } from '../../domain/contexts/community/member.uow';
 // import { RoleUnitOfWork } from '../../domain/contexts/community/role.uow';
 import { CognitiveSearchDomain } from '../../../../../src/app/domain/infrastructure/cognitive-search/interfaces';
-import { DatastoreDomain } from '../../../../../src/app/domain/infrastructure/datastore/interfaces';
+import { DatastoreDomain } from '../../../../../framework/domain/infrastructure/datastore.domain-infra.interface';
 
 export interface DomainInfrastructureBDD_NOTINUSE {
   // vercel: IVercel;

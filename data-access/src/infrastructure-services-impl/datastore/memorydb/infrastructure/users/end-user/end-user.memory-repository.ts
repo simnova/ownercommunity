@@ -5,7 +5,7 @@ import { EndUserContactInformationProps } from "../../../../../../app/domain/con
 import { EndUserIdentityDetailsProps } from "../../../../../../app/domain/contexts/users/end-user/end-user-identity-details";
 import { EndUserPersonalInformationProps } from "../../../../../../app/domain/contexts/users/end-user/end-user-personal-information";
 import { EndUserRepository } from "../../../../../../app/domain/contexts/users/end-user/end-user.repository";
-import { DomainExecutionContext } from "../../../../../../app/domain/domain-execution-context";
+import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 
 class MemoryEndUserContactInformation implements EndUserContactInformationProps {
   id: string;

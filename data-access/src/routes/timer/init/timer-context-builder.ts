@@ -1,5 +1,5 @@
 import { InvocationContext, Timer } from "@azure/functions";
-import { InfrastructureServices } from '../../../app/infrastructure-services';
+import { InfrastructureServices } from '../../../../framework/infrastructure-services';
 import { AppContext, AppContextBuilder, VerifiedUser, OpenIdConfigKeyEnum } from '../../../app/init/app-context-builder';
 
 

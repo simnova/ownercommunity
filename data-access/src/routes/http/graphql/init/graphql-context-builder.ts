@@ -1,6 +1,6 @@
 import { HttpRequest } from '@azure/functions';
 import { PortalTokenValidation } from '../../../../../seedwork/auth-seedwork-oidc/portal-token-validation';
-import { InfrastructureServices } from '../../../../app/infrastructure-services';
+import { InfrastructureServices } from '../../../../../framework/infrastructure-services';
 import * as util from '../../../../../seedwork/auth-seedwork-oidc/util';
 import { AppContext, AppContextBuilder, OpenIdConfigKeyEnum, VerifiedUser } from '../../../../app/init/app-context-builder';
 

@@ -1,10 +1,10 @@
-import { BlobStorageDomain } from '../../src/app/domain/infrastructure/blob-storage/interfaces';
 import { InfrastructureServicesBuilder } from '../../src/init/infrastructure-services-builder';
+import { BlobStorageBase } from '../services-seedwork-blob-storage-interfaces';
 import { BlobZip } from "./index";
 import internal from "stream";
 
 describe('When using blob-zip', () => {
-  var blobStorage: BlobStorageDomain;
+  var blobStorage: BlobStorageBase;
   var blobZip: BlobZip;
   beforeEach(() => {
     // arrange

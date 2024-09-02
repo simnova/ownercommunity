@@ -2,7 +2,7 @@ import { StaffUser as StaffUserDO, StaffUserProps } from '../../../../../../app/
 import { StaffUserRepository } from '../../../../../../app/domain/contexts/users/staff-user/staff-user.repository';
 import { StaffUser } from '../../../models/users/staff-user';
 import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 
 export class MongoStaffUserRepository<PropType extends StaffUserProps>
   extends MongoRepositoryBase<DomainExecutionContext, StaffUser, PropType, StaffUserDO<PropType>>

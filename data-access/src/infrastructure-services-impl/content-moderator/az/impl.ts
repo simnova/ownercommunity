@@ -1,5 +1,5 @@
 import { AzContentModerator } from "../../../../seedwork/services-seedwork-content-moderator-az";
-import { ContentModeratorInfrastructureService } from "../../../app/infrastructure-services/content-moderator";
+import { ContentModeratorInfrastructureService } from "../../../../framework/infrastructure-services/content-moderator.infra.interface";
 
 export class AzContentModeratorImpl extends AzContentModerator implements ContentModeratorInfrastructureService {
   

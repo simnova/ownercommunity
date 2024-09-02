@@ -1,5 +1,5 @@
 import { AzMaps } from "../../../../seedwork/services-seedwork-maps-az";
-import { MapsInfrastructureService } from "../../../app/infrastructure-services/maps";
+import { MapsInfrastructureService } from "../../../../framework/infrastructure-services/maps.infra.interface";
 
 export class AzMapsImpl extends AzMaps implements MapsInfrastructureService {
   

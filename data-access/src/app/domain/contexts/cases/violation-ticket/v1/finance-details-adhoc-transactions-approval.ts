@@ -1,5 +1,5 @@
 import { ValueObject, ValueObjectProps } from "../../../../../../../seedwork/domain-seedwork/value-object";
-import { DomainExecutionContext } from "../../../../domain-execution-context";
+import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 
 
 export interface ApprovalProps extends ValueObjectProps {

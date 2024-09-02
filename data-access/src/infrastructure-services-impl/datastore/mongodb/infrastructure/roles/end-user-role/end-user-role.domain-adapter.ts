@@ -6,7 +6,7 @@ import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedw
 import { CommunityProps } from '../../../../../../app/domain/contexts/community/community/community';
 
 import { CommunityDomainAdapter } from '../../community/community.domain-adapter';
-import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { EndUserRolePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-permissions';
 import { EndUserRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-community-permissions';
 import { EndUserRolePropertyPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-property-permissions';

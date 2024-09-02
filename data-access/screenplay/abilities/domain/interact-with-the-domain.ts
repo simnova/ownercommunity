@@ -10,11 +10,11 @@ import { EndUserRoleRepository } from '../../../src/app/domain/contexts/communit
 import { EndUserRoleProps } from '../../../src/app/domain/contexts/community/roles/end-user-role/end-user-role';
 import { MemberRepository } from '../../../src/app/domain/contexts/community/member/member.repository';
 import { Member, MemberEntityReference, MemberProps } from '../../../src/app/domain/contexts/community/member/member';
-import { DomainExecutionContext } from '../../../src/app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../framework/domain/domain-execution-context';
 // import { DomainInfrastructureImplBDD } from './io/domain-infrastructure-impl-instance-bdd';
 import { InfrastructureServicesBuilderBDD } from './io/infrastructure-services-builder-bdd';
 import { DomainImplBDD } from './io/test/domain-impl-bdd';
-import { ReadOnlyContext, SystemExecutionContext } from '../../../src/app/domain/domain-execution-context';
+import { ReadOnlyContext, SystemExecutionContext } from '../../../framework/domain/domain-execution-context';
 import { DomainVisaImpl } from '../../../src/app/domain/domain.visa';
 // import { getCommunityByName } from '../../helpers/get-community-by-name';
 // import { getMemberByUserAndCommunity } from '../../helpers/get-member-by-user-community';

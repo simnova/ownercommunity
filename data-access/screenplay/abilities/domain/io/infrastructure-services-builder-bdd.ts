@@ -1,22 +1,22 @@
 // interface to implement
-import { InfrastructureServices } from '../../../../src/app/infrastructure-services';
+import { InfrastructureServices } from '../../../../framework/infrastructure-services';
 // vercel
-import { VercelInfrastructureService } from '../../../../src/app/infrastructure-services/vercel';
+import { VercelInfrastructureService } from '../../../../framework/infrastructure-services/vercel.infra.interface';
 import { VercelApiImpl } from '../../../../src/infrastructure-services-impl/vercel/api/impl';
 // cognitive-search
-import { CognitiveSearchInfrastructureService } from '../../../../src/app/infrastructure-services/cognitive-search';
+import { CognitiveSearchInfrastructureService } from '../../../../framework/infrastructure-services/cognitive-search.infra.interface';
 import { AzCognitiveSearchImpl } from '../../../../src/infrastructure-services-impl/cognitive-search/az/impl';
 // blob-storage
-import { BlobStorageInfrastructureService } from '../../../../src/app/infrastructure-services/blob-storage';
+import { BlobStorageInfrastructureService } from '../../../../framework/infrastructure-services/blob-storage.infra.interface';
 import { AzBlobStorageImpl } from '../../../../src/infrastructure-services-impl/blob-storage/az/impl';
 // content-moderator
-import { ContentModeratorInfrastructureService } from '../../../../src/app/infrastructure-services/content-moderator';
+import { ContentModeratorInfrastructureService } from '../../../../framework/infrastructure-services/content-moderator.infra.interface';
 import { AzContentModeratorImpl } from '../../../../src/infrastructure-services-impl/content-moderator/az/impl';
 // maps
-import { MapsInfrastructureService } from '../../../../src/app/infrastructure-services/maps';
+import { MapsInfrastructureService } from '../../../../framework/infrastructure-services/maps.infra.interface';
 import { AzMapsImpl } from '../../../../src/infrastructure-services-impl/maps/az/impl';
 // datastore
-import { DatastoreInfrastructureService } from '../../../../src/app/infrastructure-services/datastore';
+import { DatastoreInfrastructureService } from '../../../../framework/infrastructure-services/domain.infra.interface';
 import { MemorydbDatastoreImpl } from '../../../../src/infrastructure-services-impl/datastore/memorydb/impl';
 import { IMemoryDatabase } from '../../../../src/infrastructure-services-impl/datastore/memorydb/memory-database';
 import { PaymentInfrastructureService } from '../../../../src/app/infrastructure-services/payment';
@@ -65,7 +65,7 @@ export class InfrastructureServicesBuilderBDD implements InfrastructureServices 
   public get datastore(): DatastoreInfrastructureService {
     return this._datastore;
   }
-  public get payment(): PaymentInfrastructureService {
+  public get cybersource(): PaymentInfrastructureService {
     return this._payment;
   }
 

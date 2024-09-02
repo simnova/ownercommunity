@@ -14,6 +14,11 @@ export interface CybersourceBase {
   searchTransactions(clientReferenceCode: string): Promise<TransactionSearchResponse>;
 }
 
+export interface CybersourceInitializeable {
+  startup(): Promise<void>;
+  shutdown(): Promise<void>;
+}
+
 export interface CustomerProfile {
   customerId?: string;
   billingFirstName: string;

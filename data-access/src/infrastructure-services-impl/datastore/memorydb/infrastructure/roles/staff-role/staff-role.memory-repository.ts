@@ -1,6 +1,6 @@
 import { MemoryBaseAdapter } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryRepositoryBase } from "../../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
-import { DomainExecutionContext } from "../../../../../../app/domain/domain-execution-context";
+import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 import { StaffRole, StaffRoleProps } from "../../../../../../app/domain/contexts/community/roles/staff-role/staff-role";
 import { StaffRoleRepository } from "../../../../../../app/domain/contexts/community/roles/staff-role/staff-role.repository";
 import { StaffRolePermissionsProps } from "../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-permissions";

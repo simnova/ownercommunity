@@ -1,5 +1,5 @@
 import { ValueObject, ValueObjectProps } from "../../../../../../../seedwork/domain-seedwork/value-object";
-import { DomainExecutionContext } from "../../../../domain-execution-context";
+import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 import { TransactionReference, TransactionReferenceProps } from "./violation-ticket-v1-finance-details-transactions-submission-transaction-reference";
 
 export interface SubmissionEntityReference extends Readonly<SubmissionProps> {

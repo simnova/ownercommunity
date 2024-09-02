@@ -1,5 +1,5 @@
 import { InvocationContext } from "@azure/functions";
-import { InfrastructureServices } from '../../../app/infrastructure-services';
+import { InfrastructureServices } from '../../../../framework/infrastructure-services';
 import { AppContext, AppContextBuilder, OpenIdConfigKeyEnum, VerifiedUser } from '../../../app/init/app-context-builder';
 
 

@@ -1,5 +1,5 @@
 import { VercelApi } from "../../../../seedwork/services-seedwork-vercel-api";
-import { VercelInfrastructureService } from "../../../app/infrastructure-services/vercel";
+import { VercelInfrastructureService } from "../../../../framework/infrastructure-services/vercel.infra.interface";
 
 export class VercelApiImpl extends VercelApi implements VercelInfrastructureService {
   

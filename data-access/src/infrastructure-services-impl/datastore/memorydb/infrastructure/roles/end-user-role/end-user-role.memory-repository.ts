@@ -3,7 +3,7 @@ import { MemoryRepositoryBase } from "../../../../../../../seedwork/services-see
 import { CommunityProps, CommunityEntityReference } from "../../../../../../app/domain/contexts/community/community/community";
 import { EndUserRoleProps } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
 import { EndUserRolePermissionsProps } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role-permissions";
-import { DomainExecutionContext } from "../../../../../../app/domain/domain-execution-context";
+import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 import { EndUserRoleRepository } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role.repository";
 import { EndUserRole } from "../../../../../../app/domain/contexts/community/roles/end-user-role/end-user-role";
 

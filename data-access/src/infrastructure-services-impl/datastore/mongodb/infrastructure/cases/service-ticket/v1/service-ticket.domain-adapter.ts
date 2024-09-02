@@ -9,7 +9,7 @@ import {
 import { ServiceTicketV1 as ServiceTicketDO, ServiceTicketV1Props } from '../../../../../../../app/domain/contexts/cases/service-ticket/v1/service-ticket';
 import { MongooseDomainAdapter, MongoosePropArray } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { DomainExecutionContext } from '../../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../../framework/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../../../app/domain/contexts/community/community/community';
 import { CommunityDomainAdapter } from '../../../community/community.domain-adapter';
 import { PropertyDomainAdapter } from '../../../property/property.domain-adapter';

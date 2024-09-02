@@ -1,5 +1,5 @@
 import { StaffUser } from '../../../models/users/staff-user';
-import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { StaffUser as StaffUserDO, StaffUserProps } from '../../../../../../app/domain/contexts/users/staff-user/staff-user';
 import { MongooseDomainAdapter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';

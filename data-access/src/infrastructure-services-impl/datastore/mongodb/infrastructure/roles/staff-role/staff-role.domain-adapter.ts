@@ -2,7 +2,7 @@ import { StaffRole, StaffRolePermissions, StaffRoleCommunityPermissions, StaffRo
 import { StaffRole as StaffRoleDO, StaffRoleProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role';
 import { MongooseDomainAdapter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-domain-adapter';
 import { MongoTypeConverter } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-type-converter';
-import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { StaffRoleCommunityPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-community-permissions';
 import { StaffRolePermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-permissions';
 import { StaffRolePropertyPermissionsProps } from '../../../../../../app/domain/contexts/community/roles/staff-role/staff-role-property-permissions';

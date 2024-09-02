@@ -1,8 +1,8 @@
-import { BlobDataSource } from '../../data-sources/blob-data-source';
+import {App} from '@app';
 import { CommunityConverter } from '../../external-dependencies/domain';
 import { CommunityBlobContentAuthHeaderResult, FileInfo } from '../../external-dependencies/graphql-api';
-import { AppContext } from '../../init/app-context-builder';
-import { BlobRequestSettings } from '../../../../seedwork/services-seedwork-blob-storage-interfaces';
+// import { AppContext } from '../../init/app-context-builder';
+import { BlobRequestSettings } from '@library/services-seedwork-blob-storage-interfaces';
 
 export interface CommunityBlobApi {
   communityPublicFilesList(communityId: string): Promise<FileInfo[]>;
@@ -13,7 +13,7 @@ export interface CommunityBlobApi {
 }
 
 export class CommunityBlobApiImpl 
-  extends BlobDataSource<AppContext> 
+  extends App.DataSources.BlobDataSource<App.AppContext> 
   implements CommunityBlobApi
 {
   public async communityPublicFilesList(communityId: string): Promise<FileInfo[]> {

@@ -1,6 +1,6 @@
 import { EndUser, EndUserProps } from './end-user';
 import { EndUserCreatedEvent } from '../../../events/types/end-user-created';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { DomainVisa } from '../../../domain.visa';
 import { EndUserVisa } from './end-user.visa';
 

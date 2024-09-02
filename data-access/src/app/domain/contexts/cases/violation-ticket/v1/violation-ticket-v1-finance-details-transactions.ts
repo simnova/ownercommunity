@@ -1,6 +1,6 @@
 import { PropArray } from "../../../../../../../seedwork/domain-seedwork/prop-array";
 import { ValueObject, ValueObjectProps } from "../../../../../../../seedwork/domain-seedwork/value-object";
-import { DomainExecutionContext } from "../../../../domain-execution-context";
+import { DomainExecutionContext } from "../../../../../../../framework/domain/domain-execution-context";
 import { AdhocTransactions, AdhocTransactionsEntityReference, AdhocTransactionsProps } from "./finance-details-adhoc-transactions";
 import { Submission, SubmissionEntityReference, SubmissionProps } from "./violation-ticket-v1-finance-details-transactions-submission";
 

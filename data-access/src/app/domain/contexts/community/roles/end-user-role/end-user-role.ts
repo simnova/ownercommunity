@@ -4,7 +4,7 @@ import * as ValueObjects from './end-user-role.value-objects';
 import { Community, CommunityProps, CommunityEntityReference } from '../../community/community';
 import { CommunityVisa } from "../../community.visa";
 import { AggregateRoot } from '../../../../../../../seedwork/domain-seedwork/aggregate-root';
-import { DomainExecutionContext } from '../../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 import { RoleDeletedReassignEvent } from '../../../../events/types/role-deleted-reassign';
 
 export interface EndUserRoleProps extends DomainEntityProps {

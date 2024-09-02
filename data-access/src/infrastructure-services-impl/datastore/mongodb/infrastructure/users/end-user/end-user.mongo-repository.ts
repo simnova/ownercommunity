@@ -2,7 +2,7 @@ import { EndUser as EndUserDO, EndUserProps } from '../../../../../../app/domain
 import { EndUserRepository } from '../../../../../../app/domain/contexts/users/end-user/end-user.repository';
 import { EndUser } from '../../../models/users/end-user';
 import { MongoRepositoryBase } from '../../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../../framework/domain/domain-execution-context';
 
 export class MongoEndUserRepository<PropType extends EndUserProps>
   extends MongoRepositoryBase<DomainExecutionContext, EndUser, PropType, EndUserDO<PropType>>

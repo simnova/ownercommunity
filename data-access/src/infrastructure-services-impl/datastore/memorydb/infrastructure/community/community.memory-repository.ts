@@ -1,6 +1,6 @@
 import { MemoryBaseAdapter } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-base-adapter";
 import { MemoryRepositoryBase } from "../../../../../../seedwork/services-seedwork-datastore-memorydb/infrastructure/memory-repository";
-import { DomainExecutionContext } from "../../../../../app/domain/domain-execution-context";
+import { DomainExecutionContext } from "../../../../../../framework/domain/domain-execution-context";
 import { Community, CommunityProps } from "../../../../../app/domain/contexts/community/community/community";
 import { CommunityRepository } from "../../../../../app/domain/contexts/community/community/community.repository";
 import { EndUserProps, EndUserEntityReference } from "../../../../../app/domain/contexts/users/end-user/end-user";

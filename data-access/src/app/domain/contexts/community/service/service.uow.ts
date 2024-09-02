@@ -1,5 +1,5 @@
 import { UnitOfWork } from '../../../../../../seedwork/domain-seedwork/unit-of-work';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { Service, ServiceProps } from './service';
 import { ServiceRepository } from './service.repository';
 

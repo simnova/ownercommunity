@@ -1,6 +1,6 @@
 import { StaffUser, StaffUserProps } from './staff-user';
 import { StaffUserCreatedEvent } from '../../../events/types/staff-user-created';
-import { DomainExecutionContext } from '../../../domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { DomainVisa } from '../../../domain.visa';
 import { StaffUserVisa } from './staff-user.visa';
 

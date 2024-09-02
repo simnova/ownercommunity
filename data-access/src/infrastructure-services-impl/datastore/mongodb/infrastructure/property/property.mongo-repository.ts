@@ -2,7 +2,7 @@ import { Property as PropertyDO, PropertyProps } from '../../../../../app/domain
 import { PropertyRepository } from '../../../../../app/domain/contexts/property/property/property.repository';
 import { Property } from '../../models/property';
 import { MongoRepositoryBase } from '../../../../../../seedwork/services-seedwork-datastore-mongodb/infrastructure/mongo-repository';
-import { DomainExecutionContext } from '../../../../../app/domain/domain-execution-context';
+import { DomainExecutionContext } from '../../../../../../framework/domain/domain-execution-context';
 import { CommunityEntityReference } from '../../../../../app/domain/contexts/community/community/community';
 
 export class MongoPropertyRepository<PropType extends PropertyProps>

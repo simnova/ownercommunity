@@ -22,6 +22,7 @@ pr:
 variables:
 ## PROJECT SPECIFIC VARIABLES - start
     PROJECT_NAME: 'ui-community'
+    # Skip SonarCloud tasks if 'disableSonarCloudTasks' is set to True
     disableSonarCloudTasks: 'false'
     # SonarCloud configuration 
     SonarCloud: 'SonarCloud'
@@ -58,25 +59,6 @@ stages:
     displayName: Build Job
     steps:
 
-    - task: Cache@2
-      inputs:
-        key: 'sonarcloud | "$(Agent.OS)"'
-        restoreKeys: |
-            sonarcloud | "$(Agent.OS)"
-        path: $(SONAR_USER_HOME)/cache
-      displayName: Cache SonarCloud
-
-    - task: SonarCloudPrepare@2
-      displayName: 'SonarCloud: Prepare analysis configuration'
-      inputs:
-        SonarCloud: $(SonarCloud)
-        organization: $(SonarCloud_organization)
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: $(SONARCLOUD_PROJECT_KEY)
-        cliProjectName: $(SONARCLOUD_PROJECT_NAME)
-        cliSources: './$(PROJECT_NAME)/src'
-
     - template: ./build-pipeline/cra-npm-build.yml
       parameters: 
         buildPath: $(PROJECT_NAME)
@@ -99,6 +81,28 @@ stages:
           VITE_FEATURE_FLAG_URL: $(VITE_FEATURE_FLAG_URL_DEV)
           VITE_TIMEOUT_BEFORE_MAINTENANCE: $(VITE_TIMEOUT_BEFORE_MAINTENANCE_DEV)
 
+    - task: Cache@2
+      displayName: Cache SonarCloud
+      condition: and(succeeded(), eq(variables['disableSonarCloudTasks'], False))
+      inputs:
+        key: 'sonarcloud | "$(Agent.OS)"'
+        restoreKeys: |
+            sonarcloud | "$(Agent.OS)"
+        path: $(SONAR_USER_HOME)/cache
+
+    - task: SonarCloudPrepare@2
+      displayName: 'SonarCloud: Prepare analysis configuration'
+      condition: and(succeeded(), eq(variables['disableSonarCloudTasks'], False))
+      inputs:
+        SonarCloud: $(SonarCloud)
+        organization: $(SonarCloud_organization)
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: $(SONARCLOUD_PROJECT_KEY)
+        cliProjectName: $(SONARCLOUD_PROJECT_NAME)
+        cliSources: './$(PROJECT_NAME)/src'
+
+    
         # Publish chromatic
     # - task: Bash@3
     #   condition: ne(variables['Build.Reason'], 'PullRequest')
@@ -123,18 +127,13 @@ stages:
 
     - task: SonarCloudAnalyze@2
       displayName: 'SonarCloud: Run analysis'
+      condition: and(succeeded(), eq(variables['disableSonarCloudTasks'], False))
 
     - task: SonarCloudPublish@2
       displayName: 'SonarCloud: Publish results on build summary'
+      condition: and(succeeded(), eq(variables['disableSonarCloudTasks'], False))
       inputs:
         pollingTimeoutSec: '300'
-        
-    - task: PublishBuildArtifacts@1
-      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-      inputs:
-        pathToPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'www'
-        publishLocation: 'Container'
 
     # SonarCloud: Break the build if it doesn't pass the Quality Gate
     - task: sonarcloud-buildbreaker@2
@@ -143,6 +142,15 @@ stages:
       inputs:
         SonarCloud: $(SonarCloud)
         organization: $(SonarCloud_organization)
+        
+    - task: PublishBuildArtifacts@1
+      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'www'
+        publishLocation: 'Container'
+
+    
 
 - stage: build_prd_stage
   displayName: Build prd Stage

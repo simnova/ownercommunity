@@ -23,6 +23,9 @@ variables:
 ## PROJECT SPECIFIC VARIABLES - start
     PROJECT_NAME: 'ui-community'
     disableSonarCloudTasks: 'false'
+    # SonarCloud configuration 
+    SonarCloud: 'SonarCloud'
+    SonarCloud_organization: 'simnova'
     SONARCLOUD_PROJECT_KEY: 'oc-ui'
     SONARCLOUD_PROJECT_NAME: 'oc-ui'
     vmImageName: 'ubuntu-latest'
@@ -66,8 +69,8 @@ stages:
     - task: SonarCloudPrepare@2
       displayName: 'SonarCloud: Prepare analysis configuration'
       inputs:
-        SonarCloud: 'SonarCloud'
-        organization: 'simnova'
+        SonarCloud: $(SonarCloud)
+        organization: $(SonarCloud_organization)
         scannerMode: 'CLI'
         configMode: 'manual'
         cliProjectKey: $(SONARCLOUD_PROJECT_KEY)
@@ -136,10 +139,10 @@ stages:
     # SonarCloud: Break the build if it doesn't pass the Quality Gate
     - task: sonarcloud-buildbreaker@2
       displayName: 'SonarCloud: Break the build if it does not pass the Quality'
-      condition: and(succeeded(), eq(${{parameters.disableSonarCloudTasks}}, False))
+      condition: and(succeeded(), eq(variables['disableSonarCloudTasks'], False))
       inputs:
-        SonarCloud: ${{parameters.SonarCloud}}
-        organization: ${{parameters.SonarCloud_organization}}
+        SonarCloud: $(SonarCloud)
+        organization: $(SonarCloud_organization)
 
 - stage: build_prd_stage
   displayName: Build prd Stage

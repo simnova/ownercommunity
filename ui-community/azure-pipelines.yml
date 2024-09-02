@@ -139,7 +139,7 @@ stages:
     # SonarCloud: Break the build if it doesn't pass the Quality Gate
     - task: sonarcloud-buildbreaker@2
       displayName: 'SonarCloud: Break the build if it does not pass the Quality'
-      condition: and(succeeded(), eq($(disableSonarCloudTasks), False))
+      condition: and(succeeded(), eq(${disableSonarCloudTasks}, False))
       inputs:
         SonarCloud: $(SonarCloud)
         organization: $(SonarCloud_organization)

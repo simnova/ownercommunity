@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Button, Descriptions, Form, Select } from 'antd';
 import dayjs from 'dayjs';
 import { AdminRolesDeleteContainerRoleFieldsFragment, RoleDeleteAndReassignInput } from '../../../../generated';
@@ -14,8 +13,8 @@ export interface RolesDeleteProps {
 }
 
 export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {
-  const [form] = Form.useForm();
-  const [formLoading, setFormLoading] = React.useState(false);
+  const [form] = Form.useForm<RoleDeleteAndReassignInput>();
+  const [formLoading, setFormLoading] = React.useState<boolean>(false);
   return (
     <div>
       <Descriptions title="Role Info" size={'small'} layout={'vertical'}>
@@ -37,12 +36,13 @@ export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {
         initialValues={props.data}
         onFinish={(values) => {
           setFormLoading(true);
-          props.onSelectReassignment(values.id);
+          props.onSelectReassignment(values.roleToReassignTo);
           setFormLoading(false);
         }}
       >
+
         <Form.Item
-          name={['id']}
+          name={['roleToReassignTo']}
           label="Role to Reassign to"
           rules={[{ required: true, message: 'Reassignment is required' }]}
         >
@@ -52,6 +52,7 @@ export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {
             disabled={props.data.roleToDelete.isDefault}
           />
         </Form.Item>
+
         <Button
           type="primary"
           htmlType="submit"
@@ -61,6 +62,7 @@ export const RolesDelete: React.FC<RolesDeleteProps> = (props) => {
         >
           Delete Role
         </Button>
+
       </Form>
     </div>
   );

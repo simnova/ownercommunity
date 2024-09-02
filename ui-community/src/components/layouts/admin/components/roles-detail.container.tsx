@@ -14,7 +14,7 @@ export interface RolesDetailContainerProps {
   };
 }
 
-export const RolesDetailContainer: React.FC<any> = (props) => {
+export const RolesDetailContainer: React.FC<RolesDetailContainerProps> = (props) => {
   const [roleUpdate, { error: updateError }] = useMutation(AdminRolesDetailContainerRoleUpdateDocument);
   const {
     data: roleData,
@@ -44,12 +44,11 @@ export const RolesDetailContainer: React.FC<any> = (props) => {
     }
   };
 
-
   return (
     <ComponentQueryLoader
       loading={roleLoading}
       hasData={roleData?.role}
-      hasDataComponent={roleData?.role && <RolesDetail onAdd={() => {}} onUpdate={handleUpdate} data={roleData.role} />}
+      hasDataComponent={roleData?.role && <RolesDetail data={roleData.role} onAdd={() => {}} onUpdate={handleUpdate} />}
       error={roleError ?? updateError}
     />
   );

@@ -15,8 +15,8 @@ export interface MembersDetailProps {
 }
 
 export const MembersDetail: React.FC<MembersDetailProps> = (props) => {
-  const [form] = Form.useForm();
-  const [formLoading, setFormLoading] = React.useState(false);
+  const [form] = Form.useForm<MemberUpdateInput>();
+  const [formLoading, setFormLoading] = React.useState<boolean>(false);
   const params = useParams();
 
   const navigate = useNavigate();
@@ -46,6 +46,7 @@ export const MembersDetail: React.FC<MembersDetailProps> = (props) => {
           setFormLoading(false);
         }}
       >
+
         <Form.Item
           name={['memberName']}
           label="Member Name"
@@ -53,6 +54,7 @@ export const MembersDetail: React.FC<MembersDetailProps> = (props) => {
         >
           <Input placeholder="Name" maxLength={200} />
         </Form.Item>
+
         <Form.Item name={['role', 'id']} label="Role" required>
           <div className="flex gap-2">
             <Select

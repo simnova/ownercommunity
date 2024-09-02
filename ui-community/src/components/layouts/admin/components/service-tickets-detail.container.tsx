@@ -14,9 +14,11 @@ import {
   ServiceTicketAddUpdateActivityInput,
   ServiceTicketAssignInput,
   ServiceTicketChangeStatusInput,
-  ServiceTicketUpdateInput
+  ServiceTicketUpdateInput,
+  AdminServiceTicketsDetailContainerMemberFieldsFragment,
+  AdminServiceTicketsDetailContainerPropertyFieldsFragment
 } from '../../../../generated';
-import { ServiceTicketsDetail } from './service-tickets-detail';
+import { ServiceTicketsDetail,ServiceTicketsDetailProps } from './service-tickets-detail';
 
 export interface ServiceTicketsDetailContainerProps {
   data: {
@@ -33,6 +35,7 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
   const [serviceTicketChangeStatus] = useMutation(AdminServiceTicketsDetailContainerServiceTicketChangeStatusDocument);
   const [serviceTicketAssign] = useMutation(AdminServiceTicketsDetailContainerServiceTicketAssignDocument);
   const [serviceTicketAddUpdateActivity] = useMutation(AdminServiceTicketsDetailContainerServiceTicketAddUpdateActivityDocument);
+
   const {
     data: memberData,
     loading: memberLoading,
@@ -157,20 +160,19 @@ export const ServiceTicketsDetailContainer: React.FC<ServiceTicketsDetailContain
   } else if (serviceTicketError || memberError || propertyError) {
     return <div>{JSON.stringify(serviceTicketError ?? memberError ?? propertyError)}</div>;
   } else if (serviceTicketData?.serviceTicket && memberData?.membersAssignableToTickets && propertyData?.properties) {
-    const data = {
+    const data : ServiceTicketsDetailProps["data"] = {
       serviceTicket: serviceTicketData.serviceTicket,
-      members: memberData.membersAssignableToTickets,
-      properties: propertyData.properties
+      members: memberData.membersAssignableToTickets as AdminServiceTicketsDetailContainerMemberFieldsFragment[],
+      properties: propertyData.properties as AdminServiceTicketsDetailContainerPropertyFieldsFragment[]
     };
     return (
       <ServiceTicketsDetail
-        onAdd={{}}
+      data={data}
         onUpdate={handleUpdate}
-        onChangeStatus={handleChangeStatus}
-        data={data}
-        onAssign={handleAssign}
-        onAddUpdateActivity={handleAddUpdateActivity}
         onDelete={handleDelete}
+        onAssign={handleAssign}
+        onChangeStatus={handleChangeStatus}
+        onAddUpdateActivity={handleAddUpdateActivity}
       />
     );
   } else {

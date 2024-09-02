@@ -1,19 +1,18 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
-
 import { MemberCreateInput } from '../../../../generated';
 
 export interface MembersCreateProps {
-  onSave: (member: MemberCreateInput) => void;
   data: MemberCreateInput;
+  onSave: (member: MemberCreateInput) => void;
 }
 
 export const MembersCreate: React.FC<MembersCreateProps> = (props) => {
-  const [form] = Form.useForm();
-  const [formLoading,setFormLoading] = React.useState(false);
+  const [form] = Form.useForm<MemberCreateInput>();
+  const [formLoading,setFormLoading] = React.useState<boolean>(false);
+
   return (
     <div>
-
       <Form
         layout="vertical"
         form={form}
@@ -24,6 +23,7 @@ export const MembersCreate: React.FC<MembersCreateProps> = (props) => {
           setFormLoading(false);
         }}
         >
+        
         <Form.Item
           name={["memberName"]}
           label="Member Name"

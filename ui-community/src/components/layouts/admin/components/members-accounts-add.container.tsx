@@ -1,9 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import {
-  AdminMembersAccountsAddContainerMemberAccountAddDocument,
-  MemberAccountAddInput
+import { AdminMembersAccountsAddContainerMemberAccountAddDocument, MemberAccountAddInput
 } from '../../../../generated';
 import { MembersAccountsAdd } from './members-accounts-add';
 
@@ -35,11 +33,9 @@ export const MembersAccountsAddContainer: React.FC<MembersAccountsAddContainerPr
           input: values
         }
       });
-
-      console.log('result: ', result);
       if (result.data?.memberAccountAdd.status.success) {
         message.success('Member Account Added');
-        navigate(`../`);
+        navigate('../');
       } else {
         message.error(`Error Adding Member Account: ${result.data?.memberAccountAdd.status.errorMessage}`);
       }

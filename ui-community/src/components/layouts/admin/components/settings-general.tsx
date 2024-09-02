@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet-async';
 
 export const SettingsGeneral: React.FC<any> = (props) => {
   const [form] = Form.useForm();
-  const [formLoading,setFormLoading] = React.useState(false);
+  const [formLoading,setFormLoading] = React.useState<boolean>(false);
   const { Text } = Typography;
 
   const data = props.data;

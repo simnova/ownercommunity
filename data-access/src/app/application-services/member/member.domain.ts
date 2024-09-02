@@ -141,11 +141,14 @@ export class MemberDomainApiImpl extends DomainDataSource<AppContext, MemberData
     return memberToReturn;
   }
 
+
+
   async memberProfileUpdate(input: MemberProfileUpdateInput): Promise<MemberData> {
     let memberToReturn: MemberData;
     await this.withTransaction(async (repo) => {
       let member = await repo.getById(input.memberId);
       let profile = member.profile;
+      
       profile.Name = input.profile.name;
       profile.Email = input.profile.email;
       profile.Bio = input.profile.bio;

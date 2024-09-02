@@ -70,7 +70,7 @@ export class MemberProfile extends ValueObject<MemberProfileProps> implements Me
 
   set Email(email: string) {
     this.validateVisa();
-    this.props.email = new ValueObjects.Email(email).valueOf();
+    this.props.email = new ValueObjects.NullableEmail(email).valueOf();
   }
 
   set Bio(bio: string) {

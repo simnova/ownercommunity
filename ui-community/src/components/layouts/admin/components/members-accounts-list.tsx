@@ -1,8 +1,8 @@
 import { UsergroupAddOutlined } from '@ant-design/icons';
-import { Button, Table, TableColumnsType } from "antd";
-import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
-import { AdminMembersAccountsListContainerMemberFieldsFragment } from "../../../../generated";
+import { Button, Table, TableColumnsType } from 'antd';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import { AdminMembersAccountsListContainerMemberFieldsFragment } from '../../../../generated';
 
 export interface MembersAccountsListProps {
   data: AdminMembersAccountsListContainerMemberFieldsFragment[];
@@ -61,7 +61,7 @@ export const MembersAccountsList: React.FC<MembersAccountsListProps> = (props) =
       <Table 
         columns={columns} 
         dataSource={props.data}
-        rowKey={(record: any) => record.id}
+        rowKey={(record: AdminMembersAccountsListContainerMemberFieldsFragment) => record.id}
       />
     </div>
   </>)

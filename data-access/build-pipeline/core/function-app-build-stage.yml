@@ -98,7 +98,7 @@ stages:
         path: ${{parameters.SONAR_USER_HOME}}/cache
 
     # Set up SonarCloud
-    - task: SonarCloudPrepare@1
+    - task: SonarCloudPrepare@2
       displayName: 'SonarCloud: Prepare analysis configuration'
       condition: and(succeeded(), eq(${{parameters.disableSonarCloudTasks}}, False))
       inputs:
@@ -113,12 +113,12 @@ stages:
           sonar.javascript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/data-access/coverage/lcov.info
         
     # SonarCloud: Analyze code and code coverage
-    - task: SonarCloudAnalyze@1
+    - task: SonarCloudAnalyze@2
       displayName: 'SonarCloud: Run analysis'
       condition: and(succeeded(), eq(${{parameters.disableSonarCloudTasks}}, False))
 
     # SonarCloud: Publish analysis results and wait until completion
-    - task: SonarCloudPublish@1
+    - task: SonarCloudPublish@2
       displayName: 'SonarCloud: Publish results on build summary'
       condition: and(succeeded(), eq(${{parameters.disableSonarCloudTasks}}, False))
       inputs:

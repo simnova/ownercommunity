@@ -22,6 +22,7 @@ pr:
 variables:
 ## PROJECT SPECIFIC VARIABLES - start
     PROJECT_NAME: 'ui-community'
+    disableSonarCloudTasks: 'false'
     SONARCLOUD_PROJECT_KEY: 'oc-ui'
     SONARCLOUD_PROJECT_NAME: 'oc-ui'
     vmImageName: 'ubuntu-latest'
@@ -131,6 +132,14 @@ stages:
         pathToPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'www'
         publishLocation: 'Container'
+
+    # SonarCloud: Break the build if it doesn't pass the Quality Gate
+    - task: sonarcloud-buildbreaker@2
+      displayName: 'SonarCloud: Break the build if it does not pass the Quality'
+      condition: and(succeeded(), eq(${{parameters.disableSonarCloudTasks}}, False))
+      inputs:
+        SonarCloud: ${{parameters.SonarCloud}}
+        organization: ${{parameters.SonarCloud_organization}}
 
 - stage: build_prd_stage
   displayName: Build prd Stage

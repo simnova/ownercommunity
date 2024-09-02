@@ -15,8 +15,8 @@ import { FilterOutlined } from '@ant-design/icons';
 export const ServiceTicketsListContainer: React.FC<any> = (props) => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchString, setSearchString] = useState(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
-  const [visible, setVisible] = useState(false);
+  const [searchString, setSearchString] = useState<string>(searchParams.get(ServiceTicketSearchParamKeys.SearchString) ?? '');
+  const [visible, setVisible] = useState<boolean>(false);
 
   const {
     data: membersData,

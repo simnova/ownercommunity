@@ -14,7 +14,7 @@ export interface ServiceTicketsDetailDraftFormProps {
 export const ServiceTicketsDetailDraftForm : React.FC<ServiceTicketsDetailDraftFormProps> = (props) => 
 {
   const [editDraftForm] = Form.useForm<ServiceTicketUpdateInput>();
-  const [editDraftFormLoading, setEditDraftFormLoading] = useState(false);
+  const [editDraftFormLoading, setEditDraftFormLoading] = useState<boolean>(false);
   return(
     <>
       <Title level={5}>Edit Draft Ticket</Title>

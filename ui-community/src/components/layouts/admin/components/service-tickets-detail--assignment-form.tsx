@@ -13,7 +13,7 @@ export interface serviceTicketsDetailAssignmentFormProps {
 export const ServiceTicketsDetailAssignmentForm : React.FC<serviceTicketsDetailAssignmentFormProps> = (props) => 
 {
   const [assignForm] = Form.useForm<ServiceTicketAssignInput>();
-  const [assignFormLoading, setAssignFormLoading] = useState(false);
+  const [assignFormLoading, setAssignFormLoading] = useState<boolean>(false);
 
   return (
     <div style={{ marginTop: 20, padding: 24, minHeight: '100%', backgroundColor: 'white' }}>

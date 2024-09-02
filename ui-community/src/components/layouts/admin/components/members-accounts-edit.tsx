@@ -13,7 +13,7 @@ export interface MembersAccountsEditProps {
 
 export const MembersAccountsEdit: React.FC<MembersAccountsEditProps> = (props) => {
   const [form] = Form.useForm<MemberAccountEditInput>();
-  const [formLoading,setFormLoading] = React.useState(false);
+  const [formLoading,setFormLoading] = React.useState<boolean>(false);
   return (
     <div>
       <Form

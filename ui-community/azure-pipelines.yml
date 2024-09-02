@@ -22,6 +22,7 @@ pr:
 variables:
 ## PROJECT SPECIFIC VARIABLES - start
     PROJECT_NAME: 'ui-community'
+    # Skip SonarCloud tasks if 'disableSonarCloudTasks' is set to True
     disableSonarCloudTasks: 'false'
     # SonarCloud configuration 
     SonarCloud: 'SonarCloud'

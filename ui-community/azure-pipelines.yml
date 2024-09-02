@@ -62,7 +62,7 @@ stages:
         path: $(SONAR_USER_HOME)/cache
       displayName: Cache SonarCloud
 
-    - task: SonarCloudPrepare@1
+    - task: SonarCloudPrepare@2
       displayName: 'SonarCloud: Prepare analysis configuration'
       inputs:
         SonarCloud: 'SonarCloud'
@@ -117,10 +117,10 @@ stages:
     #     VITE_FEATURE_FLAG_URL: $(VITE_FEATURE_FLAG_URL_DEV)
     #     VITE_TIMEOUT_BEFORE_MAINTENANCE: $(VITE_TIMEOUT_BEFORE_MAINTENANCE_DEV)
 
-    - task: SonarCloudAnalyze@1
+    - task: SonarCloudAnalyze@2
       displayName: 'SonarCloud: Run analysis'
 
-    - task: SonarCloudPublish@1
+    - task: SonarCloudPublish@2
       displayName: 'SonarCloud: Publish results on build summary'
       inputs:
         pollingTimeoutSec: '300'

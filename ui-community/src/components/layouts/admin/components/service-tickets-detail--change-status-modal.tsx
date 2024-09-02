@@ -5,7 +5,7 @@ import { STATES } from './service-tickets-detail';
 
 const { TextArea } = Input;
 
-export interface ServiceTicketsDetailChangeStatusModal {
+export interface ServiceTicketsDetailChangeStatusModalProps {
   data: {
     nextState: string;
     modalVisible: boolean;
@@ -18,7 +18,7 @@ export interface ServiceTicketsDetailChangeStatusModal {
   closeModal: () => void;
 }
 
-export const ServiceTicketsDetailChangeStatusModal : React.FC<ServiceTicketsDetailChangeStatusModal> = (props) => {
+export const ServiceTicketsDetailChangeStatusModal : React.FC<ServiceTicketsDetailChangeStatusModalProps> = (props) => {
   const [changeStatusForm] = Form.useForm<ServiceTicketChangeStatusInput & ServiceTicketAssignInput >();
   const [changeStatusFormLoading, setChangeStatusFormLoading] = useState<boolean>(false);
 

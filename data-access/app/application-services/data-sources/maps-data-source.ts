@@ -1,7 +1,7 @@
-import { AppContext } from "@framework/main/app-context-builder";
-import { Passport } from "@framework/main/passport";
-import { DataSource } from "library/data-source-seedwork/data-source";
-import { MapsInfrastructureService } from "library/services-seedwork-maps-interfaces";
+import { AppContext } from "@app/main/app-context-builder";
+import { Passport } from "@app/main/passport";
+import { DataSource } from "@library/data-source-seedwork/data-source";
+import { MapsInfrastructureService } from "@library/services-seedwork-maps-interfaces";
 
 export class MapsDataSource<Context extends AppContext> extends DataSource<Context> {
 

@@ -1,4 +1,4 @@
-import { DomainInfrastructureService } from "./domain-infrastructure.interface";
+import { DomainInfrastructureService } from "./domain.infrastructure.interface";
 import { MongoCommunityUnitOfWork } from "@src/components/community/data-impl-mongodb/community.mongo-uow";
 import { MongoMemberUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/member/member.mongo-uow";
 import { MongoPropertyUnitOfWork } from "../infrastructure-services-impl/datastore/mongodb/infrastructure/property/property.mongo-uow";

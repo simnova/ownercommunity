@@ -1,5 +1,6 @@
-import { DomainVisa, ReadOnlyDomainVisa, SystemDomainVisa } from "../../src/app/domain/domain.visa";
-import { BaseDomainExecutionContext } from "../seedwork/domain-seedwork/base-domain-execution-context";
+import { BaseDomainExecutionContext } from "@library/domain-seedwork/base-domain-execution-context";
+import { DomainVisa, SystemDomainVisa, ReadOnlyDomainVisa } from "@app/main/domain.visa";
+
 
 export interface DomainExecutionContext extends BaseDomainExecutionContext {
   domainVisa: DomainVisa;

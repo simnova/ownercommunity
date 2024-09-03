@@ -3,8 +3,8 @@ import { MemberEntityReference } from '../../src/app/domain/contexts/community/m
 import { CommunityEntityReference } from '../domain/contexts/community/community/community';
 import {StaffUserEntityReference } from '../../src/app/domain/contexts/users/staff-user/staff-user';
 import { EndUserEntityReference } from '../../src/app/domain/contexts/users/end-user/end-user';
-import { ApplicationServices } from '../../app/main/application-services';
-import { InfrastructureServices } from '../infrastructure-services';
+import { ApplicationServices } from './application-services';
+import { InfrastructureServices } from './infrastructure-services';
 import { CommunityData, MemberData } from '../../src/app/external-dependencies/datastore';
 import { ApplicationServicesBuilder } from './application-services-builder';
 import { Passport } from './passport';

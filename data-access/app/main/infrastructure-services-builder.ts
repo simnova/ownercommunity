@@ -8,7 +8,7 @@ import { BlobStorageInfrastructureService } from '../infrastructure-services/blo
 import { AzBlobStorageImpl } from '../infrastructure-services-impl/blob-storage/az/impl';
 import { ContentModeratorInfrastructureService } from '../infrastructure-services/content-moderator.infra.interface';
 import { AzContentModeratorImpl } from '../infrastructure-services-impl/content-moderator/az/impl';
-import { InfrastructureServices } from '../infrastructure-services';
+import { InfrastructureServices } from './infrastructure-services';
 import { AzMapsImpl } from '../infrastructure-services-impl/maps/az/impl';
 import { MapsInfrastructureService } from '../infrastructure-services/maps.infra.interface';
 import { tryGetEnvVar } from '../seedwork/utils/get-env-var';

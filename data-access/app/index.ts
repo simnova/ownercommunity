@@ -11,7 +11,7 @@ import {
     ReadOnlyContext as ReadOnlyContextFunc 
 } from "./domain/domain-execution-context";
 import { BlobStorageInfrastructureService as BlobStorageInfrastructureServiceInterface} from "./infrastructure-services/blob-storage.infra.interface";
-import { ApplicationServices as ApplicationServicesInterface } from "../app/main/application-services";
+import { ApplicationServices as ApplicationServicesInterface } from "./main/application-services";
 import { AppContext as AppContextInterface } from "./app/app-context-builder";
 import * as GraphqlSchemaTypes from '../src/routes/http/graphql/schema/builder/generated';
 

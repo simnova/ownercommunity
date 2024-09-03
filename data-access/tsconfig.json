@@ -12,9 +12,9 @@
     // "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@framework/*": ["./framework/*"],
-      "@library/*": ["library/*"],
-      // "@app/*": ["app/*"],
+      "@app/*": ["./app/*"],
+      "@library/*": ["./library/*"],
+      "@src/*": ["src/*"],
       // "@features/*": ["features/*"],
       // "@screenplay/*": ["screenplay/*"],
     }

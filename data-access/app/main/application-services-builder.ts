@@ -7,7 +7,7 @@ import {
   RoleApi,
   UsersApi,
   CasesApi,
-} from "../../src/app/application-services";
+} from "./application-services";
 import { AppContext } from "./app-context-builder";
 import { CommunityApiImpl } from "../../src/app/community/api";
 import { MemberApiImpl } from "../../src/app/application-services/member";
